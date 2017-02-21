@@ -1,0 +1,21 @@
+{
+  "name": "ubora-pattern-library",
+  "description": "Pattern library for UBORA project",
+  "main": "index.html",
+  "authors": [
+    "AgileWorks AS"
+  ],
+  "license": "MIT",
+  "homepage": "agileworks.eu",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "pure": "^0.6.2"
+  }
+}

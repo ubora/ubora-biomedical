@@ -1,0 +1,201 @@
+{
+    "project_logo": "/app/images/UBORA_logo_small_300x300.png",
+    "project_favicon": "favicon.png",
+    "project_name": "UBORA",
+    "project_url": "ubora-biomedical.org",
+    "copyright_start_year": 2016,
+    "client_name": null,
+    "client_url": null,
+    "creators": [
+        {
+            "name": "AgileWorks AS",
+            "url": "agileworks.eu"
+        }
+    ],
+    "theme": {
+        "border_color": "#4777BB",
+        "highlight_color": "#FFFFFF",
+        "brand_color": "#4777BB",
+        "background_color": "#FFFFFF",
+        "code_highlight_theme": "github",
+        "override_code_highlight_bg": "#EF7B52",
+        "sample_dark_background": "#333333",
+        "show_project_name": true,
+        "show_version": false,
+        "max_width": null,
+        "titles": {
+            "library_title": "Pattern library",
+            "pages_title": null,
+            "components_title": "Patterns"
+        }
+    },
+    "assets": {
+        "css": [
+            "/app/css/styles_override.css",
+            "//fonts.googleapis.com/css?family=Open+Sans:700|PT+Serif",
+            "bower_components/pure/pure-min.css",
+            "bower_components/pure/base-min.css",
+            "bower_components/pure/grids-min.css"
+        ],
+        "js": []
+    },
+    "font_libraries": {
+        "typekit_code": null,
+        "typography_web_fonts": null,
+        "google_web_fonts": null
+    },
+    "content": {
+        "show_first_page_on_load": true,
+        "title": "Overview",
+        "pages": [
+            {
+                "name": "introduction",
+                "title": "Introduction",
+                "file": "./pages/intro.md"
+            }
+        ]
+    },
+    "groups": [
+        {
+            "name": "branding",
+            "title": "Branding",
+            "components": [
+                {
+                    "group": "branding",
+                    "name": "colors",
+                    "title": "Colors",
+                    "type": "colors",
+                    "colors": [
+                        "#4777BB",
+                        "#44AAE0",
+                        "#95CD7C",
+                        "#EF7B52"
+                    ]
+                },
+                {
+                    "group": "branding",
+                    "name": "logo-colored-full",
+                    "title": "Colored logo",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "branding",
+                    "name": "logo-colored-small",
+                    "title": "Small colored logo",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "name": "logo-bw-full",
+                    "title": "Black & white logo",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    },
+                    "group": "branding"
+                },
+                {
+                    "group": "branding",
+                    "name": "logo-bw-small",
+                    "title": "Small black & white logo",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                }
+            ]
+        },
+        {
+            "name": "grid",
+            "title": "Grid",
+            "components": [
+                {
+                    "group": "grid",
+                    "name": "grid-overview",
+                    "title": "Overview",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "grid",
+                    "name": "grid-example",
+                    "title": "Example",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                }
+            ]
+        },
+        {
+            "name": "typography",
+            "title": "Typography",
+            "components": [
+                {
+                    "group": "typography",
+                    "name": "headings",
+                    "title": "Headings",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "typography",
+                    "name": "body-copy",
+                    "title": "Body copy",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "typography",
+                    "name": "list-ordered",
+                    "title": "Ordered list",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "typography",
+                    "name": "list-unordered",
+                    "title": "Unordered list",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tables",
+            "title": "Tables",
+            "components": [
+                {
+                    "group": "tables",
+                    "name": "table-basic",
+                    "title": "Basic table",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "tables",
+                    "name": "table-striped",
+                    "title": "Striped table",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                }
+            ]
+        }
+    ],
+    "version": "1.9.3"
+}

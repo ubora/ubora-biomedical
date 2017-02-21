@@ -1,0 +1,49 @@
+/*
+p {
+    font-family: 'Merriweather', serif !important;
+}
+
+font-family: 'Open Sans', sans-serif;
+font-family: 'PT Serif', serif;
+
+*/
+
+
+div.ndpl-component__sample h1,
+div.ndpl-component__sample h2,
+div.ndpl-component__sample h3,
+div.ndpl-component__sample h4,
+div.ndpl-component__sample h5,
+div.ndpl-component__sample h6 {
+    font-family: 'Open Sans', sans-serif;
+}
+
+div.ndpl-component__sample h1 small,
+div.ndpl-component__sample h2 small,
+div.ndpl-component__sample h3 small,
+div.ndpl-component__sample h4 small,
+div.ndpl-component__sample h5 small,
+div.ndpl-component__sample h6 small {
+    color:#555;
+}
+
+div.ndpl-component__sample p,
+div.ndpl-component__sample ol,
+div.ndpl-component__sample ul {
+    font-family: 'PT Serif', serif;
+}
+
+img.ndpl-sidebar__logo {
+    height: 8rem;
+}
+
+div.ndpl-component__container img {
+    max-height: 8rem;
+}
+
+div.grid-unit {
+    height: 2rem;
+    display: block;
+    background-color:#CCC;
+    margin:.2rem 0;
+}
