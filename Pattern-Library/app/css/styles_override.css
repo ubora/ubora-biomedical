@@ -1,13 +1,28 @@
-/*
-p {
-    font-family: 'Merriweather', serif !important;
+.logo {
+    position: relative;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    min-height: 10rem;
+    min-width: 100%;
+    display: inline-block;
 }
 
-font-family: 'Open Sans', sans-serif;
-font-family: 'PT Serif', serif;
+.logo-full {
+    background-image:url(/app/images/logo.png);
+}
 
-*/
+.logo-full-bw {
+    background-image: url(/app/images/logo-bw.png);
+}
 
+.logo-icon {
+    background-image: url(/app/images/icon.png);
+}
+
+.logo-icon-bw {
+    background-image: url(/app/images/icon-bw.png);
+}
 
 div.ndpl-component__sample h1,
 div.ndpl-component__sample h2,

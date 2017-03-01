@@ -1,0 +1,1 @@
+UBORA platform implements [Pure CSS](https://purecss.io/grids/) library for a lightweight grid system that enables responsive web design on any device.

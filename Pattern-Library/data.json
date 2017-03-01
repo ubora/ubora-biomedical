@@ -1,5 +1,5 @@
 {
-    "project_logo": "/app/images/UBORA_logo_small_300x300.png",
+    "project_logo": "/app/images/icon.png",
     "project_favicon": "favicon.png",
     "project_name": "UBORA",
     "project_url": "ubora-biomedical.org",
@@ -35,7 +35,8 @@
             "//fonts.googleapis.com/css?family=Open+Sans:700|PT+Serif",
             "bower_components/pure/pure-min.css",
             "bower_components/pure/base-min.css",
-            "bower_components/pure/grids-min.css"
+            "bower_components/pure/grids-min.css",
+            "bower_components/pure/tables-min.css"
         ],
         "js": []
     },
@@ -52,10 +53,203 @@
                 "name": "introduction",
                 "title": "Introduction",
                 "file": "./pages/intro.md"
+            },
+            {
+                "name": "development",
+                "title": "For developers",
+                "file": "./pages/development.md"
+            },
+            {
+                "name": "about",
+                "title": "About UBORA",
+                "file": "./pages/about.md"
             }
         ]
     },
     "groups": [
+        {
+            "name": "logo",
+            "title": "Logo",
+            "components": [
+                {
+                    "group": "logo",
+                    "name": "colored-logo",
+                    "title": "Colored logo",
+                    "options": {
+                        "disable_code_sample": true,
+                        "sample_overflow_hidden": true
+                    }
+                },
+                {
+                    "group": "logo",
+                    "name": "colorless-logo",
+                    "title": "Black and white logo",
+                    "options": {
+                        "disable_code_sample": true,
+                        "sample_overflow_hidden": true
+                    }
+                },
+                {
+                    "group": "logo",
+                    "name": "icons",
+                    "title": "Icons",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                }
+            ]
+        },
+        {
+            "name": "color",
+            "title": "Color",
+            "components": [
+                {
+                    "group": "color",
+                    "name": "brand-colors",
+                    "title": "Brand colors",
+                    "type": "colors",
+                    "colors": []
+                },
+                {
+                    "group": "color",
+                    "name": "state-colors",
+                    "title": "State colors",
+                    "type": "colors",
+                    "colors": []
+                },
+                {
+                    "group": "color",
+                    "name": "grey-colors",
+                    "title": "Grey colors",
+                    "type": "colors",
+                    "colors": []
+                }
+            ]
+        },
+        {
+            "name": "type-scale",
+            "title": "Type scale",
+            "components": [
+                {
+                    "group": "type-scale",
+                    "name": "standard-text",
+                    "title": "Standard text",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "type-scale",
+                    "name": "standard-text-emphasized",
+                    "title": "Emphasized text",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "type-scale",
+                    "name": "heading-text",
+                    "title": "Heading text",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "type-scale",
+                    "name": "subheading-text",
+                    "title": "Subheading text",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "type-scale",
+                    "name": "banner-text",
+                    "title": "Banner text",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "type-scale",
+                    "name": "hint-text",
+                    "title": "Hint text",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                }
+            ]
+        },
+        {
+            "name": "borders",
+            "title": "Borders",
+            "components": [
+                {
+                    "group": "borders",
+                    "name": "small-border",
+                    "title": "Small border",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "borders",
+                    "name": "medium-border",
+                    "title": "Medium border",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "borders",
+                    "name": "large-border",
+                    "title": "Large border",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "borders",
+                    "name": "circular-border",
+                    "title": "Round shape",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                }
+            ]
+        },
+        {
+            "name": "spacing",
+            "title": "Spacing",
+            "components": [
+                {
+                    "group": "spacing",
+                    "name": "margins",
+                    "title": "Margins",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "spacing",
+                    "name": "letter-spacing",
+                    "title": "Letter spacing",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                }
+            ]
+        },
         {
             "name": "branding",
             "title": "Branding",
@@ -70,6 +264,18 @@
                         "#44AAE0",
                         "#95CD7C",
                         "#EF7B52"
+                    ]
+                },
+                {
+                    "group": "branding",
+                    "name": "grey-colors",
+                    "title": "Grey colors",
+                    "type": "colors",
+                    "colors": [
+                        "#9E9E9E",
+                        "#BDBDBD",
+                        "#E0E0E0",
+                        "#F5F5F5"
                     ]
                 },
                 {
@@ -111,17 +317,51 @@
             ]
         },
         {
-            "name": "grid",
-            "title": "Grid",
+            "name": "shadows",
+            "title": "Shadows",
             "components": [
                 {
-                    "group": "grid",
-                    "name": "grid-overview",
-                    "title": "Overview",
+                    "group": "shadows",
+                    "name": "subtle-shadow",
+                    "title": "Subtle shadow",
+                    "width": "half",
                     "options": {
                         "disable_code_sample": true
                     }
                 },
+                {
+                    "group": "shadows",
+                    "name": "pronounced-shadow",
+                    "title": "Pronounced shadow",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "shadows",
+                    "name": "strong-shadow",
+                    "title": "Strong shadow",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "shadows",
+                    "name": "distant-shadow",
+                    "title": "Distant shadow",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                }
+            ]
+        },
+        {
+            "name": "grid",
+            "title": "Grid",
+            "components": [
                 {
                     "group": "grid",
                     "name": "grid-example",
@@ -180,6 +420,24 @@
                     "group": "tables",
                     "name": "table-basic",
                     "title": "Basic table",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "tables",
+                    "name": "table-bordered",
+                    "title": "Bordered table",
+                    "width": "half",
+                    "options": {
+                        "disable_code_sample": true
+                    }
+                },
+                {
+                    "group": "tables",
+                    "name": "table-horizontal",
+                    "title": "Horizontally bordered table",
                     "width": "half",
                     "options": {
                         "disable_code_sample": true
