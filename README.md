@@ -2,8 +2,4 @@
 
 Documents are under `Documents` folder.
 
-### Similar tools to take as core of the project? ###
-
-* [Redmine (Ruby)](http://www.redmine.org/)
-* [Trac (Python)](https://trac.edgewall.org/)
-* [Taiga.io (Python/Django)](https://taiga.io/)
+Important documents for us (currently under development by Carmelo and Alice) are found [here](https://www.dropbox.com/home/UBORA%20consortium/e-infrastructure/project%20managment%20architecture?preview=project+structure+proposal.doc).
