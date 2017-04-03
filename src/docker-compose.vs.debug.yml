@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+  ubora.web:
+    image: ubora.web:dev
+    build:
+      args:
+        source: ${DOCKER_BUILD_SOURCE}
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+    volumes:
+      - ./Ubora.Web:/app
+      - ~/.nuget/packages:/root/.nuget/packages:ro
+      - ~/clrdbg:/clrdbg:ro
+    entrypoint: tail -f /dev/null
+    labels:
+      - "com.microsoft.visualstudio.targetoperatingsystem=linux"
+    depends_on:
+      - "postgres"
+    networks:
+      - ubora-network
+
+  postgres:
+    container_name: 'postgres'
+    image: postgres
+    ports:
+      - "5400:5432"
+    environment:
+      POSTGRES_PASSWORD: ubora
+      POSTGRES_DB: ubora
+    networks:
+      - ubora-network
+
+networks:
+  ubora-network:
+    driver: bridge

@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  ubora.web:
+    image: ubora.web
+    build:
+      context: ./Ubora.Web
+      dockerfile: Dockerfile
+
