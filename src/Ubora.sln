@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ubora.Web", "Ubora.Web\Ubor
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{90DFD079-3246-488D-AC3A-A9804643DC50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ubora.Domain", "..\Ubora.Domain\Ubora.Domain.csproj", "{5BC0E274-A30D-4F1D-A487-3C521E69C1D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ubora.Domain", "Ubora.Domain\Ubora.Domain.csproj", "{5BC0E274-A30D-4F1D-A487-3C521E69C1D2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ubora.Domain.Tests", "Ubora.Domain.Tests\Ubora.Domain.Tests.csproj", "{85D9A0FC-2014-47BD-922A-35601A4E983F}"
 EndProject
