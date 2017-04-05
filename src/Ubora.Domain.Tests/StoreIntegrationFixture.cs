@@ -70,10 +70,11 @@ namespace Ubora.Domain.Tests
 
             configure(options);
 
+            options.DatabaseSchemaName = "uboratest" + Guid.NewGuid().ToString("N").ToLower();
 
 
             var store = new TestingDocumentStore(options);
-            store.Advanced.Clean.CompletelyRemoveAll();
+            //store.Advanced.Clean.CompletelyRemoveAll();
 
             return store;
         }
