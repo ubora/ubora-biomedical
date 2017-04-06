@@ -9,6 +9,7 @@ namespace Ubora.Domain.Projects.Events
     public class ProjectCreated : UboraEvent 
     {
         public string Name { get; }
+
         public ProjectCreated(string name, UserInfo creator) : base(creator)
         {
             Name = name;

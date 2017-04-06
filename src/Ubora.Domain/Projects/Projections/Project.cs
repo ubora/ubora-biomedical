@@ -11,12 +11,12 @@ namespace Ubora.Domain.Projects.Projections
         public Guid Id { get; private set; }
         public string Name { get; private set; }
 
-        public void Apply(Event<ProjectCreated> created)
+        private void Apply(Event<ProjectCreated> created)
         {
             Name = created.Data.Name;
         }
 
-        public void Apply(Event<ProjectRenamed> renamed)
+        private void Apply(Event<ProjectRenamed> renamed)
         {
             Name = renamed.Data.NewName;
         }

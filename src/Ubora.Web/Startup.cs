@@ -9,12 +9,49 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Ubora.Domain;
+using Ubora.Domain.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Models;
 using Ubora.Web.Services;
 
 namespace Ubora.Web
 {
+    public class Resolver : IResolver
+    {
+        private readonly IServiceProvider _serviceProvider;
+
+        public Resolver(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
+        public T Resolve<T>()
+        {
+            return _serviceProvider.GetService<T>();
+        }
+    }
+
+    public class DomainIocModule : IocModule
+    {
+        private readonly IServiceCollection _serviceCollection;
+
+        public DomainIocModule(IServiceCollection serviceCollection, string connectionString) : base(connectionString)
+        {
+            _serviceCollection = serviceCollection;
+        }
+
+        public override void RegisterInScope<T, TImpl>()
+        {
+            _serviceCollection.AddScoped<T, TImpl>();
+        }
+
+        public override void RegisterInstanceInScope<T>(Func<T> factory)
+        {
+            _serviceCollection.AddScoped<T>(serviceProvider => factory.Invoke());
+        }
+    }
+
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -39,9 +76,16 @@ namespace Ubora.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = Configuration.GetConnectionString("ApplicationDbConnection");
+
+            // Add domain services.
+            var module = new DomainIocModule(services, connectionString);
+            services.AddScoped<IResolver, Resolver>();
+            module.Load();
+
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("ApplicationDbConnection")));
+                options.UseNpgsql(connectionString));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

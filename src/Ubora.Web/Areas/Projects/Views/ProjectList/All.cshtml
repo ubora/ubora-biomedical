@@ -1,0 +1,14 @@
+@model Ubora.Web.Areas.Projects.Models.ProjectList.ProjectListViewModel
+
+@{
+    ViewData["Title"] = "All";
+}
+
+<h2>All</h2>
+
+<ul>
+    @foreach (var project in Model.Projects)
+    {
+        <li>@project.Name</li>
+    }
+</ul>

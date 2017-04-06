@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using Marten;
+using Marten.Events.Projections;
 using Marten.Services;
+using Marten.Services.Events;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Ubora.Domain.Projects.Projections;
@@ -18,6 +20,7 @@ namespace Ubora.Domain
             serializer.Customize(c => c.ContractResolver = new ResolvePrivateSetters());
             return options =>
             {
+                options.Events.UseAggregatorLookup(AggregationLookupStrategy.UsePrivateApply);
                 options.Serializer(serializer);
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.Add(new WorkpackagesProjection());
