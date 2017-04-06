@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Ubora.Web.Areas.Projects.Models.ProjectList
@@ -9,6 +10,7 @@ namespace Ubora.Web.Areas.Projects.Models.ProjectList
 
     public class ProjectListItemViewModel
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
     }
 }

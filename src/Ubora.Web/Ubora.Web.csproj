@@ -35,6 +35,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Projects\Views\ProjectDashboard\" />
     <Folder Include="Areas\Projects\Views\ProjectList\" />
     <Folder Include="Areas\Projects\Views\ProjectCreation\" />
   </ItemGroup>

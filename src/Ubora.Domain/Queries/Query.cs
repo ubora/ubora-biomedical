@@ -8,6 +8,7 @@ namespace Ubora.Domain.Queries
     public interface IQuery
     {
         IEnumerable<T> Find<T>();
+        T Load<T>(Guid id);
     }
 
     public class Query : IQuery
@@ -22,6 +23,11 @@ namespace Ubora.Domain.Queries
         public IEnumerable<T> Find<T>()
         {
             return _querySession.Query<T>();
+        }
+
+        public T Load<T>(Guid id)
+        {
+            return _querySession.Load<T>(id);
         }
     }
 }

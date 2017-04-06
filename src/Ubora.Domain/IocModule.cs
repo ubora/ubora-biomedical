@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Marten;
+using Marten.Events;
 using Ubora.Domain.Commands;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Queries;
@@ -35,8 +36,10 @@ namespace Ubora.Domain
             _martenSingleton = new DocumentStore(options);
             RegisterInstanceInScope<IDocumentSession>(() => _martenSingleton.OpenSession());
             RegisterInstanceInScope<IQuerySession>(() => _martenSingleton.QuerySession());
-
+            //RegisterInstanceInScope<IEventStore>(() => _martenSingleton.OpenSession().Events);
+            
             RegisterInScope<IQuery, Query>();
+            RegisterInScope<IEventStreamQuery, EventStreamQuery>();
             RegisterInScope<ICommandProcessor, CommandProcessor>();
             RegisterInScope<ICommandHandler<CreateProjectCommand>, CreateProjectCommandHandler>();
         }
