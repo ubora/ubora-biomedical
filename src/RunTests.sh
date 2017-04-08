@@ -1,0 +1,1 @@
+cd Ubora.Domain.Tests && dotnet xunit
