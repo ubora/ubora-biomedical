@@ -12,7 +12,7 @@ services:
       - "postgres"
     networks:
       - ubora-testnetwork
-    entrypoint: "/src/RunCIBuild.sh"
+    entrypoint: /bin/bash -c "./RunCIBuild.sh"
 
   postgres:
     container_name: 'postgresubora'
