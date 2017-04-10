@@ -234,3 +234,10 @@ _Pvt_Extensions
 .fake/
 
 **/wwwroot/lib/*
+
+# Node/Grunt/Gulp/Bower etc
+.npm
+.grunt
+.gulp
+node_modules/
+bower_components
