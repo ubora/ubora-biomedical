@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -9,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Ubora.Domain;
 using Ubora.Domain.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Models;
@@ -17,50 +15,6 @@ using Ubora.Web.Services;
 
 namespace Ubora.Web
 {
-    public class Resolver : IResolver
-    {
-        private readonly IServiceProvider _serviceProvider;
-
-        public Resolver(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
-
-        public T Resolve<T>()
-        {
-            return _serviceProvider.GetService<T>();
-        }
-    }
-
-    public class DomainIocModule : IocModule
-    {
-        private readonly IServiceCollection _serviceCollection;
-
-        public DomainIocModule(IServiceCollection serviceCollection, string connectionString) : base(connectionString)
-        {
-            _serviceCollection = serviceCollection;
-        }
-
-        public override void RegisterInScope<T, TImpl>()
-        {
-            _serviceCollection.AddScoped<T, TImpl>();
-        }
-
-        public override void RegisterInstanceInScope<T>(Func<T> factory)
-        {
-            _serviceCollection.AddScoped<T>(serviceProvider => factory.Invoke());
-        }
-
-        public override void RegisterInstanceInScope<T>(Func<IResolver, T> factory)
-        {
-            _serviceCollection.AddScoped<T>(serviceProvider =>
-            {
-                var resolver = new Resolver(serviceProvider);
-                return factory.Invoke(resolver);
-            });
-        }
-    }
-
     public class Startup
     {
         public Startup(IHostingEnvironment env)

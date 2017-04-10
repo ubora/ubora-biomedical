@@ -1,6 +1,4 @@
-using Ubora.Domain.Commands;
-
-namespace Ubora.Domain.Projects
+namespace Ubora.Domain.Commands
 {
     public interface ICommandHandler<in T> where T : ICommand
     {

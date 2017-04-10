@@ -3,11 +3,11 @@ using Ubora.Domain.Projects;
 
 namespace Ubora.Domain.Commands
 {
-    public class CommandProcessor : ICommandProcessor
+    public class CommandBus : ICommandBus
     {
         private readonly IResolver _resolver;
 
-        public CommandProcessor(IResolver resolver)
+        public CommandBus(IResolver resolver)
         {
             _resolver = resolver;
         }

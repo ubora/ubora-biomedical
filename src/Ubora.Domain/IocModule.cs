@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Marten;
 using Marten.Events;
 using Ubora.Domain.Commands;
@@ -41,7 +39,7 @@ namespace Ubora.Domain
 
             RegisterInScope<IQuery, Query>();
             RegisterInScope<IEventStreamQuery, EventStreamQuery>();
-            RegisterInScope<ICommandProcessor, CommandProcessor>();
+            RegisterInScope<ICommandBus, CommandBus>();
             RegisterInScope<ICommandHandler<CreateProjectCommand>, CreateProjectCommandHandler>();
         }
     }

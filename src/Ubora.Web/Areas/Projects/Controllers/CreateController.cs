@@ -10,11 +10,11 @@ namespace Ubora.Web.Areas.Projects.Controllers
 {
     public class CreateController : ProjectsController
     {
-        private readonly ICommandProcessor _commandProcessor;
+        private readonly ICommandBus _commandBus;
 
-        public CreateController(ICommandProcessor commandProcessor)
+        public CreateController(ICommandBus commandBus)
         {
-            _commandProcessor = commandProcessor;
+            _commandBus = commandBus;
         }
 
         [HttpGet("projects/create")]
@@ -49,7 +49,7 @@ namespace Ubora.Web.Areas.Projects.Controllers
 
         private void Execute(CreateProjectCommand createProjectCommand)
         {
-            _commandProcessor.Execute(createProjectCommand);
+            _commandBus.Execute(createProjectCommand);
         }
     }
 }
