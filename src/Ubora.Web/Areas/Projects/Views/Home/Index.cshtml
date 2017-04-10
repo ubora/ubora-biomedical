@@ -10,8 +10,8 @@
     @foreach (var project in Model.Projects)
     {
         <li>
-            <a asp-controller="ProjectDashboard"
-               asp-action="Dashboard"
+            <a asp-controller="Dashboard"
+               asp-action="Index"
                asp-route-id="@project.Id">
                 @project.Name
             </a>

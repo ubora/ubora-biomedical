@@ -21,6 +21,7 @@ namespace Ubora.Domain
 
         public abstract void RegisterInScope<T, TImpl>() where T : class where TImpl : class, T;
         public abstract void RegisterInstanceInScope<T>(Func<T> factory) where T : class;
+        public abstract void RegisterInstanceInScope<T>(Func<IResolver, T> factory) where T : class;
 
         public void Load()
         {
@@ -36,8 +37,8 @@ namespace Ubora.Domain
             _martenSingleton = new DocumentStore(options);
             RegisterInstanceInScope<IDocumentSession>(() => _martenSingleton.OpenSession());
             RegisterInstanceInScope<IQuerySession>(() => _martenSingleton.QuerySession());
-            //RegisterInstanceInScope<IEventStore>(() => _martenSingleton.OpenSession().Events);
-            
+            RegisterInstanceInScope<IEventStore>(resolver => resolver.Resolve<IDocumentSession>().Events);
+
             RegisterInScope<IQuery, Query>();
             RegisterInScope<IEventStreamQuery, EventStreamQuery>();
             RegisterInScope<ICommandProcessor, CommandProcessor>();

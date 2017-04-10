@@ -10,19 +10,18 @@ using Ubora.Web.Areas.Projects.Models.ProjectList;
 namespace Ubora.Web.Areas.Projects.Controllers
 {
     [Area("Projects")]
-    public class ProjectListController : Controller
+    public class HomeController : Controller
     {
         private readonly IQuery _query;
 
-        public ProjectListController(IQuery query)
+        public HomeController(IQuery query)
         {
             _query = query;
         }
 
-        [Route("Projects")]
-        public IActionResult All()
+        public IActionResult Index()
         {
-            var projects = _query.Find<Project>();
+            var projects = _query.Find<Domain.Projects.Projections.Project>();
 
             var viewModel = new ProjectListViewModel
             {

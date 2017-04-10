@@ -16,9 +16,9 @@ namespace Ubora.Domain.Queries
     {
         private readonly IEventStore _eventStore;
 
-        public EventStreamQuery(IDocumentSession documentSession)
+        public EventStreamQuery(IEventStore eventStore)
         {
-            _eventStore = documentSession.Events;
+            _eventStore = eventStore;
         }
 
         public IEnumerable<UboraEvent> Find(Guid streamId)

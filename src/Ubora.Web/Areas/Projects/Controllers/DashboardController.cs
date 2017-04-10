@@ -9,19 +9,18 @@ using Ubora.Web.Areas.Projects.Models.ProjectDashboard;
 namespace Ubora.Web.Areas.Projects.Controllers
 {
     [Area("Projects")]
-    public class ProjectDashboardController : Controller
+    public class DashboardController : Controller
     {
         private readonly IQuery _query;
         private readonly IEventStreamQuery _eventStreamQuery;
 
-        public ProjectDashboardController(IQuery query, IEventStreamQuery eventStreamQuery)
+        public DashboardController(IQuery query, IEventStreamQuery eventStreamQuery)
         {
             _query = query;
             _eventStreamQuery = eventStreamQuery;
         }
 
-        [Route("Projects/{id}")]
-        public IActionResult Dashboard(Guid id)
+        public IActionResult Index(Guid id)
         {
             var project = _query.Load<Project>(id);
 

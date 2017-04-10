@@ -11,23 +11,21 @@ using Ubora.Web.Areas.Projects.Models.ProjectCreation;
 namespace Ubora.Web.Areas.Projects.Controllers
 {
     [Area("Projects")]
-    public class ProjectCreationController : Controller
+    public class CreateController : Controller
     {
         private readonly ICommandProcessor _commandProcessor;
 
-        public ProjectCreationController(ICommandProcessor commandProcessor)
+        public CreateController(ICommandProcessor commandProcessor)
         {
             _commandProcessor = commandProcessor;
         }
 
-        [Route("Projects/Create")]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        [Route("Projects/Create")]
         public IActionResult Create(ProjectCreationPostModel model)
         {
             if (!ModelState.IsValid)
@@ -48,7 +46,7 @@ namespace Ubora.Web.Areas.Projects.Controllers
                 return View("Index");
             }
 
-            return RedirectToAction("All", "ProjectList");
+            return RedirectToAction("Index", "Home");
         }
 
         private void Execute(CreateProjectCommand createProjectCommand)
