@@ -132,10 +132,9 @@ namespace Ubora.Web
 
             app.UseMvc(routes =>
             {
-                // Areas support
                 routes.MapRoute(
-                  name: "areaRoute",
-                  template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                    name: "areaRoute",
+                    template: "{area:exists}/{controller}/{action}");
 
                 routes.MapRoute(
                     name: "default",

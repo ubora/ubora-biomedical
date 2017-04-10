@@ -1,17 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Commands;
 using Ubora.Domain.Events;
 using Ubora.Domain.Projects;
-using Ubora.Web.Areas.Projects.Models.ProjectCreation;
+using Ubora.Web.Areas.Projects.Controllers.Shared;
+using Ubora.Web.Areas.Projects.Views.Create;
 
 namespace Ubora.Web.Areas.Projects.Controllers
 {
-    [Area("Projects")]
-    public class CreateController : Controller
+    public class CreateController : ProjectsController
     {
         private readonly ICommandProcessor _commandProcessor;
 
@@ -20,17 +17,18 @@ namespace Ubora.Web.Areas.Projects.Controllers
             _commandProcessor = commandProcessor;
         }
 
-        public IActionResult Index()
+        [HttpGet("projects/create")]
+        public IActionResult Create()
         {
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Create(ProjectCreationPostModel model)
+        [HttpPost("projects/create")]
+        public IActionResult Create(CreatePostModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View("Index");
+                return RedirectToAction("Create");
             }
 
             var command = new CreateProjectCommand
@@ -43,10 +41,10 @@ namespace Ubora.Web.Areas.Projects.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View("Index");
+                return RedirectToAction("Create");
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("List", "List");
         }
 
         private void Execute(CreateProjectCommand createProjectCommand)

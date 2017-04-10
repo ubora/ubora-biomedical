@@ -1,15 +1,15 @@
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.Projections;
 using Ubora.Domain.Queries;
-using Ubora.Web.Areas.Projects.Models.ProjectDashboard;
+using Ubora.Web.Areas.Projects.Controllers.Shared;
+using Ubora.Web.Areas.Projects.Views;
+using Ubora.Web.Areas.Projects.Views.Dashboard;
 
 namespace Ubora.Web.Areas.Projects.Controllers
 {
-    [Area("Projects")]
-    public class DashboardController : Controller
+    public class DashboardController : ProjectsController
     {
         private readonly IQuery _query;
         private readonly IEventStreamQuery _eventStreamQuery;
@@ -20,13 +20,14 @@ namespace Ubora.Web.Areas.Projects.Controllers
             _eventStreamQuery = eventStreamQuery;
         }
 
-        public IActionResult Index(Guid id)
+        [Route("projects/{id:guid}")]
+        public IActionResult Dashboard(Guid id)
         {
             var project = _query.Load<Project>(id);
 
             var eventStream = _eventStreamQuery.Find(project.Id);
 
-            var viewModel = new ProjectDashboardViewModel
+            var viewModel = new DashboardViewModel
             {
                 EventStream = eventStream.Select(x => x.ToString()),
                 Name = project.Name,
@@ -34,6 +35,11 @@ namespace Ubora.Web.Areas.Projects.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public IActionResult Dashboard()
+        {
+            return Content("success");
         }
     }
 }

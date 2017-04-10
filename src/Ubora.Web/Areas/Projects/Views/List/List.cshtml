@@ -1,4 +1,4 @@
-@model Ubora.Web.Areas.Projects.Models.ProjectList.ProjectListViewModel
+@model Ubora.Web.Areas.Projects.Views.List.ListViewModel
 
 @{
     ViewData["Title"] = "All";
@@ -11,7 +11,7 @@
     {
         <li>
             <a asp-controller="Dashboard"
-               asp-action="Index"
+               asp-action="Dashboard"
                asp-route-id="@project.Id">
                 @project.Name
             </a>
