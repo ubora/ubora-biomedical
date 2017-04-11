@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace DomainModels.Specifications
 {
-    public abstract class Specification<TEntity> : ISpecification<TEntity>, IEquatable<Specification<TEntity>>
+    public abstract partial class Specification<TEntity> : ISpecification<TEntity>, IEquatable<Specification<TEntity>>
     {
         public IQueryable<TEntity> SatisfyEntitiesFrom(IQueryable<TEntity> query)
         {

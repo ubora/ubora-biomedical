@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using DomainModels.Specifications;
 using Ubora.Domain.Projects.Events;
+using Ubora.Domain.Specifications;
 
 namespace Ubora.Domain.Projects.Projections
 {
-    public class Project
+    public class Project : ISpecifiable<Project>
     {
         public Guid Id { get; private set; }
         public string Name { get; private set; }
@@ -24,6 +26,11 @@ namespace Ubora.Domain.Projects.Projections
         public override string ToString()
         {
             return $"Project(Id:{Id})";
+        }
+
+        public bool DoesSatisfy(ISpecification<Project> specification)
+        {
+            return specification.IsSatisfiedBy(this);
         }
     }
 }
