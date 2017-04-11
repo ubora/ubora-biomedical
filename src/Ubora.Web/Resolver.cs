@@ -1,6 +1,6 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
-using Ubora.Domain.Commands;
+using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Web
 {

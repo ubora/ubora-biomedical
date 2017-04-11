@@ -1,6 +1,6 @@
-using DomainModels.Specifications;
+using Ubora.Domain.Infrastructure.Specifications;
 
-namespace Ubora.Domain.Commands
+namespace Ubora.Domain.Infrastructure.Commands
 {
     public interface IQueryBus
     {

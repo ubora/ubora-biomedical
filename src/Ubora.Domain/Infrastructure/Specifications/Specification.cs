@@ -4,9 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace DomainModels.Specifications
+namespace Ubora.Domain.Infrastructure.Specifications
 {
-    public abstract partial class Specification<TEntity> : ISpecification<TEntity>, IEquatable<Specification<TEntity>>
+    public abstract class Specification<TEntity> : ISpecification<TEntity>, IEquatable<Specification<TEntity>>
     {
         public IQueryable<TEntity> SatisfyEntitiesFrom(IQueryable<TEntity> query)
         {

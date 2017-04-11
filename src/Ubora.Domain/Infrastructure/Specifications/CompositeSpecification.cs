@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace DomainModels.Specifications
+namespace Ubora.Domain.Infrastructure.Specifications
 {
     public abstract class CompositeSpecification<TEntity> : Specification<TEntity>, IEquatable<CompositeSpecification<TEntity>>
     {

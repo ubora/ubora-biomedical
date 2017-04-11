@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace DomainModels.Specifications
+namespace Ubora.Domain.Infrastructure.Specifications
 {
     public sealed class OrSpecification<TEntity> : CompositeSpecification<TEntity>
     {

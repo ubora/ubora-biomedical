@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Commands;
 using Ubora.Domain.Events;
+using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
 using Ubora.Web.Areas.Projects.Controllers.Shared;
 using Ubora.Web.Areas.Projects.Views.Create;
@@ -49,7 +49,7 @@ namespace Ubora.Web.Areas.Projects.Controllers
 
         private void Execute(CreateProjectCommand createProjectCommand)
         {
-            _commandBus.Command(createProjectCommand);
+            _commandBus.Execute(createProjectCommand);
         }
     }
 }

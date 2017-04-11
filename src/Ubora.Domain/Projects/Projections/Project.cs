@@ -2,9 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using DomainModels.Specifications;
+using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.Events;
-using Ubora.Domain.Specifications;
 
 namespace Ubora.Domain.Projects.Projections
 {

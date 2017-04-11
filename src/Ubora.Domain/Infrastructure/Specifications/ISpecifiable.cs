@@ -1,6 +1,4 @@
-﻿using DomainModels.Specifications;
-
-namespace Ubora.Domain.Specifications
+﻿namespace Ubora.Domain.Infrastructure.Specifications
 {
     public interface ISpecifiable<T> where T : ISpecifiable<T>
     {

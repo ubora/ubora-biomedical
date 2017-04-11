@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Ubora.Domain.Commands;
+using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Models;
 using Ubora.Web.Services;

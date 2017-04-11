@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace DomainModels.Specifications
+namespace Ubora.Domain.Infrastructure.Specifications
 {
     public interface ISpecification<TEntity>
     { 

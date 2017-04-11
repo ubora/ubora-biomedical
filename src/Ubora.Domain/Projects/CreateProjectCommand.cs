@@ -1,12 +1,17 @@
 using System;
 using Marten;
 using Marten.Events;
-using Ubora.Domain.Commands;
 using Ubora.Domain.Events;
+using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.Events;
 
 namespace Ubora.Domain.Projects
 {
+    public class CommandResult : ICommandResult
+    {
+        public bool IsSuccess { get; set; }
+    }
+
     public class CreateProjectCommand : ICommand
     {
         public Guid Id { get; set; }
@@ -23,10 +28,12 @@ namespace Ubora.Domain.Projects
             _documentSession = documentSession;
         }
 
-        public void Handle(CreateProjectCommand command)
+        public ICommandResult Handle(CreateProjectCommand command)
         {
             _documentSession.Events.Append(Guid.NewGuid(), new ProjectCreated(command.Name, command.UserInfo));
             _documentSession.SaveChanges();
+
+            return new CommandResult();
         }
     }
 }
