@@ -1,5 +1,6 @@
 using System;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Queries;
 
 namespace Ubora.Domain.Commands
 {
@@ -12,13 +13,13 @@ namespace Ubora.Domain.Commands
             _resolver = resolver;
         }
 
-        public void Execute(ICommand command)
+        public void Command(ICommand command)
         {
             var handler = _resolver.Resolve<ICommandHandler<CreateProjectCommand>>();
             handler.Handle((dynamic)command);
         }
 
-        public TResult Execute<TResult>(ICommand<TResult> command) where TResult : ICommandResult
+        public TResult Command<TResult>(ICommand<TResult> command) where TResult : ICommandResult
         {
             throw new NotImplementedException();
         }

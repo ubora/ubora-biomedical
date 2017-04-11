@@ -2,7 +2,7 @@ namespace Ubora.Domain.Commands
 {
     public interface ICommandBus
     {
-        void Execute(ICommand command);
-        TResult Execute<TResult>(ICommand<TResult> command) where TResult : ICommandResult;
+        void Command(ICommand command);
+        TResult Command<TResult>(ICommand<TResult> command) where TResult : ICommandResult;
     }
 }

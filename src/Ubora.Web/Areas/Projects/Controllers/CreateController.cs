@@ -49,7 +49,7 @@ namespace Ubora.Web.Areas.Projects.Controllers
 
         private void Execute(CreateProjectCommand createProjectCommand)
         {
-            _commandBus.Execute(createProjectCommand);
+            _commandBus.Command(createProjectCommand);
         }
     }
 }
