@@ -1,1 +1,0 @@
-UBORA platform implements [Pure CSS](https://purecss.io/tables/) library for a lightweight solution for presenting tables in a simple way that emphasizes on data readability.

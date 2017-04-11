@@ -4,23 +4,46 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-@if (SignInManager.IsSignedIn(User))
-{
-    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-            </li>
-            <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
-            </li>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <a href="/">
+            <img src="~/images/icon.png" alt="UBORA official logo" style="width:50px;">
+        </a>
+    </div>
+    <!-- <div class="top-bar-center">
+        <ul class="menu">
+            <li><input type="search" placeholder="Search"></li>
+            <li><button type="button" class="button">Search</button></li>
         </ul>
-    </form>
-}
-else
-{
-    <ul class="nav navbar-nav navbar-right">
-        <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
-        <li><a asp-area="" asp-controller="Account" asp-action="Login">Log in</a></li>
-    </ul>
-}
+    </div> -->
+    <div class="top-bar-center">
+        <!-- CONTENT -->
+    </div>
+    <div class="top-bar-right">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                <ul class="dropdown menu" data-dropdown-menu>
+                    <li>
+                        <a asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                    </li>
+                    <li>
+                        <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
+                    </li>
+                </ul>
+            </form>
+        }
+        else
+        {
+            <ul class="menu">
+                <li>
+                    <a asp-controller="Account" asp-action="Register">Register</a>
+                </li>
+                <li>
+                    <a asp-controller="Account" asp-action="Login">Log in</a>
+                </li>
+            </ul>
+        }
+    </div>
+</div>
