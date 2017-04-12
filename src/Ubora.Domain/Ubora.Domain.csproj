@@ -13,10 +13,4 @@
     <Folder Include="Commands\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="JetBrains.Annotations">
-      <HintPath>..\..\..\Users\Kaspar\.nuget\packages\jetbrains.annotations\10.4.0\lib\netstandard1.0\JetBrains.Annotations.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

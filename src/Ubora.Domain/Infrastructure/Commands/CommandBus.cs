@@ -7,12 +7,12 @@ namespace Ubora.Domain.Infrastructure.Commands
     {
         private readonly IComponentContext _resolver;
 
-        public CommandBus([NotNull]IComponentContext resolver)
+        public CommandBus(IComponentContext resolver)
         {
             _resolver = resolver;
         }
 
-        public ICommandResult Execute<T>([NotNull]T command) where T : ICommand
+        public ICommandResult Execute<T>(T command) where T : ICommand
         {
             var handler = _resolver.Resolve<ICommandHandler<T>>();
 
