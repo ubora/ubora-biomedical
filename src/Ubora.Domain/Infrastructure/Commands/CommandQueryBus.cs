@@ -4,6 +4,7 @@ using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Infrastructure.Commands
 {
+    // Processor
     public class CommandQueryBus : ICommandBus, IQueryBus
     {
         private readonly IComponentContext _resolver;

@@ -30,7 +30,7 @@ namespace Ubora.Domain.Projects
 
         public ICommandResult Handle(CreateProjectCommand command)
         {
-            _documentSession.Events.Append(Guid.NewGuid(), new ProjectCreated(command.Name, command.UserInfo));
+            _documentSession.Events.Append(command.Id, new ProjectCreated(command.Name, command.UserInfo));
             _documentSession.SaveChanges();
 
             return new CommandResult();
