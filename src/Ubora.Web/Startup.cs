@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -8,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Ubora.Domain;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Models;
@@ -37,16 +41,12 @@ namespace Ubora.Web
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("ApplicationDbConnection");
+            
+            services.AddMvc();
 
-            // Add domain services.
-            var module = new DomainIocModule(services, connectionString);
-            services.AddScoped<IResolver, Resolver>();
-            module.Load();
-
-            // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString));
 
@@ -54,11 +54,19 @@ namespace Ubora.Web
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            // Autofac
+            var containerBuilder = new ContainerBuilder();
 
-            // Add application services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
+            var domainModule = new DomainModule(connectionString);
+            var webModule = new WebModule();
+
+            containerBuilder.RegisterModule(domainModule);
+            containerBuilder.RegisterModule(webModule);
+            containerBuilder.Populate(services);
+
+            var container = containerBuilder.Build();
+
+            return new AutofacServiceProvider(container);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

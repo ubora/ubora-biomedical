@@ -1,13 +1,13 @@
-using System;
+using Autofac;
 using JetBrains.Annotations;
 
 namespace Ubora.Domain.Infrastructure.Commands
 {
     public class CommandBus : ICommandBus
     {
-        private readonly IResolver _resolver;
+        private readonly IComponentContext _resolver;
 
-        public CommandBus([NotNull]IResolver resolver)
+        public CommandBus([NotNull]IComponentContext resolver)
         {
             _resolver = resolver;
         }

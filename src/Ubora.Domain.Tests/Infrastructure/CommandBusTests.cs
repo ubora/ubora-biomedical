@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Autofac;
 using FluentAssertions;
 using Moq;
 using Ubora.Domain.Infrastructure.Commands;
@@ -11,22 +11,17 @@ namespace Ubora.Domain.Tests.Infrastructure
         [Fact]
         public void Should_Handle_Command()
         {
-            var resolverMock = new Mock<IResolver>();
-
-            var handlerMock = new Mock<ICommandHandler<TestCommand>>();
-
-            resolverMock
-                .Setup(x => x.Resolve<ICommandHandler<TestCommand>>())
-                .Returns(handlerMock.Object);
+            var containerBuilder = new ContainerBuilder();
 
             var command = new TestCommand();
             var commandResult = Mock.Of<ICommandResult>();
+            var commandHandler = Mock.Of<ICommandHandler<TestCommand>>(x => x.Handle(command) == commandResult);
 
-            handlerMock
-                .Setup(x => x.Handle(command))
-                .Returns(commandResult);
+            containerBuilder.RegisterInstance(commandHandler);
 
-            var commandBus = new CommandBus(resolverMock.Object);
+            var container = containerBuilder.Build();
+
+            var commandBus = new CommandBus(container);
 
             // Act
             var result = commandBus.Execute(command);
@@ -38,13 +33,5 @@ namespace Ubora.Domain.Tests.Infrastructure
 
     public class TestCommand : ICommand
     {
-    }
-
-    public class TestCommandHandlerWithResult : ICommandHandler<TestCommand>
-    {
-        public ICommandResult Handle(TestCommand testCommand)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
