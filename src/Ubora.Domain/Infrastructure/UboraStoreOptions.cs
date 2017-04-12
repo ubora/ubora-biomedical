@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using Marten;
-using Marten.Events.Projections;
 using Marten.Services;
 using Marten.Services.Events;
 using Newtonsoft.Json;
@@ -11,7 +8,7 @@ using Newtonsoft.Json.Serialization;
 using Ubora.Domain.Projects.Events;
 using Ubora.Domain.Projects.Projections;
 
-namespace Ubora.Domain
+namespace Ubora.Domain.Infrastructure
 {
     public class UboraStoreOptions
     {

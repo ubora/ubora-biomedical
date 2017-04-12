@@ -2,18 +2,17 @@
 using Autofac;
 using Marten;
 using Marten.Events;
-using Microsoft.Extensions.DependencyInjection;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Queries;
 
-namespace Ubora.Domain
+namespace Ubora.Domain.Infrastructure
 {
-    public class DomainModule : Module
+    public class DomainAutofacModule : Module
     {
         private readonly string _connectionString;
 
-        public DomainModule(string connectionString)
+        public DomainAutofacModule(string connectionString)
         {
             _connectionString = connectionString;
         }
@@ -35,7 +34,7 @@ namespace Ubora.Domain
 
             builder.RegisterType<Query>().As<IQuery>().InstancePerLifetimeScope();
             builder.RegisterType<EventStreamQuery>().As<IEventStreamQuery>().InstancePerLifetimeScope();
-            builder.RegisterType<CommandBus>().As<ICommandBus>().InstancePerLifetimeScope();
+            builder.RegisterType<CommandQueryBus>().As<ICommandBus>().InstancePerLifetimeScope();
             builder.RegisterType<CreateProjectCommandHandler>().As<ICommandHandler<CreateProjectCommand>>().InstancePerLifetimeScope();
         }
     }

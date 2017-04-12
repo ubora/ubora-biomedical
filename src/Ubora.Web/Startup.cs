@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
@@ -12,10 +9,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Ubora.Domain;
-using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure;
 using Ubora.Web.Data;
+using Ubora.Web.Infrastructure;
 using Ubora.Web.Models;
-using Ubora.Web.Services;
 
 namespace Ubora.Web
 {
@@ -57,8 +54,8 @@ namespace Ubora.Web
             // Autofac
             var containerBuilder = new ContainerBuilder();
 
-            var domainModule = new DomainModule(connectionString);
-            var webModule = new WebModule();
+            var domainModule = new DomainAutofacModule(connectionString);
+            var webModule = new WebAutofacModule();
 
             containerBuilder.RegisterModule(domainModule);
             containerBuilder.RegisterModule(webModule);

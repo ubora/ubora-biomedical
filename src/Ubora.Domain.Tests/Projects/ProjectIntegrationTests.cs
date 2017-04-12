@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FluentAssertions;
 using Ubora.Domain.Events;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Events;
 using Ubora.Domain.Projects.Projections;
 using Xunit;

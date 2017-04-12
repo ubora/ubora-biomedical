@@ -1,9 +1,9 @@
 ﻿using Autofac;
 using Ubora.Web.Services;
 
-namespace Ubora.Web
+namespace Ubora.Web.Infrastructure
 {
-    public class WebModule : Module
+    public class WebAutofacModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

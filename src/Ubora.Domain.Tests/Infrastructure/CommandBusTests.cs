@@ -21,7 +21,7 @@ namespace Ubora.Domain.Tests.Infrastructure
 
             var container = containerBuilder.Build();
 
-            var commandBus = new CommandBus(container);
+            var commandBus = new CommandQueryBus(container);
 
             // Act
             var result = commandBus.Execute(command);

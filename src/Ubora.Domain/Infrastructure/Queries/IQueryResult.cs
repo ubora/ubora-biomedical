@@ -1,4 +1,4 @@
-namespace Ubora.Domain.Infrastructure.Commands
+namespace Ubora.Domain.Infrastructure.Queries
 {
     public interface IQueryResult
     {

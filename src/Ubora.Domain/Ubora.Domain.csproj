@@ -9,8 +9,4 @@
     <PackageReference Include="Marten" Version="1.4.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Commands\" />
-  </ItemGroup>
-
 </Project>
