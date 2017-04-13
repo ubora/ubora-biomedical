@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
 using TestStack.BDDfy;
 using Ubora.Domain.Events;
@@ -38,6 +39,8 @@ namespace Ubora.Domain.Tests.Projects
 
             // Act
             handler.Handle(command);
+
+            this.RefreshSession();
         }
 
         private void Then_Project_Should_Be_Created(CreateProject command)
@@ -50,6 +53,8 @@ namespace Ubora.Domain.Tests.Projects
         private void Then_Creator_Should_Be_First_Member(CreateProject command)
         {
             var project = Session.Load<Project>(command.Id);
+            var onlyMember = project.Members.Single();
+            onlyMember.As<Leader>().UserId.Should().Be(command.UserInfo.UserId);
         }
     }
 }

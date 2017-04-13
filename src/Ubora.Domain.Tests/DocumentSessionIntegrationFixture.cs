@@ -1,23 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Marten;
-using Marten.Services;
 
 namespace Ubora.Domain.Tests
 {
 
     public abstract class DocumentSessionIntegrationFixture : StoreIntegrationFixture
     {
-        private readonly Lazy<IDocumentSession> _session;
-
+        private Lazy<IDocumentSession> _session;
 
         protected DocumentSessionIntegrationFixture()
+        {
+            InitializeSession();
+        }
+
+        private void InitializeSession()
         {
             _session = new Lazy<IDocumentSession>(() => theStore.DirtyTrackedSession());
         }
 
         protected IDocumentSession Session => _session.Value;
+
+        protected void RefreshSession()
+        {
+            Session.Dispose();
+            InitializeSession();
+        }
 
         public override void Dispose()
         {

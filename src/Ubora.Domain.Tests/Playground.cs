@@ -36,8 +36,7 @@ namespace Ubora.Domain.Tests
             Session.SaveChanges();
 
             Session.Events.Append(project1Id, 4, 
-                new WorkpackageCreated("Project planning", new UserInfo(Guid.NewGuid(), "Mari Pari")),
-                new ProjectRenamed("My first and only project", new UserInfo(Guid.NewGuid(), "Mari Pari")));
+                new WorkpackageCreated("Project planning", new UserInfo(Guid.NewGuid(), "Mari Pari")));
             Session.SaveChanges();
 
             Session.Events.QueryAllRawEvents().Count().Should().Be(6);
@@ -46,7 +45,6 @@ namespace Ubora.Domain.Tests
             var project1 = Session.Load<Project>(project1Id);
 
             project1.Should().NotBeNull();
-            project1.Name.Should().Be("My first and only project");
         }
     }
 }

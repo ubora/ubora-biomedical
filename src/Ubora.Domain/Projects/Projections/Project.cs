@@ -1,7 +1,6 @@
 ﻿using Marten.Events;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.Events;
 
@@ -12,14 +11,16 @@ namespace Ubora.Domain.Projects.Projections
         public Guid Id { get; private set; }
         public string Name { get; private set; }
 
+        private readonly HashSet<Member> _members = new HashSet<Member>();
+        public IReadOnlyCollection<Member> Members => _members;
+
         private void Apply(Event<ProjectCreated> created)
         {
             Name = created.Data.Name;
-        }
 
-        private void Apply(Event<ProjectRenamed> renamed)
-        {
-            Name = renamed.Data.NewName;
+            var userId = created.Data.Creator.UserId;
+            var leader = new Leader(userId);
+            _members.Add(leader);
         }
 
         public override string ToString()

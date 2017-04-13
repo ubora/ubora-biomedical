@@ -25,7 +25,6 @@ namespace Ubora.Domain.Infrastructure
 
                 // TODO: Add event types by convention
                 options.Events.AddEventType(typeof(ProjectCreated));
-                options.Events.AddEventType(typeof(ProjectRenamed));
             };
         }
 
