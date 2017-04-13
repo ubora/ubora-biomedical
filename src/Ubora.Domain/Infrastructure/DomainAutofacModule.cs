@@ -3,6 +3,7 @@ using Autofac;
 using Marten;
 using Marten.Events;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Queries;
 
@@ -30,12 +31,11 @@ namespace Ubora.Domain.Infrastructure
 
             builder.RegisterInstance(new DocumentStore(options)).SingleInstance();
             builder.Register(x => x.Resolve<DocumentStore>().OpenSession()).As<IDocumentSession>().As<IQuerySession>().InstancePerLifetimeScope();
-            builder.Register(x => x.Resolve<IDocumentSession>().Events).As<IEventStore>();
+            builder.Register(x => x.Resolve<IDocumentSession>().Events).As<IEventStore>().InstancePerLifetimeScope();
 
-            builder.RegisterType<Query>().As<IQuery>().InstancePerLifetimeScope();
             builder.RegisterType<EventStreamQuery>().As<IEventStreamQuery>().InstancePerLifetimeScope();
-            builder.RegisterType<CommandQueryBus>().As<ICommandBus>().InstancePerLifetimeScope();
-            builder.RegisterType<CreateProjectCommandHandler>().As<ICommandHandler<CreateProjectCommand>>().InstancePerLifetimeScope();
+            builder.RegisterType<CommandQueryProcessor>().As<ICommandProcessor>().As<IQueryProcessor>().InstancePerLifetimeScope();
+            builder.RegisterType<CreateProjectHandler>().As<ICommandHandler<CreateProject>>().InstancePerLifetimeScope();
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Projections;
 using Ubora.Domain.Queries;
 using Ubora.Web.Areas.Projects.Controllers.Shared;
@@ -9,9 +10,9 @@ namespace Ubora.Web.Areas.Projects.Controllers
 {
     public class ListController : ProjectsController
     {
-        private readonly IQuery _query;
+        private readonly IQueryProcessor _query;
 
-        public ListController(IQuery query)
+        public ListController(IQueryProcessor query)
         {
             _query = query;
         }

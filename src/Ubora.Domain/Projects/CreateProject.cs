@@ -12,23 +12,23 @@ namespace Ubora.Domain.Projects
         public bool IsSuccess { get; set; }
     }
 
-    public class CreateProjectCommand : ICommand
+    public class CreateProject : ICommand
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
         public UserInfo UserInfo { get; set; }
     }
 
-    public class CreateProjectCommandHandler : ICommandHandler<CreateProjectCommand>
+    public class CreateProjectHandler : ICommandHandler<CreateProject>
     {
         private readonly IDocumentSession _documentSession;
 
-        public CreateProjectCommandHandler(IDocumentSession documentSession)
+        public CreateProjectHandler(IDocumentSession documentSession)
         {
             _documentSession = documentSession;
         }
 
-        public ICommandResult Handle(CreateProjectCommand command)
+        public ICommandResult Handle(CreateProject command)
         {
             _documentSession.Events.Append(command.Id, new ProjectCreated(command.Name, command.UserInfo));
             _documentSession.SaveChanges();

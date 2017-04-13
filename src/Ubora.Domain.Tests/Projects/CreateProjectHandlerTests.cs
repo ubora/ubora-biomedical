@@ -9,9 +9,9 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Projects
 {
-    public class CreateProjectCommandHandlerTests : DocumentSessionIntegrationFixture
+    public class CreateProjectHandlerTests : DocumentSessionIntegrationFixture
     {
-        public CreateProjectCommandHandlerTests()
+        public CreateProjectHandlerTests()
         {
             StoreOptions(new UboraStoreOptions().Configuration());
         }
@@ -19,7 +19,7 @@ namespace Ubora.Domain.Tests.Projects
         [Fact]
         public void Handle_Creates_New_Project_With_Creator_As_First_Member()
         {
-            var command = new CreateProjectCommand
+            var command = new CreateProject
             {
                 Id = Guid.NewGuid(),
                 Name = "ProjectName",
@@ -32,22 +32,22 @@ namespace Ubora.Domain.Tests.Projects
                 .BDDfy();
         }
 
-        private void Given_Command_Is_Handled(CreateProjectCommand command)
+        private void Given_Command_Is_Handled(CreateProject command)
         {
-            var handler = new CreateProjectCommandHandler(this.Session);
+            var handler = new CreateProjectHandler(this.Session);
 
             // Act
             handler.Handle(command);
         }
 
-        private void Then_Project_Should_Be_Created(CreateProjectCommand command)
+        private void Then_Project_Should_Be_Created(CreateProject command)
         {
             var project = Session.Load<Project>(command.Id);
             project.Should().NotBeNull();
             project.Name.Should().Be(command.Name);
         }
 
-        private void Then_Creator_Should_Be_First_Member(CreateProjectCommand command)
+        private void Then_Creator_Should_Be_First_Member(CreateProject command)
         {
             var project = Session.Load<Project>(command.Id);
         }

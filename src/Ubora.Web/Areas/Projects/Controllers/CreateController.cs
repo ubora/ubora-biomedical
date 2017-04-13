@@ -10,11 +10,11 @@ namespace Ubora.Web.Areas.Projects.Controllers
 {
     public class CreateController : ProjectsController
     {
-        private readonly ICommandBus _commandBus;
+        private readonly ICommandProcessor _commandProcessor;
 
-        public CreateController(ICommandBus commandBus)
+        public CreateController(ICommandProcessor commandProcessor)
         {
-            _commandBus = commandBus;
+            _commandProcessor = commandProcessor;
         }
 
         [HttpGet("projects/create")]
@@ -31,7 +31,7 @@ namespace Ubora.Web.Areas.Projects.Controllers
                 return RedirectToAction("Create");
             }
 
-            var command = new CreateProjectCommand
+            var command = new CreateProject
             {
                 Id = Guid.NewGuid(),
                 Name = model.Name,
@@ -47,9 +47,9 @@ namespace Ubora.Web.Areas.Projects.Controllers
             return RedirectToAction("List", "List");
         }
 
-        private void Execute(CreateProjectCommand createProjectCommand)
+        private void Execute(CreateProject createProjectCommand)
         {
-            _commandBus.Execute(createProjectCommand);
+            _commandProcessor.Execute(createProjectCommand);
         }
     }
 }
