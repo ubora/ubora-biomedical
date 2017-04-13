@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		RunTests.sh = RunTests.sh
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ubora.Web.Tests", "Ubora.Web.Tests\Ubora.Web.Tests.csproj", "{0E03B767-8A24-4205-89D9-E247116BEE90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{85D9A0FC-2014-47BD-922A-35601A4E983F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85D9A0FC-2014-47BD-922A-35601A4E983F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85D9A0FC-2014-47BD-922A-35601A4E983F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E03B767-8A24-4205-89D9-E247116BEE90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E03B767-8A24-4205-89D9-E247116BEE90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E03B767-8A24-4205-89D9-E247116BEE90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E03B767-8A24-4205-89D9-E247116BEE90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

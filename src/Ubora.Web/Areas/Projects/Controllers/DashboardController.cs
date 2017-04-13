@@ -31,15 +31,11 @@ namespace Ubora.Web.Areas.Projects.Controllers
             {
                 EventStream = eventStream.Select(x => x.ToString()),
                 Name = project.Name,
-                Id = project.Id
+                Id = project.Id,
+                //Members = project.Members.Select(x => x.)
             };
 
             return View(viewModel);
-        }
-
-        public IActionResult Dashboard()
-        {
-            return Content("success");
         }
     }
 }

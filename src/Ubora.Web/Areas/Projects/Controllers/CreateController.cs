@@ -44,7 +44,7 @@ namespace Ubora.Web.Areas.Projects.Controllers
                 return RedirectToAction("Create");
             }
 
-            return RedirectToAction("List", "List");
+            return RedirectToAction("Dashboard", "Dashboard");
         }
 
         private void Execute(CreateProject createProjectCommand)

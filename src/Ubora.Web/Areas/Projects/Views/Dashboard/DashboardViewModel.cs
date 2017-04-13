@@ -8,5 +8,7 @@ namespace Ubora.Web.Areas.Projects.Views.Dashboard
         public IEnumerable<string> EventStream { get; set; }
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public IEnumerable<string> Members { get; set; }
+
     }
 }

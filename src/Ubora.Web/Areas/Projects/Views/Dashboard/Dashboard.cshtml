@@ -6,10 +6,18 @@
 
 <h2>@Model.Name</h2>
 
+Events:
 <ul>
-    
-@foreach (var projectEvent in Model.EventStream)
-{
-    <li>@projectEvent</li>
-}
+    @foreach (var projectEvent in Model.EventStream)
+    {
+        <li>@projectEvent</li>
+    }
+</ul>
+
+Members:
+<ul>
+    @foreach (var member in Model.Members)
+    {
+        <li>@member</li>
+    }
 </ul>
