@@ -35,11 +35,11 @@ namespace Ubora.Domain.Tests
                 new WorkpackageCreated("Project initialization", new UserInfo(Guid.NewGuid(), "Lüri Püri")));
             Session.SaveChanges();
 
-            Session.Events.Append(project1Id, 4, 
+            Session.Events.Append(project1Id, 3, 
                 new WorkpackageCreated("Project planning", new UserInfo(Guid.NewGuid(), "Mari Pari")));
             Session.SaveChanges();
 
-            Session.Events.QueryAllRawEvents().Count().Should().Be(6);
+            Session.Events.QueryAllRawEvents().Count().Should().Be(5);
             Session.Events.FetchStream(project1Id).Each(e => Debug.WriteLine(e.Data.ToString()));
 
             var project1 = Session.Load<Project>(project1Id);
