@@ -10,9 +10,9 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Projects
 {
-    public class CreateProjectHandlerTests : DocumentSessionIntegrationFixture
+    public class CreateProjectTests : CommandFixture
     {
-        public CreateProjectHandlerTests()
+        public CreateProjectTests()
         {
             StoreOptions(new UboraStoreOptions().Configuration());
         }
@@ -35,12 +35,8 @@ namespace Ubora.Domain.Tests.Projects
 
         private void Given_Command_Is_Handled(CreateProject command)
         {
-            var handler = new CreateProjectHandler(this.Session);
-
             // Act
-            handler.Handle(command);
-
-            this.RefreshSession();
+            Execute(command);
         }
 
         private void Then_Project_Should_Be_Created(CreateProject command)
