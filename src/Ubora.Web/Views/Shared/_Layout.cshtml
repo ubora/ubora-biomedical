@@ -1,11 +1,12 @@
 ﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - UBORA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="~/images/favicon.png">
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/foundation-sites/dist/css/foundation.css" />
@@ -25,10 +26,8 @@
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
-
-    <header>
-        @await Html.PartialAsync("_LoginPartial")
-    </header>
+ 
+    @await Html.PartialAsync("_LoginPartial")
 
     <main>
         @RenderBody()
