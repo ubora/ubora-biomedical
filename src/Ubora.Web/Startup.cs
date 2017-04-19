@@ -9,7 +9,6 @@ using Ubora.Web.Data;
 using Ubora.Web.Models;
 using Ubora.Web.Services;
 using Serilog;
-using Serilog.Formatting.Compact;
 using System.IO;
 
 namespace Ubora.Web
@@ -18,11 +17,9 @@ namespace Ubora.Web
     {
         public Startup(IHostingEnvironment env)
         {
-            var path = Path.GetFullPath(Path.Combine("log", "log.clef"));
-
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Error()
-                .WriteTo.File(new CompactJsonFormatter(), path)
+                .WriteTo.RollingFile(Path.GetFullPath(Path.Combine("log", "log-{Date}.txt")))
                 .CreateLogger();
 
             var builder = new ConfigurationBuilder()
