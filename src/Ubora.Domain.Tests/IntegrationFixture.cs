@@ -1,19 +1,11 @@
 ﻿using Autofac;
 using Marten;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.Tests
 {
-    public abstract class CommandFixture : DocumentSessionIntegrationFixture, ICommandProcessor
+    public abstract class IntegrationFixture : DocumentSessionIntegrationFixture
     {
-        public ICommandResult Execute<T>(T command) where T : ICommand
-        {
-            var commandProcessor = Container.Resolve<ICommandProcessor>();
-            var commandResult = commandProcessor.Execute(command);
-            return commandResult;
-        }
-
         private IContainer _innerContainer;
         protected IComponentContext Container => _innerContainer ?? (_innerContainer = InitializeContainer());
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using FluentAssertions;
+using Marten;
 using Moq;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
@@ -9,7 +10,7 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Infrastructure
 {
-    public class CommandQueryProcessorTests
+    public class CommandQueryProcessorTests : IntegrationFixture
     {
         [Fact]
         public void Should_Handle_Command()
@@ -22,7 +23,7 @@ namespace Ubora.Domain.Tests.Infrastructure
             containerBuilder.RegisterInstance(commandHandler);
             var container = containerBuilder.Build();
 
-            var processor = new CommandQueryProcessor(container);
+            var processor = new CommandQueryProcessor(container, Mock.Of<IQuerySession>());
 
             // Act
             var result = processor.Execute(command);
@@ -42,7 +43,7 @@ namespace Ubora.Domain.Tests.Infrastructure
             containerBuilder.RegisterInstance(queryHandler);
             var container = containerBuilder.Build();
 
-            var processor = new CommandQueryProcessor(container);
+            var processor = new CommandQueryProcessor(container, Mock.Of<IQuerySession>());
 
             // Act
             var result = processor.ExecuteQuery(query);
@@ -58,6 +59,5 @@ namespace Ubora.Domain.Tests.Infrastructure
 
     public class TestQuery : IQuery<Guid>
     {
-        
     }
 }

@@ -3,7 +3,7 @@
 namespace Ubora.Web.Areas.Projects.Controllers.Shared
 {
     [Area("Projects")]
-    public class ProjectsController : Controller
+    public abstract class ProjectsController : Controller
     {
     }
 }

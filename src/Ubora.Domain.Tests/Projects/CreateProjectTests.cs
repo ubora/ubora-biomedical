@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Linq;
+using Autofac;
 using FluentAssertions;
 using TestStack.BDDfy;
 using Ubora.Domain.Events;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Projections;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Projects
 {
-    public class CreateProjectTests : CommandFixture
+    public class CreateProjectTests : IntegrationFixture
     {
         public CreateProjectTests()
         {
@@ -35,8 +37,10 @@ namespace Ubora.Domain.Tests.Projects
 
         private void Given_Command_Is_Handled(CreateProject command)
         {
+            var commandProcessor = Container.Resolve<ICommandProcessor>();
+
             // Act
-            Execute(command);
+            commandProcessor.Execute(command);
         }
 
         private void Then_Project_Should_Be_Created(CreateProject command)

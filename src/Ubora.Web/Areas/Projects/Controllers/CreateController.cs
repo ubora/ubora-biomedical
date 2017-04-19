@@ -31,9 +31,10 @@ namespace Ubora.Web.Areas.Projects.Controllers
                 return RedirectToAction("Create");
             }
 
+            var projectId = Guid.NewGuid();
             var command = new CreateProject
             {
-                Id = Guid.NewGuid(),
+                Id = projectId,
                 Name = model.Name,
                 UserInfo = new UserInfo(Guid.NewGuid(), "todo")
             };
@@ -44,7 +45,7 @@ namespace Ubora.Web.Areas.Projects.Controllers
                 return RedirectToAction("Create");
             }
 
-            return RedirectToAction("Dashboard", "Dashboard");
+            return RedirectToAction("Dashboard", "Dashboard", new { id = projectId });
         }
 
         private void Execute(CreateProject createProjectCommand)
