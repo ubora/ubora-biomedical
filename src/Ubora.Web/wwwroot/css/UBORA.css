@@ -1,0 +1,95 @@
+/* Foundation overrides */
+body {
+    font-family: 'Open Sans', Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a {
+    color: #4777BB;
+    font-family: 'Open Sans', Arial, sans-serif;
+}
+
+[type='text'],
+[type='password'],
+[type='date'],
+[type='datetime'],
+[type='datetime-local'],
+[type='month'],
+[type='week'],
+[type='email'],
+[type='number'],
+[type='search'],
+[type='tel'],
+[type='time'],
+[type='url'],
+[type='color'],
+textarea,
+select {
+    background-color: transparent;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 1px solid #95989A;
+    border-left: 0;
+    box-shadow: none;
+    color: #3D3D3D;
+    font-family: 'Open Sans', Arial, sans-serif;
+}
+
+    [type='text']:focus,
+    [type='password']:focus,
+    [type='date']:focus,
+    [type='datetime']:focus,
+    [type='datetime-local']:focus,
+    [type='month']:focus,
+    [type='week']:focus,
+    [type='email']:focus,
+    [type='number']:focus,
+    [type='search']:focus,
+    [type='tel']:focus,
+    [type='time']:focus,
+    [type='url']:focus,
+    [type='color']:focus,
+    textarea:focus {
+        background-color: transparent;
+        border-top: 0;
+        border-right: 0;
+        border-bottom: 1px solid #4777BB;
+        border-left: 0;
+        box-shadow: 0 2px 3px -3px #4777BB;
+    }
+
+    select:focus {
+        border: 1px solid #4777BB;
+    }
+
+label {
+    font-size:120%;
+    color:#4777BB;
+}
+
+.label {
+    border-radius: 5px;
+    background-color: #4777BB;
+}
+
+.optional-label {
+    background-color: transparent;
+    border: none;
+    color: #4777BB;
+    font-style: italic;
+}
+
+.top-bar,
+.top-bar ul {
+    background-color: transparent;
+}
+
+/* AgileWorks additions */
+.form-label {
+    font-style: italic;
+}

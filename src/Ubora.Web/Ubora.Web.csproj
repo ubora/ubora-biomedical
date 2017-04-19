@@ -14,7 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="wwwroot\css\styles.css" />
     <Content Include="wwwroot\css\UBORA.css" />
     <Content Include="wwwroot\css\UBORA.min.css" />
   </ItemGroup>
