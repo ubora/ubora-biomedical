@@ -1,0 +1,153 @@
+body {
+    font-family: 'Open Sans', Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a {
+    color: #4777BB;
+    font-family: 'Open Sans', Arial, sans-serif;
+}
+
+[type='text'],
+[type='password'],
+[type='date'],
+[type='datetime'],
+[type='datetime-local'],
+[type='month'],
+[type='week'],
+[type='email'],
+[type='number'],
+[type='search'],
+[type='tel'],
+[type='time'],
+[type='url'],
+[type='color'],
+select {
+    background-color: transparent;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 1px solid #95989A;
+    border-left: 0;
+    box-shadow: none;
+    color: #3D3D3D;
+    font-family: 'Open Sans', Arial, sans-serif;
+}
+
+    [type='text']:focus,
+    [type='password']:focus,
+    [type='date']:focus,
+    [type='datetime']:focus,
+    [type='datetime-local']:focus,
+    [type='month']:focus,
+    [type='week']:focus,
+    [type='email']:focus,
+    [type='number']:focus,
+    [type='search']:focus,
+    [type='tel']:focus,
+    [type='time']:focus,
+    [type='url']:focus,
+    [type='color']:focus {
+        background-color: transparent;
+        border-top: 0;
+        border-right: 0;
+        border-bottom: 1px solid #4777BB;
+        border-left: 0;
+        box-shadow: 0 2px 3px -3px #4777BB;
+    }
+
+    select:focus {
+        border: 1px solid #4777BB;
+    }
+
+textarea {
+    background-color: transparent;
+    border: 1px solid #95989A;
+    box-shadow:none;
+    color:#3D3D3D;
+    font-family: 'Open Sans', Arial, sans-serif;
+    resize: vertical;
+}
+
+textarea:focus {
+    border:1px solid #4777BB;
+    box-shadow: 0 2px 3px -3px #4777BB;
+}
+
+label {
+    font-size:120%;
+    color:#4777BB;
+}
+
+.label {
+    border-radius: 5px;
+    background-color: #4777BB;
+}
+
+.optional-label {
+    background-color: transparent;
+    border: none;
+    color: #4777BB;
+    font-style: italic;
+}
+
+.button {
+    background-color:#4777BB;
+    border:1px solid #4777BB;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgba(0,0,0,.2);
+    font-family:'Open Sans', Arial, sans-serif;
+}
+
+.button:hover {
+    background-color: transparent;
+    color:#4777BB;
+}
+
+.button.secondary {
+    background-color: transparent;
+    border:1px solid #4777BB;
+    color:#4777BB;
+}
+
+.button.secondary:hover {
+    background-color:#4777BB;
+    color:#FFF;
+}
+
+.form-label {
+    font-style: italic;
+}
+
+.form-vertical section {
+    padding:0 0 25px 0;
+}
+
+.material-icons {
+    color:#4777BB;
+}
+
+.header {
+    align-items: center;
+    display: flex;
+    flex-wrap:nowrap;
+    justify-content: space-between;
+    padding: 5px 0 10px 0;
+}
+
+.header a {
+    display:inline-block;
+}
+
+.modal_signing {
+    flex-grow:2;
+}
+
+.action i,
+.action span {
+    vertical-align: middle;
+}

@@ -1,41 +1,102 @@
 ﻿@model RegisterViewModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Create an account";
 }
 
-<h2>@ViewData["Title"].</h2>
+<div class="row">
+    <div class="medium-6 small-centered columns">
+        <h2>@ViewData["Title"]</h2>
 
-<form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-    <h4>Create a new account.</h4>
-    <hr />
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Email" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
+        <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-vertical">
+
+            <section class="user_info">
+                <label>
+                    Name
+                    <input type="text" name="user_fullname" placeholder="Firstname Lastname" required>
+                </label>
+
+                <label>
+                    Email address
+                    <input type="email" name="user_email" placeholder="email@example.com" required>
+                </label>
+
+                <label>
+                    Password
+                    <input type="password" name="user_password" placeholder="Secret passphrase" required>
+                </label>
+
+                <label>
+                    Password again
+                    <input type="password" name="user_password_repeat" placeholder="Secret passphrase again" required>
+                </label>
+            </section>
+
+            <h4>Academia</h4>
+            <!-- <label>
+                <input type="checkbox" name="university_none">
+                I have no academic background
+            </label> -->
+
+            <section class="academia">
+                <label>
+                    University
+                    <input type="text" name="university_name" placeholder="Name of university">
+                </label>
+
+                <label>
+                    Degree
+                    <input type="text" name="university_degree" placeholder="Obtained/obtaining degree">
+                </label>
+
+                <label>
+                    Field
+                    <input type="text" name="university_expertise" placeholder="e.g. hardware engineering">
+                </label>
+            </section>
+
+            <h4>Personal</h4>
+
+            <section class="misc">
+                <label>
+                    Age
+                    <input type="number" name="user_age" min="18" max="125" placeholder="Your current age">
+                </label>
+
+                <label>
+                    Gender
+                    <select name="user_gender">
+                        <option value="placeholder" disabled selected>You identify as...</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other"><i>Other</i></option>
+                    </select>
+                </label>
+
+                <label>
+                    Country
+                    <input type="text" name="user_county" placeholder="Country of origin">
+                </label>
+
+                <label>
+                    Bio
+                    <textarea name="user_bio" rows="5" cols="80" placeholder="Write a few words about yourself!"></textarea>
+                </label>
+
+                <section class="user_skills">
+                    <label>
+                        Skills
+                        <input type="text" name="user_skills" placeholder="What are you good at?">
+                    </label>
+                    <div class="user_skill_list"></div>
+                </section>
+
+            </section>
+
+            <button type="submit" class="button large expanded">Create an account</button>
+
+        </form>
     </div>
-    <div class="form-group">
-        <label asp-for="Password" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Password" class="form-control" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="ConfirmPassword" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="ConfirmPassword" class="form-control" />
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn btn-default">Register</button>
-        </div>
-    </div>
-</form>
+</div>
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
