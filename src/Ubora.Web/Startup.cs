@@ -61,9 +61,19 @@ namespace Ubora.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            if (Configuration["AWS_ACCESS_KEY_ID"] == null)
+            {
+                Environment.SetEnvironmentVariable("AWS_ACCESS_KEY_ID", Configuration["AWS_ACCESS_KEY_ID_FROM_USERSECRET"]);
+            }
+            if (Configuration["AWS_SECRET_ACCESS_KEY"] == null)
+            {
+                Environment.SetEnvironmentVariable("AWS_SECRET_ACCESS_KEY", Configuration["AWS_SECRET_ACCESS_KEY_FROM_USERSECRET"]);
+            }
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             loggerFactory.AddSerilog();
+            loggerFactory.AddAWSProvider(this.Configuration.GetAWSLoggingConfigSection());
 
             if (env.IsDevelopment())
             {
