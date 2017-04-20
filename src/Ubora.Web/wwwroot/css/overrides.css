@@ -1,0 +1,84 @@
+body {
+	font-family: 'Open Sans', Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a {
+	color: #4777BB;
+	font-family: inherit;
+}
+
+[type='text'],
+[type='password'],
+[type='date'],
+[type='datetime'],
+[type='datetime-local'],
+[type='month'],
+[type='week'],
+[type='email'],
+[type='number'],
+[type='search'],
+[type='tel'],
+[type='time'],
+[type='url'],
+[type='color'],
+select {
+	background-color: transparent;
+	border-top: 0;
+	border-right: 0;
+	border-bottom: 1px solid #95989A;
+	border-left: 0;
+	box-shadow: none;
+	color: #3D3D3D;
+	font-family: inherit;
+}
+
+	[type='text']:focus,
+	[type='password']:focus,
+	[type='date']:focus,
+	[type='datetime']:focus,
+	[type='datetime-local']:focus,
+	[type='month']:focus,
+	[type='week']:focus,
+	[type='email']:focus,
+	[type='number']:focus,
+	[type='search']:focus,
+	[type='tel']:focus,
+	[type='time']:focus,
+	[type='url']:focus,
+	[type='color']:focus {
+		background-color: transparent;
+		border-top: 0;
+		border-right: 0;
+		border-bottom: 1px solid #4777BB;
+		border-left: 0;
+		box-shadow: 0 2px 3px -3px #4777BB;
+	}
+
+	select:focus {
+		border: 1px solid #4777BB;
+	}
+
+textarea {
+	background-color: transparent;
+	border: 1px solid #95989A;
+	box-shadow:none;
+	color:#3D3D3D;
+	font-family: inherit;
+	resize: vertical;
+}
+
+textarea:focus {
+	border:1px solid #4777BB;
+	box-shadow: 0 2px 3px -3px #4777BB;
+}
+
+label {
+	font-size:120%;
+	color:#4777BB;
+}
