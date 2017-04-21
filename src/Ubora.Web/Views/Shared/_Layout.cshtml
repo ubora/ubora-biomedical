@@ -2,60 +2,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>@ViewData["Title"] - UBORA</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="~/images/favicon.png">
-    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<meta charset="utf-8">
+	<title>@ViewData["Title"] - UBORA</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" href="~/images/favicon.png">
 
-    <environment names="Development">
-        <link rel="stylesheet" href="~/lib/foundation-sites/dist/css/foundation.css" />
-        <link rel="stylesheet" href="~/css/UBORA.css" />
-    </environment>
+	<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="~/lib/foundation-sites/dist/css/foundation.css">
+	<link rel="stylesheet" href="~/css/overrides.css">
+	<link rel="stylesheet" href="~/css/UBORA.css">
 
-    <environment names="Staging,Production">
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.min.css"
-              asp-fallback-href="~/lib/foundation-sites/dist/css/foundation.min.css"
-              asp-fallback-test-class="sr-only"
-              asp-fallback-test-property="position"
-              asp-fallback-test-value="absolute" />
+	<!-- <environment names="Development"> -->
+	<!-- </environment> -->
 
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+	<!-- <environment names="Staging,Production">
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.min.css"
+			  asp-fallback-href="~/lib/foundation-sites/dist/css/foundation.min.css"
+			  asp-fallback-test-class="sr-only"
+			  asp-fallback-test-property="position"
+			  asp-fallback-test-value="absolute" />
 
-    @Html.Raw(JavaScriptSnippet.FullScript)
+		<link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+	</environment> -->
+
+	@Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
- 
-    <a asp-area="Projects" asp-controller="List" asp-action="List" class="navbar-brand">Projects</a>
-    @await Html.PartialAsync("_LoginPartial")
-    
 
-    <main>
-        @RenderBody()
-    </main>
+	@await Html.PartialAsync("_Header")
 
-    <environment names="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/foundation-sites/dist/js/foundation.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
+	<main>
+		@RenderBody()
+	</main>
 
-    <environment names="Staging,Production">
-        <script src="//ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery">
-        </script>
+	@await Html.PartialAsync("_Footer")
 
-        <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.min.js"
-                asp-fallback-src="~/lib/foundation-sites/dist/js/foundation.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
+	<script src="~/lib/jquery/dist/jquery.js"></script>
+	<script src="~/lib/foundation-sites/dist/js/foundation.js"></script>
+	<script src="~/js/UBORA.js" asp-append-version="true"></script>
 
-    <script>$(document).foundation();</script>
+	<!-- <environment names="Development"> -->
+	<!-- </environment> -->
 
-    @RenderSection("Scripts", required: false)
+	<!-- <environment names="Staging,Production">
+		<script src="//ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+				asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+				asp-fallback-test="window.jQuery">
+		</script>
+
+		<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.min.js"
+				asp-fallback-src="~/lib/foundation-sites/dist/js/foundation.min.js"
+				asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+		</script>
+		<script src="~/js/site.min.js" asp-append-version="true"></script>
+	</environment> -->
+
+	@RenderSection("Scripts", required: false)
 </body>
 </html>
