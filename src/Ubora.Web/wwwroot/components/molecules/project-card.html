@@ -5,32 +5,31 @@
 			.project {
 				box-shadow: 0 3px 6px var(--secondary-shade);
 				border-radius: 5px;
-				max-width: 350px;
+				max-width: 22em;
 				margin:1em;
 			}
 			.project-banner {
 				border-top-left-radius: 5px;
 				border-top-right-radius: 5px;
-				max-width: inherit;
+				width: 100%;
+				max-height: 150px;
 			}
 			.project-container {
 				padding:0 1em;
-				font-size: 80%;
 			}
 			.project-title {
-				font-size: 130%;
+				font-size: 140%;
 			}
 			.project-author {
 				display: flex;
 				align-items: center;
 			}
-			.project-author img {
+			.project-author-image {
 				border-radius: 50%;
 			}
-			.project-author span {
+			.project-author-name {
 				margin:0 0 0 1em;
 			}
-
 			.project-status {
 				text-align: center;
 				padding:0 1em 1em 1em;
@@ -51,8 +50,8 @@
 				<p class="project-title">[[title]]</p>
 
 				<div class="project-author">
-					<img src$="[[authorimage]]">
-					<span>[[author]]</span>
+					<img class="project-author-image" src$="[[authorimage]]">
+					<span class="project-author-name">[[author]]</span>
 				</div>
 
 				<slot></slot>

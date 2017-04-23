@@ -1,0 +1,130 @@
+/*::selection {
+	background-color: var(--secondary-color);
+	color: var(--quartinary-shade);
+}*/
+
+:focus {
+	outline:none;
+}
+
+/*Inputs*/
+input {
+	background-color: transparent;
+	border-top:0;
+	border-right: 0;
+	border-bottom: 2px solid var(--primary-color);
+	border-left:0;
+	box-sizing: border-box;
+	color: inherit;
+	font-family: inherit;
+	font-size: 150%;
+	margin: 0;
+	min-height: 2em;
+	padding:.2em;
+	vertical-align: middle;
+	transition: all .3s ease;
+}
+
+input:active,
+input:focus {
+	border-bottom-color: var(--secondary-color);
+}
+
+button {
+	padding: 0;
+	margin: 0;
+}
+
+input[type="text" i]:disabled,
+input[type="button" i]:disabled,
+input[type="submit" i]:disabled,
+input[type="email" i]:disabled,
+input[type="password" i]:disabled,
+input[type="number" i]:disabled,
+input[type="tel" i]:disabled,
+input[type="url" i]:disabled,
+input[type="file" i]:disabled::-webkit-file-upload-button,
+button:disabled,
+select:disabled,
+option:disabled,
+select[disabled] > option,
+textarea:disabled {
+	filter: grayscale(100%);
+	cursor:not-allowed;
+}
+
+select {
+
+}
+
+textarea {
+
+}
+
+
+/*Anchors*/
+a {
+	background-color: transparent;
+	color:var(--primary-color);
+	display: inline-block;
+	padding: inherit;
+	text-decoration: none;
+	transition: all .3s ease;
+}
+
+a:active,
+a:focus,
+a:hover {
+	color: var(--secondary-color);
+}
+
+
+/*Buttons*/
+.button {
+	background-color: #FFF;
+	border:1px solid var(--text-color);
+	border-radius:5px;
+	box-shadow: 0 3px 6px var(--secondary-shade);
+	font-family: inherit;
+	font-size: 150%;
+	line-height: normal;
+	min-width: 10em;
+	padding:1em 0;
+	text-align: center;
+	transition: all .3s ease;
+}
+
+.button:active,
+.button:focus,
+.button:hover {
+	box-shadow: 0 3px 6px var(--secondary-color);
+}
+
+.primary-button {
+	border-color: var(--primary-color);
+	background-color: var(--primary-color);
+	color: var(--quartinary-shade);
+}
+
+.secondary-button {
+	border-color: var(--primary-color);
+	color: var(--primary-color);
+	transition: all .3s ease;
+}
+
+.primary-button:active,
+.primary-button:focus,
+.primary-button:hover,
+.secondary-button:active,
+.secondary-button:focus,
+.secondary-button:hover {
+	border-color: var(--secondary-color);
+	background-color: var(--secondary-color);
+	color: var(--quartinary-shade);
+}
+
+
+/*Forms*/
+label > input {
+	display: block;
+}

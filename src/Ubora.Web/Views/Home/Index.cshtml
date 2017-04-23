@@ -2,165 +2,134 @@
 	ViewData["Title"] = "Welcome";
 }
 
-<style>
-	.initiative {
-		display: flex;
-		flex-wrap: wrap;
-	}
+<section class="hero full-width">
+	<p><b>UBORA</b><br>the biomedical engineering open design platform</p>
+</section>
 
-	.initiative-option {
-		text-align: center;
-		padding:1em 0;
-		flex-grow: 2;
-	}
-</style>
 <section class="initiative full-width">
 	<div class="initiative-option">
-		<button class="button primary-button">I have a need</button>
-		<h3>Find help through open discussion.</h3>
+		<button class="button secondary-button" disabled>I have a need</button>
+		<h2>Find help through open discussion.</h2>
 	</div>
 
 	<div class="initiative-option">
-		<button class="button primary-button">I have an idea</button>
-		<h3>Propose your biomedical solution.</h3>
+		<a href="#" class="button primary-button">I have an idea</a>
+		<h2>Propose your biomedical solution.</h2>
 	</div>
 </section>
 
-
-<style>
-	.search {
-		text-align: center;
-	}
-	.search-icon {
-		height: 2em;
-	}
-</style>
-<section class="search">
-	<form>
-		<div class="search-field">
-			<img class="search-icon" src="~/images/icons/search.svg" alt="Search icon">
-			<input type="text" placeholder="Find a project by title, tag, user...">
-		</div>
-	</form>
-</section>
-
-<style>
-	.project-list {
-		display: flex;
-		justify-content: center;
-		flex-wrap: wrap;
-	}
-</style>
 <section class="projects">
-	<h2>Public projects</h2>
-	<div class="project-list">
-		<project-card
-			banner="//placehold.it/350x200"
-			title="Example project"
-			author="John Smith"
-			authorimage="//placehold.it/50x50"
-			funded="75%"
-			pledged="1,000,000$"
-			completed="100%"
-			timeremaining="365">
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
-		</project-card>
-		<project-card
-			banner="//placehold.it/350x200"
-			title="Example project"
-			author="John Smith"
-			authorimage="//placehold.it/50x50"
-			funded="75%"
-			pledged="1,000,000$"
-			completed="100%"
-			timeremaining="365">
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
-		</project-card>
-		<project-card
-			banner="//placehold.it/350x200"
-			title="Example project"
-			author="John Smith"
-			authorimage="//placehold.it/50x50"
-			funded="75%"
-			pledged="1,000,000$"
-			completed="100%"
-			timeremaining="365">
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
-		</project-card>
-		<project-card
-			banner="//placehold.it/350x200"
-			title="Example project"
-			author="John Smith"
-			authorimage="//placehold.it/50x50"
-			funded="75%"
-			pledged="1,000,000$"
-			completed="100%"
-			timeremaining="365">
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
-		</project-card>
-		<project-card
-			banner="//placehold.it/350x200"
-			title="Example project"
-			author="John Smith"
-			authorimage="//placehold.it/50x50"
-			funded="75%"
-			pledged="1,000,000$"
-			completed="100%"
-			timeremaining="365">
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
-		</project-card>
-		<project-card
-			banner="//placehold.it/350x200"
-			title="Example project"
-			author="John Smith"
-			authorimage="//placehold.it/50x50"
-			funded="75%"
-			pledged="1,000,000$"
-			completed="100%"
-			timeremaining="365">
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
-		</project-card>
-		<project-card
-			banner="//placehold.it/350x200"
-			title="Example project"
-			author="John Smith"
-			authorimage="//placehold.it/50x50"
-			funded="75%"
-			pledged="1,000,000$"
-			completed="100%"
-			timeremaining="365">
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
-		</project-card>
-		<project-card
-			banner="//placehold.it/350x200"
-			title="Example project"
-			author="John Smith"
-			authorimage="//placehold.it/50x50"
-			funded="75%"
-			pledged="1,000,000$"
-			completed="100%"
-			timeremaining="365">
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
-		</project-card>
+	<h2 class="full-width">Public projects</h2>
+	<project-card
+		banner="//placehold.it/400x150"
+		title="Example project"
+		author="John Smith"
+		authorimage="//placehold.it/50x50"
+		funded="75%"
+		pledged="1,000,000$"
+		completed="100%"
+		timeremaining="365">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
+	</project-card>
+	<project-card
+		banner="//placehold.it/400x150"
+		title="Example project"
+		author="John Smith"
+		authorimage="//placehold.it/50x50"
+		funded="75%"
+		pledged="1,000,000$"
+		completed="100%"
+		timeremaining="365">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
+	</project-card>
+	<project-card
+		banner="//placehold.it/400x150"
+		title="Example project"
+		author="John Smith"
+		authorimage="//placehold.it/50x50"
+		funded="75%"
+		pledged="1,000,000$"
+		completed="100%"
+		timeremaining="365">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
+	</project-card>
+	<project-card
+		banner="//placehold.it/400x150"
+		title="Example project"
+		author="John Smith"
+		authorimage="//placehold.it/50x50"
+		funded="75%"
+		pledged="1,000,000$"
+		completed="100%"
+		timeremaining="365">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
+	</project-card>
+	<project-card
+		banner="//placehold.it/400x150"
+		title="Example project"
+		author="John Smith"
+		authorimage="//placehold.it/50x50"
+		funded="75%"
+		pledged="1,000,000$"
+		completed="100%"
+		timeremaining="365">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
+	</project-card>
+	<project-card
+		banner="//placehold.it/400x150"
+		title="Example project"
+		author="John Smith"
+		authorimage="//placehold.it/50x50"
+		funded="75%"
+		pledged="1,000,000$"
+		completed="100%"
+		timeremaining="365">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
+	</project-card>
+	<project-card
+		banner="//placehold.it/400x150"
+		title="Example project"
+		author="John Smith"
+		authorimage="//placehold.it/50x50"
+		funded="75%"
+		pledged="1,000,000$"
+		completed="100%"
+		timeremaining="365">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
+	</project-card>
+	<project-card
+		banner="//placehold.it/400x150"
+		title="Example project"
+		author="John Smith"
+		authorimage="//placehold.it/50x50"
+		funded="75%"
+		pledged="1,000,000$"
+		completed="100%"
+		timeremaining="365">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
+	</project-card>
+</section>
+
+<section class="about">
+	<h2 class="full-width">About UBORA</h2>
+
+	<p>
+		The EU funded UBORA project aims at creating an  e-Infrastructure, UBORA, for open source co-design of new solutions to face the current and future healthcare challenges of Europe and Africa, by exploiting networking, knowledge on rapid prototyping of new ideas and sharing of safety criteria and performance data. The e-Infrastructure is implemented to foster advances in education and the development of innovative solutions in Biomedical Engineering, both of which are flywheels for emerging and developed economies. It is conceived as a virtual platform for generating, exchanging, improving and implementing creative ideas in Biomedical Engineering underpinned by a solid safety assessment framework. Besides the provision of resources with designs, blueprints and support on safety assessment and harmonization, specific sections for needs identification, project management, repositories and fund raising are also foreseen.
+	</p>
+	<p>
+		UBORA (“excellence” in Swahili) brings together European and African Universities and their associated technological hubs (supporting biomedical prototyping laboratories and incubators), national and international policymakers and committed and credible stakeholders propelled by a series of summer schools and competitions. Through the UBORA e-Infrastructure, the biomedical community can generate and share open data and blueprints of biomedical devices, accompanied by the required
+		procedures for respecting quality assurance, and assessing performance and safety. When properly implemented, as guaranteed by authorized Notified Bodies, these biomedical devices can safely be used in hospitals and on patients. In a nutshell, UBORA couples the open design philosophy with Europe’s leadership in quality control and safety assurance, guaranteeing better health and new opportunities for growth and innovation.
+	</p>
+
+	<div class="center-element">
+		<button href="#" class="button primary-button center-element">Learn more</a>
 	</div>
 </section>
 
-<style>
-
-</style>
-<section class="about">
-	<h2>About UBORA</h2>
-</section>
-
-<style>
-
-</style>
 <section class="resources">
-	<h2>Resources</h2>
+	<h2 class="full-width">Resources</h2>
 </section>
 
-<style>
-</style>
 <section class="donation">
-	<h2>Help the cause</h2>
+	<h2 class="full-width">Help the cause</h2>
 </section>
