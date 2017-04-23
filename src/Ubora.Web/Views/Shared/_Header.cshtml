@@ -7,8 +7,11 @@
 @if (SignInManager.IsSignedIn(User)) {
 <!-- <a asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button> -->
+<!-- <header-action description="Menu" link="/">
+	<i class="material-icons">menu</i>
+</header-action> -->
 } else {
-	<header class="expanded row header">
+	<header>
 		<div class="header-action-group">
 			<a class="header-action-index" asp-controller="Home" asp-action="Index">
 				<img class="header-action-index-image" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
@@ -19,11 +22,10 @@
 			<a asp-controller="Account" asp-action="SignInSignUp">Sign in/sign up</a>
 		</div>
 
-		<div class="header-action-group">
-			<a class="header-action" asp-controller="Home" asp-action="Search">
-				<i class="header-action-icon material-icons">search</i>
-				<span class="header-action-description">Search</span>
-			</a>
+		<div class="header-action-group header-action-list">
+			<header-action description="Search" link="/Home/Search">
+				<i class="material-icons">search</i>
+			</header-action>
 		</div>
 	</header>
 }

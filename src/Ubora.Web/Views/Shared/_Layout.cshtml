@@ -3,59 +3,45 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>@ViewData["Title"] - UBORA</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" type="image/png" href="~/images/favicon.png">
 
+	<title>@ViewData["Title"] - UBORA</title>
+
+	<link rel="icon" type="image/png" href="~/images/favicon.png">
 	<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="~/lib/foundation-sites/dist/css/foundation.css">
-	<link rel="stylesheet" href="~/css/overrides.css">
-	<link rel="stylesheet" href="~/css/UBORA.css">
+	<link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+	<script src="~/lib/webcomponentsjs/webcomponents-loader.js"></script>
+	<link rel="import" href="~/components/component-library.html">
+
+	<link rel="stylesheet" href="~/css/styles.css">
 
 	<!-- <environment names="Development"> -->
 	<!-- </environment> -->
 
-	<!-- <environment names="Staging,Production">
-		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.min.css"
-			  asp-fallback-href="~/lib/foundation-sites/dist/css/foundation.min.css"
-			  asp-fallback-test-class="sr-only"
-			  asp-fallback-test-property="position"
-			  asp-fallback-test-value="absolute" />
-
-		<link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-	</environment> -->
+	<!--
+		TODO: Add Gulp tasks for styles
+		<environment names="Staging,Production">
+		</environment>
+	-->
 
 	@Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
-
 	@await Html.PartialAsync("_Header")
 
-	<main>
-		@RenderBody()
-	</main>
+	<main>@RenderBody()</main>
 
 	@await Html.PartialAsync("_Footer")
-
-	<script src="~/lib/jquery/dist/jquery.js"></script>
-	<script src="~/lib/foundation-sites/dist/js/foundation.js"></script>
-	<script src="~/js/UBORA.js" asp-append-version="true"></script>
 
 	<!-- <environment names="Development"> -->
 	<!-- </environment> -->
 
-	<!-- <environment names="Staging,Production">
-		<script src="//ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-				asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-				asp-fallback-test="window.jQuery">
-		</script>
-
-		<script src="//cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.min.js"
-				asp-fallback-src="~/lib/foundation-sites/dist/js/foundation.min.js"
-				asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
-		</script>
-		<script src="~/js/site.min.js" asp-append-version="true"></script>
-	</environment> -->
+	<!--
+		TODO: Add Gulp tasks for scrips
+		<environment names="Staging,Production">
+		</environment>
+	-->
 
 	@RenderSection("Scripts", required: false)
 </body>
