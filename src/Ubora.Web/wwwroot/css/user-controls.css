@@ -3,10 +3,6 @@
 	color: var(--quartinary-shade);
 }*/
 
-:focus {
-	outline:none;
-}
-
 /*Inputs*/
 input,
 select,
@@ -87,7 +83,9 @@ a {
 	display: inline-block;
 	padding: inherit;
 	text-decoration: none;
-	transition: all .3s ease;
+	transition:
+		color .3s ease,
+		background-color .3s ease;
 }
 
 a:active,

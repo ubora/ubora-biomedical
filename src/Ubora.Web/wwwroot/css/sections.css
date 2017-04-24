@@ -80,3 +80,23 @@
 	max-width: 3em;
 	padding:.2em 1em .2em 1em;
 }
+
+
+.resources-image {
+	background-image: url('/images/books.jpg');
+}
+
+
+.image-backdrop {
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	padding:3em 0;
+	text-align: center;
+	width: 100%;
+}
+
+.image-backdrop-title {
+	color:#FFF;
+	font-size: 200%;
+}
