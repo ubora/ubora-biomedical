@@ -9,7 +9,7 @@ namespace Ubora.Domain.Projects
         public Guid ProjectId { get; private set; }
         public string Name { get; private set; }
 
-        public void Apply(Event<WorkpackageCreated> created)
+        public void Apply(Event<WorkpackageCreatedEvent> created)
         {
             Id = created.Data.Id;
             ProjectId = created.StreamId;

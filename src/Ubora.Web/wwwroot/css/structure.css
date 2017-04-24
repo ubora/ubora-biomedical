@@ -1,0 +1,40 @@
+main {
+	width: 100%;
+	flex:1;
+}
+
+section {
+	padding:1em 0;
+	margin:0 auto;
+	box-sizing: border-box;
+	width:90%;
+}
+
+.full-width {
+	width: 100%;
+}
+
+.medium-width {
+	max-width: 80em;
+	margin: 0 auto;
+}
+
+.narrow-width {
+	max-width: 30em;
+	margin: 0 auto;
+}
+
+.section-width {
+	width:90%;
+	margin:0 auto;
+}
+
+.column {
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+.center-element {
+	margin:0 auto;
+	text-align: center;
+}

@@ -1,4 +1,4 @@
-﻿using Ubora.Domain.Events;
+﻿using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects
 {

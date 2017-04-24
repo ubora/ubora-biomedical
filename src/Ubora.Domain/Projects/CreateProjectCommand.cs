@@ -1,6 +1,6 @@
 using System;
-using Ubora.Domain.Events;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects
 {

@@ -32,7 +32,7 @@ namespace Ubora.Domain.Tests
 
         public override void Dispose()
         {
-            _innerContainer.Dispose();
+            _innerContainer?.Dispose();
 
             base.Dispose();
         }

@@ -3,9 +3,9 @@ using System.Linq;
 using Autofac;
 using FluentAssertions;
 using TestStack.BDDfy;
-using Ubora.Domain.Events;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
 using Xunit;
 

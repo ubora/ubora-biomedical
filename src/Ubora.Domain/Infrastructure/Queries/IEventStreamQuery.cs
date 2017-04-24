@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Marten.Events;
-using Ubora.Domain.Events;
+using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Infrastructure.Queries
 {

@@ -7,6 +7,10 @@
 *.userosscache
 *.sln.docstates
 
+# VS Code, Atom etc user plugin files
+.htmlhintrc
+.jshintrc
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

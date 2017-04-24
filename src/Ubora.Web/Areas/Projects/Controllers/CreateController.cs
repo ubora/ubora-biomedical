@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Events;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
 using Ubora.Web.Areas.Projects.Controllers.Shared;
 using Ubora.Web.Areas.Projects.Views.Create;
