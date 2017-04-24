@@ -7,7 +7,6 @@ using Ubora.Domain.Events;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
-using Ubora.Domain.Projects.Projections;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Projects
@@ -22,7 +21,7 @@ namespace Ubora.Domain.Tests.Projects
         [Fact]
         public void Handle_Creates_New_Project_With_Creator_As_First_Member()
         {
-            var command = new CreateProject
+            var command = new CreateProjectCommand
             {
                 Id = Guid.NewGuid(),
                 Name = "ProjectName",
@@ -35,7 +34,7 @@ namespace Ubora.Domain.Tests.Projects
                 .BDDfy();
         }
 
-        private void Given_Command_Is_Handled(CreateProject command)
+        private void Given_Command_Is_Handled(CreateProjectCommand command)
         {
             var commandProcessor = Container.Resolve<ICommandProcessor>();
 
@@ -43,18 +42,18 @@ namespace Ubora.Domain.Tests.Projects
             commandProcessor.Execute(command);
         }
 
-        private void Then_Project_Should_Be_Created(CreateProject command)
+        private void Then_Project_Should_Be_Created(CreateProjectCommand command)
         {
             var project = Session.Load<Project>(command.Id);
             project.Should().NotBeNull();
             project.Name.Should().Be(command.Name);
         }
 
-        private void Then_Creator_Should_Be_First_Member(CreateProject command)
+        private void Then_Creator_Should_Be_First_Member(CreateProjectCommand command)
         {
             var project = Session.Load<Project>(command.Id);
             var onlyMember = project.Members.Single();
-            onlyMember.As<Leader>().UserId.Should().Be(command.UserInfo.UserId);
+            onlyMember.As<ProjectLeader>().UserId.Should().Be(command.UserInfo.UserId);
         }
     }
 }

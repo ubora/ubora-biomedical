@@ -5,9 +5,8 @@ using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
 using Marten.Events.Projections.Async;
-using Ubora.Domain.Projects.Events;
 
-namespace Ubora.Domain.Projects.Projections
+namespace Ubora.Domain.Projects
 {
     public class WorkpackagesProjection : IProjection
     {
@@ -26,7 +25,7 @@ namespace Ubora.Domain.Projects.Projections
                     if (!(@event.Data is WorkpackageCreated))
                         continue;
                     var workpackageEvent = (WorkpackageCreated)@event.Data;
-                    var aggregate = session.Load<Workpackage>(workpackageEvent.Id) ?? new Workpackage();
+                    var aggregate = session.Load<Workpackage>((Guid) workpackageEvent.Id) ?? new Workpackage();
                     aggregate.Apply((dynamic)@event);
                     session.Store(aggregate);
                 }

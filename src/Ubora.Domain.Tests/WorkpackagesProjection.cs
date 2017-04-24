@@ -1,12 +1,11 @@
 ﻿using Marten;
 using Marten.Events.Projections;
 using System;
-using Ubora.Domain.Projects.Projections;
 using Marten.Events;
 using System.Threading;
 using System.Threading.Tasks;
-using Ubora.Domain.Projects.Events;
 using Marten.Events.Projections.Async;
+using Ubora.Domain.Projects;
 
 namespace Ubora.Domain.Tests
 {

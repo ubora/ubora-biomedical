@@ -1,16 +1,14 @@
-﻿using Marten.Events;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Ubora.Domain.Projects.Events;
+﻿using System;
+using Marten.Events;
 
-namespace Ubora.Domain.Projects.Projections
+namespace Ubora.Domain.Projects
 {
     public class Workpackage
     {
         public Guid Id { get; private set; }
         public Guid ProjectId { get; private set; }
         public string Name { get; private set; }
+
         public void Apply(Event<WorkpackageCreated> created)
         {
             Id = created.Data.Id;
@@ -22,6 +20,5 @@ namespace Ubora.Domain.Projects.Projections
         {
             return $"Workpackage(Id:{Id}, ProjectId:{ProjectId})";
         }
-
     }
 }

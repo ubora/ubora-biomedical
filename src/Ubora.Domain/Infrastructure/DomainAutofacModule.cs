@@ -5,7 +5,6 @@ using Marten.Events;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
-using Ubora.Domain.Queries;
 
 namespace Ubora.Domain.Infrastructure
 {
@@ -35,7 +34,7 @@ namespace Ubora.Domain.Infrastructure
 
             builder.RegisterType<EventStreamQuery>().As<IEventStreamQuery>().InstancePerLifetimeScope();
             builder.RegisterType<CommandQueryProcessor>().As<ICommandProcessor>().As<IQueryProcessor>().InstancePerLifetimeScope();
-            builder.RegisterType<CreateProjectHandler>().As<ICommandHandler<CreateProject>>().InstancePerLifetimeScope();
+            builder.RegisterType<CreateProjectCommandHandler>().As<ICommandHandler<CreateProjectCommand>>().InstancePerLifetimeScope();
         }
     }
 }

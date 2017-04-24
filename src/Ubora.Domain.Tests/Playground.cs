@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using Baseline;
 using FluentAssertions;
 using Ubora.Domain.Events;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Projects.Events;
-using Ubora.Domain.Projects.Projections;
+using Ubora.Domain.Projects;
 using Xunit;
 
 namespace Ubora.Domain.Tests
@@ -26,12 +23,12 @@ namespace Ubora.Domain.Tests
             var project1Id = Guid.NewGuid();
 
             Session.Events.Append(project1Id,
-                new ProjectCreated("My first project", new UserInfo(Guid.NewGuid(), "Mari Pari")),
+                new ProjectCreatedEvent("My first project", new UserInfo(Guid.NewGuid(), "Mari Pari")),
                 new WorkpackageCreated("Project initialization", new UserInfo(Guid.NewGuid(), "Karl Parl")));
             var project2Id = Guid.NewGuid();
 
             Session.Events.Append(project2Id,
-                new ProjectCreated("My Second project", new UserInfo(Guid.NewGuid(), "Eeri Peeri")),
+                new ProjectCreatedEvent("My Second project", new UserInfo(Guid.NewGuid(), "Eeri Peeri")),
                 new WorkpackageCreated("Project initialization", new UserInfo(Guid.NewGuid(), "Lüri Püri")));
             Session.SaveChanges();
 

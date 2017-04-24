@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Ubora.Domain.Events;
 
-namespace Ubora.Domain.Projects.Events
+namespace Ubora.Domain.Projects
 {
     public class WorkpackageCreated : UboraEvent
     {

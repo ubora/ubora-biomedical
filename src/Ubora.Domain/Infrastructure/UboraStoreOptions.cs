@@ -5,8 +5,7 @@ using Marten.Services;
 using Marten.Services.Events;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Ubora.Domain.Projects.Events;
-using Ubora.Domain.Projects.Projections;
+using Ubora.Domain.Projects;
 
 namespace Ubora.Domain.Infrastructure
 {
@@ -24,7 +23,7 @@ namespace Ubora.Domain.Infrastructure
                 options.Events.InlineProjections.Add(new WorkpackagesProjection());
 
                 // TODO: Add event types by convention
-                options.Events.AddEventType(typeof(ProjectCreated));
+                options.Events.AddEventType(typeof(ProjectCreatedEvent));
             };
         }
 
