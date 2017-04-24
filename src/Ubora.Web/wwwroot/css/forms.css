@@ -1,0 +1,40 @@
+.text-danger {
+    color: var(--quaternary-color);
+    font-size: 120%;
+
+}
+
+.text-danger > ul {
+    list-style: none;
+    margin:1em 0;
+    padding:0;
+}
+
+.text-danger > ul > li {
+    padding:.2em 0;
+}
+
+form {
+    align-items:stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin:0 auto 2em auto;
+}
+
+form > label {
+    display: block;
+    margin:1em 0;
+}
+
+form > label > input,
+form > label > select,
+form > label > textarea {
+    width:100%;
+}
+
+form h1,
+form h2,
+form h3 {
+    margin:2em 0 0 0;
+}

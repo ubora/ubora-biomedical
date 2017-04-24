@@ -7,6 +7,7 @@
     "jquery-validation-unobtrusive": "3.2.6",
     "foundation": "^5.5.3",
     "foundation-sites": "^6.3.1",
-    "openSans": "https://google-fonts.azurewebsites.net/googleFonts/openSans?family=Open+Sans"
+    "openSans": "https://google-fonts.azurewebsites.net/googleFonts/openSans?family=Open+Sans",
+    "polymer": "Polymer/polymer#2.0.0-rc.7"
   }
 }
