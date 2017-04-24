@@ -7,15 +7,15 @@ Important documents are found [here](https://www.dropbox.com/home/UBORA%20consor
 
 ## Starting project
 You need:
-* Visual Studio 2017 (*required*)
-* Docker
+- Visual Studio 2017 (*required*)
+- Docker
 
 Recipe:
-* set `docker-compose` as start-up project. 
-* ensure that these steps are done in case of errors:
-  * Hyper-V > MobyLinuxVm State on
-  * Switch to Linux containers...
-  * Shared Docker Drives (project's)
+- set `docker-compose` as start-up project
+- ensure that these steps are done in case of errors:
+  - Hyper-V > MobyLinuxVm State on
+  - Switch to Linux containers
+  - Shared Docker Drives (project's)
 
 ## Running UBORA on Atom *(and potentially on other platforms!)*
 Under `.atom` folder, there exists `terminal-commands.json` file which you can use with terminal integration to run tasks.
