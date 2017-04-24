@@ -1,8 +1,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Projects.Projections;
-using Ubora.Domain.Queries;
+using Ubora.Domain.Projects;
 using Ubora.Web.Areas.Projects.Controllers.Shared;
 using Ubora.Web.Areas.Projects.Views.List;
 

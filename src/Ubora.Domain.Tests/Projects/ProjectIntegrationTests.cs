@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FluentAssertions;
-using Ubora.Domain.Events;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Projects.Events;
-using Ubora.Domain.Projects.Projections;
+using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Projects;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Projects
@@ -26,9 +23,9 @@ namespace Ubora.Domain.Tests.Projects
 
             // Act
             Session.Events.StartStream<Project>(projectId,
-                new ProjectCreated("My test project", user),
-                new WorkpackageCreated("WP 1", user),
-                new WorkpackageCreated("WP 2", user));
+                new ProjectCreatedEvent("My test project", user),
+                new WorkpackageCreatedEvent("WP 1", user),
+                new WorkpackageCreatedEvent("WP 2", user));
             Session.SaveChanges();
 
             // Assert

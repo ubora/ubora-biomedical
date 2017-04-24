@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ubora.Domain.Events
+namespace Ubora.Domain.Infrastructure.Events
 {
     public abstract class UboraEvent
     {

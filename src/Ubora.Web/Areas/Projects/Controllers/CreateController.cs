@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Events;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
 using Ubora.Web.Areas.Projects.Controllers.Shared;
 using Ubora.Web.Areas.Projects.Views.Create;
@@ -32,7 +32,7 @@ namespace Ubora.Web.Areas.Projects.Controllers
             }
 
             var projectId = Guid.NewGuid();
-            var command = new CreateProject
+            var command = new CreateProjectCommand
             {
                 Id = projectId,
                 Name = model.Name,
@@ -48,7 +48,7 @@ namespace Ubora.Web.Areas.Projects.Controllers
             return RedirectToAction("Dashboard", "Dashboard", new { id = projectId });
         }
 
-        private void Execute(CreateProject createProjectCommand)
+        private void Execute(CreateProjectCommand createProjectCommand)
         {
             _commandProcessor.Execute(createProjectCommand);
         }

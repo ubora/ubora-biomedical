@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Marten;
 using Marten.Events;
-using Ubora.Domain.Events;
+using Ubora.Domain.Infrastructure.Events;
 
-namespace Ubora.Domain.Queries
+namespace Ubora.Domain.Infrastructure.Queries
 {
     public interface IEventStreamQuery
     {
@@ -25,7 +24,7 @@ namespace Ubora.Domain.Queries
         {
             var uboraEventStream = _eventStore.FetchStream(streamId);
 
-            var uboraEvents = uboraEventStream.Select(x => (UboraEvent)x.Data);
+            var uboraEvents = Enumerable.Select<IEvent, UboraEvent>(uboraEventStream, x => (UboraEvent)x.Data);
 
             return uboraEvents;
         }

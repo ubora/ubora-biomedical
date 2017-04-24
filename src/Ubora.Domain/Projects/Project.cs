@@ -1,25 +1,24 @@
-﻿using Marten.Events;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Ubora.Domain.Infrastructure.Specifications;
-using Ubora.Domain.Projects.Events;
 
-namespace Ubora.Domain.Projects.Projections
+namespace Ubora.Domain.Projects
 {
     public class Project : ISpecifiable<Project>
     {
         public Guid Id { get; private set; }
         public string Name { get; private set; }
 
-        private readonly HashSet<Member> _members = new HashSet<Member>();
-        public IReadOnlyCollection<Member> Members => _members;
+        private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
+        public IReadOnlyCollection<ProjectMember> Members => _members;
 
-        private void Apply(Event<ProjectCreated> created)
+        private void Apply(ProjectCreatedEvent @event)
         {
-            Name = created.Data.Name;
+            Name = @event.Name;
 
-            var userId = created.Data.Creator.UserId;
-            var leader = new Leader(userId);
+            var userId = @event.Creator.UserId;
+            var leader = new ProjectLeader(userId);
+
             _members.Add(leader);
         }
 

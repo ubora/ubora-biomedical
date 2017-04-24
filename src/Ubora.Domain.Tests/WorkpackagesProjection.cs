@@ -1,12 +1,11 @@
 ﻿using Marten;
 using Marten.Events.Projections;
 using System;
-using Ubora.Domain.Projects.Projections;
 using Marten.Events;
 using System.Threading;
 using System.Threading.Tasks;
-using Ubora.Domain.Projects.Events;
 using Marten.Events.Projections.Async;
+using Ubora.Domain.Projects;
 
 namespace Ubora.Domain.Tests
 {
@@ -14,7 +13,7 @@ namespace Ubora.Domain.Tests
     {
         public class WorkpackagesProjection : IProjection
         {
-            public Type[] Consumes => new [] { typeof(WorkpackageCreated) };
+            public Type[] Consumes => new [] { typeof(WorkpackageCreatedEvent) };
 
             public Type Produces => typeof(Workpackage);
 
@@ -26,9 +25,9 @@ namespace Ubora.Domain.Tests
                 {
                     foreach(var @event in stream.Events)
                     {
-                        if (!(@event.Data is WorkpackageCreated))
+                        if (!(@event.Data is WorkpackageCreatedEvent))
                             continue;
-                        var workpackageEvent = (WorkpackageCreated)@event.Data;
+                        var workpackageEvent = (WorkpackageCreatedEvent)@event.Data;
                         var aggregate = session.Load<Workpackage>(workpackageEvent.Id) ?? new Workpackage();
                         aggregate.Apply((dynamic)@event);
                         session.Store(aggregate);
