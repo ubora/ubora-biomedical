@@ -8,7 +8,9 @@
 }
 
 /*Inputs*/
-input {
+input,
+select,
+textarea {
 	background-color: transparent;
 	border-top:0;
 	border-right: 0;
@@ -22,12 +24,36 @@ input {
 	min-height: 2em;
 	padding:.2em;
 	vertical-align: middle;
-	transition: all .3s ease;
+	transition:
+		color .3s ease,
+		background-color .3s ease;
+}
+
+textarea {
+	border:2px solid var(--primary-color);
+	font-size: 100%;
+	resize: vertical;
+	transition: none;
+}
+
+textarea:active,
+textarea:focus {
+	border: 2px solid var(--secondary-color);
 }
 
 input:active,
-input:focus {
-	border-bottom-color: var(--secondary-color);
+input:focus,
+select:active,
+select:focus {
+	border-bottom: 2px solid var(--secondary-color);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+	margin:0 .2em 0 0;
+	padding:0;
+	width: auto;
+	height: auto;
 }
 
 button {
@@ -51,14 +77,6 @@ select[disabled] > option,
 textarea:disabled {
 	filter: grayscale(100%);
 	cursor:not-allowed;
-}
-
-select {
-
-}
-
-textarea {
-
 }
 
 
@@ -121,10 +139,4 @@ a:hover {
 	border-color: var(--secondary-color);
 	background-color: var(--secondary-color);
 	color: var(--quartinary-shade);
-}
-
-
-/*Forms*/
-label > input {
-	display: block;
 }

@@ -27,12 +27,15 @@
 		</label>
 
 		<button class="button primary-button" type="submit">Sign in</button>
+		<br>
+		<div class="text-center">
+			<a asp-action="ForgotPassword">Forgot password?</a>
+		</div>
 	</form>
 
-	<a asp-action="ForgotPassword">Forgot password?</a>
-
 	<h3>Don't have an account?</h3>
-	<a class="button secondary large expanded" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Sign up</a>
+	<a class="button secondary-button full-width" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Sign up</a>
+
 </section>
 
 @section Scripts {
