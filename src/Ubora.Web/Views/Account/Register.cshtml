@@ -12,22 +12,22 @@
             <section class="user_info">
                 <label>
                     Name
-                    <input type="text" name="user_fullname" placeholder="Firstname Lastname" required>
+                    <input type="text" name="user_fullname" placeholder="Firstname Lastname" >
                 </label>
 
                 <label>
                     Email address
-                    <input type="email" name="user_email" placeholder="email@example.com" required>
+                    <input asp-for="Email" type="email" placeholder="email@example.com" required>
                 </label>
 
                 <label>
                     Password
-                    <input type="password" name="user_password" placeholder="Secret passphrase" required>
+                    <input asp-for="Password" type="password" placeholder="Secret passphrase" required>
                 </label>
 
                 <label>
                     Password again
-                    <input type="password" name="user_password_repeat" placeholder="Secret passphrase again" required>
+                    <input asp-for="ConfirmPassword" type="password" placeholder="Secret passphrase again" required>
                 </label>
             </section>
 
