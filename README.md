@@ -2,19 +2,30 @@
 
 Documents are under `Documents` folder.
 
-Important documents for us (currently under development by Carmelo and Alice) are found [here](https://www.dropbox.com/home/UBORA%20consortium/e-infrastructure/project%20managment%20architecture?preview=project+structure+proposal.doc).
+Important documents are found [here](https://www.dropbox.com/home/UBORA%20consortium/e-infrastructure/project%20managment%20architecture?preview=project+structure+proposal.doc).
+*Best of luck finding the right one!*
 
-# Starting project #
-
+## Starting project
 You need:
+* Visual Studio 2017 (*required*)
+* Docker
 
-* Visual Studio 2017 (Recommended)
-* Docker for Windows
+Recipe:
+* set `docker-compose` as start-up project. 
+* ensure that these steps are done in case of errors:
+  * Hyper-V > MobyLinuxVm State on
+  * Switch to Linux containers...
+  * Shared Docker Drives (project's)
 
-Set docker-compose as start-up project. 
+## Running UBORA on Atom *(and potentially on other platforms!)*
+Under `.atom` folder, there exists `terminal-commands.json` file which you can use with terminal integration to run tasks.
 
-Ensure that these steps are done in case of errors:
+## Tasks:
+- `restore` *for restoring all NuGet and .NETCore dependencies (alias for `dotnet restore`)*
+- `run` *which makes the server run in **PRODUCTION** environment, unless specified (alias for `dotnet run`)*
+- `db` *which is for Docker configuration*
 
-* Hyper-V > MobyLinuxVm State on
-* Switch to Linux containers...
-* Shared Docker Drives (project's)
+## Notes:
+* Have a good linter
+  * `.cshtml` linter is bad/evil/buggy - **do not** use it!
+* Be aware that when adding files, you have to run `run` again for the server to register a new file.
