@@ -1,4 +1,6 @@
 ﻿using System;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -6,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Ubora.Domain;
+using Ubora.Domain.Infrastructure;
 using Ubora.Web.Data;
+using Ubora.Web.Infrastructure;
 using Ubora.Web.Models;
-using Ubora.Web.Services;
 
 namespace Ubora.Web
 {
@@ -33,23 +37,35 @@ namespace Ubora.Web
 
 		public IConfigurationRoot Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services)
-		{
-			// Add framework services.
-			services.AddDbContext<ApplicationDbContext>(options =>
-				options.UseNpgsql(Configuration.GetConnectionString("ApplicationDbConnection")));
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public IServiceProvider ConfigureServices(IServiceCollection services)
+        {
+            var connectionString = Configuration.GetConnectionString("ApplicationDbConnection");
+            
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseNpgsql(connectionString));
+
+            services.AddMvc();
 
 			services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
 				.AddEntityFrameworkStores<ApplicationDbContext, Guid>()
 				.AddDefaultTokenProviders();
 
-			services.AddMvc();
+            // Autofac
+            var containerBuilder = new ContainerBuilder();
 
-			// Add application services.
-			services.AddTransient<IEmailSender, AuthMessageSender>();
-			services.AddTransient<ISmsSender, AuthMessageSender>();
-		}
+            var domainModule = new DomainAutofacModule(connectionString);
+            var webModule = new WebAutofacModule();
+
+            containerBuilder.RegisterModule(domainModule);
+            containerBuilder.RegisterModule(webModule);
+            containerBuilder.Populate(services);
+
+            var container = containerBuilder.Build();
+
+            return new AutofacServiceProvider(container);
+        }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -74,12 +90,21 @@ namespace Ubora.Web
 
 			// Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
-			app.UseMvc(routes =>
-			{
-				routes.MapRoute(
-					name: "default",
-					template: "{controller=Home}/{action=Index}/{id?}");
-			});
-		}
-	}
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "areaRoute",
+                    template: "{area:exists}/{controller}/{action}");
+
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+            }
+        }
+    }
 }

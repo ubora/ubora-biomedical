@@ -11,7 +11,6 @@ namespace Ubora.Domain.Tests
     public abstract class StoreIntegrationFixture : IDisposable
     {
         private Lazy<IDocumentStore> _store;
-        private CultureInfo _originalCulture;
 
         protected StoreIntegrationFixture()
         {
@@ -21,12 +20,6 @@ namespace Ubora.Domain.Tests
             {
                 UseDefaultSchema();
             }
-
-#if NET46
-            _originalCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
-#endif
         }
 
         protected string toJson<T>(T doc)
@@ -52,10 +45,6 @@ namespace Ubora.Domain.Tests
             {
                 _store.Value.Dispose();
             }
-#if NET46
-            Thread.CurrentThread.CurrentCulture = _originalCulture;
-            Thread.CurrentThread.CurrentUICulture = _originalCulture;
-#endif
         }
     }
 

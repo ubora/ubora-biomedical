@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using Marten;
 using Marten.Services;
+using Marten.Services.Events;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Ubora.Domain.Projects.Projections;
+using Ubora.Domain.Projects;
 
-namespace Ubora.Domain
+namespace Ubora.Domain.Infrastructure
 {
     public class UboraStoreOptions
     {
@@ -18,9 +17,13 @@ namespace Ubora.Domain
             serializer.Customize(c => c.ContractResolver = new ResolvePrivateSetters());
             return options =>
             {
+                options.Events.UseAggregatorLookup(AggregationLookupStrategy.UsePrivateApply);
                 options.Serializer(serializer);
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.Add(new WorkpackagesProjection());
+
+                // TODO: Add event types by convention
+                options.Events.AddEventType(typeof(ProjectCreatedEvent));
             };
         }
 

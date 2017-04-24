@@ -5,13 +5,12 @@ using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
 using Marten.Events.Projections.Async;
-using Ubora.Domain.Projects.Events;
 
-namespace Ubora.Domain.Projects.Projections
+namespace Ubora.Domain.Projects
 {
     public class WorkpackagesProjection : IProjection
     {
-        public Type[] Consumes => new[] { typeof(WorkpackageCreated) };
+        public Type[] Consumes => new[] { typeof(WorkpackageCreatedEvent) };
 
         public Type Produces => typeof(Workpackage);
 
@@ -23,10 +22,10 @@ namespace Ubora.Domain.Projects.Projections
             {
                 foreach (var @event in stream.Events)
                 {
-                    if (!(@event.Data is WorkpackageCreated))
+                    if (!(@event.Data is WorkpackageCreatedEvent))
                         continue;
-                    var workpackageEvent = (WorkpackageCreated)@event.Data;
-                    var aggregate = session.Load<Workpackage>(workpackageEvent.Id) ?? new Workpackage();
+                    var workpackageEvent = (WorkpackageCreatedEvent)@event.Data;
+                    var aggregate = session.Load<Workpackage>((Guid) workpackageEvent.Id) ?? new Workpackage();
                     aggregate.Apply((dynamic)@event);
                     session.Store(aggregate);
                 }

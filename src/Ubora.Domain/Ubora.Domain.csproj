@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.5.0" />
     <PackageReference Include="Marten" Version="1.4.1" />
   </ItemGroup>
 
