@@ -1,0 +1,22 @@
+header {
+	align-items: center;
+	display: flex;
+	font-size: 150%;
+	justify-content: space-around;
+	margin:.5em 1em;
+	height: 6vh;
+}
+
+.header-logo {
+	height:6vh;
+}
+
+@media screen and (max-width: 50em) {
+	header {
+		font-size: 120%;
+	}
+
+	.header-action-description {
+		display: none;
+	}
+}

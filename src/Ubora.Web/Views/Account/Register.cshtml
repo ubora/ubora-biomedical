@@ -1,102 +1,82 @@
 ﻿@model RegisterViewModel
 @{
-    ViewData["Title"] = "Create an account";
+    ViewData["Title"] = "Sign up";
 }
 
-<div class="row">
-    <div class="medium-6 small-centered columns">
-        <h2>@ViewData["Title"]</h2>
+<section class="narrow-width">
+    <h2>@ViewData["Title"]</h2>
 
-        <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-vertical">
+    <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="POST">
+        
+        <div asp-validation-summary="All" class="text-danger"></div>
 
-            <section class="user_info">
-                <label>
-                    Name
-                    <input type="text" name="user_fullname" placeholder="Firstname Lastname" >
-                </label>
+        <label>
+            Name
+            <input type="text" name="user_fullname" placeholder="Firstname Lastname">
+        </label>
+        
+        <label>
+            Email address
+            <input asp-for="Email" type="email" placeholder="email@example.com" required>
+        </label>
 
-                <label>
-                    Email address
-                    <input asp-for="Email" type="email" placeholder="email@example.com" required>
-                </label>
+        <label>
+            Password
+            <input asp-for="Password" type="password" placeholder="Secret passphrase" required>
+        </label>
 
-                <label>
-                    Password
-                    <input asp-for="Password" type="password" placeholder="Secret passphrase" required>
-                </label>
+        <label>
+            Password again
+            <input asp-for="ConfirmPassword" type="password" placeholder="Secret passphrase again" required>
+        </label>
 
-                <label>
-                    Password again
-                    <input asp-for="ConfirmPassword" type="password" placeholder="Secret passphrase again" required>
-                </label>
-            </section>
+        <h3>Academia</h3>
+        <label>
+            University
+            <input type="text" name="" placeholder="Name of university">
+        </label>
 
-            <h4>Academia</h4>
-            <!-- <label>
-                <input type="checkbox" name="university_none">
-                I have no academic background
-            </label> -->
+        <label>
+            Degree
+            <input type="text" name="" placeholder="Held/obtaining degree">
+        </label>
 
-            <section class="academia">
-                <label>
-                    University
-                    <input type="text" name="university_name" placeholder="Name of university">
-                </label>
+        <label>
+            Field
+            <input type="text" name="" placeholder="e.g. hardware engineering">
+        </label>
 
-                <label>
-                    Degree
-                    <input type="text" name="university_degree" placeholder="Obtained/obtaining degree">
-                </label>
+        <label>
+            Role
+            <select name="">
+                <option value="placeholder" disabled selected>I am a...</option>
+                <option value="student">Student</option>
+                <option value="professor">Professor</option>
+                <option value="mentor">Mentor</option>
+                <option value="expert">Specialist/Expert</option>
+            </select>
+        </label>
 
-                <label>
-                    Field
-                    <input type="text" name="university_expertise" placeholder="e.g. hardware engineering">
-                </label>
-            </section>
+        <h3>Personal</h3>
+        <label>
+            Bio
+            <textarea name="" rows="5" placeholder="Write a few words about yourself!"></textarea>
+        </label>
 
-            <h4>Personal</h4>
+        <label>
+            Skills
+            <input type="text" name="" placeholder="What are you good at?">
+        </label>
 
-            <section class="misc">
-                <label>
-                    Age
-                    <input type="number" name="user_age" min="18" max="125" placeholder="Your current age">
-                </label>
+        <label>
+            <input type="checkbox" name="">
+            I agree to <a asp-controller="Home" asp-action="Terms">Terms of Service</a>
+        </label>
 
-                <label>
-                    Gender
-                    <select name="user_gender">
-                        <option value="placeholder" disabled selected>You identify as...</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other"><i>Other</i></option>
-                    </select>
-                </label>
+        <button type="submit" class="button primary-button">Create an account</button>
 
-                <label>
-                    Country
-                    <input type="text" name="user_county" placeholder="Country of origin">
-                </label>
-
-                <label>
-                    Bio
-                    <textarea name="user_bio" rows="5" cols="80" placeholder="Write a few words about yourself!"></textarea>
-                </label>
-
-                <section class="user_skills">
-                    <label>
-                        Skills
-                        <input type="text" name="user_skills" placeholder="What are you good at?">
-                    </label>
-                    <div class="user_skill_list"></div>
-                </section>
-
-            </section>
-
-            <button type="submit" class="button large expanded">Create an account</button>
-
-        </form>
-    </div>
-</div>
+    </form>
+</section>
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
