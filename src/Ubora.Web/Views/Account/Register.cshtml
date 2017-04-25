@@ -12,9 +12,14 @@
 
         <label>
             Name
-            <input type="text" name="user_fullname" placeholder="Firstname Lastname">
+            <input asp-for="FirstName" type="text" placeholder="Firstname">
         </label>
         
+        <label>
+            Name
+            <input asp-for="LastName" type="text" placeholder="Lastname">
+        </label>
+
         <label>
             Email address
             <input asp-for="Email" type="email" placeholder="email@example.com" required>
