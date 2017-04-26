@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +6,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Users;
 using Ubora.Web.Models;
 using Ubora.Web.Models.ManageViewModels;
 using Ubora.Web.Services;
@@ -21,6 +23,8 @@ namespace Ubora.Web.Controllers
         private readonly string _externalCookieScheme;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
+        private readonly IQueryProcessor _queryProcessor;
+        private readonly ICommandProcessor _commandProcessor;
         private readonly ILogger _logger;
 
         public ManageController(
@@ -29,18 +33,20 @@ namespace Ubora.Web.Controllers
           IOptions<IdentityCookieOptions> identityCookieOptions,
           IEmailSender emailSender,
           ISmsSender smsSender,
-          ILoggerFactory loggerFactory)
+          ILoggerFactory loggerFactory,
+          IQueryProcessor queryProcessor,
+          ICommandProcessor commandProcessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _emailSender = emailSender;
             _smsSender = smsSender;
+            _queryProcessor = queryProcessor;
+            _commandProcessor = commandProcessor;
             _logger = loggerFactory.CreateLogger<ManageController>();
         }
 
-        //
-        // GET: /Manage/Index
         [HttpGet]
         public async Task<IActionResult> Index(ManageMessageId? message = null)
         {
@@ -58,19 +64,65 @@ namespace Ubora.Web.Controllers
             {
                 return View("Error");
             }
+
+            var userProfile = _queryProcessor.FindById<UserProfile>(user.Id);
+
             var model = new IndexViewModel
             {
                 HasPassword = await _userManager.HasPasswordAsync(user),
                 PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
                 Logins = await _userManager.GetLoginsAsync(user),
-                BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
+                BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user),
+                UserProfile = new UserProfileViewModel
+                {
+                    FirstName = userProfile.FirstName,
+                    LastName = userProfile.LastName,
+                }
             };
             return View(model);
         }
 
-        //
-        // POST: /Manage/RemoveLogin
+        public IActionResult EditProfile()
+        {
+            var userId = _userManager.GetUserId(User);
+            var userProfile = _queryProcessor.FindById<UserProfile>(new Guid(userId));
+            var model = new UserProfileViewModel
+            {
+                FirstName = userProfile.FirstName,
+                LastName = userProfile.LastName,
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EditProfile(UserProfileViewModel model)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+
+            _commandProcessor.Execute(new EditUserProfileCommand
+            {
+                UserId = new Guid(userId),
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                University = model.University,
+                Degree = model.Degree,
+                Field = model.Field,
+                DateOfBirth = model.DateOfBirth,
+                Gender = model.Gender,
+                Country = model.Country,
+                Biography = model.Biography,
+                Skills = model.Skills
+            });
+
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveLogin(RemoveLoginViewModel account)
@@ -89,15 +141,11 @@ namespace Ubora.Web.Controllers
             return RedirectToAction(nameof(ManageLogins), new { Message = message });
         }
 
-        //
-        // GET: /Manage/AddPhoneNumber
         public IActionResult AddPhoneNumber()
         {
             return View();
         }
 
-        //
-        // POST: /Manage/AddPhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
@@ -117,8 +165,6 @@ namespace Ubora.Web.Controllers
             return RedirectToAction(nameof(VerifyPhoneNumber), new { PhoneNumber = model.PhoneNumber });
         }
 
-        //
-        // POST: /Manage/EnableTwoFactorAuthentication
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EnableTwoFactorAuthentication()
@@ -133,8 +179,6 @@ namespace Ubora.Web.Controllers
             return RedirectToAction(nameof(Index), "Manage");
         }
 
-        //
-        // POST: /Manage/DisableTwoFactorAuthentication
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DisableTwoFactorAuthentication()
@@ -149,8 +193,6 @@ namespace Ubora.Web.Controllers
             return RedirectToAction(nameof(Index), "Manage");
         }
 
-        //
-        // GET: /Manage/VerifyPhoneNumber
         [HttpGet]
         public async Task<IActionResult> VerifyPhoneNumber(string phoneNumber)
         {
@@ -164,8 +206,6 @@ namespace Ubora.Web.Controllers
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
 
-        //
-        // POST: /Manage/VerifyPhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
@@ -189,8 +229,6 @@ namespace Ubora.Web.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Manage/RemovePhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemovePhoneNumber()
@@ -208,16 +246,12 @@ namespace Ubora.Web.Controllers
             return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
         }
 
-        //
-        // GET: /Manage/ChangePassword
         [HttpGet]
         public IActionResult ChangePassword()
         {
             return View();
         }
 
-        //
-        // POST: /Manage/ChangePassword
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
@@ -242,16 +276,12 @@ namespace Ubora.Web.Controllers
             return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
         }
 
-        //
-        // GET: /Manage/SetPassword
         [HttpGet]
         public IActionResult SetPassword()
         {
             return View();
         }
 
-        //
-        // POST: /Manage/SetPassword
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SetPassword(SetPasswordViewModel model)
@@ -276,7 +306,6 @@ namespace Ubora.Web.Controllers
             return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
         }
 
-        //GET: /Manage/ManageLogins
         [HttpGet]
         public async Task<IActionResult> ManageLogins(ManageMessageId? message = null)
         {
@@ -300,8 +329,6 @@ namespace Ubora.Web.Controllers
             });
         }
 
-        //
-        // POST: /Manage/LinkLogin
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LinkLogin(string provider)
@@ -315,8 +342,6 @@ namespace Ubora.Web.Controllers
             return Challenge(properties, provider);
         }
 
-        //
-        // GET: /Manage/LinkLoginCallback
         [HttpGet]
         public async Task<ActionResult> LinkLoginCallback()
         {
