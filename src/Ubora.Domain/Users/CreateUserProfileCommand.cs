@@ -11,9 +11,6 @@ namespace Ubora.Domain.Users
         public string University { get; set; }
         public string Degree { get; set; }
         public string Field { get; set; }
-        public DateTime DateOfBirth { get; set; }
-        public Gender Gender { get; set; }
-        public string Country { get; set; }
         public string Biography { get; set; }
         public string Skills { get; set; }
     }

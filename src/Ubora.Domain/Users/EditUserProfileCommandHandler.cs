@@ -21,9 +21,6 @@ namespace Ubora.Domain.Users
             userProfile.University = command.University;
             userProfile.Degree = command.Degree;
             userProfile.Field = command.Field;
-            userProfile.DateOfBirth = command.DateOfBirth;
-            userProfile.Gender = command.Gender;
-            userProfile.Country = command.Country;
             userProfile.Biography = command.Biography;
             userProfile.Skills = command.Skills;
 

@@ -19,6 +19,7 @@ Recipe:
 
 ## Running UBORA on Atom *(and potentially on other platforms!)*
 Under `.atom` folder, there exists `terminal-commands.json` file which you can use with terminal integration to run tasks.
+When changing branches, it is generally a good idea to do a `bower install` *(and npm install for task runners but dependencies should not change often)*.
 
 ## Tasks:
 - `restore` *for restoring all NuGet and .NETCore dependencies (alias for `dotnet restore`)*

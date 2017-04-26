@@ -42,7 +42,6 @@ namespace Ubora.Web
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("ApplicationDbConnection");
-            
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString));

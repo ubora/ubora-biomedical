@@ -124,16 +124,13 @@ namespace Ubora.Web.Controllers
 			        _commandProcessor.Execute(new CreateUserProfileCommand
 			        {
 			            UserId = user.Id,
-                        //Biography = model.Biography,
-                        //Country = model.Country,
-                        //DateOfBirth = model.DateOfBirth,
-                        //Degree = model.Degree,
-                        //Field = model.Field,
+                        Biography = model.Biography,
+                        Degree = model.Degree,
+                        Field = model.Field,
                         FirstName = model.FirstName,
-                        //Gender = model.Gender,
                         LastName = model.LastName,
-                        //Skills = model.Skills,
-                        //University = model.University
+                        Skills = model.Skills,
+                        University = model.University
                     });
 
 					// For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713

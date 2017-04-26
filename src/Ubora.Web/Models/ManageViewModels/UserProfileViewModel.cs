@@ -1,11 +1,7 @@
-﻿using System;
-using Ubora.Domain.Infrastructure.Commands;
-
-namespace Ubora.Domain.Users
+﻿namespace Ubora.Web.Models.ManageViewModels
 {
-    public class EditUserProfileCommand : ICommand
+    public class UserProfileViewModel
     {
-        public Guid UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string University { get; set; }

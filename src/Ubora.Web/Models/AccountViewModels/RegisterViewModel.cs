@@ -1,7 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Ubora.Domain;
-using Ubora.Domain.Users;
 
 namespace Ubora.Web.Models.AccountViewModels
 {
@@ -23,15 +21,23 @@ namespace Ubora.Web.Models.AccountViewModels
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
+        [Required]
         public string FirstName { get; set; }
+
+        [Required]
         public string LastName { get; set; }
+
         public string University { get; set; }
+
         public string Degree { get; set; }
+
         public string Field { get; set; }
-        public DateTime DateOfBirth { get; set; }
-        public Gender Gender { get; set; }
-        public string Country { get; set; }
+
         public string Biography { get; set; }
+
         public string Skills { get; set; }
+
+        [Required]
+        public bool IsAgreedToTermsOfService { get; set; }
     }
 }

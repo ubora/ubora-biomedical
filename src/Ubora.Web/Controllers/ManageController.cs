@@ -87,11 +87,18 @@ namespace Ubora.Web.Controllers
         {
             var userId = _userManager.GetUserId(User);
             var userProfile = _queryProcessor.FindById<UserProfile>(new Guid(userId));
+
             var model = new UserProfileViewModel
             {
                 FirstName = userProfile.FirstName,
                 LastName = userProfile.LastName,
+                University = userProfile.University,
+                Degree = userProfile.Degree,
+                Field = userProfile.Field,
+                Biography = userProfile.Biography,
+                Skills = userProfile.Skills
             };
+
             return View(model);
         }
 
@@ -102,7 +109,7 @@ namespace Ubora.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Index");
+                return View(model);
             }
 
             _commandProcessor.Execute(new EditUserProfileCommand
@@ -113,9 +120,6 @@ namespace Ubora.Web.Controllers
                 University = model.University,
                 Degree = model.Degree,
                 Field = model.Field,
-                DateOfBirth = model.DateOfBirth,
-                Gender = model.Gender,
-                Country = model.Country,
                 Biography = model.Biography,
                 Skills = model.Skills
             });
