@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 using Ubora.Web.Areas.Projects.Controllers.Shared;
@@ -12,11 +13,13 @@ namespace Ubora.Web.Areas.Projects.Controllers
     {
         private readonly IQueryProcessor _queryProcessor;
         private readonly IEventStreamQuery _eventStreamQuery;
+        private readonly ICommandProcessor _commandProcessor;
 
-        public DashboardController(IQueryProcessor queryProcessor, IEventStreamQuery eventStreamQuery)
+        public DashboardController(IQueryProcessor queryProcessor, IEventStreamQuery eventStreamQuery, ICommandProcessor commandProcessor)
         {
             _queryProcessor = queryProcessor;
             _eventStreamQuery = eventStreamQuery;
+            _commandProcessor = commandProcessor;
         }
 
         [Route("projects/{id:guid}")]
@@ -29,12 +32,21 @@ namespace Ubora.Web.Areas.Projects.Controllers
             var viewModel = new DashboardViewModel
             {
                 EventStream = eventStream.Select(x => x.ToString()),
-                Name = project.Name,
+                Name = project.Title,
                 Id = project.Id,
-                //Members = project.Members.Select(x => x.)
+                ProjectData = Newtonsoft.Json.JsonConvert.SerializeObject(project)
             };
 
             return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult DoWorkpackageOne(WorkPackageOneViewModel model)
+        {
+            var command = new EditProductSpecificationCommand
+            {
+
+            };
         }
     }
 }

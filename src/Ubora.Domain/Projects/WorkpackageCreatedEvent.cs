@@ -14,7 +14,7 @@ namespace Ubora.Domain.Projects
             Name = name;
         }
 
-        public override string Description()
+        public override string GetDescription()
         {
             return $"Workpackage added \"{Name}\"";
         }

@@ -14,7 +14,8 @@ namespace Ubora.Domain.Projects
 
         public ICommandResult Handle(CreateProjectCommand command)
         {
-            _documentSession.Events.Append(command.Id, new ProjectCreatedEvent(command.Name, command.UserInfo));
+            var @event = new ProjectCreatedEvent(command.UserInfo, command.Title, command.Description, command.ClinicalNeed, command.AreaOfUsage, command.PotentialTechnology, command.GmdnTerm, command.GmdnDefinition, command.GmdnCode);
+            _documentSession.Events.Append(command.Id, @event);
             _documentSession.SaveChanges();
 
             return new CommandResult(true);

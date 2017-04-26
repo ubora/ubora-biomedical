@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Ubora.Web.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User)) {
+<!-- <a asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+<button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button> -->
+} else {
+	<header>
+		<a asp-controller="Home" asp-action="Index">
+			<img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
+		</a>
+
+		<a asp-controller="Account" asp-action="SignInSignUp">Sign in/sign up</a>
+
+		<a class="header-action" asp-controller="Home" asp-action="Search">
+			<i class="header-action-icon material-icons">search</i>
+			<span class="header-action-description">Search</span>
+		</a>
+	</header>
+}

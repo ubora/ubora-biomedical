@@ -23,7 +23,7 @@ namespace Ubora.Web.Areas.Projects.Controllers
 
             var viewModel = new ListViewModel
             {
-                Projects = projects.Select(x => new ListItemViewModel { Id = x.Id, Name = x.Name })
+                Projects = projects.Select(x => new ListItemViewModel { Id = x.Id, Name = x.Title })
             };
 
             return View(viewModel);

@@ -10,11 +10,11 @@ namespace Ubora.Domain.Infrastructure.Events
         }
         public UserInfo Creator { get; }
 
-        public abstract string Description();
+        public abstract string GetDescription();
 
         public override string ToString()
         {
-            return $"\"{Creator.Name}\": {Description()}";
+            return $"\"{Creator.Name}\": {GetDescription()}";
         }
     }
 }

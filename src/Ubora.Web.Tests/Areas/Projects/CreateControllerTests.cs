@@ -19,7 +19,7 @@ namespace Ubora.Web.Tests.Areas.Projects
 
             var model = new CreatePostModel
             {
-                Name = "TestProjectName"
+                Title = "TestProjectName"
             };
 
             // Act

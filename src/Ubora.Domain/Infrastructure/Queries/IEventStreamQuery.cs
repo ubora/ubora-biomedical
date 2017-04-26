@@ -24,7 +24,7 @@ namespace Ubora.Domain.Infrastructure.Queries
         {
             var uboraEventStream = _eventStore.FetchStream(streamId);
 
-            var uboraEvents = Enumerable.Select<IEvent, UboraEvent>(uboraEventStream, x => (UboraEvent)x.Data);
+            var uboraEvents = uboraEventStream.Select(x => (UboraEvent)x.Data);
 
             return uboraEvents;
         }

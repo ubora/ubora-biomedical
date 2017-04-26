@@ -24,7 +24,14 @@ namespace Ubora.Domain.Tests.Projects
             var command = new CreateProjectCommand
             {
                 Id = Guid.NewGuid(),
-                Name = "ProjectName",
+                Title = "ProjectName",
+                AreaOfUsage = "expectedAreaOfUsage",
+                ClinicalNeed = "expectedClinicalNeed",
+                Description = "expectedDescription",
+                GmdnCode = "expectedGmdnCode",
+                GmdnDefinition = "expectedGmdnDefinition",
+                GmdnTerm = "expectedGmdnTerm",
+                PotentialTechnology = "expectedPotentialTechnology",
                 UserInfo = new UserInfo(Guid.NewGuid(), "")
             };
 
@@ -46,7 +53,15 @@ namespace Ubora.Domain.Tests.Projects
         {
             var project = Session.Load<Project>(command.Id);
             project.Should().NotBeNull();
-            project.Name.Should().Be(command.Name);
+
+            project.Title.Should().Be(command.Title);
+            project.AreaOfUsage.Should().Be("expectedAreaOfUsage");
+            project.ClinicalNeed.Should().Be("expectedClinicalNeed");
+            project.Description.Should().Be("expectedDescription");
+            project.GmdnCode.Should().Be("expectedGmdnCode");
+            project.GmdnDefinition.Should().Be("expectedGmdnDefinition");
+            project.GmdnTerm.Should().Be("expectedGmdnTerm");
+            project.PotentialTechnology.Should().Be("expectedPotentialTechnology");
         }
 
         private void Then_Creator_Should_Be_First_Member(CreateProjectCommand command)

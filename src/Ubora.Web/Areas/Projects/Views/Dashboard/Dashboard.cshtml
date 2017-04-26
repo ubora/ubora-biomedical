@@ -14,10 +14,88 @@ Events:
     }
 </ul>
 
-Members:
-<ul>
-    @foreach (var member in Model.Members)
-    {
-        <li>@member</li>
-    }
-</ul>
+Data:
+@Model.ProjectData
+
+@{
+    ViewData["Title"] = "Project proposal";
+}
+
+<section class="medium-width">
+    <h1 class="full-width">Project proposal</h1>
+
+    <form>
+        <h3>Project summary</h3>
+        <label>
+            Project title
+            <input type="text" placeholder="Nanomedical syringe" disabled>
+        </label>
+
+        <label>
+            Project description
+            <textarea rows="8" placeholder="Well, this is my awesome BME project where I want to make a 'nanomedical' syringe - oh my god, it's just gonna be the best thing eveeer!" disabled></textarea>
+        </label>
+
+        <h3>Description of need</h3>
+        <label>
+            <textarea rows="8" placeholder="Explain the need for this project in greater detail..."></textarea>
+        </label>
+
+        <h3>Description of existing solutions and analysis</h3>
+        <label>
+            <textarea rows="8" placeholder="Please provide an overview of existing solutions with included analysis compared to your project..."></textarea>
+        </label>
+
+        <h3>Product specification</h3>
+        <label>
+            <h4>Functionality</h4>
+            <textarea rows="8" placeholder="What are the main functions of your product?"></textarea>
+        </label>
+
+        <label>
+            <h4>Performance</h4>
+            <textarea rows="8" placeholder="How do you measure your device performance?"></textarea>
+        </label>
+
+        <label>
+            <h4>Usability</h4>
+            <textarea rows="8" placeholder="How and where will this product be used? Under which conditions?"></textarea>
+        </label>
+
+        <label>
+            <h4>Safety</h4>
+            <textarea rows="8" placeholder="How do you guarantee safety?"></textarea>
+        </label>
+
+        <h3>Target groups</h3>
+        <label>
+            <h4>Patients</h4>
+            <textarea rows="8" placeholder="On which patients will this be used?"></textarea>
+        </label>
+
+        <label>
+            <h4>End-users</h4>
+            <textarea rows="8" placeholder="Who are going to be the end-users and how they will use it?"></textarea>
+        </label>
+
+        <h3>Additional information</h3>
+        <label>
+            Documents, files, images etc.
+            <textarea rows="8" placeholder="Additional information"></textarea>
+            <br>
+            Choose file(s)
+            <!-- TODO: RK - design this ugly field into something more beautiful! -->
+            <input type="file">
+        </label>
+
+        <h3>Device classification</h3>
+        <!-- TODO: This will open a modal, where the user can identify and/or classify his/her device -->
+        <button class="button button-secondary">Classify your device</button>
+
+        <h3>ISO standards and regulation checklist</h3>
+        <!-- TODO: I actually have no idea what should go here... -->
+
+        <br>
+        <button class="button primary-button" type="submit">Propose project</button>
+    </form>
+</section>

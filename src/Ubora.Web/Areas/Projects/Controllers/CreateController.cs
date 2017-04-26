@@ -35,7 +35,14 @@ namespace Ubora.Web.Areas.Projects.Controllers
             var command = new CreateProjectCommand
             {
                 Id = projectId,
-                Name = model.Name,
+                Title = model.Title,
+                Description = model.Description,
+                AreaOfUsage = model.AreaOfUsage,
+                GmdnCode = model.GmdnCode,
+                ClinicalNeed = model.ClinicalNeed,
+                GmdnDefinition = model.GmdnDefinition,
+                GmdnTerm = model.GmdnTerm,
+                PotentialTechnology = model.PotentialTechnology,
                 UserInfo = new UserInfo(Guid.NewGuid(), "todo")
             };
             Execute(command);

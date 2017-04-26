@@ -1,25 +1,58 @@
 @model Ubora.Web.Areas.Projects.Views.Create.CreateViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Project drafting";
 }
 
-<h2>Project creation</h2>
+<section class="medium-width">
+    <h1 class="full-width">Project draft</h1>
 
-<form asp-controller="Create" asp-action="Create" method="post" class="form-horizontal">
-    <h4>Name your project:</h4>
-    <hr />
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Name" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn btn-default">Create</button>
-        </div>
-    </div>
-</form>
+    <form asp-controller="Create" asp-action="Create" method="post">
+        <h3>Project summary</h3>
+        <label>
+            Project title
+            <input asp-for="Title" placeholder="What's the name of your project?">
+        </label>
+
+        <label>
+            Project description
+            <textarea asp-for="Description" rows="8" placeholder="Describe your project idea briefly..."></textarea>
+        </label>
+
+        <h3>TODO: How to call this section?</h3>
+        <label>
+            Clinical need
+            <textarea asp-for="ClinicalNeed" rows="8" placeholder="What is the clinical need?"></textarea>
+        </label>
+
+        <label>
+            Area of usage
+            <textarea asp-for="AreaOfUsage" rows="8" placeholder="Where and how will your project be used?"></textarea>
+        </label>
+
+        <label>
+            Potential technology
+            <textarea asp-for="PotentialTechnology" rows="8" placeholder="Describe potential technologies used in your project..."></textarea>
+        </label>
+
+        <h3>Initial GMDN tags</h3>
+        <!-- Referenced from: http://www.gs1.org/docs/healthcare/Tues_10h15_MarkWasmuth_GMDN.pdf slide 8 -->
+        <label>
+            Term name
+            <input asp-for="GmdnTerm" placeholder="e.g. General-purpose syringe">
+        </label>
+
+        <label>
+            Definition
+            <textarea asp-for="GmdnDefinition" placeholder="Definition" disabled></textarea>
+        </label>
+
+        <label>
+            Code
+            <input asp-for="GmdnCode" placeholder="GMDN classification code">
+        </label>
+
+        <br>
+        <button class="button primary-button" type="submit">Propose project</button>
+    </form>
+</section>
