@@ -112,7 +112,7 @@ namespace Ubora.Web.Controllers
                 return View(model);
             }
 
-            _commandProcessor.Execute(new EditUserProfileCommand
+            var command = new EditUserProfileCommand
             {
                 UserId = new Guid(userId),
                 FirstName = model.FirstName,
@@ -122,7 +122,8 @@ namespace Ubora.Web.Controllers
                 Field = model.Field,
                 Biography = model.Biography,
                 Skills = model.Skills
-            });
+            };
+            _commandProcessor.Execute(command);
 
             return RedirectToAction("Index");
         }

@@ -48,7 +48,7 @@ namespace Ubora.Web
 
             services.AddMvc();
 
-			services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(o =>
+			services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
 			    {
 			        o.Password.RequireNonAlphanumeric = false;
 			    })
