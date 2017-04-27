@@ -15,6 +15,7 @@ namespace Ubora.Domain.Tests
 
             var module = new DomainAutofacModule(ConnectionSource.ConnectionString);
             builder.RegisterModule(module);
+            //module.RegisterAutoMapperWithProfiles(builder);
 
             // Override DocumentStore registration (last is used)
             builder.RegisterInstance((DocumentStore)theStore).SingleInstance();

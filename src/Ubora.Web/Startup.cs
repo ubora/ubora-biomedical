@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -42,7 +43,6 @@ namespace Ubora.Web
         {
             var connectionString = Configuration.GetConnectionString("ApplicationDbConnection");
             
-
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString));
 
@@ -57,6 +57,8 @@ namespace Ubora.Web
 
             var domainModule = new DomainAutofacModule(connectionString);
             var webModule = new WebAutofacModule();
+
+            services.AddAutoMapper(cfg => domainModule.AddAutoMapperProfiles(cfg));
 
             containerBuilder.RegisterModule(domainModule);
             containerBuilder.RegisterModule(webModule);

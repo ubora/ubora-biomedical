@@ -39,14 +39,5 @@ namespace Ubora.Web.Areas.Projects.Controllers
 
             return View(viewModel);
         }
-
-        [HttpPost]
-        public IActionResult DoWorkpackageOne(WorkPackageOneViewModel model)
-        {
-            var command = new EditProductSpecificationCommand
-            {
-
-            };
-        }
     }
 }

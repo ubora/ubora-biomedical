@@ -32,7 +32,7 @@ namespace Ubora.Domain.Projects
             GmdnTerm = e.GmdnTerm;
             PotentialTechnology = e.PotentialTechnology;
 
-            var userId = e.Creator.UserId;
+            var userId = e.InitiatedBy.UserId;
             var leader = new ProjectLeader(userId);
 
             _members.Add(leader);

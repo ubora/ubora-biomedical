@@ -4,26 +4,18 @@ namespace Ubora.Domain.Projects
 {
     public class ProjectCreatedEvent : UboraEvent 
     {
-        public string Title { get; }
-        public string Description { get; }
-        public string ClinicalNeed { get; }
-        public string AreaOfUsage { get; }
-        public string PotentialTechnology { get; }
-        public string GmdnTerm { get; }
-        public string GmdnDefinition { get; }
-        public string GmdnCode { get; }
-
-        public ProjectCreatedEvent(UserInfo creator, string title, string description, string clinicalNeed, string areaOfUsage, string potentialTechnology, string gmdnTerm, string gmdnDefinition, string gmdnCode) : base(creator)
+        public ProjectCreatedEvent(UserInfo initiatedBy) : base(initiatedBy)
         {
-            Title = title;
-            Description = description;
-            ClinicalNeed = clinicalNeed;
-            AreaOfUsage = areaOfUsage;
-            PotentialTechnology = potentialTechnology;
-            GmdnTerm = gmdnTerm;
-            GmdnDefinition = gmdnDefinition;
-            GmdnCode = gmdnCode;
         }
+
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string ClinicalNeed { get; set; }
+        public string AreaOfUsage { get; set; }
+        public string PotentialTechnology { get; set; }
+        public string GmdnTerm { get; set; }
+        public string GmdnDefinition { get; set; }
+        public string GmdnCode { get; set; }
 
         public override string GetDescription()
         {

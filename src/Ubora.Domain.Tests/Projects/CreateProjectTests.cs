@@ -23,7 +23,7 @@ namespace Ubora.Domain.Tests.Projects
         {
             var command = new CreateProjectCommand
             {
-                Id = Guid.NewGuid(),
+                ProjectId = Guid.NewGuid(),
                 Title = "ProjectName",
                 AreaOfUsage = "expectedAreaOfUsage",
                 ClinicalNeed = "expectedClinicalNeed",
@@ -51,7 +51,7 @@ namespace Ubora.Domain.Tests.Projects
 
         private void Then_Project_Should_Be_Created(CreateProjectCommand command)
         {
-            var project = Session.Load<Project>(command.Id);
+            var project = Session.Load<Project>(command.ProjectId);
             project.Should().NotBeNull();
 
             project.Title.Should().Be(command.Title);
@@ -66,7 +66,7 @@ namespace Ubora.Domain.Tests.Projects
 
         private void Then_Creator_Should_Be_First_Member(CreateProjectCommand command)
         {
-            var project = Session.Load<Project>(command.Id);
+            var project = Session.Load<Project>(command.ProjectId);
             var onlyMember = project.Members.Single();
             onlyMember.As<ProjectLeader>().UserId.Should().Be(command.UserInfo.UserId);
         }

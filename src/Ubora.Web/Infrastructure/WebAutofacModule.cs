@@ -8,8 +8,6 @@ namespace Ubora.Web.Infrastructure
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<AuthMessageSender>().As<IEmailSender>().As<ISmsSender>().InstancePerLifetimeScope();
-
-            base.Load(builder);
         }
     }
 }

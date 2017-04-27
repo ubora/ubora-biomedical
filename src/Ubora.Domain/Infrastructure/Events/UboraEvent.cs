@@ -4,17 +4,18 @@ namespace Ubora.Domain.Infrastructure.Events
 {
     public abstract class UboraEvent
     {
-        protected UboraEvent(UserInfo creator)
+        protected UboraEvent(UserInfo initiatedBy)
         {
-            Creator = creator ?? throw new ArgumentNullException(nameof(creator));
+            InitiatedBy = initiatedBy ?? throw new ArgumentNullException(nameof(initiatedBy));
         }
-        public UserInfo Creator { get; }
+
+        public UserInfo InitiatedBy { get; }
 
         public abstract string GetDescription();
 
         public override string ToString()
         {
-            return $"\"{Creator.Name}\": {GetDescription()}";
+            return $"\"{InitiatedBy.Name}\": {GetDescription()}";
         }
     }
 }

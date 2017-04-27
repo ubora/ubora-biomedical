@@ -9,7 +9,7 @@ namespace Ubora.Domain.Projects
 
         public string Name { get; }
 
-        public WorkpackageCreatedEvent(string name, UserInfo creator) : base(creator)
+        public WorkpackageCreatedEvent(string name, UserInfo initiatedBy) : base(initiatedBy)
         {
             Name = name;
         }

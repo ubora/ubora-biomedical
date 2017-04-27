@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
@@ -37,7 +35,7 @@ namespace Ubora.Domain.Projects
         public string Usability { get; set; }
         public string Safety { get; set; }
 
-        public ProductSpecificationEditedEvent(UserInfo creator) : base(creator)
+        public ProductSpecificationEditedEvent(UserInfo initiatedBy) : base(initiatedBy)
         {
         }
 

@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using AutoMapper;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Infrastructure.Commands;
@@ -15,7 +16,7 @@ namespace Ubora.Web.Tests.Areas.Projects
         {
             var commandProcessorMock = new Mock<ICommandProcessor>();
 
-            var controller = new CreateController(commandProcessorMock.Object);
+            var controller = new CreateController(commandProcessorMock.Object, Mock.Of<IMapper>());
 
             var model = new CreatePostModel
             {

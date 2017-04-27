@@ -1,4 +1,5 @@
 using System;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
@@ -11,10 +12,12 @@ namespace Ubora.Web.Areas.Projects.Controllers
     public class CreateController : ProjectsController
     {
         private readonly ICommandProcessor _commandProcessor;
+        private readonly IMapper _mapper;
 
-        public CreateController(ICommandProcessor commandProcessor)
+        public CreateController(ICommandProcessor commandProcessor, IMapper mapper)
         {
             _commandProcessor = commandProcessor;
+            _mapper = mapper;
         }
 
         [HttpGet("projects/create")]
@@ -34,23 +37,12 @@ namespace Ubora.Web.Areas.Projects.Controllers
             var projectId = Guid.NewGuid();
             var command = new CreateProjectCommand
             {
-                Id = projectId,
-                Title = model.Title,
-                Description = model.Description,
-                AreaOfUsage = model.AreaOfUsage,
-                GmdnCode = model.GmdnCode,
-                ClinicalNeed = model.ClinicalNeed,
-                GmdnDefinition = model.GmdnDefinition,
-                GmdnTerm = model.GmdnTerm,
-                PotentialTechnology = model.PotentialTechnology,
-                UserInfo = new UserInfo(Guid.NewGuid(), "todo")
+                ProjectId = projectId,
+                UserInfo = new UserInfo(Guid.NewGuid(), "")
             };
-            Execute(command);
+            _mapper.Map(model, command);
 
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("Create");
-            }
+            Execute(command);
 
             return RedirectToAction("Dashboard", "Dashboard", new { id = projectId });
         }

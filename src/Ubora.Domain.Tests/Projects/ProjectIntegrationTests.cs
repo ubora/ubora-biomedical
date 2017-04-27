@@ -23,7 +23,7 @@ namespace Ubora.Domain.Tests.Projects
 
             // Act
             Session.Events.StartStream<Project>(projectId,
-                new ProjectCreatedEvent(user, "My test project", "", "", "", "", "", "", ""),
+                new ProjectCreatedEvent(user) { Title = "My test project" },
                 new WorkpackageCreatedEvent("WP 1", user),
                 new WorkpackageCreatedEvent("WP 2", user));
             Session.SaveChanges();
