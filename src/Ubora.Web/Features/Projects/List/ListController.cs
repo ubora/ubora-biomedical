@@ -2,12 +2,10 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
-using Ubora.Web.Areas.Projects.Controllers.Shared;
-using Ubora.Web.Areas.Projects.Views.List;
 
-namespace Ubora.Web.Areas.Projects.Controllers
+namespace Ubora.Web.Features.Projects.List
 {
-    public class ListController : ProjectsController
+    public class ListController : Controller
     {
         private readonly IQueryProcessor _query;
 
@@ -16,7 +14,6 @@ namespace Ubora.Web.Areas.Projects.Controllers
             _query = query;
         }
 
-        [Route("projects")]
         public IActionResult List()
         {
             var projects = _query.Find<Project>();

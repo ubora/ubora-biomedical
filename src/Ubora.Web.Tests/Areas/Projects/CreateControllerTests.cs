@@ -3,8 +3,8 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Web.Areas.Projects.Controllers;
-using Ubora.Web.Areas.Projects.Views.Create;
+using Ubora.Web.Features.Projects.Create;
+using Ubora.Web.Features.Projects.Dashboard;
 using Xunit;
 
 namespace Ubora.Web.Tests.Areas.Projects

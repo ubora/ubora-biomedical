@@ -4,12 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
-using Ubora.Web.Areas.Projects.Controllers.Shared;
-using Ubora.Web.Areas.Projects.Views.Create;
 
-namespace Ubora.Web.Areas.Projects.Controllers
+namespace Ubora.Web.Features.Projects.Create
 {
-    public class CreateController : ProjectsController
+    public class CreateController : Controller
     {
         private readonly ICommandProcessor _commandProcessor;
         private readonly IMapper _mapper;
@@ -20,13 +18,11 @@ namespace Ubora.Web.Areas.Projects.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("projects/create")]
         public IActionResult Create()
         {
             return View();
         }
 
-        [HttpPost("projects/create")]
         public IActionResult Create(CreatePostModel model)
         {
             if (!ModelState.IsValid)

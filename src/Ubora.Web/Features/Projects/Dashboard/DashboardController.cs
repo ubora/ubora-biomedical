@@ -4,12 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
-using Ubora.Web.Areas.Projects.Controllers.Shared;
-using Ubora.Web.Areas.Projects.Views.Dashboard;
 
-namespace Ubora.Web.Areas.Projects.Controllers
+namespace Ubora.Web.Features.Projects.Dashboard
 {
-    public class DashboardController : ProjectsController
+    public class DashboardController : Controller
     {
         private readonly IQueryProcessor _queryProcessor;
         private readonly IEventStreamQuery _eventStreamQuery;
@@ -22,7 +20,6 @@ namespace Ubora.Web.Areas.Projects.Controllers
             _commandProcessor = commandProcessor;
         }
 
-        [Route("projects/{id:guid}")]
         public IActionResult Dashboard(Guid id)
         {
             var project = _queryProcessor.FindById<Project>(id);

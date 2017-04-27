@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Ubora.Web.Areas.Projects.Views.List
+namespace Ubora.Web.Features.Projects.List
 {
     public class ListViewModel
     {

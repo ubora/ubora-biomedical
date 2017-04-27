@@ -46,7 +46,8 @@ namespace Ubora.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString));
 
-            services.AddMvc();
+            services.AddMvc()
+                .AddUboraFeatureFolders();
 
 			services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
 				.AddEntityFrameworkStores<ApplicationDbContext, Guid>()

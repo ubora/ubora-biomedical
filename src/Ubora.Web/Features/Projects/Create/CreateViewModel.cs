@@ -1,4 +1,4 @@
-﻿namespace Ubora.Web.Areas.Projects.Views.Create
+﻿namespace Ubora.Web.Features.Projects.Create
 {
     public class CreateViewModel : CreatePostModel
     {
