@@ -17,81 +17,79 @@ using Ubora.Web.Models;
 
 namespace Ubora.Web
 {
-	public class Startup
-	{
-		public Startup(IHostingEnvironment env)
-		{
-			var builder = new ConfigurationBuilder()
-				.SetBasePath(env.ContentRootPath)
-				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+    public class Startup
+    {
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
-			if (env.IsDevelopment())
-			{
-				// For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
-				builder.AddUserSecrets<Startup>();
-			}
+            if (env.IsDevelopment())
+            {
+                // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
+                builder.AddUserSecrets<Startup>();
+            }
 
-			builder.AddEnvironmentVariables();
-			Configuration = builder.Build();
-		}
+            builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
+        }
 
-		public IConfigurationRoot Configuration { get; }
+        public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("ApplicationDbConnection");
-            
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString));
 
             services.AddMvc()
                 .AddUboraFeatureFolders();
 
-			services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
-				.AddEntityFrameworkStores<ApplicationDbContext, Guid>()
-				.AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+                .AddEntityFrameworkStores<ApplicationDbContext, Guid>()
+                .AddDefaultTokenProviders();
 
-            // Autofac
-            var containerBuilder = new ContainerBuilder();
+            var autofacContainerBuilder = new ContainerBuilder();
 
             var domainModule = new DomainAutofacModule(connectionString);
             var webModule = new WebAutofacModule();
+            autofacContainerBuilder.RegisterModule(domainModule);
+            autofacContainerBuilder.RegisterModule(webModule);
 
             services.AddAutoMapper(cfg => domainModule.AddAutoMapperProfiles(cfg));
 
-            containerBuilder.RegisterModule(domainModule);
-            containerBuilder.RegisterModule(webModule);
-            containerBuilder.Populate(services);
-
-            var container = containerBuilder.Build();
+            autofacContainerBuilder.Populate(services);
+            var container = autofacContainerBuilder.Build();
 
             return new AutofacServiceProvider(container);
         }
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-		{
-			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-			loggerFactory.AddDebug();
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
 
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-				app.UseDatabaseErrorPage();
-				app.UseBrowserLink();
-			}
-			else
-			{
-				app.UseExceptionHandler("/Home/Error");
-			}
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+                app.UseBrowserLink();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
 
-			app.UseStaticFiles();
+            app.UseStaticFiles();
 
-			app.UseIdentity();
+            app.UseIdentity();
 
-			// Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
+            // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>
             {

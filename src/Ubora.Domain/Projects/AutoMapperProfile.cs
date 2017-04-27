@@ -6,7 +6,8 @@ namespace Ubora.Domain.Projects
     {
         public AutoMapperProfile()
         {
-            CreateMap<CreateProjectCommand, ProjectCreatedEvent>();
+            CreateMap<CreateProjectCommand, ProjectCreatedEvent>()
+                .DisableCtorValidation();
         }
     }
 }

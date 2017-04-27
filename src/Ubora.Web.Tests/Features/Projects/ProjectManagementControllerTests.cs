@@ -28,7 +28,7 @@ namespace Ubora.Web.Tests.Features.Projects
 
             // Assert
             result.As<RedirectToActionResult>().ActionName.Should().Be(nameof(ProjectManagementController.Index));
-            result.As<RedirectToActionResult>().ControllerName.Should().Be("Project");
+            result.As<RedirectToActionResult>().ControllerName.Should().Be("ProjectManagement");
         }
     }
 }

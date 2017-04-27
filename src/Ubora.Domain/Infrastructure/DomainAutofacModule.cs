@@ -13,11 +13,6 @@ namespace Ubora.Domain.Infrastructure
     {
         private readonly string _connectionString;
 
-        public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)
-        {
-            cfg.AddProfiles(ThisAssembly);
-        }
-
         public DomainAutofacModule(string connectionString)
         {
             _connectionString = connectionString;
@@ -41,15 +36,11 @@ namespace Ubora.Domain.Infrastructure
             builder.RegisterType<EventStreamQuery>().As<IEventStreamQuery>().InstancePerLifetimeScope();
             builder.RegisterType<CommandQueryProcessor>().As<ICommandProcessor>().As<IQueryProcessor>().As<ICommandQueryProcessor>().InstancePerLifetimeScope();
             builder.RegisterType<CreateProjectCommandHandler>().As<ICommandHandler<CreateProjectCommand>>().InstancePerLifetimeScope();
-
-            //RegisterAutoMapperWithProfiles(builder);
         }
 
-        public void RegisterAutoMapperWithProfiles(ContainerBuilder builder)
+        public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)
         {
-            var config = new MapperConfiguration(cfg => AddAutoMapperProfiles(cfg));
-            builder.RegisterInstance(config).SingleInstance();
-            builder.Register(context => new Mapper(config, context.Resolve)).As<IMapper>().InstancePerLifetimeScope();
+            cfg.AddProfiles(ThisAssembly);
         }
     }
 }
