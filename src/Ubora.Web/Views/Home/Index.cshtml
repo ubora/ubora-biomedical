@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Ubora.Web.Features.Projects
+@{
 	ViewData["Title"] = "Welcome";
 }
 
@@ -19,62 +20,7 @@
 </section>
 
 <section class="projects">
-	<h2 class="full-width">Public projects</h2>
-	<project-card
-		banner="//placehold.it/400x150"
-		title="Example project"
-		author="John Smith"
-		authorimage="//placehold.it/50x50"
-		funded="75%"
-		pledged="1,000,000$"
-		completed="100%"
-		timeremaining="365">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
-	</project-card>
-	<project-card
-		banner="//placehold.it/400x150"
-		title="Example project"
-		author="John Smith"
-		authorimage="//placehold.it/50x50"
-		funded="75%"
-		pledged="1,000,000$"
-		completed="100%"
-		timeremaining="365">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
-	</project-card>
-	<project-card
-		banner="//placehold.it/400x150"
-		title="Example project"
-		author="John Smith"
-		authorimage="//placehold.it/50x50"
-		funded="75%"
-		pledged="1,000,000$"
-		completed="100%"
-		timeremaining="365">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
-	</project-card>
-	<project-card
-		banner="//placehold.it/400x150"
-		title="Example project"
-		author="John Smith"
-		authorimage="//placehold.it/50x50"
-		funded="75%"
-		pledged="1,000,000$"
-		completed="100%"
-		timeremaining="365">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
-	</project-card>
-	<project-card
-		banner="//placehold.it/400x150"
-		title="Example project"
-		author="John Smith"
-		authorimage="//placehold.it/50x50"
-		funded="75%"
-		pledged="1,000,000$"
-		completed="100%"
-		timeremaining="365">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
-	</project-card>
+	@await Component.InvokeAsync(typeof(ListViewComponent))
 	<project-card
 		banner="//placehold.it/400x150"
 		title="Example project"

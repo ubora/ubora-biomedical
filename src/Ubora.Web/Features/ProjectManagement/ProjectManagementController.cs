@@ -22,7 +22,7 @@ namespace Ubora.Web.Features.ProjectManagement
 
         public IActionResult Index(Guid id)
         {
-            return RedirectToAction(nameof(Dashboard), id);
+            return RedirectToAction(nameof(Dashboard), new { id });
         }
 
         public IActionResult Dashboard(Guid id)
