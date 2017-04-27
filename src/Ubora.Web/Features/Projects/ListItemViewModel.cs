@@ -1,6 +1,6 @@
 using System;
 
-namespace Ubora.Web.Features.Projects.List
+namespace Ubora.Web.Features.Projects
 {
     public class ListItemViewModel
     {

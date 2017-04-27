@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Ubora.Domain.Projects;
-using Ubora.Web.Features.Projects.Create;
 
 namespace Ubora.Web.Features.Projects
 {

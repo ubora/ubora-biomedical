@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Ubora.Web.Features.Projects.Dashboard
+namespace Ubora.Web.Features.ProjectManagement
 {
     public class DashboardViewModel : WorkPackageOneViewModel
     {

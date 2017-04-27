@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Ubora.Web.Features.Projects.Create
+namespace Ubora.Web.Features.Projects
 {
     public class CreatePostModel
     {

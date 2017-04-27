@@ -1,4 +1,4 @@
-@model Ubora.Web.Features.Projects.List.ListViewModel
+@model Ubora.Web.Features.Projects.ListViewModel
 
 @{
     ViewData["Title"] = "All";
@@ -10,8 +10,8 @@
     @foreach (var project in Model.Projects)
     {
         <li>
-            <a asp-controller="Dashboard"
-               asp-action="Dashboard"
+            <a asp-controller="ProjectManagement"
+               asp-action="Index"
                asp-route-id="@project.Id">
                 @project.Name
             </a>
