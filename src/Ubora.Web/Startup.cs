@@ -13,10 +13,11 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
 using Ubora.Web.Models;
+using Ubora.Web.Services;
 
 namespace Ubora.Web
 {
-	public class Startup
+    public class Startup
 	{
 		public Startup(IHostingEnvironment env)
 		{
@@ -41,14 +42,18 @@ namespace Ubora.Web
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("ApplicationDbConnection");
-            
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString));
 
             services.AddMvc();
 
-			services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+			services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
+			    {
+			        o.Password.RequireNonAlphanumeric = false;
+			    })
+                .AddUserManager<ApplicationUserManager>()
+                .AddClaimsPrincipalFactory<ApplicationClaimsPrincipalFactory>()
 				.AddEntityFrameworkStores<ApplicationDbContext, Guid>()
 				.AddDefaultTokenProviders();
 
