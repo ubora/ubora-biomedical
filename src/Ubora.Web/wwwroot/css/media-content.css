@@ -4,5 +4,7 @@ img {
 }
 
 .material-icons {
-	vertical-align: middle;
+	vertical-align: text-top;
+	font-size:150%;
+	color: var(--primary-color);
 }

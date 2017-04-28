@@ -52,6 +52,10 @@ input[type="radio"] {
 	height: auto;
 }
 
+input[type="file"] {
+	font-size: 100%;
+}
+
 button {
 	padding: 0;
 	margin: 0;
@@ -137,4 +141,22 @@ a:hover {
 	border-color: var(--secondary-color);
 	background-color: var(--secondary-color);
 	color: var(--quartinary-shade);
+}
+
+
+.menu-button {
+	background-color: transparent;
+	border:0;
+	color:var(--primary-color);
+	font-family: inherit;
+	font-size: inherit;
+}
+
+@media screen and (max-width:50em) {
+	.menu-button {
+		font-size:200%;
+	}
+	.menu-button-description {
+		display:none;
+	}
 }

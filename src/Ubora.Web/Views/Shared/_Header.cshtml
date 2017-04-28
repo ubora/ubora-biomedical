@@ -9,20 +9,22 @@
             <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
         </a>
 
-        @*<a class="header-action" asp-controller="Home" asp-action="Search">
-            <i class="header-action-icon material-icons">search</i>
-            <span class="header-action-description">Search</span>
-        </a>*@
-        <p>Hello, <a asp-action="Index" asp-controller="Manage">@UserManager.GetUserFullName(User)</a></p>
-        <form asp-action="Logout" asp-controller="Account" method="post">
-            <button class="button" type="submit">Log out</button>
-        </form>
-        @*<a asp-controller="Account" asp-action="Logout">Log out</a>*@
-    </header>
-    
+        <!-- <p>Hello, <a asp-action="Index" asp-controller="Manage">@UserManager.GetUserFullName(User)</a></p> -->
+        <span>
+            <i class="material-icons">folder</i>My projects
+        </span>
 
-<!-- <a asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-<button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button> -->
+        <button class="menu-button js-open-menu">
+            <i class="material-icons">menu</i>
+            <span class="menu-button-description">Menu</span>
+        </button>
+
+        <!-- TODO: Risto - have a 1/2/3 column layout for side navigation and menu -->
+        <form asp-action="Logout" asp-controller="Account" method="post">
+            <button type="submit">Log out</button>
+        </form>
+
+    </header>
 } else {
 	<header>
 		<a asp-controller="Home" asp-action="Index">

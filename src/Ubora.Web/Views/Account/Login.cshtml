@@ -8,7 +8,7 @@
 <section class="signin narrow-width">
 	<h2 class="full-width">@ViewData["Title"]</h2>
 
-	<form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="POST">
+	<form class="input-form" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="POST">
 		<div asp-validation-summary="All" class="text-danger"></div>
 
 		<label asp-for="Email">

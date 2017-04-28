@@ -6,15 +6,15 @@
 <section class="narrow-width">
     <h2>@ViewData["Title"]</h2>
 
-    <form asp-controller="Account" asp-action="Register" method="post">
-        
+    <form class="input-form" asp-controller="Account" asp-action="Register" method="post">
+
         <div asp-validation-summary="All" class="text-danger"></div>
 
         <label>
             First name
             <input asp-for="FirstName" placeholder="First name">
         </label>
-        
+
         <label>
             Last name
             <input asp-for="LastName" placeholder="Last name">
