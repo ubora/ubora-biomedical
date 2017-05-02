@@ -1,0 +1,8 @@
+﻿@model Ubora.Web.Features.ProjectManagement.Tasks.TaskListViewModel
+
+<a asp-controller="Tasks" asp-action="Add">Add task</a>
+
+@foreach (var task in Model.Tasks)
+{
+    <a asp-controller="Tasks" asp-action="Edit" asp-route-id="@task.Id">@task.Title</a>
+}

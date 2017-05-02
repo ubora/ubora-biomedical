@@ -35,7 +35,8 @@ namespace Ubora.Domain.Infrastructure
 
             builder.RegisterType<EventStreamQuery>().As<IEventStreamQuery>().InstancePerLifetimeScope();
             builder.RegisterType<CommandQueryProcessor>().As<ICommandProcessor>().As<IQueryProcessor>().As<ICommandQueryProcessor>().InstancePerLifetimeScope();
-            builder.RegisterType<CreateProjectCommandHandler>().As<ICommandHandler<CreateProjectCommand>>().InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(ICommandHandler<>)).InstancePerLifetimeScope();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)

@@ -6,6 +6,8 @@
 
 <h2>@Model.Name</h2>
 
+<a asp-controller="Tasks" asp-action="List">Tasks</a>
+<br/>
 Events:
 <ul>
     @foreach (var projectEvent in Model.EventStream)
