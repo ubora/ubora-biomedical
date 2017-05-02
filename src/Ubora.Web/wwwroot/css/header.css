@@ -1,22 +1,84 @@
-header {
+.header {
 	align-items: center;
 	display: flex;
 	font-size: 150%;
-	justify-content: space-around;
+	height: 3em;
+	justify-content: space-between;
 	margin:.5em 1em;
-	height: 6vh;
+	padding: 0 2em;
 }
 
 .header-logo {
-	height:6vh;
+	height:3em;
+}
+
+.header-title {
+	color: var(--primary-color);
+}
+
+.menu-button {
+	background-color: transparent;
+	border:0;
+	color:var(--primary-color);
+	font-family: inherit;
+	font-size: inherit;
+	padding:0;
+}
+
+.menu-button > .material-icons {
+	padding:0;
+}
+
+.side-menu {
+	background-color: var(--white);
+	display: none;
+	font-size: 150%;
+	height: 100%;
+	padding:1.5em;
+	position: fixed;
+	right:0;
+	top:0;
+	z-index: 99;
+}
+
+.menu-profile {
+	align-items: center;
+	display:flex;
+	justify-content: center;
+	margin:0 2em 2em 0;
+}
+
+.menu-profile-image {
+	border-radius: 50%;
+	margin:0 .5em 0 0;
+	max-width: 3em;
+}
+
+.menu-profile-name {
+	padding:0;
+	margin:0;
+}
+
+.menu-profile-link {
+	font-size: 60%;
+}
+
+.menu-link {
+	display: block;
+	margin:1em 0;
 }
 
 @media screen and (max-width: 50em) {
-	header {
+	.header {
 		font-size: 120%;
+		padding:0;
 	}
 
-	.header-action-description {
-		display: none;
+	.menu-button {
+		font-size:150%;
+	}
+
+	.menu-button-description {
+		display:none;
 	}
 }

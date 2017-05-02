@@ -1,12 +1,12 @@
-﻿@model RegisterViewModel
+﻿@model UserProfileViewModel
 @{
-    ViewData["Title"] = "Sign up";
+    ViewData["Title"] = "Edit profile";
 }
 
 <section class="narrow-width">
     <h2>@ViewData["Title"]</h2>
 
-    <form class="input-form" asp-controller="Account" asp-action="Register" method="post">
+    <form class="input-form" asp-controller="Manage" asp-action="EditProfile" method="post">
 
         <div asp-validation-summary="All" class="text-danger"></div>
 
@@ -18,21 +18,6 @@
         <label>
             Last name
             <input asp-for="LastName" placeholder="Last name">
-        </label>
-
-        <label>
-            Email address
-            <input asp-for="Email" placeholder="email@example.com">
-        </label>
-
-        <label>
-            Password
-            <input asp-for="Password" placeholder="Secret passphrase">
-        </label>
-
-        <label>
-            Password again
-            <input asp-for="ConfirmPassword" placeholder="Secret passphrase again">
         </label>
 
         <h3>Academia</h3>
@@ -73,16 +58,6 @@
             <input asp-for="Skills" placeholder="What are you good at?">
         </label>
 
-        <label>
-            <input asp-for="IsAgreedToTermsOfService">
-            I agree to <a asp-controller="Home" asp-action="Terms">Terms of Service</a>
-        </label>
-
-        <button type="submit" class="button primary-button">Create an account</button>
-
+        <button type="submit" class="button primary-button">Edit profile</button>
     </form>
 </section>
-
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-}

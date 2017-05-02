@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace Ubora.Web.Models.ManageViewModels
@@ -17,5 +14,7 @@ namespace Ubora.Web.Models.ManageViewModels
         public bool TwoFactor { get; set; }
 
         public bool BrowserRemembered { get; set; }
+
+        public UserProfileViewModel UserProfile { get; set; }
     }
 }

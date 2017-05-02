@@ -14,17 +14,18 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
 using Ubora.Web.Models;
+using Ubora.Web.Services;
 
 namespace Ubora.Web
 {
     public class Startup
-    {
-        public Startup(IHostingEnvironment env)
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+	{
+		public Startup(IHostingEnvironment env)
+		{
+			var builder = new ConfigurationBuilder()
+				.SetBasePath(env.ContentRootPath)
+				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
             if (env.IsDevelopment())
             {
@@ -49,9 +50,14 @@ namespace Ubora.Web
             services.AddMvc()
                 .AddUboraFeatureFolders();
 
-            services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
-                .AddEntityFrameworkStores<ApplicationDbContext, Guid>()
-                .AddDefaultTokenProviders();
+			services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
+			    {
+			        o.Password.RequireNonAlphanumeric = false;
+			    })
+                .AddUserManager<ApplicationUserManager>()
+                .AddClaimsPrincipalFactory<ApplicationClaimsPrincipalFactory>()
+				.AddEntityFrameworkStores<ApplicationDbContext, Guid>()
+				.AddDefaultTokenProviders();
 
             var autofacContainerBuilder = new ContainerBuilder();
 

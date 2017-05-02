@@ -52,6 +52,10 @@ input[type="radio"] {
 	height: auto;
 }
 
+input[type="file"] {
+	font-size: 100%;
+}
+
 button {
 	padding: 0;
 	margin: 0;
@@ -90,8 +94,16 @@ a {
 
 a:active,
 a:focus,
+a:hover,
 a:hover {
 	color: var(--secondary-color);
+}
+
+a:hover .material-icons {
+	color:var(--secondary-color);
+	transition:
+		color .3s ease,
+		background-color .3s ease;
 }
 
 

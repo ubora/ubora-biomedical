@@ -5,7 +5,6 @@ using Marten;
 using Marten.Events;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Projects;
 
 namespace Ubora.Domain.Infrastructure
 {

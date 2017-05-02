@@ -1,14 +1,65 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Ubora.Web.Models
+﻿@using Ubora.Web.Services
 
 @inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+@inject ApplicationUserManager UserManager
 
 @if (SignInManager.IsSignedIn(User)) {
-<!-- <a asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-<button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button> -->
+    <header class="header">
+        <a asp-controller="Home" asp-action="Index">
+            <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
+        </a>
+
+        <span class="header-title">
+            <i class="material-icons">folder</i>My projects
+        </span>
+
+        <button class="menu-button js-side-menu-control">
+            <i class="material-icons js-menu-icon">menu</i>
+            <span class="menu-button-description">Menu</span>
+        </button>
+    </header>
+
+    <aside class="side-menu js-side-menu">
+
+        <div class="menu-profile">
+            <img class="menu-profile-image" src="//www.placehold.it/100x100" alt="Profile icon">
+            <div>
+                <!-- TODO: Have only first name -->
+                <p class="menu-profile-name">@UserManager.GetUserFullName(User)</p>
+                <a href="#" class="menu-profile-link">View profile</a>
+            </div>
+        </div>
+
+        <nav>
+            <a class="menu-link" href="#">
+                <i class="material-icons">search</i>Search
+            </a>
+
+            <a class="menu-link" href="#">
+                <i class="material-icons">message</i>Messages
+            </a>
+
+            <a class="menu-link" href="#">
+                <i class="material-icons">folder</i>My projects
+            </a>
+
+            <a class="menu-link" href="#">
+                <i class="material-icons">assignment</i>My tasks
+            </a>
+
+            <a class="menu-link" href="#">
+                <i class="material-icons">create_new_folder</i>New project
+            </a>
+        </nav>
+
+        <!-- TODO: Move this button under 'view prodile' page -->
+        <form asp-action="Logout" asp-controller="Account" method="post">
+            <button type="submit">Log out</button>
+        </form>
+
+    </aside>
 } else {
-	<header>
+	<header class="header">
 		<a asp-controller="Home" asp-action="Index">
 			<img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
 		</a>

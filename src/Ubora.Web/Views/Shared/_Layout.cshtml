@@ -27,12 +27,13 @@
 
 	@Html.Raw(JavaScriptSnippet.FullScript)
 </head>
+
 <body>
 	@await Html.PartialAsync("_Header")
 
 	<main>@RenderBody()</main>
 
-	@await Html.PartialAsync("_Footer")
+ 	@await Html.PartialAsync("_Footer")
 
 	<!-- <environment names="Development"> -->
 	<!-- </environment> -->
@@ -44,6 +45,7 @@
 	-->
 
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/js/UBORA.js"></script>
 
 	@RenderSection("Scripts", required: false)
 </body>

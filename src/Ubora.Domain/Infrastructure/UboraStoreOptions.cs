@@ -20,6 +20,7 @@ namespace Ubora.Domain.Infrastructure
             {
                 options.Events.UseAggregatorLookup(AggregationLookupStrategy.UsePrivateApply);
                 options.Serializer(serializer);
+
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<ProjectTask>();
                 options.Events.InlineProjections.Add(new WorkpackagesProjection());
