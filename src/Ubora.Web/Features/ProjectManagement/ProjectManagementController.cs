@@ -36,7 +36,6 @@ namespace Ubora.Web.Features.ProjectManagement
                 EventStream = eventStream.Select(x => x.ToString()),
                 Name = project.Title,
                 Id = project.Id,
-                ProjectData = Newtonsoft.Json.JsonConvert.SerializeObject(project)
             };
 
             return View(viewModel);

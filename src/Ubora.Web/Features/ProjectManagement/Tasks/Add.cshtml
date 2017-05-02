@@ -10,11 +10,13 @@
         <label>
             Task title
             <input asp-for="Title" placeholder="Task title">
+            <span asp-validation-for="Title"></span>
         </label>
         
         <label>
             Task description
             <input asp-for="Description" placeholder="Task description">
+            <span asp-validation-for="Description"></span>
         </label>
 
         <br>

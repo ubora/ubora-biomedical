@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -28,13 +27,13 @@ namespace Ubora.Web.Features.ProjectManagement.Tasks
             return RedirectToAction(nameof(List));
         }
 
-        public IActionResult List()
+        public IActionResult List(Guid projectId)
         {
-            var tasks = _processor.Find<ProjectTask>();
+            var projectTasks = _processor.Find<ProjectTask>().Where(x => x.ProjectId == projectId);
 
             var model = new TaskListViewModel
             {
-                Tasks = tasks.Select(t => _mapper.Map<TaskListItemViewModel>(t))
+                Tasks = projectTasks.Select(task => _mapper.Map<TaskListItemViewModel>(task))
             };
 
             return View(model);
@@ -42,7 +41,8 @@ namespace Ubora.Web.Features.ProjectManagement.Tasks
 
         public IActionResult Add(Guid projectId)
         {
-            return View(new AddTaskViewModel { ProjectId = projectId });
+            var model = new AddTaskViewModel { ProjectId = projectId };
+            return View(model);
         }
 
         [HttpPost]
@@ -62,43 +62,13 @@ namespace Ubora.Web.Features.ProjectManagement.Tasks
         {
             var task = _processor.FindById<ProjectTask>(id);
             var model = _mapper.Map<EditTaskViewModel>(task);
-
             return View(model);
         }
 
         [HttpPost]
         public IActionResult Edit(EditTaskViewModel model)
         {
-
-
             return RedirectToAction(nameof(List));
         }
-    }
-
-    public class TaskListViewModel
-    {
-        public IEnumerable<TaskListItemViewModel> Tasks { get; set; }
-    }
-
-    public class TaskListItemViewModel
-    {
-        public Guid ProjectId { get; set; }
-        public Guid Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-    }
-
-    public class AddTaskViewModel
-    {
-        public Guid ProjectId { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-    }
-
-    public class EditTaskViewModel
-    {
-        public Guid Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
     }
 }

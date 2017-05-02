@@ -5,6 +5,7 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects
 {
+    // TODO: Jäi poolikuks
     public class EditProductSpecificationCommand : ICommand
     {
         public string Functionality { get; set; }
