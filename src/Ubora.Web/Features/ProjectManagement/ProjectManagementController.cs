@@ -28,17 +28,22 @@ namespace Ubora.Web.Features.ProjectManagement
         public IActionResult Dashboard(Guid id)
         {
             var project = _processor.FindById<Project>(id);
-
-            var eventStream = _eventStreamQuery.Find(project.Id);
-
-            var viewModel = new DashboardViewModel
+            var model = new DashboardViewModel
             {
-                EventStream = eventStream.Select(x => x.ToString()),
                 Name = project.Title,
                 Id = project.Id,
             };
+            return View(model);
+        }
 
-            return View(viewModel);
+        public IActionResult History(Guid id)
+        {
+            var projectEventStream = _eventStreamQuery.Find(id);
+            var model = new HistoryViewModel
+            {
+                Events = projectEventStream.Select(x => x.ToString()),
+            };
+            return View(model);
         }
     }
 }

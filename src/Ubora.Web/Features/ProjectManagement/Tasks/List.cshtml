@@ -2,7 +2,11 @@
 
 <a asp-controller="Tasks" asp-action="Add" asp-route-projectId="@Model.ProjectId">Add task</a>
 
-@foreach (var task in Model.Tasks)
-{
-    <a asp-controller="Tasks" asp-action="Edit" asp-route-id="@task.Id">@task.Title</a>
-}
+<ol>
+    @foreach (var task in Model.Tasks)
+    {
+        <li>
+            <a asp-controller="Tasks" asp-action="Edit" asp-route-id="@task.Id">@task.Title</a>
+        </li>
+    }
+</ol>

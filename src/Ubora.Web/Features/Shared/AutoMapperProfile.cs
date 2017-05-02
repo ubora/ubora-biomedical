@@ -2,8 +2,9 @@
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
 using Ubora.Web.Features.ProjectManagement.Tasks;
+using Ubora.Web.Features.Projects;
 
-namespace Ubora.Web.Features.Projects
+namespace Ubora.Web.Features.Shared
 {
     public class AutoMapperProfile : Profile
     {

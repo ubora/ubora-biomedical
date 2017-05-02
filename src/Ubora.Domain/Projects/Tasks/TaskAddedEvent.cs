@@ -16,7 +16,7 @@ namespace Ubora.Domain.Projects.Tasks
 
         public override string GetDescription()
         {
-            throw new NotImplementedException();
+            return $"Task added: \"{Title}\"";
         }
     }
 }
