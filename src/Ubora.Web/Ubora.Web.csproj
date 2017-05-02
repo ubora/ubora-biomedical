@@ -14,8 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="wwwroot\css\UBORA.css" />
-    <Content Include="wwwroot\css\UBORA.min.css" />
+    <Content Include="wwwroot\js\CheckboxValidator.js" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.5.0" />

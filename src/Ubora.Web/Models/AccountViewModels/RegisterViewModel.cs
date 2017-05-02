@@ -37,7 +37,8 @@ namespace Ubora.Web.Models.AccountViewModels
 
         public string Skills { get; set; }
 
-        [Required]
+        // TODO: custom attribute
+        [Range(typeof(bool), "true", "true", ErrorMessage = "You must agree to the terms and conditions!")]
         public bool IsAgreedToTermsOfService { get; set; }
     }
 }

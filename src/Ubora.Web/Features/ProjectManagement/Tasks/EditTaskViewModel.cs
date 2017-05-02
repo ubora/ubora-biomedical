@@ -5,6 +5,7 @@ namespace Ubora.Web.Features.ProjectManagement.Tasks
 {
     public class EditTaskViewModel
     {
+        public Guid ProjectId { get; set; }
         public Guid Id { get; set; }
         [Required]
         public string Title { get; set; }

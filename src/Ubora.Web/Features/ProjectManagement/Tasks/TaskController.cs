@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,17 +21,13 @@ namespace Ubora.Web.Features.ProjectManagement.Tasks
             _mapper = mapper;
         }
 
-        public IActionResult Index()
-        {
-            return RedirectToAction(nameof(List));
-        }
-
         public IActionResult List(Guid projectId)
         {
             var projectTasks = _processor.Find<ProjectTask>().Where(x => x.ProjectId == projectId);
 
             var model = new TaskListViewModel
             {
+                ProjectId = projectId,
                 Tasks = projectTasks.Select(task => _mapper.Map<TaskListItemViewModel>(task))
             };
 
@@ -55,7 +50,7 @@ namespace Ubora.Web.Features.ProjectManagement.Tasks
 
             _processor.Execute(command);
 
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { projectId = model.ProjectId });
         }
 
         public IActionResult Edit(Guid id)
@@ -68,7 +63,7 @@ namespace Ubora.Web.Features.ProjectManagement.Tasks
         [HttpPost]
         public IActionResult Edit(EditTaskViewModel model)
         {
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), new { projectId = model.ProjectId });
         }
     }
 }
