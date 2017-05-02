@@ -7,4 +7,5 @@ img {
 	vertical-align: text-top;
 	font-size:150%;
 	color: var(--primary-color);
+	padding:0 .2em 0 0;
 }

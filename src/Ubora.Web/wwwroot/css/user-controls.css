@@ -94,8 +94,16 @@ a {
 
 a:active,
 a:focus,
+a:hover,
 a:hover {
 	color: var(--secondary-color);
+}
+
+a:hover .material-icons {
+	color:var(--secondary-color);
+	transition:
+		color .3s ease,
+		background-color .3s ease;
 }
 
 
@@ -141,22 +149,4 @@ a:hover {
 	border-color: var(--secondary-color);
 	background-color: var(--secondary-color);
 	color: var(--quartinary-shade);
-}
-
-
-.menu-button {
-	background-color: transparent;
-	border:0;
-	color:var(--primary-color);
-	font-family: inherit;
-	font-size: inherit;
-}
-
-@media screen and (max-width:50em) {
-	.menu-button {
-		font-size:200%;
-	}
-	.menu-button-description {
-		display:none;
-	}
 }
