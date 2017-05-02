@@ -1,0 +1,63 @@
+﻿@model UserProfileViewModel
+@{
+    ViewData["Title"] = "Edit profile";
+}
+
+<section class="narrow-width">
+    <h2>@ViewData["Title"]</h2>
+
+    <form class="input-form" asp-controller="Manage" asp-action="EditProfile" method="post">
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <label>
+            First name
+            <input asp-for="FirstName" placeholder="First name">
+        </label>
+
+        <label>
+            Last name
+            <input asp-for="LastName" placeholder="Last name">
+        </label>
+
+        <h3>Academia</h3>
+        <label>
+            University
+            <input asp-for="University" placeholder="Name of university">
+        </label>
+
+        <label>
+            Degree
+            <input asp-for="Degree" placeholder="Held/obtaining degree">
+        </label>
+
+        <label>
+            Field
+            <input asp-for="Field" placeholder="e.g. hardware engineering">
+        </label>
+
+        <label>
+            Role
+            <select name="">
+                <option value="placeholder" disabled selected>I am a...</option>
+                <option value="student">Student</option>
+                <option value="professor">Professor</option>
+                <option value="mentor">Mentor</option>
+                <option value="expert">Specialist/Expert</option>
+            </select>
+        </label>
+
+        <h3>Personal</h3>
+        <label>
+            Bio
+            <textarea asp-for="Biography" rows="5" placeholder="Write a few words about yourself!"></textarea>
+        </label>
+
+        <label>
+            Skills
+            <input asp-for="Skills" placeholder="What are you good at?">
+        </label>
+
+        <button type="submit" class="button primary-button">Edit profile</button>
+    </form>
+</section>

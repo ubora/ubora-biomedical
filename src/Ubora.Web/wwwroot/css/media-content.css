@@ -1,0 +1,10 @@
+img {
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.material-icons {
+	vertical-align: text-top;
+	font-size:150%;
+	color: var(--primary-color);
+}

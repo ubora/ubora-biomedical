@@ -36,5 +36,15 @@ namespace Ubora.Web.Controllers
 		{
 			return View();
 		}
+
+		public IActionResult WorkPackageZero()
+		{
+			return View();
+		}
+
+		public IActionResult WorkPackageOne()
+		{
+			return View();
+		}
 	}
 }

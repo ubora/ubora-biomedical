@@ -2,43 +2,144 @@
 	ViewData["Title"] = "Welcome";
 }
 
-<section class="initiative">
-	<button>I have a need</button>
-	<button>I have a solution</button>
+<section class="hero full-width">
+	<p><b>UBORA</b><br>the biomedical engineering open design platform</p>
 </section>
 
-<section class="projects">
-	<ul class="project-list">
-		<li class="project">
-			<img src="//placehold.it/350x200" alt="" class="project-image">
-			<h2 class="project-title">Example project</h2>
-			<div class="project-author">
-				<img src="//placehold.it/32x32" alt="" class="project-author-image">
-				<p class="project-author-name">John Smith</p>
-			</div>
-			<p class="project-short-description">
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus, asperiores sint architecto perspiciatis et corporis quia labore voluptas obcaecati magnam, consequuntur dolorem iure repudiandae excepturi inventore reiciendis ab, laudantium adipisci.
-			</p>
-			<ul class="project-status">
-				<li class="project-status-fundedpercent">
-					100<br>
-					funded
-				</li>
-				<li class="project-status-pledgedamount">
-					100<br>
-					pledged
-				</li>
-				<li class="project-status-completedpercent">
-					100<br>
-					completed
-				</li>
-				<li class="project-status-daysremaining">
-					100<br>
-					days remaining
-				</li>
-			</ul>
-		</li>
+<section class="initiative full-width">
+	<div class="initiative-option">
+		<button class="button secondary-button" disabled>I have a need</button>
+		<h2>Find help through open discussion.</h2>
+	</div>
 
+	<div class="initiative-option">
+		<a asp-controller="Home" asp-action="WorkPackageZero" class="button primary-button">I have an idea</a>
+		<h2>Propose your biomedical solution.</h2>
+	</div>
+</section>
 
-	</ul>
+<section class="projects" style="display:none;">
+	<h2 class="full-width">Public projects</h2>
+	<project-card
+		banner="//placehold.it/400x150"
+		title="Example project"
+		author="John Smith"
+		authorimage="//placehold.it/50x50"
+		funded="75%"
+		pledged="1,000,000$"
+		completed="100%"
+		timeremaining="365">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
+	</project-card>
+	<project-card
+		banner="//placehold.it/400x150"
+		title="Example project"
+		author="John Smith"
+		authorimage="//placehold.it/50x50"
+		funded="75%"
+		pledged="1,000,000$"
+		completed="100%"
+		timeremaining="365">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
+	</project-card>
+	<project-card
+		banner="//placehold.it/400x150"
+		title="Example project"
+		author="John Smith"
+		authorimage="//placehold.it/50x50"
+		funded="75%"
+		pledged="1,000,000$"
+		completed="100%"
+		timeremaining="365">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
+	</project-card>
+	<project-card
+		banner="//placehold.it/400x150"
+		title="Example project"
+		author="John Smith"
+		authorimage="//placehold.it/50x50"
+		funded="75%"
+		pledged="1,000,000$"
+		completed="100%"
+		timeremaining="365">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
+	</project-card>
+	<project-card
+		banner="//placehold.it/400x150"
+		title="Example project"
+		author="John Smith"
+		authorimage="//placehold.it/50x50"
+		funded="75%"
+		pledged="1,000,000$"
+		completed="100%"
+		timeremaining="365">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
+	</project-card>
+	<project-card
+		banner="//placehold.it/400x150"
+		title="Example project"
+		author="John Smith"
+		authorimage="//placehold.it/50x50"
+		funded="75%"
+		pledged="1,000,000$"
+		completed="100%"
+		timeremaining="365">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
+	</project-card>
+	<project-card
+		banner="//placehold.it/400x150"
+		title="Example project"
+		author="John Smith"
+		authorimage="//placehold.it/50x50"
+		funded="75%"
+		pledged="1,000,000$"
+		completed="100%"
+		timeremaining="365">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
+	</project-card>
+	<project-card
+		banner="//placehold.it/400x150"
+		title="Example project"
+		author="John Smith"
+		authorimage="//placehold.it/50x50"
+		funded="75%"
+		pledged="1,000,000$"
+		completed="100%"
+		timeremaining="365">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
+	</project-card>
+</section>
+
+<section class="about" style="display:none;">
+	<h2 class="full-width">About UBORA</h2>
+
+	<p>
+		The EU funded UBORA project aims at creating an  e-Infrastructure, UBORA, for open source co-design of new solutions to face the current and future healthcare challenges of Europe and Africa, by exploiting networking, knowledge on rapid prototyping of new ideas and sharing of safety criteria and performance data. The e-Infrastructure is implemented to foster advances in education and the development of innovative solutions in Biomedical Engineering, both of which are flywheels for emerging and developed economies. It is conceived as a virtual platform for generating, exchanging, improving and implementing creative ideas in Biomedical Engineering underpinned by a solid safety assessment framework. Besides the provision of resources with designs, blueprints and support on safety assessment and harmonization, specific sections for needs identification, project management, repositories and fund raising are also foreseen.
+	</p>
+	<p>
+		UBORA (“excellence” in Swahili) brings together European and African Universities and their associated technological hubs (supporting biomedical prototyping laboratories and incubators), national and international policymakers and committed and credible stakeholders propelled by a series of summer schools and competitions. Through the UBORA e-Infrastructure, the biomedical community can generate and share open data and blueprints of biomedical devices, accompanied by the required
+		procedures for respecting quality assurance, and assessing performance and safety. When properly implemented, as guaranteed by authorized Notified Bodies, these biomedical devices can safely be used in hospitals and on patients. In a nutshell, UBORA couples the open design philosophy with Europe’s leadership in quality control and safety assurance, guaranteeing better health and new opportunities for growth and innovation.
+	</p>
+
+	<div class="center-element">
+		<button href="#" class="button secondary-button center-element">Learn more</a>
+	</div>
+</section>
+
+<section class="resources full-width" style="display:none;">
+	<h2 class="section-width">Resources</h2>
+	<section class="image-backdrop resources-image">
+		<h2 class="image-backdrop-title">Discover great resources for learning and creating</h2>
+		<button class="button secondary-button" type="button">Open library</button>
+	</section>
+</section>
+
+<section class="donation" style="display:none;">
+	<h2 class="full-width">Help the cause</h2>
+
+	<div class="center-element">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos modi, harum ipsum dicta ipsam. Debitis reprehenderit est, laudantium possimus consectetur tempora odio magnam architecto nobis earum velit placeat nihil nesciunt.</p>
+
+		<button class="button primary-button">Donate</button>
+	</div>
 </section>

@@ -1,102 +1,87 @@
 ﻿@model RegisterViewModel
 @{
-    ViewData["Title"] = "Create an account";
+    ViewData["Title"] = "Sign up";
 }
 
-<div class="row">
-    <div class="medium-6 small-centered columns">
-        <h2>@ViewData["Title"]</h2>
+<section class="narrow-width">
+    <h2>@ViewData["Title"]</h2>
 
-        <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-vertical">
+    <form class="input-form" asp-controller="Account" asp-action="Register" method="post">
 
-            <section class="user_info">
-                <label>
-                    Name
-                    <input type="text" name="user_fullname" placeholder="Firstname Lastname" required>
-                </label>
+        <div asp-validation-summary="All" class="text-danger"></div>
 
-                <label>
-                    Email address
-                    <input type="email" name="user_email" placeholder="email@example.com" required>
-                </label>
+        <label>
+            First name
+            <input asp-for="FirstName" placeholder="First name">
+        </label>
 
-                <label>
-                    Password
-                    <input type="password" name="user_password" placeholder="Secret passphrase" required>
-                </label>
+        <label>
+            Last name
+            <input asp-for="LastName" placeholder="Last name">
+        </label>
 
-                <label>
-                    Password again
-                    <input type="password" name="user_password_repeat" placeholder="Secret passphrase again" required>
-                </label>
-            </section>
+        <label>
+            Email address
+            <input asp-for="Email" placeholder="email@example.com">
+        </label>
 
-            <h4>Academia</h4>
-            <!-- <label>
-                <input type="checkbox" name="university_none">
-                I have no academic background
-            </label> -->
+        <label>
+            Password
+            <input asp-for="Password" placeholder="Secret passphrase">
+        </label>
 
-            <section class="academia">
-                <label>
-                    University
-                    <input type="text" name="university_name" placeholder="Name of university">
-                </label>
+        <label>
+            Password again
+            <input asp-for="ConfirmPassword" placeholder="Secret passphrase again">
+        </label>
 
-                <label>
-                    Degree
-                    <input type="text" name="university_degree" placeholder="Obtained/obtaining degree">
-                </label>
+        <h3>Academia</h3>
+        <label>
+            University
+            <input asp-for="University" placeholder="Name of university">
+        </label>
 
-                <label>
-                    Field
-                    <input type="text" name="university_expertise" placeholder="e.g. hardware engineering">
-                </label>
-            </section>
+        <label>
+            Degree
+            <input asp-for="Degree" placeholder="Held/obtaining degree">
+        </label>
 
-            <h4>Personal</h4>
+        <label>
+            Field
+            <input asp-for="Field" placeholder="e.g. hardware engineering">
+        </label>
 
-            <section class="misc">
-                <label>
-                    Age
-                    <input type="number" name="user_age" min="18" max="125" placeholder="Your current age">
-                </label>
+        <label>
+            Role
+            <select name="">
+                <option value="placeholder" disabled selected>I am a...</option>
+                <option value="student">Student</option>
+                <option value="professor">Professor</option>
+                <option value="mentor">Mentor</option>
+                <option value="expert">Specialist/Expert</option>
+            </select>
+        </label>
 
-                <label>
-                    Gender
-                    <select name="user_gender">
-                        <option value="placeholder" disabled selected>You identify as...</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other"><i>Other</i></option>
-                    </select>
-                </label>
+        <h3>Personal</h3>
+        <label>
+            Bio
+            <textarea asp-for="Biography" rows="5" placeholder="Write a few words about yourself!"></textarea>
+        </label>
 
-                <label>
-                    Country
-                    <input type="text" name="user_county" placeholder="Country of origin">
-                </label>
+        <label>
+            Skills
+            <input asp-for="Skills" placeholder="What are you good at?">
+        </label>
 
-                <label>
-                    Bio
-                    <textarea name="user_bio" rows="5" cols="80" placeholder="Write a few words about yourself!"></textarea>
-                </label>
+        <label>
+            <input asp-for="IsAgreedToTermsOfService">
+            I agree to <a asp-controller="Home" asp-action="Terms">Terms of Service</a>
+        </label>
 
-                <section class="user_skills">
-                    <label>
-                        Skills
-                        <input type="text" name="user_skills" placeholder="What are you good at?">
-                    </label>
-                    <div class="user_skill_list"></div>
-                </section>
+        <button type="submit" class="button primary-button">Create an account</button>
 
-            </section>
-
-            <button type="submit" class="button large expanded">Create an account</button>
-
-        </form>
-    </div>
-</div>
+    </form>
+</section>
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

@@ -1,29 +1,41 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Ubora.Web.Models
+﻿@using Ubora.Web.Services
 
 @inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+@inject ApplicationUserManager UserManager
 
 @if (SignInManager.IsSignedIn(User)) {
-<!-- <a asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-<button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button> -->
+    <header>
+        <a asp-controller="Home" asp-action="Index">
+            <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
+        </a>
+
+        <!-- <p>Hello, <a asp-action="Index" asp-controller="Manage">@UserManager.GetUserFullName(User)</a></p> -->
+        <span>
+            <i class="material-icons">folder</i>My projects
+        </span>
+
+        <button class="menu-button js-open-menu">
+            <i class="material-icons">menu</i>
+            <span class="menu-button-description">Menu</span>
+        </button>
+
+        <!-- TODO: Risto - have a 1/2/3 column layout for side navigation and menu -->
+        <form asp-action="Logout" asp-controller="Account" method="post">
+            <button type="submit">Log out</button>
+        </form>
+
+    </header>
 } else {
-	<header class="expanded row header">
-		<div class="header-action-group">
-			<a class="header-action-index" asp-controller="Home" asp-action="Index">
-				<img class="header-action-index-image" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
-			</a>
-		</div>
+	<header>
+		<a asp-controller="Home" asp-action="Index">
+			<img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
+		</a>
 
-		<div class="header-action-group">
-			<a asp-controller="Account" asp-action="SignInSignUp">Sign in/sign up</a>
-		</div>
+		<a asp-controller="Account" asp-action="SignInSignUp">Sign in/sign up</a>
 
-		<div class="header-action-group">
-			<a class="header-action" asp-controller="Home" asp-action="Search">
-				<i class="header-action-icon material-icons">search</i>
-				<span class="header-action-description">Search</span>
-			</a>
-		</div>
+		<a class="header-action" asp-controller="Home" asp-action="Search">
+			<i class="header-action-icon material-icons">search</i>
+			<span class="header-action-description">Search</span>
+		</a>
 	</header>
 }
