@@ -3,12 +3,10 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Ubora.Domain;
 using Ubora.Domain.Infrastructure;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
@@ -16,7 +14,6 @@ using Ubora.Web.Models;
 using Ubora.Web.Services;
 using Serilog;
 using System.IO;
-using Ubora.Web.Extensions;
 
 namespace Ubora.Web
 {
@@ -83,11 +80,11 @@ namespace Ubora.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            var isAccessKeys = Configuration.SetEnvironmentVariableAwsCredentials();
-            if (isAccessKeys)
+            if (Configuration["AWS_ACCESS_KEY_ID"] != null || Configuration["AWS_SECRET_ACCESS_KEY"] != null)
             {
-                loggerFactory.AddAWSProvider(this.Configuration.GetAWSLoggingConfigSection());
+                loggerFactory.AddAWSProvider(Configuration.GetAWSLoggingConfigSection());
             }
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             loggerFactory.AddSerilog();
