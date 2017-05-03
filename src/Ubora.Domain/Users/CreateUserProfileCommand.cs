@@ -13,5 +13,6 @@ namespace Ubora.Domain.Users
         public string Field { get; set; }
         public string Biography { get; set; }
         public string Skills { get; set; }
+        public string Role { get; set; }
     }
 }

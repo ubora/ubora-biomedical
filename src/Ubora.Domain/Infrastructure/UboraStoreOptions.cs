@@ -6,6 +6,7 @@ using Marten.Services.Events;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.Tasks;
 
 namespace Ubora.Domain.Infrastructure
 {
@@ -21,10 +22,12 @@ namespace Ubora.Domain.Infrastructure
                 options.Serializer(serializer);
 
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
-                options.Events.InlineProjections.Add(new WorkpackagesProjection());
+                options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectTask, ITaskEvent>());
 
                 // TODO: Add event types by convention
                 options.Events.AddEventType(typeof(ProjectCreatedEvent));
+                options.Events.AddEventType(typeof(TaskAddedEvent));
+                options.Events.AddEventType(typeof(TaskEditedEvent));
             };
         }
 

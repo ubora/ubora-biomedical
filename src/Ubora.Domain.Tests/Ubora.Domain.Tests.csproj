@@ -20,6 +20,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\..\Users\Kaspar\.nuget\packages\automapper\6.0.2\lib\netstandard1.3\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess">
+      <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.ServiceProcess.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
 

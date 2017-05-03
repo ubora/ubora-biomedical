@@ -37,7 +37,6 @@ form {
 }
 
 form > label {
-    color: var(--primary-color);
     display: block;
     margin:1em 0;
 }

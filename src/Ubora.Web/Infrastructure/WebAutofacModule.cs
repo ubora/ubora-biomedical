@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using AutoMapper;
 using Ubora.Web.Services;
 
 namespace Ubora.Web.Infrastructure
@@ -8,8 +9,11 @@ namespace Ubora.Web.Infrastructure
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<AuthMessageSender>().As<IEmailSender>().As<ISmsSender>().InstancePerLifetimeScope();
+        }
 
-            base.Load(builder);
+        public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)
+        {
+            cfg.AddProfiles(ThisAssembly);
         }
     }
 }

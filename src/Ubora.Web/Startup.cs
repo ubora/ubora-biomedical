@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -26,17 +27,17 @@ namespace Ubora.Web
 				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
 				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
-			if (env.IsDevelopment())
-			{
-				// For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
-				builder.AddUserSecrets<Startup>();
-			}
+            if (env.IsDevelopment())
+            {
+                // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
+                builder.AddUserSecrets<Startup>();
+            }
 
-			builder.AddEnvironmentVariables();
-			Configuration = builder.Build();
-		}
+            builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
+        }
 
-		public IConfigurationRoot Configuration { get; }
+        public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
@@ -46,7 +47,8 @@ namespace Ubora.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString));
 
-            services.AddMvc();
+            services.AddMvc()
+                .AddUboraFeatureFolders();
 
 			services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
 			    {
@@ -57,43 +59,43 @@ namespace Ubora.Web
 				.AddEntityFrameworkStores<ApplicationDbContext, Guid>()
 				.AddDefaultTokenProviders();
 
-            // Autofac
-            var containerBuilder = new ContainerBuilder();
+            var autofacContainerBuilder = new ContainerBuilder();
 
             var domainModule = new DomainAutofacModule(connectionString);
             var webModule = new WebAutofacModule();
+            autofacContainerBuilder.RegisterModule(domainModule);
+            autofacContainerBuilder.RegisterModule(webModule);
 
-            containerBuilder.RegisterModule(domainModule);
-            containerBuilder.RegisterModule(webModule);
-            containerBuilder.Populate(services);
+            services.AddAutoMapper(cfg => domainModule.AddAutoMapperProfiles(cfg));
 
-            var container = containerBuilder.Build();
+            autofacContainerBuilder.Populate(services);
+            var container = autofacContainerBuilder.Build();
 
             return new AutofacServiceProvider(container);
         }
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-		{
-			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-			loggerFactory.AddDebug();
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
 
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-				app.UseDatabaseErrorPage();
-				app.UseBrowserLink();
-			}
-			else
-			{
-				app.UseExceptionHandler("/Home/Error");
-			}
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+                app.UseBrowserLink();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
 
-			app.UseStaticFiles();
+            app.UseStaticFiles();
 
-			app.UseIdentity();
+            app.UseIdentity();
 
-			// Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
+            // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>
             {
