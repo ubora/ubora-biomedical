@@ -4,6 +4,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
 
 namespace Ubora.Web.Features.ProjectManagement.Tasks
@@ -22,11 +23,13 @@ namespace Ubora.Web.Features.ProjectManagement.Tasks
 
         public IActionResult List(Guid projectId)
         {
+            var project = _processor.FindById<Project>(projectId);
             var projectTasks = _processor.Find<ProjectTask>().Where(x => x.ProjectId == projectId);
 
             var model = new TaskListViewModel
             {
                 ProjectId = projectId,
+                ProjectName = project.Title,
                 Tasks = projectTasks.Select(_mapper.Map<TaskListItemViewModel>)
             };
 
@@ -46,6 +49,11 @@ namespace Ubora.Web.Features.ProjectManagement.Tasks
         [HttpPost]
         public IActionResult Add(AddTaskViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             var command = new AddTaskCommand
             {
                 Id = Guid.NewGuid(),
@@ -70,6 +78,11 @@ namespace Ubora.Web.Features.ProjectManagement.Tasks
         [HttpPost]
         public IActionResult Edit(EditTaskViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             var command = new EditTaskCommand
             {
                 InitiatedBy = this.UserInfo

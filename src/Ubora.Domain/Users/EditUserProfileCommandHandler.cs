@@ -23,6 +23,7 @@ namespace Ubora.Domain.Users
             userProfile.Field = command.Field;
             userProfile.Biography = command.Biography;
             userProfile.Skills = command.Skills;
+            userProfile.Role = command.Role;
 
             _documentSession.Store(userProfile);
             _documentSession.SaveChanges();

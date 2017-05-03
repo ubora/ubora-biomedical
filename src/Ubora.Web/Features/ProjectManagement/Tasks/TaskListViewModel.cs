@@ -6,6 +6,7 @@ namespace Ubora.Web.Features.ProjectManagement.Tasks
     public class TaskListViewModel
     {
         public Guid ProjectId { get; set; }
+        public string ProjectName { get; set; }
         public IEnumerable<TaskListItemViewModel> Tasks { get; set; }
     }
 

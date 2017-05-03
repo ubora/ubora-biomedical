@@ -44,11 +44,11 @@ namespace Ubora.Web.Features.Projects
 
         [Authorize]
         [HttpPost]
-        public IActionResult Create(CreatePostModel model)
+        public IActionResult Create(CreateViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Create");
+                return View(model);
             }
 
             var projectId = Guid.NewGuid();

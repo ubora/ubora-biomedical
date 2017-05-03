@@ -11,15 +11,21 @@
 
     <form asp-controller="Projects" asp-action="Create" method="post">
         <h3>Project summary</h3>
+        
         <label>
             Project title
+            <span asp-validation-for="Title"></span>
             <input asp-for="Title" placeholder="What's the name of your project?">
         </label>
 
         <label>
             Project description
-            <textarea asp-for="Description" rows="8" placeholder="Describe your project idea briefly..."></textarea>
+            <textarea id="js-project-description" asp-for="Description" rows="8" placeholder="Describe your project idea briefly..."></textarea>
         </label>
+
+        <script>
+            var simpleMde = new SimpleMDE({ element: document.getElementById("js-project-description") });
+        </script>
 
         <h3>TODO: How to call this section?</h3>
         <label>

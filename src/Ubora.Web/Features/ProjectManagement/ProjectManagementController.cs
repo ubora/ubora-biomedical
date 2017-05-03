@@ -32,7 +32,8 @@ namespace Ubora.Web.Features.ProjectManagement
             var model = new DashboardViewModel
             {
                 Name = project.Title,
-                Id = project.Id
+                Id = project.Id,
+                Description = project.Description
             };
 
             return View(model);

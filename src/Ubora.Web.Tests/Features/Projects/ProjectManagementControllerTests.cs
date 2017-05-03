@@ -18,7 +18,7 @@ namespace Ubora.Web.Tests.Features.Projects
 
             var controller = new ProjectsController(processorMock.Object, Mock.Of<IMapper>());
 
-            var model = new CreatePostModel
+            var model = new CreateViewModel
             {
                 Title = "TestProjectName"
             };

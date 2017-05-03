@@ -4,30 +4,24 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<h2>@Model.Name</h2>
-
-<a class="button" asp-controller="Tasks" asp-action="List" asp-route-projectId="@Model.Id">Tasks</a>
-<a class="button" asp-controller="ProjectManagement" asp-action="History" asp-route-id="@Model.Id">History</a>
-
-@{
-    ViewData["Title"] = "Project proposal";
-}
-
 @await Html.PartialAsync("_ProcessSteps")
 
 <section class="medium-width">
-    <h1 class="full-width">Project proposal</h1>
+    <h1>@Model.Name</h1>
+
+    <a class="button secondary-button" asp-controller="Tasks" asp-action="List" asp-route-projectId="@Model.Id">Tasks</a>
+    <a class="button secondary-button" asp-controller="ProjectManagement" asp-action="History" asp-route-id="@Model.Id">History</a>
 
     <form>
         <h3>Project summary</h3>
         <label>
             Project title
-            <input type="text" placeholder="Nanomedical syringe" disabled>
+            <input asp-for="Name" disabled>
         </label>
 
         <label>
             Project description
-            <textarea rows="8" placeholder="Well, this is my awesome BME project where I want to make a 'nanomedical' syringe - oh my god, it's just gonna be the best thing eveeer!" disabled></textarea>
+            <textarea rows="8" asp-for="Description" disabled></textarea>
         </label>
 
         <h3>Description of need</h3>

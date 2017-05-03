@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Ubora.Web.Infrastructure;
 
 namespace Ubora.Web.Models.AccountViewModels
@@ -42,5 +43,13 @@ namespace Ubora.Web.Models.AccountViewModels
 
         [RequiredTrue(ErrorMessage = "You must agree to the terms and conditions!")]
         public bool IsAgreedToTermsOfService { get; set; }
+
+        //public static SelectList Roles => new SelectList(new []
+        //{
+        //    new SelectListItem { Text = "Student"}, 
+        //    new SelectListItem { Text = "Professor"}, 
+        //    new SelectListItem { Text = "Mentor"}, 
+        //    new SelectListItem { Text = "Specialist/Expert"}, 
+        //});
     }
 }

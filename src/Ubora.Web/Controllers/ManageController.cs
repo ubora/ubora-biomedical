@@ -121,7 +121,8 @@ namespace Ubora.Web.Controllers
                 Degree = model.Degree,
                 Field = model.Field,
                 Biography = model.Biography,
-                Skills = model.Skills
+                Skills = model.Skills,
+                Role = model.Role
             };
             _commandProcessor.Execute(command);
 

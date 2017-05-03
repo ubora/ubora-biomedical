@@ -25,6 +25,7 @@ namespace Ubora.Domain.Tests.Users
                 Field = "expectedField",
                 Skills = "expectedSkills",
                 University = "expectedUniversity",
+                Role = "expectedRole"
             };
             var commandProcessor = Container.Resolve<ICommandProcessor>();
 
@@ -43,6 +44,7 @@ namespace Ubora.Domain.Tests.Users
             updatedUserProfile.Field.Should().Be("expectedField");
             updatedUserProfile.Skills.Should().Be("expectedSkills");
             updatedUserProfile.University.Should().Be("expectedUniversity");
+            updatedUserProfile.Role.Should().Be("expectedRole");
         }
 
         private void CreateExistingUserProfile(Guid userId)

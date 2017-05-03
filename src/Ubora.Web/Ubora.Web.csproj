@@ -14,6 +14,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Features\Projects\CreateViewModel.cs" />
+    <Content Include="Features\Projects\ListItemViewModel.cs" />
+    <Content Include="Features\Projects\ListViewComponent.cs" />
+    <Content Include="Features\Projects\ListViewModel.cs" />
+    <Content Include="Features\Projects\ProjectsController.cs" />
     <Content Include="wwwroot\js\CheckboxValidator.js" />
   </ItemGroup>
   <ItemGroup>

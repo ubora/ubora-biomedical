@@ -10,7 +10,7 @@ namespace Ubora.Web.Features.Shared
     {
         public AutoMapperProfile()
         {
-            CreateMap<CreatePostModel, CreateProjectCommand>()
+            CreateMap<CreateViewModel, CreateProjectCommand>()
                 .ForMember(m => m.UserInfo, opt => opt.Ignore())
                 .ForMember(m => m.ProjectId, opt => opt.Ignore());
 
