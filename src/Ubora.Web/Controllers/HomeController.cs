@@ -46,5 +46,10 @@ namespace Ubora.Web.Controllers
 		{
 			return View();
 		}
+
+		public IActionResult ExampleProject()
+		{
+			return View();
+		}
 	}
 }

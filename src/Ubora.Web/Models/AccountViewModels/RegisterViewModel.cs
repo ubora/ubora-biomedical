@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Ubora.Web.Infrastructure;
 
 namespace Ubora.Web.Models.AccountViewModels
 {
@@ -37,8 +38,9 @@ namespace Ubora.Web.Models.AccountViewModels
 
         public string Skills { get; set; }
 
-        // TODO: custom attribute
-        [Range(typeof(bool), "true", "true", ErrorMessage = "You must agree to the terms and conditions!")]
+        public string Role { get; set; }
+
+        [RequiredTrue(ErrorMessage = "You must agree to the terms and conditions!")]
         public bool IsAgreedToTermsOfService { get; set; }
     }
 }
