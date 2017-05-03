@@ -28,7 +28,7 @@
 }
 
 
-.input-form {
+form {
     align-items:stretch;
     display: flex;
     flex-direction: column;
@@ -36,28 +36,34 @@
     margin:0 auto 2em auto;
 }
 
-.input-form > label {
+form > label {
     color: var(--primary-color);
     display: block;
     margin:1em 0;
 }
 
-.input-form > label > input,
-.input-form > label > select,
-.input-form > label > textarea {
+form > label > input,
+form > label > select,
+form > label > textarea {
     width:100%;
 }
 
-.input-form > label > input[type="checkbox"] {
+form > label > input[type="checkbox"] {
     width: inherit;
 }
 
-.input-form h1,
-.input-form h2,
-.input-form h3 {
+form h1,
+form h2,
+form h3 {
     margin:2em 0 0 0;
 }
 
 .form-input-file {
     margin:1em 0;
+}
+
+.default-form {
+    display:block;
+    margin:0;
+    padding:0;
 }
