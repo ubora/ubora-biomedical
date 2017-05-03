@@ -9,11 +9,16 @@ namespace Ubora.Domain.Projects.Tasks
         public string Title { get; private set; }
         public string Description { get; private set; }
 
-        // TODO: Through aggregate:
         private void Apply(TaskAddedEvent e)
         {
-            Id = e.TaskId;
+            Id = e.Id;
             ProjectId = e.ProjectId;
+            Title = e.Title;
+            Description = e.Description;
+        }
+
+        private void Apply(TaskEditedEvent e)
+        {
             Title = e.Title;
             Description = e.Description;
         }

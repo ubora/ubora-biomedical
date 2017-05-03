@@ -21,7 +21,7 @@ namespace Ubora.Web.Features.Projects
 
             var viewModel = new ListViewModel
             {
-                Projects = projects.Select(x => new ListItemViewModel { Id = x.Id, Name = x.Title })
+                Projects = projects.Select(x => new ListItemViewModel { Id = x.Id, Title = x.Title })
             };
 
             return View("~/Features/Projects/ListPartial.cshtml", viewModel);

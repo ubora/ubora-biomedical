@@ -4,12 +4,11 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
 
 namespace Ubora.Web.Features.Projects
 {
-    public class ProjectsController : Controller
+    public class ProjectsController : ControllerBase
     {
         private readonly ICommandQueryProcessor _processor;
         private readonly IMapper _mapper;
@@ -31,7 +30,7 @@ namespace Ubora.Web.Features.Projects
 
             var viewModel = new ListViewModel
             {
-                Projects = projects.Select(x => new ListItemViewModel { Id = x.Id, Name = x.Title })
+                Projects = projects.Select(_mapper.Map<ListItemViewModel>)
             };
 
             return View(viewModel);
@@ -56,7 +55,7 @@ namespace Ubora.Web.Features.Projects
             var command = new CreateProjectCommand
             {
                 ProjectId = projectId,
-                UserInfo = new UserInfo(Guid.NewGuid(), "")
+                UserInfo = UserInfo
             };
             _mapper.Map(model, command);
 

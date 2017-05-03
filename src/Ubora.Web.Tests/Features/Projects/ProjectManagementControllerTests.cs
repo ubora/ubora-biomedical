@@ -11,7 +11,7 @@ namespace Ubora.Web.Tests.Features.Projects
 {
     public class ProjectManagementControllerTests
     {
-        [Fact]
+        [Fact(Skip = "Wait for TestControllerBase")]
         public void Create_Executes_Command()
         {
             var processorMock = new Mock<ICommandQueryProcessor>();

@@ -22,12 +22,12 @@ namespace Ubora.Domain.Infrastructure
                 options.Serializer(serializer);
 
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
-                options.Events.InlineProjections.AggregateStreamsWith<ProjectTask>();
-                options.Events.InlineProjections.Add(new WorkpackagesProjection());
+                options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectTask, ITaskEvent>());
 
                 // TODO: Add event types by convention
                 options.Events.AddEventType(typeof(ProjectCreatedEvent));
                 options.Events.AddEventType(typeof(TaskAddedEvent));
+                options.Events.AddEventType(typeof(TaskEditedEvent));
             };
         }
 

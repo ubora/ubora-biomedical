@@ -27,9 +27,9 @@ namespace Ubora.Domain.Tests
                /* new WorkpackageCreatedEvent("Project initialization", new UserInfo(Guid.NewGuid(), "Karl Parl"))*/);
             var project2Id = Guid.NewGuid();
 
-            //Session.Events.Append(project2Id,
-            //    new ProjectCreatedEvent(new UserInfo(Guid.NewGuid(), "Eeri Peeri")) { Title = "My second project" }
-            //    /*new WorkpackageCreatedEvent("Project initialization", new UserInfo(Guid.NewGuid(), "Lüri Püri"))*/);
+            Session.Events.Append(project2Id,
+                new ProjectCreatedEvent(new UserInfo(Guid.NewGuid(), "Eeri Peeri")) { Title = "My second project" }
+                /*new WorkpackageCreatedEvent("Project initialization", new UserInfo(Guid.NewGuid(), "Lüri Püri"))*/);
             Session.SaveChanges();
 
             //Session.Events.Append(project1Id, 3,

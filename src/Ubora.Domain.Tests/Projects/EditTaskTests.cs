@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Autofac;
 using FluentAssertions;
 using Ubora.Domain.Infrastructure;
@@ -11,15 +10,15 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Projects
 {
-    public class AddTaskTests : IntegrationFixture
+    public class EditTaskTests : IntegrationFixture
     {
-        public AddTaskTests()
+        public EditTaskTests()
         {
             StoreOptions(new UboraStoreOptions().Configuration());
         }
 
         [Fact]
-        public void Adds_New_Task_To_Project()
+        public void Edits_Task_Of_Project()
         {
             var processor = Container.Resolve<ICommandProcessor>();
 
@@ -32,7 +31,16 @@ namespace Ubora.Domain.Tests.Projects
 
             var expectedTaskId = Guid.NewGuid();
             var expectedUserInfo = new UserInfo(Guid.NewGuid(), "");
-            var command = new AddTaskCommand
+            processor.Execute(new AddTaskCommand
+            {
+                Title = "initialTitle",
+                Description = "initialDescription",
+                ProjectId = expectedProjectId,
+                Id = expectedTaskId,
+                InitiatedBy = expectedUserInfo
+            });
+
+            var command2 = new EditTaskCommand
             {
                 Title = "expectedTitle",
                 Description = "expectedDescription",
@@ -42,7 +50,7 @@ namespace Ubora.Domain.Tests.Projects
             };
 
             // Act
-            processor.Execute(command);
+            processor.Execute(command2);
 
             // Assert
             var task = Session.Load<ProjectTask>(expectedTaskId);

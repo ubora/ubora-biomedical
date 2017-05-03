@@ -1,3 +1,4 @@
+using System;
 using AutoMapper;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
@@ -17,6 +18,12 @@ namespace Ubora.Domain.Projects.Tasks
 
         public ICommandResult Handle(AddTaskCommand command)
         {
+            var project = _documentSession.Load<Project>(command.ProjectId);
+            if (project == null)
+            {
+                throw new InvalidOperationException();
+            }
+
             var e = new TaskAddedEvent(command.InitiatedBy);
             _mapper.Map(command, e);
 
