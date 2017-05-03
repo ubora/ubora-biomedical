@@ -1,10 +1,14 @@
+@inject SignInManager<ApplicationUser> SignInManager
+
 ﻿@{
 	ViewData["Title"] = "Welcome";
 }
 
-<section class="hero full-width">
-	<p><b>UBORA</b><br>the biomedical engineering open design platform</p>
-</section>
+@if (!SignInManager.IsSignedIn(User)) {
+	<section class="hero full-width">
+		<p><b>UBORA</b><br>the biomedical engineering open design platform</p>
+	</section>
+}
 
 <section class="initiative full-width">
 	<div class="initiative-option">
@@ -18,7 +22,42 @@
 	</div>
 </section>
 
-<section class="projects" style="display:none;">
+@if (SignInManager.IsSignedIn(User)) {
+<section class="projects">
+	<h2 class="full-width">My projects</h2>
+	<project-card
+		class="js-example-project"
+		banner="//placeimg.com/400/150/nature/grayscale"
+		title="Hyperneedle: a nanotechnological approach"
+		author="Risto"
+		authorimage="//placehold.it/50x50"
+		funded="0%"
+		pledged="0$"
+		completed="0%"
+		timeremaining="365">
+		<p>I do not like needles and would want a painless way of getting my flu shots. 🤔</p>
+	</project-card>
+	<script>
+		let exampleProject = document.querySelector('.js-example-project');
+		exampleProject.addEventListener('click', () => {
+			window.top.location = '/home/exampleproject';
+		});
+	</script>
+
+	<project-card
+		banner="//placehold.it/400x150"
+		title="Example project"
+		author="John Smith"
+		authorimage="//placehold.it/50x50"
+		funded="75%"
+		pledged="1,000,000$"
+		completed="100%"
+		timeremaining="365">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
+	</project-card>
+</section>
+
+<section class="projects">
 	<h2 class="full-width">Public projects</h2>
 	<project-card
 		banner="//placehold.it/400x150"
@@ -86,29 +125,8 @@
 		timeremaining="365">
 		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
 	</project-card>
-	<project-card
-		banner="//placehold.it/400x150"
-		title="Example project"
-		author="John Smith"
-		authorimage="//placehold.it/50x50"
-		funded="75%"
-		pledged="1,000,000$"
-		completed="100%"
-		timeremaining="365">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
-	</project-card>
-	<project-card
-		banner="//placehold.it/400x150"
-		title="Example project"
-		author="John Smith"
-		authorimage="//placehold.it/50x50"
-		funded="75%"
-		pledged="1,000,000$"
-		completed="100%"
-		timeremaining="365">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab voluptas reprehenderit minus sed in quas non eos, vel incidunt ducimus ipsam sunt dolores pariatur, ipsum quia rem consectetur asperiores magni.</p>
-	</project-card>
 </section>
+}
 
 <section class="about" style="display:none;">
 	<h2 class="full-width">About UBORA</h2>
