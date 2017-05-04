@@ -3,15 +3,6 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects.Tasks
 {
-    public interface IAggregateMemberEvent
-    {
-        Guid Id { get; }
-    }
-
-    public interface ITaskEvent : IAggregateMemberEvent
-    {
-    }
-
     public class TaskAddedEvent : UboraEvent, ITaskEvent
     {
         public TaskAddedEvent(UserInfo initiatedBy) : base(initiatedBy)

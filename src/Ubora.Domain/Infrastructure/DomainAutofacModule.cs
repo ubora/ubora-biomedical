@@ -4,6 +4,7 @@ using AutoMapper;
 using Marten;
 using Marten.Events;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Infrastructure.Queries;
 
 namespace Ubora.Domain.Infrastructure
