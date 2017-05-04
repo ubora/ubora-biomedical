@@ -1,4 +1,5 @@
-﻿@model UserProfileViewModel
+﻿@using Ubora.Web.Features.Shared
+@model UserProfileViewModel
 
 @{
     ViewData["Title"] = "Edit profile";
@@ -9,54 +10,54 @@
 
     <form asp-controller="Manage" asp-action="EditProfile" method="post">
 
-        <div asp-validation-summary="All" class="text-danger"></div>
-
         <label>
             First name
             <input asp-for="FirstName" placeholder="First name">
+            <span asp-validation-for="FirstName"></span>
         </label>
 
         <label>
             Last name
             <input asp-for="LastName" placeholder="Last name">
+            <span asp-validation-for="LastName"></span>
         </label>
 
         <h3>Academia</h3>
         <label>
             University
             <input asp-for="University" placeholder="Name of university">
+            <span asp-validation-for="University"></span>
         </label>
 
         <label>
             Degree
             <input asp-for="Degree" placeholder="Held/obtaining degree">
+            <span asp-validation-for="Degree"></span>
         </label>
 
         <label>
             Field
             <input asp-for="Field" placeholder="e.g. hardware engineering">
+            <span asp-validation-for="Field"></span>
         </label>
 
         <label>
             Role
-            <select asp-for="Role">
-                <option value="placeholder" disabled selected>I am a...</option>
-                <option value="student">Student</option>
-                <option value="professor">Professor</option>
-                <option value="mentor">Mentor</option>
-                <option value="expert">Specialist/Expert</option>
-            </select>
+            @Html.DropDownListFor(x => x.Role, SelectLists.UserRoles)
+            <span asp-validation-for="Role"></span>
         </label>
 
         <h3>Personal</h3>
         <label>
             Bio
             <textarea asp-for="Biography" rows="5" placeholder="Write a few words about yourself!"></textarea>
+            <span asp-validation-for="Biography"></span>
         </label>
 
         <label>
             Skills
             <input asp-for="Skills" placeholder="What are you good at?">
+            <span asp-validation-for="Skills"></span>
         </label>
 
         <button type="submit" class="button primary-button">Edit profile</button>
