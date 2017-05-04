@@ -36,8 +36,8 @@ p {
 }
 
 small {
-	font-size: 80%;
 }
+	font-size: 80%;
 
 blockquote {
 	border-left: 4px solid var(--secondary-shade);

@@ -7,60 +7,48 @@
 @await Html.PartialAsync("_ProcessSteps")
 
 <section class="medium-width">
-    <h1 class="full-width">Project draft</h1>
+    <h1 class="full-width">Design planning</h1>
 
     <form asp-controller="Projects" asp-action="Create" method="post">
-        <h3>Project summary</h3>
-        
-        <label>
-            Project title
-            <input asp-for="Title" placeholder="What's the name of your project?">
+
+        <div class="form-input">
+            <label asp-for="Title">Project title</label>
+            <input asp-for="Title" placeholder="Name your project">
             <span asp-validation-for="Title"></span>
-        </label>
+        </div>
 
-        <label>
-            Project description
-            <textarea id="js-project-description" asp-for="Description" rows="8" placeholder="Describe your project idea briefly..."></textarea>
-        </label>
+        <h2>Design tag</h2>
+        <div class="form-input">
+            <label asp-for="ClinicalNeed">Clinical need</label>
+            <input asp-for="ClinicalNeed" placeholder="What is the clinical need?">
+            <span asp-validation-for="ClinicalNeed"></span>
+        </div>
 
-        <script>
-            var simpleMde = new SimpleMDE({ element: document.getElementById("js-project-description") });
-        </script>
+        <div class="form-input">
+            <label asp-for="AreaOfUsage">Area</label>
+            <input asp-for="AreaOfUsage" placeholder="Where and how will your project be used?">
+            <span asp-validation-for="AreaOfUsage"></span>
+        </div>
 
-        <h3>TODO: How to call this section?</h3>
-        <label>
-            Clinical need
-            <textarea asp-for="ClinicalNeed" rows="8" placeholder="What is the clinical need?"></textarea>
-        </label>
+        <div class="form-input">
+            <label asp-for="PotentialTechnology">Technology</label>
+            <input asp-for="PotentialTechnology" placeholder="Describe potential technologies used in your project...">
+            <span asp-validation-for="PotentialTechnology"></span>
+        </div>
 
-        <label>
-            Area of usage
-            <textarea asp-for="AreaOfUsage" rows="8" placeholder="Where and how will your project be used?"></textarea>
-        </label>
+        <div class="form-input">
+            <label asp-for="GmdnTerm">GMDN term</label>
+            <input asp-for="GmdnTerm" placeholder="TODO: Placeholder text?">
+        </div>
 
-        <label>
-            Potential technology
-            <textarea asp-for="PotentialTechnology" rows="8" placeholder="Describe potential technologies used in your project..."></textarea>
-        </label>
+        <!-- <h2>Collaborators</h2>
+        <div class="form-input">
+            <label asp-for=""></label>
+            <input asp-for="" placeholder="Find collaborators by name">
+        </div> -->
 
-        <h3>Initial GMDN tags</h3>
-        <!-- Referenced from: http://www.gs1.org/docs/healthcare/Tues_10h15_MarkWasmuth_GMDN.pdf slide 8 -->
-        <label>
-            Term name
-            <input asp-for="GmdnTerm" placeholder="e.g. General-purpose syringe">
-        </label>
-
-        <label>
-            Definition
-            <textarea asp-for="GmdnDefinition" placeholder="Definition" disabled></textarea>
-        </label>
-
-        <label>
-            Code
-            <input asp-for="GmdnCode" placeholder="GMDN classification code">
-        </label>
-
-        <br>
-        <button class="button primary-button" type="submit">Propose project</button>
+        <div class="center-element">
+            <button class="button primary-button" type="submit">Continue</button>
+        </div>
     </form>
 </section>
