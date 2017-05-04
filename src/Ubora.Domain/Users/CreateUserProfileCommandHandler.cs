@@ -22,7 +22,8 @@ namespace Ubora.Domain.Users
                 Degree = command.Degree,
                 Field = command.Field,
                 Biography = command.Biography,
-                Skills = command.Skills
+                Skills = command.Skills,
+                Role = command.Role
             };
 
             _documentSession.Store(userProfile);

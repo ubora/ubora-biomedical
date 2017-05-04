@@ -24,7 +24,7 @@ namespace Ubora.Web.Services
             var claimsIdentity = (ClaimsIdentity) claimsPrincipal.Identity;
 
             var userProfile = _queryProcessor.FindById<UserProfile>(user.Id);
-            claimsIdentity.AddClaim(new Claim("UserProfile.FullName", userProfile.FullName));
+            claimsIdentity.AddClaim(new Claim(ApplicationUser.FullNameClaimType, userProfile.FullName));
 
             return claimsPrincipal;
         }

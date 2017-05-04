@@ -8,7 +8,11 @@ using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Infrastructure
 {
-    public class CommandQueryProcessor : ICommandProcessor, IQueryProcessor
+    public interface ICommandQueryProcessor : ICommandProcessor, IQueryProcessor
+    {
+    }
+
+    public class CommandQueryProcessor : ICommandQueryProcessor
     {
         private readonly IComponentContext _handlerResolver;
         private readonly IQuerySession _querySession;

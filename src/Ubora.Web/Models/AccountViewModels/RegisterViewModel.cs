@@ -1,5 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Ubora.Web.Infrastructure;
 
 namespace Ubora.Web.Models.AccountViewModels
 {
@@ -16,6 +17,7 @@ namespace Ubora.Web.Models.AccountViewModels
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
@@ -37,7 +39,17 @@ namespace Ubora.Web.Models.AccountViewModels
 
         public string Skills { get; set; }
 
-        [Required]
+        public string Role { get; set; }
+
+        [RequiredTrue(ErrorMessage = "You must agree to the terms and conditions!")]
         public bool IsAgreedToTermsOfService { get; set; }
+
+        //public static SelectList Roles => new SelectList(new []
+        //{
+        //    new SelectListItem { Text = "Student"}, 
+        //    new SelectListItem { Text = "Professor"}, 
+        //    new SelectListItem { Text = "Mentor"}, 
+        //    new SelectListItem { Text = "Specialist/Expert"}, 
+        //});
     }
 }

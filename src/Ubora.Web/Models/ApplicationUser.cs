@@ -5,6 +5,7 @@ namespace Ubora.Web.Models
 {
     public class ApplicationUser : IdentityUser<Guid>
     {
+        public static readonly string FullNameClaimType = "Ubora.UserProfile.FullName";
     }
 
     public class ApplicationRole : IdentityRole<Guid>

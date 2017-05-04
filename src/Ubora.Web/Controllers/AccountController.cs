@@ -130,7 +130,8 @@ namespace Ubora.Web.Controllers
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         Skills = model.Skills,
-                        University = model.University
+                        University = model.University,
+                        Role = model.Role
                     });
 
 					// For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713

@@ -9,17 +9,16 @@
 	<h2 class="full-width">@ViewData["Title"]</h2>
 
 	<form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="POST">
-		<div asp-validation-summary="All" class="text-danger"></div>
-
+	    
 		<label asp-for="Email">
 			Email address<br>
-			<small asp-validation-for="Email" class="text-danger"></small>
+			<span asp-validation-for="Email"></span>
 			<input asp-for="Email" placeholder="email@example.com" required>
 		</label>
 
 		<label asp-for="Password">
 			Password<br>
-			<small asp-validation-for="Password" class="text-danger"></small>
+			<span asp-validation-for="Password"></span>
 			<input asp-for="Password" placeholder="Secret passphrase" required>
 		</label>
 
