@@ -43,13 +43,5 @@ namespace Ubora.Web.Models.AccountViewModels
 
         [RequiredTrue(ErrorMessage = "You must agree to the terms and conditions!")]
         public bool IsAgreedToTermsOfService { get; set; }
-
-        //public static SelectList Roles => new SelectList(new []
-        //{
-        //    new SelectListItem { Text = "Student"}, 
-        //    new SelectListItem { Text = "Professor"}, 
-        //    new SelectListItem { Text = "Mentor"}, 
-        //    new SelectListItem { Text = "Specialist/Expert"}, 
-        //});
     }
 }

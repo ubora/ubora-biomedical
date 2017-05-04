@@ -6,36 +6,8 @@
 <section class="medium-width">
 
     <h1>@ViewData["Title"]</h1>
-    <p class="text-success">@ViewData["StatusMessage"]</p>
 
-    <div>
-        <h4>Change your account settings</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>Password:</dt>
-            <dd>
-                @if (Model.HasPassword)
-            {
-                    <a asp-controller="Manage" asp-action="ChangePassword" class="btn-bracketed">Change</a>
-                }
-                else
-                {
-                    <a asp-controller="Manage" asp-action="SetPassword" class="btn-bracketed">Create</a>
-                }
-            </dd>
-        </dl>
-    </div>
+    <a class="button secondary-button" asp-controller="Manage" asp-action="EditProfile">Edit profile</a>
+    <a class="button secondary-button" asp-controller="Manage" asp-action="ChangePassword">Change password</a>
 
-
-    <dl class="dl-horizontal">
-        <dt>Firstname:</dt>
-        <dd>
-            @Model.UserProfile.FirstName
-        </dd>
-        <dt>Lastname:</dt>
-        <dd>
-            @Model.UserProfile.LastName
-        </dd>
-    </dl>
-    <a asp-controller="Manage" asp-action="EditProfile" class="btn-bracketed">Edit profile</a>
 </section>

@@ -96,7 +96,8 @@ namespace Ubora.Web.Controllers
                 Degree = userProfile.Degree,
                 Field = userProfile.Field,
                 Biography = userProfile.Biography,
-                Skills = userProfile.Skills
+                Skills = userProfile.Skills,
+                Role = userProfile.Role
             };
 
             return View(model);

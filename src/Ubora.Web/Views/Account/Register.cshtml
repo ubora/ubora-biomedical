@@ -1,4 +1,5 @@
-﻿@model RegisterViewModel
+﻿@using Ubora.Web.Features.Shared
+@model RegisterViewModel
 @{
     ViewData["Title"] = "Sign up";
 }
@@ -10,82 +11,78 @@
 
         <label>
             First name
-            <span asp-validation-for="FirstName"></span>
             <input asp-for="FirstName" placeholder="First name">
+            <span asp-validation-for="FirstName"></span>
         </label>
 
         <label>
             Last name
-            <span asp-validation-for="LastName"></span>
             <input asp-for="LastName" placeholder="Last name">
+            <span asp-validation-for="LastName"></span>
         </label>
 
         <label>
             Email address
-            <span asp-validation-for="Email"></span>
             <input asp-for="Email" placeholder="email@example.com">
+            <span asp-validation-for="Email"></span>
         </label>
 
         <label>
             Password
-            <span asp-validation-for="Password"></span>
             <input asp-for="Password" placeholder="Secret passphrase">
+            <span asp-validation-for="Password"></span>
         </label>
 
         <label>
             Password again
-            <span asp-validation-for="ConfirmPassword"></span>
             <input asp-for="ConfirmPassword" placeholder="Secret passphrase again">
+            <span asp-validation-for="ConfirmPassword"></span>
         </label>
 
         <h3>Academia</h3>
         <label>
             University
-            <span asp-validation-for="University"></span>
             <input asp-for="University" placeholder="Name of university">
+            <span asp-validation-for="University"></span>
         </label>
 
         <label>
             Degree
-            <span asp-validation-for="Degree"></span>
             <input asp-for="Degree" placeholder="Held/obtaining degree">
+            <span asp-validation-for="Degree"></span>
         </label>
 
         <label>
             Field
-            <span asp-validation-for="Field"></span>
             <input asp-for="Field" placeholder="e.g. hardware engineering">
+            <span asp-validation-for="Field"></span>
         </label>
 
         <label>
             Role
-            @*TODO*@
-            <select asp-for="Role">
-                <option value="placeholder" disabled selected>I am a...</option>
-                <option value="student">Student</option>
-                <option value="professor">Professor</option>
-                <option value="mentor">Mentor</option>
-                <option value="expert">Specialist/Expert</option>
+            <select asp-for="Role" asp-items="@SelectLists.UserRoles">
             </select>
+            <span asp-validation-for="Role"></span>
         </label>
 
         <h3>Personal</h3>
         <label>
             Bio
-            <span asp-validation-for="Biography"></span>
             <textarea asp-for="Biography" rows="5" placeholder="Write a few words about yourself!"></textarea>
+            <span asp-validation-for="Biography"></span>
         </label>
 
         <label>
             Skills
             <input asp-for="Skills" placeholder="What are you good at?">
+            <span asp-validation-for="Skills"></span>
         </label>
 
         <label>
-            <span asp-validation-for="IsAgreedToTermsOfService"></span>
             @*TODO: Investigate 'required' behaviour related to jQuery validation*@
             <input asp-for="IsAgreedToTermsOfService" required>
             I agree to <a asp-controller="Home" asp-action="Terms">Terms of Service</a>
+            <span asp-validation-for="IsAgreedToTermsOfService"></span>
         </label>
 
         <button type="submit" class="button primary-button">Create an account</button>
