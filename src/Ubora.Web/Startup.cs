@@ -42,7 +42,7 @@ namespace Ubora.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration.GetConnectionString("ApplicationDbConnection");
+            var connectionString = Configuration["ConnectionStrings:ApplicationDbConnection"];
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString));
