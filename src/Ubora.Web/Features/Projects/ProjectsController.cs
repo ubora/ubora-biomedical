@@ -54,7 +54,7 @@ namespace Ubora.Web.Features.Projects
             var projectId = Guid.NewGuid();
             var command = new CreateProjectCommand
             {
-                ProjectId = projectId,
+                Id = projectId,
                 UserInfo = UserInfo
             };
             _mapper.Map(model, command);

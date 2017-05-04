@@ -20,7 +20,7 @@ namespace Ubora.Domain.Projects
             var evnt = new ProjectCreatedEvent(cmd.UserInfo);
             _mapper.Map(cmd, evnt);
 
-            _documentSession.Events.Append(cmd.ProjectId, evnt);
+            _documentSession.Events.Append(cmd.Id, evnt);
             _documentSession.SaveChanges();
 
             return new CommandResult(true);

@@ -6,7 +6,7 @@ namespace Ubora.Domain.Projects
 {
     public class CreateProjectCommand : ICommand
     {
-        public Guid ProjectId { get; set; }
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public UserInfo UserInfo { get; set; }
         public string Description { get; set; }

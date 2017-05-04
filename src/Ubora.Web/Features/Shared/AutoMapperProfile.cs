@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
+using Ubora.Web.Features.ProjectManagement;
 using Ubora.Web.Features.ProjectManagement.Tasks;
 using Ubora.Web.Features.Projects;
 
@@ -12,7 +13,7 @@ namespace Ubora.Web.Features.Shared
         {
             CreateMap<CreateViewModel, CreateProjectCommand>()
                 .ForMember(m => m.UserInfo, opt => opt.Ignore())
-                .ForMember(m => m.ProjectId, opt => opt.Ignore());
+                .ForMember(m => m.Id, opt => opt.Ignore());
 
             CreateMap<AddTaskViewModel, AddTaskCommand>()
                 .ForMember(m => m.Id, opt => opt.Ignore())
@@ -24,6 +25,11 @@ namespace Ubora.Web.Features.Shared
             CreateMap<ProjectTask, EditTaskViewModel>();
             CreateMap<EditTaskViewModel, EditTaskCommand>()
                 .ForMember(m => m.InitiatedBy, opt => opt.Ignore());
+
+            CreateMap<Project, UpdateProjectViewModel>();
+            CreateMap<UpdateProjectViewModel, UpdateProjectCommand>()
+                .ForMember(m => m.UserInfo, opt => opt.Ignore());
+
         }
     }
 }

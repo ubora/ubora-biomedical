@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ubora.Web.Features.ProjectManagement
 {
-    public class DashboardViewModel : WorkPackageOneViewModel
+    public class DashboardViewModel
     {
         public IEnumerable<string> EventStream { get; set; }
         public Guid Id { get; set; }
