@@ -27,7 +27,6 @@ namespace Ubora.Domain.Tests.Projects
                 Title = "ProjectName",
                 AreaOfUsage = "expectedAreaOfUsage",
                 ClinicalNeed = "expectedClinicalNeed",
-                Description = "expectedDescription",
                 GmdnCode = "expectedGmdnCode",
                 GmdnDefinition = "expectedGmdnDefinition",
                 GmdnTerm = "expectedGmdnTerm",
@@ -58,7 +57,6 @@ namespace Ubora.Domain.Tests.Projects
             project.Title.Should().Be(command.Title);
             project.AreaOfUsageTags.Should().Be("expectedAreaOfUsage");
             project.ClinicalNeedTags.Should().Be("expectedClinicalNeed");
-            project.Description.Should().Be("expectedDescription");
             project.GmdnCode.Should().Be("expectedGmdnCode");
             project.GmdnDefinition.Should().Be("expectedGmdnDefinition");
             project.GmdnTerm.Should().Be("expectedGmdnTerm");

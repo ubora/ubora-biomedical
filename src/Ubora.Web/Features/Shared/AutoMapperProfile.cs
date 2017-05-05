@@ -26,10 +26,12 @@ namespace Ubora.Web.Features.Shared
             CreateMap<EditTaskViewModel, EditTaskCommand>()
                 .ForMember(m => m.InitiatedBy, opt => opt.Ignore());
 
-            CreateMap<Project, UpdateProjectViewModel>();
-            CreateMap<UpdateProjectViewModel, UpdateProjectCommand>()
-                .ForMember(m => m.UserInfo, opt => opt.Ignore());
+            CreateMap<Project, StepOneViewModel>();
 
+            CreateMap<Project, StepTwoViewModel>();
+
+            CreateMap<Project, UpdateProjectCommand>()
+                .ForMember(m => m.UserInfo, opt => opt.Ignore());
         }
     }
 }

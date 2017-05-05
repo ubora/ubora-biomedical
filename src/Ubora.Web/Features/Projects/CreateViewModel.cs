@@ -1,25 +1,29 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ubora.Web.Features.Projects
 {
     public class CreateViewModel
     {
         [Required]
-        [Display(Name = "Name")]
         public string Title { get; set; }
 
-        public string Description { get; set; }
-
+        [Required]
         public string ClinicalNeed { get; set; }
 
+        [Required]
         public string AreaOfUsage { get; set; }
 
+        [Required]
         public string PotentialTechnology { get; set; }
 
+        [Required]
         public string GmdnTerm { get; set; }
 
+        [Obsolete]
         public string GmdnDefinition { get; set; }
 
+        [Obsolete]
         public string GmdnCode { get; set; }
     }
 }

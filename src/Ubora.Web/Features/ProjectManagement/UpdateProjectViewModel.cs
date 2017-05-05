@@ -1,16 +1,21 @@
-﻿using System;
-using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Infrastructure.Events;
+using System;
 
-namespace Ubora.Domain.Projects
+namespace Ubora.Web.Features.ProjectManagement
 {
-    public class UpdateProjectCommand : ICommand
+    public class StepOneViewModel
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string ClinicalNeedTags { get; set; }
         public string AreaOfUsageTags { get; set; }
         public string PotentialTechnologyTags { get; set; }
+        public string GmdnTerm { get; set; }
+    }
+
+    public class StepTwoViewModel
+    {
+        public Guid Id { get; set; }
+        public string Title { get; set; }
         public string DescriptionOfNeed { get; set; }
         public string DescriptionOfExistingSolutionsAndAnalysis { get; set; }
         public string ProductFunctionality { get; set; }
@@ -20,7 +25,5 @@ namespace Ubora.Domain.Projects
         public string PatientPopulationStudy { get; set; }
         public string UserRequirementStudy { get; set; }
         public string AdditionalInformation { get; set; }
-        public string GmdnTerm { get; set; }
-        public UserInfo UserInfo { get; set; }
     }
 }

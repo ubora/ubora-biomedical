@@ -1,6 +1,8 @@
+@model Ubora.Web.Features.Shared.ProcessStepViewModel
+
 <section class="process-steps">
 
-    <a href="#" class="process-step process-step-completed">
+    <a asp-controller="ProjectManagement" asp-action="StepOne" asp-route-id="@Model.ProjectId" class="process-step @Model.StepOneStatusClass">
         <h2 class="process-step-header">Step 1</h2>
         <p class="process-step-description">Drafting</p>
     </a>
@@ -9,7 +11,7 @@
         <i class="material-icons">forward</i>
     </div>
 
-    <a href="#" class="process-step process-step-active">
+    <a asp-controller="ProjectManagement" asp-action="StepTwo" asp-route-id="@Model.ProjectId" class="process-step @Model.StepTwoStatusClass">
         <h2 class="process-step-header">Step 2</h2>
         <p class="process-step-description">Medical need & product specification</p>
     </a>
@@ -18,7 +20,7 @@
         <i class="material-icons">forward</i>
     </div>
 
-    <a href="#" class="process-step process-step-unfinished">
+    <a href="#" class="process-step">
         <h2 class="process-step-header">Step 3</h2>
         <p class="process-step-description">Conceptual design</p>
     </a>

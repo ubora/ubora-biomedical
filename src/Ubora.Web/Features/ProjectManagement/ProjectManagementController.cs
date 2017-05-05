@@ -30,13 +30,15 @@ namespace Ubora.Web.Features.ProjectManagement
 
         public IActionResult Dashboard(Guid id)
         {
+            // TODO
+            return RedirectToAction(nameof(StepTwo), new { id });
+
             var project = _processor.FindById<Project>(id);
 
             var model = new DashboardViewModel
             {
-                Name = project.Title,
+                Title = project.Title,
                 Id = project.Id,
-                Description = project.Description
             };
 
             return View(model);
@@ -58,21 +60,32 @@ namespace Ubora.Web.Features.ProjectManagement
         {
             var project = _processor.FindById<Project>(id);
 
-            var model = _mapper.Map<UpdateProjectViewModel>(project);
+            var model = _mapper.Map<StepOneViewModel>(project);
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult UpdateStepOne(UpdateProjectViewModel model)
+        public IActionResult StepOne(StepOneViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var command = new UpdateProjectCommand { UserInfo = this.UserInfo };
-            _mapper.Map(model, command);
+            var command = new UpdateProjectCommand
+            {
+                UserInfo = this.UserInfo
+            };
+
+            var project = _processor.FindById<Project>(model.Id);
+            _mapper.Map(project, command);
+
+            command.Title = model.Title;
+            command.ClinicalNeedTags = model.ClinicalNeedTags;
+            command.AreaOfUsageTags = model.AreaOfUsageTags;
+            command.PotentialTechnologyTags = model.PotentialTechnologyTags;
+            command.GmdnTerm = model.GmdnTerm;
 
             return RedirectToAction(nameof(Dashboard), new { id = model.Id });
         }
@@ -81,42 +94,40 @@ namespace Ubora.Web.Features.ProjectManagement
         {
             var project = _processor.FindById<Project>(id);
 
-            var model = _mapper.Map<UpdateProjectViewModel>(project);
+            var model = _mapper.Map<StepTwoViewModel>(project);
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult UpdateStepTwo(UpdateProjectViewModel model)
+        public IActionResult StepTwo(StepTwoViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var command = new UpdateProjectCommand { UserInfo = this.UserInfo };
-            _mapper.Map(model, command);
+            var command = new UpdateProjectCommand
+            {
+                UserInfo = this.UserInfo
+            };
+
+            var project = _processor.FindById<Project>(model.Id);
+            _mapper.Map(project, command);
+
+            command.DescriptionOfNeed = model.DescriptionOfNeed;
+            command.DescriptionOfExistingSolutionsAndAnalysis = model.DescriptionOfExistingSolutionsAndAnalysis;
+            command.ProductFunctionality = model.ProductFunctionality;
+            command.ProductPerformance = model.ProductPerformance;
+            command.ProductUsability = model.ProductUsability;
+            command.ProductSafety = model.ProductSafety;
+            command.PatientPopulationStudy = model.PatientPopulationStudy;
+            command.UserRequirementStudy = model.UserRequirementStudy;
+            command.AdditionalInformation = model.AdditionalInformation;
 
             _processor.Execute(command);
 
             return RedirectToAction(nameof(Dashboard), new { id = model.Id });
         }
-    }
-
-    public class UpdateProjectViewModel
-    {
-        public Guid Id { get; set; }
-        public string Title { get; set; }
-        public string ClinicalNeedTags { get; set; }
-        public string AreaOfUsageTags { get; set; }
-        public string PotentialTechnologyTags { get; set; }
-        public string DescriptionOfNeed { get; set; }
-        public string DescriptionOfExistingSolutionsAndAnalysis { get; set; }
-        public string ProductPerformance { get; set; }
-        public string ProductUsability { get; set; }
-        public string ProductSafety { get; set; }
-        public string PatientsTargetGroup { get; set; }
-        public string EndusersTargetGroup { get; set; }
-        public string AdditionalInformation { get; set; }
     }
 }
