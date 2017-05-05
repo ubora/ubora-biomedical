@@ -87,6 +87,8 @@ namespace Ubora.Web.Features.ProjectManagement
             command.PotentialTechnologyTags = model.PotentialTechnologyTags;
             command.GmdnTerm = model.GmdnTerm;
 
+            _processor.Execute(command);
+
             return RedirectToAction(nameof(Dashboard), new { id = model.Id });
         }
 
