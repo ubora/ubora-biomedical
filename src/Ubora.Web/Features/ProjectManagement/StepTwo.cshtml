@@ -23,7 +23,7 @@
         <h3>Needs</h3>
         <label>
             <h4>Description of need</h4>
-            <textarea asp-for="DescriptionOfNeed" rows="8" placeholder="Explain the need for this project in greater detail..."></textarea>
+            <textarea id="exampleMDE" asp-for="DescriptionOfNeed" rows="8" placeholder="Explain the need for this project in greater detail..."></textarea>
             <span asp-validation-for="DescriptionOfNeed"></span>
         </label>
 
@@ -73,25 +73,27 @@
 
         <h3>Additional information</h3>
         <label>
-            Documents, files, images etc.
             <textarea asp-for="AdditionalInformation" rows="8" placeholder="Additional information"></textarea>
             <span asp-validation-for="AdditionalInformation"></span>
-            <br>
-            Choose file(s)
-            <!-- TODO: RK - design this ugly field into something more beautiful! -->
-            <input type="file">
         </label>
 
-        <h3>Device classification</h3>
-        <!-- TODO: This will open a modal, where the user can identify and/or classify his/her device -->
-        <button class="button button-secondary">Classify your device</button>
-
-        <h3>ISO standards and regulation checklist</h3>
-        <!-- TODO: I actually have no idea what should go here... -->
 
         <br>
-        <button class="button primary-button" type="submit">Save changes</button>
+        <button class="button primary-button full-width" type="submit">Save changes</button>
+        <h3>Device classification</h3>
+        <!-- TODO: This will open a modal, where the user can identify and/or classify his/her device -->
+        <!-- <button class="button button-secondary">Classify your device</button>
+
+        <br> -->
+        <button class="button primary-button full-width" type="submit" disabled>Go to device classification</button>
+
     </form>
 
-    <button class="button primary-button" type="submit" disabled>Submit for review</button>
 </section>
+
+<link rel="stylesheet" href="~/lib/simplemde/dist/simplemde.min.css">
+<script type="text/javascript" src="~/lib/simplemde/dist/simplemde.min.js"></script>
+
+<script>
+    var simplemde = new SimpleMDE({ element: document.getElementById("exampleMDE") });
+</script>

@@ -89,7 +89,7 @@ namespace Ubora.Web.Features.ProjectManagement
 
             _processor.Execute(command);
 
-            return RedirectToAction(nameof(Dashboard), new { id = model.Id });
+            return RedirectToAction(nameof(StepOne), new { id = model.Id });
         }
 
         public IActionResult StepTwo(Guid id)
