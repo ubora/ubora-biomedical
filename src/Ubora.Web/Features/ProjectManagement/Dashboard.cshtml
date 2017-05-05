@@ -1,36 +1,34 @@
+@using Ubora.Web.Features.Shared
 @model Ubora.Web.Features.ProjectManagement.DashboardViewModel
 
 @{
     ViewData["Title"] = "Dashboard";
 }
 
-@await Html.PartialAsync("_ProcessSteps")
+@await Html.PartialAsync("_ProcessSteps", new ProcessStepViewModel
+{
+    ProjectId = Model.Id,
+    StepOneStatus = StepStatus.Completed,
+    StepTwoStatus = StepStatus.Active,
+})
 
 <section class="medium-width">
-    <h1>@Model.Name</h1>
+    <h1>@Model.Title</h1>
 
     <a class="button secondary-button" asp-controller="Tasks" asp-action="List" asp-route-projectId="@Model.Id">Tasks</a>
     <a class="button secondary-button" asp-controller="ProjectManagement" asp-action="History" asp-route-id="@Model.Id">History</a>
 
     <form>
-        <h3>Project summary</h3>
-        <label>
-            Project title
-            <input asp-for="Name" disabled>
-        </label>
 
+        <h3>Needs</h3>
         <label>
-            Project description
-            <textarea rows="8" asp-for="Description" disabled></textarea>
-        </label>
+            <h4>Description of need</h4>
 
-        <h3>Description of need</h3>
-        <label>
             <textarea rows="8" placeholder="Explain the need for this project in greater detail..."></textarea>
         </label>
 
-        <h3>Description of existing solutions and analysis</h3>
         <label>
+            <h4>Description of existing solutions and analysis</h4>
             <textarea rows="8" placeholder="Please provide an overview of existing solutions with included analysis compared to your project..."></textarea>
         </label>
 
@@ -55,14 +53,14 @@
             <textarea rows="8" placeholder="How do you guarantee safety?"></textarea>
         </label>
 
-        <h3>Target groups</h3>
+        <h3>Involved people study</h3>
         <label>
-            <h4>Patients</h4>
+            <h4>Patient population</h4>
             <textarea rows="8" placeholder="On which patients will this be used?"></textarea>
         </label>
 
         <label>
-            <h4>End-users</h4>
+            <h4>User requirements</h4>
             <textarea rows="8" placeholder="Who are going to be the end-users and how they will use it?"></textarea>
         </label>
 
@@ -84,6 +82,6 @@
         <!-- TODO: I actually have no idea what should go here... -->
 
         <br>
-        <button class="button primary-button" type="submit">Propose project</button>
+        <button class="button primary-button" type="submit" disabled>Submit for review</button>
     </form>
 </section>

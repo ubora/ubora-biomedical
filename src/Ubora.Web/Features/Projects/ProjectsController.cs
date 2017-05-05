@@ -54,7 +54,7 @@ namespace Ubora.Web.Features.Projects
             var projectId = Guid.NewGuid();
             var command = new CreateProjectCommand
             {
-                ProjectId = projectId,
+                Id = projectId,
                 UserInfo = UserInfo
             };
             _mapper.Map(model, command);
@@ -62,6 +62,12 @@ namespace Ubora.Web.Features.Projects
             _processor.Execute(command);
 
             return RedirectToAction("Index", "ProjectManagement", new { id = projectId });
+        }
+
+        [Authorize]
+        public IActionResult Dashboard()
+        {
+            return View();
         }
     }
 }
