@@ -1,9 +1,9 @@
 ﻿using System;
 using Autofac;
 using FluentAssertions;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
 using Xunit;

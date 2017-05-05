@@ -5,6 +5,7 @@ using Baseline;
 using FluentAssertions;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Projects;
 using Xunit;
 
