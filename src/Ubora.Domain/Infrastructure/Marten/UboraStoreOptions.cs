@@ -26,8 +26,8 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.AddEventType(typeof(ProjectCreatedEvent));
                 options.Events.AddEventType(typeof(TaskAddedEvent));
                 options.Events.AddEventType(typeof(TaskEditedEvent));
+                options.Events.AddEventType(typeof(ProjectUpdatedEvent));
             };
         }
-
     }
 }
