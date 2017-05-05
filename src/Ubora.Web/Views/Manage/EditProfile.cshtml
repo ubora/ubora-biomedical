@@ -10,55 +10,74 @@
 
     <form asp-controller="Manage" asp-action="EditProfile" method="post">
 
-        <label>
-            First name
+        <div class="form-input">
+            <label>
+                First name
+            </label>
             <input asp-for="FirstName" placeholder="First name">
             <span asp-validation-for="FirstName"></span>
-        </label>
+        </div>
 
-        <label>
-            Last name
+        <div class="form-input">
+            <label>
+                Last name
+            </label>
             <input asp-for="LastName" placeholder="Last name">
             <span asp-validation-for="LastName"></span>
-        </label>
+        </div>
 
         <h3>Academia</h3>
-        <label>
-            University
+        <div class="form-input">
+            <label>
+                University
+            </label>
             <input asp-for="University" placeholder="Name of university">
             <span asp-validation-for="University"></span>
-        </label>
+        </div>
 
-        <label>
-            Degree
+
+        <div class="form-input">
+            <label>
+                Degree
+            </label>
             <input asp-for="Degree" placeholder="Held/obtaining degree">
             <span asp-validation-for="Degree"></span>
-        </label>
+        </div>
 
-        <label>
-            Field
+
+        <div class="form-input">
+            <label>
+                Field
+            </label>
             <input asp-for="Field" placeholder="e.g. hardware engineering">
             <span asp-validation-for="Field"></span>
-        </label>
+        </div>
 
-        <label>
-            Role
+        <div class="form-input">
+            <label>
+                Role
+            </label>
             @Html.DropDownListFor(x => x.Role, SelectLists.UserRoles)
             <span asp-validation-for="Role"></span>
-        </label>
+        </div>
+
 
         <h3>Personal</h3>
-        <label>
-            Bio
+        <div class="form-input">
+            <label>
+                Bio
+            </label>
             <textarea asp-for="Biography" rows="5" placeholder="Write a few words about yourself!"></textarea>
             <span asp-validation-for="Biography"></span>
-        </label>
+        </div>
 
-        <label>
-            Skills
+        <div class="form-input">
+            <label>
+                Skills
+            </label>
             <input asp-for="Skills" placeholder="What are you good at?">
             <span asp-validation-for="Skills"></span>
-        </label>
+        </div>
 
         <button type="submit" class="button primary-button">Edit profile</button>
     </form>
