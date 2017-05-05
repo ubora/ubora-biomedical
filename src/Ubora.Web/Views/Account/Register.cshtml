@@ -9,81 +9,82 @@
 
     <form asp-controller="Account" asp-action="Register" method="post">
 
-        <label>
-            First name
+        <div class="form-input">
+            <label asp-for="FirstName">First name</label>
             <input asp-for="FirstName" placeholder="First name">
             <span asp-validation-for="FirstName"></span>
-        </label>
+        </div>
 
-        <label>
-            Last name
+        <div class="form-input">
+            <label asp-for="LastName">Last name</label>
             <input asp-for="LastName" placeholder="Last name">
             <span asp-validation-for="LastName"></span>
-        </label>
+        </div>
 
-        <label>
-            Email address
+        <div class="form-input">
+            <label asp-for="Email">Email address</label>
             <input asp-for="Email" placeholder="email@example.com">
             <span asp-validation-for="Email"></span>
-        </label>
+        </div>
 
-        <label>
-            Password
+        <div class="form-input">
+            <label asp-for="Password">Secret passphrase</label>
             <input asp-for="Password" placeholder="Secret passphrase">
             <span asp-validation-for="Password"></span>
-        </label>
+        </div>
 
-        <label>
-            Password again
+        <div class="form-input">
+            <label asp-for="ConfirmPassword">Secret passphrase again</label>
             <input asp-for="ConfirmPassword" placeholder="Secret passphrase again">
             <span asp-validation-for="ConfirmPassword"></span>
-        </label>
+        </div>
 
         <h3>Academia</h3>
-        <label>
-            University
+        <div class="form-input">
+            <label asp-for="University">University</label>
             <input asp-for="University" placeholder="Name of university">
             <span asp-validation-for="University"></span>
-        </label>
+        </div>
 
-        <label>
-            Degree
+        <div class="form-input">
+            <label asp-for="Degree">Degree</label>
             <input asp-for="Degree" placeholder="Held/obtaining degree">
             <span asp-validation-for="Degree"></span>
-        </label>
+        </div>
 
-        <label>
-            Field
+        <div class="form-input">
+            <label asp-for="Field">Field</label>
             <input asp-for="Field" placeholder="e.g. hardware engineering">
             <span asp-validation-for="Field"></span>
-        </label>
+        </div>
 
-        <label>
-            Role
-            <select asp-for="Role" asp-items="@SelectLists.UserRoles">
-            </select>
+        <div class="form-input">
+            <label asp-for="Role">Role</label>
+            <select asp-for="Role" asp-items="@SelectLists.UserRoles"></select>
             <span asp-validation-for="Role"></span>
-        </label>
+        </div>
 
         <h3>Personal</h3>
-        <label>
-            Bio
+        <div class="form-input">
+            <label asp-for="Biography">Bio</label>
             <textarea asp-for="Biography" rows="5" placeholder="Write a few words about yourself!"></textarea>
             <span asp-validation-for="Biography"></span>
-        </label>
+        </div>
 
-        <label>
-            Skills
+        <div class="form-input">
+            <label asp-for="Skills">Skills</label>
             <input asp-for="Skills" placeholder="What are you good at?">
             <span asp-validation-for="Skills"></span>
-        </label>
+        </div>
 
-        <label>
+        <div class="form-input">
             @*TODO: Investigate 'required' behaviour related to jQuery validation*@
-            <input asp-for="IsAgreedToTermsOfService" required>
-            I agree to <a asp-controller="Home" asp-action="Terms">Terms of Service</a>
+            <label asp-for="IsAgreedToTermsOfService">
+                <input asp-for="IsAgreedToTermsOfService" required>
+                I agree to <a asp-controller="Home" asp-action="Terms">Terms of Service</a>
+            </label>
             <span asp-validation-for="IsAgreedToTermsOfService"></span>
-        </label>
+        </div>
 
         <button type="submit" class="button primary-button">Create an account</button>
 
