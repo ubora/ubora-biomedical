@@ -19,7 +19,6 @@
     <Content Include="Features\Projects\ListViewComponent.cs" />
     <Content Include="Features\Projects\ListViewModel.cs" />
     <Content Include="Features\Projects\ProjectsController.cs" />
-    <Content Include="wwwroot\js\CheckboxValidator.js" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.5.0" />

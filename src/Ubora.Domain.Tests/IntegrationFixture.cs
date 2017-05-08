@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using AutoMapper;
 using Marten;
 using Ubora.Domain.Infrastructure;
 
@@ -16,11 +15,6 @@ namespace Ubora.Domain.Tests
 
             var module = new DomainAutofacModule(ConnectionSource.ConnectionString);
             builder.RegisterModule(module);
-
-            // Register AutoMapper configuration (normally registered in Web.Startup)
-            var config = new MapperConfiguration(cfg => module.AddAutoMapperProfiles(cfg));
-            builder.RegisterInstance(config).SingleInstance();
-            builder.Register(context => new Mapper(config, context.Resolve)).As<IMapper>();
 
             // Override DocumentStore registration (last is used)
             builder.RegisterInstance((DocumentStore)theStore).SingleInstance();

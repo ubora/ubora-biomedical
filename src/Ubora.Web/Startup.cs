@@ -56,14 +56,14 @@ namespace Ubora.Web
 				.AddEntityFrameworkStores<ApplicationDbContext, Guid>()
 				.AddDefaultTokenProviders();
 
+            services.AddAutoMapper();
+
             var autofacContainerBuilder = new ContainerBuilder();
 
             var domainModule = new DomainAutofacModule(connectionString);
             var webModule = new WebAutofacModule();
             autofacContainerBuilder.RegisterModule(domainModule);
             autofacContainerBuilder.RegisterModule(webModule);
-
-            services.AddAutoMapper(cfg => domainModule.AddAutoMapperProfiles(cfg));
 
             autofacContainerBuilder.Populate(services);
             var container = autofacContainerBuilder.Build();
