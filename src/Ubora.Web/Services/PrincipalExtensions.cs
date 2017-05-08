@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Security.Claims;
-using Ubora.Web.Models;
+using Ubora.Web.Data;
 
 namespace Ubora.Web.Services
 {

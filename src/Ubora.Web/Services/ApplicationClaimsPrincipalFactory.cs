@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Users;
-using Ubora.Web.Models;
+using Ubora.Web.Data;
 
 namespace Ubora.Web.Services
 {

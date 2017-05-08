@@ -1,0 +1,13 @@
+﻿@model Ubora.Web.Features.Manage.IndexViewModel
+@{
+    ViewData["Title"] = "Manage your account";
+}
+
+<section class="medium-width">
+
+    <h1>@ViewData["Title"]</h1>
+
+    <a class="button secondary-button" asp-controller="Manage" asp-action="EditProfile">Edit profile</a>
+    <a class="button secondary-button" asp-controller="Manage" asp-action="ChangePassword">Change password</a>
+
+</section>

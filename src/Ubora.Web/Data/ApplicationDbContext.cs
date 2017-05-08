@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Ubora.Web.Models;
 
 namespace Ubora.Web.Data
 {
