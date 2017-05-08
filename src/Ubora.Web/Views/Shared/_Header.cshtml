@@ -5,9 +5,13 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
+
+    <span class="development-notice">In-development preview</span>
     <header class="header">
+
         <a asp-controller="Home" asp-action="Index">
             <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
+
         </a>
 
         <span class="header-title">
@@ -25,39 +29,38 @@
     <aside class="side-menu js-side-menu">
 
         <div class="menu-profile">
-            <img class="menu-profile-image" src="//www.placehold.it/100x100" alt="Profile icon">
+            <!-- <img class="menu-profile-image" src="//www.placehold.it/100x100" alt="Profile icon"> -->
             <div>
                 <!-- TODO: Have only first name -->
                 <p class="menu-profile-name">@User.GetFullName()</p>
-                <a asp-controller="Manage" asp-action="Index" class="menu-profile-link">View profile</a>
+                <!-- <a asp-controller="Manage" asp-action="Index" class="menu-profile-link">View profile</a> -->
             </div>
         </div>
 
         <nav>
-            <a class="menu-link" asp-controller="Home" asp-action="Search">
+            <!-- <a class="menu-link" asp-controller="Home" asp-action="Search">
                 <i class="material-icons">search</i>Search
             </a>
 
             <a class="menu-link" href="#">
                 <i class="material-icons">message</i>Messages
-            </a>
+            </a> -->
 
             <a class="menu-link" asp-controller="Projects" asp-action="List">
                 <i class="material-icons">folder</i>My projects
             </a>
 
-            <a class="menu-link" href="#">
+            <!-- <a class="menu-link" href="#">
                 <i class="material-icons">assignment</i>My tasks
-            </a>
+            </a> -->
 
             <a class="menu-link" asp-controller="Projects" asp-action="Create">
                 <i class="material-icons">create_new_folder</i>New project
             </a>
         </nav>
 
-        <!-- TODO: Move this button under 'view prodile' page -->
-        <form class="default-form" asp-action="Logout" asp-controller="Account" method="post">
-            <button type="submit">Log out</button>
+        <form class="logout-form" asp-action="Logout" asp-controller="Account" method="post">
+            <button class="button secondary-button logout-button" type="submit">Log out</button>
         </form>
 
     </aside>
@@ -65,16 +68,23 @@
 else
 {
     <header class="header">
-        <a asp-controller="Home" asp-action="Index">
-            <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
-        </a>
 
-        <a asp-controller="Account" asp-action="SignInSignUp">Sign in/sign up</a>
+        <div class="header-element">
+            <a asp-controller="Home" asp-action="Index">
+                <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
+            </a>
+        </div>
 
-        <a class="header-action" asp-controller="Home" asp-action="Search">
-            <i class="header-action-icon material-icons">search</i>
-            <span class="header-action-description">Search</span>
-        </a>
+        <div class="header-element">
+            <a asp-controller="Account" asp-action="SignInSignUp">Sign in/sign up</a>
+        </div>
+
+        <div class="header-element">
+            <!-- <a class="header-action" asp-controller="Home" asp-action="Search">
+                <i class="header-action-icon material-icons">search</i>
+                <span class="header-action-description">Search</span>
+            </a> -->
+        </div>
+
     </header>
 }
-

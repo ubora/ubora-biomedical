@@ -16,14 +16,12 @@
 
 	<link rel="stylesheet" href="~/css/styles.css">
 
-    <link href="~/lib/simplemde/dist/simplemde.min.css" rel="stylesheet" />
-    <script src="~/lib/simplemde/dist/simplemde.min.js"></script>
-
-	<!-- <environment names="Development"> -->
-	<!-- </environment> -->
-
 	<!--
 		TODO: Add Gulp tasks for styles
+
+		<environment names="Development">
+		</environment>
+
 		<environment names="Staging,Production">
 		</environment>
 	-->
@@ -37,12 +35,13 @@
 	<main>@RenderBody()</main>
 
  	@await Html.PartialAsync("_Footer")
-
-	<!-- <environment names="Development"> -->
-	<!-- </environment> -->
-
+	
 	<!--
 		TODO: Add Gulp tasks for scrips
+
+		<environment names="Development">
+		</environment>
+
 		<environment names="Staging,Production">
 		</environment>
 	-->
