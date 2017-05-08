@@ -6,17 +6,17 @@ Important documents are found [here](https://www.dropbox.com/home/UBORA%20consor
 *Best of luck finding the right one!*
 
 ## Starting project
-You need:
-- Visual Studio 2017 (*required*)
-- Docker
-- Node (`LTS` is minimal, best is `Current`)
+You need:  
+* Visual Studio 2017 (*required*)
+* Docker
+* Node (`LTS` is minimal, best is `Current`)
 
-Recipe:
-1. set `docker-compose` as start-up project
-2. ensure that these steps are done in case of errors:
-* Hyper-V > MobyLinuxVm State on
-* Switch to Linux containers
-* Shared Docker Drives (project's)
+Recipe:  
+1. set `docker-compose` as start-up project  
+2. ensure that these steps are done in case of errors:  
+  - *Hyper-V > MobyLinuxVm State on*  
+  - *Switch to Linux containers*  
+  - *Shared Docker Drives (project's)*
 
 ## Running UBORA on Atom *under Windows*
 Navigate to `src\Ubora.Web` in Explorer and run `Run Web.ps1`. Server should be up and running on `http://localhost:5000` in `Production` mode!
