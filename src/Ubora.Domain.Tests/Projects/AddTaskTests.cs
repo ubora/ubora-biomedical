@@ -37,7 +37,7 @@ namespace Ubora.Domain.Tests.Projects
                 Description = "expectedDescription",
                 ProjectId = expectedProjectId,
                 Id = expectedTaskId,
-                InitiatedBy = expectedUserInfo
+                UserInfo = expectedUserInfo
             };
 
             // Act

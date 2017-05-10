@@ -21,7 +21,7 @@ namespace Ubora.Domain.Projects.Tasks
                 throw new InvalidOperationException();
             }
 
-            var e = new TaskEditedEvent(command.InitiatedBy)
+            var e = new TaskEditedEvent(command.UserInfo)
             {
                 Description = command.Description,
                 ProjectId = command.ProjectId,

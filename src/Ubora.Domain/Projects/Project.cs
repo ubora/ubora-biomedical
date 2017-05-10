@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Ubora.Domain.Projects.Members;
 
 namespace Ubora.Domain.Projects
 {
@@ -63,6 +64,13 @@ namespace Ubora.Domain.Projects
             UserRequirementStudy = e.UserRequirementStudy;
             AdditionalInformation = e.AdditionalInformation;
             GmdnTerm = e.GmdnTerm;
+        }
+
+
+        private void Apply(MemberInvitedToProjectEvent e)
+        {
+            var member = new ProjectMember(e.UserId);
+            _members.Add(member);
         }
 
         public override string ToString()

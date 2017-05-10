@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model Ubora.Web._Features.Projects.Members.InviteProjectMemberViewModel
 
 <section class="medium-width">
     
@@ -7,6 +7,8 @@
     <form asp-controller="Members" asp-action="Invite" method="post">
         
         <paper-autocomplete></paper-autocomplete>
+
+        <input asp-for="UserId" />
 
         <br>
         <button class="button primary-button" type="submit">Invite</button>

@@ -8,6 +8,7 @@ using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Projects;
 using Xunit;
+using Ubora.Domain.Projects.Members;
 
 namespace Ubora.Domain.Tests.Projects
 {

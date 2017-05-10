@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Ubora.Domain.Infrastructure.Specifications;
 
-namespace Ubora.Domain.Projects
+namespace Ubora.Domain.Projects.Members
 {
     public class HasMember : Specification<Project>
     {

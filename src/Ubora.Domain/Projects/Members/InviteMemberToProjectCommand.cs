@@ -2,14 +2,12 @@
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
 
-namespace Ubora.Domain.Projects.Tasks
+namespace Ubora.Domain.Projects.Members
 {
-    public class EditTaskCommand : ICommand
+    public class InviteMemberToProjectCommand : ICommand
     {
         public Guid ProjectId { get; set; }
-        public Guid Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public Guid UserId { get; set; }
         public UserInfo UserInfo { get; set; }
     }
 }

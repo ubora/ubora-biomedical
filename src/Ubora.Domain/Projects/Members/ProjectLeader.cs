@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ubora.Domain.Projects
+namespace Ubora.Domain.Projects.Members
 {
     public class ProjectLeader : ProjectMember
     {

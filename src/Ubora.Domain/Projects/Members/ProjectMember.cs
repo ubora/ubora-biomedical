@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Ubora.Domain.Projects
+namespace Ubora.Domain.Projects.Members
 {
-    public abstract class ProjectMember
+    public class ProjectMember
     {
-        protected ProjectMember(Guid userId)
+        public ProjectMember(Guid userId)
         {
             UserId = userId;
         }

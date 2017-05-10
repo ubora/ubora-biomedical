@@ -57,7 +57,7 @@ namespace Ubora.Web._Features.Projects.Tasks
             var command = new AddTaskCommand
             {
                 Id = Guid.NewGuid(),
-                InitiatedBy = this.UserInfo
+                UserInfo = this.UserInfo
             };
             _mapper.Map(model, command);
 
@@ -85,7 +85,7 @@ namespace Ubora.Web._Features.Projects.Tasks
 
             var command = new EditTaskCommand
             {
-                InitiatedBy = this.UserInfo
+                UserInfo = this.UserInfo
             };
             _mapper.Map(model, command);
 

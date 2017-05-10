@@ -10,6 +10,6 @@ namespace Ubora.Domain.Projects.Tasks
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public UserInfo InitiatedBy { get; set; }
+        public UserInfo UserInfo { get; set; }
     }
 }
