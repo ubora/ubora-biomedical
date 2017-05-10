@@ -1,7 +1,7 @@
-﻿using Autofac;
-using FluentAssertions;
+﻿using FluentAssertions;
 using System;
 using System.Linq;
+using TestStack.BDDfy;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Marten;
@@ -14,46 +14,81 @@ namespace Ubora.Domain.Tests.Projects.Members
 {
     public class InviteMemberToProjectTests : IntegrationFixture
     {
+        private readonly Guid _projectId = Guid.NewGuid();
+        private readonly Guid _invitedUserId = Guid.NewGuid();
+
+        private ICommandResult _lastCommandResult;
+
         public InviteMemberToProjectTests()
         {
             StoreOptions(new UboraStoreOptions().Configuration());
         }
 
         [Fact]
-        public void Invite_Member_Adds_Member_To_Project()
+        public void Start()
         {
-            var processor = Container.Resolve<ICommandProcessor>();
+            this.Given(_ => Given_There_Is_Project_And_User())
+                .When(_ => When_User_Is_Invited_To_Project())
+                .Then(_ => Then_User_Is_Member_In_Project())
+                .When(_ => When_User_Is_Invited_To_Project_Again())
+                .Then(_ => Then_User_Is_Not_A_Duplicate_Member_In_Project())
+                .BDDfy();
+        }
 
-            var projectId = Guid.NewGuid();
-            processor.Execute(new CreateProjectCommand
+        private void Given_There_Is_Project_And_User()
+        {
+            Processor.Execute(new CreateProjectCommand
             {
-                UserInfo = new UserInfo(Guid.NewGuid(), ""),
-                Id = projectId
+                Id = _projectId,
+                UserInfo = new UserInfo(Guid.NewGuid(), "")
             });
 
-            var userId = Guid.NewGuid();
-
-            processor.Execute(new CreateUserProfileCommand
+            Processor.Execute(new CreateUserProfileCommand
             {
-                UserId = userId
+                UserId = _invitedUserId
             });
+        }
 
-            var expectedUserInfo = new UserInfo(Guid.NewGuid(), "");
-
-            var command = new InviteMemberToProjectCommand
-            {
-                ProjectId = projectId,
-                UserId = userId,
-                UserInfo = expectedUserInfo
-            };
-
+        private void When_User_Is_Invited_To_Project()
+        {
             // Act
-            processor.Execute(command);
+            InviteUserToProject();
+        }
 
-            // Assert
-            var project = Session.Load<Project>(projectId);
+        private void InviteUserToProject()
+        {
+            _lastCommandResult = Processor.Execute(new InviteMemberToProjectCommand
+            {
+                ProjectId = _projectId,
+                UserId = _invitedUserId,
+                UserInfo = new UserInfo(Guid.NewGuid(), "")
+            });
+        }
 
-            project.Members.Any(m => m.UserId == userId).Should().BeTrue();
+        private void Then_User_Is_Member_In_Project()
+        {
+            var project = Session.Load<Project>(_projectId);
+
+            var addedMember = project.Members.Last();
+            addedMember.UserId.Should().Be(_invitedUserId);
+            addedMember.Should().BeOfType<ProjectMember>();
+
+            _lastCommandResult.IsSuccess.Should().BeTrue();
+        }
+
+        private void When_User_Is_Invited_To_Project_Again()
+        {
+            InviteUserToProject();
+        }
+
+        private void Then_User_Is_Not_A_Duplicate_Member_In_Project()
+        {
+            RefreshSession(); // Load seems to cache first result.
+
+            var project = Session.Load<Project>(_projectId);
+            project.Members.Count(m => m.UserId == _invitedUserId).Should().Be(1);
+
+            _lastCommandResult.IsSuccess.Should().BeFalse();
         }
     }
 }

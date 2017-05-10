@@ -9,6 +9,9 @@ namespace Ubora.Domain.Tests
         private IContainer _innerContainer;
         protected IComponentContext Container => _innerContainer ?? (_innerContainer = InitializeContainer());
 
+        private ICommandQueryProcessor _processor;
+        protected ICommandQueryProcessor Processor => _processor ?? (_processor = Container.Resolve<ICommandQueryProcessor>());
+
         private IContainer InitializeContainer()
         {
             var builder = new ContainerBuilder();

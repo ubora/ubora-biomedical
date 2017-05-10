@@ -1,5 +1,6 @@
 ﻿using Marten;
 using System;
+using System.Linq;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
 
@@ -16,18 +17,18 @@ namespace Ubora.Domain.Projects.Members
 
         public ICommandResult Handle(InviteMemberToProjectCommand command)
         {
-            var project = _documentSession.Load<Project>(command.ProjectId);
-
-            if (project == null)
+            var userProfile = _documentSession.Load<UserProfile>(command.UserId);
+            if (userProfile == null)
             {
                 throw new InvalidOperationException();
             }
 
-            var userProfile = _documentSession.Load<UserProfile>(command.UserId);
+            var project = _documentSession.Load<Project>(command.ProjectId);
 
-            if (userProfile == null)
+            var isUserAlreadyMember = project.Members.Any(m => m.UserId == command.UserId);
+            if (isUserAlreadyMember)
             {
-                throw new InvalidOperationException();
+                return new CommandResult(false);
             }
 
             var @event = new MemberInvitedToProjectEvent(command.UserInfo)
