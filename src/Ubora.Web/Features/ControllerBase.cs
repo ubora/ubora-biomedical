@@ -6,6 +6,6 @@ namespace Ubora.Web.Features
 {
     public abstract class ControllerBase : Controller
     {
-        protected virtual UserInfo UserInfo => new UserInfo(User.GetUserId(), User.GetFullName());
+        protected virtual UserInfo UserInfo => new UserInfo(User.GetId(), User.GetFullName());
     }
 }

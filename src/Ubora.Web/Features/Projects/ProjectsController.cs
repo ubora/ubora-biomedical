@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,19 +20,12 @@ namespace Ubora.Web.Features.Projects
 
         public IActionResult Index()
         {
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(MyProjects));
         }
 
-        public IActionResult List()
+        public IActionResult MyProjects()
         {
-            var projects = _processor.Find<Project>();
-
-            var viewModel = new ListViewModel
-            {
-                Projects = projects.Select(_mapper.Map<ListItemViewModel>)
-            };
-
-            return View(viewModel);
+            return View();
         }
 
         [Authorize]

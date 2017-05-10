@@ -1,12 +1,14 @@
 @using Ubora.Web.Data
+@using Ubora.Web.Features.Projects
 @inject SignInManager<ApplicationUser> SignInManager
 
 @{
-	ViewData["Title"] = "Welcome";
+    ViewData["Title"] = "Welcome";
 }
 
-@if (!SignInManager.IsSignedIn(User)) {
-	<section class="hero full-width"><p><b>UBORA</b><br>the biomedical engineering open design platform</p></section>
+@if (!SignInManager.IsSignedIn(User))
+{
+    <section class="hero full-width"><p><b>UBORA</b><br>the biomedical engineering open design platform</p></section>
 }
 
 <section class="initiative full-width">
@@ -22,10 +24,12 @@
 </section>
 
 <section class="projects">
-    <h2 class="full-width">Public projects</h2>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
+    }
 
-	<!-- TODO: Add public project listing -->
-
+    @await Component.InvokeAsync(typeof(PublicProjectListViewComponent))
 </section>
 
 <!-- <section class="about">

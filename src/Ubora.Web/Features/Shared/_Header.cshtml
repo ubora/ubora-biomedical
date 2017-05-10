@@ -16,7 +16,7 @@
         </a>
 
         <span class="header-title">
-            <a asp-controller="Projects" asp-action="List">
+            <a asp-controller="Projects" asp-action="MyProjects">
                 <i class="material-icons">folder</i>My projects
             </a>
         </span>
@@ -47,7 +47,7 @@
                 <i class="material-icons">message</i>Messages
             </a> -->
 
-            <a class="menu-link" asp-controller="Projects" asp-action="List">
+            <a class="menu-link" asp-controller="Projects" asp-action="MyProjects">
                 <i class="material-icons">folder</i>My projects
             </a>
 
@@ -68,6 +68,8 @@
 }
 else
 {
+    <span class="development-notice">In-development preview</span>
+
     <header class="header">
 
         <div class="header-element">

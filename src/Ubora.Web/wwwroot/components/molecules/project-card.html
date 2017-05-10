@@ -7,6 +7,7 @@
 				border-radius: 5px;
 				max-width: 22em;
 				margin:1em;
+			    display: inline-block;
 			}
 			.project-banner {
 				border-top-left-radius: 5px;
@@ -15,82 +16,32 @@
 				max-height: 150px;
 			}
 			.project-container {
-				padding:0 1em;
+				padding: 1em;
 			}
 			.project-title {
 				font-size: 140%;
 			}
-			.project-author {
-				display: flex;
-				align-items: center;
-			}
-			.project-author-image {
-				border-radius: 50%;
-			}
-			.project-author-name {
-				margin:0 0 0 1em;
-			}
-			.project-status {
-				text-align: center;
-				padding:0 1em 1em 1em;
-				display: flex;
-				justify-content: space-between;
-			}
-			.project-status p {
-				margin:0;
-				padding:0;
-			}
-
 		</style>
 
-		<div class="project">
+		<a href$="[[projecturl]]" class="project">
 			<img class="project-banner" src$="[[banner]]">
 			<div class="project-container">
-
 				<p class="project-title">[[title]]</p>
-
-				<div class="project-author">
-					<img class="project-author-image" src$="[[authorimage]]">
-					<span class="project-author-name">[[author]]</span>
-				</div>
-
+                
 				<slot></slot>
 			</div>
-			<div class="project-status">
-				<div>
-					<p>[[funded]]</p>
-					<p>funded</p>
-				</div>
-				<div>
-					<p>[[pledged]]</p>
-					<p>pledged</p>
-				</div>
-				<div>
-					<p>[[completed]]</p>
-					<p>completed</p>
-				</div>
-				<div>
-					<p>[[timeremaining]]</p>
-					<p>days to go</p>
-				</div>
-			</div>
-		</div>
+		</a>
 
 	</template>
 
 	<script>
 		class ProjectCard extends Polymer.Element {
 			static get is() { return "project-card"; }
-			static get properties() {
+            static get properties() {
 				return {
 					banner: String,
 					title: String,
-					author: String,
-					authorimage: String,
-					funded: String,
-					pledged: String,
-					completed: String,
-					timeremaining: String
+                    projecturl: String
 				}
 			}
 		}

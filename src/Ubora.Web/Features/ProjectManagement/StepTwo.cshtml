@@ -17,6 +17,7 @@
 
     <a class="button secondary-button" asp-controller="Tasks" asp-action="List" asp-route-projectId="@Model.Id">Tasks</a>
     <a class="button secondary-button" asp-controller="ProjectManagement" asp-action="History" asp-route-id="@Model.Id">History</a>
+    <a class="button secondary-button" asp-controller="ProjectManagement" asp-action="Members" asp-route-id="@Model.Id">Members</a>
 
     <form asp-controller="ProjectManagement" asp-action="StepTwo" method="post">
 

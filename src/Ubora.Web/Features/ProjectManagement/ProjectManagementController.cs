@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -6,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Users;
 
 namespace Ubora.Web.Features.ProjectManagement
 {
@@ -130,6 +133,36 @@ namespace Ubora.Web.Features.ProjectManagement
             _processor.Execute(command);
 
             return RedirectToAction(nameof(Dashboard), new { id = model.Id });
+        }
+
+        public IActionResult Members(Guid id)
+        {
+            var project = _processor.FindById<Project>(id);
+
+            var model = new MemberListViewModel
+            {
+                Id = id,
+                Members = project.Members.Select(m => new MemberListViewModel.Item
+                {
+                    UserId = m.UserId,
+                    // TODO(Kaspar Kallas): Eliminate SELECT(N + 1)
+                    FullName = _processor.FindById<UserProfile>(m.UserId).FullName
+                })
+            };
+
+            return View(model);
+        }
+    }
+
+    public class MemberListViewModel
+    {
+        public Guid Id { get; set; }
+        public IEnumerable<Item> Members { get; set; }
+
+        public class Item
+        {
+            public Guid UserId { get; set; }
+            public string FullName { get; set; }
         }
     }
 }

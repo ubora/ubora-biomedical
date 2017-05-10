@@ -19,7 +19,7 @@ namespace Ubora.Web.Features.Shared
                 .ForMember(m => m.Id, opt => opt.Ignore())
                 .ForMember(m => m.InitiatedBy, opt => opt.Ignore());
 
-            CreateMap<Project, ListItemViewModel>();
+            CreateMap<Project, ProjectListViewModel.ProjectListItem>();
 
             CreateMap<ProjectTask, TaskListItemViewModel>();
             CreateMap<ProjectTask, EditTaskViewModel>();
