@@ -14,10 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Features\Projects\CreateViewModel.cs" />
-    <Content Include="Features\Projects\ProjectListViewComponents.cs" />
-    <Content Include="Features\Projects\ProjectListViewModel.cs" />
-    <Content Include="Features\Projects\ProjectsController.cs" />
+    <Compile Remove="Features\**" />
+    <Content Remove="Features\**" />
+    <EmbeddedResource Remove="Features\**" />
+    <None Remove="Features\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.5.0" />

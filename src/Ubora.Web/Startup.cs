@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using OdeToCode.AddFeatureFolders;
 using Ubora.Domain.Infrastructure;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
@@ -45,7 +46,7 @@ namespace Ubora.Web
                 options.UseNpgsql(connectionString));
 
             services.AddMvc()
-                .AddUboraFeatureFolders();
+                .AddUboraFeatureFolders(new FeatureFolderOptions { FeatureFolderName = "_Features" });
 
 			services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
 			    {

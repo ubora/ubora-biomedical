@@ -1,0 +1,55 @@
+@using Ubora.Web._Features._Shared
+@model Ubora.Web._Features._Shared.ProcessStepViewModel
+
+<section class="process-steps">
+
+    <a asp-controller="Workpackages" asp-action="StepOne" asp-route-id="@Model.ProjectId" class="process-step @Model.StepOneStatusClass">
+        <h2 class="process-step-header">Step 1</h2>
+        <p class="process-step-description">Drafting</p>
+    </a>
+
+    <div class="process-step process-step-icon">
+        <i class="material-icons">forward</i>
+    </div>
+
+    <a asp-controller="Workpackages" asp-action="StepTwo" asp-route-id="@Model.ProjectId" class="process-step @Model.StepTwoStatusClass">
+        <h2 class="process-step-header">Step 2</h2>
+        <p class="process-step-description">Medical need & product specification</p>
+    </a>
+
+    <div class="process-step process-step-icon">
+        <i class="material-icons">forward</i>
+    </div>
+
+    <a href="#" class="process-step">
+        <h2 class="process-step-header">Step 3</h2>
+        <p class="process-step-description">Conceptual design</p>
+    </a>
+
+    <div class="process-step process-step-icon">
+        <i class="material-icons">forward</i>
+    </div>
+
+    <a href="#" class="process-step">
+        <h2 class="process-step-header">Step 4</h2>
+        <p class="process-step-description">Design and prototyping</p>
+    </a>
+
+    <div class="process-step process-step-icon">
+        <i class="material-icons">forward</i>
+    </div>
+
+    <a href="#" class="process-step">
+        <h2 class="process-step-header">Step 5</h2>
+        <p class="process-step-description">Implementation</p>
+    </a>
+
+    <div class="process-step process-step-icon">
+        <i class="material-icons">forward</i>
+    </div>
+
+    <a href="#" class="process-step">
+        <h2 class="process-step-header">Step 6</h2>
+        <p class="process-step-description">Operation</p>
+    </a>
+</section>
