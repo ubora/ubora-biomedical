@@ -1,5 +1,4 @@
 using System;
-using AutoMapper;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 
@@ -8,12 +7,10 @@ namespace Ubora.Domain.Projects.Tasks
     public class AddTaskCommandHandler : ICommandHandler<AddTaskCommand>
     {
         private readonly IDocumentSession _documentSession;
-        private readonly IMapper _mapper;
 
-        public AddTaskCommandHandler(IDocumentSession documentSession, IMapper mapper)
+        public AddTaskCommandHandler(IDocumentSession documentSession)
         {
             _documentSession = documentSession;
-            _mapper = mapper;
         }
 
         public ICommandResult Handle(AddTaskCommand command)
@@ -24,10 +21,15 @@ namespace Ubora.Domain.Projects.Tasks
                 throw new InvalidOperationException();
             }
 
-            var e = new TaskAddedEvent(command.InitiatedBy);
-            _mapper.Map(command, e);
+            var @event = new TaskAddedEvent(command.InitiatedBy)
+            {
+                ProjectId = command.ProjectId,
+                Id = command.Id,
+                Title = command.Title,
+                Description = command.Description
+            };
 
-            _documentSession.Events.Append(command.ProjectId, e);
+            _documentSession.Events.Append(command.ProjectId, @event);
             _documentSession.SaveChanges();
 
             return new CommandResult(true);

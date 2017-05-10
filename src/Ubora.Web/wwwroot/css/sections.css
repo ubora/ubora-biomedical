@@ -65,6 +65,7 @@
 .login-button {
 	align-items: center;
 	display: flex;
+	font-size: 120%;
 	justify-content: flex-start;
 	text-align: left;
 	width: 100%;

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Ubora.Web.Models;
+using Ubora.Web.Data;
 
 namespace Ubora.Web.Services
 {

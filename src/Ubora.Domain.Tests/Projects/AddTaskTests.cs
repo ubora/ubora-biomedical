@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
 using Autofac;
 using FluentAssertions;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
 using Xunit;
@@ -27,7 +26,7 @@ namespace Ubora.Domain.Tests.Projects
             processor.Execute(new CreateProjectCommand
             {
                 UserInfo = new UserInfo(Guid.NewGuid(), ""),
-                ProjectId = expectedProjectId
+                Id = expectedProjectId
             });
 
             var expectedTaskId = Guid.NewGuid();

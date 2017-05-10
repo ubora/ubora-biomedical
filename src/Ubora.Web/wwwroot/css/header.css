@@ -16,6 +16,12 @@
 	color: var(--primary-color);
 }
 
+.header-element {
+	flex-grow: 1;
+	display: flex;
+	justify-content: center;
+}
+
 .menu-button {
 	background-color: transparent;
 	border:0;
@@ -67,6 +73,16 @@
 	display: block;
 	margin:1em 0;
 }
+
+
+.logout-form {
+	margin:3em 0 0 0;
+}
+
+.logout-button {
+	font-size: 70%;
+}
+
 
 @media screen and (max-width: 50em) {
 	.header {

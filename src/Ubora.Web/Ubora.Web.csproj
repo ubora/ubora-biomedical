@@ -14,12 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Features\Projects\CreateViewModel.cs" />
-    <Content Include="Features\Projects\ListItemViewModel.cs" />
-    <Content Include="Features\Projects\ListViewComponent.cs" />
-    <Content Include="Features\Projects\ListViewModel.cs" />
-    <Content Include="Features\Projects\ProjectsController.cs" />
-    <Content Include="wwwroot\js\CheckboxValidator.js" />
+    <Compile Remove="Features\**" />
+    <Content Remove="Features\**" />
+    <EmbeddedResource Remove="Features\**" />
+    <None Remove="Features\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.5.0" />
@@ -51,6 +49,7 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ubora.Domain\Ubora.Domain.csproj" />

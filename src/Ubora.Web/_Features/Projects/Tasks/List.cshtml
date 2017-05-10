@@ -1,0 +1,26 @@
+﻿@using Ubora.Web._Features.Projects.Tasks
+@model Ubora.Web._Features.Projects.Tasks.TaskListViewModel
+
+@{
+    ViewData["Title"] = "Tasks";
+}
+
+<section class="medium-width">
+    <h1>
+        <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-id="@Model.ProjectId">@Model.ProjectName</a>
+    </h1>
+
+    <a asp-controller="Tasks" asp-action="Add" asp-route-projectId="@Model.ProjectId">
+        <i class="material-icons">add_box</i>Add task
+    </a>
+
+    <ol>
+        @foreach (var task in Model.Tasks)
+        {
+            <li>
+                <a asp-controller="Tasks" asp-action="Edit" asp-route-id="@task.Id">@task.Title</a>
+            </li>
+        }
+    </ol>
+
+</section>

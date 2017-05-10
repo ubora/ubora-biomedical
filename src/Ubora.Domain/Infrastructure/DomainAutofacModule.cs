@@ -1,9 +1,9 @@
 ﻿using System;
 using Autofac;
-using AutoMapper;
 using Marten;
 using Marten.Events;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Infrastructure.Queries;
 
 namespace Ubora.Domain.Infrastructure
@@ -36,11 +36,6 @@ namespace Ubora.Domain.Infrastructure
             builder.RegisterType<CommandQueryProcessor>().As<ICommandProcessor>().As<IQueryProcessor>().As<ICommandQueryProcessor>().InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(ICommandHandler<>)).InstancePerLifetimeScope();
-        }
-
-        public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)
-        {
-            cfg.AddProfiles(ThisAssembly);
         }
     }
 }

@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using OdeToCode.AddFeatureFolders;
 using Ubora.Domain.Infrastructure;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
-using Ubora.Web.Models;
 using Ubora.Web.Services;
 using Serilog;
 using System.IO;
@@ -47,13 +47,13 @@ namespace Ubora.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration.GetConnectionString("ApplicationDbConnection");
+            var connectionString = Configuration["ConnectionStrings:ApplicationDbConnection"];
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString));
 
             services.AddMvc()
-                .AddUboraFeatureFolders();
+                .AddUboraFeatureFolders(new FeatureFolderOptions { FeatureFolderName = "_Features" });
 
 			services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
 			    {
@@ -64,14 +64,14 @@ namespace Ubora.Web
 				.AddEntityFrameworkStores<ApplicationDbContext, Guid>()
 				.AddDefaultTokenProviders();
 
+            services.AddAutoMapper();
+
             var autofacContainerBuilder = new ContainerBuilder();
 
             var domainModule = new DomainAutofacModule(connectionString);
             var webModule = new WebAutofacModule();
             autofacContainerBuilder.RegisterModule(domainModule);
             autofacContainerBuilder.RegisterModule(webModule);
-
-            services.AddAutoMapper(cfg => domainModule.AddAutoMapperProfiles(cfg));
 
             autofacContainerBuilder.Populate(services);
             var container = autofacContainerBuilder.Build();

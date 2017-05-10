@@ -36,9 +36,26 @@ form {
     margin:0 auto 2em auto;
 }
 
-form > label {
-    display: block;
+.form-input {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     margin:1em 0;
+}
+
+.form-input > label {
+    color:var(--primary-color);
+}
+
+.form-input > input,
+.form-input > select,
+.form-input > textarea {
+    width:100%;
+}
+
+.form-input + button {
+    margin:2em 0 0 0;
 }
 
 form > label > input,
@@ -54,7 +71,7 @@ form > label > input[type="checkbox"] {
 form h1,
 form h2,
 form h3 {
-    margin:2em 0 0 0;
+    margin:.5em 0 0 0;
 }
 
 .form-input-file {
