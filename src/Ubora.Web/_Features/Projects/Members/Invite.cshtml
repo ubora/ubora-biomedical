@@ -1,0 +1,15 @@
+﻿@model dynamic
+
+<section class="medium-width">
+    
+    <h1 class="full-width">Invite member to project</h1>
+
+    <form asp-controller="Members" asp-action="Invite" method="post">
+        
+        <paper-autocomplete></paper-autocomplete>
+
+        <br>
+        <button class="button primary-button" type="submit">Invite</button>
+    </form>
+
+</section>

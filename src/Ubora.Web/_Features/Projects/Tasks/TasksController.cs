@@ -21,7 +21,7 @@ namespace Ubora.Web._Features.Projects.Tasks
             _mapper = mapper;
         }
 
-        public IActionResult List(Guid projectId)
+        public IActionResult Tasks(Guid projectId)
         {
             var project = _processor.FindById<Project>(projectId);
             var projectTasks = _processor.Find<ProjectTask>().Where(x => x.ProjectId == projectId);
@@ -63,7 +63,7 @@ namespace Ubora.Web._Features.Projects.Tasks
 
             _processor.Execute(command);
 
-            return RedirectToAction(nameof(List), new { projectId = model.ProjectId });
+            return RedirectToAction(nameof(Tasks), new { projectId = model.ProjectId });
         }
 
         public IActionResult Edit(Guid id)
@@ -91,7 +91,7 @@ namespace Ubora.Web._Features.Projects.Tasks
 
             _processor.Execute(command);
 
-            return RedirectToAction(nameof(List), new { projectId = model.ProjectId });
+            return RedirectToAction(nameof(Tasks), new { projectId = model.ProjectId });
         }
     }
 }

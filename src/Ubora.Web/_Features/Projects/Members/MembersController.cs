@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 
@@ -9,16 +9,16 @@ namespace Ubora.Web._Features.Projects.Members
 {
     public class MembersController : ProjectController
     {
-        private readonly IQueryProcessor _queryProcessor;
+        private readonly ICommandQueryProcessor _processor;
 
-        public MembersController(IQueryProcessor queryProcessor)
+        public MembersController(ICommandQueryProcessor processor)
         {
-            _queryProcessor = queryProcessor;
+            _processor = processor;
         }
 
         public IActionResult Members(Guid id)
         {
-            var project = _queryProcessor.FindById<Project>(id);
+            var project = _processor.FindById<Project>(id);
 
             var model = new ProjectMemberListViewModel
             {
@@ -27,11 +27,33 @@ namespace Ubora.Web._Features.Projects.Members
                 {
                     UserId = m.UserId,
                     // TODO(Kaspar Kallas): Eliminate SELECT(N + 1)
-                    FullName = _queryProcessor.FindById<UserProfile>(m.UserId).FullName
+                    FullName = _processor.FindById<UserProfile>(m.UserId).FullName
                 })
             };
 
             return View(model);
+        }
+
+        public IActionResult Invite(Guid id)
+        {
+            // TODO: Authorize
+
+            var model = new InviteProjectMemberViewModel { ProjectId = id };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Invite(InviteProjectMemberViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+
+
+            return null;
         }
     }
 }
