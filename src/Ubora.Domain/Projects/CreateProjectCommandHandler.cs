@@ -26,7 +26,7 @@ namespace Ubora.Domain.Projects
             DocumentSession.Events.Append(cmd.Id, @event);
             DocumentSession.SaveChanges();
 
-            return new CommandResult(true);
+            return new CommandResult();
         }
     }
 }

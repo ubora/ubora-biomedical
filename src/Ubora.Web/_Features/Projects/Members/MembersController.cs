@@ -5,6 +5,7 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
+using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Projects.Members
 {
@@ -52,12 +53,17 @@ namespace Ubora.Web._Features.Projects.Members
                 return View(model);
             }
 
-            _processor.Execute(new InviteMemberToProjectCommand
+            this.ExecuteCommand(_processor, new InviteMemberToProjectCommand
             {
                 ProjectId = model.ProjectId,
                 UserId = model.UserId.Value,
                 UserInfo = this.UserInfo
             });
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
             return RedirectToAction(nameof(Members), new { id = model.ProjectId });
         }

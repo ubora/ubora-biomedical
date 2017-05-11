@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
+using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Projects.Creation
 {
@@ -40,7 +41,12 @@ namespace Ubora.Web._Features.Projects.Creation
             };
             _mapper.Map(model, command);
 
-            _processor.Execute(command);
+            this.ExecuteCommand(_processor, command);
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
             return RedirectToAction("Dashboard", "Dashboard", new { id = projectId });
         }

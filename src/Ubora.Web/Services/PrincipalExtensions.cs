@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Security.Principal;
+using Ubora.Domain.Infrastructure.Events;
 using Ubora.Web.Data;
 
 namespace Ubora.Web.Services
@@ -26,6 +27,15 @@ namespace Ubora.Web.Services
             var userId = new Guid(userIdString);
 
             return userId;
+        }
+
+        public static UserInfo GetInfo(this IPrincipal principal)
+        {
+            if (principal == null) throw new ArgumentNullException(nameof(principal));
+
+            var info = new UserInfo(principal.GetId(), principal.GetFullName());
+
+            return info;
         }
     }
 }

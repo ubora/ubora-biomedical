@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
+using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Projects.Tasks
 {
@@ -61,7 +62,12 @@ namespace Ubora.Web._Features.Projects.Tasks
             };
             _mapper.Map(model, command);
 
-            _processor.Execute(command);
+            this.ExecuteCommand(_processor, command);
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
             return RedirectToAction(nameof(Tasks), new { projectId = model.ProjectId });
         }

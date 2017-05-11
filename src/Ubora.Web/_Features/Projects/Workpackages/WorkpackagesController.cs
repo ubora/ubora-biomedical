@@ -3,6 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
+using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Projects.Workpackages
 {
@@ -48,7 +49,12 @@ namespace Ubora.Web._Features.Projects.Workpackages
             command.PotentialTechnologyTags = model.PotentialTechnologyTags;
             command.GmdnTerm = model.GmdnTerm;
 
-            _processor.Execute(command);
+            this.ExecuteCommand(_processor, command);
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
             return RedirectToAction(nameof(StepOne), new { id = model.Id });
         }
@@ -88,7 +94,12 @@ namespace Ubora.Web._Features.Projects.Workpackages
             command.UserRequirementStudy = model.UserRequirementStudy;
             command.AdditionalInformation = model.AdditionalInformation;
 
-            _processor.Execute(command);
+            this.ExecuteCommand(_processor, command);
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
             return RedirectToAction(nameof(Dashboard), "Dashboard", new { id = model.Id });
         }

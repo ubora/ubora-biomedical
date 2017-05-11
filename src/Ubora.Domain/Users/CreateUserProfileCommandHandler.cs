@@ -29,7 +29,7 @@ namespace Ubora.Domain.Users
             _documentSession.Store(userProfile);
             _documentSession.SaveChanges();
 
-            return new CommandResult(true);
+            return new CommandResult();
         }
     }
 }

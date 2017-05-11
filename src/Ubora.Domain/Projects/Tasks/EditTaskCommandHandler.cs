@@ -29,7 +29,7 @@ namespace Ubora.Domain.Projects.Tasks
             DocumentSession.Events.Append(cmd.ProjectId, @event);
             DocumentSession.SaveChanges();
 
-            return new CommandResult(true);
+            return new CommandResult();
         }
     }
 }
