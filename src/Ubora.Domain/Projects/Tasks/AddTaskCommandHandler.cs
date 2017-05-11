@@ -4,33 +4,30 @@ using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.Projects.Tasks
 {
-    public class AddTaskCommandHandler : ICommandHandler<AddTaskCommand>
+    internal class AddTaskCommandHandler : CommandHandler<AddTaskCommand>
     {
-        private readonly IDocumentSession _documentSession;
-
-        public AddTaskCommandHandler(IDocumentSession documentSession)
+        public AddTaskCommandHandler(IDocumentSession documentSession) : base(documentSession)
         {
-            _documentSession = documentSession;
         }
 
-        public ICommandResult Handle(AddTaskCommand command)
+        public override ICommandResult Handle(AddTaskCommand cmd)
         {
-            var project = _documentSession.Load<Project>(command.ProjectId);
+            var project = DocumentSession.Load<Project>(cmd.ProjectId);
             if (project == null)
             {
                 throw new InvalidOperationException();
             }
 
-            var @event = new TaskAddedEvent(command.UserInfo)
+            var @event = new TaskAddedEvent(cmd.UserInfo)
             {
-                ProjectId = command.ProjectId,
-                Id = command.Id,
-                Title = command.Title,
-                Description = command.Description
+                ProjectId = cmd.ProjectId,
+                Id = cmd.Id,
+                Title = cmd.Title,
+                Description = cmd.Description
             };
 
-            _documentSession.Events.Append(command.ProjectId, @event);
-            _documentSession.SaveChanges();
+            DocumentSession.Events.Append(cmd.ProjectId, @event);
+            DocumentSession.SaveChanges();
 
             return new CommandResult(true);
         }

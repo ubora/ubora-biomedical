@@ -6,37 +6,34 @@ using Ubora.Domain.Users;
 
 namespace Ubora.Domain.Projects.Members
 {
-    internal class InviteMemberToProjectCommandHandler : ICommandHandler<InviteMemberToProjectCommand>
+    internal class InviteMemberToProjectCommandHandler : CommandHandler<InviteMemberToProjectCommand>
     {
-        private readonly IDocumentSession _documentSession;
-
-        public InviteMemberToProjectCommandHandler(IDocumentSession documentSession)
+        public InviteMemberToProjectCommandHandler(IDocumentSession documentSession) : base(documentSession)
         {
-            _documentSession = documentSession;
         }
 
-        public ICommandResult Handle(InviteMemberToProjectCommand command)
+        public override ICommandResult Handle(InviteMemberToProjectCommand cmd)
         {
-            var userProfile = _documentSession.Load<UserProfile>(command.UserId);
+            var userProfile = DocumentSession.Load<UserProfile>(cmd.UserId);
             if (userProfile == null) throw new InvalidOperationException();
 
-            var project = _documentSession.Load<Project>(command.ProjectId);
+            var project = DocumentSession.Load<Project>(cmd.ProjectId);
 
-            var isUserAlreadyMember = project.Members.Any(m => m.UserId == command.UserId);
+            var isUserAlreadyMember = project.Members.Any(m => m.UserId == cmd.UserId);
             if (isUserAlreadyMember)
             {
                 return new CommandResult(false);
             }
 
-            var @event = new MemberInvitedToProjectEvent(command.UserInfo)
+            var @event = new MemberInvitedToProjectEvent(cmd.UserInfo)
             {
-                ProjectId = command.ProjectId,
-                UserId = command.UserId,
+                ProjectId = cmd.ProjectId,
+                UserId = cmd.UserId,
                 UserFullName = userProfile.FullName
             };
 
-            _documentSession.Events.Append(command.ProjectId, @event);
-            _documentSession.SaveChanges();
+            DocumentSession.Events.Append(cmd.ProjectId, @event);
+            DocumentSession.SaveChanges();
 
             return new CommandResult(true);
         }

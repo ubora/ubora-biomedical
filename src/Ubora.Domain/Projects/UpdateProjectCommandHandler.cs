@@ -3,40 +3,37 @@ using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.Projects
 {
-    public class UpdateProjectCommandHandler : ICommandHandler<UpdateProjectCommand>
+    internal class UpdateProjectCommandHandler : CommandHandler<UpdateProjectCommand>
     {
-        private readonly IDocumentSession _documentSession;
-
-        public UpdateProjectCommandHandler(IDocumentSession documentSession)
+        public UpdateProjectCommandHandler(IDocumentSession documentSession) : base(documentSession)
         {
-            _documentSession = documentSession;
         }
 
-        public ICommandResult Handle(UpdateProjectCommand command)
+        public override ICommandResult Handle(UpdateProjectCommand cmd)
         {
-            var project = _documentSession.Load<Project>(command.Id);
+            var project = DocumentSession.Load<Project>(cmd.Id);
 
-            var @event = new ProjectUpdatedEvent(command.UserInfo)
+            var @event = new ProjectUpdatedEvent(cmd.UserInfo)
             {
-                Id = command.Id,
-                Title = command.Title,
-                ClinicalNeedTags = command.ClinicalNeedTags,
-                AreaOfUsageTags = command.AreaOfUsageTags,
-                PotentialTechnologyTags = command.PotentialTechnologyTags,
-                DescriptionOfNeed = command.DescriptionOfNeed,
-                DescriptionOfExistingSolutionsAndAnalysis = command.DescriptionOfExistingSolutionsAndAnalysis,
-                ProductFunctionality = command.ProductFunctionality,
-                ProductPerformance = command.ProductPerformance,
-                ProductUsability = command.ProductUsability,
-                ProductSafety = command.ProductSafety,
-                PatientPopulationStudy = command.PatientPopulationStudy,
-                UserRequirementStudy = command.UserRequirementStudy,
-                AdditionalInformation = command.AdditionalInformation,
-                GmdnTerm = command.GmdnTerm
+                Id = cmd.Id,
+                Title = cmd.Title,
+                ClinicalNeedTags = cmd.ClinicalNeedTags,
+                AreaOfUsageTags = cmd.AreaOfUsageTags,
+                PotentialTechnologyTags = cmd.PotentialTechnologyTags,
+                DescriptionOfNeed = cmd.DescriptionOfNeed,
+                DescriptionOfExistingSolutionsAndAnalysis = cmd.DescriptionOfExistingSolutionsAndAnalysis,
+                ProductFunctionality = cmd.ProductFunctionality,
+                ProductPerformance = cmd.ProductPerformance,
+                ProductUsability = cmd.ProductUsability,
+                ProductSafety = cmd.ProductSafety,
+                PatientPopulationStudy = cmd.PatientPopulationStudy,
+                UserRequirementStudy = cmd.UserRequirementStudy,
+                AdditionalInformation = cmd.AdditionalInformation,
+                GmdnTerm = cmd.GmdnTerm
             };
 
-            _documentSession.Events.Append(project.Id, @event);
-            _documentSession.SaveChanges();
+            DocumentSession.Events.Append(project.Id, @event);
+            DocumentSession.SaveChanges();
 
             return new CommandResult(true);
         }

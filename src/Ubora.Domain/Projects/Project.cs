@@ -8,7 +8,7 @@ using Ubora.Domain.Projects.Members;
 
 namespace Ubora.Domain.Projects
 {
-    public class Project : Projection<Project>
+    public class Project : Entity<Project>
     {
         public Guid Id { get; private set; }
         public string Title { get; private set; }
@@ -81,7 +81,7 @@ namespace Ubora.Domain.Projects
             return $"Project(Id:{Id})";
         }
 
-        public abstract class Specification : Specification<Project>
+        public new abstract class Specification : Specification<Project>
         {
             protected static Expression<Func<Project, bool>> HasMember(Func<ProjectMember, bool> expression)
             {

@@ -3,31 +3,28 @@ using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.Projects
 {
-    public class CreateProjectCommandHandler : ICommandHandler<CreateProjectCommand>
+    internal class CreateProjectCommandHandler : CommandHandler<CreateProjectCommand>
     {
-        private readonly IDocumentSession _documentSession;
-
-        public CreateProjectCommandHandler(IDocumentSession documentSession)
+        public CreateProjectCommandHandler(IDocumentSession documentSession) : base(documentSession)
         {
-            _documentSession = documentSession;
         }
 
-        public ICommandResult Handle(CreateProjectCommand command)
+        public override ICommandResult Handle(CreateProjectCommand cmd)
         {
-            var @event = new ProjectCreatedEvent(command.UserInfo)
+            var @event = new ProjectCreatedEvent(cmd.UserInfo)
             {
-                Id = command.Id,
-                Title = command.Title,
-                AreaOfUsage = command.AreaOfUsage,
-                ClinicalNeed = command.ClinicalNeed,
-                GmdnCode = command.GmdnCode,
-                GmdnDefinition = command.GmdnDefinition,
-                GmdnTerm = command.GmdnTerm,
-                PotentialTechnology = command.PotentialTechnology
+                Id = cmd.Id,
+                Title = cmd.Title,
+                AreaOfUsage = cmd.AreaOfUsage,
+                ClinicalNeed = cmd.ClinicalNeed,
+                GmdnCode = cmd.GmdnCode,
+                GmdnDefinition = cmd.GmdnDefinition,
+                GmdnTerm = cmd.GmdnTerm,
+                PotentialTechnology = cmd.PotentialTechnology
             };
 
-            _documentSession.Events.Append(command.Id, @event);
-            _documentSession.SaveChanges();
+            DocumentSession.Events.Append(cmd.Id, @event);
+            DocumentSession.SaveChanges();
 
             return new CommandResult(true);
         }

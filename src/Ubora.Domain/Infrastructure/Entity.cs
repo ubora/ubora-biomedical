@@ -2,16 +2,15 @@
 
 namespace Ubora.Domain.Infrastructure
 {
-    public abstract class Projection<TDerived> : ISpecifiable<TDerived> where TDerived : Projection<TDerived>
+    public abstract class Entity<TDerived> : ISpecifiable<TDerived> where TDerived : Entity<TDerived>
     {
         public bool DoesSatisfy(ISpecification<TDerived> specification)
         {
             return specification.IsSatisfiedBy((TDerived)this);
         }
 
-
-        //public abstract class Specification : Specification<TDerived>
-        //{
-        //}
+        public abstract class Specification : Specification<TDerived>
+        {
+        }
     }
 }
