@@ -1,0 +1,99 @@
+﻿@using Ubora.Web._Features.Users.Account
+@using Ubora.Web._Features._Shared
+@model Ubora.Web._Features.Users.Account.RegisterViewModel
+@{
+    ViewData["Title"] = "Sign up";
+}
+
+<section class="narrow-width">
+    <h2>@ViewData["Title"]</h2>
+
+    <form asp-controller="Account" asp-action="Register" method="post">
+        
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-input">
+            <label asp-for="FirstName">First name</label>
+            <input asp-for="FirstName" placeholder="First name">
+            <span asp-validation-for="FirstName"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="LastName">Last name</label>
+            <input asp-for="LastName" placeholder="Last name">
+            <span asp-validation-for="LastName"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="Email">Email address</label>
+            <input asp-for="Email" placeholder="email@example.com">
+            <span asp-validation-for="Email"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="Password">Secret passphrase</label>
+            <input asp-for="Password" placeholder="Secret passphrase">
+            <span asp-validation-for="Password"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="ConfirmPassword">Secret passphrase again</label>
+            <input asp-for="ConfirmPassword" placeholder="Secret passphrase again">
+            <span asp-validation-for="ConfirmPassword"></span>
+        </div>
+
+        <h3>Academia</h3>
+        <div class="form-input">
+            <label asp-for="University">University</label>
+            <input asp-for="University" placeholder="Name of university">
+            <span asp-validation-for="University"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="Degree">Degree</label>
+            <input asp-for="Degree" placeholder="Held/obtaining degree">
+            <span asp-validation-for="Degree"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="Field">Field</label>
+            <input asp-for="Field" placeholder="e.g. hardware engineering">
+            <span asp-validation-for="Field"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="Role">Role</label>
+            <select asp-for="Role" asp-items="@SelectLists.UserRoles"></select>
+            <span asp-validation-for="Role"></span>
+        </div>
+
+        <h3>Personal</h3>
+        <div class="form-input">
+            <label asp-for="Biography">Bio</label>
+            <textarea asp-for="Biography" rows="5" placeholder="Write a few words about yourself!"></textarea>
+            <span asp-validation-for="Biography"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="Skills">Skills</label>
+            <input asp-for="Skills" placeholder="What are you good at?">
+            <span asp-validation-for="Skills"></span>
+        </div>
+
+        <div class="form-input">
+            @*TODO: Investigate 'required' behaviour related to jQuery validation*@
+            <label asp-for="IsAgreedToTermsOfService">
+                <input asp-for="IsAgreedToTermsOfService" required>
+                I agree to <a href="#">Terms of Service</a>
+            </label>
+            <span asp-validation-for="IsAgreedToTermsOfService"></span>
+        </div>
+
+        <button type="submit" class="button primary-button">Create an account</button>
+
+    </form>
+</section>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

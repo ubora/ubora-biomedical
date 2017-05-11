@@ -1,9 +1,14 @@
 ﻿using JetBrains.Annotations;
 
 // https://youtrack.jetbrains.com/issue/RSRP-461882
-[assembly: AspMvcViewLocationFormat(@"~\_Features\Projects\{1}\{0}.cshtml")]
-[assembly: AspMvcViewLocationFormat(@"~\_Features\_Shared\{0}.cshtml")]
 
-[assembly: AspMvcViewLocationFormat(@"~\Features\ProjectManagement\Tasks\{0}.cshtml")]
-[assembly: AspMvcViewLocationFormat(@"~\Features\Shared\{0}.cshtml")]
-[assembly: AspMvcPartialViewLocationFormat(@"~\Features\Shared\")]
+// {0} - Action Name
+// {1} - Controller Name
+// {2} - Area Name
+// {3} - Feature Name
+
+[assembly: AspMvcViewLocationFormat(@"~\_Features\_Shared\{0}.cshtml")]
+[assembly: AspMvcPartialViewLocationFormat(@"~\_Features\_Shared\")]
+
+[assembly: AspMvcViewLocationFormat(@"~\_Features\Users\{1}\{0}.cshtml")]
+[assembly: AspMvcViewLocationFormat(@"~\_Features\Projects\{1}\{0}.cshtml")]
