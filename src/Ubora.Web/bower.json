@@ -6,12 +6,12 @@
     "jquery-validation": "1.14.0",
     "jquery-validation-unobtrusive": "3.2.6",
     "openSans": "https://google-fonts.azurewebsites.net/googleFonts/openSans?family=Open+Sans",
-    "polymer": "1.9.1",
     "simplemde": "^1.11.2",
-    "paper-autocomplete": "2.5.1"
+    "paper-autocomplete": "2.5.1",
+    "polymer": "v2.0.0-rc.7"
   },
   "resolutions": {
-    "polymer": "2.0.0-rc.7",
+    "polymer": "v2.0.0-rc.7",
     "webcomponentsjs": "^v1.0.0-rc.5"
   }
 }
