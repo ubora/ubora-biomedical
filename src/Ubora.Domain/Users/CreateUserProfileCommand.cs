@@ -1,6 +1,5 @@
 ﻿using System;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Users
 {
@@ -15,7 +14,5 @@ namespace Ubora.Domain.Users
         public string Biography { get; set; }
         public string Skills { get; set; }
         public string Role { get; set; }
-
-        public UserInfo UserInfo => throw new NotImplementedException();
     }
 }

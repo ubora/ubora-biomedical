@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.Members;
 
@@ -80,7 +81,7 @@ namespace Ubora.Domain.Projects
             return $"Project(Id:{Id})";
         }
 
-        public new abstract class Specification : Specification<Project>
+        public abstract class Specification : Specification<Project>
         {
             protected static Expression<Func<Project, bool>> HasMember(Func<ProjectMember, bool> expression)
             {

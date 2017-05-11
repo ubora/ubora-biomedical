@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Ubora.Domain.Projects.Members
+namespace Ubora.Domain.Projects
 {
     public class HasMember : Project.Specification
     {

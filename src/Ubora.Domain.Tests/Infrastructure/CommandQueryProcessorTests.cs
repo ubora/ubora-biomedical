@@ -56,7 +56,6 @@ namespace Ubora.Domain.Tests.Infrastructure
 
     public class TestCommand : ICommand
     {
-        public UserInfo UserInfo => throw new NotImplementedException();
     }
 
     public class TestQuery : IQuery<Guid>

@@ -3,10 +3,9 @@ using System.Linq;
 using FluentAssertions;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
-using Ubora.Domain.Projects.Members;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Projects.Members
+namespace Ubora.Domain.Tests.Projects
 {
     public class HasMemberTests : IntegrationFixture
     {

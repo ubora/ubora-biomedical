@@ -2,6 +2,7 @@
 
 namespace Ubora.Domain.Infrastructure.Events
 {
+    /// <remarks> Please name concrete events in past tense. </remarks>>
     public abstract class UboraEvent
     {
         protected UboraEvent(UserInfo initiatedBy)

@@ -1,6 +1,6 @@
 ﻿using Ubora.Domain.Infrastructure.Specifications;
 
-namespace Ubora.Domain.Projects
+namespace Ubora.Domain.Infrastructure
 {
     public abstract class Projection<TDerived> : ISpecifiable<TDerived> where TDerived : Projection<TDerived>
     {
@@ -10,8 +10,8 @@ namespace Ubora.Domain.Projects
         }
 
 
-        public abstract class Specification : Specification<TDerived>
-        {
-        }
+        //public abstract class Specification : Specification<TDerived>
+        //{
+        //}
     }
 }
