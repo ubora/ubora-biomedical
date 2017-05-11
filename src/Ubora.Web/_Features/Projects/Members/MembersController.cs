@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
 
 namespace Ubora.Web._Features.Projects.Members
@@ -51,9 +52,14 @@ namespace Ubora.Web._Features.Projects.Members
                 return View(model);
             }
 
+            _processor.Execute(new InviteMemberToProjectCommand
+            {
+                ProjectId = model.ProjectId,
+                UserId = model.UserId.Value,
+                UserInfo = this.UserInfo
+            });
 
-
-            return null;
+            return RedirectToAction(nameof(Members), new { id = model.ProjectId });
         }
     }
 }

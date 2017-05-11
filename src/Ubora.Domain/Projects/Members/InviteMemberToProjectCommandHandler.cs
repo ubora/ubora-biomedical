@@ -18,10 +18,7 @@ namespace Ubora.Domain.Projects.Members
         public ICommandResult Handle(InviteMemberToProjectCommand command)
         {
             var userProfile = _documentSession.Load<UserProfile>(command.UserId);
-            if (userProfile == null)
-            {
-                throw new InvalidOperationException();
-            }
+            if (userProfile == null) throw new InvalidOperationException();
 
             var project = _documentSession.Load<Project>(command.ProjectId);
 
@@ -34,7 +31,8 @@ namespace Ubora.Domain.Projects.Members
             var @event = new MemberInvitedToProjectEvent(command.UserInfo)
             {
                 ProjectId = command.ProjectId,
-                UserId = command.UserId
+                UserId = command.UserId,
+                UserFullName = userProfile.FullName
             };
 
             _documentSession.Events.Append(command.ProjectId, @event);

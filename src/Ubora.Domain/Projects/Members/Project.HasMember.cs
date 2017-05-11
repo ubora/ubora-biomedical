@@ -5,6 +5,7 @@ using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Projects.Members
 {
+    // TODO(Kaspar Kallas): Does not work with IMartenQueryable some reason.
     public class HasMember : Specification<Project>
     {
         public Guid UserId { get; }
