@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Projects\Members\HasMemberTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Ubora.Domain\Ubora.Domain.csproj" />
   </ItemGroup>
 

@@ -48,12 +48,15 @@ namespace Ubora.Web._Features.Projects.List
 
             public ProjectListViewModel Create(string header, Guid userId)
             {
-                var projects = _queryProcessor.Find<Project>().Where(x => x.Members.Any(m => m.UserId == userId));
+
+
+                var userProjects = _queryProcessor.Find<Project>()
+                    .Where(x => x.Members.Any(m => m.UserId == userId));
 
                 var model = new ProjectListViewModel
                 {
                     Header = header,
-                    Projects = projects.Select(_mapper.Map<ProjectListItem>)
+                    Projects = userProjects.Select(_mapper.Map<ProjectListItem>)
                 };
 
                 return model;

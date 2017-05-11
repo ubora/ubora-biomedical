@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Linq.Expressions;
-using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Projects.Members
 {
-    // TODO(Kaspar Kallas): Does not work with IMartenQueryable some reason.
-    public class HasMember : Specification<Project>
+    public class HasMember : Project.Specification
     {
         public Guid UserId { get; }
 
@@ -17,7 +14,7 @@ namespace Ubora.Domain.Projects.Members
 
         internal override Expression<Func<Project, bool>> ToExpression()
         {
-            return project => project.Members.Any(m => m.UserId == UserId);
+            return HasMember(m => m.UserId == UserId);
         }
     }
 }

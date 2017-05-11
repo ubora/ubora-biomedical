@@ -6,7 +6,7 @@ using Ubora.Domain.Users;
 
 namespace Ubora.Domain.Projects.Members
 {
-    public class InviteMemberToProjectCommandHandler : ICommandHandler<InviteMemberToProjectCommand>
+    internal class InviteMemberToProjectCommandHandler : ICommandHandler<InviteMemberToProjectCommand>
     {
         private readonly IDocumentSession _documentSession;
 

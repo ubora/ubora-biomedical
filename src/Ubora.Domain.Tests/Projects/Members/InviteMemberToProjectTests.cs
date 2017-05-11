@@ -4,7 +4,6 @@ using System.Linq;
 using TestStack.BDDfy;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
@@ -18,11 +17,6 @@ namespace Ubora.Domain.Tests.Projects.Members
         private readonly Guid _invitedUserId = Guid.NewGuid();
 
         private ICommandResult _lastCommandResult;
-
-        public InviteMemberToProjectTests()
-        {
-            StoreOptions(new UboraStoreOptions().Configuration());
-        }
 
         [Fact]
         public void Start()
@@ -69,6 +63,9 @@ namespace Ubora.Domain.Tests.Projects.Members
         {
             var project = Session.Load<Project>(_projectId);
 
+            // TODO
+            project.DoesSatisfy(new HasMember(_invitedUserId)).Should().BeTrue();
+
             var addedMember = project.Members.Last();
             addedMember.UserId.Should().Be(_invitedUserId);
             addedMember.Should().BeOfType<ProjectMember>();
@@ -83,8 +80,6 @@ namespace Ubora.Domain.Tests.Projects.Members
 
         private void Then_User_Is_Not_A_Duplicate_Member_In_Project()
         {
-            RefreshSession(); // Load seems to cache first result.
-
             var project = Session.Load<Project>(_projectId);
             project.Members.Count(m => m.UserId == _invitedUserId).Should().Be(1);
 

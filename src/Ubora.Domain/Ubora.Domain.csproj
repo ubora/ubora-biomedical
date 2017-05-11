@@ -9,4 +9,8 @@
     <PackageReference Include="Marten" Version="1.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
 </Project>

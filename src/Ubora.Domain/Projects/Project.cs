@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.Members;
 
 namespace Ubora.Domain.Projects
 {
-    public class Project
+    public class Project : Projection<Project>
     {
         public Guid Id { get; private set; }
         public string Title { get; private set; }
@@ -66,7 +69,6 @@ namespace Ubora.Domain.Projects
             GmdnTerm = e.GmdnTerm;
         }
 
-
         private void Apply(MemberInvitedToProjectEvent e)
         {
             var member = new ProjectMember(e.UserId);
@@ -76,6 +78,14 @@ namespace Ubora.Domain.Projects
         public override string ToString()
         {
             return $"Project(Id:{Id})";
+        }
+
+        public new abstract class Specification : Specification<Project>
+        {
+            protected static Expression<Func<Project, bool>> HasMember(Func<ProjectMember, bool> expression)
+            {
+                return project => project._members.Any(expression);
+            }
         }
     }
 }
