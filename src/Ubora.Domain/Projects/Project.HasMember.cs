@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
+using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Projects
 {
-    public class HasMember : Project.Specification
+    public class HasMember : Specification<Project>
     {
         public Guid UserId { get; }
 
@@ -14,7 +16,7 @@ namespace Ubora.Domain.Projects
 
         internal override Expression<Func<Project, bool>> ToExpression()
         {
-            return HasMember(m => m.UserId == UserId);
+            return p => p.Members.Any(m => m.UserId == UserId);
         }
     }
 }

@@ -8,9 +8,5 @@ namespace Ubora.Domain.Infrastructure
         {
             return specification.IsSatisfiedBy((TDerived)this);
         }
-
-        public abstract class Specification : Specification<TDerived>
-        {
-        }
     }
 }

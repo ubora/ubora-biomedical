@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.Members;
 
 namespace Ubora.Domain.Projects
@@ -32,8 +30,8 @@ namespace Ubora.Domain.Projects
         public string UserRequirementStudy { get; private set; }
         public string AdditionalInformation { get; private set; }
 
-        private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
-        public IReadOnlyCollection<ProjectMember> Members => _members;
+        private readonly ICollection<ProjectMember> _members = new List<ProjectMember>();
+        public IReadOnlyCollection<ProjectMember> Members => _members.ToList().AsReadOnly();
 
         private void Apply(ProjectCreatedEvent e)
         {
@@ -79,14 +77,6 @@ namespace Ubora.Domain.Projects
         public override string ToString()
         {
             return $"Project(Id:{Id})";
-        }
-
-        public new abstract class Specification : Specification<Project>
-        {
-            protected static Expression<Func<Project, bool>> HasMember(Func<ProjectMember, bool> expression)
-            {
-                return project => project._members.Any(expression);
-            }
         }
     }
 }
