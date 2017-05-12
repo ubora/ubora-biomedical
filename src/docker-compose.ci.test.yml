@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  ubora.web:
+    build: ./Ubora.Web/
+    ports:
+      - "5000:80"
+    depends_on: 
+      - postgres
+
+  postgres:
+    container_name: 'postgres'
+    image: postgres
+    ports:
+      - "5400:5432"
+    environment:
+      POSTGRES_PASSWORD: ubora
+      POSTGRES_DB: ubora
+  
+  functional.tests:
+    build: ./Ubora.Web.FunctionalTests/
+    command: npm test
+    depends_on:
+      - ubora.web
+
+  selenium:
+    image: selenium/standalone-chrome
+    ports:
+      - "4445:4444"
