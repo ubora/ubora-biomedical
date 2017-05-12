@@ -4,19 +4,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
-using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Projects.Creation
 {
     [Authorize]
     public class CreationController : ProjectController
     {
-        private readonly ICommandQueryProcessor _processor;
         private readonly IMapper _mapper;
 
-        public CreationController(ICommandQueryProcessor processor, IMapper mapper)
+        public CreationController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
         {
-            _processor = processor;
             _mapper = mapper;
         }
 
@@ -41,7 +38,7 @@ namespace Ubora.Web._Features.Projects.Creation
             };
             _mapper.Map(model, command);
 
-            this.ExecuteCommand(_processor, command);
+            ExecuteCommand(command);
 
             if (!ModelState.IsValid)
             {

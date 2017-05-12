@@ -6,26 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
-using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Projects.Tasks
 {
     [Authorize]
     public class TasksController : ProjectController
     {
-        private readonly ICommandQueryProcessor _processor;
         private readonly IMapper _mapper;
 
-        public TasksController(ICommandQueryProcessor processor, IMapper mapper)
+        public TasksController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
         {
-            _processor = processor;
             _mapper = mapper;
         }
 
         public IActionResult Tasks(Guid projectId)
         {
-            var project = _processor.FindById<Project>(projectId);
-            var projectTasks = _processor.Find<ProjectTask>().Where(x => x.ProjectId == projectId);
+            var project = FindById<Project>(projectId);
+            var projectTasks = Find<ProjectTask>().Where(x => x.ProjectId == projectId);
 
             var model = new TaskListViewModel
             {
@@ -62,7 +59,7 @@ namespace Ubora.Web._Features.Projects.Tasks
             };
             _mapper.Map(model, command);
 
-            this.ExecuteCommand(_processor, command);
+            ExecuteCommand(command);
 
             if (!ModelState.IsValid)
             {
@@ -74,7 +71,7 @@ namespace Ubora.Web._Features.Projects.Tasks
 
         public IActionResult Edit(Guid id)
         {
-            var task = _processor.FindById<ProjectTask>(id);
+            var task = FindById<ProjectTask>(id);
 
             var model = _mapper.Map<EditTaskViewModel>(task);
 
@@ -95,7 +92,12 @@ namespace Ubora.Web._Features.Projects.Tasks
             };
             _mapper.Map(model, command);
 
-            _processor.Execute(command);
+            ExecuteCommand(command);
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
             return RedirectToAction(nameof(Tasks), new { projectId = model.ProjectId });
         }

@@ -11,16 +11,13 @@ namespace Ubora.Web._Features.Projects.Members
 {
     public class MembersController : ProjectController
     {
-        private readonly ICommandQueryProcessor _processor;
-
-        public MembersController(ICommandQueryProcessor processor)
+        public MembersController(ICommandQueryProcessor processor) : base(processor)
         {
-            _processor = processor;
         }
 
         public IActionResult Members(Guid id)
         {
-            var project = _processor.FindById<Project>(id);
+            var project = FindById<Project>(id);
 
             var model = new ProjectMemberListViewModel
             {
@@ -29,7 +26,7 @@ namespace Ubora.Web._Features.Projects.Members
                 {
                     UserId = m.UserId,
                     // TODO(Kaspar Kallas): Eliminate SELECT(N + 1)
-                    FullName = _processor.FindById<UserProfile>(m.UserId).FullName
+                    FullName = FindById<UserProfile>(m.UserId).FullName
                 })
             };
 
@@ -53,7 +50,7 @@ namespace Ubora.Web._Features.Projects.Members
                 return View(model);
             }
 
-            this.ExecuteCommand(_processor, new InviteMemberToProjectCommand
+            ExecuteCommand(new InviteMemberToProjectCommand
             {
                 ProjectId = model.ProjectId,
                 UserId = model.UserId.Value,

@@ -3,24 +3,21 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
-using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Projects.Workpackages
 {
     public class WorkpackagesController : ProjectController
     {
-        private readonly ICommandQueryProcessor _processor;
         private readonly IMapper _mapper;
 
-        public WorkpackagesController(ICommandQueryProcessor processor, IMapper mapper)
+        public WorkpackagesController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
         {
-            _processor = processor;
             _mapper = mapper;
         }
 
         public IActionResult StepOne(Guid id)
         {
-            var project = _processor.FindById<Project>(id);
+            var project = FindById<Project>(id);
 
             var model = _mapper.Map<StepOneViewModel>(project);
 
@@ -40,7 +37,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
                 UserInfo = this.UserInfo
             };
 
-            var project = _processor.FindById<Project>(model.Id);
+            var project = FindById<Project>(model.Id);
             _mapper.Map(project, command);
 
             command.Title = model.Title;
@@ -49,7 +46,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
             command.PotentialTechnologyTags = model.PotentialTechnologyTags;
             command.GmdnTerm = model.GmdnTerm;
 
-            this.ExecuteCommand(_processor, command);
+            ExecuteCommand(command);
 
             if (!ModelState.IsValid)
             {
@@ -61,7 +58,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
 
         public IActionResult StepTwo(Guid id)
         {
-            var project = _processor.FindById<Project>(id);
+            var project = FindById<Project>(id);
 
             var model = _mapper.Map<StepTwoViewModel>(project);
 
@@ -81,7 +78,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
                 UserInfo = this.UserInfo
             };
 
-            var project = _processor.FindById<Project>(model.Id);
+            var project = FindById<Project>(model.Id);
             _mapper.Map(project, command);
 
             command.DescriptionOfNeed = model.DescriptionOfNeed;
@@ -94,7 +91,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
             command.UserRequirementStudy = model.UserRequirementStudy;
             command.AdditionalInformation = model.AdditionalInformation;
 
-            this.ExecuteCommand(_processor, command);
+            ExecuteCommand(command);
 
             if (!ModelState.IsValid)
             {

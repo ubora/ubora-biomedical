@@ -30,11 +30,15 @@ namespace Ubora.Domain.Tests.Projects
 
             var sut = new HasMember(userId);
 
+            RefreshSession();
+
             // Act
             var result = sut.SatisfyEntitiesFrom(Session.Query<Project>());
 
             // Assert
-            result.Single().Id.Should().Be(expectedProjectId);
+            var project = result.Single();
+
+            project.Id.Should().Be(expectedProjectId);
         }
     }
 }

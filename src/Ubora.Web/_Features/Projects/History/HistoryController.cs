@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
 
 namespace Ubora.Web._Features.Projects.History
@@ -9,7 +10,7 @@ namespace Ubora.Web._Features.Projects.History
     {
         private readonly IEventStreamQuery _eventStreamQuery;
 
-        public HistoryController(IEventStreamQuery eventStreamQuery)
+        public HistoryController(ICommandQueryProcessor processor, IEventStreamQuery eventStreamQuery) : base(processor)
         {
             _eventStreamQuery = eventStreamQuery;
         }
