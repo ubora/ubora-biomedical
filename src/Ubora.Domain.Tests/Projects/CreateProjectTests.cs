@@ -66,7 +66,10 @@ namespace Ubora.Domain.Tests.Projects
 
         private void Then_Creator_Should_Be_First_Member(CreateProjectCommand command)
         {
+            RefreshSession();
+
             var project = Session.Load<Project>(command.Id);
+
             var onlyMember = project.Members.Single();
             onlyMember.As<ProjectLeader>().UserId.Should().Be(command.UserInfo.UserId);
         }

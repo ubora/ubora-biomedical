@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
 
@@ -30,8 +31,10 @@ namespace Ubora.Domain.Projects
         public string UserRequirementStudy { get; private set; }
         public string AdditionalInformation { get; private set; }
 
-        private readonly ICollection<ProjectMember> _members = new List<ProjectMember>();
-        public IReadOnlyCollection<ProjectMember> Members => _members.ToList().AsReadOnly();
+        [JsonProperty(nameof(Members))]
+        private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
+        [JsonIgnore]
+        public IReadOnlyCollection<ProjectMember> Members => _members;
 
         private void Apply(ProjectCreatedEvent e)
         {
