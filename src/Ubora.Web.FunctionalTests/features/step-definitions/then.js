@@ -11,5 +11,5 @@ module.exports = function () {
 
     this.Then(/^I expect that the element "([^"]*)?" is visible$/, (element) => {
         expect(browser.isVisible(element));
-    });  
+    });
 }

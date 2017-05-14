@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/wdio --host 192.168.1.91 --port 4445",
-    "report": "allure generate --clean && allure open"
+    "test": "./node_modules/.bin/wdio --port 4444"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +12,6 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "cucumber-html-reporter": "^0.4.2",
-    "wdio-allure-reporter": "^0.1.2",
     "wdio-cucumber-framework": "^0.2.17",
     "webdriverio": "^4.8.0"
   }

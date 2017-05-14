@@ -1,5 +1,7 @@
 exports.config = {
-    debug: true,
+    // Set a base URL in order to shorten url command calls. If your url parameter starts
+    // with "/", then the base url gets prepended.
+    baseUrl: 'http://ubora.web:80',
     //
     // ==================
     // Specify Test Files
@@ -68,11 +70,8 @@ exports.config = {
     bail: 0,
     //
     // Saves a screenshot to a given path if a command fails.
-    screenshotPath: './errorShots/',
+    //screenshotPath: './errorShots/',
     //
-    // Set a base URL in order to shorten url command calls. If your url parameter starts
-    // with "/", then the base url gets prepended.
-    baseUrl: 'http://192.168.1.91:5000',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
@@ -118,10 +117,9 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: http://webdriver.io/guide/testrunner/reporters.html
-    reporters: ['allure'],
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
-        require: ['./features/step-definitions'],        // <string[]> (file/dir) require files before executing features
+        require: ['./features/step-definitions', './features/support'],        // <string[]> (file/dir) require files before executing features
         backtrace: false,   // <boolean> show full backtrace for errors
         compiler: [],       // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
         dryRun: false,      // <boolean> invoke formatters without executing steps

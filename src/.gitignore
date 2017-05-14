@@ -3,9 +3,8 @@
 
 
 # FunctionalTests
-[Ee]rrorShots/
-[Aa]llure-report/
-[Aa]llure-results/
+cucumber_html_reporter.html
+cucumber_report.json
 
 # User-specific files
 *.suo

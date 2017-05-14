@@ -9,7 +9,7 @@ module.exports = function () {
     this.When(
         /^I set "([^"]*)?" to the element "([^"]*)?"$/, (value, element) => {
             browser.setValue(element, value);
-        });  
+        });
 
     this.When(
         /^I add "([^"]*)?" to the element "([^"]*)?"$/, (value, element) => {
