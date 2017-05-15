@@ -7,6 +7,7 @@ services:
       - "5000:80"
     depends_on: 
       - postgres
+    command: /bin/bash -c "./wait-for-it.sh postgres:5432 && dotnet Ubora.Web.dll"
 
   postgres:
     container_name: 'postgres'
@@ -19,7 +20,7 @@ services:
   
   functional.tests:
     build: ./Ubora.Web.FunctionalTests/
-    command: npm test -- --host selenium
+    command: /bin/bash -c "./wait-for-it.sh ubora.web:80 && npm test -- --host selenium"
     depends_on:
       - ubora.web
 
