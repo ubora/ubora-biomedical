@@ -3,4 +3,5 @@ ARG source
 WORKDIR /app
 EXPOSE 80
 COPY ${source:-obj/Docker/publish} .
-CMD dotnet Ubora.Web.dll
+COPY ./wait-for-postgres.sh wait-for-postgres.sh
+CMD /bin/bash -c "/wait-for-postgres.sh && dotnet Ubora.Web.dll"

@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+
+  ci-build:  
+    image: microsoft/aspnetcore-build:1.0-1.1
+    volumes:
+      - .:/src
+    working_dir: /src
+    environment:
+      - marten_testing_database=server=postgres;Port=5432;userid=postgres;password=ubora;database=ubora
+    depends_on:
+      - "postgres"
+    networks:
+      - ubora-testnetwork
+    command: /bin/bash -c "dotnet restore ./Ubora.sln && dotnet publish ./Ubora.sln -c Release -o ./obj/Docker/publish"
+
+  postgres:
+    container_name: 'postgresubora'
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: ubora
+      POSTGRES_DB: ubora
+    networks:
+      - ubora-testnetwork
+
+networks:
+  ubora-testnetwork:
+    driver: bridge
