@@ -83,3 +83,7 @@ form h3 {
     margin:0;
     padding:0;
 }
+
+.textbox-label {
+    color: var(--text-color);
+}
