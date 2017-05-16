@@ -7,14 +7,13 @@ using Ubora.Domain.Users;
 
 namespace Ubora.Web._Features.Projects.Members
 {
-    [Authorize(Policy = nameof(Policies.FromProject))]
     public class MembersController : ProjectController
     {
         public MembersController(ICommandQueryProcessor processor) : base(processor)
         {
         }
 
-        [Route("members")]
+        [Route(nameof(Members))]
         public IActionResult Members()
         {
             var model = new ProjectMemberListViewModel
@@ -34,8 +33,6 @@ namespace Ubora.Web._Features.Projects.Members
 
         public IActionResult Invite()
         {
-            // TODO: Authorize
-
             var model = new InviteProjectMemberViewModel { ProjectId = ProjectId };
 
             return View(model);
@@ -49,11 +46,9 @@ namespace Ubora.Web._Features.Projects.Members
                 return View(model);
             }
 
-            ExecuteCommand(new InviteMemberToProjectCommand
+            ExecuteUserProjectCommand(new InviteMemberToProjectCommand
             {
-                ProjectId = model.ProjectId,
-                UserId = model.UserId.Value,
-                UserInfo = this.UserInfo
+                UserId = model.UserId.Value
             });
 
             if (!ModelState.IsValid)

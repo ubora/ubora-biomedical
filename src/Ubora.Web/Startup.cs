@@ -66,12 +66,15 @@ namespace Ubora.Web
 
             services.AddAutoMapper();
 
-            services.AddAuthorization(o => o.AddPolicy(nameof(ProjectController.Policies.FromProject), policy =>
+            services.AddAuthorization(o =>
             {
-                policy.AddRequirements(new IsCurrentProjectMember());
-            }));
+                o.AddPolicy(nameof(ProjectController), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
+                });
+            });
 
-            services.AddSingleton<IAuthorizationHandler, ProjectAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, AllowProjectMemberHandler>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             var autofacContainerBuilder = new ContainerBuilder();

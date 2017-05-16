@@ -5,16 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
 
-namespace Ubora.Web._Features.Projects.Creation
+namespace Ubora.Web._Features.ProjectCreation
 {
     [Authorize]
-    public class CreationController : ProjectController
+    public class CreationController : UboraController
     {
-        private readonly IMapper _mapper;
-
-        public CreationController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
+        public CreationController(ICommandQueryProcessor processor) : base(processor)
         {
-            _mapper = mapper;
         }
 
         public IActionResult Create()
@@ -31,14 +28,17 @@ namespace Ubora.Web._Features.Projects.Creation
             }
 
             var projectId = Guid.NewGuid();
-            var command = new CreateProjectCommand
+            ExecuteUserCommand(new CreateProjectCommand
             {
-                Id = projectId,
-                UserInfo = UserInfo
-            };
-            _mapper.Map(model, command);
-
-            ExecuteCommand(command);
+                NewProjectId = projectId,
+                Title = model.Title,
+                ClinicalNeed = model.ClinicalNeed,
+                AreaOfUsage = model.AreaOfUsage,
+                PotentialTechnology = model.PotentialTechnology,
+                GmdnCode = model.GmdnCode,
+                GmdnDefinition = model.GmdnDefinition,
+                GmdnTerm = model.GmdnTerm
+            });
 
             if (!ModelState.IsValid)
             {

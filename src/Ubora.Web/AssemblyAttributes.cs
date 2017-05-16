@@ -12,3 +12,5 @@
 
 [assembly: AspMvcViewLocationFormat(@"~\_Features\Users\{1}\{0}.cshtml")]
 [assembly: AspMvcViewLocationFormat(@"~\_Features\Projects\{1}\{0}.cshtml")]
+[assembly: AspMvcViewLocationFormat(@"~\_Features\ProjectCreation\{1}\{0}.cshtml")]
+[assembly: AspMvcViewLocationFormat(@"~\_Features\ProjectList\{1}\{0}.cshtml")]

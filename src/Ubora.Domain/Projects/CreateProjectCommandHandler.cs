@@ -11,9 +11,9 @@ namespace Ubora.Domain.Projects
 
         public override ICommandResult Handle(CreateProjectCommand cmd)
         {
-            var @event = new ProjectCreatedEvent(cmd.UserInfo)
+            var @event = new ProjectCreatedEvent(cmd.Actor)
             {
-                Id = cmd.Id,
+                Id = cmd.NewProjectId,
                 Title = cmd.Title,
                 AreaOfUsage = cmd.AreaOfUsage,
                 ClinicalNeed = cmd.ClinicalNeed,
@@ -23,7 +23,7 @@ namespace Ubora.Domain.Projects
                 PotentialTechnology = cmd.PotentialTechnology
             };
 
-            DocumentSession.Events.Append(cmd.Id, @event);
+            DocumentSession.Events.Append(cmd.NewProjectId, @event);
             DocumentSession.SaveChanges();
 
             return new CommandResult();

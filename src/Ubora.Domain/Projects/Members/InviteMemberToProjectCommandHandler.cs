@@ -25,7 +25,7 @@ namespace Ubora.Domain.Projects.Members
                 return new CommandResult($"[{cmd.UserId}] is already member of project [{cmd.ProjectId}].");
             }
 
-            var @event = new MemberInvitedToProjectEvent(cmd.UserInfo)
+            var @event = new MemberInvitedToProjectEvent(cmd.Actor)
             {
                 ProjectId = cmd.ProjectId,
                 UserId = cmd.UserId,

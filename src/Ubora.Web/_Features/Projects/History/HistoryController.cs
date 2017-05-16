@@ -14,6 +14,7 @@ namespace Ubora.Web._Features.Projects.History
             _eventStreamQuery = eventStreamQuery;
         }
 
+        [Route(nameof(History))]
         public IActionResult History()
         {
             var projectEventStream = _eventStreamQuery.Find(ProjectId);

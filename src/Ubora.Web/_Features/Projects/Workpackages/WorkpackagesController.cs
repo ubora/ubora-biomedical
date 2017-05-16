@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
@@ -30,12 +29,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
                 return View(model);
             }
 
-            var command = new UpdateProjectCommand
-            {
-                UserInfo = this.UserInfo
-            };
-
-            _mapper.Map(Project, command);
+            var command = _mapper.Map<UpdateProjectCommand>(Project);
 
             command.Title = model.Title;
             command.ClinicalNeedTags = model.ClinicalNeedTags;
@@ -43,7 +37,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
             command.PotentialTechnologyTags = model.PotentialTechnologyTags;
             command.GmdnTerm = model.GmdnTerm;
 
-            ExecuteCommand(command);
+            ExecuteUserProjectCommand(command);
 
             if (!ModelState.IsValid)
             {
@@ -68,12 +62,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
                 return View(model);
             }
 
-            var command = new UpdateProjectCommand
-            {
-                UserInfo = this.UserInfo
-            };
-
-            _mapper.Map(Project, command);
+            var command = _mapper.Map<UpdateProjectCommand>(Project);
 
             command.DescriptionOfNeed = model.DescriptionOfNeed;
             command.DescriptionOfExistingSolutionsAndAnalysis = model.DescriptionOfExistingSolutionsAndAnalysis;
@@ -85,7 +74,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
             command.UserRequirementStudy = model.UserRequirementStudy;
             command.AdditionalInformation = model.AdditionalInformation;
 
-            ExecuteCommand(command);
+            ExecuteUserProjectCommand(command);
 
             if (!ModelState.IsValid)
             {

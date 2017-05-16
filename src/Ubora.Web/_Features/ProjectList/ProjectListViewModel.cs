@@ -5,7 +5,7 @@ using AutoMapper;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 
-namespace Ubora.Web._Features.Projects.List
+namespace Ubora.Web._Features.ProjectList
 {
     public class ProjectListViewModel
     {

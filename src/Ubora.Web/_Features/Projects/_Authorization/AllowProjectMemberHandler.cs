@@ -8,32 +8,27 @@ using Ubora.Web.Services;
 
 namespace Ubora.Web._Features.Projects._Authorization
 {
-    public class IsCurrentProjectMember : IAuthorizationRequirement
-    {
-    }
-
-    public class ProjectAuthorizationHandler : AuthorizationHandler<IsCurrentProjectMember>
+    public class AllowProjectMemberHandler : AuthorizationHandler<IsProjectMemberRequirement>
     {
         private readonly IQuerySession _querySession;
 
-        public ProjectAuthorizationHandler(IQuerySession querySession)
+        public AllowProjectMemberHandler(IQuerySession querySession)
         {
             _querySession = querySession;
         }
 
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsCurrentProjectMember requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsProjectMemberRequirement requirement)
         {
             var authorizationFilterContext = context.Resource as Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext;
             var httpContext = authorizationFilterContext.HttpContext;
 
-            var user = context.User;
-
-            var projectIdFromRoute = (string) httpContext.GetRouteValue("projectId");
+            var projectIdFromRoute = (string)httpContext.GetRouteValue("projectId");
             Guid.TryParse(projectIdFromRoute, out Guid projectId);
 
             if (projectId != Guid.Empty)
             {
                 var project = _querySession.Load<Project>(projectId);
+                var user = context.User;
 
                 if (user.Identity.IsAuthenticated)
                 {

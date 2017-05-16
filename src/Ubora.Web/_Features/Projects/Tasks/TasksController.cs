@@ -16,7 +16,7 @@ namespace Ubora.Web._Features.Projects.Tasks
             _mapper = mapper;
         }
 
-        [Route("tasks")]
+        [Route(nameof(Tasks))]
         public IActionResult Tasks()
         {
             var projectTasks = Find<ProjectTask>().Where(x => x.ProjectId == ProjectId);
@@ -49,14 +49,12 @@ namespace Ubora.Web._Features.Projects.Tasks
                 return View(model);
             }
 
-            var command = new AddTaskCommand
+            ExecuteUserProjectCommand(new AddTaskCommand
             {
                 Id = Guid.NewGuid(),
-                UserInfo = this.UserInfo
-            };
-            _mapper.Map(model, command);
-
-            ExecuteCommand(command);
+                Title = model.Title,
+                Description = model.Description
+            });
 
             if (!ModelState.IsValid)
             {
@@ -83,13 +81,11 @@ namespace Ubora.Web._Features.Projects.Tasks
                 return View(model);
             }
 
-            var command = new EditTaskCommand
+            ExecuteUserProjectCommand(new EditTaskCommand
             {
-                UserInfo = this.UserInfo
-            };
-            _mapper.Map(model, command);
-
-            ExecuteCommand(command);
+                Title = model.Title,
+                Description = model.Description
+            });
 
             if (!ModelState.IsValid)
             {
