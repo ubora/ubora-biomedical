@@ -15,11 +15,9 @@ namespace Ubora.Web._Features.Projects.Workpackages
             _mapper = mapper;
         }
 
-        public IActionResult StepOne(Guid id)
+        public IActionResult StepOne()
         {
-            var project = FindById<Project>(id);
-
-            var model = _mapper.Map<StepOneViewModel>(project);
+            var model = _mapper.Map<StepOneViewModel>(Project);
 
             return View(model);
         }
@@ -37,8 +35,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
                 UserInfo = this.UserInfo
             };
 
-            var project = FindById<Project>(model.Id);
-            _mapper.Map(project, command);
+            _mapper.Map(Project, command);
 
             command.Title = model.Title;
             command.ClinicalNeedTags = model.ClinicalNeedTags;
@@ -53,14 +50,12 @@ namespace Ubora.Web._Features.Projects.Workpackages
                 return View(model);
             }
 
-            return RedirectToAction(nameof(StepOne), new { id = model.Id });
+            return RedirectToAction(nameof(StepOne), new { ProjectId });
         }
 
-        public IActionResult StepTwo(Guid id)
+        public IActionResult StepTwo()
         {
-            var project = FindById<Project>(id);
-
-            var model = _mapper.Map<StepTwoViewModel>(project);
+            var model = _mapper.Map<StepTwoViewModel>(Project);
 
             return View(model);
         }
@@ -78,8 +73,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
                 UserInfo = this.UserInfo
             };
 
-            var project = FindById<Project>(model.Id);
-            _mapper.Map(project, command);
+            _mapper.Map(Project, command);
 
             command.DescriptionOfNeed = model.DescriptionOfNeed;
             command.DescriptionOfExistingSolutionsAndAnalysis = model.DescriptionOfExistingSolutionsAndAnalysis;
@@ -98,7 +92,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
                 return View(model);
             }
 
-            return RedirectToAction(nameof(Dashboard), "Dashboard", new { id = model.Id });
+            return RedirectToAction(nameof(Dashboard), "Dashboard", new { ProjectId });
         }
     }
 }

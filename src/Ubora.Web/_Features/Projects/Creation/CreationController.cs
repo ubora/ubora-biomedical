@@ -45,7 +45,7 @@ namespace Ubora.Web._Features.Projects.Creation
                 return View(model);
             }
 
-            return RedirectToAction("Dashboard", "Dashboard", new { id = projectId });
+            return RedirectToAction("Dashboard", "Dashboard", new { projectId = projectId });
         }
     }
 }

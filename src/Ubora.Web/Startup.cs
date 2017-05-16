@@ -2,8 +2,10 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +15,8 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
+using Ubora.Web._Features.Projects;
+using Ubora.Web._Features.Projects._Authorization;
 
 namespace Ubora.Web
 {
@@ -45,7 +49,9 @@ namespace Ubora.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString));
 
-            services.AddMvc()
+            services
+                .AddRouting(o => o.LowercaseUrls = true)
+                .AddMvc()
                 .AddUboraFeatureFolders(new FeatureFolderOptions { FeatureFolderName = "_Features" });
 
 			services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
@@ -53,11 +59,20 @@ namespace Ubora.Web
 			        o.Password.RequireNonAlphanumeric = false;
 			    })
                 .AddUserManager<ApplicationUserManager>()
+                .AddSignInManager<ApplicationSignInManager>()
                 .AddClaimsPrincipalFactory<ApplicationClaimsPrincipalFactory>()
 				.AddEntityFrameworkStores<ApplicationDbContext, Guid>()
 				.AddDefaultTokenProviders();
 
             services.AddAutoMapper();
+
+            services.AddAuthorization(o => o.AddPolicy(nameof(ProjectController.Policies.FromProject), policy =>
+            {
+                policy.AddRequirements(new IsCurrentProjectMember());
+            }));
+
+            services.AddSingleton<IAuthorizationHandler, ProjectAuthorizationHandler>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             var autofacContainerBuilder = new ContainerBuilder();
 
@@ -98,12 +113,12 @@ namespace Ubora.Web
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "areaRoute",
-                    template: "{area:exists}/{controller}/{action}");
-
-                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                    name: "areaRoute",
+                    template: "{area:exists}/{controller}/{action}");
             });
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
