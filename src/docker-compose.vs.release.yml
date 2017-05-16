@@ -4,7 +4,7 @@ services:
   ubora.web:
     build:
       args:
-        source: ${DOCKER_BUILD_SOURCE}
+        source: Ubora.Web/${DOCKER_BUILD_SOURCE}
     volumes:
       - ~/clrdbg:/clrdbg:ro
     entrypoint: tail -f /dev/null
