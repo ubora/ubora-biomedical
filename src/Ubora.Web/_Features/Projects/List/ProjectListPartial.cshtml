@@ -7,9 +7,11 @@
 
     foreach (var project in Model.Projects)
     {
-        <project-card banner="//placehold.it/400x150"
-                      title="@project.Title"
-                      projecturl="@Url.Action("Dashboard", "Dashboard", new { projectId = project.Id })">
-        </project-card>
+        <a href="@Url.Action("Dashboard", "Dashboard", new { projectId = project.Id })" class="project">
+			<img class="project-banner" src="//placehold.it/400x150">
+			<div class="project-container">
+				<p class="project-title">@project.Title</p>
+			</div>
+		</a>
     }
 }

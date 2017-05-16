@@ -33,5 +33,5 @@ if (sideMenuButton) {
 }
 
 window.addEventListener('load', () => {
-    console.log(`Page loaded in ${window.performance.now()}ms`);
+    console.info(`UBORA: page loaded in ${Math.ceil(window.performance.now())}ms`);
 });

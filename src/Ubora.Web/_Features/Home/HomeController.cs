@@ -9,41 +9,7 @@ namespace Ubora.Web._Features.Home
 			return View();
 		}
 
-		public IActionResult About()
-		{
-			ViewData["Message"] = "Your application description page.";
-
-			return View();
-		}
-
-		public IActionResult Contact()
-		{
-			ViewData["Message"] = "Your contact page.";
-
-			return View();
-		}
-
-		public IActionResult Search()
-		{
-			return View();
-		}
-
 		public IActionResult Error()
-		{
-			return View();
-		}
-
-		public IActionResult WorkPackageZero()
-		{
-			return View();
-		}
-
-		public IActionResult WorkPackageOne()
-		{
-			return View();
-		}
-
-		public IActionResult ExampleProject()
 		{
 			return View();
 		}

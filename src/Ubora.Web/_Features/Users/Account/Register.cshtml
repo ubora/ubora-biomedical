@@ -9,7 +9,7 @@
     <h2>@ViewData["Title"]</h2>
 
     <form asp-controller="Account" asp-action="Register" method="post">
-        
+
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="form-input">
@@ -84,7 +84,9 @@
             @*TODO: Investigate 'required' behaviour related to jQuery validation*@
             <label asp-for="IsAgreedToTermsOfService">
                 <input asp-for="IsAgreedToTermsOfService" required>
-                I agree to <a href="#">Terms of Service</a>
+                <span class="textbox-label">I agree to</span>
+                @*TODO: Obtain and implement ToS*@
+                <a href="#">Terms of Service</a>
             </label>
             <span asp-validation-for="IsAgreedToTermsOfService"></span>
         </div>
