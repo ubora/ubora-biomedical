@@ -116,6 +116,7 @@ exports.config = {
     //
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
+    reporters: ['teamcity'],
     // see also: http://webdriver.io/guide/testrunner/reporters.html
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
