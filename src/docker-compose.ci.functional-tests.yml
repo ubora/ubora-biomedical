@@ -7,9 +7,9 @@ services:
       dockerfile: Ubora.Web/Dockerfile
     ports:
       - "5000:80"
-    depends_on: 
-      - postgres
     command: /bin/bash -c "./wait-for-it.sh postgres:5432 && dotnet Ubora.Web.dll"
+    networks:
+      - ubora-testnetwork
 
   postgres:
     container_name: 'postgres'
@@ -19,18 +19,24 @@ services:
     environment:
       POSTGRES_PASSWORD: ubora
       POSTGRES_DB: ubora
+    networks:
+      - ubora-testnetwork
   
   functional.tests:
     build: 
       context: ./
       dockerfile: Ubora.Web.FunctionalTests/Dockerfile
-    command: /bin/bash -c "./wait-for-it.sh ubora.web:80 && cd Ubora.Web.FunctionalTests && npm test -- --host selenium"
-    depends_on:
-      - ubora.web
+    command: /bin/bash -c "./wait-for-it.sh ubora.web:80 -t 30 && cd Ubora.Web.FunctionalTests && npm test -- --host selenium"
+    networks:
+      - ubora-testnetwork
 
   selenium:
     image: selenium/standalone-chrome
     ports:
       - "4444:4444"  
-    depends_on:
-      - ubora.web
+    networks:
+      - ubora-testnetwork
+
+networks:
+  ubora-testnetwork:
+    driver: bridge
