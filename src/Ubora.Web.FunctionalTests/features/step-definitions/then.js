@@ -5,10 +5,6 @@ module.exports = function () {
         expect(browser.getTitle()).to.be.eql(title);
     });
 
-    this.Then(/^I expect that should be "([^"]*)?" the text of the page "([^"]*)"$/, (text, element) => {
-        expect(browser.getText(element)).to.be.eql(text);
-    });
-
     this.Then(/^I expect that the element "([^"]*)?" is visible$/, (element) => {
         expect(browser.isVisible(element));
     });
