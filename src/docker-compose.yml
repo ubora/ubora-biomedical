@@ -4,6 +4,6 @@ services:
   ubora.web:
     image: ubora.web
     build:
-      context: ./
-      dockerfile: Ubora.Web/Dockerfile
+      context: ./Ubora.Web
+      dockerfile: Dockerfile
 

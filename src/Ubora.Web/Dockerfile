@@ -2,5 +2,5 @@ FROM microsoft/aspnetcore:1.1
 ARG source
 WORKDIR /app
 EXPOSE 80
-COPY ${source:-Ubora.Web/obj/Docker/publish} .
+COPY ${source:-obj/Docker/publish} .
 COPY ./wait-for-it.sh wait-for-it.sh

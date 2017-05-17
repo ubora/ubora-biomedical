@@ -2,9 +2,7 @@ version: '3'
 
 services:
   ubora.web:
-    build: 
-      context: ./
-      dockerfile: Ubora.Web/Dockerfile
+    build: ./Ubora.Web/
     ports:
       - "5000:80"
     command: /bin/bash -c "./wait-for-it.sh postgres:5432 && dotnet Ubora.Web.dll"
@@ -23,10 +21,8 @@ services:
       - ubora-testnetwork
   
   functional.tests:
-    build: 
-      context: ./
-      dockerfile: Ubora.Web.FunctionalTests/Dockerfile
-    command: /bin/bash -c "./wait-for-it.sh ubora.web:80 -t 30 && cd Ubora.Web.FunctionalTests && npm test -- --host selenium"
+    build: ./Ubora.Web.FunctionalTests/
+    command: /bin/bash -c "./wait-for-it.sh ubora.web:80 -t 30 && npm test -- --host selenium"
     networks:
       - ubora-testnetwork
 

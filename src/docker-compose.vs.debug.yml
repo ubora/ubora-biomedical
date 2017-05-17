@@ -5,7 +5,7 @@ services:
     image: ubora.web:dev
     build:
       args:
-        source: Ubora.Web/${DOCKER_BUILD_SOURCE}
+        source: ${DOCKER_BUILD_SOURCE}
     environment:
       - DOTNET_USE_POLLING_FILE_WATCHER=1
     volumes:
