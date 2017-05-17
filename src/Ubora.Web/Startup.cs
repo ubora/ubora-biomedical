@@ -12,11 +12,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using OdeToCode.AddFeatureFolders;
 using Ubora.Domain.Infrastructure;
+using Ubora.Web.Authorization;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Projects;
-using Ubora.Web._Features.Projects._Authorization;
 
 namespace Ubora.Web
 {
@@ -65,17 +65,12 @@ namespace Ubora.Web
 				.AddDefaultTokenProviders();
 
             services.AddAutoMapper();
+            services.AddUboraAuthorization();
 
-            services.AddAuthorization(o =>
-            {
-                o.AddPolicy(nameof(ProjectController), policyBuilder =>
-                {
-                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
-                });
-            });
-
-            services.AddSingleton<IAuthorizationHandler, AllowProjectMemberHandler>();
+            services.AddSingleton<IAuthorizationHandler, IsProjectMemberAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, IsAuthenticatedUserAuthorizationHandler>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IAuthorizationService, DefaultAuthorizationService>();
 
             var autofacContainerBuilder = new ContainerBuilder();
 

@@ -4,12 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
+using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.Projects
 {
-    [Authorize(Policy = nameof(ProjectController))]
     [Route("Projects/{projectId:Guid}")]
     [Route("Projects/{projectId:Guid}/[controller]/[action]/{id?}")]
+    [Authorize(Policy = nameof(Policies.IsProjectMember))]
     public abstract class ProjectController : UboraController
     {
         private readonly ICommandQueryProcessor _processor;
