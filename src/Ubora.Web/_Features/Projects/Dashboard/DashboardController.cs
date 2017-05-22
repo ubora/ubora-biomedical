@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Web._Features.Projects.Dashboard
@@ -10,9 +9,10 @@ namespace Ubora.Web._Features.Projects.Dashboard
         {
         }
 
-        public IActionResult Dashboard(Guid id)
+        [Route(nameof(Dashboard))]
+        public IActionResult Dashboard()
         {
-            return RedirectToAction("StepTwo", "Workpackages", new {id});
+            return RedirectToAction("StepTwo", "Workpackages", new { ProjectId });
         }
     }
 }

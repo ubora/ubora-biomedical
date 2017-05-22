@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Web.Infrastructure.Extensions;
+using Ubora.Web.Services;
 
 namespace Ubora.Web._Features
 {
     public abstract class UboraController : Controller
     {
+        protected virtual UserInfo UserInfo => User.GetInfo();
+
         private ICommandQueryProcessor Processor { get; }
 
         protected UboraController(ICommandQueryProcessor processor)
@@ -18,8 +22,9 @@ namespace Ubora.Web._Features
             Processor = processor;
         }
 
-        protected void ExecuteCommand<T>(T command) where T : ICommand
+        protected void ExecuteUserCommand<T>(T command) where T : IUserCommand
         {
+            command.Actor = UserInfo;
             var result = Processor.Execute(command);
             if (result.IsFailure)
             {

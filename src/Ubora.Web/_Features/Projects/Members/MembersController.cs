@@ -1,11 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
-using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Projects.Members
 {
@@ -15,14 +12,13 @@ namespace Ubora.Web._Features.Projects.Members
         {
         }
 
-        public IActionResult Members(Guid id)
+        [Route(nameof(Members))]
+        public IActionResult Members()
         {
-            var project = FindById<Project>(id);
-
             var model = new ProjectMemberListViewModel
             {
-                Id = id,
-                Members = project.Members.Select(m => new ProjectMemberListViewModel.Item
+                Id = ProjectId,
+                Members = Project.Members.Select(m => new ProjectMemberListViewModel.Item
                 {
                     UserId = m.UserId,
                     // TODO(Kaspar Kallas): Eliminate SELECT(N + 1)
@@ -33,11 +29,9 @@ namespace Ubora.Web._Features.Projects.Members
             return View(model);
         }
 
-        public IActionResult Invite(Guid id)
+        public IActionResult Invite()
         {
-            // TODO: Authorize
-
-            var model = new InviteProjectMemberViewModel { ProjectId = id };
+            var model = new InviteProjectMemberViewModel { ProjectId = ProjectId };
 
             return View(model);
         }
@@ -50,11 +44,9 @@ namespace Ubora.Web._Features.Projects.Members
                 return View(model);
             }
 
-            ExecuteCommand(new InviteMemberToProjectCommand
+            ExecuteUserProjectCommand(new InviteMemberToProjectCommand
             {
-                ProjectId = model.ProjectId,
-                UserId = model.UserId.Value,
-                UserInfo = this.UserInfo
+                UserId = model.UserId.Value
             });
 
             if (!ModelState.IsValid)

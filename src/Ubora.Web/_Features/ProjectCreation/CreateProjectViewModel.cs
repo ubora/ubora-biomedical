@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Ubora.Web._Features.Projects.Creation
+namespace Ubora.Web._Features.ProjectCreation
 {
     public class CreateProjectViewModel
     {
