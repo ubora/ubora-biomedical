@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
@@ -23,7 +25,8 @@ namespace Ubora.Web._Features.Users.Account
 		private readonly IEmailSender _emailSender;
 		private readonly ISmsSender _smsSender;
 	    private readonly ICommandProcessor _commandProcessor;
-	    private readonly ILogger _logger;
+	    private readonly IQueryProcessor _queryProcessor;
+        private readonly ILogger _logger;
 		private readonly string _externalCookieScheme;
 
 		public AccountController(
@@ -33,7 +36,7 @@ namespace Ubora.Web._Features.Users.Account
 			IEmailSender emailSender,
 			ISmsSender smsSender,
 			ILoggerFactory loggerFactory,
-            ICommandProcessor commandProcessor)
+            ICommandProcessor commandProcessor, IQueryProcessor queryProcessor)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
@@ -41,10 +44,33 @@ namespace Ubora.Web._Features.Users.Account
 			_emailSender = emailSender;
 			_smsSender = smsSender;
 		    _commandProcessor = commandProcessor;
+		    _queryProcessor = queryProcessor;
 		    _logger = loggerFactory.CreateLogger<AccountController>();
 		}
 
-		[HttpGet]
+	    [HttpGet]
+	    [AllowAnonymous]
+        public IActionResult ViewProfile(Guid userId)
+	    {
+            var userProfile = _queryProcessor.FindById<UserProfile>(userId);
+
+	        var model = new ProfileViewModel()
+	        {
+                Email = _userManager.FindByIdAsync(userProfile.UserId.ToString()).Result.Email,
+                FirstName = userProfile.FirstName,
+                LastName = userProfile.LastName,
+                University = userProfile.University,
+                Degree = userProfile.Degree,
+                Field = userProfile.Field,
+                Biography = userProfile.Biography,
+                Skills = userProfile.Skills,
+                Role = userProfile.Role
+            };
+
+	        return View(model);
+	    }
+
+        [HttpGet]
 		[AllowAnonymous]
 		public IActionResult SignInSignUp()
 		{
