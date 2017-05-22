@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
@@ -15,11 +14,9 @@ namespace Ubora.Web._Features.Projects.Workpackages
             _mapper = mapper;
         }
 
-        public IActionResult StepOne(Guid id)
+        public IActionResult StepOne()
         {
-            var project = FindById<Project>(id);
-
-            var model = _mapper.Map<StepOneViewModel>(project);
+            var model = _mapper.Map<StepOneViewModel>(Project);
 
             return View(model);
         }
@@ -32,13 +29,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
                 return View(model);
             }
 
-            var command = new UpdateProjectCommand
-            {
-                UserInfo = this.UserInfo
-            };
-
-            var project = FindById<Project>(model.Id);
-            _mapper.Map(project, command);
+            var command = _mapper.Map<UpdateProjectCommand>(Project);
 
             command.Title = model.Title;
             command.ClinicalNeedTags = model.ClinicalNeedTags;
@@ -46,21 +37,19 @@ namespace Ubora.Web._Features.Projects.Workpackages
             command.PotentialTechnologyTags = model.PotentialTechnologyTags;
             command.GmdnTerm = model.GmdnTerm;
 
-            ExecuteCommand(command);
+            ExecuteUserProjectCommand(command);
 
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            return RedirectToAction(nameof(StepOne), new { id = model.Id });
+            return RedirectToAction(nameof(StepOne), new { ProjectId });
         }
 
-        public IActionResult StepTwo(Guid id)
+        public IActionResult StepTwo()
         {
-            var project = FindById<Project>(id);
-
-            var model = _mapper.Map<StepTwoViewModel>(project);
+            var model = _mapper.Map<StepTwoViewModel>(Project);
 
             return View(model);
         }
@@ -73,13 +62,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
                 return View(model);
             }
 
-            var command = new UpdateProjectCommand
-            {
-                UserInfo = this.UserInfo
-            };
-
-            var project = FindById<Project>(model.Id);
-            _mapper.Map(project, command);
+            var command = _mapper.Map<UpdateProjectCommand>(Project);
 
             command.DescriptionOfNeed = model.DescriptionOfNeed;
             command.DescriptionOfExistingSolutionsAndAnalysis = model.DescriptionOfExistingSolutionsAndAnalysis;
@@ -91,14 +74,14 @@ namespace Ubora.Web._Features.Projects.Workpackages
             command.UserRequirementStudy = model.UserRequirementStudy;
             command.AdditionalInformation = model.AdditionalInformation;
 
-            ExecuteCommand(command);
+            ExecuteUserProjectCommand(command);
 
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            return RedirectToAction(nameof(Dashboard), "Dashboard", new { id = model.Id });
+            return RedirectToAction(nameof(Dashboard), "Dashboard", new { ProjectId });
         }
     }
 }

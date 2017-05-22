@@ -18,7 +18,7 @@ namespace Ubora.Domain.Projects.DeviceClassification
                 throw new InvalidOperationException();
             }
 
-            var @event = new DeviceClassificationSavedEvent(cmd.UserInfo)
+            var @event = new DeviceClassificationSavedEvent(cmd.Actor)
             {
                 Id = cmd.Id,
                 DeviceClassification = cmd.DeviceClassification,

@@ -24,13 +24,13 @@ namespace Ubora.Domain.Tests.Projects
             var projectId = Guid.NewGuid();
             processor.Execute(new CreateProjectCommand
             {
-                Id = projectId,
-                UserInfo = new UserInfo(Guid.NewGuid(), "")
+                NewProjectId = projectId,
+                Actor = new UserInfo(Guid.NewGuid(), "")
             });
 
             var command = new UpdateProjectCommand
             {
-                Id = projectId,
+                ProjectId = projectId,
                 Title = "title",
                 ClinicalNeedTags = "clinicalNeedTags",
                 AreaOfUsageTags = "areaOfUsageTags",
@@ -45,7 +45,7 @@ namespace Ubora.Domain.Tests.Projects
                 UserRequirementStudy = "userRequirementStudy",
                 AdditionalInformation = "additionalInformation",
                 GmdnTerm = "gmdnTerm",
-                UserInfo = new UserInfo(Guid.NewGuid(), "")
+                Actor = new UserInfo(Guid.NewGuid(), "")
             };
 
             // Act

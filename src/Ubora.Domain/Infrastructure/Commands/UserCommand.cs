@@ -1,9 +1,26 @@
+using System;
 using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Infrastructure.Commands
 {
-    public abstract class UserCommand : ICommand
+    public interface IUserCommand : ICommand
     {
-        public UserInfo UserInfo { get; set; }
+        UserInfo Actor { get; set; }
+    }
+
+    public interface IProjectCommand : ICommand
+    {
+        Guid ProjectId { get; set; }
+    }
+
+    public abstract class UserProjectCommand : IUserCommand, IProjectCommand, ICommand
+    {
+        public UserInfo Actor { get; set; }
+        public Guid ProjectId { get; set; }
+    }
+
+    public abstract class UserCommand : IUserCommand
+    {
+        public UserInfo Actor { get; set; }
     }
 }

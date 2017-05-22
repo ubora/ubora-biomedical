@@ -163,12 +163,12 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
                 Id = Guid.NewGuid(),
                 ProjectId = id,
                 DeviceClassification = currentClassification.Text,
-                UserInfo = this.UserInfo
+                Actor = this.UserInfo
             };
 
             if (string.IsNullOrEmpty(projectDeviceClassificationText))
             {
-                ExecuteCommand(command);
+                ExecuteUserProjectCommand(command);
                 return RedirectToAction(nameof(NextMainQuestion), "DeviceClassification", new { mainQuestionId = mainQuestionId, id = id });
             }
 
@@ -176,7 +176,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
 
             if (currentClassification > projectDeviceClassification)
             {
-                ExecuteCommand(command);
+                ExecuteUserProjectCommand(command);
             }
 
             return RedirectToAction(nameof(NextMainQuestion), "DeviceClassification", new { mainQuestionId = mainQuestionId, id = id });

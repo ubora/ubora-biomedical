@@ -1,9 +1,8 @@
-﻿using AutoMapper;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Infrastructure;
-using Ubora.Web._Features.Projects.Creation;
+using Ubora.Web._Features.ProjectCreation;
 using Ubora.Web._Features.Projects.Dashboard;
 using Xunit;
 
@@ -16,7 +15,7 @@ namespace Ubora.Web.Tests._Features.Projects.Creation
         {
             var processorMock = new Mock<ICommandQueryProcessor>();
 
-            var controller = new CreationController(processorMock.Object, Mock.Of<IMapper>());
+            var controller = new CreationController(processorMock.Object);
 
             var model = new CreateProjectViewModel
             {

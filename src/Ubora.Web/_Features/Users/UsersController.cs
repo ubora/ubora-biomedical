@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Users;
@@ -27,11 +26,5 @@ namespace Ubora.Web._Features.Users
 
             return View(users);
         }
-    }
-
-    public class UserListItemViewModel
-    {
-        public Guid UserId { get; set; }
-        public string FullName { get; set; }
     }
 }

@@ -25,8 +25,8 @@ namespace Ubora.Domain.Tests.Projects.DeviceClassification
             var expectedProjectId = Guid.NewGuid();
             processor.Execute(new CreateProjectCommand
             {
-                UserInfo = new UserInfo(Guid.NewGuid(), ""),
-                Id = expectedProjectId
+                Actor = new UserInfo(Guid.NewGuid(), ""),
+                NewProjectId = expectedProjectId
             });
 
             var expectedUserInfo = new UserInfo(Guid.NewGuid(), "");
@@ -36,7 +36,7 @@ namespace Ubora.Domain.Tests.Projects.DeviceClassification
                 DeviceClassification = "IIb",
                 ProjectId = expectedProjectId,
                 Id = Guid.NewGuid(),
-                UserInfo = expectedUserInfo
+                Actor = expectedUserInfo
             };
 
             // Act
@@ -55,8 +55,8 @@ namespace Ubora.Domain.Tests.Projects.DeviceClassification
             var expectedProjectId = Guid.NewGuid();
             processor.Execute(new CreateProjectCommand
             {
-                UserInfo = new UserInfo(Guid.NewGuid(), ""),
-                Id = expectedProjectId
+                Actor = new UserInfo(Guid.NewGuid(), ""),
+                NewProjectId = expectedProjectId
             });
 
             var command = new SaveDeviceClassificationToProjectCommand
@@ -64,7 +64,7 @@ namespace Ubora.Domain.Tests.Projects.DeviceClassification
                 DeviceClassification = "IIb",
                 ProjectId = expectedProjectId,
                 Id = Guid.NewGuid(),
-                UserInfo = new UserInfo(Guid.NewGuid(), "")
+                Actor = new UserInfo(Guid.NewGuid(), "")
             };
             processor.Execute(command);
 
@@ -73,7 +73,7 @@ namespace Ubora.Domain.Tests.Projects.DeviceClassification
                 DeviceClassification = "III",
                 ProjectId = expectedProjectId,
                 Id = Guid.NewGuid(),
-                UserInfo = new UserInfo(Guid.NewGuid(), "")
+                Actor = new UserInfo(Guid.NewGuid(), "")
             };
 
             // Act
