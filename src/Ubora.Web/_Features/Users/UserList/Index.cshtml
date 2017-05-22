@@ -2,25 +2,17 @@
 @model IEnumerable<UserListViewModel.UserListItemViewModel>
 
 <ul>
-    @foreach (var user in Model)
-    {
-        <table>
+    <table>
+        <tr>
+            <th>Full name</th>
+            <th>Email</th>
+        </tr>
+        @foreach (var user in Model)
+        {
             <tr>
-                <th>Full name</th>
-                <th>Email</th>
-                <th>Profile</th>
+                <td>@Html.ActionLink(user.FullName, "ViewProfile", "Account", new {userId = user.UserId})</td>
+                <td>@Html.ActionLink(user.Email, "ViewProfile", "Account", new {userId = user.UserId})</td>
             </tr>
-            <tr>
-                <td>
-                    @user.FullName
-                </td>
-                <td>
-                    @user.Email
-                </td>
-                <td>
-                    @Html.ActionLink("View profile", "ViewProfile", "Account", new {id = user.UserId})
-                </td>
-            </tr>
-        </table>
-    }
+        }
+    </table>
 </ul>
