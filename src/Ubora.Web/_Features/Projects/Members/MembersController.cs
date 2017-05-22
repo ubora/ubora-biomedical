@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
-using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.Projects.Members
 {
@@ -14,7 +13,6 @@ namespace Ubora.Web._Features.Projects.Members
         }
 
         [Route(nameof(Members))]
-        [OverrideProjectPolicy(Policies.IsAuthenticatedUser)]
         public IActionResult Members()
         {
             var model = new ProjectMemberListViewModel

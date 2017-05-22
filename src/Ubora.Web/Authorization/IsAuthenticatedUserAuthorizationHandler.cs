@@ -7,7 +7,13 @@ namespace Ubora.Web.Authorization
     {
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, IsAuthenticatedUserRequirement requirement)
         {
-            if (context.User.Identity.IsAuthenticated)
+            var userIdentity = context?.User.Identity;
+            if (userIdentity == null)
+            {
+                return;
+            }
+
+            if (userIdentity.IsAuthenticated)
             {
                 context.Succeed(requirement);
             }

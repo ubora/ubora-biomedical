@@ -1,9 +1,8 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Marten;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Routing;
+using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 using Ubora.Web.Services;
 
@@ -11,42 +10,43 @@ namespace Ubora.Web.Authorization
 {
     public class IsProjectMemberAuthorizationHandler : AuthorizationHandler<IsProjectMemberRequirement>
     {
-        private readonly IQuerySession _querySession;
+        private readonly IQueryProcessor _queryProcessor;
 
-        public IsProjectMemberAuthorizationHandler(IQuerySession querySession)
+        public IsProjectMemberAuthorizationHandler(IQueryProcessor queryProcessor)
         {
-            _querySession = querySession;
+            _queryProcessor = queryProcessor;
         }
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, IsProjectMemberRequirement requirement)
         {
             var authorizationFilterContext = (Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext) context.Resource;
 
-            var filters = authorizationFilterContext.ActionDescriptor.FilterDescriptors;
-            if (filters.Any(x => x.Filter is IOverrideProjectPolicy))
+            // Always succeed requirement when disabling filter is present. 
+            // (It probably means that there is another less restrictive policy specified on derived action/controller.)
+            var filters = authorizationFilterContext.Filters;
+            if (filters.Any(filter => filter is IDisablesProjectAuthorizationPolicyFilter))
             {
                 context.Succeed(requirement);
+                return;
             }
 
-            var httpContext = authorizationFilterContext.HttpContext;
-
-            var projectIdFromRoute = (string)httpContext.GetRouteValue("projectId");
+            // Get project's id from route.
+            var projectIdFromRoute = authorizationFilterContext.RouteData.Values["projectId"] as string;
             Guid.TryParse(projectIdFromRoute, out Guid projectId);
 
-            if (projectId == Guid.Empty)
+            if (projectId == default(Guid))
             {
                 context.Fail();
                 return;
             }
 
-            var project = _querySession.Load<Project>(projectId);
             var user = context.User;
-
             if (!user.Identity.IsAuthenticated)
             {
                 return;
             }
 
+            var project = _queryProcessor.FindById<Project>(projectId);
             var isMember = project.DoesSatisfy(new HasMember(user.GetId()));
             if (isMember)
             {

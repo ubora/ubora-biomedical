@@ -36,5 +36,13 @@ namespace Ubora.Web._Features.Projects
         {
             throw new NotSupportedException($"Use {nameof(ExecuteUserProjectCommand)} instead.");
         }
+
+        /// <summary>
+        /// Disables <see cref="IsProjectMemberAuthorizationHandler"/>.
+        /// </summary>
+        [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+        protected class DisableProjectControllerAuthorizationPolicyAttribute : Attribute, IDisablesProjectAuthorizationPolicyFilter
+        {
+        }
     }
 }
