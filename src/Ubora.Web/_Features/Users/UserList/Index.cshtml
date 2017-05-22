@@ -1,0 +1,26 @@
+﻿@using Ubora.Web._Features.Users.UserList
+@model IEnumerable<UserListViewModel.UserListItemViewModel>
+
+<ul>
+    @foreach (var user in Model)
+    {
+        <table>
+            <tr>
+                <th>Full name</th>
+                <th>Email</th>
+                <th>Profile</th>
+            </tr>
+            <tr>
+                <td>
+                    @user.FullName
+                </td>
+                <td>
+                    @user.Email
+                </td>
+                <td>
+                    @Html.ActionLink("View profile", "ViewProfile", "Account", new {id = user.UserId})
+                </td>
+            </tr>
+        </table>
+    }
+</ul>
