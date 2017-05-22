@@ -17,10 +17,10 @@
     @foreach (var question in Model.Questions)
         {
 
-        <a class="button secondary-button classification-button" asp-controller="DeviceClassification" asp-action="GetQuestions" asp-route-questionId="@question.Id" asp-route-mainQuestionId="@Model.MainQuestionId">@question.Text</a>
+        <a class="button secondary-button classification-button" asp-controller="DeviceClassification" asp-action="GetQuestions" asp-route-id="@Model.ProjectId" asp-route-questionId="@question.Id" asp-route-mainQuestionId="@Model.MainQuestionId">@question.Text</a>
         <br />
         }
     <br />
     <br />
-    <a class="button secondary-button classification-button" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-questionId="@Model.MainQuestionId">No it is not.</a>
+    <a class="button secondary-button classification-button" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-id="@Model.ProjectId" asp-route-mainQuestionId="@Model.MainQuestionId">No it is not.</a>
 </section>

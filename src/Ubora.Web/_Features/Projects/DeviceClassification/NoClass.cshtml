@@ -1,3 +1,5 @@
-﻿<section class="medium-width">
-    <p>No class determined. Please retake the <a asp-controller="DeviceClassification" asp-action="GetMainQuestion">questionnaire.</a></p>
+﻿@model Guid
+
+<section class="medium-width">
+    <p>No class determined. Please retake the <a asp-controller="DeviceClassification" asp-action="GetMainQuestion" asp-route-id="@Model">questionnaire.</a></p>
 </section>

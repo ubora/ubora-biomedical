@@ -9,5 +9,6 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
         public IReadOnlyCollection<SubQuestion> Questions { get; set; }
 
         public Guid MainQuestionId { get; set; }
+        public Guid ProjectId { get; internal set; }
     }
 }

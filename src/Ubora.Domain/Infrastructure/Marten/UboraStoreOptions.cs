@@ -5,6 +5,7 @@ using Marten.Services.Events;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Tasks;
+using Ubora.Domain.Projects.DeviceClassification;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
@@ -28,7 +29,8 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.AddEventType(typeof(TaskAddedEvent));
                 options.Events.AddEventType(typeof(TaskEditedEvent));
                 options.Events.AddEventType(typeof(ProjectUpdatedEvent));
-                options.Events.AddEventType(typeof(InviteMemberToProjectCommand));
+                options.Events.AddEventType(typeof(MemberInvitedToProjectEvent));
+                options.Events.AddEventType(typeof(DeviceClassificationSavedEvent));
             };
         }
     }

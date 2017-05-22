@@ -11,6 +11,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
         private static List<SubQuestion> _subQuestions = new List<SubQuestion>();
         private static List<Classification> _classifications = new List<Classification>();
 
+        // "Seed"
         static DeviceClassification()
         {
             var question3 = new MainQuestion(Guid.NewGuid(), "Is your device ACTIVE?", null);
@@ -79,7 +80,68 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
             var question2_2_2_5_3 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to administer medicines?", mainQuestionId: question2.Id, parentQuestionId: question2_2_2_5.Id);
             var question2_2_2_6 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: question2.Id, parentQuestionId: question2_2_2.Id);
 
+            var question2_2_3 = new SubQuestion(id: Guid.NewGuid(), text: "Is it implantable or LONG TERM use?", mainQuestionId: question2.Id, parentQuestionId: question2_2.Id);
 
+            var question2_2_3_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to be placed in the teeth?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3.Id);
+            var question2_2_3_2 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended for use in direct contact with the heart or central circulatory system or the central nervous system?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3.Id);
+            var question2_2_3_3 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to have a biological effect or be wholly or mainly absorbed?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3.Id);
+            var question2_2_3_4 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to undergo chemical change in the body?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3.Id);
+
+            var question2_2_3_4_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is it in the teeth?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3_4.Id);
+            var question2_2_3_4_2 = new SubQuestion(id: Guid.NewGuid(), text: "Is it in any part of the body other than the teeth?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3_4.Id);
+
+
+            var question2_2_3_5 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to administer medicines?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3.Id);
+            var question2_2_3_6 = new SubQuestion(id: Guid.NewGuid(), text: "Is it an active implantable device or its accessory?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3.Id);
+            var question2_2_3_7 = new SubQuestion(id: Guid.NewGuid(), text: "Is it a breast implant?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3.Id);
+            var question2_2_3_8 = new SubQuestion(id: Guid.NewGuid(), text: "Is it a surgical mesh?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3.Id);
+            var question2_2_3_9 = new SubQuestion(id: Guid.NewGuid(), text: "Is it a total or partial joint replacement?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3.Id);
+            var question2_2_3_10 = new SubQuestion(id: Guid.NewGuid(), text: "Is it an ancillary component of a total or partial joint replacement such as screws, wedges, plates and instruments?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3.Id);
+            var question2_2_3_11 = new SubQuestion(id: Guid.NewGuid(), text: "Is it a spinal disc replacement implant?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3.Id);
+            var question2_2_3_12 = new SubQuestion(id: Guid.NewGuid(), text: "Is it an implantable device that come into contact with the spinal column?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3.Id);
+            var question2_2_3_13 = new SubQuestion(id: Guid.NewGuid(), text: "Is it an ancillary component of a spinal disc replacement or other device that comes in contact with the spinal column such as screws, wedges, plates and instruments?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3.Id);
+            var question2_2_3_14 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3.Id);
+
+            var question3_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is it therapeutic?", mainQuestionId: question3.Id, parentQuestionId: question3.Id);
+            var question3_1_1 = new SubQuestion(id: Guid.NewGuid(), text: "Does it administer energy to or exchange energy with the human body in a potentially hazardous way (consider nature of energy, density of energy, site of the body)?", mainQuestionId: question3.Id, parentQuestionId: question3_1.Id);
+            var question3_1_2 = new SubQuestion(id: Guid.NewGuid(), text: "Does it administer energy to or exchange energy with the human body in a NON hazardous way?", mainQuestionId: question3.Id, parentQuestionId: question3_1.Id);
+            var question3_1_3 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to emit ionizing radiation?", mainQuestionId: question3.Id, parentQuestionId: question3_1.Id);
+            var question3_1_4 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended for therapeutic radiology, including interventional radiology devices and devices which control or monitor such devices, or which directly influence their performance?", mainQuestionId: question3.Id, parentQuestionId: question3_1.Id);
+            var question3_1_5 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to control or monitor a device that emits ionizing radiation, or does it directly influence the performance a device that emits ionizing radiation?", mainQuestionId: question3.Id, parentQuestionId: question3_1.Id);
+
+            var question3_2 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to control or monitor the performance of active therapeutic class IIb devices, or intended directly to influence the performance of such devices?", mainQuestionId: question3.Id, parentQuestionId: question3.Id);
+            var question3_3 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended for controlling, monitoring or directly influencing the performance of active implantable devices?", mainQuestionId: question3.Id, parentQuestionId: question3.Id);
+            var question3_4 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended for diagnosis and monitoring?", mainQuestionId: question3.Id, parentQuestionId: question3.Id);
+            var question3_4_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to supply energy which will be absorbed by the human body?", mainQuestionId: question3.Id, parentQuestionId: question3_4.Id);
+            var question3_4_1_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is it only intended to intended to illuminate the patient's body, in the visible spectrum?", mainQuestionId: question3.Id, parentQuestionId: question3_4_1.Id);
+            var question3_4_1_2 = new SubQuestion(id: Guid.NewGuid(), text: "Any other case?", mainQuestionId: question3.Id, parentQuestionId: question3_4_1.Id);
+            var question3_4_1_3 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to image in vivo distribution of radiopharmaceuticals?", mainQuestionId: question3.Id, parentQuestionId: question3_4_1.Id);
+
+            var question3_4_2 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to allow direct diagnosis or monitoring of vital physiological processes?", mainQuestionId: question3.Id, parentQuestionId: question3_4.Id);
+            var question3_4_2_1 = new SubQuestion(id: Guid.NewGuid(), text: "Are the vital physiological processes such as the patient may be in immediate danger if the vary (example: variations in cardiac performance, respiration, activity of the central nervous system)?", mainQuestionId: question3.Id, parentQuestionId: question3_4_2.Id);
+            var question3_4_2_2 = new SubQuestion(id: Guid.NewGuid(), text: "Is the diagnosis and monitoring done in a clinical situation while the patient is in immediate danger?", mainQuestionId: question3.Id, parentQuestionId: question3_4_2.Id);
+            var question3_4_2_3 = new SubQuestion(id: Guid.NewGuid(), text: "Any other case?", mainQuestionId: question3.Id, parentQuestionId: question3_4_2.Id);
+
+            var question3_4_3 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to emit ionizing radiation for diagnostics?", mainQuestionId: question3.Id, parentQuestionId: question3_4.Id);
+            var question3_4_4 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: question3.Id, parentQuestionId: question3_4.Id);
+
+            var question3_5 = new SubQuestion(id: Guid.NewGuid(), text: "Is it a Software?", mainQuestionId: question3.Id, parentQuestionId: question3.Id);
+            var question3_5_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to provide information which is used to take decisions with diagnosis or therapeutic purposes?", mainQuestionId: question3.Id, parentQuestionId: question3_5.Id);
+            var question3_5_1_1 = new SubQuestion(id: Guid.NewGuid(), text: "Does such decision have an impact that may cause death or an irreversible deterioration of a person's state of health?", mainQuestionId: question3.Id, parentQuestionId: question3_5_1.Id);
+            var question3_5_1_2 = new SubQuestion(id: Guid.NewGuid(), text: "Does such decision have an impact that may cause a serious deterioration of a person's state of health or a surgical intervention?", mainQuestionId: question3.Id, parentQuestionId: question3_5_1.Id);
+            var question3_5_1_3 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: question3.Id, parentQuestionId: question3_5_1.Id);
+
+            var question3_5_2 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to monitor physiological processes?", mainQuestionId: question3.Id, parentQuestionId: question3_5.Id);
+            var question3_5_2_1 = new SubQuestion(id: Guid.NewGuid(), text: "Does it monitor vital physiological parameters, where the nature of variations of those parameters is such that it could result in immediate danger to the patient?", mainQuestionId: question3.Id, parentQuestionId: question3_5_2.Id);
+            var question3_5_2_2 = new SubQuestion(id: Guid.NewGuid(), text: "Does it monitor non vital physiological parameters, so that the nature of variations of those parameters is such that it could never and in no cases result in immediate danger to the patient?", mainQuestionId: question3.Id, parentQuestionId: question3_5_2.Id);
+
+            var question3_5_3 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: question3.Id, parentQuestionId: question3_5.Id);
+
+            var question3_6 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to administer and/or remove medicinal products, body liquids or other substances to or from the body?", mainQuestionId: question3.Id, parentQuestionId: question3.Id);
+            var question3_6_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is this done in a manner that is potentially hazardous (taking account of the nature of the substances involved, of the part of the body concerned and of the mode of application)?", mainQuestionId: question3.Id, parentQuestionId: question3_6.Id);
+            var question3_6_2 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: question3.Id, parentQuestionId: question3_6.Id);
+
+            var question3_7 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: question3.Id, parentQuestionId: question3.Id);
 
 
             _mainQuestions.Add(question1);
@@ -132,21 +194,164 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
             _subQuestions.Add(question2_2_2_5_2);
             _subQuestions.Add(question2_2_2_5_3);
             _subQuestions.Add(question2_2_2_6);
+            _subQuestions.Add(question2_2_3);
+            _subQuestions.Add(question2_2_3_1);
+            _subQuestions.Add(question2_2_3_2);
+            _subQuestions.Add(question2_2_3_3);
+            _subQuestions.Add(question2_2_3_4);
+            _subQuestions.Add(question2_2_3_4_1);
+            _subQuestions.Add(question2_2_3_4_2);
+            _subQuestions.Add(question2_2_3_5);
+            _subQuestions.Add(question2_2_3_6);
+            _subQuestions.Add(question2_2_3_7);
+            _subQuestions.Add(question2_2_3_8);
+            _subQuestions.Add(question2_2_3_9);
+            _subQuestions.Add(question2_2_3_10);
+            _subQuestions.Add(question2_2_3_11);
+            _subQuestions.Add(question2_2_3_12);
+            _subQuestions.Add(question2_2_3_13);
+            _subQuestions.Add(question2_2_3_14);
+            _subQuestions.Add(question3_1);
+            _subQuestions.Add(question3_1_1);
+            _subQuestions.Add(question3_1_2);
+            _subQuestions.Add(question3_1_3);
+            _subQuestions.Add(question3_1_4);
+            _subQuestions.Add(question3_1_5);
+            _subQuestions.Add(question3_2);
+            _subQuestions.Add(question3_3);
+            _subQuestions.Add(question3_4);
+            _subQuestions.Add(question3_4_1);
+            _subQuestions.Add(question3_4_1_1);
+            _subQuestions.Add(question3_4_1_2);
+            _subQuestions.Add(question3_4_1_3);
+            _subQuestions.Add(question3_4_2);
+            _subQuestions.Add(question3_4_2_1);
+            _subQuestions.Add(question3_4_2_2);
+            _subQuestions.Add(question3_4_2_3);
+            _subQuestions.Add(question3_4_3);
+            _subQuestions.Add(question3_4_4);
+            _subQuestions.Add(question3_5);
+            _subQuestions.Add(question3_5_1);
+            _subQuestions.Add(question3_5_1_1);
+            _subQuestions.Add(question3_5_1_2);
+            _subQuestions.Add(question3_5_1_3);
+            _subQuestions.Add(question3_5_2);
+            _subQuestions.Add(question3_5_2_1);
+            _subQuestions.Add(question3_5_2_2);
+            _subQuestions.Add(question3_5_3);
+            _subQuestions.Add(question3_6);
+            _subQuestions.Add(question3_6_1);
+            _subQuestions.Add(question3_6_2);
+            _subQuestions.Add(question3_7);
 
-
-
-
-
-            _subQuestions.Add(question1_1_6);
-            _subQuestions.Add(question1_1_6);
 
             _mainQuestions.Add(question2);
             _mainQuestions.Add(question3);
 
-            _classifications.Add(new Classification(Guid.NewGuid(), "I", new List<Guid> { question1_1_5_1.Id, question1_1_6.Id, question2_1_1_1.Id, question2_1_1_1.Id }));
-            _classifications.Add(new Classification(Guid.NewGuid(), "IIa", new List<Guid> { question1_1_1.Id, question1_1_2.Id, question1_1_4_1.Id, question1_1_5_3.Id, question1_1_5_4.Id }));
-            _classifications.Add(new Classification(Guid.NewGuid(), "IIb", new List<Guid> { question1_1_3.Id, question1_1_4_2.Id, question1_1_5_2.Id }));
-            _classifications.Add(new Classification(Guid.NewGuid(), "III", new List<Guid> { question1_1_4_3.Id }));
+            var class_I_Questions = new List<Guid>
+            {
+                question1_1_5_1.Id,
+                question1_1_6.Id,
+                question2_1_1_1.Id,
+                question2_1_1_2.Id,
+                question2_1_2_1.Id,
+                question2_1_2_2.Id,
+                question2_2_1_2.Id,
+                question3_4_1_1.Id,
+                question3_7.Id,
+            };
+
+            var class_IIa_Questions = new List<Guid>
+            {
+                question1_1_1.Id,
+                question1_1_2.Id,
+                question1_1_4_1.Id,
+                question1_1_5_3.Id,
+                question1_1_5_4.Id,
+                question2_1_1_3.Id,
+                question2_1_1_4.Id,
+                question2_1_2_3.Id,
+                question2_1_2_4.Id,
+                question2_1_3.Id,
+                question2_2_1_7.Id,
+                question2_2_2_5_1.Id,
+                question2_2_2_6.Id,
+                question2_2_3_1.Id,
+                question3_1_2.Id,
+                question3_4_1_2.Id,
+                question3_4_1_3.Id,
+                question3_4_2_3.Id,
+                question3_4_4.Id,
+                question3_5_1_3.Id,
+                question3_5_2_2.Id,
+                question3_6_2.Id,
+            };
+
+            var class_IIb_Questions = new List<Guid>
+            {
+                question1_1_3.Id,
+                question1_1_4_2.Id,
+                question1_1_5_2.Id,
+                question2_1_1_5.Id,
+                question2_1_1_6.Id,
+                question2_1_2_5.Id,
+                question2_1_2_6.Id,
+                question2_2_1_4.Id,
+                question2_2_1_5.Id,
+                question2_2_1_6.Id,
+                question2_2_2_3.Id,
+                question2_2_2_5_2.Id,
+                question2_2_2_5_3.Id,
+                question2_2_3_4_1.Id,
+                question2_2_3_10.Id,
+                question2_2_3_13.Id,
+                question2_2_3_14.Id,
+                question3_1_1.Id,
+                question3_1_3.Id,
+                question3_1_4.Id,
+                question3_1_5.Id,
+                question3_2.Id,
+                question3_4_2_1.Id,
+                question3_4_2_2.Id,
+                question3_4_3.Id,
+                question3_5_1_2.Id,
+                question3_5_2_1.Id,
+                question3_6_1.Id,
+
+            };
+
+            var class_III_Questions = new List<Guid>
+            {
+                question1_1_4_3.Id,
+                question2_2_1_1.Id,
+                question2_2_1_3.Id,
+                question2_2_2_1.Id,
+                question2_2_2_2.Id,
+                question2_2_2_4.Id,
+                question2_2_3_2.Id,
+                question2_2_3_3.Id,
+                question2_2_3_4_2.Id,
+                question2_2_3_5.Id,
+                question2_2_3_6.Id,
+                question2_2_3_7.Id,
+                question2_2_3_8.Id,
+                question2_2_3_9.Id,
+                question2_2_3_11.Id,
+                question2_2_3_12.Id,
+                question3_3.Id,
+                question3_5_1_1.Id,
+
+            };
+
+            var class_I = new Classification(Guid.NewGuid(), "I", 1, class_I_Questions);
+            var class_IIa = new Classification(Guid.NewGuid(), "IIa", 2, class_IIa_Questions);
+            var class_IIb = new Classification(Guid.NewGuid(), "IIb", 3, class_IIb_Questions);
+            var class_III = new Classification(Guid.NewGuid(), "III", 4, class_III_Questions);
+
+            _classifications.Add(class_I);
+            _classifications.Add(class_IIa);
+            _classifications.Add(class_IIb);
+            _classifications.Add(class_III);
         }
 
         public MainQuestion GetDefaultQuestion()
@@ -156,6 +361,11 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
 
         public MainQuestion GetNextMainQuestion(Guid currentQuestionId)
         {
+            if (currentQuestionId == default(Guid))
+            {
+                throw new ArgumentException(nameof(currentQuestionId));
+            }
+
             var currentMainQuestion = _mainQuestions.First(x => x.Id == currentQuestionId);
 
             if (currentMainQuestion.IsLastMainQuestion)
@@ -168,11 +378,21 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
 
         public MainQuestion GetMainQuestion(Guid questionId)
         {
+            if (questionId == default(Guid))
+            {
+                throw new ArgumentException(nameof(questionId));
+            }
+
             return _mainQuestions.Single(x => x.Id == questionId);
         }
 
         public IReadOnlyCollection<SubQuestion> GetSubQuestions(Guid parentQuestionId)
         {
+            if (parentQuestionId == default(Guid))
+            {
+                throw new ArgumentException(nameof(parentQuestionId));
+            }
+
             var subQuestions = _subQuestions
                 .Where(x => x.ParentQuestionId == parentQuestionId);
 
@@ -186,7 +406,24 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
 
         public Classification GetClassification(Guid questionId)
         {
+            if (questionId == default(Guid))
+            {
+                throw new ArgumentException(nameof(questionId));
+            }
+
             var classification = _classifications.First(x => x.QuestionIds.Contains(questionId));
+
+            return classification;
+        }
+
+        public Classification GetClassification(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                throw new ArgumentException(nameof(text));
+            }
+
+            var classification = _classifications.First(x => x.Text == text);
 
             return classification;
         }
@@ -199,5 +436,6 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
         MainQuestion GetMainQuestion(Guid questionId);
         IReadOnlyCollection<SubQuestion> GetSubQuestions(Guid parentQuestionId);
         Classification GetClassification(Guid questionId);
+        Classification GetClassification(string text);
     }
 }

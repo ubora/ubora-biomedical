@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.DeviceClassification;
 using Ubora.Domain.Projects.Tasks;
 using Ubora.Web._Features.Projects.Creation;
 using Ubora.Web._Features.Projects.List;
@@ -33,6 +34,10 @@ namespace Ubora.Web._Features._Shared
 
             CreateMap<Project, UpdateProjectCommand>()
                 .ForMember(m => m.UserInfo, opt => opt.Ignore());
+
+            CreateMap<Project, SaveDeviceClassificationToProjectCommand>()
+                .ForMember(m => m.UserInfo, opt => opt.Ignore())
+                .ForMember(m => m.Id, opt => opt.Ignore());
         }
     }
 }

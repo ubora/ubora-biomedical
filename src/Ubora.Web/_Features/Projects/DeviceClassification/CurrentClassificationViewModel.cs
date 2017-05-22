@@ -2,10 +2,9 @@
 
 namespace Ubora.Web._Features.Projects.DeviceClassification
 {
-    public class ClassificationViewModel
+    public class CurrentClassificationViewModel
     {
         public string ClassificationText { get; set; }
-        public Guid ClassificationId { get; set; }
-        public Guid MainQuestionId { get; set; }
+        public Guid ProjectId { get; set; }
     }
 }

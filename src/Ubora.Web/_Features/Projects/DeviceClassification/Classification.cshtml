@@ -1,7 +1,0 @@
-﻿@using Ubora.Web._Features.Projects.DeviceClassification
-@model ClassificationViewModel
-
-<section class="medium-width">
-    <label>Your class is @Model.ClassificationText</label>
-    <a class="button secondary-button classification-button" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-questionId="@Model.MainQuestionId">Continue</a>
-</section>
