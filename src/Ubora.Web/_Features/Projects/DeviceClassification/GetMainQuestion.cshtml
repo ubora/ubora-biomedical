@@ -13,9 +13,9 @@
     </style>
 
     <section class="medium-width">
-        <a class="button secondary-button classification-button" asp-controller="DeviceClassification" asp-action="GetQuestions" asp-route-id="@Model.ProjectId" asp-route-questionId="@Model.MainQuestionId" asp-route-mainQuestionId="@Model.MainQuestionId">@Model.MainQuestionText</a>
+        <a class="button secondary-button classification-button" asp-controller="DeviceClassification" asp-action="GetQuestions" asp-route-questionId="@Model.MainQuestionId" asp-route-mainQuestionId="@Model.MainQuestionId">@Model.MainQuestionText</a>
     <br />
     <br />
     <br />
-    <a class="button secondary-button classification-button" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-id="@Model.ProjectId" asp-route-mainQuestionId="@Model.MainQuestionId">No it is not.</a>
+    <a class="button secondary-button classification-button" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-mainQuestionId="@Model.MainQuestionId">No it is not.</a>
 </section>

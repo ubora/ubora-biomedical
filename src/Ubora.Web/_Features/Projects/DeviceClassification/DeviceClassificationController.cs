@@ -25,20 +25,14 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
             _mapper = mapper;
         }
 
-        public IActionResult GetMainQuestion(Guid? questionId, Guid id)
+        public IActionResult GetMainQuestion(Guid? questionId)
         {
-            if (id == default(Guid))
-            {
-                throw new ArgumentException(nameof(id));
-            }
-
             if (questionId == null)
             {
                 var initialMainQuestion = _deviceClassification.GetDefaultQuestion();
 
                 var initialMainQuestionViewModel = new MainQuestionViewModel
                 {
-                    ProjectId = id,
                     MainQuestionText = initialMainQuestion.Text,
                     MainQuestionId = initialMainQuestion.Id
                 };
@@ -50,7 +44,6 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
 
             var mainQuestionViewModel = new MainQuestionViewModel
             {
-                ProjectId = id,
                 MainQuestionText = mainQuestion.Text,
                 MainQuestionId = mainQuestion.Id
             };
@@ -58,13 +51,8 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
             return View(mainQuestionViewModel);
         }
 
-        public IActionResult NextMainQuestion(Guid mainQuestionId, Guid id)
+        public IActionResult NextMainQuestion(Guid mainQuestionId)
         {
-            if (id == default(Guid))
-            {
-                throw new ArgumentException(nameof(id));
-            }
-
             if (mainQuestionId == default(Guid))
             {
                 throw new ArgumentException(nameof(mainQuestionId));
@@ -74,25 +62,19 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
 
             if (nextMainQuestion == null)
             {
-                var project = FindById<Project>(id);
-                if (string.IsNullOrEmpty(project.DeviceClassification))
+                if (string.IsNullOrEmpty(Project.DeviceClassification))
                 {
-                    return RedirectToAction(nameof(NoClass), "DeviceClassification", new { id = id });
+                    return RedirectToAction(nameof(NoClass), "DeviceClassification");
                 }
 
-                return RedirectToAction(nameof(CurrentClassification), "DeviceClassification", new { id = id });
+                return RedirectToAction(nameof(CurrentClassification), "DeviceClassification");
             }
 
-            return RedirectToAction(nameof(GetMainQuestion), "DeviceClassification", new { questionId = nextMainQuestion.Id, id = id });
+            return RedirectToAction(nameof(GetMainQuestion), "DeviceClassification", new { questionId = nextMainQuestion.Id });
         }
 
-        public IActionResult GetQuestions(Guid questionId, Guid? mainQuestionId, Guid id)
+        public IActionResult GetQuestions(Guid questionId, Guid? mainQuestionId)
         {
-            if (id == default(Guid))
-            {
-                throw new ArgumentException(nameof(id));
-            }
-
             if (questionId == default(Guid))
             {
                 throw new ArgumentException(nameof(questionId));
@@ -101,7 +83,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
 
             if (questions == null)
             {
-                return RedirectToAction(nameof(Classification), "DeviceClassification", new { questionId = questionId, mainQuestionId = mainQuestionId, id = id });
+                return RedirectToAction(nameof(Classification), "DeviceClassification", new { questionId = questionId, mainQuestionId = mainQuestionId });
             }
 
             if (mainQuestionId == null)
@@ -111,7 +93,6 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
 
             var questionsViewModel = new QuestionsViewModel
             {
-                ProjectId = id,
                 Questions = questions,
                 MainQuestionId = mainQuestionId.Value
             };
@@ -119,31 +100,18 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
             return View(questionsViewModel);
         }
 
-        public IActionResult CurrentClassification(Guid id)
+        public IActionResult CurrentClassification()
         {
-            if (id == default(Guid))
-            {
-                throw new ArgumentException(nameof(id));
-            }
-
-            var project = FindById<Project>(id);
-
             var currentClassificationViewModel = new CurrentClassificationViewModel
             {
-                ClassificationText = project.DeviceClassification,
-                ProjectId = id
+                ClassificationText = Project.DeviceClassification
             };
 
             return View(currentClassificationViewModel);
         }
 
-        public IActionResult Classification(Guid questionId, Guid mainQuestionId, Guid id)
+        public IActionResult Classification(Guid questionId, Guid mainQuestionId)
         {
-            if (id == default(Guid))
-            {
-                throw new ArgumentException(nameof(id));
-            }
-
             if (mainQuestionId == default(Guid))
             {
                 throw new ArgumentException(nameof(mainQuestionId));
@@ -156,12 +124,12 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
 
             var currentClassification = _deviceClassification.GetClassification(questionId);
 
-            var projectDeviceClassificationText = FindById<Project>(id).DeviceClassification;
+            var projectDeviceClassificationText = Project.DeviceClassification;
 
             var command = new SaveDeviceClassificationToProjectCommand
             {
                 Id = Guid.NewGuid(),
-                ProjectId = id,
+                ProjectId = ProjectId,
                 DeviceClassification = currentClassification.Text,
                 Actor = this.UserInfo
             };
@@ -169,7 +137,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
             if (string.IsNullOrEmpty(projectDeviceClassificationText))
             {
                 ExecuteUserProjectCommand(command);
-                return RedirectToAction(nameof(NextMainQuestion), "DeviceClassification", new { mainQuestionId = mainQuestionId, id = id });
+                return RedirectToAction(nameof(NextMainQuestion), "DeviceClassification", new { mainQuestionId = mainQuestionId });
             }
 
             var projectDeviceClassification = _deviceClassification.GetClassification(projectDeviceClassificationText);
@@ -179,12 +147,12 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
                 ExecuteUserProjectCommand(command);
             }
 
-            return RedirectToAction(nameof(NextMainQuestion), "DeviceClassification", new { mainQuestionId = mainQuestionId, id = id });
+            return RedirectToAction(nameof(NextMainQuestion), "DeviceClassification", new { mainQuestionId = mainQuestionId });
         }
 
-        public IActionResult NoClass(Guid id)
+        public IActionResult NoClass()
         {
-            return View(id);
+            return View();
         }
     }
 }
