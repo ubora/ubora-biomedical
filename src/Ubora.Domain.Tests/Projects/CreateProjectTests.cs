@@ -9,6 +9,7 @@ using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Projects;
 using Xunit;
 using Ubora.Domain.Projects.Members;
+using Ubora.Domain.Projects.WorkpackageOnes;
 
 namespace Ubora.Domain.Tests.Projects
 {
@@ -28,9 +29,7 @@ namespace Ubora.Domain.Tests.Projects
                 Title = "ProjectName",
                 AreaOfUsage = "expectedAreaOfUsage",
                 ClinicalNeed = "expectedClinicalNeed",
-                GmdnCode = "expectedGmdnCode",
-                GmdnDefinition = "expectedGmdnDefinition",
-                GmdnTerm = "expectedGmdnTerm",
+                Gmdn = "expectedGmdnTerm",
                 PotentialTechnology = "expectedPotentialTechnology",
                 Actor = new UserInfo(Guid.NewGuid(), "")
             };
@@ -38,6 +37,7 @@ namespace Ubora.Domain.Tests.Projects
             this.Given(x => Given_Command_Is_Handled(command))
                 .Then(x => Then_Project_Should_Be_Created(command))
                 .Then(x => Then_Creator_Should_Be_First_Member(command))
+                .Then(x => Then_Workpackage_One_Is_Created(command))
                 .BDDfy();
         }
 
@@ -58,9 +58,7 @@ namespace Ubora.Domain.Tests.Projects
             project.Title.Should().Be(command.Title);
             project.AreaOfUsageTags.Should().Be("expectedAreaOfUsage");
             project.ClinicalNeedTags.Should().Be("expectedClinicalNeed");
-            project.GmdnCode.Should().Be("expectedGmdnCode");
-            project.GmdnDefinition.Should().Be("expectedGmdnDefinition");
-            project.GmdnTerm.Should().Be("expectedGmdnTerm");
+            project.Gmdn.Should().Be("expectedGmdnTerm");
             project.PotentialTechnologyTags.Should().Be("expectedPotentialTechnology");
         }
 
@@ -72,6 +70,13 @@ namespace Ubora.Domain.Tests.Projects
 
             var onlyMember = project.Members.Single();
             onlyMember.As<ProjectLeader>().UserId.Should().Be(command.Actor.UserId);
+        }
+
+        private void Then_Workpackage_One_Is_Created(CreateProjectCommand command)
+        {
+            var workpackageOne = Session.Load<WorkpackageOne>(command.NewProjectId);
+
+            workpackageOne.Should().NotBeNull();
         }
     }
 }

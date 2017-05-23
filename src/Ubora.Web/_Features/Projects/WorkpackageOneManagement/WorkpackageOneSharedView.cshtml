@@ -1,0 +1,25 @@
+﻿@using Ubora.Web._Features.Projects.WorkpackageOneManagement
+@model Ubora.Web._Features.Projects.WorkpackageOneManagement.EditWorkpackageOneViewModel
+
+<section class="medium-width">
+    <h1 class="full-width">@Model.Title</h1>
+
+    <form action="@Model.PostUrl" method="post">
+        
+        <label>
+            <h2>@Model.Title</h2>
+            <textarea id="simple-mde" asp-for="Value" rows="8"></textarea>
+            <span asp-validation-for="Value"></span>
+        </label>
+
+        <br>
+        <button class="button primary-button" type="submit">Save changes</button>
+    </form>
+</section>
+
+<link rel="stylesheet" href="~/lib/simplemde/dist/simplemde.min.css">
+<script type="text/javascript" src="~/lib/simplemde/dist/simplemde.min.js"></script>
+
+<script>
+    var simpleMde = new SimpleMDE({ element: document.getElementById("simple-mde") });
+</script>

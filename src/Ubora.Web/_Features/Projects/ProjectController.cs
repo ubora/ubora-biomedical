@@ -3,21 +3,26 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.Projects
 {
     [Route("Projects/{projectId:Guid}")]
+    [Route("Projects/{projectId:Guid}/[action]/{id?}")]
     [Route("Projects/{projectId:Guid}/[controller]/[action]/{id?}")]
     [Authorize(Policy = nameof(Policies.IsProjectMember))]
     public abstract class ProjectController : UboraController
     {
+        protected IQueryProcessor QueryProcessor { get; private set; }
+
         private readonly ICommandQueryProcessor _processor;
 
         protected ProjectController(ICommandQueryProcessor processor) : base(processor)
         {
             _processor = processor;
+            QueryProcessor = _processor;
         }
 
         public Guid ProjectId => Guid.Parse((string) RouteData.Values["projectId"]);
