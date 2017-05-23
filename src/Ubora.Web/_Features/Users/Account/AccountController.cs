@@ -44,6 +44,18 @@ namespace Ubora.Web._Features.Users.Account
 		    _logger = loggerFactory.CreateLogger<AccountController>();
 		}
 
+		public IActionResult ProfileCreation()
+		{
+			return View();
+		}
+
+		[HttpGet]
+		[AllowAnonymous]
+		public IActionResult TermsOfService()
+		{
+			return View();
+		}
+
 		[HttpGet]
 		[AllowAnonymous]
 		public IActionResult SignInSignUp()

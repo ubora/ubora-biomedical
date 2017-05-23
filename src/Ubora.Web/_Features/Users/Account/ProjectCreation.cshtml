@@ -1,0 +1,43 @@
+<section class="medium-width">
+    <h1>Create a profile</h1>
+
+    @*<h3>Academia</h3>
+    <div class="form-input">
+        <label asp-for="University">University</label>
+        <input asp-for="University" placeholder="Name of university">
+        <span asp-validation-for="University"></span>
+    </div>
+
+    <div class="form-input">
+        <label asp-for="Degree">Degree</label>
+        <input asp-for="Degree" placeholder="Held/obtaining degree">
+        <span asp-validation-for="Degree"></span>
+    </div>
+
+    <div class="form-input">
+        <label asp-for="Field">Field</label>
+        <input asp-for="Field" placeholder="e.g. hardware engineering">
+        <span asp-validation-for="Field"></span>
+    </div>
+
+    <div class="form-input">
+        <label asp-for="Role">Role</label>
+        <select asp-for="Role" asp-items="@SelectLists.UserRoles"></select>
+        <span asp-validation-for="Role"></span>
+    </div>
+
+    <h3>Personal</h3>
+    <div class="form-input">
+        <label asp-for="Biography">Bio</label>
+        <textarea asp-for="Biography" rows="5" placeholder="Write a few words about yourself!"></textarea>
+        <span asp-validation-for="Biography"></span>
+    </div>
+
+    <div class="form-input">
+        <label asp-for="Skills">Skills</label>
+        <input asp-for="Skills" placeholder="What are you good at?">
+        <span asp-validation-for="Skills"></span>
+    </div>*@
+
+    <a href="/" class="button secondary-button">Skip profile creation</a>
+</section>
