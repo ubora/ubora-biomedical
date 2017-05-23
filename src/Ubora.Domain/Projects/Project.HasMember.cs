@@ -16,7 +16,7 @@ namespace Ubora.Domain.Projects
 
         internal override Expression<Func<Project, bool>> ToExpression()
         {
-            return project => project.Members.Any(m => m.UserId == UserId);
+            return p => p.Members.Any(m => m.UserId == UserId);
         }
     }
 }

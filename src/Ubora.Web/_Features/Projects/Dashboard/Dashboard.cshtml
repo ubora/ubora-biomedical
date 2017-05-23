@@ -1,4 +1,3 @@
-@using Ubora.Web._Features.Projects.Dashboard
 @using Ubora.Web._Features._Shared
 @model Ubora.Web._Features.Projects.Dashboard.ProjectDashboardViewModel
 
@@ -16,9 +15,9 @@
 <section class="medium-width">
     <h1>@Model.Title</h1>
 
-    <a class="button secondary-button" asp-controller="Tasks" asp-action="List" asp-route-projectId="@Model.Id">Tasks</a>
-    <a class="button secondary-button" asp-controller="History" asp-action="History" asp-route-id="@Model.Id">History</a>
-    <a class="button secondary-button" asp-controller="Members" asp-action="Members" asp-route-id="@Model.Id">Members</a>
+    <a class="button secondary-button" asp-controller="Tasks" asp-action="Tasks" asp-route-projectId="@Model.Id">Tasks</a>
+    <a class="button secondary-button" asp-controller="History" asp-action="History" asp-route-projectId="@Model.Id">History</a>
+    <a class="button secondary-button" asp-controller="Members" asp-action="Members" asp-route-projectId="@Model.Id">Members</a>
 
     <form>
 

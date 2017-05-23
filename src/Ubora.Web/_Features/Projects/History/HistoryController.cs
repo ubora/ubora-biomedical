@@ -1,6 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
 
 namespace Ubora.Web._Features.Projects.History
@@ -9,14 +9,15 @@ namespace Ubora.Web._Features.Projects.History
     {
         private readonly IEventStreamQuery _eventStreamQuery;
 
-        public HistoryController(IEventStreamQuery eventStreamQuery)
+        public HistoryController(ICommandQueryProcessor processor, IEventStreamQuery eventStreamQuery) : base(processor)
         {
             _eventStreamQuery = eventStreamQuery;
         }
 
-        public IActionResult History(Guid id)
+        [Route(nameof(History))]
+        public IActionResult History()
         {
-            var projectEventStream = _eventStreamQuery.Find(id);
+            var projectEventStream = _eventStreamQuery.Find(ProjectId);
 
             var model = new ProjectHistoryViewModel
             {

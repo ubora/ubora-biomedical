@@ -10,7 +10,7 @@
     <span class="development-notice">In-development preview</span>
     <header class="header">
 
-        <a asp-controller="Home" asp-action="Index">
+        <a asp-controller="Home" asp-action="Index" asp-area="">
             <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
 
         </a>
@@ -57,6 +57,10 @@
 
             <a class="menu-link" asp-controller="Creation" asp-action="Create">
                 <i class="material-icons">create_new_folder</i>New project
+            </a>
+
+            <a class="menu-link" asp-controller="Prototype" asp-action="Messages">
+                <i class="material-icons">message</i>Messages
             </a>
         </nav>
 

@@ -1,12 +1,18 @@
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Ubora.Domain.Infrastructure.Commands
 {
     public class CommandResult : ICommandResult
     {
-        public CommandResult(bool isSuccess)
+        public IEnumerable<string> ErrorMessages { get; }
+
+        public CommandResult(params string[] errors)
         {
-            IsSuccess = isSuccess;
+            ErrorMessages = errors;
         }
 
-        public bool IsSuccess { get; set; }
+        public bool IsFailure => ErrorMessages.Any();
+        public bool IsSuccess => !IsFailure;
     }
 }

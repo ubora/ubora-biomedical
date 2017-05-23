@@ -1,13 +1,18 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Web._Features.Projects.Dashboard
 {
     public class DashboardController : ProjectController
     {
-        public IActionResult Dashboard(Guid id)
+        public DashboardController(ICommandQueryProcessor processor) : base(processor)
         {
-            return RedirectToAction("StepTwo", "Workpackages", new { id });
+        }
+
+        [Route(nameof(Dashboard))]
+        public IActionResult Dashboard()
+        {
+            return RedirectToAction("StepTwo", "Workpackages", new { ProjectId });
         }
     }
 }

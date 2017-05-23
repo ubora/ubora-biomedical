@@ -8,6 +8,7 @@ using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Projects;
 using Xunit;
+using Ubora.Domain.Projects.Members;
 
 namespace Ubora.Domain.Tests.Projects
 {
@@ -23,7 +24,7 @@ namespace Ubora.Domain.Tests.Projects
         {
             var command = new CreateProjectCommand
             {
-                Id = Guid.NewGuid(),
+                NewProjectId = Guid.NewGuid(),
                 Title = "ProjectName",
                 AreaOfUsage = "expectedAreaOfUsage",
                 ClinicalNeed = "expectedClinicalNeed",
@@ -31,7 +32,7 @@ namespace Ubora.Domain.Tests.Projects
                 GmdnDefinition = "expectedGmdnDefinition",
                 GmdnTerm = "expectedGmdnTerm",
                 PotentialTechnology = "expectedPotentialTechnology",
-                UserInfo = new UserInfo(Guid.NewGuid(), "")
+                Actor = new UserInfo(Guid.NewGuid(), "")
             };
 
             this.Given(x => Given_Command_Is_Handled(command))
@@ -50,10 +51,10 @@ namespace Ubora.Domain.Tests.Projects
 
         private void Then_Project_Should_Be_Created(CreateProjectCommand command)
         {
-            var project = Session.Load<Project>(command.Id);
+            var project = Session.Load<Project>(command.NewProjectId);
             project.Should().NotBeNull();
 
-            project.Id.Should().Be(command.Id);
+            project.Id.Should().Be(command.NewProjectId);
             project.Title.Should().Be(command.Title);
             project.AreaOfUsageTags.Should().Be("expectedAreaOfUsage");
             project.ClinicalNeedTags.Should().Be("expectedClinicalNeed");
@@ -65,9 +66,12 @@ namespace Ubora.Domain.Tests.Projects
 
         private void Then_Creator_Should_Be_First_Member(CreateProjectCommand command)
         {
-            var project = Session.Load<Project>(command.Id);
+            RefreshSession();
+
+            var project = Session.Load<Project>(command.NewProjectId);
+
             var onlyMember = project.Members.Single();
-            onlyMember.As<ProjectLeader>().UserId.Should().Be(command.UserInfo.UserId);
+            onlyMember.As<ProjectLeader>().UserId.Should().Be(command.Actor.UserId);
         }
     }
 }

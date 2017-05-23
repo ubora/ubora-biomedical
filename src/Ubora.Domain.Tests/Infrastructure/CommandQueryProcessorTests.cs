@@ -5,6 +5,7 @@ using Marten;
 using Moq;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Queries;
 using Xunit;
 

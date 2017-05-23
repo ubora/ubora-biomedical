@@ -1,46 +1,41 @@
 using System;
 using System.Linq;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
 
 namespace Ubora.Web._Features.Projects.Tasks
 {
-    [Authorize]
     public class TasksController : ProjectController
     {
-        private readonly ICommandQueryProcessor _processor;
         private readonly IMapper _mapper;
 
-        public TasksController(ICommandQueryProcessor processor, IMapper mapper)
+        public TasksController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
         {
-            _processor = processor;
             _mapper = mapper;
         }
 
-        public IActionResult List(Guid projectId)
+        [Route(nameof(Tasks))]
+        public IActionResult Tasks()
         {
-            var project = _processor.FindById<Project>(projectId);
-            var projectTasks = _processor.Find<ProjectTask>().Where(x => x.ProjectId == projectId);
+            var projectTasks = Find<ProjectTask>().Where(x => x.ProjectId == ProjectId);
 
             var model = new TaskListViewModel
             {
-                ProjectId = projectId,
-                ProjectName = project.Title,
+                ProjectId = ProjectId,
+                ProjectName = Project.Title,
                 Tasks = projectTasks.Select(_mapper.Map<TaskListItemViewModel>)
             };
 
             return View(model);
         }
 
-        public IActionResult Add(Guid projectId)
+        public IActionResult Add()
         {
             var model = new AddTaskViewModel
             {
-                ProjectId = projectId
+                ProjectId = ProjectId
             };
 
             return View(model);
@@ -54,21 +49,24 @@ namespace Ubora.Web._Features.Projects.Tasks
                 return View(model);
             }
 
-            var command = new AddTaskCommand
+            ExecuteUserProjectCommand(new AddTaskCommand
             {
                 Id = Guid.NewGuid(),
-                InitiatedBy = this.UserInfo
-            };
-            _mapper.Map(model, command);
+                Title = model.Title,
+                Description = model.Description
+            });
 
-            _processor.Execute(command);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
-            return RedirectToAction(nameof(List), new { projectId = model.ProjectId });
+            return RedirectToAction(nameof(Tasks), new { ProjectId });
         }
 
         public IActionResult Edit(Guid id)
         {
-            var task = _processor.FindById<ProjectTask>(id);
+            var task = FindById<ProjectTask>(id);
 
             var model = _mapper.Map<EditTaskViewModel>(task);
 
@@ -83,15 +81,18 @@ namespace Ubora.Web._Features.Projects.Tasks
                 return View(model);
             }
 
-            var command = new EditTaskCommand
+            ExecuteUserProjectCommand(new EditTaskCommand
             {
-                InitiatedBy = this.UserInfo
-            };
-            _mapper.Map(model, command);
+                Title = model.Title,
+                Description = model.Description
+            });
 
-            _processor.Execute(command);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
-            return RedirectToAction(nameof(List), new { projectId = model.ProjectId });
+            return RedirectToAction(nameof(Tasks), new { ProjectId });
         }
     }
 }

@@ -12,23 +12,23 @@ namespace Ubora.Domain.Users
             _documentSession = documentSession;
         }
 
-        public ICommandResult Handle(EditUserProfileCommand command)
+        public ICommandResult Handle(EditUserProfileCommand cmd)
         {
-            var userProfile = _documentSession.Load<UserProfile>(command.UserId);
+            var userProfile = _documentSession.Load<UserProfile>(cmd.UserId);
 
-            userProfile.FirstName = command.FirstName;
-            userProfile.LastName = command.LastName;
-            userProfile.University = command.University;
-            userProfile.Degree = command.Degree;
-            userProfile.Field = command.Field;
-            userProfile.Biography = command.Biography;
-            userProfile.Skills = command.Skills;
-            userProfile.Role = command.Role;
+            userProfile.FirstName = cmd.FirstName;
+            userProfile.LastName = cmd.LastName;
+            userProfile.University = cmd.University;
+            userProfile.Degree = cmd.Degree;
+            userProfile.Field = cmd.Field;
+            userProfile.Biography = cmd.Biography;
+            userProfile.Skills = cmd.Skills;
+            userProfile.Role = cmd.Role;
 
             _documentSession.Store(userProfile);
             _documentSession.SaveChanges();
 
-            return new CommandResult(true);
+            return new CommandResult();
         }
     }
 }
