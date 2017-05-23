@@ -5,7 +5,6 @@ using FluentAssertions;
 using TestStack.BDDfy;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Projects;
 using Xunit;
 using Ubora.Domain.Projects.Members;
@@ -15,11 +14,6 @@ namespace Ubora.Domain.Tests.Projects
 {
     public class CreateProjectTests : IntegrationFixture
     {
-        public CreateProjectTests()
-        {
-            StoreOptions(new UboraStoreOptions().Configuration());
-        }
-
         [Fact]
         public void Handle_Creates_New_Project_With_Creator_As_First_Member()
         {
