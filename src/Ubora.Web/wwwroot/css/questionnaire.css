@@ -1,0 +1,10 @@
+.questionnaire-question {
+    display: block;
+    margin:1em auto;
+}
+
+.questionnaire-question-list {
+    list-style: decimal;
+    color:var(--primary-color);
+    font-size: 150%;
+}

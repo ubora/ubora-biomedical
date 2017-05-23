@@ -5,22 +5,17 @@
     ViewData["Title"] = "Device classification";
 }
 
-<style>
-    .classification-button {
-        padding-left: 10px;
-        padding-right: 10px;
-        cursor: pointer;
-    }
-</style>
-
+<link rel="stylesheet" href="/css/questionnaire.css">
 <section class="medium-width">
-    @foreach (var question in Model.Questions)
-        {
-
-        <a class="button secondary-button classification-button" asp-controller="DeviceClassification" asp-action="GetQuestions" asp-route-questionId="@question.Id" asp-route-mainQuestionId="@Model.MainQuestionId">@question.Text</a>
-        <br />
+    <h1>Please select an option:</h1>
+    <ul class="questionnaire-question-list">
+        @foreach (var question in Model.Questions) {
+            <li>
+                <a class="questionnaire-question" asp-controller="DeviceClassification" asp-action="GetQuestions" asp-route-questionId="@question.Id" asp-route-mainQuestionId="@Model.MainQuestionId">@question.Text</a>
+            </li>
         }
-    <br />
-    <br />
-    <a class="button secondary-button classification-button" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-mainQuestionId="@Model.MainQuestionId">No it is not.</a>
+        <li>
+            <a class="questionnaire-question" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-mainQuestionId="@Model.MainQuestionId">No it is not.</a>
+        </li>
+    </ul>
 </section>
