@@ -19,7 +19,7 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
 
         public override string GetDescription()
         {
-            return "Description of need was edited.";
+            return "Edited description of need.";
         }
     }
 
@@ -31,7 +31,7 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
 
         public override string GetDescription()
         {
-            throw new System.NotImplementedException();
+            return "Edited description of existing solutions and analysis.";
         }
     }
 
@@ -43,7 +43,7 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
 
         public override string GetDescription()
         {
-            throw new System.NotImplementedException();
+            return "Edited product functionality.";
         }
     }
 
@@ -55,7 +55,7 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
 
         public override string GetDescription()
         {
-            throw new System.NotImplementedException();
+            return "Edited product performance.";
         }
     }
 
@@ -67,7 +67,7 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
 
         public override string GetDescription()
         {
-            throw new System.NotImplementedException();
+            return "Edited product usability.";
         }
     }
 
@@ -79,7 +79,7 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
 
         public override string GetDescription()
         {
-            throw new System.NotImplementedException();
+            return "Edited product safety.";
         }
     }
 
@@ -91,7 +91,7 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
 
         public override string GetDescription()
         {
-            throw new System.NotImplementedException();
+            return "Edited patient population study.";
         }
     }
 
@@ -103,7 +103,7 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
 
         public override string GetDescription()
         {
-            throw new System.NotImplementedException();
+            return "Edited user requirement study.";
         }
     }
 
@@ -115,7 +115,7 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
 
         public override string GetDescription()
         {
-            throw new System.NotImplementedException();
+            return "Edited additional information.";
         }
     }
 }

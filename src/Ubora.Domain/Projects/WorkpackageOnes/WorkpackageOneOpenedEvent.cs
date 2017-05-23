@@ -13,7 +13,7 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
 
         public override string GetDescription()
         {
-            throw new NotImplementedException();
+            return "Opened first work package.";
         }
     }
 }
