@@ -10,5 +10,9 @@ namespace Ubora.Web._Features.Projects.WorkpackageOneManagement
         public string Value { get; set; }
 
         public string PostUrl  { get; set; }
+
+        public string EditUrl { get; set; }
+
+        public bool IsEdit { get; set; }
     }
 }
