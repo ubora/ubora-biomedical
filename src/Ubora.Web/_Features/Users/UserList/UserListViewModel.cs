@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Identity;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Users;
-using Ubora.Web.Data;
 
 namespace Ubora.Web._Features.Users.UserList
 {
@@ -20,16 +18,14 @@ namespace Ubora.Web._Features.Users.UserList
         public class Factory
         {
             private readonly IQueryProcessor _queryProcessor;
-            private readonly UserManager<ApplicationUser> _userManager;
 
             protected Factory()
             {
             }
 
-            public Factory(IQueryProcessor queryProcessor, UserManager<ApplicationUser> userManager)
+            public Factory(IQueryProcessor queryProcessor)
             {
                 _queryProcessor = queryProcessor;
-                _userManager = userManager;
             }
 
             public virtual IEnumerable<UserListItemViewModel> GetUserListItemViewModels()
@@ -39,7 +35,7 @@ namespace Ubora.Web._Features.Users.UserList
                     {
                         UserId = x.UserId,
                         FullName = x.FullName,
-                        Email = _userManager.FindByIdAsync(x.UserId.ToString()).Result != null ? _userManager.FindByIdAsync(x.UserId.ToString()).Result.Email : "Email Not Found"
+                        Email = x.Email
                     });
                 return users;
             }

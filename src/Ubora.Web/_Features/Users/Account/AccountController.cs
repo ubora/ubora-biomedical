@@ -124,6 +124,7 @@ namespace Ubora.Web._Features.Users.Account
 			        _commandProcessor.Execute(new CreateUserProfileCommand
 			        {
 			            UserId = user.Id,
+                        Email = user.Email,
                         Biography = model.Biography,
                         Degree = model.Degree,
                         Field = model.Field,
