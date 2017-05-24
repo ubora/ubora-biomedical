@@ -3,9 +3,8 @@ using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.Projects.DeviceClassification
 {
-    public class SaveDeviceClassificationToProjectCommand : UserProjectCommand
+    public class SetDeviceClassificationForProjectCommand : UserProjectCommand
     {
         public string DeviceClassification { get; set; }
-        public Guid Id { get; set; }
     }
 }

@@ -77,7 +77,7 @@ namespace Ubora.Domain.Projects
             _members.Add(member);
         }
 
-        private void Apply(DeviceClassificationSavedEvent e)
+        private void Apply(DeviceClassificationSetEvent e)
         {
             DeviceClassification = e.DeviceClassification;
         }

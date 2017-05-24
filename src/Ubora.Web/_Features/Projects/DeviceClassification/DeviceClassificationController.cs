@@ -1,4 +1,3 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -14,15 +13,12 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
     public class DeviceClassificationController : ProjectController
     {
         private readonly IDeviceClassification _deviceClassification;
-        private readonly IMapper _mapper;
 
         public DeviceClassificationController(
             ICommandQueryProcessor processor,
-            IDeviceClassification deviceClassification,
-            IMapper mapper) : base(processor)
+            IDeviceClassification deviceClassification) : base(processor)
         {
             _deviceClassification = deviceClassification;
-            _mapper = mapper;
         }
 
         public IActionResult GetMainQuestion(Guid? questionId)
@@ -55,7 +51,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
         {
             if (mainQuestionId == default(Guid))
             {
-                throw new ArgumentException(nameof(mainQuestionId));
+                return BadRequest();
             }
 
             var nextMainQuestion = _deviceClassification.GetNextMainQuestion(mainQuestionId);
@@ -77,7 +73,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
         {
             if (questionId == default(Guid))
             {
-                throw new ArgumentException(nameof(questionId));
+                return BadRequest();
             }
             var questions = _deviceClassification.GetSubQuestions(questionId);
 
@@ -104,7 +100,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
         {
             var currentClassificationViewModel = new CurrentClassificationViewModel
             {
-                ClassificationText = Project.DeviceClassification
+                Classification = Project.DeviceClassification
             };
 
             return View(currentClassificationViewModel);
@@ -114,21 +110,20 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
         {
             if (mainQuestionId == default(Guid))
             {
-                throw new ArgumentException(nameof(mainQuestionId));
+                return BadRequest();
             }
 
             if (questionId == default(Guid))
             {
-                throw new ArgumentException(nameof(questionId));
+                return BadRequest();
             }
 
             var currentClassification = _deviceClassification.GetClassification(questionId);
 
             var projectDeviceClassificationText = Project.DeviceClassification;
 
-            var command = new SaveDeviceClassificationToProjectCommand
+            var command = new SetDeviceClassificationForProjectCommand
             {
-                Id = Guid.NewGuid(),
                 ProjectId = ProjectId,
                 DeviceClassification = currentClassification.Text,
                 Actor = this.UserInfo

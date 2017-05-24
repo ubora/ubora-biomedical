@@ -6,7 +6,6 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
 {
     public class DeviceClassification : IDeviceClassification
     {
-
         private static List<MainQuestion> _mainQuestions = new List<MainQuestion>();
         private static List<SubQuestion> _subQuestions = new List<SubQuestion>();
         private static List<Classification> _classifications = new List<Classification>();

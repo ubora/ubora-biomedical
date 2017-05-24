@@ -31,11 +31,10 @@ namespace Ubora.Domain.Tests.Projects.DeviceClassification
 
             var expectedUserInfo = new UserInfo(Guid.NewGuid(), "");
 
-            var command = new SaveDeviceClassificationToProjectCommand
+            var command = new SetDeviceClassificationForProjectCommand
             {
                 DeviceClassification = "IIb",
                 ProjectId = expectedProjectId,
-                Id = Guid.NewGuid(),
                 Actor = expectedUserInfo
             };
 
@@ -59,20 +58,18 @@ namespace Ubora.Domain.Tests.Projects.DeviceClassification
                 NewProjectId = expectedProjectId
             });
 
-            var command = new SaveDeviceClassificationToProjectCommand
+            var command = new SetDeviceClassificationForProjectCommand
             {
                 DeviceClassification = "IIb",
                 ProjectId = expectedProjectId,
-                Id = Guid.NewGuid(),
                 Actor = new UserInfo(Guid.NewGuid(), "")
             };
             processor.Execute(command);
 
-            var commandUpdate = new SaveDeviceClassificationToProjectCommand
+            var commandUpdate = new SetDeviceClassificationForProjectCommand
             {
                 DeviceClassification = "III",
                 ProjectId = expectedProjectId,
-                Id = Guid.NewGuid(),
                 Actor = new UserInfo(Guid.NewGuid(), "")
             };
 
@@ -82,6 +79,26 @@ namespace Ubora.Domain.Tests.Projects.DeviceClassification
             // Assert
             var project = Session.Load<Project>(expectedProjectId);
             project.DeviceClassification.Should().Be("III");
+        }
+
+        [Fact]
+        public void Throws_If_Project_Does_Not_Exist()
+        {
+            var processor = Container.Resolve<ICommandProcessor>();
+
+            var expectedProjectId = Guid.NewGuid();
+
+            var expectedUserInfo = new UserInfo(Guid.NewGuid(), "");
+
+            var command = new SetDeviceClassificationForProjectCommand
+            {
+                DeviceClassification = "IIb",
+                ProjectId = expectedProjectId,
+                Actor = expectedUserInfo
+            };
+
+            // Act, Assert
+            Assert.Throws<InvalidOperationException>(() => processor.Execute(command));
         }
     }
 }

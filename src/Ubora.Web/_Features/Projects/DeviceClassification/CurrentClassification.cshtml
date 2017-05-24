@@ -2,7 +2,7 @@
 @model CurrentClassificationViewModel
 
 <section class="medium-width">
-    <p>Your device classification is: '@Model.ClassificationText'</p>
+    <p>Your device classification is: '@Model.Classification'</p>
     <p><a asp-controller="Dashboard" asp-action="Dashboard">To project page.</a></p>
     <p><a asp-controller="DeviceClassification" asp-action="GetMainQuestion">Retake questionnaire.</a></p>
 </section>

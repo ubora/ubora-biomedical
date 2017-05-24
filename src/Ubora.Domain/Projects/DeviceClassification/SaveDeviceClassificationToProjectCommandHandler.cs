@@ -4,13 +4,13 @@ using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.Projects.DeviceClassification
 {
-    internal class SaveDeviceClassificationToProjectCommandHandler : CommandHandler<SaveDeviceClassificationToProjectCommand>
+    internal class SaveDeviceClassificationToProjectCommandHandler : CommandHandler<SetDeviceClassificationForProjectCommand>
     {
         public SaveDeviceClassificationToProjectCommandHandler(IDocumentSession documentSession) : base(documentSession)
         {
         }
 
-        public override ICommandResult Handle(SaveDeviceClassificationToProjectCommand cmd)
+        public override ICommandResult Handle(SetDeviceClassificationForProjectCommand cmd)
         {
             var project = DocumentSession.Load<Project>(cmd.ProjectId);
             if (project == null)
@@ -18,12 +18,7 @@ namespace Ubora.Domain.Projects.DeviceClassification
                 throw new InvalidOperationException();
             }
 
-            var @event = new DeviceClassificationSavedEvent(cmd.Actor)
-            {
-                Id = cmd.Id,
-                DeviceClassification = cmd.DeviceClassification,
-                ProjectId = cmd.ProjectId
-            };
+            var @event = new DeviceClassificationSetEvent(cmd.ProjectId, cmd.DeviceClassification, cmd.Actor);
 
             DocumentSession.Events.Append(cmd.ProjectId, @event);
             DocumentSession.SaveChanges();
