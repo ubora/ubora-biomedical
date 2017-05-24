@@ -118,9 +118,14 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
                 return BadRequest();
             }
 
-            var currentClassification = _deviceClassification.GetClassification(questionId);
+            SetDeviceClassificationToProject(questionId, Project.DeviceClassification);
 
-            var projectDeviceClassificationText = Project.DeviceClassification;
+            return RedirectToAction(nameof(NextMainQuestion), "DeviceClassification", new { mainQuestionId = mainQuestionId });
+        }
+
+        private void SetDeviceClassificationToProject(Guid questionId, string currentProjectDeviceClassificationText)
+        {
+            var currentClassification = _deviceClassification.GetClassification(questionId);
 
             var command = new SetDeviceClassificationForProjectCommand
             {
@@ -129,20 +134,20 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
                 Actor = this.UserInfo
             };
 
-            if (string.IsNullOrEmpty(projectDeviceClassificationText))
+            // Set if no classification exists on project
+            if (string.IsNullOrEmpty(currentProjectDeviceClassificationText))
             {
                 ExecuteUserProjectCommand(command);
-                return RedirectToAction(nameof(NextMainQuestion), "DeviceClassification", new { mainQuestionId = mainQuestionId });
+                return;
             }
 
-            var projectDeviceClassification = _deviceClassification.GetClassification(projectDeviceClassificationText);
+            var projectDeviceClassification = _deviceClassification.GetClassification(currentProjectDeviceClassificationText);
 
+            // Set only if new classification is stronger than old one
             if (currentClassification > projectDeviceClassification)
             {
                 ExecuteUserProjectCommand(command);
             }
-
-            return RedirectToAction(nameof(NextMainQuestion), "DeviceClassification", new { mainQuestionId = mainQuestionId });
         }
 
         public IActionResult NoClass()

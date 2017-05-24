@@ -13,11 +13,12 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
         // "Seed"
         static DeviceClassification()
         {
-            var question3 = new MainQuestion(Guid.NewGuid(), "Is your device ACTIVE?", null);
+            var mainQuestion_2 = new MainQuestion(Guid.NewGuid(), "Is your device ACTIVE?", null);
 
-            var question2 = new MainQuestion(Guid.NewGuid(), "Is your device INVASIVE?", question3.Id);
+            var mainQuestion_1 = new MainQuestion(Guid.NewGuid(), "Is your device INVASIVE or NON INVASIVE?", mainQuestion_2.Id);
 
-            var question1 = new MainQuestion(Guid.NewGuid(), "Is your device NON INVASIVE?", question2.Id);
+            var question1 = new SubQuestion(Guid.NewGuid(), "Is your device INVASIVE?", mainQuestion_1.Id, mainQuestion_1.Id);
+            var question2 = new SubQuestion(Guid.NewGuid(), "Is your device NON INVASIVE?", mainQuestion_1.Id, mainQuestion_1.Id);
 
             var question1_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended for channelling or storing blood, body liquids, cells or tissues, liquids or gases for the purpose of eventual infusion, administration or introduction into the body?", mainQuestionId: question1.Id, parentQuestionId: question1.Id);
 
@@ -101,49 +102,50 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
             var question2_2_3_13 = new SubQuestion(id: Guid.NewGuid(), text: "Is it an ancillary component of a spinal disc replacement or other device that comes in contact with the spinal column such as screws, wedges, plates and instruments?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3.Id);
             var question2_2_3_14 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: question2.Id, parentQuestionId: question2_2_3.Id);
 
-            var question3_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is it therapeutic?", mainQuestionId: question3.Id, parentQuestionId: question3.Id);
-            var question3_1_1 = new SubQuestion(id: Guid.NewGuid(), text: "Does it administer energy to or exchange energy with the human body in a potentially hazardous way (consider nature of energy, density of energy, site of the body)?", mainQuestionId: question3.Id, parentQuestionId: question3_1.Id);
-            var question3_1_2 = new SubQuestion(id: Guid.NewGuid(), text: "Does it administer energy to or exchange energy with the human body in a NON hazardous way?", mainQuestionId: question3.Id, parentQuestionId: question3_1.Id);
-            var question3_1_3 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to emit ionizing radiation?", mainQuestionId: question3.Id, parentQuestionId: question3_1.Id);
-            var question3_1_4 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended for therapeutic radiology, including interventional radiology devices and devices which control or monitor such devices, or which directly influence their performance?", mainQuestionId: question3.Id, parentQuestionId: question3_1.Id);
-            var question3_1_5 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to control or monitor a device that emits ionizing radiation, or does it directly influence the performance a device that emits ionizing radiation?", mainQuestionId: question3.Id, parentQuestionId: question3_1.Id);
+            var question3_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is it therapeutic?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: mainQuestion_2.Id);
+            var question3_1_1 = new SubQuestion(id: Guid.NewGuid(), text: "Does it administer energy to or exchange energy with the human body in a potentially hazardous way (consider nature of energy, density of energy, site of the body)?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_1.Id);
+            var question3_1_2 = new SubQuestion(id: Guid.NewGuid(), text: "Does it administer energy to or exchange energy with the human body in a NON hazardous way?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_1.Id);
+            var question3_1_3 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to emit ionizing radiation?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_1.Id);
+            var question3_1_4 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended for therapeutic radiology, including interventional radiology devices and devices which control or monitor such devices, or which directly influence their performance?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_1.Id);
+            var question3_1_5 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to control or monitor a device that emits ionizing radiation, or does it directly influence the performance a device that emits ionizing radiation?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_1.Id);
 
-            var question3_2 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to control or monitor the performance of active therapeutic class IIb devices, or intended directly to influence the performance of such devices?", mainQuestionId: question3.Id, parentQuestionId: question3.Id);
-            var question3_3 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended for controlling, monitoring or directly influencing the performance of active implantable devices?", mainQuestionId: question3.Id, parentQuestionId: question3.Id);
-            var question3_4 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended for diagnosis and monitoring?", mainQuestionId: question3.Id, parentQuestionId: question3.Id);
-            var question3_4_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to supply energy which will be absorbed by the human body?", mainQuestionId: question3.Id, parentQuestionId: question3_4.Id);
-            var question3_4_1_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is it only intended to intended to illuminate the patient's body, in the visible spectrum?", mainQuestionId: question3.Id, parentQuestionId: question3_4_1.Id);
-            var question3_4_1_2 = new SubQuestion(id: Guid.NewGuid(), text: "Any other case?", mainQuestionId: question3.Id, parentQuestionId: question3_4_1.Id);
-            var question3_4_1_3 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to image in vivo distribution of radiopharmaceuticals?", mainQuestionId: question3.Id, parentQuestionId: question3_4_1.Id);
+            var question3_2 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to control or monitor the performance of active therapeutic class IIb devices, or intended directly to influence the performance of such devices?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: mainQuestion_2.Id);
+            var question3_3 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended for controlling, monitoring or directly influencing the performance of active implantable devices?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: mainQuestion_2.Id);
+            var question3_4 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended for diagnosis and monitoring?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: mainQuestion_2.Id);
+            var question3_4_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to supply energy which will be absorbed by the human body?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_4.Id);
+            var question3_4_1_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is it only intended to intended to illuminate the patient's body, in the visible spectrum?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_4_1.Id);
+            var question3_4_1_2 = new SubQuestion(id: Guid.NewGuid(), text: "Any other case?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_4_1.Id);
+            var question3_4_1_3 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to image in vivo distribution of radiopharmaceuticals?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_4_1.Id);
 
-            var question3_4_2 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to allow direct diagnosis or monitoring of vital physiological processes?", mainQuestionId: question3.Id, parentQuestionId: question3_4.Id);
-            var question3_4_2_1 = new SubQuestion(id: Guid.NewGuid(), text: "Are the vital physiological processes such as the patient may be in immediate danger if the vary (example: variations in cardiac performance, respiration, activity of the central nervous system)?", mainQuestionId: question3.Id, parentQuestionId: question3_4_2.Id);
-            var question3_4_2_2 = new SubQuestion(id: Guid.NewGuid(), text: "Is the diagnosis and monitoring done in a clinical situation while the patient is in immediate danger?", mainQuestionId: question3.Id, parentQuestionId: question3_4_2.Id);
-            var question3_4_2_3 = new SubQuestion(id: Guid.NewGuid(), text: "Any other case?", mainQuestionId: question3.Id, parentQuestionId: question3_4_2.Id);
+            var question3_4_2 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to allow direct diagnosis or monitoring of vital physiological processes?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_4.Id);
+            var question3_4_2_1 = new SubQuestion(id: Guid.NewGuid(), text: "Are the vital physiological processes such as the patient may be in immediate danger if the vary (example: variations in cardiac performance, respiration, activity of the central nervous system)?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_4_2.Id);
+            var question3_4_2_2 = new SubQuestion(id: Guid.NewGuid(), text: "Is the diagnosis and monitoring done in a clinical situation while the patient is in immediate danger?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_4_2.Id);
+            var question3_4_2_3 = new SubQuestion(id: Guid.NewGuid(), text: "Any other case?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_4_2.Id);
 
-            var question3_4_3 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to emit ionizing radiation for diagnostics?", mainQuestionId: question3.Id, parentQuestionId: question3_4.Id);
-            var question3_4_4 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: question3.Id, parentQuestionId: question3_4.Id);
+            var question3_4_3 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to emit ionizing radiation for diagnostics?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_4.Id);
+            var question3_4_4 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_4.Id);
 
-            var question3_5 = new SubQuestion(id: Guid.NewGuid(), text: "Is it a Software?", mainQuestionId: question3.Id, parentQuestionId: question3.Id);
-            var question3_5_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to provide information which is used to take decisions with diagnosis or therapeutic purposes?", mainQuestionId: question3.Id, parentQuestionId: question3_5.Id);
-            var question3_5_1_1 = new SubQuestion(id: Guid.NewGuid(), text: "Does such decision have an impact that may cause death or an irreversible deterioration of a person's state of health?", mainQuestionId: question3.Id, parentQuestionId: question3_5_1.Id);
-            var question3_5_1_2 = new SubQuestion(id: Guid.NewGuid(), text: "Does such decision have an impact that may cause a serious deterioration of a person's state of health or a surgical intervention?", mainQuestionId: question3.Id, parentQuestionId: question3_5_1.Id);
-            var question3_5_1_3 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: question3.Id, parentQuestionId: question3_5_1.Id);
+            var question3_5 = new SubQuestion(id: Guid.NewGuid(), text: "Is it a Software?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: mainQuestion_2.Id);
+            var question3_5_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to provide information which is used to take decisions with diagnosis or therapeutic purposes?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_5.Id);
+            var question3_5_1_1 = new SubQuestion(id: Guid.NewGuid(), text: "Does such decision have an impact that may cause death or an irreversible deterioration of a person's state of health?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_5_1.Id);
+            var question3_5_1_2 = new SubQuestion(id: Guid.NewGuid(), text: "Does such decision have an impact that may cause a serious deterioration of a person's state of health or a surgical intervention?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_5_1.Id);
+            var question3_5_1_3 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_5_1.Id);
 
-            var question3_5_2 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to monitor physiological processes?", mainQuestionId: question3.Id, parentQuestionId: question3_5.Id);
-            var question3_5_2_1 = new SubQuestion(id: Guid.NewGuid(), text: "Does it monitor vital physiological parameters, where the nature of variations of those parameters is such that it could result in immediate danger to the patient?", mainQuestionId: question3.Id, parentQuestionId: question3_5_2.Id);
-            var question3_5_2_2 = new SubQuestion(id: Guid.NewGuid(), text: "Does it monitor non vital physiological parameters, so that the nature of variations of those parameters is such that it could never and in no cases result in immediate danger to the patient?", mainQuestionId: question3.Id, parentQuestionId: question3_5_2.Id);
+            var question3_5_2 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to monitor physiological processes?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_5.Id);
+            var question3_5_2_1 = new SubQuestion(id: Guid.NewGuid(), text: "Does it monitor vital physiological parameters, where the nature of variations of those parameters is such that it could result in immediate danger to the patient?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_5_2.Id);
+            var question3_5_2_2 = new SubQuestion(id: Guid.NewGuid(), text: "Does it monitor non vital physiological parameters, so that the nature of variations of those parameters is such that it could never and in no cases result in immediate danger to the patient?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_5_2.Id);
 
-            var question3_5_3 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: question3.Id, parentQuestionId: question3_5.Id);
+            var question3_5_3 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_5.Id);
 
-            var question3_6 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to administer and/or remove medicinal products, body liquids or other substances to or from the body?", mainQuestionId: question3.Id, parentQuestionId: question3.Id);
-            var question3_6_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is this done in a manner that is potentially hazardous (taking account of the nature of the substances involved, of the part of the body concerned and of the mode of application)?", mainQuestionId: question3.Id, parentQuestionId: question3_6.Id);
-            var question3_6_2 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: question3.Id, parentQuestionId: question3_6.Id);
+            var question3_6 = new SubQuestion(id: Guid.NewGuid(), text: "Is it intended to administer and/or remove medicinal products, body liquids or other substances to or from the body?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: mainQuestion_2.Id);
+            var question3_6_1 = new SubQuestion(id: Guid.NewGuid(), text: "Is this done in a manner that is potentially hazardous (taking account of the nature of the substances involved, of the part of the body concerned and of the mode of application)?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_6.Id);
+            var question3_6_2 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: question3_6.Id);
 
-            var question3_7 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: question3.Id, parentQuestionId: question3.Id);
+            var question3_7 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: mainQuestion_2.Id);
 
 
-            _mainQuestions.Add(question1);
+            _mainQuestions.Add(mainQuestion_1);
+            _subQuestions.Add(question1);
             _subQuestions.Add(question1_1);
             _subQuestions.Add(question1_1_1);
             _subQuestions.Add(question1_1_2);
@@ -158,6 +160,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
             _subQuestions.Add(question1_1_5_3);
             _subQuestions.Add(question1_1_5_4);
             _subQuestions.Add(question1_1_6);
+            _subQuestions.Add(question2);
             _subQuestions.Add(question2_1);
             _subQuestions.Add(question2_1_1);
             _subQuestions.Add(question2_1_1_1);
@@ -244,8 +247,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
             _subQuestions.Add(question3_7);
 
 
-            _mainQuestions.Add(question2);
-            _mainQuestions.Add(question3);
+            _mainQuestions.Add(mainQuestion_2);
 
             var class_I_Questions = new List<Guid>
             {

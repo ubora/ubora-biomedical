@@ -3,7 +3,6 @@ using FluentAssertions;
 using System;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.DeviceClassification;
 using Xunit;
@@ -12,11 +11,6 @@ namespace Ubora.Domain.Tests.Projects.DeviceClassification
 {
     public class SaveDeviceClassificationTests : IntegrationFixture
     {
-        public SaveDeviceClassificationTests()
-        {
-            StoreOptions(new UboraStoreOptions().Configuration());
-        }
-
         [Fact]
         public void Adds_Device_Classification_To_Project()
         {
