@@ -22,20 +22,24 @@ namespace Ubora.Web._Features.Users.UserList
             private readonly IQueryProcessor _queryProcessor;
             private readonly UserManager<ApplicationUser> _userManager;
 
+            protected Factory()
+            {
+            }
+
             public Factory(IQueryProcessor queryProcessor, UserManager<ApplicationUser> userManager)
             {
                 _queryProcessor = queryProcessor;
                 _userManager = userManager;
             }
 
-            public IEnumerable<UserListItemViewModel> GetUserListItemViewModels()
+            public virtual IEnumerable<UserListItemViewModel> GetUserListItemViewModels()
             {
                 var users = _queryProcessor.Find<UserProfile>()
                     .Select(x => new UserListItemViewModel
                     {
                         UserId = x.UserId,
                         FullName = x.FullName,
-                        Email = _userManager.FindByIdAsync(x.UserId.ToString()).Result.Email
+                        Email = _userManager.FindByIdAsync(x.UserId.ToString()).Result != null ? _userManager.FindByIdAsync(x.UserId.ToString()).Result.Email : "Email Not Found"
                     });
                 return users;
             }
