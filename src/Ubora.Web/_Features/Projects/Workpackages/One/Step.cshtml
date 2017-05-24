@@ -1,11 +1,20 @@
-﻿@using Ubora.Web._Features.Projects.WorkpackageOneManagement
-@model Ubora.Web._Features.Projects.WorkpackageOneManagement.EditWorkpackageOneViewModel
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@model Ubora.Web._Features.Projects.Workpackages.One.EditWorkpackageOneStepViewModel
+
+@section LeftSideMenu {
+    <aside>
+    Kaspar: Risto, move to side?
+        @await Component.InvokeAsync(typeof(WorkpackagesOverviewViewComponent))
+    </aside>
+}
+
+<a asp-controller="Workpackages" asp-action="Index">Back</a>
 
 <section class="medium-width">
     <h1 class="full-width">@Model.Title</h1>
     @if (Model.IsEdit)
     {
-        <form action="@Model.PostUrl" method="post">
+        <form action="@Url.Action(Model.ActionName, Model.ControllerName)" method="post">
 
             <label>
                 <textarea id="simple-mde" asp-for="Value" rows="8"></textarea>
@@ -18,7 +27,7 @@
     }
     else
     {
-        <a href="@Model.EditUrl">Edit</a>
+        <a href="@Url.Action(Model.ActionName, Model.ControllerName, new { edit = true })">Edit</a>
 <pre>
 @Model.Value
 </pre>

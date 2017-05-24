@@ -1,0 +1,32 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages.One
+@model Ubora.Web._Features.Projects.Workpackages.WorkpackagesOverviewViewModel
+
+<ol>
+    <li>
+        <a href="@Url.Action(nameof(WorkpackageOneController.Index), "WorkpackageOne")">
+            <h2>
+                @Model.WorkpackageOne.Title
+            </h2>
+        </a>
+        <ol>
+
+            @foreach (var step in Model.WorkpackageOne.Steps)
+            {
+                <li>
+                    <a href="@Url.Action(step.ActionName, step.ControllerName)">
+                        @if (step.IsSelected)
+                        {
+                            <ul>
+                                @step.Title
+                            </ul>
+                        }
+                        else
+                        {
+                            @step.Title
+                        }
+                    </a>
+                </li>
+            }
+        </ol>
+    </li>
+</ol>
