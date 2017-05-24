@@ -56,7 +56,7 @@ namespace Ubora.Web._Features.Users.Account
 
 	        var model = new ProfileViewModel()
 	        {
-                Email = _userManager.FindByIdAsync(userProfile.UserId.ToString()).Result.Email,
+                Email = userProfile.Email,
                 FirstName = userProfile.FirstName,
                 LastName = userProfile.LastName,
                 University = userProfile.University,
