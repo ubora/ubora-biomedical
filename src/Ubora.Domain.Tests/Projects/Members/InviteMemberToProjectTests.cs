@@ -33,8 +33,8 @@ namespace Ubora.Domain.Tests.Projects.Members
         {
             Processor.Execute(new CreateProjectCommand
             {
-                Id = _projectId,
-                UserInfo = new UserInfo(Guid.NewGuid(), "")
+                NewProjectId = _projectId,
+                Actor = new UserInfo(Guid.NewGuid(), "")
             });
 
             Processor.Execute(new CreateUserProfileCommand
@@ -55,7 +55,7 @@ namespace Ubora.Domain.Tests.Projects.Members
             {
                 ProjectId = _projectId,
                 UserId = _invitedUserId,
-                UserInfo = new UserInfo(Guid.NewGuid(), "")
+                Actor = new UserInfo(Guid.NewGuid(), "")
             });
         }
 
