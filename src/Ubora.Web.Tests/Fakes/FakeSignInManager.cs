@@ -5,17 +5,18 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using Ubora.Web.Data;
+using Ubora.Web.Services;
 
 namespace Ubora.Web.Tests.Fakes
 {
-    public class FakeSignInManager : SignInManager<ApplicationUser>
+    public class FakeSignInManager : ApplicationSignInManager
     {
         public FakeSignInManager()
             : base(new FakeUserManager(),
-                new Mock<IHttpContextAccessor>().Object,
-                new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>().Object,
-                new Mock<IOptions<IdentityOptions>>().Object,
-                new Mock<ILogger<SignInManager<ApplicationUser>>>().Object)
+                Mock.Of<IHttpContextAccessor>(),
+                Mock.Of<IUserClaimsPrincipalFactory<ApplicationUser>>(),
+                Mock.Of<IOptions<IdentityOptions>>(),
+                Mock.Of<ILogger<SignInManager<ApplicationUser>>>())
         {
         }
     }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Ubora.Web._Features.Users.Account
+﻿namespace Ubora.Web._Features.Users.Profile
 {
     public class ProfileViewModel
     {
