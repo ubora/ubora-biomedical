@@ -1,32 +1,12 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages.One
 @model Ubora.Web._Features.Projects.Workpackages.WorkpackagesOverviewViewModel
 
-<style>
-.project-menu {
-    margin:0 1em 0 0;
-}
-
-ol {
-    counter-reset: item;
-    list-style: decimal;
-}
-
-li {
-    display: block;
-}
-
-li:before {
-    content:counters(item, ".");
-    counter-increment: item
-}
-</style>
-
-<div class="project-menu">
-    <ol class="project-menu-listing">
+<aside class="project_sidemenu">
+    <ol>
         <!-- TODO: forEach all workpackages -->
-        <li>
+        <li class="project_sidemenu--workpackage">
             <a href="@Url.Action(nameof(WorkpackageOneController.Index), "WorkpackageOne")">
-                <h2>@Model.WorkpackageOne.Title</h2>
+                <h3>@Model.WorkpackageOne.Title</h3>
             </a>
 
             <ol>
@@ -49,4 +29,4 @@ li:before {
         </li>
         <!-- TODO: End forEach -->
     </ol>
-</div>
+</aside>

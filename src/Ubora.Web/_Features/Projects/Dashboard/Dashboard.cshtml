@@ -6,32 +6,50 @@
     ViewData["Title"] = "Dashboard";
 }
 
-@*@await Html.PartialAsync("_ProcessSteps", new ProcessStepViewModel
-{
-    ProjectId = Model.Id,
-    StepOneStatus = StepStatus.Completed,
-    StepTwoStatus = StepStatus.Active,
-})*@
+<!-- TODO: Make this into a partial, differentiating levels for project, work package and task -->
+<nav class="project_navigation">
+    <a class="project_navigation_link  project_navigation_link--active" href="#">Project overview</a>
+    <a class="project_navigation_link" asp-controller="Workpackages" asp-action="Index" asp-route-projectId="@Model.Id">Workpackages</a>
+    <a class="project_navigation_link" asp-controller="Tasks" asp-action="Tasks" asp-route-projectId="@Model.Id">Tasks</a>
+    <a class="project_navigation_link" href="#">News</a>
+    <a class="project_navigation_link" href="#">Documentation</a>
+    <a class="project_navigation_link" href="#">Repository</a>
+    <a class="project_navigation_link" asp-controller="History" asp-action="History" asp-route-projectId="@Model.Id">Activity</a>
+    <a class="project_navigation_link" asp-controller="Members" asp-action="Members" asp-route-projectId="@Model.Id">Members</a>
+</nav>
 
-
-
-<section class="full-width project-dashboard">
-
-
-    <div class="project-container">
-        <h1>@Model.Title</h1>
-         <a class="button secondary-button" asp-controller="Workpackages" asp-action="Index" asp-route-projectId="@Model.Id">Workpackages</a> 
-        <!-- <a class="button secondary-button" asp-controller="Tasks" asp-action="Tasks" asp-route-projectId="@Model.Id">Tasks</a> -->
-        <a class="button secondary-button" asp-controller="History" asp-action="History" asp-route-projectId="@Model.Id">History</a>
-        <a class="button secondary-button" asp-controller="Members" asp-action="Members" asp-route-projectId="@Model.Id">Members</a>
-
+<section class="project_view full-width">
     @await Component.InvokeAsync(typeof(WorkpackagesOverviewViewComponent))
 
-        <form>
+    <section class="medium-width">
+        <div class="project_photo">
+            <!-- TODO: Show project photo -->
+            <img src="//placehold.it/1200x600" alt="Example image">
+        </div>
+
+        <div class="project_description">
+            <h2>Project description</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil labore numquam quisquam molestias mollitia consequatur excepturi eum expedita necessitatibus hic, odit dignissimos sunt voluptatum quo aperiam at quod, inventore placeat.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia voluptatibus, itaque eligendi natus. Necessitatibus laboriosam saepe fuga, omnis mollitia. Libero eius qui architecto doloribus eveniet. Earum reiciendis ad fuga eaque.</p>
+            <p>Dolorum praesentium expedita eaque perspiciatis sunt quo tempora debitis nesciunt excepturi quia, repudiandae quas ipsum unde aut, nisi necessitatibus incidunt minus aperiam? Cupiditate non natus assumenda distinctio tenetur! Nesciunt, asperiores!</p>
+            <p>Quibusdam voluptates eligendi tenetur vitae quia numquam accusamus dolores dicta, ullam ratione, veniam incidunt minus consequatur facere asperiores cupiditate ducimus facilis vero nostrum reiciendis consequuntur exercitationem blanditiis possimus sapiente obcaecati.</p>
+        </div>
+
+        <div class="project_device--classification">
             <h3>Device classification</h3>
-            <button class="button button-secondary" disabled>Classify your device</button>
+            <!-- TODO: If device classification unset -->
+            <p>There currently is no device classification set.</p>
+            <!-- TODO: If device classification is set
+            <p>Class <i>[device classification here]</i> medical device.</p> -->
+            <!-- TODO: If project owner or someone with similar rights, show this button
+            <button class="button button-secondary" disabled>Classify your device</button> -->
+        </div>
+
+        <div class="project_device--regulations">
             <h3>ISO standards and regulation checklist</h3>
-            <button class="button primary-button" type="submit" disabled>Submit for review</button>
-        </form>
-    </div>
+            <div class="center-element">
+                <button class="button primary-button" type="submit" disabled>Submit for review</button>
+            </div>
+        </div>
+    </section>
 </section>

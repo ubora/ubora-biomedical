@@ -14,19 +14,9 @@
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 
-<style>
-    .project-dashboard {
-        display: flex;
-    }
-
-    .project-container {
-        flex-grow: 2;
-    }
-</style>
-
 <body>
     @await Html.PartialAsync("_Header")
-    
+
     @RenderSection("LeftSideMenu", required: false)
 
     <main>@RenderBody()</main>

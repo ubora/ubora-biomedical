@@ -13,7 +13,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.One
             {
                 return new WorkpackageOneOverviewViewModel
                 {
-                    Title = "Workpackage 1: Design and prototyping",
+                    Title = "Design and prototyping",
                     Steps = new[]
                     {
                         new WorkpackageOneStepViewModel
