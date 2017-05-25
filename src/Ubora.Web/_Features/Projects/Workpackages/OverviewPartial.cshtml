@@ -1,32 +1,52 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages.One
 @model Ubora.Web._Features.Projects.Workpackages.WorkpackagesOverviewViewModel
 
-<ol>
-    <li>
-        <a href="@Url.Action(nameof(WorkpackageOneController.Index), "WorkpackageOne")">
-            <h2>
-                @Model.WorkpackageOne.Title
-            </h2>
-        </a>
-        <ol>
+<style>
+.project-menu {
+    margin:0 1em 0 0;
+}
 
-            @foreach (var step in Model.WorkpackageOne.Steps)
-            {
-                <li>
-                    <a href="@Url.Action(step.ActionName, step.ControllerName)">
-                        @if (step.IsSelected)
-                        {
-                            <ul>
+ol {
+    counter-reset: item;
+    list-style: decimal;
+}
+
+li {
+    display: block;
+}
+
+li:before {
+    content:counters(item, ".");
+    counter-increment: item
+}
+</style>
+
+<div class="project-menu">
+    <ol class="project-menu-listing">
+        <!-- TODO: forEach all workpackages -->
+        <li>
+            <a href="@Url.Action(nameof(WorkpackageOneController.Index), "WorkpackageOne")">
+                <h2>@Model.WorkpackageOne.Title</h2>
+            </a>
+
+            <ol>
+                @foreach (var step in Model.WorkpackageOne.Steps)
+                {
+                    <li>
+                        <a href="@Url.Action(step.ActionName, step.ControllerName)">
+                            @if (step.IsSelected)
+                            {
+                                <b>@step.Title</b>
+                            }
+                            else
+                            {
                                 @step.Title
-                            </ul>
-                        }
-                        else
-                        {
-                            @step.Title
-                        }
-                    </a>
-                </li>
-            }
-        </ol>
-    </li>
-</ol>
+                            }
+                        </a>
+                    </li>
+                }
+            </ol>
+        </li>
+        <!-- TODO: End forEach -->
+    </ol>
+</div>
