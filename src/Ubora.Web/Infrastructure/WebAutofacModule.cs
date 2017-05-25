@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using AutoMapper;
-using Marten.Linq.QueryHandlers;
+using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Web.Services;
 
 namespace Ubora.Web.Infrastructure
@@ -13,7 +13,7 @@ namespace Ubora.Web.Infrastructure
 
             builder.RegisterAssemblyTypes(ThisAssembly).Where(t => t.IsNested && t.Name.EndsWith("Factory")).InstancePerLifetimeScope();
 
-            builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<>)).InstancePerLifetimeScope();
+            builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)
