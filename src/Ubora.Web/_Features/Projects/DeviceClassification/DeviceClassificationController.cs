@@ -75,11 +75,12 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
             {
                 return BadRequest();
             }
+
             var questions = _deviceClassification.GetSubQuestions(questionId);
 
             if (questions == null)
             {
-                return RedirectToAction(nameof(Classification), "DeviceClassification", new { questionId = questionId, mainQuestionId = mainQuestionId });
+                return BadRequest("No sub question found!");
             }
 
             if (mainQuestionId == null)
@@ -96,6 +97,26 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
             return View(questionsViewModel);
         }
 
+        [HttpPost]
+        public IActionResult Answer(AnswerViewModel answerViewModel)
+        {
+            // TODO: Modelstate check
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(GetQuestions), "DeviceClassification", new { questionId= answerViewModel.QuestionId, mainQuestionId = answerViewModel.MainQuestionId });
+            }
+
+            var questions = _deviceClassification.GetSubQuestions(answerViewModel.NextQuestionId);
+
+            if (questions == null)
+            {
+                SetDeviceClassificationToProject(answerViewModel.NextQuestionId, Project.DeviceClassification);
+                return RedirectToAction(nameof(NextMainQuestion), "DeviceClassification", new { mainQuestionId = answerViewModel.MainQuestionId });
+            }
+
+            return RedirectToAction(nameof(GetQuestions), "DeviceClassification", new { questionId = answerViewModel.NextQuestionId, mainQuestionId = answerViewModel.MainQuestionId });
+        }
+
         public IActionResult CurrentClassification()
         {
             var currentClassificationViewModel = new CurrentClassificationViewModel
@@ -104,23 +125,6 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
             };
 
             return View(currentClassificationViewModel);
-        }
-
-        public IActionResult Classification(Guid questionId, Guid mainQuestionId)
-        {
-            if (mainQuestionId == default(Guid))
-            {
-                return BadRequest();
-            }
-
-            if (questionId == default(Guid))
-            {
-                return BadRequest();
-            }
-
-            SetDeviceClassificationToProject(questionId, Project.DeviceClassification);
-
-            return RedirectToAction(nameof(NextMainQuestion), "DeviceClassification", new { mainQuestionId = mainQuestionId });
         }
 
         private void SetDeviceClassificationToProject(Guid questionId, string currentProjectDeviceClassificationText)

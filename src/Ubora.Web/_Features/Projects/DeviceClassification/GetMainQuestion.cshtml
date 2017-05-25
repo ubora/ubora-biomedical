@@ -9,7 +9,7 @@
     <h1>Please select an option:</h1>
     <ul class="questionnaire-question-list">
         <li>
-            <a class="questionnaire-question" asp-controller="DeviceClassification" asp-action="GetQuestions" asp-route-questionId="@Model.MainQuestionId" asp-route-mainQuestionId="@Model.MainQuestionId">@Model.MainQuestionText</a>
+            @Html.Partial("AnswerPartial", new Ubora.Web._Features.Projects.DeviceClassification.AnswerViewModel { QuestionText = Model.MainQuestionText, MainQuestionId = Model.MainQuestionId, NextQuestionId = Model.MainQuestionId })
         </li>
         <li>
             <a class="questionnaire-question" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-mainQuestionId="@Model.MainQuestionId">No it is not.</a>
