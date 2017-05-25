@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -31,6 +32,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _userManagerMock = new Mock<FakeUserManager>();
             _signInManagerMock = new Mock<FakeSignInManager>();
             _identityCookieOptionsMock = new Mock<IOptions<IdentityCookieOptions>>();
+            _identityCookieOptionsMock.Setup(o => o.Value).Returns(new IdentityCookieOptions());
             _emailSenderMock = new Mock<IEmailSender>();
             _smsSenderMock = new Mock<ISmsSender>();
             _commandProcessorMock = new Mock<ICommandProcessor>();
@@ -39,22 +41,75 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _controller = new AccountController(_userManagerMock.Object, _signInManagerMock.Object,
                 _identityCookieOptionsMock.Object, _emailSenderMock.Object, _smsSenderMock.Object,
                 _loggerFactoryMock.Object, _commandProcessorMock.Object, _queryProcessorMock.Object);
-
         }
 
         [Fact]
         public void ViewProfile_Returns_View_And_ProfileViewModel_When_Should_Have_User()
         {
-            var expecteduserId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
+            UserProfile userprofile = GetUserProfile(userId);
 
-            _queryProcessorMock.Setup(p => p.FindById<UserProfile>(expecteduserId))
-                .Returns(new UserProfile(expecteduserId));
+            var expectedProfileViewModel = new ProfileViewModel()
+            {
+                Email = userprofile.Email,
+                FirstName = userprofile.FirstName,
+                LastName = userprofile.LastName,
+                University = userprofile.University,
+                Degree = userprofile.Degree,
+                Field = userprofile.Field,
+                Biography = userprofile.Biography,
+                Skills = userprofile.Skills,
+                Role = userprofile.Role
+            };
+
+            _queryProcessorMock.Setup(p => p.FindById<UserProfile>(userId))
+                .Returns(userprofile);
 
             //Act
-            var result = _controller.ViewProfile(expecteduserId);
+            var result = _controller.ViewProfile(userId);
 
-            //Assert
+            //Act
             result.Should().NotBeNull();
+            result.As<ViewResult>().Model.As<ProfileViewModel>().Email.Should().Be(expectedProfileViewModel.Email);
+            result.As<ViewResult>().Model.As<ProfileViewModel>().FirstName.Should().Be(expectedProfileViewModel.FirstName);
+            result.As<ViewResult>().Model.As<ProfileViewModel>().LastName.Should().Be(expectedProfileViewModel.LastName);
+            result.As<ViewResult>().Model.As<ProfileViewModel>().University.Should().Be(expectedProfileViewModel.University);
+            result.As<ViewResult>().Model.As<ProfileViewModel>().Degree.Should().Be(expectedProfileViewModel.Degree);
+            result.As<ViewResult>().Model.As<ProfileViewModel>().Field.Should().Be(expectedProfileViewModel.Field);
+            result.As<ViewResult>().Model.As<ProfileViewModel>().Biography.Should().Be(expectedProfileViewModel.Biography);
+            result.As<ViewResult>().Model.As<ProfileViewModel>().Skills.Should().Be(expectedProfileViewModel.Skills);
+            result.As<ViewResult>().Model.As<ProfileViewModel>().Role.Should().Be(expectedProfileViewModel.Role);
+        }
+
+        [Fact]
+        public void ViewProfile_Returns_NotFoundResult_If_Not_Found_User()
+        {
+            var userId = Guid.NewGuid();
+
+            _queryProcessorMock.Setup(p => p.FindById<UserProfile>(userId));
+
+            //Act
+            var result = _controller.ViewProfile(userId);
+
+            //Act
+            result.Should().NotBeNull();
+            result.Should().BeOfType<NotFoundResult>();
+        }
+
+        private UserProfile GetUserProfile(Guid userId)
+        {
+            return new UserProfile(userId)
+            {
+                Email = "expectedEmail",
+                FirstName = "expectedFirstName",
+                LastName = "expectedLastName",
+                University = "expectedUniversity",
+                Degree = "expectedDegree",
+                Field = "expectedField",
+                Biography = "expectedBiography",
+                Skills = "expectedSkills",
+                Role = "expectedRole",
+            };
         }
     }
 }

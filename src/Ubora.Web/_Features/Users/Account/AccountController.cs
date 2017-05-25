@@ -54,6 +54,11 @@ namespace Ubora.Web._Features.Users.Account
 	    {
             var userProfile = _queryProcessor.FindById<UserProfile>(userId);
 
+	        if (userProfile == null)
+	        {
+	            return new NotFoundResult();
+            }
+
 	        var model = new ProfileViewModel()
 	        {
                 Email = userProfile.Email,
