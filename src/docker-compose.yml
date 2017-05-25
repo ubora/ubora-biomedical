@@ -3,6 +3,8 @@ version: '2'
 services:
   ubora.web:
     image: ubora.web
+    env_file:
+      - ./appsecrets.env
     build:
       context: ./Ubora.Web
       dockerfile: Dockerfile
