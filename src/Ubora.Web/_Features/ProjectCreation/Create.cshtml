@@ -17,17 +17,18 @@
         </div>
 
         <h2>Design tags</h2>
+
         <div class="form-input">
             <label asp-for="ClinicalNeed">Clinical need</label>
             <select asp-for="ClinicalNeed">
-                <option value="null" selected disabled>Select a clinical need</option>
-                <option value="0">Pneumonia</option>
-                <option value="1">AIDS</option>
-                <option value="2">Movement impairment</option>
-                <option value="3">Maternal mortality</option>
-                <option value="4">Child mortality</option>
-                <option value="5">Alcholism</option>
-                <option value="6">Muscular dystrophy</option>
+                <option selected disabled>Select a clinical need</option>
+                <option value="Pneumonia">Pneumonia</option>
+                <option value="AIDS">AIDS</option>
+                <option value="Movement impairment">Movement impairment</option>
+                <option value="Maternal mortality">Maternal mortality</option>
+                <option value="Child mortality">Child mortality</option>
+                <option value="Alcholism">Alcholism</option>
+                <option value="Muscular dystrophy">Muscular dystrophy</option>
             </select>
             <span asp-validation-for="ClinicalNeed"></span>
         </div>
@@ -35,12 +36,12 @@
         <div class="form-input">
             <label asp-for="AreaOfUsage">Area</label>
             <select asp-for="AreaOfUsage">
-                <option value="null" selected disabled>Select an area of usage</option>
-                <option value="0">Cardiology</option>
-                <option value="1">Dermatology</option>
-                <option value="2">Neurology</option>
-                <option value="3">m-Health</option>
-                <option value="4">e-Health</option>
+                <option selected disabled>Select an area of usage</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="m-Health">m-Health</option>
+                <option value="e-Health">e-Health</option>
             </select>
             <span asp-validation-for="AreaOfUsage"></span>
         </div>
@@ -48,13 +49,13 @@
         <div class="form-input">
             <label asp-for="PotentialTechnology">Technology</label>
             <select asp-for="PotentialTechnology">
-                <option value="null" selected disabled>Select potential technology</option>
-                <option value="0">Thermometers</option>
-                <option value="1">Computed tomography</option>
-                <option value="2">Wheelchairs</option>
-                <option value="3">Vascular draft</option>
-                <option value="4">Eye drops</option>
-                <option value="5">Bandages</option>
+                <option selected disabled>Select potential technology</option>
+                <option value="Thermometers">Thermometers</option>
+                <option value="Computed tomography">Computed tomography</option>
+                <option value="Wheelchairs">Wheelchairs</option>
+                <option value="Vascular draft">Vascular draft</option>
+                <option value="Eye drops">Eye drops</option>
+                <option value="Bandages">Bandages</option>
             </select>
             <span asp-validation-for="PotentialTechnology"></span>
         </div>
