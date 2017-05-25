@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ubora.Web._Features.Projects.DeviceClassification.Services
+namespace Ubora.Domain.Projects.DeviceClassification
 {
     public abstract class BaseQuestion
     {

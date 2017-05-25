@@ -4,12 +4,9 @@ using System.Linq;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.DeviceClassification;
-using Ubora.Web._Features.Projects.DeviceClassification.Services;
 
 namespace Ubora.Web._Features.Projects.DeviceClassification
 {
-
-
     public class DeviceClassificationController : ProjectController
     {
         private readonly IDeviceClassification _deviceClassification;
@@ -18,7 +15,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
             ICommandQueryProcessor processor,
             IDeviceClassification deviceClassification) : base(processor)
         {
-            _deviceClassification = deviceClassification;
+            _deviceClassification = Find<Ubora.Domain.Projects.DeviceClassification.DeviceClassification>().Single();
         }
 
         public IActionResult GetMainQuestion(Guid? questionId)

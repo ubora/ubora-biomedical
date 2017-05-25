@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ubora.Web._Features.Projects.DeviceClassification.Services;
+using Ubora.Domain.Projects.DeviceClassification;
 
 namespace Ubora.Web._Features.Projects.DeviceClassification
 {

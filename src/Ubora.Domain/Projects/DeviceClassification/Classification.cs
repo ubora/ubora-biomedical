@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Ubora.Web._Features.Projects.DeviceClassification.Services
+namespace Ubora.Domain.Projects.DeviceClassification
 {
     public class Classification
     {

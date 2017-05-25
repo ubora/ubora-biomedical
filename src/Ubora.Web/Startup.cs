@@ -72,6 +72,8 @@ namespace Ubora.Web
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IAuthorizationService, DefaultAuthorizationService>();
 
+            services.AddScoped<Seeder>();
+
             var autofacContainerBuilder = new ContainerBuilder();
 
             var domainModule = new DomainAutofacModule(connectionString);
@@ -122,6 +124,9 @@ namespace Ubora.Web
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+
+                var seeder = serviceScope.ServiceProvider.GetService<Seeder>();
+                seeder.SeedIfNecessary();
             }
         }
     }

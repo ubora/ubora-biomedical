@@ -1,17 +1,24 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ubora.Web._Features.Projects.DeviceClassification.Services
+namespace Ubora.Domain.Projects.DeviceClassification
 {
     public class DeviceClassification : IDeviceClassification
     {
-        private static List<MainQuestion> _mainQuestions = new List<MainQuestion>();
-        private static List<SubQuestion> _subQuestions = new List<SubQuestion>();
-        private static List<Classification> _classifications = new List<Classification>();
+        public Guid Id { get; set; }
 
-        // "Seed"
-        static DeviceClassification()
+        [JsonProperty(nameof(MainQuestions))]
+        private List<MainQuestion> MainQuestions { get; set; } = new List<MainQuestion>();
+
+        [JsonProperty(nameof(SubQuestions))]
+        private List<SubQuestion> SubQuestions { get; set; } = new List<SubQuestion>();
+
+        [JsonProperty(nameof(Classifications))]
+        private List<Classification> Classifications { get; set; } = new List<Classification>();
+
+        public void CreateNew()
         {
             var mainQuestion_2 = new MainQuestion(Guid.NewGuid(), "Is your device ACTIVE?", null);
 
@@ -144,110 +151,110 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
             var question3_7 = new SubQuestion(id: Guid.NewGuid(), text: "None of the above apply?", mainQuestionId: mainQuestion_2.Id, parentQuestionId: mainQuestion_2.Id);
 
 
-            _mainQuestions.Add(mainQuestion_1);
-            _subQuestions.Add(question1);
-            _subQuestions.Add(question1_1);
-            _subQuestions.Add(question1_1_1);
-            _subQuestions.Add(question1_1_2);
-            _subQuestions.Add(question1_1_3);
-            _subQuestions.Add(question1_1_4);
-            _subQuestions.Add(question1_1_4_1);
-            _subQuestions.Add(question1_1_4_2);
-            _subQuestions.Add(question1_1_4_3);
-            _subQuestions.Add(question1_1_5);
-            _subQuestions.Add(question1_1_5_1);
-            _subQuestions.Add(question1_1_5_2);
-            _subQuestions.Add(question1_1_5_3);
-            _subQuestions.Add(question1_1_5_4);
-            _subQuestions.Add(question1_1_6);
-            _subQuestions.Add(question2);
-            _subQuestions.Add(question2_1);
-            _subQuestions.Add(question2_1_1);
-            _subQuestions.Add(question2_1_1_1);
-            _subQuestions.Add(question2_1_1_2);
-            _subQuestions.Add(question2_1_1_3);
-            _subQuestions.Add(question2_1_1_4);
-            _subQuestions.Add(question2_1_1_5);
-            _subQuestions.Add(question2_1_1_6);
-            _subQuestions.Add(question2_1_2);
-            _subQuestions.Add(question2_1_2_1);
-            _subQuestions.Add(question2_1_2_2);
-            _subQuestions.Add(question2_1_2_3);
-            _subQuestions.Add(question2_1_2_4);
-            _subQuestions.Add(question2_1_2_5);
-            _subQuestions.Add(question2_1_2_6);
-            _subQuestions.Add(question2_1_3);
-            _subQuestions.Add(question2_2);
-            _subQuestions.Add(question2_2_1);
-            _subQuestions.Add(question2_2_1_1);
-            _subQuestions.Add(question2_2_1_2);
-            _subQuestions.Add(question2_2_1_3);
-            _subQuestions.Add(question2_2_1_4);
-            _subQuestions.Add(question2_2_1_5);
-            _subQuestions.Add(question2_2_1_6);
-            _subQuestions.Add(question2_2_1_7);
-            _subQuestions.Add(question2_2_2);
-            _subQuestions.Add(question2_2_2_1);
-            _subQuestions.Add(question2_2_2_2);
-            _subQuestions.Add(question2_2_2_3);
-            _subQuestions.Add(question2_2_2_4);
-            _subQuestions.Add(question2_2_2_5);
-            _subQuestions.Add(question2_2_2_5_1);
-            _subQuestions.Add(question2_2_2_5_2);
-            _subQuestions.Add(question2_2_2_5_3);
-            _subQuestions.Add(question2_2_2_6);
-            _subQuestions.Add(question2_2_3);
-            _subQuestions.Add(question2_2_3_1);
-            _subQuestions.Add(question2_2_3_2);
-            _subQuestions.Add(question2_2_3_3);
-            _subQuestions.Add(question2_2_3_4);
-            _subQuestions.Add(question2_2_3_4_1);
-            _subQuestions.Add(question2_2_3_4_2);
-            _subQuestions.Add(question2_2_3_5);
-            _subQuestions.Add(question2_2_3_6);
-            _subQuestions.Add(question2_2_3_7);
-            _subQuestions.Add(question2_2_3_8);
-            _subQuestions.Add(question2_2_3_9);
-            _subQuestions.Add(question2_2_3_10);
-            _subQuestions.Add(question2_2_3_11);
-            _subQuestions.Add(question2_2_3_12);
-            _subQuestions.Add(question2_2_3_13);
-            _subQuestions.Add(question2_2_3_14);
-            _subQuestions.Add(question3_1);
-            _subQuestions.Add(question3_1_1);
-            _subQuestions.Add(question3_1_2);
-            _subQuestions.Add(question3_1_3);
-            _subQuestions.Add(question3_1_4);
-            _subQuestions.Add(question3_1_5);
-            _subQuestions.Add(question3_2);
-            _subQuestions.Add(question3_3);
-            _subQuestions.Add(question3_4);
-            _subQuestions.Add(question3_4_1);
-            _subQuestions.Add(question3_4_1_1);
-            _subQuestions.Add(question3_4_1_2);
-            _subQuestions.Add(question3_4_1_3);
-            _subQuestions.Add(question3_4_2);
-            _subQuestions.Add(question3_4_2_1);
-            _subQuestions.Add(question3_4_2_2);
-            _subQuestions.Add(question3_4_2_3);
-            _subQuestions.Add(question3_4_3);
-            _subQuestions.Add(question3_4_4);
-            _subQuestions.Add(question3_5);
-            _subQuestions.Add(question3_5_1);
-            _subQuestions.Add(question3_5_1_1);
-            _subQuestions.Add(question3_5_1_2);
-            _subQuestions.Add(question3_5_1_3);
-            _subQuestions.Add(question3_5_2);
-            _subQuestions.Add(question3_5_2_1);
-            _subQuestions.Add(question3_5_2_2);
-            _subQuestions.Add(question3_5_3);
-            _subQuestions.Add(question3_6);
-            _subQuestions.Add(question3_6_1);
-            _subQuestions.Add(question3_6_2);
-            _subQuestions.Add(question3_7);
+            MainQuestions.Add(mainQuestion_1);
+            SubQuestions.Add(question1);
+            SubQuestions.Add(question1_1);
+            SubQuestions.Add(question1_1_1);
+            SubQuestions.Add(question1_1_2);
+            SubQuestions.Add(question1_1_3);
+            SubQuestions.Add(question1_1_4);
+            SubQuestions.Add(question1_1_4_1);
+            SubQuestions.Add(question1_1_4_2);
+            SubQuestions.Add(question1_1_4_3);
+            SubQuestions.Add(question1_1_5);
+            SubQuestions.Add(question1_1_5_1);
+            SubQuestions.Add(question1_1_5_2);
+            SubQuestions.Add(question1_1_5_3);
+            SubQuestions.Add(question1_1_5_4);
+            SubQuestions.Add(question1_1_6);
+            SubQuestions.Add(question2);
+            SubQuestions.Add(question2_1);
+            SubQuestions.Add(question2_1_1);
+            SubQuestions.Add(question2_1_1_1);
+            SubQuestions.Add(question2_1_1_2);
+            SubQuestions.Add(question2_1_1_3);
+            SubQuestions.Add(question2_1_1_4);
+            SubQuestions.Add(question2_1_1_5);
+            SubQuestions.Add(question2_1_1_6);
+            SubQuestions.Add(question2_1_2);
+            SubQuestions.Add(question2_1_2_1);
+            SubQuestions.Add(question2_1_2_2);
+            SubQuestions.Add(question2_1_2_3);
+            SubQuestions.Add(question2_1_2_4);
+            SubQuestions.Add(question2_1_2_5);
+            SubQuestions.Add(question2_1_2_6);
+            SubQuestions.Add(question2_1_3);
+            SubQuestions.Add(question2_2);
+            SubQuestions.Add(question2_2_1);
+            SubQuestions.Add(question2_2_1_1);
+            SubQuestions.Add(question2_2_1_2);
+            SubQuestions.Add(question2_2_1_3);
+            SubQuestions.Add(question2_2_1_4);
+            SubQuestions.Add(question2_2_1_5);
+            SubQuestions.Add(question2_2_1_6);
+            SubQuestions.Add(question2_2_1_7);
+            SubQuestions.Add(question2_2_2);
+            SubQuestions.Add(question2_2_2_1);
+            SubQuestions.Add(question2_2_2_2);
+            SubQuestions.Add(question2_2_2_3);
+            SubQuestions.Add(question2_2_2_4);
+            SubQuestions.Add(question2_2_2_5);
+            SubQuestions.Add(question2_2_2_5_1);
+            SubQuestions.Add(question2_2_2_5_2);
+            SubQuestions.Add(question2_2_2_5_3);
+            SubQuestions.Add(question2_2_2_6);
+            SubQuestions.Add(question2_2_3);
+            SubQuestions.Add(question2_2_3_1);
+            SubQuestions.Add(question2_2_3_2);
+            SubQuestions.Add(question2_2_3_3);
+            SubQuestions.Add(question2_2_3_4);
+            SubQuestions.Add(question2_2_3_4_1);
+            SubQuestions.Add(question2_2_3_4_2);
+            SubQuestions.Add(question2_2_3_5);
+            SubQuestions.Add(question2_2_3_6);
+            SubQuestions.Add(question2_2_3_7);
+            SubQuestions.Add(question2_2_3_8);
+            SubQuestions.Add(question2_2_3_9);
+            SubQuestions.Add(question2_2_3_10);
+            SubQuestions.Add(question2_2_3_11);
+            SubQuestions.Add(question2_2_3_12);
+            SubQuestions.Add(question2_2_3_13);
+            SubQuestions.Add(question2_2_3_14);
+            SubQuestions.Add(question3_1);
+            SubQuestions.Add(question3_1_1);
+            SubQuestions.Add(question3_1_2);
+            SubQuestions.Add(question3_1_3);
+            SubQuestions.Add(question3_1_4);
+            SubQuestions.Add(question3_1_5);
+            SubQuestions.Add(question3_2);
+            SubQuestions.Add(question3_3);
+            SubQuestions.Add(question3_4);
+            SubQuestions.Add(question3_4_1);
+            SubQuestions.Add(question3_4_1_1);
+            SubQuestions.Add(question3_4_1_2);
+            SubQuestions.Add(question3_4_1_3);
+            SubQuestions.Add(question3_4_2);
+            SubQuestions.Add(question3_4_2_1);
+            SubQuestions.Add(question3_4_2_2);
+            SubQuestions.Add(question3_4_2_3);
+            SubQuestions.Add(question3_4_3);
+            SubQuestions.Add(question3_4_4);
+            SubQuestions.Add(question3_5);
+            SubQuestions.Add(question3_5_1);
+            SubQuestions.Add(question3_5_1_1);
+            SubQuestions.Add(question3_5_1_2);
+            SubQuestions.Add(question3_5_1_3);
+            SubQuestions.Add(question3_5_2);
+            SubQuestions.Add(question3_5_2_1);
+            SubQuestions.Add(question3_5_2_2);
+            SubQuestions.Add(question3_5_3);
+            SubQuestions.Add(question3_6);
+            SubQuestions.Add(question3_6_1);
+            SubQuestions.Add(question3_6_2);
+            SubQuestions.Add(question3_7);
 
 
-            _mainQuestions.Add(mainQuestion_2);
+            MainQuestions.Add(mainQuestion_2);
 
             var class_I_Questions = new List<Guid>
             {
@@ -349,15 +356,15 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
             var class_IIb = new Classification(Guid.NewGuid(), "IIb", 3, class_IIb_Questions);
             var class_III = new Classification(Guid.NewGuid(), "III", 4, class_III_Questions);
 
-            _classifications.Add(class_I);
-            _classifications.Add(class_IIa);
-            _classifications.Add(class_IIb);
-            _classifications.Add(class_III);
+            Classifications.Add(class_I);
+            Classifications.Add(class_IIa);
+            Classifications.Add(class_IIb);
+            Classifications.Add(class_III);
         }
 
         public MainQuestion GetDefaultQuestion()
         {
-            return _mainQuestions.First();
+            return MainQuestions.First();
         }
 
         public MainQuestion GetNextMainQuestion(Guid currentQuestionId)
@@ -367,14 +374,14 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
                 throw new ArgumentException(nameof(currentQuestionId));
             }
 
-            var currentMainQuestion = _mainQuestions.First(x => x.Id == currentQuestionId);
+            var currentMainQuestion = MainQuestions.First(x => x.Id == currentQuestionId);
 
             if (currentMainQuestion.IsLastMainQuestion)
             {
                 return null;
             }
 
-            return _mainQuestions.Where(x => x.Id == currentMainQuestion.NextMainQuestion).First();
+            return MainQuestions.Where(x => x.Id == currentMainQuestion.NextMainQuestion).First();
         }
 
         public MainQuestion GetMainQuestion(Guid questionId)
@@ -384,7 +391,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
                 throw new ArgumentException(nameof(questionId));
             }
 
-            return _mainQuestions.Single(x => x.Id == questionId);
+            return MainQuestions.Single(x => x.Id == questionId);
         }
 
         public IReadOnlyCollection<SubQuestion> GetSubQuestions(Guid parentQuestionId)
@@ -394,7 +401,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
                 throw new ArgumentException(nameof(parentQuestionId));
             }
 
-            var subQuestions = _subQuestions
+            var subQuestions = SubQuestions
                 .Where(x => x.ParentQuestionId == parentQuestionId);
 
             if (subQuestions == null || subQuestions.Count() == 0)
@@ -412,7 +419,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
                 throw new ArgumentException(nameof(questionId));
             }
 
-            var classification = _classifications.First(x => x.QuestionIds.Contains(questionId));
+            var classification = Classifications.First(x => x.QuestionIds.Contains(questionId));
 
             return classification;
         }
@@ -424,7 +431,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
                 throw new ArgumentException(nameof(text));
             }
 
-            var classification = _classifications.First(x => x.Text == text);
+            var classification = Classifications.First(x => x.Text == text);
 
             return classification;
         }
