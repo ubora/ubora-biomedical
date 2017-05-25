@@ -25,8 +25,8 @@ namespace Ubora.Domain.Tests.Projects
             var expectedProjectId = Guid.NewGuid();
             processor.Execute(new CreateProjectCommand
             {
-                UserInfo = new UserInfo(Guid.NewGuid(), ""),
-                Id = expectedProjectId
+                Actor = new UserInfo(Guid.NewGuid(), ""),
+                NewProjectId = expectedProjectId
             });
 
             var expectedTaskId = Guid.NewGuid();
@@ -37,7 +37,7 @@ namespace Ubora.Domain.Tests.Projects
                 Description = "expectedDescription",
                 ProjectId = expectedProjectId,
                 Id = expectedTaskId,
-                InitiatedBy = expectedUserInfo
+                Actor = expectedUserInfo
             };
 
             // Act

@@ -1,0 +1,17 @@
+﻿@using Ubora.Web._Features.ProjectList
+@model Ubora.Web._Features.ProjectList.ProjectListViewModel
+
+@if (Model.Projects.Any())
+{
+    <h2 class="full-width">@Model.Header</h2>
+
+    foreach (var project in Model.Projects)
+    {
+        <a href="@Url.Action("Dashboard", "Dashboard", new { projectId = project.Id })" class="project">
+			<img class="project-banner" src="//placehold.it/400x150">
+			<div class="project-container">
+				<p class="project-title">@project.Title</p>
+			</div>
+		</a>
+    }
+}

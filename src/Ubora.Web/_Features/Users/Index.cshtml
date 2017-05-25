@@ -1,0 +1,9 @@
+﻿@using Ubora.Web._Features.Users
+@model IEnumerable<Ubora.Web._Features.Users.UserListItemViewModel>
+
+<ul>
+@foreach (var user in Model)
+{
+    <li>@user.UserId @user.FullName</li>
+}
+</ul>

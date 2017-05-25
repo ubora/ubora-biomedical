@@ -20,7 +20,7 @@ namespace Ubora.Domain.Tests
 
         protected IDocumentSession Session => _session.Value;
 
-        protected void RefreshSession()
+        protected virtual void RefreshSession()
         {
             Session.Dispose();
             InitializeSession();

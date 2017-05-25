@@ -1,0 +1,97 @@
+﻿@using Ubora.Web.Data
+@using Ubora.Web.Services
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject ApplicationUserManager UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+
+    <span class="development-notice">In-development preview</span>
+    <header class="header">
+
+        <a asp-controller="Home" asp-action="Index" asp-area="">
+            <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
+
+        </a>
+
+        <span class="header-title">
+            <a asp-controller="List" asp-action="MyProjects">
+                <i class="material-icons">folder</i>My projects
+            </a>
+        </span>
+
+        <button class="menu-button js-side-menu-control">
+            <i class="material-icons js-menu-icon">menu</i>
+            <span class="menu-button-description">Menu</span>
+        </button>
+    </header>
+
+    <aside class="side-menu js-side-menu">
+
+        <div class="menu-profile">
+            <!-- <img class="menu-profile-image" src="//www.placehold.it/100x100" alt="Profile icon"> -->
+            <div>
+                <!-- TODO: Have only first name -->
+                <p class="menu-profile-name">@User.GetFullName()</p>
+                <!-- <a asp-controller="Manage" asp-action="Index" class="menu-profile-link">View profile</a> -->
+            </div>
+        </div>
+
+        <nav>
+            <!-- <a class="menu-link" asp-controller="Home" asp-action="Search">
+                <i class="material-icons">search</i>Search
+            </a>
+
+            <a class="menu-link" href="#">
+                <i class="material-icons">message</i>Messages
+            </a> -->
+
+            <a class="menu-link" asp-controller="List" asp-action="MyProjects">
+                <i class="material-icons">folder</i>My projects
+            </a>
+
+            <!-- <a class="menu-link" href="#">
+                <i class="material-icons">assignment</i>My tasks
+            </a> -->
+
+            <a class="menu-link" asp-controller="Creation" asp-action="Create">
+                <i class="material-icons">create_new_folder</i>New project
+            </a>
+
+            <a class="menu-link" asp-controller="Prototype" asp-action="Messages">
+                <i class="material-icons">message</i>Messages
+            </a>
+        </nav>
+
+        <form class="logout-form" asp-action="Logout" asp-controller="Account" method="post">
+            <button class="button secondary-button logout-button" type="submit">Log out</button>
+        </form>
+
+    </aside>
+}
+else
+{
+    <span class="development-notice">In-development preview</span>
+
+    <header class="header">
+
+        <div class="header-element">
+            <a asp-controller="Home" asp-action="Index">
+                <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
+            </a>
+        </div>
+
+        <div class="header-element">
+            <a asp-controller="Account" asp-action="SignInSignUp">Sign in/sign up</a>
+        </div>
+
+        <div class="header-element">
+            <!-- <a class="header-action" asp-controller="Home" asp-action="Search">
+                <i class="header-action-icon material-icons">search</i>
+                <span class="header-action-description">Search</span>
+            </a> -->
+        </div>
+
+    </header>
+}

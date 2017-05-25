@@ -3,7 +3,7 @@ using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.Users
 {
-    public class CreateUserProfileCommand : ICommand
+    public class CreateUserProfileCommand : UserCommand
     {
         public Guid UserId { get; set; }
         public string FirstName { get; set; }

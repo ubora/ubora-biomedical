@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Marten;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Infrastructure.Marten;
 
 namespace Ubora.Domain.Tests
 {
@@ -9,6 +10,14 @@ namespace Ubora.Domain.Tests
         private IContainer _innerContainer;
         protected IComponentContext Container => _innerContainer ?? (_innerContainer = InitializeContainer());
 
+        private ICommandQueryProcessor _processor;
+        protected ICommandQueryProcessor Processor => _processor ?? (_processor = Container.Resolve<ICommandQueryProcessor>());
+
+        protected IntegrationFixture()
+        {
+            StoreOptions(new UboraStoreOptions().Configuration());
+        }
+
         private IContainer InitializeContainer()
         {
             var builder = new ContainerBuilder();
@@ -16,8 +25,9 @@ namespace Ubora.Domain.Tests
             var module = new DomainAutofacModule(ConnectionSource.ConnectionString);
             builder.RegisterModule(module);
 
-            // Override DocumentStore registration (last is used)
-            builder.RegisterInstance((DocumentStore)theStore).SingleInstance();
+            // Override DocumentStore/Session registration (last is used)
+            builder.Register(_ => theStore).SingleInstance();
+            builder.Register(_ => Session).As<IDocumentSession>();
 
             RegisterAdditional(builder);
 

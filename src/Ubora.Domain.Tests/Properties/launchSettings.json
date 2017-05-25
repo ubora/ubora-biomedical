@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Ubora.Domain.Tests": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "marten-testing-database": "server=localhost;Port=5400;userid=postgres;password=ubora;database=ubora"
+      }
+    }
+  }
+}

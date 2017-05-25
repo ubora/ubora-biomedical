@@ -1,14 +1,12 @@
 using System;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects
 {
-    public class CreateProjectCommand : ICommand
+    public class CreateProjectCommand : UserCommand
     {
-        public Guid Id { get; set; }
+        public Guid NewProjectId { get; set; }
         public string Title { get; set; }
-        public UserInfo UserInfo { get; set; }
         public string ClinicalNeed { get; set; }
         public string AreaOfUsage { get; set; }
         public string PotentialTechnology { get; set; }

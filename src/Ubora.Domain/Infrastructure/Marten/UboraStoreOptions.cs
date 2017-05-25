@@ -3,6 +3,7 @@ using Marten;
 using Marten.Services;
 using Marten.Services.Events;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Tasks;
 
 namespace Ubora.Domain.Infrastructure.Marten
@@ -27,6 +28,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.AddEventType(typeof(TaskAddedEvent));
                 options.Events.AddEventType(typeof(TaskEditedEvent));
                 options.Events.AddEventType(typeof(ProjectUpdatedEvent));
+                options.Events.AddEventType(typeof(InviteMemberToProjectCommand));
             };
         }
     }

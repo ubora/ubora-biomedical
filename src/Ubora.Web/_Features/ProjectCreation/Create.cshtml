@@ -1,0 +1,54 @@
+@using Ubora.Web._Features.ProjectCreation
+@model Ubora.Web._Features.ProjectCreation.CreateProjectViewModel
+
+@{
+    ViewData["Title"] = "Project drafting";
+}
+
+<section class="medium-width">
+    <h1 class="full-width">Design planning</h1>
+
+    <form asp-controller="Creation" asp-action="Create" method="post">
+
+        <div class="form-input">
+            <label asp-for="Title">Project title</label>
+            <input asp-for="Title" placeholder="Name your project">
+            <span asp-validation-for="Title"></span>
+        </div>
+
+        <h2>Design tags</h2>
+        <div class="form-input">
+            <label asp-for="ClinicalNeed">Clinical need</label>
+            <input asp-for="ClinicalNeed" placeholder="What is the clinical need?">
+            <span asp-validation-for="ClinicalNeed"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="AreaOfUsage">Area</label>
+            <input asp-for="AreaOfUsage" placeholder="Where and how will your project be used?">
+            <span asp-validation-for="AreaOfUsage"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="PotentialTechnology">Technology</label>
+            <input asp-for="PotentialTechnology" placeholder="Describe potential technologies used in your project...">
+            <span asp-validation-for="PotentialTechnology"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="GmdnTerm">GMDN term</label>
+            <input asp-for="GmdnTerm" placeholder="TODO: Placeholder text?">
+            <span asp-validation-for="GmdnTerm"></span>
+        </div>
+
+        <!-- <h2>Collaborators</h2>
+        <div class="form-input">
+            <label asp-for=""></label>
+            <input asp-for="" placeholder="Find collaborators by name">
+        </div> -->
+
+        <div class="center-element">
+            <button class="button primary-button" type="submit">Continue</button>
+        </div>
+    </form>
+</section>
