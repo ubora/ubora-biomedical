@@ -11,16 +11,6 @@
 
 	<link rel="stylesheet" href="~/css/styles.css">
 
-	<!--
-		TODO: Add Gulp tasks for styles
-
-		<environment names="Development">
-		</environment>
-
-		<environment names="Staging,Production">
-		</environment>
-	-->
-
 	@Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 
@@ -32,16 +22,6 @@
 	<main>@RenderBody()</main>
 
  	@await Html.PartialAsync("_Footer")
-
-	<!--
-		TODO: Add Gulp tasks for scrips
-
-		<environment names="Development">
-		</environment>
-
-		<environment names="Staging,Production">
-		</environment>
-	-->
 
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/UBORA.js"></script>

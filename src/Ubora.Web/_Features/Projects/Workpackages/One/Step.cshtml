@@ -15,6 +15,12 @@
     @if (Model.IsEdit)
     {
         <form action="@Url.Action(Model.ActionName, Model.ControllerName)" method="post">
+            
+            <input asp-for="Title" type="hidden"/>
+            <input asp-for="ActionName" type="hidden" />
+            <input asp-for="IsEdit" type="hidden" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <label>
                 <textarea id="simple-mde" asp-for="Value" rows="8"></textarea>

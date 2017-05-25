@@ -1,5 +1,11 @@
-﻿@model Ubora.Web._Features.Projects.Workpackages.One.WorkpackageOneOverviewViewModel
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@model Ubora.Web._Features.Projects.Workpackages.One.WorkpackageOneOverviewViewModel
 
 Workpackage 1 index page
 <br/>
 Package leaders etc here?
+
+@section LeftSideMenu
+{
+    @await Component.InvokeAsync(typeof(WorkpackagesOverviewViewComponent))
+}

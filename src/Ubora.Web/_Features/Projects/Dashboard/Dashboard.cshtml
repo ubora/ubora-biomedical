@@ -13,26 +13,19 @@
     StepTwoStatus = StepStatus.Active,
 })*@
 
-<style>
-.project-dashboard {
-    display: flex;
-}
 
-.project-container {
-    flex-grow: 2;
-}
-</style>
 
 <section class="full-width project-dashboard">
 
-    @await Component.InvokeAsync(typeof(WorkpackagesOverviewViewComponent))
 
     <div class="project-container">
         <h1>@Model.Title</h1>
-        <!-- <a class="button secondary-button" asp-controller="Workpackages" asp-action="Index" asp-route-projectId="@Model.Id">Workpackages</a> -->
+         <a class="button secondary-button" asp-controller="Workpackages" asp-action="Index" asp-route-projectId="@Model.Id">Workpackages</a> 
         <!-- <a class="button secondary-button" asp-controller="Tasks" asp-action="Tasks" asp-route-projectId="@Model.Id">Tasks</a> -->
         <a class="button secondary-button" asp-controller="History" asp-action="History" asp-route-projectId="@Model.Id">History</a>
         <a class="button secondary-button" asp-controller="Members" asp-action="Members" asp-route-projectId="@Model.Id">Members</a>
+
+    @await Component.InvokeAsync(typeof(WorkpackagesOverviewViewComponent))
 
         <form>
             <h3>Device classification</h3>
