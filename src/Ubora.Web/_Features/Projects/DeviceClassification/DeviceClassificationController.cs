@@ -97,10 +97,9 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
         [HttpPost]
         public IActionResult Answer(AnswerViewModel answerViewModel)
         {
-            // TODO: Modelstate check
             if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(GetQuestions), "DeviceClassification", new { questionId= answerViewModel.QuestionId, mainQuestionId = answerViewModel.MainQuestionId });
+                return BadRequest("ModelState is invalid");
             }
 
             var questions = _deviceClassification.GetSubQuestions(answerViewModel.NextQuestionId);
