@@ -17,17 +17,24 @@ using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Projects;
+using Serilog;
+using System.IO;
 
 namespace Ubora.Web
 {
     public class Startup
-	{
-		public Startup(IHostingEnvironment env)
-		{
-			var builder = new ConfigurationBuilder()
-				.SetBasePath(env.ContentRootPath)
-				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+    {
+        public Startup(IHostingEnvironment env)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Error()
+                .WriteTo.RollingFile(Path.GetFullPath(Path.Combine("log", "log-{Date}.txt")))
+                .CreateLogger();
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
             if (env.IsDevelopment())
             {
@@ -90,8 +97,14 @@ namespace Ubora.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            if (Configuration["AWS_ACCESS_KEY_ID"] != null || Configuration["AWS_SECRET_ACCESS_KEY"] != null)
+            {
+                loggerFactory.AddAWSProvider(Configuration.GetAWSLoggingConfigSection());
+            }
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            loggerFactory.AddSerilog();
 
             if (env.IsDevelopment())
             {
