@@ -25,10 +25,10 @@ namespace Ubora.Web._Features.Projects
             QueryProcessor = _processor;
         }
 
-        public Guid ProjectId => Guid.Parse((string) RouteData.Values["projectId"]);
+        protected Guid ProjectId => Guid.Parse((string) RouteData.Values["projectId"]);
 
         private Project _project;
-        public Project Project => _project ?? (_project = _processor.FindById<Project>(ProjectId));
+        protected Project Project => _project ?? (_project = _processor.FindById<Project>(ProjectId));
 
         protected void ExecuteUserProjectCommand<T>(T command) where T : UserProjectCommand
         {

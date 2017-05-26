@@ -12,7 +12,10 @@ namespace Ubora.Web._Features.Projects.Dashboard
         [Route(nameof(Dashboard))]
         public IActionResult Dashboard()
         {
-            var model = new ProjectDashboardViewModel { Id = ProjectId, DeviceClassification = Project.DeviceClassification };
+            var model = new ProjectDashboardViewModel
+            {
+                DeviceClassification = Project.DeviceClassification
+            };
 
             return View(model);
         }
