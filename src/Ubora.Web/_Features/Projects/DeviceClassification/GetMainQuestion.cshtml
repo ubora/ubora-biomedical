@@ -1,0 +1,18 @@
+﻿@model Ubora.Web._Features.Projects.DeviceClassification.MainQuestionViewModel
+
+    @{
+        ViewData["Title"] = "Device classification";
+    }
+
+<link rel="stylesheet" href="/css/questionnaire.css">
+<section class="medium-width questionnaire">
+    <h1>Please select an option:</h1>
+    <ul class="questionnaire_list">
+        <li class="questionnaire_item">
+            @Html.Partial("AnswerPartial", new Ubora.Web._Features.Projects.DeviceClassification.AnswerViewModel { QuestionText = Model.MainQuestionText, MainQuestionId = Model.MainQuestionId, NextQuestionId = Model.MainQuestionId })
+        </li>
+        <li>
+            <a class="questionnaire-question" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-mainQuestionId="@Model.MainQuestionId">No it is not.</a>
+        </li>
+    </ul>
+</section>
