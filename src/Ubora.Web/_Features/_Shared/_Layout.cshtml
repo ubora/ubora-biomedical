@@ -1,4 +1,5 @@
 ﻿@using Ubora.Web._Features.Projects
+@using Ubora.Web._Features.Projects._Shared
 @inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +24,7 @@
             var projectMenuOption = ViewData["MenuOption"];
             if (projectMenuOption != null)
             {
-                @await Html.PartialAsync("_ProjectMenu", new ProjectMenuViewModel((ProjectMenuOption)projectMenuOption))
+                @await Html.PartialAsync("~/_Features/Projects/_Shared/_ProjectMenu.cshtml", new ProjectMenuViewModel((ProjectMenuOption)projectMenuOption))
             }
         }
         @RenderBody()

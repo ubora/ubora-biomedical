@@ -14,7 +14,6 @@
 	max-height: 150px;
 }
 
-/*Project view*/
 .project_view {
     display: flex;
 }
@@ -24,7 +23,6 @@
 }
 
 
-/*Project links*/
 .project_navigation {
     align-items: center;
     display: flex;
@@ -59,11 +57,11 @@
 }
 
 
-/*Project sidemenu*/
 .project_sidemenu {
     word-wrap: break-word;
     word-break: normal;
     font-size: 90%;
+    margin: 1.4em 0 0 0;
 }
 .project_sidemenu ol {
   counter-reset: item;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ubora.Web._Features.Projects
+namespace Ubora.Web._Features.Projects._Shared
 {
     public class ProjectMenuViewModel
     {

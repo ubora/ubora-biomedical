@@ -1,5 +1,5 @@
-﻿@using Ubora.Web._Features.Projects
-@using Ubora.Web._Features.Projects.Workpackages
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
 @model Ubora.Web._Features.Projects.Workpackages.One.EditWorkpackageOneStepViewModel
 
 @{
@@ -7,13 +7,45 @@
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
+<style>
+    .step-view {
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+
+    .markdown-like {
+        font-family: inherit;
+    }
+
+    .step_header {
+        display: flex;
+    }
+
+    .step_title {
+        display: inline-block;
+        flex-grow: 2;
+    }
+
+    .step_edit {
+        align-self: center;
+        font-size: 150%;
+        margin: 0 1em 0 0;
+    }
+
+    .step_edit .material-icons {
+        font-size: 100%;
+        vertical-align: bottom;
+    }
+</style>
+
 <section class="project_view full-width">
     @await Component.InvokeAsync(typeof(WorkpackagesOverviewViewComponent))
 
-    <section class="medium-width">
-        <h1 class="full-width">@Model.Title</h1>
+    <section class="medium-width step-view">
+        
         @if (Model.IsEdit)
         {
+            <h1 class="full-width">@Model.Title</h1>
             <form action="@Url.Action(Model.ActionName, Model.ControllerName)" method="post">
 
                 <input asp-for="Title" type="hidden" />
@@ -26,15 +58,22 @@
                     <textarea id="simple-mde" asp-for="Value" rows="8"></textarea>
                     <span asp-validation-for="Value"></span>
                 </label>
-
                 <br>
+
                 <button class="button primary-button" type="submit">Save changes</button>
+                <br />
+                <a class="button secondary-button" href="@Url.Action(Model.ActionName, Model.ControllerName, new { edit = false })">Cancel</a>
+
             </form>
         }
         else
         {
-            <a href="@Url.Action(Model.ActionName, Model.ControllerName, new { edit = true })">Edit</a>
-<pre>
+            <div class="step_header">
+                <h1 class="step_title">@Model.Title</h1>
+                <a class="step_edit" href="@Url.Action(Model.ActionName, Model.ControllerName, new { edit = true })"><i class="material-icons">mode_edit</i>&nbsp;Edit</a>
+            </div>
+
+<pre class="markdown-like">
 @Model.Value
 </pre>
         }
