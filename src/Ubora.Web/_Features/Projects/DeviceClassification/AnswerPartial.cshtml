@@ -1,9 +1,9 @@
 ﻿@using Ubora.Web._Features.Projects.DeviceClassification
 @model AnswerViewModel
 
-<form asp-controller="DeviceClassification" asp-action="Answer" method="post">
+<form class="default-form" asp-controller="DeviceClassification" asp-action="Answer" method="post">
     <input type="hidden" asp-for="NextQuestionId" />
     <input type="hidden" asp-for="MainQuestionId" />
 
-    <button class="questionnaire-question" type="submit">@Model.QuestionText Yes it is.</button>
+    <button class="questionnaire_question" type="submit">@Model.QuestionText</button>
 </form>

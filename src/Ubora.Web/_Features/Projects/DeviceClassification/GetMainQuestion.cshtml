@@ -7,8 +7,8 @@
 <link rel="stylesheet" href="/css/questionnaire.css">
 <section class="medium-width questionnaire">
     <h1>Please select an option:</h1>
-    <ul class="questionnaire-question-list">
-        <li>
+    <ul class="questionnaire_list">
+        <li class="questionnaire_item">
             @Html.Partial("AnswerPartial", new Ubora.Web._Features.Projects.DeviceClassification.AnswerViewModel { QuestionText = Model.MainQuestionText, MainQuestionId = Model.MainQuestionId, NextQuestionId = Model.MainQuestionId })
         </li>
         <li>

@@ -1,10 +1,29 @@
-.questionnaire-question {
-    display: block;
-    margin:1em auto;
+.questionnaire_question:hover,
+.questionnaire_question:focus {
+    color: var(--secondary-color);
+    cursor: pointer;
 }
 
-.questionnaire-question-list {
+
+.questionnaire_list {
     list-style: decimal;
     color:var(--primary-color);
     font-size: 150%;
+}
+
+.questionnaire_item {
+    margin:.5em 0;
+}
+
+.questionnaire_question {
+    background-color: transparent;
+    border:0;
+	color:var(--primary-color);
+	display: inline-block;
+    font-family: inherit;
+    font-size: 100%;
+	padding: inherit;
+    text-align: left;
+	text-decoration: none;
+	transition: color .3s ease;
 }
