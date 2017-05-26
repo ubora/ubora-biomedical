@@ -8,8 +8,6 @@ namespace Ubora.Web._Features.Projects._Shared
 
         public ProjectMenuViewModel(ProjectMenuOption option)
         {
-            //var option = Enum.Parse(typeof(ProjectMenuOption), menuOptionEnumString);
-
             switch (option)
             {
                 case ProjectMenuOption.Overview:
