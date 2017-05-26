@@ -1,5 +1,5 @@
-﻿@using Ubora.Web._Features.Projects.List
-@model Ubora.Web._Features.Projects.List.ProjectListViewModel
+﻿@using Ubora.Web._Features.ProjectList
+@model Ubora.Web._Features.ProjectList.ProjectListViewModel
 
 @if (Model.Projects.Any())
 {
@@ -7,7 +7,7 @@
 
     foreach (var project in Model.Projects)
     {
-        <a href="@Url.Action("Dashboard", "Dashboard", new { id = project.Id })" class="project">
+        <a href="@Url.Action("Dashboard", "Dashboard", new { projectId = project.Id })" class="project">
 			<img class="project-banner" src="//placehold.it/400x150">
 			<div class="project-container">
 				<p class="project-title">@project.Title</p>

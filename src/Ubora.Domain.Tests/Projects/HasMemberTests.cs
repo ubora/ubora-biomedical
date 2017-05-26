@@ -15,8 +15,8 @@ namespace Ubora.Domain.Tests.Projects
 			// Insert dummy project
             Processor.Execute(new CreateProjectCommand
             {
-                Id = Guid.NewGuid(),
-                UserInfo = new UserInfo(Guid.NewGuid(), "")
+                NewProjectId = Guid.NewGuid(),
+                Actor = new UserInfo(Guid.NewGuid(), "")
             });
 
             var userId = Guid.NewGuid();
@@ -24,8 +24,8 @@ namespace Ubora.Domain.Tests.Projects
 
             Processor.Execute(new CreateProjectCommand
             {
-                Id = expectedProjectId,
-                UserInfo = new UserInfo(userId, "") // Will be first member.
+                NewProjectId = expectedProjectId,
+                Actor = new UserInfo(userId, "") // Will be first member.
             });
 
             var sut = new HasMember(userId);

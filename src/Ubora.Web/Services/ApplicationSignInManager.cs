@@ -9,7 +9,12 @@ namespace Ubora.Web.Services
 {
     public class ApplicationSignInManager : SignInManager<ApplicationUser>
     {
-        public ApplicationSignInManager(UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor, IUserClaimsPrincipalFactory<ApplicationUser> claimsPrincipalFactory, IOptions<IdentityOptions> options, ILogger<SignInManager<ApplicationUser>> logger) : base(userManager, accessor, claimsPrincipalFactory, options, logger)
+        public ApplicationSignInManager(
+            UserManager<ApplicationUser> userManager,
+            IHttpContextAccessor contextAccessor,
+            IUserClaimsPrincipalFactory<ApplicationUser> claimsFactory,
+            IOptions<IdentityOptions> optionsAccessor,
+            ILogger<SignInManager<ApplicationUser>> logger) : base(userManager, contextAccessor, claimsFactory, optionsAccessor, logger)
         {
         }
     }

@@ -1,0 +1,79 @@
+@using Ubora.Web._Features.ProjectCreation
+@model Ubora.Web._Features.ProjectCreation.CreateProjectViewModel
+
+@{
+    ViewData["Title"] = "Project drafting";
+}
+
+<section class="medium-width">
+    <h1 class="full-width">Design planning</h1>
+
+    <form asp-controller="Creation" asp-action="Create" method="post">
+
+        <div class="form-input">
+            <label asp-for="Title">Project title</label>
+            <input asp-for="Title" placeholder="Name your project">
+            <span asp-validation-for="Title"></span>
+        </div>
+
+        <h2>Design tags</h2>
+
+        <div class="form-input">
+            <label asp-for="ClinicalNeed">Clinical need</label>
+            <select asp-for="ClinicalNeed">
+                <option selected disabled>Select a clinical need</option>
+                <option value="Pneumonia">Pneumonia</option>
+                <option value="AIDS">AIDS</option>
+                <option value="Movement impairment">Movement impairment</option>
+                <option value="Maternal mortality">Maternal mortality</option>
+                <option value="Child mortality">Child mortality</option>
+                <option value="Alcholism">Alcholism</option>
+                <option value="Muscular dystrophy">Muscular dystrophy</option>
+            </select>
+            <span asp-validation-for="ClinicalNeed"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="AreaOfUsage">Area</label>
+            <select asp-for="AreaOfUsage">
+                <option selected disabled>Select an area of usage</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="m-Health">m-Health</option>
+                <option value="e-Health">e-Health</option>
+            </select>
+            <span asp-validation-for="AreaOfUsage"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="PotentialTechnology">Technology</label>
+            <select asp-for="PotentialTechnology">
+                <option selected disabled>Select potential technology</option>
+                <option value="Thermometers">Thermometers</option>
+                <option value="Computed tomography">Computed tomography</option>
+                <option value="Wheelchairs">Wheelchairs</option>
+                <option value="Vascular draft">Vascular draft</option>
+                <option value="Eye drops">Eye drops</option>
+                <option value="Bandages">Bandages</option>
+            </select>
+            <span asp-validation-for="PotentialTechnology"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="GmdnTerm">GMDN term</label>
+            <input asp-for="GmdnTerm" placeholder="Will be implemented shortly!">
+            <span asp-validation-for="GmdnTerm"></span>
+        </div>
+
+        <!-- <h2>Collaborators</h2>
+        <div class="form-input">
+            <label asp-for=""></label>
+            <input asp-for="" placeholder="Find collaborators by name">
+        </div> -->
+
+        <div class="center-element">
+            <button class="button primary-button" type="submit">Continue</button>
+        </div>
+    </form>
+</section>
