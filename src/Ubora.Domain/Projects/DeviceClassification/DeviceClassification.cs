@@ -18,6 +18,18 @@ namespace Ubora.Domain.Projects.DeviceClassification
         [JsonProperty(nameof(Classifications))]
         private List<Classification> Classifications { get; set; } = new List<Classification>();
 
+        public DeviceClassification()
+        {
+
+        }
+
+        protected DeviceClassification(List<MainQuestion> mainQuestions, List<SubQuestion> subQuestions, List<Classification> classifications)
+        {
+            MainQuestions = mainQuestions;
+            SubQuestions = subQuestions;
+            Classifications = classifications;
+        }
+
         public void CreateNew()
         {
             var mainQuestion_2 = new MainQuestion(Guid.NewGuid(), "Is your device ACTIVE?", null);
@@ -362,9 +374,16 @@ namespace Ubora.Domain.Projects.DeviceClassification
             Classifications.Add(class_III);
         }
 
-        public MainQuestion GetDefaultQuestion()
+        public MainQuestion GetDefaultMainQuestion()
         {
-            return MainQuestions.First();
+            var mainQuestion = MainQuestions.Single(x => x.NextMainQuestion == null);
+
+            while (MainQuestions.Any(x => x.NextMainQuestion == mainQuestion.Id))
+            {
+                mainQuestion = MainQuestions.Single(x => x.NextMainQuestion == mainQuestion.Id);
+            }
+
+            return mainQuestion;
         }
 
         public MainQuestion GetNextMainQuestion(Guid currentQuestionId)
@@ -439,7 +458,7 @@ namespace Ubora.Domain.Projects.DeviceClassification
 
     public interface IDeviceClassification
     {
-        MainQuestion GetDefaultQuestion();
+        MainQuestion GetDefaultMainQuestion();
         MainQuestion GetNextMainQuestion(Guid currentQuestionId);
         MainQuestion GetMainQuestion(Guid questionId);
         IReadOnlyCollection<SubQuestion> GetSubQuestions(Guid parentQuestionId);

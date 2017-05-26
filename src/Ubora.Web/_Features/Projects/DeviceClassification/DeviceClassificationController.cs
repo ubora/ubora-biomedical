@@ -22,7 +22,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
         {
             if (questionId == null)
             {
-                var initialMainQuestion = _deviceClassification.GetDefaultQuestion();
+                var initialMainQuestion = _deviceClassification.GetDefaultMainQuestion();
 
                 var initialMainQuestionViewModel = new MainQuestionViewModel
                 {
