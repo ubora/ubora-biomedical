@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
@@ -16,13 +16,13 @@ using Ubora.Web._Features.Home;
 namespace Ubora.Web._Features.Users.Account
 {
 	[Authorize]
-	public class AccountController : Controller
+	public class AccountController : UboraController
 	{
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
 		private readonly IEmailSender _emailSender;
 		private readonly ISmsSender _smsSender;
-	    private readonly ICommandProcessor _commandProcessor;
+	    private readonly ICommandQueryProcessor _processor;
 	    private readonly ILogger _logger;
 		private readonly string _externalCookieScheme;
 
@@ -33,14 +33,14 @@ namespace Ubora.Web._Features.Users.Account
 			IEmailSender emailSender,
 			ISmsSender smsSender,
 			ILoggerFactory loggerFactory,
-            ICommandProcessor commandProcessor)
+            ICommandQueryProcessor processor) : base(processor)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
 			_externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
 			_emailSender = emailSender;
 			_smsSender = smsSender;
-		    _commandProcessor = commandProcessor;
+		    _processor = processor;
 		    _logger = loggerFactory.CreateLogger<AccountController>();
 		}
 
@@ -121,7 +121,7 @@ namespace Ubora.Web._Features.Users.Account
 
                 if (result.Succeeded)
 				{
-			        _commandProcessor.Execute(new CreateUserProfileCommand
+			        _processor.Execute(new CreateUserProfileCommand
 			        {
 			            UserId = user.Id,
                         Email = user.Email,
@@ -135,14 +135,15 @@ namespace Ubora.Web._Features.Users.Account
                         Role = model.Role
                     });
 
+					await _signInManager.SignInAsync(user, isPersistent: false);
+					_logger.LogInformation(3, "User created a new account with password.");
+
 					// For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
 					// Send an email with this link
 					//var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 					//var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
 					//await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
 					//    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-					await _signInManager.SignInAsync(user, isPersistent: false);
-					_logger.LogInformation(3, "User created a new account with password.");
 					return RedirectToLocal(returnUrl);
 				}
 				AddErrors(result);

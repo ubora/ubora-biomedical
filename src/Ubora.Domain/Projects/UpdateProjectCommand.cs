@@ -1,11 +1,9 @@
-﻿using System;
-using Ubora.Domain.Infrastructure.Commands;
+﻿using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.Projects
 {
-    public class UpdateProjectCommand : UserCommand
+    public class UpdateProjectCommand : UserProjectCommand
     {
-        public Guid Id { get; set; }
         public string Title { get; set; }
         public string ClinicalNeedTags { get; set; }
         public string AreaOfUsageTags { get; set; }

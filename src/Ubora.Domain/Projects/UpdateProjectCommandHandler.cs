@@ -11,11 +11,11 @@ namespace Ubora.Domain.Projects
 
         public override ICommandResult Handle(UpdateProjectCommand cmd)
         {
-            var project = DocumentSession.Load<Project>(cmd.Id);
+            var project = DocumentSession.Load<Project>(cmd.ProjectId);
 
-            var @event = new ProjectUpdatedEvent(cmd.UserInfo)
+            var @event = new ProjectUpdatedEvent(cmd.Actor)
             {
-                Id = cmd.Id,
+                Id = cmd.ProjectId,
                 Title = cmd.Title,
                 ClinicalNeedTags = cmd.ClinicalNeedTags,
                 AreaOfUsageTags = cmd.AreaOfUsageTags,

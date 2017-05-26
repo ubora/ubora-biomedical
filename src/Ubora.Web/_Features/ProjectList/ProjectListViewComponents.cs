@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Web.Services;
 
-namespace Ubora.Web._Features.Projects.List
+namespace Ubora.Web._Features.ProjectList
 {
     public class PublicProjectListViewComponent : ViewComponent
     {
@@ -17,7 +17,7 @@ namespace Ubora.Web._Features.Projects.List
         {
             var model = _modelFactory.Create(header: "Public projects");
 
-            return View("~/_Features/Projects/List/ProjectListPartial.cshtml", model);
+            return View("~/_Features/ProjectList/ProjectListPartial.cshtml", model);
         }
     }
 
@@ -34,7 +34,7 @@ namespace Ubora.Web._Features.Projects.List
         {
             var model = _modelFactory.Create("My projects", User.GetId());
 
-            return View("~/_Features/Projects/List/ProjectListPartial.cshtml", model);
+            return View("~/_Features/ProjectList/ProjectListPartial.cshtml", model);
         }
     }
 }
