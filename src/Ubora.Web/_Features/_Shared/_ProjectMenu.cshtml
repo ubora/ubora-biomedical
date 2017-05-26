@@ -1,0 +1,12 @@
+﻿@model Ubora.Web._Features.Projects.ProjectMenuViewModel
+
+<nav class="project_navigation">
+    <a class="project_navigation_link @Model.OverviewActivityCssClass" asp-controller="Dashboard" asp-action="Dashboard">Project overview</a>
+    <a class="project_navigation_link @Model.WorkpackagesActivityCssClass" asp-controller="Workpackages" asp-action="Index">Workpackages</a>
+    <a class="project_navigation_link @Model.TasksActivityCssClass" asp-controller="Tasks" asp-action="Tasks">Tasks</a>
+    <a class="project_navigation_link @Model.NewsActivityCssClass" href="#">News</a>
+    <a class="project_navigation_link @Model.DocumentationActivityCssClass" href="#">Documentation</a>
+    <a class="project_navigation_link @Model.RepositoryActivityCssClass" href="#">Repository</a>
+    <a class="project_navigation_link @Model.HistoryActivityCssClass" asp-controller="History" asp-action="History">Activity</a>
+    <a class="project_navigation_link @Model.MembersActivityCssClass" asp-controller="Members" asp-action="Members">Members</a>
+</nav>

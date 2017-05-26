@@ -1,5 +1,11 @@
-﻿@using Ubora.Web._Features.Projects.Workpackages
+﻿@using Ubora.Web._Features.Projects
+@using Ubora.Web._Features.Projects.Workpackages
 
-All workpackages here
+@{
+    ViewData["Title"] = "Workpackages";
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
 
-@await Component.InvokeAsync(typeof(WorkpackagesOverviewViewComponent))
+<section class="project_view medium-width">
+    @await Component.InvokeAsync(typeof(WorkpackagesOverviewViewComponent))
+</section>

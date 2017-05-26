@@ -1,43 +1,44 @@
-﻿@using Ubora.Web._Features.Projects.Workpackages
+﻿@using Ubora.Web._Features.Projects
+@using Ubora.Web._Features.Projects.Workpackages
 @model Ubora.Web._Features.Projects.Workpackages.One.EditWorkpackageOneStepViewModel
 
-@section LeftSideMenu {
-    <aside>
-    Kaspar: Risto, move to side?
-        @await Component.InvokeAsync(typeof(WorkpackagesOverviewViewComponent))
-    </aside>
+@{
+    ViewData["Title"] = "Workpackages";
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
-<a asp-controller="Workpackages" asp-action="Index">Back</a>
+<section class="project_view full-width">
+    @await Component.InvokeAsync(typeof(WorkpackagesOverviewViewComponent))
 
-<section class="medium-width">
-    <h1 class="full-width">@Model.Title</h1>
-    @if (Model.IsEdit)
-    {
-        <form action="@Url.Action(Model.ActionName, Model.ControllerName)" method="post">
-            
-            <input asp-for="Title" type="hidden"/>
-            <input asp-for="ActionName" type="hidden" />
-            <input asp-for="IsEdit" type="hidden" />
+    <section class="medium-width">
+        <h1 class="full-width">@Model.Title</h1>
+        @if (Model.IsEdit)
+        {
+            <form action="@Url.Action(Model.ActionName, Model.ControllerName)" method="post">
 
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="Title" type="hidden" />
+                <input asp-for="ActionName" type="hidden" />
+                <input asp-for="IsEdit" type="hidden" />
 
-            <label>
-                <textarea id="simple-mde" asp-for="Value" rows="8"></textarea>
-                <span asp-validation-for="Value"></span>
-            </label>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <br>
-            <button class="button primary-button" type="submit">Save changes</button>
-        </form>
-    }
-    else
-    {
-        <a href="@Url.Action(Model.ActionName, Model.ControllerName, new { edit = true })">Edit</a>
+                <label>
+                    <textarea id="simple-mde" asp-for="Value" rows="8"></textarea>
+                    <span asp-validation-for="Value"></span>
+                </label>
+
+                <br>
+                <button class="button primary-button" type="submit">Save changes</button>
+            </form>
+        }
+        else
+        {
+            <a href="@Url.Action(Model.ActionName, Model.ControllerName, new { edit = true })">Edit</a>
 <pre>
 @Model.Value
 </pre>
-    }
+        }
+    </section>
 </section>
 
 

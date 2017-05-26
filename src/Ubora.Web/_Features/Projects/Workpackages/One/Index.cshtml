@@ -1,11 +1,12 @@
-﻿@using Ubora.Web._Features.Projects.Workpackages
+﻿@using Ubora.Web._Features.Projects
+@using Ubora.Web._Features.Projects.Workpackages
 @model Ubora.Web._Features.Projects.Workpackages.One.WorkpackageOneOverviewViewModel
 
-Workpackage 1 index page
-<br/>
-Package leaders etc here?
-
-@section LeftSideMenu
-{
-    @await Component.InvokeAsync(typeof(WorkpackagesOverviewViewComponent))
+@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
+
+<section class="project_view medium-width">
+    @await Component.InvokeAsync(typeof(WorkpackagesOverviewViewComponent))
+</section>

@@ -1,25 +1,14 @@
+@using Ubora.Web._Features.Projects
 @using Ubora.Web._Features.Projects.Workpackages
 @using Ubora.Web._Features._Shared
 @model Ubora.Web._Features.Projects.Dashboard.ProjectDashboardViewModel
 
 @{
     ViewData["Title"] = "Dashboard";
+    ViewData["MenuOption"] = ProjectMenuOption.Overview;
 }
 
-<!-- TODO: Make this into a partial, differentiating levels for project, work package and task -->
-<nav class="project_navigation">
-    <a class="project_navigation_link  project_navigation_link--active" href="#">Project overview</a>
-    <a class="project_navigation_link" asp-controller="Workpackages" asp-action="Index" asp-route-projectId="@Model.Id">Workpackages</a>
-    <a class="project_navigation_link" asp-controller="Tasks" asp-action="Tasks" asp-route-projectId="@Model.Id">Tasks</a>
-    <a class="project_navigation_link" href="#">News</a>
-    <a class="project_navigation_link" href="#">Documentation</a>
-    <a class="project_navigation_link" href="#">Repository</a>
-    <a class="project_navigation_link" asp-controller="History" asp-action="History" asp-route-projectId="@Model.Id">Activity</a>
-    <a class="project_navigation_link" asp-controller="Members" asp-action="Members" asp-route-projectId="@Model.Id">Members</a>
-</nav>
-
 <section class="project_view full-width">
-    @await Component.InvokeAsync(typeof(WorkpackagesOverviewViewComponent))
 
     <section class="medium-width">
         <div class="project_photo">
