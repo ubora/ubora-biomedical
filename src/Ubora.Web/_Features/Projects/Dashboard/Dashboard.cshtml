@@ -24,6 +24,10 @@
 
         <div class="project_device--classification">
             <h3>Device classification</h3>
+            @if (!string.IsNullOrWhiteSpace(Model.DeviceClassification))
+            {
+                <b>@Model.DeviceClassification</b>
+            }
             <a class="button primary-button full-width" asp-controller="DeviceClassification" asp-action="GetMainQuestion">Go to device classification</a>
             <!-- TODO: If device classification unset -->
             @*<p>There currently is no device classification set.</p>*@
