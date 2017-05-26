@@ -12,16 +12,17 @@ namespace Ubora.Web._Features.Projects.Workpackages.One
         {
         }
 
-        private IActionResult SharedSubjectView(object model)
+        // Shared get/post actions are used because the views/commands are so similar.
+        private IActionResult SharedStepView(object model)
         {
             return View("Step", model);
         }
 
-        private IActionResult SharedEditSubject<T>(EditWorkpackageOneStepViewModel model, string getActionName) where T : EditWorkpackageOneCommand, new()
+        private IActionResult SharedEditStep<T>(EditWorkpackageOneStepViewModel model, string getActionName) where T : EditWorkpackageOneCommand, new()
         {
             if (!ModelState.IsValid)
             {
-                return SharedSubjectView(model);
+                return SharedStepView(model);
             }
 
             this.ExecuteUserProjectCommand(new T
@@ -31,7 +32,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.One
 
             if (!ModelState.IsValid)
             {
-                return SharedSubjectView(model);
+                return SharedStepView(model);
             }
 
             return RedirectToAction(getActionName);
@@ -46,13 +47,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.One
                 ActionName = nameof(DescriptionOfNeed),
                 IsEdit = edit,
             };
-            return SharedSubjectView(model);
+            return SharedStepView(model);
         }
 
         [HttpPost]
         public IActionResult DescriptionOfNeed(EditWorkpackageOneStepViewModel model)
         {
-            return SharedEditSubject<EditDescriptionOfNeedCommand>(model, nameof(DescriptionOfNeed));
+            return SharedEditStep<EditDescriptionOfNeedCommand>(model, nameof(DescriptionOfNeed));
         }
 
         public IActionResult DescriptionOfExistingSolutionsAndAnalysis(bool edit = false)
@@ -64,13 +65,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.One
                 ActionName = nameof(DescriptionOfExistingSolutionsAndAnalysis),
                 IsEdit = edit,
             };
-            return SharedSubjectView(model);
+            return SharedStepView(model);
         }
 
         [HttpPost]
         public IActionResult DescriptionOfExistingSolutionsAndAnalysis(EditWorkpackageOneStepViewModel model)
         {
-            return SharedEditSubject<EditDescriptionOfExistingSolutionsAndAnalysisCommand>(model, nameof(DescriptionOfExistingSolutionsAndAnalysis));
+            return SharedEditStep<EditDescriptionOfExistingSolutionsAndAnalysisCommand>(model, nameof(DescriptionOfExistingSolutionsAndAnalysis));
         }
 
         public IActionResult ProductFunctionality(bool edit = false)
@@ -82,13 +83,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.One
                 ActionName = nameof(ProductFunctionality),
                 IsEdit = edit,
             };
-            return SharedSubjectView(model);
+            return SharedStepView(model);
         }
 
         [HttpPost]
         public IActionResult ProductFunctionality(EditWorkpackageOneStepViewModel model)
         {
-            return SharedEditSubject<EditProductFunctionalityCommand>(model, nameof(ProductFunctionality));
+            return SharedEditStep<EditProductFunctionalityCommand>(model, nameof(ProductFunctionality));
         }
 
         public IActionResult ProductPerformance(bool edit = false)
@@ -100,13 +101,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.One
                 ActionName = nameof(ProductPerformance),
                 IsEdit = edit,
             };
-            return SharedSubjectView(model);
+            return SharedStepView(model);
         }
 
         [HttpPost]
         public IActionResult ProductPerformance(EditWorkpackageOneStepViewModel model)
         {
-            return SharedEditSubject<EditProductPerformanceCommand>(model, nameof(ProductPerformance));
+            return SharedEditStep<EditProductPerformanceCommand>(model, nameof(ProductPerformance));
         }
 
         public IActionResult ProductUsability(bool edit = false)
@@ -118,13 +119,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.One
                 ActionName = nameof(ProductUsability),
                 IsEdit = edit,
             };
-            return SharedSubjectView(model);
+            return SharedStepView(model);
         }
 
         [HttpPost]
         public IActionResult ProductUsability(EditWorkpackageOneStepViewModel model)
         {
-            return SharedEditSubject<EditProductUsabilityCommand>(model, nameof(ProductUsability));
+            return SharedEditStep<EditProductUsabilityCommand>(model, nameof(ProductUsability));
         }
 
         public IActionResult ProductSafety(bool edit = false)
@@ -136,13 +137,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.One
                 ActionName = nameof(ProductSafety),
                 IsEdit = edit,
             };
-            return SharedSubjectView(model);
+            return SharedStepView(model);
         }
 
         [HttpPost]
         public IActionResult ProductSafety(EditWorkpackageOneStepViewModel model)
         {
-            return SharedEditSubject<EditProductSafetyCommand>(model, nameof(ProductSafety));
+            return SharedEditStep<EditProductSafetyCommand>(model, nameof(ProductSafety));
         }
 
         public IActionResult PatientPopulationStudy(bool edit = false)
@@ -154,13 +155,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.One
                 ActionName = nameof(PatientPopulationStudy),
                 IsEdit = edit,
             };
-            return SharedSubjectView(model);
+            return SharedStepView(model);
         }
 
         [HttpPost]
         public IActionResult PatientPopulationStudy(EditWorkpackageOneStepViewModel model)
         {
-            return SharedEditSubject<EditPatientPopulationStudyCommand>(model, nameof(PatientPopulationStudy));
+            return SharedEditStep<EditPatientPopulationStudyCommand>(model, nameof(PatientPopulationStudy));
         }
 
         public IActionResult UserRequirementStudy(bool edit = false)
@@ -172,13 +173,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.One
                 ActionName = nameof(UserRequirementStudy),
                 IsEdit = edit,
             };
-            return SharedSubjectView(model);
+            return SharedStepView(model);
         }
 
         [HttpPost]
         public IActionResult UserRequirementStudy(EditWorkpackageOneStepViewModel model)
         {
-            return SharedEditSubject<EditUserRequirementStudyCommand>(model, nameof(UserRequirementStudy));
+            return SharedEditStep<EditUserRequirementStudyCommand>(model, nameof(UserRequirementStudy));
         }
 
         public IActionResult AdditionalInformation(bool edit = false)
@@ -190,13 +191,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.One
                 ActionName = nameof(AdditionalInformation),
                 IsEdit = edit,
             };
-            return SharedSubjectView(model);
+            return SharedStepView(model);
         }
 
         [HttpPost]
         public IActionResult AdditionalInformation(EditWorkpackageOneStepViewModel model)
         {
-            return SharedEditSubject<EditAdditionalInformationCommand>(model, nameof(AdditionalInformation));
+            return SharedEditStep<EditAdditionalInformationCommand>(model, nameof(AdditionalInformation));
         }
     }
 }

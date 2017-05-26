@@ -47,7 +47,8 @@
         {
             <h1 class="full-width">@Model.Title</h1>
             <form action="@Url.Action(Model.ActionName, Model.ControllerName)" method="post">
-
+                
+                @*Post to preserve view info on post-back.*@
                 <input asp-for="Title" type="hidden" />
                 <input asp-for="ActionName" type="hidden" />
                 <input asp-for="IsEdit" type="hidden" />
