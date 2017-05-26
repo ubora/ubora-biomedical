@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
+using Ubora.Domain.Projects.DeviceClassification;
 
 namespace Ubora.Domain.Projects
 {
@@ -15,6 +16,7 @@ namespace Ubora.Domain.Projects
         public string ClinicalNeedTags { get; private set; }
         public string AreaOfUsageTags { get; private set; }
         public string PotentialTechnologyTags { get; private set; }
+        public string DeviceClassification { get; private set; }
 
         [JsonProperty(nameof(Members))]
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
@@ -49,6 +51,11 @@ namespace Ubora.Domain.Projects
         {
             var member = new ProjectMember(e.UserId);
             _members.Add(member);
+        }
+
+        private void Apply(DeviceClassificationSetEvent e)
+        {
+            DeviceClassification = e.DeviceClassification;
         }
 
         public override string ToString()

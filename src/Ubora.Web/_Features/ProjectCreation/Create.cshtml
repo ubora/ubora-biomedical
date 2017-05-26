@@ -17,27 +17,52 @@
         </div>
 
         <h2>Design tags</h2>
+
         <div class="form-input">
             <label asp-for="ClinicalNeed">Clinical need</label>
-            <input asp-for="ClinicalNeed" placeholder="What is the clinical need?">
+            <select asp-for="ClinicalNeed">
+                <option selected disabled>Select a clinical need</option>
+                <option value="Pneumonia">Pneumonia</option>
+                <option value="AIDS">AIDS</option>
+                <option value="Movement impairment">Movement impairment</option>
+                <option value="Maternal mortality">Maternal mortality</option>
+                <option value="Child mortality">Child mortality</option>
+                <option value="Alcholism">Alcholism</option>
+                <option value="Muscular dystrophy">Muscular dystrophy</option>
+            </select>
             <span asp-validation-for="ClinicalNeed"></span>
         </div>
 
         <div class="form-input">
             <label asp-for="AreaOfUsage">Area</label>
-            <input asp-for="AreaOfUsage" placeholder="Where and how will your project be used?">
+            <select asp-for="AreaOfUsage">
+                <option selected disabled>Select an area of usage</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="m-Health">m-Health</option>
+                <option value="e-Health">e-Health</option>
+            </select>
             <span asp-validation-for="AreaOfUsage"></span>
         </div>
 
         <div class="form-input">
             <label asp-for="PotentialTechnology">Technology</label>
-            <input asp-for="PotentialTechnology" placeholder="Describe potential technologies used in your project...">
+            <select asp-for="PotentialTechnology">
+                <option selected disabled>Select potential technology</option>
+                <option value="Thermometers">Thermometers</option>
+                <option value="Computed tomography">Computed tomography</option>
+                <option value="Wheelchairs">Wheelchairs</option>
+                <option value="Vascular draft">Vascular draft</option>
+                <option value="Eye drops">Eye drops</option>
+                <option value="Bandages">Bandages</option>
+            </select>
             <span asp-validation-for="PotentialTechnology"></span>
         </div>
 
         <div class="form-input">
             <label asp-for="Gmdn">GMDN term</label>
-            <input asp-for="Gmdn" placeholder="TODO: Placeholder text?">
+            <input asp-for="Gmdn" placeholder="Will be implemented shortly!">
             <span asp-validation-for="Gmdn"></span>
         </div>
 

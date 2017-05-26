@@ -1,0 +1,11 @@
+﻿@using Ubora.Web._Features.Projects.DeviceClassification
+@model CurrentClassificationViewModel
+
+<section class="medium-width">
+    <h1>Your device classification is: @Model.Classification</h1>
+    <p>
+        <a asp-controller="DeviceClassification" asp-action="GetMainQuestion">Please retake the questionnaire</a>
+        or
+        <a asp-controller="Dashboard" asp-action="Dashboard">go back to project page.</a>
+    </p>
+</section>

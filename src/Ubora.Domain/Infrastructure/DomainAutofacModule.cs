@@ -5,11 +5,13 @@ using System.Reflection;
 using Autofac;
 using Marten;
 using Marten.Events;
+using Marten.Linq.QueryHandlers;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Infrastructure.Queries;
 using Module = Autofac.Module;
+using Ubora.Domain.Projects.DeviceClassification;
 
 namespace Ubora.Domain.Infrastructure
 {
@@ -46,6 +48,9 @@ namespace Ubora.Domain.Infrastructure
             builder.RegisterType<CommandQueryProcessor>().As<ICommandProcessor>().As<IQueryProcessor>().As<ICommandQueryProcessor>().InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(ICommandHandler<>)).InstancePerLifetimeScope();
+            builder.RegisterType<DeviceClassification>().As<IDeviceClassification>().InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();
         }
 
         public IEnumerable<Type> FindDomainEventConcreteTypes()
