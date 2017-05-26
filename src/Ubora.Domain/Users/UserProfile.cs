@@ -12,6 +12,7 @@ namespace Ubora.Domain.Users
 
         [Identity]
         public Guid UserId { get; }
+
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

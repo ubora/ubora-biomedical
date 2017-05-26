@@ -38,7 +38,7 @@ namespace Ubora.Web.Tests._Features.Users.UserList
             _mapperMock.Setup(m => m.Map(userProfiles, It.IsAny<List<UserListItemViewModel>>())).Returns(expectedUserListItemViewModels);
 
             //Act
-            var result = (ViewResult) _controller.Index();
+            var result = (ViewResult)_controller.Index();
 
             //Assert
             result.Model.Should().Be(expectedUserListItemViewModels);
