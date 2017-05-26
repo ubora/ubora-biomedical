@@ -31,23 +31,6 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectTask, ITaskEvent>());
 
                 options.Events.AddEventTypes(eventTypes);
-
-                //// TODO: Add event types by convention
-                //options.Events.AddEventType(typeof(ProjectCreatedEvent));
-                //options.Events.AddEventType(typeof(TaskAddedEvent));
-                //options.Events.AddEventType(typeof(TaskEditedEvent));
-                //options.Events.AddEventType(typeof(ProjectUpdatedEvent));
-                //options.Events.AddEventType(typeof(InviteMemberToProjectCommand));
-                //options.Events.AddEventType(typeof(WorkpackageOneOpenedEvent));
-                //options.Events.AddEventType(typeof(DescriptionOfNeedEdited));
-                //options.Events.AddEventType(typeof(DescriptionOfExistingSolutionsAndAnalysisEditedEvent));
-                //options.Events.AddEventType(typeof(ProductFunctionalityEditedEvent));
-                //options.Events.AddEventType(typeof(ProductPerformanceEditedEvent));
-                //options.Events.AddEventType(typeof(ProductUsabilityEditedEvent));
-                //options.Events.AddEventType(typeof(ProductSafetyEditedEvent));
-                //options.Events.AddEventType(typeof(PatientPopulationStudyEditedEvent));
-                //options.Events.AddEventType(typeof(UserRequirementStudyEditedEvent));
-                //options.Events.AddEventType(typeof(AdditionalInformationEditedEvent));
             };
         }
     }
