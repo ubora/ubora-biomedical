@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure;
 using Ubora.Web.Services;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features.Users.Account;
@@ -16,7 +16,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         private readonly Mock<IOptions<IdentityCookieOptions>> _identityCookieOptionsMock;
         private readonly Mock<IEmailSender> _emailSenderMock;
         private readonly Mock<ISmsSender> _smsSenderMock;
-        private readonly Mock<ICommandProcessor> _commandProcessorMock;
+        private readonly Mock<ICommandQueryProcessor> _commandProcessorMock;
         private readonly Mock<ILoggerFactory> _loggerFactoryMock;
         private readonly AccountController _controller;
 
@@ -28,7 +28,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _identityCookieOptionsMock.Setup(o => o.Value).Returns(new IdentityCookieOptions());
             _emailSenderMock = new Mock<IEmailSender>();
             _smsSenderMock = new Mock<ISmsSender>();
-            _commandProcessorMock = new Mock<ICommandProcessor>();
+            _commandProcessorMock = new Mock<ICommandQueryProcessor>();
             _loggerFactoryMock = new Mock<ILoggerFactory>();
             _controller = new AccountController(_userManagerMock.Object, _signInManagerMock.Object,
                 _identityCookieOptionsMock.Object, _emailSenderMock.Object, _smsSenderMock.Object,
