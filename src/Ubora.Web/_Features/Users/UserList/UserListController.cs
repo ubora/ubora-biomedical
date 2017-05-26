@@ -1,21 +1,47 @@
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Users;
+using Ubora.Web.Infrastructure;
 
 namespace Ubora.Web._Features.Users.UserList
 {
-    public class UserListController : Controller
+    public class UserListController : UboraController
     {
-        private readonly UserListViewModel.Factory _modelFactory;
+        private readonly IMapper _mapper;
 
-        public UserListController(UserListViewModel.Factory modelFactory)
+        public UserListController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
         {
-            _modelFactory = modelFactory;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
         {
-            var users = _modelFactory.GetUserListItemViewModels();
+            List<UserProfile> userProfiles = ExecuteQuery(new GetUserProfileListQuery()).ToList();
 
-            return View(users);
+            var userListItemViewModels = _mapper.Map(userProfiles, new List<UserListItemViewModel>());
+
+            return View(userListItemViewModels);
+        }
+
+        public class GetUserProfileListQuery : IQuery<IEnumerable<UserProfile>>
+        {
+            public class Handler : ViewModelQueryHandler<GetUserProfileListQuery, IEnumerable<UserProfile>>
+            {
+                public Handler(IQueryProcessor queryProcessor) : base(queryProcessor)
+                {
+                }
+
+                public override IEnumerable<UserProfile> Handle(GetUserProfileListQuery query)
+                {
+                    var users = QueryProcessor.Find<UserProfile>();
+                        
+                    return users;
+                }
+            }
         }
     }
 }

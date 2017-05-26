@@ -1,5 +1,5 @@
 ﻿@using Ubora.Web._Features.Users.UserList
-@model IEnumerable<UserListViewModel.UserListItemViewModel>
+@model List<UserListItemViewModel>
 
 <ul>
     <table>
@@ -7,12 +7,5 @@
             <th>Full name</th>
             <th>Email</th>
         </tr>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>@Html.ActionLink(user.FullName, "ViewProfile", "Account", new {userId = user.UserId})</td>
-                <td>@Html.ActionLink(user.Email, "ViewProfile", "Account", new {userId = user.UserId})</td>
-            </tr>
-        }
     </table>
 </ul>
