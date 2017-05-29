@@ -1,7 +1,5 @@
 ﻿using System;
-using Autofac;
 using FluentAssertions;
-using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
 using Xunit;
 
@@ -25,10 +23,9 @@ namespace Ubora.Domain.Tests.Users
                 University = "expectedUniversity",
                 Role = "expectedRole",
             };
-            var commandProcessor = Container.Resolve<ICommandProcessor>();
 
             // Act
-            var result = commandProcessor.Execute(command);
+            var result = Processor.Execute(command);
 
             // Assert
             result.IsSuccess.Should().BeTrue();

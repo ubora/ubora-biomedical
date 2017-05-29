@@ -15,6 +15,11 @@ namespace Ubora.Domain.Tests
 
         private readonly DomainAutofacModule _domainAutofacModule;
 
+        static IntegrationFixture()
+        {
+            DomainAutofacModule.ShouldInitializeAndRegisterDocumentStoreOnLoad = false;
+        }
+
         protected IntegrationFixture()
         {
             _domainAutofacModule = new DomainAutofacModule(ConnectionSource.ConnectionString);
@@ -28,8 +33,8 @@ namespace Ubora.Domain.Tests
 
             builder.RegisterModule(_domainAutofacModule);
 
-            // Override DocumentStore/Session registration (last is used)
-            builder.Register(_ => theStore).SingleInstance();
+            // Register Marten DocumentStore/Session
+            builder.Register(_ => (TestingDocumentStore)theStore).As<DocumentStore>().As<IDocumentStore>().SingleInstance();
             builder.Register(_ => Session).As<IDocumentSession>();
 
             RegisterAdditional(builder);
