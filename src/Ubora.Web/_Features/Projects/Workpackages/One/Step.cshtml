@@ -47,15 +47,14 @@
                 Add placeholders described by Alice (will be added this week).
                 Some of these texts can be found in UBORA design competition document (second stage proposal).
             *@
-<pre class="markdown-like">
-@Model.Value
-</pre>
+
+            <p class="markdown-like">@Model.Value</p>
         }
     </section>
 </section>
 
-<link rel="stylesheet" href="~/lib/simplemde/dist/simplemde.min.css">
-<script type="text/javascript" src="~/lib/simplemde/dist/simplemde.min.js"></script>
-<script>
-    const simpleMde = new SimpleMDE({ element: document.querySelector(".content_editable") });
-</script>
+@section Scripts {
+    <script>
+        const simpleMde = new SimpleMDE({ element: document.querySelector(".content_editable") });
+    </script>
+}

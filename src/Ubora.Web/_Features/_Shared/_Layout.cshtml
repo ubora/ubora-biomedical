@@ -12,6 +12,7 @@
     <link href="~/lib/openSans/openSans.css" rel="stylesheet">
 
     <link rel="stylesheet" href="~/css/styles.css">
+    <link rel="stylesheet" href="~/lib/simplemde/dist/simplemde.min.css">
 
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
@@ -33,6 +34,7 @@
     @await Html.PartialAsync("_Footer")
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/lib/simplemde/dist/simplemde.min.js"></script>
     <script src="~/js/UBORA.js"></script>
 
     @RenderSection("Scripts", required: false)

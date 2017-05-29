@@ -4,16 +4,24 @@
 <section class="project_view full-width">
     <section class="medium-width">
         <form action="" method="post">
-            
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <label>
-                <textarea id="simple-mde" asp-for="ProjectDescription" rows="8"></textarea>
+                <textarea class="content_editable" asp-for="ProjectDescription" rows="8"></textarea>
             </label>
-            <br>
 
-            <button class="button primary-button" type="submit">Save changes</button>
+            <div class="center-element">
+                <a class="button secondary-button small-button" href="#">Discard</a>
+                <button class="button primary-button small-button" type="submit">Save changes</button>
+            </div>
 
         </form>
     </section>
 </section>
+
+@section Scripts {
+    <script>
+        const simpleMde = new SimpleMDE({ element: document.querySelector(".content_editable") });
+    </script>
+}
