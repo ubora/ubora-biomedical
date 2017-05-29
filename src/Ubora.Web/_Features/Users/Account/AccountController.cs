@@ -75,7 +75,7 @@ namespace Ubora.Web._Features.Users.Account
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation(1, "User logged in.");
+                    _logger.LogInformation(1, $"{model.Email} is the email of the user who logged in.");
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -84,7 +84,7 @@ namespace Ubora.Web._Features.Users.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning(2, "User account locked out.");
+                    _logger.LogWarning(2, $"{model.Email} is the email of the user who logged in.");
                     return View("Lockout");
                 }
                 else
@@ -136,7 +136,7 @@ namespace Ubora.Web._Features.Users.Account
                     });
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User created a new account with password.");
+                    _logger.LogInformation(3, $"{model.Email} is the email of the user who created a new account with password.");
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
