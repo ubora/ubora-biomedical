@@ -150,3 +150,7 @@ a:hover .material-icons {
 	background-color: var(--secondary-color);
 	color: var(--quartinary-shade);
 }
+
+.small-button {
+	font-size:100%;
+}

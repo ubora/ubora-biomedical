@@ -7,47 +7,15 @@
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
-<style>
-    .step-view {
-        padding-left: 1em;
-        padding-right: 1em;
-    }
-
-    .markdown-like {
-        font-family: inherit;
-    }
-
-    .step_header {
-        display: flex;
-    }
-
-    .step_title {
-        display: inline-block;
-        flex-grow: 2;
-    }
-
-    .step_edit {
-        align-self: center;
-        font-size: 150%;
-        margin: 0 1em 0 0;
-    }
-
-    .step_edit .material-icons {
-        font-size: 100%;
-        vertical-align: bottom;
-    }
-</style>
-
 <section class="project_view full-width">
     @await Component.InvokeAsync(typeof(WorkpackagesOverviewViewComponent))
 
     <section class="medium-width step-view">
-        
+
         @if (Model.IsEdit)
         {
             <h1 class="full-width">@Model.Title</h1>
             <form action="@Url.Action(Model.ActionName, Model.ControllerName)" method="post">
-                
                 @*Post to preserve view info on post-back.*@
                 <input asp-for="Title" type="hidden" />
                 <input asp-for="ActionName" type="hidden" />
@@ -56,14 +24,14 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <label>
-                    <textarea id="simple-mde" asp-for="Value" rows="8"></textarea>
+                    <textarea class="content_editable" asp-for="Value" rows="8"></textarea>
                     <span asp-validation-for="Value"></span>
                 </label>
-                <br>
 
-                <button class="button primary-button" type="submit">Save changes</button>
-                <br />
-                <a class="button secondary-button" href="@Url.Action(Model.ActionName, Model.ControllerName, new { edit = false })">Cancel</a>
+                <div class="center-element">
+                    <a class="button secondary-button small-button" href="@Url.Action(Model.ActionName, Model.ControllerName, new { edit = false })">Discard</a>
+                    <button class="button primary-button small-button" type="submit">Save changes</button>
+                </div>
 
             </form>
         }
@@ -74,6 +42,11 @@
                 <a class="step_edit" href="@Url.Action(Model.ActionName, Model.ControllerName, new { edit = true })"><i class="material-icons">mode_edit</i>&nbsp;Edit</a>
             </div>
 
+            @*
+                TODO:
+                Add placeholders described by Alice (will be added this week).
+                Some of these texts can be found in UBORA design competition document (second stage proposal).
+            *@
 <pre class="markdown-like">
 @Model.Value
 </pre>
@@ -81,10 +54,8 @@
     </section>
 </section>
 
-
 <link rel="stylesheet" href="~/lib/simplemde/dist/simplemde.min.css">
 <script type="text/javascript" src="~/lib/simplemde/dist/simplemde.min.js"></script>
-
 <script>
-    var simpleMde = new SimpleMDE({ element: document.getElementById("simple-mde") });
+    const simpleMde = new SimpleMDE({ element: document.querySelector(".content_editable") });
 </script>
