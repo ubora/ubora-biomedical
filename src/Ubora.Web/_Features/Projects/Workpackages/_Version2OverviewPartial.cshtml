@@ -1,0 +1,27 @@
+﻿@model Ubora.Web._Features.Projects.Workpackages.WorkpackageOneOverviewViewModel
+
+<aside class="project_sidemenu">
+    <ol>
+        <li class="project_sidemenu--workpackage">
+                <h3>@Model.Title</h3>
+
+            <ol>
+                @foreach (var step in Model.Steps)
+                {
+                    <li>
+                        <a asp-action="Step" asp-controller="WorkpackageOne" asp-route-id="@step.Id">
+                            @if (step.IsSelected)
+                            {
+                                <b>@step.Title</b>
+                            }
+                            else
+                            {
+                                @step.Title
+                            }
+                        </a>
+                    </li>
+                }
+            </ol>
+        </li>
+    </ol>
+</aside>

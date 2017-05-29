@@ -1,0 +1,75 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Workpackages.One.WorkpackageOneStepViewModel
+
+@{
+    ViewData["Title"] = "Workpackages";
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
+
+<style>
+    .step-view {
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+
+    .markdown-like {
+        font-family: inherit;
+    }
+
+    .step_header {
+        display: flex;
+    }
+
+    .step_title {
+        display: inline-block;
+        flex-grow: 2;
+    }
+
+    .step_edit {
+        align-self: center;
+        font-size: 150%;
+        margin: 0 1em 0 0;
+    }
+
+        .step_edit .material-icons {
+            font-size: 100%;
+            vertical-align: bottom;
+        }
+</style>
+
+<section class="project_view full-width">
+    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewModel))
+
+    <section class="medium-width step-view">
+
+
+        <h1 class="full-width">@Model.</h1>
+        <form asp-controller="WorkpackageOne" asp-action="EditStep" method="post">
+            <input asp-for="StepId" type="hidden" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <label>
+                <textarea id="simple-mde" asp-for="Value" rows="8"></textarea>
+                <span asp-validation-for="Value"></span>
+            </label>
+            <br>
+
+            <button class="button primary-button" type="submit">Save changes</button>
+            <br />
+
+            <a class="button secondary-button" asp-controller="WorkpackageOne" asp-action="Step" asp-route-id="@Model.StepId">Cancel</a>
+
+        </form>
+
+    </section>
+</section>
+
+
+<link rel="stylesheet" href="~/lib/simplemde/dist/simplemde.min.css">
+<script type="text/javascript" src="~/lib/simplemde/dist/simplemde.min.js"></script>
+
+<script>
+    var simpleMde = new SimpleMDE({ element: document.getElementById("simple-mde") });
+</script>
