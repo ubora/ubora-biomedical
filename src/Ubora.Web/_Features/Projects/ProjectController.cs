@@ -15,14 +15,11 @@ namespace Ubora.Web._Features.Projects
     [Authorize(Policy = nameof(Policies.IsProjectMember))]
     public abstract class ProjectController : UboraController
     {
-        protected IQueryProcessor QueryProcessor { get; private set; }
-
         private readonly ICommandQueryProcessor _processor;
 
         protected ProjectController(ICommandQueryProcessor processor) : base(processor)
         {
             _processor = processor;
-            QueryProcessor = _processor;
         }
 
         protected Guid ProjectId => Guid.Parse((string) RouteData.Values["projectId"]);

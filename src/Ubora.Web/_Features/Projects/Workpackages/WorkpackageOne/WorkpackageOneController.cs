@@ -4,17 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.WorkpackageOnes;
 
-namespace Ubora.Web._Features.Projects.Workpackages.One
+namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
 {
     public class WorkpackageOneController : ProjectController
     {
-        public WorkpackageOne WorkpackageOne => QueryProcessor.FindById<WorkpackageOne>(ProjectId);
+        public Domain.Projects.WorkpackageOnes.WorkpackageOne WorkpackageOne => this.FindById<Domain.Projects.WorkpackageOnes.WorkpackageOne>(ProjectId);
 
         public WorkpackageOneController(ICommandQueryProcessor processor) : base(processor)
         {
         }
 
-        public IActionResult Version2Index()
+        public IActionResult Overview()
         {
             return View();
         }
@@ -23,21 +23,21 @@ namespace Ubora.Web._Features.Projects.Workpackages.One
         {
             var step = WorkpackageOne.Steps.Single(x => x.Id == id);
 
-            var model = new WorkpackageOneStepViewModel
+            var model = new StepViewModel
             {
                 Title = step.Title,
                 StepId = id,
-                Value = step.Value,
+                Value = step.Value
             };
 
-            return View("Version2", model);
+            return View(model);
         }
 
         public IActionResult EditStep(Guid id)
         {
             var step = WorkpackageOne.Steps.Single(x => x.Id == id);
 
-            var model = new WorkpackageOneStepViewModel
+            var model = new StepViewModel
             {
                 Title = step.Title,
                 StepId = id,
@@ -48,7 +48,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.One
         }
 
         [HttpPost]
-        public IActionResult EditStep(WorkpackageOneStepViewModel model)
+        public IActionResult EditStep(EditStepPostModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -60,7 +60,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.One
             ExecuteUserProjectCommand(new EditWorkpackageOneStepCommand
             {
                 StepId = step.Id,
-                Title = step.Title,
                 NewValue = model.Value
             });
 
@@ -69,7 +68,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.One
                 return EditStep(model.StepId);
             }
 
-            return RedirectToAction(nameof(Step));
+            return RedirectToAction(nameof(Step), new { id = step.Id });
         }
     }
 }

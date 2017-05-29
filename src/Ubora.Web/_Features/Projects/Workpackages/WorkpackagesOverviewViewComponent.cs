@@ -2,13 +2,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Projects.WorkpackageOnes;
+using Ubora.Web._Features.Projects.Workpackages.WorkpackageOne;
 
 namespace Ubora.Web._Features.Projects.Workpackages
 {
     public class WorkpackageListOverviewViewModel : ProjectViewComponent
     {
-        public WorkpackageOne WorkpackageOne => QueryProcessor.FindById<WorkpackageOne>(ProjectId);
+        public Domain.Projects.WorkpackageOnes.WorkpackageOne WorkpackageOne => QueryProcessor.FindById<Domain.Projects.WorkpackageOnes.WorkpackageOne>(ProjectId);
 
         public WorkpackageListOverviewViewModel(ICommandQueryProcessor processor) 
             : base(processor)
@@ -24,12 +24,12 @@ namespace Ubora.Web._Features.Projects.Workpackages
                 {
                     Id = step.Id,
                     Title = step.Title
-                }).ToList()
+                })
             };
 
             MarkSelectedItem(model);
 
-            return View("~/_Features/Projects/Workpackages/_Version2OverviewPartial.cshtml", model);
+            return View("~/_Features/Projects/Workpackages/_WorkpackageListOverviewPartial.cshtml", model);
         }
 
         private void MarkSelectedItem(WorkpackageOneOverviewViewModel model)

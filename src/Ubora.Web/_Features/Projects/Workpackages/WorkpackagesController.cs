@@ -9,7 +9,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
         {
         }
 
-        public IActionResult Index()
+        public IActionResult OverviewOfAll()
         {
             return View();
         }

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 
@@ -7,7 +8,6 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
     public class EditWorkpackageOneStepCommand : UserProjectCommand
     {
         public Guid StepId { get; set; }
-        public string Title { get; set; }
         public string NewValue { get; set; }
 
         internal class Handler : CommandHandler<EditWorkpackageOneStepCommand>
@@ -18,11 +18,23 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
 
             public override ICommandResult Handle(EditWorkpackageOneStepCommand cmd)
             {
+                var workpackageOne = DocumentSession.Load<WorkpackageOne>(cmd.ProjectId);
+                if (workpackageOne == null)
+                {
+                    throw new InvalidOperationException($"{nameof(WorkpackageOne)} not found with id [{cmd.ProjectId}]");
+                }
+
+                var step = workpackageOne.Steps.SingleOrDefault(x => x.Id == cmd.StepId);
+                if (step == null)
+                {
+                    throw new InvalidOperationException($"{nameof(WorkpackageOneStep)} not found with id [{cmd.StepId}]");
+                }
+
                 var @event = new WorkpackageOneStepEditedEvent(cmd.Actor)
                 {
                     StepId = cmd.StepId,
-                    Title = cmd.Title,
-                    NewValue = cmd.NewValue
+                    NewValue = cmd.NewValue,
+                    Title = step.Title
                 };
 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);

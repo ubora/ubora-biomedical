@@ -31,7 +31,7 @@ namespace Ubora.Domain.Tests.Projects
             this.Given(x => Given_Command_Is_Handled(command))
                 .Then(x => Then_Project_Should_Be_Created(command))
                 .Then(x => Then_Creator_Should_Be_First_Member(command))
-                .Then(x => Then_Workpackage_One_Is_Created(command))
+                .Then(x => Then_Workpackage_One_Is_Opened(command))
                 .BDDfy();
         }
 
@@ -66,11 +66,13 @@ namespace Ubora.Domain.Tests.Projects
             onlyMember.As<ProjectLeader>().UserId.Should().Be(command.Actor.UserId);
         }
 
-        private void Then_Workpackage_One_Is_Created(CreateProjectCommand command)
+        private void Then_Workpackage_One_Is_Opened(CreateProjectCommand command)
         {
             var workpackageOne = Session.Load<WorkpackageOne>(command.NewProjectId);
 
             workpackageOne.Should().NotBeNull();
+
+            workpackageOne.Title.Should().Be("Design and prototyping");
         }
     }
 }

@@ -1,19 +1,16 @@
-﻿@using Ubora.Web._Features.Projects.Workpackages.One
-@model Ubora.Web._Features.Projects.Workpackages.WorkpackagesOverviewViewModel
+﻿@using Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
+@model Ubora.Web._Features.Projects.Workpackages.WorkpackageOne.WorkpackageOneOverviewViewModel
 
 <aside class="project_sidemenu">
     <ol>
-        <!-- TODO: forEach all workpackages -->
         <li class="project_sidemenu--workpackage">
-            <a href="@Url.Action(nameof(WorkpackageOneController.Index), "WorkpackageOne")">
-                <h3>@Model.WorkpackageOne.Title</h3>
-            </a>
+                <h3>@Model.Title</h3>
 
             <ol>
-                @foreach (var step in Model.WorkpackageOne.Steps)
+                @foreach (var step in Model.Steps)
                 {
                     <li>
-                        <a href="@Url.Action(step.ActionName, step.ControllerName)">
+                        <a asp-action="Step" asp-controller="WorkpackageOne" asp-route-id="@step.Id">
                             @if (step.IsSelected)
                             {
                                 <b>@step.Title</b>
@@ -27,6 +24,5 @@
                 }
             </ol>
         </li>
-        <!-- TODO: End forEach -->
     </ol>
 </aside>

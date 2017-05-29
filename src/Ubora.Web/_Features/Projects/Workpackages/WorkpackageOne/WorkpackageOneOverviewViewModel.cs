@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Ubora.Web._Features.Projects.Workpackages
+namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
 {
     public class WorkpackageOneOverviewViewModel
     {
