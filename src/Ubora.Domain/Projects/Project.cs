@@ -17,6 +17,7 @@ namespace Ubora.Domain.Projects
         public string AreaOfUsageTags { get; private set; }
         public string PotentialTechnologyTags { get; private set; }
         public string DeviceClassification { get; private set; }
+        public string Description { get; set; }
 
         [JsonProperty(nameof(Members))]
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
@@ -56,6 +57,11 @@ namespace Ubora.Domain.Projects
         private void Apply(DeviceClassificationSetEvent e)
         {
             DeviceClassification = e.DeviceClassification;
+        }
+
+        private void Apply(ProjectDescriptionSetEvent e)
+        {
+            Description = e.Description;
         }
 
         public override string ToString()
