@@ -12,9 +12,9 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
         [Identity]
         public Guid ProjectId { get; private set; }
 
-        public string Title { get; set; }
+        public string Title { get; private set; }
 
-        [JsonProperty(nameof(Members))]
+        [JsonProperty(nameof(Steps))]
         private readonly HashSet<WorkpackageOneStep> _steps = new HashSet<WorkpackageOneStep>();
 
         [JsonIgnore]
@@ -41,6 +41,12 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
 
             step.Title = e.Title;
             step.Value = e.NewValue;
+        }
+
+        // Virtual for testing
+        public virtual WorkpackageOneStep GetSingleStep(Guid stepId)
+        {
+            return _steps.Single(step => step.Id == stepId);
         }
     }
 }

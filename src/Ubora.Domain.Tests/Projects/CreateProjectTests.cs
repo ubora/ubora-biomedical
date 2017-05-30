@@ -73,6 +73,18 @@ namespace Ubora.Domain.Tests.Projects
             workpackageOne.Should().NotBeNull();
 
             workpackageOne.Title.Should().Be("Design and prototyping");
+
+            var workpackageOneSteps = workpackageOne.Steps.ToArray();
+
+            workpackageOneSteps[0].Title.Should().Be("Description Of Need");
+            workpackageOneSteps[1].Title.Should().Be("Description Of Existing Solutions And Analysis");
+            workpackageOneSteps[2].Title.Should().Be("Product Functionality");
+            workpackageOneSteps[3].Title.Should().Be("Product Performance");
+            workpackageOneSteps[4].Title.Should().Be("Product Usability");
+            workpackageOneSteps[5].Title.Should().Be("Product Safety");
+            workpackageOneSteps[6].Title.Should().Be("Patient Population Study");
+            workpackageOneSteps[7].Title.Should().Be("User Requirement Study");
+            workpackageOneSteps[8].Title.Should().Be("Additional Information");
         }
     }
 }

@@ -3,9 +3,11 @@ using Newtonsoft.Json;
 
 namespace Ubora.Domain.Projects.WorkpackageOnes
 {
+    // TODO(Kaspar Kallas): private Apply or immutability
     public class WorkpackageOneStep
     {
-        public Guid Id { get; private set; }
+        // Virtual for testing
+        public virtual Guid Id { get; private set; }
 
         public string Title { get; set; }
 

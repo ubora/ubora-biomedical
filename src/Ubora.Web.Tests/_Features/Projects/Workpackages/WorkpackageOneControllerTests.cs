@@ -1,10 +1,149 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using AutoMapper;
+using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Projects.WorkpackageOnes;
+using Ubora.Web._Features.Projects.Workpackages.WorkpackageOne;
+using Xunit;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages
 {
-    class WorkpackageOneControllerTests
+    public class WorkpackageOneControllerTests : ProjectControllerTestsBase
     {
+        private readonly WorkpackageOneController _workpackageOneController;
+        private readonly Mock<ICommandQueryProcessor> _processorMock;
+        private readonly Mock<IMapper> _mapperMock;
+
+        public WorkpackageOneControllerTests()
+        {
+            _processorMock = new Mock<ICommandQueryProcessor>();
+            _mapperMock = new Mock<IMapper>();
+            _workpackageOneController = new WorkpackageOneController(_processorMock.Object, _mapperMock.Object);
+            SetProjectAndUserContext(_workpackageOneController);
+        }
+
+        [Fact]
+        public void Returns_View_With_ModelState_Errors_When_Form_Post_Is_Not_Valid()
+        {
+            var stepId = Guid.NewGuid();
+            var step = Mock.Of<WorkpackageOneStep>();
+            var workpackageOne = Mock.Of<WorkpackageOne>(x => x.GetSingleStep(stepId) == step);
+
+            _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
+                .Returns(workpackageOne);
+
+            var expectedModel = new StepViewModel();
+            _mapperMock.Setup(m => m.Map<StepViewModel>(step))
+                .Returns(expectedModel);
+
+            _workpackageOneController.ModelState.AddModelError("", "testError");
+
+            var postModel = new StepViewModel { StepId = stepId };
+
+            // Act
+            var result = (ViewResult)_workpackageOneController.EditStep(postModel);
+
+            // Assert
+            result.Model.Should().BeSameAs(expectedModel);
+
+            _processorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
+        }
+
+        [Fact]
+        public void Returns_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful()
+        {
+            var stepId = Guid.NewGuid();
+            var step = Mock.Of<WorkpackageOneStep>();
+            var workpackageOne = Mock.Of<WorkpackageOne>(x => x.GetSingleStep(stepId) == step);
+
+            _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
+                .Returns(workpackageOne);
+
+            var expectedModel = new StepViewModel();
+            _mapperMock.Setup(m => m.Map<StepViewModel>(step))
+                .Returns(expectedModel);
+
+            _processorMock.Setup(x => x.Execute(It.IsAny<ICommand>())).Returns(new CommandResult("dummyError"));
+
+            var postModel = new StepViewModel { StepId = stepId };
+
+            // Act
+            var result = (ViewResult)_workpackageOneController.EditStep(postModel);
+
+            // Assert
+            result.Model.Should().BeSameAs(expectedModel);
+        }
+
+        [Fact]
+        public void Redirects_When_Command_Is_Executed_Successfully()
+        {
+            EditWorkpackageOneStepCommand executedCommand = null;
+            _processorMock
+                .Setup(x => x.Execute(It.IsAny<EditWorkpackageOneStepCommand>()))
+                .Callback<EditWorkpackageOneStepCommand>(c => executedCommand = c)
+                .Returns(new CommandResult());
+
+            var stepId = Guid.NewGuid();
+            var postModel = new StepViewModel
+            {
+                StepId = stepId,
+                Value = "expectedValue"
+            };
+
+            // Act
+            var result = (RedirectToActionResult)_workpackageOneController.EditStep(postModel);
+
+            // Assert
+            executedCommand.StepId.Should().Be(stepId);
+            executedCommand.ProjectId.Should().Be(ProjectId);
+            executedCommand.NewValue.Should().Be("expectedValue");
+
+            result.ActionName.Should().Be(nameof(WorkpackageOneController.Step));
+        }
+
+        [Fact]
+        public void Returns_View_Without_Editing_For_Workpackage_One_Step()
+        {
+            var stepId = Guid.NewGuid();
+            var step = Mock.Of<WorkpackageOneStep>();
+            var workpackageOne = Mock.Of<WorkpackageOne>(x => x.GetSingleStep(stepId) == step);
+
+            _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
+                .Returns(workpackageOne);
+
+            var expectedModel = new StepViewModel();
+            _mapperMock.Setup(m => m.Map<StepViewModel>(step))
+                .Returns(expectedModel);
+
+            // Act
+            var result = (ViewResult)_workpackageOneController.Step(stepId);
+
+            // Assert
+            result.Model.Should().BeSameAs(expectedModel);
+        }
+
+        [Fact]
+        public void Returns_View_With_Editing_For_Workpackage_One_Step()
+        {
+            var stepId = Guid.NewGuid();
+            var step = Mock.Of<WorkpackageOneStep>();
+            var workpackageOne = Mock.Of<WorkpackageOne>(x => x.GetSingleStep(stepId) == step);
+
+            _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
+                .Returns(workpackageOne);
+
+            var expectedModel = new StepViewModel();
+            _mapperMock.Setup(m => m.Map<StepViewModel>(step))
+                .Returns(expectedModel);
+
+            // Act
+            var result = (ViewResult)_workpackageOneController.Step(stepId);
+
+            // Assert
+            result.Model.Should().BeSameAs(expectedModel);
+        }
     }
 }

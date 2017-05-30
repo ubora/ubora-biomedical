@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.WorkpackageOnes;
@@ -8,10 +8,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
 {
     public class WorkpackageOneController : ProjectController
     {
-        public Domain.Projects.WorkpackageOnes.WorkpackageOne WorkpackageOne => this.FindById<Domain.Projects.WorkpackageOnes.WorkpackageOne>(ProjectId);
+        private readonly IMapper _mapper;
 
-        public WorkpackageOneController(ICommandQueryProcessor processor) : base(processor)
+        protected Domain.Projects.WorkpackageOnes.WorkpackageOne WorkpackageOne => this.FindById<Domain.Projects.WorkpackageOnes.WorkpackageOne>(ProjectId);
+
+        public WorkpackageOneController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
         {
+            _mapper = mapper;
         }
 
         public IActionResult Overview()
@@ -21,28 +24,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
 
         public IActionResult Step(Guid id)
         {
-            var step = WorkpackageOne.Steps.Single(x => x.Id == id);
+            var step = WorkpackageOne.GetSingleStep(id);
 
-            var model = new StepViewModel
-            {
-                Title = step.Title,
-                StepId = id,
-                Value = step.Value
-            };
+            var model = _mapper.Map<StepViewModel>(step); 
 
             return View(model);
         }
 
         public IActionResult EditStep(Guid id)
         {
-            var step = WorkpackageOne.Steps.Single(x => x.Id == id);
+            var step = WorkpackageOne.GetSingleStep(id);
 
-            var model = new StepViewModel
-            {
-                Title = step.Title,
-                StepId = id,
-                Value = step.Value
-            };
+            var model = _mapper.Map<StepViewModel>(step);
 
             return View(model);
         }
@@ -55,11 +48,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
                 return EditStep(model.StepId);
             }
 
-            var step = WorkpackageOne.Steps.Single(x => x.Id == model.StepId);
-
             ExecuteUserProjectCommand(new EditWorkpackageOneStepCommand
             {
-                StepId = step.Id,
+                StepId = model.StepId,
                 NewValue = model.Value
             });
 
@@ -68,7 +59,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
                 return EditStep(model.StepId);
             }
 
-            return RedirectToAction(nameof(Step), new { id = step.Id });
+            return RedirectToAction(nameof(Step), new { id = model.StepId });
         }
     }
 }
