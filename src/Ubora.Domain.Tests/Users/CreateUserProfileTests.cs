@@ -14,6 +14,7 @@ namespace Ubora.Domain.Tests.Users
             var command = new CreateUserProfileCommand
             {
                 UserId = expectedUserId,
+                Email = "expectedEmail",
                 FirstName = "expectedFirstName",
                 LastName = "expectedLastName",
                 Biography = "expectedBiography",
@@ -32,6 +33,7 @@ namespace Ubora.Domain.Tests.Users
 
             var createdUserProfile = Session.Load<UserProfile>(expectedUserId);
 
+            createdUserProfile.Email.Should().Be("expectedEmail");
             createdUserProfile.FirstName.Should().Be("expectedFirstName");
             createdUserProfile.LastName.Should().Be("expectedLastName");
             createdUserProfile.Biography.Should().Be("expectedBiography");
