@@ -1,18 +1,7 @@
-﻿using System;
-using Marten.Schema;
-
-namespace Ubora.Domain.Users
+﻿namespace Ubora.Web._Features.Users.Profile
 {
-    public class UserProfile
+    public class ProfileViewModel
     {
-        public UserProfile(Guid userId)
-        {
-            UserId = userId;
-        }
-
-        [Identity]
-        public Guid UserId { get; }
-
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -23,6 +12,5 @@ namespace Ubora.Domain.Users
         public string Skills { get; set; }
         public string Role { get; set; }
 
-        public string FullName => $"{FirstName} {LastName}";
     }
 }
