@@ -41,6 +41,9 @@ namespace Ubora.Domain.Infrastructure
 
                 configureAction.Invoke(options);
 
+                builder.RegisterInstance(new DocumentStore(options)).SingleInstance();
+            }
+
             var amazonProviderOptions = new AmazonProviderOptions()
             {
                 Bucket = Environment.GetEnvironmentVariable("amazon_storage_bucket"),
@@ -50,7 +53,6 @@ namespace Ubora.Domain.Infrastructure
 
             var basePath = Path.GetFullPath("storages");
 
-            builder.RegisterInstance(new DocumentStore(options)).SingleInstance();
             builder.Register(x => x.Resolve<DocumentStore>().OpenSession()).As<IDocumentSession>().As<IQuerySession>().InstancePerLifetimeScope();
             builder.Register(x => x.Resolve<IDocumentSession>().Events).As<IEventStore>().InstancePerLifetimeScope();
 
