@@ -71,7 +71,7 @@ namespace Ubora.Domain.Projects
             GmdnTerm = e.GmdnTerm;
         }
 
-        private void Apply(MemberInvitedToProjectEvent e)
+        private void Apply(MemberAddedToProjectEvent e)
         {
             var member = new ProjectMember(e.UserId);
             _members.Add(member);

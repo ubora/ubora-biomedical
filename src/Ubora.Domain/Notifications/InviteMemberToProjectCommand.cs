@@ -1,10 +1,10 @@
 ﻿using System;
 using Ubora.Domain.Infrastructure.Commands;
 
-namespace Ubora.Domain.Projects.Members
+namespace Ubora.Domain.Notifications
 {
     public class InviteMemberToProjectCommand : UserProjectCommand
     {
-        public Guid UserId { get; set; }
+        public Guid InvitedMemberId { get; set; }
     }
 }

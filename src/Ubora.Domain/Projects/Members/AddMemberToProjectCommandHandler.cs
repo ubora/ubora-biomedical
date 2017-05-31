@@ -6,13 +6,13 @@ using Ubora.Domain.Users;
 
 namespace Ubora.Domain.Projects.Members
 {
-    internal class InviteMemberToProjectCommandHandler : CommandHandler<InviteMemberToProjectCommand>
+    internal class AddMemberToProjectCommandHandler : CommandHandler<AddMemberToProjectCommand>
     {
-        public InviteMemberToProjectCommandHandler(IDocumentSession documentSession) : base(documentSession)
+        public AddMemberToProjectCommandHandler(IDocumentSession documentSession) : base(documentSession)
         {
         }
 
-        public override ICommandResult Handle(InviteMemberToProjectCommand cmd)
+        public override ICommandResult Handle(AddMemberToProjectCommand cmd)
         {
             var userProfile = DocumentSession.Load<UserProfile>(cmd.UserId);
             if (userProfile == null) throw new InvalidOperationException();
@@ -25,7 +25,7 @@ namespace Ubora.Domain.Projects.Members
                 return new CommandResult($"[{cmd.UserId}] is already member of project [{cmd.ProjectId}].");
             }
 
-            var @event = new MemberInvitedToProjectEvent(cmd.Actor)
+            var @event = new MemberAddedToProjectEvent(cmd.Actor)
             {
                 ProjectId = cmd.ProjectId,
                 UserId = cmd.UserId,

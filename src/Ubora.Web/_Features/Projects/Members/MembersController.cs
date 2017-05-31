@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
+using Ubora.Domain.Notifications;
 
 namespace Ubora.Web._Features.Projects.Members
 {
@@ -46,7 +46,7 @@ namespace Ubora.Web._Features.Projects.Members
 
             ExecuteUserProjectCommand(new InviteMemberToProjectCommand
             {
-                UserId = model.UserId.Value
+                InvitedMemberId = model.UserId.Value
             });
 
             if (!ModelState.IsValid)

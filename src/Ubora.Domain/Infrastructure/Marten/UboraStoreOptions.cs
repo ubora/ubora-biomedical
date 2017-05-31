@@ -29,7 +29,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.AddEventType(typeof(TaskAddedEvent));
                 options.Events.AddEventType(typeof(TaskEditedEvent));
                 options.Events.AddEventType(typeof(ProjectUpdatedEvent));
-                options.Events.AddEventType(typeof(MemberInvitedToProjectEvent));
+                options.Events.AddEventType(typeof(MemberAddedToProjectEvent));
                 options.Events.AddEventType(typeof(DeviceClassificationSetEvent));
             };
         }

@@ -1,5 +1,6 @@
 ﻿@using Ubora.Web.Data
 @using Ubora.Web.Services
+@using Ubora.Web._Features.Notifications
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject ApplicationUserManager UserManager
@@ -61,6 +62,10 @@
 
             <a class="menu-link" asp-controller="Prototype" asp-action="Messages">
                 <i class="material-icons">message</i>Messages
+            </a>
+
+            <a class="menu-link" asp-controller="Notifications" asp-action="Index">
+                <i class="material-icons">notifications</i>Notifications @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
             </a>
         </nav>
 

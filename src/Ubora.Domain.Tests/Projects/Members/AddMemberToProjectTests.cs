@@ -4,6 +4,7 @@ using System.Linq;
 using TestStack.BDDfy;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Notifications;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
@@ -11,7 +12,7 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Projects.Members
 {
-    public class InviteMemberToProjectTests : IntegrationFixture
+    public class AddMemberToProjectTests : IntegrationFixture
     {
         private readonly Guid _projectId = Guid.NewGuid();
         private readonly Guid _invitedUserId = Guid.NewGuid();
@@ -23,10 +24,23 @@ namespace Ubora.Domain.Tests.Projects.Members
         {
             this.Given(_ => Given_There_Is_Project_And_User())
                 .When(_ => When_User_Is_Invited_To_Project())
+                .Then(_ => Then_Invited_User_Has_Invite())
+                .When(_ => When_Invited_User_Accepts_Invite())
                 .Then(_ => Then_User_Is_Member_In_Project())
                 .When(_ => When_User_Is_Invited_To_Project_Again())
-                .Then(_ => Then_User_Is_Not_A_Duplicate_Member_In_Project())
+                .Then(_ => Then_User_Does_Not_Get_Invite())
                 .BDDfy();
+        }
+
+        private void When_Invited_User_Accepts_Invite()
+        {
+            var invite = Session.Query<InvitationToProject>().Where(x => x.InvitedMemberId == _invitedUserId).First();
+
+            Processor.Execute(new AcceptMemberInvitationToProjectCommand
+            {
+                InvitationId = invite.Id,
+                Actor = new UserInfo(Guid.NewGuid(), "")
+            });
         }
 
         private void Given_There_Is_Project_And_User()
@@ -45,7 +59,6 @@ namespace Ubora.Domain.Tests.Projects.Members
 
         private void When_User_Is_Invited_To_Project()
         {
-            // Act
             InviteUserToProject();
         }
 
@@ -54,9 +67,15 @@ namespace Ubora.Domain.Tests.Projects.Members
             _lastCommandResult = Processor.Execute(new InviteMemberToProjectCommand
             {
                 ProjectId = _projectId,
-                UserId = _invitedUserId,
+                InvitedMemberId = _invitedUserId,
                 Actor = new UserInfo(Guid.NewGuid(), "")
             });
+        }
+
+        private void Then_Invited_User_Has_Invite()
+        {
+            var invites = Session.Query<InvitationToProject>().Where(x => x.InvitedMemberId == _invitedUserId);
+            invites.Count().Should().Be(1);
         }
 
         private void Then_User_Is_Member_In_Project()
@@ -78,12 +97,10 @@ namespace Ubora.Domain.Tests.Projects.Members
             InviteUserToProject();
         }
 
-        private void Then_User_Is_Not_A_Duplicate_Member_In_Project()
+        private void Then_User_Does_Not_Get_Invite()
         {
-            var project = Session.Load<Project>(_projectId);
-            project.Members.Count(m => m.UserId == _invitedUserId).Should().Be(1);
-
-            _lastCommandResult.IsSuccess.Should().BeFalse();
+            var invites = Session.Query<InvitationToProject>().Where(x => x.InvitedMemberId == _invitedUserId);
+            invites.Count().Should().Be(1);
         }
     }
 }
