@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Serilog;
 
 namespace Ubora.Web
 {
@@ -7,14 +9,35 @@ namespace Ubora.Web
     {
         public static void Main(string[] args)
         {
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseStartup<Startup>()
-                .UseApplicationInsights()
-                .Build();
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Error()
+                .WriteTo.RollingFile(Path.GetFullPath(Path.Combine("log", "log-{Date}.txt")))
+                .CreateLogger();
 
-            host.Run();
+            try
+            {
+                var host = new WebHostBuilder()
+                    .UseKestrel()
+                    .UseContentRoot(Directory.GetCurrentDirectory())
+                    .UseStartup<Startup>()
+                    .UseApplicationInsights()
+                    .Build();
+
+                host.Run();
+            }
+            catch (Exception e)
+            {
+                try
+                {
+                    Log.Fatal(e, "Application terminated with an error!");
+                }
+                catch
+                {
+                    // ignored
+                }
+                throw;
+            }
+          
         }
     }
 }
