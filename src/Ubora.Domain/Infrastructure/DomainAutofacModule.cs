@@ -5,7 +5,6 @@ using System.Reflection;
 using Autofac;
 using Marten;
 using Marten.Events;
-using Marten.Linq.QueryHandlers;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Marten;

@@ -15,7 +15,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
         {
             var model = new ProjectDashboardViewModel
             {
-                Id = ProjectId,
+                Title = Project.Title,
                 DeviceClassification = Project.DeviceClassification,
                 Description = Project.Description
             };

@@ -68,37 +68,3 @@ body {
 	padding:.5em 0;
 	text-align: center;
 }
-
-.card {
-	box-shadow: 0 3px 6px var(--secondary-shade);
-	display: inline-block;
-	border-radius: 5px;
-	margin:1em;
-	padding:1em;
-	display: flex;
-}
-
-.avatar {
-	border-radius: 50%;
-}
-
-.project {
-	box-shadow: 0 3px 6px var(--secondary-shade);
-	display: inline-block;
-	border-radius: 5px;
-	max-width: 22em;
-	margin:1em;
-	padding:0 0 1em 0;
-}
-.project-banner {
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	width: 100%;
-	max-height: 150px;
-}
-.project-container {
-	padding: 1em;
-}
-.project-title {
-	font-size: 140%;
-}
