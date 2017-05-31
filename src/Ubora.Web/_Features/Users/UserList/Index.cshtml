@@ -1,0 +1,13 @@
+﻿@using Ubora.Web._Features.Users.UserList
+@model List<UserListItemViewModel>
+
+<section class="full-width user-list">
+    @foreach (var user in Model)
+    {
+        <div class="card user-card">
+            <img class="avatar" src="//placehold.it/100x100" alt="@user.FullName" width="100" height="100">
+            <h2>@Html.ActionLink(user.FullName, "View", "Profile", new { userId = user.UserId })</h2>
+            <a href="mailto:@user.Email?Subject=Message%20from%20UBORA">@user.Email</a>
+        </div>
+    }
+</section>

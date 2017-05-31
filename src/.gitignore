@@ -4,6 +4,11 @@
 # Logging
 [Ll]og/
 
+
+# FunctionalTests
+cucumber_html_reporter.html
+cucumber_report.json
+
 # User-specific files
 *.suo
 *.user
