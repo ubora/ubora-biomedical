@@ -38,14 +38,14 @@ namespace Ubora.Web._Features.Projects.Dashboard
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return EditProjectDescription();
             }
 
             ExecuteUserProjectCommand(new UpdateProjectDescriptionCommand { ProjectId = ProjectId, Description = model.ProjectDescription });
 
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return EditProjectDescription();
             }
 
             return RedirectToAction(nameof(Dashboard));
