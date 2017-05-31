@@ -21,7 +21,14 @@
     </div>
 
     <div class="project_section">
-        <p class="markdown-like">@Model.Description</p>
+        @if (!string.IsNullOrWhiteSpace(Model.Description))
+        {
+            <p class="markdown-like">@Model.Description</p>
+        }
+        else
+        {
+            <p class="text_placeholder">No project description set yet.</p>
+        }
     </div>
 
     <div class="project_section project_section--tags">
