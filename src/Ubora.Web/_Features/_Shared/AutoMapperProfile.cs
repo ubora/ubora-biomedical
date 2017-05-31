@@ -2,7 +2,11 @@
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
 using Ubora.Web._Features.ProjectList;
+using Ubora.Domain.Users;
 using Ubora.Web._Features.Projects.Tasks;
+using Ubora.Web._Features.Projects.Workpackages;
+using Ubora.Web._Features.Users.Profile;
+using Ubora.Web._Features.Users.UserList;
 
 namespace Ubora.Web._Features._Shared
 {
@@ -18,6 +22,9 @@ namespace Ubora.Web._Features._Shared
             CreateMap<Project, UpdateProjectCommand>()
                 .ForMember(dest => dest.ProjectId, o => o.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Actor, o => o.Ignore());
+
+            CreateMap<UserProfile, UserListItemViewModel>();
+            CreateMap<UserProfile, ProfileViewModel>();
         }
     }
 }
