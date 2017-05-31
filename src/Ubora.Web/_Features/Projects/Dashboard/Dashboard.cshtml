@@ -6,42 +6,87 @@
     ViewData["MenuOption"] = ProjectMenuOption.Overview;
 }
 
-<section class="project_view full-width">
+<section class="medium-width">
+    <div class="project_section">
+        <img class="project_section--photo" src="//placehold.it/1500x300" alt="Example image">
+    </div>
 
-    <section class="medium-width">
-        <div class="project_photo">
-            <!-- TODO: Show project photo -->
-            <img src="//placehold.it/1200x600" alt="Example image">
-        </div>
+    <div class="project_section">
+        <h1 class="project_section--title">@Model.Title</h1>
+    </div>
 
-        <div class="project_description">
-            <h2>Project description</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil labore numquam quisquam molestias mollitia consequatur excepturi eum expedita necessitatibus hic, odit dignissimos sunt voluptatum quo aperiam at quod, inventore placeat.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia voluptatibus, itaque eligendi natus. Necessitatibus laboriosam saepe fuga, omnis mollitia. Libero eius qui architecto doloribus eveniet. Earum reiciendis ad fuga eaque.</p>
-            <p>Dolorum praesentium expedita eaque perspiciatis sunt quo tempora debitis nesciunt excepturi quia, repudiandae quas ipsum unde aut, nisi necessitatibus incidunt minus aperiam? Cupiditate non natus assumenda distinctio tenetur! Nesciunt, asperiores!</p>
-            <p>Quibusdam voluptates eligendi tenetur vitae quia numquam accusamus dolores dicta, ullam ratione, veniam incidunt minus consequatur facere asperiores cupiditate ducimus facilis vero nostrum reiciendis consequuntur exercitationem blanditiis possimus sapiente obcaecati.</p>
-        </div>
+    <div class="project_section project_section--editable">
+        <h2>Project description</h2>
+        <a asp-controller="Dashboard" asp-action="EditProjectDescription"><i class="material-icons">mode_edit</i>&nbsp;Edit</a>
+    </div>
 
-        <div class="project_device--classification">
-            <h3>Device classification</h3>
-            @if (!string.IsNullOrWhiteSpace(Model.DeviceClassification))
-            {
-                <b>@Model.DeviceClassification</b>
-            }
-            <a class="button primary-button full-width" asp-controller="DeviceClassification" asp-action="GetMainQuestion">Go to device classification</a>
-            <!-- TODO: If device classification unset -->
-            @*<p>There currently is no device classification set.</p>*@
-            <!-- TODO: If device classification is set
-            <p>Class <i>[device classification here]</i> medical device.</p> -->
-            <!-- TODO: If project owner or someone with similar rights, show this button
-            <button class="button button-secondary" disabled>Classify your device</button> -->
-        </div>
+    <div class="project_section">
+        @if (!string.IsNullOrWhiteSpace(Model.Description))
+        {
+            <p class="markdown-like">@Model.Description</p>
+        }
+        else
+        {
+            <p class="text_placeholder">No project description set yet.</p>
+        }
+    </div>
 
-        <div class="project_device--regulations">
-            <h3>ISO standards and regulation checklist</h3>
-            <div class="center-element">
-                <button class="button primary-button" type="submit" disabled>Submit for review</button>
+    <div class="project_section project_section--tags">
+        <h2>Medical tags</h2>
+        <div class="medical_tag--list">
+            <div class="medical_tag--item">
+                <h3>Clinical need</h3>
+                <p>Example</p>
+            </div>
+            <div class="medical_tag--item">
+                <h3>Clinical area</h3>
+                <p>Example</p>
+            </div>
+            <div class="medical_tag--item">
+                <h3>Technology</h3>
+                <p>Example</p>
+            </div>
+            <div class="medical_tag--item">
+                <h3>GMDN terms</h3>
+                <p>Example1; Example2; Example3</p>
             </div>
         </div>
-    </section>
+    </div>
+
+    <div class="project_section project_section--block">
+        <h2>Project specifications</h2>
+        <div class="project_section--specification">
+            <div class="project_section--classification">
+                <h3>Device classification</h3>
+
+                @if (!string.IsNullOrWhiteSpace(Model.DeviceClassification))
+                {
+                    <b>@Model.DeviceClassification</b>
+                }
+
+                <!-- TODO: If device classification unset -->
+                <!-- <p>There currently is no device classification set.</p> -->
+                <!-- TODO: If device classification is set -->
+                <!-- <p>Class <i>[device classification here]</i> medical device.</p> -->
+
+                <div class="center-element">
+                    <a class="button primary-button" asp-controller="DeviceClassification" asp-action="GetMainQuestion">Go to device classification</a>
+                </div>
+
+            </div>
+
+            <div class="project_section--checklist">
+                <h3>ISO standards and regulation checklist</h3>
+
+                <div class="center-element">
+                    <a class="button primary-button" disabled href="#">Go to regulation checklist</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="project_section project_section--block">
+        <h2>Submit for review</h2>
+        <button class="button primary-button full-width" type="submit" disabled>Present to mentor</button>
+    </div>
 </section>
