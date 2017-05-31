@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,6 +12,7 @@ using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
+using TwentyTwenty.Storage;
 
 namespace Ubora.Web._Features.Users.Manage
 {
@@ -25,6 +27,7 @@ namespace Ubora.Web._Features.Users.Manage
         private readonly IQueryProcessor _queryProcessor;
         private readonly ICommandProcessor _commandProcessor;
         private readonly ILogger _logger;
+        private readonly IStorageProvider _storageProvider;
 
         public ManageController(
           UserManager<ApplicationUser> userManager,
@@ -34,7 +37,7 @@ namespace Ubora.Web._Features.Users.Manage
           ISmsSender smsSender,
           ILoggerFactory loggerFactory,
           IQueryProcessor queryProcessor,
-          ICommandProcessor commandProcessor)
+          ICommandProcessor commandProcessor, IStorageProvider storageProvider)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -43,6 +46,7 @@ namespace Ubora.Web._Features.Users.Manage
             _smsSender = smsSender;
             _queryProcessor = queryProcessor;
             _commandProcessor = commandProcessor;
+            _storageProvider = storageProvider;
             _logger = loggerFactory.CreateLogger<ManageController>();
         }
 
@@ -127,6 +131,31 @@ namespace Ubora.Web._Features.Users.Manage
             _commandProcessor.Execute(command);
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> GetImage()
+        {
+            var userId = _userManager.GetUserId(User);
+            var userProfile = _queryProcessor.FindById<UserProfile>(new Guid(userId));
+
+            var stream = await _storageProvider.GetBlobStreamAsync("profilePictures", userProfile.BlobName);
+
+            return new FileStreamResult(stream, "image/png");
+
+        }
+
+        [HttpPost]
+        public IActionResult ChangeProfilePicture(IFormFile file)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            _commandProcessor.Execute(new ChangeUserProfilePictureCommand()
+            {
+                UserId = new Guid(userId),
+                FileStream = file.OpenReadStream()
+            });
+
+            return RedirectToAction("EditProfile");
         }
 
         [HttpPost]

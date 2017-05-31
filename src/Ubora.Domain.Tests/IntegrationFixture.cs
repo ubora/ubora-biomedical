@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using Marten;
+using Moq;
+using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Marten;
 
@@ -38,6 +40,8 @@ namespace Ubora.Domain.Tests
         // Extension point for test-specific registrations (e.g. mocks)
         protected virtual void RegisterAdditional(ContainerBuilder builder)
         {
+            var storageProviderMock = new Mock<IStorageProvider>().Object;
+            builder.RegisterInstance(storageProviderMock).As<IStorageProvider>();
         }
 
         public override void Dispose()

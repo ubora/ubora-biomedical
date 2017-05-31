@@ -23,7 +23,7 @@ namespace Ubora.Domain.Tests.Users
                 Field = "expectedField",
                 Skills = "expectedSkills",
                 University = "expectedUniversity",
-                Role = "expectedRole",
+                Role = "expectedRole"
             };
             var commandProcessor = Container.Resolve<ICommandProcessor>();
 
@@ -43,6 +43,7 @@ namespace Ubora.Domain.Tests.Users
             createdUserProfile.Skills.Should().Be("expectedSkills");
             createdUserProfile.University.Should().Be("expectedUniversity");
             createdUserProfile.Role.Should().Be("expectedRole");
+            createdUserProfile.BlobName.Should().Be("Default");
         }
     }
 }
