@@ -1,88 +1,92 @@
-@using Ubora.Web._Features._Shared
+@using Ubora.Web._Features.Projects._Shared
 @model Ubora.Web._Features.Projects.Dashboard.ProjectDashboardViewModel
 
 @{
     ViewData["Title"] = "Dashboard";
+    ViewData["MenuOption"] = ProjectMenuOption.Overview;
 }
 
-@await Html.PartialAsync("_ProcessSteps", new ProcessStepViewModel
-{
-    ProjectId = Model.Id,
-    StepOneStatus = StepStatus.Completed,
-    StepTwoStatus = StepStatus.Active,
-})
-
 <section class="medium-width">
-    <h1>@Model.Title</h1>
+    <div class="project_section">
+        <img class="project_section--photo" src="//placehold.it/1500x300" alt="Example image">
+    </div>
 
-    <a class="button secondary-button" asp-controller="Tasks" asp-action="Tasks" asp-route-projectId="@Model.Id">Tasks</a>
-    <a class="button secondary-button" asp-controller="History" asp-action="History" asp-route-projectId="@Model.Id">History</a>
-    <a class="button secondary-button" asp-controller="Members" asp-action="Members" asp-route-projectId="@Model.Id">Members</a>
+    <div class="project_section">
+        <h1 class="project_section--title">@Model.Title</h1>
+    </div>
 
-    <form>
+    <div class="project_section project_section--editable">
+        <h2>Project description</h2>
+        <a asp-controller="Dashboard" asp-action="EditProjectDescription"><i class="material-icons">mode_edit</i>&nbsp;Edit</a>
+    </div>
 
-        <h3>Needs</h3>
-        <label>
-            <h4>Description of need</h4>
+    <div class="project_section">
+        @if (!string.IsNullOrWhiteSpace(Model.Description))
+        {
+            <p class="markdown-like">@Model.Description</p>
+        }
+        else
+        {
+            <p class="text_placeholder">No project description set yet.</p>
+        }
+    </div>
 
-            <textarea rows="8" placeholder="Explain the need for this project in greater detail..."></textarea>
-        </label>
+    <div class="project_section project_section--tags">
+        <h2>Medical tags</h2>
+        <div class="medical_tag--list">
+            <div class="medical_tag--item">
+                <h3>Clinical need</h3>
+                <p>Example</p>
+            </div>
+            <div class="medical_tag--item">
+                <h3>Clinical area</h3>
+                <p>Example</p>
+            </div>
+            <div class="medical_tag--item">
+                <h3>Technology</h3>
+                <p>Example</p>
+            </div>
+            <div class="medical_tag--item">
+                <h3>GMDN terms</h3>
+                <p>Example1; Example2; Example3</p>
+            </div>
+        </div>
+    </div>
 
-        <label>
-            <h4>Description of existing solutions and analysis</h4>
-            <textarea rows="8" placeholder="Please provide an overview of existing solutions with included analysis compared to your project..."></textarea>
-        </label>
+    <div class="project_section project_section--block">
+        <h2>Project specifications</h2>
+        <div class="project_section--specification">
+            <div class="project_section--classification">
+                <h3>Device classification</h3>
 
-        <h3>Product specification</h3>
-        <label>
-            <h4>Functionality</h4>
-            <textarea rows="8" placeholder="What are the main functions of your product?"></textarea>
-        </label>
+                @if (!string.IsNullOrWhiteSpace(Model.DeviceClassification))
+                {
+                    <b>@Model.DeviceClassification</b>
+                }
 
-        <label>
-            <h4>Performance</h4>
-            <textarea rows="8" placeholder="How do you measure your device performance?"></textarea>
-        </label>
+                <!-- TODO: If device classification unset -->
+                <!-- <p>There currently is no device classification set.</p> -->
+                <!-- TODO: If device classification is set -->
+                <!-- <p>Class <i>[device classification here]</i> medical device.</p> -->
 
-        <label>
-            <h4>Usability</h4>
-            <textarea rows="8" placeholder="How and where will this product be used? Under which conditions?"></textarea>
-        </label>
+                <div class="center-element">
+                    <a class="button primary-button" asp-controller="DeviceClassification" asp-action="GetMainQuestion">Go to device classification</a>
+                </div>
 
-        <label>
-            <h4>Safety</h4>
-            <textarea rows="8" placeholder="How do you guarantee safety?"></textarea>
-        </label>
+            </div>
 
-        <h3>Involved people study</h3>
-        <label>
-            <h4>Patient population</h4>
-            <textarea rows="8" placeholder="On which patients will this be used?"></textarea>
-        </label>
+            <div class="project_section--checklist">
+                <h3>ISO standards and regulation checklist</h3>
 
-        <label>
-            <h4>User requirements</h4>
-            <textarea rows="8" placeholder="Who are going to be the end-users and how they will use it?"></textarea>
-        </label>
+                <div class="center-element">
+                    <a class="button primary-button" disabled href="#">Go to regulation checklist</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <h3>Additional information</h3>
-        <label>
-            Documents, files, images etc.
-            <textarea rows="8" placeholder="Additional information"></textarea>
-            <br>
-            Choose file(s)
-            <!-- TODO: RK - design this ugly field into something more beautiful! -->
-            <input type="file">
-        </label>
-
-        <h3>Device classification</h3>
-        <!-- TODO: This will open a modal, where the user can identify and/or classify his/her device -->
-        <button class="button button-secondary">Classify your device</button>
-
-        <h3>ISO standards and regulation checklist</h3>
-        <!-- TODO: I actually have no idea what should go here... -->
-
-        <br>
-        <button class="button primary-button" type="submit" disabled>Submit for review</button>
-    </form>
+    <div class="project_section project_section--block">
+        <h2>Submit for review</h2>
+        <button class="button primary-button full-width" type="submit" disabled>Present to mentor</button>
+    </div>
 </section>

@@ -20,16 +20,7 @@ namespace Ubora.Domain.Projects
                 ClinicalNeedTags = cmd.ClinicalNeedTags,
                 AreaOfUsageTags = cmd.AreaOfUsageTags,
                 PotentialTechnologyTags = cmd.PotentialTechnologyTags,
-                DescriptionOfNeed = cmd.DescriptionOfNeed,
-                DescriptionOfExistingSolutionsAndAnalysis = cmd.DescriptionOfExistingSolutionsAndAnalysis,
-                ProductFunctionality = cmd.ProductFunctionality,
-                ProductPerformance = cmd.ProductPerformance,
-                ProductUsability = cmd.ProductUsability,
-                ProductSafety = cmd.ProductSafety,
-                PatientPopulationStudy = cmd.PatientPopulationStudy,
-                UserRequirementStudy = cmd.UserRequirementStudy,
-                AdditionalInformation = cmd.AdditionalInformation,
-                GmdnTerm = cmd.GmdnTerm
+                Gmdn = cmd.Gmdn
             };
 
             DocumentSession.Events.Append(project.Id, @event);

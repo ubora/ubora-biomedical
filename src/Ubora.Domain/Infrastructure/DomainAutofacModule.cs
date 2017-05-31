@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Autofac;
 using Marten;
 using Marten.Events;
-using Marten.Linq.QueryHandlers;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Infrastructure.Queries;
+using Module = Autofac.Module;
 using Ubora.Domain.Projects.DeviceClassification;
 
 namespace Ubora.Domain.Infrastructure
@@ -21,16 +25,21 @@ namespace Ubora.Domain.Infrastructure
 
         protected override void Load(ContainerBuilder builder)
         {
-            var options = new StoreOptions();
-            options.Connection(_connectionString);
+            if (ShouldInitializeAndRegisterDocumentStoreOnLoad)
+            {
+                var options = new StoreOptions();
+                options.Connection(_connectionString);
 
-            options.NameDataLength = 100;
+                options.NameDataLength = 100;
 
-            Action<StoreOptions> configuration = new UboraStoreOptions().Configuration();
+                var eventTypes = FindDomainEventConcreteTypes();
+                var configureAction = new UboraStoreOptions().Configuration(eventTypes);
 
-            configuration.Invoke(options);
+                configureAction.Invoke(options);
 
-            builder.RegisterInstance(new DocumentStore(options)).SingleInstance();
+                builder.RegisterInstance(new DocumentStore(options)).SingleInstance();
+            }
+
             builder.Register(x => x.Resolve<DocumentStore>().OpenSession()).As<IDocumentSession>().As<IQuerySession>().InstancePerLifetimeScope();
             builder.Register(x => x.Resolve<IDocumentSession>().Events).As<IEventStore>().InstancePerLifetimeScope();
 
@@ -42,5 +51,19 @@ namespace Ubora.Domain.Infrastructure
 
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();
         }
+
+        public IEnumerable<Type> FindDomainEventConcreteTypes()
+        {
+            var eventBaseType = typeof(UboraEvent);
+
+            var eventTypes = ThisAssembly
+                .GetTypes()
+                .Where(type => eventBaseType.IsAssignableFrom(type) && !type.GetTypeInfo().IsAbstract);
+
+            return eventTypes;
+        }
+
+        // Static helper for tests
+        internal static bool ShouldInitializeAndRegisterDocumentStoreOnLoad { get; set; } = true;
     }
 }

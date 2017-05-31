@@ -57,3 +57,7 @@ pre, code {
 .text-center {
 	text-align: center;
 }
+
+.text_placeholder {
+    color: var(--primary-shade);
+}

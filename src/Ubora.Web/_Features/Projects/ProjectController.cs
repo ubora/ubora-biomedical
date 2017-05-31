@@ -9,6 +9,7 @@ using Ubora.Web.Authorization;
 namespace Ubora.Web._Features.Projects
 {
     [Route("Projects/{projectId:Guid}")]
+    [Route("Projects/{projectId:Guid}/[action]/{id?}")]
     [Route("Projects/{projectId:Guid}/[controller]/[action]/{id?}")]
     [Authorize(Policy = nameof(Policies.IsProjectMember))]
     public abstract class ProjectController : UboraController
@@ -20,10 +21,10 @@ namespace Ubora.Web._Features.Projects
             _processor = processor;
         }
 
-        public Guid ProjectId => Guid.Parse((string) RouteData.Values["projectId"]);
+        protected Guid ProjectId => Guid.Parse((string) RouteData.Values["projectId"]);
 
         private Project _project;
-        public Project Project => _project ?? (_project = _processor.FindById<Project>(ProjectId));
+        protected Project Project => _project ?? (_project = _processor.FindById<Project>(ProjectId));
 
         protected void ExecuteUserProjectCommand<T>(T command) where T : UserProjectCommand
         {

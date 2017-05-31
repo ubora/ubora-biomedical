@@ -16,6 +16,7 @@ namespace Ubora.Domain.Users
         {
             var userProfile = new UserProfile(cmd.UserId)
             {
+                Email = cmd.Email,
                 FirstName = cmd.FirstName,
                 LastName = cmd.LastName,
                 University = cmd.University,

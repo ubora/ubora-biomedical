@@ -38,3 +38,10 @@ section {
 	margin:0 auto;
 	text-align: center;
 }
+
+.markdown-like {
+    font-family: inherit;
+	margin:1em 0;
+	padding:.5em;
+	text-align: justify;
+}
