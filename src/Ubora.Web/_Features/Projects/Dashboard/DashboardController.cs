@@ -12,7 +12,12 @@ namespace Ubora.Web._Features.Projects.Dashboard
         [Route(nameof(Dashboard))]
         public IActionResult Dashboard()
         {
-            return RedirectToAction("StepTwo", "Workpackages", new { ProjectId });
+            var model = new ProjectDashboardViewModel
+            {
+                DeviceClassification = Project.DeviceClassification
+            };
+
+            return View(model);
         }
     }
 }

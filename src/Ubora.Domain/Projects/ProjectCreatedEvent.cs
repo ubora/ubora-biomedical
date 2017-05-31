@@ -14,9 +14,7 @@ namespace Ubora.Domain.Projects
         public string ClinicalNeed { get; set; }
         public string AreaOfUsage { get; set; }
         public string PotentialTechnology { get; set; }
-        public string GmdnTerm { get; set; }
-        public string GmdnDefinition { get; set; }
-        public string GmdnCode { get; set; }
+        public string Gmdn { get; set; }
 
         public override string GetDescription()
         {

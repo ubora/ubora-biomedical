@@ -1,88 +1,47 @@
-@using Ubora.Web._Features._Shared
+@using Ubora.Web._Features.Projects._Shared
 @model Ubora.Web._Features.Projects.Dashboard.ProjectDashboardViewModel
 
 @{
     ViewData["Title"] = "Dashboard";
+    ViewData["MenuOption"] = ProjectMenuOption.Overview;
 }
 
-@await Html.PartialAsync("_ProcessSteps", new ProcessStepViewModel
-{
-    ProjectId = Model.Id,
-    StepOneStatus = StepStatus.Completed,
-    StepTwoStatus = StepStatus.Active,
-})
+<section class="project_view full-width">
 
-<section class="medium-width">
-    <h1>@Model.Title</h1>
+    <section class="medium-width">
+        <div class="project_photo">
+            <!-- TODO: Show project photo -->
+            <img src="//placehold.it/1200x600" alt="Example image">
+        </div>
 
-    <a class="button secondary-button" asp-controller="Tasks" asp-action="Tasks" asp-route-projectId="@Model.Id">Tasks</a>
-    <a class="button secondary-button" asp-controller="History" asp-action="History" asp-route-projectId="@Model.Id">History</a>
-    <a class="button secondary-button" asp-controller="Members" asp-action="Members" asp-route-projectId="@Model.Id">Members</a>
+        <div class="project_description">
+            <h2>Project description</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil labore numquam quisquam molestias mollitia consequatur excepturi eum expedita necessitatibus hic, odit dignissimos sunt voluptatum quo aperiam at quod, inventore placeat.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia voluptatibus, itaque eligendi natus. Necessitatibus laboriosam saepe fuga, omnis mollitia. Libero eius qui architecto doloribus eveniet. Earum reiciendis ad fuga eaque.</p>
+            <p>Dolorum praesentium expedita eaque perspiciatis sunt quo tempora debitis nesciunt excepturi quia, repudiandae quas ipsum unde aut, nisi necessitatibus incidunt minus aperiam? Cupiditate non natus assumenda distinctio tenetur! Nesciunt, asperiores!</p>
+            <p>Quibusdam voluptates eligendi tenetur vitae quia numquam accusamus dolores dicta, ullam ratione, veniam incidunt minus consequatur facere asperiores cupiditate ducimus facilis vero nostrum reiciendis consequuntur exercitationem blanditiis possimus sapiente obcaecati.</p>
+        </div>
 
-    <form>
+        <div class="project_device--classification">
+            <h3>Device classification</h3>
+            @if (!string.IsNullOrWhiteSpace(Model.DeviceClassification))
+            {
+                <b>@Model.DeviceClassification</b>
+            }
+            <a class="button primary-button full-width" asp-controller="DeviceClassification" asp-action="GetMainQuestion">Go to device classification</a>
+            <!-- TODO: If device classification unset -->
+            @*<p>There currently is no device classification set.</p>*@
+            <!-- TODO: If device classification is set
+            <p>Class <i>[device classification here]</i> medical device.</p> -->
+            <!-- TODO: If project owner or someone with similar rights, show this button
+            <button class="button button-secondary" disabled>Classify your device</button> -->
+        </div>
 
-        <h3>Needs</h3>
-        <label>
-            <h4>Description of need</h4>
-
-            <textarea rows="8" placeholder="Explain the need for this project in greater detail..."></textarea>
-        </label>
-
-        <label>
-            <h4>Description of existing solutions and analysis</h4>
-            <textarea rows="8" placeholder="Please provide an overview of existing solutions with included analysis compared to your project..."></textarea>
-        </label>
-
-        <h3>Product specification</h3>
-        <label>
-            <h4>Functionality</h4>
-            <textarea rows="8" placeholder="What are the main functions of your product?"></textarea>
-        </label>
-
-        <label>
-            <h4>Performance</h4>
-            <textarea rows="8" placeholder="How do you measure your device performance?"></textarea>
-        </label>
-
-        <label>
-            <h4>Usability</h4>
-            <textarea rows="8" placeholder="How and where will this product be used? Under which conditions?"></textarea>
-        </label>
-
-        <label>
-            <h4>Safety</h4>
-            <textarea rows="8" placeholder="How do you guarantee safety?"></textarea>
-        </label>
-
-        <h3>Involved people study</h3>
-        <label>
-            <h4>Patient population</h4>
-            <textarea rows="8" placeholder="On which patients will this be used?"></textarea>
-        </label>
-
-        <label>
-            <h4>User requirements</h4>
-            <textarea rows="8" placeholder="Who are going to be the end-users and how they will use it?"></textarea>
-        </label>
-
-        <h3>Additional information</h3>
-        <label>
-            Documents, files, images etc.
-            <textarea rows="8" placeholder="Additional information"></textarea>
-            <br>
-            Choose file(s)
-            <!-- TODO: RK - design this ugly field into something more beautiful! -->
-            <input type="file">
-        </label>
-
-        <h3>Device classification</h3>
-        <!-- TODO: This will open a modal, where the user can identify and/or classify his/her device -->
-        <button class="button button-secondary">Classify your device</button>
-
-        <h3>ISO standards and regulation checklist</h3>
-        <!-- TODO: I actually have no idea what should go here... -->
-
-        <br>
-        <button class="button primary-button" type="submit" disabled>Submit for review</button>
-    </form>
+        <div class="project_device--regulations">
+            <h3>ISO standards and regulation checklist</h3>
+            <div class="center-element">
+                <button class="button primary-button" type="submit" disabled>Submit for review</button>
+            </div>
+        </div>
+    </section>
 </section>
