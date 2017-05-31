@@ -12,6 +12,8 @@ using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Home;
+using Ubora.Web._Features.Users.Manage;
+using Ubora.Web._Features.Users.Profile;
 
 namespace Ubora.Web._Features.Users.Account
 {
@@ -44,24 +46,24 @@ namespace Ubora.Web._Features.Users.Account
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
 
-		public IActionResult ProfileCreation()
-		{
-			return View();
-		}
+        public IActionResult ProfileCreation()
+        {
+            return View();
+        }
 
-		[HttpGet]
-		[AllowAnonymous]
-		public IActionResult TermsOfService()
-		{
-			return View();
-		}
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult TermsOfService()
+        {
+            return View();
+        }
 
-		[HttpGet]
-		[AllowAnonymous]
-		public IActionResult SignInSignUp()
-		{
-			return View();
-		}
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult SignInSignUp()
+        {
+            return View();
+        }
 
         [HttpGet]
         [AllowAnonymous]
@@ -137,14 +139,8 @@ namespace Ubora.Web._Features.Users.Account
                     {
                         UserId = user.Id,
                         Email = user.Email,
-                        Biography = model.Biography,
-                        Degree = model.Degree,
-                        Field = model.Field,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        Skills = model.Skills,
-                        University = model.University,
-                        Role = model.Role
                     });
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
@@ -156,7 +152,11 @@ namespace Ubora.Web._Features.Users.Account
                     //var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                    return RedirectToLocal(returnUrl);
+
+                    return RedirectToAction(
+                        actionName: nameof(ProfileController.FirstTimeEditProfile), 
+                        controllerName: nameof(ProfileController).Replace("Controller", ""), 
+                        routeValues: new { returnUrl });
                 }
                 AddErrors(result);
             }
@@ -459,18 +459,6 @@ namespace Ubora.Web._Features.Users.Account
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
-            }
-        }
-
-        private IActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
             }
         }
 

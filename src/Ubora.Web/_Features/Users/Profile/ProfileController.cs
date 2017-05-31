@@ -27,9 +27,47 @@ namespace Ubora.Web._Features.Users.Profile
                 return new NotFoundResult();
             }
 
-            var profileViewModel = _mapper.Map(userProfile, new ProfileViewModel());
+            var profileViewModel = _mapper.Map<ProfileViewModel>(userProfile);
 
             return View(profileViewModel);
+        }
+
+        // TODO(Kaspar Kallas): Move to more specific controller (1/2)
+        public IActionResult FirstTimeEditProfile(string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+
+            return View();
+        }
+
+        // TODO(Kaspar Kallas): Move to more specific controller (2/2)
+        [HttpPost]
+        public IActionResult FirstTimeEditProfile(FirstTimeEditProfileModel model, string returnUrl = null)
+        {
+            if (!ModelState.IsValid)
+            {
+                return FirstTimeEditProfile(returnUrl);
+            }
+
+            ExecuteUserCommand(new EditUserProfileCommand
+            {
+                UserId = this.UserId,
+                FirstName = UserProfile.FirstName,
+                LastName = UserProfile.LastName,
+                University = model.University,
+                Degree = model.Degree,
+                Field = model.Field,
+                Biography = model.Biography,
+                Skills = model.Skills,
+                Role = model.Role
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return FirstTimeEditProfile(returnUrl);
+            }
+
+            return RedirectToLocal(returnUrl);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿@using Ubora.Web._Features.Users.Account
-@using Ubora.Web._Features._Shared
-@model Ubora.Web._Features.Users.Account.RegisterViewModel
+﻿@model Ubora.Web._Features.Users.Account.RegisterViewModel
 @{
     ViewData["Title"] = "Sign up";
 }
@@ -8,7 +6,7 @@
 <section class="narrow-width">
     <h2>@ViewData["Title"]</h2>
 
-    <form asp-controller="Account" asp-action="Register" method="post">
+    <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
