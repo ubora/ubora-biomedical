@@ -36,17 +36,19 @@ namespace Ubora.Web._Features.Projects.Dashboard
         [HttpPost]
         public IActionResult EditProjectDescription(EditProjectDescriptionViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                ExecuteUserProjectCommand(new UpdateProjectDescriptionCommand { ProjectId = ProjectId, Description = model.ProjectDescription });
-                return RedirectToAction(nameof(Dashboard));
+                return View(model);
             }
 
-            return View(model);
+            ExecuteUserProjectCommand(new UpdateProjectDescriptionCommand { ProjectId = ProjectId, Description = model.ProjectDescription });
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            return RedirectToAction(nameof(Dashboard));
         }
-    }
-    public class EditProjectDescriptionViewModel
-    {
-        public string ProjectDescription { get; set; }
     }
 }

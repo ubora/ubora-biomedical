@@ -59,7 +59,7 @@ namespace Ubora.Domain.Projects
             DeviceClassification = e.DeviceClassification;
         }
 
-        private void Apply(ProjectDescriptionSetEvent e)
+        private void Apply(EditProjectDescriptionEvent e)
         {
             Description = e.Description;
         }

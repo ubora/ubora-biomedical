@@ -13,7 +13,7 @@ namespace Ubora.Domain.Projects
         {
             var project = DocumentSession.Load<Project>(cmd.ProjectId);
 
-            var @event = new ProjectDescriptionSetEvent(cmd.Actor)
+            var @event = new EditProjectDescriptionEvent(cmd.Actor)
             {
                 Id = cmd.ProjectId,
                 Description = cmd.Description
