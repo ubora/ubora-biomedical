@@ -117,7 +117,7 @@ a:hover .material-icons {
 	font-size: 150%;
 	line-height: normal;
 	min-width: 10em;
-	padding:1em 0;
+	padding:1em .5em;
 	text-align: center;
 	transition: all .3s ease;
 }
@@ -149,4 +149,8 @@ a:hover .material-icons {
 	border-color: var(--secondary-color);
 	background-color: var(--secondary-color);
 	color: var(--quartinary-shade);
+}
+
+.small-button {
+	font-size:100%;
 }

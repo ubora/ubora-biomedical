@@ -1,5 +1,6 @@
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Projects.WorkpackageOnes;
 
 namespace Ubora.Domain.Projects
 {
@@ -11,19 +12,24 @@ namespace Ubora.Domain.Projects
 
         public override ICommandResult Handle(CreateProjectCommand cmd)
         {
-            var @event = new ProjectCreatedEvent(cmd.Actor)
+            var projectEvent = new ProjectCreatedEvent(cmd.Actor)
             {
                 Id = cmd.NewProjectId,
                 Title = cmd.Title,
                 AreaOfUsage = cmd.AreaOfUsage,
                 ClinicalNeed = cmd.ClinicalNeed,
-                GmdnCode = cmd.GmdnCode,
-                GmdnDefinition = cmd.GmdnDefinition,
-                GmdnTerm = cmd.GmdnTerm,
+                Gmdn = cmd.Gmdn,
                 PotentialTechnology = cmd.PotentialTechnology
             };
 
-            DocumentSession.Events.Append(cmd.NewProjectId, @event);
+            var workpackageEvent = new WorkpackageOneOpenedEvent(cmd.Actor)
+            {
+                ProjectId = cmd.NewProjectId,
+            };
+
+            DocumentSession.Events.Append(cmd.NewProjectId, projectEvent);
+            DocumentSession.Events.Append(cmd.NewProjectId, workpackageEvent);
+
             DocumentSession.SaveChanges();
 
             return new CommandResult();

@@ -57,7 +57,6 @@ namespace Ubora.Web
                 options.UseNpgsql(connectionString));
 
             services
-                .AddRouting(o => o.LowercaseUrls = true)
                 .AddMvc()
                 .AddUboraFeatureFolders(new FeatureFolderOptions { FeatureFolderName = "_Features" });
 

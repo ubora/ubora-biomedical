@@ -1,49 +1,41 @@
-﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+﻿@using Ubora.Web._Features.Projects
+@using Ubora.Web._Features.Projects._Shared
+@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>@ViewData["Title"] - UBORA</title>
-	<link rel="icon" type="image/png" href="~/images/favicon.png">
-	<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link href="~/lib/openSans/openSans.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - UBORA</title>
+    <link rel="icon" type="image/png" href="~/images/favicon.png">
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="~/lib/openSans/openSans.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/styles.css">
+    <link rel="stylesheet" href="~/lib/simplemde/dist/simplemde.min.css">
 
-	<link rel="stylesheet" href="~/css/styles.css">
-
-	<!--
-		TODO: Add Gulp tasks for styles
-
-		<environment names="Development">
-		</environment>
-
-		<environment names="Staging,Production">
-		</environment>
-	-->
-
-	@Html.Raw(JavaScriptSnippet.FullScript)
+    @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 
 <body>
-	@await Html.PartialAsync("_Header")
+    @await Html.PartialAsync("_Header")
 
-	<main>@RenderBody()</main>
+    <main>
+        @{
+            var projectMenuOption = ViewData["MenuOption"];
+            if (projectMenuOption != null)
+            {
+                @await Html.PartialAsync("~/_Features/Projects/_Shared/_ProjectMenu.cshtml", new ProjectMenuViewModel((ProjectMenuOption)projectMenuOption))
+            }
+        }
+        @RenderBody()
+    </main>
 
- 	@await Html.PartialAsync("_Footer")
+    @await Html.PartialAsync("_Footer")
 
-	<!--
-		TODO: Add Gulp tasks for scrips
-
-		<environment names="Development">
-		</environment>
-
-		<environment names="Staging,Production">
-		</environment>
-	-->
-
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/lib/simplemde/dist/simplemde.min.js"></script>
     <script src="~/js/UBORA.js"></script>
 
-	@RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
