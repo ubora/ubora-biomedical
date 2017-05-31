@@ -16,7 +16,6 @@ using Ubora.Web.Authorization;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
-using Ubora.Web._Features.Projects;
 using Serilog;
 using System.IO;
 
@@ -26,16 +25,11 @@ namespace Ubora.Web
     {
         public Startup(IHostingEnvironment env)
         {
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Error()
-                .WriteTo.RollingFile(Path.GetFullPath(Path.Combine("log", "log-{Date}.txt")))
-                .CreateLogger();
-
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
+         
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
@@ -57,7 +51,6 @@ namespace Ubora.Web
                 options.UseNpgsql(connectionString));
 
             services
-                .AddRouting(o => o.LowercaseUrls = true)
                 .AddMvc()
                 .AddUboraFeatureFolders(new FeatureFolderOptions { FeatureFolderName = "_Features" });
 
@@ -97,14 +90,7 @@ namespace Ubora.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            if (Configuration["AWS_ACCESS_KEY_ID"] != null || Configuration["AWS_SECRET_ACCESS_KEY"] != null)
-            {
-                loggerFactory.AddAWSProvider(Configuration.GetAWSLoggingConfigSection());
-            }
-
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-            loggerFactory.AddSerilog();
+            ConfigureLogging(loggerFactory);
 
             if (env.IsDevelopment())
             {
@@ -141,6 +127,23 @@ namespace Ubora.Web
                 var seeder = serviceScope.ServiceProvider.GetService<Seeder>();
                 seeder.SeedIfNecessary();
             }
+
+            var logger = loggerFactory.CreateLogger<Startup>();
+            // Logging this as an error so it reaches all loggers (for tracking application restarts and testing if logging actually works)
+            logger.LogError("Application started!");
+        }
+
+        private void ConfigureLogging(ILoggerFactory loggerFactory)
+        {
+            loggerFactory.AddSerilog();
+
+            if (Configuration["AWS_ACCESS_KEY_ID"] != null || Configuration["AWS_SECRET_ACCESS_KEY"] != null)
+            {
+                loggerFactory.AddAWSProvider(Configuration.GetAWSLoggingConfigSection());
+            }
+
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
         }
     }
 }

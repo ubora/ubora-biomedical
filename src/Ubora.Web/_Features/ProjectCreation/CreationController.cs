@@ -35,9 +35,7 @@ namespace Ubora.Web._Features.ProjectCreation
                 ClinicalNeed = model.ClinicalNeed,
                 AreaOfUsage = model.AreaOfUsage,
                 PotentialTechnology = model.PotentialTechnology,
-                GmdnCode = model.GmdnCode,
-                GmdnDefinition = model.GmdnDefinition,
-                GmdnTerm = model.GmdnTerm
+                Gmdn = model.Gmdn
             });
 
             if (!ModelState.IsValid)

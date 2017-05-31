@@ -15,20 +15,28 @@ namespace Ubora.Domain.Tests
         private ICommandQueryProcessor _processor;
         protected ICommandQueryProcessor Processor => _processor ?? (_processor = Container.Resolve<ICommandQueryProcessor>());
 
+        private readonly DomainAutofacModule _domainAutofacModule;
+
+        static IntegrationFixture()
+        {
+            DomainAutofacModule.ShouldInitializeAndRegisterDocumentStoreOnLoad = false;
+        }
+
         protected IntegrationFixture()
         {
-            StoreOptions(new UboraStoreOptions().Configuration());
+            _domainAutofacModule = new DomainAutofacModule(ConnectionSource.ConnectionString);
+            var eventTypes = _domainAutofacModule.FindDomainEventConcreteTypes();
+            StoreOptions(new UboraStoreOptions().Configuration(eventTypes));
         }
 
         private IContainer InitializeContainer()
         {
             var builder = new ContainerBuilder();
 
-            var module = new DomainAutofacModule(ConnectionSource.ConnectionString);
-            builder.RegisterModule(module);
+            builder.RegisterModule(_domainAutofacModule);
 
-            // Override DocumentStore/Session registration (last is used)
-            builder.Register(_ => theStore).SingleInstance();
+            // Register Marten DocumentStore/Session
+            builder.Register(_ => (TestingDocumentStore)theStore).As<DocumentStore>().As<IDocumentStore>().SingleInstance();
             builder.Register(_ => Session).As<IDocumentSession>();
 
             RegisterAdditional(builder);

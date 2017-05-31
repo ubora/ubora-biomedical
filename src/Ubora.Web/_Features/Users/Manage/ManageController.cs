@@ -209,7 +209,7 @@ namespace Ubora.Web._Features.Users.Manage
             {
                 await _userManager.SetTwoFactorEnabledAsync(user, true);
                 await _signInManager.SignInAsync(user, isPersistent: false);
-                _logger.LogInformation(1, "User enabled two-factor authentication.");
+                _logger.LogInformation(1, $"{user.Id} is the identity of the user who enabled two-factor authentication.");
             }
             return RedirectToAction(nameof(Index), "Manage");
         }
@@ -223,7 +223,7 @@ namespace Ubora.Web._Features.Users.Manage
             {
                 await _userManager.SetTwoFactorEnabledAsync(user, false);
                 await _signInManager.SignInAsync(user, isPersistent: false);
-                _logger.LogInformation(2, "User disabled two-factor authentication.");
+                _logger.LogInformation(2, $"{user.Id} is the identity of the user who disabled two-factor authentication.");
             }
             return RedirectToAction(nameof(Index), "Manage");
         }
@@ -302,7 +302,7 @@ namespace Ubora.Web._Features.Users.Manage
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User changed their password successfully.");
+                    _logger.LogInformation(3, $"{user.Id} is the identity of the user who changed their password successfully.");
                     return RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
                 }
                 AddErrors(result);

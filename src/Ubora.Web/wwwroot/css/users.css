@@ -1,0 +1,22 @@
+.user-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.user_card {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    max-width: 15em;
+    padding:1em;
+}
+
+@media screen and (max-width: 21.875em) {
+    .user-list {
+        justify-content: center;
+    }
+    .user_card {
+        max-width: 10em;
+    }
+}

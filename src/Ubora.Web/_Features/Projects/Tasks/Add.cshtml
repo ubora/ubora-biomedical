@@ -1,5 +1,10 @@
-﻿@using Ubora.Web._Features.Projects.Tasks
+﻿@using Ubora.Web._Features.Projects._Shared
 @model Ubora.Web._Features.Projects.Tasks.AddTaskViewModel
+
+@{
+    ViewData["Title"] = "Tasks";
+    ViewData["MenuOption"] = ProjectMenuOption.Tasks;
+}
 
 <section class="medium-width">
     <h1 class="full-width">Task draft</h1>
@@ -10,14 +15,14 @@
 
         <label>
             Task title
-            <span asp-validation-for="Title"></span>
             <input asp-for="Title" placeholder="Task title">
+            <span asp-validation-for="Title"></span>
         </label>
         
         <label>
             Task description
-            <span asp-validation-for="Description"></span>
             <input asp-for="Description" placeholder="Task description">
+            <span asp-validation-for="Description"></span>
         </label>
 
         <br>

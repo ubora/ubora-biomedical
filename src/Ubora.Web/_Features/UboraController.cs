@@ -1,19 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Infrastructure.Specifications;
+using Ubora.Domain.Users;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Services;
+using Ubora.Web._Features.Home;
 
 namespace Ubora.Web._Features
 {
     public abstract class UboraController : Controller
     {
         protected virtual UserInfo UserInfo => User.GetInfo();
+
+        protected Guid UserId => User.GetId();
+
+        private UserProfile _userProfile;
+        protected UserProfile UserProfile => _userProfile ?? (_userProfile = Processor.FindById<UserProfile>(UserId));
 
         private ICommandQueryProcessor Processor { get; }
 
@@ -45,6 +53,18 @@ namespace Ubora.Web._Features
         protected T FindById<T>(Guid id)
         {
             return Processor.FindById<T>(id);
+        }
+
+        protected IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
         }
     }
 }

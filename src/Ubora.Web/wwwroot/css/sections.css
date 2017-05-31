@@ -12,7 +12,8 @@
 	z-index: 1;
 }
 
-.hero:before {
+/* TODO: This is still waiting behind Carmelo - people were not happy that we are displaying "chemists" here. */
+/*.hero:before {
 	content:'';
 	background: url('/images/bme.jpg') no-repeat center center;
 	background-size: cover;
@@ -23,7 +24,7 @@
 	top:0;
 	width: 100%;
 	z-index: -1;
-}
+}*/
 
 
 .initiative {

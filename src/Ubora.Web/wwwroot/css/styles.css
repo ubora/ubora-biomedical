@@ -7,8 +7,14 @@
 @import url('header.css');
 @import url('footer.css');
 @import url('process-steps.css');
+@import url('users.css');
+@import url('profile.css');
 
 @import url('sections.css');
+
+@import url('project.css');
+@import url('workpackage.css');
+@import url('process-steps.css');
 
 :root {
 	--primary-color: #4777BB;
@@ -39,6 +45,7 @@ body {
 	display:flex;
 	flex-direction: column;
 	font: normal 16px/1.5em 'Open Sans', Helvetica, Arial, sans-serif;
+	font-display: swap;
 	min-height: 100vh;
 }
 
@@ -62,26 +69,4 @@ body {
 	color:var(--white);
 	padding:.5em 0;
 	text-align: center;
-}
-
-
-.project {
-	box-shadow: 0 3px 6px var(--secondary-shade);
-	display: inline-block;
-	border-radius: 5px;
-	max-width: 22em;
-	margin:1em;
-	padding:0 0 1em 0;
-}
-.project-banner {
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	width: 100%;
-	max-height: 150px;
-}
-.project-container {
-	padding: 1em;
-}
-.project-title {
-	font-size: 140%;
 }

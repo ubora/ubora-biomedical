@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.IO;
 using Autofac;
 using Marten;
@@ -7,8 +10,10 @@ using TwentyTwenty.Storage;
 using TwentyTwenty.Storage.Amazon;
 using TwentyTwenty.Storage.Local;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Infrastructure.Queries;
+using Module = Autofac.Module;
 using Ubora.Domain.Projects.DeviceClassification;
 
 namespace Ubora.Domain.Infrastructure
@@ -24,14 +29,17 @@ namespace Ubora.Domain.Infrastructure
 
         protected override void Load(ContainerBuilder builder)
         {
-            var options = new StoreOptions();
-            options.Connection(_connectionString);
+            if (ShouldInitializeAndRegisterDocumentStoreOnLoad)
+            {
+                var options = new StoreOptions();
+                options.Connection(_connectionString);
 
-            options.NameDataLength = 100;
+                options.NameDataLength = 100;
 
-            Action<StoreOptions> configuration = new UboraStoreOptions().Configuration();
+                var eventTypes = FindDomainEventConcreteTypes();
+                var configureAction = new UboraStoreOptions().Configuration(eventTypes);
 
-            configuration.Invoke(options);
+                configureAction.Invoke(options);
 
             var amazonProviderOptions = new AmazonProviderOptions()
             {
@@ -68,5 +76,19 @@ namespace Ubora.Domain.Infrastructure
 
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();
         }
+
+        public IEnumerable<Type> FindDomainEventConcreteTypes()
+        {
+            var eventBaseType = typeof(UboraEvent);
+
+            var eventTypes = ThisAssembly
+                .GetTypes()
+                .Where(type => eventBaseType.IsAssignableFrom(type) && !type.GetTypeInfo().IsAbstract);
+
+            return eventTypes;
+        }
+
+        // Static helper for tests
+        internal static bool ShouldInitializeAndRegisterDocumentStoreOnLoad { get; set; } = true;
     }
 }

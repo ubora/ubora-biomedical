@@ -3,7 +3,6 @@ using Autofac;
 using FluentAssertions;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
 using Xunit;
@@ -12,11 +11,6 @@ namespace Ubora.Domain.Tests.Projects
 {
     public class EditTaskTests : IntegrationFixture
     {
-        public EditTaskTests()
-        {
-            StoreOptions(new UboraStoreOptions().Configuration());
-        }
-
         [Fact]
         public void Edits_Task_Of_Project()
         {
