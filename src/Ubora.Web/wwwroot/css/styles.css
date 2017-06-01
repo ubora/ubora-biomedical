@@ -8,6 +8,7 @@
 @import url('footer.css');
 @import url('process-steps.css');
 @import url('users.css');
+@import url('profile.css');
 @import url('messages.css');
 
 @import url('sections.css');
@@ -45,6 +46,7 @@ body {
 	display:flex;
 	flex-direction: column;
 	font: normal 16px/1.5em 'Open Sans', Helvetica, Arial, sans-serif;
+	font-display: swap;
 	min-height: 100vh;
 }
 

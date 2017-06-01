@@ -4,17 +4,21 @@
     justify-content: space-around;
 }
 
-.user-card {
-    flex-direction: column;
+.user_card {
     align-items: center;
+    align-self: flex-start;
+    word-break: break-word;
+    display: flex;
+    flex-direction: column;
     max-width: 15em;
+    padding:1em;
 }
 
 @media screen and (max-width: 21.875em) {
     .user-list {
         justify-content: center;
     }
-    .user-card {
+    .user_card {
         max-width: 10em;
     }
 }

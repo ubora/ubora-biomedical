@@ -60,4 +60,5 @@ pre, code {
 
 .text_placeholder {
     color: var(--primary-shade);
+    white-space: pre-wrap;
 }

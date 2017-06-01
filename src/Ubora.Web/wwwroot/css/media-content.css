@@ -3,6 +3,10 @@ img {
 	display: inline-block;
 }
 
+.avatar {
+	border-radius: 50%;
+}
+
 .material-icons {
 	vertical-align: text-top;
 	font-size:150%;

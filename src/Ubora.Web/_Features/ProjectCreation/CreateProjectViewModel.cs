@@ -17,13 +17,6 @@ namespace Ubora.Web._Features.ProjectCreation
         [Required]
         public string PotentialTechnology { get; set; }
 
-        [Required]
-        public string Gmdn { get; set; }
-
-        [Obsolete]
-        public string GmdnDefinition { get; set; }
-
-        [Obsolete]
-        public string GmdnCode { get; set; }
+        public string Keywords { get; set; }
     }
 }

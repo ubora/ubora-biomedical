@@ -1,19 +1,23 @@
-.project-card {
-	box-shadow: 0 3px 6px var(--secondary-shade);
-	display: inline-block;
-	border-radius: 5px;
-	max-width: 22em;
-	margin:1em;
-	padding:0 0 1em 0;
+.project_card {
+	padding:0;
+	transition: box-shadow .2s ease-in;
+    word-break: break-word;
 }
 
-.project-banner {
+.project_card_banner {
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	width: 100%;
 	max-height: 150px;
 }
 
+.project_card_container {
+	padding:.5em 1em 1em 1em;
+}
+
+.project_card:hover {
+	box-shadow: 0 6px 12px var(--primary-shade);
+}
 
 .project_section {
 	display: flex;

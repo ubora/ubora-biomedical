@@ -6,23 +6,24 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
     // TODO(Kaspar Kallas): private Apply or immutability
     public class WorkpackageOneStep
     {
-        // Virtual for testing
-        public virtual Guid Id { get; private set; }
+        public Guid Id { get; private set; }
 
         public string Title { get; set; }
 
-        public string Value { get; set; }
+        public string Description { get; set; }
+
+        public string Content { get; set; }
 
         [JsonConstructor]
         protected WorkpackageOneStep()
         {
         }
 
-        public WorkpackageOneStep(string title, string value)
+        public WorkpackageOneStep(string title, string description)
         {
             Id = Guid.NewGuid();
             Title = title;
-            Value = value;
+            Description = description;
         }
     }
 }
