@@ -24,15 +24,15 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
         {
             ProjectId = e.ProjectId;
             Title = "Design and prototyping";
-            _steps.Add(new WorkpackageOneStep("Description Of Need", ""));
-            _steps.Add(new WorkpackageOneStep("Description Of Existing Solutions And Analysis", ""));
-            _steps.Add(new WorkpackageOneStep("Product Functionality", ""));
-            _steps.Add(new WorkpackageOneStep("Product Performance", ""));
-            _steps.Add(new WorkpackageOneStep("Product Usability", ""));
-            _steps.Add(new WorkpackageOneStep("Product Safety", ""));
-            _steps.Add(new WorkpackageOneStep("Patient Population Study", ""));
-            _steps.Add(new WorkpackageOneStep("User Requirement Study", ""));
-            _steps.Add(new WorkpackageOneStep("Additional Information", ""));
+            _steps.Add(new WorkpackageOneStep("Description Of Need", Placeholders.DescriptionOfNeed));
+            _steps.Add(new WorkpackageOneStep("Description Of Existing Solutions And Analysis", Placeholders.DescriptionOfExistingSolutionsAndAnalysis));
+            _steps.Add(new WorkpackageOneStep("Product Functionality", Placeholders.ProductFunctionality));
+            _steps.Add(new WorkpackageOneStep("Product Performance", Placeholders.ProductPerformance));
+            _steps.Add(new WorkpackageOneStep("Product Usability", Placeholders.ProductUsability));
+            _steps.Add(new WorkpackageOneStep("Product Safety", Placeholders.ProductSafety));
+            _steps.Add(new WorkpackageOneStep("Patient Population Study", Placeholders.PatientPopulationStudy));
+            _steps.Add(new WorkpackageOneStep("User Requirement Study", Placeholders.UserRequirementStudy));
+            _steps.Add(new WorkpackageOneStep("Additional Information", Placeholders.AdditionalInformation));
         }
 
         private void Apply(WorkpackageOneStepEditedEvent e)
@@ -40,7 +40,7 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
             var step = Steps.Single(x => x.Id == e.StepId);
 
             step.Title = e.Title;
-            step.Value = e.NewValue;
+            step.Content = e.NewValue;
         }
 
         // Virtual for testing

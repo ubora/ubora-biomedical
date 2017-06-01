@@ -13,4 +13,19 @@
     <Folder Include="Properties\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Projects\WorkpackageOnes\Placeholders.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Placeholders.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Projects\WorkpackageOnes\Placeholders.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Placeholders.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
