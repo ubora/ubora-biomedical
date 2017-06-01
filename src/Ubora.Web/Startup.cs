@@ -74,6 +74,7 @@ namespace Ubora.Web
 
             services.AddSingleton<IAuthorizationHandler, IsProjectMemberAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, IsAuthenticatedUserAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, CanRemoveProjectMemberAuthorizationHandler>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IAuthorizationService, DefaultAuthorizationService>();
 

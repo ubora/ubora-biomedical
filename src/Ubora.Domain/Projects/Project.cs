@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.DeviceClassification;
+using System.Linq;
 
 namespace Ubora.Domain.Projects
 {
@@ -52,6 +53,12 @@ namespace Ubora.Domain.Projects
         {
             var member = new ProjectMember(e.UserId);
             _members.Add(member);
+        }
+
+        private void Apply(MemberRemovedFromProjectEvent e)
+        {
+            var member = _members.Single(x => x.UserId == e.UserId);
+            _members.Remove(member);
         }
 
         private void Apply(DeviceClassificationSetEvent e)

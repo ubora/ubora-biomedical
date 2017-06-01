@@ -14,9 +14,13 @@
 
     <ol>
         @foreach (var member in Model.Members)
-        {
+            {
             <li>
-                @member.FullName @member.UserId
+                @member.FullName
+                @if (Model.CanRemoveProjectMembers)
+                {
+                    <a asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId">Remove</a>
+                }
             </li>
         }
     </ol>

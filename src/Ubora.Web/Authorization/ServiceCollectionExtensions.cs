@@ -17,6 +17,11 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new IsAuthenticatedUserRequirement());
                 });
+
+                options.AddPolicy(nameof(Policies.CanRemoveProjectMember), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new CanRemoveProjectMemberRequirement());
+                });
             });
 
             return services;

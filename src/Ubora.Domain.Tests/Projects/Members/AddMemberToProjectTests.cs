@@ -30,7 +30,7 @@ namespace Ubora.Domain.Tests.Projects.Members
         }
 
         [Fact]
-        public void User_Accepts_Invite_To_Project()
+        public void User_Accepts_Invite_To_Project_And_Is_Removed_From_Project()
         {
             this.Given(_ => Given_There_Is_Project_And_User())
                 .When(_ => When_User_Is_Invited_To_Project())
@@ -39,6 +39,8 @@ namespace Ubora.Domain.Tests.Projects.Members
                 .Then(_ => Then_User_Is_Member_In_Project())
                 .When(_ => When_User_Is_Invited_To_Project_Again())
                 .Then(_ => Then_User_Does_Not_Get_Invite())
+                .When(_ => When_Project_Leader_Removes_Invited_User_From_Project())
+                .Then(_ => Then_User_Is_Not_Member_In_Project())
                 .BDDfy();
         }
 
@@ -53,6 +55,16 @@ namespace Ubora.Domain.Tests.Projects.Members
                 .When(_ => When_User_Is_Invited_To_Project_Again())
                 .Then(_ => Then_Invited_User_Has_Invite())
                 .BDDfy();
+        }
+
+        private void When_Project_Leader_Removes_Invited_User_From_Project()
+        {
+            _lastCommandResult = Processor.Execute(new RemoveMemberFromProjectCommand
+            {
+                UserId = _invitedUserId,
+                Actor = new UserInfo(Guid.NewGuid(), ""),
+                ProjectId = _projectId
+            });
         }
 
         private void Then_User_Is_Not_Member_In_Project()
