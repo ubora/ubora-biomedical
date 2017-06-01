@@ -90,7 +90,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var postModel = new StepViewModel
             {
                 StepId = stepId,
-                Value = "expectedValue"
+                Content = "expectedValue"
             };
 
             // Act
