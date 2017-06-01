@@ -6,6 +6,8 @@
 
 .user_card {
     align-items: center;
+    align-self: flex-start;
+    word-break: break-word;
     display: flex;
     flex-direction: column;
     max-width: 15em;

@@ -1,6 +1,7 @@
 .project_card {
 	padding:0;
 	transition: box-shadow .2s ease-in;
+    word-break: break-word;
 }
 
 .project_card_banner {
