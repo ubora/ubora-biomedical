@@ -15,7 +15,7 @@ namespace Ubora.Web.Tests._Features.Projects.Creation
         {
             var processorMock = new Mock<ICommandQueryProcessor>();
 
-            var controller = new CreationController(processorMock.Object);
+            var controller = new ProjectCreationController(processorMock.Object);
 
             var model = new CreateProjectViewModel
             {

@@ -3,9 +3,9 @@ using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Web._Features.ProjectList
 {
-    public class ListController : UboraController
+    public class ProjectListController : UboraController
     {
-        public ListController(ICommandQueryProcessor processor) : base(processor)
+        public ProjectListController(ICommandQueryProcessor processor) : base(processor)
         {
         }
 
