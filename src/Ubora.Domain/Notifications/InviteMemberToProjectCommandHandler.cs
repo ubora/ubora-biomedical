@@ -18,20 +18,23 @@ namespace Ubora.Domain.Notifications
 
         public ICommandResult Handle(InviteMemberToProjectCommand cmd)
         {
-            var userProfile = _documentSession.Load<UserProfile>(cmd.InvitedMemberId);
-            if (userProfile == null) throw new InvalidOperationException();
+            var userProfile = _documentSession.Query<UserProfile>().SingleOrDefault(x => x.Email == cmd.InvitedMemberEmail);
+            if (userProfile == null)
+            {
+                return new CommandResult($"Email [{cmd.InvitedMemberEmail}] not found.");
+            }
 
             var project = _documentSession.Load<Project>(cmd.ProjectId);
 
-            var isUserAlreadyMember = project.Members.Any(m => m.UserId == cmd.InvitedMemberId);
+            var isUserAlreadyMember = project.Members.Any(m => m.UserId == userProfile.UserId);
             if (isUserAlreadyMember)
             {
-                return new CommandResult($"[{cmd.InvitedMemberId}] is already member of project [{cmd.ProjectId}].");
+                return new CommandResult($"[{cmd.InvitedMemberEmail}] is already member of project [{cmd.ProjectId}].");
             }
 
             var invite = new InvitationToProject(Guid.NewGuid())
             {
-                InvitedMemberId = cmd.InvitedMemberId,
+                InvitedMemberId = userProfile.UserId,
                 ProjectId = cmd.ProjectId,
                 State = InvitationToProjectState.None
             };

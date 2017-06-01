@@ -41,17 +41,17 @@ namespace Ubora.Web._Features.Projects.Members
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return Invite();
             }
 
             ExecuteUserProjectCommand(new InviteMemberToProjectCommand
             {
-                InvitedMemberId = model.UserId.Value
+                InvitedMemberEmail = model.Email
             });
 
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return Invite();
             }
 
             return RedirectToAction(nameof(Members), new { id = model.ProjectId });

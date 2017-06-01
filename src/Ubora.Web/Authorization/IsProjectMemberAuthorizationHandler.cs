@@ -5,21 +5,22 @@ using Microsoft.AspNetCore.Authorization;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 using Ubora.Web.Services;
+using Autofac;
 
 namespace Ubora.Web.Authorization
 {
     public class IsProjectMemberAuthorizationHandler : AuthorizationHandler<IsProjectMemberRequirement>
     {
-        private readonly IQueryProcessor _queryProcessor;
+        private readonly IIsMemberPartOfProject _isMemberPartOfProject;
 
-        public IsProjectMemberAuthorizationHandler(IQueryProcessor queryProcessor)
+        public IsProjectMemberAuthorizationHandler(IIsMemberPartOfProject isMemberPartOfProject)
         {
-            _queryProcessor = queryProcessor;
+            _isMemberPartOfProject = isMemberPartOfProject;
         }
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, IsProjectMemberRequirement requirement)
         {
-            var authorizationFilterContext = (Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext) context.Resource;
+            var authorizationFilterContext = (Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext)context.Resource;
 
             // Always succeed requirement when disabling filter is present. 
             // (It probably means that there is another less restrictive policy specified on derived action/controller.)
@@ -46,8 +47,8 @@ namespace Ubora.Web.Authorization
                 return;
             }
 
-            var project = _queryProcessor.FindById<Project>(projectId);
-            var isMember = project.DoesSatisfy(new HasMember(user.GetId()));
+            // TODO: Make pretty
+            var isMember = _isMemberPartOfProject.Satisfy(projectId, user.GetId());
             if (isMember)
             {
                 context.Succeed(requirement);

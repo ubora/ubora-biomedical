@@ -19,12 +19,12 @@ namespace Ubora.Web.Tests.Authorization
     {
         private readonly IsProjectMemberAuthorizationHandler _handlerUnderTest;
 
-        private readonly Mock<IQueryProcessor> _queryProcessorMock;
+        private readonly Mock<IIsMemberPartOfProject> _isMemberPartOfProject;
 
         public IsProjectMemberAuthorizationHandlerTests()
         {
-            _queryProcessorMock = new Mock<IQueryProcessor>();
-            _handlerUnderTest = new IsProjectMemberAuthorizationHandler(_queryProcessorMock.Object);
+            _isMemberPartOfProject = new Mock<IIsMemberPartOfProject>();
+            _handlerUnderTest = new IsProjectMemberAuthorizationHandler(_isMemberPartOfProject.Object);
         }
 
         [Fact]
@@ -96,10 +96,7 @@ namespace Ubora.Web.Tests.Authorization
                 user: authenticatedUser,
                 resource: filterContext);
 
-            var expectedSpec = new HasMember(userId);
-            var project = Mock.Of<Project>(p => p.DoesSatisfy(expectedSpec) == isMember);
-
-            _queryProcessorMock.Setup(x => x.FindById<Project>(projectId)).Returns(project);
+            _isMemberPartOfProject.Setup(x => x.Satisfy(projectId, userId)).Returns(isMember);
 
             // Act
             await _handlerUnderTest.HandleAsync(handlerContext);

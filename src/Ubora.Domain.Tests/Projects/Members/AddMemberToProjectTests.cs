@@ -16,11 +16,21 @@ namespace Ubora.Domain.Tests.Projects.Members
     {
         private readonly Guid _projectId = Guid.NewGuid();
         private readonly Guid _invitedUserId = Guid.NewGuid();
+        private readonly string _invitedUserEmail = "email";
 
         private ICommandResult _lastCommandResult;
 
         [Fact]
-        public void Start()
+        public void Non_Existent_Email_Is_Invited_To_Project()
+        {
+            this.Given(_ => Given_There_Is_Project_And_User())
+                .When(_ => When_Non_Existent_Email_Is_Written())
+                .Then(_ => Then_Invite_Is_Not_Sent())
+                .BDDfy();
+        }
+
+        [Fact]
+        public void User_Accepts_Invite_To_Project()
         {
             this.Given(_ => Given_There_Is_Project_And_User())
                 .When(_ => When_User_Is_Invited_To_Project())
@@ -30,6 +40,49 @@ namespace Ubora.Domain.Tests.Projects.Members
                 .When(_ => When_User_Is_Invited_To_Project_Again())
                 .Then(_ => Then_User_Does_Not_Get_Invite())
                 .BDDfy();
+        }
+
+        [Fact]
+        public void User_Declines_Invite_To_Project()
+        {
+            this.Given(_ => Given_There_Is_Project_And_User())
+                .When(_ => When_User_Is_Invited_To_Project())
+                .Then(_ => Then_Invited_User_Has_Invite())
+                .When(_ => When_Invited_User_Declines_Invite())
+                .Then(_ => Then_User_Is_Not_Member_In_Project())
+                .When(_ => When_User_Is_Invited_To_Project_Again())
+                .Then(_ => Then_Invited_User_Has_Invite())
+                .BDDfy();
+        }
+
+        private void Then_User_Is_Not_Member_In_Project()
+        {
+            var project = Session.Load<Project>(_projectId);
+
+            project.DoesSatisfy(new HasMember(_invitedUserId)).Should().BeFalse();
+
+            _lastCommandResult.IsSuccess.Should().BeTrue();
+        }
+
+        private void When_Invited_User_Declines_Invite()
+        {
+            var invite = Session.Query<InvitationToProject>().Where(x => x.InvitedMemberId == _invitedUserId).First();
+
+            Processor.Execute(new DeclineMemberInvitationToProjectCommand
+            {
+                InvitationId = invite.Id,
+                Actor = new UserInfo(Guid.NewGuid(), "")
+            });
+        }
+
+        private void Then_Invite_Is_Not_Sent()
+        {
+            _lastCommandResult.IsFailure.Should().BeTrue();
+        }
+
+        private void When_Non_Existent_Email_Is_Written()
+        {
+            InviteUserToProject(_invitedUserEmail + Guid.NewGuid());
         }
 
         private void When_Invited_User_Accepts_Invite()
@@ -53,28 +106,31 @@ namespace Ubora.Domain.Tests.Projects.Members
 
             Processor.Execute(new CreateUserProfileCommand
             {
-                UserId = _invitedUserId
+                UserId = _invitedUserId,
+                Email = _invitedUserEmail
             });
         }
 
         private void When_User_Is_Invited_To_Project()
         {
-            InviteUserToProject();
+            InviteUserToProject(_invitedUserEmail);
         }
 
-        private void InviteUserToProject()
+        private void InviteUserToProject(string email)
         {
             _lastCommandResult = Processor.Execute(new InviteMemberToProjectCommand
             {
                 ProjectId = _projectId,
-                InvitedMemberId = _invitedUserId,
+                InvitedMemberEmail = email,
                 Actor = new UserInfo(Guid.NewGuid(), "")
             });
         }
 
         private void Then_Invited_User_Has_Invite()
         {
-            var invites = Session.Query<InvitationToProject>().Where(x => x.InvitedMemberId == _invitedUserId);
+            var invites = Session.Query<InvitationToProject>()
+                .Where(x => x.InvitedMemberId == _invitedUserId && !x.IsAccepted && !x.IsDeclined);
+
             invites.Count().Should().Be(1);
         }
 
@@ -94,7 +150,7 @@ namespace Ubora.Domain.Tests.Projects.Members
 
         private void When_User_Is_Invited_To_Project_Again()
         {
-            InviteUserToProject();
+            InviteUserToProject(_invitedUserEmail);
         }
 
         private void Then_User_Does_Not_Get_Invite()

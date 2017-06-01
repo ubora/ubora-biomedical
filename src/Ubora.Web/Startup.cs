@@ -16,7 +16,6 @@ using Ubora.Web.Authorization;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
-using Ubora.Web._Features.Projects;
 using Serilog;
 using System.IO;
 
@@ -24,6 +23,8 @@ namespace Ubora.Web
 {
     public class Startup
     {
+        public static IContainer Container { get; private set; }
+
         public Startup(IHostingEnvironment env)
         {
             Log.Logger = new LoggerConfiguration()
@@ -60,19 +61,20 @@ namespace Ubora.Web
                 .AddMvc()
                 .AddUboraFeatureFolders(new FeatureFolderOptions { FeatureFolderName = "_Features" });
 
-			services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
-			    {
-			        o.Password.RequireNonAlphanumeric = false;
-			    })
+            services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
+                {
+                    o.Password.RequireNonAlphanumeric = false;
+                })
                 .AddUserManager<ApplicationUserManager>()
                 .AddSignInManager<ApplicationSignInManager>()
                 .AddClaimsPrincipalFactory<ApplicationClaimsPrincipalFactory>()
-				.AddEntityFrameworkStores<ApplicationDbContext, Guid>()
-				.AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<ApplicationDbContext, Guid>()
+                .AddDefaultTokenProviders();
 
             services.AddAutoMapper();
             services.AddUboraAuthorization();
 
+            services.AddSingleton<IIsMemberPartOfProject, IsMemberPartOfProject>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMemberAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, IsAuthenticatedUserAuthorizationHandler>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -89,6 +91,8 @@ namespace Ubora.Web
 
             autofacContainerBuilder.Populate(services);
             var container = autofacContainerBuilder.Build();
+
+            Container = container;
 
             return new AutofacServiceProvider(container);
         }
