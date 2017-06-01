@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-
-namespace Ubora.Web._Features.Projects.Dashboard
+﻿namespace Ubora.Web._Features.Projects.Dashboard
 {
     public class ProjectDashboardViewModel
     {
-        public IEnumerable<string> EventStream { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string DeviceClassification { get; set; }
-        public IEnumerable<string> Members { get; set; }
+        public string ClinicalNeedTags { get; set; }
+        public string AreaOfUsageTags { get; set; }
+        public string PotentialTechnologyTags { get; set; }
+        public string Gmdn { get; set; }
     }
 }

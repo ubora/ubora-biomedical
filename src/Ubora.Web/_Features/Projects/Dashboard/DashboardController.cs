@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
 
@@ -6,19 +7,17 @@ namespace Ubora.Web._Features.Projects.Dashboard
 {
     public class DashboardController : ProjectController
     {
-        public DashboardController(ICommandQueryProcessor processor) : base(processor)
+        private readonly IMapper _mapper;
+
+        public DashboardController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
         {
+            _mapper = mapper;
         }
 
         [Route(nameof(Dashboard))]
         public IActionResult Dashboard()
         {
-            var model = new ProjectDashboardViewModel
-            {
-                Title = Project.Title,
-                DeviceClassification = Project.DeviceClassification,
-                Description = Project.Description
-            };
+            var model = _mapper.Map<ProjectDashboardViewModel>(Project);
 
             return View(model);
         }
