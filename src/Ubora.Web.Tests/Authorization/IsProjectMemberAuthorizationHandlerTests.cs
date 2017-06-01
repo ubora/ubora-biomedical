@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
 using Moq;
@@ -19,19 +20,21 @@ namespace Ubora.Web.Tests.Authorization
     {
         private readonly IsProjectMemberAuthorizationHandler _handlerUnderTest;
 
-        private readonly Mock<IIsMemberPartOfProject> _isMemberPartOfProject;
-
         public IsProjectMemberAuthorizationHandlerTests()
         {
-            _isMemberPartOfProject = new Mock<IIsMemberPartOfProject>();
-            _handlerUnderTest = new IsProjectMemberAuthorizationHandler(_isMemberPartOfProject.Object);
+            _handlerUnderTest = new IsProjectMemberAuthorizationHandler();
         }
 
         [Fact]
-        public async Task Handler_Denies_Access_When_Project_Id_Can_Not_Be_Parsed_From_Route()
+        public async Task Handler_Denies_Access_When_Project_Is_Not_Found()
         {
+            var httpContext = Mock.Of<HttpContext>(x => x.RequestServices.GetService(typeof(IQueryProcessor)) == Mock.Of<IQueryProcessor>());
+
             var filterContext = new AuthorizationFilterContext(
-                actionContext: new EmptyInitializedActionContext(),
+                actionContext: new EmptyInitializedActionContext
+                {
+                    HttpContext = httpContext
+                },
                 filters: new List<IFilterMetadata>());
 
             var handlerContext = new AuthorizationHandlerContext(
@@ -78,8 +81,11 @@ namespace Ubora.Web.Tests.Authorization
             var routeData = new RouteData();
             var projectId = Guid.NewGuid();
             routeData.Values.Add("projectId", projectId.ToString());
+
+            var httpContextMock = new Mock<HttpContext>();
             var actionContext = new EmptyInitializedActionContext
             {
+                HttpContext = httpContextMock.Object,
                 RouteData = routeData
             };
 
@@ -96,7 +102,17 @@ namespace Ubora.Web.Tests.Authorization
                 user: authenticatedUser,
                 resource: filterContext);
 
-            _isMemberPartOfProject.Setup(x => x.Satisfy(projectId, userId)).Returns(isMember);
+            var queryProcessorMock = new Mock<IQueryProcessor>();
+
+            httpContextMock
+                .Setup(ctx => ctx.RequestServices.GetService(typeof(IQueryProcessor)))
+                .Returns(queryProcessorMock.Object);
+
+            var project = Mock.Of<Project>(x => x.DoesSatisfy(new HasMember(userId)) == isMember);
+
+            queryProcessorMock
+                .Setup(x => x.FindById<Project>(projectId))
+                .Returns(project);
 
             // Act
             await _handlerUnderTest.HandleAsync(handlerContext);

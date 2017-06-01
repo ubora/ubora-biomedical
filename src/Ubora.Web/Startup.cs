@@ -23,8 +23,6 @@ namespace Ubora.Web
 {
     public class Startup
     {
-        public static IContainer Container { get; private set; }
-
         public Startup(IHostingEnvironment env)
         {
             Log.Logger = new LoggerConfiguration()
@@ -74,7 +72,6 @@ namespace Ubora.Web
             services.AddAutoMapper();
             services.AddUboraAuthorization();
 
-            services.AddSingleton<IIsMemberPartOfProject, IsMemberPartOfProject>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMemberAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler, IsAuthenticatedUserAuthorizationHandler>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -91,8 +88,6 @@ namespace Ubora.Web
 
             autofacContainerBuilder.Populate(services);
             var container = autofacContainerBuilder.Build();
-
-            Container = container;
 
             return new AutofacServiceProvider(container);
         }
