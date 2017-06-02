@@ -35,8 +35,7 @@ namespace Ubora.Domain.Notifications
             var invite = new InvitationToProject(Guid.NewGuid())
             {
                 InvitedMemberId = userProfile.UserId,
-                ProjectId = cmd.ProjectId,
-                State = InvitationToProjectState.None
+                ProjectId = cmd.ProjectId
             };
 
             _documentSession.Store(invite);

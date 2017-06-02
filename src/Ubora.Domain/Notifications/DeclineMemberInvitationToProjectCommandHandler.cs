@@ -15,7 +15,7 @@ namespace Ubora.Domain.Notifications
         public ICommandResult Handle(DeclineMemberInvitationToProjectCommand command)
         {
             var invite = _documentSession.Load<InvitationToProject>(command.InvitationId);
-            invite.State = InvitationToProjectState.Declined;
+            invite.IsAccepted = false;
 
             _documentSession.Store(invite);
             _documentSession.SaveChanges();

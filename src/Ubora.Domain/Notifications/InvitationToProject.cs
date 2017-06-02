@@ -14,18 +14,7 @@ namespace Ubora.Domain.Notifications
         public Guid Id { get; }
         public Guid InvitedMemberId { get; internal set; }
         public Guid ProjectId { get; internal set; }
-        public InvitationToProjectState State { get; internal set; }
-
-        public bool IsAccepted => State == InvitationToProjectState.Accepted;
-        public bool IsDeclined => State == InvitationToProjectState.Declined;
-        public bool IsNotViewed => State == InvitationToProjectState.None;
-    }
-
-    public enum InvitationToProjectState
-    {
-        None,
-        Accepted,
-        Declined,
-        Viewed
+        public bool HasBeenViewed { get; internal set; }
+        public bool? IsAccepted { get; set; }
     }
 }

@@ -37,8 +37,9 @@ namespace Ubora.Web.Authorization
             }
 
             var user = context.User;
-            if (!user.Identity.IsAuthenticated)
+            if (user == null || user.Identity == null || !user.Identity.IsAuthenticated)
             {
+                context.Fail();
                 return;
             }
 

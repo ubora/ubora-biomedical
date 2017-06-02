@@ -15,7 +15,7 @@ namespace Ubora.Domain.Notifications
         public ICommandResult Handle(UpdateMemberInvitationToProjectAsViewedCommand command)
         {
             var invite = _documentSession.Load<InvitationToProject>(command.InvitationId);
-            invite.State = InvitationToProjectState.Viewed;
+            invite.HasBeenViewed = true;
 
             _documentSession.Store(invite);
             _documentSession.SaveChanges();

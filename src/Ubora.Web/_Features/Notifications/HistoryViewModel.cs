@@ -30,7 +30,7 @@ namespace Ubora.Web._Features.Notifications
             private List<HistoryInvitationViewModel> GetHistoryInvitationViewModels(Guid userId)
             {
                 var invitations = _processor.Find<InvitationToProject>()
-                    .Where(x => x.InvitedMemberId == userId && (x.IsAccepted || x.IsDeclined));
+                    .Where(x => x.InvitedMemberId == userId && x.IsAccepted != null);
                 var invitationViewModels = new List<HistoryInvitationViewModel>();
 
                 foreach (var invitation in invitations)
@@ -39,7 +39,7 @@ namespace Ubora.Web._Features.Notifications
 
                     var project = _processor.FindById<Project>(invitation.ProjectId);
                     invitationViewModel.ProjectTitle = project.Title;
-                    invitationViewModel.WasAccepted = invitation.IsAccepted;
+                    invitationViewModel.WasAccepted = invitation.IsAccepted.Value;
 
                     invitationViewModels.Add(invitationViewModel);
                 }

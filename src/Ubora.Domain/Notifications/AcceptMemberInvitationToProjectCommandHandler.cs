@@ -20,7 +20,7 @@ namespace Ubora.Domain.Notifications
         public ICommandResult Handle(AcceptMemberInvitationToProjectCommand command)
         {
             var invite = _documentSession.Load<InvitationToProject>(command.InvitationId);
-            invite.State = InvitationToProjectState.Accepted;
+            invite.IsAccepted = true;
 
             _documentSession.Store(invite);
             _documentSession.SaveChanges();

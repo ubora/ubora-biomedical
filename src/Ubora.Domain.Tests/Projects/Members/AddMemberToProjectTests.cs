@@ -141,7 +141,7 @@ namespace Ubora.Domain.Tests.Projects.Members
         private void Then_Invited_User_Has_Invite()
         {
             var invites = Session.Query<InvitationToProject>()
-                .Where(x => x.InvitedMemberId == _invitedUserId && !x.IsAccepted && !x.IsDeclined);
+                .Where(x => x.InvitedMemberId == _invitedUserId && x.IsAccepted == null);
 
             invites.Count().Should().Be(1);
         }
