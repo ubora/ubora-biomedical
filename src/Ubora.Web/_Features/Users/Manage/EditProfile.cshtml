@@ -9,11 +9,12 @@
 <section class="narrow-width">
     <h2>@ViewData["Title"]</h2>
     
-    <img src='@Url.Action("GetImage", "Manage")' />
-
+    <img src='@Model.ProfilePictureLink' />
+    
     <form method="post" enctype="multipart/form-data" asp-controller="Manage" asp-action="ChangeProfilePicture">
         <input type="file" name="file"/>
         <input class="button secondary-button" type="submit" value="Upload"/>
+        <div asp-validation-summary="All"></div>
     </form>
 
     <form asp-controller="Manage" asp-action="EditProfile" method="post">

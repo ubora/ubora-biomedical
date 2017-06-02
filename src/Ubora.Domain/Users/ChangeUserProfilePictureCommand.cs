@@ -7,6 +7,9 @@ namespace Ubora.Domain.Users
     public class ChangeUserProfilePictureCommand : UserCommand
     {
         public Guid UserId { get; set; }
-        public Stream FileStream { get; set; }
+        public Stream Stream { get; set; }
+        public string ContentType { get; set; }
+        public string ContentDisposition { get; set; }
+        public string FileName { get; set; }
     }
 }

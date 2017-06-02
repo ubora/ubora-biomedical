@@ -19,7 +19,7 @@ namespace Ubora.Domain.Tests.Users
             var command = new ChangeUserProfilePictureCommand
             {
                 UserId = userId,
-                FileStream = Stream.Null
+                Stream = Stream.Null
             };
             var commandProcessor = Container.Resolve<ICommandProcessor>();
 

@@ -48,10 +48,11 @@ namespace Ubora.Domain.Infrastructure
             {
                 Bucket = Environment.GetEnvironmentVariable("amazon_storage_bucket"),
                 PublicKey = Environment.GetEnvironmentVariable("amazon_storage_publickey"),
-                SecretKey = Environment.GetEnvironmentVariable("amazon_storage_secretkey")
+                SecretKey = Environment.GetEnvironmentVariable("amazon_storage_secretkey"),
+                ServiceUrl = "https://s3-eu-west-1.amazonaws.com"
             };
 
-            var basePath = Path.GetFullPath("storages");
+            var basePath = Path.GetFullPath("wwwroot/images/storages");
 
             builder.Register(x => x.Resolve<DocumentStore>().OpenSession()).As<IDocumentSession>().As<IQuerySession>().InstancePerLifetimeScope();
             builder.Register(x => x.Resolve<IDocumentSession>().Events).As<IEventStore>().InstancePerLifetimeScope();
