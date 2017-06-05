@@ -90,7 +90,9 @@ namespace Ubora.Web._Features.Users.Manage
             var userId = _userManager.GetUserId(User);
             var userProfile = FindById<UserProfile>(new Guid(userId));
 
-            var url =  _storageProvider.GetBlobUrl("profilePictures", userProfile.BlobName);
+            var path =  _storageProvider.GetBlobUrl("profilePictures", userProfile.BlobName);
+
+            var url = path.Replace("/app/wwwroot", "");
 
             var model = new UserProfileViewModel
             {
@@ -138,6 +140,8 @@ namespace Ubora.Web._Features.Users.Manage
         [HttpPost]
         public IActionResult ChangeProfilePicture(IFormFile file)
         {
+            var getCorrectFileName = file.FileName.Substring(file.FileName.LastIndexOf(@"\") + 1);
+
             var validationResult = _manageValidator.IsImage(file);
             if (validationResult.IsFailure)
             {
@@ -153,7 +157,7 @@ namespace Ubora.Web._Features.Users.Manage
                 Stream = file.OpenReadStream(),
                 ContentType = file.ContentType,
                 ContentDisposition = file.ContentDisposition,
-                FileName = file.FileName
+                FileName = getCorrectFileName
             });
 
             return RedirectToAction("EditProfile");

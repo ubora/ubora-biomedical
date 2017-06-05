@@ -33,7 +33,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             _commandQueryProcessorMock.Setup(p => p.FindById<UserProfile>(userId))
                 .Returns(userprofile);
 
-            _mapperMock.Setup(m => m.Map(It.IsAny<UserProfile>(), It.IsAny<ProfileViewModel>()))
+            _mapperMock.Setup(m => m.Map<ProfileViewModel>(It.IsAny<UserProfile>()))
                 .Returns(expectedProfileViewModel);
 
             //Act
