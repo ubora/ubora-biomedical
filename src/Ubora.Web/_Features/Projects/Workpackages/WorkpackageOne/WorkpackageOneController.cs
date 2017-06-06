@@ -51,7 +51,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
             ExecuteUserProjectCommand(new EditWorkpackageOneStepCommand
             {
                 StepId = model.StepId,
-                NewValue = model.Value
+                NewValue = model.Content
             });
 
             if (!ModelState.IsValid)

@@ -4,3 +4,4 @@ WORKDIR /app
 EXPOSE 80
 COPY ${source:-obj/Docker/publish} .
 COPY ./wait-for-it.sh wait-for-it.sh
+ENTRYPOINT ["dotnet", "Ubora.Web.dll"]

@@ -41,7 +41,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
             workpackage = Session.Load<WorkpackageOne>(projectId);
             var editedStep = workpackage.Steps.Single(x => x.Id == randomStepToEdit.Id);
 
-            editedStep.Value.Should().Be("testValue");
+            editedStep.Content.Should().Be("testValue");
             editedStep.Title.Should().Be(initialTitle);
         }
     }

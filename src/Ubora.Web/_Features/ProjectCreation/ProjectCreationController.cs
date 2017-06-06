@@ -1,5 +1,4 @@
 ﻿using System;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
@@ -8,9 +7,9 @@ using Ubora.Domain.Projects;
 namespace Ubora.Web._Features.ProjectCreation
 {
     [Authorize]
-    public class CreationController : UboraController
+    public class ProjectCreationController : UboraController
     {
-        public CreationController(ICommandQueryProcessor processor) : base(processor)
+        public ProjectCreationController(ICommandQueryProcessor processor) : base(processor)
         {
         }
 
@@ -35,7 +34,7 @@ namespace Ubora.Web._Features.ProjectCreation
                 ClinicalNeed = model.ClinicalNeed,
                 AreaOfUsage = model.AreaOfUsage,
                 PotentialTechnology = model.PotentialTechnology,
-                Gmdn = model.Gmdn
+                Gmdn = model.Keywords
             });
 
             if (!ModelState.IsValid)
