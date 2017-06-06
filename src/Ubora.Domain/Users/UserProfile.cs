@@ -6,7 +6,7 @@ namespace Ubora.Domain.Users
     public class UserProfile
     {
         protected UserProfile()
-        {  
+        {
         }
 
         public UserProfile(Guid userId)
@@ -14,9 +14,9 @@ namespace Ubora.Domain.Users
             UserId = userId;
         }
 
-        public void SetNewGuidBlobName()
+        public void SetProfilePictureBlobName(string fileName)
         {
-            BlobName = Guid.NewGuid().ToString();
+            ProfilePictureBlobName = Guid.NewGuid() + fileName;
         }
 
         [Identity]
@@ -31,7 +31,7 @@ namespace Ubora.Domain.Users
         public string Biography { get; set; }
         public string Skills { get; set; }
         public string Role { get; set; }
-        public string BlobName { get; set; } = "Default";
+        public string ProfilePictureBlobName { get; set; } = "Default";
 
         public string FullName => $"{FirstName} {LastName}";
     }

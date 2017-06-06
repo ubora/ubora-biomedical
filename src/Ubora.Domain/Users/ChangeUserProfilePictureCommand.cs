@@ -8,8 +8,6 @@ namespace Ubora.Domain.Users
     {
         public Guid UserId { get; set; }
         public Stream Stream { get; set; }
-        public string ContentType { get; set; }
-        public string ContentDisposition { get; set; }
         public string FileName { get; set; }
     }
 }

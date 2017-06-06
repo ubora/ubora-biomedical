@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Routing;
 using Ubora.Web.Data;
 using Ubora.Web._Features.Users.Manage;
+using Xunit;
 
 namespace Ubora.Web.Tests._Features.Users
 {
@@ -43,6 +44,14 @@ namespace Ubora.Web.Tests._Features.Users
                 },
                 ActionDescriptor = new ControllerActionDescriptor()
             });
+        }
+
+        protected void AssertModelStateContainsError(ViewResult viewResult, params string[] result)
+        {
+            foreach (var error in viewResult.ViewData.ModelState.Root.Errors)
+            {
+                Assert.Contains(error.ErrorMessage, result);
+            }
         }
     }
 }

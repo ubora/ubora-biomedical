@@ -20,6 +20,11 @@ namespace Ubora.Web._Features.Users.Manage
         {
             var validationresult = new ValidationResult();
 
+            if (file == null)
+            {
+                return validationresult.AddError("IsImage", "Please select an image to upload first!");
+            }
+
             if (file.ContentType.ToLower() != "image/jpg" &&
                 file.ContentType.ToLower() != "image/jpeg" &&
                 file.ContentType.ToLower() != "image/pjpeg" &&

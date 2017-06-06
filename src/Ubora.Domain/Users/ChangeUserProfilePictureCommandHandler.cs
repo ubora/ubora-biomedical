@@ -1,5 +1,4 @@
-﻿using System;
-using Marten;
+﻿using Marten;
 using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure.Commands;
 
@@ -20,21 +19,17 @@ namespace Ubora.Domain.Users
         {
             var blobProperties = new BlobProperties()
             {
-                Security = BlobSecurity.Public,
-                ContentType = cmd.ContentType,
-                ContentDisposition = cmd.ContentDisposition 
+                Security = BlobSecurity.Public
             };
 
             var userProfile = _documentSession.Load<UserProfile>(cmd.UserId);
 
-            var blobName = Guid.NewGuid() + cmd.FileName;
-            //userProfile.SetNewGuidBlobName();
-            userProfile.BlobName = blobName;
+            userProfile.SetProfilePictureBlobName(cmd.FileName);
 
             _documentSession.Store(userProfile);
             _documentSession.SaveChanges();
 
-            _storageProvider.SaveBlobStreamAsync("profilePictures", blobName, cmd.Stream, blobProperties).Wait();
+            _storageProvider.SaveBlobStreamAsync("profilePictures", userProfile.ProfilePictureBlobName, cmd.Stream, blobProperties).Wait();
 
             return new CommandResult();
         }

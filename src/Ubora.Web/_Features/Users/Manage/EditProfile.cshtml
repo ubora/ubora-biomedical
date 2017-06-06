@@ -9,7 +9,7 @@
 <section class="narrow-width">
     <h2>@ViewData["Title"]</h2>
     
-    <img src='@Model.ProfilePictureLink' />
+    <img class="avatar" src='@Model.ProfilePictureLink' width="300" height="300"/>
     
     <form method="post" enctype="multipart/form-data" asp-controller="Manage" asp-action="ChangeProfilePicture">
         <input type="file" name="file"/>

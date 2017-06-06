@@ -17,6 +17,18 @@ namespace Ubora.Web.Tests._Features.Users.Manage
         }
 
         [Fact]
+        public void IsImage_Returns_ValidationResult_When_This_Is_Empty_File()
+        {
+            //Act
+            var result = _manageValidator.IsImage(null);
+
+            //Assert
+            result.IsFailure.Should().Be(true);
+            result.Errors.Keys.Should().Contain("IsImage");
+            result.OnlyMessages.Should().Contain("Please select an image to upload first!");
+        }
+
+        [Fact]
         public void IsImage_Returns_ValidationResult_When_This_Is_Not_An_Image_Mime_Type()
         {
             var fileMock = new Mock<IFormFile>();
@@ -123,7 +135,6 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             var ms = new FileStream("testFile", FileMode.Create, FileAccess.ReadWrite);
             fileMock.Setup(f => f.ContentType).Returns("image/jpeg");
             fileMock.Setup(f => f.FileName).Returns("C:\\Test\\Parent\\Parent\\image.png");
-
 
             //Act
             var result = _manageValidator.IsImage(fileMock.Object);

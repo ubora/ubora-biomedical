@@ -42,7 +42,7 @@ namespace Ubora.Domain.Tests.Users
             createdUserProfile.Skills.Should().Be("expectedSkills");
             createdUserProfile.University.Should().Be("expectedUniversity");
             createdUserProfile.Role.Should().Be("expectedRole");
-            createdUserProfile.BlobName.Should().Be("Default");
+            createdUserProfile.ProfilePictureBlobName.Should().Be("Default");
         }
     }
 }

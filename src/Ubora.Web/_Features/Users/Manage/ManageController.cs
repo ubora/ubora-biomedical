@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -25,6 +27,7 @@ namespace Ubora.Web._Features.Users.Manage
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly IMapper _mapper;
         private readonly IStorageProvider _storageProvider;
         private readonly IManageValidator _manageValidator;
         private readonly IModelStateUpdater _modelStateUpdater;
@@ -36,7 +39,7 @@ namespace Ubora.Web._Features.Users.Manage
           IEmailSender emailSender,
           ISmsSender smsSender,
           ILoggerFactory loggerFactory,
-          ICommandQueryProcessor processor, IStorageProvider storageProvider, IManageValidator manageValidator, IModelStateUpdater modelStateUpdater) : base(processor)
+          ICommandQueryProcessor processor, IStorageProvider storageProvider, IManageValidator manageValidator, IModelStateUpdater modelStateUpdater, IMapper mapper) : base(processor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -46,6 +49,7 @@ namespace Ubora.Web._Features.Users.Manage
             _storageProvider = storageProvider;
             _manageValidator = manageValidator;
             _modelStateUpdater = modelStateUpdater;
+            _mapper = mapper;
             _logger = loggerFactory.CreateLogger<ManageController>();
         }
 
@@ -90,24 +94,22 @@ namespace Ubora.Web._Features.Users.Manage
             var userId = _userManager.GetUserId(User);
             var userProfile = FindById<UserProfile>(new Guid(userId));
 
-            var path =  _storageProvider.GetBlobUrl("profilePictures", userProfile.BlobName);
+            var path = _storageProvider.GetBlobUrl("profilePictures", userProfile.ProfilePictureBlobName);
+
+            if (Path.GetFileName(path) == "Default")
+            {
+                var defaultModel = _mapper.Map<UserProfileViewModel>(userProfile);
+                defaultModel.ProfilePictureLink = "/images/profileimagedefault.png";
+
+                return View("EditProfile", defaultModel);
+            } 
 
             var url = path.Replace("/app/wwwroot", "");
 
-            var model = new UserProfileViewModel
-            {
-                FirstName = userProfile.FirstName,
-                LastName = userProfile.LastName,
-                University = userProfile.University,
-                Degree = userProfile.Degree,
-                Field = userProfile.Field,
-                Biography = userProfile.Biography,
-                Skills = userProfile.Skills,
-                Role = userProfile.Role,
-                ProfilePictureLink = url
-            };
+            var model = _mapper.Map<UserProfileViewModel>(userProfile);
+            model.ProfilePictureLink = url;
 
-            return View(model);
+            return View("EditProfile", model);
         }
 
         [HttpPost]
@@ -140,25 +142,30 @@ namespace Ubora.Web._Features.Users.Manage
         [HttpPost]
         public IActionResult ChangeProfilePicture(IFormFile file)
         {
-            var getCorrectFileName = file.FileName.Substring(file.FileName.LastIndexOf(@"\") + 1);
-
             var validationResult = _manageValidator.IsImage(file);
+
             if (validationResult.IsFailure)
             {
                 _modelStateUpdater.UpdateFromValidationResult(validationResult, ModelState);
-                return View("EditProfile", new UserProfileViewModel());
+                return EditProfile();
             }
 
             var userId = _userManager.GetUserId(User);
+
+            // GetFileName method that don't work well. Don't trust too the FileName(display different results)! 
+            var getCorrectFileName = file.FileName.Substring(file.FileName.LastIndexOf(@"\") + 1);
 
             ExecuteUserCommand(new ChangeUserProfilePictureCommand()
             {
                 UserId = new Guid(userId),
                 Stream = file.OpenReadStream(),
-                ContentType = file.ContentType,
-                ContentDisposition = file.ContentDisposition,
                 FileName = getCorrectFileName
             });
+
+            if (!ModelState.IsValid)
+            {
+                return EditProfile();
+            }
 
             return RedirectToAction("EditProfile");
         }
