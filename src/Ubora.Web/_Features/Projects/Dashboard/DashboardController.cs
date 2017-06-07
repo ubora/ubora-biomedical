@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
@@ -18,8 +19,18 @@ namespace Ubora.Web._Features.Projects.Dashboard
         public IActionResult Dashboard()
         {
             var model = _mapper.Map<ProjectDashboardViewModel>(Project);
+            model.IsProjectMember = true;
 
             return View(model);
+        }
+
+        [AllowAnonymous]
+        public IActionResult Public()
+        {
+            var model = _mapper.Map<ProjectDashboardViewModel>(Project);
+            model.IsProjectMember = false;
+
+            return View("Dashboard",model);
         }
 
         public IActionResult EditProjectDescription()
