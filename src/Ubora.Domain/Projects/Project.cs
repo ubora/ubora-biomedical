@@ -11,7 +11,6 @@ namespace Ubora.Domain.Projects
     {
         public Guid Id { get; private set; }
         public string Title { get; private set; }
-
         public string Gmdn { get; private set; }
         public string ClinicalNeedTags { get; private set; }
         public string AreaOfUsageTags { get; private set; }
@@ -56,7 +55,10 @@ namespace Ubora.Domain.Projects
 
         private void Apply(DeviceClassificationSetEvent e)
         {
-            DeviceClassification = e.DeviceClassification;
+            if (e.CurrentClassification == null || e.NewClassification > e.CurrentClassification)
+            {
+                DeviceClassification = e.NewClassification.Text;
+            }
         }
 
         private void Apply(EditProjectDescriptionEvent e)

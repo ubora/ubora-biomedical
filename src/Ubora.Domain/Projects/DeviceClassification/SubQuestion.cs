@@ -1,16 +1,14 @@
-﻿using System;
-
-namespace Ubora.Domain.Projects.DeviceClassification
+﻿namespace Ubora.Domain.Projects.DeviceClassification
 {
-    public class SubQuestion : BaseQuestion
+    public class SubQuestion : BaseQuestion, ISubQuestion
     {
-        public Guid MainQuestionId { get; }
-        public Guid ParentQuestionId { get; }
+        public PairedMainQuestions PairedMainQuestions { get; private set; }
+        public BaseQuestion ParentQuestion { get; private set; }
 
-        public SubQuestion(Guid id, string text, Guid mainQuestionId, Guid parentQuestionId) : base(id, text)
+        public SubQuestion(string questionText, PairedMainQuestions pairedMainQuestions, BaseQuestion parentQuestion) : base(questionText)
         {
-            MainQuestionId = mainQuestionId;
-            ParentQuestionId = parentQuestionId;
+            PairedMainQuestions = pairedMainQuestions;
+            ParentQuestion = parentQuestion;
         }
     }
 }

@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.DeviceClassification;
+using Ubora.Web._Features.Projects.DeviceClassification.ViewModels;
 
 namespace Ubora.Web._Features.Projects.DeviceClassification
 {
@@ -12,86 +12,86 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
         private readonly IDeviceClassification _deviceClassification;
 
         public DeviceClassificationController(
-            ICommandQueryProcessor processor,
-            IDeviceClassification deviceClassification) : base(processor)
+            ICommandQueryProcessor processor) : base(processor)
         {
-            _deviceClassification = Find<Ubora.Domain.Projects.DeviceClassification.DeviceClassification>().Single();
+            _deviceClassification = Find<Domain.Projects.DeviceClassification.DeviceClassification>().Single();
         }
 
-        public IActionResult GetMainQuestion(Guid? questionId)
+        public IActionResult GetPairedMainQuestions(Guid? pairedMainQuestionsId)
         {
-            if (questionId == null)
+            if (pairedMainQuestionsId == null)
             {
-                var initialMainQuestion = _deviceClassification.GetDefaultMainQuestion();
+                var initialPairedMainQuestions = _deviceClassification.GetDefaultPairedMainQuestion();
 
-                var initialMainQuestionViewModel = new MainQuestionViewModel
+                var initialMainQuestionViewModel = new PairedMainQuestionsViewModel
                 {
-                    MainQuestionText = initialMainQuestion.Text,
-                    MainQuestionId = initialMainQuestion.Id
+                    PairedQuestionId = initialPairedMainQuestions.Id,
+                    MainQuestionOne = initialPairedMainQuestions.MainQuestionOne.Text,
+                    MainQuestionOneId = initialPairedMainQuestions.MainQuestionOne.Id,
+                    MainQuestionTwo = initialPairedMainQuestions.MainQuestionTwo.Text,
+                    MainQuestionTwoId = initialPairedMainQuestions.MainQuestionTwo.Id
                 };
 
                 return View(initialMainQuestionViewModel);
             }
 
-            var mainQuestion = _deviceClassification.GetMainQuestion(questionId.Value);
+            var pairedMainQuestions = _deviceClassification.GetPairedMainQuestions(pairedMainQuestionsId.Value);
 
-            var mainQuestionViewModel = new MainQuestionViewModel
+            var mainQuestionViewModel = new PairedMainQuestionsViewModel
             {
-                MainQuestionText = mainQuestion.Text,
-                MainQuestionId = mainQuestion.Id
+                PairedQuestionId = pairedMainQuestions.Id,
+                MainQuestionOne = pairedMainQuestions.MainQuestionOne.Text,
+                MainQuestionOneId = pairedMainQuestions.MainQuestionOne.Id,
+                MainQuestionTwo = pairedMainQuestions.MainQuestionTwo.Text,
+                MainQuestionTwoId = pairedMainQuestions.MainQuestionTwo.Id
             };
 
             return View(mainQuestionViewModel);
         }
 
-        public IActionResult NextMainQuestion(Guid mainQuestionId)
+        public IActionResult GetQuestions(Guid parentQuestionId, Guid? pairedMainQuestionsId)
         {
-            if (mainQuestionId == default(Guid))
+            if (parentQuestionId == default(Guid))
             {
                 return BadRequest();
             }
 
-            var nextMainQuestion = _deviceClassification.GetNextMainQuestion(mainQuestionId);
-
-            if (nextMainQuestion == null)
-            {
-                if (string.IsNullOrEmpty(Project.DeviceClassification))
-                {
-                    return RedirectToAction(nameof(NoClass), "DeviceClassification");
-                }
-
-                return RedirectToAction(nameof(CurrentClassification), "DeviceClassification");
-            }
-
-            return RedirectToAction(nameof(GetMainQuestion), "DeviceClassification", new { questionId = nextMainQuestion.Id });
-        }
-
-        public IActionResult GetQuestions(Guid questionId, Guid? mainQuestionId)
-        {
-            if (questionId == default(Guid))
-            {
-                return BadRequest();
-            }
-
-            var questions = _deviceClassification.GetSubQuestions(questionId);
+            var questions = _deviceClassification.GetSubQuestions(parentQuestionId);
 
             if (questions == null)
             {
                 return BadRequest("No sub question found!");
             }
 
-            if (mainQuestionId == null)
+            if (pairedMainQuestionsId == null)
             {
-                mainQuestionId = questions.First().MainQuestionId;
+                pairedMainQuestionsId = questions.First().PairedMainQuestions.Id;
             }
 
             var questionsViewModel = new QuestionsViewModel
             {
                 Questions = questions,
-                MainQuestionId = mainQuestionId.Value
+                PairedMainQuestionsId = pairedMainQuestionsId.Value
             };
 
             return View(questionsViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult MainQuestionAnswer(MainQuestionAnswerViewModel mainQuestionAnswerViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("ModelState is invalid");
+            }
+
+            var subQuestions = _deviceClassification.GetSubQuestions(mainQuestionAnswerViewModel.MainQuestionId);
+            if (subQuestions != null)
+            {
+                return RedirectToAction(nameof(GetQuestions), new { parentQuestionId = mainQuestionAnswerViewModel.MainQuestionId, pairedMainQuestionsId = mainQuestionAnswerViewModel.PairedQuestionId });
+            }
+
+            return RedirectToAction(nameof(NextMainQuestion), new { pairedMainQuestionsId = mainQuestionAnswerViewModel.PairedQuestionId });
         }
 
         [HttpPost]
@@ -106,11 +106,59 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
 
             if (questions == null)
             {
-                SetDeviceClassificationToProject(answerViewModel.NextQuestionId, Project.DeviceClassification);
-                return RedirectToAction(nameof(NextMainQuestion), "DeviceClassification", new { mainQuestionId = answerViewModel.MainQuestionId });
+                SetDeviceClassificationToProject(answerViewModel.NextQuestionId);
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("ModelState is invalid");
+                }
+
+                return RedirectToAction(nameof(NextMainQuestion), "DeviceClassification", new { pairedMainQuestionsId = answerViewModel.PairedMainQuestionsId });
             }
 
-            return RedirectToAction(nameof(GetQuestions), "DeviceClassification", new { questionId = answerViewModel.NextQuestionId, mainQuestionId = answerViewModel.MainQuestionId });
+            return RedirectToAction(nameof(GetQuestions), "DeviceClassification", new { parentQuestionId = answerViewModel.NextQuestionId, pairedMainQuestionsId = answerViewModel.PairedMainQuestionsId });
+        }
+
+        [HttpPost]
+        public IActionResult SpecialQuestionAnswer(SpecialAnswerViewModel specialAnswerViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("ModelState is invalid");
+            }
+
+            var subQuestion = _deviceClassification.GetSpecialSubQuestions(specialAnswerViewModel.NextQuestionId);
+
+            if (subQuestion == null)
+            {
+                SetDeviceClassificationToProject(specialAnswerViewModel.NextQuestionId);
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("ModelState is invalid");
+                }
+
+                return RedirectToAction(nameof(NextSpecialMainQuestion), "DeviceClassification", new { currentSpecialMainQuestionId = specialAnswerViewModel.MainQuestionId });
+            }
+
+            return RedirectToAction(nameof(GetSpecialSubQuestions), new { mainQuestionId = specialAnswerViewModel.MainQuestionId });
+        }
+
+        public IActionResult NextMainQuestion(Guid pairedMainQuestionsId)
+        {
+            if (pairedMainQuestionsId == default(Guid))
+            {
+                return BadRequest();
+            }
+
+            var nextMainQuestion = _deviceClassification.GetNextPairedMainQuestions(pairedMainQuestionsId);
+
+            if (nextMainQuestion == null)
+            {
+                return RedirectToAction(nameof(GetSpecialMainQuestion));
+            }
+
+            return RedirectToAction(nameof(GetPairedMainQuestions), "DeviceClassification", new { pairedMainQuestionsId = nextMainQuestion.Id });
         }
 
         public IActionResult CurrentClassification()
@@ -123,36 +171,99 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
             return View(currentClassificationViewModel);
         }
 
-        private void SetDeviceClassificationToProject(Guid questionId, string currentProjectDeviceClassificationText)
+        public IActionResult NoClass()
+        {
+            return View();
+        }
+
+        public IActionResult GetSpecialMainQuestion(Guid? specialMainQuestionId)
+        {
+            if (specialMainQuestionId == null)
+            {
+                var defaultSpecialMainQuestion = _deviceClassification.GetDefaultSpecialMainQuestion();
+
+                var defaultSpecialMainQuestionViewModel = new SpecialMainQuestionViewModel
+                {
+                    QuestionText = defaultSpecialMainQuestion.Text,
+                    CurrentSpecialMainQuestionId = defaultSpecialMainQuestion.Id
+                };
+
+                return View(defaultSpecialMainQuestionViewModel);
+            }
+
+            var specialMainQuestion = _deviceClassification.GetSpecialMainQuestion(specialMainQuestionId.Value);
+
+            var specialMainQuestionViewModel = new SpecialMainQuestionViewModel
+            {
+                QuestionText = specialMainQuestion.Text,
+                CurrentSpecialMainQuestionId = specialMainQuestion.Id
+            };
+
+            return View(specialMainQuestionViewModel);
+        }
+
+        public IActionResult NextSpecialMainQuestion(Guid currentSpecialMainQuestionId)
+        {
+            if (currentSpecialMainQuestionId == default(Guid))
+            {
+                return BadRequest();
+            }
+
+            var nextSpecialMainQuestion = _deviceClassification.GetNextSpecialMainQuestion(currentSpecialMainQuestionId);
+
+            if (nextSpecialMainQuestion == null)
+            {
+                if (string.IsNullOrEmpty(Project.DeviceClassification))
+                {
+                    return RedirectToAction(nameof(NoClass), "DeviceClassification");
+                }
+
+                return RedirectToAction(nameof(CurrentClassification), "DeviceClassification");
+            }
+
+            return RedirectToAction(nameof(GetSpecialMainQuestion), new { specialMainQuestionId = nextSpecialMainQuestion.Id });
+        }
+
+        public IActionResult GetSpecialSubQuestions(Guid mainQuestionId)
+        {
+            if (mainQuestionId == default(Guid))
+            {
+                return BadRequest();
+            }
+
+            var subQuestions = _deviceClassification.GetSpecialSubQuestions(mainQuestionId);
+
+            if (subQuestions == null)
+            {
+                return BadRequest("No sub question found!");
+            }
+
+            var questionsViewModel = new SpecialSubQuestionsViewModel
+            {
+                Questions = subQuestions,
+                MainQuestionId = mainQuestionId
+            };
+
+            return View(questionsViewModel);
+        }
+
+        private void SetDeviceClassificationToProject(Guid questionId)
         {
             var currentClassification = _deviceClassification.GetClassification(questionId);
+
+            if (currentClassification == null)
+            {
+                return;
+            }
 
             var command = new SetDeviceClassificationForProjectCommand
             {
                 ProjectId = ProjectId,
-                DeviceClassification = currentClassification.Text,
+                DeviceClassification = currentClassification,
                 Actor = this.UserInfo
             };
 
-            // Set if no classification exists on project
-            if (string.IsNullOrEmpty(currentProjectDeviceClassificationText))
-            {
-                ExecuteUserProjectCommand(command);
-                return;
-            }
-
-            var projectDeviceClassification = _deviceClassification.GetClassification(currentProjectDeviceClassificationText);
-
-            // Set only if new classification is stronger than old one
-            if (currentClassification > projectDeviceClassification)
-            {
-                ExecuteUserProjectCommand(command);
-            }
-        }
-
-        public IActionResult NoClass()
-        {
-            return View();
+            ExecuteUserProjectCommand(command);
         }
     }
 }

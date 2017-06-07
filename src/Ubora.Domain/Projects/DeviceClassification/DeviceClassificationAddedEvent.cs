@@ -5,15 +5,17 @@ namespace Ubora.Domain.Projects.DeviceClassification
 {
     public class DeviceClassificationSetEvent : UboraEvent
     {
-        public string DeviceClassification { get; }
+        public Classification NewClassification { get; }
+        public Classification CurrentClassification { get; }
         public Guid Id { get; }
 
-        public DeviceClassificationSetEvent(Guid id, string deviceClassification, UserInfo initiatedBy) : base(initiatedBy)
+        public DeviceClassificationSetEvent(Guid id, Classification newClassification, Classification currentClassification, UserInfo initiatedBy) : base(initiatedBy)
         {
             Id = id;
-            DeviceClassification = deviceClassification;
+            NewClassification = newClassification;
+            CurrentClassification = currentClassification;
         }
 
-        public override string GetDescription() => $"Saved {DeviceClassification} classification to project";
+        public override string GetDescription() => $"Saved new classification to project. New '{NewClassification.Text}', Current {CurrentClassification.Text}";
     }
 }

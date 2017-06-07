@@ -5,6 +5,6 @@ namespace Ubora.Domain.Projects.DeviceClassification
 {
     public class SetDeviceClassificationForProjectCommand : UserProjectCommand
     {
-        public string DeviceClassification { get; set; }
+        public Classification DeviceClassification { get; set; }
     }
 }
