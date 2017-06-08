@@ -28,7 +28,7 @@ namespace Ubora.Web.Authorization
 
             if (Project == null)
             {
-                // Don't handle any further when project is not found.
+                // Don't handle requirements when project is not found.
                 return;
             }
 
