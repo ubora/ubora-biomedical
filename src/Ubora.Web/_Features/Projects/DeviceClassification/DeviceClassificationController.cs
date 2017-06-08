@@ -12,9 +12,10 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
         private readonly IDeviceClassification _deviceClassification;
 
         public DeviceClassificationController(
-            ICommandQueryProcessor processor) : base(processor)
+            ICommandQueryProcessor processor,
+            IDeviceClassificationProvider deviceClassificationProvider) : base(processor)
         {
-            _deviceClassification = Find<Domain.Projects.DeviceClassification.DeviceClassification>().Single();
+            _deviceClassification = deviceClassificationProvider.Provide();
         }
 
         public IActionResult GetPairedMainQuestions(Guid? pairedMainQuestionsId)
@@ -250,11 +251,6 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
         private void SetDeviceClassificationToProject(Guid questionId)
         {
             var currentClassification = _deviceClassification.GetClassification(questionId);
-
-            if (currentClassification == null)
-            {
-                return;
-            }
 
             var command = new SetDeviceClassificationForProjectCommand
             {

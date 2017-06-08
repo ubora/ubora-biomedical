@@ -26,7 +26,6 @@ namespace Ubora.Domain.Projects.DeviceClassification
 
         public DeviceClassification()
         {
-
         }
 
         protected DeviceClassification(
@@ -643,12 +642,12 @@ namespace Ubora.Domain.Projects.DeviceClassification
     public interface IDeviceClassification
     {
         PairedMainQuestions GetDefaultPairedMainQuestion();
-        SpecialMainQuestion GetDefaultSpecialMainQuestion();
         PairedMainQuestions GetNextPairedMainQuestions(Guid currentQuestionId);
         PairedMainQuestions GetPairedMainQuestions(Guid questionId);
         IReadOnlyCollection<SubQuestion> GetSubQuestions(Guid parentQuestionId);
         Classification GetClassification(Guid questionId);
         Classification GetClassification(string text);
+        SpecialMainQuestion GetDefaultSpecialMainQuestion();
         SpecialMainQuestion GetNextSpecialMainQuestion(Guid currentSpecialMainQuestionId);
         SpecialMainQuestion GetSpecialMainQuestion(Guid questionId);
         IReadOnlyCollection<SpecialSubQuestion> GetSpecialSubQuestions(Guid mainQuestionId);

@@ -3,13 +3,13 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects.DeviceClassification
 {
-    public class DeviceClassificationSetEvent : UboraEvent
+    public class EditedProjectDeviceClassificationEvent : UboraEvent
     {
         public Classification NewClassification { get; }
         public Classification CurrentClassification { get; }
         public Guid Id { get; }
 
-        public DeviceClassificationSetEvent(Guid id, Classification newClassification, Classification currentClassification, UserInfo initiatedBy) : base(initiatedBy)
+        public EditedProjectDeviceClassificationEvent(Guid id, Classification newClassification, Classification currentClassification, UserInfo initiatedBy) : base(initiatedBy)
         {
             Id = id;
             NewClassification = newClassification;

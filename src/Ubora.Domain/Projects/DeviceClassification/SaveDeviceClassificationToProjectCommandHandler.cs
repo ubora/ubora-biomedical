@@ -8,9 +8,11 @@ namespace Ubora.Domain.Projects.DeviceClassification
     {
         private IDeviceClassification _deviceClassification;
 
-        public SaveDeviceClassificationToProjectCommandHandler(IDocumentSession documentSession, IDeviceClassification deviceClassification) : base(documentSession)
+        public SaveDeviceClassificationToProjectCommandHandler(
+            IDocumentSession documentSession, 
+            IDeviceClassificationProvider deviceClassificationProvider) : base(documentSession)
         {
-            _deviceClassification = deviceClassification;
+            _deviceClassification = deviceClassificationProvider.Provide();
         }
 
         public override ICommandResult Handle(SetDeviceClassificationForProjectCommand cmd)
@@ -23,7 +25,7 @@ namespace Ubora.Domain.Projects.DeviceClassification
 
             var currentClassification = string.IsNullOrEmpty(project.DeviceClassification) ? null : _deviceClassification.GetClassification(project.DeviceClassification);
 
-            var @event = new DeviceClassificationSetEvent(cmd.ProjectId, cmd.DeviceClassification, currentClassification, cmd.Actor);
+            var @event = new EditedProjectDeviceClassificationEvent(cmd.ProjectId, cmd.DeviceClassification, currentClassification, cmd.Actor);
 
             DocumentSession.Events.Append(cmd.ProjectId, @event);
             DocumentSession.SaveChanges();

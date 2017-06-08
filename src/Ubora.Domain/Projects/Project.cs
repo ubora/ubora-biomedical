@@ -53,7 +53,7 @@ namespace Ubora.Domain.Projects
             _members.Add(member);
         }
 
-        private void Apply(DeviceClassificationSetEvent e)
+        private void Apply(EditedProjectDeviceClassificationEvent e)
         {
             if (e.CurrentClassification == null || e.NewClassification > e.CurrentClassification)
             {
