@@ -43,7 +43,7 @@ namespace Ubora.Web._Features.Projects
         /// Disables <see cref="ProjectControllerRequirement.Handler"/>.
         /// </summary>
         [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-        public class DisableProjectControllerAuthorizationAttribute : Attribute, IDisablesProjectControllerAuthorizationFilter
+        protected class DisableProjectControllerAuthorizationAttribute : Attribute, IDisablesProjectControllerAuthorizationFilter
         {
         }
     }
