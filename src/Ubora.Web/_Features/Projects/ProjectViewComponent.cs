@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
+using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Projects
 {
@@ -18,7 +19,7 @@ namespace Ubora.Web._Features.Projects
             QueryProcessor = _processor;
         }
 
-        protected Guid ProjectId => Guid.Parse((string)RouteData.Values["projectId"]);
+        protected Guid ProjectId => RouteData.GetProjectId();
 
         private Project _project;
         protected Project Project => _project ?? (_project = _processor.FindById<Project>(ProjectId));

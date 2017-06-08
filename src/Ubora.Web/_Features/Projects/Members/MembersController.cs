@@ -21,7 +21,7 @@ namespace Ubora.Web._Features.Projects.Members
         [Route(nameof(Members))]
         public async Task<IActionResult> Members()
         {
-            var canRemoveProjectMembers = Project.DoesSatisfy(new IsLeader(UserInfo.UserId));
+            var canRemoveProjectMembers = Project.DoesSatisfy(new HasLeader(UserInfo.UserId));
 
             var model = new ProjectMemberListViewModel
             {

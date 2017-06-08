@@ -17,7 +17,6 @@ using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
 using Serilog;
-using System.IO;
 
 namespace Ubora.Web
 {
@@ -67,11 +66,7 @@ namespace Ubora.Web
             services.AddAutoMapper();
             services.AddUboraAuthorization();
 
-            services.AddSingleton<IAuthorizationHandler, IsProjectMemberAuthorizationHandler>();
-            services.AddSingleton<IAuthorizationHandler, IsAuthenticatedUserAuthorizationHandler>();
-            services.AddSingleton<IAuthorizationHandler, CanRemoveProjectMemberAuthorizationHandler>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IAuthorizationService, DefaultAuthorizationService>();
 
             services.AddScoped<Seeder>();
 

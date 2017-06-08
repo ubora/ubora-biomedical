@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Ubora.Web.Authorization
 {
@@ -6,21 +8,26 @@ namespace Ubora.Web.Authorization
     {
         public static IServiceCollection AddUboraAuthorization(this IServiceCollection services)
         {
+            services.AddSingleton<IAuthorizationHandler, ProjectControllerRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, IsProjectMemberRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, IsProjectLeaderRequirement.Handler>();
+
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(nameof(Policies.IsProjectMember), policyBuilder =>
+                options.AddPolicy(nameof(Policies.ProjectController), policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
+                    policyBuilder.AddRequirements(new ProjectControllerRequirement());
                 });
 
                 options.AddPolicy(nameof(Policies.IsAuthenticatedUser), policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new IsAuthenticatedUserRequirement());
+                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                 });
 
                 options.AddPolicy(nameof(Policies.CanRemoveProjectMember), policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new CanRemoveProjectMemberRequirement());
+                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
             });
 
