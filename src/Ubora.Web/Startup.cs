@@ -103,7 +103,7 @@ namespace Ubora.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStatusCodePagesWithReExecute("/CustomError/{0}");
+            app.UseStatusCodePagesWithReExecute("/Home/Error/");
 
             app.UseStaticFiles();
 
