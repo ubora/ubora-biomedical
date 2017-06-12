@@ -32,8 +32,10 @@ namespace Ubora.Domain.Tests.Projects
 
             RefreshSession();
 
+            var projectsQueryable = Session.Query<Project>();
+
             // Act
-            var result = sut.SatisfyEntitiesFrom(Session.Query<Project>());
+            var result = sut.SatisfyEntitiesFrom(projectsQueryable);
 
             // Assert
             var project = result.Single();

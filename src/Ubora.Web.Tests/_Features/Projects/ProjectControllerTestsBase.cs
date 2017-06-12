@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Routing;
 using Ubora.Web.Data;
+using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features.Projects;
 
 namespace Ubora.Web.Tests._Features.Projects
@@ -23,15 +24,11 @@ namespace Ubora.Web.Tests._Features.Projects
 
         protected virtual ClaimsPrincipal CreateUser()
         {
-            var claims = new[]
-            {
-                new Claim(ApplicationUser.FullNameClaimType, value: nameof(ApplicationUser.FullNameClaimType) + Guid.NewGuid()), 
-                new Claim(ClaimTypes.NameIdentifier, value: Guid.NewGuid().ToString()), 
-            };
-            var identity = new ClaimsIdentity(claims);
-            var principal = new ClaimsPrincipal(identity);
+            var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(
+                userId: Guid.NewGuid(),
+                fullName: nameof(ApplicationUser.FullNameClaimType) + Guid.NewGuid());
 
-            return principal;
+            return user;
         }
 
         protected void SetProjectAndUserContext(ProjectController controller)
