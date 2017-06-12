@@ -4,19 +4,20 @@
 <section class="medium-width">
     <a asp-controller="Notifications" asp-action="History">History</a>
     <h1>Pending invitations</h1>
-    @if (Model.Invitations.Any()) { 
-    @foreach (var invitation in Model.Invitations)
+    @if (Model.Invitations.Any())
     {
-        var isUnreadCss = invitation.IsUnread ? "message-unread" : "";
+        @foreach (var invitation in Model.Invitations)
+        {
+            var isUnreadCss = invitation.IsUnread ? "message-unread" : "";
 
-        <div class="message @isUnreadCss">
-            <div class="message-container">
-                <p class="message-author-preview">You have been asked to join project "@invitation.ProjectTitle"</p>
-                <a asp-controller="Invitations" asp-action="Accept" asp-route-invitationId="@invitation.InviteId">Accept</a>
-                <a asp-controller="Invitations" asp-action="Decline" asp-route-invitationId="@invitation.InviteId">Decline</a>
+            <div class="message @isUnreadCss">
+                <div class="message-container">
+                    <p class="message-author-preview">You have been asked to join project "@invitation.ProjectTitle"</p>
+                    @Html.Partial("~/_Features/Notifications/Invitations/InvitationPartial.cshtml", new Ubora.Web._Features.Notifications.Invitations.InvitationPartialViewModel { InviteId = invitation.InviteId, Action = "Accept" })
+                    @Html.Partial("~/_Features/Notifications/Invitations/InvitationPartial.cshtml", new Ubora.Web._Features.Notifications.Invitations.InvitationPartialViewModel { InviteId = invitation.InviteId, Action = "Decline" })
+                </div>
             </div>
-        </div>
-    }
+        }
     }
     else
     {

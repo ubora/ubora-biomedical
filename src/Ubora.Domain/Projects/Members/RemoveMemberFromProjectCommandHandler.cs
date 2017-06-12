@@ -22,13 +22,14 @@ namespace Ubora.Domain.Projects.Members
 
             var project = _documentSession.Load<Project>(cmd.ProjectId);
 
-            var isUserMember = project.Members.Any(m => m.UserId == cmd.UserId);
+            //var isUserMember = project.Members.Any(m => m.UserId == cmd.UserId);
+            var isUserMember = project.DoesSatisfy(new HasMember(cmd.UserId));
             if (!isUserMember)
             {
                 return new CommandResult($"User [{cmd.UserId}] is not part of project [{cmd.ProjectId}]");
             }
 
-            var isProjectLeader = project.Members.Any(m => m.UserId == cmd.UserId && m is ProjectLeader);
+            var isProjectLeader = project.DoesSatisfy(new HasLeader(cmd.UserId));
 
             if (isProjectLeader)
             {
