@@ -24,9 +24,12 @@ namespace Ubora.Web.Tests.Authorization
             httpContextMock
                 .Setup(x => x.Features[typeof(IRoutingFeature)])
                 .Returns(routingFeature);
+            httpContextMock
+                .Setup(x => x.RequestServices.GetService(typeof(IQueryProcessor)))
+                .Returns(Mock.Of<IQueryProcessor>());
 
             var httpContextAccessor = Mock.Of<IHttpContextAccessor>(x => x.HttpContext == httpContextMock.Object);
-            var handlerUnderTest = new HandlerUnderTest(httpContextAccessor, Mock.Of<IQueryProcessor>());
+            var handlerUnderTest = new HandlerUnderTest(httpContextAccessor);
 
             var handlerContext = new AuthorizationHandlerContext(
                 requirements: new[] { new TestRequirement() },
@@ -59,8 +62,12 @@ namespace Ubora.Web.Tests.Authorization
                 .Setup(x => x.FindById<Project>(projectId))
                 .Returns(Mock.Of<Project>());
 
+            httpContextMock
+                .Setup(x => x.RequestServices.GetService(typeof(IQueryProcessor)))
+                .Returns(queryProcessorMock.Object);
+
             var httpContextAccessor = Mock.Of<IHttpContextAccessor>(x => x.HttpContext == httpContextMock.Object);
-            var handlerUnderTest = new HandlerUnderTest(httpContextAccessor, queryProcessorMock.Object);
+            var handlerUnderTest = new HandlerUnderTest(httpContextAccessor);
 
             var handlerContext = new AuthorizationHandlerContext(
                 requirements: new[] { new TestRequirement() },
@@ -77,8 +84,8 @@ namespace Ubora.Web.Tests.Authorization
 
         private class HandlerUnderTest : ProjectAuthorizationHandler<TestRequirement>
         {
-            public HandlerUnderTest(IHttpContextAccessor httpContextAccessor, IQueryProcessor queryProcessor)
-                : base(httpContextAccessor, queryProcessor)
+            public HandlerUnderTest(IHttpContextAccessor httpContextAccessor)
+                : base(httpContextAccessor)
             {
             }
 
