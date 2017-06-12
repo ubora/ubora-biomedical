@@ -1,0 +1,25 @@
+@using Ubora.Web._Features.Notifications
+@model IndexViewModel
+
+<section class="medium-width">
+    <a asp-controller="Notifications" asp-action="History">History</a>
+    <h1>Pending invitations</h1>
+    @if (Model.Invitations.Any()) { 
+    @foreach (var invitation in Model.Invitations)
+    {
+        var isUnreadCss = invitation.IsUnread ? "message-unread" : "";
+
+        <div class="message @isUnreadCss">
+            <div class="message-container">
+                <p class="message-author-preview">You have been asked to join project "@invitation.ProjectTitle"</p>
+                <a asp-controller="Invitations" asp-action="Accept" asp-route-invitationId="@invitation.InviteId">Accept</a>
+                <a asp-controller="Invitations" asp-action="Decline" asp-route-invitationId="@invitation.InviteId">Decline</a>
+            </div>
+        </div>
+    }
+    }
+    else
+    {
+        <p>You have no pending invitations</p>
+    }
+</section>

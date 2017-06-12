@@ -34,4 +34,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Projects\Project.IsLeader.cs" />
+  </ItemGroup>
+
 </Project>

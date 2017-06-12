@@ -1,18 +1,18 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Routing;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 using Ubora.Web.Services;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Routing;
 
 namespace Ubora.Web.Authorization
 {
-    public class IsProjectMemberAuthorizationHandler : AuthorizationHandler<IsProjectMemberRequirement>
+    public class CanRemoveProjectMemberAuthorizationHandler : AuthorizationHandler<CanRemoveProjectMemberRequirement>
     {
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, IsProjectMemberRequirement requirement)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, CanRemoveProjectMemberRequirement requirement)
         {
             var filterContext = (AuthorizationFilterContext)context.Resource;
 
@@ -37,12 +37,13 @@ namespace Ubora.Web.Authorization
             }
 
             var user = context.User;
-            if (!user.Identity.IsAuthenticated)
+            if (user == null || user.Identity == null || !user.Identity.IsAuthenticated)
             {
+                context.Fail();
                 return;
             }
 
-            var isMember = project.DoesSatisfy(new HasMember(user.GetId()));
+            var isMember = project.DoesSatisfy(new IsLeader(user.GetId()));
             if (isMember)
             {
                 context.Succeed(requirement);

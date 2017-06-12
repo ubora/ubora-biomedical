@@ -1,0 +1,25 @@
+﻿@using Ubora.Web._Features.Notifications
+@model HistoryViewModel
+
+<section class="medium-width">
+    <a asp-controller="Notifications" asp-action="Index">Pending invitations</a>
+    <h1>History</h1>
+    @foreach (var invitation in Model.Invitations)
+    {
+        <div class="message">
+            <div class="message-container">
+                <p class="message-author-preview">You were asked to join project "@invitation.ProjectTitle".
+                    You
+                    @if (invitation.WasAccepted)
+                    {
+                        <b>Accepted</b>
+                    }
+                    else
+                    {
+                        <b>Declined</b>
+                    }
+                </p>
+            </div>
+        </div>
+    }
+</section>

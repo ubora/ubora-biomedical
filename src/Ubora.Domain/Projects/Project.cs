@@ -5,6 +5,7 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.DeviceClassification;
 using Ubora.Domain.Projects.WorkpackageTwos;
+using System.Linq;
 
 namespace Ubora.Domain.Projects
 {
@@ -49,11 +50,17 @@ namespace Ubora.Domain.Projects
             Gmdn = e.Gmdn;
         }
 
-        private void Apply(MemberInvitedToProjectEvent e)
+        private void Apply(MemberAddedToProjectEvent e)
         {
             var member = new ProjectMember(e.UserId);
 
             _members.Add(member);
+        }
+
+        private void Apply(MemberRemovedFromProjectEvent e)
+        {
+            var member = _members.Single(x => x.UserId == e.UserId);
+            _members.Remove(member);
         }
 
         private void Apply(DeviceClassificationSetEvent e)
