@@ -21,7 +21,15 @@ namespace Ubora.Web._Features.Home
 
 		public IActionResult Error()
 		{
-			return View();
+            ViewData["statusCode"] = HttpContext.Response.StatusCode;
+            return View();
 		}
-	}
+
+        [HttpGet("/CustomError/{statusCode}")]
+        public IActionResult CustomError(int statusCode)
+        {
+            ViewData["statusCode"] = statusCode;
+            return View();
+        }
+    }
 }
