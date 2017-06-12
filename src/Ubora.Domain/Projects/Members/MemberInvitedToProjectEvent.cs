@@ -3,7 +3,7 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects.Members
 {
-    internal class MemberInvitedToProjectEvent:UboraEvent
+    internal class MemberInvitedToProjectEvent : UboraEvent
     {
         public MemberInvitedToProjectEvent(UserInfo initiatedBy) : base(initiatedBy)
         {

@@ -8,10 +8,10 @@ namespace Ubora.Domain.Tests
     public abstract class IntegrationFixture : DocumentSessionIntegrationFixture
     {
         private IContainer _innerContainer;
-        protected IComponentContext Container => _innerContainer ?? (_innerContainer = InitializeContainer());
+        public IComponentContext Container => _innerContainer ?? (_innerContainer = InitializeContainer());
 
         private ICommandQueryProcessor _processor;
-        protected ICommandQueryProcessor Processor => _processor ?? (_processor = Container.Resolve<ICommandQueryProcessor>());
+        public  ICommandQueryProcessor Processor => _processor ?? (_processor = Container.Resolve<ICommandQueryProcessor>());
 
         private readonly DomainAutofacModule _domainAutofacModule;
 

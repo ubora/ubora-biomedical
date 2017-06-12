@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.DeviceClassification;
+using Ubora.Domain.Projects.WorkpackageTwos;
 
 namespace Ubora.Domain.Projects
 {
@@ -51,6 +52,7 @@ namespace Ubora.Domain.Projects
         private void Apply(MemberInvitedToProjectEvent e)
         {
             var member = new ProjectMember(e.UserId);
+
             _members.Add(member);
         }
 
@@ -62,6 +64,16 @@ namespace Ubora.Domain.Projects
         private void Apply(EditProjectDescriptionEvent e)
         {
             Description = e.Description;
+        }
+
+        private void Apply(ProjectMentorAssignedEvent e)
+        {
+            var isAlreadyMentor = DoesSatisfy(new HasMember<ProjectMentor>(e.UserId));
+            if (isAlreadyMentor)
+            {
+                return;
+            }
+            _members.Add(new ProjectMentor(e.UserId));
         }
 
         public override string ToString()
