@@ -1,7 +1,7 @@
 ﻿using System;
 using Ubora.Domain.Infrastructure.Events;
 
-namespace Ubora.Domain.Projects.WorkpackageTwos
+namespace Ubora.Domain.Projects.Members
 {
     public class ProjectMentorAssignedEvent : UboraEvent
     {

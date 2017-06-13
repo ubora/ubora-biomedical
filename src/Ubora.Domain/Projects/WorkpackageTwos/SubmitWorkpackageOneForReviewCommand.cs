@@ -1,42 +1,11 @@
 ﻿using System;
-using System.Linq.Expressions;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.WorkpackageOnes;
+using Ubora.Domain.Projects.WorkpackageSpecifications;
 
 namespace Ubora.Domain.Projects.WorkpackageTwos
 {
-    //public class WorkpackageOneLockedEvent : UboraEvent
-    //{
-    //    public WorkpackageOneLockedEvent(UserInfo initiatedBy) : base(initiatedBy)
-    //    {
-    //    }
-
-    //    public override string GetDescription() => "Locked work package.";
-    //}
-
-    //public class WorkpackageOneUnlockedEvent : UboraEvent
-    //{
-    //    public WorkpackageOneUnlockedEvent(UserInfo initiatedBy) : base(initiatedBy)
-    //    {
-    //    }
-
-    //    public override string GetDescription() => "Unlocked work package.";
-    //}
-
-    public class CanBeSubmittedForReview<TWorkpackage> : WrappedSpecification<TWorkpackage> where TWorkpackage : Workpackage<TWorkpackage>
-    {
-        public override Specification<TWorkpackage> ToSpecification()
-        {
-            var isAlreadyAccepted = new HasReviewInStatus<TWorkpackage>(WorkpackageReviewStatus.Accepted);
-            var isAlreadyInReview = new HasReviewInStatus<TWorkpackage>(WorkpackageReviewStatus.InReview);
-
-            return !(isAlreadyAccepted || isAlreadyInReview);
-        }
-    }
-
     /// <summary>
     /// Submit workpackage for formal review. Workpackage will be locked for new edits while in review.
     /// </summary>

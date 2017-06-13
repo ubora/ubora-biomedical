@@ -55,7 +55,7 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
 
         private void Apply(WorkpackageOneStepEditedEvent e)
         {
-            var canApply = this.DoesSatisfy(new CanBeEdited(e.StepId));
+            var canApply = this.DoesSatisfy(new CanWorkpackageOneStepBeEdited(e.StepId));
             if (!canApply)
             {
                 throw new InvalidOperationException();

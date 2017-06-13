@@ -3,7 +3,7 @@ using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
 
-namespace Ubora.Domain.Projects.WorkpackageTwos
+namespace Ubora.Domain.Projects.Members
 {
     public class AssignProjectMentorCommand : UserProjectCommand
     {

@@ -1,27 +1,11 @@
 using System;
 using System.Linq;
-using System.Linq.Expressions;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Infrastructure.Specifications;
+using Ubora.Domain.Projects.WorkpackageSpecifications;
 
 namespace Ubora.Domain.Projects.WorkpackageOnes
 {
-    public class CanBeEdited : Specification<WorkpackageOne>
-    {
-        public CanBeEdited(Guid stepId)
-        {
-            StepId = stepId;
-        }
-
-        public Guid StepId { get; }
-
-        internal override Expression<Func<WorkpackageOne, bool>> ToExpression()
-        {
-            return wp => !wp.IsLocked && wp.Steps.Any(s => s.Id == StepId);
-        }
-    }
-
     public class EditWorkpackageOneStepCommand : UserProjectCommand
     {
         public Guid StepId { get; set; }
@@ -47,7 +31,7 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
                     throw new InvalidOperationException($"{nameof(WorkpackageOneStep)} not found with id [{cmd.StepId}]");
                 }
 
-                var canHandle = workpackageOne.DoesSatisfy(new CanBeEdited(step.Id));
+                var canHandle = workpackageOne.DoesSatisfy(new CanWorkpackageOneStepBeEdited(step.Id));
                 if (!canHandle)
                 {
                     return new CommandResult("Work package step can not be edited.");

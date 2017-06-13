@@ -3,6 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using TestStack.BDDfy;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.WorkpackageTwos;
 using Ubora.Domain.Users;
 using Xunit;
@@ -44,7 +45,7 @@ namespace Ubora.Domain.Tests.Projects.Members
         }
     }
 
-    public class ProjectMentorSpecs : IntegrationFixture
+    public class ProjectMentorTests : IntegrationFixture
     {
         private readonly Guid _projectId = Guid.NewGuid();
         private readonly Guid _userId = Guid.NewGuid();

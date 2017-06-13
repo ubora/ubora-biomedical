@@ -1,7 +1,6 @@
 ﻿using System;
-using Ubora.Domain.Projects.Members;
 
-namespace Ubora.Domain.Projects.WorkpackageTwos
+namespace Ubora.Domain.Projects.Members
 {
     public class ProjectMentor : ProjectMember
     {

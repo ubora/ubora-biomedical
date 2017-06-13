@@ -3,6 +3,7 @@ using System.Linq;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.WorkpackageOnes;
+using Ubora.Domain.Projects.WorkpackageSpecifications;
 
 namespace Ubora.Domain.Projects.WorkpackageTwos
 {
