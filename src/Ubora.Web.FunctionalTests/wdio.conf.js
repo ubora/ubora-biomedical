@@ -1,4 +1,7 @@
+var rmdir = require('rmdir');
+
 exports.config = {
+    debug: true,
     // Set a base URL in order to shorten url command calls. If your url parameter starts
     // with "/", then the base url gets prepended.
     baseUrl: 'http://ubora.web:80',
@@ -135,7 +138,7 @@ exports.config = {
         timeout: 20000000,     // <number> timeout for step definitions
         ignoreUndefinedDefinitions: false, // <boolean> Enable this config to treat undefined definitions as warnings.
     },
-    
+
     //
     // =====
     // Hooks
@@ -149,8 +152,14 @@ exports.config = {
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-    // onPrepare: function (config, capabilities) {
-    // },
+    onPrepare: function (config, capabilities) {
+        var jsonReports = process.cwd() + '/reports/jsons';
+        rmdir(jsonReports, function (err, dirs, files) {
+            console.log(dirs);
+            console.log(files);
+            console.log('all files are removed');
+        });
+    },
     /**
      * Gets executed just before initialising the webdriver session and test framework. It allows you
      * to manipulate configurations depending on the capability or spec.

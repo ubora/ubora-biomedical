@@ -1,10 +1,11 @@
 var cucumber = require('cucumber');
 var fs = require('fs');
 var reporter = require('cucumber-html-reporter');
+var uuid = require('uuid');
 
 var hooks = function () {
 
-    var jsonReports = process.cwd() + '/reports';
+    var jsonReports = process.cwd() + '/reports/jsons';
     var htmlReports = process.cwd() + '/reports';
 
     this.After(function (scenario, callback) {
@@ -21,7 +22,7 @@ var hooks = function () {
         brandTitle: "Smoke Tests Report",
         name: 'Ubora project',
         theme: 'bootstrap',
-        jsonFile: jsonReports + '/cucumber_report.json',
+        jsonDir: jsonReports,
         output: htmlReports + '/cucumber_html_reporter.html',
         reportSuiteAsScenarios: true
     };
@@ -32,7 +33,7 @@ var hooks = function () {
             fs.mkdirSync(jsonReports);
         }
 
-        var targetJson = jsonReports + '/cucumber_report.json';
+        var targetJson = jsonReports + '/cucumber_report' + uuid.v1() + '.json';
         fs.writeFileSync(targetJson, string);
         return reporter.generate(options);
     };
