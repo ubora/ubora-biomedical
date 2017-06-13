@@ -10,12 +10,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
     {
         private readonly IMapper _mapper;
 
-        protected Domain.Projects.WorkpackageOnes.WorkpackageOne WorkpackageOne => this.FindById<Domain.Projects.WorkpackageOnes.WorkpackageOne>(ProjectId);
-
         public WorkpackageOneController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
         {
             _mapper = mapper;
         }
+
+        protected Domain.Projects.WorkpackageOnes.WorkpackageOne WorkpackageOne => this.FindById<Domain.Projects.WorkpackageOnes.WorkpackageOne>(ProjectId);
 
         public IActionResult Overview()
         {
@@ -60,6 +60,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
             }
 
             return RedirectToAction(nameof(Step), new { id = model.StepId });
+        }
+
+        // TODO
+        [HttpPost]
+        public IActionResult CommentStep(object model)
+        {
+            return null;
         }
     }
 }

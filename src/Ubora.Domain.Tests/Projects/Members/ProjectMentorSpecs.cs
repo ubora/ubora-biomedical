@@ -11,13 +11,18 @@ namespace Ubora.Domain.Tests.Projects.Members
 {
     public static class IntegrationFixtureExtensions
     {
-        public static void Given_There_Is_Project_And_User(this IntegrationFixture fixture, Guid projectId, Guid userId)
+        public static void Given_There_Is_Project(this IntegrationFixture fixture, Guid projectId)
         {
             fixture.Processor.Execute(new CreateProjectCommand
             {
                 NewProjectId = projectId,
                 Actor = new DummyUserInfo()
             });
+        }
+
+        public static void Given_There_Is_Project_And_User(this IntegrationFixture fixture, Guid projectId, Guid userId)
+        {
+            fixture.Given_There_Is_Project(projectId);
 
             fixture.Processor.Execute(new CreateUserProfileCommand
             {

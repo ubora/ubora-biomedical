@@ -1,0 +1,26 @@
+﻿@model Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview.ProjectReviewViewModel
+
+
+<br/>
+
+@nameof(Model.IsWorkpackageOneInReview): @Model.IsWorkpackageOneInReview
+
+<br />
+
+@nameof(Model.IsWorkpackageOneAccepted): @Model.IsWorkpackageOneAccepted
+
+<br />
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<form asp-action="SubmitForReview">
+    <button type="submit">Submit for review</button>
+</form>
+
+<form asp-action="Accept">
+    <button type="submit">Accept</button>
+</form>
+
+<form asp-action="Reject">
+    <button type="submit">Reject</button>
+</form>
