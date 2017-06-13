@@ -37,7 +37,6 @@ namespace Ubora.Web.Tests._Features.Notifications.Invitations
             result.ActionName.Should().Be(nameof(NotificationsController.Index));
         }
 
-
         [Fact]
         public void Accept_Returns_BadResult_If_Command_Fails()
         {

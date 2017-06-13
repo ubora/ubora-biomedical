@@ -45,6 +45,17 @@ namespace Ubora.Domain.Tests.Projects.Members
         }
 
         [Fact]
+        public void User_Views_Invite_Then_Invite_Is_Marked_Viewed()
+        {
+            this.Given(_ => There_Is_Project_And_User())
+                .When(_ => User_Is_Invited_To_Project())
+                .Then(_ => Invited_User_Has_Invite())
+                .When(_ => User_Views_Invite())
+                .Then(_ => Invite_Is_Marked_Viewed())
+                .BDDfy();
+        }
+
+        [Fact]
         public void User_Declines_Invite_To_Project()
         {
             this.Given(_ => There_Is_Project_And_User())
@@ -55,6 +66,22 @@ namespace Ubora.Domain.Tests.Projects.Members
                 .When(_ => User_Is_Invited_To_Project_Again())
                 .Then(_ => Invited_User_Has_Invite())
                 .BDDfy();
+        }
+
+        private void User_Views_Invite()
+        {
+            _lastCommandResult = Processor.Execute(new MarkInvitationsAsViewedCommand
+            {
+                UserId = _invitedUserId,
+                Actor = new UserInfo(Guid.NewGuid(), "")
+            });
+        }
+
+        private void Invite_Is_Marked_Viewed()
+        {
+            var invite = Session.Query<InvitationToProject>().Where(x => x.InvitedMemberId == _invitedUserId).First();
+
+            invite.HasBeenViewed.Should().BeTrue();
         }
 
         private void Project_Leader_Removes_Invited_User_From_Project()

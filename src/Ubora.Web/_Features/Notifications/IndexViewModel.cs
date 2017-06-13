@@ -19,7 +19,12 @@ namespace Ubora.Web._Features.Notifications
                 _processor = processor;
             }
 
-            public IndexViewModel Create(Guid userId)
+            protected Factory()
+            {
+
+            }
+
+            public virtual IndexViewModel Create(Guid userId)
             {
                 var indexViewModel = new IndexViewModel();
                 indexViewModel.Invitations = GetIndexInvitationViewModels(userId);

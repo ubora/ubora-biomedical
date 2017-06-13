@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
 using System;
-using System.Collections.Generic;
 using System.Security.Claims;
 using System.Security.Principal;
-using System.Text;
 using Ubora.Web._Features;
 using Ubora.Web.Data;
 using Ubora.Web.Tests.Fakes;
@@ -16,16 +15,19 @@ namespace Ubora.Web.Tests._Features
     public class UboraControllerTestsBase
     {
         protected IPrincipal User { get; }
+        protected Guid UserId { get; }
+        protected ModelStateDictionary ModelState { get; private set; }
 
         public UboraControllerTestsBase()
         {
-            User = CreateUser();
+            UserId = Guid.NewGuid();
+            User = CreateUser(UserId);
         }
 
-        protected virtual ClaimsPrincipal CreateUser()
+        protected virtual ClaimsPrincipal CreateUser(Guid userId)
         {
             var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(
-                userId: Guid.NewGuid(),
+                userId: userId,
                 fullName: nameof(ApplicationUser.FullNameClaimType) + Guid.NewGuid());
 
             return user;
@@ -42,6 +44,7 @@ namespace Ubora.Web.Tests._Features
                 },
                 ActionDescriptor = new ControllerActionDescriptor()
             });
+            ModelState = controller.ModelState;
         }
     }
 }
