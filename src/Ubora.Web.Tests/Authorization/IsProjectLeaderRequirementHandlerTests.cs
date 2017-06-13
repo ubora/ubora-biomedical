@@ -70,7 +70,7 @@ namespace Ubora.Web.Tests.Authorization
             private Project _project = Mock.Of<Project>();
 
             public HandlerUnderTest() 
-                : base(Mock.Of<IHttpContextAccessor>(x => x.HttpContext == Mock.Of<HttpContext>()), Mock.Of<IQueryProcessor>())
+                : base(Mock.Of<IHttpContextAccessor>(x => x.HttpContext == Mock.Of<HttpContext>()))
             {
             }
 

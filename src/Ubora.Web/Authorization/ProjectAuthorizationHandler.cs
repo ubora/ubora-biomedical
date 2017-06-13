@@ -1,24 +1,32 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 using Ubora.Web.Infrastructure.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Ubora.Web.Authorization
 {
     public abstract class ProjectAuthorizationHandler<TRequirement>
         : AuthorizationHandler<TRequirement> where TRequirement : IAuthorizationRequirement
     {
-        protected IQueryProcessor QueryProcessor;
-        protected HttpContext HttpContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        protected ProjectAuthorizationHandler(IHttpContextAccessor httpContextAccessor, IQueryProcessor queryProcessor)
+        protected ProjectAuthorizationHandler(IHttpContextAccessor httpContextAccessor)
         {
-            QueryProcessor = queryProcessor;
-            HttpContext = httpContextAccessor.HttpContext;
+            // Warning: Don't set HttpContext here -- always get latest instance from the accessor
+            _httpContextAccessor = httpContextAccessor;
         }
+
+        private HttpContext HttpContext => _httpContextAccessor.HttpContext;
+
+        // Scoped services need to use service location because all authorization-handlers are singletons.
+        private IServiceProvider ServiceProvider => HttpContext.RequestServices;
+
+        protected IQueryProcessor QueryProcessor => ServiceProvider.GetService<IQueryProcessor>();
 
         protected Project Project { get; private set; }
 

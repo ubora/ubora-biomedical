@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 using Ubora.Web.Services;
 
@@ -11,8 +10,8 @@ namespace Ubora.Web.Authorization
     {
         public class Handler : ProjectAuthorizationHandler<IsProjectLeaderRequirement>
         {
-            public Handler(IHttpContextAccessor httpContextAccessor, IQueryProcessor queryProcessor)
-                : base(httpContextAccessor, queryProcessor)
+            public Handler(IHttpContextAccessor httpContextAccessor)
+                : base(httpContextAccessor)
             {
             }
 
