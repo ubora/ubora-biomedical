@@ -12,6 +12,8 @@ namespace Ubora.Domain.Projects.WorkpackageTwos
     /// </summary>
     public class AcceptWorkpackageOneByReviewCommand : UserProjectCommand
     {
+        public string Conclusion { get; set; }
+
         internal class Handler : CommandHandler<AcceptWorkpackageOneByReviewCommand>
         {
             public Handler(IDocumentSession documentSession) : base(documentSession)

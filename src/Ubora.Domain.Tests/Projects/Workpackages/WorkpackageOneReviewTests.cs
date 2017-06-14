@@ -2,6 +2,7 @@
 using FluentAssertions;
 using TestStack.BDDfy;
 using Ubora.Domain.Projects.WorkpackageOnes;
+using Ubora.Domain.Projects.WorkpackageSpecifications;
 using Ubora.Domain.Projects.WorkpackageTwos;
 using Ubora.Domain.Tests.Projects.Members;
 using Xunit;

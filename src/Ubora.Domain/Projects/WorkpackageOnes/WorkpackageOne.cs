@@ -4,6 +4,7 @@ using System.Linq;
 using Marten.Schema;
 using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Projects.WorkpackageSpecifications;
 using Ubora.Domain.Projects.WorkpackageTwos;
 
 namespace Ubora.Domain.Projects.WorkpackageOnes

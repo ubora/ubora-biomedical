@@ -5,29 +5,30 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.Members;
 using Ubora.Web.Authorization;
 using Ubora.Web.Tests.Fakes;
 using Xunit;
 
 namespace Ubora.Web.Tests.Authorization
 {
-    public class IsProjectLeaderRequirementHandlerTests
+    public class IsProjectMentorRequirementHandlerTests
     {
         private readonly HandlerUnderTest _handlerUnderTest;
 
-        public IsProjectLeaderRequirementHandlerTests()
+        public IsProjectMentorRequirementHandlerTests()
         {
             _handlerUnderTest = new HandlerUnderTest();
         }
 
         [Fact]
-        public async Task Succeeds_When_User_Is_Project_Leader()
+        public async Task Succeeds_When_User_Is_Project_Member()
         {
             var userId = Guid.NewGuid();
             var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(userId);
 
             var handlerContext = new AuthorizationHandlerContext(
-                requirements: new[] { new IsProjectLeaderRequirement() },
+                requirements: new[] { new IsProjectMentorRequirement() },
                 user: user,
                 resource: null);
 
@@ -35,7 +36,7 @@ namespace Ubora.Web.Tests.Authorization
             _handlerUnderTest.SetProject(projectMock.Object);
 
             projectMock
-                .Setup(x => x.DoesSatisfy(new HasLeader(userId)))
+                .Setup(x => x.DoesSatisfy(new HasMember<ProjectMentor>(userId)))
                 .Returns(true);
 
             // Act
@@ -47,12 +48,12 @@ namespace Ubora.Web.Tests.Authorization
         }
 
         [Fact]
-        public async Task Does_Not_Succeed_When_User_Is_Not_Project_Leader()
+        public async Task Does_Not_Succeed_When_User_Is_Not_Project_Member()
         {
             var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(userId: Guid.NewGuid());
 
             var handlerContext = new AuthorizationHandlerContext(
-                requirements: new[] { new IsProjectLeaderRequirement() },
+                requirements: new[] { new IsProjectMentorRequirement() },
                 user: user,
                 resource: null);
 
@@ -64,11 +65,11 @@ namespace Ubora.Web.Tests.Authorization
                 .Should().BeFalse();
         }
 
-        private class HandlerUnderTest : IsProjectLeaderRequirement.Handler
+        private class HandlerUnderTest : IsProjectMentorRequirement.Handler
         {
             private Project _project = Mock.Of<Project>();
 
-            public HandlerUnderTest() 
+            public HandlerUnderTest()
                 : base(Mock.Of<IHttpContextAccessor>(x => x.HttpContext == Mock.Of<HttpContext>()))
             {
             }

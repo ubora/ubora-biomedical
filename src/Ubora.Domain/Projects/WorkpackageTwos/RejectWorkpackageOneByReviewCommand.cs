@@ -9,6 +9,8 @@ namespace Ubora.Domain.Projects.WorkpackageTwos
 {
     public class RejectWorkpackageOneByReviewCommand : UserProjectCommand
     {
+        public string Conclusion { get; set; }
+
         internal class Handler : CommandHandler<RejectWorkpackageOneByReviewCommand>
         {
             public Handler(IDocumentSession documentSession) : base(documentSession)

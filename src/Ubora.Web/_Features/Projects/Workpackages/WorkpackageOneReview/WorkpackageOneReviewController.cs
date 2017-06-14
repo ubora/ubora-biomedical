@@ -1,15 +1,24 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.WorkpackageOnes;
+using Ubora.Domain.Projects.WorkpackageSpecifications;
 using Ubora.Domain.Projects.WorkpackageTwos;
+using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
 {
-    public class ProjectReviewViewModel
+    public class WorkpackageReviewViewModel
     {
         public bool IsWorkpackageOneInReview { get; set; }
         public bool IsWorkpackageOneAccepted { get; set; }
+    }
+
+    public class WorkpackageReviewDecisionPostModel
+    {
+        public string Comment { get; set; }
     }
 
     // TODO
@@ -24,12 +33,28 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
 
         protected Domain.Projects.WorkpackageOnes.WorkpackageOne WorkpackageOne => this.FindById<Domain.Projects.WorkpackageOnes.WorkpackageOne>(ProjectId);
 
+        [HttpPost]
+        public IActionResult AssignMeAsMentor()
+        {
+            ExecuteUserProjectCommand(new AssignProjectMentorCommand
+            {
+                UserId = this.UserId
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return Review();
+            }
+
+            return RedirectToAction(nameof(Review));
+        }
+
         public IActionResult Review()
         {
             var isInReview= new HasReviewInStatus<Domain.Projects.WorkpackageOnes.WorkpackageOne>(WorkpackageReviewStatus.InReview);
             var isAccepted = new HasReviewInStatus<Domain.Projects.WorkpackageOnes.WorkpackageOne>(WorkpackageReviewStatus.Accepted);
 
-            var model = new ProjectReviewViewModel
+            var model = new WorkpackageReviewViewModel
             {
                 IsWorkpackageOneInReview = WorkpackageOne.DoesSatisfy(isInReview),
                 IsWorkpackageOneAccepted = WorkpackageOne.DoesSatisfy(isAccepted)
@@ -39,12 +64,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
         }
 
         [HttpPost]
+        [Authorize(Policies.CanSubmitWorkpackageForReview)]
         public IActionResult SubmitForReview()
         {
-            // TODO: Authorize
-
-            // TODO: Validate?
-
             if (!ModelState.IsValid)
             {
                 return Review();
@@ -60,18 +82,16 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
             return RedirectToAction(nameof(Review));
         }
 
+        [Authorize(Policies.CanReviewProjectWorkpackages)]
         public IActionResult Decision()
         {
-            return null;
+            return View(nameof(Decision));
         }
 
         [HttpPost]
-        public IActionResult Accept()
+        [Authorize(Policies.CanReviewProjectWorkpackages)]
+        public IActionResult Accept(WorkpackageReviewDecisionPostModel model)
         {
-            // TODO: Authorize
-
-            // TODO: Validate?
-
             if (!ModelState.IsValid)
             {
                 return Review();
@@ -84,16 +104,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
                 return Review();
             }
 
-            return RedirectToAction(nameof(Review));
+            return RedirectToAction(nameof(Decision));
         }
 
         [HttpPost]
-        public IActionResult Reject()
+        [Authorize(Policies.CanReviewProjectWorkpackages)]
+        public IActionResult Reject(WorkpackageReviewDecisionPostModel model)
         {
-            // TODO: Authorize
-
-            // TODO: Validate?
-
             if (!ModelState.IsValid)
             {
                 return Review();
@@ -106,7 +123,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
                 return Review();
             }
 
-            return RedirectToAction(nameof(Review));
+            return RedirectToAction(nameof(Decision));
         }
     }
 }
