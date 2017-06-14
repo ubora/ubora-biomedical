@@ -27,10 +27,10 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
                 var initialMainQuestionViewModel = new PairedMainQuestionsViewModel
                 {
                     PairedQuestionId = initialPairedMainQuestions.Id,
-                    MainQuestionOne = initialPairedMainQuestions.MainQuestionOne.Text,
-                    MainQuestionOneId = initialPairedMainQuestions.MainQuestionOne.Id,
-                    MainQuestionTwo = initialPairedMainQuestions.MainQuestionTwo.Text,
-                    MainQuestionTwoId = initialPairedMainQuestions.MainQuestionTwo.Id
+                    MainQuestionOne = initialPairedMainQuestions.MainQuestionOne?.Text,
+                    MainQuestionOneId = initialPairedMainQuestions.MainQuestionOne == null ? Guid.Empty : initialPairedMainQuestions.MainQuestionOne.Id,
+                    MainQuestionTwo = initialPairedMainQuestions.MainQuestionTwo?.Text,
+                    MainQuestionTwoId = initialPairedMainQuestions.MainQuestionTwo == null ? Guid.Empty : initialPairedMainQuestions.MainQuestionTwo.Id
                 };
 
                 return View(initialMainQuestionViewModel);
@@ -41,10 +41,10 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
             var mainQuestionViewModel = new PairedMainQuestionsViewModel
             {
                 PairedQuestionId = pairedMainQuestions.Id,
-                MainQuestionOne = pairedMainQuestions.MainQuestionOne.Text,
-                MainQuestionOneId = pairedMainQuestions.MainQuestionOne.Id,
-                MainQuestionTwo = pairedMainQuestions.MainQuestionTwo.Text,
-                MainQuestionTwoId = pairedMainQuestions.MainQuestionTwo.Id
+                MainQuestionOne = pairedMainQuestions.MainQuestionOne?.Text,
+                MainQuestionOneId = pairedMainQuestions.MainQuestionOne == null ? Guid.Empty : pairedMainQuestions.MainQuestionOne.Id,
+                MainQuestionTwo = pairedMainQuestions.MainQuestionTwo?.Text,
+                MainQuestionTwoId = pairedMainQuestions.MainQuestionTwo == null ? Guid.Empty : pairedMainQuestions.MainQuestionTwo.Id
             };
 
             return View(mainQuestionViewModel);

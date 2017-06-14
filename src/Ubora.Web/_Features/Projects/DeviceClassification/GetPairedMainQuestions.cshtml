@@ -13,8 +13,11 @@
         <li class="questionnaire_item">
             @Html.Partial("MainQuestionAnswerPartial", new MainQuestionAnswerViewModel { QuestionText = Model.MainQuestionOne, MainQuestionId = Model.MainQuestionOneId, PairedQuestionId = Model.PairedQuestionId })
         </li>
-        <li class="questionnaire_item">
-            @Html.Partial("MainQuestionAnswerPartial", new MainQuestionAnswerViewModel { QuestionText = Model.MainQuestionTwo, MainQuestionId = Model.MainQuestionTwoId, PairedQuestionId = Model.PairedQuestionId })
-        </li>
+        @if (!string.IsNullOrEmpty(Model.MainQuestionTwo))
+        {
+            <li class="questionnaire_item">
+                @Html.Partial("MainQuestionAnswerPartial", new MainQuestionAnswerViewModel { QuestionText = Model.MainQuestionTwo, MainQuestionId = Model.MainQuestionTwoId, PairedQuestionId = Model.PairedQuestionId })
+            </li>
+        }
     </ul>
 </section>
