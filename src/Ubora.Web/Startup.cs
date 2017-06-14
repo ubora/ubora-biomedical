@@ -17,7 +17,6 @@ using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
 using Serilog;
-using System.IO;
 
 namespace Ubora.Web
 {
@@ -54,23 +53,20 @@ namespace Ubora.Web
                 .AddMvc()
                 .AddUboraFeatureFolders(new FeatureFolderOptions { FeatureFolderName = "_Features" });
 
-			services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
-			    {
-			        o.Password.RequireNonAlphanumeric = false;
-			    })
+            services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
+                {
+                    o.Password.RequireNonAlphanumeric = false;
+                })
                 .AddUserManager<ApplicationUserManager>()
                 .AddSignInManager<ApplicationSignInManager>()
                 .AddClaimsPrincipalFactory<ApplicationClaimsPrincipalFactory>()
-				.AddEntityFrameworkStores<ApplicationDbContext, Guid>()
-				.AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<ApplicationDbContext, Guid>()
+                .AddDefaultTokenProviders();
 
             services.AddAutoMapper();
             services.AddUboraAuthorization();
 
-            services.AddSingleton<IAuthorizationHandler, IsProjectMemberAuthorizationHandler>();
-            services.AddSingleton<IAuthorizationHandler, IsAuthenticatedUserAuthorizationHandler>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IAuthorizationService, DefaultAuthorizationService>();
 
             services.AddScoped<Seeder>();
 
