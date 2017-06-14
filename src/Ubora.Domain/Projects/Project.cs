@@ -18,7 +18,7 @@ namespace Ubora.Domain.Projects
         public string AreaOfUsageTags { get; private set; }
         public string PotentialTechnologyTags { get; private set; }
         public string DeviceClassification { get; private set; }
-        public string Description { get; set; }
+        public string Description { get; private set; }
 
         [JsonProperty(nameof(Members))]
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();

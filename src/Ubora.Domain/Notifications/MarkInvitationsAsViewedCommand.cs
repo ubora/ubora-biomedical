@@ -11,7 +11,7 @@ namespace Ubora.Domain.Notifications
         public Guid UserId { get; set; }
     }
 
-    public class MarkInvitationsAsViewedCommandHandler : ICommandHandler<MarkInvitationsAsViewedCommand>
+    internal class MarkInvitationsAsViewedCommandHandler : ICommandHandler<MarkInvitationsAsViewedCommand>
     {
         private readonly ICommandQueryProcessor _processor;
         private readonly IDocumentSession _documentSession;
