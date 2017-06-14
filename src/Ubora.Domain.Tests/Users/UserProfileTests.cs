@@ -12,6 +12,8 @@ namespace Ubora.Domain.Tests.Users
         public void Constructor_Sets_UserId()
         {
             var userId = Guid.NewGuid();
+
+            //Act
             var userProfile = new UserProfile(userId);
 
             //Assert
@@ -25,9 +27,9 @@ namespace Ubora.Domain.Tests.Users
             var userId = Guid.NewGuid();
             var userProfile = new UserProfile(userId);
             var profilePictureBlobName = Guid.NewGuid() + testfile;
-
-            userProfile.SetProfilePictureBlobName(testfile);
             
+            //Act
+            userProfile.SetProfilePictureBlobName(testfile);
             userProfile.SetPropertyValue(nameof(UserProfile.ProfilePictureBlobName), profilePictureBlobName);
 
             //Assert

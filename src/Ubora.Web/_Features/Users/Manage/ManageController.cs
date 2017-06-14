@@ -1,10 +1,7 @@
-﻿using System;
-using System.IO;
+﻿
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,9 +9,7 @@ using Microsoft.Extensions.Options;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
-using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
-using Ubora.Web._Features._Shared;
 
 namespace Ubora.Web._Features.Users.Manage
 {
@@ -27,10 +22,6 @@ namespace Ubora.Web._Features.Users.Manage
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
-        private readonly IMapper _mapper;
-        private readonly IStorageProvider _storageProvider;
-        private readonly IManageValidator _manageValidator;
-        private readonly IModelStateUpdater _modelStateUpdater;
 
         public ManageController(
           UserManager<ApplicationUser> userManager,
@@ -39,17 +30,13 @@ namespace Ubora.Web._Features.Users.Manage
           IEmailSender emailSender,
           ISmsSender smsSender,
           ILoggerFactory loggerFactory,
-          ICommandQueryProcessor processor, IStorageProvider storageProvider, IManageValidator manageValidator, IModelStateUpdater modelStateUpdater, IMapper mapper) : base(processor)
+          ICommandQueryProcessor processor) : base(processor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _emailSender = emailSender;
             _smsSender = smsSender;
-            _storageProvider = storageProvider;
-            _manageValidator = manageValidator;
-            _modelStateUpdater = modelStateUpdater;
-            _mapper = mapper;
             _logger = loggerFactory.CreateLogger<ManageController>();
         }
 
@@ -87,87 +74,6 @@ namespace Ubora.Web._Features.Users.Manage
                 }
             };
             return View(model);
-        }
-
-        public IActionResult EditProfile()
-        {
-            var userId = _userManager.GetUserId(User);
-            var userProfile = FindById<UserProfile>(new Guid(userId));
-
-            var path = _storageProvider.GetBlobUrl("profilePictures", userProfile.ProfilePictureBlobName);
-
-            if (Path.GetFileName(path) == "Default")
-            {
-                var defaultModel = _mapper.Map<UserProfileViewModel>(userProfile);
-                defaultModel.ProfilePictureLink = "/images/profileimagedefault.png";
-
-                return View("EditProfile", defaultModel);
-            } 
-
-            var url = path.Replace("/app/wwwroot", "");
-
-            var model = _mapper.Map<UserProfileViewModel>(userProfile);
-            model.ProfilePictureLink = url;
-
-            return View("EditProfile", model);
-        }
-
-        [HttpPost]
-        public IActionResult EditProfile(UserProfileViewModel model)
-        {
-            var userId = _userManager.GetUserId(User);
-
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var command = new EditUserProfileCommand
-            {
-                UserId = new Guid(userId),
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                University = model.University,
-                Degree = model.Degree,
-                Field = model.Field,
-                Biography = model.Biography,
-                Skills = model.Skills,
-                Role = model.Role
-            };
-            ExecuteUserCommand(command);
-
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public IActionResult ChangeProfilePicture(IFormFile file)
-        {
-            var validationResult = _manageValidator.IsImage(file);
-
-            if (validationResult.IsFailure)
-            {
-                _modelStateUpdater.UpdateFromValidationResult(validationResult, ModelState);
-                return EditProfile();
-            }
-
-            var userId = _userManager.GetUserId(User);
-
-            // GetFileName method that don't work well. Don't trust too the FileName(display different results)! 
-            var getCorrectFileName = file.FileName.Substring(file.FileName.LastIndexOf(@"\") + 1);
-
-            ExecuteUserCommand(new ChangeUserProfilePictureCommand()
-            {
-                UserId = new Guid(userId),
-                Stream = file.OpenReadStream(),
-                FileName = getCorrectFileName
-            });
-
-            if (!ModelState.IsValid)
-            {
-                return EditProfile();
-            }
-
-            return RedirectToAction("EditProfile");
         }
 
         [HttpPost]

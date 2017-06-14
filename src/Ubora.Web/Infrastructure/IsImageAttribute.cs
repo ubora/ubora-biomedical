@@ -1,28 +1,27 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
-using Ubora.Web._Features._Shared;
 
-namespace Ubora.Web._Features.Users.Manage
+namespace Ubora.Web.Infrastructure
 {
-    public interface IManageValidator
-    {
-        ValidationResult IsImage(IFormFile file);
-    }
-
-    public class ManageValidator : IManageValidator
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
+    public class IsImageAttribute : ValidationAttribute
     {
         public const int ImageMinimumBytes = 512;
         public const int ImageMaximumBytes = 1048576;
 
-        public ValidationResult IsImage(IFormFile file)
+        public IsImageAttribute() : base("This is not an image file!")
         {
-            var validationresult = new ValidationResult();
+        }
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            var file = (IFormFile)value;
 
             if (file == null)
             {
-                return validationresult.AddError("IsImage", "Please select an image to upload first!");
+                return new ValidationResult("Please select an image to upload first!");
             }
 
             if (file.ContentType.ToLower() != "image/jpg" &&
@@ -32,7 +31,7 @@ namespace Ubora.Web._Features.Users.Manage
                 file.ContentType.ToLower() != "image/x-png" &&
                 file.ContentType.ToLower() != "image/png")
             {
-                return validationresult.AddError("IsImage", "This is not an image file");
+                return new ValidationResult(ErrorMessage);
             }
 
             if (Path.GetExtension(file.FileName).ToLower() != ".jpg"
@@ -40,32 +39,32 @@ namespace Ubora.Web._Features.Users.Manage
                 && Path.GetExtension(file.FileName).ToLower() != ".gif"
                 && Path.GetExtension(file.FileName).ToLower() != ".jpeg")
             {
-                return validationresult.AddError("IsImage", "This is not an image file extension");
+                return new ValidationResult("This is not an image file extension");
             }
 
             try
             {
                 if (!file.OpenReadStream().CanRead)
                 {
-                    return validationresult.AddError("IsImage", "The image file is not readable");
+                    return new ValidationResult("The image file is not readable");
                 }
 
                 if (file.Length < ImageMinimumBytes)
                 {
-                    return validationresult.AddError("IsImage", "This is not an image file");
+                    return new ValidationResult(ErrorMessage);
                 }
 
                 if (file.Length > ImageMaximumBytes)
                 {
-                    return validationresult.AddError("IsImage", "The limit for profile images is 1 MB");
+                    return new ValidationResult("The limit for profile images is 1 MB");
                 }
             }
             catch (Exception)
             {
-                return validationresult.AddError("IsImage", "This is not an image file");
+                return new ValidationResult(ErrorMessage);
             }
 
-            return validationresult;
+            return ValidationResult.Success;
         }
     }
 }

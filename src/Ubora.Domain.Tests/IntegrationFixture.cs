@@ -39,6 +39,9 @@ namespace Ubora.Domain.Tests
             builder.Register(_ => (TestingDocumentStore)theStore).As<DocumentStore>().As<IDocumentStore>().SingleInstance();
             builder.Register(_ => Session).As<IDocumentSession>();
 
+            var storageProviderMock = new Mock<IStorageProvider>().Object;
+            builder.RegisterInstance(storageProviderMock).As<IStorageProvider>();
+
             RegisterAdditional(builder);
 
             var container = builder.Build();
@@ -48,8 +51,6 @@ namespace Ubora.Domain.Tests
         // Extension point for test-specific registrations (e.g. mocks)
         protected virtual void RegisterAdditional(ContainerBuilder builder)
         {
-            var storageProviderMock = new Mock<IStorageProvider>().Object;
-            builder.RegisterInstance(storageProviderMock).As<IStorageProvider>();
         }
 
         public override void Dispose()

@@ -52,16 +52,18 @@ namespace Ubora.Domain.Infrastructure
                 ServiceUrl = "https://s3-eu-west-1.amazonaws.com"
             };
 
-            var basePath = Path.GetFullPath("wwwroot/images/storages");
-
             builder.Register(x => x.Resolve<DocumentStore>().OpenSession()).As<IDocumentSession>().As<IQuerySession>().InstancePerLifetimeScope();
             builder.Register(x => x.Resolve<IDocumentSession>().Events).As<IEventStore>().InstancePerLifetimeScope();
 
             builder.RegisterType<EventStreamQuery>().As<IEventStreamQuery>().InstancePerLifetimeScope();
             builder.RegisterType<CommandQueryProcessor>().As<ICommandProcessor>().As<IQueryProcessor>().As<ICommandQueryProcessor>().InstancePerLifetimeScope();
 
-            if (Environment.GetEnvironmentVariable("amazon_storage_bucket") != null || Environment.GetEnvironmentVariable("amazon_storage_publickey")
-                != null || Environment.GetEnvironmentVariable("amazon_storage_secretkey") != null)
+            var areAwsBlobEnvironmentVariablesSet =
+                Environment.GetEnvironmentVariable("amazon_storage_bucket") != null
+                && Environment.GetEnvironmentVariable("amazon_storage_publickey") != null
+                && Environment.GetEnvironmentVariable("amazon_storage_secretkey") != null;
+
+            if (areAwsBlobEnvironmentVariablesSet)
             {
                 builder.RegisterInstance(new AmazonStorageProvider(amazonProviderOptions)).SingleInstance();
                 builder.Register(x => x.Resolve<AmazonStorageProvider>())
@@ -70,6 +72,8 @@ namespace Ubora.Domain.Infrastructure
             }
             else
             {
+                var basePath = Path.GetFullPath("wwwroot/images/storages");
+
                 builder.RegisterInstance(new LocalStorageProvider(basePath)).SingleInstance();
                 builder.Register(x => x.Resolve<LocalStorageProvider>()).As<IStorageProvider>().InstancePerLifetimeScope();
             }

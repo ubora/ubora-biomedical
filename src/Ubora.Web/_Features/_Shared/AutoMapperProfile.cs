@@ -32,6 +32,7 @@ namespace Ubora.Web._Features._Shared
             CreateMap<UserProfile, UserListItemViewModel>();
             CreateMap<UserProfile, ProfileViewModel>();
             CreateMap<UserProfile, UserProfileViewModel>().ForMember(dest => dest.ProfilePictureLink, o => o.Ignore());
+            CreateMap<UserProfile, UserViewModel>().ForMember(dest => dest.ProfilePictureLink, o => o.Ignore());
 
             CreateMap<Project, ProjectDashboardViewModel>();
         }

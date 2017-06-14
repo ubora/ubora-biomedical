@@ -31,7 +31,7 @@ namespace Ubora.Domain.Users
         public string Biography { get; set; }
         public string Skills { get; set; }
         public string Role { get; set; }
-        public string ProfilePictureBlobName { get; set; } = "Default";
+        public string ProfilePictureBlobName { get; private set; } = "Default";
 
         public string FullName => $"{FirstName} {LastName}";
     }

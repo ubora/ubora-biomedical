@@ -9,7 +9,7 @@ using Ubora.Web.Data;
 using Ubora.Web._Features.Users.Manage;
 using Xunit;
 
-namespace Ubora.Web.Tests._Features.Users
+namespace Ubora.Web.Tests._Features
 {
     public abstract class UserControllerTestsBase
     {
@@ -33,7 +33,7 @@ namespace Ubora.Web.Tests._Features.Users
             return principal;
         }
 
-        protected void SetManageAndUserContext(ManageController controller)
+        protected void SetUserContext(Controller controller)
         {
             controller.ControllerContext = new ControllerContext(new ActionContext
             {
