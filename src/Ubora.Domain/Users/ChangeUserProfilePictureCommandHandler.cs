@@ -1,5 +1,4 @@
-﻿using System;
-using Marten;
+﻿using Marten;
 using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure.Commands;
 
@@ -24,8 +23,10 @@ namespace Ubora.Domain.Users
             };
 
             var userProfile = _documentSession.Load<UserProfile>(cmd.UserId);
+            _storageProvider.DeleteBlobAsync($"{userProfile.UserId}/profilePictures",
+                userProfile.ProfilePictureBlobName);
 
-            userProfile.ProfilePictureBlobName = Guid.NewGuid() + cmd.FileName;
+            userProfile.ProfilePictureBlobName = cmd.FileName;
 
             _documentSession.Store(userProfile);
             _documentSession.SaveChanges();
