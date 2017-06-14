@@ -48,7 +48,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 UserViewModel = userProfileViewModel
             };
 
-            _storageProviderMock.Setup(p => p.GetBlobUrl("profilePictures", It.IsAny<string>())).Returns("testUrl");
+            _storageProviderMock.Setup(p => p.GetBlobUrl($"{userProfile.UserId}/profilePictures", It.IsAny<string>())).Returns("testUrl");
             _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
             _mapperMock.Setup(m => m.Map<UserViewModel>(It.IsAny<UserProfile>())).Returns(userProfileViewModel);
 
@@ -107,7 +107,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
 
             _commandQueryProcessorMock.Setup(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>())).Returns(commandResult);
 
-            _storageProviderMock.Setup(p => p.GetBlobUrl("profilePictures", It.IsAny<string>())).Returns("testUrl");
+            _storageProviderMock.Setup(p => p.GetBlobUrl($"{userProfile.UserId}/profilePictures", It.IsAny<string>())).Returns("testUrl");
             _mapperMock.Setup(m => m.Map<UserViewModel>(It.IsAny<UserProfile>())).Returns(userProfileViewModel);
 
             _commandQueryProcessorMock.Setup(p => p.FindById<UserProfile>(It.IsAny<Guid>()))
@@ -135,7 +135,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
 
             fileMock.Setup(f => f.FileName).Returns("C:\\Test\\Parent\\Parent\\image.png");
             _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
-            _storageProviderMock.Setup(p => p.GetBlobUrl("profilePictures", It.IsAny<string>())).Returns("testUrl");
+            _storageProviderMock.Setup(p => p.GetBlobUrl($"{userProfile.UserId}/profilePictures", It.IsAny<string>())).Returns("testUrl");
             _mapperMock.Setup(m => m.Map<UserViewModel>(It.IsAny<UserProfile>())).Returns(userViewModel);
             _commandQueryProcessorMock.Setup(p => p.FindById<UserProfile>(new Guid(userId)))
                 .Returns(userProfile);

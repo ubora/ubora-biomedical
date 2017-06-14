@@ -1,12 +1,10 @@
-﻿
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 using Ubora.Domain.Infrastructure;
@@ -58,20 +56,13 @@ namespace Ubora.Web._Features.Users.Manage
                 return View("Error");
             }
 
-            var userProfile = FindById<UserProfile>(user.Id);
-
             var model = new IndexViewModel
             {
                 HasPassword = await _userManager.HasPasswordAsync(user),
                 PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
                 Logins = await _userManager.GetLoginsAsync(user),
-                BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user),
-                UserProfile = new UserProfileViewModel
-                {
-                    FirstName = userProfile.FirstName,
-                    LastName = userProfile.LastName,
-                }
+                BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
             };
             return View(model);
         }

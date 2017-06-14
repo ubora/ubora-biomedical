@@ -46,7 +46,7 @@ namespace Ubora.Web._Features.Users.Profile
             var userId = _userManager.GetUserId(User);
             var userProfile = FindById<UserProfile>(new Guid(userId));
 
-            var path = _storageProvider.GetBlobUrl("profilePictures", userProfile.ProfilePictureBlobName);
+            var path = _storageProvider.GetBlobUrl($"{userProfile.UserId}/profilePictures", userProfile.ProfilePictureBlobName);
 
             var userViewModel = _mapper.Map<UserViewModel>(userProfile);
             var editProfileViewModel = new EditProfileViewModel();
