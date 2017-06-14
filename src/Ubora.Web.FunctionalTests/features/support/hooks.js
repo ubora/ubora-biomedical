@@ -1,12 +1,9 @@
 var cucumber = require('cucumber');
 var fs = require('fs');
-var reporter = require('cucumber-html-reporter');
 var uuid = require('uuid');
 
 var hooks = function () {
 
-    var jsonReports = process.cwd() + '/reports/jsons';
-    var htmlReports = process.cwd() + '/reports';
 
     this.After(function (scenario, callback) {
         if (scenario.isFailed()) {
@@ -18,15 +15,7 @@ var hooks = function () {
         }
     });
 
-    var options = {
-        brandTitle: "Smoke Tests Report",
-        name: 'Ubora project',
-        theme: 'bootstrap',
-        jsonDir: jsonReports,
-        output: htmlReports + '/cucumber_html_reporter.html',
-        reportSuiteAsScenarios: true
-    };
-
+    var jsonReports = process.cwd() + '/reports/jsons';
     var JsonFormatter = cucumber.Listener.JsonFormatter();
     JsonFormatter.log = function (string) {
         if (!fs.existsSync(jsonReports)) {
@@ -34,8 +23,8 @@ var hooks = function () {
         }
 
         var targetJson = jsonReports + '/cucumber_report' + uuid.v1() + '.json';
-        fs.writeFileSync(targetJson, string);
-        return reporter.generate(options);
+
+        return fs.writeFileSync(targetJson, string);
     };
     this.registerListener(JsonFormatter);
 }

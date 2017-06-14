@@ -1,4 +1,8 @@
 var rmdir = require('rmdir');
+var reporter = require('cucumber-html-reporter');
+
+var jsonReports = process.cwd() + '/reports/jsons';
+var htmlReports = process.cwd() + '/reports';
 
 exports.config = {
     debug: true,
@@ -153,7 +157,6 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      */
     onPrepare: function (config, capabilities) {
-        var jsonReports = process.cwd() + '/reports/jsons';
         rmdir(jsonReports, function (err, dirs, files) {
             console.log(dirs);
             console.log(files);
@@ -252,6 +255,15 @@ exports.config = {
      * possible to defer the end of the process using a promise.
      * @param {Object} exitCode 0 - success, 1 - fail
      */
-    // onComplete: function(exitCode) {
-    // }
+    onComplete: function (exitCode) {
+        var options = {
+            brandTitle: "Smoke Tests Report",
+            name: 'Ubora project',
+            theme: 'bootstrap',
+            jsonDir: jsonReports,
+            output: htmlReports + '/cucumber_html_reporter.html',
+            reportSuiteAsScenarios: true
+        };
+        reporter.generate(options);
+    }
 }
