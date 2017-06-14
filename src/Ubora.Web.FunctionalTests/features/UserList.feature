@@ -9,6 +9,5 @@ Scenario: Get the title of Ubora
     Then I expect the title of the page "- UBORA"
 
 Scenario: I click a Ubora logo
-    When I click on the element "#header-logo"
+    When I click on the element ".header-logo"
     Then I expect the title of the page "Welcome - UBORA"
-
