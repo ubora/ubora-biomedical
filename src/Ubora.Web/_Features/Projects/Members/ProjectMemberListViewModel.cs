@@ -7,6 +7,7 @@ namespace Ubora.Web._Features.Projects.Members
     {
         public Guid Id { get; set; }
         public IEnumerable<Item> Members { get; set; }
+        public bool CanRemoveProjectMembers { get; set; }
 
         public class Item
         {
