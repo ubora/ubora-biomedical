@@ -21,43 +21,70 @@ namespace Ubora.Domain.Tests.Projects.Members
         private ICommandResult _lastCommandResult;
 
         [Fact]
-        public void Non_Existent_Email_Is_Invited_To_Project()
+        public void Non_Existent_Email_Is_Not_Invited_To_Project()
         {
-            this.Given(_ => Given_There_Is_Project_And_User())
-                .When(_ => When_Non_Existent_Email_Is_Written())
-                .Then(_ => Then_Invite_Is_Not_Sent())
+            this.Given(_ => There_Is_Project_And_User())
+                .When(_ => Non_Existent_Email_Is_Written())
+                .Then(_ => Invite_Is_Not_Sent())
                 .BDDfy();
         }
 
         [Fact]
         public void User_Accepts_Invite_To_Project_And_Is_Removed_From_Project()
         {
-            this.Given(_ => Given_There_Is_Project_And_User())
-                .When(_ => When_User_Is_Invited_To_Project())
-                .Then(_ => Then_Invited_User_Has_Invite())
-                .When(_ => When_Invited_User_Accepts_Invite())
-                .Then(_ => Then_User_Is_Member_In_Project())
-                .When(_ => When_User_Is_Invited_To_Project_Again())
-                .Then(_ => Then_User_Does_Not_Get_Invite())
-                .When(_ => When_Project_Leader_Removes_Invited_User_From_Project())
-                .Then(_ => Then_User_Is_Not_Member_In_Project())
+            this.Given(_ => There_Is_Project_And_User())
+                .When(_ => User_Is_Invited_To_Project())
+                .Then(_ => Invited_User_Has_Invite())
+                .When(_ => Invited_User_Accepts_Invite())
+                .Then(_ => User_Is_Member_In_Project())
+                .When(_ => User_Is_Invited_To_Project_Again())
+                .Then(_ => User_Does_Not_Get_Invite())
+                .When(_ => Project_Leader_Removes_Invited_User_From_Project())
+                .Then(_ => User_Is_Not_Member_In_Project())
+                .BDDfy();
+        }
+
+        [Fact]
+        public void User_Views_Invite_Then_Invite_Is_Marked_Viewed()
+        {
+            this.Given(_ => There_Is_Project_And_User())
+                .When(_ => User_Is_Invited_To_Project())
+                .Then(_ => Invited_User_Has_Invite())
+                .When(_ => User_Views_Invite())
+                .Then(_ => Invite_Is_Marked_Viewed())
                 .BDDfy();
         }
 
         [Fact]
         public void User_Declines_Invite_To_Project()
         {
-            this.Given(_ => Given_There_Is_Project_And_User())
-                .When(_ => When_User_Is_Invited_To_Project())
-                .Then(_ => Then_Invited_User_Has_Invite())
-                .When(_ => When_Invited_User_Declines_Invite())
-                .Then(_ => Then_User_Is_Not_Member_In_Project())
-                .When(_ => When_User_Is_Invited_To_Project_Again())
-                .Then(_ => Then_Invited_User_Has_Invite())
+            this.Given(_ => There_Is_Project_And_User())
+                .When(_ => User_Is_Invited_To_Project())
+                .Then(_ => Invited_User_Has_Invite())
+                .When(_ => Invited_User_Declines_Invite())
+                .Then(_ => User_Is_Not_Member_In_Project())
+                .When(_ => User_Is_Invited_To_Project_Again())
+                .Then(_ => Invited_User_Has_Invite())
                 .BDDfy();
         }
 
-        private void When_Project_Leader_Removes_Invited_User_From_Project()
+        private void User_Views_Invite()
+        {
+            _lastCommandResult = Processor.Execute(new MarkInvitationsAsViewedCommand
+            {
+                UserId = _invitedUserId,
+                Actor = new UserInfo(Guid.NewGuid(), "")
+            });
+        }
+
+        private void Invite_Is_Marked_Viewed()
+        {
+            var invite = Session.Query<InvitationToProject>().Where(x => x.InvitedMemberId == _invitedUserId).First();
+
+            invite.HasBeenViewed.Should().BeTrue();
+        }
+
+        private void Project_Leader_Removes_Invited_User_From_Project()
         {
             _lastCommandResult = Processor.Execute(new RemoveMemberFromProjectCommand
             {
@@ -67,7 +94,7 @@ namespace Ubora.Domain.Tests.Projects.Members
             });
         }
 
-        private void Then_User_Is_Not_Member_In_Project()
+        private void User_Is_Not_Member_In_Project()
         {
             var project = Session.Load<Project>(_projectId);
 
@@ -76,39 +103,39 @@ namespace Ubora.Domain.Tests.Projects.Members
             _lastCommandResult.IsSuccess.Should().BeTrue();
         }
 
-        private void When_Invited_User_Declines_Invite()
+        private void Invited_User_Declines_Invite()
         {
             var invite = Session.Query<InvitationToProject>().Where(x => x.InvitedMemberId == _invitedUserId).First();
 
-            Processor.Execute(new DeclineMemberInvitationToProjectCommand
+            Processor.Execute(new DeclineInvitationToProjectCommand
             {
                 InvitationId = invite.Id,
                 Actor = new UserInfo(Guid.NewGuid(), "")
             });
         }
 
-        private void Then_Invite_Is_Not_Sent()
+        private void Invite_Is_Not_Sent()
         {
             _lastCommandResult.IsFailure.Should().BeTrue();
         }
 
-        private void When_Non_Existent_Email_Is_Written()
+        private void Non_Existent_Email_Is_Written()
         {
             InviteUserToProject(_invitedUserEmail + Guid.NewGuid());
         }
 
-        private void When_Invited_User_Accepts_Invite()
+        private void Invited_User_Accepts_Invite()
         {
             var invite = Session.Query<InvitationToProject>().Where(x => x.InvitedMemberId == _invitedUserId).First();
 
-            Processor.Execute(new AcceptMemberInvitationToProjectCommand
+            Processor.Execute(new AcceptInvitationToProjectCommand
             {
                 InvitationId = invite.Id,
                 Actor = new UserInfo(Guid.NewGuid(), "")
             });
         }
 
-        private void Given_There_Is_Project_And_User()
+        private void There_Is_Project_And_User()
         {
             Processor.Execute(new CreateProjectCommand
             {
@@ -123,7 +150,7 @@ namespace Ubora.Domain.Tests.Projects.Members
             });
         }
 
-        private void When_User_Is_Invited_To_Project()
+        private void User_Is_Invited_To_Project()
         {
             InviteUserToProject(_invitedUserEmail);
         }
@@ -138,7 +165,7 @@ namespace Ubora.Domain.Tests.Projects.Members
             });
         }
 
-        private void Then_Invited_User_Has_Invite()
+        private void Invited_User_Has_Invite()
         {
             var invites = Session.Query<InvitationToProject>()
                 .Where(x => x.InvitedMemberId == _invitedUserId && x.IsAccepted == null);
@@ -146,7 +173,7 @@ namespace Ubora.Domain.Tests.Projects.Members
             invites.Count().Should().Be(1);
         }
 
-        private void Then_User_Is_Member_In_Project()
+        private void User_Is_Member_In_Project()
         {
             var project = Session.Load<Project>(_projectId);
 
@@ -160,12 +187,12 @@ namespace Ubora.Domain.Tests.Projects.Members
             _lastCommandResult.IsSuccess.Should().BeTrue();
         }
 
-        private void When_User_Is_Invited_To_Project_Again()
+        private void User_Is_Invited_To_Project_Again()
         {
             InviteUserToProject(_invitedUserEmail);
         }
 
-        private void Then_User_Does_Not_Get_Invite()
+        private void User_Does_Not_Get_Invite()
         {
             var invites = Session.Query<InvitationToProject>().Where(x => x.InvitedMemberId == _invitedUserId);
             invites.Count().Should().Be(1);

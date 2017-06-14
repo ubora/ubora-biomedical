@@ -20,8 +20,7 @@ namespace Ubora.Web._Features.Notifications
 
             public UnreadNotificationsViewModel Create(Guid currentUserId)
             {
-                var unreadMessagesCount = _queryProcessor.Find<InvitationToProject>()
-                    .Where(x => x.InvitedMemberId == currentUserId && !x.HasBeenViewed)
+                var unreadMessagesCount = _queryProcessor.Find(new NonViewedInvitations(currentUserId))
                     .Count();
 
                 return new UnreadNotificationsViewModel { UnreadMessagesCount = unreadMessagesCount };

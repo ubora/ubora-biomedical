@@ -84,7 +84,7 @@ namespace Ubora.Web._Features.Projects.Members
         {
             if (!ModelState.IsValid)
             {
-                return RemoveMember(removeMemberViewModel.MemberId);
+                return View(removeMemberViewModel);
             }
 
             ExecuteUserProjectCommand(new RemoveMemberFromProjectCommand
@@ -94,7 +94,7 @@ namespace Ubora.Web._Features.Projects.Members
 
             if (!ModelState.IsValid)
             {
-                return RemoveMember(removeMemberViewModel.MemberId);
+                return View(removeMemberViewModel);
             }
 
             return RedirectToAction(nameof(Members));

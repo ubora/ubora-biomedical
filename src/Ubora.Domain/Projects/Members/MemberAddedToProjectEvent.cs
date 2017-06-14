@@ -9,9 +9,9 @@ namespace Ubora.Domain.Projects.Members
         {
         }
 
-        public Guid ProjectId { get; set; }
-        public Guid UserId { get; set; }
-        public string UserFullName { get; set; }
+        public Guid ProjectId { get; internal set; }
+        public Guid UserId { get; internal set; }
+        public string UserFullName { get; internal set; }
 
         public override string GetDescription() => $"{UserFullName} was added to project.";
     }

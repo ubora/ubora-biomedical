@@ -19,7 +19,9 @@ namespace Ubora.Web._Features.Notifications
                 _processor = processor;
             }
 
-            public HistoryViewModel Create(Guid userId)
+            protected Factory() { }
+
+            public virtual HistoryViewModel Create(Guid userId)
             {
                 var historyViewModel = new HistoryViewModel();
                 historyViewModel.Invitations = GetHistoryInvitationViewModels(userId);

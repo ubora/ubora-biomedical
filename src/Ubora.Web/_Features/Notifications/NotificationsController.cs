@@ -39,13 +39,7 @@ namespace Ubora.Web._Features.Notifications
 
         private void MarkInvitationsAsViewed()
         {
-            var invitations = Find<InvitationToProject>()
-                    .Where(x => x.InvitedMemberId == UserInfo.UserId && !x.HasBeenViewed);
-
-            foreach (var invitation in invitations)
-            {
-                ExecuteUserCommand(new UpdateMemberInvitationToProjectAsViewedCommand { InvitationId = invitation.Id });
-            }
+            ExecuteUserCommand(new MarkInvitationsAsViewedCommand { UserId = UserInfo.UserId });
         }
     }
 }
