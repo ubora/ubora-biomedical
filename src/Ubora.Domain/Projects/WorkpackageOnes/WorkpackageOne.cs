@@ -26,7 +26,9 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
         [JsonIgnore]
         public IReadOnlyCollection<WorkpackageReview> Reviews => _reviews;
 
+        // TODO: Get rid of these? Calculate somehow
         public bool IsLocked { get; protected set; }
+        public bool IsVisible { get; protected set; }
 
         // Virtual for testing
         public virtual WorkpackageOneStep GetSingleStep(Guid stepId)
@@ -37,9 +39,9 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
 
     public class WorkpackageOne : Workpackage<WorkpackageOne>
     {
-        private void Apply(WorkpackageOneOpenedEvent e)
+        private void Apply(ProjectCreatedEvent e)
         {
-            ProjectId = e.ProjectId;
+            ProjectId = e.Id;
 
             Title = "Design and prototyping";
 
@@ -52,6 +54,8 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
             _steps.Add(new WorkpackageOneStep("Patient Population Study", Placeholders.PatientPopulationStudy));
             _steps.Add(new WorkpackageOneStep("User Requirement Study", Placeholders.UserRequirementStudy));
             _steps.Add(new WorkpackageOneStep("Additional Information", Placeholders.AdditionalInformation));
+
+            IsVisible = true;
         }
 
         private void Apply(WorkpackageOneStepEditedEvent e)

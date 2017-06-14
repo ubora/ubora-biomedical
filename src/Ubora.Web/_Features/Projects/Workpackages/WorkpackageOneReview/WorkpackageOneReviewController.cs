@@ -85,6 +85,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
         [Authorize(Policies.CanReviewProjectWorkpackages)]
         public IActionResult Decision()
         {
+            // todo
             return View(nameof(Decision));
         }
 
@@ -104,7 +105,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
                 return Review();
             }
 
-            return RedirectToAction(nameof(Decision));
+            return RedirectToAction(nameof(Review));
         }
 
         [HttpPost]
@@ -123,7 +124,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
                 return Review();
             }
 
-            return RedirectToAction(nameof(Decision));
+            return RedirectToAction(nameof(Review));
         }
     }
 }

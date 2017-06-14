@@ -39,7 +39,7 @@ namespace Ubora.Domain.Projects.WorkpackageTwos
 
                 var @event = new WorkpackageOneAcceptedByReviewEvent(
                     initiatedBy: cmd.Actor,
-                    workpackageOneId: cmd.ProjectId,
+                    projectId: cmd.ProjectId,
                     reviewId: activeReview.Id);
 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);

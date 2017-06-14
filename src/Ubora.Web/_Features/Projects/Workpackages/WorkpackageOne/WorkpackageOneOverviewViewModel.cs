@@ -7,6 +7,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
     {
         public string Title { get; set; }
         public IEnumerable<Step> Steps { get; set; }
+        public bool IsVisible { get; set; }
 
         public class Step
         {

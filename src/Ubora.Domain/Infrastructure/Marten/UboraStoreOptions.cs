@@ -6,6 +6,7 @@ using Marten.Services.Events;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
 using Ubora.Domain.Projects.WorkpackageOnes;
+using Ubora.Domain.Projects.WorkpackageTwos;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
@@ -28,6 +29,10 @@ namespace Ubora.Domain.Infrastructure.Marten
 
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
+                options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
+                options.Events.InlineProjections.AggregateStreamsWith<WorkpackageThree>();
+                options.Events.InlineProjections.AggregateStreamsWith<WorkpackageFour>();
+                options.Events.InlineProjections.AggregateStreamsWith<WorkpackageFive>();
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectTask, ITaskEvent>());
 
                 options.Events.AddEventTypes(eventTypes);

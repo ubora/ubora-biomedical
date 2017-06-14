@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.DeviceClassification;
-using Ubora.Domain.Projects.WorkpackageTwos;
 using System.Linq;
 
 namespace Ubora.Domain.Projects

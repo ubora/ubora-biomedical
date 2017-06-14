@@ -3,7 +3,8 @@ using Ubora.Domain.Projects.WorkpackageOnes;
 
 namespace Ubora.Domain.Projects.WorkpackageSpecifications
 {
-    public class CanBeSubmittedForReview<TWorkpackage> : WrappedSpecification<TWorkpackage> where TWorkpackage : Workpackage<TWorkpackage>
+    public class CanBeSubmittedForReview<TWorkpackage> 
+        : WrappedSpecification<TWorkpackage> where TWorkpackage : Workpackage<TWorkpackage>
     {
         public override Specification<TWorkpackage> ToSpecification()
         {
