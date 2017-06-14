@@ -1,0 +1,20 @@
+﻿@using Ubora.Web._Features.Projects.DeviceClassification.ViewModels
+
+@model SpecialMainQuestionViewModel
+
+@{
+    ViewData["Title"] = "Device classification";
+}
+
+<link rel="stylesheet" href="/css/questionnaire.css">
+<section class="medium-width questionnaire">
+    <h1>Please select an option:</h1>
+    <ul class="questionnaire_list">
+        <li class="questionnaire_item">
+            @Html.Partial("SpecialAnswerPartial", new SpecialAnswerViewModel { QuestionText = Model.QuestionText, MainQuestionId = Model.CurrentSpecialMainQuestionId, NextQuestionId = Model.CurrentSpecialMainQuestionId })
+        </li>
+        <li>
+            <a class="questionnaire-question" asp-controller="DeviceClassification" asp-action="NextSpecialMainQuestion" asp-route-currentSpecialMainQuestionId="@Model.CurrentSpecialMainQuestionId">NOT APPLICABLE</a>
+        </li>
+    </ul>
+</section>

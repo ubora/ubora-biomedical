@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using FluentAssertions;
 using System;
+using System.Collections.Generic;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
@@ -11,6 +12,11 @@ namespace Ubora.Domain.Tests.Projects.DeviceClassification
 {
     public class SaveDeviceClassificationTests : IntegrationFixture
     {
+        protected override void RegisterAdditional(ContainerBuilder builder)
+        {
+            builder.RegisterType<TestDeviceClassificationProvider>().As<IDeviceClassificationProvider>().SingleInstance();
+        }
+
         [Fact]
         public void Adds_Device_Classification_To_Project()
         {
@@ -27,7 +33,7 @@ namespace Ubora.Domain.Tests.Projects.DeviceClassification
 
             var command = new SetDeviceClassificationForProjectCommand
             {
-                DeviceClassification = "IIb",
+                DeviceClassification = new Classification("IIb", 3, new List<Guid>()),
                 ProjectId = expectedProjectId,
                 Actor = expectedUserInfo
             };
@@ -41,7 +47,7 @@ namespace Ubora.Domain.Tests.Projects.DeviceClassification
         }
 
         [Fact]
-        public void Updates_Device_Classification_On_Project()
+        public void Updates_Device_Classification_On_Project_If_New_Classification_Is_Stronger()
         {
             var processor = Container.Resolve<ICommandProcessor>();
 
@@ -54,7 +60,7 @@ namespace Ubora.Domain.Tests.Projects.DeviceClassification
 
             var command = new SetDeviceClassificationForProjectCommand
             {
-                DeviceClassification = "IIb",
+                DeviceClassification = new Classification("IIb", 3, new List<Guid>()),
                 ProjectId = expectedProjectId,
                 Actor = new UserInfo(Guid.NewGuid(), "")
             };
@@ -62,7 +68,7 @@ namespace Ubora.Domain.Tests.Projects.DeviceClassification
 
             var commandUpdate = new SetDeviceClassificationForProjectCommand
             {
-                DeviceClassification = "III",
+                DeviceClassification = new Classification("III", 4, new List<Guid>()),
                 ProjectId = expectedProjectId,
                 Actor = new UserInfo(Guid.NewGuid(), "")
             };
@@ -86,13 +92,24 @@ namespace Ubora.Domain.Tests.Projects.DeviceClassification
 
             var command = new SetDeviceClassificationForProjectCommand
             {
-                DeviceClassification = "IIb",
+                DeviceClassification = new Classification("IIb", 3, new List<Guid>()),
                 ProjectId = expectedProjectId,
                 Actor = expectedUserInfo
             };
 
             // Act, Assert
             Assert.Throws<InvalidOperationException>(() => processor.Execute(command));
+        }
+    }
+
+    internal class TestDeviceClassificationProvider : IDeviceClassificationProvider
+    {
+        public IDeviceClassification Provide()
+        {
+            var classification = new Domain.Projects.DeviceClassification.DeviceClassification();
+            classification.CreateNew();
+
+            return classification;
         }
     }
 }
