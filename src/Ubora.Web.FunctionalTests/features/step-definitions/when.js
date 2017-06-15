@@ -10,4 +10,11 @@ module.exports = function () {
         /^I set "([^"]*)?" to the element "([^"]*)?"$/, (value, element) => {
             browser.setValue(element, value);
         });
+
+    this.When(
+        /^I select "([^"]*)?" from element "([^"]*)?"$/, (value, element) => {
+            browser.selectByValue(element,value);
+        });
+
+
 }
