@@ -1,6 +1,7 @@
-﻿@model Ubora.Web._Features.Users.Profile.EditProfileViewModel
+﻿@using Ubora.Web.Services
+@model Ubora.Web._Features.Users.Profile.EditProfileViewModel
 
-<img class="avatar" src='@Model.UserViewModel.ProfilePictureLink' width="300" height="300" />
+<img class="avatar" src='@User.GetProfilePictureUrl()' width="300" height="300" />
 
 <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="ChangeProfilePicture">
     <div class="form-input">

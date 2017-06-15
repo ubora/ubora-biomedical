@@ -5,7 +5,7 @@ namespace Ubora.Web._Features.Users.Profile
 {
     public class EditProfileViewModel
     {
-        public UserViewModel UserViewModel { get; set; }
+        public UserProfileViewModel UserViewModel { get; set; }
         [IsImage]
         public IFormFile ProfilePicture { get; set; }
     }

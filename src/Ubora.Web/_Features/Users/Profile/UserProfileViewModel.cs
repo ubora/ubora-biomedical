@@ -1,6 +1,6 @@
 ﻿namespace Ubora.Web._Features.Users.Profile
 {
-    public class UserViewModel
+    public class UserProfileViewModel
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

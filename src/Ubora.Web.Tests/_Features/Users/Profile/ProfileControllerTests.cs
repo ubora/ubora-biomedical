@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
+using Ubora.Web.Data;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features.Users.Profile;
 using Xunit;
@@ -20,8 +21,8 @@ namespace Ubora.Web.Tests._Features.Users.Profile
     {
         private readonly Mock<IMapper> _mapperMock;
         private readonly Mock<FakeUserManager> _userManagerMock;
+        private readonly Mock<FakeSignInManager> _signInManagerMock;
         private readonly Mock<ICommandQueryProcessor> _commandQueryProcessorMock;
-        private readonly Mock<IStorageProvider> _storageProviderMock;
 
         private readonly ProfileController _controller;
 
@@ -30,27 +31,24 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             _mapperMock = new Mock<IMapper>();
             _commandQueryProcessorMock = new Mock<ICommandQueryProcessor>();
             _userManagerMock = new Mock<FakeUserManager>();
-            _storageProviderMock = new Mock<IStorageProvider>();
-            _controller = new ProfileController(_commandQueryProcessorMock.Object, _mapperMock.Object, _storageProviderMock.Object, _userManagerMock.Object);
+            _signInManagerMock = new Mock<FakeSignInManager>();
+            _controller = new ProfileController(_commandQueryProcessorMock.Object, _mapperMock.Object, _userManagerMock.Object, _signInManagerMock.Object);
             SetUserContext(_controller);
         }
 
-        [Theory]
-        [InlineData("/app/wwwroot/images/storages/profilePictures/ddfb5e55-7b9e-46a3-8d2c-b38bff50ca2edog.jpg")]
-        [InlineData("Default")]
-        public void EditProfile_Returns_View(string blobUrl)
+        [Fact]
+        public void EditProfile_Returns_View()
         {
             var userId = Guid.NewGuid().ToString();
             var userProfile = new UserProfile(new Guid(userId));
-            var userProfileViewModel = new UserViewModel();
+            var userProfileViewModel = new UserProfileViewModel();
             var model = new EditProfileViewModel()
             {
                 UserViewModel = userProfileViewModel
             };
 
-            _storageProviderMock.Setup(p => p.GetBlobUrl($"{userProfile.UserId}/profilePictures", It.IsAny<string>())).Returns("testUrl");
             _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
-            _mapperMock.Setup(m => m.Map<UserViewModel>(It.IsAny<UserProfile>())).Returns(userProfileViewModel);
+            _mapperMock.Setup(m => m.Map<UserProfileViewModel>(It.IsAny<UserProfile>())).Returns(userProfileViewModel);
 
             _commandQueryProcessorMock.Setup(p => p.FindById<UserProfile>(It.IsAny<Guid>()))
                 .Returns(userProfile);
@@ -64,7 +62,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         }
 
         [Fact]
-        public void ChangeProfilePicture_Redirects_EditProfile_When_Command_Is_Executed_Successfully()
+        public async Task ChangeProfilePicture_Redirects_EditProfile_When_Command_Is_Executed_Successfully()
         {
             var fileMock = new Mock<IFormFile>();
             var userId = Guid.NewGuid().ToString();
@@ -73,28 +71,32 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             model.ProfilePicture = fileMock.Object;
 
             ChangeUserProfilePictureCommand executedCommand = null;
+            var applicationUser = new ApplicationUser();
 
             fileMock.Setup(f => f.FileName).Returns("C:\\Test\\Parent\\Parent\\image.png");
             _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
             _commandQueryProcessorMock.Setup(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>())).Callback<ChangeUserProfilePictureCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
+            
+            _userManagerMock.Setup(m => m.FindByIdAsync(userId)).ReturnsAsync(applicationUser);
 
             //Act
-            var result = (RedirectToActionResult)_controller.ChangeProfilePicture(model);
+            var result = (RedirectToActionResult)await _controller.ChangeProfilePicture(model);
 
             //Assert
             executedCommand.UserId.Should().Be(userId);
             result.ActionName.Should().Be("EditProfile");
+            _signInManagerMock.Verify(m => m.RefreshSignInAsync(applicationUser),Times.Once);
         }
 
         [Fact]
-        public void ChangeProfilePicture_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful()
+        public async Task ChangeProfilePicture_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful()
         {
             var fileMock = new Mock<IFormFile>();
             var userId = Guid.NewGuid().ToString();
 
             var userProfile = new UserProfile(new Guid(userId));
-            var userProfileViewModel = new UserViewModel();
+            var userProfileViewModel = new UserProfileViewModel();
 
             var model = new EditProfileViewModel();
             model.ProfilePicture = fileMock.Object;
@@ -107,49 +109,51 @@ namespace Ubora.Web.Tests._Features.Users.Profile
 
             _commandQueryProcessorMock.Setup(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>())).Returns(commandResult);
 
-            _storageProviderMock.Setup(p => p.GetBlobUrl($"{userProfile.UserId}/profilePictures", It.IsAny<string>())).Returns("testUrl");
-            _mapperMock.Setup(m => m.Map<UserViewModel>(It.IsAny<UserProfile>())).Returns(userProfileViewModel);
+            _mapperMock.Setup(m => m.Map<UserProfileViewModel>(It.IsAny<UserProfile>())).Returns(userProfileViewModel);
 
             _commandQueryProcessorMock.Setup(p => p.FindById<UserProfile>(It.IsAny<Guid>()))
                 .Returns(userProfile);
 
             //Act
-            var result = (ViewResult)_controller.ChangeProfilePicture(model);
+            var result = (ViewResult)await _controller.ChangeProfilePicture(model);
 
             //Assert
             result.ViewName.Should().Be("EditProfile");
             result.Model.As<EditProfileViewModel>().UserViewModel.Should().Be(model.UserViewModel);
             AssertModelStateContainsError(result, commandResult.ErrorMessages.Last());
+            _userManagerMock.Verify(m => m.FindByIdAsync(It.IsAny<string>()),Times.Never);
+            _signInManagerMock.Verify(m => m.RefreshSignInAsync(It.IsAny<ApplicationUser>()),Times.Never);
         }
 
         [Fact]
-        public void ChangeProfilePicture_View_With_ModelState_Errors_When_Validation_Result_Is_Failure()
+        public async Task ChangeProfilePicture_View_With_ModelState_Errors_When_Validation_Result_Is_FailureAsync()
         {
             var fileMock = new Mock<IFormFile>();
             var userId = Guid.NewGuid().ToString();
             var userProfile = new UserProfile(new Guid(userId));
-            var userViewModel = new UserViewModel();
+            var userViewModel = new UserProfileViewModel();
 
             var model = new EditProfileViewModel();
             model.UserViewModel = userViewModel;
 
             fileMock.Setup(f => f.FileName).Returns("C:\\Test\\Parent\\Parent\\image.png");
             _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
-            _storageProviderMock.Setup(p => p.GetBlobUrl($"{userProfile.UserId}/profilePictures", It.IsAny<string>())).Returns("testUrl");
-            _mapperMock.Setup(m => m.Map<UserViewModel>(It.IsAny<UserProfile>())).Returns(userViewModel);
+            _mapperMock.Setup(m => m.Map<UserProfileViewModel>(It.IsAny<UserProfile>())).Returns(userViewModel);
             _commandQueryProcessorMock.Setup(p => p.FindById<UserProfile>(new Guid(userId)))
                 .Returns(userProfile);
 
             _controller.ModelState.AddModelError("isImage", "This is not an image file");
 
             //Act
-            var result = (ViewResult)_controller.ChangeProfilePicture(model);
-            
+            var result = (ViewResult)await _controller.ChangeProfilePicture(model);
+
             //Assert
             result.ViewName.Should().Be("EditProfile");
             result.Model.As<EditProfileViewModel>().UserViewModel.Should().Be(model.UserViewModel);
             AssertModelStateContainsError(result, "This is not an image file");
             _commandQueryProcessorMock.Verify(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>()), Times.Never);
+            _userManagerMock.Verify(m => m.FindByIdAsync(It.IsAny<string>()), Times.Never);
+            _signInManagerMock.Verify(m => m.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never);
         }
 
         [Fact]

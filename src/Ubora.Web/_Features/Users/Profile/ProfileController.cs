@@ -1,10 +1,9 @@
 using System;
-using System.IO;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
@@ -14,14 +13,14 @@ namespace Ubora.Web._Features.Users.Profile
     public class ProfileController : UboraController
     {
         private readonly IMapper _mapper;
-        private readonly IStorageProvider _storageProvider;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public ProfileController(ICommandQueryProcessor processor, IMapper mapper, IStorageProvider storageProvider, UserManager<ApplicationUser> userManager) : base(processor)
+        public ProfileController(ICommandQueryProcessor processor, IMapper mapper, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : base(processor)
         {
             _mapper = mapper;
-            _storageProvider = storageProvider;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [HttpGet]
@@ -46,30 +45,17 @@ namespace Ubora.Web._Features.Users.Profile
             var userId = _userManager.GetUserId(User);
             var userProfile = FindById<UserProfile>(new Guid(userId));
 
-            var path = _storageProvider.GetBlobUrl($"{userProfile.UserId}/profilePictures", userProfile.ProfilePictureBlobName);
-
-            var userViewModel = _mapper.Map<UserViewModel>(userProfile);
-            var editProfileViewModel = new EditProfileViewModel();
-
-            if (Path.GetFileName(path) == "Default")
+            var userViewModel = _mapper.Map<UserProfileViewModel>(userProfile);
+            var editProfileViewModel = new EditProfileViewModel
             {
-
-                userViewModel.ProfilePictureLink = "/images/profileimagedefault.png";
-                editProfileViewModel.UserViewModel = userViewModel;
-
-                return View("EditProfile", editProfileViewModel);
-            }
-
-            var url = path.Replace("/app/wwwroot", "");
-
-            userViewModel.ProfilePictureLink = url;
-            editProfileViewModel.UserViewModel = userViewModel;
+                UserViewModel = userViewModel
+            };
 
             return View("EditProfile", editProfileViewModel);
         }
 
         [HttpPost]
-        public IActionResult EditProfile(UserViewModel model)
+        public IActionResult EditProfile(UserProfileViewModel model)
         {
             var userId = _userManager.GetUserId(User);
 
@@ -97,7 +83,7 @@ namespace Ubora.Web._Features.Users.Profile
 
         [HttpPost]
         [Authorize]
-        public IActionResult ChangeProfilePicture(EditProfileViewModel model)
+        public async Task<IActionResult> ChangeProfilePicture(EditProfileViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -120,6 +106,9 @@ namespace Ubora.Web._Features.Users.Profile
             {
                 return EditProfile();
             }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            await _signInManager.RefreshSignInAsync(user);
 
             return RedirectToAction("EditProfile");
         }
