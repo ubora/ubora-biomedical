@@ -5,14 +5,15 @@ namespace Ubora.Domain.Projects.WorkpackageTwos
 {
     public class WorkpackageOneAcceptedByReviewEvent : UboraEvent
     {
-        public WorkpackageOneAcceptedByReviewEvent(UserInfo initiatedBy, Guid projectId, Guid reviewId) : base(initiatedBy)
+        public WorkpackageOneAcceptedByReviewEvent(UserInfo initiatedBy, Guid projectId, string concludingComment) 
+            : base(initiatedBy)
         {
             ProjectId = projectId;
-            ReviewId = reviewId;
+            ConcludingComment = concludingComment;
         }
 
         public Guid ProjectId { get; private set; }
-        public Guid ReviewId { get; private set; }
+        public string ConcludingComment { get; private set; }
 
         public override string GetDescription() => "Accepted workpackage.";
     }

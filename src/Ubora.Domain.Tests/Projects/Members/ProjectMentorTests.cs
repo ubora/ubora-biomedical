@@ -2,9 +2,9 @@
 using System.Linq;
 using FluentAssertions;
 using TestStack.BDDfy;
+using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
-using Ubora.Domain.Projects.WorkpackageTwos;
 using Ubora.Domain.Users;
 using Xunit;
 
@@ -12,7 +12,7 @@ namespace Ubora.Domain.Tests.Projects.Members
 {
     public static class IntegrationFixtureExtensions
     {
-        public static void Given_There_Is_Project(this IntegrationFixture fixture, Guid projectId)
+        public static void CreateProject(this IntegrationFixture fixture, Guid projectId)
         {
             fixture.Processor.Execute(new CreateProjectCommand
             {
@@ -21,9 +21,9 @@ namespace Ubora.Domain.Tests.Projects.Members
             });
         }
 
-        public static void Given_There_Is_Project_And_User(this IntegrationFixture fixture, Guid projectId, Guid userId)
+        public static void CreateProjectWithUser(this IntegrationFixture fixture, Guid projectId, Guid userId)
         {
-            fixture.Given_There_Is_Project(projectId);
+            fixture.CreateProject(projectId);
 
             fixture.Processor.Execute(new CreateUserProfileCommand
             {
@@ -32,9 +32,9 @@ namespace Ubora.Domain.Tests.Projects.Members
             });
         }
 
-        public static void Given_There_Is_Project_With_Mentor(this IntegrationFixture fixture, Guid projectId, Guid userId)
+        public static void CreateProjectWithMentor(this IntegrationFixture fixture, Guid projectId, Guid userId)
         {
-            fixture.Given_There_Is_Project_And_User(projectId, userId);
+            fixture.CreateProjectWithUser(projectId, userId);
 
             fixture.Processor.Execute(new AssignProjectMentorCommand
             {
@@ -50,18 +50,29 @@ namespace Ubora.Domain.Tests.Projects.Members
         private readonly Guid _projectId = Guid.NewGuid();
         private readonly Guid _userId = Guid.NewGuid();
 
+        private ICommandResult _lastCommandResult;
+
         [Fact]
         public void Mentor_Can_Be_Assigned_To_Project()
         {
-            this.Given(_ => this.Given_There_Is_Project_And_User(_projectId, _userId))
-                .When(_ => When_User_Is_Assigned_To_Be_Mentor_Of_Project())
-                .Then(_ => Then_User_Is_Project_Mentor())
+            this.Given(_ => this.CreateProjectWithUser(_projectId, _userId))
+                .When(_ => AssignUserToBeMentorOfProject())
+                .Then(_ => AssertUserIsProjectMentor())
                 .BDDfy();
         }
 
-        private void When_User_Is_Assigned_To_Be_Mentor_Of_Project()
+        [Fact]
+        public void Duplicate_Mentor_Can_Not_Be_Assigned_To_Project()
         {
-            Processor.Execute(new AssignProjectMentorCommand
+            this.Given(_ => this.CreateProjectWithMentor(_projectId, _userId))
+                .When(_ => AssignUserToBeMentorOfProject())
+                .Then(_ => Then_User_Is_Not_Duplicate_Project_Mentor())
+                .BDDfy();
+        }
+
+        private void AssignUserToBeMentorOfProject()
+        {
+            _lastCommandResult = Processor.Execute(new AssignProjectMentorCommand
             {
                 UserId = _userId,
                 ProjectId = _projectId,
@@ -69,7 +80,7 @@ namespace Ubora.Domain.Tests.Projects.Members
             });
         }
 
-        private void Then_User_Is_Project_Mentor()
+        private void AssertUserIsProjectMentor()
         {
             var project = Session.Load<Project>(_projectId);
 
@@ -78,14 +89,6 @@ namespace Ubora.Domain.Tests.Projects.Members
             isUserProjectMentor.Should().BeTrue();
         }
 
-        [Fact]
-        public void Duplicate_Mentor_Can_Not_Be_Assigned_To_Project()
-        {
-            this.Given(_ => this.Given_There_Is_Project_With_Mentor(_projectId, _userId))
-                .When(_ => When_User_Is_Assigned_To_Be_Mentor_Of_Project())
-                .Then(_ => Then_User_Is_Not_Duplicate_Project_Mentor())
-                .BDDfy();
-        }
 
         private void Then_User_Is_Not_Duplicate_Project_Mentor()
         {
@@ -94,6 +97,9 @@ namespace Ubora.Domain.Tests.Projects.Members
             project.Members.OfType<ProjectMentor>()
                 .Count(m => m.UserId == _userId)
                 .Should().Be(1);
+
+            _lastCommandResult.IsFailure
+                .Should().BeTrue();
         }
     }
 }

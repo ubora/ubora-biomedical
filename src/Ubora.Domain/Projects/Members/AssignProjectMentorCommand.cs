@@ -29,6 +29,12 @@ namespace Ubora.Domain.Projects.Members
                     throw new InvalidOperationException($"{nameof(UserProfile)} not found with id [{cmd.UserId}]");
                 }
 
+                var isAlreadyMentor = project.DoesSatisfy(new HasMember<ProjectMentor>(cmd.UserId));
+                if (isAlreadyMentor)
+                {
+                    return new CommandResult("User is already project mentor.");
+                }
+
                 var @event = new ProjectMentorAssignedEvent(
                     initiatedBy: cmd.Actor, 
                     userId: cmd.UserId,
@@ -41,27 +47,4 @@ namespace Ubora.Domain.Projects.Members
             }
         }
     }
-
-    //public class WorkpackageTwoStep
-    //{
-    //    public Guid Id { get; set; }
-    //    public string Title { get; set; }
-    //    public string Description { get; set; }
-    //    public IEnumerable<WorkpackageTwoStepPage> Pages { get; set; }
-    //}
-
-    //public class WorkpackageTwoStepPage
-    //{
-    //    public Guid Id { get; set; }
-    //    public Guid StepId { get; set; }
-    //    public string Title { get; set; }
-    //    public string Content { get; set; }
-    //}
-
-    //public class WorkpackageTwo : Entity<WorkpackageTwo>
-    //{
-    //    [Identity]
-    //    public Guid ProjectId { get; private set; }
-    //    public IEnumerable<WorkpackageTwoStep> Steps { get; set; }
-    //}
 }

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace Ubora.Domain.Projects.WorkpackageOnes
 {
     // TODO(Kaspar Kallas): private Apply or immutability
-    public class WorkpackageOneStep
+    public class WorkpackageStep
     {
         public Guid Id { get; private set; }
 
@@ -15,11 +15,11 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
         public string Content { get; set; }
 
         [JsonConstructor]
-        protected WorkpackageOneStep()
+        protected WorkpackageStep()
         {
         }
 
-        public WorkpackageOneStep(string title, string description)
+        public WorkpackageStep(string title, string description)
         {
             Id = Guid.NewGuid();
             Title = title;

@@ -51,13 +51,24 @@ namespace Ubora.Domain.Projects
 
         private void Apply(MemberAddedToProjectEvent e)
         {
-            var member = new ProjectMember(e.UserId);
+            var alreadyHasMember = this.DoesSatisfy(new HasMember<ProjectMember>(e.UserId));
+            if (alreadyHasMember)
+            {
+                throw new InvalidOperationException();
+            }
 
+            var member = new ProjectMember(e.UserId);
             _members.Add(member);
         }
 
         private void Apply(MemberRemovedFromProjectEvent e)
         {
+            var doesNotHaveMember = this.DoesSatisfy(!new HasMember<ProjectMember>(e.UserId));
+            if (doesNotHaveMember)
+            {
+                throw new InvalidOperationException();
+            }
+
             var member = _members.Single(x => x.UserId == e.UserId);
             _members.Remove(member);
         }
@@ -74,7 +85,7 @@ namespace Ubora.Domain.Projects
 
         private void Apply(ProjectMentorAssignedEvent e)
         {
-            var isAlreadyMentor = DoesSatisfy(new HasMember<ProjectMentor>(e.UserId));
+            var isAlreadyMentor = this.DoesSatisfy(new HasMember<ProjectMentor>(e.UserId));
             if (isAlreadyMentor)
             {
                 return;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.WorkpackageOnes;
@@ -9,7 +8,7 @@ namespace Ubora.Domain.Projects.WorkpackageTwos
 {
     public class RejectWorkpackageOneByReviewCommand : UserProjectCommand
     {
-        public string Conclusion { get; set; }
+        public string ConcludingComment { get; set; }
 
         internal class Handler : CommandHandler<RejectWorkpackageOneByReviewCommand>
         {
@@ -31,14 +30,10 @@ namespace Ubora.Domain.Projects.WorkpackageTwos
                     return new CommandResult("Work package can not be rejected.");
                 }
 
-                var activeReview = workpackageOne.Reviews
-                    .SingleOrDefault(x => x.Status == WorkpackageReviewStatus.InReview);
-                // TODO:
-
                 var @event = new WorkpackageOneRejectedByReviewEvent(
                     initiatedBy: cmd.Actor,
                     workpackageOneId: cmd.ProjectId,
-                    reviewId: activeReview.Id);
+                    concludingComment: cmd.ConcludingComment);
 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();

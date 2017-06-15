@@ -16,7 +16,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
         {
             var projectId = Guid.NewGuid();
 
-            this.Given(_ => this.Given_There_Is_Project(projectId))
+            this.Given(_ => this.CreateProject(projectId))
                 .When(_ => SubmitWorkpackageForReview(projectId))
                 .Then(_ => AssertWorkpackageOneHasReviewInStatus(projectId, WorkpackageReviewStatus.InReview))
                 .BDDfy();
@@ -36,7 +36,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
         {
             var projectId = Guid.NewGuid();
 
-            this.Given(_ => this.Given_There_Is_Project(projectId))
+            this.Given(_ => this.CreateProject(projectId))
                 // TODO
                     .And(_ => SubmitWorkpackageForReview(projectId))
                 .When(_ => AcceptWorkpackageOneByReview(projectId))
@@ -75,7 +75,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
         {
             var projectId = Guid.NewGuid();
 
-            this.Given(_ => this.Given_There_Is_Project(projectId))
+            this.Given(_ => this.CreateProject(projectId))
                 // TODO
                     .And(_ => SubmitWorkpackageForReview(projectId))
                 .When(_ => RejectWorkpackageOneByReview(projectId))
@@ -97,7 +97,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
         {
             var projectId = Guid.NewGuid();
 
-            this.Given(_ => this.Given_There_Is_Project(projectId))
+            this.Given(_ => this.CreateProject(projectId))
                 .When(_ => SubmitWorkpackageForReview(projectId))
                     .And(_ => SubmitWorkpackageForReview(projectId))
                 .Then(_ => AssertExistenceOfSingleReviewForWorkpackage(projectId))
@@ -117,7 +117,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
         {
             var projectId = Guid.NewGuid();
 
-            this.Given(_ => this.Given_There_Is_Project(projectId))
+            this.Given(_ => this.CreateProject(projectId))
                 // TODO
                     .And(_ => SubmitWorkpackageForReview(projectId))
                     .And(_ => RejectWorkpackageOneByReview(projectId))
@@ -131,7 +131,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
         {
             var projectId = Guid.NewGuid();
 
-            this.Given(_ => this.Given_There_Is_Project(projectId))
+            this.Given(_ => this.CreateProject(projectId))
                 // TODO
                     .And(_ => SubmitWorkpackageForReview(projectId))
                     .And(_ => AcceptWorkpackageOneByReview(projectId))

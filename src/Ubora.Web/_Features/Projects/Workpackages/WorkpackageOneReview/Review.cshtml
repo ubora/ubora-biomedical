@@ -1,12 +1,12 @@
 ﻿@using Ubora.Web._Features.Projects._Shared
-@model Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview.WorkpackageReviewViewModel
+@model IEnumerable<Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview.WorkpackageReviewViewModel>
 
 @{
     ViewData["Title"] = "Members";
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
-<br/>
+@*<br />
 
 @nameof(Model.IsWorkpackageOneInReview): @Model.IsWorkpackageOneInReview
 
@@ -14,7 +14,7 @@
 
 @nameof(Model.IsWorkpackageOneAccepted): @Model.IsWorkpackageOneAccepted
 
-<br />
+<br />*@
 
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -22,14 +22,24 @@
     <button type="submit">Submit for review</button>
 </form>
 
-<form asp-action="Accept">
-    <button type="submit">Accept</button>
-</form>
-
-<form asp-action="Reject">
-    <button type="submit">Reject</button>
-</form>
-
 <form asp-action="AssignMeAsMentor">
     <button type="submit">Assign me as mentor</button>
 </form>
+
+Reviews:
+<ol>
+    
+@foreach (var review in Model)
+{
+    <li>
+        <pre>
+Status: @review.Status.ToString()
+Concluding comment: "@review.Comment"
+Created at: @review.CreatedAt
+Concluded at: @review.ConcludedAt
+</pre>
+    </li>
+}
+</ol>
+
+<a asp-action="Decision">Accept/Reject</a>

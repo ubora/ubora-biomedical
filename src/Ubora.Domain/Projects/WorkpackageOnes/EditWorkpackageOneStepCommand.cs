@@ -28,7 +28,7 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
                 var step = workpackageOne.Steps.SingleOrDefault(x => x.Id == cmd.StepId);
                 if (step == null)
                 {
-                    throw new InvalidOperationException($"{nameof(WorkpackageOneStep)} not found with id [{cmd.StepId}]");
+                    throw new InvalidOperationException($"{nameof(WorkpackageStep)} not found with id [{cmd.StepId}]");
                 }
 
                 var canHandle = workpackageOne.DoesSatisfy(new CanWorkpackageOneStepBeEdited(step.Id));

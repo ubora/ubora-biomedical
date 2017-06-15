@@ -1,8 +1,13 @@
-﻿
-<form asp-action="Accept">
-    <button type="submit">Accept</button>
-</form>
+﻿@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview.WorkpackageReviewDecisionPostModel
 
-<form asp-action="Reject">
-    <button type="submit">Reject</button>
+@{
+    ViewData["Title"] = "Members";
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
+
+<form method="post">
+    <textarea asp-for="ConcludingComment"></textarea>
+    <button type="submit" asp-action="Accept">Accept</button>
+    <button type="submit" asp-action="Reject">Reject</button>
 </form>

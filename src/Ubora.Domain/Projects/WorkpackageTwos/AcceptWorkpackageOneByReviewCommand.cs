@@ -12,7 +12,7 @@ namespace Ubora.Domain.Projects.WorkpackageTwos
     /// </summary>
     public class AcceptWorkpackageOneByReviewCommand : UserProjectCommand
     {
-        public string Conclusion { get; set; }
+        public string ConcludingComment { get; set; }
 
         internal class Handler : CommandHandler<AcceptWorkpackageOneByReviewCommand>
         {
@@ -34,22 +34,13 @@ namespace Ubora.Domain.Projects.WorkpackageTwos
                     return new CommandResult("Work package can not be accepted.");
                 }
 
-                var activeReview = workpackageOne.Reviews
-                    .SingleOrDefault(x => x.Status == WorkpackageReviewStatus.InReview);
-
                 var @event = new WorkpackageOneAcceptedByReviewEvent(
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
-                    reviewId: activeReview.Id);
+                    concludingComment: cmd.ConcludingComment);
 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();
-
-                //var workpackageTwo = DocumentSession.Load<WorkpackageTwo>(cmd.ProjectId);
-                //if (workpackageTwo != null)
-                //{
-                    // todo
-                //}
 
                 return new CommandResult();
             }

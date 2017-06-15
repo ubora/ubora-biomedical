@@ -1,10 +1,11 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.WorkpackageOnes;
-using Ubora.Domain.Projects.WorkpackageSpecifications;
 using Ubora.Domain.Projects.WorkpackageTwos;
 using Ubora.Web.Authorization;
 
@@ -12,13 +13,20 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
 {
     public class WorkpackageReviewViewModel
     {
-        public bool IsWorkpackageOneInReview { get; set; }
-        public bool IsWorkpackageOneAccepted { get; set; }
+        public WorkpackageReviewStatus Status { get; set; }
+        public bool InReview { get; set; }
+        public bool IsAccepted { get; set; }
+        public bool IsRejected { get; set; }
+        public string Comment { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? ConcludedAt { get; set; }
     }
 
     public class WorkpackageReviewDecisionPostModel
     {
-        public string Comment { get; set; }
+        public bool IsAccept { get; set; }
+        public bool IsReject { get; set; }
+        public string ConcludingComment { get; set; }
     }
 
     // TODO
@@ -51,16 +59,28 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
 
         public IActionResult Review()
         {
-            var isInReview= new HasReviewInStatus<Domain.Projects.WorkpackageOnes.WorkpackageOne>(WorkpackageReviewStatus.InReview);
-            var isAccepted = new HasReviewInStatus<Domain.Projects.WorkpackageOnes.WorkpackageOne>(WorkpackageReviewStatus.Accepted);
+            //var isInReview= new HasReviewInStatus<Domain.Projects.WorkpackageOnes.WorkpackageOne>(WorkpackageReviewStatus.InReview);
+            //var isAccepted = new HasReviewInStatus<Domain.Projects.WorkpackageOnes.WorkpackageOne>(WorkpackageReviewStatus.Accepted);
 
-            var model = new WorkpackageReviewViewModel
-            {
-                IsWorkpackageOneInReview = WorkpackageOne.DoesSatisfy(isInReview),
-                IsWorkpackageOneAccepted = WorkpackageOne.DoesSatisfy(isAccepted)
-            };
+            var reviews = WorkpackageOne.Reviews
+                .Select(x => new WorkpackageReviewViewModel
+                {
+                    Status = x.Status,
+                    InReview = x.Status == WorkpackageReviewStatus.InReview,
+                    IsAccepted = x.Status == WorkpackageReviewStatus.Accepted,
+                    IsRejected = x.Status == WorkpackageReviewStatus.Rejected,
+                    Comment = x.ConcludingComment,
+                    CreatedAt = x.CreatedAt,
+                    ConcludedAt= x.ConcludedAt
+                });
 
-            return View(nameof(Review), model);
+            //var model = new WorkpackageReviewViewModel
+            //{
+            //    IsWorkpackageOneInReview = WorkpackageOne.DoesSatisfy(isInReview),
+            //    IsWorkpackageOneAccepted = WorkpackageOne.DoesSatisfy(isAccepted)
+            //};
+
+            return View(nameof(Review), reviews);
         }
 
         [HttpPost]
@@ -83,7 +103,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
         }
 
         [Authorize(Policies.CanReviewProjectWorkpackages)]
-        public IActionResult Decision()
+        public IActionResult Decision(WorkpackageReviewDecisionPostModel model)
         {
             // todo
             return View(nameof(Decision));
@@ -98,7 +118,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
                 return Review();
             }
 
-            ExecuteUserProjectCommand(new AcceptWorkpackageOneByReviewCommand());
+            ExecuteUserProjectCommand(new AcceptWorkpackageOneByReviewCommand
+            {
+                ConcludingComment = model.ConcludingComment
+            });
 
             if (!ModelState.IsValid)
             {
@@ -117,7 +140,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
                 return Review();
             }
 
-            ExecuteUserProjectCommand(new RejectWorkpackageOneByReviewCommand());
+            ExecuteUserProjectCommand(new RejectWorkpackageOneByReviewCommand
+            {
+                ConcludingComment = model.ConcludingComment
+            });
 
             if (!ModelState.IsValid)
             {

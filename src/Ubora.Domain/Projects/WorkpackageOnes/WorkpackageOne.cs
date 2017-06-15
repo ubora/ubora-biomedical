@@ -1,59 +1,29 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using Marten.Schema;
-using Newtonsoft.Json;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.WorkpackageSpecifications;
 using Ubora.Domain.Projects.WorkpackageTwos;
 
 namespace Ubora.Domain.Projects.WorkpackageOnes
 {
-    public abstract class Workpackage<TDerived> : Entity<TDerived> where TDerived : Entity<TDerived>
-    {
-        [Identity]
-        public Guid ProjectId { get; protected set; }
-
-        public string Title { get; protected set; }
-
-        [JsonProperty(nameof(Steps))]
-        protected readonly HashSet<WorkpackageOneStep> _steps = new HashSet<WorkpackageOneStep>();
-        [JsonIgnore]
-        public IReadOnlyCollection<WorkpackageOneStep> Steps => _steps;
-
-        [JsonProperty(nameof(Reviews))]
-        protected readonly HashSet<WorkpackageReview> _reviews = new HashSet<WorkpackageReview>();
-        [JsonIgnore]
-        public IReadOnlyCollection<WorkpackageReview> Reviews => _reviews;
-
-        // TODO: Get rid of these? Calculate somehow
-        public bool IsLocked { get; protected set; }
-        public bool IsVisible { get; protected set; }
-
-        // Virtual for testing
-        public virtual WorkpackageOneStep GetSingleStep(Guid stepId)
-        {
-            return _steps.Single(step => step.Id == stepId);
-        }
-    }
-
     public class WorkpackageOne : Workpackage<WorkpackageOne>
     {
+        public bool IsLocked => this.DoesSatisfy(new IsLocked());
+
         private void Apply(ProjectCreatedEvent e)
         {
             ProjectId = e.Id;
 
             Title = "Design and prototyping";
 
-            _steps.Add(new WorkpackageOneStep("Description Of Need", Placeholders.DescriptionOfNeed));
-            _steps.Add(new WorkpackageOneStep("Description Of Existing Solutions And Analysis", Placeholders.DescriptionOfExistingSolutionsAndAnalysis));
-            _steps.Add(new WorkpackageOneStep("Product Functionality", Placeholders.ProductFunctionality));
-            _steps.Add(new WorkpackageOneStep("Product Performance", Placeholders.ProductPerformance));
-            _steps.Add(new WorkpackageOneStep("Product Usability", Placeholders.ProductUsability));
-            _steps.Add(new WorkpackageOneStep("Product Safety", Placeholders.ProductSafety));
-            _steps.Add(new WorkpackageOneStep("Patient Population Study", Placeholders.PatientPopulationStudy));
-            _steps.Add(new WorkpackageOneStep("User Requirement Study", Placeholders.UserRequirementStudy));
-            _steps.Add(new WorkpackageOneStep("Additional Information", Placeholders.AdditionalInformation));
+            _steps.Add(new WorkpackageStep("Description Of Need", Placeholders.DescriptionOfNeed));
+            _steps.Add(new WorkpackageStep("Description Of Existing Solutions And Analysis", Placeholders.DescriptionOfExistingSolutionsAndAnalysis));
+            _steps.Add(new WorkpackageStep("Product Functionality", Placeholders.ProductFunctionality));
+            _steps.Add(new WorkpackageStep("Product Performance", Placeholders.ProductPerformance));
+            _steps.Add(new WorkpackageStep("Product Usability", Placeholders.ProductUsability));
+            _steps.Add(new WorkpackageStep("Product Safety", Placeholders.ProductSafety));
+            _steps.Add(new WorkpackageStep("Patient Population Study", Placeholders.PatientPopulationStudy));
+            _steps.Add(new WorkpackageStep("User Requirement Study", Placeholders.UserRequirementStudy));
+            _steps.Add(new WorkpackageStep("Additional Information", Placeholders.AdditionalInformation));
 
             IsVisible = true;
         }
@@ -80,13 +50,8 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
                 throw new InvalidOperationException();
             }
 
-            var newReview = new WorkpackageReview(
-                id: Guid.NewGuid(),
-                status: WorkpackageReviewStatus.InReview);
+            var newReview = WorkpackageReview.Create();
             _reviews.Add(newReview);
-
-            // todo: state pattern
-            IsLocked = true;
         }
 
         private void Apply(WorkpackageOneAcceptedByReviewEvent e)
@@ -97,8 +62,8 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
                 throw new InvalidOperationException();
             }
 
-            var oldReview = _reviews.Single(review => review.Id == e.ReviewId);
-            var acceptedReview = oldReview.ToStatus(WorkpackageReviewStatus.Accepted);
+            var oldReview = GetSingleActiveReview();
+            var acceptedReview = oldReview.ToAccepted(e.ConcludingComment);
 
             _reviews.Remove(oldReview);
             _reviews.Add(acceptedReview);
@@ -112,14 +77,11 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
                 throw new InvalidOperationException();
             }
 
-            var oldReview = _reviews.Single(review => review.Id == e.ReviewId);
-            var acceptedReview = oldReview.ToStatus(WorkpackageReviewStatus.Rejected);
+            var oldReview = GetSingleActiveReview();
+            var acceptedReview = oldReview.ToRejected(e.ConcludingComment);
 
             _reviews.Remove(oldReview);
             _reviews.Add(acceptedReview);
-
-            // todo: state pattern
-            IsLocked = false;
         }
     }
 }

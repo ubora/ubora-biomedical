@@ -31,10 +31,10 @@ namespace Ubora.Domain.Projects.WorkpackageTwos
 
             Title = "TODO: Don't know yet";
 
-            _steps.Add(new WorkpackageOneStep("Global function and subfunctions", ""));
-            _steps.Add(new WorkpackageOneStep("Applicable class of medical device", ""));
-            _steps.Add(new WorkpackageOneStep("Working principles and product ideas", ""));
-            _steps.Add(new WorkpackageOneStep("Selection of best idea: Reaching the concept", ""));
+            _steps.Add(new WorkpackageStep("Global function and subfunctions", ""));
+            _steps.Add(new WorkpackageStep("Applicable class of medical device", ""));
+            _steps.Add(new WorkpackageStep("Working principles and product ideas", ""));
+            _steps.Add(new WorkpackageStep("Selection of best idea: Reaching the concept", ""));
         }
 
         private void Apply(WorkpackageOneAcceptedByReviewEvent e)
@@ -51,12 +51,12 @@ namespace Ubora.Domain.Projects.WorkpackageTwos
 
             Title = "Design and prototyping";
 
-            _steps.Add(new WorkpackageOneStep("Blueprints of preliminary geometries", ""));
-            _steps.Add(new WorkpackageOneStep("Commercial elements", ""));
-            _steps.Add(new WorkpackageOneStep("Optimization: materials, processes, performance", ""));
-            _steps.Add(new WorkpackageOneStep("Prototypes and functional trials", ""));
-            _steps.Add(new WorkpackageOneStep("Blueprints of optimized designs", ""));
-            _steps.Add(new WorkpackageOneStep("Criteria for product approval/quality", ""));
+            _steps.Add(new WorkpackageStep("Blueprints of preliminary geometries", ""));
+            _steps.Add(new WorkpackageStep("Commercial elements", ""));
+            _steps.Add(new WorkpackageStep("Optimization: materials, processes, performance", ""));
+            _steps.Add(new WorkpackageStep("Prototypes and functional trials", ""));
+            _steps.Add(new WorkpackageStep("Blueprints of optimized designs", ""));
+            _steps.Add(new WorkpackageStep("Criteria for product approval/quality", ""));
         }
     }
 
@@ -68,10 +68,10 @@ namespace Ubora.Domain.Projects.WorkpackageTwos
 
             Title = "Implementation";
 
-            _steps.Add(new WorkpackageOneStep("Prototypes and considerations for safety assessment", ""));
-            _steps.Add(new WorkpackageOneStep("Results from vitro/in vivo", ""));
-            _steps.Add(new WorkpackageOneStep("Additional technical documentation", ""));
-            _steps.Add(new WorkpackageOneStep("Preproduction documents (including those linked to regulatory clearance)", ""));
+            _steps.Add(new WorkpackageStep("Prototypes and considerations for safety assessment", ""));
+            _steps.Add(new WorkpackageStep("Results from vitro/in vivo", ""));
+            _steps.Add(new WorkpackageStep("Additional technical documentation", ""));
+            _steps.Add(new WorkpackageStep("Preproduction documents (including those linked to regulatory clearance)", ""));
         }
 
         // TODO WP4 additional
@@ -85,12 +85,12 @@ namespace Ubora.Domain.Projects.WorkpackageTwos
 
             Title = "Operation";
 
-            _steps.Add(new WorkpackageOneStep("Production documentation (final blueprints, components and plans)", ""));
-            _steps.Add(new WorkpackageOneStep("Commercial documentation (WHO description sheets, flyers, user manuals)", ""));
-            _steps.Add(new WorkpackageOneStep("Service considerations (suppliers, production and distribution chain, warranties? ...)", ""));
-            _steps.Add(new WorkpackageOneStep("Additional operative documentation", ""));
-            _steps.Add(new WorkpackageOneStep("Pilot lots", ""));
-            _steps.Add(new WorkpackageOneStep("Manufacturing process validation", ""));
+            _steps.Add(new WorkpackageStep("Production documentation (final blueprints, components and plans)", ""));
+            _steps.Add(new WorkpackageStep("Commercial documentation (WHO description sheets, flyers, user manuals)", ""));
+            _steps.Add(new WorkpackageStep("Service considerations (suppliers, production and distribution chain, warranties? ...)", ""));
+            _steps.Add(new WorkpackageStep("Additional operative documentation", ""));
+            _steps.Add(new WorkpackageStep("Pilot lots", ""));
+            _steps.Add(new WorkpackageStep("Manufacturing process validation", ""));
         }
     }
 }

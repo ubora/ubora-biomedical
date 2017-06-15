@@ -6,20 +6,20 @@ using Ubora.Domain.Projects.WorkpackageOnes;
 
 namespace Ubora.Domain.Projects.WorkpackageSpecifications
 {
-    public class HasReviewInStatus<TWorkpackage> 
+    public class HasStep<TWorkpackage>
         : Specification<TWorkpackage> where TWorkpackage : Workpackage<TWorkpackage>
     {
-        public HasReviewInStatus(WorkpackageReviewStatus status)
-        {
-            Status = status;
-        }
+        public Guid StepId { get; }
 
-        public WorkpackageReviewStatus Status { get; }
+        public HasStep(Guid stepId)
+        {
+            StepId = stepId;
+        }
 
         internal override Expression<Func<TWorkpackage, bool>> ToExpression()
         {
-            return workpackage => 
-                workpackage.Reviews.Any(review => review.Status == this.Status);
+            return workpackage =>
+                workpackage.Steps.Any<WorkpackageStep>(step => step.Id == StepId);
         }
     }
 }
