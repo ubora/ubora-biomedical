@@ -85,7 +85,7 @@ namespace Ubora.Domain.Projects.DeviceClassification
             SubQuestions.Add(subQuestion1_1_5_4);
             SubQuestions.Add(subQuestion1_1_6);
 
-            var subQuestion2_1 = new SubQuestion("Is it SURGICALLY NON INVASIVE?", pair1, mainQuestion2);
+            var subQuestion2_1 = new SubQuestion("Is it NON-SURGICALLY INVASIVE?", pair1, mainQuestion2);
             var subQuestion2_1_1 = new SubQuestion("Is it intended for connection to any active medical device?", pair1, subQuestion2_1);
             var subQuestion2_1_1_1 = new SubQuestion("Is it intended for transient use?", pair1, subQuestion2_1_1);
             var subQuestion2_1_1_2 = new SubQuestion("Is it intended for short-term use  only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?", pair1, subQuestion2_1_1);
