@@ -51,7 +51,11 @@ namespace Ubora.Web._Features.Projects.Dashboard
                 return EditProjectDescription();
             }
 
-            ExecuteUserProjectCommand(new UpdateProjectDescriptionCommand { ProjectId = ProjectId, Description = model.ProjectDescription });
+            ExecuteUserProjectCommand(new UpdateProjectDescriptionCommand
+            {
+                ProjectId = ProjectId,
+                Description = model.ProjectDescription
+            });
 
             if (!ModelState.IsValid)
             {

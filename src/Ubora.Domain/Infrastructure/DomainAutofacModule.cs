@@ -37,13 +37,14 @@ namespace Ubora.Domain.Infrastructure
 
                 configureAction.Invoke(options);
 
-                builder.RegisterInstance(new DocumentStore(options)).SingleInstance();
+                builder.RegisterInstance(new DocumentStore(options)).As<IDocumentStore>().SingleInstance();
             }
 
-            builder.Register(x => x.Resolve<DocumentStore>().OpenSession()).As<IDocumentSession>().As<IQuerySession>().InstancePerLifetimeScope();
+            builder.Register(x => x.Resolve<IDocumentStore>().OpenSession()).As<IDocumentSession>().As<IQuerySession>().InstancePerLifetimeScope();
             builder.Register(x => x.Resolve<IDocumentSession>().Events).As<IEventStore>().InstancePerLifetimeScope();
 
             builder.RegisterType<EventStreamQuery>().As<IEventStreamQuery>().InstancePerLifetimeScope();
+            builder.RegisterType<DeviceClassificationProvider>().As<IDeviceClassificationProvider>().InstancePerLifetimeScope();
             builder.RegisterType<CommandQueryProcessor>().As<ICommandProcessor>().As<IQueryProcessor>().As<ICommandQueryProcessor>().InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(ICommandHandler<>)).InstancePerLifetimeScope();
