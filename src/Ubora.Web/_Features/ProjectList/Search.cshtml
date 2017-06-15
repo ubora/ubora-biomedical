@@ -1,0 +1,18 @@
+﻿@using Ubora.Web._Features.ProjectList
+@model Ubora.Web._Features.ProjectList.SearchViewModel
+
+<section class="projects">
+    <h2 class="full-width">Search projects</h2>
+    <form asp-controller="ProjectList" asp-action="Search" method="post">
+        <label>
+            <input asp-for="Title" placeholder="title">
+            <span asp-validation-for="Title"></span>
+            <span></span>
+        </label>
+        <br>
+        <button class="button primary-button" type="submit">Search</button>
+    </form>
+
+    @await Component.InvokeAsync(typeof(SearchingProjectListViewComponent), new { title = @Model.Title })
+
+</section>
