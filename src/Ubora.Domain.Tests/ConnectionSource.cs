@@ -7,7 +7,7 @@ namespace Ubora.Domain.Tests
 {
     public class ConnectionSource : ConnectionFactory
     {
-        public static readonly string ConnectionString = Environment.GetEnvironmentVariable("marten-testing-database");
+        public static readonly string ConnectionString = Environment.GetEnvironmentVariable("marten_testing_database");
 
         static ConnectionSource()
         {
