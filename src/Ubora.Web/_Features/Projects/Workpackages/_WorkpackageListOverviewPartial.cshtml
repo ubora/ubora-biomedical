@@ -2,16 +2,15 @@
 
 <aside class="project_sidemenu">
     <ol>
-        @foreach (var wp in Model.Workpackages)
+        @foreach (var workpackage in Model.Workpackages)
         {
             <li class="project_sidemenu--workpackage">
-                <h3>@wp.Title</h3>
-
+                <h3>@workpackage.Title</h3>
                 <ol>
-                    @foreach (var step in wp.Steps)
+                    @foreach (var step in workpackage.Steps)
                     {
                         <li>
-                            @if (!wp.IsVisible)
+                            @if (!workpackage.IsVisible)
                             {
                                 <del>
                                     @step.Title
@@ -31,7 +30,6 @@
 
                                 </a>
                             }
-
                         </li>
                     }
                 </ol>

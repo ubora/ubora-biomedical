@@ -1,7 +1,8 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Web._Features.Projects.Workpackages.WorkpackageOne;
 
@@ -9,67 +10,65 @@ namespace Ubora.Web._Features.Projects.Workpackages
 {
     public class WorkpackageListOverviewViewComponent : ProjectViewComponent
     {
-        public WorkpackageListOverviewViewComponent(ICommandQueryProcessor processor)
+        public WorkpackageListOverviewViewComponent(IQueryProcessor processor)
             : base(processor)
         {
         }
 
         public Task<IViewComponentResult> InvokeAsync()
         {
-            var wp1 = CreateWorkpackageModel<Domain.Projects.Workpackages.WorkpackageOne>();
-            var wp2 = CreateWorkpackageModel<WorkpackageTwo>();
-            var wp3 = CreateWorkpackageModel<WorkpackageThree>();
-            var wp4 = CreateWorkpackageModel<WorkpackageFour>();
-            var wp5 = CreateWorkpackageModel<WorkpackageFive>();
-
             var model = new WorkpackageListOverviewViewModel
             {
-                Workpackages = new []
+                Workpackages = new[]
                 {
-                    wp1,
-                    wp2,
-                    wp3,
-                    wp4,
-                    wp5
+                    CreateViewModel<Domain.Projects.Workpackages.WorkpackageOne>(),
+                    CreateViewModel<WorkpackageTwo>(),
+                    CreateViewModel<WorkpackageThree>(),
+                    CreateViewModel<WorkpackageFour>(),
+                    CreateViewModel<WorkpackageFive>()
                 }
             };
+
+            var selectedStepId = GetSelectedStepId();
+            if (selectedStepId != null)
+            {
+                model.MarkSelectedStep(selectedStepId.Value);
+            }
 
             return Task.FromResult<IViewComponentResult>(
                 View("~/_Features/Projects/Workpackages/_WorkpackageListOverviewPartial.cshtml", model));
         }
 
-        private WorkpackageOneOverviewViewModel CreateWorkpackageModel<TWorkpackage>() where TWorkpackage : Workpackage<TWorkpackage>
+        private WorkpackageOneOverviewViewModel CreateViewModel<TWorkpackage>()
+            where TWorkpackage : Workpackage<TWorkpackage>
         {
-            var wp = QueryProcessor.FindById<TWorkpackage>(ProjectId);
+            var workpackage = QueryProcessor.FindById<TWorkpackage>(ProjectId);
 
             var model = new WorkpackageOneOverviewViewModel
             {
-                Title = wp.Title,
-                IsVisible = wp.IsVisible,
-                Steps = wp.Steps.Select(step => new WorkpackageOneOverviewViewModel.Step
+                Title = workpackage.Title,
+                IsVisible = workpackage.IsVisible,
+                Steps = workpackage.Steps.Select(task => new WorkpackageOneOverviewViewModel.Step
                 {
-                    Id = step.Id,
-                    Title = step.Title
-                })
+                    Id = task.Id,
+                    Title = task.Title
+                }).ToList()
             };
-
-            MarkSelectedItem(model);
 
             return model;
         }
 
-        private void MarkSelectedItem(WorkpackageOneOverviewViewModel model)
+        private Guid? GetSelectedStepId()
         {
-            var id = (string)RouteData.Values["id"];
+            var projectIdFromRoute = RouteData.Values["id"] as string;
+            Guid.TryParse(projectIdFromRoute, out Guid stepId);
 
-            foreach (var task in model.Steps)
+            if (stepId == default(Guid))
             {
-                if (id == task.Id.ToString())
-                {
-                    task.IsSelected = true;
-                    break;
-                }
+                return null;
             }
+
+            return stepId;
         }
     }
 }
