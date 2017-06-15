@@ -9,17 +9,17 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
     /// <summary>
     /// Used by mentors to accept project's in review workpackage draft. Opens up the next workpackage.
     /// </summary>
-    public class AcceptWorkpackageOneByReviewCommand : UserProjectCommand
+    public class AcceptWorkpackageOneReviewCommand : UserProjectCommand
     {
         public string ConcludingComment { get; set; }
 
-        internal class Handler : CommandHandler<AcceptWorkpackageOneByReviewCommand>
+        internal class Handler : CommandHandler<AcceptWorkpackageOneReviewCommand>
         {
             public Handler(IDocumentSession documentSession) : base(documentSession)
             {
             }
 
-            public override ICommandResult Handle(AcceptWorkpackageOneByReviewCommand cmd)
+            public override ICommandResult Handle(AcceptWorkpackageOneReviewCommand cmd)
             {
                 var workpackageOne = DocumentSession.Load<WorkpackageOne>(cmd.ProjectId);
                 if (workpackageOne == null)

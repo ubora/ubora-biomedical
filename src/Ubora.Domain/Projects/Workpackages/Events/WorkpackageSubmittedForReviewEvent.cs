@@ -3,9 +3,9 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects.Workpackages.Events
 {
-    public class WorkpackageOneSubmittedForReviewEvent : UboraEvent
+    public class WorkpackageSubmittedForReviewEvent : UboraEvent
     {
-        public WorkpackageOneSubmittedForReviewEvent(UserInfo initiatedBy, Guid workpackageOneId) : base(initiatedBy)
+        public WorkpackageSubmittedForReviewEvent(UserInfo initiatedBy, Guid workpackageOneId) : base(initiatedBy)
         {
             WorkpackageOneId = workpackageOneId;
         }

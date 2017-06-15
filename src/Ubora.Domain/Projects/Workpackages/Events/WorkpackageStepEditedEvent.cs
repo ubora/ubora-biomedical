@@ -3,13 +3,13 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects.Workpackages.Events
 {
-    public class WorkpackageOneStepEditedEvent : UboraEvent
+    public class WorkpackageStepEditedEvent : UboraEvent
     {
         public Guid StepId { get; set; }
         public string Title { get; set; }
         public string NewValue { get; set; }
 
-        public WorkpackageOneStepEditedEvent(UserInfo initiatedBy) : base(initiatedBy)
+        public WorkpackageStepEditedEvent(UserInfo initiatedBy) : base(initiatedBy)
         {
         }
 

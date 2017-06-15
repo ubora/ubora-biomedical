@@ -38,7 +38,7 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                     return new CommandResult("Work package step can not be edited.");
                 }
 
-                var @event = new WorkpackageOneStepEditedEvent(cmd.Actor)
+                var @event = new WorkpackageStepEditedEvent(cmd.Actor)
                 {
                     StepId = cmd.StepId,
                     NewValue = cmd.NewValue,

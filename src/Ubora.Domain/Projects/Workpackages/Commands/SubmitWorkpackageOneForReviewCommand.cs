@@ -19,8 +19,6 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
 
             public override ICommandResult Handle(SubmitWorkpackageOneForReviewCommand cmd)
             {
-                // lock if workpackage one
-
                 var workpackageOne = DocumentSession.Load<WorkpackageOne>(cmd.ProjectId);
                 if (workpackageOne == null)
                 {
@@ -33,7 +31,7 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                     return new CommandResult("Work package can not be submitted for review.");
                 }
 
-                var @event = new WorkpackageOneSubmittedForReviewEvent(cmd.Actor, cmd.ProjectId);
+                var @event = new WorkpackageSubmittedForReviewEvent(cmd.Actor, cmd.ProjectId);
 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();

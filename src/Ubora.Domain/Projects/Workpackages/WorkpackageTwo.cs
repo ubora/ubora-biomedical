@@ -20,6 +20,8 @@ namespace Ubora.Domain.Projects.Workpackages
         {
             IsVisible = true;
         }
+
+
     }
 
     public class WorkpackageThree : Workpackage<WorkpackageThree>

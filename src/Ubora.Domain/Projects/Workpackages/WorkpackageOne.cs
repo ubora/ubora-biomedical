@@ -28,7 +28,7 @@ namespace Ubora.Domain.Projects.Workpackages
             IsVisible = true;
         }
 
-        private void Apply(WorkpackageOneStepEditedEvent e)
+        private void Apply(WorkpackageStepEditedEvent e)
         {
             var canApply = this.DoesSatisfy(new CanWorkpackageOneStepBeEdited(e.StepId));
             if (!canApply)
@@ -42,7 +42,7 @@ namespace Ubora.Domain.Projects.Workpackages
             step.Content = e.NewValue;
         }
 
-        private void Apply(WorkpackageOneSubmittedForReviewEvent e)
+        private void Apply(WorkpackageSubmittedForReviewEvent e)
         {
             var canApply = this.DoesSatisfy(new CanBeSubmittedForReview<WorkpackageOne>());
             if (!canApply)

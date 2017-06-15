@@ -118,7 +118,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
                 return Review();
             }
 
-            ExecuteUserProjectCommand(new AcceptWorkpackageOneByReviewCommand
+            ExecuteUserProjectCommand(new AcceptWorkpackageOneReviewCommand
             {
                 ConcludingComment = model.ConcludingComment
             });
@@ -140,7 +140,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
                 return Review();
             }
 
-            ExecuteUserProjectCommand(new RejectWorkpackageOneByReviewCommand
+            ExecuteUserProjectCommand(new RejectWorkpackageOneReviewCommand
             {
                 ConcludingComment = model.ConcludingComment
             });

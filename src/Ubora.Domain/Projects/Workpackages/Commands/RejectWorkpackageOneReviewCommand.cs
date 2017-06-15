@@ -6,17 +6,17 @@ using Ubora.Domain.Projects.Workpackages.Specifications;
 
 namespace Ubora.Domain.Projects.Workpackages.Commands
 {
-    public class RejectWorkpackageOneByReviewCommand : UserProjectCommand
+    public class RejectWorkpackageOneReviewCommand : UserProjectCommand
     {
         public string ConcludingComment { get; set; }
 
-        internal class Handler : CommandHandler<RejectWorkpackageOneByReviewCommand>
+        internal class Handler : CommandHandler<RejectWorkpackageOneReviewCommand>
         {
             public Handler(IDocumentSession documentSession) : base(documentSession)
             {
             }
 
-            public override ICommandResult Handle(RejectWorkpackageOneByReviewCommand cmd)
+            public override ICommandResult Handle(RejectWorkpackageOneReviewCommand cmd)
             {
                 var workpackageOne = DocumentSession.Load<WorkpackageOne>(cmd.ProjectId);
                 if (workpackageOne == null)
