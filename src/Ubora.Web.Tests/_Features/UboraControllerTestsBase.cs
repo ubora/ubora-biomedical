@@ -4,36 +4,37 @@ using System.Security.Principal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
 using Ubora.Web.Data;
-using Ubora.Web._Features.Users.Manage;
+using Ubora.Web.Tests.Fakes;
+using Ubora.Web._Features;
 using Xunit;
 
 namespace Ubora.Web.Tests._Features
 {
-    public abstract class UserControllerTestsBase
+    public abstract class UboraControllerTestsBase
     {
         protected IPrincipal User { get; }
+        protected Guid UserId { get; }
+        protected ModelStateDictionary ModelState { get; private set; }
 
-        protected UserControllerTestsBase()
+        protected UboraControllerTestsBase()
         {
-            User = CreateUser();
+            UserId = Guid.NewGuid();
+            User = CreateUser(UserId);
         }
 
-        protected virtual ClaimsPrincipal CreateUser()
+        protected virtual ClaimsPrincipal CreateUser(Guid userId)
         {
-            var claims = new[]
-            {
-                new Claim(ApplicationUser.FullNameClaimType, value: nameof(ApplicationUser.FullNameClaimType) + Guid.NewGuid()),
-                new Claim(ClaimTypes.NameIdentifier, value: Guid.NewGuid().ToString()),
-            };
-            var identity = new ClaimsIdentity(claims);
-            var principal = new ClaimsPrincipal(identity);
+            var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(
+                userId: userId,
+                fullName: nameof(ApplicationUser.FullNameClaimType) + Guid.NewGuid());
 
-            return principal;
+            return user;
         }
 
-        protected void SetUserContext(Controller controller)
+        protected void SetUserContext(UboraController controller)
         {
             controller.ControllerContext = new ControllerContext(new ActionContext
             {
@@ -44,6 +45,7 @@ namespace Ubora.Web.Tests._Features
                 },
                 ActionDescriptor = new ControllerActionDescriptor()
             });
+            ModelState = controller.ModelState;
         }
 
         protected void AssertModelStateContainsError(ViewResult viewResult, params string[] result)

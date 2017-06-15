@@ -9,7 +9,7 @@ using Ubora.Web._Features.Users.Manage;
 
 namespace Ubora.Web.Tests._Features.Users.Manage
 {
-    public class ManageControllerTests : UserControllerTestsBase
+    public class ManageControllerTests : UboraControllerTestsBase
     {
         private readonly Mock<FakeUserManager> _userManagerMock;
         private readonly Mock<FakeSignInManager> _signInManagerMock;

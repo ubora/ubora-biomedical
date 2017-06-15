@@ -17,7 +17,7 @@ using Xunit;
 
 namespace Ubora.Web.Tests._Features.Users.Profile
 {
-    public class ProfileControllerTests : UserControllerTestsBase
+    public class ProfileControllerTests : UboraControllerTestsBase
     {
         private readonly Mock<IMapper> _mapperMock;
         private readonly Mock<FakeUserManager> _userManagerMock;
