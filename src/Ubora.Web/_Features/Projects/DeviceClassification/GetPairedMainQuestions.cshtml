@@ -1,0 +1,23 @@
+﻿@using Ubora.Web._Features.Projects.DeviceClassification.ViewModels
+
+@model PairedMainQuestionsViewModel
+
+@{
+    ViewData["Title"] = "Device classification";
+}
+
+<link rel="stylesheet" href="/css/questionnaire.css">
+<section class="medium-width questionnaire">
+    <h1>Please select an option:</h1>
+    <ul class="questionnaire_list">
+        <li class="questionnaire_item">
+            @Html.Partial("MainQuestionAnswerPartial", new MainQuestionAnswerViewModel { QuestionText = Model.MainQuestionOne, MainQuestionId = Model.MainQuestionOneId, PairedQuestionId = Model.PairedQuestionId })
+        </li>
+        @if (!string.IsNullOrEmpty(Model.MainQuestionTwo))
+        {
+            <li class="questionnaire_item">
+                @Html.Partial("MainQuestionAnswerPartial", new MainQuestionAnswerViewModel { QuestionText = Model.MainQuestionTwo, MainQuestionId = Model.MainQuestionTwoId, PairedQuestionId = Model.PairedQuestionId })
+            </li>
+        }
+    </ul>
+</section>
