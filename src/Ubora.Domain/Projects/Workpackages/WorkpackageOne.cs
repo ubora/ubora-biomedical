@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
-using Ubora.Domain.Projects.WorkpackageSpecifications;
-using Ubora.Domain.Projects.WorkpackageTwos;
+using Ubora.Domain.Projects.Workpackages.Events;
+using Ubora.Domain.Projects.Workpackages.Specifications;
 
-namespace Ubora.Domain.Projects.WorkpackageOnes
+namespace Ubora.Domain.Projects.Workpackages
 {
     public class WorkpackageOne : Workpackage<WorkpackageOne>
     {

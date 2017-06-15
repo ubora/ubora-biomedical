@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ubora.Domain.Projects.WorkpackageOnes {
+namespace Ubora.Domain.Projects.Workpackages {
     using System;
     using System.Reflection;
     
@@ -40,7 +40,7 @@ namespace Ubora.Domain.Projects.WorkpackageOnes {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ubora.Domain.Projects.WorkpackageOnes.Placeholders", typeof(Placeholders).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ubora.Domain.Projects.Workpackages.Placeholders", typeof(Placeholders).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

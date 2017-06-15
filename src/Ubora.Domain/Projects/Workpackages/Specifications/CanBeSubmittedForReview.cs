@@ -1,7 +1,6 @@
 using Ubora.Domain.Infrastructure.Specifications;
-using Ubora.Domain.Projects.WorkpackageOnes;
 
-namespace Ubora.Domain.Projects.WorkpackageSpecifications
+namespace Ubora.Domain.Projects.Workpackages.Specifications
 {
     public class CanBeSubmittedForReview<TWorkpackage> 
         : WrappedSpecification<TWorkpackage> where TWorkpackage : Workpackage<TWorkpackage>

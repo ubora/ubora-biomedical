@@ -1,10 +1,10 @@
 ﻿using System;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Projects.WorkpackageOnes;
-using Ubora.Domain.Projects.WorkpackageSpecifications;
+using Ubora.Domain.Projects.Workpackages.Events;
+using Ubora.Domain.Projects.Workpackages.Specifications;
 
-namespace Ubora.Domain.Projects.WorkpackageTwos
+namespace Ubora.Domain.Projects.Workpackages.Commands
 {
     /// <summary>
     /// Submit workpackage for formal review. Workpackage will be locked for new edits while in review.

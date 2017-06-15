@@ -2,9 +2,8 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using Ubora.Domain.Infrastructure.Specifications;
-using Ubora.Domain.Projects.WorkpackageOnes;
 
-namespace Ubora.Domain.Projects.WorkpackageSpecifications
+namespace Ubora.Domain.Projects.Workpackages.Specifications
 {
     public class HasStep<TWorkpackage>
         : Specification<TWorkpackage> where TWorkpackage : Workpackage<TWorkpackage>

@@ -1,4 +1,4 @@
-namespace Ubora.Domain.Projects.WorkpackageOnes
+namespace Ubora.Domain.Projects.Workpackages
 {
     public enum WorkpackageReviewStatus
     {

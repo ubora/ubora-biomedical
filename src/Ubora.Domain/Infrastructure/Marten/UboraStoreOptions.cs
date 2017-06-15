@@ -5,8 +5,7 @@ using Marten.Services;
 using Marten.Services.Events;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
-using Ubora.Domain.Projects.WorkpackageOnes;
-using Ubora.Domain.Projects.WorkpackageTwos;
+using Ubora.Domain.Projects.Workpackages;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {

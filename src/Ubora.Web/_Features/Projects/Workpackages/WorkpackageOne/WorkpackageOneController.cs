@@ -2,7 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Projects.WorkpackageOnes;
+using Ubora.Domain.Projects.Workpackages.Commands;
 
 namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
 {
@@ -15,7 +15,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
             _mapper = mapper;
         }
 
-        protected Domain.Projects.WorkpackageOnes.WorkpackageOne WorkpackageOne => this.FindById<Domain.Projects.WorkpackageOnes.WorkpackageOne>(ProjectId);
+        protected Domain.Projects.Workpackages.WorkpackageOne WorkpackageOne => this.FindById<Domain.Projects.Workpackages.WorkpackageOne>(ProjectId);
 
         public IActionResult Overview()
         {

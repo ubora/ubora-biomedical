@@ -2,8 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Projects.WorkpackageOnes;
-using Ubora.Domain.Projects.WorkpackageTwos;
+using Ubora.Domain.Projects.Workpackages;
 using Ubora.Web._Features.Projects.Workpackages.WorkpackageOne;
 
 namespace Ubora.Web._Features.Projects.Workpackages
@@ -17,7 +16,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
 
         public Task<IViewComponentResult> InvokeAsync()
         {
-            var wp1 = CreateWorkpackageModel<Domain.Projects.WorkpackageOnes.WorkpackageOne>();
+            var wp1 = CreateWorkpackageModel<Domain.Projects.Workpackages.WorkpackageOne>();
             var wp2 = CreateWorkpackageModel<WorkpackageTwo>();
             var wp3 = CreateWorkpackageModel<WorkpackageThree>();
             var wp4 = CreateWorkpackageModel<WorkpackageFour>();

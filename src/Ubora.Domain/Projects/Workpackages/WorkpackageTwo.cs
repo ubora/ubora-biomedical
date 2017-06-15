@@ -1,28 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Marten.Schema;
-using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Projects.WorkpackageOnes;
+﻿using Ubora.Domain.Projects.Workpackages.Events;
 
-namespace Ubora.Domain.Projects.WorkpackageTwos
+namespace Ubora.Domain.Projects.Workpackages
 {
-    //public class WorkpackageTwoStep
-    //{
-    //    public Guid Id { get; set; }
-    //    public string Title { get; set; }
-    //    public string Description { get; set; }
-    //    public IEnumerable<WorkpackageTwoStepPage> Pages { get; set; }
-    //}
-
-    //public class WorkpackageTwoStepPage
-    //{
-    //    public Guid Id { get; set; }
-    //    public Guid StepId { get; set; }
-    //    public string Title { get; set; }
-    //    public string Content { get; set; }
-    //}
-
     public class WorkpackageTwo : Workpackage<WorkpackageTwo>
     {
         private void Apply(ProjectCreatedEvent e)

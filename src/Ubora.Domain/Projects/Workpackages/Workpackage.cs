@@ -5,7 +5,7 @@ using Marten.Schema;
 using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 
-namespace Ubora.Domain.Projects.WorkpackageOnes
+namespace Ubora.Domain.Projects.Workpackages
 {
     public abstract class Workpackage<TDerived> : Entity<TDerived> where TDerived : Entity<TDerived>
     {
@@ -30,12 +30,12 @@ namespace Ubora.Domain.Projects.WorkpackageOnes
         // Virtual for testing
         public virtual WorkpackageStep GetSingleStep(Guid stepId)
         {
-            return _steps.Single<WorkpackageStep>(step => step.Id == stepId);
+            return _steps.Single(step => step.Id == stepId);
         }
 
         public virtual WorkpackageReview GetSingleActiveReview()
         {
-            return _reviews.Single<WorkpackageReview>(x => x.Status == WorkpackageReviewStatus.InReview);
+            return _reviews.Single(x => x.Status == WorkpackageReviewStatus.InReview);
         }
     }
 }

@@ -2,7 +2,8 @@
 using System.Linq;
 using FluentAssertions;
 using Ubora.Domain.Projects;
-using Ubora.Domain.Projects.WorkpackageOnes;
+using Ubora.Domain.Projects.Workpackages;
+using Ubora.Domain.Projects.Workpackages.Commands;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Projects.Workpackages

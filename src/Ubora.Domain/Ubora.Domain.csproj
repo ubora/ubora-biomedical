@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Projects\WorkpackageOnes\Placeholders.Designer.cs">
+    <Compile Update="Projects\Workpackages\Placeholders.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Placeholders.resx</DependentUpon>
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Projects\WorkpackageOnes\Placeholders.resx">
+    <EmbeddedResource Update="Projects\Workpackages\Placeholders.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Placeholders.Designer.cs</LastGenOutput>
     </EmbeddedResource>

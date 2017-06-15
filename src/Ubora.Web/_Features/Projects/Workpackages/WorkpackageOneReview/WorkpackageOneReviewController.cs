@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
-using Ubora.Domain.Projects.WorkpackageOnes;
-using Ubora.Domain.Projects.WorkpackageTwos;
+using Ubora.Domain.Projects.Workpackages;
+using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
@@ -39,7 +39,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
             _mapper = mapper;
         }
 
-        protected Domain.Projects.WorkpackageOnes.WorkpackageOne WorkpackageOne => this.FindById<Domain.Projects.WorkpackageOnes.WorkpackageOne>(ProjectId);
+        protected Domain.Projects.Workpackages.WorkpackageOne WorkpackageOne => this.FindById<Domain.Projects.Workpackages.WorkpackageOne>(ProjectId);
 
         [HttpPost]
         public IActionResult AssignMeAsMentor()

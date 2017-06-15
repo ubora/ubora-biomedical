@@ -1,9 +1,9 @@
 ﻿using System;
 using FluentAssertions;
 using TestStack.BDDfy;
-using Ubora.Domain.Projects.WorkpackageOnes;
-using Ubora.Domain.Projects.WorkpackageSpecifications;
-using Ubora.Domain.Projects.WorkpackageTwos;
+using Ubora.Domain.Projects.Workpackages;
+using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Domain.Projects.Workpackages.Specifications;
 using Ubora.Domain.Tests.Projects.Members;
 using Xunit;
 

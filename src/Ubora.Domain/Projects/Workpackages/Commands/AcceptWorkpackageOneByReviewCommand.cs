@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Linq;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Projects.WorkpackageOnes;
-using Ubora.Domain.Projects.WorkpackageSpecifications;
+using Ubora.Domain.Projects.Workpackages.Events;
+using Ubora.Domain.Projects.Workpackages.Specifications;
 
-namespace Ubora.Domain.Projects.WorkpackageTwos
+namespace Ubora.Domain.Projects.Workpackages.Commands
 {
     /// <summary>
     /// Used by mentors to accept project's in review workpackage draft. Opens up the next workpackage.

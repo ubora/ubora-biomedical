@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
-using Ubora.Domain.Projects.WorkpackageOnes;
+using Ubora.Domain.Projects.Workpackages;
 using Ubora.Web._Features.ProjectList;
 using Ubora.Domain.Users;
 using Ubora.Web._Features.Projects.Dashboard;

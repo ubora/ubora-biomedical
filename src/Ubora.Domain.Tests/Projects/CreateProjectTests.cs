@@ -8,7 +8,7 @@ using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
 using Xunit;
 using Ubora.Domain.Projects.Members;
-using Ubora.Domain.Projects.WorkpackageOnes;
+using Ubora.Domain.Projects.Workpackages;
 
 namespace Ubora.Domain.Tests.Projects
 {

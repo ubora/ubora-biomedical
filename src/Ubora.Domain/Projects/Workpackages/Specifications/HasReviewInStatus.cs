@@ -2,9 +2,8 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using Ubora.Domain.Infrastructure.Specifications;
-using Ubora.Domain.Projects.WorkpackageOnes;
 
-namespace Ubora.Domain.Projects.WorkpackageSpecifications
+namespace Ubora.Domain.Projects.Workpackages.Specifications
 {
     public class HasReviewInStatus<TWorkpackage> 
         : Specification<TWorkpackage> where TWorkpackage : Workpackage<TWorkpackage>
@@ -19,7 +18,7 @@ namespace Ubora.Domain.Projects.WorkpackageSpecifications
         internal override Expression<Func<TWorkpackage, bool>> ToExpression()
         {
             return workpackage => 
-                workpackage.Reviews.Any(review => review.Status == this.Status);
+                workpackage.Reviews.Any<WorkpackageReview>(review => review.Status == this.Status);
         }
     }
 }

@@ -2,9 +2,10 @@ using System;
 using System.Linq;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Projects.WorkpackageSpecifications;
+using Ubora.Domain.Projects.Workpackages.Events;
+using Ubora.Domain.Projects.Workpackages.Specifications;
 
-namespace Ubora.Domain.Projects.WorkpackageOnes
+namespace Ubora.Domain.Projects.Workpackages.Commands
 {
     public class EditWorkpackageOneStepCommand : UserProjectCommand
     {
