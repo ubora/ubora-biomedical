@@ -19,17 +19,21 @@
                 <div>
                     <a asp-controller="Profile" asp-action="View" asp-route-userId="@member.UserId">
                         @member.FullName
-                    @if (member.IsProjectLeader)
+                        @if (member.IsProjectLeader)
+                        {
+                            <i class="material-icons">supervisor_account</i>
+                        }
+                    </a>
+                    @if (Model.CanRemoveProjectMembers && !member.IsProjectLeader)
                     {
-                        <i class="material-icons">supervisor_account</i>
+                        <a asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId">Remove</a>
                     }
-                </a>
-                @if (Model.CanRemoveProjectMembers && !member.IsProjectLeader)
-                {
-                    <a asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId">Remove</a>
-                }
-            </div>
-        </li>
+                    @if (member.IsCurrentUser && !member.IsProjectLeader)
+                    {
+                        <a asp-controller="Members" asp-action="Leave" asp-route-memberId="@member.UserId">Leave</a>
+                    }
+                </div>
+            </li>
         }
     </ol>
 </section>

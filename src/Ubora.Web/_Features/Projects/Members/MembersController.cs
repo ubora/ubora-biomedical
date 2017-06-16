@@ -38,7 +38,8 @@ namespace Ubora.Web._Features.Projects.Members
                     UserId = m.UserId,
                     // TODO(Kaspar Kallas): Eliminate SELECT(N + 1)
                     FullName = FindById<UserProfile>(m.UserId).FullName,
-                    IsProjectLeader = m.IsLeader
+                    IsProjectLeader = m.IsLeader,
+                    IsCurrentUser = UserInfo.UserId == m.UserId
                 })
             };
 
@@ -143,6 +144,32 @@ namespace Ubora.Web._Features.Projects.Members
             }
 
             return RedirectToAction(nameof(Members));
+        }
+
+        public IActionResult Leave()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult LeaveProject()
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Leave");
+            }
+
+            ExecuteUserProjectCommand(new RemoveMemberFromProjectCommand
+            {
+                UserId = UserId
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return View("Leave");
+            }
+
+            return RedirectToAction("Index", "Home", new { });
         }
     }
 }

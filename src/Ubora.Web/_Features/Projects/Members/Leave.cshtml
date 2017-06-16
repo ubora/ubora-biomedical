@@ -1,0 +1,11 @@
+﻿<section class="medium-width">
+    <h3 class="text-center">Are you sure you want to leave the project?</h3>
+    <form asp-controller="Members" asp-action="LeaveProject" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="center-element">
+            <button class="button secondary-button small-button" type="submit">Leave</button>
+            <a class="button secondary-button small-button" asp-controller="Members" asp-action="Members">Keep</a>
+        </div>
+    </form>
+</section>
