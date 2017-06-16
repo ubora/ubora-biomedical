@@ -12,7 +12,7 @@ namespace Ubora.Domain.Tests.Projects
         [Fact]
         public void Is_Satisfied_By_Projects_Which_Name_Contains_Given_Title()
         {
-            var title = Guid.NewGuid().ToString();
+            var title = "testTitle";
 
             // Insert dummy project
             Processor.Execute(new CreateProjectCommand
@@ -32,7 +32,14 @@ namespace Ubora.Domain.Tests.Projects
             Processor.Execute(new CreateProjectCommand
             {
                 NewProjectId = Guid.NewGuid(),
-                Title = $"YOLO{title}swag",
+                Title = $"test{title}last",
+                Actor = new UserInfo(Guid.NewGuid(), "")
+            });
+
+            Processor.Execute(new CreateProjectCommand
+            {
+                NewProjectId = Guid.NewGuid(),
+                Title = $"testTestTiTlelast",
                 Actor = new UserInfo(Guid.NewGuid(), "")
             });
 
@@ -46,7 +53,7 @@ namespace Ubora.Domain.Tests.Projects
             var result = sut.SatisfyEntitiesFrom(projectsQueryable);
 
             // Assert
-            result.Count().Should().Be(2);
+            result.Count().Should().Be(3);
         }
     }
 }

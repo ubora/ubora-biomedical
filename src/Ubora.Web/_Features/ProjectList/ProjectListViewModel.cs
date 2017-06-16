@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Ubora.Domain.Infrastructure.Entities.Projects.Queries;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 
@@ -70,7 +71,7 @@ namespace Ubora.Web._Features.ProjectList
                     };
                 }
 
-                var projects = _queryProcessor.Find<Project>(new TitleContains(title));
+                var projects = _queryProcessor.ExecuteQuery(new SearchProjectsQuery(title));
 
                 var model = new ProjectListViewModel
                 {
