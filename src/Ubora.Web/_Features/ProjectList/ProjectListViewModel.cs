@@ -62,21 +62,22 @@ namespace Ubora.Web._Features.ProjectList
 
             public ProjectListViewModel CreateByTitle(string title)
             {
-                if (!String.IsNullOrEmpty(title))
+                if (String.IsNullOrEmpty(title))
                 {
-                    var projects = _queryProcessor.Find<Project>().Where(p => p.Title.ToUpper().Contains(title.ToUpper()));
-                    var model = new ProjectListViewModel
+                    return new ProjectListViewModel
                     {
-                        Projects = projects.Select(_mapper.Map<ProjectListItem>)
+                        Projects = new ProjectListItem[] { }
                     };
-
-                    return model;
                 }
 
-                return new ProjectListViewModel
+                var projects = _queryProcessor.Find<Project>(new TitleContains(title));
+
+                var model = new ProjectListViewModel
                 {
-                    Projects = new ProjectListItem[] {}
+                    Projects = projects.Select(_mapper.Map<ProjectListItem>)
                 };
+
+                return model;
             }
         }
     }
