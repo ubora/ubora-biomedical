@@ -101,7 +101,7 @@ namespace Ubora.Web.Tests._Features.Notifications
         [Fact]
         public void Index_Marks_Invitations_As_Viewed()
         {
-            var invitation = new InvitationToProject(Guid.NewGuid(), UserId, Guid.NewGuid());
+            var invitation = new InvitationToProject(Guid.NewGuid(), UserId, UserId, Guid.NewGuid());
             var invitations = new List<InvitationToProject> { invitation };
 
             _processorMock.Setup(x => x.Find(new NonViewedInvitations(UserId)))

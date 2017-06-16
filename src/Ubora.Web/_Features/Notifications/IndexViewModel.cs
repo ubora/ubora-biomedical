@@ -4,6 +4,7 @@ using System.Linq;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Users;
 
 namespace Ubora.Web._Features.Notifications
 {
@@ -34,20 +35,26 @@ namespace Ubora.Web._Features.Notifications
 
             private List<IndexInvitationViewModel> GetIndexInvitationViewModels(Guid userId)
             {
-                var invitations = _processor.Find<InvitationToProject>()
-                    .Where(x => x.InvitedMemberId == userId && x.IsAccepted == null);
+                var invitations = _processor.Find(new UserInvitations(userId))
+                    .Where(x => x.IsAccepted == null);
                 var invitationViewModels = new List<IndexInvitationViewModel>();
 
                 foreach (var invitation in invitations)
                 {
-                    var invitationViewModel = new IndexInvitationViewModel();
-
                     var project = _processor.FindById<Project>(invitation.ProjectId);
-                    invitationViewModel.ProjectTitle = project.Title;
-                    invitationViewModel.InviteId = invitation.Id;
-                    invitationViewModel.IsUnread = !invitation.HasBeenViewed;
+                    var fullName = _processor.FindById<UserProfile>(invitation.InvitedMemberId).FullName;
 
-                    invitationViewModels.Add(invitationViewModel);
+                    var viewModel = new IndexInvitationViewModel
+                    {
+                        ProjectTitle = project.Title,
+                        InviteId = invitation.Id,
+                        IsUnread = !invitation.HasBeenViewed,
+                        ProjectId = project.Id,
+                        UserFullName = fullName,
+                        IsCurrentUser = userId == invitation.InvitedMemberId
+                    };
+
+                    invitationViewModels.Add(viewModel);
                 }
 
                 return invitationViewModels;
@@ -55,10 +62,8 @@ namespace Ubora.Web._Features.Notifications
         }
     }
 
-    public class IndexInvitationViewModel
+    public class IndexInvitationViewModel : BaseInvitationViewModel
     {
-        public string ProjectTitle { get; set; }
-        public Guid InviteId { get; set; }
         public bool IsUnread { get; set; }
     }
 }

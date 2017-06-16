@@ -37,7 +37,7 @@ namespace Ubora.Domain.Notifications
                 return new CommandResult($"[{cmd.InvitedMemberEmail}] is already member of project [{cmd.ProjectId}].");
             }
 
-            var invite = new InvitationToProject(Guid.NewGuid(), userProfile.UserId, cmd.ProjectId);
+            var invite = new InvitationToProject(Guid.NewGuid(), userProfile.UserId, userProfile.UserId, cmd.ProjectId);
 
             _documentSession.Store(invite);
             _documentSession.SaveChanges();

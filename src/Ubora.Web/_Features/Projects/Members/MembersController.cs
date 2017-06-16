@@ -9,13 +9,19 @@ using Microsoft.AspNetCore.Authorization;
 using Ubora.Web.Authorization;
 using System.Threading.Tasks;
 using Ubora.Domain.Projects;
+using Ubora.Web.Services;
+using Microsoft.AspNetCore.Identity;
+using Ubora.Web.Data;
 
 namespace Ubora.Web._Features.Projects.Members
 {
     public class MembersController : ProjectController
     {
-        public MembersController(ICommandQueryProcessor processor) : base(processor)
+        private SignInManager<ApplicationUser> _signInManager;
+
+        public MembersController(ICommandQueryProcessor processor, SignInManager<ApplicationUser> signInManager) : base(processor)
         {
+            _signInManager = signInManager;
         }
 
         [Route(nameof(Members))]
@@ -65,6 +71,44 @@ namespace Ubora.Web._Features.Projects.Members
             }
 
             return RedirectToAction(nameof(Members), new { id = model.ProjectId });
+        }
+
+        [AllowAnonymous]
+        public IActionResult Join(Guid projectId)
+        {
+            if (!_signInManager.IsSignedIn(User))
+            {
+                return RedirectToAction("SignInSignUp", "Account", new { returnUrl = Url.Action("Join", "Members", new { projectId = projectId }) });
+            }
+
+            var project = FindById<Project>(projectId);
+
+            var model = new JoinProjectViewModel
+            {
+                UserId = User.GetId(),
+                ProjectId = projectId,
+                ProjectName = project.Title
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult Join(JoinProjectViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            ExecuteUserProjectCommand(new JoinProjectCommand { AskingToJoin = User.GetId() });
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            return RedirectToAction("Index", "Home", new { });
         }
 
         [Authorize(Policy = nameof(Policies.CanRemoveProjectMember))]

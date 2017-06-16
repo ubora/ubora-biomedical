@@ -25,9 +25,9 @@ namespace Ubora.Web.Tests._Features.Notifications
         {
             var userId = Guid.NewGuid();
 
-            var invitation1 = new InvitationToProject(Guid.NewGuid(), userId, Guid.NewGuid());
-            var invitation2 = new InvitationToProject(Guid.NewGuid(), userId, Guid.NewGuid());
-            var invitation3 = new InvitationToProject(Guid.NewGuid(), userId, Guid.NewGuid());
+            var invitation1 = new InvitationToProject(Guid.NewGuid(), userId, userId, Guid.NewGuid());
+            var invitation2 = new InvitationToProject(Guid.NewGuid(), userId, userId, Guid.NewGuid());
+            var invitation3 = new InvitationToProject(Guid.NewGuid(), userId, userId, Guid.NewGuid());
 
             var invitations = new List<InvitationToProject>
             {

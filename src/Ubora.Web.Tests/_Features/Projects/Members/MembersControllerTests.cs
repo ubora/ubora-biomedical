@@ -5,6 +5,7 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.Members;
 using Ubora.Web._Features.Projects.Members;
+using Ubora.Web.Tests.Fakes;
 using Xunit;
 
 namespace Ubora.Web.Tests._Features.Projects.Members
@@ -13,11 +14,13 @@ namespace Ubora.Web.Tests._Features.Projects.Members
     {
         private Mock<ICommandQueryProcessor> _processorMock;
         private MembersController _membersController;
+        private Mock<FakeSignInManager> _signInManagerMock;
 
         public MembersControllerTests()
         {
             _processorMock = new Mock<ICommandQueryProcessor>();
-            _membersController = new MembersController(_processorMock.Object);
+            _signInManagerMock = new Mock<FakeSignInManager>();
+            _membersController = new MembersController(_processorMock.Object, _signInManagerMock.Object);
             SetProjectAndUserContext(_membersController);
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Users;
 
 namespace Ubora.Web._Features.Notifications
 {
@@ -31,17 +32,24 @@ namespace Ubora.Web._Features.Notifications
 
             private List<HistoryInvitationViewModel> GetHistoryInvitationViewModels(Guid userId)
             {
-                var invitations = _processor.Find<InvitationToProject>()
-                    .Where(x => x.InvitedMemberId == userId && x.IsAccepted != null);
+                var invitations = _processor.Find(new UserInvitations(userId))
+                    .Where(x => x.IsAccepted != null);
                 var invitationViewModels = new List<HistoryInvitationViewModel>();
 
                 foreach (var invitation in invitations)
                 {
-                    var invitationViewModel = new HistoryInvitationViewModel();
-
                     var project = _processor.FindById<Project>(invitation.ProjectId);
-                    invitationViewModel.ProjectTitle = project.Title;
-                    invitationViewModel.WasAccepted = invitation.IsAccepted.Value;
+                    var fullName = _processor.FindById<UserProfile>(invitation.InvitedMemberId).FullName;
+
+                    var invitationViewModel = new HistoryInvitationViewModel
+                    {
+                        ProjectTitle = project.Title,
+                        ProjectId = project.Id,
+                        WasAccepted = invitation.IsAccepted.Value,
+                        UserFullName = fullName,
+                        InviteId = invitation.Id,
+                        IsCurrentUser = userId == invitation.InvitedMemberId
+                    };
 
                     invitationViewModels.Add(invitationViewModel);
                 }
@@ -51,9 +59,8 @@ namespace Ubora.Web._Features.Notifications
         }
     }
 
-    public class HistoryInvitationViewModel
+    public class HistoryInvitationViewModel : BaseInvitationViewModel
     {
-        public string ProjectTitle { get; set; }
         public bool WasAccepted { get; set; }
     }
 }

@@ -9,10 +9,12 @@
         @foreach (var invitation in Model.Invitations)
         {
             var isUnreadCss = invitation.IsUnread ? "message-unread" : "";
+            var who = invitation.IsCurrentUser ? "You have been asked" : $"{invitation.UserFullName} asks";
 
             <div class="message @isUnreadCss">
                 <div class="message-container">
-                    <p class="message-author-preview">You have been asked to join project "@invitation.ProjectTitle"</p>
+                    <p class="message-author-preview">@who to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@invitation.ProjectId">@invitation.ProjectTitle</a></p>
+                    
                     @Html.Partial("~/_Features/Notifications/Invitations/InvitationPartial.cshtml", new Ubora.Web._Features.Notifications.Invitations.InvitationPartialViewModel { InviteId = invitation.InviteId, Action = "Accept" })
                     @Html.Partial("~/_Features/Notifications/Invitations/InvitationPartial.cshtml", new Ubora.Web._Features.Notifications.Invitations.InvitationPartialViewModel { InviteId = invitation.InviteId, Action = "Decline" })
                 </div>

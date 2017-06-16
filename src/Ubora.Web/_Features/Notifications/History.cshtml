@@ -6,9 +6,12 @@
     <h1>History</h1>
     @foreach (var invitation in Model.Invitations)
     {
+        var who = invitation.IsCurrentUser ? "You were" : invitation.UserFullName;
+
         <div class="message">
             <div class="message-container">
-                <p class="message-author-preview">You were asked to join project "@invitation.ProjectTitle".
+                <p class="message-author-preview">
+                    @who asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@invitation.ProjectId">@invitation.ProjectTitle</a>.
                     You
                     @if (invitation.WasAccepted)
                     {

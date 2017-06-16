@@ -1,0 +1,20 @@
+﻿@using Ubora.Web._Features.Projects.Members
+
+@model JoinProjectViewModel
+
+<section class="medium-width">
+    Are you sure you want to join project "@Model.ProjectName"?
+
+    <form asp-controller="Members" asp-action="Join" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <input asp-for="ProjectId" type="hidden" />
+        <input asp-for="UserId" type="hidden" />
+        <input asp-for="ProjectName" type="hidden" />
+
+        <br>
+        <button class="button primary-button" type="submit">Send request to join project</button>
+    </form>
+
+    <a asp-controller="Home" asp-action="Index">Decline</a>
+</section>

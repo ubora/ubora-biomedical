@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Notifications;
 
