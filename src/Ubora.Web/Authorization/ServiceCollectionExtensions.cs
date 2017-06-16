@@ -12,6 +12,7 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsProjectMemberRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsProjectLeaderRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMentorRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, IsWorkpackageOneNotLockedRequirement.Handler>();
 
             services.AddAuthorization(options =>
             {
@@ -41,6 +42,14 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+
+                options.AddPolicy(nameof(Policies.CanEditWorkpackageOne), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
+                    policyBuilder.AddRequirements(new IsWorkpackageOneNotLockedRequirement());
+
                 });
             });
 

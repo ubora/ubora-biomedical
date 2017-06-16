@@ -3,7 +3,6 @@ using System.Linq;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.Workpackages.Events;
-using Ubora.Domain.Projects.Workpackages.Specifications;
 
 namespace Ubora.Domain.Projects.Workpackages.Commands
 {
@@ -30,12 +29,6 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                 if (step == null)
                 {
                     throw new InvalidOperationException($"{nameof(WorkpackageStep)} not found with id [{cmd.StepId}]");
-                }
-
-                var canHandle = workpackageOne.DoesSatisfy(new CanWorkpackageOneStepBeEdited(step.Id));
-                if (!canHandle)
-                {
-                    return new CommandResult("Work package step can not be edited.");
                 }
 
                 var @event = new WorkpackageStepEditedEvent(cmd.Actor)

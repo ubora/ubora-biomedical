@@ -10,7 +10,8 @@ namespace Ubora.Domain.Projects
 {
     public class Project : Entity<Project>
     {
-        public Guid Id { get; private set; }
+        // Virtual for testing
+        public virtual Guid Id { get; private set; }
         public string Title { get; private set; }
 
         public string Gmdn { get; private set; }
@@ -24,6 +25,11 @@ namespace Ubora.Domain.Projects
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
         [JsonIgnore]
         public IReadOnlyCollection<ProjectMember> Members => _members;
+
+        public bool HasMember<T>(Guid userId) where T : ProjectMember
+        {
+            return DoesSatisfy(new HasMember<T>(userId)); 
+        }
 
         private void Apply(ProjectCreatedEvent e)
         {

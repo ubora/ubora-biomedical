@@ -30,12 +30,6 @@ namespace Ubora.Domain.Projects.Workpackages
 
         private void Apply(WorkpackageStepEditedEvent e)
         {
-            var canApply = this.DoesSatisfy(new CanWorkpackageOneStepBeEdited(e.StepId));
-            if (!canApply)
-            {
-                throw new InvalidOperationException();
-            }
-
             var step = Steps.Single(x => x.Id == e.StepId);
 
             step.Title = e.Title;

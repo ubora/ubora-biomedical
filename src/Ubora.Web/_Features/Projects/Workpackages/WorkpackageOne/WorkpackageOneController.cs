@@ -1,8 +1,10 @@
 ﻿using System;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
 {
@@ -31,6 +33,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
             return View(model);
         }
 
+        // TODO: Hide in UI
+        [Authorize(Policies.CanEditWorkpackageOne)]
         public IActionResult EditStep(Guid id)
         {
             var step = WorkpackageOne.GetSingleStep(id);
@@ -41,6 +45,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
         }
 
         [HttpPost]
+        [Authorize(Policies.CanEditWorkpackageOne)]
         public IActionResult EditStep(EditStepPostModel model)
         {
             if (!ModelState.IsValid)
