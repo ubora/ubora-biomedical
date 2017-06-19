@@ -9,13 +9,12 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Notifications
 {
-    public class NonViewedInvitationsTests : IntegrationFixture
+    public class UserInvitationsTests: IntegrationFixture
     {
         [Fact]
-        public void Specification_Returns_UserInvitations_That_Have_Not_Been_Viewed()
+        public void Specification_Returns_UserInvitations()
         {
             var userId = Guid.NewGuid();
-            var userId1 = Guid.NewGuid();
             var expectedUserId = Guid.NewGuid();
             var projectId = Guid.NewGuid();
             Processor.Execute(new CreateUserProfileCommand
@@ -26,14 +25,8 @@ namespace Ubora.Domain.Tests.Notifications
             });
             Processor.Execute(new CreateUserProfileCommand
             {
-                UserId = userId1,
-                Email = "jane@doe.com",
-                Actor = new UserInfo(userId, "")
-            });
-            Processor.Execute(new CreateUserProfileCommand
-            {
                 UserId = expectedUserId,
-                Email = "jake@doe.com",
+                Email = "jane@doe.com",
                 Actor = new UserInfo(userId, "")
             });
 
@@ -44,27 +37,14 @@ namespace Ubora.Domain.Tests.Notifications
                 Actor = new UserInfo(userId, "")
             });
 
-            Processor.Execute(new JoinProjectCommand
+            Processor.Execute(new InviteMemberToProjectCommand
             {
                 ProjectId = projectId,
-                AskingToJoin = userId1,
+                InvitedMemberEmail = "jane@doe.com",
                 Actor = new UserInfo(userId, "")
             });
 
-            Processor.Execute(new MarkInvitationsAsViewedCommand
-            {
-                UserId = userId,
-                Actor = new UserInfo(userId, "")
-            });
-
-            Processor.Execute(new JoinProjectCommand
-            {
-                ProjectId = projectId,
-                AskingToJoin = expectedUserId,
-                Actor = new UserInfo(userId, "")
-            });
-
-            var sut = new NonViewedInvitations(userId);
+            var sut = new UserInvitations(expectedUserId);
             var invitations = Session.Query<InvitationToProject>();
 
             // Act
