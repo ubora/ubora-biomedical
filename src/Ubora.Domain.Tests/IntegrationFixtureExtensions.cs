@@ -36,29 +36,29 @@ namespace Ubora.Domain.Tests
             });
         }
 
-        public static void Submit_Workpackage_One_For_Review(this IntegrationFixture fixture, Guid workpackageId)
+        public static void Submit_Workpackage_One_For_Review(this IntegrationFixture fixture, Guid projectId)
         {
             fixture.Processor.Execute(new SubmitWorkpackageOneForReviewCommand
             {
-                ProjectId = workpackageId,
+                ProjectId = projectId,
                 Actor = new DummyUserInfo()
             });
         }
 
-        public static void Reject_Workpackage_One_Review(this IntegrationFixture fixture, Guid workpackageId)
+        public static void Reject_Workpackage_One_Review(this IntegrationFixture fixture, Guid projectId)
         {
             fixture.Processor.Execute(new RejectWorkpackageOneReviewCommand
             {
-                ProjectId = workpackageId,
+                ProjectId = projectId,
                 Actor = new DummyUserInfo()
             });
         }
 
-        public static void Accept_Workpackage_One_Review(this IntegrationFixture fixture, Guid workpackageId)
+        public static void Accept_Workpackage_One_Review(this IntegrationFixture fixture, Guid projectId)
         {
             fixture.Processor.Execute(new AcceptWorkpackageOneReviewCommand
             {
-                ProjectId = workpackageId,
+                ProjectId = projectId,
                 Actor = new DummyUserInfo()
             });
         }

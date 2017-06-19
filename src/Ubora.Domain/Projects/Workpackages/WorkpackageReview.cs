@@ -13,39 +13,58 @@ namespace Ubora.Domain.Projects.Workpackages
         public Guid Id { get; private set; }
         public WorkpackageReviewStatus Status { get; private set; }
         public string ConcludingComment { get; private set; }
-        public DateTimeOffset CreatedAt { get; private set; }
+        public DateTimeOffset SubmittedAt { get; private set; }
         public DateTimeOffset? ConcludedAt { get; private set; }
 
-        public static WorkpackageReview Create()
+        public static WorkpackageReview Create(Guid id, DateTimeOffset submittedAt)
         {
+            if (id == default(Guid))
+            {
+                throw new ArgumentException(id.ToString(), nameof(id));
+            }
+            if (submittedAt == default(DateTimeOffset))
+            {
+                throw new ArgumentException(submittedAt.ToString(), nameof(submittedAt));
+            }
+
             return new WorkpackageReview
             {
-                Id = Guid.NewGuid(),
-                CreatedAt = DateTimeOffset.Now
+                Id = id,
+                SubmittedAt = submittedAt
             };
         }
 
-        public WorkpackageReview ToAccepted(string concludingComment)
+        public WorkpackageReview ToAccepted(string concludingComment, DateTimeOffset concludedAt)
         {
+            if (concludedAt == default(DateTimeOffset))
+            {
+                throw new ArgumentException(concludedAt.ToString(), nameof(concludedAt));
+            }
+
             return new WorkpackageReview
             {
                 Id = this.Id,
-                CreatedAt = this.CreatedAt,
+                SubmittedAt = this.SubmittedAt,
                 Status = WorkpackageReviewStatus.Accepted,
                 ConcludingComment = concludingComment,
-                ConcludedAt = DateTimeOffset.Now
+                ConcludedAt = concludedAt
             };
         }
 
-        public WorkpackageReview ToRejected(string concludingComment)
+        public WorkpackageReview ToRejected(string concludingComment, DateTimeOffset concludedAt)
         {
+            if (concludedAt == default(DateTimeOffset))
+            {
+                throw new ArgumentException(concludedAt.ToString(), nameof(concludedAt));
+            }
+
             return new WorkpackageReview
             {
                 Id = this.Id,
-                CreatedAt = this.CreatedAt,
+                SubmittedAt = this.SubmittedAt,
                 Status = WorkpackageReviewStatus.Rejected,
                 ConcludingComment = concludingComment,
-                ConcludedAt = DateTimeOffset.Now
+                ConcludedAt = concludedAt
             };
         }
     }

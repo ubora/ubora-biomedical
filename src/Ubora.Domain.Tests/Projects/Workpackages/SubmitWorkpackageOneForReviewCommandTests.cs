@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
 using TestStack.BDDfy;
 using Ubora.Domain.Projects.Workpackages;
@@ -16,7 +17,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
         {
             this.Given(_ => this.Create_Project(_projectId))
                 .When(_ => this.Submit_Workpackage_One_For_Review(_projectId))
-                .Then(_ => this.Assert_Workpackage_One_Has_Review_In_Status(_projectId, WorkpackageReviewStatus.InReview))
+                .Then(_ => this.Assert_Workpackage_One_Is_In_Single_Review())
                 .BDDfy();
         }
 
@@ -27,7 +28,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
                     .And(_ => this.Submit_Workpackage_One_For_Review(_projectId))
                     .And(_ => this.Reject_Workpackage_One_Review(_projectId))
                 .When(_ => this.Submit_Workpackage_One_For_Review(_projectId))
-                .Then(_ => this.Assert_Workpackage_One_Has_Review_In_Status(_projectId, WorkpackageReviewStatus.InReview))
+                .Then(_ => this.Assert_Workpackage_One_Is_In_Review())
                 .BDDfy();
         }
 
@@ -38,8 +39,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
                     .And(_ => this.Submit_Workpackage_One_For_Review(_projectId))
                     .And(_ => this.Accept_Workpackage_One_Review(_projectId))
                 .When(_ => this.Submit_Workpackage_One_For_Review(_projectId))
-                .Then(_ => this.Assert_Existence_Of_Single_Review_For_Workpackage(_projectId))
-                    .And(_ => this.Assert_Workpackage_One_Has_Review_In_Status(_projectId, WorkpackageReviewStatus.Accepted))
+                .Then(_ => this.Assert_Workpackage_One_Has_Single_Accepted_Review())
                 .BDDfy();
         }
 
@@ -49,21 +49,31 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
             this.Given(_ => this.Create_Project(_projectId))
                 .When(_ => this.Submit_Workpackage_One_For_Review(_projectId))
                     .And(_ => this.Submit_Workpackage_One_For_Review(_projectId))
-                .Then(_ => this.Assert_Existence_Of_Single_Review_For_Workpackage(_projectId))
+                .Then(_ => this.Assert_Workpackage_One_Has_Single_Accepted_Review())
                 .BDDfy();
         }
 
-        protected void Assert_Workpackage_One_Has_Review_In_Status(Guid workpackageId, WorkpackageReviewStatus status)
+        protected void Assert_Workpackage_One_Is_In_Single_Review()
         {
-            var workpackageOne = Processor.FindById<WorkpackageOne>(workpackageId);
+            var workpackageOne = Processor.FindById<WorkpackageOne>(_projectId);
 
-            var isAccepted = workpackageOne.DoesSatisfy(new HasReviewInStatus<WorkpackageOne>(status));
-            isAccepted.Should().BeTrue();
+            var review = workpackageOne.Reviews.Single();
+            review.Status.Should().Be(WorkpackageReviewStatus.InReview);
+            review.SubmittedAt.Should().BeCloseTo(DateTimeOffset.Now, 500);
+            review.ConcludedAt.Should().BeNull();
         }
 
-        protected void Assert_Existence_Of_Single_Review_For_Workpackage(Guid workpackageId)
+        protected void Assert_Workpackage_One_Is_In_Review()
         {
-            var workpackageOne = Processor.FindById<WorkpackageOne>(workpackageId);
+            var workpackageOne = Processor.FindById<WorkpackageOne>(_projectId);
+
+            var isInReview = workpackageOne.DoesSatisfy(new HasReviewInStatus<WorkpackageOne>(WorkpackageReviewStatus.InReview));
+            isInReview.Should().BeTrue();
+        }
+
+        protected void Assert_Workpackage_One_Has_Single_Accepted_Review()
+        {
+            var workpackageOne = Processor.FindById<WorkpackageOne>(_projectId);
 
             workpackageOne.Reviews.Count.Should().Be(1);
         }

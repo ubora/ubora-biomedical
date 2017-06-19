@@ -5,12 +5,17 @@ namespace Ubora.Domain.Projects.Workpackages.Events
 {
     public class WorkpackageSubmittedForReviewEvent : UboraEvent
     {
-        public WorkpackageSubmittedForReviewEvent(UserInfo initiatedBy, Guid workpackageOneId) : base(initiatedBy)
+        public WorkpackageSubmittedForReviewEvent(UserInfo initiatedBy, Guid projectId, Guid reviewId, DateTimeOffset submittedAt) 
+            : base(initiatedBy)
         {
-            WorkpackageOneId = workpackageOneId;
+            ProjectId = projectId;
+            ReviewId = reviewId;
+            SubmittedAt = submittedAt;
         }
 
-        public Guid WorkpackageOneId { get; set; }
+        public Guid ProjectId { get; private set; }
+        public Guid ReviewId { get; private set; }
+        public DateTimeOffset SubmittedAt { get; private set; }
 
         public override string GetDescription() => "Submitted for review.";
     }

@@ -36,7 +36,8 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                 var @event = new WorkpackageOneAcceptedByReviewEvent(
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
-                    concludingComment: cmd.ConcludingComment);
+                    concludingComment: cmd.ConcludingComment,
+                    acceptedAt: DateTimeOffset.Now);
 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();

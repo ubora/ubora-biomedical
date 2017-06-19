@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Marten.Events;
 using Ubora.Domain.Projects.Workpackages.Events;
 using Ubora.Domain.Projects.Workpackages.Specifications;
 
@@ -42,7 +43,7 @@ namespace Ubora.Domain.Projects.Workpackages
                 throw new InvalidOperationException();
             }
 
-            var newReview = WorkpackageReview.Create();
+            var newReview = WorkpackageReview.Create(e.ReviewId, e.SubmittedAt);
             _reviews.Add(newReview);
         }
 
@@ -55,7 +56,7 @@ namespace Ubora.Domain.Projects.Workpackages
             }
 
             var oldReview = GetSingleActiveReview();
-            var acceptedReview = oldReview.ToAccepted(e.ConcludingComment);
+            var acceptedReview = oldReview.ToAccepted(e.ConcludingComment, e.AcceptedAt);
 
             _reviews.Remove(oldReview);
             _reviews.Add(acceptedReview);
@@ -70,7 +71,7 @@ namespace Ubora.Domain.Projects.Workpackages
             }
 
             var oldReview = GetSingleActiveReview();
-            var acceptedReview = oldReview.ToRejected(e.ConcludingComment);
+            var acceptedReview = oldReview.ToRejected(e.ConcludingComment, e.RejectedAt);
 
             _reviews.Remove(oldReview);
             _reviews.Add(acceptedReview);

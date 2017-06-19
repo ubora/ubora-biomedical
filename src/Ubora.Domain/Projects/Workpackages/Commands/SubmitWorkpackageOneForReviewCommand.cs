@@ -31,7 +31,11 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                     return new CommandResult("Work package can not be submitted for review.");
                 }
 
-                var @event = new WorkpackageSubmittedForReviewEvent(cmd.Actor, cmd.ProjectId);
+                var @event = new WorkpackageSubmittedForReviewEvent(
+                    initiatedBy: cmd.Actor, 
+                    projectId: cmd.ProjectId,
+                    reviewId: Guid.NewGuid(),
+                    submittedAt: DateTimeOffset.Now);
 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();

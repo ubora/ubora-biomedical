@@ -59,9 +59,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
 
         public IActionResult Review()
         {
-            //var isInReview= new HasReviewInStatus<Domain.Projects.WorkpackageOnes.WorkpackageOne>(WorkpackageReviewStatus.InReview);
-            //var isAccepted = new HasReviewInStatus<Domain.Projects.WorkpackageOnes.WorkpackageOne>(WorkpackageReviewStatus.Accepted);
-
             var reviews = WorkpackageOne.Reviews
                 .Select(x => new WorkpackageReviewViewModel
                 {
@@ -70,15 +67,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
                     IsAccepted = x.Status == WorkpackageReviewStatus.Accepted,
                     IsRejected = x.Status == WorkpackageReviewStatus.Rejected,
                     Comment = x.ConcludingComment,
-                    CreatedAt = x.CreatedAt,
-                    ConcludedAt= x.ConcludedAt
+                    CreatedAt = x.SubmittedAt,
+                    ConcludedAt = x.ConcludedAt
                 });
-
-            //var model = new WorkpackageReviewViewModel
-            //{
-            //    IsWorkpackageOneInReview = WorkpackageOne.DoesSatisfy(isInReview),
-            //    IsWorkpackageOneAccepted = WorkpackageOne.DoesSatisfy(isAccepted)
-            //};
 
             return View(nameof(Review), reviews);
         }

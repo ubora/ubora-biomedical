@@ -32,8 +32,9 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
 
                 var @event = new WorkpackageOneRejectedByReviewEvent(
                     initiatedBy: cmd.Actor,
-                    workpackageOneId: cmd.ProjectId,
-                    concludingComment: cmd.ConcludingComment);
+                    projectId: cmd.ProjectId,
+                    concludingComment: cmd.ConcludingComment,
+                    rejectedAt: DateTimeOffset.Now);
 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();

@@ -17,7 +17,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
             _mapper = mapper;
         }
 
-        protected Domain.Projects.Workpackages.WorkpackageOne WorkpackageOne => this.FindById<Domain.Projects.Workpackages.WorkpackageOne>(ProjectId);
+        protected Domain.Projects.Workpackages.WorkpackageOne WorkpackageOne => FindById<Domain.Projects.Workpackages.WorkpackageOne>(ProjectId);
 
         public IActionResult Overview()
         {
