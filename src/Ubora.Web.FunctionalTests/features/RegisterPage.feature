@@ -1,14 +1,16 @@
 Feature: Register page
     As a developer
-    I want the demo app have correct page
+    I want the demo app to have correct page
 
 Background:
-    Given I go to the website "/Account/Register"
+    Given I go to the website "Home/Index"
+    Given I click the element "a=Sign in/sign up"
+    Given I click the element ".button.primary-button.full-width"
 
 Scenario: Get the title of Ubora 
     Then I expect the title of the page "Sign up - UBORA"
 
-Scenario: I submits valid registration form then user is logged in and full name displayed
+Scenario: I submit valid registration form then user is logged in and full name displayed
     When I click on the element "#IsAgreedToTermsOfService"
     When I set "TestFirstName" to the element "#FirstName"
     When I set "TestLastName" to the element "#LastName"
