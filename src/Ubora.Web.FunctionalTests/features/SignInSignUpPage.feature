@@ -3,7 +3,8 @@ Feature: Home page
     I want to click buttons on SignInSignUp page
 
 Background:
-    Given I go to the website "Account/SignInSignUp"
+    Given I go to the website "/Account/SignInSignUp"
+    
 
 Scenario: Create a project 
     Then I expect the title of the page "Sign in - UBORA"

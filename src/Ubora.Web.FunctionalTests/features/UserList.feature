@@ -3,8 +3,8 @@ Feature: Members page
     I want the demo app have correct page
 
 Background:
-    Given I go to the website "Home/Index"
-    Given I click the element ".button.secondary-button"
+    Given I go to the website "/UserList"
+    
 
 Scenario: Get the title of Ubora 
     Then I expect the title of the page "- UBORA"
