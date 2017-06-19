@@ -15,7 +15,7 @@ namespace Ubora.Domain.Notifications
 
         [Identity]
         public Guid Id { get; }
-        public Guid InviteTo { get; set; }
+        public Guid InviteTo { get; }
         public Guid InvitedMemberId { get; }
         public Guid ProjectId { get; }
         public bool HasBeenViewed { get; internal set; }

@@ -12,16 +12,22 @@ using Ubora.Domain.Projects;
 using Ubora.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Ubora.Web.Data;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace Ubora.Web._Features.Projects.Members
 {
     public class MembersController : ProjectController
     {
         private SignInManager<ApplicationUser> _signInManager;
+        private IUrlHelperFactory _urlHelperFactory;
 
-        public MembersController(ICommandQueryProcessor processor, SignInManager<ApplicationUser> signInManager) : base(processor)
+        public MembersController(
+            ICommandQueryProcessor processor,
+            SignInManager<ApplicationUser> signInManager,
+            IUrlHelperFactory urlHelperFactory) : base(processor)
         {
             _signInManager = signInManager;
+            _urlHelperFactory = urlHelperFactory;
         }
 
         [Route(nameof(Members))]
@@ -79,7 +85,10 @@ namespace Ubora.Web._Features.Projects.Members
         {
             if (!_signInManager.IsSignedIn(User))
             {
-                return RedirectToAction("SignInSignUp", "Account", new { returnUrl = Url.Action("Join", "Members", new { projectId = projectId }) });
+                var urlHelper = _urlHelperFactory.GetUrlHelper(ControllerContext);
+                var returnUrl = urlHelper.Action("Join", "Members", new { projectId = projectId });
+
+                return RedirectToAction("SignInSignUp", "Account", new { returnUrl = returnUrl });
             }
 
             var project = FindById<Project>(projectId);
@@ -109,6 +118,7 @@ namespace Ubora.Web._Features.Projects.Members
             {
                 return View(model);
             }
+
             return RedirectToAction("Index", "Home", new { });
         }
 
