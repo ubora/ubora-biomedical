@@ -17,21 +17,23 @@ namespace Ubora.Domain.Users
 
         public ICommandResult Handle(ChangeUserProfilePictureCommand cmd)
         {
-            var blobProperties = new BlobProperties()
+            var blobProperties = new BlobProperties
             {
                 Security = BlobSecurity.Public
             };
 
             var userProfile = _documentSession.Load<UserProfile>(cmd.UserId);
-            _storageProvider.DeleteBlobAsync($"{userProfile.UserId}/profilePictures",
-                userProfile.ProfilePictureBlobName);
+
+            // Delete old image
+            _storageProvider.DeleteBlobAsync($"users/{userProfile.UserId}/profile-pictures", userProfile.ProfilePictureBlobName);
 
             userProfile.ProfilePictureBlobName = cmd.FileName;
 
             _documentSession.Store(userProfile);
             _documentSession.SaveChanges();
 
-            _storageProvider.SaveBlobStreamAsync($"{userProfile.UserId}/profilePictures", userProfile.ProfilePictureBlobName, cmd.Stream, blobProperties).Wait();
+            _storageProvider.SaveBlobStreamAsync($"users/{userProfile.UserId}/profile-pictures", userProfile.ProfilePictureBlobName, cmd.Stream, blobProperties)
+                .Wait();
 
             return new CommandResult();
         }
