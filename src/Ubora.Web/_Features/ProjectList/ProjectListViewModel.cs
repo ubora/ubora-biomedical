@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Ubora.Domain.Infrastructure.Entities.Projects.Queries;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.Queries;
 
 namespace Ubora.Web._Features.ProjectList
 {
