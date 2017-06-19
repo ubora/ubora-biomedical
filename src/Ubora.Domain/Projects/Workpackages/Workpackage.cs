@@ -24,9 +24,6 @@ namespace Ubora.Domain.Projects.Workpackages
         [JsonIgnore]
         public IReadOnlyCollection<WorkpackageReview> Reviews => _reviews;
 
-        // TODO: Get rid of these? Calculate somehow
-        public bool IsVisible { get; protected set; }
-
         // Virtual for testing
         public virtual WorkpackageStep GetSingleStep(Guid stepId)
         {

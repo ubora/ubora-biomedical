@@ -24,8 +24,6 @@ namespace Ubora.Domain.Projects.Workpackages
             _steps.Add(new WorkpackageStep("Patient Population Study", Placeholders.PatientPopulationStudy));
             _steps.Add(new WorkpackageStep("User Requirement Study", Placeholders.UserRequirementStudy));
             _steps.Add(new WorkpackageStep("Additional Information", Placeholders.AdditionalInformation));
-
-            IsVisible = true;
         }
 
         private void Apply(WorkpackageStepEditedEvent e)

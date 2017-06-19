@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -15,18 +16,27 @@ namespace Ubora.Web._Features.Projects.Workpackages
         {
         }
 
-        public Task<IViewComponentResult> InvokeAsync()
+#pragma warning disable 1998
+        public async Task<IViewComponentResult> InvokeAsync()
+#pragma warning restore 1998
         {
+            // TODO(Kaspar Kallas): Cleaner solution!
+            var wp1 = QueryProcessor.FindById<Domain.Projects.Workpackages.WorkpackageOne>(ProjectId);
+            var workpackageViewModels = new List<WorkpackageOneOverviewViewModel>
+            {
+                CreateViewModel(wp1)
+            };
+
+            // TODO(Kaspar Kallas): Cleaner solution!
+            var wp2 = QueryProcessor.FindById<WorkpackageTwo>(ProjectId);
+            if (wp2 != null)
+            {
+                workpackageViewModels.Add(CreateViewModel(wp2));
+            }
+
             var model = new WorkpackageListOverviewViewModel
             {
-                Workpackages = new[]
-                {
-                    CreateViewModel<Domain.Projects.Workpackages.WorkpackageOne>(),
-                    CreateViewModel<WorkpackageTwo>(),
-                    CreateViewModel<WorkpackageThree>(),
-                    CreateViewModel<WorkpackageFour>(),
-                    CreateViewModel<WorkpackageFive>()
-                }
+                Workpackages = workpackageViewModels
             };
 
             var selectedStepId = GetSelectedStepId();
@@ -35,19 +45,14 @@ namespace Ubora.Web._Features.Projects.Workpackages
                 model.MarkSelectedStep(selectedStepId.Value);
             }
 
-            return Task.FromResult<IViewComponentResult>(
-                View("~/_Features/Projects/Workpackages/_WorkpackageListOverviewPartial.cshtml", model));
+            return View("~/_Features/Projects/Workpackages/_WorkpackageListOverviewPartial.cshtml", model);
         }
 
-        private WorkpackageOneOverviewViewModel CreateViewModel<TWorkpackage>()
-            where TWorkpackage : Workpackage<TWorkpackage>
+        private WorkpackageOneOverviewViewModel CreateViewModel<T>(Workpackage<T> workpackage) where T : Workpackage<T>
         {
-            var workpackage = QueryProcessor.FindById<TWorkpackage>(ProjectId);
-
             var model = new WorkpackageOneOverviewViewModel
             {
                 Title = workpackage.Title,
-                IsVisible = workpackage.IsVisible,
                 Steps = workpackage.Steps.Select(task => new WorkpackageOneOverviewViewModel.Step
                 {
                     Id = task.Id,

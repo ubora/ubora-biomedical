@@ -10,26 +10,16 @@
                     @foreach (var step in workpackage.Steps)
                     {
                         <li>
-                            @if (!workpackage.IsVisible)
-                            {
-                                <del>
+                            <a asp-action="Step" asp-controller="WorkpackageOne" asp-route-id="@step.Id">
+                                @if (step.IsSelected)
+                                {
+                                    <b>@step.Title</b>
+                                }
+                                else
+                                {
                                     @step.Title
-                                </del>
-                            }
-                            else
-                            {
-                                <a asp-action="Step" asp-controller="WorkpackageOne" asp-route-id="@step.Id">
-                                    @if (step.IsSelected)
-                                    {
-                                        <b>@step.Title</b>
-                                    }
-                                    else
-                                    {
-                                        @step.Title
-                                    }
-
-                                </a>
-                            }
+                                }
+                            </a>
                         </li>
                     }
                 </ol>
