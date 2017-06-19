@@ -1,36 +1,32 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
+using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.Projects.Dashboard
 {
     public class DashboardController : ProjectController
     {
         private readonly IMapper _mapper;
+        private readonly IAuthorizationService _authorizationService;
 
-        public DashboardController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
+        public DashboardController(ICommandQueryProcessor processor, IMapper mapper, IAuthorizationService authorizationService) : base(processor)
         {
             _mapper = mapper;
-        }
-
-        [Route(nameof(Dashboard))]
-        public IActionResult Dashboard()
-        {
-            var model = _mapper.Map<ProjectDashboardViewModel>(Project);
-            model.IsProjectMember = true;
-
-            return View(model);
+            _authorizationService = authorizationService;
         }
 
         [AllowAnonymous]
-        public IActionResult Public()
+        [Route(nameof(Dashboard))]
+        public async Task<IActionResult> Dashboard()
         {
             var model = _mapper.Map<ProjectDashboardViewModel>(Project);
-            model.IsProjectMember = false;
+            model.IsProjectMember = await _authorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
 
-            return View("Dashboard",model);
+            return View(model);
         }
 
         public IActionResult EditProjectDescription()

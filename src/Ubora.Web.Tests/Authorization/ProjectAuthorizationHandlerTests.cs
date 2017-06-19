@@ -9,6 +9,7 @@ using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 using Ubora.Web.Authorization;
 using Xunit;
+using Ubora.Web.Tests.Fakes;
 
 namespace Ubora.Web.Tests.Authorization
 {
@@ -71,7 +72,7 @@ namespace Ubora.Web.Tests.Authorization
 
             var handlerContext = new AuthorizationHandlerContext(
                 requirements: new[] { new TestRequirement() },
-                user: null,
+                user: FakeClaimsPrincipalFactory.CreateAuthenticatedUser(),
                 resource: null);
 
             // Act

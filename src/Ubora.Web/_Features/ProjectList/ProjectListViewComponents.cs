@@ -15,7 +15,7 @@ namespace Ubora.Web._Features.ProjectList
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var model = _modelFactory.Create(header: "Public projects", action: "Public");
+            var model = _modelFactory.Create(header: "Public projects");
 
             return View("~/_Features/ProjectList/ProjectListPartial.cshtml", model);
         }
@@ -32,7 +32,7 @@ namespace Ubora.Web._Features.ProjectList
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var model = _modelFactory.Create(header: "My projects", action: "Dashboard", userId: User.GetId());
+            var model = _modelFactory.Create(header: "My projects", userId: User.GetId());
 
             return View("~/_Features/ProjectList/ProjectListPartial.cshtml", model);
         }

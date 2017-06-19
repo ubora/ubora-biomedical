@@ -14,7 +14,6 @@ namespace Ubora.Web._Features.ProjectList
         }
 
         public string Header { get; protected set; }
-        public string Action { get; protected set; }
         public IEnumerable<ProjectListItem> Projects { get; protected set; }
 
         public class ProjectListItem
@@ -34,21 +33,20 @@ namespace Ubora.Web._Features.ProjectList
                 _mapper = mapper;
             }
 
-            public ProjectListViewModel Create(string header, string action)
+            public ProjectListViewModel Create(string header)
             {
                 var projects = _queryProcessor.Find<Project>();
 
                 var model = new ProjectListViewModel
                 {
                     Header = header,
-                    Action = action,
                     Projects = projects.Select(_mapper.Map<ProjectListItem>)
                 };
 
                 return model;
             }
 
-            public ProjectListViewModel Create(string header, string action, Guid userId)
+            public ProjectListViewModel Create(string header, Guid userId)
             {
                 var userProjects = _queryProcessor.Find<Project>()
                     .Where(x => x.Members.Any(m => m.UserId == userId));
@@ -56,7 +54,6 @@ namespace Ubora.Web._Features.ProjectList
                 var model = new ProjectListViewModel
                 {
                     Header = header,
-                    Action = action,
                     Projects = userProjects.Select(_mapper.Map<ProjectListItem>)
                 };
 
