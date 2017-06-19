@@ -72,7 +72,7 @@ namespace Ubora.Web.Tests.Authorization
 
             var handlerContext = new AuthorizationHandlerContext(
                 requirements: new[] { new TestRequirement() },
-                user: FakeClaimsPrincipalFactory.CreateNotAuthenticatedUser(),
+                user: FakeClaimsPrincipalFactory.CreateAnonymousUser(),
                 resource: null);
 
             // Act

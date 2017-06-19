@@ -18,15 +18,9 @@ namespace Ubora.Web.Tests.Fakes
             return user;
         }
 
-        public static ClaimsPrincipal CreateNotAuthenticatedUser(
-            Guid? userId = null,
-            string fullName = null)
+        public static ClaimsPrincipal CreateAnonymousUser()
         {
-            var claims = CreateUserClaims(userId, fullName);
-
-            var user = new ClaimsPrincipal(new ClaimsIdentity(claims));
-
-            return user;
+            return new ClaimsPrincipal(new ClaimsIdentity());
         }
 
         private static List<Claim> CreateUserClaims(Guid? userId, string fullName)
