@@ -14,6 +14,7 @@ namespace Ubora.Web._Features.Projects.Members
         {
             public Guid UserId { get; set; }
             public string FullName { get; set; }
+            public bool IsProjectLeader { get; set; }
         }
     }
 }

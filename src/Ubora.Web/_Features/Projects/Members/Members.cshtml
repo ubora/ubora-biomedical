@@ -10,7 +10,7 @@
     @if (Model.IsProjectMember)
     {
         <a asp-controller="Members" asp-action="Invite">
-            <i class="material-icons">add_box</i>Invite member
+            <i class="material-icons">person_add</i>Invite member
         </a>
     }
 
@@ -20,12 +20,20 @@
         @foreach (var member in Model.Members)
             {
             <li>
-                @member.FullName
-                @if (Model.CanRemoveProjectMembers)
+                <div>
+                    <a asp-controller="Profile" asp-action="View" asp-route-userId="@member.UserId">
+                        @member.FullName
+                    @if (member.IsProjectLeader)
+                    {
+                        <i class="material-icons">supervisor_account</i>
+                    }
+                </a>
+                @if (Model.CanRemoveProjectMembers && !member.IsProjectLeader)
                 {
                     <a asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId">Remove</a>
                 }
-            </li>
+            </div>
+        </li>
         }
     </ol>
 </section>

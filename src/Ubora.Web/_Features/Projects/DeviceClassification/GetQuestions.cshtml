@@ -15,5 +15,12 @@
                 @Html.Partial("AnswerPartial", new AnswerViewModel { QuestionText = question.Text, PairedMainQuestionsId = Model.PairedMainQuestionsId, NextQuestionId = question.Id })
             </li>
         }
+
+        @if (Model.Questions.Count == 1)
+        {
+            <li>
+                <a class="questionnaire-question" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-pairedMainQuestionsId="@Model.PairedMainQuestionsId">NOT APPLICABLE</a>
+            </li>
+        }
     </ul>
 </section>

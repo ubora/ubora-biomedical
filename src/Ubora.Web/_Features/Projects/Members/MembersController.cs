@@ -36,7 +36,8 @@ namespace Ubora.Web._Features.Projects.Members
                 {
                     UserId = m.UserId,
                     // TODO(Kaspar Kallas): Eliminate SELECT(N + 1)
-                    FullName = FindById<UserProfile>(m.UserId).FullName
+                    FullName = FindById<UserProfile>(m.UserId).FullName,
+                    IsProjectLeader = m.IsLeader
                 }),
                 IsProjectMember = isProjectMember
             };
