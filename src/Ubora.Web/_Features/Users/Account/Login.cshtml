@@ -12,6 +12,8 @@
 
 	<form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="POST">
 
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
 		<div class="form-input">
 			<label asp-for="Email">Email address</label>
 			<input asp-for="Email" placeholder="email@example.com" required>
@@ -23,8 +25,6 @@
 			<input asp-for="Password" placeholder="Secret passphrase" required>
 			<span asp-validation-for="Password"></span>
 		</div>
-
-        <div asp-validation-summary="All"></div>
 
 		<div class="form-input">
 			<button class="button primary-button full-width" type="submit">Sign in</button>
