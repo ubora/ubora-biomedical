@@ -14,7 +14,6 @@ namespace Ubora.Web._Features.Projects.Dashboard
             _mapper = mapper;
         }
 
-        [Route(nameof(Dashboard))]
         public IActionResult Dashboard()
         {
             var model = _mapper.Map<ProjectDashboardViewModel>(Project);
@@ -30,7 +29,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
             };
 
             return View(editProjectDescription);
-        }
+        } 
 
         [HttpPost]
         public IActionResult EditProjectDescription(EditProjectDescriptionViewModel model)

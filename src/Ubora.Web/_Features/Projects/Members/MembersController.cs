@@ -7,7 +7,6 @@ using System;
 using Ubora.Domain.Projects.Members;
 using Microsoft.AspNetCore.Authorization;
 using Ubora.Web.Authorization;
-using System.Threading.Tasks;
 using Ubora.Domain.Projects;
 
 namespace Ubora.Web._Features.Projects.Members
@@ -18,8 +17,7 @@ namespace Ubora.Web._Features.Projects.Members
         {
         }
 
-        [Route(nameof(Members))]
-        public async Task<IActionResult> Members()
+        public IActionResult Members()
         {
             var canRemoveProjectMembers = Project.DoesSatisfy(new HasLeader(UserInfo.UserId));
 

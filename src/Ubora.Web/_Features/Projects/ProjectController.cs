@@ -9,9 +9,7 @@ using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Projects
 {
-    [Route("Projects/{projectId:Guid}")]
-    [Route("Projects/{projectId:Guid}/[action]/{id?}")]
-    [Route("Projects/{projectId:Guid}/[controller]/[action]/{id?}")]
+    [Route("Projects/{projectId:Guid}/[controller]/[action]")]
     [Authorize(Policy = nameof(Policies.ProjectController))]
     public abstract class ProjectController : UboraController
     {
