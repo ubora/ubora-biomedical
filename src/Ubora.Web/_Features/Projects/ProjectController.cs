@@ -9,7 +9,14 @@ using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Projects
 {
-    [Route("Projects/{projectId:Guid}/[controller]/[action]")]
+    public class ProjectRouteAttribute : RouteAttribute
+    {
+        public ProjectRouteAttribute(string template) : base("Projects/{projectId:Guid}/" + template)
+        {
+        }
+    }
+
+    [ProjectRoute("[controller]/[action]")]
     [Authorize(Policy = nameof(Policies.ProjectController))]
     public abstract class ProjectController : UboraController
     {

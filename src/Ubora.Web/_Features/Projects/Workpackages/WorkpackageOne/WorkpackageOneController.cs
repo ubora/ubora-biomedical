@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
@@ -8,6 +7,7 @@ using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
 {
+    [ProjectRoute("WP1")]
     public class WorkpackageOneController : ProjectController
     {
         private readonly IMapper _mapper;
@@ -19,14 +19,16 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
 
         protected Domain.Projects.Workpackages.WorkpackageOne WorkpackageOne => FindById<Domain.Projects.Workpackages.WorkpackageOne>(ProjectId);
 
+        [Route("")]
         public IActionResult Overview()
         {
             return View();
         }
 
-        public IActionResult Step(string id)
+        [Route("{stepId}")]
+        public IActionResult Step(string stepId)
         {
-            var step = WorkpackageOne.GetSingleStep(id);
+            var step = WorkpackageOne.GetSingleStep(stepId);
 
             var model = _mapper.Map<StepViewModel>(step); 
 
@@ -34,10 +36,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
         }
 
         // TODO: Hide in UI
+        [Route("{stepId}/Edit")]
         [Authorize(Policies.CanEditWorkpackageOne)]
-        public IActionResult EditStep(string id)
+        public IActionResult EditStep(string stepId)
         {
-            var step = WorkpackageOne.GetSingleStep(id);
+            var step = WorkpackageOne.GetSingleStep(stepId);
 
             var model = _mapper.Map<StepViewModel>(step);
 
@@ -45,6 +48,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
         }
 
         [HttpPost]
+        [Route("{stepId}/Edit")]
         [Authorize(Policies.CanEditWorkpackageOne)]
         public IActionResult EditStep(EditStepPostModel model)
         {
@@ -65,13 +69,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
             }
 
             return RedirectToAction(nameof(Step), new { id = model.StepId });
-        }
-
-        // TODO
-        [HttpPost]
-        public IActionResult CommentStep(object model)
-        {
-            return null;
         }
     }
 }

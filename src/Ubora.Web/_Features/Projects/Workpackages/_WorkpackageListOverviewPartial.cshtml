@@ -10,7 +10,7 @@
                     @foreach (var step in workpackage.Steps)
                     {
                         <li>
-                            <a asp-action="Step" asp-controller="WorkpackageOne" asp-route-id="@step.Id">
+                            <a asp-action="Step" asp-controller="WorkpackageOne" asp-route-stepId="@step.Id">
                                 @if (step.IsSelected)
                                 {
                                     <b>@step.Title</b>

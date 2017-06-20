@@ -65,7 +65,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
 
         private string GetSelectedStepId()
         {
-            return RouteData.Values["id"] as string;
+            return RouteData.Values["stepId"] as string;
         }
     }
 }
