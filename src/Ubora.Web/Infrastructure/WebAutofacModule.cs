@@ -1,7 +1,6 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using AutoMapper;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Web.Services;
 
@@ -11,7 +10,23 @@ namespace Ubora.Web.Infrastructure
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<EmailSender>().As<IEmailSender>().InstancePerLifetimeScope();
+            var areSmtpEnvironmentVariablesSet =
+                Environment.GetEnvironmentVariable("smtp_hostname") != null &&
+                Environment.GetEnvironmentVariable("smtp_port") != null &&
+                Environment.GetEnvironmentVariable("smtp_username") != null &&
+                Environment.GetEnvironmentVariable("smtp_password") != null;
+
+            if (areSmtpEnvironmentVariablesSet)
+            {
+                builder.RegisterType<SimpleMailTransferProtocolEmailSender>().As<IEmailSender>()
+                    .InstancePerLifetimeScope();
+            }
+            else
+            {
+                builder.RegisterType<SpecifiedPickupDirectoryEmailSender>().As<IEmailSender>()
+                    .InstancePerLifetimeScope();
+            }
+            
             builder.RegisterType<SmsSender>().As<ISmsSender>().InstancePerLifetimeScope();
             builder.RegisterType<AuthMessageSender>().As<IAuthMessageSender>().InstancePerLifetimeScope();
 
