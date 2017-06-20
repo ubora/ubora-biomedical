@@ -7,7 +7,7 @@
     <a class="project_navigation_link @Model.TasksActivityCssClass" asp-controller="Tasks" asp-action="Tasks">Tasks</a>
     <a class="project_navigation_link @Model.NewsActivityCssClass" href="#">News</a>
     <a class="project_navigation_link @Model.DocumentationActivityCssClass" href="#">Documentation</a>
-    <a class="project_navigation_link @Model.RepositoryActivityCssClass" href="#">Repository</a>
+    <a class="project_navigation_link @Model.RepositoryActivityCssClass" asp-controller="Repository" asp-action="Repository">Repository</a>
     <a class="project_navigation_link @Model.HistoryActivityCssClass" asp-controller="History" asp-action="History">Activity</a>
     <a class="project_navigation_link @Model.MembersActivityCssClass" asp-controller="Members" asp-action="Members">Members</a>
 </nav>
