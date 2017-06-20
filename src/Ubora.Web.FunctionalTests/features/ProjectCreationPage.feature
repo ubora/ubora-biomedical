@@ -3,7 +3,7 @@ Feature: Project Creation page
     I want to create the project
 
 Background:
-    Given I go to the website "Home/Index"
+    Given I go to the website "/Home/Index"
 
 Scenario: Create a project 
     Then I expect the title of the page "Welcome - UBORA"

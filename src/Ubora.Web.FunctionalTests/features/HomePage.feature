@@ -3,7 +3,7 @@ Feature: Home page
     I want to click Home page button
 
 Background:
-    Given I go to the website "Home/Index"
+    Given I go to the website "/Home/Index"
 
 Scenario: Create a project 
     Then I expect the title of the page "Welcome - UBORA"

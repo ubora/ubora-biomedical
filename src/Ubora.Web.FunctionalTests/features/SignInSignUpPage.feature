@@ -1,4 +1,4 @@
-Feature: Home page
+Feature: SignInSignUp page
     As a developer
     I want to click buttons on SignInSignUp page
 
@@ -6,7 +6,7 @@ Background:
     Given I go to the website "/Account/SignInSignUp"
     
 
-Scenario: Create a project 
+Scenario: Go to SignInSignUp page 
     Then I expect the title of the page "Sign in - UBORA"
 
 Scenario: Click Logo
