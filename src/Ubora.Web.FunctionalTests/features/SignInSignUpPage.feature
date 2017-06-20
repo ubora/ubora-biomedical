@@ -3,8 +3,8 @@ Feature: SignInSignUp page
     I want to click buttons on SignInSignUp page
 
 Background:
-    Given I go to the website "/Account/SignInSignUp"
-    
+    Given I go to the website "/Home/Index"
+    Given I click the element "a=Sign in/sign up"
 
 Scenario: Go to SignInSignUp page 
     Then I expect the title of the page "Sign in - UBORA"

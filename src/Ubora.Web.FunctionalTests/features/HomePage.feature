@@ -5,7 +5,7 @@ Feature: Home page
 Background:
     Given I go to the website "/Home/Index"
 
-Scenario: Create a project 
+Scenario: Go to UBORA home page 
     Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: Click Home button

@@ -3,8 +3,9 @@ Feature: Register page
     I want the demo app to have correct page
 
 Background:
-    Given I go to the website "/Account/Register"
-    
+    Given I go to the website "/Home/Index"
+    Given I click the element "a=Sign in/sign up"
+    Given I click the element ".button.primary-button.full-width"
 
 Scenario: Get the title of Ubora 
     Then I expect the title of the page "Sign up - UBORA"
