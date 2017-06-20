@@ -24,7 +24,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
             return View();
         }
 
-        public IActionResult Step(Guid id)
+        public IActionResult Step(string id)
         {
             var step = WorkpackageOne.GetSingleStep(id);
 
@@ -35,7 +35,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
 
         // TODO: Hide in UI
         [Authorize(Policies.CanEditWorkpackageOne)]
-        public IActionResult EditStep(Guid id)
+        public IActionResult EditStep(string id)
         {
             var step = WorkpackageOne.GetSingleStep(id);
 

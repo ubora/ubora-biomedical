@@ -8,7 +8,7 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
 {
     public class EditWorkpackageOneStepCommand : UserProjectCommand
     {
-        public Guid StepId { get; set; }
+        public string StepId { get; set; }
         public string NewValue { get; set; }
 
         internal class Handler : CommandHandler<EditWorkpackageOneStepCommand>
@@ -19,24 +19,25 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
 
             public override ICommandResult Handle(EditWorkpackageOneStepCommand cmd)
             {
-                var workpackageOne = DocumentSession.Load<WorkpackageOne>(cmd.ProjectId);
-                if (workpackageOne == null)
+                var workpackage = DocumentSession.Load<WorkpackageOne>(cmd.ProjectId);
+                if (workpackage == null)
                 {
                     throw new InvalidOperationException($"{nameof(WorkpackageOne)} not found with id [{cmd.ProjectId}]");
                 }
 
-                var step = workpackageOne.Steps.SingleOrDefault(x => x.Id == cmd.StepId);
+                var step = workpackage.Steps.SingleOrDefault(x => x.Id == cmd.StepId);
                 if (step == null)
                 {
                     throw new InvalidOperationException($"{nameof(WorkpackageStep)} not found with id [{cmd.StepId}]");
                 }
 
-                var @event = new WorkpackageStepEditedEvent(cmd.Actor)
-                {
-                    StepId = cmd.StepId,
-                    NewValue = cmd.NewValue,
-                    Title = step.Title
-                };
+                var @event = new WorkpackageStepEditedEvent
+                (
+                    initiatedBy: cmd.Actor,
+                    stepId: cmd.StepId,
+                    title: step.Title,
+                    newValue: cmd.NewValue
+                );
 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();

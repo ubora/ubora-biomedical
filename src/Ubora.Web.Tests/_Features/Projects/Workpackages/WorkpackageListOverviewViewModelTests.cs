@@ -11,7 +11,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         [Fact]
         public void Model_Marks_Selected_Step()
         {
-            var selectedStepId = Guid.NewGuid();
+            var selectedStepId = Guid.NewGuid().ToString();
             var stepToBeSelected = new WorkpackageOneOverviewViewModel.Step { Id = selectedStepId };
 
             var modelUnderTest = new WorkpackageListOverviewViewModel
@@ -22,17 +22,17 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                     {
                         Steps = new[]
                         {
-                            new WorkpackageOneOverviewViewModel.Step { Id = Guid.NewGuid() },
-                            new WorkpackageOneOverviewViewModel.Step { Id = Guid.NewGuid() }
+                            new WorkpackageOneOverviewViewModel.Step { Id = Guid.NewGuid().ToString() },
+                            new WorkpackageOneOverviewViewModel.Step { Id = Guid.NewGuid().ToString() }
                         }
                     },
                     new WorkpackageOneOverviewViewModel
                     {
                         Steps = new[]
                         {
-                            new WorkpackageOneOverviewViewModel.Step { Id = Guid.NewGuid() },
+                            new WorkpackageOneOverviewViewModel.Step { Id = Guid.NewGuid().ToString() },
                             stepToBeSelected,
-                            new WorkpackageOneOverviewViewModel.Step { Id = Guid.NewGuid() }
+                            new WorkpackageOneOverviewViewModel.Step { Id = Guid.NewGuid().ToString() }
                         }
                     }
                 }

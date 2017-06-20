@@ -25,9 +25,9 @@ namespace Ubora.Domain.Projects.Workpackages
         public IReadOnlyCollection<WorkpackageReview> Reviews => _reviews;
 
         // Virtual for testing
-        public virtual WorkpackageStep GetSingleStep(Guid stepId)
+        public virtual WorkpackageStep GetSingleStep(string stepKey)
         {
-            return _steps.Single(step => step.Id == stepId);
+            return _steps.Single(step => step.Id == stepKey);
         }
 
         public virtual WorkpackageReview GetSingleActiveReview()

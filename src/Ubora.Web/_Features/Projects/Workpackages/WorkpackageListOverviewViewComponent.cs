@@ -42,7 +42,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
             var selectedStepId = GetSelectedStepId();
             if (selectedStepId != null)
             {
-                model.MarkSelectedStep(selectedStepId.Value);
+                model.MarkSelectedStep(selectedStepId);
             }
 
             return View("~/_Features/Projects/Workpackages/_WorkpackageListOverviewPartial.cshtml", model);
@@ -55,7 +55,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
                 Title = workpackage.Title,
                 Steps = workpackage.Steps.Select(task => new WorkpackageOneOverviewViewModel.Step
                 {
-                    Id = task.Id,
+                    Id = task.Id.ToString(),
                     Title = task.Title
                 }).ToList()
             };
@@ -63,17 +63,9 @@ namespace Ubora.Web._Features.Projects.Workpackages
             return model;
         }
 
-        private Guid? GetSelectedStepId()
+        private string GetSelectedStepId()
         {
-            var projectIdFromRoute = RouteData.Values["id"] as string;
-            Guid.TryParse(projectIdFromRoute, out Guid stepId);
-
-            if (stepId == default(Guid))
-            {
-                return null;
-            }
-
-            return stepId;
+            return RouteData.Values["id"] as string;
         }
     }
 }

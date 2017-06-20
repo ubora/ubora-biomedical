@@ -29,7 +29,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         [Fact]
         public void Returns_View_With_ModelState_Errors_When_Form_Post_Is_Not_Valid()
         {
-            var stepId = Guid.NewGuid();
+            var stepId = Guid.NewGuid().ToString();
             var step = Mock.Of<WorkpackageStep>();
             var workpackageOne = Mock.Of<WorkpackageOne>(x => x.GetSingleStep(stepId) == step);
 
@@ -56,7 +56,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         [Fact]
         public void Returns_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful()
         {
-            var stepId = Guid.NewGuid();
+            var stepId = Guid.NewGuid().ToString();
             var step = Mock.Of<WorkpackageStep>();
             var workpackageOne = Mock.Of<WorkpackageOne>(x => x.GetSingleStep(stepId) == step);
 
@@ -87,7 +87,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Callback<EditWorkpackageOneStepCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
 
-            var stepId = Guid.NewGuid();
+            var stepId = Guid.NewGuid().ToString();
             var postModel = new StepViewModel
             {
                 StepId = stepId,
@@ -108,7 +108,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         [Fact]
         public void Returns_View_Without_Editing_For_Workpackage_One_Step()
         {
-            var stepId = Guid.NewGuid();
+            var stepId = Guid.NewGuid().ToString();
             var step = Mock.Of<WorkpackageStep>();
             var workpackageOne = Mock.Of<WorkpackageOne>(x => x.GetSingleStep(stepId) == step);
 
@@ -129,7 +129,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         [Fact]
         public void Returns_View_With_Editing_For_Workpackage_One_Step()
         {
-            var stepId = Guid.NewGuid();
+            var stepId = Guid.NewGuid().ToString();
             var step = Mock.Of<WorkpackageStep>();
             var workpackageOne = Mock.Of<WorkpackageOne>(x => x.GetSingleStep(stepId) == step);
 

@@ -11,7 +11,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
 
         public class Step
         {
-            public Guid Id { get; set; }
+            public string Id { get; set; }
             public string Title { get; set; }
             public bool IsSelected { get; set; }
         }

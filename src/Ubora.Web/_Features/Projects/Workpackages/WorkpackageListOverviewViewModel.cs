@@ -9,13 +9,13 @@ namespace Ubora.Web._Features.Projects.Workpackages
     {
         public IEnumerable<WorkpackageOneOverviewViewModel> Workpackages { get; set; }
 
-        public void MarkSelectedStep(Guid taskId)
+        public void MarkSelectedStep(string stepId)
         {
             var steps = Workpackages.SelectMany(wp => wp.Steps);
 
             foreach (var step in steps)
             {
-                if (step.Id == taskId)
+                if (step.Id == stepId)
                 {
                     step.IsSelected = true;
                     break;
