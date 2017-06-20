@@ -1,4 +1,4 @@
-﻿namespace Ubora.Web._Features.Users.Manage
+﻿namespace Ubora.Web._Features.Users.Profile
 {
     public class UserProfileViewModel
     {
@@ -10,5 +10,6 @@
         public string Biography { get; set; }
         public string Skills { get; set; }
         public string Role { get; set; }
+        public string ProfilePictureLink { get; set; }
     }
 }

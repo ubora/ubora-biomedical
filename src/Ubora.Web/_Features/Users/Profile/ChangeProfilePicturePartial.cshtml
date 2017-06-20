@@ -1,0 +1,15 @@
+﻿@using Ubora.Web.Services
+@model Ubora.Web._Features.Users.Profile.EditProfileViewModel
+
+<img class="avatar" src='@User.GetProfilePictureUrl()' width="300" height="300" />
+
+<form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="ChangeProfilePicture">
+    <div class="form-input">
+        <label>
+            Last name
+        </label>
+        <input asp-for="ProfilePicture">
+        <span asp-validation-for="ProfilePicture"></span>
+    </div>
+    <input class="button secondary-button" type="submit" value="Upload"/>
+</form>

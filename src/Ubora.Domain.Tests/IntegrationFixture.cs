@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using Marten;
+using Moq;
+using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Marten;
 
@@ -36,6 +38,9 @@ namespace Ubora.Domain.Tests
             // Register Marten DocumentStore/Session
             builder.Register(_ => (TestingDocumentStore)theStore).As<DocumentStore>().As<IDocumentStore>().SingleInstance();
             builder.Register(_ => Session).As<IDocumentSession>();
+
+            var storageProviderMock = new Mock<IStorageProvider>().Object;
+            builder.RegisterInstance(storageProviderMock).As<IStorageProvider>();
 
             RegisterAdditional(builder);
 
