@@ -53,3 +53,11 @@ section {
 	max-width: 22em;
 	margin:1em;
 }
+
+.danger-text {
+    text-align: center;
+}
+
+.danger-text--header {
+    color: var(--quaternary-color);
+}
