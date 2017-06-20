@@ -25,7 +25,7 @@ namespace Ubora.Web
 
                 if (args == null || args.Length > 0)
                 {
-                    hostBuilder.UseUrls("http://*:5000");
+                    hostBuilder.UseUrls(args[0]);
                 }
 
                  var host = hostBuilder.Build();
