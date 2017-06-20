@@ -1,9 +1,34 @@
 ﻿@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Repository.ProjectRepositoryViewModel
 
 @{
     ViewData["Title"] = "Repository";
     ViewData["MenuOption"] = ProjectMenuOption.Repository;
 }
 
+<section class="medium-width">
+    <h1>
+        <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-id="@Model.ProjectId">@Model.ProjectName</a>
+    </h1>
 
-<p>REPO</p>
+    <form method="post" enctype="multipart/form-data" asp-controller="Repository" asp-action="AddFile">
+        <div class="form-input">
+            <label>
+                Filename
+            </label>
+            <input asp-for="ProjectFile">
+            @*<span asp-validation-for="ProjectFile"></span>*@
+        </div>
+        <input class="button secondary-button" type="submit" value="Upload" />
+    </form>
+
+    <ol>
+        @foreach (var file in Model.Files)
+        {
+            <li>
+                <a href="@file.FileLocation">@file.FileName</a>
+            </li>
+        }
+    </ol>
+
+</section>
