@@ -4,14 +4,23 @@
 <section class="narrow-width">
     <h1>Create a profile</h1>
 
-
     <form asp-controller="Profile" asp-action="FirstTimeEditProfile" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-        
-        <h3>Academia</h3>
+
+        <h3>Personal - Education</h3>
         <div class="form-input">
-            <label asp-for="University">University</label>
-            <input asp-for="University" placeholder="Name of university">
-            <span asp-validation-for="University"></span>
+            <label asp-for="Biography">Bio</label>
+            <textarea asp-for="Biography" rows="5" placeholder="Write a few words about yourself!"></textarea>
+            <span asp-validation-for="Biography"></span>
+        </div>
+
+        <div class="form-input">
+            <label for="">Country</label>
+            <select>
+                <option value="" disabled selected>Select from the list...</option>
+                <option value="">Narnia</option>
+                <option value="">Gotham City</option>
+                <option value="">Mooshroom Island</option>
+            </select>
         </div>
 
         <div class="form-input">
@@ -21,29 +30,47 @@
         </div>
 
         <div class="form-input">
-            <label asp-for="Field">Field</label>
+            <label asp-for="Field">Field of study</label>
             <input asp-for="Field" placeholder="e.g. hardware engineering">
             <span asp-validation-for="Field"></span>
         </div>
 
         <div class="form-input">
-            <label asp-for="Role">Role</label>
-            <select asp-for="Role" asp-items="@SelectLists.UserRoles"></select>
-            <span asp-validation-for="Role"></span>
+            <label asp-for="University">University</label>
+            <input asp-for="University" placeholder="Name of university">
+            <span asp-validation-for="University"></span>
         </div>
 
-
-        <h3>Personal</h3>
+        <h3>Working experience in medical device field</h3>
         <div class="form-input">
-            <label asp-for="Biography">Bio</label>
-            <textarea asp-for="Biography" rows="5" placeholder="Write a few words about yourself!"></textarea>
-            <span asp-validation-for="Biography"></span>
+            <label for="">I am involved in development and use of medical devices as...</label>
+            <select>
+                <option value="" disabled selected>Select from the list...</option>
+                <option value="">Student</option>
+                <option value="">Researcher</option>
+                <option value="">Professional Designer</option>
+                <option value="">Healthcare provider</option>
+                <option value="">Consultant</option>
+                <option value="">Other</option>
+            </select>
+        </div>
+
+        <div class="form-input">
+            <label for="">Please indicate your institution</label>
+            <input type="text" placeholder="e.g. company, research institute, hospital">
         </div>
 
         <div class="form-input">
             <label asp-for="Skills">Skills</label>
             <input asp-for="Skills" placeholder="What are you good at?">
             <span asp-validation-for="Skills"></span>
+        </div>
+
+        <h3>UBORA e-infrastructure</h3>
+        <div class="form-input">
+            <label asp-for="Role">Role</label>
+            <select asp-for="Role" asp-items="@SelectLists.UserRoles"></select>
+            <span asp-validation-for="Role"></span>
         </div>
 
         <button class="button primary-button" type="submit">Create profile</button>
