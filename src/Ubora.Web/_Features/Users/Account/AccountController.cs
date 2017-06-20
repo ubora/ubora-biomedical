@@ -12,7 +12,6 @@ using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Home;
-using Ubora.Web._Features.Users.Manage;
 using Ubora.Web._Features.Users.Profile;
 
 namespace Ubora.Web._Features.Users.Account
@@ -24,6 +23,7 @@ namespace Ubora.Web._Features.Users.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
+        private readonly IAuthMessageSender _authMessageSender;
         private readonly ICommandQueryProcessor _processor;
         private readonly ILogger _logger;
         private readonly string _externalCookieScheme;
@@ -35,7 +35,7 @@ namespace Ubora.Web._Features.Users.Account
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
-            ICommandQueryProcessor processor) : base(processor)
+            ICommandQueryProcessor processor, IAuthMessageSender authMessageSender) : base(processor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -43,6 +43,7 @@ namespace Ubora.Web._Features.Users.Account
             _emailSender = emailSender;
             _smsSender = smsSender;
             _processor = processor;
+            _authMessageSender = authMessageSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
 
@@ -288,20 +289,11 @@ namespace Ubora.Web._Features.Users.Account
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
-                {
-                    // Don't reveal that the user does not exist or is not confirmed
+                var user = await _userManager.FindByNameAsync(model.Email);
+                if (user == null)
                     return View("ForgotPasswordConfirmation");
-                }
-
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
-                // Send an email with this link
-                //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                //var callbackUrl = Url.Action(nameof(ResetPassword), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                //   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
-                //return View("ForgotPasswordConfirmation");
+                _authMessageSender.SendForgotPasswordMessage(user);
+                return View("ForgotPasswordConfirmation");
             }
 
             // If we got this far, something failed, redisplay form

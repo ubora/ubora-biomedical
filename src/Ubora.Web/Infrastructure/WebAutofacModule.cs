@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Web.Services;
 
@@ -9,7 +11,9 @@ namespace Ubora.Web.Infrastructure
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<AuthMessageSender>().As<IEmailSender>().As<ISmsSender>().InstancePerLifetimeScope();
+            builder.RegisterType<EmailSender>().As<IEmailSender>().InstancePerLifetimeScope();
+            builder.RegisterType<SmsSender>().As<ISmsSender>().InstancePerLifetimeScope();
+            builder.RegisterType<AuthMessageSender>().As<IAuthMessageSender>().InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(ThisAssembly).Where(t => t.IsNested && t.Name.EndsWith("Factory")).InstancePerLifetimeScope();
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();

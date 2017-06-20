@@ -2,10 +2,11 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -53,6 +54,8 @@ namespace Ubora.Web
                 .AddMvc()
                 .AddUboraFeatureFolders(new FeatureFolderOptions { FeatureFolderName = "_Features" });
 
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
             services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
                 {
                     o.Password.RequireNonAlphanumeric = false;
@@ -67,6 +70,9 @@ namespace Ubora.Web
             services.AddUboraAuthorization();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
 
             services.AddScoped<Seeder>();
 
