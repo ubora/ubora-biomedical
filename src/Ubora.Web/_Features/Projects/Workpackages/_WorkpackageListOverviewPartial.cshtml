@@ -7,6 +7,7 @@
             <li class="project_sidemenu--workpackage">
                 <h3>@workpackage.Title</h3>
                 <ol>
+                    <li><a asp-controller="WorkpackageOne" asp-action="DesignPlanning">&nbsp;Design planning</a></li>
                     @foreach (var step in workpackage.Steps)
                     {
                         <li>
@@ -22,6 +23,9 @@
                             </a>
                         </li>
                     }
+                    <li><a asp-controller="DeviceClassification" asp-action="GetMainQuestion">&nbsp;Device classification</a></li>
+                    <li><a href="#">&nbsp;Regulation checklist</a></li>
+                    <li><a asp-controller="WorkpackageOneReview" asp-action="Review">&nbsp;Formal review</a></li>
                 </ol>
             </li>
         }

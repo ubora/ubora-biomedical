@@ -25,6 +25,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
             return View();
         }
 
+        [Route(nameof(DesignPlanning))]
+        public IActionResult DesignPlanning()
+        {
+            return View();
+        }
+
         [Route("{stepId}")]
         public IActionResult Step(string stepId)
         {
