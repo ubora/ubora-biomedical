@@ -6,11 +6,18 @@ namespace Ubora.Web._Features.Projects.Workpackages
 {
     public class WorkpackageListOverviewViewModel
     {
-        public IEnumerable<WorkpackageOneOverviewViewModel> Workpackages { get; set; }
+        public WorkpackageOneOverviewViewModel WorkpackageOne { get; set; }
+        public WorkpackageOneOverviewViewModel WorkpackageTwo { get; set; }
+
+        private IEnumerable<WorkpackageOneOverviewViewModel> Workpackages => new[]
+        {
+            WorkpackageOne,
+            WorkpackageTwo
+        };
 
         public void MarkSelectedStep(string stepId)
         {
-            var steps = Workpackages.SelectMany(wp => wp.Steps);
+            var steps = Workpackages.SelectMany(wp => wp?.Steps);
 
             foreach (var step in steps)
             {

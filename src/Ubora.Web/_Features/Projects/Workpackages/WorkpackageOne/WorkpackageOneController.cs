@@ -74,7 +74,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
                 return EditStep(model.StepId);
             }
 
-            return RedirectToAction(nameof(Step), new { id = model.StepId });
+            return RedirectToAction(nameof(Step), new { stepId = model.StepId });
         }
     }
 }

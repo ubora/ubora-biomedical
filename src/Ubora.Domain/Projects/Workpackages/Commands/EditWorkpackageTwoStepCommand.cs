@@ -6,23 +6,23 @@ using Ubora.Domain.Projects.Workpackages.Events;
 
 namespace Ubora.Domain.Projects.Workpackages.Commands
 {
-    public class EditWorkpackageOneStepCommand : UserProjectCommand
+    public class EditWorkpackageTwoStepCommand : UserProjectCommand
     {
         public string StepId { get; set; }
         public string NewValue { get; set; }
 
-        internal class Handler : CommandHandler<EditWorkpackageOneStepCommand>
+        internal class Handler : CommandHandler<EditWorkpackageTwoStepCommand>
         {
             public Handler(IDocumentSession documentSession) : base(documentSession)
             {
             }
 
-            public override ICommandResult Handle(EditWorkpackageOneStepCommand cmd)
+            public override ICommandResult Handle(EditWorkpackageTwoStepCommand cmd)
             {
-                var workpackage = DocumentSession.Load<WorkpackageOne>(cmd.ProjectId);
+                var workpackage = DocumentSession.Load<WorkpackageTwo>(cmd.ProjectId);
                 if (workpackage == null)
                 {
-                    throw new InvalidOperationException($"{nameof(WorkpackageOne)} not found with id [{cmd.ProjectId}]");
+                    throw new InvalidOperationException($"{nameof(WorkpackageTwo)} not found with id [{cmd.ProjectId}]");
                 }
 
                 var step = workpackage.Steps.SingleOrDefault(x => x.Id == cmd.StepId);
@@ -31,7 +31,7 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                     throw new InvalidOperationException($"{nameof(WorkpackageStep)} not found with id [{cmd.StepId}]");
                 }
 
-                var @event = new WorkpackageOneStepEditedEvent
+                var @event = new WorkpackageTwoStepEdited
                 (
                     initiatedBy: cmd.Actor,
                     stepId: cmd.StepId,

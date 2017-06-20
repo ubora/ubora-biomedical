@@ -2,16 +2,39 @@
 
 <aside class="project_sidemenu">
     <ol>
-        @foreach (var workpackage in Model.Workpackages)
-        {
-            <li class="project_sidemenu--workpackage">
-                <h3>@workpackage.Title</h3>
+        <li class="project_sidemenu--workpackage">
+            <h3>@Model.WorkpackageOne.Title</h3>
+            <ol>
+                <li><a asp-controller="WorkpackageOne" asp-action="DesignPlanning">&nbsp;Design planning</a></li>
+                @foreach (var step in Model.WorkpackageOne.Steps)
+                {
+                    <li>
+                        <a asp-action="Step" asp-controller="WorkpackageOne" asp-route-stepId="@step.Id">
+                            @if (step.IsSelected)
+                            {
+                                <b>@step.Title</b>
+                            }
+                            else
+                            {
+                                @step.Title
+                            }
+                        </a>
+                    </li>
+                }
+                <li><a asp-controller="DeviceClassification" asp-action="GetMainQuestion">&nbsp;Device classification</a></li>
+                <li><a href="#">&nbsp;Regulation checklist</a></li>
+                <li><a asp-controller="WorkpackageOneReview" asp-action="Review">&nbsp;Formal review</a></li>
+            </ol>
+
+        <li class="project_sidemenu--workpackage">
+            @if (Model.WorkpackageTwo != null)
+            {
+                <h3>@Model.WorkpackageTwo.Title</h3>
                 <ol>
-                    <li><a asp-controller="WorkpackageOne" asp-action="DesignPlanning">&nbsp;Design planning</a></li>
-                    @foreach (var step in workpackage.Steps)
-                    {
+                    @foreach (var step in Model.WorkpackageTwo.Steps)
+                {
                         <li>
-                            <a asp-action="Step" asp-controller="WorkpackageOne" asp-route-stepId="@step.Id">
+                            <a asp-action="Read" asp-controller="WorkpackageTwos" asp-route-stepId="@step.Id">
                                 @if (step.IsSelected)
                                 {
                                     <b>@step.Title</b>
@@ -23,11 +46,8 @@
                             </a>
                         </li>
                     }
-                    <li><a asp-controller="DeviceClassification" asp-action="GetMainQuestion">&nbsp;Device classification</a></li>
-                    <li><a href="#">&nbsp;Regulation checklist</a></li>
-                    <li><a asp-controller="WorkpackageOneReview" asp-action="Review">&nbsp;Formal review</a></li>
                 </ol>
-            </li>
-        }
+            }
+        </li>
     </ol>
 </aside>
