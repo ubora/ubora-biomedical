@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -27,13 +26,14 @@ namespace Ubora.Web._Features.Projects.Repository
             var repositoryFiles = new List<RepositoryListItemViewModel>();
             foreach (var file in projectFiles)
             {
-                var url = _storageProvider.GetBlobUrl($"projects/{ProjectId}/files", (string)file.FileName)
+                var url = _storageProvider.GetBlobUrl($"projects/{ProjectId}/files", (string)file.Title)
                     .Replace("/app/wwwroot", "");
 
                 var repositoryFile = new RepositoryListItemViewModel
                 {
                     FileLocation = url,
-                    FileName = file.FileName
+                    FileName = file.Title,
+                    FileId = file.Id
                 };
 
                 repositoryFiles.Add(repositoryFile);
@@ -67,6 +67,15 @@ namespace Ubora.Web._Features.Projects.Repository
             });
 
             return RedirectToAction("Repository");
+        }
+
+        public IActionResult DownloadFile(Guid id)
+        {
+            var file = FindById<ProjectFile>(id);
+            var url = _storageProvider.GetBlobUrl($"projects/{ProjectId}/files", (string)file.Title)
+                    .Replace("/app/wwwroot", "");
+
+            return File(url, "application/octet-stream", file.Title);
         }
     }
 }

@@ -27,6 +27,7 @@
         {
             <li>
                 <a href="@file.FileLocation">@file.FileName</a>
+                <a asp-controller="Repository" asp-action="DownloadFile" asp-route-id="@file.FileId">DOWNLOAD</a>
             </li>
         }
     </ol>

@@ -14,6 +14,7 @@ namespace Ubora.Web._Features.Projects.Repository
 
     public class RepositoryListItemViewModel
     {
+        public Guid FileId { get; set; }
         public string FileName { get; set; }
         public string FileLocation { get; set; }
     }

@@ -35,7 +35,7 @@ namespace Ubora.Domain.Tests.Projects
 
             file.Id.Should().Be(expectedFileId);
             file.ProjectId.Should().Be(expectedProjectId);
-            file.FileName.Should().Be("expectedFileName");
+            file.Title.Should().Be("expectedFileName");
         }
     }
 }
