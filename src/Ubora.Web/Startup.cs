@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
@@ -61,13 +62,15 @@ namespace Ubora.Web
                 .AddSignInManager<ApplicationSignInManager>()
                 .AddClaimsPrincipalFactory<ApplicationClaimsPrincipalFactory>()
                 .AddEntityFrameworkStores<ApplicationDbContext, Guid>()
+                .AddRoleManager<ApplicationRoleManager>()
                 .AddDefaultTokenProviders();
 
             services.AddAutoMapper();
             services.AddUboraAuthorization();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
+            // TODO(Kaspar Kallas)
+            services.AddSingleton<IConfigurationRoot>(Configuration);
             services.AddScoped<Seeder>();
 
             var autofacContainerBuilder = new ContainerBuilder();
@@ -118,9 +121,10 @@ namespace Ubora.Web
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+                var serviceProvider = serviceScope.ServiceProvider;
+                serviceProvider.GetService<ApplicationDbContext>().Database.Migrate();
 
-                var seeder = serviceScope.ServiceProvider.GetService<Seeder>();
+                var seeder = serviceProvider.GetService<Seeder>();
                 seeder.SeedIfNecessary();
             }
 

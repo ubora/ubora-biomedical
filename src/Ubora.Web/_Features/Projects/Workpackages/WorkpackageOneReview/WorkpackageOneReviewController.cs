@@ -41,22 +41,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
 
         protected Domain.Projects.Workpackages.WorkpackageOne WorkpackageOne => this.FindById<Domain.Projects.Workpackages.WorkpackageOne>(ProjectId);
 
-        [HttpPost]
-        public IActionResult AssignMeAsMentor()
-        {
-            ExecuteUserProjectCommand(new AssignProjectMentorCommand
-            {
-                UserId = this.UserId
-            });
-
-            if (!ModelState.IsValid)
-            {
-                return Review();
-            }
-
-            return RedirectToAction(nameof(Review));
-        }
-
         public IActionResult Review()
         {
             var reviews = WorkpackageOne.Reviews
