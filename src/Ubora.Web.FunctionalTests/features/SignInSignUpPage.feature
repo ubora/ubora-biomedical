@@ -1,4 +1,4 @@
-Feature: SignInSignUp page
+Feature: Sign in Sign up page
     As a developer
     I want to click buttons on SignInSignUp page
 
