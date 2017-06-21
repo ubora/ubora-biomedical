@@ -95,7 +95,7 @@ namespace Ubora.Web._Features.Users.Profile
             // GetFileName method that don't work well. Don't trust too the FileName(display different results)! 
             var getCorrectFileName = model.ProfilePicture.FileName.Substring(model.ProfilePicture.FileName.LastIndexOf(@"\") + 1);
 
-            ExecuteUserCommand(new ChangeUserProfilePictureCommand()
+            ExecuteUserCommand(new ChangeUserProfilePictureCommand
             {
                 UserId = new Guid(userId),
                 Stream = model.ProfilePicture.OpenReadStream(),

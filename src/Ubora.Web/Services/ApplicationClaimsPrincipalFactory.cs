@@ -30,23 +30,26 @@ namespace Ubora.Web.Services
             var userProfile = _queryProcessor.FindById<UserProfile>(user.Id);
             claimsIdentity.AddClaim(new Claim(ApplicationUser.FullNameClaimType, userProfile.FullName));
 
-            var url = _storageProvider.GetBlobUrl($"{userProfile.UserId}/profilePictures", userProfile.ProfilePictureBlobName);
-
-            if (Path.GetFileName(url) == "Default")
-            {
-
-                url = "/images/profileimagedefault.png";
-
-                claimsIdentity.AddClaim(new Claim(ApplicationUser.ProfilePictureUrlClaimType, url));
-
-                return claimsPrincipal;
-            }
-
-            url = url.Replace("/app/wwwroot", "");
-
-            claimsIdentity.AddClaim(new Claim(ApplicationUser.ProfilePictureUrlClaimType, url));
+            var profilePictureUrl = GetProfilePictureUrl(userProfile);
+            claimsIdentity.AddClaim(new Claim(ApplicationUser.ProfilePictureUrlClaimType, profilePictureUrl));
 
             return claimsPrincipal;
+        }
+
+        private string GetProfilePictureUrl(UserProfile userProfile)
+        {
+            string blobUrl;
+            if (userProfile.ProfilePictureBlobName == "Default")
+            {
+                blobUrl = "/images/profileimagedefault.png";
+            }
+            else
+            {
+                blobUrl = _storageProvider
+                    .GetBlobUrl($"users/{userProfile.UserId}/profile-pictures", userProfile.ProfilePictureBlobName)
+                    .Replace("/app/wwwroot", "");
+            }
+            return blobUrl;
         }
     }
 }
