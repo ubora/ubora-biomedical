@@ -12,9 +12,11 @@
 
 	<form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="POST">
 
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
 		<div class="form-input">
 			<label asp-for="Email">Email address</label>
-			<input asp-for="Email" placeholder="email@example.com" required>
+			<input asp-for="Email" placeholder="email@example.com" autocomplete autofocus required>
 			<span asp-validation-for="Email"></span>
 		</div>
 

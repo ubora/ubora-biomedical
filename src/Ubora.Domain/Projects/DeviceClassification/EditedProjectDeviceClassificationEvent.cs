@@ -16,6 +16,14 @@ namespace Ubora.Domain.Projects.DeviceClassification
             CurrentClassification = currentClassification;
         }
 
-        public override string GetDescription() => $"Saved new classification to project. New '{NewClassification.Text}', Current {CurrentClassification.Text}";
+        public override string GetDescription()
+        {
+            if (CurrentClassification == null)
+            {
+                return $"Classification saved to project. Classification is '{NewClassification.Text}'";
+            }
+
+            return $"Saved new classification to project. New '{NewClassification.Text}', Current {CurrentClassification.Text}";
+        }
     }
 }
