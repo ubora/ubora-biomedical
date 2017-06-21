@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Projects;
 
-namespace Ubora.Domain.Infrastructure.Entities.Projects.Queries
+namespace Ubora.Domain.Projects.Queries
 {
     public class SearchProjectsQuery : IQuery<IEnumerable<Project>>
     {
@@ -13,7 +12,7 @@ namespace Ubora.Domain.Infrastructure.Entities.Projects.Queries
             Title = title;
         }
 
-        public class Handler : SearchProjectsQueryHandler<SearchProjectsQuery, IEnumerable<Project>>
+        public class Handler : QueryHandler<SearchProjectsQuery, IEnumerable<Project>>
         {
             public Handler(IQueryProcessor queryProcessor) : base(queryProcessor)
             {
