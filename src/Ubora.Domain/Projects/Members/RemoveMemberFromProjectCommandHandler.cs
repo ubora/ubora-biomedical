@@ -22,7 +22,6 @@ namespace Ubora.Domain.Projects.Members
 
             var project = _documentSession.Load<Project>(cmd.ProjectId);
 
-            //var isUserMember = project.Members.Any(m => m.UserId == cmd.UserId);
             var isUserMember = project.DoesSatisfy(new HasMember(cmd.UserId));
             if (!isUserMember)
             {
@@ -30,7 +29,6 @@ namespace Ubora.Domain.Projects.Members
             }
 
             var isProjectLeader = project.DoesSatisfy(new HasLeader(cmd.UserId));
-
             if (isProjectLeader)
             {
                 return new CommandResult($"User [{cmd.UserId}] can not be removed from project [{cmd.ProjectId}] because user is project leader");

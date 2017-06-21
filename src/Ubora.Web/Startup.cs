@@ -99,6 +99,8 @@ namespace Ubora.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseStatusCodePagesWithReExecute("/Home/Error/");
+
             app.UseStaticFiles();
 
             app.UseIdentity();

@@ -5,14 +5,14 @@ namespace Ubora.Domain.Projects.DeviceClassification
 {
     public class Classification
     {
-        public Guid Id { get; }
-        public string Text { get; }
-        public List<Guid> QuestionIds { get; }
-        private int Weight { get; }
+        public Guid Id { get; private set; }
+        public string Text { get; private set; }
+        public List<Guid> QuestionIds { get; private set; }
+        public int Weight { get; private set; }
 
-        public Classification(Guid id, string text, int weight, List<Guid> questionIds)
+        public Classification(string text, int weight, List<Guid> questionIds)
         {
-            Id = id;
+            Id = Guid.NewGuid();
             Text = text;
             Weight = weight;
             QuestionIds = questionIds;
