@@ -38,7 +38,7 @@ namespace Ubora.Web._Features.Notifications
 
         private void MarkInvitationsAsViewed()
         {
-            ExecuteUserCommand(new MarkInvitationsAsViewedCommand { UserId = UserInfo.UserId });
+            ExecuteUserCommand(new MarkNotificationsAsViewedCommand { UserId = UserInfo.UserId });
         }
     }
 }

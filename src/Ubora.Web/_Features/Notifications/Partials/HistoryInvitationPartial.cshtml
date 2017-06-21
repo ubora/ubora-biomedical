@@ -1,0 +1,19 @@
+﻿@using Ubora.Web._Features.Notifications
+@model HistoryInvitationViewModel
+
+<div class="message">
+    <div class="message-container">
+        <p class="message-author-preview">
+            You were asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.
+            You
+            @if (Model.WasAccepted)
+            {
+                <b>Accepted</b>
+            }
+            else
+            {
+                <b>Declined</b>
+            }
+        </p>
+    </div>
+</div>

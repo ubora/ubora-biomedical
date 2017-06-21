@@ -1,31 +1,28 @@
 ﻿using Marten;
 using System;
 using System.Linq;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.Notifications
 {
-    public class MarkInvitationsAsViewedCommand : UserCommand
+    public class MarkNotificationsAsViewedCommand : UserCommand
     {
         public Guid UserId { get; set; }
     }
 
-    internal class MarkInvitationsAsViewedCommandHandler : ICommandHandler<MarkInvitationsAsViewedCommand>
+    internal class MarkNotificationsAsViewedCommandHandler : ICommandHandler<MarkNotificationsAsViewedCommand>
     {
-        private readonly ICommandQueryProcessor _processor;
         private readonly IDocumentSession _documentSession;
 
-        public MarkInvitationsAsViewedCommandHandler(IDocumentSession documentSession, ICommandQueryProcessor processor)
+        public MarkNotificationsAsViewedCommandHandler(IDocumentSession documentSession)
         {
-            _processor = processor;
             _documentSession = documentSession;
         }
 
-        public ICommandResult Handle(MarkInvitationsAsViewedCommand cmd)
+        public ICommandResult Handle(MarkNotificationsAsViewedCommand cmd)
         {
-            var specification = new NonViewedInvitations(cmd.UserId);
-            var query = _documentSession.Query<InvitationToProject>();
+            var specification = new NonViewedNotifications(cmd.UserId);
+            var query = _documentSession.Query<BaseNotification>();
             var invitations = specification.SatisfyEntitiesFrom(query)
                 .ToArray();
 

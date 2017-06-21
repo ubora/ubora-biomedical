@@ -4,21 +4,18 @@
 <section class="medium-width">
     <a asp-controller="Notifications" asp-action="History">History</a>
     <h1>Pending invitations</h1>
-    @if (Model.Invitations.Any())
+    @if (Model.Notifications.Any())
     {
-        @foreach (var invitation in Model.Invitations)
+        foreach (var notification in Model.Notifications)
         {
-            var isUnreadCss = invitation.IsUnread ? "message-unread" : "";
-            var who = invitation.IsCurrentUser ? "You have been asked" : $"{invitation.UserFullName} asks";
-
-            <div class="message @isUnreadCss">
-                <div class="message-container">
-                    <p class="message-author-preview">@who to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@invitation.ProjectId">@invitation.ProjectTitle</a></p>
-                    
-                    @Html.Partial("~/_Features/Notifications/Invitations/InvitationPartial.cshtml", new Ubora.Web._Features.Notifications.Invitations.InvitationPartialViewModel { InviteId = invitation.InviteId, Action = "Accept" })
-                    @Html.Partial("~/_Features/Notifications/Invitations/InvitationPartial.cshtml", new Ubora.Web._Features.Notifications.Invitations.InvitationPartialViewModel { InviteId = invitation.InviteId, Action = "Decline" })
-                </div>
-            </div>
+            if (notification is IndexInvitationViewModel)
+            {
+                @Html.Partial("~/_Features/Notifications/Partials/IndexInvitationPartial.cshtml", (IndexInvitationViewModel)notification);
+            }
+            else if (notification is IndexRequestViewModel)
+            {
+                @Html.Partial("~/_Features/Notifications/Partials/IndexRequestPartial.cshtml", (IndexRequestViewModel)notification);
+            }
         }
     }
     else

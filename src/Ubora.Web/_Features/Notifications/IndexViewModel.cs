@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Notifications;
+using Ubora.Domain.Notifications.Invitation;
+using Ubora.Domain.Notifications.Join;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 
@@ -10,7 +11,7 @@ namespace Ubora.Web._Features.Notifications
 {
     public class IndexViewModel
     {
-        public List<IndexInvitationViewModel> Invitations { get; set; } = new List<IndexInvitationViewModel>();
+        public List<NotificationViewModel> Notifications { get; set; } = new List<NotificationViewModel>();
 
         public class Factory
         {
@@ -28,41 +29,62 @@ namespace Ubora.Web._Features.Notifications
             public virtual IndexViewModel Create(Guid userId)
             {
                 var indexViewModel = new IndexViewModel();
-                indexViewModel.Invitations = GetIndexInvitationViewModels(userId);
+                indexViewModel.Notifications = GetIndexInvitationViewModels(userId);
 
                 return indexViewModel;
             }
 
-            private List<IndexInvitationViewModel> GetIndexInvitationViewModels(Guid userId)
+            private List<NotificationViewModel> GetIndexInvitationViewModels(Guid userId)
             {
-                var invitations = _processor.Find(new UserInvitations(userId))
-                    .Where(x => x.IsAccepted == null);
-                var invitationViewModels = new List<IndexInvitationViewModel>();
+                var notifications = _processor.Find(new HasNoNotificationsInHistory(userId));
 
-                foreach (var invitation in invitations)
+                var notificationViewModels = new List<NotificationViewModel>();
+
+                foreach (var notification in notifications)
                 {
-                    var project = _processor.FindById<Project>(invitation.ProjectId);
-                    var fullName = _processor.FindById<UserProfile>(invitation.InvitedMemberId).FullName;
-
-                    var viewModel = new IndexInvitationViewModel
+                    if (notification is InvitationToProject invitationToProject)
                     {
-                        ProjectTitle = project.Title,
-                        InviteId = invitation.Id,
-                        IsUnread = !invitation.HasBeenViewed,
-                        ProjectId = project.Id,
-                        UserFullName = fullName,
-                        IsCurrentUser = userId == invitation.InvitedMemberId
-                    };
+                        var project = _processor.FindById<Project>(invitationToProject.ProjectId);
+                        var fullName = _processor.FindById<UserProfile>(invitationToProject.InvitedMemberId).FullName;
 
-                    invitationViewModels.Add(viewModel);
+                        var viewModel = new IndexInvitationViewModel
+                        {
+                            ProjectTitle = project.Title,
+                            InviteId = notification.Id,
+                            IsUnread = !notification.HasBeenViewed,
+                            ProjectId = project.Id,
+                        };
+
+                        notificationViewModels.Add(viewModel);
+                    }
+                    else if (notification is RequestToJoinProject requestToJoinProject)
+                    {
+                        var project = _processor.FindById<Project>(requestToJoinProject.ProjectId);
+                        var fullName = _processor.FindById<UserProfile>(requestToJoinProject.AskingToJoinMemberId).FullName;
+
+                        var viewModel = new IndexRequestViewModel
+                        {
+                            ProjectTitle = project.Title,
+                            ProjectId = project.Id,
+                            IsUnread = !notification.HasBeenViewed,
+                            UserFullName = fullName,
+                            RequestToJoinProjectId = notification.Id,
+                        };
+                        notificationViewModels.Add(viewModel);
+                    }
                 }
 
-                return invitationViewModels;
+                return notificationViewModels;
             }
         }
     }
 
     public class IndexInvitationViewModel : BaseInvitationViewModel
+    {
+        public bool IsUnread { get; set; }
+    }
+
+    public class IndexRequestViewModel : BaseRequestViewModel
     {
         public bool IsUnread { get; set; }
     }

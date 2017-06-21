@@ -5,7 +5,7 @@ using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
 
-namespace Ubora.Domain.Notifications
+namespace Ubora.Domain.Notifications.Invitation
 {
     public class AcceptInvitationToProjectCommand : UserCommand
     {
@@ -15,14 +15,10 @@ namespace Ubora.Domain.Notifications
     internal class AcceptInvitationToProjectCommandHandler : ICommandHandler<AcceptInvitationToProjectCommand>
     {
         private readonly IDocumentSession _documentSession;
-        private ICommandProcessor _commandProcessor;
 
-        public AcceptInvitationToProjectCommandHandler(
-            IDocumentSession documentSession,
-            ICommandProcessor commandProcessor)
+        public AcceptInvitationToProjectCommandHandler(IDocumentSession documentSession)
         {
             _documentSession = documentSession;
-            _commandProcessor = commandProcessor;
         }
 
         public ICommandResult Handle(AcceptInvitationToProjectCommand command)

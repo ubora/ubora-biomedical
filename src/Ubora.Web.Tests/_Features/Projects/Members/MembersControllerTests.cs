@@ -6,7 +6,7 @@ using System;
 using System.Security.Claims;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Notifications;
+using Ubora.Domain.Notifications.Join;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Web._Features.Home;

@@ -6,7 +6,7 @@ using Ubora.Domain.Projects;
 using System.Linq;
 using Ubora.Domain.Projects.Members;
 
-namespace Ubora.Domain.Notifications
+namespace Ubora.Domain.Notifications.Join
 {
     public class JoinProjectCommand : UserProjectCommand
     {
@@ -37,7 +37,7 @@ namespace Ubora.Domain.Notifications
                 .Select(x => x.UserId)
                 .First();
 
-            var joinProject = new InvitationToProject(Guid.NewGuid(), projectLeaderId, cmd.AskingToJoin, cmd.ProjectId);
+            var joinProject = new RequestToJoinProject(Guid.NewGuid(), projectLeaderId, cmd.AskingToJoin, cmd.ProjectId);
 
             DocumentSession.Store(joinProject);
             DocumentSession.SaveChanges();

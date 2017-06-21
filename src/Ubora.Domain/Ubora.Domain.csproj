@@ -29,7 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Notifications\InvitationToProject.NonViewedInvitations.cs" />
     <None Include="Projects\Project.HasLeader.cs" />
   </ItemGroup>
 

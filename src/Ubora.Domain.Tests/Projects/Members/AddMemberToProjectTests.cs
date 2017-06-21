@@ -5,6 +5,8 @@ using TestStack.BDDfy;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications;
+using Ubora.Domain.Notifications.Invitation;
+using Ubora.Domain.Notifications.Join;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
@@ -98,8 +100,8 @@ namespace Ubora.Domain.Tests.Projects.Members
             var project = Session.Load<Project>(_projectId);
             var projectLeader = project.Members.Single(x => x.IsLeader);
 
-            var invites = Session.Query<InvitationToProject>()
-                .Where(x => x.InviteTo == projectLeader.UserId && x.IsAccepted == null);
+            var invites = Session.Query<RequestToJoinProject>()
+                .Where(x => x.NotificationTo == projectLeader.UserId && x.IsAccepted == null);
 
             invites.Count().Should().Be(1);
         }
@@ -109,19 +111,19 @@ namespace Ubora.Domain.Tests.Projects.Members
             var project = Session.Load<Project>(_projectId);
             var projectLeader = project.Members.Single(x => x.IsLeader);
 
-            var invite = Session.Query<InvitationToProject>()
-                .Single(x => x.InviteTo == projectLeader.UserId && x.IsAccepted == null);
+            var invite = Session.Query<RequestToJoinProject>()
+                .Single(x => x.NotificationTo == projectLeader.UserId && x.IsAccepted == null);
 
-            Processor.Execute(new AcceptInvitationToProjectCommand
+            Processor.Execute(new AcceptRequestToJoinProjectCommand
             {
-                InvitationId = invite.Id,
+                RequestId = invite.Id,
                 Actor = new UserInfo(Guid.NewGuid(), "")
             });
         }
 
         private void User_Views_Invite()
         {
-            _lastCommandResult = Processor.Execute(new MarkInvitationsAsViewedCommand
+            _lastCommandResult = Processor.Execute(new MarkNotificationsAsViewedCommand
             {
                 UserId = _invitedUserId,
                 Actor = new UserInfo(Guid.NewGuid(), "")
@@ -130,7 +132,7 @@ namespace Ubora.Domain.Tests.Projects.Members
 
         private void Invite_Is_Marked_Viewed()
         {
-            var invite = Session.Query<InvitationToProject>().Where(x => x.InviteTo == _invitedUserId).First();
+            var invite = Session.Query<InvitationToProject>().Where(x => x.NotificationTo == _invitedUserId).First();
 
             invite.HasBeenViewed.Should().BeTrue();
         }
@@ -156,7 +158,7 @@ namespace Ubora.Domain.Tests.Projects.Members
 
         private void Invited_User_Declines_Invite()
         {
-            var invite = Session.Query<InvitationToProject>().Where(x => x.InviteTo == _invitedUserId).First();
+            var invite = Session.Query<InvitationToProject>().Where(x => x.NotificationTo == _invitedUserId).First();
 
             Processor.Execute(new DeclineInvitationToProjectCommand
             {
@@ -177,7 +179,7 @@ namespace Ubora.Domain.Tests.Projects.Members
 
         private void User_Accepts_Invite()
         {
-            var invite = Session.Query<InvitationToProject>().Where(x => x.InviteTo == _invitedUserId).First();
+            var invite = Session.Query<InvitationToProject>().Where(x => x.NotificationTo == _invitedUserId).First();
 
             Processor.Execute(new AcceptInvitationToProjectCommand
             {
@@ -219,7 +221,7 @@ namespace Ubora.Domain.Tests.Projects.Members
         private void Invited_User_Has_Invite()
         {
             var invites = Session.Query<InvitationToProject>()
-                .Where(x => x.InviteTo == _invitedUserId && x.IsAccepted == null);
+                .Where(x => x.NotificationTo == _invitedUserId && x.IsAccepted == null);
 
             invites.Count().Should().Be(1);
         }
@@ -245,7 +247,7 @@ namespace Ubora.Domain.Tests.Projects.Members
 
         private void User_Does_Not_Get_Invite()
         {
-            var invites = Session.Query<InvitationToProject>().Where(x => x.InviteTo == _invitedUserId && x.IsAccepted == null);
+            var invites = Session.Query<BaseNotification>().Where(x => x.NotificationTo == _invitedUserId && !x.InHistory);
             invites.Count().Should().Be(0);
         }
     }

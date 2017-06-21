@@ -1,0 +1,17 @@
+﻿@using Ubora.Web._Features.Notifications
+@using Ubora.Web._Features.Notifications.Invitations
+
+@model IndexInvitationViewModel
+
+@{
+    var isUnreadCss = Model.IsUnread ? "message-unread" : "";
+}
+
+<div class="message @isUnreadCss">
+    <div class="message-container">
+        <p class="message-author-preview">You have been asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a></p>
+
+        @Html.Partial("~/_Features/Notifications/Invitations/InvitationPartial.cshtml", new InvitationPartialViewModel { InviteId = Model.InviteId, Action = "Accept" })
+        @Html.Partial("~/_Features/Notifications/Invitations/InvitationPartial.cshtml", new InvitationPartialViewModel { InviteId = Model.InviteId, Action = "Decline" })
+    </div>
+</div>

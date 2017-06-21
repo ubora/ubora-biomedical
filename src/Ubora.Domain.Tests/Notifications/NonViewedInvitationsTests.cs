@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications;
+using Ubora.Domain.Notifications.Join;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 using Xunit;
@@ -51,7 +52,7 @@ namespace Ubora.Domain.Tests.Notifications
                 Actor = new UserInfo(userId, "")
             });
 
-            Processor.Execute(new MarkInvitationsAsViewedCommand
+            Processor.Execute(new MarkNotificationsAsViewedCommand
             {
                 UserId = userId,
                 Actor = new UserInfo(userId, "")
@@ -64,8 +65,8 @@ namespace Ubora.Domain.Tests.Notifications
                 Actor = new UserInfo(userId, "")
             });
 
-            var sut = new NonViewedInvitations(userId);
-            var invitations = Session.Query<InvitationToProject>();
+            var sut = new NonViewedNotifications<RequestToJoinProject>(userId);
+            var invitations = Session.Query<RequestToJoinProject>();
 
             // Act
             var result = sut.SatisfyEntitiesFrom(invitations);
@@ -74,7 +75,7 @@ namespace Ubora.Domain.Tests.Notifications
             var invitation = result.Single();
 
             invitation.HasBeenViewed.Should().BeFalse();
-            invitation.InvitedMemberId.Should().Be(expectedUserId);
+            invitation.AskingToJoinMemberId.Should().Be(expectedUserId);
         }
     }
 }

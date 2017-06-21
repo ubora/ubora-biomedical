@@ -4,25 +4,15 @@
 <section class="medium-width">
     <a asp-controller="Notifications" asp-action="Index">Pending invitations</a>
     <h1>History</h1>
-    @foreach (var invitation in Model.Invitations)
+    @foreach (var notification in Model.Notifications)
     {
-        var who = invitation.IsCurrentUser ? "You were" : invitation.UserFullName;
-
-        <div class="message">
-            <div class="message-container">
-                <p class="message-author-preview">
-                    @who asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@invitation.ProjectId">@invitation.ProjectTitle</a>.
-                    You
-                    @if (invitation.WasAccepted)
-                    {
-                        <b>Accepted</b>
-                    }
-                    else
-                    {
-                        <b>Declined</b>
-                    }
-                </p>
-            </div>
-        </div>
+        if (notification is HistoryInvitationViewModel)
+        {
+            @Html.Partial("~/_Features/Notifications/Partials/HistoryInvitationPartial.cshtml", (HistoryInvitationViewModel)notification);
+        }
+        else if (notification is HistoryRequestViewModel)
+        {
+            @Html.Partial("~/_Features/Notifications/Partials/HistoryRequestPartial.cshtml", (HistoryRequestViewModel)notification);
+        }
     }
 </section>

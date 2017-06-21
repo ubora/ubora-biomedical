@@ -5,7 +5,7 @@ using System.Linq;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 
-namespace Ubora.Domain.Notifications
+namespace Ubora.Domain.Notifications.Invitation
 {
     public class InviteMemberToProjectCommand : UserProjectCommand
     {

@@ -3,13 +3,14 @@ using System;
 using System.Linq;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications;
+using Ubora.Domain.Notifications.Invitation;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Notifications
 {
-    public class UserInvitationsTests: IntegrationFixture
+    public class HasNotificationsTests : IntegrationFixture
     {
         [Fact]
         public void Specification_Returns_UserInvitations()
@@ -44,7 +45,7 @@ namespace Ubora.Domain.Tests.Notifications
                 Actor = new UserInfo(userId, "")
             });
 
-            var sut = new UserInvitations(expectedUserId);
+            var sut = new HasNotifications<InvitationToProject>(expectedUserId);
             var invitations = Session.Query<InvitationToProject>();
 
             // Act

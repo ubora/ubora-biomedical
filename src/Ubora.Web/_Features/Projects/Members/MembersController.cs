@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Users;
-using Ubora.Domain.Notifications;
 using System;
 using Ubora.Domain.Projects.Members;
 using Microsoft.AspNetCore.Authorization;
@@ -13,6 +12,8 @@ using Ubora.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Ubora.Web.Data;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Ubora.Domain.Notifications.Invitation;
+using Ubora.Domain.Notifications.Join;
 
 namespace Ubora.Web._Features.Projects.Members
 {

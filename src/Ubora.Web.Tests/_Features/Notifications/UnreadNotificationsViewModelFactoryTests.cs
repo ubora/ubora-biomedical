@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Notifications;
+using Ubora.Domain.Notifications.Invitation;
 using Ubora.Web._Features.Notifications;
 using Xunit;
 
@@ -36,7 +37,7 @@ namespace Ubora.Web.Tests._Features.Notifications
                 invitation3
             };
 
-            _queryProcessorMock.Setup(x => x.Find(It.IsAny<NonViewedInvitations>()))
+            _queryProcessorMock.Setup(x => x.Find(It.IsAny<NonViewedNotifications>()))
                 .Returns(invitations);
 
             // Act

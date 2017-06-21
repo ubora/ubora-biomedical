@@ -1,24 +1,17 @@
-﻿using Marten.Schema;
-using System;
+﻿using System;
 
-namespace Ubora.Domain.Notifications
+namespace Ubora.Domain.Notifications.Join
 {
-    public class InvitationToProject
+    public class RequestToJoinProject : BaseNotification
     {
-        public InvitationToProject(Guid id, Guid inviteTo, Guid invitedMemberId, Guid projectId)
+        public RequestToJoinProject(Guid id, Guid inviteTo, Guid askingToJoinMemberId, Guid projectId) : base(id, inviteTo)
         {
-            Id = id;
-            InvitedMemberId = invitedMemberId;
+            AskingToJoinMemberId = askingToJoinMemberId;
             ProjectId = projectId;
-            InviteTo = inviteTo;
         }
 
-        [Identity]
-        public Guid Id { get; }
-        public Guid InviteTo { get; }
-        public Guid InvitedMemberId { get; }
+        public Guid AskingToJoinMemberId { get; }
         public Guid ProjectId { get; }
-        public bool HasBeenViewed { get; internal set; }
         public bool? IsAccepted
         {
             get
@@ -37,5 +30,6 @@ namespace Ubora.Domain.Notifications
         }
         public DateTime? Accepted { get; internal set; }
         public DateTime? Declined { get; internal set; }
+        public override bool InHistory => Accepted != null || Declined != null;
     }
 }

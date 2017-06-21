@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Notifications;
+using Ubora.Domain.Notifications.Invitation;
+using Ubora.Domain.Notifications.Join;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 
@@ -10,7 +11,7 @@ namespace Ubora.Web._Features.Notifications
 {
     public class HistoryViewModel
     {
-        public List<HistoryInvitationViewModel> Invitations { get; set; } = new List<HistoryInvitationViewModel>();
+        public List<NotificationViewModel> Notifications { get; set; } = new List<NotificationViewModel>();
 
         public class Factory
         {
@@ -25,41 +26,60 @@ namespace Ubora.Web._Features.Notifications
             public virtual HistoryViewModel Create(Guid userId)
             {
                 var historyViewModel = new HistoryViewModel();
-                historyViewModel.Invitations = GetHistoryInvitationViewModels(userId);
+                historyViewModel.Notifications = GetHistoryInvitationViewModels(userId);
 
                 return historyViewModel;
             }
 
-            private List<HistoryInvitationViewModel> GetHistoryInvitationViewModels(Guid userId)
+            private List<NotificationViewModel> GetHistoryInvitationViewModels(Guid userId)
             {
-                var invitations = _processor.Find(new UserInvitations(userId))
-                    .Where(x => x.IsAccepted != null);
-                var invitationViewModels = new List<HistoryInvitationViewModel>();
+                var notifications = _processor.Find(new HasNotificationsInHistory(userId));
+                var notificationViewModels = new List<NotificationViewModel>();
 
-                foreach (var invitation in invitations)
+                foreach (var notification in notifications)
                 {
-                    var project = _processor.FindById<Project>(invitation.ProjectId);
-                    var fullName = _processor.FindById<UserProfile>(invitation.InvitedMemberId).FullName;
-
-                    var invitationViewModel = new HistoryInvitationViewModel
+                    if (notification is InvitationToProject invitationToProject)
                     {
-                        ProjectTitle = project.Title,
-                        ProjectId = project.Id,
-                        WasAccepted = invitation.IsAccepted.Value,
-                        UserFullName = fullName,
-                        InviteId = invitation.Id,
-                        IsCurrentUser = userId == invitation.InvitedMemberId
-                    };
+                        var project = _processor.FindById<Project>(invitationToProject.ProjectId);
+                        var fullName = _processor.FindById<UserProfile>(invitationToProject.InvitedMemberId).FullName;
 
-                    invitationViewModels.Add(invitationViewModel);
+                        var viewModel = new HistoryInvitationViewModel
+                        {
+                            ProjectTitle = project.Title,
+                            ProjectId = project.Id,
+                            WasAccepted = invitationToProject.IsAccepted.Value,
+                            InviteId = notification.Id
+                        };
+                        notificationViewModels.Add(viewModel);
+                    }
+                    else if (notification is RequestToJoinProject requestToJoinProject)
+                    {
+                        var project = _processor.FindById<Project>(requestToJoinProject.ProjectId);
+                        var fullName = _processor.FindById<UserProfile>(requestToJoinProject.AskingToJoinMemberId).FullName;
+
+                        var viewModel = new HistoryRequestViewModel
+                        {
+                            ProjectTitle = project.Title,
+                            ProjectId = project.Id,
+                            WasAccepted = requestToJoinProject.IsAccepted.Value,
+                            UserFullName = fullName,
+                            RequestToJoinProjectId = notification.Id,
+                        };
+                        notificationViewModels.Add(viewModel);
+                    }
                 }
 
-                return invitationViewModels;
+                return notificationViewModels;
             }
         }
     }
 
     public class HistoryInvitationViewModel : BaseInvitationViewModel
+    {
+        public bool WasAccepted { get; set; }
+    }
+
+    public class HistoryRequestViewModel : BaseRequestViewModel
     {
         public bool WasAccepted { get; set; }
     }

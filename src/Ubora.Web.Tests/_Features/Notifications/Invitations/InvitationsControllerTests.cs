@@ -4,7 +4,7 @@ using Moq;
 using System;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Notifications;
+using Ubora.Domain.Notifications.Invitation;
 using Ubora.Web._Features.Notifications;
 using Ubora.Web._Features.Notifications.Invitations;
 using Xunit;
