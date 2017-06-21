@@ -9,6 +9,8 @@ using Ubora.Web._Features.Projects.Tasks;
 using Ubora.Web._Features.Users.Profile;
 using Ubora.Web._Features.Users.UserList;
 using Ubora.Web._Features.Projects.Workpackages.WorkpackageOne;
+using Ubora.Web._Features.Projects.Repository;
+using Ubora.Domain.Projects.Repository;
 
 namespace Ubora.Web._Features._Shared
 {
@@ -18,6 +20,8 @@ namespace Ubora.Web._Features._Shared
         {
             CreateMap<ProjectTask, TaskListItemViewModel>();
             CreateMap<ProjectTask, EditTaskViewModel>();
+
+            CreateMap<ProjectFile, ProjectFileViewModel>();
 
             CreateMap<Project, ProjectListViewModel.ProjectListItem>();
 

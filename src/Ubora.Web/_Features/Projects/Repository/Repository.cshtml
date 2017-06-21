@@ -13,9 +13,6 @@
 
     <form method="post" enctype="multipart/form-data" asp-controller="Repository" asp-action="AddFile">
         <div class="form-input">
-            <label>
-                Filename
-            </label>
             <input asp-for="ProjectFile">
             @*<span asp-validation-for="ProjectFile"></span>*@
         </div>
@@ -27,7 +24,7 @@
         {
             <li>
                 <a href="@file.FileLocation">@file.FileName</a>
-                <a asp-controller="Repository" asp-action="DownloadFile" asp-route-id="@file.FileId">DOWNLOAD</a>
+                <a asp-controller="Repository" asp-action="DownloadFile" asp-route-id="@file.Id">DOWNLOAD</a>
             </li>
         }
     </ol>

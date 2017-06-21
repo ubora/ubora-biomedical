@@ -12,6 +12,7 @@ namespace Ubora.Domain.Projects.Repository
         public Guid ProjectId { get; set; }
         public Guid Id { get; set; }
         public string FileName { get; set; }
+        public string FileLocation { get; set; }
 
         public override string GetDescription()
         {

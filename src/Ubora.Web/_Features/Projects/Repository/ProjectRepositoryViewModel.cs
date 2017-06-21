@@ -9,12 +9,12 @@ namespace Ubora.Web._Features.Projects.Repository
         public Guid ProjectId { get; set; }
         public string ProjectName { get; set; }
         public IFormFile ProjectFile { get; set; }
-        public IEnumerable<RepositoryListItemViewModel> Files { get; set; }
+        public IEnumerable<ProjectFileViewModel> Files { get; set; }
     }
 
-    public class RepositoryListItemViewModel
+    public class ProjectFileViewModel
     {
-        public Guid FileId { get; set; }
+        public Guid Id { get; set; }
         public string FileName { get; set; }
         public string FileLocation { get; set; }
     }

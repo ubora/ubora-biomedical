@@ -29,18 +29,24 @@ namespace Ubora.Domain.Projects.Repository
                 throw new InvalidOperationException();
             }
 
+            var fileName = cmd.FileName;
+            string containerName = $"projects/{project.Id}/files";
+            _storageProvider.SaveBlobStreamAsync(containerName, fileName, cmd.Stream, blobProperties)
+                .Wait();
+
+            var fileLocation = _storageProvider.GetBlobUrl(containerName, fileName)
+                    ?.Replace("/app/wwwroot", "");
+
             var @event = new FileAddedEvent(cmd.Actor)
             {
                 ProjectId = cmd.ProjectId,
                 Id = cmd.Id,
-                FileName = cmd.FileName,
+                FileName = fileName,
+                FileLocation = fileLocation
             };
 
             _documentSession.Events.Append(cmd.ProjectId, @event);
             _documentSession.SaveChanges();
-
-            _storageProvider.SaveBlobStreamAsync($"projects/{project.Id}/files", cmd.FileName, cmd.Stream, blobProperties)
-                .Wait();
 
             return new CommandResult();
         }
