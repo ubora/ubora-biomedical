@@ -24,7 +24,7 @@ namespace Ubora.Domain.Projects.Workpackages
 
     public class WorkpackageOne : Workpackage<WorkpackageOne>
     {
-        public bool IsLocked => this.DoesSatisfy(new IsLocked());
+        public bool IsLocked => this.DoesSatisfy(new IsWorkpackageOneLocked());
 
         private void Apply(ProjectCreatedEvent e)
         {
@@ -53,7 +53,7 @@ namespace Ubora.Domain.Projects.Workpackages
 
         private void Apply(WorkpackageSubmittedForReviewEvent e)
         {
-            var canApply = this.DoesSatisfy(new CanBeSubmittedForReview<WorkpackageOne>());
+            var canApply = this.DoesSatisfy(new CanSubmitWorkpackageReview<WorkpackageOne>());
             if (!canApply)
             {
                 throw new InvalidOperationException();
@@ -80,7 +80,7 @@ namespace Ubora.Domain.Projects.Workpackages
 
         private void Apply(WorkpackageOneRejectedByReviewEvent e)
         {
-            var canApply = this.DoesSatisfy(new CanWorkpackageBeRejectedByReview<WorkpackageOne>());
+            var canApply = this.DoesSatisfy(new CanRejectWorkpackageReview<WorkpackageOne>());
             if (!canApply)
             {
                 throw new InvalidOperationException();

@@ -63,7 +63,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
                 .Select(x => new WorkpackageReviewViewModel
                 {
                     Status = x.Status,
-                    InReview = x.Status == WorkpackageReviewStatus.InReview,
+                    InReview = x.Status == WorkpackageReviewStatus.InProcess,
                     IsAccepted = x.Status == WorkpackageReviewStatus.Accepted,
                     IsRejected = x.Status == WorkpackageReviewStatus.Rejected,
                     Comment = x.ConcludingComment,

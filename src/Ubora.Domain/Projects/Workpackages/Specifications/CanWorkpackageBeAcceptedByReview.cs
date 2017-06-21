@@ -7,7 +7,7 @@ namespace Ubora.Domain.Projects.Workpackages.Specifications
     {
         public override Specification<TWorkpackage> ToSpecification()
         {
-            var isInReview = new HasReviewInStatus<TWorkpackage>(WorkpackageReviewStatus.InReview);
+            var isInReview = new HasReviewInStatus<TWorkpackage>(WorkpackageReviewStatus.InProcess);
             var isAlreadyAccepted = new HasReviewInStatus<TWorkpackage>(WorkpackageReviewStatus.Accepted);
 
             return isInReview && !isAlreadyAccepted;
