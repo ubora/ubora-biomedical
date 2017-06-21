@@ -28,6 +28,7 @@ namespace Ubora.Web
                     .UseKestrel()
                     .UseContentRoot(Directory.GetCurrentDirectory())
                     .UseStartup<Startup>()
+                    .UseIISIntegration()
                     .UseApplicationInsights()
                     .Build();
 

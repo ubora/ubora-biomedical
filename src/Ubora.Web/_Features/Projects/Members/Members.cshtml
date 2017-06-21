@@ -7,14 +7,29 @@
 }
 
 <section class="medium-width">
+    <a asp-controller="Members" asp-action="Invite">
+        <i class="material-icons">person_add</i>Invite member
+    </a>
     <h1 class="full-width">Project members</h1>
 
     <ol>
         @foreach (var member in Model.Members)
-        {
+            {
             <li>
-                @member.FullName @member.UserId
-            </li>
+                <div>
+                    <a asp-controller="Profile" asp-action="View" asp-route-userId="@member.UserId">
+                        @member.FullName
+                    @if (member.IsProjectLeader)
+                    {
+                        <i class="material-icons">supervisor_account</i>
+                    }
+                </a>
+                @if (Model.CanRemoveProjectMembers && !member.IsProjectLeader)
+                {
+                    <a asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId">Remove</a>
+                }
+            </div>
+        </li>
         }
     </ol>
 </section>

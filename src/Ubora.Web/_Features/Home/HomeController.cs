@@ -19,9 +19,10 @@ namespace Ubora.Web._Features.Home
 			return View();
 		}
 
-		public IActionResult Error()
-		{
-			return View();
-		}
-	}
+        public IActionResult Error()
+        {
+            ViewData["statusCode"] = HttpContext.Response.StatusCode;
+            return View();
+        }
+    }
 }

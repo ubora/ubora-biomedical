@@ -19,6 +19,7 @@
     <EmbeddedResource Remove="Features\**" />
     <None Remove="Features\**" />
   </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.1.0" />
