@@ -19,8 +19,8 @@
         <h2>Design tags</h2>
 
         <div class="form-input">
-            <label asp-for="ClinicalNeed">Clinical need</label>
-            <select asp-for="ClinicalNeed">
+            <label asp-for="ClinicalNeedTags">Clinical need</label>
+            <select asp-for="ClinicalNeedTags">
                 <option selected disabled>Select a clinical need</option>
                 <option value="Pneumonia">Pneumonia</option>
                 <option value="AIDS">AIDS</option>
@@ -30,12 +30,12 @@
                 <option value="Alcholism">Alcholism</option>
                 <option value="Muscular dystrophy">Muscular dystrophy</option>
             </select>
-            <span asp-validation-for="ClinicalNeed"></span>
+            <span asp-validation-for="ClinicalNeedTags"></span>
         </div>
 
         <div class="form-input">
-            <label asp-for="AreaOfUsage">Area</label>
-            <select asp-for="AreaOfUsage">
+            <label asp-for="AreaOfUsageTags">Area</label>
+            <select asp-for="AreaOfUsageTags">
                 <option selected disabled>Select an area of usage</option>
                 <option value="Cardiology">Cardiology</option>
                 <option value="Dermatology">Dermatology</option>
@@ -43,12 +43,12 @@
                 <option value="m-Health">m-Health</option>
                 <option value="e-Health">e-Health</option>
             </select>
-            <span asp-validation-for="AreaOfUsage"></span>
+            <span asp-validation-for="AreaOfUsageTags"></span>
         </div>
 
         <div class="form-input">
-            <label asp-for="PotentialTechnology">Technology</label>
-            <select asp-for="PotentialTechnology">
+            <label asp-for="PotentialTechnologyTags">Technology</label>
+            <select asp-for="PotentialTechnologyTags">
                 <option selected disabled>Select potential technology</option>
                 <option value="Thermometers">Thermometers</option>
                 <option value="Computed tomography">Computed tomography</option>
@@ -57,13 +57,13 @@
                 <option value="Eye drops">Eye drops</option>
                 <option value="Bandages">Bandages</option>
             </select>
-            <span asp-validation-for="PotentialTechnology"></span>
+            <span asp-validation-for="PotentialTechnologyTags"></span>
         </div>
 
         <div class="form-input">
-            <label asp-for="Keywords">GMDN keywords</label>
-            <input asp-for="Keywords" placeholder="Will be implemented shortly!">
-            <span asp-validation-for="Keywords"></span>
+            <label asp-for="Gmdn">GMDN keywords</label>
+            <input asp-for="Gmdn" placeholder="Will be implemented shortly!">
+            <span asp-validation-for="Gmdn"></span>
         </div>
 
         <!-- <h2>Collaborators</h2>

@@ -1,1 +1,72 @@
-﻿
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Workpackages.WorkpackageOne.DesignPlanningViewModel
+
+@{
+    ViewData["Title"] = "Design planning";
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
+
+<section class="project_view full-width">
+    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+
+    <section class="medium-width step-view">
+        <h1 class="full-width">Design planning</h1>
+        <form asp-controller="WorkpackageOne" asp-action="DesignPlanning" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-input">
+                <label asp-for="ClinicalNeedTags">Clinical need</label>
+                <select asp-for="ClinicalNeedTags">
+                    <option selected disabled>Select a clinical need</option>
+                    <option value="Pneumonia">Pneumonia</option>
+                    <option value="AIDS">AIDS</option>
+                    <option value="Movement impairment">Movement impairment</option>
+                    <option value="Maternal mortality">Maternal mortality</option>
+                    <option value="Child mortality">Child mortality</option>
+                    <option value="Alcholism">Alcholism</option>
+                    <option value="Muscular dystrophy">Muscular dystrophy</option>
+                </select>
+                <span asp-validation-for="ClinicalNeedTags"></span>
+            </div>
+
+            <div class="form-input">
+                <label asp-for="AreaOfUsageTags">Area</label>
+                <select asp-for="AreaOfUsageTags">
+                    <option selected disabled>Select an area of usage</option>
+                    <option value="Cardiology">Cardiology</option>
+                    <option value="Dermatology">Dermatology</option>
+                    <option value="Neurology">Neurology</option>
+                    <option value="m-Health">m-Health</option>
+                    <option value="e-Health">e-Health</option>
+                </select>
+                <span asp-validation-for="AreaOfUsageTags"></span>
+            </div>
+
+            <div class="form-input">
+                <label asp-for="PotentialTechnologyTags">Technology</label>
+                <select asp-for="PotentialTechnologyTags">
+                    <option selected disabled>Select potential technology</option>
+                    <option value="Thermometers">Thermometers</option>
+                    <option value="Computed tomography">Computed tomography</option>
+                    <option value="Wheelchairs">Wheelchairs</option>
+                    <option value="Vascular draft">Vascular draft</option>
+                    <option value="Eye drops">Eye drops</option>
+                    <option value="Bandages">Bandages</option>
+                </select>
+                <span asp-validation-for="PotentialTechnologyTags"></span>
+            </div>
+
+            <div class="form-input">
+                <label asp-for="Gmdn">GMDN keywords</label>
+                <input asp-for="Gmdn" placeholder="Will be implemented shortly!">
+                <span asp-validation-for="Gmdn"></span>
+            </div>
+
+            <div class="center-element">
+                <a class="button secondary-button small-button" asp-controller="WorkpackageOne" asp-action="DesignPlanning">Discard</a>
+                <button class="button primary-button small-button" type="submit">Save changes</button>
+            </div>
+        </form>
+    </section>
+</section>
