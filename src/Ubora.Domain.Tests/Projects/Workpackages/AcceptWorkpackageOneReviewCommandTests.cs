@@ -12,7 +12,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
         private readonly Guid _projectId = Guid.NewGuid();
 
         [Fact]
-        public void WorkpackageReviewCanBeAccepted()
+        public void Workpackage_Review_Can_Be_Accepted()
         {
             this.Given(_ => this.Create_Project(_projectId))
                     .And(_ => this.Submit_Workpackage_One_For_Review(_projectId))

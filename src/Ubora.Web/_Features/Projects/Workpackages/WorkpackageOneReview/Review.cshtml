@@ -1,45 +1,53 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
 ﻿@using Ubora.Web._Features.Projects._Shared
 @model IEnumerable<Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview.WorkpackageReviewViewModel>
 
 @{
-    ViewData["Title"] = "Members";
+    ViewData["Title"] = "Formal review";
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
-@*<br />
+<section class="project_view full-width">
 
-@nameof(Model.IsWorkpackageOneInReview): @Model.IsWorkpackageOneInReview
+    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
 
-<br />
+    <section class="medium-width step-view">
+        <h1>Formal review</h1>
 
-@nameof(Model.IsWorkpackageOneAccepted): @Model.IsWorkpackageOneAccepted
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<br />*@
+        <section class="narrow-width">
+            <form asp-action="SubmitForReview">
+                <button type="submit" class="button primary-button full-width">Submit project for review</button>
+            </form>
+        </section>
 
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-<form asp-action="SubmitForReview">
-    <button type="submit">Submit for review</button>
-</form>
-
-<form asp-action="AssignMeAsMentor">
-    <button type="submit">Assign me as mentor</button>
-</form>
-
-Reviews:
-<ol>
-    
-@foreach (var review in Model)
-{
-    <li>
-        <pre>
-Status: @review.Status.ToString()
-Concluding comment: "@review.Comment"
-Created at: @review.CreatedAt
-Concluded at: @review.ConcludedAt
-</pre>
-    </li>
-}
-</ol>
-
-<a asp-action="Decision">Accept/Reject</a>
+        <section class="full-width">
+            <h2>Reviews</h2>
+                @foreach (var review in Model)
+                {
+                        <table class="review-table">
+                            <tr>
+                                <td><b>Status</b></td>
+                                <td>@review.Status.ToString()</td>
+                            </tr>
+                            <tr>
+                                <td><b>Concluding comment</b></td>
+                                <td>@review.Comment</td>
+                            </tr>
+                            <tr>
+                                <td><b>Created at</b></td>
+                                <td>@review.CreatedAt</td>
+                            </tr>
+                            <tr>
+                                <td><b>Concluded at</b></td>
+                                <td>@review.ConcludedAt</td>
+                            </tr>
+                        </table>
+                        <br>
+            }
+            <a asp-action="Decision" class="button primary-button small-button">Write a review</a>
+        </section>
+    </section>
+</section>

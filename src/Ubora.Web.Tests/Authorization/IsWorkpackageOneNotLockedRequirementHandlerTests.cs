@@ -43,7 +43,7 @@ namespace Ubora.Web.Tests.Authorization
             _handlerUnderTest.SetQueryProcessor(queryProcessor);
 
             workpackageOneMock
-                .Setup(x => x.DoesSatisfy(new IsLocked()))
+                .Setup(x => x.DoesSatisfy(new IsWorkpackageOneLocked()))
                 .Returns(false);
 
             // Act
@@ -73,7 +73,7 @@ namespace Ubora.Web.Tests.Authorization
             _handlerUnderTest.SetQueryProcessor(queryProcessor);
 
             workpackageOneMock
-                .Setup(x => x.DoesSatisfy(new IsLocked()))
+                .Setup(x => x.DoesSatisfy(new IsWorkpackageOneLocked()))
                 .Returns(true);
 
             // Act

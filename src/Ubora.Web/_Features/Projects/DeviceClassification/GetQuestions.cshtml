@@ -1,4 +1,4 @@
-﻿@using Ubora.Web._Features.Projects.DeviceClassification
+﻿@using Ubora.Web._Features.Projects.DeviceClassification.ViewModels
 @model QuestionsViewModel
 
 @{
@@ -12,11 +12,15 @@
         @foreach (var question in Model.Questions)
         {
             <li class="questionnaire_item">
-                @Html.Partial("AnswerPartial", new AnswerViewModel { QuestionText = question.Text, MainQuestionId = Model.MainQuestionId, NextQuestionId = question.Id })
+                @Html.Partial("AnswerPartial", new AnswerViewModel { QuestionText = question.Text, PairedMainQuestionsId = Model.PairedMainQuestionsId, NextQuestionId = question.Id })
             </li>
         }
-        <li class="questionnaire_item">
-            <a class="questionnaire_question" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-mainQuestionId="@Model.MainQuestionId">No it is not.</a>
-        </li>
+
+        @if (Model.Questions.Count == 1)
+        {
+            <li>
+                <a class="questionnaire-question" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-pairedMainQuestionsId="@Model.PairedMainQuestionsId">NOT APPLICABLE</a>
+            </li>
+        }
     </ul>
 </section>

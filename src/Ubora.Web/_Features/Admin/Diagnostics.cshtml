@@ -1,0 +1,27 @@
+﻿@model List<Ubora.Web._Features.Admin.UserViewModel>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<ol>
+    @foreach (var user in Model)
+    {
+        <li>
+            @user.UserEmail
+            @if (user.Roles.Any())
+            {
+                @:, Roles: @string.Join(",", user.Roles)
+            }
+            <form method="post">
+                <input type="hidden" name="userId" value="@user.UserId" />
+                @if (user.IsAdmin)
+                {
+                    <button type="submit" asp-action="RemoveAdministratorRole">Remove administrator role</button>
+                }
+                else
+                {
+                    <button type="submit" asp-action="AddAdministratorRole">Add administrator role</button>
+                }
+            </form>
+        </li>
+    }
+</ol>

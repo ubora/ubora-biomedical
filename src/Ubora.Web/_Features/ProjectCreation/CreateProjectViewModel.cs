@@ -1,22 +1,12 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Ubora.Web._Features.Projects.Workpackages.WorkpackageOne;
 
 namespace Ubora.Web._Features.ProjectCreation
 {
-    public class CreateProjectViewModel
+    public class CreateProjectViewModel : DesignPlanningViewModel
     {
         [Required]
+        [Display(Name = "Project title")]
         public string Title { get; set; }
-
-        [Required]
-        public string ClinicalNeed { get; set; }
-
-        [Required]
-        public string AreaOfUsage { get; set; }
-
-        [Required]
-        public string PotentialTechnology { get; set; }
-
-        public string Keywords { get; set; }
     }
 }

@@ -1,5 +1,7 @@
 ﻿@model Ubora.Web._Features.Projects.Workpackages.WorkpackageListOverviewViewModel
-
+@*
+    TODO: Map a tags to work package steps
+*@
 <aside class="project_sidemenu">
     <ol>
         <li class="project_sidemenu--workpackage">
@@ -9,45 +11,31 @@
                 @foreach (var step in Model.WorkpackageOne.Steps)
                 {
                     <li>
-                        <a asp-action="Step" asp-controller="WorkpackageOne" asp-route-stepId="@step.Id">
-                            @if (step.IsSelected)
-                            {
-                                <b>@step.Title</b>
-                            }
-                            else
-                            {
-                                @step.Title
-                            }
-                        </a>
+                        <a asp-action="Step" asp-controller="WorkpackageOne" asp-route-stepId="@step.Id">@step.Title</a>
                     </li>
                 }
-                <li><a asp-controller="DeviceClassification" asp-action="GetMainQuestion">&nbsp;Device classification</a></li>
-                <li><a href="#">&nbsp;Regulation checklist</a></li>
+                <li><a asp-controller="WorkpackageOne" asp-action="DeviceClassification">&nbsp;Device classification</a></li>
+                <li><a href="#" class="project_sidemenu_link--disabled">&nbsp;Regulation checklist</a></li>
                 <li><a asp-controller="WorkpackageOneReview" asp-action="Review">&nbsp;Formal review</a></li>
             </ol>
+        </li>
 
-        <li class="project_sidemenu--workpackage">
-            @if (Model.WorkpackageTwo != null)
-            {
+        @if (Model.WorkpackageTwo != null)
+        {
+            <li class="project_sidemenu--workpackage">
                 <h3>@Model.WorkpackageTwo.Title</h3>
                 <ol>
                     @foreach (var step in Model.WorkpackageTwo.Steps)
-                {
+                    {
                         <li>
                             <a asp-action="Read" asp-controller="WorkpackageTwos" asp-route-stepId="@step.Id">
-                                @if (step.IsSelected)
-                                {
-                                    <b>@step.Title</b>
-                                }
-                                else
-                                {
-                                    @step.Title
-                                }
+
+                                @step.Title
                             </a>
                         </li>
                     }
                 </ol>
-            }
-        </li>
+            </li>
+        }
     </ol>
 </aside>

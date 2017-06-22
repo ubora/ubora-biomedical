@@ -4,13 +4,13 @@ namespace Ubora.Domain.Projects.DeviceClassification
 {
     public abstract class BaseQuestion
     {
-        public Guid Id { get; }
-        public string Text { get; }
+        public Guid Id { get; private set; }
+        public string Text { get; private set; }
 
-        public BaseQuestion(Guid id, string text)
+        public BaseQuestion(string questionText)
         {
-            Id = id;
-            Text = text;
+            Id = Guid.NewGuid();
+            Text = questionText;
         }
     }
 }

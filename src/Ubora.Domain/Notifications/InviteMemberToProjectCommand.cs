@@ -12,7 +12,7 @@ namespace Ubora.Domain.Notifications
         public string InvitedMemberEmail { get; set; }
     }
 
-    public class InviteMemberToProjectCommandHandler : ICommandHandler<InviteMemberToProjectCommand>
+    internal class InviteMemberToProjectCommandHandler : ICommandHandler<InviteMemberToProjectCommand>
     {
         private readonly IDocumentSession _documentSession;
 

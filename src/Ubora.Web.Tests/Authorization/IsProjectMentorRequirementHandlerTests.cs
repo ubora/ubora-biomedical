@@ -22,7 +22,7 @@ namespace Ubora.Web.Tests.Authorization
         }
 
         [Fact]
-        public async Task Succeeds_When_User_Is_Project_Member()
+        public async Task Succeeds_When_User_Is_Project_Mentor()
         {
             var userId = Guid.NewGuid();
             var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(userId);
@@ -48,7 +48,7 @@ namespace Ubora.Web.Tests.Authorization
         }
 
         [Fact]
-        public async Task Does_Not_Succeed_When_User_Is_Not_Project_Member()
+        public async Task Does_Not_Succeed_When_User_Is_Not_Project_Mentor()
         {
             var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(userId: Guid.NewGuid());
 

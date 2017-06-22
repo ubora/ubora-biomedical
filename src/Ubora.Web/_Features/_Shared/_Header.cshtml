@@ -33,28 +33,35 @@
         <div class="menu-profile">
             <img class="menu-profile-image" src="//placehold.it/100x100" alt="Profile icon">
             <div>
-                <!-- TODO: Have only first name -->
+                @*
+                    TODO: Have only first name
+                    <p class="menu-profile-name">@User.GetFirstName()</p>
+                *@
                 <p class="menu-profile-name">@User.GetFullName()</p>
                 <a asp-controller="Manage" asp-action="Index" class="menu-profile-link">View profile</a>
             </div>
         </div>
 
         <nav>
-            <!-- <a class="menu-link" asp-controller="Home" asp-action="Search">
+            @*
+            <a class="menu-link" asp-controller="Home" asp-action="Search">
                 <i class="material-icons">search</i>Search
             </a>
 
             <a class="menu-link" href="#">
                 <i class="material-icons">message</i>Messages
-            </a> -->
+            </a>
+            *@
 
             <a class="menu-link" asp-controller="ProjectList" asp-action="MyProjects">
                 <i class="material-icons">folder</i>My projects
             </a>
 
-            <!-- <a class="menu-link" href="#">
+            @*
+            <a class="menu-link" href="#">
                 <i class="material-icons">assignment</i>My tasks
-            </a> -->
+            </a>
+            *@
 
             <a class="menu-link" asp-controller="ProjectCreation" asp-action="Create">
                 <i class="material-icons">create_new_folder</i>New project
@@ -88,14 +95,17 @@ else
         </div>
 
         <div class="header-element">
-            <a asp-controller="Account" asp-action="SignInSignUp">Sign in/sign up</a>
+            @* TODO: Bring back "SignInSignUp" action after Alpha release among with other authentication methods. *@
+            <a asp-controller="Account" asp-action="Login">Sign in/sign up</a>
         </div>
 
         <div class="header-element">
-            <!-- <a class="header-action" asp-controller="Home" asp-action="Search">
+            @*
+            <a class="header-action" asp-controller="Home" asp-action="Search">
                 <i class="header-action-icon material-icons">search</i>
                 <span class="header-action-description">Search</span>
-            </a> -->
+            </a>
+            *@
         </div>
 
     </header>

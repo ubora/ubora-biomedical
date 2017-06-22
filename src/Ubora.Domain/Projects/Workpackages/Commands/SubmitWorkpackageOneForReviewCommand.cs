@@ -25,7 +25,7 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                     throw new InvalidOperationException($"{nameof(WorkpackageOne)} not found with id [{cmd.ProjectId}]");
                 }
 
-                var canHandle = workpackageOne.DoesSatisfy(new CanBeSubmittedForReview<WorkpackageOne>());
+                var canHandle = workpackageOne.DoesSatisfy(new CanSubmitWorkpackageReview<WorkpackageOne>());
                 if (!canHandle)
                 {
                     return new CommandResult("Work package can not be submitted for review.");

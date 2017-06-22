@@ -11,7 +11,7 @@ namespace Ubora.Domain.Tests
         {
             var entityType = entity.GetType();
 
-            var applyMethod = entityType.GetMethod("Apply", BindingFlags.NonPublic);
+            var applyMethod = entityType.GetMethod("Apply", BindingFlags.NonPublic | BindingFlags.Instance);
 
             applyMethod.Invoke(entity, new object[] { @event });
         }

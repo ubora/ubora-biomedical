@@ -21,8 +21,10 @@ namespace Ubora.Domain.Projects.Workpackages
 
         [JsonProperty(nameof(Reviews))]
         protected readonly HashSet<WorkpackageReview> _reviews = new HashSet<WorkpackageReview>();
+
         [JsonIgnore]
-        public IReadOnlyCollection<WorkpackageReview> Reviews => _reviews;
+        // Virtual for testing
+        public virtual IReadOnlyCollection<WorkpackageReview> Reviews => _reviews;
 
         // Virtual for testing
         public virtual WorkpackageStep GetSingleStep(string stepKey)
@@ -32,7 +34,7 @@ namespace Ubora.Domain.Projects.Workpackages
 
         public virtual WorkpackageReview GetSingleActiveReview()
         {
-            return _reviews.Single(x => x.Status == WorkpackageReviewStatus.InReview);
+            return _reviews.Single(x => x.Status == WorkpackageReviewStatus.InProcess);
         }
     }
 }
