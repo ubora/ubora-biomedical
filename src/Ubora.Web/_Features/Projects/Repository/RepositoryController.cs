@@ -12,12 +12,10 @@ namespace Ubora.Web._Features.Projects.Repository
 {
     public class RepositoryController : ProjectController
     {
-        private readonly IStorageProvider _storageProvider;
         private readonly IMapper _mapper;
 
-        public RepositoryController(ICommandQueryProcessor processor, IStorageProvider storageProvider, IMapper mapper) : base(processor)
+        public RepositoryController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
         {
-            _storageProvider = storageProvider;
             _mapper = mapper;
         }
 
@@ -60,7 +58,12 @@ namespace Ubora.Web._Features.Projects.Repository
                 FileName = getCorrectFileName
             });
 
-            return Repository();
+            if (!ModelState.IsValid)
+            {
+                return Repository();
+            }
+
+            return RedirectToAction(nameof(Repository));
         }
 
         public IActionResult DownloadFile(Guid id)
