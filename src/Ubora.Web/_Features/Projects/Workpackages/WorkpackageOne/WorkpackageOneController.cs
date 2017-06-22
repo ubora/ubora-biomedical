@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web.Authorization;
 
@@ -28,6 +29,35 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
         [Route(nameof(DesignPlanning))]
         public IActionResult DesignPlanning()
         {
+            var model = _mapper.Map<DesignPlanningViewModel>(Project);
+
+            return View(model);
+        }
+
+        [Route(nameof(DesignPlanning))]
+        [HttpPost]
+        [Authorize(Policies.CanEditWorkpackageOne)]
+        public IActionResult DesignPlanning(DesignPlanningViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return DesignPlanning();
+            }
+
+            ExecuteUserProjectCommand(new UpdateProjectCommand
+            {
+                AreaOfUsageTags = model.AreaOfUsageTags,
+                ClinicalNeedTags = model.ClinicalNeedTags,
+                PotentialTechnologyTags = model.PotentialTechnologyTags,
+                Gmdn = model.Gmdn,
+                Title = Project.Title
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return DesignPlanning();
+            }
+
             return View();
         }
 
@@ -53,8 +83,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
             return View(model);
         }
 
-        [HttpPost]
         [Route("{stepId}/Edit")]
+        [HttpPost]
         [Authorize(Policies.CanEditWorkpackageOne)]
         public IActionResult EditStep(EditStepPostModel model)
         {

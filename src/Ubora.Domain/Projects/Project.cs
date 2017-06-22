@@ -13,13 +13,12 @@ namespace Ubora.Domain.Projects
         // Virtual for testing
         public virtual Guid Id { get; private set; }
         public string Title { get; private set; }
-
         public string Gmdn { get; private set; }
         public string ClinicalNeedTags { get; private set; }
         public string AreaOfUsageTags { get; private set; }
         public string PotentialTechnologyTags { get; private set; }
         public string DeviceClassification { get; private set; }
-        public string Description { get; set; }
+        public string Description { get; private set; }
 
         [JsonProperty(nameof(Members))]
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
@@ -67,6 +66,14 @@ namespace Ubora.Domain.Projects
             _members.Add(member);
         }
 
+        private void Apply(EditedProjectDeviceClassificationEvent e)
+        {
+            if (e.CurrentClassification == null || e.NewClassification > e.CurrentClassification)
+            {
+                DeviceClassification = e.NewClassification.Text;
+            }
+        }
+
         private void Apply(MemberRemovedFromProjectEvent e)
         {
             var doesNotHaveMember = this.DoesSatisfy(!new HasMember<ProjectMember>(e.UserId));
@@ -77,11 +84,6 @@ namespace Ubora.Domain.Projects
 
             var member = _members.Single(x => x.UserId == e.UserId);
             _members.Remove(member);
-        }
-
-        private void Apply(DeviceClassificationSetEvent e)
-        {
-            DeviceClassification = e.DeviceClassification;
         }
 
         private void Apply(EditProjectDescriptionEvent e)

@@ -58,7 +58,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
             var workpackageOne = Processor.FindById<WorkpackageOne>(_projectId);
 
             var review = workpackageOne.Reviews.Single();
-            review.Status.Should().Be(WorkpackageReviewStatus.InReview);
+            review.Status.Should().Be(WorkpackageReviewStatus.InProcess);
             review.SubmittedAt.Should().BeCloseTo(DateTimeOffset.Now, 500);
             review.ConcludedAt.Should().BeNull();
         }
@@ -67,7 +67,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
         {
             var workpackageOne = Processor.FindById<WorkpackageOne>(_projectId);
 
-            var isInReview = workpackageOne.DoesSatisfy(new HasReviewInStatus<WorkpackageOne>(WorkpackageReviewStatus.InReview));
+            var isInReview = workpackageOne.DoesSatisfy(new HasReviewInStatus<WorkpackageOne>(WorkpackageReviewStatus.InProcess));
             isInReview.Should().BeTrue();
         }
 

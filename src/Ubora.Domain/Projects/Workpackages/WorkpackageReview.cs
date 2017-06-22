@@ -11,7 +11,7 @@ namespace Ubora.Domain.Projects.Workpackages
         }
 
         public Guid Id { get; private set; }
-        public WorkpackageReviewStatus Status { get; private set; }
+        public virtual WorkpackageReviewStatus Status { get; private set; }
         public string ConcludingComment { get; private set; }
         public DateTimeOffset SubmittedAt { get; private set; }
         public DateTimeOffset? ConcludedAt { get; private set; }

@@ -18,7 +18,7 @@ namespace Ubora.Domain.Projects.Workpackages.Specifications
         internal override Expression<Func<TWorkpackage, bool>> ToExpression()
         {
             return workpackage => 
-                workpackage.Reviews.Any<WorkpackageReview>(review => review.Status == this.Status);
+                workpackage.Reviews.Any(review => review.Status == this.Status);
         }
     }
 }

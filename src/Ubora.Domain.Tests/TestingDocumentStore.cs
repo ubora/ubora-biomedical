@@ -18,7 +18,6 @@ namespace Ubora.Domain.Tests
 
 
             var store = new TestingDocumentStore(options);
-            //store.Advanced.Clean.CompletelyRemoveAll();
 
             return store;
         }

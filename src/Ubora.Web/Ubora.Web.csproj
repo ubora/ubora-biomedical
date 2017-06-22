@@ -21,9 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="wwwroot\css\messages.css" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.1.0" />
     <PackageReference Include="AWS.Logger.AspNetCore" Version="1.0.0" />
