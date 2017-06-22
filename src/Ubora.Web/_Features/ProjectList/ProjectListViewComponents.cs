@@ -32,7 +32,7 @@ namespace Ubora.Web._Features.ProjectList
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var model = _modelFactory.Create("My projects", User.GetId());
+            var model = _modelFactory.Create(header: "My projects", userId: User.GetId());
 
             return View("~/_Features/ProjectList/ProjectListPartial.cshtml", model);
         }

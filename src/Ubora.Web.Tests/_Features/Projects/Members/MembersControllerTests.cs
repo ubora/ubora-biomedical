@@ -5,6 +5,7 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.Members;
 using Ubora.Web._Features.Projects.Members;
+using Microsoft.AspNetCore.Authorization;
 using Xunit;
 
 namespace Ubora.Web.Tests._Features.Projects.Members
@@ -12,12 +13,14 @@ namespace Ubora.Web.Tests._Features.Projects.Members
     public class MembersControllerTests : ProjectControllerTestsBase
     {
         private Mock<ICommandQueryProcessor> _processorMock;
+        private Mock<IAuthorizationService> _authorizationService;
         private MembersController _membersController;
 
         public MembersControllerTests()
         {
             _processorMock = new Mock<ICommandQueryProcessor>();
-            _membersController = new MembersController(_processorMock.Object);
+            _authorizationService = new Mock<IAuthorizationService>();
+            _membersController = new MembersController(_processorMock.Object, _authorizationService.Object);
             SetProjectAndUserContext(_membersController);
         }
 
