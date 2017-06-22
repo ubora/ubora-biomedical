@@ -18,6 +18,7 @@ using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
 using Serilog;
+using Ubora.Web.Infrastructure.DataSeeding;
 
 namespace Ubora.Web
 {
@@ -69,9 +70,10 @@ namespace Ubora.Web
             services.AddUboraAuthorization();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            // TODO(Kaspar Kallas)
-            services.AddSingleton<IConfigurationRoot>(Configuration);
-            services.AddScoped<Seeder>();
+
+            services.AddSingleton<ApplicationDataSeeder>();
+            services.AddSingleton<AdminSeeder>();
+            services.Configure<AdminSeeder.Options>(Configuration.GetSection("InitialAdminOptions"));
 
             var autofacContainerBuilder = new ContainerBuilder();
 
@@ -124,8 +126,9 @@ namespace Ubora.Web
                 var serviceProvider = serviceScope.ServiceProvider;
                 serviceProvider.GetService<ApplicationDbContext>().Database.Migrate();
 
-                var seeder = serviceProvider.GetService<Seeder>();
-                seeder.SeedIfNecessary();
+                var seeder = serviceProvider.GetService<ApplicationDataSeeder>();
+                seeder.SeedIfNecessary()
+                    .GetAwaiter().GetResult();
             }
 
             var logger = loggerFactory.CreateLogger<Startup>();

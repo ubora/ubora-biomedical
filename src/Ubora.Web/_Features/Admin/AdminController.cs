@@ -21,8 +21,7 @@ namespace Ubora.Web._Features.Admin
             _userManager = userManager;
         }
 
-        [Route("Admin")]
-        public async Task<IActionResult> ControlPanel()
+        public async Task<IActionResult> Diagnostics()
         {
             var userViewModels = new List<UserViewModel>();
 
@@ -36,7 +35,7 @@ namespace Ubora.Web._Features.Admin
                 });
             }
 
-            return View(nameof(ControlPanel), userViewModels);
+            return View(nameof(Diagnostics), userViewModels);
         }
 
         [HttpPost]
@@ -49,10 +48,10 @@ namespace Ubora.Web._Features.Admin
             {
                 AddIdentityErrorsToModelState(result);
 
-                return await ControlPanel();
+                return await Diagnostics();
             }
 
-            return RedirectToAction(nameof(ControlPanel));
+            return RedirectToAction(nameof(Diagnostics));
         }
 
         [HttpPost]
@@ -65,10 +64,10 @@ namespace Ubora.Web._Features.Admin
             {
                 AddIdentityErrorsToModelState(result);
 
-                return await ControlPanel();
+                return await Diagnostics();
             }
 
-            return RedirectToAction(nameof(ControlPanel));
+            return RedirectToAction(nameof(Diagnostics));
         }
 
         private void AddIdentityErrorsToModelState(IdentityResult result)
