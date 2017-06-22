@@ -39,16 +39,16 @@ namespace Ubora.Web._Features.Projects.Repository
                 ProjectName = Project.Title,
                 Files = repositoryFiles
             };
-            return View(model);
+            return View(nameof(Repository), model);
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult AddFile(ProjectRepositoryViewModel model)
+        public IActionResult AddFile(AddFileViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Repository));
+                return Repository();
             }
 
             var getCorrectFileName = model.ProjectFile.FileName.Substring(model.ProjectFile.FileName.LastIndexOf(@"\") + 1);
@@ -57,10 +57,10 @@ namespace Ubora.Web._Features.Projects.Repository
             {
                 Id = Guid.NewGuid(),
                 Stream = model.ProjectFile.OpenReadStream(),
-                FileName = getCorrectFileName,
+                FileName = getCorrectFileName
             });
 
-            return RedirectToAction(nameof(Repository));
+            return Repository();
         }
 
         public IActionResult DownloadFile(Guid id)

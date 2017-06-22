@@ -11,13 +11,7 @@
         <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-id="@Model.ProjectId">@Model.ProjectName</a>
     </h1>
 
-    <form method="post" enctype="multipart/form-data" asp-controller="Repository" asp-action="AddFile">
-        <div class="form-input">
-            <input asp-for="ProjectFile">
-            @*<span asp-validation-for="ProjectFile"></span>*@
-        </div>
-        <input class="button secondary-button" type="submit" value="Upload" />
-    </form>
+    @Html.Partial("AddFilePartial", Model.AddFileViewModel)
 
     <ol>
         @foreach (var file in Model.Files)

@@ -1,0 +1,9 @@
+﻿@model Ubora.Web._Features.Projects.Repository.AddFileViewModel
+
+<form method="post" enctype="multipart/form-data" asp-controller="Repository" asp-action="AddFile">
+    <div class="form-input">
+        <input asp-for="ProjectFile">
+        <span asp-validation-for="ProjectFile"></span>
+    </div>
+    <input class="button secondary-button" type="submit" value="Upload" />
+</form>

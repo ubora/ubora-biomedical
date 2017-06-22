@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using Ubora.Web.Infrastructure;
 
 namespace Ubora.Web._Features.Projects.Repository
 {
@@ -8,7 +9,7 @@ namespace Ubora.Web._Features.Projects.Repository
     {
         public Guid ProjectId { get; set; }
         public string ProjectName { get; set; }
-        public IFormFile ProjectFile { get; set; }
+        public AddFileViewModel AddFileViewModel { get; set; }
         public IEnumerable<ProjectFileViewModel> Files { get; set; }
     }
 
