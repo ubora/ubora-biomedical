@@ -11,6 +11,20 @@ namespace Ubora.Web.Tests.Fakes
             Guid? userId = null,
             string fullName = null)
         {
+            var claims = CreateUserClaims(userId, fullName);
+
+            var user = new ClaimsPrincipal(new ClaimsIdentity(claims, authenticationType: "any"));
+
+            return user;
+        }
+
+        public static ClaimsPrincipal CreateAnonymousUser()
+        {
+            return new ClaimsPrincipal(new ClaimsIdentity());
+        }
+
+        private static List<Claim> CreateUserClaims(Guid? userId, string fullName)
+        {
             var claims = new List<Claim>();
 
             if (userId != null)
@@ -23,9 +37,7 @@ namespace Ubora.Web.Tests.Fakes
                 claims.Add(new Claim(ApplicationUser.FullNameClaimType, fullName));
             }
 
-            var user = new ClaimsPrincipal(new ClaimsIdentity(claims, authenticationType: "any"));
-
-            return user;
+            return claims;
         }
     }
 }
