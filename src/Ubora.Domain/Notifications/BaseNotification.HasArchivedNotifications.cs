@@ -4,7 +4,7 @@ using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Notifications
 {
-    public class HasArchivedNotifications : Specification<BaseNotification>
+    public class HasArchivedNotifications<T> : Specification<T> where T : BaseNotification
     {
         protected Guid _userId;
         public HasArchivedNotifications(Guid userId)
@@ -12,9 +12,16 @@ namespace Ubora.Domain.Notifications
             _userId = userId;
         }
 
-        internal override Expression<Func<BaseNotification, bool>> ToExpression()
+        internal override Expression<Func<T, bool>> ToExpression()
         {
             return x => x.NotificationTo == _userId && x.IsArchived;
+        }
+    }
+
+    public class HasArchivedNotifications : HasArchivedNotifications<BaseNotification>
+    {
+        public HasArchivedNotifications(Guid userId) : base(userId)
+        {
         }
     }
 }

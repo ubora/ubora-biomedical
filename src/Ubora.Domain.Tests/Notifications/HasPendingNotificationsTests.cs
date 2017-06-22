@@ -1,19 +1,19 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
 using System.Linq;
-using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications;
+using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications.Invitation;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 using Xunit;
+using FluentAssertions;
 
 namespace Ubora.Domain.Tests.Notifications
 {
-    public class HasNotificationsTests : IntegrationFixture
+    public class HasPendingNotificationsTests: IntegrationFixture
     {
         [Fact]
-        public void Specification_Returns_UserNotifications()
+        public void Returns_Notifications_That_Have_Been_Viewed()
         {
             var userId = Guid.NewGuid();
             var expectedUserId = Guid.NewGuid();
@@ -45,7 +45,7 @@ namespace Ubora.Domain.Tests.Notifications
                 Actor = new UserInfo(userId, "")
             });
 
-            var sut = new HasNotifications<InvitationToProject>(expectedUserId);
+            var sut = new HasPendingNotifications<InvitationToProject>(expectedUserId);
             var invitations = Session.Query<InvitationToProject>();
 
             // Act

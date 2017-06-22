@@ -23,8 +23,7 @@ namespace Ubora.Domain.Notifications
         {
             var specification = new UnViewedNotifications(cmd.UserId);
             var query = _documentSession.Query<BaseNotification>();
-            var invitations = specification.SatisfyEntitiesFrom(query)
-                .ToArray();
+            var invitations = specification.SatisfyEntitiesFrom(query).ToArray();
 
             foreach (var invitation in invitations)
             {

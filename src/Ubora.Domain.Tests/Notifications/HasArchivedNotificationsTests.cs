@@ -1,22 +1,21 @@
-﻿using FluentAssertions;
-using System;
-using System.Linq;
+﻿using System;
 using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Notifications;
-using Ubora.Domain.Notifications.Join;
+using Ubora.Domain.Notifications.Invitation;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 using Xunit;
+using Ubora.Domain.Notifications;
+using System.Linq;
+using FluentAssertions;
 
 namespace Ubora.Domain.Tests.Notifications
 {
-    public class NonViewedInvitationsTests : IntegrationFixture
+    public class HasArchivedNotificationsTests : IntegrationFixture
     {
         [Fact]
-        public void Specification_Returns_UserInvitations_That_Have_Not_Been_Viewed()
+        public void Returns_Notifications_That_Have_Been_Viewed()
         {
             var userId = Guid.NewGuid();
-            var userId1 = Guid.NewGuid();
             var expectedUserId = Guid.NewGuid();
             var projectId = Guid.NewGuid();
             Processor.Execute(new CreateUserProfileCommand
@@ -27,14 +26,8 @@ namespace Ubora.Domain.Tests.Notifications
             });
             Processor.Execute(new CreateUserProfileCommand
             {
-                UserId = userId1,
-                Email = "jane@doe.com",
-                Actor = new UserInfo(userId, "")
-            });
-            Processor.Execute(new CreateUserProfileCommand
-            {
                 UserId = expectedUserId,
-                Email = "jake@doe.com",
+                Email = "jane@doe.com",
                 Actor = new UserInfo(userId, "")
             });
 
@@ -45,28 +38,23 @@ namespace Ubora.Domain.Tests.Notifications
                 Actor = new UserInfo(userId, "")
             });
 
-            Processor.Execute(new JoinProjectCommand
+            Processor.Execute(new InviteMemberToProjectCommand
             {
                 ProjectId = projectId,
-                AskingToJoin = userId1,
+                InvitedMemberEmail = "jane@doe.com",
                 Actor = new UserInfo(userId, "")
             });
 
-            Processor.Execute(new MarkNotificationsAsViewedCommand
+            var invite = Session.Query<InvitationToProject>().Single();
+
+            Processor.Execute(new DeclineInvitationToProjectCommand
             {
-                UserId = userId,
+                InvitationId = invite.Id,
                 Actor = new UserInfo(userId, "")
             });
 
-            Processor.Execute(new JoinProjectCommand
-            {
-                ProjectId = projectId,
-                AskingToJoin = expectedUserId,
-                Actor = new UserInfo(userId, "")
-            });
-
-            var sut = new UnViewedNotifications<RequestToJoinProject>(userId);
-            var invitations = Session.Query<RequestToJoinProject>();
+            var sut = new HasArchivedNotifications<InvitationToProject>(expectedUserId);
+            var invitations = Session.Query<InvitationToProject>();
 
             // Act
             var result = sut.SatisfyEntitiesFrom(invitations);
@@ -75,7 +63,7 @@ namespace Ubora.Domain.Tests.Notifications
             var invitation = result.Single();
 
             invitation.HasBeenViewed.Should().BeFalse();
-            invitation.AskingToJoinMemberId.Should().Be(expectedUserId);
+            invitation.InvitedMemberId.Should().Be(expectedUserId);
         }
     }
 }
