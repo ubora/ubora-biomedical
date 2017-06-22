@@ -14,6 +14,7 @@ using Ubora.Web._Features.Projects.Members;
 using Ubora.Web._Features.Users.Account;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web.Tests.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Xunit;
 
 namespace Ubora.Web.Tests._Features.Projects.Members
@@ -21,6 +22,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
     public class MembersControllerTests : ProjectControllerTestsBase
     {
         private Mock<ICommandQueryProcessor> _processorMock;
+        private Mock<IAuthorizationService> _authorizationService;
         private MembersController _membersController;
         private Mock<FakeSignInManager> _signInManagerMock;
         private Mock<IUrlHelperFactory> _urlHelperFactoryMock;
@@ -30,7 +32,8 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             _processorMock = new Mock<ICommandQueryProcessor>();
             _signInManagerMock = new Mock<FakeSignInManager>();
             _urlHelperFactoryMock = new Mock<IUrlHelperFactory>();
-            _membersController = new MembersController(_processorMock.Object, _signInManagerMock.Object, _urlHelperFactoryMock.Object);
+            _authorizationService = new Mock<IAuthorizationService>();
+            _membersController = new MembersController(_processorMock.Object, _signInManagerMock.Object, _urlHelperFactoryMock.Object, _authorizationService.Object);
             SetProjectAndUserContext(_membersController);
         }
 

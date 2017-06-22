@@ -19,22 +19,27 @@ namespace Ubora.Web._Features.Projects.Members
 {
     public class MembersController : ProjectController
     {
-        private SignInManager<ApplicationUser> _signInManager;
-        private IUrlHelperFactory _urlHelperFactory;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IUrlHelperFactory _urlHelperFactory;
+        private readonly IAuthorizationService _authorizationService;
 
         public MembersController(
             ICommandQueryProcessor processor,
             SignInManager<ApplicationUser> signInManager,
-            IUrlHelperFactory urlHelperFactory) : base(processor)
+            IUrlHelperFactory urlHelperFactory,
+            IAuthorizationService authorizationService) : base(processor)
         {
             _signInManager = signInManager;
             _urlHelperFactory = urlHelperFactory;
+            _authorizationService = authorizationService;
         }
 
+        [AllowAnonymous]
         [Route(nameof(Members))]
         public async Task<IActionResult> Members()
         {
-            var canRemoveProjectMembers = Project.DoesSatisfy(new HasLeader(UserInfo.UserId));
+            var canRemoveProjectMembers = await _authorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember);
+            var isProjectMember = await _authorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
 
             var model = new ProjectMemberListViewModel
             {
@@ -47,7 +52,8 @@ namespace Ubora.Web._Features.Projects.Members
                     FullName = FindById<UserProfile>(m.UserId).FullName,
                     IsProjectLeader = m.IsLeader,
                     IsCurrentUser = UserInfo.UserId == m.UserId
-                })
+                }),
+                IsProjectMember = isProjectMember
             };
 
             return View(model);
