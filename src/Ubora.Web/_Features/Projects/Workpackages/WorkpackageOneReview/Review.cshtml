@@ -1,45 +1,43 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages
 ﻿@using Ubora.Web._Features.Projects._Shared
 @model IEnumerable<Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview.WorkpackageReviewViewModel>
 
 @{
-    ViewData["Title"] = "Members";
+    ViewData["Title"] = "Formal review";
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
-@*<br />
-
-@nameof(Model.IsWorkpackageOneInReview): @Model.IsWorkpackageOneInReview
-
-<br />
-
-@nameof(Model.IsWorkpackageOneAccepted): @Model.IsWorkpackageOneAccepted
-
-<br />*@
-
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<section class="project_view full-width">
+    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+    <section class="medium-width step-view">
+        <div class="center-element">
+            <form asp-action="SubmitForReview">
+                <button type="submit" class="button primary-button">Submit for review</button>
+            </form>
 
-<form asp-action="SubmitForReview">
-    <button type="submit">Submit for review</button>
-</form>
+            <form asp-action="AssignMeAsMentor">
+                <button type="submit" class="button secondary-button">Assign me as mentor</button>
+            </form>
+        </div>
 
-<form asp-action="AssignMeAsMentor">
-    <button type="submit">Assign me as mentor</button>
-</form>
+        Reviews:
+        <ol>
 
-Reviews:
-<ol>
-    
-@foreach (var review in Model)
-{
-    <li>
-        <pre>
-Status: @review.Status.ToString()
-Concluding comment: "@review.Comment"
-Created at: @review.CreatedAt
-Concluded at: @review.ConcludedAt
-</pre>
-    </li>
-}
-</ol>
+            @foreach (var review in Model)
+            {
+                <li>
+                <pre>
+                Status: @review.Status.ToString()
+                Concluding comment: "@review.Comment"
+                Created at: @review.CreatedAt
+                Concluded at: @review.ConcludedAt
+                </pre>
+                </li>
+            }
+            </ol>
 
-<a asp-action="Decision">Accept/Reject</a>
+            <a asp-action="Decision">Accept/Reject</a>
+
+            </section>
+</section>

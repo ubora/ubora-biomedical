@@ -3,13 +3,14 @@
 
 <nav class="project_navigation">
     <a class="project_navigation_link @Model.OverviewActivityCssClass" asp-controller="Dashboard" asp-action="Dashboard">Project overview</a>
-    <a class="project_navigation_link @Model.WorkpackagesActivityCssClass" asp-controller="WorkpackageOne" asp-action="Overview">Workpackages</a>
+    <a class="project_navigation_link @Model.WorkpackagesActivityCssClass" asp-controller="WorkpackageOne" asp-action="Overview">Work packages</a>
+    @*
+    NOTE: Removed for now
     <a class="project_navigation_link @Model.TasksActivityCssClass" asp-controller="Tasks" asp-action="Tasks">Tasks</a>
     <a class="project_navigation_link @Model.NewsActivityCssClass" href="#">News</a>
     <a class="project_navigation_link @Model.DocumentationActivityCssClass" href="#">Documentation</a>
     <a class="project_navigation_link @Model.RepositoryActivityCssClass" href="#">Repository</a>
-    <a class="project_navigation_link @Model.HistoryActivityCssClass" asp-controller="History" asp-action="History">Activity</a>
+    *@
     <a class="project_navigation_link @Model.MembersActivityCssClass" asp-controller="Members" asp-action="Members">Members</a>
-    @*TODO*@
-    <a class="project_navigation_link @Model.MembersActivityCssClass" asp-controller="WorkpackageOneReview" asp-action="Review">Review</a>
+    <a class="project_navigation_link @Model.HistoryActivityCssClass" asp-controller="History" asp-action="History">History</a>
 </nav>

@@ -6,23 +6,21 @@
     ViewData["MenuOption"] = ProjectMenuOption.Members;
 }
 
-<section class="medium-width">
-
-    <h1 class="full-width">Invite member to project</h1>
+<section class="narrow-width">
+    <h1 class="full-width">Invite people to project</h1>
 
     <form asp-controller="Members" asp-action="Invite" method="post">
-        
+        <input asp-for="ProjectId" type="hidden"/>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <label>
-            <input asp-for="Email" placeholder="Email">
+        <div class="form-input">
+            <label asp-for="Email">Email address</label>
+            <input asp-for="Email" placeholder="Email address" autofocus>
             <span asp-validation-for="Email"></span>
-        </label>
-        
-        <input asp-for="ProjectId" type="hidden"/>
+        </div>
 
-        <br>
-        <button class="button primary-button" type="submit">Invite</button>
+        <div class="form-input">
+            <button class="button primary-button full-width" type="submit">Invite</button>
+        </div>
     </form>
-
 </section>
