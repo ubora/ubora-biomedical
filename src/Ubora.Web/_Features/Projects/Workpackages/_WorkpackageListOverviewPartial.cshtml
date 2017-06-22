@@ -1,5 +1,8 @@
 ﻿@model Ubora.Web._Features.Projects.Workpackages.WorkpackageListOverviewViewModel
 
+@*
+    TODO: Map a tags to work package steps
+*@
 <aside class="project_sidemenu">
     <ol>
         @foreach (var workpackage in Model.Workpackages)
@@ -23,8 +26,8 @@
                             </a>
                         </li>
                     }
-                    <li><a asp-controller="DeviceClassification" asp-action="GetPairedMainQuestions">&nbsp;Device classification</a></li>
-                    <li><a href="#">&nbsp;Regulation checklist</a></li>
+                    <li><a asp-controller="WorkpackageOne" asp-action="DeviceClassification">&nbsp;Device classification</a></li>
+                    <li><a href="#" class="project_sidemenu_link--disabled">&nbsp;Regulation checklist</a></li>
                     <li><a asp-controller="WorkpackageOneReview" asp-action="Review">&nbsp;Formal review</a></li>
                 </ol>
             </li>

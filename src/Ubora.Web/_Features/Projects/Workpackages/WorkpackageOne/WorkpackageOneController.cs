@@ -61,12 +61,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
             return View();
         }
 
+        [Route(nameof(DeviceClassification))]
+        public IActionResult DeviceClassification()
+        {
+            return View();
+        }
+
         [Route("{stepId}")]
         public IActionResult Step(string stepId)
         {
             var step = WorkpackageOne.GetSingleStep(stepId);
 
-            var model = _mapper.Map<StepViewModel>(step); 
+            var model = _mapper.Map<StepViewModel>(step);
 
             return View(model);
         }

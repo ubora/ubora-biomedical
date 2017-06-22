@@ -9,6 +9,14 @@
     {
         <a href="@Url.Action("Dashboard", "Dashboard", new { projectId = project.Id })" class="card project_card">
 			<img class="project_card_banner" src="//placehold.it/400x150">
+            @*
+                TODO: If it's a draft, show the following element and display status text dynamically
+                @{
+                    if (@Model.isInDraft) {
+                        <span class="project_status">Draft</span>
+                    }
+                }
+            *@
 			<div class="project_card_container">
 				<h4>@project.Title</h4>
 			</div>
