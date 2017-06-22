@@ -76,6 +76,8 @@ namespace Ubora.Domain.Tests.Projects.Members
             this.Given(_ => There_Is_Project_And_User())
                 .When(_ => User_Send_Request_To_Join_Project())
                 .Then(_ => Project_Leader_Has_Request())
+                .When(_ => Notification_Is_Viewed())
+                .Then(_ => Notification_Is_Marked_As_Viewed())
                 .When(_ => Project_Leader_Accepts_Request())
                 .Then(_ => User_Is_Member_In_Project())
                 .When(_ => User_Is_Invited_To_Project_Again())
@@ -83,6 +85,34 @@ namespace Ubora.Domain.Tests.Projects.Members
                 .When(_ => Project_Leader_Removes_Invited_User_From_Project())
                 .Then(_ => User_Is_Not_Member_In_Project())
                 .BDDfy();
+        }
+
+        private void Notification_Is_Marked_As_Viewed()
+        {
+            var project = Session.Load<Project>(_projectId);
+            var projectLeader = project.Members.Single(x => x.IsLeader);
+
+            var hasNotification = new HasNotifications<RequestToJoinProject>(projectLeader.UserId);
+            var notifications = Session.Query<RequestToJoinProject>();
+
+            var invites = hasNotification.SatisfyEntitiesFrom(notifications);
+
+            var invite = invites.Single();
+            invite.HasBeenViewed.Should().BeTrue();
+        }
+
+        private void Notification_Is_Viewed()
+        {
+            var project = Session.Load<Project>(_projectId);
+            var projectLeader = project.Members.Single(x => x.IsLeader);
+
+            var hasNotification = new HasNotifications<RequestToJoinProject>(projectLeader.UserId);
+
+            _lastCommandResult = Processor.Execute(new MarkNotificationsAsViewedCommand
+            {
+                UserId = projectLeader.UserId,
+                Actor = new UserInfo(Guid.NewGuid(), "")
+            });
         }
 
         private void User_Send_Request_To_Join_Project()

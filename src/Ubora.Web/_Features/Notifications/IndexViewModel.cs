@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Notifications;
+using Ubora.Domain.Notifications.Invitation;
+using Ubora.Domain.Notifications.Join;
 using Ubora.Web._Features.Notifications.Factory;
 
 namespace Ubora.Web._Features.Notifications
@@ -38,7 +41,7 @@ namespace Ubora.Web._Features.Notifications
 
             private List<NotificationViewModel> GetIndexNotificationViewModels(Guid userId)
             {
-                var notifications = _processor.Find(new HasPendingNotifications(userId));
+                var notifications = _processor.Find(new HasPendingNotifications(userId)).ToList();
 
                 var notificationViewModels = new List<NotificationViewModel>();
 

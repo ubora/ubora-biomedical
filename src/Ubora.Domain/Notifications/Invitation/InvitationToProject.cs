@@ -10,8 +10,8 @@ namespace Ubora.Domain.Notifications.Invitation
             ProjectId = projectId;
         }
 
-        public Guid InvitedMemberId { get; }
-        public Guid ProjectId { get; }
+        public Guid InvitedMemberId { get; private set; }
+        public Guid ProjectId { get; private set; }
         public bool? IsAccepted
         {
             get
