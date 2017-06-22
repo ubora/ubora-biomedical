@@ -7,9 +7,12 @@
 }
 
 <section class="medium-width">
-    <a asp-controller="Members" asp-action="Invite">
-        <i class="material-icons">person_add</i>Invite member
-    </a>
+    @if (Model.IsProjectMember)
+    {
+        <a asp-controller="Members" asp-action="Invite">
+            <i class="material-icons">person_add</i>Invite member
+        </a>
+    }
 
     <h1 class="full-width">Project members</h1>
 
