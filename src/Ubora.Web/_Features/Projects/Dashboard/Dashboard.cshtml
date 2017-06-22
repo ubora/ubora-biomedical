@@ -27,7 +27,10 @@
 
     <div class="project_section project_section--editable">
         <h2>Project description</h2>
-        <a asp-controller="Dashboard" asp-action="EditProjectDescription"><i class="material-icons">mode_edit</i>&nbsp;Edit</a>
+        @if(Model.IsProjectMember)
+        {
+            <a asp-controller="Dashboard" asp-action="EditProjectDescription"><i class="material-icons">mode_edit</i>&nbsp;Edit</a>
+        }
     </div>
 
     <div class="project_section">

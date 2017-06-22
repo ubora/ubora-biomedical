@@ -9,5 +9,6 @@
         public string AreaOfUsageTags { get; set; }
         public string PotentialTechnologyTags { get; set; }
         public string Gmdn { get; set; }
+        public bool IsProjectMember { get; set; }
     }
 }

@@ -4,23 +4,28 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Users;
 using Ubora.Domain.Notifications;
 using System;
+using System.Threading.Tasks;
 using Ubora.Domain.Projects.Members;
 using Microsoft.AspNetCore.Authorization;
 using Ubora.Web.Authorization;
-using Ubora.Domain.Projects;
 using Ubora.Web.Data;
 
 namespace Ubora.Web._Features.Projects.Members
 {
     public class MembersController : ProjectController
     {
-        public MembersController(ICommandQueryProcessor processor) : base(processor)
+        private readonly IAuthorizationService _authorizationService;
+
+        public MembersController(ICommandQueryProcessor processor, IAuthorizationService authorizationService) : base(processor)
         {
+            _authorizationService = authorizationService;
         }
 
-        public IActionResult Members()
+        [AllowAnonymous]
+        public async Task<IActionResult> Members()
         {
-            var canRemoveProjectMembers = Project.DoesSatisfy(new HasLeader(UserInfo.UserId));
+            var canRemoveProjectMembers = await _authorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember);
+            var isProjectMember = await _authorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
 
             var model = new ProjectMemberListViewModel
             {
@@ -32,7 +37,8 @@ namespace Ubora.Web._Features.Projects.Members
                     // TODO(Kaspar Kallas): Eliminate SELECT(N + 1)
                     FullName = FindById<UserProfile>(m.UserId).FullName,
                     IsProjectLeader = m.IsLeader
-                })
+                }),
+                IsProjectMember = isProjectMember
             };
 
             return View(nameof(Members), model);
@@ -103,7 +109,7 @@ namespace Ubora.Web._Features.Projects.Members
 
         [Authorize(Roles = ApplicationRole.Admin)]
         [HttpPost]
-        public IActionResult AssignMeAsMentor()
+        public async Task<IActionResult> AssignMeAsMentor()
         {
             ExecuteUserProjectCommand(new AssignProjectMentorCommand
             {
@@ -112,7 +118,7 @@ namespace Ubora.Web._Features.Projects.Members
 
             if (!ModelState.IsValid)
             {
-                return Members();
+                return await Members();
             }
 
             return RedirectToAction(nameof(Members));

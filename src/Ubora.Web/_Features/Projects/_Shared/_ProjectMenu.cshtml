@@ -1,16 +1,26 @@
 ﻿@using Ubora.Web._Features.Projects._Shared
+@using Microsoft.AspNetCore.Authorization
+@using Ubora.Web.Authorization
+
+@inject IAuthorizationService AuthorizationService
+
 @model Ubora.Web._Features.Projects._Shared.ProjectMenuViewModel
 
 <nav class="project_navigation">
+    
     <a class="project_navigation_link @Model.OverviewActivityCssClass" asp-controller="Dashboard" asp-action="Dashboard">Project overview</a>
-    <a class="project_navigation_link @Model.WorkpackagesActivityCssClass" asp-controller="WorkpackageOne" asp-action="Overview">Work packages</a>
-    @*
-    NOTE: Removed for now
-    <a class="project_navigation_link @Model.NewsActivityCssClass" href="#">News</a>
-    <a class="project_navigation_link @Model.DocumentationActivityCssClass" href="#">Documentation</a>
-    *@
-    <a class="project_navigation_link @Model.RepositoryActivityCssClass" href="#">Repository</a>
-    <a class="project_navigation_link @Model.TasksActivityCssClass" asp-controller="Tasks" asp-action="Tasks">Assignments</a>
+    @{
+    var isProjectMember = await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
+    }
+    @if (isProjectMember)
+    {
+        <a class="project_navigation_link @Model.WorkpackagesActivityCssClass" asp-controller="WorkpackageOne" asp-action="Overview">Work packages</a>
+        <a class="project_navigation_link @Model.RepositoryActivityCssClass" href="#">Repository</a>
+        <a class="project_navigation_link @Model.TasksActivityCssClass" asp-controller="Tasks" asp-action="Tasks">Assignments</a>
+    }
     <a class="project_navigation_link @Model.MembersActivityCssClass" asp-controller="Members" asp-action="Members">Members</a>
-    <a class="project_navigation_link @Model.HistoryActivityCssClass" asp-controller="History" asp-action="History">History</a>
+    @if (isProjectMember)
+    {
+        <a class="project_navigation_link @Model.HistoryActivityCssClass" asp-controller="History" asp-action="History">History</a>
+    }
 </nav>
