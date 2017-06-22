@@ -30,6 +30,7 @@ namespace Ubora.Domain.Notifications.Invitation
         }
         public DateTime? Accepted { get; internal set; }
         public DateTime? Declined { get; internal set; }
-        public override bool InHistory => Accepted != null || Declined != null;
+        public override bool IsArchived => !IsPending;
+        public override bool IsPending => Accepted == null && Declined == null;
     }
 }

@@ -21,7 +21,7 @@ namespace Ubora.Domain.Notifications
 
         public ICommandResult Handle(MarkNotificationsAsViewedCommand cmd)
         {
-            var specification = new NonViewedNotifications(cmd.UserId);
+            var specification = new UnViewedNotifications(cmd.UserId);
             var query = _documentSession.Query<BaseNotification>();
             var invitations = specification.SatisfyEntitiesFrom(query)
                 .ToArray();

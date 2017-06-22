@@ -105,7 +105,7 @@ namespace Ubora.Web.Tests._Features.Notifications
             var invitation = new InvitationToProject(Guid.NewGuid(), UserId, UserId, Guid.NewGuid());
             var invitations = new List<InvitationToProject> { invitation };
 
-            _processorMock.Setup(x => x.Find(new NonViewedNotifications(UserId)))
+            _processorMock.Setup(x => x.Find(new UnViewedNotifications(UserId)))
                 .Returns(invitations);
 
             var userInfo = User.GetInfo();

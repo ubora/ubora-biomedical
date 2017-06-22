@@ -247,7 +247,7 @@ namespace Ubora.Domain.Tests.Projects.Members
 
         private void User_Does_Not_Get_Invite()
         {
-            var invites = Session.Query<BaseNotification>().Where(x => x.NotificationTo == _invitedUserId && !x.InHistory);
+            var invites = Session.Query<BaseNotification>().Where(x => x.NotificationTo == _invitedUserId && x.IsPending);
             invites.Count().Should().Be(0);
         }
     }

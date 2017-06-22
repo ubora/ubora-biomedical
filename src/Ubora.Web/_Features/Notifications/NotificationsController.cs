@@ -24,7 +24,7 @@ namespace Ubora.Web._Features.Notifications
         {
             var indexViewModel = _indexViewModelFactory.Create(UserInfo.UserId);
 
-            MarkInvitationsAsViewed();
+            MarkNotificationsAsViewed();
 
             return View(indexViewModel);
         }
@@ -36,7 +36,7 @@ namespace Ubora.Web._Features.Notifications
             return View(viewModel);
         }
 
-        private void MarkInvitationsAsViewed()
+        private void MarkNotificationsAsViewed()
         {
             ExecuteUserCommand(new MarkNotificationsAsViewedCommand { UserId = UserInfo.UserId });
         }

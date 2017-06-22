@@ -4,11 +4,11 @@ using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Notifications
 {
-    public class NonViewedNotifications<T> : Specification<T> where T:BaseNotification
+    public class UnViewedNotifications<T> : Specification<T> where T : BaseNotification
     {
         private Guid _userId;
 
-        public NonViewedNotifications(Guid userId)
+        public UnViewedNotifications(Guid userId)
         {
             _userId = userId;
         }
@@ -19,9 +19,9 @@ namespace Ubora.Domain.Notifications
         }
     }
 
-    public class NonViewedNotifications : NonViewedNotifications<BaseNotification>
+    public class UnViewedNotifications : UnViewedNotifications<BaseNotification>
     {
-        public NonViewedNotifications(Guid userId) : base(userId)
+        public UnViewedNotifications(Guid userId) : base(userId)
         {
         }
     }

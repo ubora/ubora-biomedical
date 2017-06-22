@@ -65,7 +65,7 @@ namespace Ubora.Domain.Tests.Notifications
                 Actor = new UserInfo(userId, "")
             });
 
-            var sut = new NonViewedNotifications<RequestToJoinProject>(userId);
+            var sut = new UnViewedNotifications<RequestToJoinProject>(userId);
             var invitations = Session.Query<RequestToJoinProject>();
 
             // Act

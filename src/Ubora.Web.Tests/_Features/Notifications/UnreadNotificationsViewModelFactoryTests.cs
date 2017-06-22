@@ -37,7 +37,7 @@ namespace Ubora.Web.Tests._Features.Notifications
                 invitation3
             };
 
-            _queryProcessorMock.Setup(x => x.Find(It.IsAny<NonViewedNotifications>()))
+            _queryProcessorMock.Setup(x => x.Find(It.IsAny<UnViewedNotifications>()))
                 .Returns(invitations);
 
             // Act

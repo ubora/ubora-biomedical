@@ -9,7 +9,8 @@ namespace Ubora.Domain.Notifications
         public Guid Id { get; }
         public Guid NotificationTo { get; }
         public bool HasBeenViewed { get; internal set; }
-        public abstract bool InHistory { get; }
+        public abstract bool IsArchived { get; }
+        public abstract bool IsPending { get; }
 
         public BaseNotification(Guid id, Guid inviteTo)
         {

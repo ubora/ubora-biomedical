@@ -4,17 +4,17 @@ using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Notifications
 {
-    public class HasNotificationsInHistory : Specification<BaseNotification>
+    public class HasArchivedNotifications : Specification<BaseNotification>
     {
         protected Guid _userId;
-        public HasNotificationsInHistory(Guid userId)
+        public HasArchivedNotifications(Guid userId)
         {
             _userId = userId;
         }
 
         internal override Expression<Func<BaseNotification, bool>> ToExpression()
         {
-            return x => x.NotificationTo == _userId && x.InHistory;
+            return x => x.NotificationTo == _userId && x.IsArchived;
         }
     }
 }
