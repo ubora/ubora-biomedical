@@ -8,6 +8,7 @@ using Ubora.Domain.Projects.Members;
 using Microsoft.AspNetCore.Authorization;
 using Ubora.Web.Authorization;
 using Ubora.Domain.Projects;
+using Ubora.Web.Data;
 
 namespace Ubora.Web._Features.Projects.Members
 {
@@ -34,7 +35,7 @@ namespace Ubora.Web._Features.Projects.Members
                 })
             };
 
-            return View(model);
+            return View(nameof(Members), model);
         }
 
         public IActionResult Invite()
@@ -94,6 +95,24 @@ namespace Ubora.Web._Features.Projects.Members
             if (!ModelState.IsValid)
             {
                 return View(removeMemberViewModel);
+            }
+
+            return RedirectToAction(nameof(Members));
+        }
+
+
+        [Authorize(Roles = ApplicationRole.Admin)]
+        [HttpPost]
+        public IActionResult AssignMeAsMentor()
+        {
+            ExecuteUserProjectCommand(new AssignProjectMentorCommand
+            {
+                UserId = this.UserId
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return Members();
             }
 
             return RedirectToAction(nameof(Members));

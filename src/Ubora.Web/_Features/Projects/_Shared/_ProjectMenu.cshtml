@@ -6,11 +6,11 @@
     <a class="project_navigation_link @Model.WorkpackagesActivityCssClass" asp-controller="WorkpackageOne" asp-action="Overview">Work packages</a>
     @*
     NOTE: Removed for now
-    <a class="project_navigation_link @Model.TasksActivityCssClass" asp-controller="Tasks" asp-action="Tasks">Tasks</a>
     <a class="project_navigation_link @Model.NewsActivityCssClass" href="#">News</a>
     <a class="project_navigation_link @Model.DocumentationActivityCssClass" href="#">Documentation</a>
-    <a class="project_navigation_link @Model.RepositoryActivityCssClass" href="#">Repository</a>
     *@
+    <a class="project_navigation_link @Model.RepositoryActivityCssClass" href="#">Repository</a>
+    <a class="project_navigation_link @Model.TasksActivityCssClass" asp-controller="Tasks" asp-action="Tasks">Assignments</a>
     <a class="project_navigation_link @Model.MembersActivityCssClass" asp-controller="Members" asp-action="Members">Members</a>
     <a class="project_navigation_link @Model.HistoryActivityCssClass" asp-controller="History" asp-action="History">History</a>
 </nav>

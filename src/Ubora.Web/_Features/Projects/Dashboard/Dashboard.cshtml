@@ -1,4 +1,3 @@
-@using Ubora.Web.Data
 @using Ubora.Web._Features.Projects._Shared
 @model Ubora.Web._Features.Projects.Dashboard.ProjectDashboardViewModel
 
@@ -8,14 +7,6 @@
 }
 
 <section class="medium-width">
-
-    @if (User.IsInRole(ApplicationRole.Admin))
-    {
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <form method="post">
-            <button type="submit" asp-action="AssignMeAsMentor">Assing me as project mentor</button>
-        </form>
-    }
 
     <div class="project_section">
         <img class="project_section--photo" src="//placehold.it/1500x300" alt="Example image">

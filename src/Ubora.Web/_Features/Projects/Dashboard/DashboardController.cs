@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
-using Ubora.Domain.Projects.Members;
-using Ubora.Web.Data;
 
 namespace Ubora.Web._Features.Projects.Dashboard
 {
@@ -22,23 +20,6 @@ namespace Ubora.Web._Features.Projects.Dashboard
             var model = _mapper.Map<ProjectDashboardViewModel>(Project);
 
             return View(nameof(Dashboard), model);
-        }
-
-        [Authorize(Roles = ApplicationRole.Admin)]
-        [HttpPost]
-        public IActionResult AssignMeAsMentor()
-        {
-            ExecuteUserProjectCommand(new AssignProjectMentorCommand
-            {
-                UserId = this.UserId
-            });
-
-            if (!ModelState.IsValid)
-            {
-                return Dashboard();
-            }
-
-            return RedirectToAction(nameof(Dashboard));
         }
 
         public IActionResult EditProjectDescription()
