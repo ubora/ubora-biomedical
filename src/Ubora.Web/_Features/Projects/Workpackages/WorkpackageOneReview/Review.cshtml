@@ -1,5 +1,5 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages
-﻿@using Ubora.Web._Features.Projects._Shared
+@using Ubora.Web._Features.Projects._Shared
 @model IEnumerable<Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview.WorkpackageReviewViewModel>
 
 @{
@@ -8,7 +8,6 @@
 }
 
 <section class="project_view full-width">
-
     @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
 
     <section class="medium-width step-view">
@@ -26,31 +25,37 @@
             </form>
         </section>
 
-        <section class="full-width">
-            <h2>Reviews</h2>
+        @if (Model.Any())
+        {
+            <section class="full-width">
+                <h2>Reviews</h2>
                 @foreach (var review in Model)
                 {
-                        <table class="review-table">
-                            <tr>
-                                <td><b>Status</b></td>
-                                <td>@review.Status.ToString()</td>
-                            </tr>
-                            <tr>
-                                <td><b>Concluding comment</b></td>
-                                <td>@review.Comment</td>
-                            </tr>
-                            <tr>
-                                <td><b>Created at</b></td>
-                                <td>@review.CreatedAt</td>
-                            </tr>
-                            <tr>
-                                <td><b>Concluded at</b></td>
-                                <td>@review.ConcludedAt</td>
-                            </tr>
-                        </table>
-                        <br>
-            }
-            <a asp-action="Decision" class="button primary-button small-button">Write a review</a>
-        </section>
+                    <table class="review-table">
+                        <tr>
+                            <td><b>Status</b></td>
+                            <td>@review.Status.ToString()</td>
+                        </tr>
+                        <tr>
+                            <td><b>Concluding comment</b></td>
+                            <td>@review.Comment</td>
+                        </tr>
+                        <tr>
+                            <td><b>Created at</b></td>
+                            <td>@review.CreatedAt</td>
+                        </tr>
+                        <tr>
+                            <td><b>Concluded at</b></td>
+                            <td>@review.ConcludedAt</td>
+                        </tr>
+                    </table>
+                    <br>
+                }
+                @if (await AuthorizationService.AuthorizeAsync(User, Policies.CanReviewProjectWorkpackages))
+                {
+                    <a asp-action="Decision" class="button primary-button small-button">Write a review</a>
+                }
+            </section>
+        }
     </section>
 </section>
