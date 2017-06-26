@@ -2,7 +2,7 @@
 {
     public class MainQuestion : BaseQuestion
     {
-        public MainQuestion(string questionText) : base(questionText)
+        public MainQuestion(string questionText, Note note = null) : base(questionText, note)
         {
         }
     }

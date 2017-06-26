@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.DeviceClassification;
+using Ubora.Web._Features.Projects.DeviceClassification.Services;
 using Ubora.Web._Features.Projects.DeviceClassification.ViewModels;
 
 namespace Ubora.Web._Features.Projects.DeviceClassification
@@ -10,12 +11,15 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
     public class DeviceClassificationController : ProjectController
     {
         private readonly IDeviceClassification _deviceClassification;
+        private readonly NotesFinder _notesFinder;
 
         public DeviceClassificationController(
             ICommandQueryProcessor processor,
-            IDeviceClassificationProvider deviceClassificationProvider) : base(processor)
+            IDeviceClassificationProvider deviceClassificationProvider,
+            NotesFinder notesFinder) : base(processor)
         {
             _deviceClassification = deviceClassificationProvider.Provide();
+            _notesFinder = notesFinder;
         }
 
         public IActionResult GetPairedMainQuestions(Guid? pairedMainQuestionsId)
@@ -24,13 +28,16 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
             {
                 var initialPairedMainQuestions = _deviceClassification.GetDefaultPairedMainQuestion();
 
+                var defaultNotes = _notesFinder.GetNotes(initialPairedMainQuestions);
+
                 var initialMainQuestionViewModel = new PairedMainQuestionsViewModel
                 {
                     PairedQuestionId = initialPairedMainQuestions.Id,
                     MainQuestionOne = initialPairedMainQuestions.MainQuestionOne?.Text,
                     MainQuestionOneId = initialPairedMainQuestions.MainQuestionOne == null ? Guid.Empty : initialPairedMainQuestions.MainQuestionOne.Id,
                     MainQuestionTwo = initialPairedMainQuestions.MainQuestionTwo?.Text,
-                    MainQuestionTwoId = initialPairedMainQuestions.MainQuestionTwo == null ? Guid.Empty : initialPairedMainQuestions.MainQuestionTwo.Id
+                    MainQuestionTwoId = initialPairedMainQuestions.MainQuestionTwo == null ? Guid.Empty : initialPairedMainQuestions.MainQuestionTwo.Id,
+                    Notes = defaultNotes
                 };
 
                 return View(initialMainQuestionViewModel);
@@ -38,13 +45,16 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
 
             var pairedMainQuestions = _deviceClassification.GetPairedMainQuestions(pairedMainQuestionsId.Value);
 
+            var notes = _notesFinder.GetNotes(pairedMainQuestions);
+
             var mainQuestionViewModel = new PairedMainQuestionsViewModel
             {
                 PairedQuestionId = pairedMainQuestions.Id,
                 MainQuestionOne = pairedMainQuestions.MainQuestionOne?.Text,
                 MainQuestionOneId = pairedMainQuestions.MainQuestionOne == null ? Guid.Empty : pairedMainQuestions.MainQuestionOne.Id,
                 MainQuestionTwo = pairedMainQuestions.MainQuestionTwo?.Text,
-                MainQuestionTwoId = pairedMainQuestions.MainQuestionTwo == null ? Guid.Empty : pairedMainQuestions.MainQuestionTwo.Id
+                MainQuestionTwoId = pairedMainQuestions.MainQuestionTwo == null ? Guid.Empty : pairedMainQuestions.MainQuestionTwo.Id,
+                Notes = notes
             };
 
             return View(mainQuestionViewModel);
@@ -72,7 +82,8 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
             var questionsViewModel = new QuestionsViewModel
             {
                 Questions = questions,
-                PairedMainQuestionsId = pairedMainQuestionsId.Value
+                PairedMainQuestionsId = pairedMainQuestionsId.Value,
+                Notes = _notesFinder.GetNotes(questions)
             };
 
             return View(questionsViewModel);
@@ -186,7 +197,8 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
                 var defaultSpecialMainQuestionViewModel = new SpecialMainQuestionViewModel
                 {
                     QuestionText = defaultSpecialMainQuestion.Text,
-                    CurrentSpecialMainQuestionId = defaultSpecialMainQuestion.Id
+                    CurrentSpecialMainQuestionId = defaultSpecialMainQuestion.Id,
+                    Note = _notesFinder.GetNote(defaultSpecialMainQuestion)
                 };
 
                 return View(defaultSpecialMainQuestionViewModel);
@@ -197,7 +209,8 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
             var specialMainQuestionViewModel = new SpecialMainQuestionViewModel
             {
                 QuestionText = specialMainQuestion.Text,
-                CurrentSpecialMainQuestionId = specialMainQuestion.Id
+                CurrentSpecialMainQuestionId = specialMainQuestion.Id,
+                Note = _notesFinder.GetNote(specialMainQuestion)
             };
 
             return View(specialMainQuestionViewModel);
@@ -242,7 +255,8 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
             var questionsViewModel = new SpecialSubQuestionsViewModel
             {
                 Questions = subQuestions,
-                MainQuestionId = mainQuestionId
+                MainQuestionId = mainQuestionId,
+                Notes = _notesFinder.GetNotes(subQuestions)
             };
 
             return View(questionsViewModel);
