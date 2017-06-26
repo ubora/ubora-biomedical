@@ -30,7 +30,7 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                     return new CommandResult("Work package can not be rejected.");
                 }
 
-                var @event = new WorkpackageOneRejectedByReviewEvent(
+                var @event = new WorkpackageOneReviewRejectedEvent(
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
                     concludingComment: cmd.ConcludingComment,

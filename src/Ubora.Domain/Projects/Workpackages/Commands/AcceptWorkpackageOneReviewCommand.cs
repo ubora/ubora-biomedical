@@ -33,7 +33,7 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                     return new CommandResult("Work package can not be accepted.");
                 }
 
-                var @event = new WorkpackageOneAcceptedByReviewEvent(
+                var @event = new WorkpackageOneReviewAcceptedEvent(
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
                     concludingComment: cmd.ConcludingComment,
