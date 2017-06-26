@@ -18,16 +18,16 @@ namespace Ubora.Domain.Projects.Repository
 
         public ICommandResult Handle(AddFileCommand cmd)
         {
-            var blobProperties = new BlobProperties
-            {
-                Security = BlobSecurity.Public
-            };
-
             var project = _documentSession.Load<Project>(cmd.ProjectId);
             if (project == null)
             {
                 throw new InvalidOperationException();
             }
+
+            var blobProperties = new BlobProperties
+            {
+                Security = BlobSecurity.Public
+            };
 
             var fileName = cmd.FileName;
             string containerName = $"projects/{project.Id}/files";

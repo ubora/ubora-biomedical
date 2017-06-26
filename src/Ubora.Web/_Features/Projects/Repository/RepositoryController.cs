@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Repository;
 
@@ -19,7 +18,6 @@ namespace Ubora.Web._Features.Projects.Repository
             _mapper = mapper;
         }
 
-        [Route(nameof(Repository))]
         public IActionResult Repository()
         {
             var projectFiles = Find<ProjectFile>().Where(x => x.ProjectId == ProjectId);

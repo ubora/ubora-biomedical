@@ -11,7 +11,8 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
-    internal class AggregateMemberProjection<T, TEvent> : IProjection where T : class, new() where TEvent : class, IAggregateMemberEvent
+    internal class AggregateMemberProjection<T, TEvent> 
+        : IProjection where T : class, new() where TEvent : class, IAggregateMemberEvent
     {
         public Type[] Consumes => new[] { typeof(TEvent) };
 
@@ -49,7 +50,7 @@ namespace Ubora.Domain.Infrastructure.Marten
         private static bool IsApplyMethodForType(MethodInfo methodInfo, Type type)
         {
             var methodParameters = methodInfo.GetParameters();
-            var isApplyMethod = methodInfo.Name == "Apply" && methodParameters.Length == 1;
+            var isApplyMethod = (methodInfo.Name == "Apply" && methodParameters.Length == 1);
 
             if (!isApplyMethod)
             {
