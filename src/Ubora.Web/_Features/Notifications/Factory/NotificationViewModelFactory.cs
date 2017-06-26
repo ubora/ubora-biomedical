@@ -28,7 +28,7 @@ namespace Ubora.Web._Features.Notifications.Factory
                 return CreateIndexRequestViewModel(requestToJoinProject);
             }
 
-            throw new InvalidCastException();
+            throw new ArgumentException(nameof(notification));
         }
 
         public NotificationViewModel CreateHistoryViewModel(BaseNotification notification)
@@ -42,7 +42,7 @@ namespace Ubora.Web._Features.Notifications.Factory
                 return CreateHistoryRequestViewModel(requestToJoinProject);
             }
 
-            throw new InvalidCastException();
+            throw new ArgumentException(nameof(notification));
         }
 
         private NotificationViewModel CreateHistoryRequestViewModel(RequestToJoinProject requestToJoinProject)
