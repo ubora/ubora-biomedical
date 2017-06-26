@@ -5,6 +5,7 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.DeviceClassification;
 using System.Linq;
+using Ubora.Domain.Projects.Workpackages.Events;
 
 namespace Ubora.Domain.Projects
 {
