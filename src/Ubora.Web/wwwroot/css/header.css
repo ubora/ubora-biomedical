@@ -16,23 +16,23 @@
 	color: var(--primary-color);
 }
 
+.header-controls {
+    display: flex;
+    align-items: baseline;
+}
+
+.header-controls--search {
+    margin:0 1em 0 0;
+}
+
+.header-controls--menu:hover {
+    cursor: pointer;
+}
+
 .header-element {
 	flex-grow: 1;
 	display: flex;
 	justify-content: center;
-}
-
-.menu-button {
-	background-color: transparent;
-	border:0;
-	color:var(--primary-color);
-	font-family: inherit;
-	font-size: inherit;
-	padding:0;
-}
-
-.menu-button > .material-icons {
-	padding:0;
 }
 
 .side-menu {
@@ -71,7 +71,7 @@
 
 .menu-link {
 	display: block;
-	margin:1em 0;
+    padding: .2em 0;
 }
 
 
@@ -90,11 +90,15 @@
 		padding:0;
 	}
 
-	.menu-button {
-		font-size:150%;
-	}
+    .header-controls--action {
+        font-size: 120%;
+    }
 
-	.menu-button-description {
-		display:none;
-	}
+    .header-controls--description {
+        display: none;
+    }
+
+    .header-controls--search {
+        margin: 0 .5em 0 0;
+    }
 }
