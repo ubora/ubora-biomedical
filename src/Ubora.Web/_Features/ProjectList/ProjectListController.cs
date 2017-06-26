@@ -13,5 +13,16 @@ namespace Ubora.Web._Features.ProjectList
         {
             return View();
         }
+
+        public IActionResult Search()
+        {
+            return View(new SearchViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult Search(SearchViewModel model)
+        {
+            return View(model);
+        }
     }
 }
