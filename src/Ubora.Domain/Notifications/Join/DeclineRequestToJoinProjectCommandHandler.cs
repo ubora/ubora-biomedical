@@ -26,7 +26,7 @@ namespace Ubora.Domain.Notifications.Join
             var request = _documentSession.Load<RequestToJoinProject>(command.RequestId);
             if (request == null) throw new InvalidOperationException();
 
-            request.Declined = DateTime.UtcNow;
+            request.Decline();
 
             _documentSession.Store(request);
             _documentSession.SaveChanges();

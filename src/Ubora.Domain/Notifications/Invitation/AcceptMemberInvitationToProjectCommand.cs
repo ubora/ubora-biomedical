@@ -26,8 +26,6 @@ namespace Ubora.Domain.Notifications.Invitation
             var invite = _documentSession.Load<InvitationToProject>(command.InvitationId);
             if (invite == null) throw new InvalidOperationException();
 
-            invite.Accepted = DateTime.UtcNow;
-
             var userProfile = _documentSession.Load<UserProfile>(invite.InvitedMemberId);
             if (userProfile == null) throw new InvalidOperationException();
 
@@ -38,6 +36,8 @@ namespace Ubora.Domain.Notifications.Invitation
             {
                 return new CommandResult($"[{invite.InvitedMemberId}] is already member of project [{invite.ProjectId}].");
             }
+
+            invite.Accept();
 
             var @event = new MemberAddedToProjectEvent(command.Actor)
             {

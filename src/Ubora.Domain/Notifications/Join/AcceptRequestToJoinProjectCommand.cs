@@ -26,8 +26,6 @@ namespace Ubora.Domain.Notifications.Join
             var request = _documentSession.Load<RequestToJoinProject>(command.RequestId);
             if (request == null) throw new InvalidOperationException();
 
-            request.Accepted = DateTime.UtcNow;
-
             var userProfile = _documentSession.Load<UserProfile>(request.AskingToJoinMemberId);
             if (userProfile == null) throw new InvalidOperationException();
 
@@ -38,6 +36,8 @@ namespace Ubora.Domain.Notifications.Join
             {
                 return new CommandResult($"[{request.AskingToJoinMemberId}] is already member of project [{request.ProjectId}].");
             }
+
+            request.Accept();
 
             var @event = new MemberAddedToProjectEvent(command.Actor)
             {

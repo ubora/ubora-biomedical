@@ -23,7 +23,7 @@ namespace Ubora.Domain.Notifications.Invitation
             var invite = _documentSession.Load<InvitationToProject>(command.InvitationId);
             if (invite == null) throw new InvalidOperationException();
 
-            invite.Declined = DateTime.UtcNow;
+            invite.Decline();
 
             _documentSession.Store(invite);
             _documentSession.SaveChanges();

@@ -12,25 +12,23 @@ namespace Ubora.Domain.Notifications.Invitation
 
         public Guid InvitedMemberId { get; private set; }
         public Guid ProjectId { get; private set; }
-        public bool? IsAccepted
-        {
-            get
-            {
-                if (Accepted != null && Declined == null)
-                {
-                    return true;
-                }
-                if (Declined != null && Accepted == null)
-                {
-                    return false;
-                }
-
-                return null;
-            }
-        }
-        public DateTime? Accepted { get; internal set; }
-        public DateTime? Declined { get; internal set; }
+        public DateTime? DecidedAt { get; private set; }
+        public bool? IsAccepted { get; private set; }
         public override bool IsArchived => !IsPending;
-        public override bool IsPending => Accepted == null && Declined == null;
+        public override bool IsPending => IsAccepted == null && DecidedAt == null;
+
+        internal void Accept()
+        {
+            if (DecidedAt.HasValue) throw new InvalidOperationException("Already decided.");
+            DecidedAt = DateTime.UtcNow;
+            IsAccepted = true;
+        }
+
+        internal void Decline()
+        {
+            if (DecidedAt.HasValue) throw new InvalidOperationException("Already decided.");
+            DecidedAt = DateTime.UtcNow;
+            IsAccepted = false;
+        }
     }
 }
