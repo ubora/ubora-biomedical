@@ -36,8 +36,8 @@ p {
 }
 
 small {
+    font-size: 80%;
 }
-	font-size: 80%;
 
 blockquote {
 	border-left: 4px solid var(--secondary-shade);
@@ -54,7 +54,7 @@ pre, code {
 	padding:0;
 }
 
-.text-center {
+.center-text {
 	text-align: center;
 }
 
