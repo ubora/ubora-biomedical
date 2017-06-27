@@ -5,8 +5,8 @@
 	display: flex;
 	font-size: 3em;
 	line-height: inherit;
-	height: 40vh;
 	justify-content: center;
+	padding: 2em 0;
 	position: relative;
 	text-align: center;
 	z-index: 1;
