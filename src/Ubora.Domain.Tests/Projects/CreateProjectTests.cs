@@ -77,7 +77,7 @@ namespace Ubora.Domain.Tests.Projects
             var workpackageOneSteps = workpackageOne.Steps.ToArray();
 
             workpackageOneSteps[0].Title.Should().Be("Description Of Need");
-            workpackageOneSteps[0].Description.Should().Be(Placeholders.DescriptionOfNeed);
+            workpackageOneSteps[0].Description.Should().Be(Placeholders.DescriptionOfNeeds);
 
             workpackageOneSteps[1].Title.Should().Be("Description Of Existing Solutions And Analysis");
             workpackageOneSteps[1].Description.Should().Be(Placeholders.DescriptionOfExistingSolutionsAndAnalysis);
