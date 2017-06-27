@@ -4,9 +4,11 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
+using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Users.Profile
 {
@@ -15,12 +17,14 @@ namespace Ubora.Web._Features.Users.Profile
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IStorageProvider _storageProvider;
 
-        public ProfileController(ICommandQueryProcessor processor, IMapper mapper, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : base(processor)
+        public ProfileController(ICommandQueryProcessor processor, IMapper mapper, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IStorageProvider storageProvider) : base(processor)
         {
             _mapper = mapper;
             _userManager = userManager;
             _signInManager = signInManager;
+            _storageProvider = storageProvider;
         }
 
         [HttpGet]
@@ -35,6 +39,7 @@ namespace Ubora.Web._Features.Users.Profile
             }
 
             var profileViewModel = _mapper.Map<ProfileViewModel>(userProfile);
+            profileViewModel.ProfilePictureLink = _storageProvider.GetDefaultOrBlobUrl(userProfile);
 
             return View(profileViewModel);
         }

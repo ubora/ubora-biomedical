@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Users;
 using Ubora.Web._Features.Users.UserList;
@@ -13,30 +15,54 @@ namespace Ubora.Web.Tests._Features.Users.UserList
     public class UserListControllerTests
     {
         private readonly Mock<ICommandQueryProcessor> _processorMock;
-        private readonly Mock<IMapper> _mapperMock;
+        private readonly Mock<IStorageProvider> _storageProviderMock;
         private readonly UserListController _controller;
 
         public UserListControllerTests()
         {
             _processorMock = new Mock<ICommandQueryProcessor>();
-            _mapperMock = new Mock<IMapper>();
-            _controller = new UserListController(_processorMock.Object, _mapperMock.Object);
+            _storageProviderMock = new Mock<IStorageProvider>();
+            _controller = new UserListController(_processorMock.Object, _storageProviderMock.Object);
         }
 
-        [Fact]
-        public void Index_Returns_Users()
+        [Theory]
+        [InlineData("test.jpg")]
+        [InlineData("Default")]
+        public void Index_Returns_Users(string blobname)
         {
-            var userProfiles = new List<UserProfile>();
-            var expectedUserListItemViewModels = new List<UserListItemViewModel>();
+            var userProfile = new UserProfile(Guid.NewGuid());
+
+            if (blobname != "Default")
+            {
+                userProfile.ProfilePictureBlobName = "test.jpg";
+            }
+
+            var userProfiles = new List<UserProfile>
+            {
+                userProfile
+            };
+
+            var url = $"/app/wwwroot/images/storages/users/{userProfile.UserId}/profile-pictures/test.jpg";
+            var expectedUrl = $"/images/storages/users/{userProfile.UserId}/profile-pictures/test.jpg";
+
+            if (blobname != "Default")
+            {
+                _storageProviderMock.Setup(p => p.GetBlobUrl(It.IsAny<string>(), It.IsAny<string>())).Returns(url);
+            }
 
             _processorMock.Setup(p => p.Find<UserProfile>(null)).Returns(userProfiles);
-            _mapperMock.Setup(m => m.Map(It.IsAny<IEnumerable<UserProfile>>(), It.IsAny<List<UserListItemViewModel>>())).Returns(expectedUserListItemViewModels);
 
             //Act
             var result = (ViewResult)_controller.Index();
 
             //Assert
-            result.Model.Should().Be(expectedUserListItemViewModels);
+            result.Model.As<IEnumerable<UserListItemViewModel>>().Last().UserId.Should().Be(userProfile.UserId);
+            result.Model.As<IEnumerable<UserListItemViewModel>>().Last().Email.Should().Be(userProfile.Email);
+            result.Model.As<IEnumerable<UserListItemViewModel>>().Last().FullName.Should().Be(userProfile.FullName);
+            result.Model.As<IEnumerable<UserListItemViewModel>>()
+                .Last()
+                .ProfilePictureLink.Should()
+                .Be(blobname != "Default" ? expectedUrl : "/images/profileimagedefault.png");
         }
     }
 }

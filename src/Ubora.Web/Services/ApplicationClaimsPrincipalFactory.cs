@@ -1,4 +1,3 @@
-using System.IO;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +7,7 @@ using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
+using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web.Services
 {
@@ -30,26 +30,10 @@ namespace Ubora.Web.Services
             var userProfile = _queryProcessor.FindById<UserProfile>(user.Id);
             claimsIdentity.AddClaim(new Claim(ApplicationUser.FullNameClaimType, userProfile.FullName));
 
-            var profilePictureUrl = GetProfilePictureUrl(userProfile);
+            var profilePictureUrl = _storageProvider.GetDefaultOrBlobUrl(userProfile);
             claimsIdentity.AddClaim(new Claim(ApplicationUser.ProfilePictureUrlClaimType, profilePictureUrl));
 
             return claimsPrincipal;
-        }
-
-        private string GetProfilePictureUrl(UserProfile userProfile)
-        {
-            string blobUrl;
-            if (userProfile.ProfilePictureBlobName == "Default")
-            {
-                blobUrl = "/images/profileimagedefault.png";
-            }
-            else
-            {
-                blobUrl = _storageProvider
-                    .GetBlobUrl($"users/{userProfile.UserId}/profile-pictures", userProfile.ProfilePictureBlobName)
-                    .Replace("/app/wwwroot", "");
-            }
-            return blobUrl;
         }
     }
 }
