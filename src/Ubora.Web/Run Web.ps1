@@ -15,4 +15,4 @@ Write-Host "Building project..."
 dotnet build
 
 Write-Host "Starting project..."
-dotnet watch run
+dotnet watch run --http://0.0.0.0:5000
