@@ -11,7 +11,7 @@ using Ubora.Web.Services;
 
 namespace Ubora.Web._Features.Admin
 {
-    [Authorize(Roles = ApplicationRole.Admin)]
+    [Authorize(Roles = ApplicationRole.Admin)] // Important!
     public class AdminController : UboraController
     {
         private readonly ApplicationUserManager _userManager;
@@ -21,6 +21,7 @@ namespace Ubora.Web._Features.Admin
             _userManager = userManager;
         }
 
+        [Authorize(Roles = ApplicationRole.Admin)]
         public async Task<IActionResult> Diagnostics()
         {
             var userViewModels = new List<UserViewModel>();
@@ -39,6 +40,7 @@ namespace Ubora.Web._Features.Admin
         }
 
         [HttpPost]
+        [Authorize(Roles = ApplicationRole.Admin)]
         public async Task<IActionResult> AddAdministratorRole(Guid userId)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
@@ -55,6 +57,7 @@ namespace Ubora.Web._Features.Admin
         }
 
         [HttpPost]
+        [Authorize(Roles = ApplicationRole.Admin)]
         public async Task<IActionResult> RemoveAdministratorRole(Guid userId)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());

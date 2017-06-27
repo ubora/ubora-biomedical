@@ -17,7 +17,7 @@ namespace Ubora.Domain.Projects.Workpackages
             _steps.Add(new WorkpackageStep(WorkpackageStepIds.DescriptionOfMinimalRequirementsForSafetyAndIsoCompliance, "Description of Minimal Requirements for Safety and ISO Compliance", ""));
             _steps.Add(new WorkpackageStep(WorkpackageStepIds.SketchesOfAlternateIdeasAndDesigns, "Sketches of Alternate Ideas and Designs", ""));
             _steps.Add(new WorkpackageStep(WorkpackageStepIds.SelectionOfBestIdea, "Selection of Best Idea: Reaching the Concept", ""));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.LatestConceptDescription, "Latest Concept Description (example: rendering)", ""));
+            _steps.Add(new WorkpackageStep(WorkpackageStepIds.LatestConceptDescription, "Latest Concept Description", ""));
         }
 
         private void Apply(WorkpackageTwoStepEdited e)

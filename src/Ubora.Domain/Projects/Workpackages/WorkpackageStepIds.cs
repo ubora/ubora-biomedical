@@ -4,7 +4,7 @@ namespace Ubora.Domain.Projects.Workpackages
     {
         #region WP1
 
-        public const string DescriptionOfNeed = nameof(DescriptionOfNeed);
+        public const string DescriptionOfNeeds = nameof(DescriptionOfNeeds);
         public const string DescriptionOfExistingSolutionsAndAnalysis = nameof(DescriptionOfExistingSolutionsAndAnalysis);
         public const string ProductFunctionality = nameof(ProductFunctionality);
         public const string ProductPerformance = nameof(ProductPerformance);

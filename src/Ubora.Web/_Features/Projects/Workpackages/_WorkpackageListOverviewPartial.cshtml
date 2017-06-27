@@ -5,7 +5,7 @@
 <aside class="project_sidemenu">
     <ol>
         <li class="project_sidemenu--workpackage">
-            <h3>@Model.WorkpackageOne.Title</h3>
+            <h3>WP1: @Model.WorkpackageOne.Title</h3>
             <ol>
                 <li><a asp-controller="WorkpackageOne" asp-action="DesignPlanning">&nbsp;Design planning</a></li>
                 @foreach (var step in Model.WorkpackageOne.Steps)
@@ -23,7 +23,7 @@
         @if (Model.WorkpackageTwo != null)
         {
             <li class="project_sidemenu--workpackage">
-                <h3>@Model.WorkpackageTwo.Title</h3>
+                <h3>WP2: @Model.WorkpackageTwo.Title</h3>
                 <ol>
                     @foreach (var step in Model.WorkpackageTwo.Steps)
                     {
@@ -42,7 +42,7 @@
         @if (Model.WorkpackageThree != null)
         {
             <li class="project_sidemenu--workpackage">
-                <h3>@Model.WorkpackageThree.Title</h3>
+                <h3>WP3: @Model.WorkpackageThree.Title</h3>
                 <p>Coming soon!</p>
             </li>
         }

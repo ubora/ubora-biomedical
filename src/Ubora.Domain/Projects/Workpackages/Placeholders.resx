@@ -135,7 +135,7 @@ Example: list medical, surgical or technical solutions available; define the cri
 
 Worked example: congenital club foot is usually treated by braces (mild cases) or surgery. Both solutions require long healing times and frequent specialistic follow up visits.</value>
   </data>
-  <data name="DescriptionOfNeed" xml:space="preserve">
+  <data name="DescriptionOfNeeds" xml:space="preserve">
     <value>Here you should describe the clinical need that is the target of your device. 
 Example 1: write the common or technical name of the pathology, describe the main symptoms and if it is acute/chronic.
 Example 2: write the common or technical name of the handicap, describe if it is innate or caused by incidents or a consequence of a pathology

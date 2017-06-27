@@ -22,14 +22,21 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
                 .BDDfy();
         }
 
-        protected void Assert_Workpackage_Two_Is_In_Single_Review()
+        private void Assert_Workpackage_Two_Is_In_Single_Review()
         {
-            var workpackageOne = Processor.FindById<WorkpackageTwo>(_projectId);
+            var workpackageTwo = Processor.FindById<WorkpackageTwo>(_projectId);
 
-            var review = workpackageOne.Reviews.Single();
+            var review = workpackageTwo.Reviews.Single();
             review.Status.Should().Be(WorkpackageReviewStatus.InProcess);
             review.SubmittedAt.Should().BeCloseTo(DateTimeOffset.Now, 500);
             review.ConcludedAt.Should().BeNull();
+        }
+
+        private void Workpackage_Three_Should_Become_Available()
+        {
+            var workpackageThree = Processor.FindById<WorkpackageThree>(_projectId);
+
+            workpackageThree.Should().NotBeNull();
         }
     }
 }

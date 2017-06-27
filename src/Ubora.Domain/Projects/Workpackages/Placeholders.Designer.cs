@@ -99,9 +99,9 @@ namespace Ubora.Domain.Projects.Workpackages {
         ///
         ///Worked example 1: Down sindrome is a sindro [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string DescriptionOfNeed {
+        public static string DescriptionOfNeeds {
             get {
-                return ResourceManager.GetString("DescriptionOfNeed", resourceCulture);
+                return ResourceManager.GetString("DescriptionOfNeeds", resourceCulture);
             }
         }
         
@@ -128,7 +128,8 @@ namespace Ubora.Domain.Projects.Workpackages {
         ///Worked example 1: the syringe allows to deliver liquid substances, for example drugs, to the peripheral blood stream of the patient by piercing the vein walls without laceration
         ///
         ///Example 2: describe which clinical parameter is measures/ altered/ affected by the device
-        ///        /// [rest of string was truncated]&quot;;.
+        ///
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ProductFunctionality {
             get {

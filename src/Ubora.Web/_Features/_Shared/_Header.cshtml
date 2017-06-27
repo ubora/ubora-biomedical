@@ -44,13 +44,13 @@
 
         <nav>
             @*
-            <a class="menu-link" asp-controller="Home" asp-action="Search">
-                <i class="material-icons">search</i>Search
-            </a>
+                <a class="menu-link" asp-controller="Home" asp-action="Search">
+                    <i class="material-icons">search</i>Search
+                </a>
 
-            <a class="menu-link" href="#">
-                <i class="material-icons">message</i>Messages
-            </a>
+                <a class="menu-link" href="#">
+                    <i class="material-icons">message</i>Messages
+                </a>
             *@
 
             <a class="menu-link" asp-controller="ProjectList" asp-action="MyProjects">
@@ -58,9 +58,9 @@
             </a>
 
             @*
-            <a class="menu-link" href="#">
-                <i class="material-icons">assignment</i>My tasks
-            </a>
+                <a class="menu-link" href="#">
+                    <i class="material-icons">assignment</i>My tasks
+                </a>
             *@
 
             <a class="menu-link" asp-controller="ProjectCreation" asp-action="Create">
@@ -74,6 +74,14 @@
             <a class="menu-link" asp-controller="Notifications" asp-action="Index">
                 <i class="material-icons">notifications</i>Notifications @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
             </a>
+
+            @if (User.IsInRole(ApplicationRole.Admin))
+            {
+                <a class="menu-link" asp-controller="Admin" asp-action="Diagnostics">
+                    <i class="material-icons">verified_user</i>Admin
+                </a>
+            }
+
         </nav>
 
         <form class="logout-form" asp-action="Logout" asp-controller="Account" method="post">
@@ -101,10 +109,10 @@ else
 
         <div class="header-element">
             @*
-            <a class="header-action" asp-controller="Home" asp-action="Search">
-                <i class="header-action-icon material-icons">search</i>
-                <span class="header-action-description">Search</span>
-            </a>
+                <a class="header-action" asp-controller="Home" asp-action="Search">
+                    <i class="header-action-icon material-icons">search</i>
+                    <span class="header-action-description">Search</span>
+                </a>
             *@
         </div>
 

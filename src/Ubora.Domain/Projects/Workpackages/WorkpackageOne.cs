@@ -13,9 +13,9 @@ namespace Ubora.Domain.Projects.Workpackages
         {
             ProjectId = e.Id;
 
-            Title = "Design and prototyping";
+            Title = "Medical need and product specification";
 
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.DescriptionOfNeed, "Description of Need", Placeholders.DescriptionOfNeed));
+            _steps.Add(new WorkpackageStep(WorkpackageStepIds.DescriptionOfNeeds, "Description of Needs", Placeholders.DescriptionOfNeeds));
             _steps.Add(new WorkpackageStep(WorkpackageStepIds.DescriptionOfExistingSolutionsAndAnalysis, "Description of Existing Solutions and Analysis", Placeholders.DescriptionOfExistingSolutionsAndAnalysis));
             _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductFunctionality, "Product Functionality", Placeholders.ProductFunctionality));
             _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductPerformance, "Product Performance", Placeholders.ProductPerformance));
