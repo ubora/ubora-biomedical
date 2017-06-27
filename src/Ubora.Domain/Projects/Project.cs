@@ -5,6 +5,7 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.DeviceClassification;
 using System.Linq;
+using Ubora.Domain.Projects.Workpackages.Events;
 
 namespace Ubora.Domain.Projects
 {
@@ -19,6 +20,7 @@ namespace Ubora.Domain.Projects
         public string PotentialTechnologyTags { get; private set; }
         public string DeviceClassification { get; private set; }
         public string Description { get; private set; }
+        public bool IsInDraft { get; private set; } = true;
 
         [JsonProperty(nameof(Members))]
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
@@ -99,6 +101,11 @@ namespace Ubora.Domain.Projects
                 return;
             }
             _members.Add(new ProjectMentor(e.UserId));
+        }
+
+        private void Apply(WorkpackageOneReviewAcceptedEvent e)
+        {
+            IsInDraft = false;
         }
 
         public override string ToString()

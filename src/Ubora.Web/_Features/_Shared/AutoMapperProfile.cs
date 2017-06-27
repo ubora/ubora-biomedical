@@ -9,6 +9,7 @@ using Ubora.Web._Features.Projects.Tasks;
 using Ubora.Web._Features.Users.Profile;
 using Ubora.Web._Features.Users.UserList;
 using Ubora.Web._Features.Projects.Workpackages.WorkpackageOne;
+using Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview;
 
 namespace Ubora.Web._Features._Shared
 {
@@ -31,10 +32,11 @@ namespace Ubora.Web._Features._Shared
             CreateMap<UserProfile, UserListItemViewModel>();
             CreateMap<UserProfile, ProfileViewModel>();
 
-
             CreateMap<Project, DesignPlanningViewModel>();
             CreateMap<Project, ProjectDashboardViewModel>()
                 .ForMember(dest => dest.IsProjectMember, o => o.Ignore());
+
+            CreateMap<WorkpackageReview, WorkpackageReviewViewModel>();
         }
     }
 }

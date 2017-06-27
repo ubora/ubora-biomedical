@@ -63,7 +63,7 @@ namespace Ubora.Domain.Projects.Workpackages
             _reviews.Add(newReview);
         }
 
-        private void Apply(WorkpackageOneAcceptedByReviewEvent e)
+        private void Apply(WorkpackageOneReviewAcceptedEvent e)
         {
             var canApply = this.DoesSatisfy(new CanWorkpackageBeAcceptedByReview<WorkpackageOne>());
             if (!canApply)
@@ -78,7 +78,7 @@ namespace Ubora.Domain.Projects.Workpackages
             _reviews.Add(acceptedReview);
         }
 
-        private void Apply(WorkpackageOneRejectedByReviewEvent e)
+        private void Apply(WorkpackageOneReviewRejectedEvent e)
         {
             var canApply = this.DoesSatisfy(new CanRejectWorkpackageReview<WorkpackageOne>());
             if (!canApply)

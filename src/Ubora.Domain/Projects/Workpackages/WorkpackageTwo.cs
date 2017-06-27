@@ -4,7 +4,7 @@ namespace Ubora.Domain.Projects.Workpackages
 {
     public class WorkpackageTwo : Workpackage<WorkpackageTwo>
     {
-        private void Apply(WorkpackageOneAcceptedByReviewEvent e)
+        private void Apply(WorkpackageOneReviewAcceptedEvent e)
         {
             ProjectId = e.ProjectId;
 
