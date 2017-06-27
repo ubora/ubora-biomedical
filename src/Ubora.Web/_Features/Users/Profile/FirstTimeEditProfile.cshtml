@@ -8,6 +8,9 @@
 <section class="narrow-width">
     <h1>Create a profile</h1>
 
+    <br>
+    <a class="button secondary-button small-button full-width" asp-controller="Home" asp-action="Index" asp-route-returnUrl="@ViewData["ReturnUrl"]">Skip profile creation</a>
+
     <form asp-controller="Profile" asp-action="FirstTimeEditProfile" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
 
         <h3>Personal - Education</h3>
@@ -78,8 +81,6 @@
         </div>
 
         <button class="button primary-button" type="submit">Create profile</button>
-        <br/>
-        <a class="button secondary-button" asp-controller="Home" asp-action="Index" asp-route-returnUrl="@ViewData["ReturnUrl"]">Skip profile creation</a>
 
     </form>
 
