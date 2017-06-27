@@ -7,8 +7,6 @@ using Autofac;
 using Marten;
 using Marten.Events;
 using TwentyTwenty.Storage;
-using TwentyTwenty.Storage.Amazon;
-using TwentyTwenty.Storage.Local;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Marten;
@@ -21,10 +19,12 @@ namespace Ubora.Domain.Infrastructure
     public class DomainAutofacModule : Module
     {
         private readonly string _connectionString;
+        private readonly IStorageProvider _storageProvider;
 
-        public DomainAutofacModule(string connectionString)
+        public DomainAutofacModule(string connectionString, IStorageProvider storageProvider)
         {
             _connectionString = connectionString;
+            _storageProvider = storageProvider;
         }
 
         protected override void Load(ContainerBuilder builder)
@@ -44,41 +44,19 @@ namespace Ubora.Domain.Infrastructure
                 builder.RegisterInstance(new DocumentStore(options)).As<IDocumentStore>().SingleInstance();
             }
 
-            var amazonProviderOptions = new AmazonProviderOptions()
-            {
-                Bucket = Environment.GetEnvironmentVariable("amazon_storage_bucket"),
-                PublicKey = Environment.GetEnvironmentVariable("amazon_storage_publickey"),
-                SecretKey = Environment.GetEnvironmentVariable("amazon_storage_secretkey"),
-                ServiceUrl = "https://s3-eu-west-1.amazonaws.com"
-            };
-
+           
             builder.Register(x => x.Resolve<IDocumentStore>().OpenSession()).As<IDocumentSession>().As<IQuerySession>().InstancePerLifetimeScope();
             builder.Register(x => x.Resolve<IDocumentSession>().Events).As<IEventStore>().InstancePerLifetimeScope();
 
             builder.RegisterType<EventStreamQuery>().As<IEventStreamQuery>().InstancePerLifetimeScope();
             builder.RegisterType<DeviceClassificationProvider>().As<IDeviceClassificationProvider>().InstancePerLifetimeScope();
             builder.RegisterType<CommandQueryProcessor>().As<ICommandProcessor>().As<IQueryProcessor>().As<ICommandQueryProcessor>().InstancePerLifetimeScope();
-
-            var areAwsBlobEnvironmentVariablesSet =
-                Environment.GetEnvironmentVariable("amazon_storage_bucket") != null
-                && Environment.GetEnvironmentVariable("amazon_storage_publickey") != null
-                && Environment.GetEnvironmentVariable("amazon_storage_secretkey") != null;
-
-            if (areAwsBlobEnvironmentVariablesSet)
-            {
-                builder.RegisterInstance(new AmazonStorageProvider(amazonProviderOptions)).SingleInstance();
-                builder.Register(x => x.Resolve<AmazonStorageProvider>())
-                    .As<IStorageProvider>()
-                    .InstancePerLifetimeScope();
-            }
-            else
-            {
-                var basePath = Path.GetFullPath("wwwroot/images/storages");
-
-                builder.RegisterInstance(new LocalStorageProvider(basePath)).SingleInstance();
-                builder.Register(x => x.Resolve<LocalStorageProvider>()).As<IStorageProvider>().InstancePerLifetimeScope();
-            }
-
+            
+            // Storage abstraction
+            builder.Register(x => _storageProvider)
+                .As<IStorageProvider>()
+                .SingleInstance();
+       
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(ICommandHandler<>)).InstancePerLifetimeScope();
             builder.RegisterType<DeviceClassification>().As<IDeviceClassification>().InstancePerLifetimeScope();
 

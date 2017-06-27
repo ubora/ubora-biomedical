@@ -7,6 +7,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
@@ -23,6 +24,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         private readonly Mock<FakeUserManager> _userManagerMock;
         private readonly Mock<FakeSignInManager> _signInManagerMock;
         private readonly Mock<ICommandQueryProcessor> _commandQueryProcessorMock;
+        private readonly Mock<IStorageProvider> _storageProviderMock;
 
         private readonly ProfileController _controller;
 
@@ -32,7 +34,8 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             _commandQueryProcessorMock = new Mock<ICommandQueryProcessor>();
             _userManagerMock = new Mock<FakeUserManager>();
             _signInManagerMock = new Mock<FakeSignInManager>();
-            _controller = new ProfileController(_commandQueryProcessorMock.Object, _mapperMock.Object, _userManagerMock.Object, _signInManagerMock.Object);
+            _storageProviderMock = new Mock<IStorageProvider>();
+            _controller = new ProfileController(_commandQueryProcessorMock.Object, _mapperMock.Object, _userManagerMock.Object, _signInManagerMock.Object, _storageProviderMock.Object);
             SetUserContext(_controller);
         }
 

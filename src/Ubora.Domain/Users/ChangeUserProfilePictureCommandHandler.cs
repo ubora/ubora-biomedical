@@ -25,14 +25,14 @@ namespace Ubora.Domain.Users
             var userProfile = _documentSession.Load<UserProfile>(cmd.UserId);
 
             // Delete old image
-            _storageProvider.DeleteBlobAsync($"users/{userProfile.UserId}/profile-pictures", userProfile.ProfilePictureBlobName);
+            _storageProvider.DeleteBlobAsync("users", $"{userProfile.UserId}/profile-pictures/{userProfile.ProfilePictureBlobName}").Wait();
 
             userProfile.ProfilePictureBlobName = cmd.FileName;
 
             _documentSession.Store(userProfile);
             _documentSession.SaveChanges();
-
-            _storageProvider.SaveBlobStreamAsync($"users/{userProfile.UserId}/profile-pictures", userProfile.ProfilePictureBlobName, cmd.Stream, blobProperties)
+            
+            _storageProvider.SaveBlobStreamAsync("users", $"{userProfile.UserId}/profile-pictures/{userProfile.ProfilePictureBlobName}", cmd.Stream, blobProperties)
                 .Wait();
 
             return new CommandResult();

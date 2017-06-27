@@ -34,7 +34,7 @@ namespace Ubora.Web.Authorization
         {
             Project = GetProject();
 
-            if (Project == null)
+            if (Project == null || !context.User.Identity.IsAuthenticated)
             {
                 // Don't handle requirements when project is not found.
                 return;

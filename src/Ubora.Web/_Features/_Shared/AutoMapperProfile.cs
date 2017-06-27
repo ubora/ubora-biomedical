@@ -32,11 +32,12 @@ namespace Ubora.Web._Features._Shared
             CreateMap<WorkpackageOneStep, StepViewModel>()
                 .ForMember(dest => dest.StepId, o => o.MapFrom(src => src.Id));
 
-            CreateMap<UserProfile, UserListItemViewModel>();
-            CreateMap<UserProfile, ProfileViewModel>();
-            CreateMap<UserProfile, UserProfileViewModel>(MemberList.None);
+            CreateMap<UserProfile, UserListItemViewModel>(MemberList.None);
+            CreateMap<UserProfile, ProfileViewModel>(MemberList.None);
+            CreateMap<UserProfile, UserProfileViewModel>();
 
-            CreateMap<Project, ProjectDashboardViewModel>();
+            CreateMap<Project, ProjectDashboardViewModel>()
+                .ForMember(dest => dest.IsProjectMember, o => o.Ignore());
         }
     }
 }
