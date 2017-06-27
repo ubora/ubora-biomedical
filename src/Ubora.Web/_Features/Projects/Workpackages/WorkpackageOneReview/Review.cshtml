@@ -1,6 +1,6 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages
 @using Ubora.Web._Features.Projects._Shared
-@model IEnumerable<Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview.WorkpackageReviewViewModel>
+@model Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview.WorkpackageReviewListViewModel
 
 @{
     ViewData["Title"] = "Formal review";
@@ -25,11 +25,11 @@
             </form>
         </section>
 
-        @if (Model.Any())
+        @if (Model.Reviews.Any())
         {
             <section class="full-width">
                 <h2>Reviews</h2>
-                @foreach (var review in Model)
+                @foreach (var review in Model.Reviews)
                 {
                     <table class="review-table">
                         <tr>

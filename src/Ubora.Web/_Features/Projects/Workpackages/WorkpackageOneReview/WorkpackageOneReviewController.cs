@@ -18,7 +18,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
             _mapper = mapper;
         }
 
-        protected Domain.Projects.Workpackages.WorkpackageOne WorkpackageOne => this.FindById<Domain.Projects.Workpackages.WorkpackageOne>(ProjectId);
+        protected Domain.Projects.Workpackages.WorkpackageOne WorkpackageOne => FindById<Domain.Projects.Workpackages.WorkpackageOne>(ProjectId);
 
         [HttpPost]
         public IActionResult AssignMeAsMentor()
@@ -38,10 +38,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
 
         public IActionResult Review()
         {
-            var reviews = WorkpackageOne.Reviews
-                .Select(_mapper.Map<WorkpackageReviewViewModel>);
+            var model = new WorkpackageReviewListViewModel
+            {
+                Reviews = WorkpackageOne.Reviews.Select(_mapper.Map<WorkpackageReviewViewModel>)
+            };
 
-            return View(nameof(Review), reviews);
+            return View(nameof(Review), model);
         }
 
         [HttpPost]
