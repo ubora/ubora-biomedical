@@ -9,7 +9,7 @@
 {
 <section class="medium-width">
     <a asp-controller="Notifications" asp-action="History"><i class="material-icons">history</i>Notification history</a>
-
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <h1>Pending invitations</h1>
 
     @foreach (var notification in Model.Notifications)

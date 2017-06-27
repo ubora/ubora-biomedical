@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Notifications;
+using Ubora.Web.Infrastructure;
 
 namespace Ubora.Web._Features.Notifications
 {
@@ -20,6 +21,7 @@ namespace Ubora.Web._Features.Notifications
             _indexViewModelFactory = indexViewModelFactory;
         }
 
+        [RestoreModelStateFromTempData]
         public IActionResult Index()
         {
             var indexViewModel = _indexViewModelFactory.Create(UserInfo.UserId);
