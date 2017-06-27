@@ -1,24 +1,25 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Security.Claims;
+using System.Security.Principal;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
-using System;
-using System.Security.Claims;
-using System.Security.Principal;
-using Ubora.Web._Features;
 using Ubora.Web.Data;
 using Ubora.Web.Tests.Fakes;
+using Ubora.Web._Features;
+using Xunit;
 
 namespace Ubora.Web.Tests._Features
 {
-    public class UboraControllerTestsBase
+    public abstract class UboraControllerTestsBase
     {
         protected IPrincipal User { get; }
         protected Guid UserId { get; }
         protected ModelStateDictionary ModelState { get; private set; }
 
-        public UboraControllerTestsBase()
+        protected UboraControllerTestsBase()
         {
             UserId = Guid.NewGuid();
             User = CreateUser(UserId);
@@ -45,6 +46,14 @@ namespace Ubora.Web.Tests._Features
                 ActionDescriptor = new ControllerActionDescriptor()
             });
             ModelState = controller.ModelState;
+        }
+
+        protected void AssertModelStateContainsError(ViewResult viewResult, params string[] result)
+        {
+            foreach (var error in viewResult.ViewData.ModelState.Root.Errors)
+            {
+                Assert.Contains(error.ErrorMessage, result);
+            }
         }
     }
 }
