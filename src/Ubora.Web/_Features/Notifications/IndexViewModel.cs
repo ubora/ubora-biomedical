@@ -66,6 +66,7 @@ namespace Ubora.Web._Features.Notifications
 
     public class IndexRequestViewModel : BaseRequestViewModel
     {
+        public Guid UserId { get; set; }
         public bool IsUnread { get; set; }
     }
 }

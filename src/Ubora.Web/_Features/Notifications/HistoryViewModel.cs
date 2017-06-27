@@ -57,6 +57,7 @@ namespace Ubora.Web._Features.Notifications
 
     public class HistoryRequestViewModel : BaseRequestViewModel
     {
+        public Guid UserId { get; set; }
         public bool WasAccepted { get; set; }
     }
 }
