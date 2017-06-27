@@ -7,20 +7,24 @@
 }
 
 <section class="medium-width">
-    <h1>
-        <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-id="@Model.ProjectId">@Model.ProjectName</a>
-    </h1>
+    <h1>@Model.ProjectName</h1>
+</section>
 
-    @Html.Partial("AddFilePartial", Model.AddFileViewModel)
+<section class="medium-width file-repository">
+    <div class="file-list">
+        <h3>Project repository</h3>
 
-    <ol>
         @foreach (var file in Model.Files)
         {
-            <li>
+            <div class="file-list--item full-width">
                 <a href="@file.FileLocation">@file.FileName</a>
-                <a asp-controller="Repository" asp-action="DownloadFile" asp-route-id="@file.Id">DOWNLOAD</a>
-            </li>
+                <a class="file-list--download" asp-controller="Repository" asp-action="DownloadFile" asp-route-id="@file.Id"><i class="material-icons">file_download</i></a>
+            </div>
         }
-    </ol>
+    </div>
 
+    <div class="file-upload">
+        <h3>Upload new file</h3>
+        @Html.Partial("AddFilePartial", Model.AddFileViewModel)
+    </div>
 </section>
