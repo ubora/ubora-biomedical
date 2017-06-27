@@ -1,16 +1,12 @@
-﻿@using Ubora.Web._Features.Projects._Shared
-@using Microsoft.AspNetCore.Authorization
-@using Ubora.Web.Authorization
-
-@inject IAuthorizationService AuthorizationService
+﻿@using Microsoft.AspNetCore.Authorization
 
 @model Ubora.Web._Features.Projects._Shared.ProjectMenuViewModel
 
 <nav class="project_navigation">
-    
+
     <a class="project_navigation_link @Model.OverviewActivityCssClass" asp-controller="Dashboard" asp-action="Dashboard">Project overview</a>
     @{
-    var isProjectMember = await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
+        var isProjectMember = await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
     }
     @if (isProjectMember)
     {
