@@ -2,8 +2,10 @@
 
 @model InvitationPartialViewModel
 
-<form class="default-form" asp-controller="Invitations" asp-action="@Model.Action" method="post">
+<form class="default-form notification-action" asp-controller="Invitations" asp-action="@Model.Action" method="post">
     <input type="hidden" asp-for="InviteId" />
 
-    <button class="questionnaire_question" type="submit">@Model.Action</button>
+    <div class="form-input">
+        <button class="button secondary-button small-button" type="submit">@Model.Action</button>
+    </div>
 </form>

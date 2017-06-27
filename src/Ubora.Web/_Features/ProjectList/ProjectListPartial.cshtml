@@ -14,6 +14,10 @@
                     <h4>@project.Title</h4>
                 </div>
             </a>
+            @*
+                TODO: Move functionality to Projects/Dashboard view
+                <a href="@Url.Action("Join", "Members", new { projectId = project.Id })">Join project</a>
+            *@
             <a href="@Url.Action("Join", "Members", new { projectId = project.Id })">Join project</a>
         </div>
     }

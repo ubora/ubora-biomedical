@@ -4,14 +4,16 @@
 @model IndexRequestViewModel
 
 @{
-    var isUnreadCss = Model.IsUnread ? "message-unread" : "";
+    var isUnreadCss = Model.IsUnread ? "notification--unread" : "";
 }
 
-<div class="message @isUnreadCss">
-    <div class="message-container">
-        <p class="message-author-preview">@Model.UserFullName asks to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a></p>
-
-        @Html.Partial("~/_Features/Notifications/Requests/RequestPartial.cshtml", new RequestPartialViewModel {  RequestId = Model.RequestToJoinProjectId, Action = "Accept" })
-        @Html.Partial("~/_Features/Notifications/Requests/RequestPartial.cshtml", new RequestPartialViewModel { RequestId = Model.RequestToJoinProjectId, Action = "Decline" })
+<div class="notification @isUnreadCss">
+    <div class="notification-container">
+        @* TODO: Add a link to the user's profile? *@
+        <p class="notification--message">@Model.UserFullName asks to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a></p>
+        <div class="notification--controls">
+            @Html.Partial("~/_Features/Notifications/Requests/RequestPartial.cshtml", new RequestPartialViewModel { RequestId = Model.RequestToJoinProjectId, Action = "Decline" })
+            @Html.Partial("~/_Features/Notifications/Requests/RequestPartial.cshtml", new RequestPartialViewModel {  RequestId = Model.RequestToJoinProjectId, Action = "Accept" })
+        </div>
     </div>
 </div>

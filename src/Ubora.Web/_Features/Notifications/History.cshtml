@@ -1,8 +1,12 @@
 ﻿@using Ubora.Web._Features.Notifications
 @model HistoryViewModel
 
+@{
+    ViewData["Title"] = "Notification history";
+}
+
 <section class="medium-width">
-    <a asp-controller="Notifications" asp-action="Index">Pending invitations</a>
+    <a asp-controller="Notifications" asp-action="Index"><i class="material-icons">notifications</i>Pending invitations</a>
     <h1>History</h1>
     @foreach (var notification in Model.Notifications)
     {

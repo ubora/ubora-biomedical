@@ -2,8 +2,10 @@
 
 @model RequestPartialViewModel
 
-<form class="default-form" asp-controller="Requests" asp-action="@Model.Action" method="post">
+<form class="default-form notification-action" asp-controller="Requests" asp-action="@Model.Action" method="post">
     <input type="hidden" asp-for="RequestId" />
 
-    <button class="questionnaire_question" type="submit">@Model.Action</button>
+    <div class="form-input">
+        <button class="button secondary-button small-button" type="submit">@Model.Action</button>
+    </div>
 </form>
