@@ -30,26 +30,6 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
             return notes;
         }
 
-        public List<string> GetNotes(IReadOnlyCollection<SubQuestion> subQuestions)
-        {
-            var notes = new List<Note>();
-
-            foreach (var subQuestion in subQuestions)
-            {
-                if (subQuestion.Note != null)
-                {
-                    notes.Add(subQuestion.Note);
-                }
-            }
-
-            var uniqueNotesAsStrings = notes.GroupBy(x => x.Id)
-                .Select(y => y.First())
-                .Distinct()
-                .Select(x => x.Value);
-
-            return uniqueNotesAsStrings.ToList();
-        }
-
         public string GetNote(SpecialMainQuestion specialMainQuestion)
         {
             if (specialMainQuestion.Note != null)
@@ -60,7 +40,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
             return null;
         }
 
-        public List<string> GetNotes(IReadOnlyCollection<SpecialSubQuestion> specialSubQuestions)
+        public List<string> GetNotes(IReadOnlyCollection<BaseQuestion> specialSubQuestions)
         {
             var notes = new List<Note>();
 

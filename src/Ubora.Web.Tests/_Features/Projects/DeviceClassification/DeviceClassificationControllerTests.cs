@@ -8,6 +8,7 @@ using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.DeviceClassification;
 using Ubora.Web._Features.Projects.DeviceClassification;
+using Ubora.Web._Features.Projects.DeviceClassification.Services;
 using Ubora.Web._Features.Projects.DeviceClassification.ViewModels;
 using Ubora.Web.Tests.Helper;
 using Xunit;
@@ -20,6 +21,7 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
         private DeviceClassificationController _deviceClassificationController;
         private Mock<IDeviceClassificationProvider> _deviceClassificationProviderMock;
         private Mock<IDeviceClassification> _deviceClassificationMock;
+        private Mock<NotesFinder> _noteFinderMock;
 
         public DeviceClassificationControllerTests()
         {
@@ -29,7 +31,9 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
             _deviceClassificationProviderMock = new Mock<IDeviceClassificationProvider>();
             _deviceClassificationProviderMock.Setup(x => x.Provide()).Returns(_deviceClassificationMock.Object);
 
-            _deviceClassificationController = new DeviceClassificationController(_processorMock.Object, _deviceClassificationProviderMock.Object);
+            _noteFinderMock = new Mock<NotesFinder>();
+            
+            _deviceClassificationController = new DeviceClassificationController(_processorMock.Object, _deviceClassificationProviderMock.Object, _noteFinderMock.Object);
             SetProjectAndUserContext(_deviceClassificationController);
         }
 
