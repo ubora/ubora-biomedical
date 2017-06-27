@@ -126,9 +126,10 @@ namespace Ubora.Domain.Projects.DeviceClassification
             SubQuestions.Add(subQuestion2_1_2_6);
             SubQuestions.Add(subQuestion2_1_3);
 
+            var note2_2_1 = new Note("Transient' means normally intended for continuous use for less than 60 minutes.");
 
             var subQuestion2_2 = new SubQuestion("Is it SURGICALLY INVASIVE?", pair1, mainQuestion2, note2_1);
-            var subQuestion2_2_1 = new SubQuestion("Is it for TRANSIENT use?", pair1, subQuestion2_2);
+            var subQuestion2_2_1 = new SubQuestion("Is it for TRANSIENT use?", pair1, subQuestion2_2, note2_2_1);
             var subQuestion2_2_1_1 = new SubQuestion("Is it intended specifically to control, diagnose, monitor or correct a defect of the heart or of the central circulatory system through direct contact with those parts of the body?", pair1, subQuestion2_2_1);
             var subQuestion2_2_1_2 = new SubQuestion("Is it a reusable surgical instrument?", pair1, subQuestion2_2_1);
             var subQuestion2_2_1_3 = new SubQuestion("Is it intended specifically for use in direct contact with the heart or central circulatory system or the central nervous system?", pair1, subQuestion2_2_1);
@@ -147,7 +148,9 @@ namespace Ubora.Domain.Projects.DeviceClassification
             SubQuestions.Add(subQuestion2_2_1_6);
             SubQuestions.Add(subQuestion2_2_1_7);
 
-            var subQuestion2_2_2 = new SubQuestion("Is it for SHORT TERM use?", pair1, subQuestion2_2);
+            var note2_2_2 = new Note("'Short term' means normally intended for continuous use for between 60 minutes and 30 days.");
+
+            var subQuestion2_2_2 = new SubQuestion("Is it for SHORT TERM use?", pair1, subQuestion2_2, note2_2_2);
             var subQuestion2_2_2_1 = new SubQuestion("Is it intended specifically to control, diagnose, monitor or correct a defect of the heart or of the central circulatory system through direct contact with those parts of the body?", pair1, subQuestion2_2_2);
             var subQuestion2_2_2_2 = new SubQuestion("Is it intended specifically for use in direct contact with the heart or central circulatory system or the central nervous system?", pair1, subQuestion2_2_2);
             var subQuestion2_2_2_3 = new SubQuestion("Is it intended to have a biological effect or are wholly or mainly absorbed?", pair1, subQuestion2_2_2);
@@ -169,7 +172,9 @@ namespace Ubora.Domain.Projects.DeviceClassification
             SubQuestions.Add(subQuestion2_2_2_5_3);
             SubQuestions.Add(subQuestion2_2_2_6);
 
-            var subQuestion2_2_3 = new SubQuestion("Is it implantable or LONG TERM use?", pair1, subQuestion2_2);
+            var note2_2_3 = new Note("'Long term' means normally intended for continuous use for more than 30 days.");
+
+            var subQuestion2_2_3 = new SubQuestion("Is it implantable or LONG TERM use?", pair1, subQuestion2_2, note2_2_3);
             var subQuestion2_2_3_1 = new SubQuestion("Is it intended to be placed in the teeth?", pair1, subQuestion2_2_3);
             var subQuestion2_2_3_2 = new SubQuestion("Is it intended for use in direct contact with the heart or central circulatory system or the central nervous system?", pair1, subQuestion2_2_3);
             var subQuestion2_2_3_3 = new SubQuestion("Is it intended to have a biological effect or be wholly or mainly absorbed?", pair1, subQuestion2_2_3);
@@ -278,15 +283,20 @@ namespace Ubora.Domain.Projects.DeviceClassification
             SubQuestions.Add(subQuestion3_6_2);
             SubQuestions.Add(subQuestion3_7);
 
+            var note_special4 = new Note("a substance which, if used separately, can be considered to be a medicinal product, as defined in point 2 of Article 1 of Directive 2001/83/EC, including a medicinal product derived from human blood or human plasma, as defined in point 10 of Article 1 of that Directive, and that has an action ancillary to that of the devices");
+            var note_special7 = new Note("contact lenses are considered in special rule 16 at question 6");
+            var note_special9 = new Note(@"nanomaterial' means a natural, incidental or manufactured material containing particles in an unbound state or as an aggregate or as an agglomerate and where, for 50 % or more of the particles in the number size distribution, one or more external dimensions is in the size range 1-100 nm; 
+Fullerenes, graphene flakes and single - wall carbon nanotubes with one or more external dimensions below 1 nm shall also be deemed to be nanomaterials;");
+
             var specialMainQuestion12 = new SpecialMainQuestion("Is it an active therapeutic devices with an integrated or incorporated diagnostic function that includes an integrated or incorporated diagnostic function which significantly determines the patient management by the device (example: closed loop systems or automated external defibrillators)?", null);
             var specialMainQuestion11 = new SpecialMainQuestion("Is it composed of substances or of combinations of substances that are intended to be introduced into the human body via a body orifice or applied to the skin and that are absorbed by or locally dispersed in the human body?", specialMainQuestion12);
             var specialMainQuestion10 = new SpecialMainQuestion("Is it intended to administer medicinal products by inhalation, being an invasive device with respect to body orifices, other than surgically invasive devices?", specialMainQuestion11);
-            var specialMainQuestion9 = new SpecialMainQuestion("Does it incorporate or contain nanomaterials?", specialMainQuestion10);
+            var specialMainQuestion9 = new SpecialMainQuestion("Does it incorporate or contain nanomaterials?", specialMainQuestion10, note_special9);
             var specialMainQuestion8 = new SpecialMainQuestion("Is it manufactured utilising tissues or cells of human or animal origin, or their derivatives, which are non-viable or rendered non-viable?", specialMainQuestion9);
-            var specialMainQuestion7 = new SpecialMainQuestion("Is it intended specifically to be used for disinfecting or sterilising medical devices that are not contact lenses?", specialMainQuestion8);
+            var specialMainQuestion7 = new SpecialMainQuestion("Is it intended specifically to be used for disinfecting or sterilising medical devices that are not contact lenses?", specialMainQuestion8, note_special7);
             var specialMainQuestion6 = new SpecialMainQuestion("Is it intended specifically to be used for disinfecting, cleaning, rinsing or, where appropriate, hydrating contact lenses?", specialMainQuestion7);
             var specialMainQuestion5 = new SpecialMainQuestion("Is it used for contraception or prevention of the transmission of sexually transmitted diseases?", specialMainQuestion6);
-            var specialMainQuestion4 = new SpecialMainQuestion("Does your device incorporate a medicinal product with an ancillary function?", specialMainQuestion5);
+            var specialMainQuestion4 = new SpecialMainQuestion("Does your device incorporate a MEDICAL PRODUCT with an ancillary function?", specialMainQuestion5, note_special4);
 
             SpecialMainQuestions.Add(specialMainQuestion4);
             SpecialMainQuestions.Add(specialMainQuestion5);
@@ -298,7 +308,9 @@ namespace Ubora.Domain.Projects.DeviceClassification
             SpecialMainQuestions.Add(specialMainQuestion11);
             SpecialMainQuestions.Add(specialMainQuestion12);
 
-            var specialSubQuestion5_1 = new SpecialSubQuestion("Is it implantable or long term invasive?", specialMainQuestion5);
+            var note_special5_1 = new Note("'Long term' means normally intended for continuous use for more than 30 days. 'invasive device' means any device which, in whole or in part, penetrates inside the body, either through a body orifice or through the surface of the body;");
+
+            var specialSubQuestion5_1 = new SpecialSubQuestion("Is it implantable or long term invasive?", specialMainQuestion5, note_special5_1);
             var specialSubQuestion5_2 = new SpecialSubQuestion("None of the above apply?", specialMainQuestion5);
 
             var specialSubQuestion7_1 = new SpecialSubQuestion("Is it a disinfecting solution or washer-disinfector, intended specifically to be used for disinfecting invasive devices, as the end point of processing?", specialMainQuestion7);

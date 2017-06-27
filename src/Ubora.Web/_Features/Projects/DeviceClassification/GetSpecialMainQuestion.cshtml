@@ -17,7 +17,9 @@
             <a class="questionnaire-question" asp-controller="DeviceClassification" asp-action="NextSpecialMainQuestion" asp-route-currentSpecialMainQuestionId="@Model.CurrentSpecialMainQuestionId">NOT APPLICABLE</a>
         </li>
     </ul>
+    @if (!string.IsNullOrEmpty(Model.Note)) { 
     <ul>
         <li><pre style="width:400px; white-space: pre-wrap;">@Model.Note</pre></li>
     </ul>
+    }
 </section>

@@ -23,10 +23,13 @@
             </li>
         }
     </ul>
-    <ul>
-        @foreach (var note in Model.Notes)
-        {
-            <li><pre style="width:400px; white-space: pre-wrap;">@note</pre></li>
-        }
-    </ul>
+    @if (Model.Notes.Any())
+    {
+        <ul>
+            @foreach (var note in Model.Notes)
+            {
+                <li><pre style="width:400px; white-space: pre-wrap;">@note</pre></li>
+            }
+        </ul>
+    }
 </section>

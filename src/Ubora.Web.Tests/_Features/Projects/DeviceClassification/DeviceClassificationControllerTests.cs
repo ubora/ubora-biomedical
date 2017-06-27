@@ -32,7 +32,7 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
             _deviceClassificationProviderMock.Setup(x => x.Provide()).Returns(_deviceClassificationMock.Object);
 
             _noteFinderMock = new Mock<NotesFinder>();
-            
+
             _deviceClassificationController = new DeviceClassificationController(_processorMock.Object, _deviceClassificationProviderMock.Object, _noteFinderMock.Object);
             SetProjectAndUserContext(_deviceClassificationController);
         }

@@ -6,7 +6,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
 {
     public class NotesFinder
     {
-        public List<string> GetNotes(PairedMainQuestions pairedMainQuestions)
+        public virtual List<string> GetNotes(PairedMainQuestions pairedMainQuestions)
         {
             if (pairedMainQuestions.MainQuestionOne != null && pairedMainQuestions.MainQuestionOne.Note != null
                 && pairedMainQuestions.MainQuestionTwo != null && pairedMainQuestions.MainQuestionTwo.Note != null
@@ -40,7 +40,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.Services
             return null;
         }
 
-        public List<string> GetNotes(IReadOnlyCollection<BaseQuestion> specialSubQuestions)
+        public virtual List<string> GetNotes(IReadOnlyCollection<BaseQuestion> specialSubQuestions)
         {
             var notes = new List<Note>();
 
