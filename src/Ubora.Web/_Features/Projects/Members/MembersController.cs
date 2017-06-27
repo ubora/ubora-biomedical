@@ -41,19 +41,24 @@ namespace Ubora.Web._Features.Projects.Members
             var canRemoveProjectMembers = await _authorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember);
             var isProjectMember = await _authorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
 
+            var members = Project.Members.Select(m => new ProjectMemberListViewModel.Item
+            {
+                UserId = m.UserId,
+                // TODO(Kaspar Kallas): Eliminate SELECT(N + 1)
+                FullName = FindById<UserProfile>(m.UserId).FullName,
+                IsProjectLeader = m.IsLeader,
+                IsCurrentUser = UserInfo.UserId == m.UserId
+            });
+
+            var isCurrentUserProjectLeader = members.Any(x => x.UserId == UserInfo.UserId && x.IsProjectLeader);
+
             var model = new ProjectMemberListViewModel
             {
                 Id = ProjectId,
                 CanRemoveProjectMembers = canRemoveProjectMembers,
-                Members = Project.Members.Select(m => new ProjectMemberListViewModel.Item
-                {
-                    UserId = m.UserId,
-                    // TODO(Kaspar Kallas): Eliminate SELECT(N + 1)
-                    FullName = FindById<UserProfile>(m.UserId).FullName,
-                    IsProjectLeader = m.IsLeader,
-                    IsCurrentUser = UserInfo.UserId == m.UserId
-                }),
-                IsProjectMember = isProjectMember
+                Members = members,
+                IsProjectMember = isProjectMember,
+                IsCurrentUserProjectLeader = isCurrentUserProjectLeader
             };
 
             return View(model);

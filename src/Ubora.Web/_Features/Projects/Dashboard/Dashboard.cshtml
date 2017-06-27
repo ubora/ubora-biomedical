@@ -7,8 +7,10 @@
 }
 
 <section class="medium-width">
-    <a href="#"><i class="material-icons">add</i>Join project</a>
-
+    @if (!Model.IsProjectMember)
+    {
+        <a href="@Url.Action("Join", "Members")"><i class="material-icons">add</i>Join project</a>
+    }
     <div class="project_section">
         <img class="project_section--photo" src="//placehold.it/1500x300" alt="Example image">
     </div>
@@ -19,7 +21,7 @@
 
     <div class="project_section project_section--editable">
         <h2>Project description</h2>
-        @if(Model.IsProjectMember)
+        @if (Model.IsProjectMember)
         {
             <a asp-controller="Dashboard" asp-action="EditProjectDescription"><i class="material-icons">mode_edit</i>&nbsp;Edit</a>
         }
@@ -75,7 +77,7 @@
                 <!-- TODO: If device classification is set -->
                 <!-- <p>Class <i>[device classification here]</i> medical device.</p> -->
 
-                @if(Model.IsProjectMember)
+                @if (Model.IsProjectMember)
                 {
                     <div class="center-element">
                         <a class="button primary-button" asp-controller="DeviceClassification" asp-action="GetPairedMainQuestions">Go to device classification</a>
@@ -86,7 +88,7 @@
 
             <div class="project_section--checklist">
                 <h3>ISO standards and regulation checklist</h3>
-                @if(Model.IsProjectMember)
+                @if (Model.IsProjectMember)
                 {
                     <div class="center-element">
                         <button class="button primary-button" disabled>Go to regulation checklist</button>

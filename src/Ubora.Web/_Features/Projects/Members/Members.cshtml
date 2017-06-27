@@ -10,13 +10,15 @@
     @if (Model.IsProjectMember)
     {
         <a class="project-control" asp-controller="Members" asp-action="Invite">
-        <i class="material-icons">person_add</i>Invite member to project
+            <i class="material-icons">person_add</i>Invite member to project
         </a>
     }
     <br>
-    @* TODO: if "(member.IsCurrentUser && !member.IsProjectLeader)" *@
-    <a class="project-control" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId"><i class="material-icons">exit_to_app</i>Leave project</a>
 
+    @if (!Model.IsCurrentUserProjectLeader)
+    {
+        <a class="project-control" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId"><i class="material-icons">exit_to_app</i>Leave project</a>
+    }
     <h1 class="full-width">Project members</h1>
 </section>
 
@@ -25,11 +27,11 @@
     {
         <div class="project-member">
             <span class="project-member--status">
-            @if (member.IsProjectLeader)
-            {
-                @* TODO: Add a 'title' attribute with correct roles in the future.*@
-                <i class="material-icons" title="Project leader">supervisor_account</i>
-            }
+                @if (member.IsProjectLeader)
+                {
+                    @* TODO: Add a 'title' attribute with correct roles in the future.*@
+                    <i class="material-icons" title="Project leader">supervisor_account</i>
+                }
             </span>
 
             <span class="project-member--name">
