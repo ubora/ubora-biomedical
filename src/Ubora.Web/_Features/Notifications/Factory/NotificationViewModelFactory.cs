@@ -48,14 +48,15 @@ namespace Ubora.Web._Features.Notifications.Factory
         private NotificationViewModel CreateHistoryRequestViewModel(RequestToJoinProject requestToJoinProject)
         {
             var project = _processor.FindById<Project>(requestToJoinProject.ProjectId);
-            var fullName = _processor.FindById<UserProfile>(requestToJoinProject.AskingToJoinMemberId).FullName;
+            var invitedMemberUserProfile = _processor.FindById<UserProfile>(requestToJoinProject.AskingToJoinMemberId);
 
             var viewModel = new HistoryRequestViewModel
             {
                 ProjectTitle = project.Title,
                 ProjectId = project.Id,
                 WasAccepted = requestToJoinProject.IsAccepted.Value,
-                UserFullName = fullName,
+                UserFullName = invitedMemberUserProfile.FullName,
+                UserId = invitedMemberUserProfile.UserId,
                 RequestToJoinProjectId = requestToJoinProject.Id,
             };
 
@@ -65,7 +66,6 @@ namespace Ubora.Web._Features.Notifications.Factory
         private NotificationViewModel CreateHistoryInvitationViewModel(InvitationToProject invitationToProject)
         {
             var project = _processor.FindById<Project>(invitationToProject.ProjectId);
-            var fullName = _processor.FindById<UserProfile>(invitationToProject.InvitedMemberId).FullName;
 
             var viewModel = new HistoryInvitationViewModel
             {
@@ -81,14 +81,15 @@ namespace Ubora.Web._Features.Notifications.Factory
         private NotificationViewModel CreateIndexRequestViewModel(RequestToJoinProject requestToJoinProject)
         {
             var project = _processor.FindById<Project>(requestToJoinProject.ProjectId);
-            var fullName = _processor.FindById<UserProfile>(requestToJoinProject.AskingToJoinMemberId).FullName;
+            var askingToJoinMemberUserProfile = _processor.FindById<UserProfile>(requestToJoinProject.AskingToJoinMemberId);
 
             var viewModel = new IndexRequestViewModel
             {
                 ProjectTitle = project.Title,
                 ProjectId = project.Id,
                 IsUnread = !requestToJoinProject.HasBeenViewed,
-                UserFullName = fullName,
+                UserFullName = askingToJoinMemberUserProfile.FullName,
+                UserId = askingToJoinMemberUserProfile.UserId,
                 RequestToJoinProjectId = requestToJoinProject.Id,
             };
 
@@ -98,7 +99,6 @@ namespace Ubora.Web._Features.Notifications.Factory
         private NotificationViewModel CreateIndexInvitationViewModel(InvitationToProject invitationToProject)
         {
             var project = _processor.FindById<Project>(invitationToProject.ProjectId);
-            var fullName = _processor.FindById<UserProfile>(invitationToProject.InvitedMemberId).FullName;
 
             var viewModel = new IndexInvitationViewModel
             {
