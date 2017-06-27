@@ -29,6 +29,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
+                options.Events.InlineProjections.AggregateStreamsWith<WorkpackageThree>();
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectTask, ITaskEvent>());
 
                 options.Events.AddEventTypes(eventTypes);

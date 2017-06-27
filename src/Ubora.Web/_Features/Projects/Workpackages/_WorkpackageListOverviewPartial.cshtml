@@ -34,7 +34,16 @@
                             </a>
                         </li>
                     }
+                    <li><a asp-controller="WorkpackageTwoReview" asp-action="Review">&nbsp;Formal review</a></li>
                 </ol>
+            </li>
+        }
+
+        @if (Model.WorkpackageThree != null)
+        {
+            <li class="project_sidemenu--workpackage">
+                <h3>@Model.WorkpackageThree.Title</h3>
+                <p>Coming soon!</p>
             </li>
         }
     </ol>

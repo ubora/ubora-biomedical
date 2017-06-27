@@ -3,25 +3,27 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web.Authorization;
+using Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview;
 
-namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
+namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageTwoReview
 {
-    public class WorkpackageOneReviewController : ProjectController
+    public class WorkpackageTwoReviewController : ProjectController
     {
         private readonly IMapper _mapper;
 
-        public WorkpackageOneReviewController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
-        {
+        public WorkpackageTwoReviewController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
+            {
             _mapper = mapper;
         }
 
-        protected Domain.Projects.Workpackages.WorkpackageOne WorkpackageOne => this.FindById<Domain.Projects.Workpackages.WorkpackageOne>(ProjectId);
+        protected WorkpackageTwo WorkpackageTwo => FindById<WorkpackageTwo>(ProjectId);
 
         public IActionResult Review()
         {
-            var reviews = WorkpackageOne.Reviews
+            var reviews = WorkpackageTwo.Reviews
                 .Select(_mapper.Map<WorkpackageReviewViewModel>);
 
             return View(nameof(Review), reviews);
@@ -36,7 +38,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
                 return Review();
             }
 
-            ExecuteUserProjectCommand(new SubmitWorkpackageOneForReviewCommand());
+            ExecuteUserProjectCommand(new SubmitWorkpackageTwoForReviewCommand());
 
             if (!ModelState.IsValid)
             {
@@ -61,7 +63,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
                 return Review();
             }
 
-            ExecuteUserProjectCommand(new AcceptWorkpackageOneReviewCommand
+            ExecuteUserProjectCommand(new AcceptWorkpackageTwoReviewCommand
             {
                 ConcludingComment = model.ConcludingComment
             });
@@ -83,7 +85,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
                 return Review();
             }
 
-            ExecuteUserProjectCommand(new RejectWorkpackageOneReviewCommand
+            ExecuteUserProjectCommand(new RejectWorkpackageTwoReviewCommand
             {
                 ConcludingComment = model.ConcludingComment
             });

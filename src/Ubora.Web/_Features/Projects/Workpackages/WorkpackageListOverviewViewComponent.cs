@@ -21,7 +21,8 @@ namespace Ubora.Web._Features.Projects.Workpackages
             var model = new WorkpackageListOverviewViewModel
             {
                 WorkpackageOne = CreateViewModel<Domain.Projects.Workpackages.WorkpackageOne>(),
-                WorkpackageTwo = CreateViewModel<WorkpackageTwo>()
+                WorkpackageTwo = CreateViewModel<WorkpackageTwo>(),
+                WorkpackageThree = CreateViewModel<WorkpackageThree>()
             };
 
             var selectedStepId = GetSelectedStepId();

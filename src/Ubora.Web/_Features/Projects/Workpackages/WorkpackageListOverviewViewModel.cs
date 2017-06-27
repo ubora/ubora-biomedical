@@ -8,11 +8,13 @@ namespace Ubora.Web._Features.Projects.Workpackages
     {
         public WorkpackageOneOverviewViewModel WorkpackageOne { get; set; }
         public WorkpackageOneOverviewViewModel WorkpackageTwo { get; set; }
+        public WorkpackageOneOverviewViewModel WorkpackageThree { get; set; }
 
         private IEnumerable<WorkpackageOneOverviewViewModel> Workpackages => new[]
         {
             WorkpackageOne,
-            WorkpackageTwo
+            WorkpackageTwo,
+            WorkpackageThree
         };
 
         public void MarkSelectedStep(string stepId)

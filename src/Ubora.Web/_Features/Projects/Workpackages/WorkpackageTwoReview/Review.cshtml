@@ -1,0 +1,57 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
+@model IEnumerable<Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview.WorkpackageReviewViewModel>
+
+@{
+    ViewData["Title"] = "Formal review";
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
+
+<section class="project_view full-width">
+    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+
+    <section class="medium-width step-view">
+        <h1>Formal review</h1>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <section class="narrow-width">
+            <form asp-action="SubmitForReview">
+                <button type="submit" class="button primary-button full-width">Submit project for review</button>
+            </form>
+        </section>
+
+        @if (Model.Any())
+        {
+            <section class="full-width">
+                <h2>Reviews</h2>
+                @foreach (var review in Model)
+                {
+                    <table class="review-table">
+                        <tr>
+                            <td><b>Status</b></td>
+                            <td>@review.Status.ToString()</td>
+                        </tr>
+                        <tr>
+                            <td><b>Concluding comment</b></td>
+                            <td>@review.ConcludingComment</td>
+                        </tr>
+                        <tr>
+                            <td><b>Created at</b></td>
+                            <td>@review.SubmittedAt</td>
+                        </tr>
+                        <tr>
+                            <td><b>Concluded at</b></td>
+                            <td>@review.ConcludedAt</td>
+                        </tr>
+                    </table>
+                    <br>
+                }
+                @if (await AuthorizationService.AuthorizeAsync(User, Policies.CanReviewProjectWorkpackages))
+                {
+                    <a asp-action="Decision" class="button primary-button small-button">Write a review</a>
+                }
+            </section>
+        }
+    </section>
+</section>
