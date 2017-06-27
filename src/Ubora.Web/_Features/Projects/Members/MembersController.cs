@@ -14,14 +14,19 @@ namespace Ubora.Web._Features.Projects.Members
 {
     public class MembersController : ProjectController
     {
-        public MembersController(ICommandQueryProcessor processor) : base(processor)
+        private readonly IAuthorizationService _authorizationService;
+
+        public MembersController(ICommandQueryProcessor processor, IAuthorizationService authorizationService) : base(processor)
         {
+            _authorizationService = authorizationService;
         }
 
+        [AllowAnonymous]
         [Route(nameof(Members))]
         public async Task<IActionResult> Members()
         {
-            var canRemoveProjectMembers = Project.DoesSatisfy(new HasLeader(UserInfo.UserId));
+            var canRemoveProjectMembers = await _authorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember);
+            var isProjectMember = await _authorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
 
             var model = new ProjectMemberListViewModel
             {
@@ -33,7 +38,8 @@ namespace Ubora.Web._Features.Projects.Members
                     // TODO(Kaspar Kallas): Eliminate SELECT(N + 1)
                     FullName = FindById<UserProfile>(m.UserId).FullName,
                     IsProjectLeader = m.IsLeader
-                })
+                }),
+                IsProjectMember = isProjectMember
             };
 
             return View(model);

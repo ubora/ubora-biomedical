@@ -1,4 +1,4 @@
-﻿namespace Ubora.Web._Features.Users.Manage
+﻿namespace Ubora.Web._Features.Users.Profile
 {
     public class UserProfileViewModel
     {
