@@ -20,6 +20,7 @@ namespace Ubora.Web._Features.ProjectList
         {
             public Guid Id { get; protected set; }
             public string Title { get; protected set; }
+            public bool IsInDraft { get; set; }
         }
 
         public class Factory

@@ -11,22 +11,18 @@
         <img class="project_section--photo" src="//placehold.it/1500x300" alt="Example image">
     </div>
 
-    @*
-        TODO: If it's a draft, show the following element and display status text dynamically
-        @{
-            if (@Model.isInDraft) {
-                <span class="project_status">Draft</span>
-            }
-        }
-    *@
-
+    @if (Model.IsInDraft)
+    {
+        <span class="project_status">Draft</span>
+    }
+    
     <div class="project_section">
         <h1 class="project_section--title">@Model.Title</h1>
     </div>
 
     <div class="project_section project_section--editable">
         <h2>Project description</h2>
-        @if(Model.IsProjectMember)
+        @if (Model.IsProjectMember)
         {
             <a asp-controller="Dashboard" asp-action="EditProjectDescription"><i class="material-icons">mode_edit</i>&nbsp;Edit</a>
         }
