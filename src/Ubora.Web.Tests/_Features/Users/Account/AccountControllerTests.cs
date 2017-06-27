@@ -46,22 +46,22 @@ namespace Ubora.Web.Tests._Features.Users.Account
         [Fact]
         public async void ForgetPassword_Returns_View_And_Model_When_ModelState_Is_Invalid()
         {
-            var forgotpasswordviewmodel = new ForgotPasswordViewModel()
+            var forgotPasswordViewModel = new ForgotPasswordViewModel()
             {
                 Email = "test"
             };
+            _controller.ViewData.ModelState.AddModelError("", "mock error message");
 
             //Act
-            _controller.ViewData.ModelState.AddModelError("", "mock error message");
-            var result = await _controller.ForgotPassword(forgotpasswordviewmodel) as ViewResult;
+            var result = await _controller.ForgotPassword(forgotPasswordViewModel) as ViewResult;
 
             //Assert
-            result.Model.Should().Be(forgotpasswordviewmodel);
+            result.Model.Should().Be(forgotPasswordViewModel);
             _authMessageSenderMock.Verify(x => x.SendForgotPasswordMessage(It.IsAny<ApplicationUser>()), Times.Never);
         }
 
         [Fact]
-        public async void ForgetPassword_Returns_ForgotPasswordConfirmation_View_If_Not_Found_User_In_Manager()
+        public async void ForgetPassword_Returns_ForgotPasswordConfirmation_View_If_User_Is_Not_Found()
         {
             var forgotpasswordviewmodel = new ForgotPasswordViewModel()
             {
@@ -83,20 +83,20 @@ namespace Ubora.Web.Tests._Features.Users.Account
         [Fact]
         public async void ForgetPassword_Sends_Password_Reset_Mail_To_User_And_Results_ForgotPasswordConfirmation_View()
         {
-            var forgotpasswordviewmodel = new ForgotPasswordViewModel()
+            var forgotPasswordViewModel = new ForgotPasswordViewModel()
             {
                 Email = "test@test.com"
             };
             var identity = new ApplicationUser();
 
-            _userManagerMock.Setup(x => x.FindByNameAsync(forgotpasswordviewmodel.Email))
+            _userManagerMock.Setup(x => x.FindByNameAsync(forgotPasswordViewModel.Email))
                 .ReturnsAsync(identity);
             _userManagerMock.Setup(x => x.IsEmailConfirmedAsync(It.IsAny<ApplicationUser>())).ReturnsAsync(true);
             _controller.ControllerContext.HttpContext = new DefaultHttpContext();
             _controller.ControllerContext.HttpContext.Request.Scheme = "http";
 
             //Act
-            var result = await _controller.ForgotPassword(forgotpasswordviewmodel) as ViewResult;
+            var result = await _controller.ForgotPassword(forgotPasswordViewModel) as ViewResult;
 
             //Assert
             result.ViewName.Should().Be("ForgotPasswordConfirmation");

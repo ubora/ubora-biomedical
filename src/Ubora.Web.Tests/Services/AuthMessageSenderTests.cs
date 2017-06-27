@@ -34,9 +34,13 @@ namespace Ubora.Web.Tests.Services
         public void SendForgetConfirmationMessage_Sends_Confirmation_Message()
         {
             ApplicationUser applicationUser;
+            var resetPassword = "Reset Password";
+            
             string emailConfirmationToken, expectedUrl;
             GetApplicationUserEmailCofirmationTokenUrl(out applicationUser, out emailConfirmationToken, out expectedUrl);
             UrlActionContext urlActionContext = null;
+
+
             _userManagerMock.Setup(
                     x => x.GeneratePasswordResetTokenAsync(It.IsAny<ApplicationUser>()))
                 .ReturnsAsync(emailConfirmationToken);
@@ -50,6 +54,7 @@ namespace Ubora.Web.Tests.Services
             _actionContextAccessorMock.Object.ActionContext.HttpContext = new DefaultHttpContext();
             _actionContextAccessorMock.Object.ActionContext.HttpContext.Request.Scheme = "http";
 
+
             //Act
             _sut.SendForgotPasswordMessage(applicationUser);
 
@@ -58,7 +63,8 @@ namespace Ubora.Web.Tests.Services
             urlActionContext.Controller.Should().Be("Account");
             urlActionContext.Values.GetPropertyValue<Guid>("userId").Should().Be(applicationUser.Id);
             urlActionContext.Values.GetPropertyValue<string>("code").Should().Be(emailConfirmationToken);
-            _emailSenderMock.Verify(x => x.SendEmailAsync(applicationUser.Email, It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            
+            _emailSenderMock.Verify(x => x.SendEmailAsync(applicationUser.Email, resetPassword, It.IsAny<string>()), Times.Once);
         }
 
         private void GetApplicationUserEmailCofirmationTokenUrl(out ApplicationUser applicationUser, out string emailConfirmationToken, out string expectedUrl)

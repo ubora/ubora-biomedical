@@ -18,7 +18,7 @@ namespace Ubora.Web.Infrastructure
 
             if (areSmtpEnvironmentVariablesSet)
             {
-                builder.RegisterType<SimpleMailTransferProtocolEmailSender>().As<IEmailSender>()
+                builder.RegisterType<SmtpEmailSender>().As<IEmailSender>()
                     .InstancePerLifetimeScope();
             }
             else

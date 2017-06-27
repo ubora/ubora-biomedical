@@ -6,7 +6,7 @@ using MimeKit;
 
 namespace Ubora.Web.Services
 {
-    public class SimpleMailTransferProtocolEmailSender : IEmailSender
+    public class SmtpEmailSender : IEmailSender
     {
         public async Task SendEmailAsync(string email, string subject, string message)
         {

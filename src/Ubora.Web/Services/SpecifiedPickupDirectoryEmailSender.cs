@@ -28,13 +28,14 @@ namespace Ubora.Web.Services
 
             var path = Path.GetFullPath(Path.Combine(pickupDirectory, Guid.NewGuid() + ".eml"));
             var stream = new FileStream(path, FileMode.CreateNew);
-            var writer = new StreamWriter(stream);
-            writer.WriteLine(DateTime.Now);
-            writer.WriteLine("Subject: " + subject);
-            writer.WriteLine("To: " + email);
-            writer.WriteLine("");
-            writer.WriteLine(message);
-            writer.Dispose();
+            using (var writer = new StreamWriter(stream))
+            {
+                writer.WriteLine(DateTime.Now);
+                writer.WriteLine("Subject: " + subject);
+                writer.WriteLine("To: " + email);
+                writer.WriteLine("");
+                writer.WriteLine(message);
+            }
         }
     }
 }
