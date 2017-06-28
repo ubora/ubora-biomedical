@@ -3,7 +3,6 @@ using System.IO;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -76,16 +75,12 @@ namespace Ubora.Web
 
             var autofacContainerBuilder = new ContainerBuilder();
 
-            var azureBlobEnvironmentVariablesSet =
-                Environment.GetEnvironmentVariable("amazon_storage_bucket") != null
-                && Environment.GetEnvironmentVariable("amazon_storage_publickey") != null
-                && Environment.GetEnvironmentVariable("amazon_storage_secretkey") != null;
-
-            IStorageProvider storageProvider = null;
-            if (Configuration.GetValue<bool?>("Storage:IsLocal") ?? false)
+            IStorageProvider storageProvider;
+            var isLocalStorage = Configuration.GetValue<bool?>("Storage:IsLocal") ?? false;
+            if (isLocalStorage)
             {
                 var basePath = Path.GetFullPath("wwwroot/images/storages");
-                storageProvider = new LocalStorageProvider(basePath);
+                storageProvider = new FixedLocalStorageProvider(basePath, new LocalStorageProvider(basePath));
             }
             else
             {
