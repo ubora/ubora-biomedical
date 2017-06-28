@@ -29,13 +29,11 @@ namespace Ubora.Domain.Projects.Repository
                 Security = BlobSecurity.Public
             };
 
-            var fileName = cmd.FileName;
-            string containerName = $"projects/{project.Id}/files";
-            _storageProvider.SaveBlobStreamAsync(containerName, fileName, cmd.Stream, blobProperties)
+            var fileName = $"{project.Id}/repository/{cmd.FileName}";
+            _storageProvider.SaveBlobStreamAsync("projects", fileName, cmd.Stream, blobProperties)
                 .Wait();
 
-            var fileLocation = _storageProvider.GetBlobUrl(containerName, fileName)
-                    ?.Replace("/app/wwwroot", "");
+            var fileLocation = _storageProvider.GetBlobUrl("projects", fileName);
 
             var @event = new FileAddedEvent(
                 cmd.Actor,

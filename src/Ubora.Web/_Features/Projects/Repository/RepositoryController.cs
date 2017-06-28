@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Repository;
@@ -47,13 +48,14 @@ namespace Ubora.Web._Features.Projects.Repository
                 return Repository();
             }
 
-            var getCorrectFileName = model.ProjectFile.FileName.Substring(model.ProjectFile.FileName.LastIndexOf(@"\") + 1);
+            var filePath = model.ProjectFile.FileName.Replace(@"\\", "/");
+            var fileName = Path.GetFileName(filePath);
 
             ExecuteUserProjectCommand(new AddFileCommand
             {
                 Id = Guid.NewGuid(),
                 Stream = model.ProjectFile.OpenReadStream(),
-                FileName = getCorrectFileName
+                FileName = fileName
             });
 
             if (!ModelState.IsValid)

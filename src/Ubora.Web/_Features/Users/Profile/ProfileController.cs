@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -97,14 +98,14 @@ namespace Ubora.Web._Features.Users.Profile
 
             var userId = _userManager.GetUserId(User);
 
-            // GetFileName method that don't work well. Don't trust too the FileName(display different results)! 
-            var getCorrectFileName = model.ProfilePicture.FileName.Substring(model.ProfilePicture.FileName.LastIndexOf(@"\") + 1);
+            var filePath = model.ProfilePicture.FileName.Replace(@"\\", "/");
+            var fileName = Path.GetFileName(filePath);
 
             ExecuteUserCommand(new ChangeUserProfilePictureCommand
             {
                 UserId = new Guid(userId),
                 Stream = model.ProfilePicture.OpenReadStream(),
-                FileName = getCorrectFileName
+                FileName = fileName
             });
 
             if (!ModelState.IsValid)

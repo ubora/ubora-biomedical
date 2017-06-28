@@ -17,12 +17,12 @@ namespace Ubora.Web.Infrastructure
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var file = (IFormFile)value;
-
-            if (file == null)
+            if (value == null)
             {
                 return new ValidationResult("Please select a file to upload!");
             }
+
+            var file = (IFormFile)value;
 
             if (file.Length > MaxBytes)
             {

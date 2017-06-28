@@ -67,7 +67,8 @@ namespace Ubora.Web.Infrastructure
 
         public string GetBlobUrl(string containerName, string blobName)
         {
-            return _localStorageProvider.GetBlobUrl(containerName, blobName);
+            return _localStorageProvider.GetBlobUrl(containerName, blobName)
+                ?.Replace("/app/wwwroot", "");
         }
 
         public string GetBlobSasUrl(string containerName, string blobName, DateTimeOffset expiry, bool isDownload = false, string fileName = null, string contentType = null, BlobUrlAccess access = BlobUrlAccess.Read)
