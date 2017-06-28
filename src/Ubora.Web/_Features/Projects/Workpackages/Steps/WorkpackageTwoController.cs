@@ -1,28 +1,21 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
-using Ubora.Web._Features.Projects.Workpackages.WorkpackageOne;
 
-namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageTwos
+namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     [ProjectRoute("WP2")]
-    public class WorkpackageTwosController : ProjectController
+    public class WorkpackageTwoController : ProjectController
     {
         private readonly IMapper _mapper;
 
-        public WorkpackageTwosController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
+        public WorkpackageTwoController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
         {
             _mapper = mapper;
         }
 
-        protected WorkpackageTwo WorkpackageTwo => FindById<WorkpackageTwo>(ProjectId);
-
-        public IActionResult Index()
-        {
-            return View();
-        }
+        protected Domain.Projects.Workpackages.WorkpackageTwo WorkpackageTwo => FindById<Domain.Projects.Workpackages.WorkpackageTwo>(ProjectId);
 
         [Route("{stepId}")]
         public IActionResult Read(string stepId)
@@ -30,6 +23,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageTwos
             var step = WorkpackageTwo.GetSingleStep(stepId);
 
             var model = _mapper.Map<StepViewModel>(step);
+            model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
+            model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
 
             return View(model);
         }
@@ -40,6 +35,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageTwos
             var step = WorkpackageTwo.GetSingleStep(stepId);
 
             var model = _mapper.Map<StepViewModel>(step);
+            model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
+            model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
 
             return View(model);
         }

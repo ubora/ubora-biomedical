@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Workpackages;
-using Ubora.Web._Features.Projects.Workpackages.WorkpackageOne;
+using Ubora.Web._Features.Projects.Workpackages.Steps;
 
 namespace Ubora.Web._Features.Projects.Workpackages
 {

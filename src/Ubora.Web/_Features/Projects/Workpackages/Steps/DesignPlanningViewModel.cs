@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
+namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     public class DesignPlanningViewModel
     {

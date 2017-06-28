@@ -6,9 +6,8 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web.Authorization;
-using Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview;
 
-namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageTwoReview
+namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 {
     public class WorkpackageTwoReviewController : ProjectController
     {
@@ -23,10 +22,14 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageTwoReview
 
         public IActionResult Review()
         {
-            var reviews = WorkpackageTwo.Reviews
-                .Select(_mapper.Map<WorkpackageReviewViewModel>);
+            var model = new WorkpackageReviewListViewModel
+            {
+                Reviews = WorkpackageTwo.Reviews.Select(_mapper.Map<WorkpackageReviewViewModel>),
+                ReviewDecisionUrl = Url.Action(nameof(Decision)),
+                SubmitForReviewUrl = Url.Action(nameof(SubmitForReview))
+            };
 
-            return View(nameof(Review), reviews);
+            return View(nameof(Review), model);
         }
 
         [HttpPost]
@@ -49,9 +52,14 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageTwoReview
         }
 
         [Authorize(Policies.CanReviewProjectWorkpackages)]
-        public IActionResult Decision(WorkpackageReviewDecisionPostModel model)
+        public IActionResult Decision()
         {
-            return View(nameof(Decision));
+            var model = new WorkpackageReviewDecisionPostModel
+            {
+                AcceptUrl = Url.Action(nameof(Accept)),
+                RejectUrl = Url.Action(nameof(Reject))
+            };
+            return View(nameof(Decision), model);
         }
 
         [HttpPost]

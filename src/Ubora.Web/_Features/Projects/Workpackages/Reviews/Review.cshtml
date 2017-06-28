@@ -1,6 +1,6 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages
 @using Ubora.Web._Features.Projects._Shared
-@model IEnumerable<Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview.WorkpackageReviewViewModel>
+@model Ubora.Web._Features.Projects.Workpackages.Reviews.WorkpackageReviewListViewModel
 
 @{
     ViewData["Title"] = "Formal review";
@@ -16,16 +16,18 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <section class="narrow-width">
-            <form asp-action="SubmitForReview">
-                <button type="submit" class="button primary-button full-width">Submit project for review</button>
+            <form action="@Model.SubmitForReviewUrl" method="post" asp-antiforgery="true">
+                <div class="form-input">
+                    <button type="submit" class="button primary-button full-width">Submit project for review</button>
+                </div>
             </form>
         </section>
 
-        @if (Model.Any())
+        @if (Model.Reviews.Any())
         {
             <section class="full-width">
                 <h2>Reviews</h2>
-                @foreach (var review in Model)
+                @foreach (var review in Model.Reviews)
                 {
                     <table class="review-table">
                         <tr>
@@ -49,7 +51,7 @@
                 }
                 @if (await AuthorizationService.AuthorizeAsync(User, Policies.CanReviewProjectWorkpackages))
                 {
-                    <a asp-action="Decision" class="button primary-button small-button">Write a review</a>
+                    <a href="@Model.ReviewDecisionUrl" class="button primary-button small-button">Write a review</a>
                 }
             </section>
         }

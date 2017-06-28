@@ -11,7 +11,7 @@
                 @foreach (var step in Model.WorkpackageOne.Steps)
                 {
                     <li>
-                        <a asp-action="Step" asp-controller="WorkpackageOne" asp-route-stepId="@step.Id">@step.Title</a>
+                        <a asp-action="Read" asp-controller="WorkpackageOne" asp-route-stepId="@step.Id">@step.Title</a>
                     </li>
                 }
                 <li><a asp-controller="WorkpackageOne" asp-action="DeviceClassification">&nbsp;Device classification</a></li>
@@ -28,7 +28,7 @@
                     @foreach (var step in Model.WorkpackageTwo.Steps)
                     {
                         <li>
-                            <a asp-action="Read" asp-controller="WorkpackageTwos" asp-route-stepId="@step.Id">
+                            <a asp-action="Read" asp-controller="WorkpackageTwo" asp-route-stepId="@step.Id">
 
                                 @step.Title
                             </a>

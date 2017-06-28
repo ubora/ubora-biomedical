@@ -1,7 +1,6 @@
 ﻿using System;
 using FluentAssertions;
 using Ubora.Web._Features.Projects.Workpackages;
-using Ubora.Web._Features.Projects.Workpackages.WorkpackageOne;
 using Xunit;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages
