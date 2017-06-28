@@ -5,14 +5,18 @@ namespace Ubora.Domain.Projects.Repository
 {
     public class FileAddedEvent : UboraEvent, IFileEvent
     {
-        public FileAddedEvent(UserInfo initiatedBy) : base(initiatedBy)
+        public FileAddedEvent(UserInfo initiatedBy, Guid projectId, Guid id, string fileName, string fileLocation) : base(initiatedBy)
         {
+            ProjectId = projectId;
+            Id = id;
+            FileName = fileName;
+            FileLocation = fileLocation;
         }
 
-        public Guid ProjectId { get; set; }
-        public Guid Id { get; set; }
-        public string FileName { get; set; }
-        public string FileLocation { get; set; }
+        public Guid ProjectId { get; private set; }
+        public Guid Id { get; private set; }
+        public string FileName { get; private set; }
+        public string FileLocation { get; private set; }
 
         public override string GetDescription()
         {

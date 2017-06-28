@@ -37,13 +37,13 @@ namespace Ubora.Domain.Projects.Repository
             var fileLocation = _storageProvider.GetBlobUrl(containerName, fileName)
                     ?.Replace("/app/wwwroot", "");
 
-            var @event = new FileAddedEvent(cmd.Actor)
-            {
-                ProjectId = cmd.ProjectId,
-                Id = cmd.Id,
-                FileName = fileName,
-                FileLocation = fileLocation
-            };
+            var @event = new FileAddedEvent(
+                cmd.Actor,
+                cmd.ProjectId,
+                cmd.Id,
+                fileName,
+                fileLocation
+            );
 
             _documentSession.Events.Append(cmd.ProjectId, @event);
             _documentSession.SaveChanges();
