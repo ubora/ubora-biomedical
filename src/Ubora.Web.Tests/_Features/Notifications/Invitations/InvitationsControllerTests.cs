@@ -45,10 +45,10 @@ namespace Ubora.Web.Tests._Features.Notifications.Invitations
                 .Returns(new CommandResult("Something went wrong"));
 
             // Act
-            var result = _invitationsController.Accept(vm);
+            var result = (RedirectToActionResult)_invitationsController.Accept(vm);
 
             // Assert
-            result.Should().BeOfType<BadRequestResult>();
+            _invitationsController.ModelState.ErrorCount.Should().Be(1);
         }
 
         [Fact]
@@ -73,10 +73,10 @@ namespace Ubora.Web.Tests._Features.Notifications.Invitations
                 .Returns(new CommandResult("Something went wrong"));
 
             // Act
-            var result = _invitationsController.Decline(vm);
+            var result = (RedirectToActionResult)_invitationsController.Decline(vm);
 
             // Assert
-            result.Should().BeOfType<BadRequestResult>();
+            _invitationsController.ModelState.ErrorCount.Should().Be(1);
         }
     }
 }

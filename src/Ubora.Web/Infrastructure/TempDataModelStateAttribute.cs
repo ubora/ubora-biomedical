@@ -28,23 +28,10 @@ namespace Ubora.Web.Infrastructure
             }
         }
 
-        public override async Task OnActionExecutionAsync(ActionExecutingContext filterContext, ActionExecutionDelegate next)
-        {
-            await base.OnActionExecutionAsync(filterContext, next);
-
-            var controller = filterContext.Controller as Controller;
-
-            var serializedModelState = GetSerializedModelState(controller);
-            if (serializedModelState != null)
-            {
-                controller.TempData[Key] = serializedModelState;
-            }
-        }
-
         private string GetSerializedModelState(Controller controller)
         {
             var modelState = controller?.ViewData.ModelState;
-            if (modelState == null) return null;
+            if (modelState == null || !modelState.Any()) return null;
 
             var listError = modelState.Where(x => x.Value.Errors.Any())
                 .ToDictionary(m => m.Key, m => m.Value.Errors
@@ -60,18 +47,6 @@ namespace Ubora.Web.Infrastructure
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-
-            var controller = filterContext.Controller as Controller;
-            var savedModelState = GetModelStateFromTempData(controller);
-            if (savedModelState != null)
-            {
-                controller.ViewData.ModelState.Merge(savedModelState);
-            }
-        }
-
-        public override async Task OnActionExecutionAsync(ActionExecutingContext filterContext, ActionExecutionDelegate next)
-        {
-            await base.OnActionExecutionAsync(filterContext, next);
 
             var controller = filterContext.Controller as Controller;
             var savedModelState = GetModelStateFromTempData(controller);
