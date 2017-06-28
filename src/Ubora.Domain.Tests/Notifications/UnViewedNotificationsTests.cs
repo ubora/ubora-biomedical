@@ -4,6 +4,7 @@ using System.Linq;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Notifications.Join;
+using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 using Xunit;
@@ -48,24 +49,21 @@ namespace Ubora.Domain.Tests.Notifications
             Processor.Execute(new JoinProjectCommand
             {
                 ProjectId = projectId,
-                AskingToJoin = userId1,
-                Actor = new UserInfo(userId, "")
+                Actor = new UserInfo(userId1, "")
             });
 
             Processor.Execute(new MarkNotificationsAsViewedCommand
             {
-                UserId = userId,
                 Actor = new UserInfo(userId, "")
             });
 
             Processor.Execute(new JoinProjectCommand
             {
                 ProjectId = projectId,
-                AskingToJoin = expectedUserId,
-                Actor = new UserInfo(userId, "")
+                Actor = new UserInfo(expectedUserId, "")
             });
 
-            var sut = new UnViewedNotifications<RequestToJoinProject>(userId);
+            var sut = new HasUnViewedNotifications<RequestToJoinProject>(userId);
             var invitations = Session.Query<RequestToJoinProject>();
 
             // Act

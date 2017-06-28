@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq.Expressions;
 using Ubora.Domain.Infrastructure.Specifications;
 
-namespace Ubora.Domain.Notifications
+namespace Ubora.Domain.Notifications.Specifications
 {
-    public class HasPendingNotifications<T> : Specification<T> where T:BaseNotification
+    public class HasPendingNotifications<T> : WrappedSpecification<T> where T : BaseNotification
     {
         protected Guid _userId;
         public HasPendingNotifications(Guid userId)
@@ -12,10 +11,7 @@ namespace Ubora.Domain.Notifications
             _userId = userId;
         }
 
-        internal override Expression<Func<T, bool>> ToExpression()
-        {
-            return x => x.NotificationTo == _userId && x.IsPending;
-        }
+        public override Specification<T> Specification => new IsForUser<T>(_userId) && new IsPending<T>();
     }
 
     public class HasPendingNotifications : HasPendingNotifications<BaseNotification>

@@ -104,7 +104,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         [Fact]
         public void Join_Sends_Request()
         {
-            _processorMock.Setup(x => x.Execute(It.Is<JoinProjectCommand>(y => y.AskingToJoin == UserId)))
+            _processorMock.Setup(x => x.Execute(It.Is<JoinProjectCommand>(y => y.Actor.UserId == UserId)))
                 .Returns(new CommandResult());
 
             var viewModel = new JoinProjectViewModel();
@@ -119,7 +119,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         [Fact]
         public void Join_Returns_Message_If_Command_Failed()
         {
-            _processorMock.Setup(x => x.Execute(It.Is<JoinProjectCommand>(y => y.AskingToJoin == UserId)))
+            _processorMock.Setup(x => x.Execute(It.Is<JoinProjectCommand>(y => y.Actor.UserId == UserId)))
                 .Returns(new CommandResult("Something went wrong"));
 
             var viewModel = new JoinProjectViewModel();

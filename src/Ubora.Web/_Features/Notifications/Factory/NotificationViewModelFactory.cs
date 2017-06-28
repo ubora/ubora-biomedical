@@ -19,33 +19,15 @@ namespace Ubora.Web._Features.Notifications.Factory
 
         public NotificationViewModel CreateIndexViewModel(BaseNotification notification)
         {
-            if (notification is InvitationToProject invitationToProject)
-            {
-                return CreateIndexInvitationViewModel(invitationToProject);
-            }
-            else if (notification is RequestToJoinProject requestToJoinProject)
-            {
-                return CreateIndexRequestViewModel(requestToJoinProject);
-            }
-
-            throw new ArgumentException(nameof(notification));
+            return CreateIndexViewModelInternal((dynamic)notification);
         }
 
         public NotificationViewModel CreateHistoryViewModel(BaseNotification notification)
         {
-            if (notification is InvitationToProject invitationToProject)
-            {
-                return CreateHistoryInvitationViewModel(invitationToProject);
-            }
-            else if (notification is RequestToJoinProject requestToJoinProject)
-            {
-                return CreateHistoryRequestViewModel(requestToJoinProject);
-            }
-
-            throw new ArgumentException(nameof(notification));
+            return CreateHistoryViewModelInternal((dynamic)notification);
         }
 
-        private NotificationViewModel CreateHistoryRequestViewModel(RequestToJoinProject requestToJoinProject)
+        private NotificationViewModel CreateHistoryViewModelInternal(RequestToJoinProject requestToJoinProject)
         {
             var project = _processor.FindById<Project>(requestToJoinProject.ProjectId);
             var invitedMemberUserProfile = _processor.FindById<UserProfile>(requestToJoinProject.AskingToJoinMemberId);
@@ -63,7 +45,7 @@ namespace Ubora.Web._Features.Notifications.Factory
             return viewModel;
         }
 
-        private NotificationViewModel CreateHistoryInvitationViewModel(InvitationToProject invitationToProject)
+        private NotificationViewModel CreateHistoryViewModelInternal(InvitationToProject invitationToProject)
         {
             var project = _processor.FindById<Project>(invitationToProject.ProjectId);
 
@@ -78,7 +60,7 @@ namespace Ubora.Web._Features.Notifications.Factory
             return viewModel;
         }
 
-        private NotificationViewModel CreateIndexRequestViewModel(RequestToJoinProject requestToJoinProject)
+        private NotificationViewModel CreateIndexViewModelInternal(RequestToJoinProject requestToJoinProject)
         {
             var project = _processor.FindById<Project>(requestToJoinProject.ProjectId);
             var askingToJoinMemberUserProfile = _processor.FindById<UserProfile>(requestToJoinProject.AskingToJoinMemberId);
@@ -96,7 +78,7 @@ namespace Ubora.Web._Features.Notifications.Factory
             return viewModel;
         }
 
-        private NotificationViewModel CreateIndexInvitationViewModel(InvitationToProject invitationToProject)
+        private NotificationViewModel CreateIndexViewModelInternal(InvitationToProject invitationToProject)
         {
             var project = _processor.FindById<Project>(invitationToProject.ProjectId);
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Notifications;
+using Ubora.Domain.Notifications.Specifications;
 using Ubora.Web._Features.Notifications.Factory;
 
 namespace Ubora.Web._Features.Notifications

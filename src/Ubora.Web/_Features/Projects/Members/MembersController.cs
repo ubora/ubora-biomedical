@@ -124,7 +124,7 @@ namespace Ubora.Web._Features.Projects.Members
                 return View(model);
             }
 
-            ExecuteUserProjectCommand(new JoinProjectCommand { AskingToJoin = User.GetId() });
+            ExecuteUserProjectCommand(new JoinProjectCommand ());
 
             if (!ModelState.IsValid)
             {

@@ -7,10 +7,11 @@ using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 using Xunit;
 using FluentAssertions;
+using Ubora.Domain.Notifications.Specifications;
 
 namespace Ubora.Domain.Tests.Notifications
 {
-    public class HasPendingNotificationsTests: IntegrationFixture
+    public class HasPendingNotificationsTests : IntegrationFixture
     {
         [Fact]
         public void Returns_Notifications_That_Have_Been_Viewed()

@@ -7,6 +7,7 @@ using Xunit;
 using Ubora.Domain.Notifications;
 using System.Linq;
 using FluentAssertions;
+using Ubora.Domain.Notifications.Specifications;
 
 namespace Ubora.Domain.Tests.Notifications
 {

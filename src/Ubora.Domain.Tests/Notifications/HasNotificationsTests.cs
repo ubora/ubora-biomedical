@@ -4,6 +4,7 @@ using System.Linq;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Notifications.Invitation;
+using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 using Xunit;
@@ -45,7 +46,7 @@ namespace Ubora.Domain.Tests.Notifications
                 Actor = new UserInfo(userId, "")
             });
 
-            var sut = new HasNotifications<InvitationToProject>(expectedUserId);
+            var sut = new IsForUser<InvitationToProject>(expectedUserId);
             var invitations = Session.Query<InvitationToProject>();
 
             // Act

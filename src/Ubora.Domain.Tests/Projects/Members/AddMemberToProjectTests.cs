@@ -7,6 +7,7 @@ using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Notifications.Invitation;
 using Ubora.Domain.Notifications.Join;
+using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
@@ -92,7 +93,7 @@ namespace Ubora.Domain.Tests.Projects.Members
             var project = Session.Load<Project>(_projectId);
             var projectLeader = project.Members.Single(x => x.IsLeader);
 
-            var hasNotification = new HasNotifications<RequestToJoinProject>(projectLeader.UserId);
+            var hasNotification = new IsForUser<RequestToJoinProject>(projectLeader.UserId);
             var notifications = Session.Query<RequestToJoinProject>();
 
             var invites = hasNotification.SatisfyEntitiesFrom(notifications);
@@ -106,12 +107,11 @@ namespace Ubora.Domain.Tests.Projects.Members
             var project = Session.Load<Project>(_projectId);
             var projectLeader = project.Members.Single(x => x.IsLeader);
 
-            var hasNotification = new HasNotifications<RequestToJoinProject>(projectLeader.UserId);
+            var hasNotification = new IsForUser<RequestToJoinProject>(projectLeader.UserId);
 
             _lastCommandResult = Processor.Execute(new MarkNotificationsAsViewedCommand
             {
-                UserId = projectLeader.UserId,
-                Actor = new UserInfo(Guid.NewGuid(), "")
+                Actor = new UserInfo(projectLeader.UserId, "")
             });
         }
 
@@ -120,8 +120,7 @@ namespace Ubora.Domain.Tests.Projects.Members
             _lastCommandResult = Processor.Execute(new JoinProjectCommand
             {
                 ProjectId = _projectId,
-                AskingToJoin = _invitedUserId,
-                Actor = new UserInfo(Guid.NewGuid(), "")
+                Actor = new UserInfo(_invitedUserId, "")
             });
         }
 
@@ -155,8 +154,7 @@ namespace Ubora.Domain.Tests.Projects.Members
         {
             _lastCommandResult = Processor.Execute(new MarkNotificationsAsViewedCommand
             {
-                UserId = _invitedUserId,
-                Actor = new UserInfo(Guid.NewGuid(), "")
+                Actor = new UserInfo(_invitedUserId, "")
             });
         }
 
