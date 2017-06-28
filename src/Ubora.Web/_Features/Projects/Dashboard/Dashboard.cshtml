@@ -13,9 +13,11 @@
 
     @if (Model.IsInDraft)
     {
-        <span class="project_status">Draft</span>
+        <div class="project_section">
+            <span class="project_status full-width">Draft</span>
+        </div>
     }
-    
+
     <div class="project_section">
         <h1 class="project_section--title">@Model.Title</h1>
     </div>
