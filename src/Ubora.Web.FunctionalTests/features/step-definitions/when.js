@@ -12,4 +12,16 @@ module.exports = function () {
     this.When(/^I select "([^"]*)?" from element "([^"]*)?"$/, (value, element) => {
             browser.selectByValue(element,value);
         });
+
+    this.When(/^I click on the key "([^"]*)?"$/, (value) => {
+            browser.keys(value);
+        });
+    
+    this.When(/^I click on keys "([^"]*)?"$/, (value) => {
+            browser.keys(value);
+        });
+
+    this.When(/^I go Back to last page$/, 
+    browser.Back
+    );
 }

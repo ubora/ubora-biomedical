@@ -5,7 +5,7 @@ Feature: Register page
 Background:
     Given I go to the website "/Home/Index"
     Given I click the element "a=Sign in/sign up"
-    Given I click the element ".button.primary-button.full-width"
+    Given I click the element "a=Sign up"
 
 Scenario: Get the title of Ubora 
     Then I expect the title of the page "Sign up - UBORA"
@@ -16,7 +16,11 @@ Scenario: I click on Logo
 
 Scenario: I click on Sign in/sign up
     When I click on the element "a=Sign in/sign up"
-    Then I expect the title of the page "Sign in - UBORA"
+    Then I expect the title of the page "Sign in to UBORA - UBORA"
+
+Scenario: I click on Terms of Service
+    When I click on the element "a=Terms of Service"
+    Then I expect the title of the page "- UBORA"
 
 Scenario: I submit valid registration form then user is logged in and full name displayed
     When I click on the element "#IsAgreedToTermsOfService"
@@ -25,7 +29,7 @@ Scenario: I submit valid registration form then user is logged in and full name 
     When I set "email@email.com" to the element "#Email"
     When I set "Test12345" to the element "#Password"
     When I set "Test12345" to the element "#ConfirmPassword"
-    When I click on the element "/html/body/main/section/form/button"
+    When I click on the element "button=Create an account"
     Then I expect the title of the page "- UBORA"
-    When I click on the element "/html/body/header/button"
-    Then I expect that the element "p=TestFirstName TestLastName" is visible
+    When I click on the element "span=Menu"
+    Then I expect the element "p=TestFirstName TestLastName" is visible

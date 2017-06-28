@@ -7,7 +7,7 @@ Background:
     Given I click the element "a=Sign in/sign up"
 
 Scenario: Go to SignInSignUp page 
-    Then I expect the title of the page "Sign in - UBORA"
+    Then I expect the title of the page "Sign in to UBORA - UBORA"
 
 Scenario: Click Logo
     When I click on the element ".header-logo"
@@ -15,12 +15,8 @@ Scenario: Click Logo
 
 Scenario: Click Sign in/sign up
     When I click on the element "a=Sign in/sign up"
-    Then I expect the title of the page "Sign in - UBORA"
-
-Scenario: Click Continue with UBORA
-    When I click on the element ".button.secondary-button.login-button"
     Then I expect the title of the page "Sign in to UBORA - UBORA"
 
 Scenario: Click Sign up
-    When I click on the element ".button.primary-button.full-width"
+    When I click on the element "a=Sign up"
     Then I expect the title of the page "Sign up - UBORA"

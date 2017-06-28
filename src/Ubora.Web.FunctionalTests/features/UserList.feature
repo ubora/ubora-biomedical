@@ -15,11 +15,11 @@ Scenario: I click a Ubora logo
 
 Scenario: I click a Sign in/sign up button
     When I click on the element "a=Sign in/sign up"
-    Then I expect the title of the page "Sign in - UBORA"
+    Then I expect the title of the page "Sign in to UBORA - UBORA"
 
 Scenario: I sign up and check my profile on Members page
     When I click on the element "a=Sign in/sign up"
-    Then I expect the title of the page "Sign in - UBORA"
+    Then I expect the title of the page "Sign in to UBORA - UBORA"
     When I click on the element "a=Sign up"
     Then I expect the title of the page "Sign up - UBORA"
     When I set "TestName" to the element "#FirstName"
@@ -36,9 +36,9 @@ Scenario: I sign up and check my profile on Members page
     Then I expect the title of the page "- UBORA"
     When I click on the element "a=TestName TestLastName"
     Then I expect the title of the page "View profile - UBORA"
-    Then I expect that the input "emailemail@email.com" of the element "#Email" is correct
-    Then I expect that the input "TestName" of the element "#FirstName" is correct
-    Then I expect that the input "TestLastName" of the element "#LastName" is correct
+    Then I expect the input "emailemail@email.com" of the element "#Email" is correct
+    Then I expect the input "TestName" of the element "#FirstName" is correct
+    Then I expect the input "TestLastName" of the element "#LastName" is correct
 
 Scenario: I sign in and click on my email on Members page
     When I click on the element "a=emailemail@email.com"
