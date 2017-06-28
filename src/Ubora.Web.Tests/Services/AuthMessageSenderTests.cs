@@ -34,12 +34,12 @@ namespace Ubora.Web.Tests.Services
         [Fact]
         public async Task SendForgotPasswordMessageAsync_Sends_Confirmation_Message()
         {
-            var resetPassword = "Reset Password";
             var applicationUser = new ApplicationUser() { Email = "test@test.com" };
             var emailConfirmationToken = "342hdba7ydi3di73h2hia7d7i3";
             var expectedUrl = "https://www.google.com/";
-            var expectedMessage =
-                $"Please reset your password by clicking here: <a href=\"{expectedUrl}\">link</a>";
+            var resetPassword = "Password reset";
+            var expectedMessage = $"<h1 style='color:#4777BB;'>Password reset</h1><p>You can reset your password by clicking <a href=\"{expectedUrl}\">this link</a>.</p>";
+
             UrlActionContext urlActionContext = null;
 
             _userManagerMock.Setup(
