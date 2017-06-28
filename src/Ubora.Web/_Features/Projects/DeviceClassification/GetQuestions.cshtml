@@ -25,10 +25,13 @@
     </ul>
     @if (Model.Notes.Any())
     {
+        <h3>Notes</h3>
         <ul>
             @foreach (var note in Model.Notes)
             {
-                <li><pre style="width:400px; white-space: pre-wrap;">@note</pre></li>
+                <li>
+                    <p>@note</p>
+                </li>
             }
         </ul>
     }
