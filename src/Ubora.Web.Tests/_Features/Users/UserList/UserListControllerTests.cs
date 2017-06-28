@@ -27,12 +27,12 @@ namespace Ubora.Web.Tests._Features.Users.UserList
 
         [Theory]
         [InlineData("test.jpg")]
-        [InlineData("Default")]
+        [InlineData(null)]
         public void Index_Returns_Users(string blobname)
         {
             var userProfile = new UserProfile(Guid.NewGuid());
 
-            if (blobname != "Default")
+            if (blobname != null)
             {
                 userProfile.ProfilePictureBlobName = "test.jpg";
             }
@@ -45,7 +45,7 @@ namespace Ubora.Web.Tests._Features.Users.UserList
             var url = $"/app/wwwroot/images/storages/users/{userProfile.UserId}/profile-pictures/test.jpg";
             var expectedUrl = $"/images/storages/users/{userProfile.UserId}/profile-pictures/test.jpg";
 
-            if (blobname != "Default")
+            if (blobname != null)
             {
                 _storageProviderMock.Setup(p => p.GetBlobUrl(It.IsAny<string>(), It.IsAny<string>())).Returns(url);
             }
@@ -62,7 +62,7 @@ namespace Ubora.Web.Tests._Features.Users.UserList
             result.Model.As<IEnumerable<UserListItemViewModel>>()
                 .Last()
                 .ProfilePictureLink.Should()
-                .Be(blobname != "Default" ? expectedUrl : "/images/profileimagedefault.png");
+                .Be(blobname != null ? expectedUrl : "/images/profileimagedefault.png");
         }
     }
 }
