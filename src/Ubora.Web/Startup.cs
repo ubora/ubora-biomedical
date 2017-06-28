@@ -33,7 +33,7 @@ namespace Ubora.Web
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-         
+
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
@@ -58,7 +58,9 @@ namespace Ubora.Web
                 .AddMvc()
                 .AddUboraFeatureFolders(new FeatureFolderOptions { FeatureFolderName = "_Features" });
 
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
+
+            var useSpecifiedPickupDirectory = Convert.ToBoolean(Configuration["SmtpSettings:UseSpecifiedPickupDirectory"]);
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
                 {
@@ -103,7 +105,7 @@ namespace Ubora.Web
             }
 
             var domainModule = new DomainAutofacModule(connectionString, storageProvider);
-            var webModule = new WebAutofacModule();
+            var webModule = new WebAutofacModule(useSpecifiedPickupDirectory);
             autofacContainerBuilder.RegisterModule(domainModule);
             autofacContainerBuilder.RegisterModule(webModule);
 

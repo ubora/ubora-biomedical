@@ -1,5 +1,4 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
 using AutoMapper;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Web.Services;
@@ -8,15 +7,16 @@ namespace Ubora.Web.Infrastructure
 {
     public class WebAutofacModule : Module
     {
+        private readonly bool _useSpecifiedPickupDirectory;
+
+        public WebAutofacModule(bool useSpecifiedPickupDirectory)
+        {
+            _useSpecifiedPickupDirectory = useSpecifiedPickupDirectory;
+        }
+
         protected override void Load(ContainerBuilder builder)
         {
-            var areSmtpEnvironmentVariablesSet =
-                Environment.GetEnvironmentVariable("smtp_hostname") != null &&
-                Environment.GetEnvironmentVariable("smtp_port") != null &&
-                Environment.GetEnvironmentVariable("smtp_username") != null &&
-                Environment.GetEnvironmentVariable("smtp_password") != null;
-
-            if (areSmtpEnvironmentVariablesSet)
+            if (!_useSpecifiedPickupDirectory)
             {
                 builder.RegisterType<SmtpEmailSender>().As<IEmailSender>()
                     .InstancePerLifetimeScope();
@@ -26,8 +26,7 @@ namespace Ubora.Web.Infrastructure
                 builder.RegisterType<SpecifiedPickupDirectoryEmailSender>().As<IEmailSender>()
                     .InstancePerLifetimeScope();
             }
-            
-            builder.RegisterType<SmsSender>().As<ISmsSender>().InstancePerLifetimeScope();
+
             builder.RegisterType<AuthMessageSender>().As<IAuthMessageSender>().InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(ThisAssembly).Where(t => t.IsNested && t.Name.EndsWith("Factory")).InstancePerLifetimeScope();

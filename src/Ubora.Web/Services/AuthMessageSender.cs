@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -8,7 +9,7 @@ namespace Ubora.Web.Services
 {
     public interface IAuthMessageSender
     {
-        void SendForgotPasswordMessage(ApplicationUser user);
+        Task SendForgotPasswordMessageAsync(ApplicationUser user);
     }
 
     public class AuthMessageSender : IAuthMessageSender
@@ -27,7 +28,7 @@ namespace Ubora.Web.Services
             _emailSender = emailSender;
         }
 
-        public async void SendForgotPasswordMessage(ApplicationUser user)
+        public async Task SendForgotPasswordMessageAsync(ApplicationUser user)
         {
             var subject = "Reset Password";
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);

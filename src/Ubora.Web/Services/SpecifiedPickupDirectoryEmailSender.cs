@@ -7,9 +7,9 @@ namespace Ubora.Web.Services
 {
     public class SpecifiedPickupDirectoryEmailSender : IEmailSender
     {
-        private readonly IOptions<AppSettings> _appSettings;
+        private readonly IOptions<SmtpSettings> _appSettings;
 
-        public SpecifiedPickupDirectoryEmailSender(IOptions<AppSettings> appSettings)
+        public SpecifiedPickupDirectoryEmailSender(IOptions<SmtpSettings> appSettings)
         {
             _appSettings = appSettings;
         }

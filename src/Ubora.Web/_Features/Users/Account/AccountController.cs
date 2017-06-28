@@ -22,7 +22,6 @@ namespace Ubora.Web._Features.Users.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
-        private readonly ISmsSender _smsSender;
         private readonly IAuthMessageSender _authMessageSender;
         private readonly ICommandQueryProcessor _processor;
         private readonly ILogger _logger;
@@ -33,7 +32,6 @@ namespace Ubora.Web._Features.Users.Account
             SignInManager<ApplicationUser> signInManager,
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
-            ISmsSender smsSender,
             ILoggerFactory loggerFactory,
             ICommandQueryProcessor processor, IAuthMessageSender authMessageSender) : base(processor)
         {
@@ -41,7 +39,6 @@ namespace Ubora.Web._Features.Users.Account
             _signInManager = signInManager;
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _emailSender = emailSender;
-            _smsSender = smsSender;
             _processor = processor;
             _authMessageSender = authMessageSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
@@ -155,8 +152,8 @@ namespace Ubora.Web._Features.Users.Account
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
 
                     return RedirectToAction(
-                        actionName: nameof(ProfileController.FirstTimeEditProfile), 
-                        controllerName: nameof(ProfileController).Replace("Controller", ""), 
+                        actionName: nameof(ProfileController.FirstTimeEditProfile),
+                        controllerName: nameof(ProfileController).Replace("Controller", ""),
                         routeValues: new { returnUrl });
                 }
                 AddErrors(result);
@@ -292,7 +289,7 @@ namespace Ubora.Web._Features.Users.Account
                 var user = await _userManager.FindByNameAsync(model.Email);
                 if (user == null)
                     return View("ForgotPasswordConfirmation");
-                _authMessageSender.SendForgotPasswordMessage(user);
+                await _authMessageSender.SendForgotPasswordMessageAsync(user);
                 return View("ForgotPasswordConfirmation");
             }
 
@@ -386,10 +383,6 @@ namespace Ubora.Web._Features.Users.Account
             if (model.SelectedProvider == "Email")
             {
                 await _emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
-            }
-            else if (model.SelectedProvider == "Phone")
-            {
-                await _smsSender.SendSmsAsync(await _userManager.GetPhoneNumberAsync(user), message);
             }
 
             return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });

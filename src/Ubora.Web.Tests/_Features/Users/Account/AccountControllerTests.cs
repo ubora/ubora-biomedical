@@ -21,7 +21,6 @@ namespace Ubora.Web.Tests._Features.Users.Account
         private readonly Mock<FakeSignInManager> _signInManagerMock;
         private readonly Mock<IOptions<IdentityCookieOptions>> _identityCookieOptionsMock;
         private readonly Mock<IEmailSender> _emailSenderMock;
-        private readonly Mock<ISmsSender> _smsSenderMock;
         private readonly Mock<ICommandQueryProcessor> _commandProcessorMock;
         private readonly Mock<ILoggerFactory> _loggerFactoryMock;
         private readonly Mock<IAuthMessageSender> _authMessageSenderMock;
@@ -34,12 +33,11 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _identityCookieOptionsMock = new Mock<IOptions<IdentityCookieOptions>>();
             _identityCookieOptionsMock.Setup(o => o.Value).Returns(new IdentityCookieOptions());
             _emailSenderMock = new Mock<IEmailSender>();
-            _smsSenderMock = new Mock<ISmsSender>();
             _commandProcessorMock = new Mock<ICommandQueryProcessor>();
             _loggerFactoryMock = new Mock<ILoggerFactory>();
-            _authMessageSenderMock = new Mock<IAuthMessageSender>();
+            _authMessageSenderMock = new Mock<IAuthMessageSender>(MockBehavior.Strict);
             _controller = new AccountController(_userManagerMock.Object, _signInManagerMock.Object,
-                _identityCookieOptionsMock.Object, _emailSenderMock.Object, _smsSenderMock.Object,
+                _identityCookieOptionsMock.Object, _emailSenderMock.Object,
                 _loggerFactoryMock.Object, _commandProcessorMock.Object, _authMessageSenderMock.Object);
         }
 
@@ -57,7 +55,6 @@ namespace Ubora.Web.Tests._Features.Users.Account
 
             //Assert
             result.Model.Should().Be(forgotPasswordViewModel);
-            _authMessageSenderMock.Verify(x => x.SendForgotPasswordMessage(It.IsAny<ApplicationUser>()), Times.Never);
         }
 
         [Fact]
@@ -68,6 +65,8 @@ namespace Ubora.Web.Tests._Features.Users.Account
                 Email = "test@test.com"
             };
 
+            var identity = new ApplicationUser();
+
             _userManagerMock.Setup(x => x.FindByNameAsync(forgotpasswordviewmodel.Email))
                 .Returns(Task.FromResult<ApplicationUser>(null));
 
@@ -76,8 +75,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
 
             //Assert
             result.ViewName.Should().Be("ForgotPasswordConfirmation");
-            _userManagerMock.Verify(x => x.IsEmailConfirmedAsync(It.IsAny<ApplicationUser>()), Times.Never);
-            _authMessageSenderMock.Verify(x => x.SendForgotPasswordMessage(It.IsAny<ApplicationUser>()), Times.Never);
+            _userManagerMock.Verify(x => x.IsEmailConfirmedAsync(identity), Times.Never);
         }
 
         [Fact]
@@ -91,18 +89,17 @@ namespace Ubora.Web.Tests._Features.Users.Account
 
             _userManagerMock.Setup(x => x.FindByNameAsync(forgotPasswordViewModel.Email))
                 .ReturnsAsync(identity);
-            _userManagerMock.Setup(x => x.IsEmailConfirmedAsync(It.IsAny<ApplicationUser>())).ReturnsAsync(true);
+            _userManagerMock.Setup(x => x.IsEmailConfirmedAsync(identity)).ReturnsAsync(true);
+            _authMessageSenderMock.Setup(x => x.SendForgotPasswordMessageAsync(identity)).Returns(Task.FromResult(identity));
             _controller.ControllerContext.HttpContext = new DefaultHttpContext();
             _controller.ControllerContext.HttpContext.Request.Scheme = "http";
+
 
             //Act
             var result = await _controller.ForgotPassword(forgotPasswordViewModel) as ViewResult;
 
             //Assert
             result.ViewName.Should().Be("ForgotPasswordConfirmation");
-            _authMessageSenderMock.Verify(
-                x =>
-                    x.SendForgotPasswordMessage(identity), Times.Once);
         }
     }
 }
