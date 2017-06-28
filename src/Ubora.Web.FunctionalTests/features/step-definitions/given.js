@@ -5,7 +5,7 @@ module.exports = function () {
         browser.url(url);
     });
     
-    this.Given(/^I click the element "([^"]*)?"$/, (element) => {
+    this.Given(/^I clicked on the element "([^"]*)?"$/, (element) => {
             browser.click(element);
         });
 }

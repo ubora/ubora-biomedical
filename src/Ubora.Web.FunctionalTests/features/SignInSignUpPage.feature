@@ -1,10 +1,10 @@
 Feature: Sign in Sign up page
-    As a developer
-    I want to click buttons on SignInSignUp page
+    As a user
+    I want to click all buttons on SignInSignUp page
 
 Background:
     Given I go to the website "/Home/Index"
-    Given I click the element "a=Sign in/sign up"
+    Given I clicked on the element "a=Sign in/sign up"
 
 Scenario: Go to SignInSignUp page 
     Then I expect the title of the page "Sign in to UBORA - UBORA"

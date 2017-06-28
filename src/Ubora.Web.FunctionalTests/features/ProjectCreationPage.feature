@@ -1,6 +1,6 @@
 Feature: Project Creation page
-    As a developer
-    I want to create the project
+    As a user
+    I want to create a project and click on all buttons on Project Dashboard page
 
 Background:
     Given I go to the website "/Home/Index"
@@ -13,11 +13,11 @@ Scenario: I sign up to create a project
     Then I expect the title of the page "Sign in to UBORA - UBORA"
     When I click on the element "a=Sign up"
     When I click on the element "#IsAgreedToTermsOfService"
-    When I set "TestFirstName" to the element "#FirstName"
-    When I set "TestLastName" to the element "#LastName"
-    When I set "project@email.com" to the element "#Email"
-    When I set "Test12345" to the element "#Password"
-    When I set "Test12345" to the element "#ConfirmPassword"
+    When I set value "TestFirstName" to the element "#FirstName"
+    When I set value "TestLastName" to the element "#LastName"
+    When I set value "project@email.com" to the element "#Email"
+    When I set value "Test12345" to the element "#Password"
+    When I set value "Test12345" to the element "#ConfirmPassword"
     When I click on the element "button=Create an account"
     Then I expect the title of the page "- UBORA"
     When I click on the element "a=Skip profile creation"
@@ -25,11 +25,11 @@ Scenario: I sign up to create a project
 
 Scenario: I create a project
     When I click on the element "a=I have an idea"
-    When I set "TestProject" to the element "#Title"
-    When I select "Child mortality" from element "#ClinicalNeed"
-    When I select "Neurology" from element "#AreaOfUsage"
-    When I select "Bandages" from element "#PotentialTechnology"
-    When I set "TestGMDN" to the element "#Keywords"
+    When I set value "TestProject" to the element "#Title"
+    When I select value "Child mortality" from element "#ClinicalNeed"
+    When I select value "Neurology" from element "#AreaOfUsage"
+    When I select value "Bandages" from element "#PotentialTechnology"
+    When I set value "TestGMDN" to the element "#Keywords"
     When I click on the element "button=Continue"
     Then I expect the title of the page "Dashboard - UBORA"
 
@@ -118,7 +118,7 @@ Scenario: On Project Dashboard page I click Members and try to add new member
     Then I expect the title of the page "Members - UBORA"
     When I click on the element "i=person_add"
     Then I expect the title of the page "Members - UBORA"
-    When I set "emailemail@email.com" to the element "#Email"
+    When I set value "emailemail@email.com" to the element "#Email"
     Then I expect the input "emailemail@email.com" of the element "#Email" is correct
     When I click on the element "button=Invite"
     Then I expect the title of the page "Members - UBORA"
@@ -182,7 +182,7 @@ Scenario: I go through Device classification
     Then I expect the element "h1=Your device classification is: III" is visible
     When I click on the element "a=Please retake the questionnaire"
     Then I expect the title of the page "Device classification - UBORA"
-    When I go Back to last page
+    When I go back to last page
     Then I expect the title of the page "- UBORA"
     When I click on the element "a=go back to project page."
     Then I expect the input "III" of the element "b=III" is visible

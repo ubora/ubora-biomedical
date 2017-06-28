@@ -1,6 +1,6 @@
 Feature: Signed in Home page
-    As a developer
-    I want to click Menu button
+    As a signed in user
+    I want to click Menu button and on all options in the Menu
 
 Background:
     Given I go to the website "/Home/Index"
@@ -13,11 +13,11 @@ Scenario: I sign up an account
     Then I expect the title of the page "Sign in to UBORA - UBORA"
     When I click on the element "a=Sign up"
     Then I expect the title of the page "Sign up - UBORA"
-    When I set "Micky" to the element "#FirstName"
-    When I set "Mouse" to the element "#LastName"
-    When I set "Micky.Mouse@email.com" to the element "#Email"
-    When I set "Test12345" to the element "#Password"
-    When I set "Test12345" to the element "#ConfirmPassword"
+    When I set value "Micky" to the element "#FirstName"
+    When I set value "Mouse" to the element "#LastName"
+    When I set value "Micky.Mouse@email.com" to the element "#Email"
+    When I set value "Test12345" to the element "#Password"
+    When I set value "Test12345" to the element "#ConfirmPassword"
     When I click on the element "#IsAgreedToTermsOfService"
     When I click on the element "button=Create an account"
     Then I expect the title of the page "- UBORA"

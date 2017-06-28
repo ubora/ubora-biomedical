@@ -1,6 +1,6 @@
 Feature: Home page
-    As a developer
-    I want to click Home page button
+    As a user 
+    I want to click all buttons on Home page
 
 Background:
     Given I go to the website "/Home/Index"

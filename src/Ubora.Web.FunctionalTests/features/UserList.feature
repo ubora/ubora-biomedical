@@ -1,10 +1,10 @@
 Feature: Members page
-    As a developer
-    I want the demo app have correct page
+    As a user
+    I want to click on all buttons on Members page
 
 Background:
     Given I go to the website "/Home/Index"
-    Given I click the element "a=View members"
+    Given I clicked on the element "a=View members"
 
 Scenario: Get the title of Ubora 
     Then I expect the title of the page "- UBORA"
@@ -22,11 +22,11 @@ Scenario: I sign up and check my profile on Members page
     Then I expect the title of the page "Sign in to UBORA - UBORA"
     When I click on the element "a=Sign up"
     Then I expect the title of the page "Sign up - UBORA"
-    When I set "TestName" to the element "#FirstName"
-    When I set "TestLastName" to the element "#LastName"
-    When I set "emailemail@email.com" to the element "#Email"
-    When I set "Test12345" to the element "#Password"
-    When I set "Test12345" to the element "#ConfirmPassword"
+    When I set value "TestName" to the element "#FirstName"
+    When I set value "TestLastName" to the element "#LastName"
+    When I set value "emailemail@email.com" to the element "#Email"
+    When I set value "Test12345" to the element "#Password"
+    When I set value "Test12345" to the element "#ConfirmPassword"
     When I click on the element "#IsAgreedToTermsOfService"
     When I click on the element "button=Create an account"
     Then I expect the title of the page "- UBORA"
