@@ -3,7 +3,8 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Notifications;
+using Ubora.Domain.Notifications.Invitation;
+using Ubora.Domain.Notifications.Specifications;
 using Ubora.Web._Features.Notifications;
 using Xunit;
 
@@ -11,8 +12,8 @@ namespace Ubora.Web.Tests._Features.Notifications
 {
     public class UnreadNotificationsViewModelFactoryTests
     {
-        private UnreadNotificationsViewModel.Factory _unreadNotificationsViewModelFactory;
-        private Mock<IQueryProcessor> _queryProcessorMock;
+        private readonly UnreadNotificationsViewModel.Factory _unreadNotificationsViewModelFactory;
+        private readonly Mock<IQueryProcessor> _queryProcessorMock;
 
         public UnreadNotificationsViewModelFactoryTests()
         {
@@ -25,9 +26,9 @@ namespace Ubora.Web.Tests._Features.Notifications
         {
             var userId = Guid.NewGuid();
 
-            var invitation1 = new InvitationToProject(Guid.NewGuid(), userId, Guid.NewGuid());
-            var invitation2 = new InvitationToProject(Guid.NewGuid(), userId, Guid.NewGuid());
-            var invitation3 = new InvitationToProject(Guid.NewGuid(), userId, Guid.NewGuid());
+            var invitation1 = new InvitationToProject(Guid.NewGuid(), userId, userId, Guid.NewGuid());
+            var invitation2 = new InvitationToProject(Guid.NewGuid(), userId, userId, Guid.NewGuid());
+            var invitation3 = new InvitationToProject(Guid.NewGuid(), userId, userId, Guid.NewGuid());
 
             var invitations = new List<InvitationToProject>
             {
@@ -36,7 +37,7 @@ namespace Ubora.Web.Tests._Features.Notifications
                 invitation3
             };
 
-            _queryProcessorMock.Setup(x => x.Find(It.IsAny<NonViewedInvitations>()))
+            _queryProcessorMock.Setup(x => x.Find(It.IsAny<HasUnViewedNotifications>()))
                 .Returns(invitations);
 
             // Act

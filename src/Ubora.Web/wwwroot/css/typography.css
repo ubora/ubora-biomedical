@@ -2,6 +2,7 @@ h1, h2, h3, h4, h5, h6 {
 	color: var(--primary-color);
 	font-family: inherit;
 	font-weight: normal;
+    line-height: 1.2;
 	margin:0;
 	padding:.5em 0;
 }
@@ -36,8 +37,8 @@ p {
 }
 
 small {
+    font-size: 80%;
 }
-	font-size: 80%;
 
 blockquote {
 	border-left: 4px solid var(--secondary-shade);
@@ -58,7 +59,8 @@ pre, code {
 	text-align: center;
 }
 
-.text_placeholder {
-    color: var(--primary-shade);
+.step-tips--text {
+    color: var(--text-color);
     white-space: pre-wrap;
+    margin: 0 0 .5em 0;
 }

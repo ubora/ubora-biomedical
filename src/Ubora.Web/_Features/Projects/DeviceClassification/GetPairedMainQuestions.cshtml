@@ -6,24 +6,24 @@
     ViewData["Title"] = "Device classification";
 }
 
-<link rel="stylesheet" href="/css/questionnaire.css">
 <section class="medium-width questionnaire">
     <h1>Please select an option:</h1>
-    <ul class="questionnaire_list">
-        <li class="questionnaire_item">
+
+        <div class="questionnaire-question">
             @Html.Partial("MainQuestionAnswerPartial", new MainQuestionAnswerViewModel { QuestionText = Model.MainQuestionOne, MainQuestionId = Model.MainQuestionOneId, PairedQuestionId = Model.PairedQuestionId })
-        </li>
+        </div>
+
         @if (!string.IsNullOrEmpty(Model.MainQuestionTwo))
         {
-            <li class="questionnaire_item">
+            <div class="questionnaire-question">
                 @Html.Partial("MainQuestionAnswerPartial", new MainQuestionAnswerViewModel { QuestionText = Model.MainQuestionTwo, MainQuestionId = Model.MainQuestionTwoId, PairedQuestionId = Model.PairedQuestionId })
-            </li>
+            </div>
         }
         else
         {
-            <li>
-                <a class="questionnaire-question" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-pairedMainQuestionsId="@Model.PairedQuestionId">NOT APPLICABLE</a>
-            </li>
+            <div class="questionnaire-question">
+                <a class="button secondary-button small-button full-width" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-pairedMainQuestionsId="@Model.PairedQuestionId">Not applicable</a>
+            </div>
         }
     </ul>
     @if (Model.Notes.Any())

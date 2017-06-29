@@ -11,6 +11,14 @@
 	max-height: 150px;
 }
 
+.project_status {
+    background-color: var(--quaternary-color);
+    color: var(--white);
+    display: block;
+    padding: 0 1em 0 0;
+    text-align: right;
+}
+
 .project_card_container {
 	padding:.5em 1em 1em 1em;
 }
@@ -21,6 +29,7 @@
 
 .project_section {
 	display: flex;
+    padding:0 .5em;
 }
 
 .project_section:last-child {
@@ -29,13 +38,19 @@
 
 .project_section--photo {
 	align-self: center;
-	max-width: 100%;
+	width: 100%;
+    max-height: 600px;
 	object-fit: contain;
 }
 
 .project_section--title {
+    background-color:var(--primary-color);
+    color:#FFF;
 	font-weight: bold;
-	margin:.5em 0 1em 0;
+	padding:.5em;
+    margin:0 0 1em 0;
+    width: 100%;
+    line-height: 1.4;
 }
 
 .project_section--editable {
@@ -146,6 +161,18 @@
     content: counters(item,".");
 }
 
+.project_member_list--item {
+    margin:.5em 0;
+}
+
+.project_member--remove {
+    margin:0 0 0 2em;
+}
+
+.project_member--remove .material-icons {
+    color: var(--quaternary-color);
+}
+
 
 @media screen and (max-width: 50em) {
     .project_navigation {
@@ -167,4 +194,8 @@
 	.medical_tag--item {
 		flex-basis: 100%;
 	}
+}
+
+.review-table tr > td:nth-of-type(2){
+    padding-left: 1em;
 }

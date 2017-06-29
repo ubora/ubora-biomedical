@@ -16,7 +16,6 @@ namespace Ubora.Web._Features.Projects.Tasks
             _mapper = mapper;
         }
 
-        [Route(nameof(Tasks))]
         public IActionResult Tasks()
         {
             var projectTasks = Find<ProjectTask>().Where(x => x.ProjectId == ProjectId);

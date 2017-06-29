@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Projects.WorkpackageOnes;
-using Ubora.Web._Features.Projects.Workpackages.WorkpackageOne;
+using Ubora.Domain.Projects.Workpackages;
+using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Xunit;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages
@@ -21,15 +22,18 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         {
             _processorMock = new Mock<ICommandQueryProcessor>();
             _mapperMock = new Mock<IMapper>();
-            _workpackageOneController = new WorkpackageOneController(_processorMock.Object, _mapperMock.Object);
+            _workpackageOneController = new WorkpackageOneController(_processorMock.Object, _mapperMock.Object)
+            {
+                Url = Mock.Of<IUrlHelper>()
+            };
             SetProjectAndUserContext(_workpackageOneController);
         }
 
         [Fact]
         public void Returns_View_With_ModelState_Errors_When_Form_Post_Is_Not_Valid()
         {
-            var stepId = Guid.NewGuid();
-            var step = Mock.Of<WorkpackageOneStep>();
+            var stepId = Guid.NewGuid().ToString();
+            var step = Mock.Of<WorkpackageStep>();
             var workpackageOne = Mock.Of<WorkpackageOne>(x => x.GetSingleStep(stepId) == step);
 
             _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
@@ -44,7 +48,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var postModel = new StepViewModel { StepId = stepId };
 
             // Act
-            var result = (ViewResult)_workpackageOneController.EditStep(postModel);
+            var result = (ViewResult)_workpackageOneController.Edit(postModel);
 
             // Assert
             result.Model.Should().BeSameAs(expectedModel);
@@ -55,8 +59,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         [Fact]
         public void Returns_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful()
         {
-            var stepId = Guid.NewGuid();
-            var step = Mock.Of<WorkpackageOneStep>();
+            var stepId = Guid.NewGuid().ToString();
+            var step = Mock.Of<WorkpackageStep>();
             var workpackageOne = Mock.Of<WorkpackageOne>(x => x.GetSingleStep(stepId) == step);
 
             _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
@@ -71,7 +75,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var postModel = new StepViewModel { StepId = stepId };
 
             // Act
-            var result = (ViewResult)_workpackageOneController.EditStep(postModel);
+            var result = (ViewResult)_workpackageOneController.Edit(postModel);
 
             // Assert
             result.Model.Should().BeSameAs(expectedModel);
@@ -86,7 +90,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Callback<EditWorkpackageOneStepCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
 
-            var stepId = Guid.NewGuid();
+            var stepId = Guid.NewGuid().ToString();
             var postModel = new StepViewModel
             {
                 StepId = stepId,
@@ -94,21 +98,21 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             };
 
             // Act
-            var result = (RedirectToActionResult)_workpackageOneController.EditStep(postModel);
+            var result = (RedirectToActionResult)_workpackageOneController.Edit(postModel);
 
             // Assert
             executedCommand.StepId.Should().Be(stepId);
             executedCommand.ProjectId.Should().Be(ProjectId);
             executedCommand.NewValue.Should().Be("expectedValue");
 
-            result.ActionName.Should().Be(nameof(WorkpackageOneController.Step));
+            result.ActionName.Should().Be(nameof(WorkpackageOneController.Read));
         }
 
         [Fact]
         public void Returns_View_Without_Editing_For_Workpackage_One_Step()
         {
-            var stepId = Guid.NewGuid();
-            var step = Mock.Of<WorkpackageOneStep>();
+            var stepId = Guid.NewGuid().ToString();
+            var step = Mock.Of<WorkpackageStep>();
             var workpackageOne = Mock.Of<WorkpackageOne>(x => x.GetSingleStep(stepId) == step);
 
             _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
@@ -119,7 +123,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Returns(expectedModel);
 
             // Act
-            var result = (ViewResult)_workpackageOneController.Step(stepId);
+            var result = (ViewResult)_workpackageOneController.Read(stepId);
 
             // Assert
             result.Model.Should().BeSameAs(expectedModel);
@@ -128,8 +132,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         [Fact]
         public void Returns_View_With_Editing_For_Workpackage_One_Step()
         {
-            var stepId = Guid.NewGuid();
-            var step = Mock.Of<WorkpackageOneStep>();
+            var stepId = Guid.NewGuid().ToString();
+            var step = Mock.Of<WorkpackageStep>();
             var workpackageOne = Mock.Of<WorkpackageOne>(x => x.GetSingleStep(stepId) == step);
 
             _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
@@ -140,7 +144,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Returns(expectedModel);
 
             // Act
-            var result = (ViewResult)_workpackageOneController.Step(stepId);
+            var result = (ViewResult)_workpackageOneController.Read(stepId);
 
             // Assert
             result.Model.Should().BeSameAs(expectedModel);

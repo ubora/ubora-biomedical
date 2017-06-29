@@ -1,4 +1,5 @@
-﻿@using Ubora.Web._Features.Projects._Shared
+﻿@using Ubora.Web.Data
+@using Ubora.Web._Features.Projects._Shared
 @model Ubora.Web._Features.Projects.Members.ProjectMemberListViewModel
 
 @{
@@ -9,31 +10,52 @@
 <section class="medium-width">
     @if (Model.IsProjectMember)
     {
-        <a asp-controller="Members" asp-action="Invite">
-            <i class="material-icons">person_add</i>Invite member
+        <a class="project-control" asp-controller="Members" asp-action="Invite">
+            <i class="material-icons">person_add</i>Invite member to project
         </a>
     }
+    <br>
 
+    @if (Model.IsProjectMember && !Model.IsProjectLeader)
+    {
+        <a class="project-control" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId"><i class="material-icons">exit_to_app</i>Leave project</a>
+    }
     <h1 class="full-width">Project members</h1>
+</section>
 
-    <ol>
-        @foreach (var member in Model.Members)
-            {
-            <li>
-                <div>
-                    <a asp-controller="Profile" asp-action="View" asp-route-userId="@member.UserId">
-                        @member.FullName
-                    @if (member.IsProjectLeader)
-                    {
-                        <i class="material-icons">supervisor_account</i>
-                    }
+<section class="narrow-width">
+    @foreach (var member in Model.Members)
+    {
+        <div class="project-member">
+            <span class="project-member--status">
+                @if (member.IsProjectLeader)
+                {
+                    @* TODO: Add a 'title' attribute with correct roles in the future.*@
+                    <i class="material-icons" title="Project leader">supervisor_account</i>
+                }
+            </span>
+
+            <span class="project-member--name">
+                <a asp-controller="Profile" asp-action="View" asp-route-userId="@member.UserId">
+                    @member.FullName
                 </a>
+            </span>
+
+            <span class="project-member--controls">
                 @if (Model.CanRemoveProjectMembers && !member.IsProjectLeader)
                 {
-                    <a asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId">Remove</a>
+                    <a class="project-member--remove" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId"><i class="material-icons">close</i></a>
                 }
+            </span>
+        </div>
+    }
+    @if (User.IsInRole(ApplicationRole.Admin))
+    {
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form method="post">
+            <div class="form-input">
+                <button type="submit" asp-action="AssignMeAsMentor" class="button secondary-button">Assing me as project mentor</button>
             </div>
-        </li>
-        }
-    </ol>
+        </form>
+    }
 </section>

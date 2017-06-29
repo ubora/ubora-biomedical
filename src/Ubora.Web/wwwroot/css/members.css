@@ -1,0 +1,38 @@
+.project-control {
+    margin:.5em 0;
+    padding:0;
+}
+
+.project-member {
+    align-items: center;
+    display: flex;
+    min-height:2em;
+    justify-content:center;
+    margin:.5em 0;
+}
+
+.project-member:nth-child(even) {
+    background-color: var(--quartinary-shade);
+}
+
+.project-member--status,
+.project-member--remove {
+    width:40px;
+}
+
+.project-member--status .material-icons {
+    padding: 0;
+}
+
+.project-member--status .material-icons:hover {
+    cursor: help;
+}
+
+.project-member--name {
+    flex-grow: 2;
+    text-overflow: ellipsis;
+}
+
+.project-member--remove .material-icons {
+    color: var(--quaternary-color);
+}
