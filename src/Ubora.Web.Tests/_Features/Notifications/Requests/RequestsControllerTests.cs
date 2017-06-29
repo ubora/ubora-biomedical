@@ -38,17 +38,18 @@ namespace Ubora.Web.Tests._Features.Notifications.Requests
         }
 
         [Fact]
-        public void Accept_Returns_BadResult_If_Command_Fails()
+        public void Accept_Returns_ModelState_With_Error_If_Command_Fails()
         {
             var vm = new RequestPartialViewModel { RequestId = Guid.NewGuid() };
             _commandQueryProcessorMock.Setup(x => x.Execute(It.IsAny<AcceptRequestToJoinProjectCommand>()))
                 .Returns(new CommandResult("Something went wrong"));
 
             // Act
-            var result = _requestsController.Accept(vm);
+            var result = (RedirectToActionResult)_requestsController.Accept(vm);
 
             // Assert
-            result.Should().BeOfType<BadRequestResult>();
+            _requestsController.ModelState.ErrorCount.Should().Be(1);
+            result.ActionName.Should().Be(nameof(NotificationsController.Index));
         }
 
         [Fact]
@@ -66,17 +67,18 @@ namespace Ubora.Web.Tests._Features.Notifications.Requests
         }
 
         [Fact]
-        public void Decline_Returns_BadResult_If_Command_Fails()
+        public void Decline_Returns_ModelState_With_Error_If_Command_Fails()
         {
             var vm = new RequestPartialViewModel { RequestId = Guid.NewGuid() };
             _commandQueryProcessorMock.Setup(x => x.Execute(It.IsAny<DeclineRequestToJoinProjectCommand>()))
                 .Returns(new CommandResult("Something went wrong"));
 
             // Act
-            var result = _requestsController.Decline(vm);
+            var result = (RedirectToActionResult)_requestsController.Decline(vm);
 
             // Assert
-            result.Should().BeOfType<BadRequestResult>();
+            _requestsController.ModelState.ErrorCount.Should().Be(1);
+            result.ActionName.Should().Be(nameof(NotificationsController.Index));
         }
     }
 }

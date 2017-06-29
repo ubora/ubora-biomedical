@@ -38,17 +38,17 @@ namespace Ubora.Web.Tests._Features.Notifications.Invitations
         }
 
         [Fact]
-        public void Accept_Returns_BadResult_If_Command_Fails()
+        public void Accept_Returns_ModelState_With_Error_If_Command_Fails()
         {
             var vm = new InvitationPartialViewModel { InviteId = Guid.NewGuid() };
             _commandQueryProcessorMock.Setup(x => x.Execute(It.IsAny<AcceptInvitationToProjectCommand>()))
                 .Returns(new CommandResult("Something went wrong"));
 
             // Act
-            var result = _invitationsController.Accept(vm);
+            var result = (RedirectToActionResult)_invitationsController.Accept(vm);
 
             // Assert
-            result.Should().BeOfType<BadRequestResult>();
+            _invitationsController.ModelState.ErrorCount.Should().Be(1);
         }
 
         [Fact]
@@ -66,17 +66,17 @@ namespace Ubora.Web.Tests._Features.Notifications.Invitations
         }
 
         [Fact]
-        public void Decline_Returns_BadResult_If_Command_Fails()
+        public void Decline_Returns_ModelState_With_Error_If_Command_Fails()
         {
             var vm = new InvitationPartialViewModel { InviteId = Guid.NewGuid() };
             _commandQueryProcessorMock.Setup(x => x.Execute(It.IsAny<DeclineInvitationToProjectCommand>()))
                 .Returns(new CommandResult("Something went wrong"));
 
             // Act
-            var result = _invitationsController.Decline(vm);
+            var result = (RedirectToActionResult)_invitationsController.Decline(vm);
 
             // Assert
-            result.Should().BeOfType<BadRequestResult>();
+            _invitationsController.ModelState.ErrorCount.Should().Be(1);
         }
     }
 }
