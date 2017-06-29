@@ -21,7 +21,6 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
         private DeviceClassificationController _deviceClassificationController;
         private Mock<IDeviceClassificationProvider> _deviceClassificationProviderMock;
         private Mock<IDeviceClassification> _deviceClassificationMock;
-        private Mock<NotesFinder> _noteFinderMock;
 
         public DeviceClassificationControllerTests()
         {
@@ -31,9 +30,7 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
             _deviceClassificationProviderMock = new Mock<IDeviceClassificationProvider>();
             _deviceClassificationProviderMock.Setup(x => x.Provide()).Returns(_deviceClassificationMock.Object);
 
-            _noteFinderMock = new Mock<NotesFinder>();
-
-            _deviceClassificationController = new DeviceClassificationController(_processorMock.Object, _deviceClassificationProviderMock.Object, _noteFinderMock.Object);
+            _deviceClassificationController = new DeviceClassificationController(_processorMock.Object, _deviceClassificationProviderMock.Object);
             SetProjectAndUserContext(_deviceClassificationController);
         }
 
@@ -73,7 +70,8 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
                 MainQuestionOne = pairedMainQuestions.MainQuestionOne.Text,
                 MainQuestionOneId = pairedMainQuestions.MainQuestionOne.Id,
                 MainQuestionTwo = pairedMainQuestions.MainQuestionTwo.Text,
-                MainQuestionTwoId = pairedMainQuestions.MainQuestionTwo.Id
+                MainQuestionTwoId = pairedMainQuestions.MainQuestionTwo.Id,
+                Notes = new List<string>()
             };
 
             _deviceClassificationMock.Setup(x => x.GetDefaultPairedMainQuestion())
@@ -99,7 +97,8 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
                 MainQuestionOne = pairedMainQuestions.MainQuestionOne.Text,
                 MainQuestionOneId = pairedMainQuestions.MainQuestionOne.Id,
                 MainQuestionTwo = pairedMainQuestions.MainQuestionTwo.Text,
-                MainQuestionTwoId = pairedMainQuestions.MainQuestionTwo.Id
+                MainQuestionTwoId = pairedMainQuestions.MainQuestionTwo.Id,
+                Notes = new List<string>()
             };
 
             _deviceClassificationMock.Setup(x => x.GetPairedMainQuestions(pairedMainQuestions.Id))
@@ -154,7 +153,8 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
             var expectedViewModel = new QuestionsViewModel
             {
                 Questions = subQuestions,
-                PairedMainQuestionsId = pairedMainQuestions.Id
+                PairedMainQuestionsId = pairedMainQuestions.Id,
+                Notes = new List<string>()
             };
 
             _deviceClassificationMock.Setup(x => x.GetSubQuestions(mainQuestion1.Id))
@@ -504,7 +504,8 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
             var expectedViewModel = new SpecialSubQuestionsViewModel
             {
                 Questions = subQuestions,
-                MainQuestionId = mainQuestionId
+                MainQuestionId = mainQuestionId,
+                Notes = new List<string>()
             };
 
             // Act

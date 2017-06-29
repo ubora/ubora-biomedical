@@ -11,5 +11,15 @@ namespace Ubora.Domain.Projects.DeviceClassification
         {
             NextMainQuestion = nextMainQuestion;
         }
+
+        public string GetNote()
+        {
+            if (Note != null)
+            {
+                return Note.Value;
+            }
+
+            return null;
+        }
     }
 }

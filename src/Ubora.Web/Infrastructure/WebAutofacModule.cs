@@ -14,7 +14,6 @@ namespace Ubora.Web.Infrastructure
 
             builder.RegisterAssemblyTypes(ThisAssembly).Where(t => t.IsNested && t.Name.EndsWith("Factory")).InstancePerLifetimeScope();
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();
-            builder.RegisterInstance(new NotesFinder()).As<NotesFinder>().SingleInstance();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)
