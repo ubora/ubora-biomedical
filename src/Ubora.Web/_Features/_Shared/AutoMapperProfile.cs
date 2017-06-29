@@ -31,8 +31,9 @@ namespace Ubora.Web._Features._Shared
                 .ForMember(dest => dest.ReadStepUrl, o => o.Ignore())
                 .ForMember(dest => dest.EditStepUrl, o => o.Ignore());
 
-            CreateMap<UserProfile, UserListItemViewModel>();
-            CreateMap<UserProfile, ProfileViewModel>();
+            CreateMap<UserProfile, UserListItemViewModel>(MemberList.None);
+            CreateMap<UserProfile, ProfileViewModel>(MemberList.None);
+            CreateMap<UserProfile, UserProfileViewModel>();
 
             CreateMap<Project, DesignPlanningViewModel>();
             CreateMap<Project, ProjectDashboardViewModel>()

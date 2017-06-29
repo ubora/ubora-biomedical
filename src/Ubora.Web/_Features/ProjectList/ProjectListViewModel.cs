@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.Queries;
 
 namespace Ubora.Web._Features.ProjectList
 {
@@ -56,6 +57,26 @@ namespace Ubora.Web._Features.ProjectList
                 {
                     Header = header,
                     Projects = userProjects.Select(_mapper.Map<ProjectListItem>)
+                };
+
+                return model;
+            }
+
+            public ProjectListViewModel CreateByTitle(string title)
+            {
+                if (String.IsNullOrEmpty(title))
+                {
+                    return new ProjectListViewModel
+                    {
+                        Projects = new ProjectListItem[] { }
+                    };
+                }
+
+                var projects = _queryProcessor.ExecuteQuery(new SearchProjectsQuery(title));
+
+                var model = new ProjectListViewModel
+                {
+                    Projects = projects.Select(_mapper.Map<ProjectListItem>)
                 };
 
                 return model;
