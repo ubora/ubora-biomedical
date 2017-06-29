@@ -2,6 +2,7 @@
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 using TwentyTwenty.Storage;
+using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Domain.Projects.Repository
 {
@@ -29,18 +30,19 @@ namespace Ubora.Domain.Projects.Repository
                 Security = BlobSecurity.Public
             };
 
-            var fileName = $"{project.Id}/repository/{cmd.FileName}";
-            _storageProvider.SaveBlobStreamAsync("projects", fileName, cmd.Stream, blobProperties)
-                .Wait();
+            var blobLocation = new BlobLocation(
+                containerName: "projects", 
+                blobName: $"{project.Id}/repository/{Guid.NewGuid()}/{cmd.FileName}");
 
-            var fileLocation = _storageProvider.GetBlobUrl("projects", fileName);
+            _storageProvider.SaveBlobStreamAsync(blobLocation.ContainerName, blobLocation.BlobName, cmd.Stream, blobProperties)
+                .Wait();
 
             var @event = new FileAddedEvent(
                 cmd.Actor,
                 cmd.ProjectId,
                 cmd.Id,
-                fileName,
-                fileLocation
+                cmd.FileName,
+                blobLocation
             );
 
             _documentSession.Events.Append(cmd.ProjectId, @event);

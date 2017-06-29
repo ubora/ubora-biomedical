@@ -3,9 +3,9 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
@@ -20,6 +20,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
     {
         private readonly Mock<IMapper> _mapperMock;
         private readonly Mock<ICommandQueryProcessor> _commandQueryProcessorMock;
+        private readonly Mock<IStorageProvider> _storageProviderMock;
 
         private readonly RepositoryController _controller;
 
@@ -27,22 +28,30 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         {
             _mapperMock = new Mock<IMapper>();
             _commandQueryProcessorMock = new Mock<ICommandQueryProcessor>();
-            _controller = new RepositoryController(_commandQueryProcessorMock.Object, _mapperMock.Object);
+            _storageProviderMock = new Mock<IStorageProvider>();
+            _controller = new RepositoryController(_commandQueryProcessorMock.Object, _mapperMock.Object, _storageProviderMock.Object);
             SetProjectAndUserContext(_controller);
         }
 
         [Fact]
         public void Repository_Returns_View()
         {
-            var projectFile1 = new ProjectFile();
-            projectFile1.SetPropertyValue(nameof(ProjectFile.ProjectId), ProjectId);
-            var projectFile2 = new ProjectFile();
-            projectFile2.SetPropertyValue(nameof(ProjectFile.ProjectId), ProjectId);
+            var projectFile1 = new ProjectFile()
+                .SetPropertyValue(nameof(ProjectFile.ProjectId), ProjectId)
+                .SetPropertyValue(nameof(ProjectFile.Location), new BlobLocation("", ""));
+
+            var projectFile2 = new ProjectFile()
+                .SetPropertyValue(nameof(ProjectFile.ProjectId), ProjectId)
+                .SetPropertyValue(nameof(ProjectFile.Location), new BlobLocation("", ""));
+
+            var otherProjetFile = new ProjectFile()
+                .SetPropertyValue(nameof(ProjectFile.Location), new BlobLocation("", ""));
+
             var allProjectFiles = new List<ProjectFile>()
             {
                 projectFile1,
                 projectFile2,
-                new ProjectFile(),
+                otherProjetFile
             };
 
             _commandQueryProcessorMock.Setup(x => x.Find<ProjectFile>(null))
@@ -59,17 +68,25 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             var projectFileViewModels = new List<ProjectFileViewModel>();
             foreach (var file in expectedProjectFiles)
             {
-                var expectedFile = new ProjectFileViewModel();
+                var expectedFile = new ProjectFileViewModel
+                {
+                    FileLocation = "testFileLocation"
+                };
                 _mapperMock.Setup(m => m.Map<ProjectFileViewModel>(file))
                     .Returns(expectedFile);
                 projectFileViewModels.Add(expectedFile);
             }
 
+            // TODO(Kaspar Kallas): Test more thoroughly
+            _storageProviderMock
+                .Setup(x => x.GetBlobUrl(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns("testFileLocation");
+
             var expectedModel = new ProjectRepositoryViewModel
             {
                 ProjectId = ProjectId,
                 ProjectName = "Title",
-                Files = projectFileViewModels
+                Files = projectFileViewModels,
             };
 
             // Act
@@ -81,31 +98,14 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         }
 
         [Fact]
-        public void DownloadFile_Returns_File()
-        {
-            var projectFileId = Guid.NewGuid();
-            var projectFile = new ProjectFile();
-            projectFile.SetPropertyValue(nameof(projectFile.FileLocation), "FileLocation");
-            projectFile.SetPropertyValue(nameof(projectFile.FileName), "FileName");
-
-            _commandQueryProcessorMock.Setup(x => x.FindById<ProjectFile>(projectFileId))
-                .Returns(projectFile);
-
-            // Act
-            var result = (FileResult)_controller.DownloadFile(projectFileId);
-
-            // Assert
-            result.FileDownloadName.Should().Be("FileName");
-        }
-
-        [Fact]
         public void AddFile_Executes_AddFileCommand_When_Valid_ModelState()
         {
             var fileMock = new Mock<IFormFile>();
-            var userId = Guid.NewGuid().ToString();
 
-            var model = new AddFileViewModel();
-            model.ProjectFile = fileMock.Object;
+            var model = new AddFileViewModel
+            {
+                ProjectFile = fileMock.Object
+            };
 
             AddFileCommand executedCommand = null;
 
@@ -126,7 +126,6 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         public void AddFile_Returns_Repository_View_With_ModelState_Errors_When_Form_Post_Is_Not_Valid()
         {
             var fileMock = new Mock<IFormFile>();
-            var userId = Guid.NewGuid().ToString();
 
             var model = new AddFileViewModel();
 
@@ -147,15 +146,16 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         public void AddFile_Returns_Repository_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful()
         {
             var fileMock = new Mock<IFormFile>();
-            var userId = Guid.NewGuid().ToString();
 
-            var model = new AddFileViewModel();
-            model.ProjectFile = fileMock.Object;
+            var model = new AddFileViewModel
+            {
+                ProjectFile = fileMock.Object
+            };
 
             fileMock.Setup(f => f.FileName)
                 .Returns("C:\\Test\\Parent\\Parent\\image.png");
 
-            var commandResult = new CommandResult("testError");
+            var commandResult = new CommandResult("testError1", "testError2");
             _commandQueryProcessorMock.Setup(p => p.Execute(It.IsAny<AddFileCommand>()))
                 .Returns(commandResult);
 
@@ -166,7 +166,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
 
             //Assert
             result.ViewName.Should().Be(nameof(RepositoryController.Repository));
-            AssertModelStateContainsError(result, commandResult.ErrorMessages.Last());
+            AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
         }
 
 

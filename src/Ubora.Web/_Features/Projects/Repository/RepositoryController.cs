@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Repository;
 
@@ -13,29 +13,30 @@ namespace Ubora.Web._Features.Projects.Repository
     public class RepositoryController : ProjectController
     {
         private readonly IMapper _mapper;
+        private readonly IStorageProvider _storageProvider;
 
-        public RepositoryController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
+        public RepositoryController(ICommandQueryProcessor processor, IMapper mapper, IStorageProvider storageProvider) : base(processor)
         {
             _mapper = mapper;
+            _storageProvider = storageProvider;
         }
 
         public IActionResult Repository()
         {
             var projectFiles = Find<ProjectFile>().Where(x => x.ProjectId == ProjectId);
 
-            var repositoryFiles = new List<ProjectFileViewModel>();
-            foreach (var file in projectFiles)
-            {
-                var repositoryFile = _mapper.Map<ProjectFileViewModel>(file);
-                repositoryFiles.Add(repositoryFile);
-            }
-
             var model = new ProjectRepositoryViewModel
             {
                 ProjectId = ProjectId,
                 ProjectName = Project.Title,
-                Files = repositoryFiles
+                Files = projectFiles.Select(x =>
+                {
+                    var fileViewModel =_mapper.Map<ProjectFileViewModel>(x);
+                    fileViewModel.FileLocation = _storageProvider.GetBlobUrl(x.Location.ContainerName, x.Location.BlobName);
+                    return fileViewModel;
+                }).ToList()
             };
+
             return View(nameof(Repository), model);
         }
 
@@ -55,7 +56,7 @@ namespace Ubora.Web._Features.Projects.Repository
             {
                 Id = Guid.NewGuid(),
                 Stream = model.ProjectFile.OpenReadStream(),
-                FileName = fileName
+                FileName = fileName,
             });
 
             if (!ModelState.IsValid)
@@ -64,13 +65,6 @@ namespace Ubora.Web._Features.Projects.Repository
             }
 
             return RedirectToAction(nameof(Repository));
-        }
-
-        public IActionResult DownloadFile(Guid id)
-        {
-            var file = FindById<ProjectFile>(id);
-
-            return File(file.FileLocation, "application/octet-stream", file.FileName);
         }
     }
 }
