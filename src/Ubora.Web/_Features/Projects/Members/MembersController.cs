@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Users;
 using System;
+using System.Threading.Tasks;
 using Ubora.Domain.Projects.Members;
 using Microsoft.AspNetCore.Authorization;
 using Ubora.Web.Authorization;
-using System.Threading.Tasks;
 using Ubora.Domain.Projects;
 using Ubora.Web.Services;
 using Microsoft.AspNetCore.Identity;
@@ -35,7 +35,6 @@ namespace Ubora.Web._Features.Projects.Members
         }
 
         [AllowAnonymous]
-        [Route(nameof(Members))]
         public async Task<IActionResult> Members()
         {
             var canRemoveProjectMembers = await _authorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember);
@@ -62,7 +61,7 @@ namespace Ubora.Web._Features.Projects.Members
                 IsProjectLeader = isProjectLeader
             };
 
-            return View(model);
+            return View(nameof(Members), model);
         }
 
         public IActionResult Invite()
@@ -193,6 +192,24 @@ namespace Ubora.Web._Features.Projects.Members
             }
 
             return RedirectToAction("Dashboard", "Dashboard", new { });
+        }
+
+        [DisableProjectControllerAuthorization]
+        [Authorize(Roles = ApplicationRole.Admin)]
+        [HttpPost]
+        public async Task<IActionResult> AssignMeAsMentor()
+        {
+            ExecuteUserProjectCommand(new AssignProjectMentorCommand
+            {
+                UserId = this.UserId
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return await Members();
+            }
+
+            return RedirectToAction(nameof(Members));
         }
     }
 }

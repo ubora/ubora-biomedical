@@ -10,6 +10,7 @@
     <h3 class="text-center">Are you sure you want to remove @Model.MemberName from project?</h3>
 
     <form asp-controller="Members" asp-action="RemoveMember" method="post">
+        <input asp-for="MemberId" type="hidden" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <input asp-for="MemberId" type="hidden" />

@@ -9,7 +9,6 @@ using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Notifications.Join;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
-using Ubora.Web._Features.Home;
 using Ubora.Web._Features.Projects.Members;
 using Ubora.Web._Features.Users.Account;
 using Ubora.Web.Tests.Fakes;
@@ -22,11 +21,11 @@ namespace Ubora.Web.Tests._Features.Projects.Members
 {
     public class MembersControllerTests : ProjectControllerTestsBase
     {
-        private Mock<ICommandQueryProcessor> _processorMock;
-        private Mock<IAuthorizationService> _authorizationService;
-        private MembersController _membersController;
-        private Mock<FakeSignInManager> _signInManagerMock;
-        private Mock<IUrlHelperFactory> _urlHelperFactoryMock;
+        private readonly Mock<ICommandQueryProcessor> _processorMock;
+        private readonly Mock<IAuthorizationService> _authorizationService;
+        private readonly MembersController _membersController;
+        private readonly Mock<FakeSignInManager> _signInManagerMock;
+        private readonly Mock<IUrlHelperFactory> _urlHelperFactoryMock;
 
         public MembersControllerTests()
         {

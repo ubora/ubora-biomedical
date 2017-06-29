@@ -5,14 +5,17 @@ namespace Ubora.Domain.Notifications.Specifications
 {
     public class HasArchivedNotifications<T> : WrappedSpecification<T> where T : BaseNotification
     {
-        private Guid _userId;
+        private readonly Guid _userId;
 
         public HasArchivedNotifications(Guid userId)
         {
             _userId = userId;
         }
 
-        public override Specification<T> Specification => new IsForUser<T>(_userId) && new IsArchived<T>();
+        internal override Specification<T> WrapSpecifications()
+        {
+            return new IsForUser<T>(_userId) && new IsArchived<T>();
+        } 
     }
 
     public class HasArchivedNotifications : HasArchivedNotifications<BaseNotification>

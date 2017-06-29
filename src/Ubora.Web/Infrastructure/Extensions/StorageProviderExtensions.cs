@@ -8,7 +8,7 @@ namespace Ubora.Web.Infrastructure.Extensions
         public static string GetDefaultOrBlobUrl(this IStorageProvider storageProvider, UserProfile userProfile)
         {
             string blobUrl;
-            if (userProfile.ProfilePictureBlobName == "Default")
+            if (userProfile.ProfilePictureBlobName == null)
             {
                 blobUrl = "/images/profileimagedefault.png";
             }

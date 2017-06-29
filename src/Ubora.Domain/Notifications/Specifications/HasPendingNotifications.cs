@@ -5,13 +5,17 @@ namespace Ubora.Domain.Notifications.Specifications
 {
     public class HasPendingNotifications<T> : WrappedSpecification<T> where T : BaseNotification
     {
-        protected Guid _userId;
+        private readonly Guid _userId;
+
         public HasPendingNotifications(Guid userId)
         {
             _userId = userId;
         }
 
-        public override Specification<T> Specification => new IsForUser<T>(_userId) && new IsPending<T>();
+        internal override Specification<T> WrapSpecifications()
+        {
+            return new IsForUser<T>(_userId) && new IsPending<T>(); ;
+        }
     }
 
     public class HasPendingNotifications : HasPendingNotifications<BaseNotification>

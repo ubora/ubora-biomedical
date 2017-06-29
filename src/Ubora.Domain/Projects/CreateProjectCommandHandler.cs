@@ -1,6 +1,6 @@
+using System;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Projects.WorkpackageOnes;
 
 namespace Ubora.Domain.Projects
 {
@@ -12,7 +12,13 @@ namespace Ubora.Domain.Projects
 
         public override ICommandResult Handle(CreateProjectCommand cmd)
         {
-            var projectEvent = new ProjectCreatedEvent(cmd.Actor)
+            var project = DocumentSession.Load<Project>(cmd.NewProjectId);
+            if (project != null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var @event = new ProjectCreatedEvent(cmd.Actor)
             {
                 Id = cmd.NewProjectId,
                 Title = cmd.Title,
@@ -22,14 +28,7 @@ namespace Ubora.Domain.Projects
                 PotentialTechnology = cmd.PotentialTechnology
             };
 
-            var workpackageEvent = new WorkpackageOneOpenedEvent(cmd.Actor)
-            {
-                ProjectId = cmd.NewProjectId,
-            };
-
-            DocumentSession.Events.Append(cmd.NewProjectId, projectEvent);
-            DocumentSession.Events.Append(cmd.NewProjectId, workpackageEvent);
-
+            DocumentSession.Events.Append(cmd.NewProjectId, @event);
             DocumentSession.SaveChanges();
 
             return new CommandResult();

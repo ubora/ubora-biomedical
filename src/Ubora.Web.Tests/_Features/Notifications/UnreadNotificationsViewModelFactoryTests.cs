@@ -3,7 +3,6 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Notifications;
 using Ubora.Domain.Notifications.Invitation;
 using Ubora.Domain.Notifications.Specifications;
 using Ubora.Web._Features.Notifications;
@@ -13,8 +12,8 @@ namespace Ubora.Web.Tests._Features.Notifications
 {
     public class UnreadNotificationsViewModelFactoryTests
     {
-        private UnreadNotificationsViewModel.Factory _unreadNotificationsViewModelFactory;
-        private Mock<IQueryProcessor> _queryProcessorMock;
+        private readonly UnreadNotificationsViewModel.Factory _unreadNotificationsViewModelFactory;
+        private readonly Mock<IQueryProcessor> _queryProcessorMock;
 
         public UnreadNotificationsViewModelFactoryTests()
         {
