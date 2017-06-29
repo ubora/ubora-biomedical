@@ -5,8 +5,8 @@ using Marten.Services;
 using Marten.Services.Events;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
-using Ubora.Domain.Projects.WorkpackageOnes;
 using Ubora.Domain.Projects.Repository;
+using Ubora.Domain.Projects.Workpackages;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
@@ -29,6 +29,8 @@ namespace Ubora.Domain.Infrastructure.Marten
 
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
+                options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
+                options.Events.InlineProjections.AggregateStreamsWith<WorkpackageThree>();
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectTask, ITaskEvent>());
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());
 

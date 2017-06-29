@@ -12,9 +12,9 @@ namespace Ubora.Web.Tests._Features.Projects.Members
 {
     public class MembersControllerTests : ProjectControllerTestsBase
     {
-        private Mock<ICommandQueryProcessor> _processorMock;
-        private Mock<IAuthorizationService> _authorizationService;
-        private MembersController _membersController;
+        private readonly Mock<ICommandQueryProcessor> _processorMock;
+        private readonly Mock<IAuthorizationService> _authorizationService;
+        private readonly MembersController _membersController;
 
         public MembersControllerTests()
         {

@@ -31,10 +31,10 @@ namespace Ubora.Web._Features.ProjectCreation
             {
                 NewProjectId = projectId,
                 Title = model.Title,
-                ClinicalNeed = model.ClinicalNeed,
-                AreaOfUsage = model.AreaOfUsage,
-                PotentialTechnology = model.PotentialTechnology,
-                Gmdn = model.Keywords
+                ClinicalNeed = model.ClinicalNeedTags,
+                AreaOfUsage = model.AreaOfUsageTags,
+                PotentialTechnology = model.PotentialTechnologyTags,
+                Gmdn = model.Gmdn
             });
 
             if (!ModelState.IsValid)

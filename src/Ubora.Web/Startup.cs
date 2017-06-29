@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.IO;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -17,6 +18,7 @@ using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
 using Serilog;
+using Ubora.Web.Infrastructure.DataSeeding;
 using TwentyTwenty.Storage;
 using TwentyTwenty.Storage.Azure;
 using TwentyTwenty.Storage.Local;
@@ -64,6 +66,7 @@ namespace Ubora.Web
                 .AddSignInManager<ApplicationSignInManager>()
                 .AddClaimsPrincipalFactory<ApplicationClaimsPrincipalFactory>()
                 .AddEntityFrameworkStores<ApplicationDbContext, Guid>()
+                .AddRoleManager<ApplicationRoleManager>()
                 .AddDefaultTokenProviders();
 
             services.AddAutoMapper();
@@ -71,7 +74,9 @@ namespace Ubora.Web
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddScoped<Seeder>();
+            services.AddSingleton<ApplicationDataSeeder>();
+            services.AddSingleton<AdminSeeder>();
+            services.Configure<AdminSeeder.Options>(Configuration.GetSection("InitialAdminOptions"));
 
             var autofacContainerBuilder = new ContainerBuilder();
 
@@ -139,10 +144,12 @@ namespace Ubora.Web
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+                var serviceProvider = serviceScope.ServiceProvider;
+                serviceProvider.GetService<ApplicationDbContext>().Database.Migrate();
 
-                var seeder = serviceScope.ServiceProvider.GetService<Seeder>();
-                seeder.SeedIfNecessary();
+                var seeder = serviceProvider.GetService<ApplicationDataSeeder>();
+                seeder.SeedIfNecessary()
+                    .GetAwaiter().GetResult();
             }
 
             var logger = loggerFactory.CreateLogger<Startup>();

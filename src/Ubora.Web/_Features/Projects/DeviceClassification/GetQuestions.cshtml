@@ -5,22 +5,19 @@
     ViewData["Title"] = "Device classification";
 }
 
-<link rel="stylesheet" href="/css/questionnaire.css">
 <section class="medium-width">
     <h1>Please select an option:</h1>
-    <ul class="questionnaire_list">
         @foreach (var question in Model.Questions)
         {
-            <li class="questionnaire_item">
+            <div class="questionnaire-question">
                 @Html.Partial("AnswerPartial", new AnswerViewModel { QuestionText = question.Text, PairedMainQuestionsId = Model.PairedMainQuestionsId, NextQuestionId = question.Id })
-            </li>
+            </div>
         }
 
         @if (Model.Questions.Count == 1)
         {
-            <li>
-                <a class="questionnaire-question" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-pairedMainQuestionsId="@Model.PairedMainQuestionsId">NOT APPLICABLE</a>
-            </li>
+            <div class="questionnaire-question">
+                <a class="button secondary-button small-button full-width" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-pairedMainQuestionsId="@Model.PairedMainQuestionsId">Not applicable</a>
+            </div>
         }
-    </ul>
 </section>
