@@ -14,7 +14,5 @@ namespace Ubora.Web._Features.Users.Manage
         public bool TwoFactor { get; set; }
 
         public bool BrowserRemembered { get; set; }
-
-        public UserProfileViewModel UserProfile { get; set; }
     }
 }
