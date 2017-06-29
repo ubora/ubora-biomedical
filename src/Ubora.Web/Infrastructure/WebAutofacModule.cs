@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using AutoMapper;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Web._Features.Projects.DeviceClassification.Services;
 using Ubora.Web._Features.Notifications.Factory;
 using Ubora.Web.Services;
 
