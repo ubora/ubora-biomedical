@@ -16,6 +16,7 @@ using Ubora.Web.Tests.Fakes;
 using Ubora.Web.Tests.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Xunit;
+using Ubora.Web._Features.Projects.Dashboard;
 
 namespace Ubora.Web.Tests._Features.Projects.Members
 {
@@ -85,7 +86,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             var result = (RedirectToActionResult)_membersController.LeaveProject();
 
             // Assert
-            result.ActionName.Should().Be(nameof(HomeController.Index));
+            result.ActionName.Should().Be(nameof(DashboardController.Dashboard));
         }
 
         [Fact]
@@ -113,7 +114,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             var result = (RedirectToActionResult)_membersController.Join(viewModel);
 
             // Assert
-            result.ActionName.Should().Be(nameof(HomeController.Index));
+            result.ActionName.Should().Be(nameof(DashboardController.Dashboard));
         }
 
         [Fact]
