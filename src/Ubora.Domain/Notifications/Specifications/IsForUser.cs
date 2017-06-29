@@ -2,12 +2,12 @@
 using System.Linq.Expressions;
 using Ubora.Domain.Infrastructure.Specifications;
 
-namespace Ubora.Domain.Notifications
+namespace Ubora.Domain.Notifications.Specifications
 {
-    public class HasNotifications<T> : Specification<T> where T:BaseNotification
+    public class IsForUser<T> : Specification<T> where T : BaseNotification
     {
         protected Guid _userId;
-        public HasNotifications(Guid userId)
+        public IsForUser(Guid userId)
         {
             _userId = userId;
         }
@@ -18,9 +18,9 @@ namespace Ubora.Domain.Notifications
         }
     }
 
-    public class HasNotifications : HasNotifications<BaseNotification>
+    public class IsForUser : IsForUser<BaseNotification>
     {
-        public HasNotifications(Guid userId) : base(userId)
+        public IsForUser(Guid userId) : base(userId)
         {
         }
     }

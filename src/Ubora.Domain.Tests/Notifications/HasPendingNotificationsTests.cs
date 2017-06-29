@@ -7,43 +7,24 @@ using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 using Xunit;
 using FluentAssertions;
+using Ubora.Domain.Notifications.Specifications;
 
 namespace Ubora.Domain.Tests.Notifications
 {
-    public class HasPendingNotificationsTests: IntegrationFixture
+    public class HasPendingNotificationsTests : IntegrationFixture
     {
         [Fact]
         public void Returns_Notifications_That_Have_Been_Viewed()
         {
-            var userId = Guid.NewGuid();
             var expectedUserId = Guid.NewGuid();
-            var projectId = Guid.NewGuid();
-            Processor.Execute(new CreateUserProfileCommand
-            {
-                UserId = userId,
-                Email = "foo@goo.com",
-                Actor = new UserInfo(userId, "")
-            });
-            Processor.Execute(new CreateUserProfileCommand
-            {
-                UserId = expectedUserId,
-                Email = "jane@doe.com",
-                Actor = new UserInfo(userId, "")
-            });
 
-            Processor.Execute(new CreateProjectCommand
-            {
-                NewProjectId = projectId,
-                Title = "title",
-                Actor = new UserInfo(userId, "")
-            });
+            var invitationToProject = new InvitationToProject(Guid.NewGuid(), expectedUserId, expectedUserId, Guid.NewGuid());
+            var expectedInvitation = new InvitationToProject(Guid.NewGuid(), expectedUserId, expectedUserId, Guid.NewGuid());
+            expectedInvitation.Accept();
 
-            Processor.Execute(new InviteMemberToProjectCommand
-            {
-                ProjectId = projectId,
-                InvitedMemberEmail = "jane@doe.com",
-                Actor = new UserInfo(userId, "")
-            });
+            Session.Store(invitationToProject);
+            Session.Store(expectedInvitation);
+            Session.SaveChanges();
 
             var sut = new HasPendingNotifications<InvitationToProject>(expectedUserId);
             var invitations = Session.Query<InvitationToProject>();

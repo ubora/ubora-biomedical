@@ -2,12 +2,12 @@
 using System;
 using System.Linq;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Notifications.Specifications;
 
 namespace Ubora.Domain.Notifications
 {
     public class MarkNotificationsAsViewedCommand : UserCommand
     {
-        public Guid UserId { get; set; }
     }
 
     internal class MarkNotificationsAsViewedCommandHandler : ICommandHandler<MarkNotificationsAsViewedCommand>
@@ -21,7 +21,7 @@ namespace Ubora.Domain.Notifications
 
         public ICommandResult Handle(MarkNotificationsAsViewedCommand cmd)
         {
-            var specification = new UnViewedNotifications(cmd.UserId);
+            var specification = new HasUnViewedNotifications(cmd.Actor.UserId);
             var query = _documentSession.Query<BaseNotification>();
             var invitations = specification.SatisfyEntitiesFrom(query).ToArray();
 

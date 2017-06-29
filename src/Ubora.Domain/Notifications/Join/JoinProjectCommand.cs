@@ -10,7 +10,6 @@ namespace Ubora.Domain.Notifications.Join
 {
     public class JoinProjectCommand : UserProjectCommand
     {
-        public Guid AskingToJoin { get; set; }
     }
 
     internal class JoinProjectCommandHandler : CommandHandler<JoinProjectCommand>
@@ -21,15 +20,15 @@ namespace Ubora.Domain.Notifications.Join
 
         public override ICommandResult Handle(JoinProjectCommand cmd)
         {
-            var userProfile = DocumentSession.Load<UserProfile>(cmd.AskingToJoin);
+            var userProfile = DocumentSession.Load<UserProfile>(cmd.Actor.UserId);
             if (userProfile == null) throw new InvalidOperationException();
 
             var project = DocumentSession.Load<Project>(cmd.ProjectId);
 
-            var isUserAlreadyMember = project.DoesSatisfy(new HasMember(cmd.AskingToJoin));
+            var isUserAlreadyMember = project.DoesSatisfy(new HasMember(cmd.Actor.UserId));
             if (isUserAlreadyMember)
             {
-                return new CommandResult($"[{cmd.AskingToJoin}] is already member of project [{cmd.ProjectId}].");
+                return new CommandResult($"[{cmd.Actor.UserId}] is already member of project [{cmd.ProjectId}].");
             }
 
             var projectLeaderId = project.Members
@@ -37,7 +36,7 @@ namespace Ubora.Domain.Notifications.Join
                 .Select(x => x.UserId)
                 .First();
 
-            var joinProject = new RequestToJoinProject(Guid.NewGuid(), projectLeaderId, cmd.AskingToJoin, cmd.ProjectId);
+            var joinProject = new RequestToJoinProject(Guid.NewGuid(), projectLeaderId, cmd.Actor.UserId, cmd.ProjectId);
 
             DocumentSession.Store(joinProject);
             DocumentSession.SaveChanges();

@@ -10,6 +10,7 @@ using Xunit;
 using Ubora.Web.Services;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Notifications.Invitation;
+using Ubora.Domain.Notifications.Specifications;
 
 namespace Ubora.Web.Tests._Features.Notifications
 {
@@ -105,7 +106,7 @@ namespace Ubora.Web.Tests._Features.Notifications
             var invitation = new InvitationToProject(Guid.NewGuid(), UserId, UserId, Guid.NewGuid());
             var invitations = new List<InvitationToProject> { invitation };
 
-            _processorMock.Setup(x => x.Find(new UnViewedNotifications(UserId)))
+            _processorMock.Setup(x => x.Find(new HasUnViewedNotifications(UserId)))
                 .Returns(invitations);
 
             var userInfo = User.GetInfo();

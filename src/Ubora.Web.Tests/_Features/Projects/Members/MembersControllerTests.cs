@@ -16,6 +16,7 @@ using Ubora.Web.Tests.Fakes;
 using Ubora.Web.Tests.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Xunit;
+using Ubora.Web._Features.Projects.Dashboard;
 
 namespace Ubora.Web.Tests._Features.Projects.Members
 {
@@ -85,7 +86,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             var result = (RedirectToActionResult)_membersController.LeaveProject();
 
             // Assert
-            result.ActionName.Should().Be(nameof(HomeController.Index));
+            result.ActionName.Should().Be(nameof(DashboardController.Dashboard));
         }
 
         [Fact]
@@ -104,7 +105,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         [Fact]
         public void Join_Sends_Request()
         {
-            _processorMock.Setup(x => x.Execute(It.Is<JoinProjectCommand>(y => y.AskingToJoin == UserId)))
+            _processorMock.Setup(x => x.Execute(It.Is<JoinProjectCommand>(y => y.Actor.UserId == UserId)))
                 .Returns(new CommandResult());
 
             var viewModel = new JoinProjectViewModel();
@@ -113,13 +114,13 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             var result = (RedirectToActionResult)_membersController.Join(viewModel);
 
             // Assert
-            result.ActionName.Should().Be(nameof(HomeController.Index));
+            result.ActionName.Should().Be(nameof(DashboardController.Dashboard));
         }
 
         [Fact]
         public void Join_Returns_Message_If_Command_Failed()
         {
-            _processorMock.Setup(x => x.Execute(It.Is<JoinProjectCommand>(y => y.AskingToJoin == UserId)))
+            _processorMock.Setup(x => x.Execute(It.Is<JoinProjectCommand>(y => y.Actor.UserId == UserId)))
                 .Returns(new CommandResult("Something went wrong"));
 
             var viewModel = new JoinProjectViewModel();
