@@ -46,7 +46,10 @@
         <div class="menu-profile">
             <img class="menu-profile-image" src="@User.GetProfilePictureUrl()" alt="Profile icon">
             <div>
-                @* TODO: Have only first name *@
+                @*
+                    TODO: Have only first name
+                    <p class="menu-profile-name">@User.GetFirstName()</p>
+                *@
                 <p class="menu-profile-name">@User.GetFullName()</p>
                 <a asp-controller="Manage" asp-action="Index" class="menu-profile-link">View profile</a>
             </div>
@@ -66,9 +69,9 @@
             </a>
 
             @*
-            <a class="menu-link" href="#">
-                <i class="material-icons">assignment</i>My tasks
-            </a>
+                <a class="menu-link" href="#">
+                    <i class="material-icons">assignment</i>My tasks
+                </a>
             *@
 
             <a class="menu-link" asp-controller="ProjectCreation" asp-action="Create">
@@ -82,6 +85,14 @@
             <a class="menu-link" asp-controller="Notifications" asp-action="Index">
                 <i class="material-icons">notifications</i>Notifications @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
             </a>
+
+            @if (User.IsInRole(ApplicationRole.Admin))
+            {
+                <a class="menu-link" asp-controller="Admin" asp-action="Diagnostics">
+                    <i class="material-icons">build</i>Diagnostics
+                </a>
+            }
+
         </nav>
 
         <form class="logout-form" asp-action="Logout" asp-controller="Account" method="post">
