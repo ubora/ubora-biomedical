@@ -83,6 +83,7 @@ textarea:disabled {
 /*Anchors*/
 a {
 	background-color: transparent;
+    box-sizing: border-box;
 	color:var(--primary-color);
 	display: inline-block;
 	padding: inherit;
@@ -106,6 +107,17 @@ a:hover .material-icons {
 		background-color .3s ease;
 }
 
+.project_sidemenu_link--disabled,
+.project_sidemenu_link--disabled:active,
+.project_sidemenu_link--disabled:focus {
+    color: var(--primary-shade);
+    text-decoration: line-through;
+}
+
+.project_sidemenu_link--disabled:hover {
+    color: var(--primary-shade);
+    cursor: not-allowed;
+}
 
 /*Buttons*/
 .button {

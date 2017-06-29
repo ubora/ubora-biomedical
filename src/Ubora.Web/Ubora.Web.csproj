@@ -45,6 +45,10 @@
     <PackageReference Include="Serilog.Extensions.Logging" Version="1.4.0" />
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
     <PackageReference Include="OdeToCode.AddFeatureFolders" Version="1.0.4" />
+    <PackageReference Include="TwentyTwenty.Storage" Version="2.0.0" />
+    <PackageReference Include="TwentyTwenty.Storage.Azure" Version="2.0.0" />
+    <PackageReference Include="TwentyTwenty.Storage.Local" Version="2.0.0" />
+    <PackageReference Include="WindowsAzure.Storage" Version="8.1.4" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
@@ -56,6 +60,9 @@
     <ProjectReference Include="..\Ubora.Domain\Ubora.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System.Transactions">
+      <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Transactions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web">
       <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Web.dll</HintPath>
     </Reference>

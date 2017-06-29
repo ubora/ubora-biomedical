@@ -1,0 +1,22 @@
+.file-repository {
+    display: flex;
+}
+
+.file-list {
+    flex-grow: 3;
+}
+
+.file-list--item {
+    display: flex;
+    margin:.5em 0;
+}
+
+.file-list--download {
+    margin: 0 0 0 .5em;
+}
+
+@media screen and (max-width: 50em) {
+    .file-repository {
+        flex-direction: column-reverse;
+    }
+}

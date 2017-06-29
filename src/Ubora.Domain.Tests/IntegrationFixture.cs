@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using Marten;
+using Moq;
+using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Marten;
 
@@ -8,10 +10,10 @@ namespace Ubora.Domain.Tests
     public abstract class IntegrationFixture : DocumentSessionIntegrationFixture
     {
         private IContainer _innerContainer;
-        protected IComponentContext Container => _innerContainer ?? (_innerContainer = InitializeContainer());
+        public IComponentContext Container => _innerContainer ?? (_innerContainer = InitializeContainer());
 
         private ICommandQueryProcessor _processor;
-        protected ICommandQueryProcessor Processor => _processor ?? (_processor = Container.Resolve<ICommandQueryProcessor>());
+        public  ICommandQueryProcessor Processor => _processor ?? (_processor = Container.Resolve<ICommandQueryProcessor>());
 
         private readonly DomainAutofacModule _domainAutofacModule;
 
@@ -22,7 +24,7 @@ namespace Ubora.Domain.Tests
 
         protected IntegrationFixture()
         {
-            _domainAutofacModule = new DomainAutofacModule(ConnectionSource.ConnectionString);
+            _domainAutofacModule = new DomainAutofacModule(ConnectionSource.ConnectionString, Mock.Of<IStorageProvider>());
             var eventTypes = _domainAutofacModule.FindDomainEventConcreteTypes();
             StoreOptions(new UboraStoreOptions().Configuration(eventTypes));
         }
@@ -36,6 +38,9 @@ namespace Ubora.Domain.Tests
             // Register Marten DocumentStore/Session
             builder.Register(_ => (TestingDocumentStore)theStore).As<DocumentStore>().As<IDocumentStore>().SingleInstance();
             builder.Register(_ => Session).As<IDocumentSession>();
+
+            var storageProviderMock = new Mock<IStorageProvider>().Object;
+            builder.RegisterInstance(storageProviderMock).As<IStorageProvider>();
 
             RegisterAdditional(builder);
 
