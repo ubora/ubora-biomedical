@@ -34,7 +34,7 @@
     <div class="project_section">
         @if (!string.IsNullOrWhiteSpace(Model.Description))
         {
-            <p class="markdown-like">@Model.Description</p>
+            <div class="markdown-like">@Html.Raw(Model.Description)</div>
         }
         else
         {
@@ -64,3 +64,22 @@
         </div>
     </div>
 </section>
+
+@section Scripts {
+    <script>
+        marked.setOptions({
+            renderer: new marked.Renderer(),
+            gfm: true,
+            tables: true,
+            breaks: true,
+            pedantic: false,
+            sanitize: true,
+            smartLists: true,
+            smartypants: false
+        });
+
+        //TODO: Risto Kitsing teeb ilusaks
+        const element = document.querySelector('.markdown-like');
+        element.innerHTML = marked(element.innerHTML);
+    </script>
+}

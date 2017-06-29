@@ -6,6 +6,7 @@
     "jquery-validation": "1.14.0",
     "jquery-validation-unobtrusive": "3.2.6",
     "openSans": "https://google-fonts.azurewebsites.net/googleFonts/openSans?family=Open+Sans",
-    "simplemde": "^1.11.2"
+    "simplemde": "^1.11.2",
+    "marked": "0.3.6"
   }
 }
