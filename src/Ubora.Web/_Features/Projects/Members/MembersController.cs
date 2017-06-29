@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Ubora.Domain.Projects.Members;
 using Microsoft.AspNetCore.Authorization;
 using Ubora.Web.Authorization;
+using Ubora.Web.Data;
 
 namespace Ubora.Web._Features.Projects.Members
 {
@@ -40,7 +41,7 @@ namespace Ubora.Web._Features.Projects.Members
                 IsProjectMember = isProjectMember
             };
 
-            return View(model);
+            return View(nameof(Members), model);
         }
 
         public IActionResult Invite()
@@ -100,6 +101,24 @@ namespace Ubora.Web._Features.Projects.Members
             if (!ModelState.IsValid)
             {
                 return View(removeMemberViewModel);
+            }
+
+            return RedirectToAction(nameof(Members));
+        }
+
+
+        [Authorize(Roles = ApplicationRole.Admin)]
+        [HttpPost]
+        public async Task<IActionResult> AssignMeAsMentor()
+        {
+            ExecuteUserProjectCommand(new AssignProjectMentorCommand
+            {
+                UserId = this.UserId
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return await Members();
             }
 
             return RedirectToAction(nameof(Members));

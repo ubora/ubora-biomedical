@@ -25,7 +25,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
             var model = _mapper.Map<ProjectDashboardViewModel>(Project);
             model.IsProjectMember = await _authorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
 
-            return View(model);
+            return View(nameof(Dashboard), model);
         }
 
         public IActionResult EditProjectDescription()
