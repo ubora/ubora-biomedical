@@ -83,6 +83,7 @@ textarea:disabled {
 /*Anchors*/
 a {
 	background-color: transparent;
+    box-sizing: border-box;
 	color:var(--primary-color);
 	display: inline-block;
 	padding: inherit;

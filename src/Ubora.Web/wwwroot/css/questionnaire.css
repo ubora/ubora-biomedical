@@ -15,7 +15,7 @@
     margin:.5em 0;
 }
 
-.questionnaire_question {
+/*.questionnaire_question {
     background-color: transparent;
     border:0;
 	color:var(--primary-color);
@@ -26,4 +26,8 @@
     text-align: left;
 	text-decoration: none;
 	transition: color .3s ease;
+}*/
+
+.questionnaire-question {
+    margin: 1em 0;
 }
