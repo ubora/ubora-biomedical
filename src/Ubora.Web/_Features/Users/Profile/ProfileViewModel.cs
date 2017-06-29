@@ -11,6 +11,6 @@
         public string Biography { get; set; }
         public string Skills { get; set; }
         public string Role { get; set; }
-
+        public string ProfilePictureLink { get; set; }
     }
 }

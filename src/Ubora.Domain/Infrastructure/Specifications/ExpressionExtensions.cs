@@ -20,12 +20,12 @@ namespace Ubora.Domain.Infrastructure.Specifications
 
         public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> first, Expression<Func<T, bool>> second)
         {
-            return Compose(first, second, Expression.And);
+            return Compose(first, second, Expression.AndAlso);
         }
 
         public static Expression<Func<T, bool>> Or<T>(this Expression<Func<T, bool>> first, Expression<Func<T, bool>> second)
         {
-            return Compose(first, second, Expression.Or);
+            return Compose(first, second, Expression.OrElse);
         }
 
         public static Expression<Func<T, bool>> Not<T>(this Expression<Func<T, bool>> expression)

@@ -59,7 +59,8 @@ pre, code {
 	text-align: center;
 }
 
-.text_placeholder {
-    color: var(--primary-shade);
+.step-tips--text {
+    color: var(--text-color);
     white-space: pre-wrap;
+    margin: 0 0 .5em 0;
 }

@@ -46,10 +46,11 @@
 .project_section--title {
     background-color:var(--primary-color);
     color:#FFF;
-	font-weight: bold;
-	padding:.5em;
-    margin:0;
+    font-weight: bold;
+    padding:.5em;
+    margin:0 0 1em 0;
     width: 100%;
+    line-height: 1.4;
 }
 
 .project_section--editable {

@@ -13,25 +13,38 @@
 
         <a asp-controller="Home" asp-action="Index" asp-area="">
             <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
-
         </a>
 
         <span class="header-title">
+            @*
+                TODO: Make it dynamic based on the page you are currently on.
+
+                <a asp-controller="CurrentController" asp-action="CurrentAction">
+                    <i class="material-icons">MappedGoogleIconBasedOnPageTitleAction</i>PageTitle
+                </a>
+            *@
             <a asp-controller="ProjectList" asp-action="MyProjects">
                 <i class="material-icons">folder</i>My projects
             </a>
         </span>
 
-        <button class="menu-button js-side-menu-control">
-            <i class="material-icons js-menu-icon">menu</i>
-            <span class="menu-button-description">Menu</span>
-        </button>
+        <div class="header-controls">
+            <a class="header-controls--action header-controls--search" asp-controller="ProjectList" asp-action="Search">
+                <i class="material-icons">search</i><span class="header-controls--description">Search</span>
+            </a>
+
+            @* TODO: RK: This is definitely not the best solution, but it is a solution. *@
+            <a class="header-controls--action header-controls--menu js-side-menu-control">
+                <i class="material-icons ">menu</i><span class="header-controls--description">Menu</span>
+            </a>
+        </div>
+
     </header>
 
     <aside class="side-menu js-side-menu">
 
         <div class="menu-profile">
-            <img class="menu-profile-image" src="//placehold.it/100x100" alt="Profile icon">
+            <img class="menu-profile-image" src="@User.GetProfilePictureUrl()" alt="Profile icon">
             <div>
                 @*
                     TODO: Have only first name
@@ -43,15 +56,13 @@
         </div>
 
         <nav>
-            @*
-            <a class="menu-link" asp-controller="Home" asp-action="Search">
+            <a class="menu-link" asp-controller="ProjectList" asp-action="Search">
                 <i class="material-icons">search</i>Search
             </a>
 
             <a class="menu-link" href="#">
                 <i class="material-icons">message</i>Messages
             </a>
-            *@
 
             <a class="menu-link" asp-controller="ProjectList" asp-action="MyProjects">
                 <i class="material-icons">folder</i>My projects
@@ -100,12 +111,10 @@ else
         </div>
 
         <div class="header-element">
-            @*
-            <a class="header-action" asp-controller="Home" asp-action="Search">
+            <a class="header-action" asp-controller="ProjectList" asp-action="Search">
                 <i class="header-action-icon material-icons">search</i>
                 <span class="header-action-description">Search</span>
             </a>
-            *@
         </div>
 
     </header>

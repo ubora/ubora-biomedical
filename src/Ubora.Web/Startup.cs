@@ -1,8 +1,8 @@
 ﻿using System;
+using System.IO;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +17,9 @@ using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
 using Serilog;
+using TwentyTwenty.Storage;
+using TwentyTwenty.Storage.Azure;
+using TwentyTwenty.Storage.Local;
 
 namespace Ubora.Web
 {
@@ -72,7 +75,23 @@ namespace Ubora.Web
 
             var autofacContainerBuilder = new ContainerBuilder();
 
-            var domainModule = new DomainAutofacModule(connectionString);
+            IStorageProvider storageProvider;
+            var isLocalStorage = Configuration.GetValue<bool?>("Storage:IsLocal") ?? false;
+            if (isLocalStorage)
+            {
+                var basePath = Path.GetFullPath("wwwroot/images/storages");
+                storageProvider = new FixedLocalStorageProvider(basePath, new LocalStorageProvider(basePath));
+            }
+            else
+            {
+                var options = new AzureProviderOptions
+                {
+                    ConnectionString = Configuration.GetConnectionString("AzureBlobConnectionString")
+                };
+                storageProvider = new AzureStorageProvider(options);
+            }
+
+            var domainModule = new DomainAutofacModule(connectionString, storageProvider);
             var webModule = new WebAutofacModule();
             autofacContainerBuilder.RegisterModule(domainModule);
             autofacContainerBuilder.RegisterModule(webModule);

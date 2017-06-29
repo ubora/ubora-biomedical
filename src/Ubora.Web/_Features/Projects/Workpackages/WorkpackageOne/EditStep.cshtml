@@ -13,10 +13,14 @@
     <section class="medium-width step-view">
 
         <h1 class="full-width">@Model.Title</h1>
-        
-        <pre class="text_placeholder">@Model.Description</pre>
+
+        <div class="step-tips">
+            <h6>Helpful tips</h6>
+            <p class="step-tips--text">@Model.Description</p>
+        </div>
 
         <form asp-controller="WorkpackageOne" asp-action="EditStep" method="post">
+            <h6>Your input</h6>
             <input asp-for="StepId" type="hidden" />
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>

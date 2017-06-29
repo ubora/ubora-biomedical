@@ -29,8 +29,9 @@ namespace Ubora.Web._Features._Shared
             CreateMap<WorkpackageStep, StepViewModel>()
                 .ForMember(dest => dest.StepId, o => o.MapFrom(src => src.Id));
 
-            CreateMap<UserProfile, UserListItemViewModel>();
-            CreateMap<UserProfile, ProfileViewModel>();
+            CreateMap<UserProfile, UserListItemViewModel>(MemberList.None);
+            CreateMap<UserProfile, ProfileViewModel>(MemberList.None);
+            CreateMap<UserProfile, UserProfileViewModel>();
 
             CreateMap<Project, DesignPlanningViewModel>();
             CreateMap<Project, ProjectDashboardViewModel>()

@@ -16,15 +16,21 @@ namespace Ubora.Web
 
             try
             {
-                var host = new WebHostBuilder()
+                var hostBuilder = new WebHostBuilder()
                     .UseKestrel()
                     .UseContentRoot(Directory.GetCurrentDirectory())
                     .UseStartup<Startup>()
                     .UseIISIntegration()
-                    .UseApplicationInsights()
-                    .Build();
+                    .UseApplicationInsights();
 
-                host.Run();
+                if (args == null || args.Length > 0)
+                {
+                    hostBuilder.UseUrls(args[0]);
+                }
+
+                 var host = hostBuilder.Build();
+
+                 host.Run();
             }
             catch (Exception e)
             {
@@ -38,7 +44,7 @@ namespace Ubora.Web
                 }
                 throw;
             }
-          
+
         }
     }
 }
