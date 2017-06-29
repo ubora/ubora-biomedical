@@ -1,6 +1,6 @@
-﻿@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects.Workpackages
 @using Ubora.Web._Features.Projects._Shared
-@model Ubora.Web._Features.Projects.Workpackages.WorkpackageOne.StepViewModel
+@model Ubora.Web._Features.Projects.Workpackages.Steps.StepViewModel
 
 @{
     ViewData["Title"] = "Workpackages";
@@ -19,7 +19,7 @@
             <p class="step-tips--text">@Model.Description</p>
         </div>
 
-        <form asp-controller="WorkpackageOne" asp-action="EditStep" method="post">
+        <form action="@Model.EditStepUrl" method="post" asp-antiforgery="true">
             <h6>Your input</h6>
             <input asp-for="StepId" type="hidden" />
 
@@ -31,7 +31,7 @@
             </label>
 
             <div class="center-element">
-                <a class="button secondary-button small-button" asp-controller="WorkpackageOne" asp-action="Step" asp-route-stepId="@Model.StepId">Discard</a>
+                <a class="button secondary-button small-button" href="@Model.ReadStepUrl">Discard</a>
                 <button class="button primary-button small-button" type="submit">Save changes</button>
             </div>
 

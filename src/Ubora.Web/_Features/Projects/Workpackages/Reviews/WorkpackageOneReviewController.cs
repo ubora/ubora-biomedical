@@ -3,11 +3,10 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web.Authorization;
 
-namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
+namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 {
     public class WorkpackageOneReviewController : ProjectController
     {
@@ -24,7 +23,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
         {
             var model = new WorkpackageReviewListViewModel
             {
-                Reviews = WorkpackageOne.Reviews.Select(_mapper.Map<WorkpackageReviewViewModel>)
+                Reviews = WorkpackageOne.Reviews.Select(_mapper.Map<WorkpackageReviewViewModel>),
+                ReviewDecisionUrl = Url.Action(nameof(Decision)),
+                SubmitForReviewUrl = Url.Action(nameof(SubmitForReview))
             };
 
             return View(nameof(Review), model);
@@ -50,9 +51,14 @@ namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
         }
 
         [Authorize(Policies.CanReviewProjectWorkpackages)]
-        public IActionResult Decision(WorkpackageReviewDecisionPostModel model)
+        public IActionResult Decision()
         {
-            return View(nameof(Decision));
+            var model = new WorkpackageReviewDecisionPostModel
+            {
+                AcceptUrl = Url.Action(nameof(Accept)),
+                RejectUrl = Url.Action(nameof(Reject))
+            };
+            return View(nameof(Decision), model);
         }
 
         [HttpPost]

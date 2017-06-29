@@ -10,7 +10,7 @@
     }
     @if (isProjectMember)
     {
-        <a class="project_navigation_link @Model.WorkpackagesActivityCssClass" asp-controller="WorkpackageOne" asp-action="Overview">Work packages</a>
+        <a class="project_navigation_link @Model.WorkpackagesActivityCssClass" asp-controller="Workpackages" asp-action="OverviewOfAll">Work packages</a>
         <a class="project_navigation_link @Model.RepositoryActivityCssClass" href="#">Repository</a>
         <a class="project_navigation_link @Model.TasksActivityCssClass" asp-controller="Tasks" asp-action="Tasks">Assignments</a>
     }

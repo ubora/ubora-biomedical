@@ -5,23 +5,6 @@ using Ubora.Domain.Projects.Workpackages.Specifications;
 
 namespace Ubora.Domain.Projects.Workpackages
 {
-    public static class WorkpackageStepIds
-    {
-        #region WP1
-
-        public const string DescriptionOfNeed = nameof(DescriptionOfNeed);
-        public const string DescriptionOfExistingSolutionsAndAnalysis = nameof(DescriptionOfExistingSolutionsAndAnalysis);
-        public const string ProductFunctionality = nameof(ProductFunctionality);
-        public const string ProductPerformance = nameof(ProductPerformance);
-        public const string ProductUsability = nameof(ProductUsability);
-        public const string ProductSafety = nameof(ProductSafety);
-        public const string PatientPopulationStudy = nameof(PatientPopulationStudy);
-        public const string UserRequirementStudy = nameof(UserRequirementStudy);
-        public const string AdditionalInformation = nameof(AdditionalInformation);
-
-        #endregion
-    }
-
     public class WorkpackageOne : Workpackage<WorkpackageOne>
     {
         public bool IsLocked => this.DoesSatisfy(new IsWorkpackageOneLocked());
@@ -30,10 +13,10 @@ namespace Ubora.Domain.Projects.Workpackages
         {
             ProjectId = e.Id;
 
-            Title = "Design and prototyping";
+            Title = "Medical need and product specification";
 
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.DescriptionOfNeed, "Description Of Need", Placeholders.DescriptionOfNeed));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.DescriptionOfExistingSolutionsAndAnalysis, "Description Of Existing Solutions And Analysis", Placeholders.DescriptionOfExistingSolutionsAndAnalysis));
+            _steps.Add(new WorkpackageStep(WorkpackageStepIds.DescriptionOfNeeds, "Description of Needs", Placeholders.DescriptionOfNeeds));
+            _steps.Add(new WorkpackageStep(WorkpackageStepIds.DescriptionOfExistingSolutionsAndAnalysis, "Description of Existing Solutions and Analysis", Placeholders.DescriptionOfExistingSolutionsAndAnalysis));
             _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductFunctionality, "Product Functionality", Placeholders.ProductFunctionality));
             _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductPerformance, "Product Performance", Placeholders.ProductPerformance));
             _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductUsability, "Product Usability", Placeholders.ProductUsability));
@@ -43,15 +26,15 @@ namespace Ubora.Domain.Projects.Workpackages
             _steps.Add(new WorkpackageStep(WorkpackageStepIds.AdditionalInformation, "Additional Information", Placeholders.AdditionalInformation));
         }
 
-        private void Apply(WorkpackageStepEditedEvent e)
+        private void Apply(WorkpackageOneStepEditedEvent e)
         {
-            var step = Steps.Single(x => x.Id == e.StepId);
+            var step = _steps.Single(x => x.Id == e.StepId);
 
             step.Title = e.Title;
             step.Content = e.NewValue;
         }
 
-        private void Apply(WorkpackageSubmittedForReviewEvent e)
+        private void Apply(WorkpackageOneSubmittedForReviewEvent e)
         {
             var canApply = this.DoesSatisfy(new CanSubmitWorkpackageReview<WorkpackageOne>());
             if (!canApply)

@@ -2,9 +2,9 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects.Workpackages.Events
 {
-    public class WorkpackageStepEditedEvent : UboraEvent
+    public class WorkpackageOneStepEditedEvent : UboraEvent
     {
-        public WorkpackageStepEditedEvent(UserInfo initiatedBy, string stepId, string title, string newValue) 
+        public WorkpackageOneStepEditedEvent(UserInfo initiatedBy, string stepId, string title, string newValue) 
             : base(initiatedBy)
         {
             StepId = stepId;
@@ -16,9 +16,6 @@ namespace Ubora.Domain.Projects.Workpackages.Events
         public string Title { get; private set; }
         public string NewValue { get; private set; }
 
-        public override string GetDescription()
-        {
-            return $"Edited \"{Title}\"";
-        }
+        public override string GetDescription() => $"Edited \"{Title}\"";
     }
 }

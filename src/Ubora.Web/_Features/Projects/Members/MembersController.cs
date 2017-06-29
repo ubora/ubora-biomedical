@@ -106,7 +106,7 @@ namespace Ubora.Web._Features.Projects.Members
             return RedirectToAction(nameof(Members));
         }
 
-
+        [DisableProjectControllerAuthorization]
         [Authorize(Roles = ApplicationRole.Admin)]
         [HttpPost]
         public async Task<IActionResult> AssignMeAsMentor()

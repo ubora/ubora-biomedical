@@ -112,11 +112,9 @@ namespace Ubora.Domain.Projects.Workpackages
         ///
         ///Worked example 1: Down sindrome is a sindro [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string DescriptionOfNeed
-        {
-            get
-            {
-                return ResourceManager.GetString("DescriptionOfNeed", resourceCulture);
+        public static string DescriptionOfNeeds {
+            get {
+                return ResourceManager.GetString("DescriptionOfNeeds", resourceCulture);
             }
         }
 

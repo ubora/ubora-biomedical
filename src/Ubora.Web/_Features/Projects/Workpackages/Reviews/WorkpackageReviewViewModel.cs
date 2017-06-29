@@ -1,7 +1,7 @@
 using System;
 using Ubora.Domain.Projects.Workpackages;
 
-namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOneReview
+namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 {
     public class WorkpackageReviewViewModel
     {

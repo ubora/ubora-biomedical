@@ -7,7 +7,7 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
-using Ubora.Web._Features.Projects.Workpackages.WorkpackageOne;
+using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Xunit;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages
@@ -22,7 +22,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         {
             _processorMock = new Mock<ICommandQueryProcessor>();
             _mapperMock = new Mock<IMapper>();
-            _workpackageOneController = new WorkpackageOneController(_processorMock.Object, _mapperMock.Object);
+            _workpackageOneController = new WorkpackageOneController(_processorMock.Object, _mapperMock.Object)
+            {
+                Url = Mock.Of<IUrlHelper>()
+            };
             SetProjectAndUserContext(_workpackageOneController);
         }
 
@@ -45,7 +48,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var postModel = new StepViewModel { StepId = stepId };
 
             // Act
-            var result = (ViewResult)_workpackageOneController.EditStep(postModel);
+            var result = (ViewResult)_workpackageOneController.Edit(postModel);
 
             // Assert
             result.Model.Should().BeSameAs(expectedModel);
@@ -72,7 +75,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var postModel = new StepViewModel { StepId = stepId };
 
             // Act
-            var result = (ViewResult)_workpackageOneController.EditStep(postModel);
+            var result = (ViewResult)_workpackageOneController.Edit(postModel);
 
             // Assert
             result.Model.Should().BeSameAs(expectedModel);
@@ -95,14 +98,14 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             };
 
             // Act
-            var result = (RedirectToActionResult)_workpackageOneController.EditStep(postModel);
+            var result = (RedirectToActionResult)_workpackageOneController.Edit(postModel);
 
             // Assert
             executedCommand.StepId.Should().Be(stepId);
             executedCommand.ProjectId.Should().Be(ProjectId);
             executedCommand.NewValue.Should().Be("expectedValue");
 
-            result.ActionName.Should().Be(nameof(WorkpackageOneController.Step));
+            result.ActionName.Should().Be(nameof(WorkpackageOneController.Read));
         }
 
         [Fact]
@@ -120,7 +123,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Returns(expectedModel);
 
             // Act
-            var result = (ViewResult)_workpackageOneController.Step(stepId);
+            var result = (ViewResult)_workpackageOneController.Read(stepId);
 
             // Assert
             result.Model.Should().BeSameAs(expectedModel);
@@ -141,7 +144,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Returns(expectedModel);
 
             // Act
-            var result = (ViewResult)_workpackageOneController.Step(stepId);
+            var result = (ViewResult)_workpackageOneController.Read(stepId);
 
             // Assert
             result.Model.Should().BeSameAs(expectedModel);

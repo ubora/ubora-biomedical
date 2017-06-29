@@ -6,32 +6,29 @@ using Ubora.Domain.Projects.Workpackages.Specifications;
 
 namespace Ubora.Domain.Projects.Workpackages.Commands
 {
-    /// <summary>
-    /// Submit workpackage for formal review. Workpackage will be locked for new edits while in review.
-    /// </summary>
-    public class SubmitWorkpackageOneForReviewCommand : UserProjectCommand
+    public class SubmitWorkpackageTwoForReviewCommand : UserProjectCommand
     {
-        internal class Handler : CommandHandler<SubmitWorkpackageOneForReviewCommand>
+        internal class Handler : CommandHandler<SubmitWorkpackageTwoForReviewCommand>
         {
             public Handler(IDocumentSession documentSession) : base(documentSession)
             {
             }
 
-            public override ICommandResult Handle(SubmitWorkpackageOneForReviewCommand cmd)
+            public override ICommandResult Handle(SubmitWorkpackageTwoForReviewCommand cmd)
             {
-                var workpackageOne = DocumentSession.Load<WorkpackageOne>(cmd.ProjectId);
+                var workpackageOne = DocumentSession.Load<WorkpackageTwo>(cmd.ProjectId);
                 if (workpackageOne == null)
                 {
-                    throw new InvalidOperationException($"{nameof(WorkpackageOne)} not found with id [{cmd.ProjectId}]");
+                    throw new InvalidOperationException($"{nameof(WorkpackageTwo)} not found with id [{cmd.ProjectId}]");
                 }
 
-                var canHandle = workpackageOne.DoesSatisfy(new CanSubmitWorkpackageReview<WorkpackageOne>());
+                var canHandle = workpackageOne.DoesSatisfy(new CanSubmitWorkpackageReview<WorkpackageTwo>());
                 if (!canHandle)
                 {
                     return new CommandResult("Work package can not be submitted for review.");
                 }
 
-                var @event = new WorkpackageOneSubmittedForReviewEvent(
+                var @event = new WorkpackageTwoSubmittedForReviewEvent(
                     initiatedBy: cmd.Actor, 
                     projectId: cmd.ProjectId,
                     reviewId: Guid.NewGuid(),

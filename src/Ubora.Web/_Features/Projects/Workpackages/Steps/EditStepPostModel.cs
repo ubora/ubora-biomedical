@@ -1,4 +1,4 @@
-﻿namespace Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
+﻿namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     public class EditStepPostModel
     {

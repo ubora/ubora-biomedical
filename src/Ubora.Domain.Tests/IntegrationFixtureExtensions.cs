@@ -62,5 +62,32 @@ namespace Ubora.Domain.Tests
                 Actor = new DummyUserInfo()
             });
         }
+
+        public static void Submit_Workpackage_Two_For_Review(this IntegrationFixture fixture, Guid projectId)
+        {
+            fixture.Processor.Execute(new SubmitWorkpackageTwoForReviewCommand
+            {
+                ProjectId = projectId,
+                Actor = new DummyUserInfo()
+            });
+        }
+
+        public static void Reject_Workpackage_Two_Review(this IntegrationFixture fixture, Guid projectId)
+        {
+            fixture.Processor.Execute(new RejectWorkpackageTwoReviewCommand
+            {
+                ProjectId = projectId,
+                Actor = new DummyUserInfo()
+            });
+        }
+
+        public static void Accept_Workpackage_Two_Review(this IntegrationFixture fixture, Guid projectId)
+        {
+            fixture.Processor.Execute(new AcceptWorkpackageTwoReviewCommand
+            {
+                ProjectId = projectId,
+                Actor = new DummyUserInfo()
+            });
+        }
     }
 }
