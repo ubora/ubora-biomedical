@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.0" />
-    <PackageReference Include="Marten" Version="1.5.1" />
+    <PackageReference Include="Marten" Version="1.5.2" />
     <PackageReference Include="TwentyTwenty.Storage" Version="2.0.0" />
   </ItemGroup>
 
@@ -36,7 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Notifications\InvitationToProject.NonViewedInvitations.cs" />
     <None Include="Projects\Project.HasLeader.cs" />
   </ItemGroup>
 

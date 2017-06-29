@@ -22,6 +22,7 @@ using Ubora.Web.Infrastructure.DataSeeding;
 using TwentyTwenty.Storage;
 using TwentyTwenty.Storage.Azure;
 using TwentyTwenty.Storage.Local;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Ubora.Web
 {
@@ -57,6 +58,7 @@ namespace Ubora.Web
             services
                 .AddMvc()
                 .AddUboraFeatureFolders(new FeatureFolderOptions { FeatureFolderName = "_Features" });
+            services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
                 {

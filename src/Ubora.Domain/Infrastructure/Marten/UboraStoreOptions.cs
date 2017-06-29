@@ -7,6 +7,9 @@ using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects.Workpackages;
+using Ubora.Domain.Notifications;
+using Ubora.Domain.Notifications.Invitation;
+using Ubora.Domain.Notifications.Join;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
@@ -35,6 +38,10 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());
 
                 options.Events.AddEventTypes(eventTypes);
+                // TODO: Find a better place for this
+                options.Schema.For<BaseNotification>()
+                    .AddSubClass<InvitationToProject>()
+                    .AddSubClass<RequestToJoinProject>();
             };
         }
     }

@@ -3,20 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Notifications;
-using Ubora.Domain.Projects;
+using Ubora.Domain.Notifications.Invitation;
+using Ubora.Domain.Notifications.Join;
+using Ubora.Domain.Notifications.Specifications;
+using Ubora.Web._Features.Notifications.Factory;
 
 namespace Ubora.Web._Features.Notifications
 {
     public class IndexViewModel
     {
-        public List<IndexInvitationViewModel> Invitations { get; set; } = new List<IndexInvitationViewModel>();
+        public List<NotificationViewModel> Notifications { get; set; } = new List<NotificationViewModel>();
 
         public class Factory
         {
             private readonly IQueryProcessor _processor;
-            public Factory(IQueryProcessor processor)
+            private readonly INotificationViewModelFactory _factory;
+
+            public Factory(
+                IQueryProcessor processor,
+                INotificationViewModelFactory factory)
             {
                 _processor = processor;
+                _factory = factory;
             }
 
             protected Factory()
@@ -27,38 +35,39 @@ namespace Ubora.Web._Features.Notifications
             public virtual IndexViewModel Create(Guid userId)
             {
                 var indexViewModel = new IndexViewModel();
-                indexViewModel.Invitations = GetIndexInvitationViewModels(userId);
+                indexViewModel.Notifications = GetIndexNotificationViewModels(userId);
 
                 return indexViewModel;
             }
 
-            private List<IndexInvitationViewModel> GetIndexInvitationViewModels(Guid userId)
+            private List<NotificationViewModel> GetIndexNotificationViewModels(Guid userId)
             {
-                var invitations = _processor.Find<InvitationToProject>()
-                    .Where(x => x.InvitedMemberId == userId && x.IsAccepted == null);
-                var invitationViewModels = new List<IndexInvitationViewModel>();
+                var notifications = _processor.Find(new HasPendingNotifications(userId)).ToList();
 
-                foreach (var invitation in invitations)
+                var notificationViewModels = new List<NotificationViewModel>();
+
+                foreach (var notification in notifications)
                 {
-                    var invitationViewModel = new IndexInvitationViewModel();
-
-                    var project = _processor.FindById<Project>(invitation.ProjectId);
-                    invitationViewModel.ProjectTitle = project.Title;
-                    invitationViewModel.InviteId = invitation.Id;
-                    invitationViewModel.IsUnread = !invitation.HasBeenViewed;
-
-                    invitationViewModels.Add(invitationViewModel);
+                    var viewModel = _factory.CreateIndexViewModel(notification);
+                    if (viewModel != null)
+                    {
+                        notificationViewModels.Add(viewModel);
+                    }
                 }
 
-                return invitationViewModels;
+                return notificationViewModels;
             }
         }
     }
 
-    public class IndexInvitationViewModel
+    public class IndexInvitationViewModel : BaseInvitationViewModel
     {
-        public string ProjectTitle { get; set; }
-        public Guid InviteId { get; set; }
+        public bool IsUnread { get; set; }
+    }
+
+    public class IndexRequestViewModel : BaseRequestViewModel
+    {
+        public Guid UserId { get; set; }
         public bool IsUnread { get; set; }
     }
 }

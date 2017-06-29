@@ -10,34 +10,45 @@
 <section class="medium-width">
     @if (Model.IsProjectMember)
     {
-        <a asp-controller="Members" asp-action="Invite">
-            <i class="material-icons">person_add</i>Invite member
+        <a class="project-control" asp-controller="Members" asp-action="Invite">
+            <i class="material-icons">person_add</i>Invite member to project
         </a>
     }
+    <br>
 
+    @if (Model.IsProjectMember && !Model.IsProjectLeader)
+    {
+        <a class="project-control" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId"><i class="material-icons">exit_to_app</i>Leave project</a>
+    }
     <h1 class="full-width">Project members</h1>
+</section>
 
-    <ol class="project_member_list">
-        @foreach (var member in Model.Members)
-        {
-            <li class="project_member_list--item">
-                <div>
-                    <a class="project_member" asp-controller="Profile" asp-action="View" asp-route-userId="@member.UserId">
-                        @member.FullName
-                        @if (member.IsProjectLeader)
-                        {
-                            <i class="material-icons" title="Project leader">supervisor_account</i>
-                        }
-                        @if (Model.CanRemoveProjectMembers && member.IsProjectLeader)
-                        {
-                            <a class="project_member--remove" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId"><i class="material-icons" title="Remove user from project">close</i></a>
-                        }
-                    </a>
+<section class="narrow-width">
+    @foreach (var member in Model.Members)
+    {
+        <div class="project-member">
+            <span class="project-member--status">
+                @if (member.IsProjectLeader)
+                {
+                    @* TODO: Add a 'title' attribute with correct roles in the future.*@
+                    <i class="material-icons" title="Project leader">supervisor_account</i>
+                }
+            </span>
 
-                </div>
-            </li>
-        }
-    </ol>
+            <span class="project-member--name">
+                <a asp-controller="Profile" asp-action="View" asp-route-userId="@member.UserId">
+                    @member.FullName
+                </a>
+            </span>
+
+            <span class="project-member--controls">
+                @if (Model.CanRemoveProjectMembers && !member.IsProjectLeader)
+                {
+                    <a class="project-member--remove" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId"><i class="material-icons">close</i></a>
+                }
+            </span>
+        </div>
+    }
     @if (User.IsInRole(ApplicationRole.Admin))
     {
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>

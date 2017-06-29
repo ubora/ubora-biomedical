@@ -7,20 +7,20 @@
 }
 
 <section class="narrow-width">
-    <h1 class="full-width">Invite people to project</h1>
 
     <form asp-controller="Members" asp-action="Invite" method="post">
-        <input asp-for="ProjectId" type="hidden"/>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+        <input asp-for="ProjectId" type="hidden"/>
+
         <div class="form-input">
-            <label asp-for="Email">Email address</label>
+            <label asp-for="Email">User's email address</label>
             <input asp-for="Email" placeholder="Email address" autofocus>
             <span asp-validation-for="Email"></span>
         </div>
 
         <div class="form-input">
-            <button class="button primary-button full-width" type="submit">Invite</button>
+            <button class="button primary-button full-width" type="submit">Invite member</button>
         </div>
     </form>
 </section>
