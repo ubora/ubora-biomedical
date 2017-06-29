@@ -11,13 +11,20 @@
         <img class="project_section--photo" src="//placehold.it/1500x300" alt="Example image">
     </div>
 
+    @if (Model.IsInDraft)
+    {
+        <div class="project_section">
+            <span class="project_status full-width">Draft</span>
+        </div>
+    }
+
     <div class="project_section">
         <h1 class="project_section--title">@Model.Title</h1>
     </div>
 
     <div class="project_section project_section--editable">
         <h2>Project description</h2>
-        @if(Model.IsProjectMember)
+        @if (Model.IsProjectMember)
         {
             <a asp-controller="Dashboard" asp-action="EditProjectDescription"><i class="material-icons">mode_edit</i>&nbsp;Edit</a>
         }
@@ -50,54 +57,9 @@
                 <p>@Model.PotentialTechnologyTags</p>
             </div>
             <div class="medical_tag--item">
-                <h3>GMDN keywords</h3>
+                <h3>Project keywords</h3>
                 <p>@Model.Gmdn</p>
             </div>
         </div>
     </div>
-
-    <div class="project_section project_section--block">
-        <h2>Project specifications</h2>
-        <div class="project_section--specification">
-            <div class="project_section--classification">
-                <h3>Device classification</h3>
-
-                @if (!string.IsNullOrWhiteSpace(Model.DeviceClassification))
-                {
-                    <b>@Model.DeviceClassification</b>
-                }
-
-                <!-- TODO: If device classification unset -->
-                <!-- <p>There currently is no device classification set.</p> -->
-                <!-- TODO: If device classification is set -->
-                <!-- <p>Class <i>[device classification here]</i> medical device.</p> -->
-                
-                @if(Model.IsProjectMember)
-                {
-                    <div class="center-element">
-                        <a class="button primary-button" asp-controller="DeviceClassification" asp-action="GetPairedMainQuestions">Go to device classification</a>
-                    </div>
-                }
-
-            </div>
-
-            <div class="project_section--checklist">
-                <h3>ISO standards and regulation checklist</h3>
-                @if(Model.IsProjectMember)
-                {
-                    <div class="center-element">
-                        <button class="button primary-button" disabled>Go to regulation checklist</button>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-
-    @if (Model.IsProjectMember)
-    {
-        <div class="project_section project_section--block">
-            <h2>Submit for review</h2>
-            <button class="button primary-button full-width" type="submit" disabled>Present to mentor</button>
-        </div>
-    }
 </section>

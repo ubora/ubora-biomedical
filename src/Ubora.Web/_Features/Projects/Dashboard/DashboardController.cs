@@ -20,7 +20,6 @@ namespace Ubora.Web._Features.Projects.Dashboard
         }
 
         [AllowAnonymous]
-        [Route(nameof(Dashboard))]
         public async Task<IActionResult> Dashboard()
         {
             var model = _mapper.Map<ProjectDashboardViewModel>(Project);
@@ -37,7 +36,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
             };
 
             return View(editProjectDescription);
-        }
+        } 
 
         [HttpPost]
         public IActionResult EditProjectDescription(EditProjectDescriptionViewModel model)

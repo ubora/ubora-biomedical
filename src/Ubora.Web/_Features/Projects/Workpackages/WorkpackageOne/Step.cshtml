@@ -8,12 +8,12 @@
 }
 
 <section class="project_view full-width">
-    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewModel))
+    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
 
     <section class="medium-width step-view">
         <div class="step_header">
             <h1 class="step_title">@Model.Title</h1>
-            <a class="step_edit" asp-controller="WorkpackageOne" asp-action="EditStep" asp-route-id="@Model.StepId">
+            <a class="step_edit" asp-controller="WorkpackageOne" asp-action="EditStep" asp-route-stepId="@Model.StepId">
                 <i class="material-icons">mode_edit</i>&nbsp;Edit
             </a>
         </div>

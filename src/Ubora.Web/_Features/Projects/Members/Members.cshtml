@@ -16,22 +16,23 @@
 
     <h1 class="full-width">Project members</h1>
 
-    <ol>
+    <ol class="project_member_list">
         @foreach (var member in Model.Members)
-            {
-            <li>
-                <div>
-                    <a asp-controller="Profile" asp-action="View" asp-route-userId="@member.UserId">
-                        @member.FullName
+        {
+        <li class="project_member_list--item">
+            <div>
+                <a class="project_member" asp-controller="Profile" asp-action="View" asp-route-userId="@member.UserId">
+                    @member.FullName
                     @if (member.IsProjectLeader)
                     {
-                        <i class="material-icons">supervisor_account</i>
+                        <i class="material-icons" title="Project leader">supervisor_account</i>
+                    }
+                    @if (Model.CanRemoveProjectMembers && member.IsProjectLeader)
+                    {
+                        <a class="project_member--remove" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId"><i class="material-icons" title="Remove user from project">close</i></a>
                     }
                 </a>
-                @if (Model.CanRemoveProjectMembers && !member.IsProjectLeader)
-                {
-                    <a asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId">Remove</a>
-                }
+
             </div>
         </li>
         }

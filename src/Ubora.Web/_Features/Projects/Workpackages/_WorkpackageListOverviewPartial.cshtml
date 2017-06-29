@@ -1,28 +1,26 @@
-﻿@using Ubora.Web._Features.Projects.Workpackages.WorkpackageOne
-@model Ubora.Web._Features.Projects.Workpackages.WorkpackageOne.WorkpackageOneOverviewViewModel
-
+﻿@model Ubora.Web._Features.Projects.Workpackages.WorkpackageListOverviewViewModel
+@*
+    TODO: Map a tags to work package steps
+*@
 <aside class="project_sidemenu">
     <ol>
-        <li class="project_sidemenu--workpackage">
-                <h3>@Model.Title</h3>
-
-            <ol>
-                @foreach (var step in Model.Steps)
-                {
-                    <li>
-                        <a asp-action="Step" asp-controller="WorkpackageOne" asp-route-id="@step.Id">
-                            @if (step.IsSelected)
-                            {
-                                <b>@step.Title</b>
-                            }
-                            else
-                            {
-                                @step.Title
-                            }
-                        </a>
-                    </li>
-                }
-            </ol>
-        </li>
+        @foreach (var workpackage in Model.Workpackages)
+        {
+            <li class="project_sidemenu--workpackage">
+                <h3>@workpackage.Title</h3>
+                <ol>
+                    <li><a asp-controller="WorkpackageOne" asp-action="DesignPlanning">&nbsp;Design planning</a></li>
+                    @foreach (var step in workpackage.Steps)
+                    {
+                        <li>
+                            <a asp-action="Step" asp-controller="WorkpackageOne" asp-route-stepId="@step.Id">@step.Title</a>
+                        </li>
+                    }
+                    <li><a asp-controller="WorkpackageOne" asp-action="DeviceClassification">&nbsp;Device classification</a></li>
+                    <li><a href="#" class="project_sidemenu_link--disabled">&nbsp;Regulation checklist</a></li>
+                    <li><a asp-controller="WorkpackageOneReview" asp-action="Review">&nbsp;Formal review</a></li>
+                </ol>
+            </li>
+        }
     </ol>
 </aside>

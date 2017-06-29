@@ -8,11 +8,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ubora.Domain.Projects.WorkpackageOnes {
+namespace Ubora.Domain.Projects.Workpackages
+{
     using System;
     using System.Reflection;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -23,44 +24,52 @@ namespace Ubora.Domain.Projects.WorkpackageOnes {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Placeholders {
-        
+    public class Placeholders
+    {
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Placeholders() {
+        internal Placeholders()
+        {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ubora.Domain.Projects.WorkpackageOnes.Placeholders", typeof(Placeholders).GetTypeInfo().Assembly);
+        public static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ubora.Domain.Projects.Workpackages.Placeholders", typeof(Placeholders).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
-            get {
+        public static global::System.Globalization.CultureInfo Culture
+        {
+            get
+            {
                 return resourceCulture;
             }
-            set {
+            set
+            {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Here you can provide any additional information that you think is appropriate. For example, any preliminary studies that you have already performed or reference to similar/ competitor devices.
         ///
@@ -72,12 +81,14 @@ namespace Ubora.Domain.Projects.WorkpackageOnes {
         ///simulations on dummies or SW that may be representative;
         ///if the device is intended to be single use;.
         /// </summary>
-        public static string AdditionalInformation {
-            get {
+        public static string AdditionalInformation
+        {
+            get
+            {
                 return ResourceManager.GetString("AdditionalInformation", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Here you should describe what are the devices or therapies on the market; if possible, list some pros and cons of the existing solutions.
         ///
@@ -85,12 +96,14 @@ namespace Ubora.Domain.Projects.WorkpackageOnes {
         ///
         ///Worked example: congenital club foot is usually treated by braces (mild cases) or surgery. Both solutions require long healing times and frequent specialistic f [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string DescriptionOfExistingSolutionsAndAnalysis {
-            get {
+        public static string DescriptionOfExistingSolutionsAndAnalysis
+        {
+            get
+            {
                 return ResourceManager.GetString("DescriptionOfExistingSolutionsAndAnalysis", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Here you should describe the clinical need that is the target of your device. 
         ///Example 1: write the common or technical name of the pathology, describe the main symptoms and if it is acute/chronic.
@@ -99,12 +112,14 @@ namespace Ubora.Domain.Projects.WorkpackageOnes {
         ///
         ///Worked example 1: Down sindrome is a sindro [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string DescriptionOfNeed {
-            get {
+        public static string DescriptionOfNeed
+        {
+            get
+            {
                 return ResourceManager.GetString("DescriptionOfNeed", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Here you should describe how many patients you suppose would need your device, and give description of their state of health and any subgroups.
         ///
@@ -114,12 +129,14 @@ namespace Ubora.Domain.Projects.WorkpackageOnes {
         ///
         ///Example 2: evaluate how the current patient population may evolve ove [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string PatientPopulationStudy {
-            get {
+        public static string PatientPopulationStudy
+        {
+            get
+            {
                 return ResourceManager.GetString("PatientPopulationStudy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Here you should briefly describe your device and how it works. Describe how your product will meet and solve the clinical need.
         ///
@@ -128,14 +145,17 @@ namespace Ubora.Domain.Projects.WorkpackageOnes {
         ///Worked example 1: the syringe allows to deliver liquid substances, for example drugs, to the peripheral blood stream of the patient by piercing the vein walls without laceration
         ///
         ///Example 2: describe which clinical parameter is measures/ altered/ affected by the device
-        ///        /// [rest of string was truncated]&quot;;.
+        ///
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string ProductFunctionality {
-            get {
+        public static string ProductFunctionality
+        {
+            get
+            {
                 return ResourceManager.GetString("ProductFunctionality", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Here you should describe the main working parameters of your device and why they are significant to describe its interaction with the patient.
         ///
@@ -145,12 +165,14 @@ namespace Ubora.Domain.Projects.WorkpackageOnes {
         ///
         ///worked example [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string ProductPerformance {
-            get {
+        public static string ProductPerformance
+        {
+            get
+            {
                 return ResourceManager.GetString("ProductPerformance", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Here you should describe the main risks that your device may pose to the patient, to the users and bystanders and to the general environment. Propose solutions if you are aware of them.
         ///
@@ -158,12 +180,14 @@ namespace Ubora.Domain.Projects.WorkpackageOnes {
         ///
         ///Worked example 1: haemodialysis machine is powered by electricity, there is a risk of electrocution of the patient and operator if it is not well insulated. In the same machine, the roller pump may hurt the operator hands if it is touched while it is r [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string ProductSafety {
-            get {
+        public static string ProductSafety
+        {
+            get
+            {
                 return ResourceManager.GetString("ProductSafety", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Here you should describe who will use the device and if they need special training.
         ///
@@ -173,12 +197,14 @@ namespace Ubora.Domain.Projects.WorkpackageOnes {
         ///
         ///Worked example 2: a thermometer is used by any adult or teenager with normal cognitive and bodily abilities; young children or p [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string ProductUsability {
-            get {
+        public static string ProductUsability
+        {
+            get
+            {
                 return ResourceManager.GetString("ProductUsability", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Here you should describe what your end user prefers or needs; this may be the same or different than the patient need and relates more to &quot;easy and friendly to use&quot; that to patient state of health.
         ///
@@ -186,8 +212,10 @@ namespace Ubora.Domain.Projects.WorkpackageOnes {
         ///
         ///Worked example 1: a defibrillator for use in airports and other meeting places should be very intuitive to use and should give vocal commands in t [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string UserRequirementStudy {
-            get {
+        public static string UserRequirementStudy
+        {
+            get
+            {
                 return ResourceManager.GetString("UserRequirementStudy", resourceCulture);
             }
         }

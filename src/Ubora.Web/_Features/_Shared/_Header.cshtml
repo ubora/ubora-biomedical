@@ -46,7 +46,10 @@
         <div class="menu-profile">
             <img class="menu-profile-image" src="@User.GetProfilePictureUrl()" alt="Profile icon">
             <div>
-                @* TODO: Have only first name *@
+                @*
+                    TODO: Have only first name
+                    <p class="menu-profile-name">@User.GetFirstName()</p>
+                *@
                 <p class="menu-profile-name">@User.GetFullName()</p>
                 <a asp-controller="Manage" asp-action="Index" class="menu-profile-link">View profile</a>
             </div>

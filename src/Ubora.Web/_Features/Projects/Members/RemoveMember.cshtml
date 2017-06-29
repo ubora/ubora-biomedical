@@ -3,14 +3,14 @@
 @model RemoveMemberViewModel
 
 <section class="medium-width">
-    <h3 class="text-center">Are you sure you want to remove "@Model.MemberName" from project?</h3>
+    <h3 class="text-center">Are you sure you want to remove @Model.MemberName from project?</h3>
     <form asp-controller="Members" asp-action="RemoveMember" method="post">
+        <input asp-for="MemberId" type="hidden" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <input asp-for="MemberId" type="hidden" />
         <div class="center-element">
-            <button class="button secondary-button small-button" type="submit">Remove</button>
-            <a class="button secondary-button small-button" asp-controller="Members" asp-action="Members">Keep</a>
+            <a class="button secondary-button small-button" asp-controller="Members" asp-action="Members">No, keep user</a>
+            <button class="button secondary-button small-button" type="submit">Yes, remove user</button>
         </div>
     </form>
 </section>
