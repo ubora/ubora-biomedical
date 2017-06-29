@@ -38,7 +38,7 @@ namespace Ubora.Web.Tests._Features.Notifications.Invitations
         }
 
         [Fact]
-        public void Accept_Returns_BadResult_If_Command_Fails()
+        public void Accept_Returns_ModelState_With_Error_If_Command_Fails()
         {
             var vm = new InvitationPartialViewModel { InviteId = Guid.NewGuid() };
             _commandQueryProcessorMock.Setup(x => x.Execute(It.IsAny<AcceptInvitationToProjectCommand>()))
@@ -66,7 +66,7 @@ namespace Ubora.Web.Tests._Features.Notifications.Invitations
         }
 
         [Fact]
-        public void Decline_Returns_BadResult_If_Command_Fails()
+        public void Decline_Returns_ModelState_With_Error_If_Command_Fails()
         {
             var vm = new InvitationPartialViewModel { InviteId = Guid.NewGuid() };
             _commandQueryProcessorMock.Setup(x => x.Execute(It.IsAny<DeclineInvitationToProjectCommand>()))
