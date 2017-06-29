@@ -39,7 +39,7 @@ namespace Ubora.Domain.Notifications.Join
 
             request.Accept();
 
-            var @event = new MemberAddedToProjectEvent(command.Actor)
+            var @event = new MemberAcceptedToJoinProjectEvent(command.Actor)
             {
                 ProjectId = request.ProjectId,
                 UserId = request.AskingToJoinMemberId,
