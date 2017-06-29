@@ -26,7 +26,7 @@
     <div class="project_section">
         @if (!string.IsNullOrWhiteSpace(Model.Description))
         {
-            <p class="markdown-like">@Model.Description</p>
+            <div class="markdown-like">@Html.Raw(Model.Description)</div>
         }
         else
         {
@@ -71,7 +71,7 @@
                 <!-- <p>There currently is no device classification set.</p> -->
                 <!-- TODO: If device classification is set -->
                 <!-- <p>Class <i>[device classification here]</i> medical device.</p> -->
-                
+
                 @if(Model.IsProjectMember)
                 {
                     <div class="center-element">
@@ -101,3 +101,22 @@
         </div>
     }
 </section>
+
+@section Scripts {
+    <script>
+        marked.setOptions({
+            renderer: new marked.Renderer(),
+            gfm: true,
+            tables: true,
+            breaks: true,
+            pedantic: false,
+            sanitize: true,
+            smartLists: true,
+            smartypants: false
+        });
+
+        //TODO: Risto Kitsing teeb ilusaks
+        const element = document.querySelector('.markdown-like');
+        element.innerHTML = marked(element.innerHTML);
+    </script>
+}
