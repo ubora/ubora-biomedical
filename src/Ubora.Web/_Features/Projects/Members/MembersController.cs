@@ -40,6 +40,7 @@ namespace Ubora.Web._Features.Projects.Members
         {
             var canRemoveProjectMembers = await _authorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember);
             var isProjectMember = await _authorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
+            var isAuthenticated = await _authorizationService.AuthorizeAsync(User, Policies.IsAuthenticatedUser);
 
             var members = Project.Members.Select(m => new ProjectMemberListViewModel.Item
             {
@@ -47,18 +48,18 @@ namespace Ubora.Web._Features.Projects.Members
                 // TODO(Kaspar Kallas): Eliminate SELECT(N + 1)
                 FullName = FindById<UserProfile>(m.UserId).FullName,
                 IsProjectLeader = m.IsLeader,
-                IsCurrentUser = UserInfo.UserId == m.UserId
+                IsCurrentUser = isAuthenticated && UserId == m.UserId
             });
 
-            var isCurrentUserProjectLeader = members.Any(x => x.UserId == UserInfo.UserId && x.IsProjectLeader);
+            var isProjectLeader = isAuthenticated && members.Any(x => x.UserId == UserId && x.IsProjectLeader);
 
             var model = new ProjectMemberListViewModel
             {
                 Id = ProjectId,
                 CanRemoveProjectMembers = canRemoveProjectMembers,
                 Members = members,
-                IsProjectMember = isProjectMember,
-                IsCurrentUserProjectLeader = isCurrentUserProjectLeader
+                IsProjectMember = isAuthenticated && isProjectMember,
+                IsProjectLeader = isProjectLeader
             };
 
             return View(model);
@@ -124,14 +125,14 @@ namespace Ubora.Web._Features.Projects.Members
                 return View(model);
             }
 
-            ExecuteUserProjectCommand(new JoinProjectCommand ());
+            ExecuteUserProjectCommand(new JoinProjectCommand());
 
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            return RedirectToAction("Index", "Home", new { });
+            return RedirectToAction("Dashboard", "Dashboard", new { });
         }
 
         [Authorize(Policy = nameof(Policies.CanRemoveProjectMember))]
@@ -191,7 +192,7 @@ namespace Ubora.Web._Features.Projects.Members
                 return View("Leave");
             }
 
-            return RedirectToAction("Index", "Home", new { });
+            return RedirectToAction("Dashboard", "Dashboard", new { });
         }
     }
 }

@@ -15,7 +15,7 @@
     }
     <br>
 
-    @if (!Model.IsCurrentUserProjectLeader)
+    @if (Model.IsProjectMember && !Model.IsProjectLeader)
     {
         <a class="project-control" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId"><i class="material-icons">exit_to_app</i>Leave project</a>
     }
