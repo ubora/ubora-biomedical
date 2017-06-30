@@ -39,6 +39,7 @@ namespace Ubora.Web
             {
                 // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
                 builder.AddUserSecrets<Startup>();
+                builder.AddApplicationInsightsSettings(developerMode: true);
             }
 
             builder.AddEnvironmentVariables();
@@ -50,6 +51,8 @@ namespace Ubora.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddApplicationInsightsTelemetry(Configuration);
+
             var connectionString = Configuration["ConnectionStrings:ApplicationDbConnection"];
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -112,7 +115,6 @@ namespace Ubora.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            ConfigureLogging(loggerFactory);
 
             if (env.IsDevelopment())
             {
@@ -159,17 +161,6 @@ namespace Ubora.Web
             logger.LogError("Application started!");
         }
 
-        private void ConfigureLogging(ILoggerFactory loggerFactory)
-        {
-            loggerFactory.AddSerilog();
-
-            if (Configuration["AWS_ACCESS_KEY_ID"] != null || Configuration["AWS_SECRET_ACCESS_KEY"] != null)
-            {
-                loggerFactory.AddAWSProvider(Configuration.GetAWSLoggingConfigSection());
-            }
-
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-        }
+   
     }
 }
