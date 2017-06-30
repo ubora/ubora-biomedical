@@ -6,7 +6,7 @@
 
 
     <form asp-controller="Profile" asp-action="FirstTimeEditProfile" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-        
+
         <h3>Academia</h3>
         <div class="form-input">
             <label asp-for="University">University</label>
@@ -46,9 +46,13 @@
             <span asp-validation-for="Skills"></span>
         </div>
 
-        <button class="button primary-button" type="submit">Create profile</button>
-        <br/>
-        <a class="button secondary-button" asp-controller="Home" asp-action="Index" asp-route-returnUrl="@ViewData["ReturnUrl"]">Skip profile creation</a>
+        <div class="form-input">
+            <button class="button primary-button full-width" type="submit">Create profile</button>
+        </div>
+
+        <div class="form-input">
+            <a class="button secondary-button full-width" asp-controller="Home" asp-action="Index" asp-route-returnUrl="@ViewData["ReturnUrl"]">Skip profile creation</a>
+        </div>
 
     </form>
 

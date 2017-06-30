@@ -12,7 +12,7 @@
     <h1 class="full-width">Task draft</h1>
 
     <form asp-controller="Tasks" asp-action="Edit" method="post">
-        
+
         <input asp-for="ProjectId" type="hidden"/>
 
         <label>
@@ -27,7 +27,6 @@
             <span asp-validation-for="Description"></span>
         </label>
 
-        <br>
         <button class="button primary-button" type="submit">Edit task</button>
     </form>
 </section>

@@ -10,7 +10,7 @@
     <h1 class="full-width">Task draft</h1>
 
     <form asp-controller="Tasks" asp-action="Add" method="post">
-        
+
         <input asp-for="ProjectId" type="hidden"/>
 
         <label>
@@ -18,14 +18,13 @@
             <input asp-for="Title" placeholder="Task title">
             <span asp-validation-for="Title"></span>
         </label>
-        
+
         <label>
             Task description
             <input asp-for="Description" placeholder="Task description">
             <span asp-validation-for="Description"></span>
         </label>
 
-        <br>
         <button class="button primary-button" type="submit">Add task</button>
     </form>
 </section>
