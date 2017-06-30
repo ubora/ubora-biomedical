@@ -16,10 +16,10 @@ namespace Ubora.Web.Services
 
         public async Task SendEmailAsync(string email, string subject, string message)
         {
-            await Task.Run(() => SendEmailToPickupDirectory(email, subject, message));
+            await SendEmailToPickupDirectory(email, subject, message);
         }
 
-        private void SendEmailToPickupDirectory(string email, string subject, string message)
+        private async Task SendEmailToPickupDirectory(string email, string subject, string message)
         {
             var pickupDirectory = _appSettings.Value.EmailPickupDirectory;
 
@@ -30,11 +30,11 @@ namespace Ubora.Web.Services
             var stream = new FileStream(path, FileMode.CreateNew);
             using (var writer = new StreamWriter(stream))
             {
-                writer.WriteLine(DateTime.Now);
-                writer.WriteLine("Subject: " + subject);
-                writer.WriteLine("To: " + email);
-                writer.WriteLine("");
-                writer.WriteLine(message);
+                await writer.WriteLineAsync(DateTime.Now.ToString());
+                await writer.WriteLineAsync("Subject: " + subject);
+                await writer.WriteLineAsync("To: " + email);
+                await writer.WriteLineAsync("");
+                await writer.WriteLineAsync(message);
             }
         }
     }
