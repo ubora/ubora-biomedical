@@ -42,7 +42,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void ForgetPassword_Returns_View_And_Model_When_ModelState_Is_Invalid()
+        public async void ForgotPassword_Returns_View_And_Model_When_ModelState_Is_Invalid()
         {
             var forgotPasswordViewModel = new ForgotPasswordViewModel()
             {
@@ -58,7 +58,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void ForgetPassword_Returns_ForgotPasswordConfirmation_View_If_User_Is_Not_Found()
+        public async void ForgotPassword_Returns_ForgotPasswordConfirmation_View_If_User_Is_Not_Found()
         {
             var forgotpasswordviewmodel = new ForgotPasswordViewModel()
             {
@@ -79,7 +79,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void ForgetPassword_Sends_Password_Reset_Mail_To_User_And_Results_ForgotPasswordConfirmation_View()
+        public async void ForgotPassword_Sends_Password_Reset_Mail_To_User_And_Results_ForgotPasswordConfirmation_View()
         {
             var forgotPasswordViewModel = new ForgotPasswordViewModel()
             {
