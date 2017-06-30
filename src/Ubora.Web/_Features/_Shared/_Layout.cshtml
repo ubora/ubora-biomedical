@@ -37,25 +37,6 @@
     <script src="~/lib/marked/marked.min.js"></script>
     <script src="~/js/UBORA.js"></script>
 
-    <script>
-        marked.setOptions({
-            renderer: new marked.Renderer(),
-            gfm: true,
-            tables: true,
-            breaks: true,
-            pedantic: false,
-            sanitize: true,
-            smartLists: true,
-            smartypants: false
-        });
-
-        //TODO: Risto Kitsing teeb ilusaks
-        const element = document.querySelector('.markdown-like');
-        if (element != null) {
-            element.innerHTML = marked(element.innerHTML);
-        }
-    </script>
-
     @RenderSection("Scripts", required: false)
 </body>
 </html>
