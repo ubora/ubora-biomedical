@@ -131,7 +131,9 @@ a:hover .material-icons {
 	min-width: 10em;
 	padding:1em .5em;
 	text-align: center;
-	transition: all .3s ease;
+    transition:
+		color .3s ease,
+		background-color .3s ease;
 }
 
 .button:active,
@@ -149,7 +151,9 @@ a:hover .material-icons {
 .secondary-button {
 	border-color: var(--primary-color);
 	color: var(--primary-color);
-	transition: all .3s ease;
+    transition:
+		color .3s ease,
+		background-color .3s ease;
 }
 
 .primary-button:active,
