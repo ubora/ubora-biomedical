@@ -1,6 +1,6 @@
 @using Ubora.Web.Services
 ﻿@using Ubora.Web._Features.Users.Profile
-@model Ubora.Web._Features.Users.Profile.ProfileViewModel
+@model ProfileViewModel
 
 @{
     ViewData["Title"] = "View profile";
@@ -12,7 +12,7 @@
     <div class="form-input">
         <div class="center-element">
             <img class="avatar" src="@Model.ProfilePictureLink" width="250" height="250"/>
-            <h2>@User.GetFullName()</h2>
+            <h2>@Model.FullName</h2>
             <a href="mailto:@Model.Email?Subject=Message%20from%20UBORA">@Model.Email</a>
         </div>
     </div>

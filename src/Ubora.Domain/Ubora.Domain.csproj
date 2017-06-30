@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.0" />
-    <PackageReference Include="Marten" Version="1.5.1" />
+    <PackageReference Include="Marten" Version="1.5.2" />
     <PackageReference Include="TwentyTwenty.Storage" Version="2.0.0" />
   </ItemGroup>
 
@@ -15,7 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Projects\WorkpackageOnes\Placeholders.Designer.cs">
+    <Reference Include="Microsoft.Extensions.Configuration.UserSecrets">
+      <HintPath>..\..\..\Users\Kaspar\.nuget\packages\microsoft.extensions.configuration.usersecrets\1.1.2\lib\netstandard1.5\Microsoft.Extensions.Configuration.UserSecrets.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Projects\Workpackages\Placeholders.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Placeholders.resx</DependentUpon>
@@ -23,14 +29,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Projects\WorkpackageOnes\Placeholders.resx">
+    <EmbeddedResource Update="Projects\Workpackages\Placeholders.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Placeholders.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Notifications\InvitationToProject.NonViewedInvitations.cs" />
     <None Include="Projects\Project.HasLeader.cs" />
   </ItemGroup>
 

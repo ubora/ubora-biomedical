@@ -61,3 +61,16 @@ section {
 .danger-text--header {
     color: var(--quaternary-color);
 }
+
+.form-input-options {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-input-options > .form-input:last-of-type {
+    margin-right: 0;
+}
+
+.form-input-options > .form-input {
+    margin-right: 1em;
+}

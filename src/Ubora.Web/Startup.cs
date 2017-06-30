@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.IO;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -19,9 +20,11 @@ using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
 using Serilog;
+using Ubora.Web.Infrastructure.DataSeeding;
 using TwentyTwenty.Storage;
 using TwentyTwenty.Storage.Azure;
 using TwentyTwenty.Storage.Local;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Ubora.Web
 {
@@ -57,6 +60,7 @@ namespace Ubora.Web
             services
                 .AddMvc()
                 .AddUboraFeatureFolders(new FeatureFolderOptions { FeatureFolderName = "_Features" });
+            services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
 
@@ -70,6 +74,7 @@ namespace Ubora.Web
                 .AddSignInManager<ApplicationSignInManager>()
                 .AddClaimsPrincipalFactory<ApplicationClaimsPrincipalFactory>()
                 .AddEntityFrameworkStores<ApplicationDbContext, Guid>()
+                .AddRoleManager<ApplicationRoleManager>()
                 .AddDefaultTokenProviders();
 
             services.AddAutoMapper();
@@ -77,23 +82,20 @@ namespace Ubora.Web
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            services.AddSingleton<ApplicationDataSeeder>();
+            services.AddSingleton<AdminSeeder>();
+            services.Configure<AdminSeeder.Options>(Configuration.GetSection("InitialAdminOptions"));
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
 
-            services.AddScoped<Seeder>();
-
             var autofacContainerBuilder = new ContainerBuilder();
 
-            var azureBlobEnvironmentVariablesSet =
-                Environment.GetEnvironmentVariable("amazon_storage_bucket") != null
-                && Environment.GetEnvironmentVariable("amazon_storage_publickey") != null
-                && Environment.GetEnvironmentVariable("amazon_storage_secretkey") != null;
-
-            IStorageProvider storageProvider = null;
-            if (Configuration.GetValue<bool?>("Storage:IsLocal") ?? false)
+            IStorageProvider storageProvider;
+            var isLocalStorage = Configuration.GetValue<bool?>("Storage:IsLocal") ?? false;
+            if (isLocalStorage)
             {
                 var basePath = Path.GetFullPath("wwwroot/images/storages");
-                storageProvider = new LocalStorageProvider(basePath);
+                storageProvider = new FixedLocalStorageProvider(basePath, new LocalStorageProvider(basePath));
             }
             else
             {
@@ -152,10 +154,12 @@ namespace Ubora.Web
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+                var serviceProvider = serviceScope.ServiceProvider;
+                serviceProvider.GetService<ApplicationDbContext>().Database.Migrate();
 
-                var seeder = serviceScope.ServiceProvider.GetService<Seeder>();
-                seeder.SeedIfNecessary();
+                var seeder = serviceProvider.GetService<ApplicationDataSeeder>();
+                seeder.SeedIfNecessary()
+                    .GetAwaiter().GetResult();
             }
 
             var logger = loggerFactory.CreateLogger<Startup>();

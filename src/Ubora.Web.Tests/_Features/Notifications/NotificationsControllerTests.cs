@@ -9,6 +9,8 @@ using Ubora.Web._Features.Notifications;
 using Xunit;
 using Ubora.Web.Services;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Notifications.Invitation;
+using Ubora.Domain.Notifications.Specifications;
 
 namespace Ubora.Web.Tests._Features.Notifications
 {
@@ -43,13 +45,13 @@ namespace Ubora.Web.Tests._Features.Notifications
                 WasAccepted = false
             };
 
-            var invitations = new List<HistoryInvitationViewModel>
+            var invitations = new List<NotificationViewModel>
             {
                 invitation1,
                 invitation2
             };
 
-            var historyViewModel = new HistoryViewModel { Invitations = invitations };
+            var historyViewModel = new HistoryViewModel { Notifications = invitations };
             _historyViewModelFactoryMock.Setup(x => x.Create(UserId))
                 .Returns(historyViewModel);
 
@@ -58,7 +60,7 @@ namespace Ubora.Web.Tests._Features.Notifications
 
             // Assert
             var viewModel = (HistoryViewModel)result.Model;
-            viewModel.Invitations.ShouldBeEquivalentTo(invitations);
+            viewModel.Notifications.ShouldBeEquivalentTo(invitations);
         }
 
         [Fact]
@@ -77,17 +79,17 @@ namespace Ubora.Web.Tests._Features.Notifications
                 InviteId = Guid.NewGuid()
             };
 
-            var invitations = new List<IndexInvitationViewModel>
+            var invitations = new List<NotificationViewModel>
             {
                 invitation1,
                 invitation2
             };
 
-            var indexViewModel = new IndexViewModel { Invitations = invitations };
+            var indexViewModel = new IndexViewModel { Notifications = invitations };
             _indexViewModelFactoryMock.Setup(x => x.Create(UserId))
                 .Returns(indexViewModel);
 
-            _processorMock.Setup(x => x.Execute(It.IsAny<MarkInvitationsAsViewedCommand>()))
+            _processorMock.Setup(x => x.Execute(It.IsAny<MarkNotificationsAsViewedCommand>()))
             .Returns(new CommandResult());
 
             // Act
@@ -95,28 +97,28 @@ namespace Ubora.Web.Tests._Features.Notifications
 
             // Assert
             var viewModel = (IndexViewModel)result.Model;
-            viewModel.Invitations.ShouldBeEquivalentTo(invitations);
+            viewModel.Notifications.ShouldBeEquivalentTo(invitations);
         }
 
         [Fact]
         public void Index_Marks_Invitations_As_Viewed()
         {
-            var invitation = new InvitationToProject(Guid.NewGuid(), UserId, Guid.NewGuid());
+            var invitation = new InvitationToProject(Guid.NewGuid(), UserId, UserId, Guid.NewGuid());
             var invitations = new List<InvitationToProject> { invitation };
 
-            _processorMock.Setup(x => x.Find(new NonViewedInvitations(UserId)))
+            _processorMock.Setup(x => x.Find(new HasUnViewedNotifications(UserId)))
                 .Returns(invitations);
 
             var userInfo = User.GetInfo();
 
-            _processorMock.Setup(x => x.Execute(It.IsAny<MarkInvitationsAsViewedCommand>()))
+            _processorMock.Setup(x => x.Execute(It.IsAny<MarkNotificationsAsViewedCommand>()))
             .Returns(new CommandResult());
 
             // Act
             var result = (ViewResult)_notificationsController.Index();
 
             // Assert
-            _processorMock.Verify(x => x.Execute(It.IsAny<MarkInvitationsAsViewedCommand>()));
+            _processorMock.Verify(x => x.Execute(It.IsAny<MarkNotificationsAsViewedCommand>()));
         }
     }
 }

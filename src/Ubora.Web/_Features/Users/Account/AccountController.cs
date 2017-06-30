@@ -58,8 +58,9 @@ namespace Ubora.Web._Features.Users.Account
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult SignInSignUp()
+        public IActionResult SignInSignUp(string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 

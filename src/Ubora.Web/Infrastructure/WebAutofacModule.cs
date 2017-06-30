@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using AutoMapper;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Web._Features.Projects.DeviceClassification.Services;
+using Ubora.Web._Features.Notifications.Factory;
 using Ubora.Web.Services;
 
 namespace Ubora.Web.Infrastructure
@@ -28,6 +30,7 @@ namespace Ubora.Web.Infrastructure
             }
 
             builder.RegisterType<AuthMessageSender>().As<IAuthMessageSender>().InstancePerLifetimeScope();
+            builder.RegisterType<NotificationViewModelFactory>().As<INotificationViewModelFactory>().InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(ThisAssembly).Where(t => t.IsNested && t.Name.EndsWith("Factory")).InstancePerLifetimeScope();
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();

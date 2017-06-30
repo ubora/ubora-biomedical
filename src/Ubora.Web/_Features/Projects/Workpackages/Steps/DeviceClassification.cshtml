@@ -1,0 +1,28 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
+
+@{
+    ViewData["Title"] = "Design planning";
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
+
+<section class="project_view full-width">
+    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+
+    <section class="medium-width step-view">
+        <div class="center-element">
+            <h3>Please answer to the following questionnaire to identify your device classification.</h3>
+            <a asp-controller="DeviceClassification" asp-action="GetPairedMainQuestions" class="button primary-button">Go to device classification</a>
+        </div>
+    </section>
+
+    @*
+        TODO: Get device classification
+        <section class="medium-width">
+            <div class="center-element">
+                <h2>Your current device classification: III</h2>
+                <a class="button secondary-button">Reset classification</a>
+            </div>
+        </section>
+    *@
+</section>

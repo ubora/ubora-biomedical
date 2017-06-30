@@ -9,12 +9,14 @@ namespace Ubora.Web._Features.Projects.Members
         public IEnumerable<Item> Members { get; set; }
         public bool CanRemoveProjectMembers { get; set; }
         public bool IsProjectMember { get; set; }
+        public bool IsProjectLeader { get; set; }
 
         public class Item
         {
             public Guid UserId { get; set; }
             public string FullName { get; set; }
             public bool IsProjectLeader { get; set; }
+            public bool IsCurrentUser { get; set; }
         }
     }
 }

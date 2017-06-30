@@ -4,7 +4,7 @@
     {
         public BaseQuestion ParentQuestion { get; private set; }
 
-        public SpecialSubQuestion(string questionText, SpecialMainQuestion parentSpecialMainQuestion) : base(questionText)
+        public SpecialSubQuestion(string questionText, SpecialMainQuestion parentSpecialMainQuestion, Note note = null) : base(questionText, note)
         {
             ParentQuestion = parentSpecialMainQuestion;
         }

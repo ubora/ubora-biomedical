@@ -1,0 +1,29 @@
+﻿@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Repository.ProjectRepositoryViewModel
+
+@{
+    ViewData["Title"] = "Repository";
+    ViewData["MenuOption"] = ProjectMenuOption.Repository;
+}
+
+<section class="medium-width">
+    <h1>@Model.ProjectName</h1>
+</section>
+
+<section class="medium-width file-repository">
+    <div class="file-list">
+        <h3>Project repository</h3>
+
+        @foreach (var file in Model.Files)
+        {
+            <div class="file-list--item full-width">
+                <a href="@file.FileLocation">@file.FileName</a>
+            </div>
+        }
+    </div>
+
+    <div class="file-upload">
+        <h3>Upload new file</h3>
+        @Html.Partial("AddFilePartial", Model.AddFileViewModel)
+    </div>
+</section>
