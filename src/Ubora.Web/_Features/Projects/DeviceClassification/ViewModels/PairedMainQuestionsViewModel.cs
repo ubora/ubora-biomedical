@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Ubora.Web._Features.Projects.DeviceClassification.ViewModels
 {
@@ -9,5 +10,6 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.ViewModels
         public string MainQuestionOne { get; set; }
         public Guid MainQuestionTwoId { get; set; }
         public string MainQuestionTwo { get; set; }
+        public IEnumerable<string> Notes { get; set; }
     }
 }

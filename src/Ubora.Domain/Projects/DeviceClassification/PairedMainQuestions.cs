@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Ubora.Domain.Projects.DeviceClassification
 {
@@ -19,5 +19,29 @@ namespace Ubora.Domain.Projects.DeviceClassification
         }
 
         public bool IsLastMainQuestion => NextMainQuestion == null;
+
+        public virtual IEnumerable<string> GetNotes()
+        {
+            if (MainQuestionOne != null && MainQuestionOne.Note != null
+                && MainQuestionTwo != null && MainQuestionTwo.Note != null
+                && MainQuestionOne.Note.Id == MainQuestionTwo.Note.Id)
+            {
+                return new List<string> { MainQuestionOne.Note.Value };
+            }
+
+            var notes = new List<string>();
+
+            if (MainQuestionOne != null && MainQuestionOne.Note != null)
+            {
+                notes.Add(MainQuestionOne.Note.Value);
+            }
+
+            if (MainQuestionTwo != null && MainQuestionTwo.Note != null)
+            {
+                notes.Add(MainQuestionTwo.Note.Value);
+            }
+
+            return notes;
+        }
     }
 }

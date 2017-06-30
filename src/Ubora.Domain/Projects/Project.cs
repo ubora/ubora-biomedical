@@ -68,6 +68,12 @@ namespace Ubora.Domain.Projects
             _members.Add(member);
         }
 
+        private void Apply(MemberAcceptedToJoinProjectEvent e)
+        {
+            var member = new ProjectMember(e.UserId);
+            _members.Add(member);
+        }
+
         private void Apply(EditedProjectDeviceClassificationEvent e)
         {
             if (e.CurrentClassification == null || e.NewClassification > e.CurrentClassification)

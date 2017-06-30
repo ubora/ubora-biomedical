@@ -1,26 +1,36 @@
 @using Ubora.Web._Features.Notifications
 @model IndexViewModel
 
-<section class="medium-width">
-    <a asp-controller="Notifications" asp-action="History">History</a>
-    <h1>Pending invitations</h1>
-    @if (Model.Invitations.Any())
-    {
-        @foreach (var invitation in Model.Invitations)
-        {
-            var isUnreadCss = invitation.IsUnread ? "message-unread" : "";
+@{
+    ViewData["Title"] = "Notifications";
+}
 
-            <div class="message @isUnreadCss">
-                <div class="message-container">
-                    <p class="message-author-preview">You have been asked to join project "@invitation.ProjectTitle"</p>
-                    @Html.Partial("~/_Features/Notifications/Invitations/InvitationPartial.cshtml", new Ubora.Web._Features.Notifications.Invitations.InvitationPartialViewModel { InviteId = invitation.InviteId, Action = "Accept" })
-                    @Html.Partial("~/_Features/Notifications/Invitations/InvitationPartial.cshtml", new Ubora.Web._Features.Notifications.Invitations.InvitationPartialViewModel { InviteId = invitation.InviteId, Action = "Decline" })
-                </div>
-            </div>
+@if (Model.Notifications.Any())
+{
+<section class="medium-width">
+    <a asp-controller="Notifications" asp-action="History"><i class="material-icons">history</i>Notification history</a>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <h1>Pending invitations</h1>
+
+    @foreach (var notification in Model.Notifications)
+    {
+        if (notification is IndexInvitationViewModel)
+        {
+            @Html.Partial("~/_Features/Notifications/Partials/IndexInvitationPartial.cshtml", (IndexInvitationViewModel)notification);
+        }
+        else if (notification is IndexRequestViewModel)
+        {
+            @Html.Partial("~/_Features/Notifications/Partials/IndexRequestPartial.cshtml", (IndexRequestViewModel)notification);
         }
     }
-    else
-    {
-        <p>You have no pending invitations</p>
-    }
 </section>
+}
+else
+{
+    <section class="medium-width">
+        <a asp-controller="Notifications" asp-action="History"><i class="material-icons">history</i>Notification history</a>
+        <div class="center-element">
+            <h3>You currently have no pending invitations.</h3>
+        </div>
+    </section>
+}

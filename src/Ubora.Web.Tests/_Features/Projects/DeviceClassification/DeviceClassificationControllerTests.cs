@@ -8,6 +8,7 @@ using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.DeviceClassification;
 using Ubora.Web._Features.Projects.DeviceClassification;
+using Ubora.Web._Features.Projects.DeviceClassification.Services;
 using Ubora.Web._Features.Projects.DeviceClassification.ViewModels;
 using Ubora.Web.Tests.Helper;
 using Xunit;
@@ -69,7 +70,8 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
                 MainQuestionOne = pairedMainQuestions.MainQuestionOne.Text,
                 MainQuestionOneId = pairedMainQuestions.MainQuestionOne.Id,
                 MainQuestionTwo = pairedMainQuestions.MainQuestionTwo.Text,
-                MainQuestionTwoId = pairedMainQuestions.MainQuestionTwo.Id
+                MainQuestionTwoId = pairedMainQuestions.MainQuestionTwo.Id,
+                Notes = new List<string>()
             };
 
             _deviceClassificationMock.Setup(x => x.GetDefaultPairedMainQuestion())
@@ -95,7 +97,8 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
                 MainQuestionOne = pairedMainQuestions.MainQuestionOne.Text,
                 MainQuestionOneId = pairedMainQuestions.MainQuestionOne.Id,
                 MainQuestionTwo = pairedMainQuestions.MainQuestionTwo.Text,
-                MainQuestionTwoId = pairedMainQuestions.MainQuestionTwo.Id
+                MainQuestionTwoId = pairedMainQuestions.MainQuestionTwo.Id,
+                Notes = new List<string>()
             };
 
             _deviceClassificationMock.Setup(x => x.GetPairedMainQuestions(pairedMainQuestions.Id))
@@ -150,7 +153,8 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
             var expectedViewModel = new QuestionsViewModel
             {
                 Questions = subQuestions,
-                PairedMainQuestionsId = pairedMainQuestions.Id
+                PairedMainQuestionsId = pairedMainQuestions.Id,
+                Notes = new List<string>()
             };
 
             _deviceClassificationMock.Setup(x => x.GetSubQuestions(mainQuestion1.Id))
@@ -500,7 +504,8 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
             var expectedViewModel = new SpecialSubQuestionsViewModel
             {
                 Questions = subQuestions,
-                MainQuestionId = mainQuestionId
+                MainQuestionId = mainQuestionId,
+                Notes = new List<string>()
             };
 
             // Act

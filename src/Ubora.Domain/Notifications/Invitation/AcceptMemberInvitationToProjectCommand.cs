@@ -5,7 +5,7 @@ using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
 
-namespace Ubora.Domain.Notifications
+namespace Ubora.Domain.Notifications.Invitation
 {
     public class AcceptInvitationToProjectCommand : UserCommand
     {
@@ -15,22 +15,16 @@ namespace Ubora.Domain.Notifications
     internal class AcceptInvitationToProjectCommandHandler : ICommandHandler<AcceptInvitationToProjectCommand>
     {
         private readonly IDocumentSession _documentSession;
-        private ICommandProcessor _commandProcessor;
 
-        public AcceptInvitationToProjectCommandHandler(
-            IDocumentSession documentSession,
-            ICommandProcessor commandProcessor)
+        public AcceptInvitationToProjectCommandHandler(IDocumentSession documentSession)
         {
             _documentSession = documentSession;
-            _commandProcessor = commandProcessor;
         }
 
         public ICommandResult Handle(AcceptInvitationToProjectCommand command)
         {
             var invite = _documentSession.Load<InvitationToProject>(command.InvitationId);
             if (invite == null) throw new InvalidOperationException();
-
-            invite.Accepted = DateTime.UtcNow;
 
             var userProfile = _documentSession.Load<UserProfile>(invite.InvitedMemberId);
             if (userProfile == null) throw new InvalidOperationException();
@@ -42,6 +36,8 @@ namespace Ubora.Domain.Notifications
             {
                 return new CommandResult($"[{invite.InvitedMemberId}] is already member of project [{invite.ProjectId}].");
             }
+
+            invite.Accept();
 
             var @event = new MemberAddedToProjectEvent(command.Actor)
             {

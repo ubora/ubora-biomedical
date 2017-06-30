@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Notifications;
+using Ubora.Web.Infrastructure;
 
 namespace Ubora.Web._Features.Notifications
 {
@@ -21,11 +21,12 @@ namespace Ubora.Web._Features.Notifications
             _indexViewModelFactory = indexViewModelFactory;
         }
 
+        [RestoreModelStateFromTempData]
         public IActionResult Index()
         {
             var indexViewModel = _indexViewModelFactory.Create(UserInfo.UserId);
 
-            MarkInvitationsAsViewed();
+            MarkNotificationsAsViewed();
 
             return View(indexViewModel);
         }
@@ -37,9 +38,9 @@ namespace Ubora.Web._Features.Notifications
             return View(viewModel);
         }
 
-        private void MarkInvitationsAsViewed()
+        private void MarkNotificationsAsViewed()
         {
-            ExecuteUserCommand(new MarkInvitationsAsViewedCommand { UserId = UserInfo.UserId });
+            ExecuteUserCommand(new MarkNotificationsAsViewedCommand());
         }
     }
 }

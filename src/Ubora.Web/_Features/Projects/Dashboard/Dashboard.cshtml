@@ -7,7 +7,10 @@
 }
 
 <section class="medium-width">
-
+    @if (!Model.IsProjectMember)
+    {
+        <a href="@Url.Action("Join", "Members")"><i class="material-icons">add</i>Join project</a>
+    }
     <div class="project_section">
         <img class="project_section--photo" src="//placehold.it/1500x300" alt="Example image">
     </div>
@@ -29,6 +32,7 @@
         {
             <a asp-controller="Dashboard" asp-action="EditProjectDescription"><i class="material-icons">mode_edit</i>&nbsp;Edit</a>
         }
+
     </div>
 
     <div class="project_section">
@@ -64,22 +68,3 @@
         </div>
     </div>
 </section>
-
-@section Scripts {
-    <script>
-        marked.setOptions({
-            renderer: new marked.Renderer(),
-            gfm: true,
-            tables: true,
-            breaks: true,
-            pedantic: false,
-            sanitize: true,
-            smartLists: true,
-            smartypants: false
-        });
-
-        //TODO: Risto Kitsing teeb ilusaks
-        const element = document.querySelector('.markdown-like');
-        element.innerHTML = marked(element.innerHTML);
-    </script>
-}

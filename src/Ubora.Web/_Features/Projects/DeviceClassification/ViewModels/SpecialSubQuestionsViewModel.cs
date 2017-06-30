@@ -8,5 +8,6 @@ namespace Ubora.Web._Features.Projects.DeviceClassification.ViewModels
     {
         public IReadOnlyCollection<SpecialSubQuestion> Questions { get; set; }
         public Guid MainQuestionId { get; set; }
+        public IReadOnlyCollection<string> Notes { get; set; }
     }
 }

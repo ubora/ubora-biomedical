@@ -2,7 +2,7 @@
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 
-namespace Ubora.Domain.Notifications
+namespace Ubora.Domain.Notifications.Invitation
 {
     public class DeclineInvitationToProjectCommand : UserCommand
     {
@@ -21,7 +21,9 @@ namespace Ubora.Domain.Notifications
         public ICommandResult Handle(DeclineInvitationToProjectCommand command)
         {
             var invite = _documentSession.Load<InvitationToProject>(command.InvitationId);
-            invite.Declined = DateTime.UtcNow;
+            if (invite == null) throw new InvalidOperationException();
+
+            invite.Decline();
 
             _documentSession.Store(invite);
             _documentSession.SaveChanges();
