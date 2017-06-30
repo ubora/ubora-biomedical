@@ -33,5 +33,28 @@ if (sideMenuButton) {
 }
 
 window.addEventListener('load', () => {
+    // Target is to have this number in production setting < 500ms
     console.info(`UBORA: page loaded in ${Math.ceil(window.performance.now())}ms`);
 });
+
+
+// Markdown editor
+marked.setOptions({
+    renderer: new marked.Renderer(),
+    gfm: true,
+    tables: true,
+    breaks: true,
+    pedantic: false,
+    sanitize: true,
+    smartLists: true,
+    smartypants: false
+});
+
+const markdownContainerArray = document.querySelectorAll('.text-markdown');
+const markdownArrayHasItems = markdownContainerArray.length > 0;
+
+if (markdownArrayHasItems) {
+    markdownContainerArray.forEach((arrayElement) => {
+        arrayElement.innerHTML = marked(arrayElement.innerHTML);
+    });
+}

@@ -39,10 +39,9 @@ section {
 	text-align: center;
 }
 
-.markdown-like {
+.text-markdown {
     font-family: inherit;
-	margin:1em 0;
-	padding:.5em;
+	margin:1em;
 	text-align: justify;
 }
 
