@@ -38,7 +38,7 @@
     <div class="project_section">
         @if (!string.IsNullOrWhiteSpace(Model.Description))
         {
-            <div class="text-markdown">@Html.Raw(Model.Description)</div>
+            <div class="text-markdown">@Model.Description</div>
         }
         else
         {
