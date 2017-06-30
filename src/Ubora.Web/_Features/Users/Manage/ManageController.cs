@@ -87,25 +87,6 @@ namespace Ubora.Web._Features.Users.Manage
             return View();
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(model);
-        //    }
-        //    // Generate the token and send it
-        //    var user = await GetCurrentUserAsync();
-        //    if (user == null)
-        //    {
-        //        return View("Error");
-        //    }
-        //    var code = await _userManager.GenerateChangePhoneNumberTokenAsync(user, model.PhoneNumber);
-        //    await _smsSender.SendSmsAsync(model.PhoneNumber, "Your security code is: " + code);
-        //    return RedirectToAction(nameof(VerifyPhoneNumber), new { PhoneNumber = model.PhoneNumber });
-        //}
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EnableTwoFactorAuthentication()
