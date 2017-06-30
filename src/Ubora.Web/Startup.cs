@@ -7,6 +7,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +36,7 @@ namespace Ubora.Web
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-         
+
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
@@ -60,6 +62,10 @@ namespace Ubora.Web
                 .AddUboraFeatureFolders(new FeatureFolderOptions { FeatureFolderName = "_Features" });
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
+            services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
+
+            var useSpecifiedPickupDirectory = Convert.ToBoolean(Configuration["SmtpSettings:UseSpecifiedPickupDirectory"]);
+
             services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
                 {
                     o.Password.RequireNonAlphanumeric = false;
@@ -79,6 +85,8 @@ namespace Ubora.Web
             services.AddSingleton<ApplicationDataSeeder>();
             services.AddSingleton<AdminSeeder>();
             services.Configure<AdminSeeder.Options>(Configuration.GetSection("InitialAdminOptions"));
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
 
             var autofacContainerBuilder = new ContainerBuilder();
 
@@ -99,7 +107,7 @@ namespace Ubora.Web
             }
 
             var domainModule = new DomainAutofacModule(connectionString, storageProvider);
-            var webModule = new WebAutofacModule();
+            var webModule = new WebAutofacModule(useSpecifiedPickupDirectory);
             autofacContainerBuilder.RegisterModule(domainModule);
             autofacContainerBuilder.RegisterModule(webModule);
 
