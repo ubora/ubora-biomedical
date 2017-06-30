@@ -51,7 +51,9 @@
 
         //TODO: Risto Kitsing teeb ilusaks
         const element = document.querySelector('.markdown-like');
-        element.innerHTML = marked(element.innerHTML);
+        if (element != null) {
+            element.innerHTML = marked(element.innerHTML);
+        }
     </script>
 
     @RenderSection("Scripts", required: false)
