@@ -7,7 +7,7 @@
 <section class="narrow-width">
     <h2>@ViewData["Title"]</h2>
     
-    @Html.Partial("ChangeProfilePicturePartial", @Model)
+    @Html.Partial("ChangeProfilePicturePartial", @Model.ProfilePictureViewModel)
     @Html.Partial("EditProfilePartial", @Model.UserViewModel)
 
 </section>

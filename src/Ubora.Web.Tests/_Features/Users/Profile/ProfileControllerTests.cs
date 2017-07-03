@@ -70,8 +70,11 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             var fileMock = new Mock<IFormFile>();
             var userId = Guid.NewGuid().ToString();
 
-            var model = new EditProfileViewModel();
-            model.ProfilePicture = fileMock.Object;
+            var model = new ProfilePictureViewModel
+            {
+                ProfilePicture = fileMock.Object,
+                CurrentActionName = "testAction"
+            };
 
             ChangeUserProfilePictureCommand executedCommand = null;
             var applicationUser = new ApplicationUser();
@@ -88,7 +91,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
 
             //Assert
             executedCommand.UserId.Should().Be(userId);
-            result.ActionName.Should().Be("EditProfile");
+            result.ActionName.Should().Be(model.CurrentActionName);
             _signInManagerMock.Verify(m => m.RefreshSignInAsync(applicationUser),Times.Once);
         }
 
@@ -101,8 +104,8 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             var userProfile = new UserProfile(new Guid(userId));
             var userProfileViewModel = new UserProfileViewModel();
 
-            var model = new EditProfileViewModel();
-            model.ProfilePicture = fileMock.Object;
+            var model = new ProfilePictureViewModel();
+            model.ProfilePictureViewModel.ProfilePicture = fileMock.Object;
             model.UserViewModel = userProfileViewModel;
 
             var commandResult = new CommandResult("testError");
@@ -118,7 +121,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 .Returns(userProfile);
 
             //Act
-            var result = (ViewResult)await _controller.ChangeProfilePicture(model);
+            var result = (ViewResult)await _controller.ChangeProfilePicture(new ProfilePictureViewModel());
 
             //Assert
             result.ViewName.Should().Be("EditProfile");
@@ -148,7 +151,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             _controller.ModelState.AddModelError("isImage", "This is not an image file");
 
             //Act
-            var result = (ViewResult)await _controller.ChangeProfilePicture(model);
+            var result = (ViewResult)await _controller.ChangeProfilePicture(new ProfilePictureViewModel());
 
             //Assert
             result.ViewName.Should().Be("EditProfile");
