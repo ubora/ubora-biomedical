@@ -67,8 +67,14 @@ namespace Ubora.Web.Infrastructure
 
         public string GetBlobUrl(string containerName, string blobName)
         {
-            return _localStorageProvider.GetBlobUrl(containerName, blobName)
-                ?.Replace("/app/wwwroot", "");
+            var localPath = _localStorageProvider.GetBlobUrl(containerName, blobName);
+
+            // 1. Make local absolute path into relative path because browsers don't open files from local absolute path without permission.
+            // 2. Fix Docker relative path by replacing 'app/wwwroot' part.
+            var indexOfRelativePath = localPath.IndexOf("wwwroot", StringComparison.OrdinalIgnoreCase) + "wwwroot".Length;
+            var localBlobUrl = localPath.Substring(indexOfRelativePath);
+
+            return localBlobUrl;
         }
 
         public string GetBlobSasUrl(string containerName, string blobName, DateTimeOffset expiry, bool isDownload = false, string fileName = null, string contentType = null, BlobUrlAccess access = BlobUrlAccess.Read)
