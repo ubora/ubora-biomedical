@@ -1,8 +1,10 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web.Authorization;
 
@@ -11,21 +13,24 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
     public class WorkpackageOneReviewController : ProjectController
     {
         private readonly IMapper _mapper;
+        private readonly IAuthorizationService _authorizationService;
 
-        public WorkpackageOneReviewController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
+        public WorkpackageOneReviewController(ICommandQueryProcessor processor, IMapper mapper, IAuthorizationService authorizationService) : base(processor)
         {
             _mapper = mapper;
+            _authorizationService = authorizationService;
         }
 
-        protected Domain.Projects.Workpackages.WorkpackageOne WorkpackageOne => FindById<Domain.Projects.Workpackages.WorkpackageOne>(ProjectId);
+        protected WorkpackageOne WorkpackageOne => FindById<WorkpackageOne>(ProjectId);
 
-        public IActionResult Review()
+        public async Task<IActionResult> Review()
         {
             var model = new WorkpackageReviewListViewModel
             {
                 Reviews = WorkpackageOne.Reviews.Select(_mapper.Map<WorkpackageReviewViewModel>),
                 ReviewDecisionUrl = Url.Action(nameof(Decision)),
-                SubmitForReviewUrl = Url.Action(nameof(SubmitForReview))
+                SubmitForReviewUrl = Url.Action(nameof(SubmitForReview)),
+                SubmitForReviewButton = await GetSubmitForReviewButtonVisibility()
             };
 
             return View(nameof(Review), model);
@@ -33,18 +38,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 
         [HttpPost]
         [Authorize(Policies.CanSubmitWorkpackageForReview)]
-        public IActionResult SubmitForReview()
+        public async Task<IActionResult> SubmitForReview()
         {
             if (!ModelState.IsValid)
             {
-                return Review();
+                return await Review();
             }
 
             ExecuteUserProjectCommand(new SubmitWorkpackageOneForReviewCommand());
 
             if (!ModelState.IsValid)
             {
-                return Review();
+                return await Review();
             }
 
             return RedirectToAction(nameof(Review));
@@ -63,11 +68,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 
         [HttpPost]
         [Authorize(Policies.CanReviewProjectWorkpackages)]
-        public IActionResult Accept(WorkpackageReviewDecisionPostModel model)
+        public async Task<IActionResult> Accept(WorkpackageReviewDecisionPostModel model)
         {
             if (!ModelState.IsValid)
             {
-                return Review();
+                return await Review();
             }
 
             ExecuteUserProjectCommand(new AcceptWorkpackageOneReviewCommand
@@ -77,7 +82,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 
             if (!ModelState.IsValid)
             {
-                return Review();
+                return await Review();
             }
 
             return RedirectToAction(nameof(Review));
@@ -85,11 +90,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 
         [HttpPost]
         [Authorize(Policies.CanReviewProjectWorkpackages)]
-        public IActionResult Reject(WorkpackageReviewDecisionPostModel model)
+        public async Task<IActionResult> Reject(WorkpackageReviewDecisionPostModel model)
         {
             if (!ModelState.IsValid)
             {
-                return Review();
+                return await Review();
             }
 
             ExecuteUserProjectCommand(new RejectWorkpackageOneReviewCommand
@@ -99,10 +104,26 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 
             if (!ModelState.IsValid)
             {
-                return Review();
+                return await Review();
             }
 
             return RedirectToAction(nameof(Review));
+        }
+
+        private async Task<Visibility> GetSubmitForReviewButtonVisibility()
+        {
+            if (WorkpackageOne.HasReviewInProcess || WorkpackageOne.HasBeenAccepted)
+            {
+                return Visibility.CompletelyHidden();
+            }
+            else if (!await _authorizationService.AuthorizeAsync(User, Policies.CanSubmitWorkpackageForReview))
+            {
+                return Visibility.HiddenWithMessage("You can not submit work package for review, because you are not the project leader.");
+            }
+            else
+            {
+                return Visibility.Visible();
+            }
         }
     }
 }

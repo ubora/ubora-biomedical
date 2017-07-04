@@ -15,10 +15,7 @@
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        @{
-            var isSubmitForReviewButtonVisible = await AuthorizationService.AuthorizeAsync(User, Policies.CanSubmitWorkpackageForReview);
-        }
-        @if (isSubmitForReviewButtonVisible)
+        @if (Model.SubmitForReviewButton.IsVisible)
         {
             <section class="narrow-width">
                 <form action="@Model.SubmitForReviewUrl" method="post" asp-antiforgery="true">
@@ -26,6 +23,12 @@
                         <button type="submit" class="button primary-button full-width">Submit project for review</button>
                     </div>
                 </form>
+            </section>
+        }
+        else if (Model.SubmitForReviewButton.IsHiddenWithMessage)
+        {
+            <section class="full-width">
+                <p>@Model.SubmitForReviewButton.HideReasonMessage</p>
             </section>
         }
 
@@ -57,11 +60,12 @@
                 }
 
                 @{
+
                     var isWriteReviewButtonVisible = await AuthorizationService.AuthorizeAsync(User, Policies.CanReviewProjectWorkpackages);
-                }
-                @if (isWriteReviewButtonVisible)
-                {
-                    <a href="@Model.ReviewDecisionUrl" class="button primary-button small-button">Write a review</a>
+                    if (isWriteReviewButtonVisible)
+                    {
+                        <a href="@Model.ReviewDecisionUrl" class="button primary-button small-button">Write a review</a>
+                    }
                 }
             </section>
         }

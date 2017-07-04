@@ -4,10 +4,11 @@ using System.Linq;
 using Marten.Schema;
 using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Projects.Workpackages.Specifications;
 
 namespace Ubora.Domain.Projects.Workpackages
 {
-    public abstract class Workpackage<TDerived> : Entity<TDerived> where TDerived : Entity<TDerived>
+    public abstract class Workpackage<TDerived> : Entity<TDerived> where TDerived : Workpackage<TDerived>
     {
         [Identity]
         public Guid ProjectId { get; protected set; }
@@ -25,6 +26,9 @@ namespace Ubora.Domain.Projects.Workpackages
         [JsonIgnore]
         // Virtual for testing
         public virtual IReadOnlyCollection<WorkpackageReview> Reviews => _reviews;
+
+        public bool HasReviewInProcess => this.DoesSatisfy(new HasReviewInStatus<TDerived>(WorkpackageReviewStatus.InProcess));
+        public bool HasBeenAccepted => this.DoesSatisfy(new HasReviewInStatus<TDerived>(WorkpackageReviewStatus.Accepted));
 
         // Virtual for testing
         public virtual WorkpackageStep GetSingleStep(string stepKey)
