@@ -16,7 +16,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Display(Name = "Technology")]
         public string PotentialTechnologyTags { get; set; }
 
-        [Display(Name = "GMDN keywords")]
+        [Display(Name = "Project keywords")]
         public string Gmdn { get; set; }
     }
 }

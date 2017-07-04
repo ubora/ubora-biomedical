@@ -49,7 +49,7 @@ namespace Ubora.Web._Features.Projects.Repository
                 return Repository();
             }
 
-            var filePath = model.ProjectFile.FileName.Replace(@"\\", "/");
+            var filePath = model.ProjectFile.FileName.Replace(@"\", "/");
             var fileName = Path.GetFileName(filePath);
 
             ExecuteUserProjectCommand(new AddFileCommand
