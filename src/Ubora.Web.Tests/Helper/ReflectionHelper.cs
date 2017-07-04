@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Ubora.Web.Tests.Helper
 {
-    public static class InitializationHelper
+    public static class ReflectionHelper
     {
         private const BindingFlags AllInstanceBindingFlags =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
@@ -17,35 +17,28 @@ namespace Ubora.Web.Tests.Helper
             }
             var memberExpression = (MemberExpression)propertySelector.Body;
 
-            typeof(T)
+            instance.GetType()
                 .GetProperty(memberExpression.Member.Name, AllInstanceBindingFlags)
                 .SetValue(instance, value);
 
             return instance;
         }
 
-        public static T SetPropertyValue<T>(this T instance, string propertyName, object newValue)
+        public static T GetPropertyValue<T>(this object instance, string propertyName)
         {
-            var type = instance.GetType();
+            var propertyValue = instance.GetType()
+                .GetProperty(propertyName, AllInstanceBindingFlags)
+                .GetValue(instance);
 
-            var prop = type.GetProperty(propertyName, AllInstanceBindingFlags);
-
-            prop.SetValue(instance, newValue, null);
-
-            return instance;
+            return (T) propertyValue;
         }
 
-        public static T GetPropertyValue<T>(this object obj, string propertyName)
+        public static object InvokeMethod<T>(this T instance, string methodName, params object[] parameters)
         {
-            return (T)obj.GetType().GetProperty(propertyName, AllInstanceBindingFlags).GetValue(obj);
+            var methodInfo = instance.GetType()
+                .GetMethod(methodName, AllInstanceBindingFlags);
+
+            return methodInfo.Invoke(instance, parameters);
         }
-
-        public static object InvokeMethod<T>(this T obj, string methodName, params object[] parameters)
-        {
-            var methodInfo = obj.GetType().GetMethod(methodName, AllInstanceBindingFlags);
-
-            return methodInfo.Invoke(obj, parameters);
-        }
-
     }
 }

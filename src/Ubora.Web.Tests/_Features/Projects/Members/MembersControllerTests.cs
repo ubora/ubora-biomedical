@@ -153,9 +153,9 @@ namespace Ubora.Web.Tests._Features.Projects.Members
                 .Returns(true);
 
             var projectId = Guid.NewGuid();
-            var project = new Project();
-            project.SetPropertyValue(nameof(Project.Title), "projectTitle");
-            project.SetPropertyValue(nameof(Project.Id), projectId);
+            var project = new Project()
+                .Set(x => x.Id, projectId)
+                .Set(x => x.Title, "projectTitle");
 
             _processorMock.Setup(x => x.FindById<Project>(projectId))
                 .Returns(project);

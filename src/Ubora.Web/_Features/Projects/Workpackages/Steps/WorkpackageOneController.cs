@@ -75,7 +75,16 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             var model = _mapper.Map<ReadStepViewModel>(step);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
-            model.EditButton = GetSubmitForReviewButtonVisibility();
+            model.EditButton = GetEditButtonVisibility();
+
+            UiElementVisibility GetEditButtonVisibility()
+            {
+                if (WorkpackageOne.HasReviewInProcess || WorkpackageOne.HasBeenAccepted)
+                {
+                    return UiElementVisibility.HiddenWithMessage("You can not edit work package when it's under review or has been accepted by review.");
+                }
+                return UiElementVisibility.Visible();
+            }
 
             return View(model);
         }
@@ -115,18 +124,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             return RedirectToAction(nameof(Read), new { stepId = model.StepId });
-        }
-
-        private UiElementVisibility GetSubmitForReviewButtonVisibility()
-        {
-            if (WorkpackageOne.HasReviewInProcess || WorkpackageOne.HasBeenAccepted)
-            {
-                return UiElementVisibility.HiddenWithMessage("You can not edit work package when it's under review or has been accepted by review.");
-            }
-            else
-            {
-                return UiElementVisibility.Visible();
-            }
         }
     }
 }

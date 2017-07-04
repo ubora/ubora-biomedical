@@ -118,8 +118,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
                 .Returns(workpackageOne);
 
-            var expectedModel = new EditStepViewModel();
-            _mapperMock.Setup(m => m.Map<EditStepViewModel>(step))
+            var expectedModel = new ReadStepViewModel();
+            _mapperMock.Setup(m => m.Map<ReadStepViewModel>(step))
                 .Returns(expectedModel);
 
             // Act
@@ -139,8 +139,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
                 .Returns(workpackageOne);
 
-            var expectedModel = new EditStepViewModel();
-            _mapperMock.Setup(m => m.Map<EditStepViewModel>(step))
+            var expectedModel = new ReadStepViewModel();
+            _mapperMock.Setup(m => m.Map<ReadStepViewModel>(step))
                 .Returns(expectedModel);
 
             // Act

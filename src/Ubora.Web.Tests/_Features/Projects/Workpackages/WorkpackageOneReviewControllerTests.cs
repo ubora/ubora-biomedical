@@ -34,7 +34,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             };
             SetProjectAndUserContext(_workpackageOneReviewController);
             var dummyWorkpackage = Mock.Of<WorkpackageOne>(x => x.Reviews == new List<WorkpackageReview>());
-            _workpackageOneReviewController.SetPropertyValue(nameof(WorkpackageOne), dummyWorkpackage);
+            _workpackageOneReviewController.Set(x => x.WorkpackageOne, dummyWorkpackage);
         }
 
         [Theory]
@@ -49,7 +49,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 && x.HasBeenAccepted == hasBeenAccepted 
                 && x.Reviews == new List<WorkpackageReview>());
 
-            _workpackageOneReviewController.SetPropertyValue(nameof(WorkpackageOne), workpackage);
+            _workpackageOneReviewController.Set(x => x.WorkpackageOne, workpackage);
 
             // Act
             var result = (ViewResult)await _workpackageOneReviewController.Review();
