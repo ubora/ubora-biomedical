@@ -16,6 +16,7 @@ namespace Ubora.Web._Features.ProjectList
 
         public string Header { get; protected set; }
         public IEnumerable<ProjectListItem> Projects { get; protected set; }
+        public bool ShowDefaultMessage { get; protected set; }
 
         public class ProjectListItem
         {
@@ -56,7 +57,8 @@ namespace Ubora.Web._Features.ProjectList
                 var model = new ProjectListViewModel
                 {
                     Header = header,
-                    Projects = userProjects.Select(_mapper.Map<ProjectListItem>)
+                    Projects = userProjects.Select(_mapper.Map<ProjectListItem>),
+                    ShowDefaultMessage = true
                 };
 
                 return model;

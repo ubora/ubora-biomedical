@@ -24,7 +24,7 @@ namespace Ubora.Web.Services
 
             var emailMessage = new MimeMessage();
 
-            emailMessage.From.Add(new MailboxAddress("Ubora", smtpUsername));
+            emailMessage.From.Add(new MailboxAddress("Ubora", "noreply@ubora-biomedical.org"));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart("html") { Text = message };
