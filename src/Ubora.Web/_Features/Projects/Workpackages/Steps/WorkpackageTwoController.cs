@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Web._Features.Projects.Workpackages.Reviews;
+using Ubora.Web._Features._Shared;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -22,9 +24,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             var step = WorkpackageTwo.GetSingleStep(stepId);
 
-            var model = _mapper.Map<StepViewModel>(step);
+            var model = _mapper.Map<ReadStepViewModel>(step);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
+            model.EditButton = UiElementVisibility.Visible();
 
             return View(model);
         }
@@ -34,7 +37,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             var step = WorkpackageTwo.GetSingleStep(stepId);
 
-            var model = _mapper.Map<StepViewModel>(step);
+            var model = _mapper.Map<EditStepViewModel>(step);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
 

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -5,6 +6,8 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web.Authorization;
+using Ubora.Web._Features.Projects.Workpackages.Reviews;
+using Ubora.Web._Features._Shared;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -12,10 +15,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     public class WorkpackageOneController : ProjectController
     {
         private readonly IMapper _mapper;
+        private readonly IAuthorizationService _authorizationService;
 
-        public WorkpackageOneController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
+        public WorkpackageOneController(ICommandQueryProcessor processor, IMapper mapper, IAuthorizationService authorizationService) : base(processor)
         {
             _mapper = mapper;
+            _authorizationService = authorizationService;
         }
 
         protected Domain.Projects.Workpackages.WorkpackageOne WorkpackageOne => FindById<Domain.Projects.Workpackages.WorkpackageOne>(ProjectId);
@@ -65,21 +70,21 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public IActionResult Read(string stepId)
         {
             var step = WorkpackageOne.GetSingleStep(stepId);
-            var model = _mapper.Map<StepViewModel>(step);
+            var model = _mapper.Map<ReadStepViewModel>(step);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
+            model.EditButton = GetSubmitForReviewButtonVisibility();
 
             return View(model);
         }
 
-        // TODO: Hide in UI
         [Route("{stepId}/Edit")]
         [Authorize(Policies.CanEditWorkpackageOne)]
         public IActionResult Edit(string stepId)
         {
             var step = WorkpackageOne.GetSingleStep(stepId);
 
-            var model = _mapper.Map<StepViewModel>(step);
+            var model = _mapper.Map<EditStepViewModel>(step);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
 
@@ -108,6 +113,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             return RedirectToAction(nameof(Read), new { stepId = model.StepId });
+        }
+
+        private UiElementVisibility GetSubmitForReviewButtonVisibility()
+        {
+            if (WorkpackageOne.HasReviewInProcess || WorkpackageOne.HasBeenAccepted)
+            {
+                return UiElementVisibility.HiddenWithMessage("You can not edit work package when it's under review or has been accepted by review.");
+            }
+            else
+            {
+                return UiElementVisibility.Visible();
+            }
         }
     }
 }

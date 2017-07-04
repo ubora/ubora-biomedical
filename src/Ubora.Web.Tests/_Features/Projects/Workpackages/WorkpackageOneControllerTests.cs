@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using FluentAssertions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Infrastructure;
@@ -22,7 +23,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         {
             _processorMock = new Mock<ICommandQueryProcessor>();
             _mapperMock = new Mock<IMapper>();
-            _workpackageOneController = new WorkpackageOneController(_processorMock.Object, _mapperMock.Object)
+            _workpackageOneController = new WorkpackageOneController(_processorMock.Object, _mapperMock.Object, Mock.Of<IAuthorizationService>())
             {
                 Url = Mock.Of<IUrlHelper>()
             };
@@ -39,13 +40,13 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
                 .Returns(workpackageOne);
 
-            var expectedModel = new StepViewModel();
-            _mapperMock.Setup(m => m.Map<StepViewModel>(step))
+            var expectedModel = new EditStepViewModel();
+            _mapperMock.Setup(m => m.Map<EditStepViewModel>(step))
                 .Returns(expectedModel);
 
             _workpackageOneController.ModelState.AddModelError("", "testError");
 
-            var postModel = new StepViewModel { StepId = stepId };
+            var postModel = new EditStepViewModel { StepId = stepId };
 
             // Act
             var result = (ViewResult)_workpackageOneController.Edit(postModel);
@@ -66,13 +67,13 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
                 .Returns(workpackageOne);
 
-            var expectedModel = new StepViewModel();
-            _mapperMock.Setup(m => m.Map<StepViewModel>(step))
+            var expectedModel = new EditStepViewModel();
+            _mapperMock.Setup(m => m.Map<EditStepViewModel>(step))
                 .Returns(expectedModel);
 
             _processorMock.Setup(x => x.Execute(It.IsAny<ICommand>())).Returns(new CommandResult("dummyError"));
 
-            var postModel = new StepViewModel { StepId = stepId };
+            var postModel = new EditStepViewModel { StepId = stepId };
 
             // Act
             var result = (ViewResult)_workpackageOneController.Edit(postModel);
@@ -91,7 +92,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Returns(new CommandResult());
 
             var stepId = Guid.NewGuid().ToString();
-            var postModel = new StepViewModel
+            var postModel = new EditStepViewModel
             {
                 StepId = stepId,
                 Content = "expectedValue"
@@ -118,8 +119,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
                 .Returns(workpackageOne);
 
-            var expectedModel = new StepViewModel();
-            _mapperMock.Setup(m => m.Map<StepViewModel>(step))
+            var expectedModel = new EditStepViewModel();
+            _mapperMock.Setup(m => m.Map<EditStepViewModel>(step))
                 .Returns(expectedModel);
 
             // Act
@@ -139,8 +140,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
                 .Returns(workpackageOne);
 
-            var expectedModel = new StepViewModel();
-            _mapperMock.Setup(m => m.Map<StepViewModel>(step))
+            var expectedModel = new EditStepViewModel();
+            _mapperMock.Setup(m => m.Map<EditStepViewModel>(step))
                 .Returns(expectedModel);
 
             // Act

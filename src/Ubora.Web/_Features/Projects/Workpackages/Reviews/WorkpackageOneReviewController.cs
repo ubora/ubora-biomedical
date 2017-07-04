@@ -7,6 +7,7 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web.Authorization;
+using Ubora.Web._Features._Shared;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 {
@@ -30,8 +31,21 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
                 Reviews = WorkpackageOne.Reviews.Select(_mapper.Map<WorkpackageReviewViewModel>),
                 ReviewDecisionUrl = Url.Action(nameof(Decision)),
                 SubmitForReviewUrl = Url.Action(nameof(SubmitForReview)),
-                SubmitForReviewButton = await GetSubmitForReviewButtonVisibility()
+                SubmitForReviewButton = await GetSubmitButtonVisibility()
             };
+
+            async Task<UiElementVisibility> GetSubmitButtonVisibility()
+            {
+                if (WorkpackageOne.HasReviewInProcess || WorkpackageOne.HasBeenAccepted)
+                {
+                    return UiElementVisibility.HiddenCompletely();
+                }
+                if (!await _authorizationService.AuthorizeAsync(User, Policies.CanSubmitWorkpackageForReview))
+                {
+                    return UiElementVisibility.HiddenWithMessage("You can not submit work package for review, because you are not the project leader.");
+                }
+                return UiElementVisibility.Visible();
+            }
 
             return View(nameof(Review), model);
         }
@@ -108,22 +122,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
             }
 
             return RedirectToAction(nameof(Review));
-        }
-
-        private async Task<Visibility> GetSubmitForReviewButtonVisibility()
-        {
-            if (WorkpackageOne.HasReviewInProcess || WorkpackageOne.HasBeenAccepted)
-            {
-                return Visibility.CompletelyHidden();
-            }
-            else if (!await _authorizationService.AuthorizeAsync(User, Policies.CanSubmitWorkpackageForReview))
-            {
-                return Visibility.HiddenWithMessage("You can not submit work package for review, because you are not the project leader.");
-            }
-            else
-            {
-                return Visibility.Visible();
-            }
         }
     }
 }
