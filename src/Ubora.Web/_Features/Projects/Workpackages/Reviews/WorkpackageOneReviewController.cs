@@ -22,7 +22,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
             _authorizationService = authorizationService;
         }
 
-        protected WorkpackageOne WorkpackageOne => FindById<WorkpackageOne>(ProjectId);
+        private WorkpackageOne _workpackageOne;
+        public WorkpackageOne WorkpackageOne
+        {
+            get => _workpackageOne ?? (_workpackageOne = FindById<WorkpackageOne>(ProjectId));
+            private set => _workpackageOne = value;
+        }
 
         public async Task<IActionResult> Review()
         {

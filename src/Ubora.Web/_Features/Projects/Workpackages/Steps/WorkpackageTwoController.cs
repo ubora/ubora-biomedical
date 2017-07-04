@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
-using Ubora.Web._Features.Projects.Workpackages.Reviews;
 using Ubora.Web._Features._Shared;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
@@ -17,7 +17,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             _mapper = mapper;
         }
 
-        protected Domain.Projects.Workpackages.WorkpackageTwo WorkpackageTwo => FindById<Domain.Projects.Workpackages.WorkpackageTwo>(ProjectId);
+        private WorkpackageTwo _workpackageTwo;
+        public WorkpackageTwo WorkpackageTwo
+        {
+            get => _workpackageTwo ?? (_workpackageTwo = FindById<WorkpackageTwo>(ProjectId));
+            private set => _workpackageTwo = value;
+        }
 
         [Route("{stepId}")]
         public IActionResult Read(string stepId)

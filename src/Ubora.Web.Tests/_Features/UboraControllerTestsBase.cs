@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Security.Claims;
-using System.Security.Principal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -15,7 +14,7 @@ namespace Ubora.Web.Tests._Features
 {
     public abstract class UboraControllerTestsBase
     {
-        protected IPrincipal User { get; }
+        protected ClaimsPrincipal User { get; }
         protected Guid UserId { get; }
         protected ModelStateDictionary ModelState { get; private set; }
 

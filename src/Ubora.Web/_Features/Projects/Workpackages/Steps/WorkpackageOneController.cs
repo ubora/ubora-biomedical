@@ -1,12 +1,11 @@
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web.Authorization;
-using Ubora.Web._Features.Projects.Workpackages.Reviews;
 using Ubora.Web._Features._Shared;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
@@ -15,15 +14,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     public class WorkpackageOneController : ProjectController
     {
         private readonly IMapper _mapper;
-        private readonly IAuthorizationService _authorizationService;
 
-        public WorkpackageOneController(ICommandQueryProcessor processor, IMapper mapper, IAuthorizationService authorizationService) : base(processor)
+        public WorkpackageOneController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
         {
             _mapper = mapper;
-            _authorizationService = authorizationService;
         }
 
-        protected Domain.Projects.Workpackages.WorkpackageOne WorkpackageOne => FindById<Domain.Projects.Workpackages.WorkpackageOne>(ProjectId);
+        private WorkpackageOne _workpackageOne;
+        public WorkpackageOne WorkpackageOne
+        {
+            get => _workpackageOne ?? (_workpackageOne = FindById<WorkpackageOne>(ProjectId));
+            private set => _workpackageOne = value;
+        }
 
         [Route(nameof(DesignPlanning))]
         public IActionResult DesignPlanning()

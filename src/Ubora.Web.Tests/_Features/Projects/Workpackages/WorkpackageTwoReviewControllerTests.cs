@@ -14,29 +14,29 @@ using Xunit;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages
 {
-    public class WorkpackageOneReviewControllerTests : ProjectControllerTestsBase
+    public class WorkpackageTwoReviewControllerTests : ProjectControllerTestsBase
     {
-        private readonly WorkpackageOneReviewController _workpackageOneReviewController;
+        private readonly WorkpackageTwoReviewController _workpackageTwoReviewController;
 
         private readonly Mock<ICommandQueryProcessor> _processorMock;
         private readonly Mock<IMapper> _mapperMock;
         private readonly Mock<IAuthorizationService> _authorizationServiceMock;
 
-        public WorkpackageOneReviewControllerTests()
+        public WorkpackageTwoReviewControllerTests()
         {
             _processorMock = new Mock<ICommandQueryProcessor>();
             _mapperMock = new Mock<IMapper>();
             _authorizationServiceMock = new Mock<IAuthorizationService>();
 
-            _workpackageOneReviewController = new WorkpackageOneReviewController(_processorMock.Object, _mapperMock.Object, _authorizationServiceMock.Object)
+            _workpackageTwoReviewController = new WorkpackageTwoReviewController(_processorMock.Object, _mapperMock.Object, _authorizationServiceMock.Object)
             {
                 Url = Mock.Of<IUrlHelper>()
             };
-            SetProjectAndUserContext(_workpackageOneReviewController);
-            var dummyWorkpackage = Mock.Of<WorkpackageOne>(x => x.Reviews == new List<WorkpackageReview>());
-            _workpackageOneReviewController.SetPropertyValue(nameof(WorkpackageOne), dummyWorkpackage);
+            SetProjectAndUserContext(_workpackageTwoReviewController);
+            var dummyWorkpackage = Mock.Of<WorkpackageTwo>(x => x.Reviews == new List<WorkpackageReview>());
+            _workpackageTwoReviewController.Set(x => x.WorkpackageTwo, dummyWorkpackage);
         }
-
+        
         [Theory]
         [InlineData(true, false)]
         [InlineData(false, true)]
@@ -44,15 +44,15 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             bool isReviewInProcess,
             bool hasBeenAccepted)
         {
-            var workpackage = Mock.Of<WorkpackageOne>(
+            var workpackage = Mock.Of<WorkpackageTwo>(
                 x => x.HasReviewInProcess == isReviewInProcess 
                 && x.HasBeenAccepted == hasBeenAccepted 
                 && x.Reviews == new List<WorkpackageReview>());
 
-            _workpackageOneReviewController.SetPropertyValue(nameof(WorkpackageOne), workpackage);
+            _workpackageTwoReviewController.Set(x => x.WorkpackageTwo, workpackage);
 
             // Act
-            var result = (ViewResult)await _workpackageOneReviewController.Review();
+            var result = (ViewResult)await _workpackageTwoReviewController.Review();
 
             // Assert
             result.Model.As<WorkpackageReviewListViewModel>()
@@ -68,7 +68,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .ReturnsAsync(false);
 
             // Act
-            var result = (ViewResult)await _workpackageOneReviewController.Review();
+            var result = (ViewResult)await _workpackageTwoReviewController.Review();
 
             // Assert
             result.Model.As<WorkpackageReviewListViewModel>()
@@ -84,7 +84,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .ReturnsAsync(true);
 
             // Act
-            var result = (ViewResult)await _workpackageOneReviewController.Review();
+            var result = (ViewResult)await _workpackageTwoReviewController.Review();
 
             // Assert
             result.Model.As<WorkpackageReviewListViewModel>()

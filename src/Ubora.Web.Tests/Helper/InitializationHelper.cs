@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Ubora.Web.Tests.Helper
 {
@@ -6,6 +8,21 @@ namespace Ubora.Web.Tests.Helper
     {
         private const BindingFlags AllInstanceBindingFlags =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+
+        public static T Set<T, P>(this T instance, Expression<Func<T, P>> propertySelector, P value) where T : class
+        {
+            if (propertySelector.Body.NodeType != ExpressionType.MemberAccess)
+            {
+                throw new MemberAccessException();
+            }
+            var memberExpression = (MemberExpression)propertySelector.Body;
+
+            typeof(T)
+                .GetProperty(memberExpression.Member.Name, AllInstanceBindingFlags)
+                .SetValue(instance, value);
+
+            return instance;
+        }
 
         public static T SetPropertyValue<T>(this T instance, string propertyName, object newValue)
         {

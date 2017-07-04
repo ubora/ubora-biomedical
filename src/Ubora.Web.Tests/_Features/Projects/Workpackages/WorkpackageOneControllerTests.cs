@@ -1,7 +1,6 @@
 ﻿using System;
 using AutoMapper;
 using FluentAssertions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Infrastructure;
@@ -23,7 +22,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         {
             _processorMock = new Mock<ICommandQueryProcessor>();
             _mapperMock = new Mock<IMapper>();
-            _workpackageOneController = new WorkpackageOneController(_processorMock.Object, _mapperMock.Object, Mock.Of<IAuthorizationService>())
+            _workpackageOneController = new WorkpackageOneController(_processorMock.Object, _mapperMock.Object)
             {
                 Url = Mock.Of<IUrlHelper>()
             };

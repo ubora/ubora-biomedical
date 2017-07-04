@@ -27,8 +27,11 @@ namespace Ubora.Domain.Projects.Workpackages
         // Virtual for testing
         public virtual IReadOnlyCollection<WorkpackageReview> Reviews => _reviews;
 
-        public bool HasReviewInProcess => this.DoesSatisfy(new HasReviewInStatus<TDerived>(WorkpackageReviewStatus.InProcess));
-        public bool HasBeenAccepted => this.DoesSatisfy(new HasReviewInStatus<TDerived>(WorkpackageReviewStatus.Accepted));
+        // Virtual for testing
+        public virtual bool HasReviewInProcess => this.DoesSatisfy(new HasReviewInStatus<TDerived>(WorkpackageReviewStatus.InProcess));
+
+        // Virtual for testing
+        public virtual bool HasBeenAccepted => this.DoesSatisfy(new HasReviewInStatus<TDerived>(WorkpackageReviewStatus.Accepted));
 
         // Virtual for testing
         public virtual WorkpackageStep GetSingleStep(string stepKey)
