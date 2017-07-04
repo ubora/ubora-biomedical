@@ -146,7 +146,7 @@ namespace Ubora.Web._Features.Users.Profile
 
             var userId = _userManager.GetUserId(User);
 
-            var filePath = model.ProfilePicture.FileName.Replace(@"\\", "/");
+            var filePath = model.ProfilePicture.FileName.Replace(@"\", "/");
             var fileName = Path.GetFileName(filePath);
 
             ExecuteUserCommand(new ChangeUserProfilePictureCommand
