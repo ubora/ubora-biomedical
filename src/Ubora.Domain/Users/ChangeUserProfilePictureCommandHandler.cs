@@ -26,7 +26,7 @@ namespace Ubora.Domain.Users
 
             if (userProfile.ProfilePictureBlobName != null)
             {
-                _storageProvider.DeleteBlobAsync("users", $"{userProfile.UserId}/profile-pictures/{userProfile.ProfilePictureBlobName}");
+                _storageProvider.DeleteBlobAsync("users", $"{userProfile.UserId}/profile-pictures/{userProfile.ProfilePictureBlobName}").Wait();
             }
 
             userProfile.ProfilePictureBlobName = cmd.FileName;

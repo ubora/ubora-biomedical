@@ -18,3 +18,10 @@
         </a>
     }
 }
+else if (Model.ShowDefaultMessage)
+{
+    <div class="center-element">
+        <h3>You have no projects.</h3>
+        <p>Either <a asp-controller="ProjectCreation" asp-action="Create">create a new one</a> or find projects to <a asp-controller="Home" asp-action="Index" asp-area="">join</a>.</p>
+    </div>
+}

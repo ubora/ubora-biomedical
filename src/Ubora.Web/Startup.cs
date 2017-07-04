@@ -7,6 +7,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,11 +36,12 @@ namespace Ubora.Web
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-         
+
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
                 builder.AddUserSecrets<Startup>();
+                builder.AddApplicationInsightsSettings(developerMode: true);
             }
 
             builder.AddEnvironmentVariables();
@@ -50,6 +53,8 @@ namespace Ubora.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddApplicationInsightsTelemetry(Configuration);
+
             var connectionString = Configuration["ConnectionStrings:ApplicationDbConnection"];
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -59,6 +64,10 @@ namespace Ubora.Web
                 .AddMvc()
                 .AddUboraFeatureFolders(new FeatureFolderOptions { FeatureFolderName = "_Features" });
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
+
+            services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
+
+            var useSpecifiedPickupDirectory = Convert.ToBoolean(Configuration["SmtpSettings:UseSpecifiedPickupDirectory"]);
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
                 {
@@ -79,6 +88,8 @@ namespace Ubora.Web
             services.AddSingleton<ApplicationDataSeeder>();
             services.AddSingleton<AdminSeeder>();
             services.Configure<AdminSeeder.Options>(Configuration.GetSection("InitialAdminOptions"));
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
 
             var autofacContainerBuilder = new ContainerBuilder();
 
@@ -99,7 +110,7 @@ namespace Ubora.Web
             }
 
             var domainModule = new DomainAutofacModule(connectionString, storageProvider);
-            var webModule = new WebAutofacModule();
+            var webModule = new WebAutofacModule(useSpecifiedPickupDirectory);
             autofacContainerBuilder.RegisterModule(domainModule);
             autofacContainerBuilder.RegisterModule(webModule);
 
@@ -112,7 +123,6 @@ namespace Ubora.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            ConfigureLogging(loggerFactory);
 
             if (env.IsDevelopment())
             {
@@ -159,17 +169,6 @@ namespace Ubora.Web
             logger.LogError("Application started!");
         }
 
-        private void ConfigureLogging(ILoggerFactory loggerFactory)
-        {
-            loggerFactory.AddSerilog();
-
-            if (Configuration["AWS_ACCESS_KEY_ID"] != null || Configuration["AWS_SECRET_ACCESS_KEY"] != null)
-            {
-                loggerFactory.AddAWSProvider(Configuration.GetAWSLoggingConfigSection());
-            }
-
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-        }
+   
     }
 }

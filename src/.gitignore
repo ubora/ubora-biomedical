@@ -4,6 +4,9 @@
 # Storages
 [Ss]torages/
 
+# Mailing
+*.eml
+
 # Logging
 [Ll]og/
 
