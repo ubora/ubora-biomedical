@@ -21,6 +21,7 @@ namespace Ubora.Domain.Projects
         public string DeviceClassification { get; private set; }
         public string Description { get; private set; }
         public bool IsInDraft { get; private set; } = true;
+        public string ImageBlobName { get; private set; }
 
         [JsonProperty(nameof(Members))]
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
@@ -112,6 +113,11 @@ namespace Ubora.Domain.Projects
         private void Apply(WorkpackageOneReviewAcceptedEvent e)
         {
             IsInDraft = false;
+        }
+
+        private void Apply(ProjectImageUpdatedEvent e)
+        {
+            ImageBlobName = e.ImageName;
         }
 
         public override string ToString()

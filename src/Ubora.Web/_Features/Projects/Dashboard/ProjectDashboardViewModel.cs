@@ -11,5 +11,6 @@
         public string Gmdn { get; set; }
         public bool IsProjectMember { get; set; }
         public bool IsInDraft { get; set; }
+        public string ImagePath { get; set; }
     }
 }

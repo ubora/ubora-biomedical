@@ -1,4 +1,5 @@
 ﻿using TwentyTwenty.Storage;
+using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 
 namespace Ubora.Web.Infrastructure.Extensions
@@ -20,6 +21,18 @@ namespace Ubora.Web.Infrastructure.Extensions
             }
 
             return blobUrl;
+        }
+
+        public static string GetDefaultOrBlobUrl(this IStorageProvider storageProvider, Project project)
+        {
+            if (string.IsNullOrEmpty(project.ImageBlobName))
+            {
+                return "//placehold.it/1500x300";
+            }
+
+            return storageProvider
+                    .GetBlobUrl($"projects/{project.Id}/project-image", project.ImageBlobName)
+                    .Replace("/app/wwwroot", "");
         }
     }
 }

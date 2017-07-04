@@ -11,8 +11,12 @@
     {
         <a href="@Url.Action("Join", "Members")"><i class="material-icons">add</i>Join project</a>
     }
+    else
+    {
+        <a asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons">mode_edit</i>&nbsp;Edit image</a>
+    }
     <div class="project_section">
-        <img class="project_section--photo" src="//placehold.it/1500x300" alt="Example image">
+        <img class="project_section--photo" src="@Model.ImagePath" alt="Example image">
     </div>
 
     @if (Model.IsInDraft)
