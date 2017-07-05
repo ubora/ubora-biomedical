@@ -1,5 +1,4 @@
-﻿@using Ubora.Web._Features.Projects
-@using Ubora.Web._Features.Projects._Shared
+﻿@using Ubora.Web._Features.Projects._Shared
 @inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 <!DOCTYPE html>
 <html lang="en">
@@ -28,6 +27,11 @@
             }
         }
         @RenderBody()
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a href="javascript:void(0);" id="feedback-toggle" class="feedback-toggle"><i class="material-icons">chat_bubble</i>Quick Feedback</a>
+        }
     </main>
 
     @await Html.PartialAsync("_Footer")
@@ -36,6 +40,58 @@
     <script src="~/lib/simplemde/dist/simplemde.min.js"></script>
     <script src="~/lib/marked/marked.min.js"></script>
     <script src="~/js/UBORA.js"></script>
+    
+    @*TODO(Kaspar Kallas)*@
+    <script>
+    $(function () {
+        var modal = document.getElementById('feedback-modal');
+        var toggleBtn = document.getElementById('feedback-toggle');
+        var closeBtn = document.getElementById('feedback-close');
+
+        toggleBtn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        closeBtn.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        $('#feedback-submit').click(function () {
+            var fromPath = '@Context.Request.Path';
+            var feedback = $('#feedback').val();
+            var data = {
+                fromPath, feedback
+            };
+            $.ajax({
+                url: '@Url.Action("Send", "Feedback")',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json; charset=utf-8',
+                success: function () {
+                    $('#feedback').val("");
+                    $('#feedback-main').hide();
+                    $('#feedback-submitted').show();
+
+                    window.setTimeout(function () {
+                        $('#feedback-main').show();
+                        $('#feedback-submitted').hide();
+
+                        $('#feedback-modal').hide();
+
+                    }, 2000);
+                    console.log("success!");
+                }
+            });
+        });
+    });
+    </script>
 
     @RenderSection("Scripts", required: false)
 </body>

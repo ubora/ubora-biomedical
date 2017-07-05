@@ -7,7 +7,6 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-
     <span class="development-notice">In-development preview</span>
     <header class="header">
 
@@ -26,6 +25,8 @@
             <a asp-controller="ProjectList" asp-action="MyProjects">
                 <i class="material-icons">folder</i>My projects
             </a>
+            
+            @Html.Partial("_FeedBackModal")
         </span>
 
         <div class="header-controls">
