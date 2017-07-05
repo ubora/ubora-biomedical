@@ -62,7 +62,7 @@ namespace Ubora.Web._Features.Users.Profile
         }
 
         [HttpPost]
-        public IActionResult EditProfile(UserProfileViewModel model)
+        public async Task<IActionResult> EditProfile(UserProfileViewModel model)
         {
             var userId = _userManager.GetUserId(User);
 
@@ -84,6 +84,9 @@ namespace Ubora.Web._Features.Users.Profile
                 Role = model.Role
             };
             ExecuteUserCommand(command);
+
+            var user = await _userManager.FindByIdAsync(userId);
+            await _signInManager.RefreshSignInAsync(user);
 
             return RedirectToAction("Index", "Manage");
         }
