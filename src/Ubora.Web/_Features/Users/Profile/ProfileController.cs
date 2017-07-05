@@ -87,49 +87,23 @@ namespace Ubora.Web._Features.Users.Profile
             return RedirectToAction("Index", "Manage");
         }
 
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> ChangeProfilePicture(EditProfileViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return EditProfile();
-            }
-
-            var userId = _userManager.GetUserId(User);
-
-            var filePath = model.ProfilePicture.FileName.Replace(@"\", "/");
-            var fileName = Path.GetFileName(filePath);
-
-            ExecuteUserCommand(new ChangeUserProfilePictureCommand
-            {
-                UserId = new Guid(userId),
-                Stream = model.ProfilePicture.OpenReadStream(),
-                FileName = fileName
-            });
-
-            if (!ModelState.IsValid)
-            {
-                return EditProfile();
-            }
-
-            var user = await _userManager.FindByIdAsync(userId);
-            await _signInManager.RefreshSignInAsync(user);
-
-            return RedirectToAction("EditProfile");
-        }
-
         // TODO(Kaspar Kallas): Move to more specific controller (1/2)
         public IActionResult FirstTimeEditProfile(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
 
-            return View();
+            var firstTimeEditProfileModel = new FirstTimeEditProfileModel();
+            firstTimeEditProfileModel.ProfilePictureViewModel = new ProfilePictureViewModel
+            {
+                IsFirstTimeEditProfile = true
+            };
+
+            return View(nameof(FirstTimeEditProfile), firstTimeEditProfileModel);
         }
 
         // TODO(Kaspar Kallas): Move to more specific controller (2/2)
         [HttpPost]
-        public IActionResult FirstTimeEditProfile(FirstTimeEditProfileModel model, string returnUrl = null)
+        public IActionResult FirstTimeEditProfile(FirstTimeUserProfileViewModel model, string returnUrl = null)
         {
             if (!ModelState.IsValid)
             {
@@ -155,6 +129,38 @@ namespace Ubora.Web._Features.Users.Profile
             }
 
             return RedirectToLocal(returnUrl);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ChangeProfilePicture(ProfilePictureViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return model.IsFirstTimeEditProfile ? FirstTimeEditProfile() : EditProfile();
+            }
+
+            var userId = _userManager.GetUserId(User);
+
+            var filePath = model.ProfilePicture.FileName.Replace(@"\", "/");
+            var fileName = Path.GetFileName(filePath);
+
+            ExecuteUserCommand(new ChangeUserProfilePictureCommand
+            {
+                UserId = new Guid(userId),
+                Stream = model.ProfilePicture.OpenReadStream(),
+                FileName = fileName
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return model.IsFirstTimeEditProfile ? FirstTimeEditProfile() : EditProfile();
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            await _signInManager.RefreshSignInAsync(user);
+
+            return RedirectToAction(model.IsFirstTimeEditProfile ? nameof(FirstTimeEditProfile) : nameof(EditProfile));
         }
     }
 }
