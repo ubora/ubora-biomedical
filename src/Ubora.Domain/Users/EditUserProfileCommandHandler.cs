@@ -18,10 +18,13 @@ namespace Ubora.Domain.Users
 
             userProfile.FirstName = cmd.FirstName;
             userProfile.LastName = cmd.LastName;
-            userProfile.University = cmd.University;
+            userProfile.Biography = cmd.Biography;
+            userProfile.Country = cmd.Country;
             userProfile.Degree = cmd.Degree;
             userProfile.Field = cmd.Field;
-            userProfile.Biography = cmd.Biography;
+            userProfile.University = cmd.University;
+            userProfile.MedicalDevice = cmd.MedicalDevice;
+            userProfile.Institution = cmd.Institution;
             userProfile.Skills = cmd.Skills;
             userProfile.Role = cmd.Role;
 
