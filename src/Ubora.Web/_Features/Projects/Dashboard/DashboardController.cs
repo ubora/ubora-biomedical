@@ -86,9 +86,11 @@ namespace Ubora.Web._Features.Projects.Dashboard
                 return EditProjectImage();
             }
 
-            await _imageResizer.SaveAsJpegAsync("projects", $"{ProjectId}/project-image/original.jpg", model.Image.OpenReadStream());
-            await _imageResizer.CreateResizedImageAndSaveAsJpegAsync("projects", $"{ProjectId}/project-image/400x150.jpg", model.Image.OpenReadStream(), 400, 150);
-            await _imageResizer.CreateResizedImageAndSaveAsJpegAsync("projects", $"{ProjectId}/project-image/1500x300.jpg", model.Image.OpenReadStream(), 1500, 300);
+            var imageStream = model.Image.OpenReadStream();
+
+            await _imageResizer.SaveAsJpegAsync("projects", $"{ProjectId}/project-image/original.jpg", imageStream);
+            await _imageResizer.CreateResizedImageAndSaveAsJpegAsync("projects", $"{ProjectId}/project-image/400x150.jpg", imageStream, 400, 150);
+            await _imageResizer.CreateResizedImageAndSaveAsJpegAsync("projects", $"{ProjectId}/project-image/1500x300.jpg", imageStream, 1500, 300);
 
             ExecuteUserProjectCommand(new UpdateProjectImageCommand
             {

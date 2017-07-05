@@ -32,10 +32,7 @@ namespace Ubora.Web.Infrastructure
             {
                 using (var image = Image.Load(stream))
                 {
-                    var newHeight = (image.Width * height) / width;
-                    var yPosition = (image.Height / 2) - (newHeight / 2);
-
-                    var cropRectangle = new Rectangle(0, yPosition, image.Width, newHeight);
+                    var cropRectangle = GetRectangle(width, height, image.Width, image.Height);
 
                     image.Crop(cropRectangle)
                          .Resize(width, height)
@@ -45,6 +42,25 @@ namespace Ubora.Web.Infrastructure
 
                 await SaveStreamToBlobAsync(containerName, blobName, outputStream);
             }
+        }
+
+        private Rectangle GetRectangle(int width, int height, int imageWidth, int imageHeight)
+        {
+            var ratio = width / height;
+            var imageRatio = imageWidth / imageHeight;
+
+            if (imageRatio < ratio)
+            {
+                var newHeight = (imageWidth * height) / width;
+                var yPosition = (imageHeight / 2) - (newHeight / 2);
+
+                return new Rectangle(0, yPosition, imageWidth, newHeight);
+            }
+
+            var newWidth = (imageHeight * width) / height;
+            var xPosition = (imageWidth / 2) - (newWidth / 2);
+
+            return new Rectangle(xPosition, 0, newWidth, imageHeight);
         }
 
         public async Task SaveAsJpegAsync(string containerName, string blobName, Stream stream)
