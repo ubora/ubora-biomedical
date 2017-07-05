@@ -55,7 +55,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var result = (ViewResult)await _workpackageOneReviewController.Review();
 
             // Assert
-            result.Model.As<WorkpackageReviewListViewModel>()
+            var viewModel = (WorkpackageReviewListViewModel)result.Model;
+            viewModel
                 .SubmitForReviewButton.IsHiddenCompletely
                 .Should().BeTrue();
         }
@@ -71,7 +72,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var result = (ViewResult)await _workpackageOneReviewController.Review();
 
             // Assert
-            result.Model.As<WorkpackageReviewListViewModel>()
+            var viewModel = (WorkpackageReviewListViewModel)result.Model;
+            viewModel
                 .SubmitForReviewButton.IsHiddenWithMessage
                 .Should().BeTrue();
         }
@@ -87,7 +89,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var result = (ViewResult)await _workpackageOneReviewController.Review();
 
             // Assert
-            result.Model.As<WorkpackageReviewListViewModel>()
+            var viewModel = (WorkpackageReviewListViewModel) result.Model;
+            viewModel
                 .SubmitForReviewButton.IsVisible
                 .Should().BeTrue();
         }

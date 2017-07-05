@@ -36,21 +36,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
                 Reviews = WorkpackageOne.Reviews.Select(_mapper.Map<WorkpackageReviewViewModel>),
                 ReviewDecisionUrl = Url.Action(nameof(Decision)),
                 SubmitForReviewUrl = Url.Action(nameof(SubmitForReview)),
-                SubmitForReviewButton = await GetSubmitButtonVisibility()
+                SubmitForReviewButton = await WorkpackageReviewListViewModel.GetSubmitButtonVisibility(WorkpackageOne, User, _authorizationService)
             };
-
-            async Task<UiElementVisibility> GetSubmitButtonVisibility()
-            {
-                if (WorkpackageOne.HasReviewInProcess || WorkpackageOne.HasBeenAccepted)
-                {
-                    return UiElementVisibility.HiddenCompletely();
-                }
-                if (!await _authorizationService.AuthorizeAsync(User, Policies.CanSubmitWorkpackageForReview))
-                {
-                    return UiElementVisibility.HiddenWithMessage("You can not submit work package for review, because you are not the project leader.");
-                }
-                return UiElementVisibility.Visible();
-            }
 
             return View(nameof(Review), model);
         }
