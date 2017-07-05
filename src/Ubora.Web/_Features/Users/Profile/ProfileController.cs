@@ -54,7 +54,8 @@ namespace Ubora.Web._Features.Users.Profile
             var userViewModel = _mapper.Map<UserProfileViewModel>(userProfile);
             var editProfileViewModel = new EditProfileViewModel
             {
-                UserViewModel = userViewModel
+                UserViewModel = userViewModel,
+                ProfilePictureViewModel = new ProfilePictureViewModel()
             };
 
             return View("EditProfile", editProfileViewModel);
@@ -92,10 +93,12 @@ namespace Ubora.Web._Features.Users.Profile
         {
             ViewData["ReturnUrl"] = returnUrl;
 
-            var firstTimeEditProfileModel = new FirstTimeEditProfileModel();
-            firstTimeEditProfileModel.ProfilePictureViewModel = new ProfilePictureViewModel
+            var firstTimeEditProfileModel = new FirstTimeEditProfileModel
             {
-                IsFirstTimeEditProfile = true
+                ProfilePictureViewModel = new ProfilePictureViewModel
+                {
+                    IsFirstTimeEditProfile = true
+                }
             };
 
             return View(nameof(FirstTimeEditProfile), firstTimeEditProfileModel);
