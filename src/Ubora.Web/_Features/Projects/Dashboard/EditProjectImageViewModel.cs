@@ -7,8 +7,9 @@ namespace Ubora.Web._Features.Projects.Dashboard
     public class EditProjectImageViewModel
     {
         [IsImage]
-        public IFormFile ProjectImage { get; set; }
-        private string FilePath => ProjectImage.FileName.Replace(@"\\", "/");
-        public string FileName => Path.GetFileName(FilePath);
+        public IFormFile Image { get; set; }
+        private string FilePath => Image.FileName.Replace(@"\\", "/");
+        public string ImageName => Path.GetFileName(FilePath);
+        public string ImageNameWithoutExtension => Path.GetFileNameWithoutExtension(FilePath);
     }
 }

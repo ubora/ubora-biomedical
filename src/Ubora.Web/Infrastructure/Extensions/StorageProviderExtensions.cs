@@ -1,4 +1,5 @@
-﻿using TwentyTwenty.Storage;
+﻿using System.Threading.Tasks;
+using TwentyTwenty.Storage;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 
@@ -16,23 +17,35 @@ namespace Ubora.Web.Infrastructure.Extensions
             else
             {
                 blobUrl = storageProvider
-                    .GetBlobUrl($"users/{userProfile.UserId}/profile-pictures", userProfile.ProfilePictureBlobName)
-                    .Replace("/app/wwwroot", "");
+                    .GetBlobUrl($"users/{userProfile.UserId}/profile-pictures", userProfile.ProfilePictureBlobName);
             }
 
             return blobUrl;
         }
 
-        public static string GetDefaultOrBlobUrl(this IStorageProvider storageProvider, Project project)
+        public static string GetDefaultOrBlobUrl(this IStorageProvider storageProvider, Project project, int width, int height)
         {
-            if (string.IsNullOrEmpty(project.ImageBlobName))
+            if (project.ProjectImageLastUpdated == null)
             {
-                return "//placehold.it/1500x300";
+                return $"//placehold.it/{width}x{height}";
             }
 
             return storageProvider
-                    .GetBlobUrl($"projects/{project.Id}/project-image", project.ImageBlobName)
-                    .Replace("/app/wwwroot", "");
+                    .GetBlobUrl($"projects/{project.Id}/project-image", $"{width}x{height}.jpg");
+        }
+
+        public static async Task<bool> FileExistsAsync(this IStorageProvider storageProvider, string containerName, string blobName)
+        {
+            try
+            {
+                await storageProvider.GetBlobDescriptorAsync(containerName, blobName);
+
+                return true;
+            }
+            catch (StorageException ex)
+            {
+                return false;
+            }
         }
     }
 }

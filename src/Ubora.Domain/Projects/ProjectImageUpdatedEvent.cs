@@ -5,10 +5,11 @@ namespace Ubora.Domain.Projects
 {
     internal class ProjectImageUpdatedEvent : UboraEvent
     {
-        public string ImageName { get; set; }
+        public DateTime When { get; private set; }
 
-        public ProjectImageUpdatedEvent(UserInfo initiatedBy) : base(initiatedBy)
+        public ProjectImageUpdatedEvent(DateTime when, UserInfo initiatedBy) : base(initiatedBy)
         {
+            When = when;
         }
 
         public override string GetDescription() => "Updated project image";

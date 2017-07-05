@@ -27,7 +27,7 @@ namespace Ubora.Web._Features.ProjectList
             public bool IsInDraft { get; set; }
             public string ImagePath { get; set; }
         }
-        
+
         public class Factory
         {
             private readonly IMapper _mapper;
@@ -54,7 +54,7 @@ namespace Ubora.Web._Features.ProjectList
                     Projects = projects.Select(x =>
                     {
                         var project = _mapper.Map<ProjectListItem>(x);
-                        project.ImagePath = _storageProvider.GetDefaultOrBlobUrl(x);
+                        project.ImagePath = _storageProvider.GetDefaultOrBlobUrl(x, 400, 150);
 
                         return project;
                     })
@@ -74,7 +74,7 @@ namespace Ubora.Web._Features.ProjectList
                     Projects = userProjects.Select(x =>
                     {
                         var project = _mapper.Map<ProjectListItem>(x);
-                        project.ImagePath = _storageProvider.GetDefaultOrBlobUrl(x);
+                        project.ImagePath = _storageProvider.GetDefaultOrBlobUrl(x, 400, 150);
 
                         return project;
                     }),
@@ -101,7 +101,7 @@ namespace Ubora.Web._Features.ProjectList
                     Projects = projects.Select(x =>
                     {
                         var project = _mapper.Map<ProjectListItem>(x);
-                        project.ImagePath = _storageProvider.GetDefaultOrBlobUrl(x);
+                        project.ImagePath = _storageProvider.GetDefaultOrBlobUrl(x, 400, 150);
 
                         return project;
                     })
