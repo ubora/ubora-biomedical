@@ -3,6 +3,8 @@ version: '3'
 services:
   ubora.web:
     build: ./Ubora.Web/
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
     ports:
       - "5000:80"
     networks:
