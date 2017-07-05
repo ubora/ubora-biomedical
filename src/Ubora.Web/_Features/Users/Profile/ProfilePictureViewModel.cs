@@ -5,8 +5,9 @@ namespace Ubora.Web._Features.Users.Profile
 {
     public class ProfilePictureViewModel
     {
-        public string CurrentActionName { get; set; }
         [IsImage]
         public IFormFile ProfilePicture { get; set; }
+
+        public bool IsFirstTimeEditProfile { get; set; }
     }
 }

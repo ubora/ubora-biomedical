@@ -64,8 +64,10 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             result.Model.As<EditProfileViewModel>().UserViewModel.Should().Be(editProfileViewModel.UserViewModel);
         }
 
-        [Fact]
-        public async Task ChangeProfilePicture_Redirects_EditProfile_When_Command_Is_Executed_Successfully()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task ChangeProfilePicture_Redirects_EditProfile_When_Command_Is_Executed_Successfully(bool isFirstTimeEditProfile)
         {
             var fileMock = new Mock<IFormFile>();
             var userId = Guid.NewGuid().ToString();
@@ -73,7 +75,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             var profilePictureViewModel = new ProfilePictureViewModel
             {
                 ProfilePicture = fileMock.Object,
-                CurrentActionName = "testAction"
+                IsFirstTimeEditProfile = isFirstTimeEditProfile
             };
 
             ChangeUserProfilePictureCommand executedCommand = null;
@@ -90,15 +92,22 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             var result = (RedirectToActionResult)await _controller.ChangeProfilePicture(profilePictureViewModel);
 
             //Assert
+            if (isFirstTimeEditProfile == false)
+            {
+                result.ActionName.Should().Be("EditProfile");
+            }
+            else
+            {
+                result.ActionName.Should().Be("FirstTimeEditProfile");
+            }
             executedCommand.UserId.Should().Be(userId);
-            result.ActionName.Should().Be(profilePictureViewModel.CurrentActionName);
             _signInManagerMock.Verify(m => m.RefreshSignInAsync(applicationUser), Times.Once);
         }
 
         [Theory]
-        [InlineData("EditProfile")]
-        [InlineData("FirstTimeEditProfile")]
-        public async Task ChangeProfilePicture_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful(string actionName)
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task ChangeProfilePicture_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful(bool isFirstTimeEditProfile)
         {
             var fileMock = new Mock<IFormFile>();
             var userId = Guid.NewGuid().ToString();
@@ -109,7 +118,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             var profilePictureViewModel = new ProfilePictureViewModel()
             {
                 ProfilePicture = fileMock.Object,
-                CurrentActionName = actionName
+                IsFirstTimeEditProfile = isFirstTimeEditProfile
             };
 
             var commandResult = new CommandResult("testError");
@@ -128,10 +137,9 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             var result = (ViewResult)await _controller.ChangeProfilePicture(profilePictureViewModel);
 
             //Assert
-            result.ViewName.Should().Be(actionName);
-            if (actionName == "EditProfile")
+            if (isFirstTimeEditProfile == false)
             {
-                result.ViewName.Should().Be(actionName);
+                result.ViewName.Should().Be("EditProfile");
                 result.Model.As<EditProfileViewModel>().UserViewModel.Should().Be(userProfileViewModel);
                 AssertModelStateContainsError(result, commandResult.ErrorMessages.Last());
                 _userManagerMock.Verify(m => m.FindByIdAsync(It.IsAny<string>()), Times.Never);
@@ -139,15 +147,15 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             }
             else
             {
-                result.ViewName.Should().Be(actionName);
-                result.Model.As<FirstTimeEditProfileModel>().ProfilePictureViewModel.CurrentActionName.Should().Be(actionName);
+                result.ViewName.Should().Be("FirstTimeEditProfile");
+                result.Model.As<FirstTimeEditProfileModel>().ProfilePictureViewModel.IsFirstTimeEditProfile.Should().Be(isFirstTimeEditProfile);
             }
         }
 
         [Theory]
-        [InlineData("EditProfile")]
-        [InlineData("FirstTimeEditProfile")]
-        public async Task ChangeProfilePicture_View_With_ModelState_Errors_When_Validation_Result_Is_FailureAsync(string actionName)
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task ChangeProfilePicture_View_With_ModelState_Errors_When_Validation_Result_Is_FailureAsync(bool isFirstTimeEditProfile)
         {
             var fileMock = new Mock<IFormFile>();
             var userId = Guid.NewGuid().ToString();
@@ -156,7 +164,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
 
             var profilePictureViewModel = new ProfilePictureViewModel()
             {
-                CurrentActionName = actionName
+                IsFirstTimeEditProfile = isFirstTimeEditProfile
             };
 
             fileMock.Setup(f => f.FileName).Returns("C:\\Test\\Parent\\Parent\\image.png");
@@ -171,10 +179,9 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             var result = (ViewResult)await _controller.ChangeProfilePicture(profilePictureViewModel);
 
             //Assert
-            result.ViewName.Should().Be(actionName);
-            if (actionName == "EditProfile")
+            if (isFirstTimeEditProfile == false)
             {
-                result.ViewName.Should().Be(actionName);
+                result.ViewName.Should().Be("EditProfile");
                 result.Model.As<EditProfileViewModel>().UserViewModel.Should().Be(userViewModel);
                 AssertModelStateContainsError(result, "This is not an image file");
                 _commandQueryProcessorMock.Verify(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>()),
@@ -184,8 +191,8 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             }
             else
             {
-                result.ViewName.Should().Be(actionName);
-                result.Model.As<FirstTimeEditProfileModel>().ProfilePictureViewModel.CurrentActionName.Should().Be(actionName);
+                result.ViewName.Should().Be("FirstTimeEditProfile");
+                result.Model.As<FirstTimeEditProfileModel>().ProfilePictureViewModel.IsFirstTimeEditProfile.Should().Be(isFirstTimeEditProfile);
             }
 
         }

@@ -56,10 +56,6 @@ namespace Ubora.Web._Features.Users.Profile
             {
                 UserViewModel = userViewModel
             };
-            editProfileViewModel.ProfilePictureViewModel = new ProfilePictureViewModel
-            {
-                CurrentActionName = "EditProfile"
-            };
 
             return View("EditProfile", editProfileViewModel);
         }
@@ -99,10 +95,10 @@ namespace Ubora.Web._Features.Users.Profile
             var firstTimeEditProfileModel = new FirstTimeEditProfileModel();
             firstTimeEditProfileModel.ProfilePictureViewModel = new ProfilePictureViewModel
             {
-                CurrentActionName = "FirstTimeEditProfile"
+                IsFirstTimeEditProfile = true
             };
 
-            return View("FirstTimeEditProfile", firstTimeEditProfileModel);
+            return View(nameof(FirstTimeEditProfile), firstTimeEditProfileModel);
         }
 
         // TODO(Kaspar Kallas): Move to more specific controller (2/2)
@@ -141,7 +137,7 @@ namespace Ubora.Web._Features.Users.Profile
         {
             if (!ModelState.IsValid)
             {
-                return model.CurrentActionName == "EditProfile" ? EditProfile() : FirstTimeEditProfile();
+                return model.IsFirstTimeEditProfile ? FirstTimeEditProfile() : EditProfile();
             }
 
             var userId = _userManager.GetUserId(User);
@@ -158,13 +154,13 @@ namespace Ubora.Web._Features.Users.Profile
 
             if (!ModelState.IsValid)
             {
-                return model.CurrentActionName == "EditProfile" ? EditProfile() : FirstTimeEditProfile();
+                return model.IsFirstTimeEditProfile ? FirstTimeEditProfile() : EditProfile();
             }
 
             var user = await _userManager.FindByIdAsync(userId);
             await _signInManager.RefreshSignInAsync(user);
 
-            return RedirectToAction(model.CurrentActionName);
+            return RedirectToAction(model.IsFirstTimeEditProfile ? nameof(FirstTimeEditProfile) : nameof(EditProfile));
         }
     }
 }
