@@ -31,7 +31,7 @@
         @if (User.Identity.IsAuthenticated)
         {
             @Html.Partial("_FeedbackModal")
-            <a href="javascript:void(0);" id="feedback-modal-trigger"><i class="material-icons">chat_bubble</i>Quick Feedback</a>
+            <a href="javascript:void(0);" id="feedback-modal-trigger"><i class="material-icons">chat_bubble</i>Feedback</a>
         }
     </main>
 
@@ -42,58 +42,10 @@
     <script src="~/lib/marked/marked.min.js"></script>
     <script src="~/js/UBORA.js"></script>
 
-    @*TODO(Kaspar Kallas)*@
     <script>
-    $(function () {
-        var modal = document.getElementById('feedback-modal');
-        var triggerButton = document.getElementById('feedback-modal-trigger');
-        var closeButtton = document.getElementById('feedback-modal-close');
-
-        triggerButton.onclick = function () {
-            modal.style.display = 'block';
-        }
-
-        closeButtton.onclick = function () {
-            modal.style.display = 'none';
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-        }
-
-        var sendButton = document.getElementById('feedback-send');
-        var modalBeforeSend = document.getElementById('feedback-modal-before');
-        var modalAfterSend = document.getElementById('feedback-modal-after');
-        var userFeedback = document.getElementById('feedback');
-
-        sendButton.onclick = (function () {
-            var data = {
-                feedback: userFeedback.value,
-                fromPath: '@Context.Request.Path'
-            };
-
-            $.ajax({
-                url: '@Url.Action("Send", "Feedback")',
-                type: 'POST',
-                data: JSON.stringify(data),
-                contentType: 'application/json; charset=utf-8',
-                success: function () {
-                    modalBeforeSend.style.display = 'none';
-                    modalAfterSend.style.display = '';
-                    userFeedback.value = '';
-
-                    window.setTimeout(function () {
-                        modal.style.display = 'none';
-                        modalBeforeSend.style.display = '';
-                        modalAfterSend.style.display = 'none';
-                    }, 2000);
-                }
-            });
-        });
-    });
+        $(function() {
+            feedbackModule('@Context.Request.Path', '@Url.Action("Send", "Feedback")');
+        })
     </script>
 
     @RenderSection("Scripts", required: false)
