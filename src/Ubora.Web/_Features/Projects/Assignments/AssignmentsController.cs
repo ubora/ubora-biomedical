@@ -5,26 +5,26 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Tasks;
 
-namespace Ubora.Web._Features.Projects.Tasks
+namespace Ubora.Web._Features.Projects.Assignments
 {
-    public class TasksController : ProjectController
+    public class AssignmentsController : ProjectController
     {
         private readonly IMapper _mapper;
 
-        public TasksController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
+        public AssignmentsController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
         {
             _mapper = mapper;
         }
 
-        public IActionResult Tasks()
+        public IActionResult Assignments()
         {
             var projectTasks = Find<ProjectTask>().Where(x => x.ProjectId == ProjectId);
 
-            var model = new TaskListViewModel
+            var model = new AssignmentListViewModel
             {
                 ProjectId = ProjectId,
                 ProjectName = Project.Title,
-                Tasks = projectTasks.Select(_mapper.Map<TaskListItemViewModel>)
+                Assignments = projectTasks.Select(_mapper.Map<AssignmentListItemViewModel>)
             };
 
             return View(model);
@@ -32,7 +32,7 @@ namespace Ubora.Web._Features.Projects.Tasks
 
         public IActionResult Add()
         {
-            var model = new AddTaskViewModel
+            var model = new AddAssignmentViewModel
             {
                 ProjectId = ProjectId
             };
@@ -41,7 +41,7 @@ namespace Ubora.Web._Features.Projects.Tasks
         }
 
         [HttpPost]
-        public IActionResult Add(AddTaskViewModel model)
+        public IActionResult Add(AddAssignmentViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -60,20 +60,20 @@ namespace Ubora.Web._Features.Projects.Tasks
                 return View(model);
             }
 
-            return RedirectToAction(nameof(Tasks), new { ProjectId });
+            return RedirectToAction(nameof(Assignments), new { ProjectId });
         }
 
         public IActionResult Edit(Guid id)
         {
             var task = FindById<ProjectTask>(id);
 
-            var model = _mapper.Map<EditTaskViewModel>(task);
+            var model = _mapper.Map<EditAssignmentViewModel>(task);
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Edit(EditTaskViewModel model)
+        public IActionResult Edit(EditAssignmentViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace Ubora.Web._Features.Projects.Tasks
                 return View(model);
             }
 
-            return RedirectToAction(nameof(Tasks), new { ProjectId });
+            return RedirectToAction(nameof(Assignments), new { ProjectId });
         }
     }
 }

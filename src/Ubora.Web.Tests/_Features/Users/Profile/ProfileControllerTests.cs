@@ -107,7 +107,8 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async Task ChangeProfilePicture_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful(bool isFirstTimeEditProfile)
+        public async Task ChangeProfilePicture_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful(
+            bool isFirstTimeEditProfile)
         {
             var fileMock = new Mock<IFormFile>();
             var userId = Guid.NewGuid().ToString();

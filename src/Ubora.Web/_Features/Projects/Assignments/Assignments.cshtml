@@ -1,0 +1,27 @@
+﻿@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Assignments.AssignmentListViewModel
+
+@{
+    ViewData["Title"] = "Assignments";
+    ViewData["MenuOption"] = ProjectMenuOption.Assignments;
+}
+
+<section class="medium-width">
+    <h1>
+        <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-id="@Model.ProjectId">@Model.ProjectName</a>
+    </h1>
+
+    <a asp-controller="Assignments" asp-action="Add" asp-route-projectId="@Model.ProjectId">
+        <i class="material-icons">add_box</i>Add assignment
+    </a>
+
+    <ol>
+        @foreach (var assignment in Model.Assignments)
+        {
+            <li>
+                <a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a>
+            </li>
+        }
+    </ol>
+
+</section>

@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 
-namespace Ubora.Web._Features.Projects.Tasks
+namespace Ubora.Web._Features.Projects.Assignments
 {
-    public class TaskListViewModel
+    public class AssignmentListViewModel
     {
         public Guid ProjectId { get; set; }
         public string ProjectName { get; set; }
-        public IEnumerable<TaskListItemViewModel> Tasks { get; set; }
+        public IEnumerable<AssignmentListItemViewModel> Assignments { get; set; }
     }
 
-    public class TaskListItemViewModel
+    public class AssignmentListItemViewModel
     {
         public Guid ProjectId { get; set; }
         public Guid Id { get; set; }
