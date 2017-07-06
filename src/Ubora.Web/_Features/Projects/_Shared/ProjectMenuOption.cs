@@ -4,7 +4,7 @@
     {
         Overview,
         Workpackages,
-        Tasks,
+        Assignments,
         News,
         Documentation,
         Repository,

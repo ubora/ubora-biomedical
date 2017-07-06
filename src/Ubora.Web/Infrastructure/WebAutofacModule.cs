@@ -1,11 +1,13 @@
 ﻿using Autofac;
 using AutoMapper;
+using Ubora.Domain.Infrastructure.Commands;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Web._Features.Notifications.Factory;
 using Ubora.Web.Services;
+using Ubora.Web._Features.Feedback;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -46,6 +48,8 @@ namespace Ubora.Web.Infrastructure
 
             builder.RegisterAssemblyTypes(ThisAssembly).Where(t => t.IsNested && t.Name.EndsWith("Factory")).InstancePerLifetimeScope();
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();
+
+            builder.RegisterType<SendFeedbackCommand.Handler>().As<ICommandHandler<SendFeedbackCommand>>().InstancePerLifetimeScope();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)

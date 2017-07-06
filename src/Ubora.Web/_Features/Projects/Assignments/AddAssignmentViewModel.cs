@@ -1,12 +1,11 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Ubora.Web._Features.Projects.Tasks
+namespace Ubora.Web._Features.Projects.Assignments
 {
-    public class EditTaskViewModel
+    public class AddAssignmentViewModel
     {
         public Guid ProjectId { get; set; }
-        public Guid Id { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]
