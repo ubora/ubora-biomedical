@@ -1,5 +1,4 @@
-﻿@using Ubora.Web._Features.Projects
-@using Ubora.Web._Features.Projects._Shared
+﻿@using Ubora.Web._Features.Projects._Shared
 @inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 <!DOCTYPE html>
 <html lang="en">
@@ -28,6 +27,12 @@
             }
         }
         @RenderBody()
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            @Html.Partial("_FeedbackModal")
+            <a href="javascript:void(0);" id="feedback-modal-trigger"><i class="material-icons">chat_bubble</i>Feedback</a>
+        }
     </main>
 
     @await Html.PartialAsync("_Footer")
@@ -36,6 +41,12 @@
     <script src="~/lib/simplemde/dist/simplemde.min.js"></script>
     <script src="~/lib/marked/marked.min.js"></script>
     <script src="~/js/UBORA.js"></script>
+
+    <script>
+        $(function() {
+            feedbackModule('@Context.Request.Path', '@Url.Action("Send", "Feedback")');
+        })
+    </script>
 
     @RenderSection("Scripts", required: false)
 </body>

@@ -20,6 +20,7 @@
 @import url('project.css');
 @import url('workpackage.css');
 @import url('process-steps.css');
+@import url('feedback.css');
 
 :root {
 	--primary-color: #4777BB;
