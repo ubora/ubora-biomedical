@@ -14,6 +14,10 @@
     else
     {
         <a asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons">mode_edit</i>&nbsp;Edit image</a>
+        if (Model.HasImage)
+        {
+            <a asp-controller="Dashboard" asp-action="RemoveProjectImage"><i class="material-icons">delete_forever</i>&nbsp;Remove image</a>
+        }
     }
     <div class="project_section">
         <img class="project_section--photo" src="@Model.ImagePath" alt="Example image">

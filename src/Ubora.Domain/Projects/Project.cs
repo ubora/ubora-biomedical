@@ -120,6 +120,11 @@ namespace Ubora.Domain.Projects
             ProjectImageLastUpdated = e.When;
         }
 
+        private void Apply(ProjectImageDeletedEvent e)
+        {
+            ProjectImageLastUpdated = null;
+        }
+
         public override string ToString()
         {
             return $"Project(Id:{Id})";

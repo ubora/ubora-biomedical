@@ -37,6 +37,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
             var model = _mapper.Map<ProjectDashboardViewModel>(Project);
             model.IsProjectMember = await _authorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
             model.ImagePath = _storageProvider.GetDefaultOrBlobUrl(Project, 1500, 300);
+            model.HasImage = Project.ProjectImageLastUpdated != null;
 
             return View(nameof(Dashboard), model);
         }
@@ -105,6 +106,35 @@ namespace Ubora.Web._Features.Projects.Dashboard
             {
                 return EditProjectImage();
             }
+
+            return RedirectToAction(nameof(Dashboard));
+        }
+
+        public IActionResult RemoveProjectImage()
+        {
+            var model = new RemoveProjectImageViewModel
+            {
+                Title = Project.Title
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveProjectImage(RemoveProjectImageViewModel model)
+        {
+            var containerName = BlobLocation.ContainerNames.Projects;
+            var blobLocation = $"{ProjectId}/project-image/";
+
+            await _storageProvider.DeleteBlobAsync(containerName, blobLocation + "original.jpg");
+            await _storageProvider.DeleteBlobAsync(containerName, blobLocation + "400x150.jpg");
+            await _storageProvider.DeleteBlobAsync(containerName, blobLocation + "1500x300.jpg");
+
+            ExecuteUserProjectCommand(new DeleteProjectImageCommand
+            {
+                ProjectId = ProjectId,
+                Actor = UserInfo
+            });
 
             return RedirectToAction(nameof(Dashboard));
         }

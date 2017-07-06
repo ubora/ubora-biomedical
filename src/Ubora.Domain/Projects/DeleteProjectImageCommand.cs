@@ -1,13 +1,11 @@
 ﻿using Marten;
-using System;
-using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.Projects
 {
-    public class UpdateProjectImageCommand : UserProjectCommand
+    public class DeleteProjectImageCommand : UserProjectCommand
     {
-        internal class Handler : ICommandHandler<UpdateProjectImageCommand>
+        internal class Handler : ICommandHandler<DeleteProjectImageCommand>
         {
             private readonly IDocumentSession _documentSession;
 
@@ -16,11 +14,11 @@ namespace Ubora.Domain.Projects
                 _documentSession = documentSession;
             }
 
-            public ICommandResult Handle(UpdateProjectImageCommand cmd)
+            public ICommandResult Handle(DeleteProjectImageCommand cmd)
             {
                 var project = _documentSession.Load<Project>(cmd.ProjectId);
 
-                var @event = new ProjectImageUpdatedEvent(DateTime.UtcNow, cmd.Actor);
+                var @event = new ProjectImageDeletedEvent(cmd.Actor);
 
                 _documentSession.Events.Append(project.Id, @event);
                 _documentSession.SaveChanges();
