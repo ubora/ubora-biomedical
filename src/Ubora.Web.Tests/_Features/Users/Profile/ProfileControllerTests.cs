@@ -45,15 +45,15 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             var userId = Guid.NewGuid().ToString();
             var userProfile = new UserProfile(new Guid(userId));
             var userProfileViewModel = new UserProfileViewModel();
-            var model = new EditProfileViewModel()
+            var editProfileViewModel = new EditProfileViewModel()
             {
                 UserViewModel = userProfileViewModel
             };
 
             _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
-            _mapperMock.Setup(m => m.Map<UserProfileViewModel>(It.IsAny<UserProfile>())).Returns(userProfileViewModel);
+            _mapperMock.Setup(m => m.Map<UserProfileViewModel>(userProfile)).Returns(userProfileViewModel);
 
-            _commandQueryProcessorMock.Setup(p => p.FindById<UserProfile>(It.IsAny<Guid>()))
+            _commandQueryProcessorMock.Setup(p => p.FindById<UserProfile>(new Guid(userId)))
                 .Returns(userProfile);
 
             //Act
@@ -61,17 +61,22 @@ namespace Ubora.Web.Tests._Features.Users.Profile
 
             //Assert
             result.ViewName.Should().Be("EditProfile");
-            result.Model.As<EditProfileViewModel>().UserViewModel.Should().Be(model.UserViewModel);
+            result.Model.As<EditProfileViewModel>().UserViewModel.Should().Be(editProfileViewModel.UserViewModel);
         }
 
-        [Fact]
-        public async Task ChangeProfilePicture_Redirects_EditProfile_When_Command_Is_Executed_Successfully()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task ChangeProfilePicture_Redirects_EditProfile_When_Command_Is_Executed_Successfully(bool isFirstTimeEditProfile)
         {
             var fileMock = new Mock<IFormFile>();
             var userId = Guid.NewGuid().ToString();
 
-            var model = new EditProfileViewModel();
-            model.ProfilePicture = fileMock.Object;
+            var profilePictureViewModel = new ProfilePictureViewModel
+            {
+                ProfilePicture = fileMock.Object,
+                IsFirstTimeEditProfile = isFirstTimeEditProfile
+            };
 
             ChangeUserProfilePictureCommand executedCommand = null;
             var applicationUser = new ApplicationUser();
@@ -80,20 +85,30 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
             _commandQueryProcessorMock.Setup(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>())).Callback<ChangeUserProfilePictureCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
-            
+
             _userManagerMock.Setup(m => m.FindByIdAsync(userId)).ReturnsAsync(applicationUser);
 
             //Act
-            var result = (RedirectToActionResult)await _controller.ChangeProfilePicture(model);
+            var result = (RedirectToActionResult)await _controller.ChangeProfilePicture(profilePictureViewModel);
 
             //Assert
+            if (isFirstTimeEditProfile == false)
+            {
+                result.ActionName.Should().Be("EditProfile");
+            }
+            else
+            {
+                result.ActionName.Should().Be("FirstTimeEditProfile");
+            }
             executedCommand.UserId.Should().Be(userId);
-            result.ActionName.Should().Be("EditProfile");
-            _signInManagerMock.Verify(m => m.RefreshSignInAsync(applicationUser),Times.Once);
+            _signInManagerMock.Verify(m => m.RefreshSignInAsync(applicationUser), Times.Once);
         }
 
-        [Fact]
-        public async Task ChangeProfilePicture_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task ChangeProfilePicture_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful(
+            bool isFirstTimeEditProfile)
         {
             var fileMock = new Mock<IFormFile>();
             var userId = Guid.NewGuid().ToString();
@@ -101,9 +116,11 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             var userProfile = new UserProfile(new Guid(userId));
             var userProfileViewModel = new UserProfileViewModel();
 
-            var model = new EditProfileViewModel();
-            model.ProfilePicture = fileMock.Object;
-            model.UserViewModel = userProfileViewModel;
+            var profilePictureViewModel = new ProfilePictureViewModel()
+            {
+                ProfilePicture = fileMock.Object,
+                IsFirstTimeEditProfile = isFirstTimeEditProfile
+            };
 
             var commandResult = new CommandResult("testError");
 
@@ -112,51 +129,73 @@ namespace Ubora.Web.Tests._Features.Users.Profile
 
             _commandQueryProcessorMock.Setup(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>())).Returns(commandResult);
 
-            _mapperMock.Setup(m => m.Map<UserProfileViewModel>(It.IsAny<UserProfile>())).Returns(userProfileViewModel);
+            _mapperMock.Setup(m => m.Map<UserProfileViewModel>(userProfile)).Returns(userProfileViewModel);
 
-            _commandQueryProcessorMock.Setup(p => p.FindById<UserProfile>(It.IsAny<Guid>()))
+            _commandQueryProcessorMock.Setup(p => p.FindById<UserProfile>(new Guid(userId)))
                 .Returns(userProfile);
 
             //Act
-            var result = (ViewResult)await _controller.ChangeProfilePicture(model);
+            var result = (ViewResult)await _controller.ChangeProfilePicture(profilePictureViewModel);
 
             //Assert
-            result.ViewName.Should().Be("EditProfile");
-            result.Model.As<EditProfileViewModel>().UserViewModel.Should().Be(model.UserViewModel);
-            AssertModelStateContainsError(result, commandResult.ErrorMessages.Last());
-            _userManagerMock.Verify(m => m.FindByIdAsync(It.IsAny<string>()),Times.Never);
-            _signInManagerMock.Verify(m => m.RefreshSignInAsync(It.IsAny<ApplicationUser>()),Times.Never);
+            if (isFirstTimeEditProfile == false)
+            {
+                result.ViewName.Should().Be("EditProfile");
+                result.Model.As<EditProfileViewModel>().UserViewModel.Should().Be(userProfileViewModel);
+                AssertModelStateContainsError(result, commandResult.ErrorMessages.Last());
+                _userManagerMock.Verify(m => m.FindByIdAsync(It.IsAny<string>()), Times.Never);
+                _signInManagerMock.Verify(m => m.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never);
+            }
+            else
+            {
+                result.ViewName.Should().Be("FirstTimeEditProfile");
+                result.Model.As<FirstTimeEditProfileModel>().ProfilePictureViewModel.IsFirstTimeEditProfile.Should().Be(isFirstTimeEditProfile);
+            }
         }
 
-        [Fact]
-        public async Task ChangeProfilePicture_View_With_ModelState_Errors_When_Validation_Result_Is_FailureAsync()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task ChangeProfilePicture_View_With_ModelState_Errors_When_Validation_Result_Is_FailureAsync(bool isFirstTimeEditProfile)
         {
             var fileMock = new Mock<IFormFile>();
             var userId = Guid.NewGuid().ToString();
             var userProfile = new UserProfile(new Guid(userId));
             var userViewModel = new UserProfileViewModel();
 
-            var model = new EditProfileViewModel();
-            model.UserViewModel = userViewModel;
+            var profilePictureViewModel = new ProfilePictureViewModel()
+            {
+                IsFirstTimeEditProfile = isFirstTimeEditProfile
+            };
 
             fileMock.Setup(f => f.FileName).Returns("C:\\Test\\Parent\\Parent\\image.png");
             _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
-            _mapperMock.Setup(m => m.Map<UserProfileViewModel>(It.IsAny<UserProfile>())).Returns(userViewModel);
+            _mapperMock.Setup(m => m.Map<UserProfileViewModel>(userProfile)).Returns(userViewModel);
             _commandQueryProcessorMock.Setup(p => p.FindById<UserProfile>(new Guid(userId)))
                 .Returns(userProfile);
 
             _controller.ModelState.AddModelError("isImage", "This is not an image file");
 
             //Act
-            var result = (ViewResult)await _controller.ChangeProfilePicture(model);
+            var result = (ViewResult)await _controller.ChangeProfilePicture(profilePictureViewModel);
 
             //Assert
-            result.ViewName.Should().Be("EditProfile");
-            result.Model.As<EditProfileViewModel>().UserViewModel.Should().Be(model.UserViewModel);
-            AssertModelStateContainsError(result, "This is not an image file");
-            _commandQueryProcessorMock.Verify(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>()), Times.Never);
-            _userManagerMock.Verify(m => m.FindByIdAsync(It.IsAny<string>()), Times.Never);
-            _signInManagerMock.Verify(m => m.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never);
+            if (isFirstTimeEditProfile == false)
+            {
+                result.ViewName.Should().Be("EditProfile");
+                result.Model.As<EditProfileViewModel>().UserViewModel.Should().Be(userViewModel);
+                AssertModelStateContainsError(result, "This is not an image file");
+                _commandQueryProcessorMock.Verify(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>()),
+                    Times.Never);
+                _userManagerMock.Verify(m => m.FindByIdAsync(It.IsAny<string>()), Times.Never);
+                _signInManagerMock.Verify(m => m.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never);
+            }
+            else
+            {
+                result.ViewName.Should().Be("FirstTimeEditProfile");
+                result.Model.As<FirstTimeEditProfileModel>().ProfilePictureViewModel.IsFirstTimeEditProfile.Should().Be(isFirstTimeEditProfile);
+            }
+
         }
 
         [Fact]
@@ -169,7 +208,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             _commandQueryProcessorMock.Setup(p => p.FindById<UserProfile>(userId))
                 .Returns(userprofile);
 
-            _mapperMock.Setup(m => m.Map<ProfileViewModel>(It.IsAny<UserProfile>()))
+            _mapperMock.Setup(m => m.Map<ProfileViewModel>(userprofile))
                 .Returns(expectedProfileViewModel);
 
             //Act

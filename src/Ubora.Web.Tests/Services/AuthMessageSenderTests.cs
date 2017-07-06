@@ -4,9 +4,11 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
+using Ubora.Web.Tests.Authorization;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web.Tests.Helper;
 using Xunit;
@@ -17,18 +19,15 @@ namespace Ubora.Web.Tests.Services
     {
         private readonly AuthMessageSender _sut;
         private readonly Mock<FakeUserManager> _userManagerMock;
-        private readonly Mock<IUrlHelperFactory> _urlHelperFactoryMock;
-        private readonly Mock<IActionContextAccessor> _actionContextAccessorMock;
+        private readonly Mock<IUrlHelper> _urlHelperMock;
         private readonly Mock<IEmailSender> _emailSenderMock;
 
         public AuthMessageSenderTests()
         {
             _userManagerMock = new Mock<FakeUserManager>();
-            _urlHelperFactoryMock = new Mock<IUrlHelperFactory>();
-            _actionContextAccessorMock = new Mock<IActionContextAccessor>();
+            _urlHelperMock = new Mock<IUrlHelper>();
             _emailSenderMock = new Mock<IEmailSender>();
-            _sut = new AuthMessageSender(_userManagerMock.Object, _urlHelperFactoryMock.Object,
-                _actionContextAccessorMock.Object, _emailSenderMock.Object);
+            _sut = new AuthMessageSender(_userManagerMock.Object, _urlHelperMock.Object, _emailSenderMock.Object);
         }
 
         [Fact]
@@ -40,22 +39,20 @@ namespace Ubora.Web.Tests.Services
             var resetPassword = "Password reset";
             var expectedMessage = $"<h1 style='color:#4777BB;'>Password reset</h1><p>You can reset your password by clicking <a href=\"{expectedUrl}\">this link</a>.</p>";
 
-            UrlActionContext urlActionContext = null;
-
             _userManagerMock.Setup(
                     x => x.GeneratePasswordResetTokenAsync(It.IsAny<ApplicationUser>()))
                 .ReturnsAsync(emailConfirmationToken);
 
-            _urlHelperFactoryMock.Setup(
-                    h =>
-                        h.GetUrlHelper(_actionContextAccessorMock.Object.ActionContext)
-                            .Action(It.IsAny<UrlActionContext>()))
+            _urlHelperMock
+                .Setup(h => h.ActionContext)
+                .Returns(new EmptyInitializedActionContext());
+
+            UrlActionContext urlActionContext = null;
+
+            _urlHelperMock
+                .Setup(h => h.Action(It.IsAny<UrlActionContext>()))
                 .Callback<UrlActionContext>(c => urlActionContext = c)
                 .Returns(expectedUrl);
-
-            var actionContext = _actionContextAccessorMock.Object;
-            actionContext.ActionContext.HttpContext = new DefaultHttpContext();
-            actionContext.ActionContext.HttpContext.Request.Scheme = "http";
 
             //Act
             await _sut.SendForgotPasswordMessageAsync(applicationUser);

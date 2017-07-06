@@ -11,7 +11,6 @@ using Ubora.Domain.Projects;
 using Ubora.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Ubora.Web.Data;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Ubora.Domain.Notifications.Invitation;
 using Ubora.Domain.Notifications.Join;
 
@@ -20,17 +19,14 @@ namespace Ubora.Web._Features.Projects.Members
     public class MembersController : ProjectController
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IUrlHelperFactory _urlHelperFactory;
         private readonly IAuthorizationService _authorizationService;
 
         public MembersController(
             ICommandQueryProcessor processor,
             SignInManager<ApplicationUser> signInManager,
-            IUrlHelperFactory urlHelperFactory,
             IAuthorizationService authorizationService) : base(processor)
         {
             _signInManager = signInManager;
-            _urlHelperFactory = urlHelperFactory;
             _authorizationService = authorizationService;
         }
 
@@ -97,8 +93,7 @@ namespace Ubora.Web._Features.Projects.Members
         {
             if (!_signInManager.IsSignedIn(User))
             {
-                var urlHelper = _urlHelperFactory.GetUrlHelper(ControllerContext);
-                var returnUrl = urlHelper.Action("Join", "Members", new { projectId = projectId });
+                var returnUrl = Url.Action("Join", "Members", new { projectId = projectId });
 
                 return RedirectToAction("SignInSignUp", "Account", new { returnUrl = returnUrl });
             }

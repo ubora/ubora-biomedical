@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.IO;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -19,7 +18,6 @@ using Ubora.Web.Authorization;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
-using Serilog;
 using Ubora.Web.Infrastructure.DataSeeding;
 using TwentyTwenty.Storage;
 using TwentyTwenty.Storage.Azure;

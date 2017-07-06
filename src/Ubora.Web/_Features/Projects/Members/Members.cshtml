@@ -17,7 +17,9 @@
 
     @if (Model.IsProjectMember && !Model.IsProjectLeader)
     {
-        <a class="project-control" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId"><i class="material-icons">exit_to_app</i>Leave project</a>
+        <a class="project-control" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId">
+            <i class="material-icons">exit_to_app</i>Leave project
+        </a>
     }
     <h1 class="full-width">Project members</h1>
 </section>
@@ -41,19 +43,30 @@
             </span>
 
             <span class="project-member--controls">
-                @if (Model.CanRemoveProjectMembers && !member.IsProjectLeader)
+                @{
+                    var isRemoveMemberButtonVisible = Model.CanRemoveProjectMembers && !member.IsProjectLeader;
+                }
+                @if (isRemoveMemberButtonVisible)
                 {
-                    <a class="project-member--remove" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId"><i class="material-icons">close</i></a>
+                    <a class="project-member--remove" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId">
+                        <i class="material-icons">close</i>
+                    </a>
                 }
             </span>
         </div>
     }
-    @if (User.IsInRole(ApplicationRole.Admin))
+
+    @{
+        var isAdmin = User.IsInRole(ApplicationRole.Admin);
+        var hasMentorAuthorityAlready = await AuthorizationService.AuthorizeAsync(User, Policies.CanReviewProjectWorkpackages);
+        var isAssignMeAsMentorButtonVisible = isAdmin && !hasMentorAuthorityAlready;
+    }
+    @if (isAssignMeAsMentorButtonVisible)
     {
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <form method="post">
             <div class="form-input">
-                <button type="submit" asp-action="AssignMeAsMentor" class="button secondary-button">Assing me as project mentor</button>
+                <button type="submit" asp-action="AssignMeAsMentor" class="button secondary-button">Assign me as project mentor</button>
             </div>
         </form>
     }

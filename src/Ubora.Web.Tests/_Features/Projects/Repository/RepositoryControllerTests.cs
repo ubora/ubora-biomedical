@@ -37,15 +37,15 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         public void Repository_Returns_View()
         {
             var projectFile1 = new ProjectFile()
-                .SetPropertyValue(nameof(ProjectFile.ProjectId), ProjectId)
-                .SetPropertyValue(nameof(ProjectFile.Location), new BlobLocation("", ""));
+                .Set(x => x.ProjectId, ProjectId)
+                .Set(x => x.Location, new BlobLocation("", ""));
 
             var projectFile2 = new ProjectFile()
-                .SetPropertyValue(nameof(ProjectFile.ProjectId), ProjectId)
-                .SetPropertyValue(nameof(ProjectFile.Location), new BlobLocation("", ""));
+                .Set(x => x.ProjectId, ProjectId)
+                .Set(x => x.Location, new BlobLocation("", ""));
 
             var otherProjetFile = new ProjectFile()
-                .SetPropertyValue(nameof(ProjectFile.Location), new BlobLocation("", ""));
+                .Set(x => x.Location, new BlobLocation("", ""));
 
             var allProjectFiles = new List<ProjectFile>()
             {
@@ -172,8 +172,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
 
         private void CreateTestProject()
         {
-            var expectedProject = new Project();
-            expectedProject.SetPropertyValue(nameof(Project.Title), "Title");
+            var expectedProject = new Project().Set(x => x.Title, "Title");
             _commandQueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(expectedProject);
         }

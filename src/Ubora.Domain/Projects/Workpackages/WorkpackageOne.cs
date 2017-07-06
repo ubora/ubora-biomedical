@@ -8,7 +8,7 @@ namespace Ubora.Domain.Projects.Workpackages
     public class WorkpackageOne : Workpackage<WorkpackageOne>
     {
         public bool IsLocked => this.DoesSatisfy(new IsWorkpackageOneLocked());
-
+        
         private void Apply(ProjectCreatedEvent e)
         {
             ProjectId = e.Id;

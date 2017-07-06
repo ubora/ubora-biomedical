@@ -54,14 +54,15 @@ namespace Ubora.Web._Features.Users.Profile
             var userViewModel = _mapper.Map<UserProfileViewModel>(userProfile);
             var editProfileViewModel = new EditProfileViewModel
             {
-                UserViewModel = userViewModel
+                UserViewModel = userViewModel,
+                ProfilePictureViewModel = new ProfilePictureViewModel()
             };
 
             return View("EditProfile", editProfileViewModel);
         }
 
         [HttpPost]
-        public IActionResult EditProfile(UserProfileViewModel model)
+        public async Task<IActionResult> EditProfile(UserProfileViewModel model)
         {
             var userId = _userManager.GetUserId(User);
 
@@ -84,39 +85,10 @@ namespace Ubora.Web._Features.Users.Profile
             };
             ExecuteUserCommand(command);
 
-            return RedirectToAction("Index", "Manage");
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> ChangeProfilePicture(EditProfileViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return EditProfile();
-            }
-
-            var userId = _userManager.GetUserId(User);
-
-            var filePath = model.ProfilePicture.FileName.Replace(@"\\", "/");
-            var fileName = Path.GetFileName(filePath);
-
-            ExecuteUserCommand(new ChangeUserProfilePictureCommand
-            {
-                UserId = new Guid(userId),
-                Stream = model.ProfilePicture.OpenReadStream(),
-                FileName = fileName
-            });
-
-            if (!ModelState.IsValid)
-            {
-                return EditProfile();
-            }
-
             var user = await _userManager.FindByIdAsync(userId);
             await _signInManager.RefreshSignInAsync(user);
 
-            return RedirectToAction("EditProfile");
+            return RedirectToAction("Index", "Manage");
         }
 
         // TODO(Kaspar Kallas): Move to more specific controller (1/2)
@@ -124,12 +96,20 @@ namespace Ubora.Web._Features.Users.Profile
         {
             ViewData["ReturnUrl"] = returnUrl;
 
-            return View();
+            var firstTimeEditProfileModel = new FirstTimeEditProfileModel
+            {
+                ProfilePictureViewModel = new ProfilePictureViewModel
+                {
+                    IsFirstTimeEditProfile = true
+                }
+            };
+
+            return View(nameof(FirstTimeEditProfile), firstTimeEditProfileModel);
         }
 
         // TODO(Kaspar Kallas): Move to more specific controller (2/2)
         [HttpPost]
-        public IActionResult FirstTimeEditProfile(FirstTimeEditProfileModel model, string returnUrl = null)
+        public IActionResult FirstTimeEditProfile(FirstTimeUserProfileViewModel model, string returnUrl = null)
         {
             if (!ModelState.IsValid)
             {
@@ -155,6 +135,38 @@ namespace Ubora.Web._Features.Users.Profile
             }
 
             return RedirectToLocal(returnUrl);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ChangeProfilePicture(ProfilePictureViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return model.IsFirstTimeEditProfile ? FirstTimeEditProfile() : EditProfile();
+            }
+
+            var userId = _userManager.GetUserId(User);
+
+            var filePath = model.ProfilePicture.FileName.Replace(@"\", "/");
+            var fileName = Path.GetFileName(filePath);
+
+            ExecuteUserCommand(new ChangeUserProfilePictureCommand
+            {
+                UserId = new Guid(userId),
+                Stream = model.ProfilePicture.OpenReadStream(),
+                FileName = fileName
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return model.IsFirstTimeEditProfile ? FirstTimeEditProfile() : EditProfile();
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            await _signInManager.RefreshSignInAsync(user);
+
+            return RedirectToAction(model.IsFirstTimeEditProfile ? nameof(FirstTimeEditProfile) : nameof(EditProfile));
         }
     }
 }

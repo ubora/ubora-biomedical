@@ -16,7 +16,7 @@ namespace Ubora.Web._Features.Projects._Shared
                 case ProjectMenuOption.Workpackages:
                     WorkpackagesActivityCssClass = ActiveMenuOptionCssClass;
                     break;
-                case ProjectMenuOption.Tasks:
+                case ProjectMenuOption.Assignments:
                     TasksActivityCssClass = ActiveMenuOptionCssClass;
                     break;
                 case ProjectMenuOption.News:
