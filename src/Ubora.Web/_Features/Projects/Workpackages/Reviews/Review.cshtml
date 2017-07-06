@@ -15,13 +15,23 @@
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <section class="narrow-width">
-            <form action="@Model.SubmitForReviewUrl" method="post" asp-antiforgery="true">
-                <div class="form-input">
-                    <button type="submit" class="button primary-button full-width">Submit project for review</button>
-                </div>
-            </form>
-        </section>
+        @if (Model.SubmitForReviewButton.IsVisible)
+        {
+            <section class="narrow-width">
+                <form action="@Model.SubmitForReviewUrl" method="post" asp-antiforgery="true">
+                    <div class="form-input">
+                        <button type="submit" class="button primary-button full-width">Submit project for review</button>
+                    </div>
+                </form>
+            </section>
+        }
+        else if (Model.SubmitForReviewButton.IsHiddenWithMessage)
+        {
+            @* TODO(from Kaspar Kallas to Risto Kitsing) *@
+            <section class="full-width">
+                <p><i>@Model.SubmitForReviewButton.HideReasonMessage</i></p>
+            </section>
+        }
 
         @if (Model.Reviews.Any())
         {
@@ -49,9 +59,14 @@
                     </table>
                     <br>
                 }
-                @if (await AuthorizationService.AuthorizeAsync(User, Policies.CanReviewProjectWorkpackages))
-                {
-                    <a href="@Model.ReviewDecisionUrl" class="button primary-button small-button">Write a review</a>
+
+                @{
+
+                    var isWriteReviewButtonVisible = await AuthorizationService.AuthorizeAsync(User, Policies.CanReviewProjectWorkpackages);
+                    if (isWriteReviewButtonVisible)
+                    {
+                        <a href="@Model.ReviewDecisionUrl" class="button primary-button small-button">Write a review</a>
+                    }
                 }
             </section>
         }
