@@ -1,5 +1,4 @@
-﻿@using Ubora.Web._Features.ProjectList
-@model Ubora.Web._Features.ProjectList.ProjectListViewModel
+﻿@model Ubora.Web._Features.ProjectList.ProjectListViewModel
 
 @if (Model.Projects.Any())
 {
@@ -8,10 +7,21 @@
     foreach (var project in Model.Projects)
     {
         <a href="@Url.Action("Dashboard", "Dashboard", new { projectId = project.Id })" class="card project_card">
-			<img class="project_card_banner" src="//placehold.it/400x150">
-			<div class="project_card_container">
-				<h4>@project.Title</h4>
-			</div>
-		</a>
+            <img class="project_card_banner" src="//placehold.it/400x150">
+            @if (project.IsInDraft)
+            {
+                <span class="project_status">Draft</span>
+            }
+            <div class="project_card_container">
+                <h4>@project.Title</h4>
+            </div>
+        </a>
     }
+}
+else if (Model.ShowDefaultMessage)
+{
+    <div class="center-element">
+        <h3>You have no projects.</h3>
+        <p>Either <a asp-controller="ProjectCreation" asp-action="Create">create a new one</a> or find projects to <a asp-controller="Home" asp-action="Index" asp-area="">join</a>.</p>
+    </div>
 }

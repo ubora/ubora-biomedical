@@ -12,7 +12,6 @@ using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Home;
-using Ubora.Web._Features.Users.Manage;
 using Ubora.Web._Features.Users.Profile;
 
 namespace Ubora.Web._Features.Users.Account
@@ -23,7 +22,7 @@ namespace Ubora.Web._Features.Users.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
-        private readonly ISmsSender _smsSender;
+        private readonly IAuthMessageSender _authMessageSender;
         private readonly ICommandQueryProcessor _processor;
         private readonly ILogger _logger;
         private readonly string _externalCookieScheme;
@@ -33,16 +32,15 @@ namespace Ubora.Web._Features.Users.Account
             SignInManager<ApplicationUser> signInManager,
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
-            ISmsSender smsSender,
             ILoggerFactory loggerFactory,
-            ICommandQueryProcessor processor) : base(processor)
+            ICommandQueryProcessor processor, IAuthMessageSender authMessageSender) : base(processor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _emailSender = emailSender;
-            _smsSender = smsSender;
             _processor = processor;
+            _authMessageSender = authMessageSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
 
@@ -60,8 +58,9 @@ namespace Ubora.Web._Features.Users.Account
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult SignInSignUp()
+        public IActionResult SignInSignUp(string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
@@ -154,8 +153,8 @@ namespace Ubora.Web._Features.Users.Account
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
 
                     return RedirectToAction(
-                        actionName: nameof(ProfileController.FirstTimeEditProfile), 
-                        controllerName: nameof(ProfileController).Replace("Controller", ""), 
+                        actionName: nameof(ProfileController.FirstTimeEditProfile),
+                        controllerName: nameof(ProfileController).Replace("Controller", ""),
                         routeValues: new { returnUrl });
                 }
                 AddErrors(result);
@@ -288,20 +287,11 @@ namespace Ubora.Web._Features.Users.Account
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
-                {
-                    // Don't reveal that the user does not exist or is not confirmed
+                var user = await _userManager.FindByNameAsync(model.Email);
+                if (user == null)
                     return View("ForgotPasswordConfirmation");
-                }
-
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
-                // Send an email with this link
-                //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                //var callbackUrl = Url.Action(nameof(ResetPassword), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                //   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
-                //return View("ForgotPasswordConfirmation");
+                await _authMessageSender.SendForgotPasswordMessageAsync(user);
+                return View("ForgotPasswordConfirmation");
             }
 
             // If we got this far, something failed, redisplay form
@@ -394,10 +384,6 @@ namespace Ubora.Web._Features.Users.Account
             if (model.SelectedProvider == "Email")
             {
                 await _emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
-            }
-            else if (model.SelectedProvider == "Phone")
-            {
-                await _smsSender.SendSmsAsync(await _userManager.GetPhoneNumberAsync(user), message);
             }
 
             return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });

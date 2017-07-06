@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
+using System.IO;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +20,11 @@ using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
 using Serilog;
+using Ubora.Web.Infrastructure.DataSeeding;
+using TwentyTwenty.Storage;
+using TwentyTwenty.Storage.Azure;
+using TwentyTwenty.Storage.Local;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Ubora.Web
 {
@@ -28,11 +36,12 @@ namespace Ubora.Web
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-         
+
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
                 builder.AddUserSecrets<Startup>();
+                builder.AddApplicationInsightsSettings(developerMode: true);
             }
 
             builder.AddEnvironmentVariables();
@@ -44,6 +53,8 @@ namespace Ubora.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddApplicationInsightsTelemetry(Configuration);
+
             var connectionString = Configuration["ConnectionStrings:ApplicationDbConnection"];
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -52,6 +63,11 @@ namespace Ubora.Web
             services
                 .AddMvc()
                 .AddUboraFeatureFolders(new FeatureFolderOptions { FeatureFolderName = "_Features" });
+            services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
+
+            services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
+
+            var useSpecifiedPickupDirectory = Convert.ToBoolean(Configuration["SmtpSettings:UseSpecifiedPickupDirectory"]);
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
                 {
@@ -61,6 +77,7 @@ namespace Ubora.Web
                 .AddSignInManager<ApplicationSignInManager>()
                 .AddClaimsPrincipalFactory<ApplicationClaimsPrincipalFactory>()
                 .AddEntityFrameworkStores<ApplicationDbContext, Guid>()
+                .AddRoleManager<ApplicationRoleManager>()
                 .AddDefaultTokenProviders();
 
             services.AddAutoMapper();
@@ -68,12 +85,32 @@ namespace Ubora.Web
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddScoped<Seeder>();
+            services.AddSingleton<ApplicationDataSeeder>();
+            services.AddSingleton<AdminSeeder>();
+            services.Configure<AdminSeeder.Options>(Configuration.GetSection("InitialAdminOptions"));
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
 
             var autofacContainerBuilder = new ContainerBuilder();
 
-            var domainModule = new DomainAutofacModule(connectionString);
-            var webModule = new WebAutofacModule();
+            IStorageProvider storageProvider;
+            var isLocalStorage = Configuration.GetValue<bool?>("Storage:IsLocal") ?? false;
+            if (isLocalStorage)
+            {
+                var basePath = Path.GetFullPath("wwwroot/images/storages");
+                storageProvider = new FixedLocalStorageProvider(basePath, new LocalStorageProvider(basePath));
+            }
+            else
+            {
+                var options = new AzureProviderOptions
+                {
+                    ConnectionString = Configuration.GetConnectionString("AzureBlobConnectionString")
+                };
+                storageProvider = new AzureStorageProvider(options);
+            }
+
+            var domainModule = new DomainAutofacModule(connectionString, storageProvider);
+            var webModule = new WebAutofacModule(useSpecifiedPickupDirectory);
             autofacContainerBuilder.RegisterModule(domainModule);
             autofacContainerBuilder.RegisterModule(webModule);
 
@@ -86,7 +123,6 @@ namespace Ubora.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            ConfigureLogging(loggerFactory);
 
             if (env.IsDevelopment())
             {
@@ -120,10 +156,12 @@ namespace Ubora.Web
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+                var serviceProvider = serviceScope.ServiceProvider;
+                serviceProvider.GetService<ApplicationDbContext>().Database.Migrate();
 
-                var seeder = serviceScope.ServiceProvider.GetService<Seeder>();
-                seeder.SeedIfNecessary();
+                var seeder = serviceProvider.GetService<ApplicationDataSeeder>();
+                seeder.SeedIfNecessary()
+                    .GetAwaiter().GetResult();
             }
 
             var logger = loggerFactory.CreateLogger<Startup>();
@@ -131,17 +169,6 @@ namespace Ubora.Web
             logger.LogError("Application started!");
         }
 
-        private void ConfigureLogging(ILoggerFactory loggerFactory)
-        {
-            loggerFactory.AddSerilog();
-
-            if (Configuration["AWS_ACCESS_KEY_ID"] != null || Configuration["AWS_SECRET_ACCESS_KEY"] != null)
-            {
-                loggerFactory.AddAWSProvider(Configuration.GetAWSLoggingConfigSection());
-            }
-
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-        }
+   
     }
 }

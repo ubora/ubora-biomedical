@@ -26,7 +26,8 @@ namespace Ubora.Web.Authorization
         // Scoped services need to use service location because all authorization-handlers are singletons.
         private IServiceProvider ServiceProvider => HttpContext.RequestServices;
 
-        protected IQueryProcessor QueryProcessor => ServiceProvider.GetService<IQueryProcessor>();
+        // Virtual for testing
+        protected virtual IQueryProcessor QueryProcessor => ServiceProvider.GetService<IQueryProcessor>();
 
         protected Project Project { get; private set; }
 
@@ -34,7 +35,7 @@ namespace Ubora.Web.Authorization
         {
             Project = GetProject();
 
-            if (Project == null)
+            if (Project == null || !context.User.Identity.IsAuthenticated)
             {
                 // Don't handle requirements when project is not found.
                 return;

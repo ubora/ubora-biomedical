@@ -4,8 +4,7 @@
 	font-size: 150%;
 	height: 3em;
 	justify-content: space-between;
-	margin:.5em 1em;
-	padding: 0 2em;
+	padding: .5em 3em;
 }
 
 .header-logo {
@@ -16,23 +15,23 @@
 	color: var(--primary-color);
 }
 
+.header-controls {
+    display: flex;
+    align-items: baseline;
+}
+
+.header-controls--search {
+    margin:0 1em 0 0;
+}
+
+.header-controls--menu:hover {
+    cursor: pointer;
+}
+
 .header-element {
 	flex-grow: 1;
 	display: flex;
 	justify-content: center;
-}
-
-.menu-button {
-	background-color: transparent;
-	border:0;
-	color:var(--primary-color);
-	font-family: inherit;
-	font-size: inherit;
-	padding:0;
-}
-
-.menu-button > .material-icons {
-	padding:0;
 }
 
 .side-menu {
@@ -40,8 +39,9 @@
 	display: none;
 	font-size: 150%;
 	height: 100%;
-	padding:1.5em;
+	padding:.5em 1.5em 1em 1.5em;
 	position: fixed;
+    max-width: 300px;
 	right:0;
 	top:0;
 	z-index: 99;
@@ -51,7 +51,7 @@
 	align-items: center;
 	display:flex;
 	justify-content: center;
-	margin:0 2em 2em 0;
+	margin:0 2em 1em 0;
 }
 
 .menu-profile-image {
@@ -71,12 +71,12 @@
 
 .menu-link {
 	display: block;
-	margin:1em 0;
+    padding: .2em 0;
 }
 
 
 .logout-form {
-	margin:3em 0 0 0;
+	margin:.5em 0 0 0;
 }
 
 .logout-button {
@@ -87,14 +87,18 @@
 @media screen and (max-width: 50em) {
 	.header {
 		font-size: 120%;
-		padding:0;
+		padding:.5em;
 	}
 
-	.menu-button {
-		font-size:150%;
-	}
+    .header-controls--action {
+        font-size: 120%;
+    }
 
-	.menu-button-description {
-		display:none;
-	}
+    .header-controls--description {
+        display: none;
+    }
+
+    .header-controls--search {
+        margin: 0 .5em 0 0;
+    }
 }

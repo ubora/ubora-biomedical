@@ -1,29 +1,23 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
+using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Web._Features.Users.Manage
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : UboraController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly string _externalCookieScheme;
         private readonly IEmailSender _emailSender;
-        private readonly ISmsSender _smsSender;
-        private readonly IQueryProcessor _queryProcessor;
-        private readonly ICommandProcessor _commandProcessor;
         private readonly ILogger _logger;
 
         public ManageController(
@@ -31,18 +25,13 @@ namespace Ubora.Web._Features.Users.Manage
           SignInManager<ApplicationUser> signInManager,
           IOptions<IdentityCookieOptions> identityCookieOptions,
           IEmailSender emailSender,
-          ISmsSender smsSender,
           ILoggerFactory loggerFactory,
-          IQueryProcessor queryProcessor,
-          ICommandProcessor commandProcessor)
+          ICommandQueryProcessor processor) : base(processor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _emailSender = emailSender;
-            _smsSender = smsSender;
-            _queryProcessor = queryProcessor;
-            _commandProcessor = commandProcessor;
             _logger = loggerFactory.CreateLogger<ManageController>();
         }
 
@@ -64,69 +53,15 @@ namespace Ubora.Web._Features.Users.Manage
                 return View("Error");
             }
 
-            var userProfile = _queryProcessor.FindById<UserProfile>(user.Id);
-
             var model = new IndexViewModel
             {
                 HasPassword = await _userManager.HasPasswordAsync(user),
                 PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
                 Logins = await _userManager.GetLoginsAsync(user),
-                BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user),
-                UserProfile = new UserProfileViewModel
-                {
-                    FirstName = userProfile.FirstName,
-                    LastName = userProfile.LastName,
-                }
+                BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
             };
             return View(model);
-        }
-
-        public IActionResult EditProfile()
-        {
-            var userId = _userManager.GetUserId(User);
-            var userProfile = _queryProcessor.FindById<UserProfile>(new Guid(userId));
-
-            var model = new UserProfileViewModel
-            {
-                FirstName = userProfile.FirstName,
-                LastName = userProfile.LastName,
-                University = userProfile.University,
-                Degree = userProfile.Degree,
-                Field = userProfile.Field,
-                Biography = userProfile.Biography,
-                Skills = userProfile.Skills,
-                Role = userProfile.Role
-            };
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public IActionResult EditProfile(UserProfileViewModel model)
-        {
-            var userId = _userManager.GetUserId(User);
-
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var command = new EditUserProfileCommand
-            {
-                UserId = new Guid(userId),
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                University = model.University,
-                Degree = model.Degree,
-                Field = model.Field,
-                Biography = model.Biography,
-                Skills = model.Skills,
-                Role = model.Role
-            };
-            _commandProcessor.Execute(command);
-
-            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -150,25 +85,6 @@ namespace Ubora.Web._Features.Users.Manage
         public IActionResult AddPhoneNumber()
         {
             return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            // Generate the token and send it
-            var user = await GetCurrentUserAsync();
-            if (user == null)
-            {
-                return View("Error");
-            }
-            var code = await _userManager.GenerateChangePhoneNumberTokenAsync(user, model.PhoneNumber);
-            await _smsSender.SendSmsAsync(model.PhoneNumber, "Your security code is: " + code);
-            return RedirectToAction(nameof(VerifyPhoneNumber), new { PhoneNumber = model.PhoneNumber });
         }
 
         [HttpPost]

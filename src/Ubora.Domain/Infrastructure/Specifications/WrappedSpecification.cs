@@ -5,8 +5,8 @@ namespace Ubora.Domain.Infrastructure.Specifications
 {
     public abstract class WrappedSpecification<TEntity> : Specification<TEntity>
     {
-        public abstract Specification<TEntity> Specification { get; }
+        internal abstract Specification<TEntity> WrapSpecifications();
 
-        internal sealed override Expression<Func<TEntity, bool>> ToExpression() => Specification.ToExpression();
+        internal sealed override Expression<Func<TEntity, bool>> ToExpression() => WrapSpecifications().ToExpression();
     }
 }

@@ -1,0 +1,11 @@
+.list--lower-roman {
+    list-style-type: lower-roman;
+}
+
+.list--bulletin {
+    list-style-type: initial;
+}
+
+.list--none {
+    list-style-type: none;
+}

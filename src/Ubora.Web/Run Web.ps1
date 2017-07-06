@@ -6,7 +6,7 @@ if(!$isPostgresRunning) {
 }
 
 $Env:ConnectionStrings__ApplicationDbConnection = "server=localhost;Port=5400;userid=postgres;password=ubora;database=postgres"
-
+$Env:ASPNETCORE_ENVIRONMENT = "Development";
 
 Write-Host "Restoring packages..."
 dotnet restore
@@ -15,4 +15,4 @@ Write-Host "Building project..."
 dotnet build
 
 Write-Host "Starting project..."
-dotnet watch run
+dotnet watch run --http://0.0.0.0:5000

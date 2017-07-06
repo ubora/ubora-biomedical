@@ -1,0 +1,24 @@
+@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Workpackages.Steps.StepViewModel
+
+@{
+    ViewData["Title"] = "Workpackages";
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
+
+<section class="project_view full-width">
+    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+
+    <section class="medium-width step-view">
+        <div class="step_header">
+            <h1 class="step_title">@Model.Title</h1>
+            <a class="step_edit" href="@Model.EditStepUrl">
+                <i class="material-icons">mode_edit</i>&nbsp;Edit
+            </a>
+        </div>
+
+        <div class="text-markdown">@Model.Content</div>
+
+    </section>
+</section>

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Moq;
 using Ubora.Web.Authorization;
+using Ubora.Web.Tests.Fakes;
 using Xunit;
 
 namespace Ubora.Web.Tests.Authorization
@@ -36,7 +37,7 @@ namespace Ubora.Web.Tests.Authorization
 
             var handlerContext = new AuthorizationHandlerContext(
                 requirements: new[] { new ProjectControllerRequirement() },
-                user: ClaimsPrincipal.Current,
+                user: null,
                 resource: filterContext);
 
             // Act
@@ -63,9 +64,10 @@ namespace Ubora.Web.Tests.Authorization
                 actionContext: actionContext,
                 filters: new List<IFilterMetadata>());
 
+            var currentUser = FakeClaimsPrincipalFactory.CreateAnonymousUser();
             var handlerContext = new AuthorizationHandlerContext(
                 requirements: new[] { new ProjectControllerRequirement() },
-                user: ClaimsPrincipal.Current,
+                user: currentUser,
                 resource: filterContext);
 
             var authorizationServiceMock = new Mock<IAuthorizationService>();
@@ -77,7 +79,7 @@ namespace Ubora.Web.Tests.Authorization
             IAuthorizationRequirement[] authorizedRequirements = null;
 
             authorizationServiceMock
-                .Setup(x => x.AuthorizeAsync(ClaimsPrincipal.Current, null, It.IsAny<IEnumerable<IAuthorizationRequirement>>()))
+                .Setup(x => x.AuthorizeAsync(currentUser, null, It.IsAny<IEnumerable<IAuthorizationRequirement>>()))
                 .Callback<ClaimsPrincipal, object, IEnumerable<IAuthorizationRequirement>>(
                     (user, resource, requirements) => authorizedRequirements = requirements.ToArray())
                 .ReturnsAsync(isAuthorized);

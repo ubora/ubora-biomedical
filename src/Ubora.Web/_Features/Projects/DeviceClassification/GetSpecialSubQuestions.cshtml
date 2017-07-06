@@ -6,18 +6,29 @@
     ViewData["Title"] = "Device classification";
 }
 
-<link rel="stylesheet" href="/css/questionnaire.css">
 <section class="medium-width">
     <h1>Please select an option:</h1>
-    <ul class="questionnaire_list">
-        @foreach (var question in Model.Questions)
-        {
-            <li class="questionnaire_item">
-                @Html.Partial("SpecialAnswerPartial", new SpecialAnswerViewModel { QuestionText = question.Text, MainQuestionId = Model.MainQuestionId, NextQuestionId = question.Id })
-            </li>
-        }
-        <li class="questionnaire_item">
-            <a class="questionnaire_question" asp-controller="DeviceClassification" asp-action="NextSpecialMainQuestion" asp-route-currentSpecialMainQuestionId="@Model.MainQuestionId">NOT APPLICABLE</a>
-        </li>
-    </ul>
+
+    @foreach (var question in Model.Questions)
+    {
+        <div class="questionnaire-question">
+            @Html.Partial("SpecialAnswerPartial", new SpecialAnswerViewModel { QuestionText = question.Text, MainQuestionId = Model.MainQuestionId, NextQuestionId = question.Id })
+        </div>
+    }
+
+    <div class="questionnaire-question">
+        <a class="button secondary-button small-button full-width" asp-controller="DeviceClassification" asp-action="NextSpecialMainQuestion" asp-route-currentSpecialMainQuestionId="@Model.MainQuestionId">Not applicable</a>
+    </div>
+    @if (Model.Notes.Any())
+    {
+        <h3>Notes</h3>
+        <ul>
+            @foreach (var note in Model.Notes)
+            {
+                <li>
+                    <p>@note</p>
+                </li>
+            }
+        </ul>
+    }
 </section>

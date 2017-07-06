@@ -5,6 +5,10 @@ namespace Ubora.Domain.Users
 {
     public class UserProfile
     {
+        protected UserProfile()
+        {
+        }
+
         public UserProfile(Guid userId)
         {
             UserId = userId;
@@ -25,6 +29,7 @@ namespace Ubora.Domain.Users
         public string Institution { get; set; }
         public string Skills { get; set; }
         public string Role { get; set; }
+        public string ProfilePictureBlobName { get; set; }
 
         public string FullName => $"{FirstName} {LastName}";
     }

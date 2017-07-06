@@ -6,10 +6,12 @@ namespace Ubora.Web.Tests.Infrastructure
 {
     public class AutoMapperTests
     {
-        [Fact]
-        public void Configuration_Is_Valid()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void Configuration_Is_Valid(bool useSpecifiedPickupDirectory)
         {
-            var domainAutofacModule = new WebAutofacModule();
+            var domainAutofacModule = new WebAutofacModule(useSpecifiedPickupDirectory);
             Mapper.Initialize(cfg => domainAutofacModule.AddAutoMapperProfiles(cfg));
 
             // Act

@@ -83,6 +83,7 @@ textarea:disabled {
 /*Anchors*/
 a {
 	background-color: transparent;
+    box-sizing: border-box;
 	color:var(--primary-color);
 	display: inline-block;
 	padding: inherit;
@@ -106,6 +107,17 @@ a:hover .material-icons {
 		background-color .3s ease;
 }
 
+.project_sidemenu_link--disabled,
+.project_sidemenu_link--disabled:active,
+.project_sidemenu_link--disabled:focus {
+    color: var(--primary-shade);
+    text-decoration: line-through;
+}
+
+.project_sidemenu_link--disabled:hover {
+    color: var(--primary-shade);
+    cursor: not-allowed;
+}
 
 /*Buttons*/
 .button {
@@ -119,7 +131,9 @@ a:hover .material-icons {
 	min-width: 10em;
 	padding:1em .5em;
 	text-align: center;
-	transition: all .3s ease;
+    transition:
+		color .3s ease,
+		background-color .3s ease;
 }
 
 .button:active,
@@ -137,7 +151,9 @@ a:hover .material-icons {
 .secondary-button {
 	border-color: var(--primary-color);
 	color: var(--primary-color);
-	transition: all .3s ease;
+    transition:
+		color .3s ease,
+		background-color .3s ease;
 }
 
 .primary-button:active,

@@ -1,25 +1,22 @@
 ﻿@using Ubora.Web._Features.Notifications
 @model HistoryViewModel
 
+@{
+    ViewData["Title"] = "Notification history";
+}
+
 <section class="medium-width">
-    <a asp-controller="Notifications" asp-action="Index">Pending invitations</a>
+    <a asp-controller="Notifications" asp-action="Index"><i class="material-icons">notifications</i>Pending invitations</a>
     <h1>History</h1>
-    @foreach (var invitation in Model.Invitations)
+    @foreach (var notification in Model.Notifications)
     {
-        <div class="message">
-            <div class="message-container">
-                <p class="message-author-preview">You were asked to join project "@invitation.ProjectTitle".
-                    You
-                    @if (invitation.WasAccepted)
-                    {
-                        <b>Accepted</b>
-                    }
-                    else
-                    {
-                        <b>Declined</b>
-                    }
-                </p>
-            </div>
-        </div>
+        if (notification is HistoryInvitationViewModel)
+        {
+            @Html.Partial("~/_Features/Notifications/Partials/HistoryInvitationPartial.cshtml", (HistoryInvitationViewModel)notification);
+        }
+        else if (notification is HistoryRequestViewModel)
+        {
+            @Html.Partial("~/_Features/Notifications/Partials/HistoryRequestPartial.cshtml", (HistoryRequestViewModel)notification);
+        }
     }
 </section>

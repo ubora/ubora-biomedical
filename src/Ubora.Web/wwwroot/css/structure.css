@@ -39,10 +39,9 @@ section {
 	text-align: center;
 }
 
-.markdown-like {
+.text-markdown {
     font-family: inherit;
-	margin:1em 0;
-	padding:.5em;
+	margin:1em;
 	text-align: justify;
 }
 
@@ -52,4 +51,25 @@ section {
 	border-radius: 5px;
 	max-width: 22em;
 	margin:1em;
+}
+
+.danger-text {
+    text-align: center;
+}
+
+.danger-text--header {
+    color: var(--quaternary-color);
+}
+
+.form-input-options {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-input-options > .form-input:last-of-type {
+    margin-right: 0;
+}
+
+.form-input-options > .form-input {
+    margin-right: 1em;
 }

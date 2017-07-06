@@ -1,0 +1,15 @@
+﻿@using Ubora.Web._Features.Notifications
+@model HistoryRequestViewModel
+
+<p>
+    @Html.ActionLink(Model.UserFullName, "View", "Profile", new { userId = Model.UserId }) asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.&nbsp;
+    You
+    @if (Model.WasAccepted)
+    {
+        <b>accepted</b><span>&#46;</span>
+    }
+    else
+    {
+        <b>declined</b><span>&#46;</span>
+    }
+</p>
