@@ -88,9 +88,12 @@ namespace Ubora.Web._Features.Projects.Dashboard
 
             var imageStream = model.Image.OpenReadStream();
 
-            await _imageResizer.SaveAsJpegAsync("projects", $"{ProjectId}/project-image/original.jpg", imageStream);
-            await _imageResizer.CreateResizedImageAndSaveAsJpegAsync("projects", $"{ProjectId}/project-image/400x150.jpg", imageStream, 400, 150);
-            await _imageResizer.CreateResizedImageAndSaveAsJpegAsync("projects", $"{ProjectId}/project-image/1500x300.jpg", imageStream, 1500, 300);
+            var containerName = BlobLocation.ContainerNames.Projects;
+            var blobLocation = $"{ProjectId}/project-image/";
+
+            await _imageResizer.SaveAsJpegAsync(new BlobLocation(containerName, blobLocation + "original.jpg"), imageStream);
+            await _imageResizer.CreateResizedImageAndSaveAsJpegAsync(new BlobLocation(containerName, blobLocation + "400x150.jpg"), imageStream, 400, 150);
+            await _imageResizer.CreateResizedImageAndSaveAsJpegAsync(new BlobLocation(containerName, blobLocation + "1500x300.jpg"), imageStream, 1500, 300);
 
             ExecuteUserProjectCommand(new UpdateProjectImageCommand
             {

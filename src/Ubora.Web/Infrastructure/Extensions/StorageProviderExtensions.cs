@@ -30,8 +30,11 @@ namespace Ubora.Web.Infrastructure.Extensions
                 return $"//placehold.it/{width}x{height}";
             }
 
-            return storageProvider
-                    .GetBlobUrl($"projects/{project.Id}/project-image", $"{width}x{height}.jpg");
+            var blobUrl = storageProvider.GetBlobUrl($"projects/{project.Id}/project-image", $"{width}x{height}.jpg");
+
+            blobUrl = $"{blobUrl}?{project.ProjectImageLastUpdated.Value.ToString("ddMMyyyyhhss")}";
+
+            return blobUrl;
         }
 
         public static async Task<bool> FileExistsAsync(this IStorageProvider storageProvider, string containerName, string blobName)

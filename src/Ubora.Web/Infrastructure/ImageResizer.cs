@@ -1,11 +1,9 @@
 ﻿using ImageSharp;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.FileProviders;
 using SixLabors.Primitives;
-using System;
 using System.IO;
 using System.Threading.Tasks;
 using TwentyTwenty.Storage;
+using Ubora.Domain.Infrastructure;
 using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web.Infrastructure
@@ -13,18 +11,14 @@ namespace Ubora.Web.Infrastructure
     public class ImageResizer
     {
         private readonly IStorageProvider _storageProvider;
-        private readonly IFileProvider _fileProvider;
 
-        public ImageResizer(
-            IStorageProvider storageProvider,
-            IHostingEnvironment env)
+        public ImageResizer(IStorageProvider storageProvider)
         {
             _storageProvider = storageProvider;
-            _fileProvider = env.WebRootFileProvider;
         }
 
         // https://andrewlock.net/using-imagesharp-to-resize-images-in-asp-net-core-part-2/
-        public async Task CreateResizedImageAndSaveAsJpegAsync(string containerName, string blobName, Stream stream, int width, int height)
+        public async Task CreateResizedImageAndSaveAsJpegAsync(BlobLocation blobLocation, Stream stream, int width, int height)
         {
             stream.Seek(0, SeekOrigin.Begin);
 
@@ -40,7 +34,7 @@ namespace Ubora.Web.Infrastructure
                 }
                 outputStream.Seek(0, SeekOrigin.Begin);
 
-                await SaveStreamToBlobAsync(containerName, blobName, outputStream);
+                await SaveStreamToBlobAsync(blobLocation, outputStream);
             }
         }
 
@@ -56,14 +50,19 @@ namespace Ubora.Web.Infrastructure
 
                 return new Rectangle(0, yPosition, imageWidth, newHeight);
             }
+            else if (imageRatio > ratio)
+            {
 
-            var newWidth = (imageHeight * width) / height;
-            var xPosition = (imageWidth / 2) - (newWidth / 2);
+                var newWidth = (imageHeight * width) / height;
+                var xPosition = (imageWidth / 2) - (newWidth / 2);
 
-            return new Rectangle(xPosition, 0, newWidth, imageHeight);
+                return new Rectangle(xPosition, 0, newWidth, imageHeight);
+            }
+
+            return new Rectangle(0, 0, width, height);
         }
 
-        public async Task SaveAsJpegAsync(string containerName, string blobName, Stream stream)
+        public async Task SaveAsJpegAsync(BlobLocation blobLocation, Stream stream)
         {
             stream.Seek(0, SeekOrigin.Begin);
 
@@ -76,25 +75,25 @@ namespace Ubora.Web.Infrastructure
 
                 outputStream.Seek(0, SeekOrigin.Begin);
 
-                await SaveStreamToBlobAsync(containerName, blobName, outputStream);
+                await SaveStreamToBlobAsync(blobLocation, outputStream);
             }
         }
 
-        private async Task SaveStreamToBlobAsync(string containerName, string blobName, Stream stream)
+        private async Task SaveStreamToBlobAsync(BlobLocation blobLocation, Stream stream)
         {
             var blobProperties = new BlobProperties
             {
                 Security = BlobSecurity.Public
             };
 
-            var fileExists = await _storageProvider.FileExistsAsync(containerName, blobName);
+            var fileExists = await _storageProvider.FileExistsAsync(blobLocation.ContainerName, blobLocation.BlobName);
 
             if (fileExists)
             {
-                await _storageProvider.DeleteBlobAsync(containerName, blobName);
+                await _storageProvider.DeleteBlobAsync(blobLocation.ContainerName, blobLocation.BlobName);
             }
 
-            await _storageProvider.SaveBlobStreamAsync(containerName, blobName, stream, blobProperties);
+            await _storageProvider.SaveBlobStreamAsync(blobLocation.ContainerName, blobLocation.BlobName, stream, blobProperties);
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
     public class EditProjectImageViewModel
     {
         [IsImage]
+        [FileSize(4000000)]
         public IFormFile Image { get; set; }
         private string FilePath => Image.FileName.Replace(@"\\", "/");
         public string ImageName => Path.GetFileName(FilePath);

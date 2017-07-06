@@ -10,32 +10,33 @@ namespace Ubora.Domain.Projects
         public string AreaOfUsageTags { get; set; }
         public string PotentialTechnologyTags { get; set; }
         public string Gmdn { get; set; }
-    }
 
-    internal class UpdateProjectCommandHandler : CommandHandler<UpdateProjectCommand>
-    {
-        public UpdateProjectCommandHandler(IDocumentSession documentSession) : base(documentSession)
+
+        internal class Handler : CommandHandler<UpdateProjectCommand>
         {
-        }
-
-        public override ICommandResult Handle(UpdateProjectCommand cmd)
-        {
-            var project = DocumentSession.Load<Project>(cmd.ProjectId);
-
-            var @event = new ProjectUpdatedEvent(cmd.Actor)
+            public Handler(IDocumentSession documentSession) : base(documentSession)
             {
-                Id = cmd.ProjectId,
-                Title = cmd.Title,
-                ClinicalNeedTags = cmd.ClinicalNeedTags,
-                AreaOfUsageTags = cmd.AreaOfUsageTags,
-                PotentialTechnologyTags = cmd.PotentialTechnologyTags,
-                Gmdn = cmd.Gmdn
-            };
+            }
 
-            DocumentSession.Events.Append(project.Id, @event);
-            DocumentSession.SaveChanges();
+            public override ICommandResult Handle(UpdateProjectCommand cmd)
+            {
+                var project = DocumentSession.Load<Project>(cmd.ProjectId);
 
-            return new CommandResult();
+                var @event = new ProjectUpdatedEvent(cmd.Actor)
+                {
+                    Id = cmd.ProjectId,
+                    Title = cmd.Title,
+                    ClinicalNeedTags = cmd.ClinicalNeedTags,
+                    AreaOfUsageTags = cmd.AreaOfUsageTags,
+                    PotentialTechnologyTags = cmd.PotentialTechnologyTags,
+                    Gmdn = cmd.Gmdn
+                };
+
+                DocumentSession.Events.Append(project.Id, @event);
+                DocumentSession.SaveChanges();
+
+                return new CommandResult();
+            }
         }
     }
 }

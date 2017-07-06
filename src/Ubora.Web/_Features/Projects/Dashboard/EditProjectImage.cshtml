@@ -11,9 +11,8 @@
 <section class="project_view full-width">
     <section class="medium-width">
         <form method="post" enctype="multipart/form-data" asp-controller="Dashboard" asp-action="EditProjectImage">
-
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <h2>Project image</h2>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-input">
                 <label asp-for="Image">Upload new image</label>
