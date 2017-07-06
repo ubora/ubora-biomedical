@@ -1,7 +1,9 @@
 ﻿using Autofac;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Web._Features.Projects.DeviceClassification.Services;
 using Ubora.Web._Features.Notifications.Factory;
 using Ubora.Web.Services;
 
@@ -28,6 +30,16 @@ namespace Ubora.Web.Infrastructure
                 builder.RegisterType<SpecifiedPickupDirectoryEmailSender>().As<IEmailSender>()
                     .InstancePerLifetimeScope();
             }
+
+            builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().SingleInstance();
+            builder.RegisterType<UrlHelperFactory>().As<IUrlHelperFactory>().SingleInstance();
+            builder.Register(c =>
+            {
+                var actionContext = c.Resolve<IActionContextAccessor>().ActionContext;
+                var factory = c.Resolve<IUrlHelperFactory>();
+                return factory.GetUrlHelper(actionContext);
+            })
+            .As<IUrlHelper>().InstancePerLifetimeScope();
 
             builder.RegisterType<AuthMessageSender>().As<IAuthMessageSender>().InstancePerLifetimeScope();
             builder.RegisterType<NotificationViewModelFactory>().As<INotificationViewModelFactory>().InstancePerLifetimeScope();

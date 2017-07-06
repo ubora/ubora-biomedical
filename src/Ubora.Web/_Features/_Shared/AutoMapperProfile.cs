@@ -31,10 +31,14 @@ namespace Ubora.Web._Features._Shared
                 .ForMember(dest => dest.ProjectId, o => o.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Actor, o => o.Ignore());
 
-            CreateMap<WorkpackageStep, StepViewModel>()
+            CreateMap<WorkpackageStep, EditStepViewModel>()
                 .ForMember(dest => dest.StepId, o => o.MapFrom(src => src.Id))
                 .ForMember(dest => dest.ReadStepUrl, o => o.Ignore())
                 .ForMember(dest => dest.EditStepUrl, o => o.Ignore());
+
+            CreateMap<WorkpackageStep, ReadStepViewModel>()
+                .IncludeBase<WorkpackageStep, EditStepViewModel>()
+                .ForMember(dest => dest.EditButton, o => o.Ignore());
 
             CreateMap<UserProfile, UserListItemViewModel>(MemberList.None);
             CreateMap<UserProfile, ProfileViewModel>(MemberList.None);

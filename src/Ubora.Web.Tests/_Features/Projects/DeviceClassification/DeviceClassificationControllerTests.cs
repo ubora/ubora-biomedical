@@ -41,10 +41,9 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
             {
                 Classification = "textClassification"
             };
-            var project = new Project();
-
-            project.SetPropertyValue(nameof(project.DeviceClassification), "textClassification");
-            project.SetPropertyValue(nameof(project.Id), ProjectId);
+            var project = new Project()
+                .Set(x => x.Id, ProjectId)
+                .Set(x => x.DeviceClassification, "textClassification");
 
             _processorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);
@@ -422,10 +421,9 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
             _deviceClassificationMock.Setup(x => x.GetNextPairedMainQuestions(pairedMainQuestionsId))
                 .Returns((PairedMainQuestions)null);
 
-            var project = new Project();
-
-            project.SetPropertyValue(nameof(project.DeviceClassification), classification);
-            project.SetPropertyValue(nameof(project.Id), ProjectId);
+            var project = new Project()
+                .Set(x => x.Id, ProjectId)
+                .Set(x => x.DeviceClassification, classification);
 
             _processorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);
@@ -445,10 +443,9 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
             _deviceClassificationMock.Setup(x => x.GetNextPairedMainQuestions(pairedMainQuestionsId))
                 .Returns((PairedMainQuestions)null);
 
-            var project = new Project();
-
-            project.SetPropertyValue(nameof(project.DeviceClassification), "deviceClassification");
-            project.SetPropertyValue(nameof(project.Id), ProjectId);
+            var project = new Project()
+                .Set(x => x.Id, ProjectId)
+                .Set(x => x.DeviceClassification, "deviceClassification");
 
             _processorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);

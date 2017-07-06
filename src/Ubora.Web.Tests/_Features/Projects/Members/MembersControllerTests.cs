@@ -25,15 +25,16 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         private readonly Mock<IAuthorizationService> _authorizationService;
         private readonly MembersController _membersController;
         private readonly Mock<FakeSignInManager> _signInManagerMock;
-        private readonly Mock<IUrlHelperFactory> _urlHelperFactoryMock;
 
         public MembersControllerTests()
         {
             _processorMock = new Mock<ICommandQueryProcessor>();
             _signInManagerMock = new Mock<FakeSignInManager>();
-            _urlHelperFactoryMock = new Mock<IUrlHelperFactory>();
             _authorizationService = new Mock<IAuthorizationService>();
-            _membersController = new MembersController(_processorMock.Object, _signInManagerMock.Object, _urlHelperFactoryMock.Object, _authorizationService.Object);
+            _membersController = new MembersController(_processorMock.Object, _signInManagerMock.Object, _authorizationService.Object)
+            {
+                Url = Mock.Of<IUrlHelper>()
+            };
             SetProjectAndUserContext(_membersController);
         }
 
@@ -135,9 +136,6 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         public void Join_Redirect_To_SignInSignUp_Page_If_User_Is_Not_Authenticated()
         {
             var projectId = Guid.NewGuid();
-            var urlHelper = Mock.Of<IUrlHelper>();
-            _urlHelperFactoryMock.Setup(x => x.GetUrlHelper(_membersController.ControllerContext))
-                .Returns(urlHelper);
 
             // Act
             var result = (RedirectToActionResult)_membersController.Join(projectId);
@@ -153,9 +151,9 @@ namespace Ubora.Web.Tests._Features.Projects.Members
                 .Returns(true);
 
             var projectId = Guid.NewGuid();
-            var project = new Project();
-            project.SetPropertyValue(nameof(Project.Title), "projectTitle");
-            project.SetPropertyValue(nameof(Project.Id), projectId);
+            var project = new Project()
+                .Set(x => x.Id, projectId)
+                .Set(x => x.Title, "projectTitle");
 
             _processorMock.Setup(x => x.FindById<Project>(projectId))
                 .Returns(project);
