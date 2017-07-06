@@ -49,7 +49,6 @@ namespace Ubora.Web.Authorization
                     policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                     policyBuilder.AddRequirements(new IsWorkpackageOneNotLockedRequirement());
-
                 });
             });
 
