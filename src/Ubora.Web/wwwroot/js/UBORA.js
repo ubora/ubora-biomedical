@@ -40,8 +40,10 @@ window.addEventListener('load', function () {
 });
 
 // Markdown editor
+var renderer = new marked.Renderer();
+
 marked.setOptions({
-    renderer: new marked.Renderer(),
+    renderer: renderer,
     gfm: true,
     tables: true,
     breaks: true,
@@ -51,11 +53,22 @@ marked.setOptions({
     smartypants: false
 });
 
+// Open link which redirects out of Ubora in new tab/window.
+renderer.link = function (href, title, text) {
+    return '<a target="_blank" href="' + href + '" title="' + title + '">' + text + '</a>';
+}
+
 var markdownContainerArray = document.querySelectorAll('.text-markdown');
 var markdownArrayHasItems = markdownContainerArray.length > 0;
 
 if (markdownArrayHasItems) {
     for (var i = 0; i < markdownContainerArray.length; i++) {
-        markdownContainerArray[i].innerHTML = marked(markdownContainerArray[i].innerHTML);
+        markdownContainerArray[i].innerHTML = marked(markdownContainerArray[i].innerHTML, { renderer: renderer });
     }
 }
+
+var simpleMde = new SimpleMDE({
+    element: document.querySelector(".content_editable"), previewRender: function (plainText) {
+        return marked(plainText, { renderer: renderer });
+    }
+});
