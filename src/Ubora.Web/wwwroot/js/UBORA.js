@@ -53,6 +53,7 @@ marked.setOptions({
     smartypants: false
 });
 
+// Open link which redirects out of Ubora in new tab/window.
 renderer.link = function (href, title, text) {
     return '<a target="_blank" href="' + href + '" title="' + title + '">' + text + '</a>';
 }
