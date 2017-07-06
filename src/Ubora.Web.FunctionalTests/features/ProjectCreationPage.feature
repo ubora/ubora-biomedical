@@ -168,7 +168,7 @@ Scenario: I go through Device classification
     When I click on the element "button=Is your device ACTIVE?"
     When I click on the element "button=Is it therapeutic?"
     When I click on the element "button=Does it administer energy to or exchange energy with the human body in a potentially hazardous way (consider nature of energy, density of energy, site of the body)?"
-    When I click on the element "button=Does your device incorporate a medicinal product with an ancillary function?"
+    When I click on the element "button=Does your device incorporate a MEDICAL PRODUCT with an ancillary function?"
     When I click on the element "button=Is it used for contraception or prevention of the transmission of sexually transmitted diseases?"
     When I click on the element "button=Is it implantable or long term invasive?"
     When I click on the element "button=Is it intended specifically to be used for disinfecting, cleaning, rinsing or, where appropriate, hydrating contact lenses?"
@@ -183,10 +183,10 @@ Scenario: I go through Device classification
     When I click on the element "button=Is it or it products of metabolism, systemically absorbed by the human body in order to achieve the intended purpose?"
     When I click on the element "button=Is it an active therapeutic devices with an integrated or incorporated diagnostic function that includes an integrated or incorporated diagnostic function which significantly determines the patient management by the device (example: closed loop systems or automated external defibrillators)?"
     Then I expect the element "h1=Your device classification is: III" is visible
-    When I click on the element "a=Please retake the questionnaire"
+    Then I expect the title of the page "Device classification results - UBORA"
+    When I click on the element "a=Retake questionnaire?"
     Then I expect the title of the page "Device classification - UBORA"
     When I go back to last page
-    Then I expect the title of the page "- UBORA"
-    When I click on the element "a=go back to project page."
-    Then I expect the input "III" of the element "b=III" is visible
+    Then I expect the title of the page "Device classification results - UBORA"
+    When I click on the element "a=Go back to project page"
     Then I expect the title of the page "Dashboard - UBORA"
