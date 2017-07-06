@@ -1,5 +1,9 @@
 ﻿@using Ubora.Web._Features.ProjectList
 
+@{
+    ViewData["Title"] = "View projects";
+}
+
 <section class="projects">
     @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
 </section>
