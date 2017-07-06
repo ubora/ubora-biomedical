@@ -20,7 +20,7 @@ Scenario: I click on Sign in/sign up
 
 Scenario: I click on Terms of Service
     When I click on the element "a=Terms of Service"
-    Then I expect the title of the page "- UBORA"
+    Then I expect the title of the page "Sign up - UBORA"
 
 Scenario: I submit valid registration form then user is logged in and full name displayed
     When I click on the element "#IsAgreedToTermsOfService"

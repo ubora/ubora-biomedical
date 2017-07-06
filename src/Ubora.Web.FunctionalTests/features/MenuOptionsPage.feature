@@ -1,4 +1,4 @@
-Feature: Signed in Home page
+Feature: Menu Options page
     As a signed in user
     I want to click Menu button and on all options in the Menu
 
@@ -47,11 +47,11 @@ Scenario: I click Messages
 Scenario: I click Notifications
     When I click on the element "span=Menu"
     When I click on the element "i=notifications"
-    Then I expect the title of the page "- UBORA"
-    When I click on the element "a=History"
-    Then I expect the title of the page "- UBORA"
-    When I click on the element "a=Pending invitations"
-    Then I expect the title of the page "- UBORA"
+    Then I expect the title of the page "Notifications - UBORA"
+    When I click on the element "i=history"
+    Then I expect the title of the page "Notification history - UBORA"
+    When I click on the element ".notifications_pending-button"
+    Then I expect the title of the page "Notifications - UBORA"
 
 Scenario: I click Log out
     When I click on the element "span=Menu"

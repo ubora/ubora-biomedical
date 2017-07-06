@@ -1,4 +1,4 @@
-Feature: Members page
+Feature: User list page
     As a user
     I want to click on all buttons on Members page
 
@@ -7,7 +7,7 @@ Background:
     Given I clicked on the element "a=View members"
 
 Scenario: Get the title of Ubora 
-    Then I expect the title of the page "- UBORA"
+    Then I expect the title of the page "View members - UBORA"
 
 Scenario: I click a Ubora logo
     When I click on the element ".header-logo"
@@ -33,13 +33,12 @@ Scenario: I sign up and check my profile on Members page
     When I click on the element ".header-logo"
     Then I expect the title of the page "Welcome - UBORA"
     When I click on the element "a=View members"
-    Then I expect the title of the page "- UBORA"
+    Then I expect the title of the page "View members - UBORA"
     When I click on the element "a=TestName TestLastName"
     Then I expect the title of the page "View profile - UBORA"
-    Then I expect the input "emailemail@email.com" of the element "#Email" is correct
-    Then I expect the input "TestName" of the element "#FirstName" is correct
-    Then I expect the input "TestLastName" of the element "#LastName" is correct
+    Then I expect the input "emailemail@email.com" of the element ".email" is visible
+    Then I expect the input "TestName TestLastName" of the element ".fullname" is visible
 
 Scenario: I sign in and click on my email on Members page
     When I click on the element "a=emailemail@email.com"
-    Then I expect the title of the page "- UBORA"
+    Then I expect the title of the page "View members - UBORA"

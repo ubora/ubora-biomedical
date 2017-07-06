@@ -22,4 +22,4 @@ Scenario: Click I have an idea button
 
 Scenario: Click on View members
     When I click on the element "a=View members"
-    Then I expect the title of the page "- UBORA"
+    Then I expect the title of the page "View members - UBORA"

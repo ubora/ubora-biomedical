@@ -26,10 +26,10 @@ Scenario: I sign up to create a project
 Scenario: I create a project
     When I click on the element "a=I have an idea"
     When I set value "TestProject" to the element "#Title"
-    When I select value "Child mortality" from element "#ClinicalNeed"
-    When I select value "Neurology" from element "#AreaOfUsage"
-    When I select value "Bandages" from element "#PotentialTechnology"
-    When I set value "TestGMDN" to the element "#Keywords"
+    When I select value "Child mortality" from element "#ClinicalNeedTags"
+    When I select value "Neurology" from element "#AreaOfUsageTags"
+    When I select value "Bandages" from element "#PotentialTechnologyTags"
+    When I set value "TestGMDN" to the element "#Gmdn"
     When I click on the element "button=Continue"
     Then I expect the title of the page "Dashboard - UBORA"
 
@@ -57,58 +57,58 @@ Scenario: On project Dashboard page I click My projects
     When I click on the element "i=folder"
     Then I expect the title of the page "- UBORA"
 
-Scenario: On project Dashboard page I click Workpackages
+Scenario: On project Dashboard page I click Work packages
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
-    When I click on the element "a=Workpackages"
-    Then I expect the title of the page "Dashboard - UBORA"
+    When I click on the element "a=Work packages"
+    Then I expect the title of the page "Workpackages - UBORA"
 
 Scenario: On project Dashboard page I click different Work packages and try to edit them
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
-    When I click on the element "a=Workpackages"
-    Then I expect the title of the page "Dashboard - UBORA"
-    When I click on the element "a=Description Of Need"
-    Then I expect the input "Description Of Need" of the element "h1=Description Of Need" is visible
+    When I click on the element "a=Work packages"
+    Then I expect the title of the page "Workpackages - UBORA"
+    When I click on the element "a=Description of Needs"
+    Then I expect the element "h1=Description of Needs" is visible
     When I click on the element ".step_edit"
     Then I expect the title of the page "Workpackages - UBORA"
-    When I click on the element "a=Description Of Existing Solutions And Analysis"
-    Then I expect the input "Description Of Existing Solutions And Analysis" of the element "h1=Description Of Existing Solutions And Analysis" is visible
+    When I click on the element "a=Description of Existing Solutions and Analysis"
+    Then I expect the element "h1=Description of Existing Solutions and Analysis" is visible
     When I click on the element ".step_edit"
     Then I expect the title of the page "Workpackages - UBORA"
     When I click on the element "a=Product Functionality"
-    Then I expect the input "Product Functionality" of the element "h1=Product Functionality" is visible
+    Then I expect the element "h1=Product Functionality" is visible
     When I click on the element ".step_edit"
     Then I expect the title of the page "Workpackages - UBORA"
     When I click on the element "a=Product Performance"
-    Then I expect the input "Product Performance" of the element "h1=Product Performance" is visible
+    Then I expect the element "h1=Product Performance" is visible
     When I click on the element ".step_edit"
     Then I expect the title of the page "Workpackages - UBORA"
     When I click on the element "a=Product Usability"
-    Then I expect the input "Product Usability" of the element "h1=Product Usability" is visible
+    Then I expect the element "h1=Product Usability" is visible
     When I click on the element ".step_edit"
     Then I expect the title of the page "Workpackages - UBORA"
     When I click on the element "a=Product Safety"
-    Then I expect the input "Product Safety" of the element "h1=Product Safety" is visible
+    Then I expect the element "h1=Product Safety" is visible
     When I click on the element ".step_edit"
     Then I expect the title of the page "Workpackages - UBORA"
     When I click on the element "a=Patient Population Study"
-    Then I expect the input "Patient Population Study" of the element "h1=Patient Population Study" is visible
+    Then I expect the element "h1=Patient Population Study" is visible
     When I click on the element ".step_edit"
     Then I expect the title of the page "Workpackages - UBORA"
     When I click on the element "a=User Requirement Study"
-    Then I expect the input "User Requirement Study" of the element "h1=User Requirement Study" is visible
+    Then I expect the element "h1=User Requirement Study" is visible
     When I click on the element ".step_edit"
     Then I expect the title of the page "Workpackages - UBORA"
     When I click on the element "a=Additional Information"
-    Then I expect the input "Additional Information" of the element "h1=Additional Information" is visible
+    Then I expect the element "h1=Additional Information" is visible
     When I click on the element ".step_edit"
     Then I expect the title of the page "Workpackages - UBORA"
 
-Scenario: On Project Dashboard page I click Activity
+Scenario: On Project Dashboard page I click History
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
-    When I click on the element "a=Activity"
+    When I click on the element "a=History"
     Then I expect the title of the page "History - UBORA"
 
 Scenario: On Project Dashboard page I click Members and try to add new member
@@ -120,7 +120,7 @@ Scenario: On Project Dashboard page I click Members and try to add new member
     Then I expect the title of the page "Members - UBORA"
     When I set value "emailemail@email.com" to the element "#Email"
     Then I expect the input "emailemail@email.com" of the element "#Email" is correct
-    When I click on the element "button=Invite"
+    When I click on the element "button=Invite member"
     Then I expect the title of the page "Members - UBORA"
 
 Scenario: On Project Dashboard page I click Members and on project owner
@@ -128,16 +128,15 @@ Scenario: On Project Dashboard page I click Members and on project owner
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "a=Members"
     Then I expect the title of the page "Members - UBORA"
-    When I click on the element "i=supervisor_account"
-    Then I expect the input "TestFirstName" of the element "#FirstName" is correct
-    Then I expect the input "TestLastName" of the element "#LastName" is correct
+    When I click on the element "a=TestFirstName TestLastName"
+    Then I expect the input "TestFirstName TestLastName" of the element ".fullname" is visible
     Then I expect the title of the page "View profile - UBORA"
 
 Scenario: On Project Dashboard page I click Edit Project Description
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "i=mode_edit"
-    Then I expect the title of the page "- UBORA"
+    Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element ".project_view.full-width"
     When I click on the key "Tab"
     When I click on keys "Welcome to my Project"
@@ -149,7 +148,7 @@ Scenario: On Project Dashboard page I click Edit Project Description but Discard
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "i=mode_edit"
-    Then I expect the title of the page "- UBORA"
+    Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "a=Discard"
     Then I expect the input "Welcome to my Project" of the element "p=Welcome to my Project" is visible
     Then I expect the title of the page "Dashboard - UBORA"
@@ -157,6 +156,10 @@ Scenario: On Project Dashboard page I click Edit Project Description but Discard
 Scenario: I go through Device classification
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
+    When I click on the element "a=Work packages"
+    Then I expect the title of the page "Workpackages - UBORA"
+    When I click on the element "a=Device classification"
+    Then I expect the title of the page "Design planning - UBORA"
     When I click on the element "a=Go to device classification"
     Then I expect the title of the page "Device classification - UBORA"
     When I click on the element "button=Is your device NON INVASIVE?"
