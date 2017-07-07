@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Dashboard\Projects\_Features\" />
     <Folder Include="DeviceClassification\Projects\_Features\" />
   </ItemGroup>
 

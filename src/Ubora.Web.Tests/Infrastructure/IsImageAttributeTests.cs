@@ -98,26 +98,6 @@ namespace Ubora.Web.Tests.Infrastructure
         }
 
         [Fact]
-        public void IsImage_Returns_ValidationResult_When_The_Image_Is_Over_Maximum_Size()
-        {
-            var fileMock = new Mock<IFormFile>();
-
-            using (var fileStream = new FileStream("testFile", FileMode.Create, FileAccess.ReadWrite))
-            {
-                fileMock.Setup(f => f.ContentType).Returns("image/jpeg");
-                fileMock.Setup(f => f.FileName).Returns("C:\\Test\\Parent\\Parent\\image.png");
-                fileMock.Setup(y => y.OpenReadStream()).Returns(fileStream);
-                fileMock.Setup(f => f.Length).Returns(1348576);
-
-                //Act
-                var result = _isImageAttribute.GetValidationResult(fileMock.Object, _validationContext);
-
-                //Assert
-                result.ErrorMessage.Should().Be("The limit for profile images is 1 MB");
-            }
-        }
-
-        [Fact]
         public void IsImage_Returns_ValidationResult_When_Is_Empty_FormFile()
         {
             var fileMock = new Mock<IFormFile>();

@@ -9,6 +9,7 @@ using Ubora.Web.Data;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features;
 using Xunit;
+using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Web.Tests._Features
 {

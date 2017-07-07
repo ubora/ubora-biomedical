@@ -8,11 +8,19 @@ namespace Ubora.Web.Infrastructure
     public class FileSizeAttribute : ValidationAttribute
     {
         public int MaxBytes { get; set; }
+        public string FileTooLargeMessage { get; set; }
 
         public FileSizeAttribute(int maxBytes)
             : base("Please upload a supported file.")
         {
             MaxBytes = maxBytes;
+        }
+
+        public FileSizeAttribute(int maxBytes, string fileTooLargeMessage)
+            : base("Please upload a supported file.")
+        {
+            MaxBytes = maxBytes;
+            FileTooLargeMessage = fileTooLargeMessage;
         }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
@@ -26,7 +34,8 @@ namespace Ubora.Web.Infrastructure
 
             if (file.Length > MaxBytes)
             {
-                return new ValidationResult("Please upload a file of less than 4 MB!");
+                var message = string.IsNullOrEmpty(FileTooLargeMessage) ? "Please upload a smaller file!" : FileTooLargeMessage;
+                return new ValidationResult(message);
             }
 
             return ValidationResult.Success;

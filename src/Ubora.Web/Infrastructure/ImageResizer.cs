@@ -17,8 +17,13 @@ namespace Ubora.Web.Infrastructure
             _storageProvider = storageProvider;
         }
 
+        protected ImageResizer()
+        {
+
+        }
+
         // https://andrewlock.net/using-imagesharp-to-resize-images-in-asp-net-core-part-2/
-        public async Task CreateResizedImageAndSaveAsJpegAsync(BlobLocation blobLocation, Stream stream, int width, int height)
+        public virtual async Task CreateResizedImageAndSaveAsJpegAsync(BlobLocation blobLocation, Stream stream, int width, int height)
         {
             stream.Seek(0, SeekOrigin.Begin);
 
@@ -62,7 +67,7 @@ namespace Ubora.Web.Infrastructure
             return new Rectangle(0, 0, width, height);
         }
 
-        public async Task SaveAsJpegAsync(BlobLocation blobLocation, Stream stream)
+        public virtual async Task SaveAsJpegAsync(BlobLocation blobLocation, Stream stream)
         {
             stream.Seek(0, SeekOrigin.Begin);
 

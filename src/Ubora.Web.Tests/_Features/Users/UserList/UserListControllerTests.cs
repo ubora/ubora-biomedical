@@ -43,7 +43,7 @@ namespace Ubora.Web.Tests._Features.Users.UserList
             };
 
             var url = $"/app/wwwroot/images/storages/users/{userProfile.UserId}/profile-pictures/test.jpg";
-            var expectedUrl = $"/images/storages/users/{userProfile.UserId}/profile-pictures/test.jpg";
+            var expectedUrl = $"/app/wwwroot/images/storages/users/{userProfile.UserId}/profile-pictures/test.jpg";
 
             if (blobname != null)
             {

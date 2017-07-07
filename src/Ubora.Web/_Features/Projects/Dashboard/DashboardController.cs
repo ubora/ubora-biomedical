@@ -123,6 +123,11 @@ namespace Ubora.Web._Features.Projects.Dashboard
         [HttpPost]
         public async Task<IActionResult> RemoveProjectImage(RemoveProjectImageViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return RemoveProjectImage();
+            }
+
             var containerName = BlobLocation.ContainerNames.Projects;
             var blobLocation = $"{ProjectId}/project-image/";
 
@@ -135,6 +140,11 @@ namespace Ubora.Web._Features.Projects.Dashboard
                 ProjectId = ProjectId,
                 Actor = UserInfo
             });
+
+            if (!ModelState.IsValid)
+            {
+                return RemoveProjectImage();
+            }
 
             return RedirectToAction(nameof(Dashboard));
         }
