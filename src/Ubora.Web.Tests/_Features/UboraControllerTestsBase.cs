@@ -2,9 +2,6 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Routing;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Tests.Fakes;
@@ -13,8 +10,9 @@ using Xunit;
 using Moq;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Web.Tests.Helper;
 
 namespace Ubora.Web.Tests._Features
 {
@@ -22,7 +20,6 @@ namespace Ubora.Web.Tests._Features
     {
         protected ClaimsPrincipal User { get; }
         protected Guid UserId { get; }
-        protected ModelStateDictionary ModelState { get; private set; }
 
         public Mock<IQueryProcessor> QueryProcessorMock { get; private set; } = new Mock<IQueryProcessor>();
         public Mock<ICommandProcessor> CommandProcessorMock { get; private set; } = new Mock<ICommandProcessor>();
@@ -37,27 +34,34 @@ namespace Ubora.Web.Tests._Features
 
         protected T SetMocks<T>(T controller) where T : UboraController
         {
-            controller
-                .Set(x => x.QueryProcessor, this.QueryProcessorMock.Object)
-                .Set(x => x.CommandProcessor, this.CommandProcessorMock.Object)
-                .Set(x => x.AutoMapper, this.AutoMapperMock.Object)
-                .Set(x => x.AuthorizationService, this.AuthorizationServiceMock.Object);
+            if (controller.ControllerContext.HttpContext == null)
+            {
+                controller.ControllerContext.HttpContext = new DefaultHttpContext();
+            }
+
+            var serviceProviderMock = new Mock<IServiceProvider>();
+            controller.ControllerContext.HttpContext.RequestServices = serviceProviderMock.Object;
+
+            serviceProviderMock.Setup(x => x.GetService(typeof(ICommandProcessor))).Returns(CommandProcessorMock.Object);
+            serviceProviderMock.Setup(x => x.GetService(typeof(IQueryProcessor))).Returns(QueryProcessorMock.Object);
+            serviceProviderMock.Setup(x => x.GetService(typeof(IMapper))).Returns(AutoMapperMock.Object);
+            serviceProviderMock.Setup(x => x.GetService(typeof(IAuthorizationService))).Returns(AuthorizationServiceMock.Object);
+
+            // Stub ASP.NET MVC services
+            serviceProviderMock.Setup(x => x.GetService(typeof(IUrlHelperFactory))).Returns(Mock.Of<IUrlHelperFactory>());
+            serviceProviderMock.Setup(x => x.GetService(typeof(ITempDataDictionaryFactory))).Returns(Mock.Of<ITempDataDictionaryFactory>());
 
             return controller;
         }
 
         protected T SetUserContext<T>(T controller) where T : UboraController
         {
-            controller.ControllerContext = new ControllerContext(new ActionContext
+            if (controller.ControllerContext.HttpContext == null)
             {
-                RouteData = new RouteData(),
-                HttpContext = new DefaultHttpContext
-                {
-                    User = (ClaimsPrincipal)User
-                },
-                ActionDescriptor = new ControllerActionDescriptor()
-            });
-            ModelState = controller.ModelState;
+                controller.ControllerContext.HttpContext = new DefaultHttpContext();
+            }
+
+            controller.ControllerContext.HttpContext.User = User;
 
             return controller;
         }

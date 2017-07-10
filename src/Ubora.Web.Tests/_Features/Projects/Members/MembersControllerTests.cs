@@ -1,10 +1,8 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Moq;
 using System;
 using System.Security.Claims;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Notifications.Join;
 using Ubora.Domain.Projects;
@@ -30,8 +28,8 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             {
                 Url = Mock.Of<IUrlHelper>()
             };
-            SetMocks(_membersController);
             SetProjectAndUserContext(_membersController);
+            SetMocks(_membersController);
         }
 
         [Fact]
@@ -71,7 +69,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             var result = (ViewResult)_membersController.RemoveMember(viewModel);
 
             // Assert
-            ModelState.ErrorCount.Should().Be(1);
+            _membersController.ModelState.ErrorCount.Should().Be(1);
         }
 
         [Fact]
@@ -99,7 +97,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             var result = (ViewResult)_membersController.LeaveProject();
 
             // Assert
-            ModelState.ErrorCount.Should().Be(1);
+            _membersController.ModelState.ErrorCount.Should().Be(1);
         }
 
         [Fact]
@@ -131,7 +129,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             var result = (ViewResult)_membersController.Join(viewModel);
 
             // Assert
-            ModelState.ErrorCount.Should().Be(1);
+            _membersController.ModelState.ErrorCount.Should().Be(1);
         }
 
         [Fact]

@@ -10,7 +10,6 @@ using Ubora.Web._Features.Home;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-// ReSharper disable ArrangeAccessorOwnerBody
 
 namespace Ubora.Web._Features
 {
@@ -21,35 +20,36 @@ namespace Ubora.Web._Features
         protected Guid UserId => User.GetId();
 
         private UserProfile _userProfile;
-        protected UserProfile UserProfile => _userProfile ?? (_userProfile = QueryProcessor.FindById<UserProfile>(UserId));
+        protected UserProfile UserProfile
+        {
+            get => _userProfile ?? (_userProfile = QueryProcessor.FindById<UserProfile>(UserId));
+        }
 
         private IQueryProcessor _queryProcessor;
-        public IQueryProcessor QueryProcessor
+        protected IQueryProcessor QueryProcessor
         {
-            get => _queryProcessor ?? (_queryProcessor = HttpContext.RequestServices.GetService<IQueryProcessor>());
-            set { _queryProcessor = value; }
-        }
-
-        private ICommandProcessor _commandProcessor;
-        public ICommandProcessor CommandProcessor
-        {
-            get => _commandProcessor ?? (_commandProcessor = HttpContext.RequestServices.GetService<ICommandProcessor>());
-            set { _commandProcessor = value; }
-        }
-
-        private IMapper _autoMapper;
-        public IMapper AutoMapper
-        {
-            get => _autoMapper ?? (_autoMapper = HttpContext.RequestServices.GetService<IMapper>());
-            set { _autoMapper = value; }
+            get => _queryProcessor ?? (_queryProcessor = ServiceLocator.GetService<IQueryProcessor>());
         }
 
         private IAuthorizationService _authorizationService;
-        public IAuthorizationService AuthorizationService
+        protected IAuthorizationService AuthorizationService
         {
-            get => _authorizationService ?? (_authorizationService = HttpContext.RequestServices.GetService<IAuthorizationService>());
-            set { _authorizationService = value; }
+            get => _authorizationService ?? (_authorizationService = ServiceLocator.GetService<IAuthorizationService>());
         }
+
+        private IMapper _autoMapper;
+        protected IMapper AutoMapper
+        {
+            get => _autoMapper ?? (_autoMapper = ServiceLocator.GetService<IMapper>());
+        }
+
+        private ICommandProcessor _commandProcessor;
+        private ICommandProcessor CommandProcessor
+        {
+            get => _commandProcessor ?? (_commandProcessor = ServiceLocator.GetService<ICommandProcessor>());
+        }
+
+        private IServiceProvider ServiceLocator => HttpContext.RequestServices; 
 
         protected void ExecuteUserCommand<T>(T command) where T : IUserCommand
         {
