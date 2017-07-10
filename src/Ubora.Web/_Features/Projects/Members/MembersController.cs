@@ -16,7 +16,7 @@ using Ubora.Domain.Notifications.Join;
 
 namespace Ubora.Web._Features.Projects.Members
 {
-    [ProjectRoute("[controller]/")]
+    [ProjectRoute("[controller]")]
     public class MembersController : ProjectController
     {
         private readonly SignInManager<ApplicationUser> _signInManager;

@@ -145,7 +145,7 @@ namespace Ubora.Web
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller}/{action}/{id?}");
 
                 routes.MapRoute(
                     name: "areaRoute",

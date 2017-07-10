@@ -7,7 +7,7 @@ using Ubora.Domain.Projects.Tasks;
 
 namespace Ubora.Web._Features.Projects.Assignments
 {
-    [ProjectRoute("[controller]/")]
+    [ProjectRoute("[controller]")]
     public class AssignmentsController : ProjectController
     {
         private readonly IMapper _mapper;

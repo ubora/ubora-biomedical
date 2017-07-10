@@ -9,6 +9,7 @@ namespace Ubora.Web._Features.Home
 	    {
 	    }
 
+        [Route("")]
 		public IActionResult Index(string returnUrl = null)
 		{
 		    if (returnUrl != null)

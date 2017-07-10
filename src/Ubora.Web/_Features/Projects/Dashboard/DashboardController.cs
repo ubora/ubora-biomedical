@@ -8,7 +8,7 @@ using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.Projects.Dashboard
 {
-    [ProjectRoute("[controller]/")]
+    [ProjectRoute("[controller]")]
     public class DashboardController : ProjectController
     {
         private readonly IMapper _mapper;
