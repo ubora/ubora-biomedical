@@ -55,12 +55,12 @@ marked.setOptions({
 
 // Open link which redirects out of Ubora in new tab/window.
 renderer.link = function (href, title, text) {
-    return `<a target="_blank" href="${href}"  title="${title}">' + ${text} + '</a>`;
+    return '<a target="_blank" href="' + href + '" title="' + title + '">' + text + '</a>';
 }
 
 // Picture size is optimized.
 renderer.image = function (href, title) {
-    return `<img class="image-markdown" src="${href}" alt="${title}" />`;
+    return '<img class="image-markdown" src="' + href + ' " alt="' + title + '" />';
 }
 
 var markdownContainerArray = document.querySelectorAll('.text-markdown');
