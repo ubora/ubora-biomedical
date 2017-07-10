@@ -24,3 +24,6 @@ Scenario: Click Sign up
 Scenario: Click Forgot password?
     When I click on the element "a=Forgot password?"
     Then I expect the title of the page "Forgot your password? - UBORA"
+    When I set value "change@password.com" to the element "#Email"
+    When I click on the element "button=Submit"
+    Then I expect the title of the page "Forgot Password Confirmation - UBORA"

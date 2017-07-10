@@ -68,6 +68,8 @@ Scenario: On project Dashboard page I click different Work packages and try to e
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "a=Work packages"
     Then I expect the title of the page "Work packages - UBORA"
+    When I click on the element "a=Design planning"
+    Then I expect the element "h1=Design planning" is visible
     When I click on the element "a=Description of Needs"
     Then I expect the element "h1=Description of Needs" is visible
     When I click on the element ".step_edit"
@@ -104,8 +106,141 @@ Scenario: On project Dashboard page I click different Work packages and try to e
     Then I expect the element "h1=Additional Information" is visible
     When I click on the element ".step_edit"
     Then I expect the title of the page "Additional Information - UBORA"
+    When I click on the element "a=Formal review"
+    Then I expect the element "h1=Formal review" is visible
 
-Scenario: On Project Dashboard page I click History
+Scenario: I Submit project for WP1 review
+    When I click on the element "h4=TestProject"
+    Then I expect the title of the page "Dashboard - UBORA"
+    When I click on the element "a=Work packages"
+    Then I expect the title of the page "Work packages - UBORA"
+    When I click on the element "a=Formal review"
+    Then I expect the title of the page "Formal review - UBORA"
+    When I click on the element "button=Submit project for review"
+    Then I expect the title of the page "Formal review - UBORA"
+    Then I expect the element "b=Status" is visible
+    Then I expect the element "td=InProcess" is visible
+    When I click on the element "span=Menu"
+    When I click on the element "button=Log out"
+    Then I expect the title of the page "Welcome - UBORA"
+
+Scenario: I review project WP1 as system administrator and reject it
+    When I click on the element "a=Sign in/sign up"
+    Then I expect the title of the page "Sign in to UBORA - UBORA"
+    When I set value "admin@agileworks.eu" to the element "#Email"
+    When I set value "ChangeMe123!" to the element "#Password"
+    When I click on the element "button=Sign in"
+    Then I expect the title of the page "Welcome - UBORA"
+    When I click on the element "h4=TestProject"
+    Then I expect the title of the page "Dashboard - UBORA"
+    When I click on the element "a=Members"
+    Then I expect the title of the page "Members - UBORA"
+    When I click on the element "button=Assign me as project mentor"
+    Then I expect the element "a=Work packages" is visible
+    When I click on the element "a=Work packages"
+    Then I expect the title of the page "Work packages - UBORA"
+    When I click on the element "a=Formal review"
+    Then I expect the title of the page "Formal review - UBORA"
+    When I click on the element "a=Write a review"
+    Then I expect the title of the page "Members - UBORA"
+    When I set value "Good project man!" to the element "#ConcludingComment"
+    When I click on the element "button=Reject"
+    Then I expect the element "td=Rejected" is visible
+    When I click on the element "a=Write a review"
+    When I set value "Good project man!" to the element "#ConcludingComment"
+    When I click on the element "button=Reject"
+    Then I expect the element "td=Rejected" is visible
+    When I click on the element "span=Menu"
+    When I click on the element "button=Log out"
+    Then I expect the title of the page "Welcome - UBORA"
+
+Scenario: I submit my rejected WP1 again for formal review
+    When I click on the element "a=Sign in/sign up"
+    Then I expect the title of the page "Sign in to UBORA - UBORA"
+    When I set value "project@email.com" to the element "#Email"
+    When I set value "Test12345" to the element "#Password"
+    When I click on the element "button=Sign in"
+    Then I expect the title of the page "Welcome - UBORA"
+    When I click on the element "h4=TestProject"
+    Then I expect the title of the page "Dashboard - UBORA"
+    When I click on the element "a=Work packages"
+    Then I expect the title of the page "Work packages - UBORA"
+    When I click on the element "a=Formal review"
+    Then I expect the title of the page "Formal review - UBORA"
+    When I click on the element "button=Submit project for review"
+    Then I expect the element "td=Rejected" is visible
+    Then I expect the element "td=InProcess" is visible
+    When I click on the element "span=Menu"
+    When I click on the element "button=Log out"
+    Then I expect the title of the page "Welcome - UBORA"
+
+Scenario: I review WP1 as system administrator and accept it
+    When I click on the element "a=Sign in/sign up"
+    Then I expect the title of the page "Sign in to UBORA - UBORA"
+    When I set value "admin@agileworks.eu" to the element "#Email"
+    When I set value "ChangeMe123!" to the element "#Password"
+    When I click on the element "button=Sign in"
+    Then I expect the title of the page "Welcome - UBORA"
+    When I click on the element "h4=TestProject"
+    Then I expect the title of the page "Dashboard - UBORA"
+    When I click on the element "a=Work packages"
+    Then I expect the title of the page "Work packages - UBORA"
+    When I click on the element "a=Formal review"
+    Then I expect the title of the page "Formal review - UBORA"
+    When I click on the element "a=Write a review"
+    Then I expect the title of the page "Members - UBORA"
+    When I set value "Good project man!" to the element "#ConcludingComment"
+    When I click on the element "button=Accept"
+    Then I expect the element "td=Accepted" is visible
+    Then I expect the element "td=Good project man!" is visible
+    Then I expect the element "h3=WP2: Conceptual design" is visible
+    When I click on the element "span=Menu"
+    When I click on the element "button=Log out"
+    Then I expect the title of the page "Welcome - UBORA"
+
+Scenario: I submit my project for WP2 review
+    When I click on the element "a=Sign in/sign up"
+    Then I expect the title of the page "Sign in to UBORA - UBORA"
+    When I set value "project@email.com" to the element "#Email"
+    When I set value "Test12345" to the element "#Password"
+    When I click on the element "button=Sign in"
+    Then I expect the title of the page "Welcome - UBORA"
+    When I click on the element "h4=TestProject"
+    Then I expect the title of the page "Dashboard - UBORA"
+    When I click on the element "a=Work packages"
+    Then I expect the title of the page "Work packages - UBORA"
+
+Scenario: On project Dashboard I click Repository
+    When I click on the element "a=Sign in/sign up"
+    Then I expect the title of the page "Sign in to UBORA - UBORA"
+    When I set value "project@email.com" to the element "#Email"
+    When I set value "Test12345" to the element "#Password"
+    When I click on the element "button=Sign in"
+    Then I expect the title of the page "Welcome - UBORA"
+    When I click on the element "h4=TestProject"
+    Then I expect the title of the page "Dashboard - UBORA"
+    When I click on the element "a=Repository"
+    Then I expect the title of the page "Repository - UBORA"
+    Then I expect the element "h1=TestProject" is visible
+    When I click on the element "button=Upload new file"
+    Then I expect the element "span=Please select a file to upload!" is visible
+
+Scenario: On project Dashboard I click Assignments and add an Assignment
+    When I click on the element "h4=TestProject"
+    Then I expect the title of the page "Dashboard - UBORA"
+    When I click on the element "a=Assignments"
+    Then I expect the title of the page "Assignments - UBORA"
+    When I click on the element "i=add_box"
+    Then I expect the title of the page "Assignments - UBORA"
+    When I set value "Assignment Title" to the element "#Title"
+    When I set value "Assignment Description" to the element "#Description"
+    When I click on the element "button=Add Assignment"
+    Then I expect the element "a=Assignment Title" is visible
+    When I click on the element "a=Assignment Title"
+    Then I expect the title of the page "Assignments - UBORA"
+    Then I expect the element "value=Assignment Description" is visible
+
+Scenario: On Project Dashboard I click History
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "a=History"

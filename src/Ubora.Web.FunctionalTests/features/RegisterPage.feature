@@ -30,6 +30,6 @@ Scenario: I submit valid registration form then user is logged in and full name 
     When I set value "Test12345" to the element "#Password"
     When I set value "Test12345" to the element "#ConfirmPassword"
     When I click on the element "button=Create an account"
-    Then I expect the title of the page "Create a profile page - UBORA"
+    Then I expect the title of the page "Create a profile - UBORA"
     When I click on the element "span=Menu"
     Then I expect the element "p=TestFirstName TestLastName" is visible

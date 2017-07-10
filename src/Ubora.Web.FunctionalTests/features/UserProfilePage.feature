@@ -47,7 +47,7 @@ Scenario: I check my created profile
     When I click on the element "button=Edit profile"
     Then I expect the title of the page "Manage your account - UBORA"
 
-Scenario: I change my profile
+Scenario: I change my profile and check if my changes have been saved
     Then I expect the title of the page "Welcome - UBORA"
     When I click on the element "span=Menu"
     When I click on the element "a=View profile"
