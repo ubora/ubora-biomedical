@@ -5,18 +5,16 @@ namespace Ubora.Domain.Infrastructure
         public string ContainerName { get; }
         public string BlobName { get; }
 
-        public static ContainerNames ContainerNames = new ContainerNames();
-
         public BlobLocation(string containerName, string blobName)
         {
             ContainerName = containerName;
             BlobName = blobName;
         }
-    }
 
-    public class ContainerNames
-    {
-        public string Projects => "projects";
-        public string Users => "users";
+        public static class ContainerNames
+        {
+            public const string Projects = "projects";
+            public const string Users = "users";
+        }
     }
 }
