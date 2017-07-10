@@ -7,6 +7,7 @@ using Ubora.Domain.Projects.Tasks;
 
 namespace Ubora.Web._Features.Projects.Assignments
 {
+    [ProjectRoute("[controller]")]
     public class AssignmentsController : ProjectController
     {
         private readonly IMapper _mapper;
@@ -30,6 +31,7 @@ namespace Ubora.Web._Features.Projects.Assignments
             return View(model);
         }
 
+        [Route("Add")]
         public IActionResult Add()
         {
             var model = new AddAssignmentViewModel
@@ -63,6 +65,7 @@ namespace Ubora.Web._Features.Projects.Assignments
             return RedirectToAction(nameof(Assignments), new { ProjectId });
         }
 
+        [Route("Edit")]
         public IActionResult Edit(Guid id)
         {
             var task = FindById<ProjectTask>(id);
