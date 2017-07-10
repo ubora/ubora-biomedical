@@ -22,8 +22,7 @@ namespace Ubora.Domain.Tests.Projects.Members
         public void Project_Leader_Can_Remove_Member_User_From_Project()
         {
             this.Given(_ => There_Is_Project_And_User())
-                .When(_ => Project_Add_Member_To_Project())
-                .Then(_ => User_Is_Member_In_Project())
+                    .And(_ => Project_Add_Member_To_Project())
                 .When(_ => Project_Leader_Removes_Member_User_From_Project())
                 .Then(_ => User_Is_Not_Member_In_Project())
                 .BDDfy();
@@ -33,9 +32,8 @@ namespace Ubora.Domain.Tests.Projects.Members
         public void Project_Leader_Can_Remove_Member_User_in_Multiple_Roles_From_Project()
         {
             this.Given(_ => There_Is_Project_And_User())
-                .When(_ => Project_Add_Member_To_Project())
-                .When(_ => this.Assign_Project_Mentor(_projectId, _userId))
-                .Then(_ => User_Is_Multiple_Roles_In_Project())
+                    .And(_ => Project_Add_Member_To_Project())
+                    .And(_ => this.Assign_Project_Mentor(_projectId, _userId))
                 .When(_ => Project_Leader_Removes_Member_User_From_Project())
                 .Then(_ => User_Is_Not_Member_In_Project())
                 .BDDfy();
