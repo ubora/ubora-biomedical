@@ -5,10 +5,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
+using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features;
 using Xunit;
+using Moq;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Web.Tests.Helper;
 
 namespace Ubora.Web.Tests._Features
 {
@@ -18,22 +24,29 @@ namespace Ubora.Web.Tests._Features
         protected Guid UserId { get; }
         protected ModelStateDictionary ModelState { get; private set; }
 
+        public Mock<IQueryProcessor> QueryProcessorMock { get; private set; } = new Mock<IQueryProcessor>();
+        public Mock<ICommandProcessor> CommandProcessorMock { get; private set; } = new Mock<ICommandProcessor>();
+        public Mock<IMapper> AutoMapperMock { get; private set; } = new Mock<IMapper>();
+        public Mock<IAuthorizationService> AuthorizationServiceMock { get; private set; } = new Mock<IAuthorizationService>();
+
         protected UboraControllerTestsBase()
         {
             UserId = Guid.NewGuid();
             User = CreateUser(UserId);
         }
 
-        protected virtual ClaimsPrincipal CreateUser(Guid userId)
+        protected T SetMocks<T>(T controller) where T : UboraController
         {
-            var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(
-                userId: userId,
-                fullName: nameof(ApplicationUser.FullNameClaimType) + Guid.NewGuid());
+            controller
+                .Set(x => x.QueryProcessor, this.QueryProcessorMock.Object)
+                .Set(x => x.CommandProcessor, this.CommandProcessorMock.Object)
+                .Set(x => x.AutoMapper, this.AutoMapperMock.Object)
+                .Set(x => x.AuthorizationService, this.AuthorizationServiceMock.Object);
 
-            return user;
+            return controller;
         }
 
-        protected void SetUserContext(UboraController controller)
+        protected T SetUserContext<T>(T controller) where T : UboraController
         {
             controller.ControllerContext = new ControllerContext(new ActionContext
             {
@@ -45,6 +58,17 @@ namespace Ubora.Web.Tests._Features
                 ActionDescriptor = new ControllerActionDescriptor()
             });
             ModelState = controller.ModelState;
+
+            return controller;
+        }
+
+        protected virtual ClaimsPrincipal CreateUser(Guid userId)
+        {
+            var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(
+                userId: userId,
+                fullName: nameof(ApplicationUser.FullNameClaimType) + Guid.NewGuid());
+
+            return user;
         }
 
         protected void AssertModelStateContainsError(ViewResult viewResult, params string[] result)

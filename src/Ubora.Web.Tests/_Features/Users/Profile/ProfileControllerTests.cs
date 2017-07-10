@@ -2,13 +2,11 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AutoMapper;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using TwentyTwenty.Storage;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
@@ -20,22 +18,19 @@ namespace Ubora.Web.Tests._Features.Users.Profile
 {
     public class ProfileControllerTests : UboraControllerTestsBase
     {
-        private readonly Mock<IMapper> _mapperMock;
         private readonly Mock<FakeUserManager> _userManagerMock;
         private readonly Mock<FakeSignInManager> _signInManagerMock;
-        private readonly Mock<ICommandQueryProcessor> _commandQueryProcessorMock;
         private readonly Mock<IStorageProvider> _storageProviderMock;
 
         private readonly ProfileController _controller;
 
         public ProfileControllerTests()
         {
-            _mapperMock = new Mock<IMapper>();
-            _commandQueryProcessorMock = new Mock<ICommandQueryProcessor>();
             _userManagerMock = new Mock<FakeUserManager>();
             _signInManagerMock = new Mock<FakeSignInManager>();
             _storageProviderMock = new Mock<IStorageProvider>();
-            _controller = new ProfileController(_commandQueryProcessorMock.Object, _mapperMock.Object, _userManagerMock.Object, _signInManagerMock.Object, _storageProviderMock.Object);
+            _controller = new ProfileController(_userManagerMock.Object, _signInManagerMock.Object, _storageProviderMock.Object);
+            SetMocks(_controller);
             SetUserContext(_controller);
         }
 
@@ -50,10 +45,13 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 UserViewModel = userProfileViewModel
             };
 
-            _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
-            _mapperMock.Setup(m => m.Map<UserProfileViewModel>(userProfile)).Returns(userProfileViewModel);
+            _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>()))
+                .Returns(userId);
 
-            _commandQueryProcessorMock.Setup(p => p.FindById<UserProfile>(new Guid(userId)))
+            AutoMapperMock.Setup(m => m.Map<UserProfileViewModel>(userProfile))
+                .Returns(userProfileViewModel);
+
+            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(new Guid(userId)))
                 .Returns(userProfile);
 
             //Act
@@ -83,7 +81,10 @@ namespace Ubora.Web.Tests._Features.Users.Profile
 
             fileMock.Setup(f => f.FileName).Returns("C:\\Test\\Parent\\Parent\\image.png");
             _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
-            _commandQueryProcessorMock.Setup(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>())).Callback<ChangeUserProfilePictureCommand>(c => executedCommand = c)
+
+            CommandProcessorMock
+                .Setup(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>()))
+                .Callback<ChangeUserProfilePictureCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
 
             _userManagerMock.Setup(m => m.FindByIdAsync(userId)).ReturnsAsync(applicationUser);
@@ -127,11 +128,13 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             fileMock.Setup(f => f.FileName).Returns("C:\\Test\\Parent\\Parent\\image.png");
             _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
 
-            _commandQueryProcessorMock.Setup(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>())).Returns(commandResult);
+            CommandProcessorMock
+                .Setup(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>()))
+                .Returns(commandResult);
 
-            _mapperMock.Setup(m => m.Map<UserProfileViewModel>(userProfile)).Returns(userProfileViewModel);
+            AutoMapperMock.Setup(m => m.Map<UserProfileViewModel>(userProfile)).Returns(userProfileViewModel);
 
-            _commandQueryProcessorMock.Setup(p => p.FindById<UserProfile>(new Guid(userId)))
+            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(new Guid(userId)))
                 .Returns(userProfile);
 
             //Act
@@ -149,7 +152,8 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             else
             {
                 result.ViewName.Should().Be("FirstTimeEditProfile");
-                result.Model.As<FirstTimeEditProfileModel>().ProfilePictureViewModel.IsFirstTimeEditProfile.Should().Be(isFirstTimeEditProfile);
+                result.Model.As<FirstTimeEditProfileModel>().ProfilePictureViewModel.IsFirstTimeEditProfile
+                    .Should().Be(isFirstTimeEditProfile);
             }
         }
 
@@ -168,10 +172,17 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 IsFirstTimeEditProfile = isFirstTimeEditProfile
             };
 
-            fileMock.Setup(f => f.FileName).Returns("C:\\Test\\Parent\\Parent\\image.png");
-            _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
-            _mapperMock.Setup(m => m.Map<UserProfileViewModel>(userProfile)).Returns(userViewModel);
-            _commandQueryProcessorMock.Setup(p => p.FindById<UserProfile>(new Guid(userId)))
+            fileMock
+                .Setup(f => f.FileName)
+                .Returns("C:\\Test\\Parent\\Parent\\image.png");
+
+            _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>()))
+                .Returns(userId);
+
+            AutoMapperMock.Setup(m => m.Map<UserProfileViewModel>(userProfile))
+                .Returns(userViewModel);
+
+            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(new Guid(userId)))
                 .Returns(userProfile);
 
             _controller.ModelState.AddModelError("isImage", "This is not an image file");
@@ -185,15 +196,20 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 result.ViewName.Should().Be("EditProfile");
                 result.Model.As<EditProfileViewModel>().UserViewModel.Should().Be(userViewModel);
                 AssertModelStateContainsError(result, "This is not an image file");
-                _commandQueryProcessorMock.Verify(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>()),
+
+                CommandProcessorMock.Verify(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>()),
                     Times.Never);
+
                 _userManagerMock.Verify(m => m.FindByIdAsync(It.IsAny<string>()), Times.Never);
+
                 _signInManagerMock.Verify(m => m.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never);
             }
             else
             {
                 result.ViewName.Should().Be("FirstTimeEditProfile");
-                result.Model.As<FirstTimeEditProfileModel>().ProfilePictureViewModel.IsFirstTimeEditProfile.Should().Be(isFirstTimeEditProfile);
+
+                result.Model.As<FirstTimeEditProfileModel>().ProfilePictureViewModel.IsFirstTimeEditProfile
+                    .Should().Be(isFirstTimeEditProfile);
             }
 
         }
@@ -205,17 +221,18 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             var userprofile = new UserProfile(userId);
             var expectedProfileViewModel = new ProfileViewModel();
 
-            _commandQueryProcessorMock.Setup(p => p.FindById<UserProfile>(userId))
+            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(userId))
                 .Returns(userprofile);
 
-            _mapperMock.Setup(m => m.Map<ProfileViewModel>(userprofile))
+            AutoMapperMock.Setup(m => m.Map<ProfileViewModel>(userprofile))
                 .Returns(expectedProfileViewModel);
 
             //Act
             var result = (ViewResult)_controller.View(userId);
 
             //Act
-            result.Model.As<ProfileViewModel>().Should().Be(expectedProfileViewModel);
+            result.Model.As<ProfileViewModel>()
+                .Should().Be(expectedProfileViewModel);
         }
 
         [Fact]
@@ -223,14 +240,14 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         {
             var userId = Guid.NewGuid();
 
-            _commandQueryProcessorMock.Setup(p => p.FindById<UserProfile>(userId));
+            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(userId));
 
             //Act
             var result = _controller.View(userId);
 
             //Act
             result.Should().BeOfType<NotFoundResult>();
-            _mapperMock.Verify(m => m.Map(It.IsAny<UserProfile>(), It.IsAny<ProfileViewModel>()), Times.Never);
+            AutoMapperMock.Verify(m => m.Map(It.IsAny<UserProfile>(), It.IsAny<ProfileViewModel>()), Times.Never);
         }
     }
 }

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Notifications;
 using Ubora.Web.Infrastructure;
 
@@ -13,9 +12,8 @@ namespace Ubora.Web._Features.Notifications
         private readonly IndexViewModel.Factory _indexViewModelFactory;
 
         public NotificationsController(
-            ICommandQueryProcessor processor,
             HistoryViewModel.Factory historyViewModelFactory,
-            IndexViewModel.Factory indexViewModelFactory) : base(processor)
+            IndexViewModel.Factory indexViewModelFactory)
         {
             _historyViewModelFactory = historyViewModelFactory;
             _indexViewModelFactory = indexViewModelFactory;

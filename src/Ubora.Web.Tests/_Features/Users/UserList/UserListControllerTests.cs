@@ -5,24 +5,22 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using TwentyTwenty.Storage;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Users;
 using Ubora.Web._Features.Users.UserList;
 using Xunit;
 
 namespace Ubora.Web.Tests._Features.Users.UserList
 {
-    public class UserListControllerTests
+    public class UserListControllerTests : UboraControllerTestsBase
     {
-        private readonly Mock<ICommandQueryProcessor> _processorMock;
         private readonly Mock<IStorageProvider> _storageProviderMock;
         private readonly UserListController _controller;
 
         public UserListControllerTests()
         {
-            _processorMock = new Mock<ICommandQueryProcessor>();
             _storageProviderMock = new Mock<IStorageProvider>();
-            _controller = new UserListController(_processorMock.Object, _storageProviderMock.Object);
+            _controller = new UserListController(_storageProviderMock.Object);
+            SetMocks(_controller);
         }
 
         [Theory]
@@ -50,7 +48,7 @@ namespace Ubora.Web.Tests._Features.Users.UserList
                 _storageProviderMock.Setup(p => p.GetBlobUrl(It.IsAny<string>(), It.IsAny<string>())).Returns(url);
             }
 
-            _processorMock.Setup(p => p.Find<UserProfile>(null)).Returns(userProfiles);
+            QueryProcessorMock.Setup(p => p.Find<UserProfile>(null)).Returns(userProfiles);
 
             //Act
             var result = (ViewResult)_controller.Index();

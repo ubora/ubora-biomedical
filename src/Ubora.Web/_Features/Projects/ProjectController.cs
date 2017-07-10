@@ -20,17 +20,10 @@ namespace Ubora.Web._Features.Projects
     [Authorize(Policy = nameof(Policies.ProjectController))]
     public abstract class ProjectController : UboraController
     {
-        private readonly ICommandQueryProcessor _processor;
-
-        protected ProjectController(ICommandQueryProcessor processor) : base(processor)
-        {
-            _processor = processor;
-        }
-
         protected Guid ProjectId => RouteData.GetProjectId();
 
         private Project _project;
-        protected Project Project => _project ?? (_project = _processor.FindById<Project>(ProjectId));
+        protected Project Project => _project ?? (_project = QueryProcessor.FindById<Project>(ProjectId));
 
         protected void ExecuteUserProjectCommand<T>(T command) where T : UserProjectCommand
         {

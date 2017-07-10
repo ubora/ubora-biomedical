@@ -1,30 +1,21 @@
 using System;
 using System.Linq;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Tasks;
 
 namespace Ubora.Web._Features.Projects.Assignments
 {
     public class AssignmentsController : ProjectController
     {
-        private readonly IMapper _mapper;
-
-        public AssignmentsController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
-        {
-            _mapper = mapper;
-        }
-
         public IActionResult Assignments()
         {
-            var projectTasks = Find<ProjectTask>().Where(x => x.ProjectId == ProjectId);
+            var projectTasks = QueryProcessor.Find<ProjectTask>().Where(x => x.ProjectId == ProjectId);
 
             var model = new AssignmentListViewModel
             {
                 ProjectId = ProjectId,
                 ProjectName = Project.Title,
-                Assignments = projectTasks.Select(_mapper.Map<AssignmentListItemViewModel>)
+                Assignments = projectTasks.Select(AutoMapper.Map<AssignmentListItemViewModel>)
             };
 
             return View(model);
@@ -65,9 +56,9 @@ namespace Ubora.Web._Features.Projects.Assignments
 
         public IActionResult Edit(Guid id)
         {
-            var task = FindById<ProjectTask>(id);
+            var task = QueryProcessor.FindById<ProjectTask>(id);
 
-            var model = _mapper.Map<EditAssignmentViewModel>(task);
+            var model = AutoMapper.Map<EditAssignmentViewModel>(task);
 
             return View(model);
         }

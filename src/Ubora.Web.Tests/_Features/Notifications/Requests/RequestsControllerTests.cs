@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Notifications.Join;
 using Ubora.Web._Features.Notifications;
@@ -14,24 +13,25 @@ namespace Ubora.Web.Tests._Features.Notifications.Requests
     public class RequestsControllerTests : UboraControllerTestsBase
     {
         private RequestsController _requestsController;
-        private Mock<ICommandQueryProcessor> _commandQueryProcessorMock;
 
         public RequestsControllerTests()
         {
-            _commandQueryProcessorMock = new Mock<ICommandQueryProcessor>();
-            _requestsController = new RequestsController(_commandQueryProcessorMock.Object);
+            _requestsController = new RequestsController();
+            SetMocks(_requestsController);
             SetUserContext(_requestsController);
         }
 
         [Fact]
         public void Accept_Redirects_To_Notifications_If_Accept_Command_Succeeds()
         {
-            var vm = new RequestPartialViewModel { RequestId = Guid.NewGuid() };
-            _commandQueryProcessorMock.Setup(x => x.Execute(It.IsAny<AcceptRequestToJoinProjectCommand>()))
+            var model = new RequestPartialViewModel { RequestId = Guid.NewGuid() };
+
+            CommandProcessorMock
+                .Setup(x => x.Execute(It.IsAny<AcceptRequestToJoinProjectCommand>()))
                 .Returns(new CommandResult());
 
             // Act
-            var result = (RedirectToActionResult)_requestsController.Accept(vm);
+            var result = (RedirectToActionResult)_requestsController.Accept(model);
 
             // Assert
             result.ActionName.Should().Be(nameof(NotificationsController.Index));
@@ -40,12 +40,14 @@ namespace Ubora.Web.Tests._Features.Notifications.Requests
         [Fact]
         public void Accept_Returns_ModelState_With_Error_If_Command_Fails()
         {
-            var vm = new RequestPartialViewModel { RequestId = Guid.NewGuid() };
-            _commandQueryProcessorMock.Setup(x => x.Execute(It.IsAny<AcceptRequestToJoinProjectCommand>()))
+            var model = new RequestPartialViewModel { RequestId = Guid.NewGuid() };
+
+            CommandProcessorMock
+                .Setup(x => x.Execute(It.IsAny<AcceptRequestToJoinProjectCommand>()))
                 .Returns(new CommandResult("Something went wrong"));
 
             // Act
-            var result = (RedirectToActionResult)_requestsController.Accept(vm);
+            var result = (RedirectToActionResult)_requestsController.Accept(model);
 
             // Assert
             _requestsController.ModelState.ErrorCount.Should().Be(1);
@@ -55,12 +57,14 @@ namespace Ubora.Web.Tests._Features.Notifications.Requests
         [Fact]
         public void Decline_Redirects_To_Notifications_If_Accept_Command_Succeeds()
         {
-            var vm = new RequestPartialViewModel { RequestId = Guid.NewGuid() };
-            _commandQueryProcessorMock.Setup(x => x.Execute(It.IsAny<DeclineRequestToJoinProjectCommand>()))
+            var model = new RequestPartialViewModel { RequestId = Guid.NewGuid() };
+
+            CommandProcessorMock
+                .Setup(x => x.Execute(It.IsAny<DeclineRequestToJoinProjectCommand>()))
                 .Returns(new CommandResult());
 
             // Act
-            var result = (RedirectToActionResult)_requestsController.Decline(vm);
+            var result = (RedirectToActionResult)_requestsController.Decline(model);
 
             // Assert
             result.ActionName.Should().Be(nameof(NotificationsController.Index));
@@ -69,12 +73,14 @@ namespace Ubora.Web.Tests._Features.Notifications.Requests
         [Fact]
         public void Decline_Returns_ModelState_With_Error_If_Command_Fails()
         {
-            var vm = new RequestPartialViewModel { RequestId = Guid.NewGuid() };
-            _commandQueryProcessorMock.Setup(x => x.Execute(It.IsAny<DeclineRequestToJoinProjectCommand>()))
+            var model = new RequestPartialViewModel { RequestId = Guid.NewGuid() };
+
+            CommandProcessorMock
+                .Setup(x => x.Execute(It.IsAny<DeclineRequestToJoinProjectCommand>()))
                 .Returns(new CommandResult("Something went wrong"));
 
             // Act
-            var result = (RedirectToActionResult)_requestsController.Decline(vm);
+            var result = (RedirectToActionResult)_requestsController.Decline(model);
 
             // Assert
             _requestsController.ModelState.ErrorCount.Should().Be(1);

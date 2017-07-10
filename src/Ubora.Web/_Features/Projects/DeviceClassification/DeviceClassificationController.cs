@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.DeviceClassification;
 using Ubora.Web._Features.Projects.DeviceClassification.Services;
 using Ubora.Web._Features.Projects.DeviceClassification.ViewModels;
@@ -13,8 +12,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
         private readonly IDeviceClassification _deviceClassification;
 
         public DeviceClassificationController(
-            ICommandQueryProcessor processor,
-            IDeviceClassificationProvider deviceClassificationProvider) : base(processor)
+            IDeviceClassificationProvider deviceClassificationProvider)
         {
             _deviceClassification = deviceClassificationProvider.Provide();
         }

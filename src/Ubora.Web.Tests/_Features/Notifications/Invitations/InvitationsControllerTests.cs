@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Notifications.Invitation;
 using Ubora.Web._Features.Notifications;
@@ -14,24 +13,25 @@ namespace Ubora.Web.Tests._Features.Notifications.Invitations
     public class InvitationsControllerTests : UboraControllerTestsBase
     {
         private InvitationsController _invitationsController;
-        private Mock<ICommandQueryProcessor> _commandQueryProcessorMock;
 
         public InvitationsControllerTests()
         {
-            _commandQueryProcessorMock = new Mock<ICommandQueryProcessor>();
-            _invitationsController = new InvitationsController(_commandQueryProcessorMock.Object);
+            _invitationsController = new InvitationsController();
+            SetMocks(_invitationsController);
             SetUserContext(_invitationsController);
         }
 
         [Fact]
         public void Accept_Redirects_To_Notifications_If_Accept_Command_Succeeds()
         {
-            var vm = new InvitationPartialViewModel { InviteId = Guid.NewGuid() };
-            _commandQueryProcessorMock.Setup(x => x.Execute(It.IsAny<AcceptInvitationToProjectCommand>()))
+            var model = new InvitationPartialViewModel { InviteId = Guid.NewGuid() };
+
+            CommandProcessorMock
+                .Setup(x => x.Execute(It.IsAny<AcceptInvitationToProjectCommand>()))
                 .Returns(new CommandResult());
 
             // Act
-            var result = (RedirectToActionResult)_invitationsController.Accept(vm);
+            var result = (RedirectToActionResult)_invitationsController.Accept(model);
 
             // Assert
             result.ActionName.Should().Be(nameof(NotificationsController.Index));
@@ -40,12 +40,14 @@ namespace Ubora.Web.Tests._Features.Notifications.Invitations
         [Fact]
         public void Accept_Returns_ModelState_With_Error_If_Command_Fails()
         {
-            var vm = new InvitationPartialViewModel { InviteId = Guid.NewGuid() };
-            _commandQueryProcessorMock.Setup(x => x.Execute(It.IsAny<AcceptInvitationToProjectCommand>()))
+            var model = new InvitationPartialViewModel { InviteId = Guid.NewGuid() };
+
+            CommandProcessorMock
+                .Setup(x => x.Execute(It.IsAny<AcceptInvitationToProjectCommand>()))
                 .Returns(new CommandResult("Something went wrong"));
 
             // Act
-            var result = (RedirectToActionResult)_invitationsController.Accept(vm);
+            var result = (RedirectToActionResult)_invitationsController.Accept(model);
 
             // Assert
             _invitationsController.ModelState.ErrorCount.Should().Be(1);
@@ -54,12 +56,14 @@ namespace Ubora.Web.Tests._Features.Notifications.Invitations
         [Fact]
         public void Decline_Redirects_To_Notifications_If_Accept_Command_Succeeds()
         {
-            var vm = new InvitationPartialViewModel { InviteId = Guid.NewGuid() };
-            _commandQueryProcessorMock.Setup(x => x.Execute(It.IsAny<DeclineInvitationToProjectCommand>()))
+            var model = new InvitationPartialViewModel { InviteId = Guid.NewGuid() };
+
+            CommandProcessorMock
+                .Setup(x => x.Execute(It.IsAny<DeclineInvitationToProjectCommand>()))
                 .Returns(new CommandResult());
 
             // Act
-            var result = (RedirectToActionResult)_invitationsController.Decline(vm);
+            var result = (RedirectToActionResult)_invitationsController.Decline(model);
 
             // Assert
             result.ActionName.Should().Be(nameof(NotificationsController.Index));
@@ -68,12 +72,14 @@ namespace Ubora.Web.Tests._Features.Notifications.Invitations
         [Fact]
         public void Decline_Returns_ModelState_With_Error_If_Command_Fails()
         {
-            var vm = new InvitationPartialViewModel { InviteId = Guid.NewGuid() };
-            _commandQueryProcessorMock.Setup(x => x.Execute(It.IsAny<DeclineInvitationToProjectCommand>()))
+            var model = new InvitationPartialViewModel { InviteId = Guid.NewGuid() };
+
+            CommandProcessorMock
+                .Setup(x => x.Execute(It.IsAny<DeclineInvitationToProjectCommand>()))
                 .Returns(new CommandResult("Something went wrong"));
 
             // Act
-            var result = (RedirectToActionResult)_invitationsController.Decline(vm);
+            var result = (RedirectToActionResult)_invitationsController.Decline(model);
 
             // Assert
             _invitationsController.ModelState.ErrorCount.Should().Be(1);
