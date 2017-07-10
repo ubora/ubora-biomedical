@@ -1,5 +1,5 @@
 Feature: User Profile page
-    As a developer
+    As a user
     I want to register an account and create my profile
 
 Background:
@@ -19,7 +19,7 @@ Scenario: I sign up an account and create my profile
     When I set value "Test12345" to the element "#Password"
     When I set value "Test12345" to the element "#ConfirmPassword"
     When I click on the element "button=Create an account"
-    Then I expect the title of the page "- UBORA"
+    Then I expect the title of the page "Create a profile page - UBORA"
     When I set value "UniversityTest" to the element "#University"
     When I set value "DegreeTest" to the element "#Degree"
     When I set value "FieldTest" to the element "#Field"

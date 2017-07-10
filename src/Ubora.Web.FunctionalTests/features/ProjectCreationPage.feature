@@ -19,7 +19,7 @@ Scenario: I sign up to create a project
     When I set value "Test12345" to the element "#Password"
     When I set value "Test12345" to the element "#ConfirmPassword"
     When I click on the element "button=Create an account"
-    Then I expect the title of the page "- UBORA"
+    Then I expect the title of the page "Create a profile page - UBORA"
     When I click on the element "a=Skip profile creation"
     Then I expect the title of the page "Project drafting - UBORA"
 
@@ -35,7 +35,7 @@ Scenario: I create a project
 
 Scenario: I click on My projects and open up TestProject
     When I click on the element "i=folder"
-    Then I expect the title of the page "- UBORA"
+    Then I expect the title of the page "View projects - UBORA"
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     
@@ -55,55 +55,55 @@ Scenario: On project Dashboard page I click My projects
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "i=folder"
-    Then I expect the title of the page "- UBORA"
+    Then I expect the title of the page "View projects - UBORA"
 
 Scenario: On project Dashboard page I click Work packages
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "a=Work packages"
-    Then I expect the title of the page "Workpackages - UBORA"
+    Then I expect the title of the page "Work packages - UBORA"
 
 Scenario: On project Dashboard page I click different Work packages and try to edit them
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "a=Work packages"
-    Then I expect the title of the page "Workpackages - UBORA"
+    Then I expect the title of the page "Work packages - UBORA"
     When I click on the element "a=Description of Needs"
     Then I expect the element "h1=Description of Needs" is visible
     When I click on the element ".step_edit"
-    Then I expect the title of the page "Workpackages - UBORA"
+    Then I expect the title of the page "Description of Needs - UBORA"
     When I click on the element "a=Description of Existing Solutions and Analysis"
     Then I expect the element "h1=Description of Existing Solutions and Analysis" is visible
     When I click on the element ".step_edit"
-    Then I expect the title of the page "Workpackages - UBORA"
+    Then I expect the title of the page "Description of Existing Solutions and Analysis - UBORA"
     When I click on the element "a=Product Functionality"
     Then I expect the element "h1=Product Functionality" is visible
     When I click on the element ".step_edit"
-    Then I expect the title of the page "Workpackages - UBORA"
+    Then I expect the title of the page "Product Functionality - UBORA"
     When I click on the element "a=Product Performance"
     Then I expect the element "h1=Product Performance" is visible
     When I click on the element ".step_edit"
-    Then I expect the title of the page "Workpackages - UBORA"
+    Then I expect the title of the page "Product Performance - UBORA"
     When I click on the element "a=Product Usability"
     Then I expect the element "h1=Product Usability" is visible
     When I click on the element ".step_edit"
-    Then I expect the title of the page "Workpackages - UBORA"
+    Then I expect the title of the page "Product Usability - UBORA"
     When I click on the element "a=Product Safety"
     Then I expect the element "h1=Product Safety" is visible
     When I click on the element ".step_edit"
-    Then I expect the title of the page "Workpackages - UBORA"
+    Then I expect the title of the page "Product Safety - UBORA"
     When I click on the element "a=Patient Population Study"
     Then I expect the element "h1=Patient Population Study" is visible
     When I click on the element ".step_edit"
-    Then I expect the title of the page "Workpackages - UBORA"
+    Then I expect the title of the page "Patient Population Study - UBORA"
     When I click on the element "a=User Requirement Study"
     Then I expect the element "h1=User Requirement Study" is visible
     When I click on the element ".step_edit"
-    Then I expect the title of the page "Workpackages - UBORA"
+    Then I expect the title of the page "User Requirement Study - UBORA"
     When I click on the element "a=Additional Information"
     Then I expect the element "h1=Additional Information" is visible
     When I click on the element ".step_edit"
-    Then I expect the title of the page "Workpackages - UBORA"
+    Then I expect the title of the page "Additional Information - UBORA"
 
 Scenario: On Project Dashboard page I click History
     When I click on the element "h4=TestProject"
@@ -157,9 +157,9 @@ Scenario: I go through Device classification
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "a=Work packages"
-    Then I expect the title of the page "Workpackages - UBORA"
+    Then I expect the title of the page "Work packages - UBORA"
     When I click on the element "a=Device classification"
-    Then I expect the title of the page "Design planning - UBORA"
+    Then I expect the title of the page "Device classification - UBORA"
     When I click on the element "a=Go to device classification"
     Then I expect the title of the page "Device classification - UBORA"
     When I click on the element "button=Is your device NON INVASIVE?"

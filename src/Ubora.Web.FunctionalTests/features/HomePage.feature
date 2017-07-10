@@ -23,3 +23,7 @@ Scenario: Click I have an idea button
 Scenario: Click on View members
     When I click on the element "a=View members"
     Then I expect the title of the page "View members - UBORA"
+
+Scenario: Click on Search
+    When I click on the element "span=Search"
+    Then I expect the title of the page "Search - UBORA"

@@ -20,7 +20,7 @@ Scenario: I sign up an account
     When I set value "Test12345" to the element "#ConfirmPassword"
     When I click on the element "#IsAgreedToTermsOfService"
     When I click on the element "button=Create an account"
-    Then I expect the title of the page "- UBORA"
+    Then I expect the title of the page "Create a profile page - UBORA"
     When I click on the element "a=Skip profile creation"
     Then I expect the title of the page "Welcome - UBORA"
 
@@ -32,7 +32,7 @@ Scenario: I click View profile
 Scenario: I click My projects
     When I click on the element "span=Menu"
     When I click on the element "i=folder"
-    Then I expect the title of the page "- UBORA"
+    Then I expect the title of the page "View projects - UBORA"
 
 Scenario: I click New projects
     When I click on the element "span=Menu"
@@ -42,7 +42,7 @@ Scenario: I click New projects
 Scenario: I click Messages
     When I click on the element "span=Menu"
     When I click on the element "i=message"
-    Then I expect the title of the page "- UBORA"
+    Then I expect the title of the page "Messages - UBORA"
 
 Scenario: I click Notifications
     When I click on the element "span=Menu"

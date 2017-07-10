@@ -20,3 +20,7 @@ Scenario: Click Sign in/sign up
 Scenario: Click Sign up
     When I click on the element "a=Sign up"
     Then I expect the title of the page "Sign up - UBORA"
+
+Scenario: Click Forgot password?
+    When I click on the element "a=Forgot password?"
+    Then I expect the title of the page "Forgot your password? - UBORA"
