@@ -3,22 +3,22 @@ using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Web._Features.Home
 {
-	public class HomeController : UboraController
-	{
-	    public HomeController(ICommandQueryProcessor processor) : base(processor)
-	    {
-	    }
+    public class HomeController : UboraController
+    {
+        public HomeController(ICommandQueryProcessor processor) : base(processor)
+        {
+        }
 
         [Route("")]
-		public IActionResult Index(string returnUrl = null)
-		{
-		    if (returnUrl != null)
-		    {
-		        return RedirectToLocal(returnUrl);
-		    }
+        public IActionResult Index(string returnUrl = null)
+        {
+            if (returnUrl != null)
+            {
+                return RedirectToLocal(returnUrl);
+            }
 
-			return View();
-		}
+            return View();
+        }
 
         public IActionResult Error()
         {
