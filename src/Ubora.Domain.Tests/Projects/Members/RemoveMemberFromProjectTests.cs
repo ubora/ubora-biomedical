@@ -22,9 +22,9 @@ namespace Ubora.Domain.Tests.Projects.Members
         public void Project_Leader_Can_Remove_Member_User_From_Project()
         {
             this.Given(_ => There_Is_Project_And_User())
-                    .And(_ => Project_Add_Member_To_Project())
+                    .And(_ => Add_Member_To_Project())
                 .When(_ => Project_Leader_Removes_Member_User_From_Project())
-                .Then(_ => User_Is_Not_Member_In_Project())
+                .Then(_ => Assert_User_Is_Not_Member_In_Project())
                 .BDDfy();
         }
 
@@ -32,25 +32,17 @@ namespace Ubora.Domain.Tests.Projects.Members
         public void Project_Leader_Can_Remove_Member_User_in_Multiple_Roles_From_Project()
         {
             this.Given(_ => There_Is_Project_And_User())
-                    .And(_ => Project_Add_Member_To_Project())
+                    .And(_ => Add_Member_To_Project())
                     .And(_ => this.Assign_Project_Mentor(_projectId, _userId))
                 .When(_ => Project_Leader_Removes_Member_User_From_Project())
-                .Then(_ => User_Is_Not_Member_In_Project())
+                .Then(_ => Assert_User_Is_Not_Member_In_Project())
                 .BDDfy();
         }
 
         private void There_Is_Project_And_User()
         {
-            Processor.Execute(new CreateProjectCommand
-            {
-                NewProjectId = _projectId,
-                Actor = new UserInfo(Guid.NewGuid(), "")
-            });
-
-            Processor.Execute(new CreateUserProfileCommand
-            {
-                UserId = _userId
-            });
+            this.Create_Project(_projectId);
+            this.Create_User(_userId);
         }
 
         private void Project_Leader_Removes_Member_User_From_Project()
@@ -63,28 +55,7 @@ namespace Ubora.Domain.Tests.Projects.Members
             });
         }
 
-        private void User_Is_Member_In_Project()
-        {
-            var project = Session.Load<Project>(_projectId);
-
-            project.DoesSatisfy(new HasMember(_userId)).Should().BeTrue();
-
-            var addedMember = project.Members.Last();
-            addedMember.UserId.Should().Be(_userId);
-            addedMember.Should().BeOfType<ProjectMember>();
-        }
-
-        private void User_Is_Multiple_Roles_In_Project()
-        {
-            var project = Session.Load<Project>(_projectId);
-
-            project.DoesSatisfy(new HasMember(_userId)).Should().BeTrue();
-
-            var members = project.Members.Where(x => x.UserId == _userId);
-            members.Count().Should().BeGreaterThan(1);
-        }
-
-        private void Project_Add_Member_To_Project()
+        private void Add_Member_To_Project()
         {
             _lastCommandResult = Processor.Execute(new AddMemberToProjectCommand
             {
@@ -94,7 +65,7 @@ namespace Ubora.Domain.Tests.Projects.Members
             });
         }
 
-        private void User_Is_Not_Member_In_Project()
+        private void Assert_User_Is_Not_Member_In_Project()
         {
             var project = Session.Load<Project>(_projectId);
 
