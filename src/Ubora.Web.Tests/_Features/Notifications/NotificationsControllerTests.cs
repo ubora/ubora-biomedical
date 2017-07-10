@@ -24,7 +24,7 @@ namespace Ubora.Web.Tests._Features.Notifications
             _historyViewModelFactoryMock = new Mock<HistoryViewModel.Factory>();
             _indexViewModelFactoryMock = new Mock<IndexViewModel.Factory>();
 
-            _notificationsController = new NotificationsController(_historyViewModelFactoryMock.Object, _indexViewModelFactoryMock.Object);
+            _notificationsController = new NotificationsController();
             SetMocks(_notificationsController);
             SetUserContext(_notificationsController);
         }
@@ -54,7 +54,7 @@ namespace Ubora.Web.Tests._Features.Notifications
                 .Returns(historyViewModel);
 
             // Act
-            var result = (ViewResult)_notificationsController.History();
+            var result = (ViewResult)_notificationsController.History(_historyViewModelFactoryMock.Object);
 
             // Assert
             var viewModel = (HistoryViewModel)result.Model;
@@ -92,7 +92,7 @@ namespace Ubora.Web.Tests._Features.Notifications
                 .Returns(new CommandResult());
 
             // Act
-            var result = (ViewResult)_notificationsController.Index();
+            var result = (ViewResult)_notificationsController.Index(_indexViewModelFactoryMock.Object);
 
             // Assert
             var viewModel = (IndexViewModel)result.Model;
@@ -115,7 +115,7 @@ namespace Ubora.Web.Tests._Features.Notifications
                 .Returns(new CommandResult());
 
             // Act
-            var result = (ViewResult)_notificationsController.Index();
+            var result = (ViewResult)_notificationsController.Index(_indexViewModelFactoryMock.Object);
 
             // Assert
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<MarkNotificationsAsViewedCommand>()));

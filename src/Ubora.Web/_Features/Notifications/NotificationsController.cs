@@ -8,30 +8,19 @@ namespace Ubora.Web._Features.Notifications
     [Authorize]
     public class NotificationsController : UboraController
     {
-        private readonly HistoryViewModel.Factory _historyViewModelFactory;
-        private readonly IndexViewModel.Factory _indexViewModelFactory;
-
-        public NotificationsController(
-            HistoryViewModel.Factory historyViewModelFactory,
-            IndexViewModel.Factory indexViewModelFactory)
-        {
-            _historyViewModelFactory = historyViewModelFactory;
-            _indexViewModelFactory = indexViewModelFactory;
-        }
-
         [RestoreModelStateFromTempData]
-        public IActionResult Index()
+        public IActionResult Index([FromServices]IndexViewModel.Factory modelFactory)
         {
-            var indexViewModel = _indexViewModelFactory.Create(UserInfo.UserId);
+            var indexViewModel = modelFactory.Create(UserInfo.UserId);
 
             MarkNotificationsAsViewed();
 
             return View(indexViewModel);
         }
 
-        public IActionResult History()
+        public IActionResult History([FromServices]HistoryViewModel.Factory modelFactory)
         {
-            var viewModel = _historyViewModelFactory.Create(UserInfo.UserId);
+            var viewModel = modelFactory.Create(UserInfo.UserId);
 
             return View(viewModel);
         }
