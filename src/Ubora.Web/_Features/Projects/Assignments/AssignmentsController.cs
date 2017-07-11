@@ -22,7 +22,7 @@ namespace Ubora.Web._Features.Projects.Assignments
             return View(model);
         }
 
-        [Route("Add")]
+        [Route(nameof(Add))]
         public IActionResult Add()
         {
             var model = new AddAssignmentViewModel
@@ -34,6 +34,7 @@ namespace Ubora.Web._Features.Projects.Assignments
         }
 
         [HttpPost]
+        [Route(nameof(Add))]
         public IActionResult Add(AddAssignmentViewModel model)
         {
             if (!ModelState.IsValid)
@@ -56,7 +57,7 @@ namespace Ubora.Web._Features.Projects.Assignments
             return RedirectToAction(nameof(Assignments), new { ProjectId });
         }
 
-        [Route("Edit")]
+        [Route(nameof(Edit))]
         public IActionResult Edit(Guid id)
         {
             var task = QueryProcessor.FindById<ProjectTask>(id);
@@ -67,6 +68,7 @@ namespace Ubora.Web._Features.Projects.Assignments
         }
 
         [HttpPost]
+        [Route(nameof(Edit))]
         public IActionResult Edit(EditAssignmentViewModel model)
         {
             if (!ModelState.IsValid)
