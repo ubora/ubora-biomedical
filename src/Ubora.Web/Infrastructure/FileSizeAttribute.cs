@@ -11,13 +11,11 @@ namespace Ubora.Web.Infrastructure
         public string FileTooLargeMessage { get; set; }
 
         public FileSizeAttribute(int maxBytes)
-            : base("Please upload a supported file.")
         {
             MaxBytes = maxBytes;
         }
 
         public FileSizeAttribute(int maxBytes, string fileTooLargeMessage)
-            : base("Please upload a supported file.")
         {
             MaxBytes = maxBytes;
             FileTooLargeMessage = fileTooLargeMessage;

@@ -8,6 +8,6 @@ namespace Ubora.Domain.Projects
         {
         }
 
-        public override string GetDescription() => "Deleted project image";
+        public override string GetDescription() => "Deleted project image.";
     }
 }

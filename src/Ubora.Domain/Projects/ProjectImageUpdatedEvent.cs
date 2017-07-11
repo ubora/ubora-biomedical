@@ -12,6 +12,6 @@ namespace Ubora.Domain.Projects
             When = when;
         }
 
-        public override string GetDescription() => "Updated project image";
+        public override string GetDescription() => "Updated project image.";
     }
 }
