@@ -3,6 +3,7 @@ using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Web._Features.Projects.Workpackages
 {
+    [ProjectRoute("[controller]")]
     public class WorkpackagesController : ProjectController
     {
         public WorkpackagesController(ICommandQueryProcessor processor) : base(processor)

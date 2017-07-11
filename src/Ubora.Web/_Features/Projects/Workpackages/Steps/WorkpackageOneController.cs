@@ -35,8 +35,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View(model);
         }
 
-        [Route(nameof(DesignPlanning))]
         [HttpPost]
+        [Route(nameof(DesignPlanning))]
         [Authorize(Policies.CanEditWorkpackageOne)]
         public IActionResult DesignPlanning(DesignPlanningViewModel model)
         {
@@ -102,8 +102,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View(model);
         }
 
-        [Route("{stepId}/Edit")]
         [HttpPost]
+        [Route("{stepId}/Edit")]
         [Authorize(Policies.CanEditWorkpackageOne)]
         public IActionResult Edit(EditStepPostModel model)
         {

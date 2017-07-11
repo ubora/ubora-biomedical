@@ -43,6 +43,7 @@ namespace Ubora.Web._Features.Projects.Repository
 
         [HttpPost]
         [Authorize]
+        [Route(nameof(AddFile))]
         public IActionResult AddFile(AddFileViewModel model)
         {
             if (!ModelState.IsValid)

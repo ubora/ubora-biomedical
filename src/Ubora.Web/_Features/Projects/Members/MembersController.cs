@@ -61,7 +61,7 @@ namespace Ubora.Web._Features.Projects.Members
             return View(nameof(Members), model);
         }
 
-        [Route("Invite")]
+        [Route(nameof(Invite))]
         public IActionResult Invite()
         {
             var model = new InviteProjectMemberViewModel { ProjectId = ProjectId };
@@ -70,6 +70,7 @@ namespace Ubora.Web._Features.Projects.Members
         }
 
         [HttpPost]
+        [Route(nameof(Invite))]
         public IActionResult Invite(InviteProjectMemberViewModel model)
         {
             if (!ModelState.IsValid)
@@ -90,8 +91,8 @@ namespace Ubora.Web._Features.Projects.Members
             return RedirectToAction(nameof(Members), new { id = model.ProjectId });
         }
 
-        [Route("Join")]
         [AllowAnonymous]
+        [Route(nameof(Join))]
         public IActionResult Join(Guid projectId)
         {
             if (!_signInManager.IsSignedIn(User))
@@ -115,6 +116,7 @@ namespace Ubora.Web._Features.Projects.Members
 
         [HttpPost]
         [AllowAnonymous]
+        [Route(nameof(Join))]
         public IActionResult Join(JoinProjectViewModel model)
         {
             if (!ModelState.IsValid)
@@ -132,7 +134,7 @@ namespace Ubora.Web._Features.Projects.Members
             return RedirectToAction("Dashboard", "Dashboard", new { });
         }
 
-        [Route("RemoveMember")]
+        [Route(nameof(RemoveMember))]
         [Authorize(Policy = nameof(Policies.CanRemoveProjectMember))]
         public IActionResult RemoveMember(Guid memberId)
         {
@@ -146,6 +148,7 @@ namespace Ubora.Web._Features.Projects.Members
         }
 
         [HttpPost]
+        [Route(nameof(RemoveMember))]
         [Authorize(Policy = nameof(Policies.CanRemoveProjectMember))]
         public IActionResult RemoveMember(RemoveMemberViewModel removeMemberViewModel)
         {
@@ -167,18 +170,19 @@ namespace Ubora.Web._Features.Projects.Members
             return RedirectToAction(nameof(Members));
         }
 
-        [Route("Leave")]
+        [Route(nameof(Leave))]
         public IActionResult Leave()
         {
-            return View();
+            return View(nameof(Leave));
         }
 
         [HttpPost]
+        [Route(nameof(Leave))]
         public IActionResult LeaveProject()
         {
             if (!ModelState.IsValid)
             {
-                return View("Leave");
+                return Leave();
             }
 
             ExecuteUserProjectCommand(new RemoveMemberFromProjectCommand
@@ -188,15 +192,16 @@ namespace Ubora.Web._Features.Projects.Members
 
             if (!ModelState.IsValid)
             {
-                return View("Leave");
+                return Leave();
             }
 
             return RedirectToAction("Dashboard", "Dashboard", new { });
         }
 
+        [HttpPost]
+        [Route(nameof(AssignMeAsMentor))]
         [DisableProjectControllerAuthorization]
         [Authorize(Roles = ApplicationRole.Admin)]
-        [HttpPost]
         public async Task<IActionResult> AssignMeAsMentor()
         {
             ExecuteUserProjectCommand(new AssignProjectMentorCommand
