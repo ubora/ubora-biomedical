@@ -18,57 +18,57 @@
         <span asp-validation-for="LastName"></span>
     </div>
 
-    <h3>Academia</h3>
+    <h3>Personal - Education</h3>
     <div class="form-input">
-        <label>
-            University
-        </label>
-        <input asp-for="University" placeholder="Name of university">
-        <span asp-validation-for="University"></span>
+        <label asp-for="Biography">Bio</label>
+        <textarea asp-for="Biography" rows="5" placeholder="Write a few words about yourself!"></textarea>
+        <span asp-validation-for="Biography"></span>
     </div>
 
+    @Html.Partial("CountrySelectionPartial", @Model)
 
     <div class="form-input">
-        <label>
-            Degree
-        </label>
+        <label asp-for="Degree">Degree</label>
         <input asp-for="Degree" placeholder="Held/obtaining degree">
         <span asp-validation-for="Degree"></span>
     </div>
 
-
     <div class="form-input">
-        <label>
-            Field
-        </label>
+        <label asp-for="Field">Field of study</label>
         <input asp-for="Field" placeholder="e.g. hardware engineering">
         <span asp-validation-for="Field"></span>
     </div>
 
     <div class="form-input">
-        <label>
-            Role
-        </label>
-        @Html.DropDownListFor(x => x.Role, SelectLists.UserRoles)
-        <span asp-validation-for="Role"></span>
+        <label asp-for="University">University</label>
+        <input asp-for="University" placeholder="Name of university">
+        <span asp-validation-for="University"></span>
     </div>
 
-
-    <h3>Personal</h3>
+    <h3>Working experience in medical device field</h3>
     <div class="form-input">
-        <label>
-            Bio
-        </label>
-        <textarea asp-for="Biography" rows="5" placeholder="Write a few words about yourself!"></textarea>
-        <span asp-validation-for="Biography"></span>
+        <label asp-for="MedicalDevice">I am involved in development and use of medical devices as...</label>
+        <select asp-for="MedicalDevice" asp-items="@SelectLists.UserMedicalDevices"></select>
+        <span asp-validation-for="MedicalDevice"></span>
     </div>
 
     <div class="form-input">
-        <label>
-            Skills
-        </label>
+        <label asp-for="Institution">Please indicate your institution</label>
+        <input asp-for="Institution" type="text" placeholder="e.g. company, research institute, hospital">
+        <span asp-validation-for="Institution"></span>
+    </div>
+
+    <div class="form-input">
+        <label asp-for="Skills">Skills</label>
         <input asp-for="Skills" placeholder="What are you good at?">
         <span asp-validation-for="Skills"></span>
+    </div>
+
+    <h3>UBORA e-infrastructure</h3>
+    <div class="form-input">
+        <label asp-for="Role">Role</label>
+        <select asp-for="Role" asp-items="@SelectLists.UserRoles"></select>
+        <span asp-validation-for="Role"></span>
     </div>
 
     <button type="submit" class="button primary-button">Edit profile</button>
