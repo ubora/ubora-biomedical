@@ -7,16 +7,16 @@
         <li class="project_sidemenu--workpackage">
             <h3>WP1: @Model.WorkpackageOne.Title</h3>
             <ol>
-                <li><a asp-controller="WorkpackageOne" asp-action="DesignPlanning">&nbsp;Design planning</a></li>
+                <li>&nbsp;<a asp-controller="WorkpackageOne" asp-action="DesignPlanning">Design planning</a></li>
                 @foreach (var step in Model.WorkpackageOne.Steps)
                 {
                     <li>
                         <a asp-action="Read" asp-controller="WorkpackageOne" asp-route-stepId="@step.Id">@step.Title</a>
                     </li>
                 }
-                <li><a asp-controller="WorkpackageOne" asp-action="DeviceClassification">&nbsp;Device classification</a></li>
-                <li><a href="#" class="project_sidemenu_link--disabled">&nbsp;Regulation checklist</a></li>
-                <li><a asp-controller="WorkpackageOneReview" asp-action="Review">&nbsp;Formal review</a></li>
+                <li>&nbsp;<a asp-controller="WorkpackageOne" asp-action="DeviceClassification">Device classification</a></li>
+                <li>&nbsp;<a href="#" class="project_sidemenu_link--disabled">Regulation checklist</a></li>
+                <li>&nbsp;<a asp-controller="WorkpackageOneReview" asp-action="Review">Formal review</a></li>
             </ol>
         </li>
 
@@ -34,7 +34,7 @@
                             </a>
                         </li>
                     }
-                    <li><a asp-controller="WorkpackageTwoReview" asp-action="Review">&nbsp;Formal review</a></li>
+                    <li>&nbsp;<a asp-controller="WorkpackageTwoReview" asp-action="Review">Formal review</a></li>
                 </ol>
             </li>
         }
