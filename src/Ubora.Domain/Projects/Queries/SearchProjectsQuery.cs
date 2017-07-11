@@ -20,9 +20,9 @@ namespace Ubora.Domain.Projects.Queries
 
             public override IEnumerable<Project> Handle(SearchProjectsQuery query)
             {
-                var users = QueryProcessor.Find(new TitleContains(query.Title));
+                var projects = QueryProcessor.Find(new BySearchPhrase(query.Title));
 
-                return users;
+                return projects;
             }
         }
     }

@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
-using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Web._Features.Users.Manage
 {
@@ -25,8 +24,7 @@ namespace Ubora.Web._Features.Users.Manage
           SignInManager<ApplicationUser> signInManager,
           IOptions<IdentityCookieOptions> identityCookieOptions,
           IEmailSender emailSender,
-          ILoggerFactory loggerFactory,
-          ICommandQueryProcessor processor) : base(processor)
+          ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;

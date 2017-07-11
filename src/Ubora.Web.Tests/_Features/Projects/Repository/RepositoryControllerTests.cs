@@ -18,19 +18,14 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
 {
     public class RepositoryControllerTests : ProjectControllerTestsBase
     {
-        private readonly Mock<IMapper> _mapperMock;
-        private readonly Mock<ICommandQueryProcessor> _commandQueryProcessorMock;
-        private readonly Mock<IStorageProvider> _storageProviderMock;
-
         private readonly RepositoryController _controller;
+        private readonly Mock<IStorageProvider> _storageProviderMock;
 
         public RepositoryControllerTests()
         {
-            _mapperMock = new Mock<IMapper>();
-            _commandQueryProcessorMock = new Mock<ICommandQueryProcessor>();
             _storageProviderMock = new Mock<IStorageProvider>();
-            _controller = new RepositoryController(_commandQueryProcessorMock.Object, _mapperMock.Object, _storageProviderMock.Object);
-            SetProjectAndUserContext(_controller);
+            _controller = new RepositoryController(_storageProviderMock.Object);
+            SetUpForTest(_controller);
         }
 
         [Fact]
@@ -54,7 +49,8 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 otherProjetFile
             };
 
-            _commandQueryProcessorMock.Setup(x => x.Find<ProjectFile>(null))
+            QueryProcessorMock
+                .Setup(x => x.Find<ProjectFile>(null))
                 .Returns(allProjectFiles);
 
             CreateTestProject();
@@ -72,7 +68,8 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 {
                     FileLocation = "testFileLocation"
                 };
-                _mapperMock.Setup(m => m.Map<ProjectFileViewModel>(file))
+                AutoMapperMock
+                    .Setup(m => m.Map<ProjectFileViewModel>(file))
                     .Returns(expectedFile);
                 projectFileViewModels.Add(expectedFile);
             }
@@ -110,7 +107,8 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             AddFileCommand executedCommand = null;
 
             fileMock.Setup(f => f.FileName).Returns("C:\\Test\\Parent\\Parent\\image.png");
-            _commandQueryProcessorMock.Setup(p => p.Execute(It.IsAny<AddFileCommand>()))
+            CommandProcessorMock
+                .Setup(p => p.Execute(It.IsAny<AddFileCommand>()))
                 .Callback<AddFileCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
 
@@ -139,7 +137,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
 
             //Assert
             result.ViewName.Should().Be(nameof(RepositoryController.Repository));
-            _commandQueryProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
+            CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
         }
 
         [Fact]
@@ -156,7 +154,8 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .Returns("C:\\Test\\Parent\\Parent\\image.png");
 
             var commandResult = new CommandResult("testError1", "testError2");
-            _commandQueryProcessorMock.Setup(p => p.Execute(It.IsAny<AddFileCommand>()))
+            CommandProcessorMock
+                .Setup(p => p.Execute(It.IsAny<AddFileCommand>()))
                 .Returns(commandResult);
 
             CreateTestProject();
@@ -173,7 +172,8 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         private void CreateTestProject()
         {
             var expectedProject = new Project().Set(x => x.Title, "Title");
-            _commandQueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
+
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(expectedProject);
         }
     }
