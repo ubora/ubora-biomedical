@@ -76,10 +76,13 @@ namespace Ubora.Web._Features.Users.Profile
                 UserId = new Guid(userId),
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                University = model.University,
+                Biography = model.Biography,
+                CountryCode = model.CountryCode,
                 Degree = model.Degree,
                 Field = model.Field,
-                Biography = model.Biography,
+                University = model.University,
+                MedicalDevice = model.MedicalDevice,
+                Institution = model.Institution,
                 Skills = model.Skills,
                 Role = model.Role
             };
@@ -121,10 +124,13 @@ namespace Ubora.Web._Features.Users.Profile
                 UserId = this.UserId,
                 FirstName = UserProfile.FirstName,
                 LastName = UserProfile.LastName,
-                University = model.University,
+                Biography = model.Biography,
+                CountryCode = model.CountryCode,
                 Degree = model.Degree,
                 Field = model.Field,
-                Biography = model.Biography,
+                University = model.University,
+                MedicalDevice = model.MedicalDevice,
+                Institution = model.Institution,
                 Skills = model.Skills,
                 Role = model.Role
             });
