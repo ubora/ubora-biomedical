@@ -20,7 +20,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
             return View(nameof(Dashboard), model);
         }
 
-        [Route("EditProjectDescription")]
+        [Route(nameof(EditProjectDescription))]
         public IActionResult EditProjectDescription()
         {
             var editProjectDescription = new EditProjectDescriptionViewModel
@@ -32,6 +32,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
         } 
 
         [HttpPost]
+        [Route(nameof(EditProjectDescription))]
         public IActionResult EditProjectDescription(EditProjectDescriptionViewModel model)
         {
             if (!ModelState.IsValid)
