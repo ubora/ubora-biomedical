@@ -8,6 +8,7 @@ using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.Projects.Dashboard
 {
+    [ProjectRoute("[controller]")]
     public class DashboardController : ProjectController
     {
         [AllowAnonymous]
@@ -19,6 +20,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
             return View(nameof(Dashboard), model);
         }
 
+        [Route("EditProjectDescription")]
         public IActionResult EditProjectDescription()
         {
             var editProjectDescription = new EditProjectDescriptionViewModel

@@ -4,6 +4,7 @@ using Ubora.Domain.Infrastructure.Queries;
 
 namespace Ubora.Web._Features.Projects.History
 {
+    [ProjectRoute("[controller]")]
     public class HistoryController : ProjectController
     {
         private readonly IEventStreamQuery _eventStreamQuery;

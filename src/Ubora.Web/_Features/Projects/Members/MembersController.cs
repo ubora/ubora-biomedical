@@ -15,6 +15,7 @@ using Ubora.Domain.Notifications.Join;
 
 namespace Ubora.Web._Features.Projects.Members
 {
+    [ProjectRoute("[controller]")]
     public class MembersController : ProjectController
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -54,6 +55,7 @@ namespace Ubora.Web._Features.Projects.Members
             return View(nameof(Members), model);
         }
 
+        [Route("Invite")]
         public IActionResult Invite()
         {
             var model = new InviteProjectMemberViewModel { ProjectId = ProjectId };
@@ -82,6 +84,7 @@ namespace Ubora.Web._Features.Projects.Members
             return RedirectToAction(nameof(Members), new { id = model.ProjectId });
         }
 
+        [Route("Join")]
         [AllowAnonymous]
         public IActionResult Join(Guid projectId)
         {
@@ -123,6 +126,7 @@ namespace Ubora.Web._Features.Projects.Members
             return RedirectToAction("Dashboard", "Dashboard", new { });
         }
 
+        [Route("RemoveMember")]
         [Authorize(Policy = nameof(Policies.CanRemoveProjectMember))]
         public IActionResult RemoveMember(Guid memberId)
         {
@@ -157,6 +161,7 @@ namespace Ubora.Web._Features.Projects.Members
             return RedirectToAction(nameof(Members));
         }
 
+        [Route("Leave")]
         public IActionResult Leave()
         {
             return View();

@@ -8,6 +8,7 @@ using Ubora.Domain.Projects.Repository;
 
 namespace Ubora.Web._Features.Projects.Repository
 {
+    [ProjectRoute("[controller]")]
     public class RepositoryController : ProjectController
     {
         private readonly IStorageProvider _storageProvider;
