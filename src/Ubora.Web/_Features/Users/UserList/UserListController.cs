@@ -1,9 +1,6 @@
-
-
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using TwentyTwenty.Storage;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Users;
 using Ubora.Web.Infrastructure.Extensions;
 
@@ -13,14 +10,14 @@ namespace Ubora.Web._Features.Users.UserList
     {
         private readonly IStorageProvider _storageProvider;
 
-        public UserListController(ICommandQueryProcessor processor, IStorageProvider storageProvider) : base(processor)
+        public UserListController(IStorageProvider storageProvider)
         {
             _storageProvider = storageProvider;
         }
 
         public IActionResult Index()
         {
-            var userProfiles = Find<UserProfile>();
+            var userProfiles = QueryProcessor.Find<UserProfile>();
 
             var viewmodel = userProfiles.Select(userProfile => new UserListItemViewModel
             {

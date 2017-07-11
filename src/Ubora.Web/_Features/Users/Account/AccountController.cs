@@ -33,7 +33,7 @@ namespace Ubora.Web._Features.Users.Account
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
             ILoggerFactory loggerFactory,
-            ICommandQueryProcessor processor, IAuthMessageSender authMessageSender) : base(processor)
+            ICommandQueryProcessor processor, IAuthMessageSender authMessageSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;

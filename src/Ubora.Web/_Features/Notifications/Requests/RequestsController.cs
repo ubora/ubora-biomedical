@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Notifications.Join;
 using Ubora.Web.Infrastructure;
 
@@ -9,10 +8,6 @@ namespace Ubora.Web._Features.Notifications.Requests
     [Authorize]
     public class RequestsController : UboraController
     {
-        public RequestsController(ICommandQueryProcessor processor) : base(processor)
-        {
-        }
-
         [HttpPost]
         [SaveTempDataModelState]
         public IActionResult Accept(RequestPartialViewModel requestPartialViewModel)
@@ -22,8 +17,11 @@ namespace Ubora.Web._Features.Notifications.Requests
                 return RedirectToAction("Index", "Notifications");
             }
 
-            ExecuteUserCommand(new AcceptRequestToJoinProjectCommand {  RequestId = requestPartialViewModel.RequestId });
-            
+            ExecuteUserCommand(new AcceptRequestToJoinProjectCommand
+            {
+                RequestId = requestPartialViewModel.RequestId
+            });
+
             return RedirectToAction("Index", "Notifications");
         }
 
@@ -36,7 +34,10 @@ namespace Ubora.Web._Features.Notifications.Requests
                 return RedirectToAction("Index", "Notifications");
             }
 
-            ExecuteUserCommand(new DeclineRequestToJoinProjectCommand { RequestId = requestPartialViewModel.RequestId });
+            ExecuteUserCommand(new DeclineRequestToJoinProjectCommand
+            {
+                RequestId = requestPartialViewModel.RequestId
+            });
 
             return RedirectToAction("Index", "Notifications");
         }
