@@ -6,16 +6,6 @@ using Ubora.Domain.Users;
 
 namespace Ubora.Domain.Tests
 {
-    public class Country
-    {
-        public string Code { get; private set; }
-
-        public Country(string code)
-        {
-            Code = code;
-        }
-    }
-
     public static class IntegrationFixtureExtensions
     {
         public static void Create_Project(this IntegrationFixture fixture, Guid projectId)
