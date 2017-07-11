@@ -91,8 +91,7 @@ namespace Ubora.Domain.Projects
                 throw new InvalidOperationException();
             }
 
-            var member = _members.Single(x => x.UserId == e.UserId);
-            _members.Remove(member);
+            _members.RemoveWhere(m => m.UserId == e.UserId);
         }
 
         private void Apply(EditProjectDescriptionEvent e)

@@ -11,22 +11,16 @@ using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Projects.Dashboard
 {
+    [ProjectRoute("[controller]")]
     public class DashboardController : ProjectController
     {
-        private readonly IMapper _mapper;
-        private readonly IAuthorizationService _authorizationService;
         private readonly IStorageProvider _storageProvider;
         private readonly ImageResizer _imageResizer;
 
         public DashboardController(
-            ICommandQueryProcessor processor,
-            IMapper mapper,
-            IAuthorizationService authorizationService,
             IStorageProvider storageProvider,
-            ImageResizer imageResizer) : base(processor)
+            ImageResizer imageResizer)
         {
-            _mapper = mapper;
-            _authorizationService = authorizationService;
             _storageProvider = storageProvider;
             _imageResizer = imageResizer;
         }
@@ -34,14 +28,15 @@ namespace Ubora.Web._Features.Projects.Dashboard
         [AllowAnonymous]
         public async Task<IActionResult> Dashboard()
         {
-            var model = _mapper.Map<ProjectDashboardViewModel>(Project);
-            model.IsProjectMember = await _authorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
+            var model = AutoMapper.Map<ProjectDashboardViewModel>(Project);
+            model.IsProjectMember = await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
             model.ImagePath = _storageProvider.GetDefaultOrBlobUrl(Project, 1500, 300);
             model.HasImage = Project.ProjectImageLastUpdated != null;
 
             return View(nameof(Dashboard), model);
         }
 
+        [Route(nameof(EditProjectDescription))]
         public IActionResult EditProjectDescription()
         {
             var editProjectDescription = new EditProjectDescriptionViewModel
@@ -53,6 +48,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
         }
 
         [HttpPost]
+        [Route(nameof(EditProjectDescription))]
         public IActionResult EditProjectDescription(EditProjectDescriptionViewModel model)
         {
             if (!ModelState.IsValid)
@@ -74,12 +70,14 @@ namespace Ubora.Web._Features.Projects.Dashboard
             return RedirectToAction(nameof(Dashboard));
         }
 
+        [Route(nameof(EditProjectImage))]
         public IActionResult EditProjectImage()
         {
             return View();
         }
 
         [HttpPost]
+        [Route(nameof(EditProjectImage))]
         public async Task<IActionResult> EditProjectImage(EditProjectImageViewModel model)
         {
             if (!ModelState.IsValid)
@@ -110,6 +108,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
             return RedirectToAction(nameof(Dashboard));
         }
 
+        [Route(nameof(RemoveProjectImage))]
         public IActionResult RemoveProjectImage()
         {
             var model = new RemoveProjectImageViewModel
@@ -121,6 +120,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
         }
 
         [HttpPost]
+        [Route(nameof(RemoveProjectImage))]
         public async Task<IActionResult> RemoveProjectImage(RemoveProjectImageViewModel model)
         {
             if (!ModelState.IsValid)

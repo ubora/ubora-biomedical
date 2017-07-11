@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Users;
 using System;
 using System.Threading.Tasks;
@@ -16,32 +15,28 @@ using Ubora.Domain.Notifications.Join;
 
 namespace Ubora.Web._Features.Projects.Members
 {
+    [ProjectRoute("[controller]")]
     public class MembersController : ProjectController
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IAuthorizationService _authorizationService;
 
-        public MembersController(
-            ICommandQueryProcessor processor,
-            SignInManager<ApplicationUser> signInManager,
-            IAuthorizationService authorizationService) : base(processor)
+        public MembersController(SignInManager<ApplicationUser> signInManager)
         {
             _signInManager = signInManager;
-            _authorizationService = authorizationService;
         }
 
         [AllowAnonymous]
         public async Task<IActionResult> Members()
         {
-            var canRemoveProjectMembers = await _authorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember);
-            var isProjectMember = await _authorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
-            var isAuthenticated = await _authorizationService.AuthorizeAsync(User, Policies.IsAuthenticatedUser);
+            var canRemoveProjectMembers = await AuthorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember);
+            var isProjectMember = await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
+            var isAuthenticated = await AuthorizationService.AuthorizeAsync(User, Policies.IsAuthenticatedUser);
 
             var members = Project.Members.Select(m => new ProjectMemberListViewModel.Item
             {
                 UserId = m.UserId,
                 // TODO(Kaspar Kallas): Eliminate SELECT(N + 1)
-                FullName = FindById<UserProfile>(m.UserId).FullName,
+                FullName = QueryProcessor.FindById<UserProfile>(m.UserId).FullName,
                 IsProjectLeader = m.IsLeader,
                 IsCurrentUser = isAuthenticated && UserId == m.UserId
             });
@@ -60,6 +55,7 @@ namespace Ubora.Web._Features.Projects.Members
             return View(nameof(Members), model);
         }
 
+        [Route(nameof(Invite))]
         public IActionResult Invite()
         {
             var model = new InviteProjectMemberViewModel { ProjectId = ProjectId };
@@ -68,6 +64,7 @@ namespace Ubora.Web._Features.Projects.Members
         }
 
         [HttpPost]
+        [Route(nameof(Invite))]
         public IActionResult Invite(InviteProjectMemberViewModel model)
         {
             if (!ModelState.IsValid)
@@ -89,6 +86,7 @@ namespace Ubora.Web._Features.Projects.Members
         }
 
         [AllowAnonymous]
+        [Route(nameof(Join))]
         public IActionResult Join(Guid projectId)
         {
             if (!_signInManager.IsSignedIn(User))
@@ -98,7 +96,7 @@ namespace Ubora.Web._Features.Projects.Members
                 return RedirectToAction("SignInSignUp", "Account", new { returnUrl = returnUrl });
             }
 
-            var project = FindById<Project>(projectId);
+            var project = QueryProcessor.FindById<Project>(projectId);
 
             var model = new JoinProjectViewModel
             {
@@ -112,6 +110,7 @@ namespace Ubora.Web._Features.Projects.Members
 
         [HttpPost]
         [AllowAnonymous]
+        [Route(nameof(Join))]
         public IActionResult Join(JoinProjectViewModel model)
         {
             if (!ModelState.IsValid)
@@ -129,19 +128,21 @@ namespace Ubora.Web._Features.Projects.Members
             return RedirectToAction("Dashboard", "Dashboard", new { });
         }
 
+        [Route(nameof(RemoveMember))]
         [Authorize(Policy = nameof(Policies.CanRemoveProjectMember))]
         public IActionResult RemoveMember(Guid memberId)
         {
             var removeMemberViewModel = new RemoveMemberViewModel
             {
                 MemberId = memberId,
-                MemberName = FindById<UserProfile>(memberId).FullName
+                MemberName = QueryProcessor.FindById<UserProfile>(memberId).FullName
             };
 
             return View(removeMemberViewModel);
         }
 
         [HttpPost]
+        [Route(nameof(RemoveMember))]
         [Authorize(Policy = nameof(Policies.CanRemoveProjectMember))]
         public IActionResult RemoveMember(RemoveMemberViewModel removeMemberViewModel)
         {
@@ -163,17 +164,19 @@ namespace Ubora.Web._Features.Projects.Members
             return RedirectToAction(nameof(Members));
         }
 
+        [Route(nameof(Leave))]
         public IActionResult Leave()
         {
-            return View();
+            return View(nameof(Leave));
         }
 
         [HttpPost]
+        [Route(nameof(Leave))]
         public IActionResult LeaveProject()
         {
             if (!ModelState.IsValid)
             {
-                return View("Leave");
+                return Leave();
             }
 
             ExecuteUserProjectCommand(new RemoveMemberFromProjectCommand
@@ -183,15 +186,16 @@ namespace Ubora.Web._Features.Projects.Members
 
             if (!ModelState.IsValid)
             {
-                return View("Leave");
+                return Leave();
             }
 
             return RedirectToAction("Dashboard", "Dashboard", new { });
         }
 
+        [HttpPost]
+        [Route(nameof(AssignMeAsMentor))]
         [DisableProjectControllerAuthorization]
         [Authorize(Roles = ApplicationRole.Admin)]
-        [HttpPost]
         public async Task<IActionResult> AssignMeAsMentor()
         {
             ExecuteUserProjectCommand(new AssignProjectMentorCommand

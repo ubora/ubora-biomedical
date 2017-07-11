@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
 
 namespace Ubora.Web._Features.ProjectCreation
@@ -9,10 +8,6 @@ namespace Ubora.Web._Features.ProjectCreation
     [Authorize]
     public class ProjectCreationController : UboraController
     {
-        public ProjectCreationController(ICommandQueryProcessor processor) : base(processor)
-        {
-        }
-
         public IActionResult Create()
         {
             return View();

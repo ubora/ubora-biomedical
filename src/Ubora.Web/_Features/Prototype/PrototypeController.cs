@@ -1,12 +1,12 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Ubora.Web._Features.Prototype
 {
-	public class PrototypeController : Controller
-	{
-		public IActionResult Messages()
-		{
-			return View();
-		}
-	}
+    public class PrototypeController : UboraController
+    {
+        public IActionResult Messages()
+        {
+            return View();
+        }
+    }
 }

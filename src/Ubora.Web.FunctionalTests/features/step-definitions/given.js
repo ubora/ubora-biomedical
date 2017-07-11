@@ -4,4 +4,8 @@ module.exports = function () {
     this.Given(/^I go to the website "([^"]*)"$/, (url) => {
         browser.url(url);
     });
+    
+    this.Given(/^I clicked on the element "([^"]*)?"$/, (element) => {
+            browser.click(element);
+        });
 }

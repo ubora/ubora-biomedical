@@ -3,12 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
 using System.Collections.Generic;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.DeviceClassification;
 using Ubora.Web._Features.Projects.DeviceClassification;
-using Ubora.Web._Features.Projects.DeviceClassification.Services;
 using Ubora.Web._Features.Projects.DeviceClassification.ViewModels;
 using Ubora.Web.Tests.Helper;
 using Xunit;
@@ -17,21 +15,19 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
 {
     public class DeviceClassificationControllerTests : ProjectControllerTestsBase
     {
-        private readonly Mock<ICommandQueryProcessor> _processorMock;
-        private DeviceClassificationController _deviceClassificationController;
-        private Mock<IDeviceClassificationProvider> _deviceClassificationProviderMock;
-        private Mock<IDeviceClassification> _deviceClassificationMock;
+        private readonly DeviceClassificationController _deviceClassificationController;
+        private readonly Mock<IDeviceClassificationProvider> _deviceClassificationProviderMock;
+        private readonly Mock<IDeviceClassification> _deviceClassificationMock;
 
         public DeviceClassificationControllerTests()
         {
             _deviceClassificationMock = new Mock<IDeviceClassification>();
 
-            _processorMock = new Mock<ICommandQueryProcessor>();
             _deviceClassificationProviderMock = new Mock<IDeviceClassificationProvider>();
             _deviceClassificationProviderMock.Setup(x => x.Provide()).Returns(_deviceClassificationMock.Object);
 
-            _deviceClassificationController = new DeviceClassificationController(_processorMock.Object, _deviceClassificationProviderMock.Object);
-            SetProjectAndUserContext(_deviceClassificationController);
+            _deviceClassificationController = new DeviceClassificationController(_deviceClassificationProviderMock.Object);
+            SetUpForTest(_deviceClassificationController);
         }
 
         [Fact]
@@ -45,7 +41,8 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
                 .Set(x => x.Id, ProjectId)
                 .Set(x => x.DeviceClassification, "textClassification");
 
-            _processorMock.Setup(x => x.FindById<Project>(ProjectId))
+            QueryProcessorMock
+                .Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);
 
             // Act
@@ -73,7 +70,8 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
                 Notes = new List<string>()
             };
 
-            _deviceClassificationMock.Setup(x => x.GetDefaultPairedMainQuestion())
+            _deviceClassificationMock
+                .Setup(x => x.GetDefaultPairedMainQuestion())
                 .Returns(pairedMainQuestions);
 
             // Act
@@ -100,7 +98,8 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
                 Notes = new List<string>()
             };
 
-            _deviceClassificationMock.Setup(x => x.GetPairedMainQuestions(pairedMainQuestions.Id))
+            _deviceClassificationMock
+                .Setup(x => x.GetPairedMainQuestions(pairedMainQuestions.Id))
                 .Returns(pairedMainQuestions);
 
             // Act
@@ -124,7 +123,9 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
         public void GetQuestions_Returns_BadRequest_If_There_Are_No_Sub_Questions()
         {
             var parentQuestionId = Guid.NewGuid();
-            _deviceClassificationMock.Setup(x => x.GetSubQuestions(parentQuestionId))
+
+            _deviceClassificationMock
+                .Setup(x => x.GetSubQuestions(parentQuestionId))
                 .Returns((IReadOnlyCollection<SubQuestion>)null);
 
             // Act
@@ -156,7 +157,8 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
                 Notes = new List<string>()
             };
 
-            _deviceClassificationMock.Setup(x => x.GetSubQuestions(mainQuestion1.Id))
+            _deviceClassificationMock
+                .Setup(x => x.GetSubQuestions(mainQuestion1.Id))
                 .Returns(subQuestions);
 
             // Act
@@ -181,7 +183,8 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
                 subQuestion2
             };
 
-            _deviceClassificationMock.Setup(x => x.GetSubQuestions(mainQuestion1.Id))
+            _deviceClassificationMock
+                .Setup(x => x.GetSubQuestions(mainQuestion1.Id))
                 .Returns(subQuestions);
 
             var mainQuestionAnswerViewModel = new MainQuestionAnswerViewModel { MainQuestionId = mainQuestion1.Id };
@@ -198,7 +201,8 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
         {
             var mainQuestionId = Guid.NewGuid();
 
-            _deviceClassificationMock.Setup(x => x.GetSubQuestions(mainQuestionId))
+            _deviceClassificationMock
+                .Setup(x => x.GetSubQuestions(mainQuestionId))
                 .Returns((IReadOnlyCollection<SubQuestion>)null);
 
             var mainQuestionAnswerViewModel = new MainQuestionAnswerViewModel { MainQuestionId = mainQuestionId };
@@ -215,7 +219,9 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
         {
             var nextQuestionId = Guid.NewGuid();
             var subQuestions = new List<SubQuestion>();
-            _deviceClassificationMock.Setup(x => x.GetSubQuestions(nextQuestionId))
+
+            _deviceClassificationMock
+                .Setup(x => x.GetSubQuestions(nextQuestionId))
                 .Returns(subQuestions);
 
             var answerViewModel = new AnswerViewModel { NextQuestionId = nextQuestionId };
@@ -236,13 +242,14 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
                 .Returns((IReadOnlyCollection<SubQuestion>)null);
 
             SetDeviceClassificationForProjectCommand executedCommand = null;
-            _processorMock
+            CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<SetDeviceClassificationForProjectCommand>()))
                 .Callback<SetDeviceClassificationForProjectCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
 
             var classification = new Classification("classification", 1, null);
-            _deviceClassificationMock.Setup(x => x.GetClassification(nextQuestionId))
+            _deviceClassificationMock
+                .Setup(x => x.GetClassification(nextQuestionId))
                 .Returns(classification);
 
             var answerViewModel = new AnswerViewModel { NextQuestionId = nextQuestionId };
@@ -281,7 +288,7 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
                 .Returns((IReadOnlyCollection<SpecialSubQuestion>)null);
 
             SetDeviceClassificationForProjectCommand executedCommand = null;
-            _processorMock
+            CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<SetDeviceClassificationForProjectCommand>()))
                 .Callback<SetDeviceClassificationForProjectCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
@@ -425,7 +432,8 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
                 .Set(x => x.Id, ProjectId)
                 .Set(x => x.DeviceClassification, classification);
 
-            _processorMock.Setup(x => x.FindById<Project>(ProjectId))
+            QueryProcessorMock
+                .Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);
 
             // Act
@@ -447,7 +455,7 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
                 .Set(x => x.Id, ProjectId)
                 .Set(x => x.DeviceClassification, "deviceClassification");
 
-            _processorMock.Setup(x => x.FindById<Project>(ProjectId))
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);
 
             // Act
@@ -471,7 +479,9 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
         public void GetSpecialSubQuestions_Returns_BadRequest_If_There_Are_No_Sub_Questions()
         {
             var parentQuestionId = Guid.NewGuid();
-            _deviceClassificationMock.Setup(x => x.GetSpecialSubQuestions(parentQuestionId))
+
+            _deviceClassificationMock
+                .Setup(x => x.GetSpecialSubQuestions(parentQuestionId))
                 .Returns((IReadOnlyCollection<SpecialSubQuestion>)null);
 
             // Act
@@ -495,7 +505,8 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
 
             var mainQuestionId = Guid.NewGuid();
 
-            _deviceClassificationMock.Setup(x => x.GetSpecialSubQuestions(mainQuestionId))
+            _deviceClassificationMock
+                .Setup(x => x.GetSpecialSubQuestions(mainQuestionId))
                 .Returns(subQuestions);
 
             var expectedViewModel = new SpecialSubQuestionsViewModel

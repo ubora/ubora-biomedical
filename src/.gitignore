@@ -11,8 +11,9 @@
 [Ll]og/
 
 # FunctionalTests
+[Jj]sons/
 cucumber_html_reporter.html
-cucumber_report.json
+cucumber_html_reporter.html.json
 
 # User-specific files
 *.suo

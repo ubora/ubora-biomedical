@@ -58,6 +58,11 @@ renderer.link = function (href, title, text) {
     return '<a target="_blank" href="' + href + '" title="' + title + '">' + text + '</a>';
 }
 
+// Picture size is optimized.
+renderer.image = function (href, title) {
+    return '<img class="image-markdown" src="' + href + ' " alt="' + title + '" />';
+}
+
 var markdownContainerArray = document.querySelectorAll('.text-markdown');
 var markdownArrayHasItems = markdownContainerArray.length > 0;
 

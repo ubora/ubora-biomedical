@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using FluentAssertions;
-using Microsoft.AspNetCore.Authorization;
+﻿using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -17,35 +15,26 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
 {
     public class DashboardControllerTests : ProjectControllerTestsBase
     {
-        private readonly Mock<ICommandQueryProcessor> _processorMock;
-        private readonly Mock<IMapper> _mapperMock;
-        private readonly Mock<IAuthorizationService> _authorizationServiceMock;
         private readonly Mock<IStorageProvider> _storageProviderMock;
         private readonly Mock<ImageResizer> _imageResizerMock;
         private readonly DashboardController _dashboardController;
 
         public DashboardControllerTests()
         {
-            _processorMock = new Mock<ICommandQueryProcessor>();
-            _mapperMock = new Mock<IMapper>();
-            _authorizationServiceMock = new Mock<IAuthorizationService>();
             _storageProviderMock = new Mock<IStorageProvider>();
             _imageResizerMock = new Mock<ImageResizer>();
 
             _dashboardController = new DashboardController(
-                _processorMock.Object,
-                _mapperMock.Object,
-                _authorizationServiceMock.Object,
                 _storageProviderMock.Object,
                 _imageResizerMock.Object);
 
-            SetProjectAndUserContext(_dashboardController);
+            SetUpForTest(_dashboardController);
         }
 
         [Fact]
         public async Task EditProjectImage_Saves_New_Image_And_Creates_New_Resized_Ones_And_Redirects_To_Dashboard()
         {
-            _processorMock.Setup(x => x.Execute(It.IsAny<UpdateProjectImageCommand>()))
+            CommandProcessorMock.Setup(x => x.Execute(It.IsAny<UpdateProjectImageCommand>()))
                 .Returns(new CommandResult());
 
             var fileMock = Mock.Of<IFormFile>(x => x.FileName == "image.jpg");
@@ -69,7 +58,7 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
         [Fact]
         public async Task EditProjectImage_Redirects_To_View_If_Modelstate_Has_Error()
         {
-            _processorMock.Setup(x => x.Execute(It.IsAny<UpdateProjectImageCommand>()))
+            CommandProcessorMock.Setup(x => x.Execute(It.IsAny<UpdateProjectImageCommand>()))
                 .Returns(new CommandResult("Error"));
 
             var fileMock = Mock.Of<IFormFile>(x => x.FileName == "image.jpg");
@@ -79,13 +68,14 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
             var result = await _dashboardController.EditProjectImage(model);
 
             // Assert
-            ModelState.ErrorCount.Should().Be(1);
+            _dashboardController.ModelState.ErrorCount
+                .Should().Be(1);
         }
 
         [Fact]
         public async Task RemoveProjectImage_Removes_Image()
         {
-            _processorMock.Setup(x => x.Execute(It.IsAny<DeleteProjectImageCommand>()))
+            CommandProcessorMock.Setup(x => x.Execute(It.IsAny<DeleteProjectImageCommand>()))
                 .Returns(new CommandResult());
 
             var model = new RemoveProjectImageViewModel();
@@ -108,9 +98,10 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
         [Fact]
         public async Task RemoveProjectImage_Redirects_To_View_If_ModelState_Has_Errors()
         {
-            _processorMock.Setup(x => x.Execute(It.IsAny<DeleteProjectImageCommand>()))
+            CommandProcessorMock.Setup(x => x.Execute(It.IsAny<DeleteProjectImageCommand>()))
                 .Returns(new CommandResult("Error"));
-            _processorMock.Setup(x => x.FindById<Project>(ProjectId))
+
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(new Project());
 
             var model = new RemoveProjectImageViewModel();
@@ -119,7 +110,8 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
             var result = await _dashboardController.RemoveProjectImage(model);
 
             // Assert
-            ModelState.ErrorCount.Should().Be(1);
+            _dashboardController.ModelState.ErrorCount
+                .Should().Be(1);
         }
     }
 }
