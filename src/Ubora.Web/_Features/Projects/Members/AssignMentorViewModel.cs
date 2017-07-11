@@ -2,7 +2,7 @@
 
 namespace Ubora.Web._Features.Projects.Members
 {
-    public class InviteProjectMemberViewModel
+    public class AssignMentorViewModel
     {
         [Required]
         public string Email { get; set; }

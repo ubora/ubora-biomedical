@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Ubora.Web.Data;
 using Ubora.Domain.Notifications.Invitation;
 using Ubora.Domain.Notifications.Join;
+using Ubora.Domain.Users.Queries;
 
 namespace Ubora.Web._Features.Projects.Members
 {
@@ -39,7 +40,7 @@ namespace Ubora.Web._Features.Projects.Members
                 FullName = QueryProcessor.FindById<UserProfile>(m.UserId).FullName,
                 IsProjectLeader = m.IsLeader,
                 IsCurrentUser = isAuthenticated && UserId == m.UserId
-            });
+            }).ToList();
 
             var isProjectLeader = isAuthenticated && members.Any(x => x.UserId == UserId && x.IsProjectLeader);
 
@@ -58,9 +59,7 @@ namespace Ubora.Web._Features.Projects.Members
         [Route(nameof(Invite))]
         public IActionResult Invite()
         {
-            var model = new InviteProjectMemberViewModel { ProjectId = ProjectId };
-
-            return View(model);
+            return View();
         }
 
         [HttpPost]
@@ -82,7 +81,7 @@ namespace Ubora.Web._Features.Projects.Members
                 return Invite();
             }
 
-            return RedirectToAction(nameof(Members), new { id = model.ProjectId });
+            return RedirectToAction(nameof(Members));
         }
 
         [AllowAnonymous]
@@ -192,20 +191,45 @@ namespace Ubora.Web._Features.Projects.Members
             return RedirectToAction("Dashboard", "Dashboard", new { });
         }
 
-        [HttpPost]
-        [Route(nameof(AssignMeAsMentor))]
+        [Route(nameof(AssignMentor))]
         [DisableProjectControllerAuthorization]
         [Authorize(Roles = ApplicationRole.Admin)]
-        public async Task<IActionResult> AssignMeAsMentor()
+        public IActionResult AssignMentor()
         {
-            ExecuteUserProjectCommand(new AssignProjectMentorCommand
+            return View(nameof(AssignMentor));
+        }
+
+        [HttpPost]
+        [Route(nameof(AssignMentor))]
+        [DisableProjectControllerAuthorization]
+        [Authorize(Roles = ApplicationRole.Admin)]
+        public IActionResult AssignMentor(AssignMentorViewModel model)
+        {
+            if (!ModelState.IsValid)
             {
-                UserId = this.UserId
+                return AssignMentor();
+            }
+
+            var userProfile = QueryProcessor.ExecuteQuery(new FindByEmailQuery
+            {
+                Email = model.Email
             });
+
+            if (userProfile == null)
+            {
+                ModelState.AddModelError("", "User not found with e-mail address.");
+            }
+            else
+            {
+                ExecuteUserProjectCommand(new AssignProjectMentorCommand
+                {
+                    UserId = userProfile.UserId
+                });
+            }
 
             if (!ModelState.IsValid)
             {
-                return await Members();
+                return AssignMentor();
             }
 
             return RedirectToAction(nameof(Members));
