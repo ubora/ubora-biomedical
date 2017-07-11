@@ -27,8 +27,7 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             _loggerFactoryMock = new Mock<ILoggerFactory>();
 
             _controller = new ManageController(_userManagerMock.Object, _signInManagerMock.Object, _identityCookieOptionsMock.Object, _emailSenderMock.Object, _loggerFactoryMock.Object);
-            SetMocks(_controller);
-            SetUserContext(_controller);
+            SetUpForTest(_controller);
         }
     }
 }

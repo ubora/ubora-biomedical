@@ -30,8 +30,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             _signInManagerMock = new Mock<FakeSignInManager>();
             _storageProviderMock = new Mock<IStorageProvider>();
             _controller = new ProfileController(_userManagerMock.Object, _signInManagerMock.Object, _storageProviderMock.Object);
-            SetMocks(_controller);
-            SetUserContext(_controller);
+            SetUpForTest(_controller);
         }
 
         [Fact]

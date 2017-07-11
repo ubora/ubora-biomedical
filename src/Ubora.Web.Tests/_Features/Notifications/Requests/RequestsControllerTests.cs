@@ -12,13 +12,12 @@ namespace Ubora.Web.Tests._Features.Notifications.Requests
 {
     public class RequestsControllerTests : UboraControllerTestsBase
     {
-        private RequestsController _requestsController;
+        private readonly RequestsController _requestsController;
 
         public RequestsControllerTests()
         {
             _requestsController = new RequestsController();
-            SetMocks(_requestsController);
-            SetUserContext(_requestsController);
+            SetUpForTest(_requestsController);
         }
 
         [Fact]

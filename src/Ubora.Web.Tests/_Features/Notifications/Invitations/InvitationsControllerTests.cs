@@ -12,13 +12,12 @@ namespace Ubora.Web.Tests._Features.Notifications.Invitations
 {
     public class InvitationsControllerTests : UboraControllerTestsBase
     {
-        private InvitationsController _invitationsController;
+        private readonly InvitationsController _invitationsController;
 
         public InvitationsControllerTests()
         {
             _invitationsController = new InvitationsController();
-            SetMocks(_invitationsController);
-            SetUserContext(_invitationsController);
+            SetUpForTest(_invitationsController);
         }
 
         [Fact]

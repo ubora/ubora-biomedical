@@ -20,7 +20,7 @@ namespace Ubora.Web.Tests._Features.Users.UserList
         {
             _storageProviderMock = new Mock<IStorageProvider>();
             _controller = new UserListController(_storageProviderMock.Object);
-            SetMocks(_controller);
+            SetUpForTest(_controller);
         }
 
         [Theory]

@@ -15,9 +15,9 @@ namespace Ubora.Web.Tests._Features.Notifications
 {
     public class NotificationsControllerTests : UboraControllerTestsBase
     {
-        private Mock<HistoryViewModel.Factory> _historyViewModelFactoryMock;
-        private Mock<IndexViewModel.Factory> _indexViewModelFactoryMock;
-        private NotificationsController _notificationsController;
+        private readonly Mock<HistoryViewModel.Factory> _historyViewModelFactoryMock;
+        private readonly Mock<IndexViewModel.Factory> _indexViewModelFactoryMock;
+        private readonly NotificationsController _notificationsController;
 
         public NotificationsControllerTests()
         {
@@ -25,8 +25,7 @@ namespace Ubora.Web.Tests._Features.Notifications
             _indexViewModelFactoryMock = new Mock<IndexViewModel.Factory>();
 
             _notificationsController = new NotificationsController();
-            SetMocks(_notificationsController);
-            SetUserContext(_notificationsController);
+            SetUpForTest(_notificationsController);
         }
 
         [Fact]

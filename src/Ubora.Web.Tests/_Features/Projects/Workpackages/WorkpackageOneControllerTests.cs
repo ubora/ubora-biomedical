@@ -20,8 +20,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             {
                 Url = Mock.Of<IUrlHelper>()
             };
-            SetMocks(_workpackageOneController);
-            SetProjectAndUserContext(_workpackageOneController);
+            SetUpForTest(_workpackageOneController);
         }
 
         [Fact]

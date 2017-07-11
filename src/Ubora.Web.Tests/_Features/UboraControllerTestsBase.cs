@@ -32,7 +32,7 @@ namespace Ubora.Web.Tests._Features
             User = CreateUser(UserId);
         }
 
-        protected T SetMocks<T>(T controller) where T : UboraController
+        protected virtual void SetUpForTest(UboraController controller)
         {
             if (controller.ControllerContext.HttpContext == null)
             {
@@ -42,6 +42,10 @@ namespace Ubora.Web.Tests._Features
             var serviceProviderMock = new Mock<IServiceProvider>();
             controller.ControllerContext.HttpContext.RequestServices = serviceProviderMock.Object;
 
+            // Set user (ClaimsPrincipal)
+            controller.ControllerContext.HttpContext.User = User;
+
+            // Mock common Ubora services
             serviceProviderMock.Setup(x => x.GetService(typeof(ICommandProcessor))).Returns(CommandProcessorMock.Object);
             serviceProviderMock.Setup(x => x.GetService(typeof(IQueryProcessor))).Returns(QueryProcessorMock.Object);
             serviceProviderMock.Setup(x => x.GetService(typeof(IMapper))).Returns(AutoMapperMock.Object);
@@ -50,20 +54,6 @@ namespace Ubora.Web.Tests._Features
             // Stub ASP.NET MVC services
             serviceProviderMock.Setup(x => x.GetService(typeof(IUrlHelperFactory))).Returns(Mock.Of<IUrlHelperFactory>());
             serviceProviderMock.Setup(x => x.GetService(typeof(ITempDataDictionaryFactory))).Returns(Mock.Of<ITempDataDictionaryFactory>());
-
-            return controller;
-        }
-
-        protected T SetUserContext<T>(T controller) where T : UboraController
-        {
-            if (controller.ControllerContext.HttpContext == null)
-            {
-                controller.ControllerContext.HttpContext = new DefaultHttpContext();
-            }
-
-            controller.ControllerContext.HttpContext.User = User;
-
-            return controller;
         }
 
         protected virtual ClaimsPrincipal CreateUser(Guid userId)

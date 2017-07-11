@@ -20,8 +20,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             {
                 Url = Mock.Of<IUrlHelper>()
             };
-            SetMocks(_workpackageOneReviewController);
-            SetProjectAndUserContext(_workpackageOneReviewController);
+            SetUpForTest(_workpackageOneReviewController);
 
             var dummyWorkpackage = Mock.Of<WorkpackageOne>(x => x.Reviews == new List<WorkpackageReview>());
             QueryProcessorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))

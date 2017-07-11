@@ -15,9 +15,9 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
 {
     public class DeviceClassificationControllerTests : ProjectControllerTestsBase
     {
-        private DeviceClassificationController _deviceClassificationController;
-        private Mock<IDeviceClassificationProvider> _deviceClassificationProviderMock;
-        private Mock<IDeviceClassification> _deviceClassificationMock;
+        private readonly DeviceClassificationController _deviceClassificationController;
+        private readonly Mock<IDeviceClassificationProvider> _deviceClassificationProviderMock;
+        private readonly Mock<IDeviceClassification> _deviceClassificationMock;
 
         public DeviceClassificationControllerTests()
         {
@@ -27,8 +27,7 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
             _deviceClassificationProviderMock.Setup(x => x.Provide()).Returns(_deviceClassificationMock.Object);
 
             _deviceClassificationController = new DeviceClassificationController(_deviceClassificationProviderMock.Object);
-            SetMocks(_deviceClassificationController);
-            SetProjectAndUserContext(_deviceClassificationController);
+            SetUpForTest(_deviceClassificationController);
         }
 
         [Fact]

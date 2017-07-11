@@ -1,6 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Routing;
-using Ubora.Web._Features.Projects;
+using Ubora.Web._Features;
 
 namespace Ubora.Web.Tests._Features.Projects
 {
@@ -13,9 +13,9 @@ namespace Ubora.Web.Tests._Features.Projects
             ProjectId = Guid.NewGuid();
         }
 
-        protected void SetProjectAndUserContext(ProjectController controller)
+        protected override void SetUpForTest(UboraController controller)
         {
-            SetUserContext(controller);
+            base.SetUpForTest(controller);
 
             if (controller.ControllerContext.RouteData == null)
             {

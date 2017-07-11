@@ -28,8 +28,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             {
                 Url = Mock.Of<IUrlHelper>()
             };
-            SetProjectAndUserContext(_membersController);
-            SetMocks(_membersController);
+            SetUpForTest(_membersController);
         }
 
         [Fact]

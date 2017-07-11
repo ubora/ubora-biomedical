@@ -25,8 +25,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         {
             _storageProviderMock = new Mock<IStorageProvider>();
             _controller = new RepositoryController(_storageProviderMock.Object);
-            SetProjectAndUserContext(_controller);
-            SetMocks(_controller);
+            SetUpForTest(_controller);
         }
 
         [Fact]
