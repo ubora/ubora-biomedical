@@ -19,7 +19,7 @@ namespace Ubora.Domain.Users
             userProfile.FirstName = cmd.FirstName;
             userProfile.LastName = cmd.LastName;
             userProfile.Biography = cmd.Biography;
-            userProfile.Country = cmd.Country;
+            userProfile.Country = new Country(cmd.CountryCode);
             userProfile.Degree = cmd.Degree;
             userProfile.Field = cmd.Field;
             userProfile.University = cmd.University;

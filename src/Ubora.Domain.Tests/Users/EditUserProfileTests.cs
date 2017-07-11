@@ -21,7 +21,7 @@ namespace Ubora.Domain.Tests.Users
                 FirstName = "expectedFirstName",
                 LastName = "expectedLastName",
                 Biography = "expectedBiography",
-                Country = "expectedCountry",
+                CountryCode = "expectedCountry",
                 Degree = "expectedDegree",
                 Field = "expectedField",
                 University = "expectedUniversity",
@@ -43,7 +43,7 @@ namespace Ubora.Domain.Tests.Users
             updatedUserProfile.FirstName.Should().Be("expectedFirstName");
             updatedUserProfile.LastName.Should().Be("expectedLastName");
             updatedUserProfile.Biography.Should().Be("expectedBiography");
-            updatedUserProfile.Country.Should().Be("expectedCountry");
+            updatedUserProfile.Country.Code.Should().Be("expectedCountry");
             updatedUserProfile.Degree.Should().Be("expectedDegree");
             updatedUserProfile.Field.Should().Be("expectedField");
             updatedUserProfile.University.Should().Be("expectedUniversity");

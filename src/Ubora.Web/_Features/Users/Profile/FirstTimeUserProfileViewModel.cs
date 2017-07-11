@@ -3,7 +3,7 @@
     public class FirstTimeUserProfileViewModel
     {
         public string Biography { get; set; }
-        public string Country { get; set; }
+        public string CountryCode { get; set; }
         public string Degree { get; set; }
         public string Field { get; set; }
         public string University { get; set; }

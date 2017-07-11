@@ -1,8 +1,8 @@
 ﻿@model Ubora.Web._Features.Users.Profile.FirstTimeUserProfileViewModel
 
 <div class="form-input">
-    <label asp-for="Country">Country</label>
-    <select asp-for="Country">
+    <label asp-for="CountryCode">Country</label>
+    <select asp-for="CountryCode">
         <option value="" disabled selected>Select from the list...</option>
         <option value="AFG">Afghanistan</option>
         <option value="ALA">Åland Islands</option>
@@ -254,5 +254,5 @@
         <option value="ZMB">Zambia</option>
         <option value="ZWE">Zimbabwe</option>
     </select>
-    <span asp-validation-for="Country"></span>
+    <span asp-validation-for="CountryCode"></span>
 </div>
