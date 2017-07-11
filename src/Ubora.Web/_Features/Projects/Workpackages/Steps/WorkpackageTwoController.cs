@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure;
+﻿using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web._Features._Shared;
@@ -10,26 +8,15 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     [ProjectRoute("WP2")]
     public class WorkpackageTwoController : ProjectController
     {
-        private readonly IMapper _mapper;
-
-        public WorkpackageTwoController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
-        {
-            _mapper = mapper;
-        }
-
         private WorkpackageTwo _workpackageTwo;
-        public WorkpackageTwo WorkpackageTwo
-        {
-            get => _workpackageTwo ?? (_workpackageTwo = FindById<WorkpackageTwo>(ProjectId));
-            private set => _workpackageTwo = value;
-        }
+        public WorkpackageTwo WorkpackageTwo => _workpackageTwo ?? (_workpackageTwo = QueryProcessor.FindById<WorkpackageTwo>(ProjectId));
 
         [Route("{stepId}")]
         public IActionResult Read(string stepId)
         {
             var step = WorkpackageTwo.GetSingleStep(stepId);
 
-            var model = _mapper.Map<ReadStepViewModel>(step);
+            var model = AutoMapper.Map<ReadStepViewModel>(step);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
             model.EditButton = UiElementVisibility.Visible();
@@ -42,7 +29,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             var step = WorkpackageTwo.GetSingleStep(stepId);
 
-            var model = _mapper.Map<EditStepViewModel>(step);
+            var model = AutoMapper.Map<EditStepViewModel>(step);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
 

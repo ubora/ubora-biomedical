@@ -1,12 +1,10 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TwentyTwenty.Storage;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure.Extensions;
@@ -15,14 +13,12 @@ namespace Ubora.Web._Features.Users.Profile
 {
     public class ProfileController : UboraController
     {
-        private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IStorageProvider _storageProvider;
 
-        public ProfileController(ICommandQueryProcessor processor, IMapper mapper, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IStorageProvider storageProvider) : base(processor)
+        public ProfileController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IStorageProvider storageProvider)
         {
-            _mapper = mapper;
             _userManager = userManager;
             _signInManager = signInManager;
             _storageProvider = storageProvider;
@@ -32,14 +28,14 @@ namespace Ubora.Web._Features.Users.Profile
         [AllowAnonymous]
         public IActionResult View(Guid userId)
         {
-            var userProfile = FindById<UserProfile>(userId);
+            var userProfile = QueryProcessor.FindById<UserProfile>(userId);
 
             if (userProfile == null)
             {
                 return new NotFoundResult();
             }
 
-            var profileViewModel = _mapper.Map<ProfileViewModel>(userProfile);
+            var profileViewModel = AutoMapper.Map<ProfileViewModel>(userProfile);
             profileViewModel.ProfilePictureLink = _storageProvider.GetDefaultOrBlobUrl(userProfile);
 
             return View(profileViewModel);
@@ -49,9 +45,9 @@ namespace Ubora.Web._Features.Users.Profile
         public IActionResult EditProfile()
         {
             var userId = _userManager.GetUserId(User);
-            var userProfile = FindById<UserProfile>(new Guid(userId));
+            var userProfile = QueryProcessor.FindById<UserProfile>(new Guid(userId));
 
-            var userViewModel = _mapper.Map<UserProfileViewModel>(userProfile);
+            var userViewModel = AutoMapper.Map<UserProfileViewModel>(userProfile);
             var editProfileViewModel = new EditProfileViewModel
             {
                 UserViewModel = userViewModel,
@@ -76,10 +72,13 @@ namespace Ubora.Web._Features.Users.Profile
                 UserId = new Guid(userId),
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                University = model.University,
+                Biography = model.Biography,
+                CountryCode = model.CountryCode,
                 Degree = model.Degree,
                 Field = model.Field,
-                Biography = model.Biography,
+                University = model.University,
+                MedicalDevice = model.MedicalDevice,
+                Institution = model.Institution,
                 Skills = model.Skills,
                 Role = model.Role
             };
@@ -121,10 +120,13 @@ namespace Ubora.Web._Features.Users.Profile
                 UserId = this.UserId,
                 FirstName = UserProfile.FirstName,
                 LastName = UserProfile.LastName,
-                University = model.University,
+                Biography = model.Biography,
+                CountryCode = model.CountryCode,
                 Degree = model.Degree,
                 Field = model.Field,
-                Biography = model.Biography,
+                University = model.University,
+                MedicalDevice = model.MedicalDevice,
+                Institution = model.Institution,
                 Skills = model.Skills,
                 Role = model.Role
             });
