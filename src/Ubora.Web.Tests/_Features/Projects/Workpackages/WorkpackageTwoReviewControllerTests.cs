@@ -1,14 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using FluentAssertions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Web.Authorization;
-using Ubora.Web.Tests.Helper;
 using Ubora.Web._Features.Projects.Workpackages.Reviews;
 using Xunit;
 
@@ -18,23 +14,17 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
     {
         private readonly WorkpackageTwoReviewController _workpackageTwoReviewController;
 
-        private readonly Mock<ICommandQueryProcessor> _processorMock;
-        private readonly Mock<IMapper> _mapperMock;
-        private readonly Mock<IAuthorizationService> _authorizationServiceMock;
-
         public WorkpackageTwoReviewControllerTests()
         {
-            _processorMock = new Mock<ICommandQueryProcessor>();
-            _mapperMock = new Mock<IMapper>();
-            _authorizationServiceMock = new Mock<IAuthorizationService>();
-
-            _workpackageTwoReviewController = new WorkpackageTwoReviewController(_processorMock.Object, _mapperMock.Object, _authorizationServiceMock.Object)
+            _workpackageTwoReviewController = new WorkpackageTwoReviewController()
             {
                 Url = Mock.Of<IUrlHelper>()
             };
-            SetProjectAndUserContext(_workpackageTwoReviewController);
+            SetUpForTest(_workpackageTwoReviewController);
+
             var dummyWorkpackage = Mock.Of<WorkpackageTwo>(x => x.Reviews == new List<WorkpackageReview>());
-            _workpackageTwoReviewController.Set(x => x.WorkpackageTwo, dummyWorkpackage);
+            QueryProcessorMock.Setup(x => x.FindById<WorkpackageTwo>(ProjectId))
+                .Returns(dummyWorkpackage);
         }
         
         [Theory]
@@ -49,7 +39,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 && x.HasBeenAccepted == hasBeenAccepted 
                 && x.Reviews == new List<WorkpackageReview>());
 
-            _workpackageTwoReviewController.Set(x => x.WorkpackageTwo, workpackage);
+            QueryProcessorMock.Setup(x => x.FindById<WorkpackageTwo>(ProjectId))
+                .Returns(workpackage);
 
             // Act
             var result = (ViewResult)await _workpackageTwoReviewController.Review();
@@ -64,7 +55,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         [Fact]
         public async Task Submit_Button_Is_Hidden_With_Message_When_User_Is_Not_Authorized()
         {
-            _authorizationServiceMock
+            AuthorizationServiceMock
                 .Setup(x => x.AuthorizeAsync(this.User, It.IsAny<object>(), Policies.CanSubmitWorkpackageForReview))
                 .ReturnsAsync(false);
 
@@ -81,7 +72,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         [Fact]
         public async Task Submit_Button_Can_Be_Visible()
         {
-            _authorizationServiceMock
+            AuthorizationServiceMock
                 .Setup(x => x.AuthorizeAsync(this.User, It.IsAny<object>(), Policies.CanSubmitWorkpackageForReview))
                 .ReturnsAsync(true);
 

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 
@@ -16,7 +15,7 @@ namespace Ubora.Web._Features.Admin
     {
         private readonly ApplicationUserManager _userManager;
 
-        public AdminController(ICommandQueryProcessor processor, ApplicationUserManager userManager) : base(processor)
+        public AdminController(ApplicationUserManager userManager)
         {
             _userManager = userManager;
         }

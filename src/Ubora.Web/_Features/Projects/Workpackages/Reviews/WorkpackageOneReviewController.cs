@@ -1,42 +1,26 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web.Authorization;
-using Ubora.Web._Features._Shared;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 {
     public class WorkpackageOneReviewController : ProjectController
     {
-        private readonly IMapper _mapper;
-        private readonly IAuthorizationService _authorizationService;
-
-        public WorkpackageOneReviewController(ICommandQueryProcessor processor, IMapper mapper, IAuthorizationService authorizationService) : base(processor)
-        {
-            _mapper = mapper;
-            _authorizationService = authorizationService;
-        }
-
         private WorkpackageOne _workpackageOne;
-        public WorkpackageOne WorkpackageOne
-        {
-            get => _workpackageOne ?? (_workpackageOne = FindById<WorkpackageOne>(ProjectId));
-            private set => _workpackageOne = value;
-        }
+        public WorkpackageOne WorkpackageOne => _workpackageOne ?? (_workpackageOne = QueryProcessor.FindById<WorkpackageOne>(ProjectId));
 
         public async Task<IActionResult> Review()
         {
             var model = new WorkpackageReviewListViewModel
             {
-                Reviews = WorkpackageOne.Reviews.Select(_mapper.Map<WorkpackageReviewViewModel>),
+                Reviews = WorkpackageOne.Reviews.Select(AutoMapper.Map<WorkpackageReviewViewModel>),
                 ReviewDecisionUrl = Url.Action(nameof(Decision)),
                 SubmitForReviewUrl = Url.Action(nameof(SubmitForReview)),
-                SubmitForReviewButton = await WorkpackageReviewListViewModel.GetSubmitButtonVisibility(WorkpackageOne, User, _authorizationService)
+                SubmitForReviewButton = await WorkpackageReviewListViewModel.GetSubmitButtonVisibility(WorkpackageOne, User, AuthorizationService)
             };
 
             return View(nameof(Review), model);
