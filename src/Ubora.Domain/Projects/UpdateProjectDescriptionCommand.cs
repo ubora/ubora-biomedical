@@ -6,28 +6,28 @@ namespace Ubora.Domain.Projects
     public class UpdateProjectDescriptionCommand : UserProjectCommand
     {
         public string Description { get; set; }
-    }
 
-    internal class UpdateProjectDescriptionCommandHandler : CommandHandler<UpdateProjectDescriptionCommand>
-    {
-        public UpdateProjectDescriptionCommandHandler(IDocumentSession documentSession) : base(documentSession)
+        internal class Handler : CommandHandler<UpdateProjectDescriptionCommand>
         {
-        }
-
-        public override ICommandResult Handle(UpdateProjectDescriptionCommand cmd)
-        {
-            var project = DocumentSession.Load<Project>(cmd.ProjectId);
-
-            var @event = new EditProjectDescriptionEvent(cmd.Actor)
+            public Handler(IDocumentSession documentSession) : base(documentSession)
             {
-                Id = cmd.ProjectId,
-                Description = cmd.Description
-            };
+            }
 
-            DocumentSession.Events.Append(project.Id, @event);
-            DocumentSession.SaveChanges();
+            public override ICommandResult Handle(UpdateProjectDescriptionCommand cmd)
+            {
+                var project = DocumentSession.Load<Project>(cmd.ProjectId);
 
-            return new CommandResult();
+                var @event = new EditProjectDescriptionEvent(cmd.Actor)
+                {
+                    Id = cmd.ProjectId,
+                    Description = cmd.Description
+                };
+
+                DocumentSession.Events.Append(project.Id, @event);
+                DocumentSession.SaveChanges();
+
+                return new CommandResult();
+            }
         }
     }
 }

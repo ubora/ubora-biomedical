@@ -11,7 +11,6 @@ namespace Ubora.Domain.Projects
         public string PotentialTechnologyTags { get; set; }
         public string Gmdn { get; set; }
 
-
         internal class Handler : CommandHandler<UpdateProjectCommand>
         {
             public Handler(IDocumentSession documentSession) : base(documentSession)
