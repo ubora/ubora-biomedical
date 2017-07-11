@@ -1,9 +1,9 @@
-Feature: Project Creation page
+Feature: Project Creation Dashboard page
     As a user
     I want to create a project and click on all buttons on Project Dashboard page
 
 Background:
-    Given I go to the website "/Home/Index"
+    Given I go to the website "/"
 
 Scenario: Create a project 
     Then I expect the title of the page "Welcome - UBORA"
@@ -19,8 +19,8 @@ Scenario: I sign up to create a project
     When I set value "Test12345" to the element "#Password"
     When I set value "Test12345" to the element "#ConfirmPassword"
     When I click on the element "button=Create an account"
-    Then I expect the title of the page "Create a profile page - UBORA"
-    When I click on the element "a=Skip profile creation"
+    Then I expect the title of the page "Create a profile - UBORA"
+    When I click on the element "button=Continue"
     Then I expect the title of the page "Project drafting - UBORA"
 
 Scenario: I create a project
@@ -142,7 +142,7 @@ Scenario: I review project WP1 as system administrator and reject it
     When I click on the element "a=Formal review"
     Then I expect the title of the page "Formal review - UBORA"
     When I click on the element "a=Write a review"
-    Then I expect the title of the page "Members - UBORA"
+    Then I expect the title of the page "Write a review - UBORA"
     When I set value "Good project man!" to the element "#ConcludingComment"
     When I click on the element "button=Reject"
     Then I expect the element "td=Rejected" is visible
@@ -188,7 +188,7 @@ Scenario: I review WP1 as system administrator and accept it
     When I click on the element "a=Formal review"
     Then I expect the title of the page "Formal review - UBORA"
     When I click on the element "a=Write a review"
-    Then I expect the title of the page "Members - UBORA"
+    Then I expect the title of the page "Write a review - UBORA"
     When I set value "Good project man!" to the element "#ConcludingComment"
     When I click on the element "button=Accept"
     Then I expect the element "td=Accepted" is visible
@@ -197,18 +197,6 @@ Scenario: I review WP1 as system administrator and accept it
     When I click on the element "span=Menu"
     When I click on the element "button=Log out"
     Then I expect the title of the page "Welcome - UBORA"
-
-Scenario: I submit my project for WP2 review
-    When I click on the element "a=Sign in/sign up"
-    Then I expect the title of the page "Sign in to UBORA - UBORA"
-    When I set value "project@email.com" to the element "#Email"
-    When I set value "Test12345" to the element "#Password"
-    When I click on the element "button=Sign in"
-    Then I expect the title of the page "Welcome - UBORA"
-    When I click on the element "h4=TestProject"
-    Then I expect the title of the page "Dashboard - UBORA"
-    When I click on the element "a=Work packages"
-    Then I expect the title of the page "Work packages - UBORA"
 
 Scenario: On project Dashboard I click Repository
     When I click on the element "a=Sign in/sign up"

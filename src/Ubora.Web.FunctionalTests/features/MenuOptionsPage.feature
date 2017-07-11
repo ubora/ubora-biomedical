@@ -3,7 +3,7 @@ Feature: Menu Options page
     I want to click Menu button and on all options in the Menu
 
 Background:
-    Given I go to the website "/Home/Index"
+    Given I go to the website "/"
 
 Scenario: Go to UBORA home page 
     Then I expect the title of the page "Welcome - UBORA"
@@ -21,7 +21,7 @@ Scenario: I sign up an account
     When I click on the element "#IsAgreedToTermsOfService"
     When I click on the element "button=Create an account"
     Then I expect the title of the page "Create a profile - UBORA"
-    When I click on the element "a=Skip profile creation"
+    When I click on the element "button=Continue"
     Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: I click View profile

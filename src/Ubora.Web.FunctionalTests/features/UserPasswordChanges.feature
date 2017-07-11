@@ -3,7 +3,7 @@ Feature: User password changes
     I want to register an account and change my password
 
 Background:
-    Given I go to the website "/Home/Index"
+    Given I go to the website "/"
 
 Scenario: Get the title of Ubora
     Then I expect the title of the page "Welcome - UBORA"

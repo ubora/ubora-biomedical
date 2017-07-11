@@ -3,7 +3,7 @@ Feature: Home page
     I want to click all buttons on Home page
 
 Background:
-    Given I go to the website "/Home/Index"
+    Given I go to the website "/"
 
 Scenario: Go to UBORA home page 
     Then I expect the title of the page "Welcome - UBORA"

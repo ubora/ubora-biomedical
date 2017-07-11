@@ -3,7 +3,7 @@ Feature: Register page
     I want to click on all buttons on Register page and register an user
 
 Background:
-    Given I go to the website "/Home/Index"
+    Given I go to the website "/"
     Given I clicked on the element "a=Sign in/sign up"
     Given I clicked on the element "a=Sign up"
 

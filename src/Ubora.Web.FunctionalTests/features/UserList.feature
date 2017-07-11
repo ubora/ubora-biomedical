@@ -3,7 +3,7 @@ Feature: User list page
     I want to click on all buttons on Members page
 
 Background:
-    Given I go to the website "/Home/Index"
+    Given I go to the website "/"
     Given I clicked on the element "a=View members"
 
 Scenario: Get the title of Ubora 
@@ -29,7 +29,7 @@ Scenario: I sign up and check my profile on Members page
     When I set value "Test12345" to the element "#ConfirmPassword"
     When I click on the element "#IsAgreedToTermsOfService"
     When I click on the element "button=Create an account"
-    Then I expect the title of the page "Create a profile page - UBORA"
+    Then I expect the title of the page "Create a profile - UBORA"
     When I click on the element ".header-logo"
     Then I expect the title of the page "Welcome - UBORA"
     When I click on the element "a=View members"

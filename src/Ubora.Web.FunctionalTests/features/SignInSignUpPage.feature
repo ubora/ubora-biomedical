@@ -3,7 +3,7 @@ Feature: Sign in Sign up page
     I want to click all buttons on SignInSignUp page
 
 Background:
-    Given I go to the website "/Home/Index"
+    Given I go to the website "/"
     Given I clicked on the element "a=Sign in/sign up"
 
 Scenario: Go to SignInSignUp page 
