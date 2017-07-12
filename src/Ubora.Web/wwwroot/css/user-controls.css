@@ -86,7 +86,6 @@ a {
     box-sizing: border-box;
 	color:var(--primary-color);
 	display: inline-block;
-	padding: inherit;
 	text-decoration: none;
 	transition:
 		color .3s ease,
