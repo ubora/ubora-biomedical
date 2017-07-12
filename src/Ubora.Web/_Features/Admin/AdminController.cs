@@ -72,6 +72,40 @@ namespace Ubora.Web._Features.Admin
             return RedirectToAction(nameof(Diagnostics));
         }
 
+        [HttpPost]
+        [Authorize(Roles = ApplicationRole.Admin)]
+        public async Task<IActionResult> AddMentorRole(Guid userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            var result = await _userManager.AddToRoleAsync(user, ApplicationRole.Mentor);
+
+            if (!result.Succeeded)
+            {
+                AddIdentityErrorsToModelState(result);
+
+                return await Diagnostics();
+            }
+
+            return RedirectToAction(nameof(Diagnostics));
+        }
+
+        [HttpPost]
+        [Authorize(Roles = ApplicationRole.Admin)]
+        public async Task<IActionResult> RemoveMentorRole(Guid userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            var result = await _userManager.RemoveFromRoleAsync(user, ApplicationRole.Mentor);
+
+            if (!result.Succeeded)
+            {
+                AddIdentityErrorsToModelState(result);
+
+                return await Diagnostics();
+            }
+
+            return RedirectToAction(nameof(Diagnostics));
+        }
+
         private void AddIdentityErrorsToModelState(IdentityResult result)
         {
             foreach (var error in result.Errors)

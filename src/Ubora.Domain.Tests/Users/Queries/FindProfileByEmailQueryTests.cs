@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Users.Queries
 {
-    public class FindByEmailQueryTests : IntegrationFixture
+    public class FindProfileByEmailQueryTests : IntegrationFixture
     {
         [Fact]
         public void Returns_Users_With_Email()
@@ -19,7 +19,7 @@ namespace Ubora.Domain.Tests.Users.Queries
             this.Create_User(expectedUserId, "test@test.com");
             this.Create_User(Guid.NewGuid(), "other2@test.com");
 
-            var query = new FindByEmailQuery
+            var query = new FindProfileByEmailQuery
             {
                 Email = " TeSt@test.COM "
             };
@@ -42,8 +42,8 @@ namespace Ubora.Domain.Tests.Users.Queries
             };
             var queryProcessor = Mock.Of<IQueryProcessor>(x => x.Find<UserProfile>(null) == users);
 
-            var handler = new FindByEmailQuery.Handler(queryProcessor);
-            var query = new FindByEmailQuery
+            var handler = new FindProfileByEmailQuery.Handler(queryProcessor);
+            var query = new FindProfileByEmailQuery
             {
                 Email = duplicateEmail
             };

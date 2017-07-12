@@ -210,7 +210,7 @@ namespace Ubora.Web._Features.Projects.Members
                 return AssignMentor();
             }
 
-            var userProfile = QueryProcessor.ExecuteQuery(new FindByEmailQuery
+            var userProfile = QueryProcessor.ExecuteQuery(new FindProfileByEmailQuery
             {
                 Email = model.Email
             });

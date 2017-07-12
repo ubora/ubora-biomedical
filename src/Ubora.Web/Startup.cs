@@ -166,7 +166,5 @@ namespace Ubora.Web
             // Logging this as an error so it reaches all loggers (for tracking application restarts and testing if logging actually works)
             logger.LogError("Application started!");
         }
-
-   
     }
 }

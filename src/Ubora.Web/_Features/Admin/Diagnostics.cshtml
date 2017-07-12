@@ -21,6 +21,15 @@
                 {
                     <button type="submit" asp-action="AddAdministratorRole">Add administrator role</button>
                 }
+
+                @if (user.IsMentor)
+                {
+                    <button type="submit" asp-action="RemoveMentorRole">Remove mentor role</button>
+                }
+                else
+                {
+                    <button type="submit" asp-action="AddMentorRole">Add mentor role</button>
+                }
             </form>
         </li>
     }

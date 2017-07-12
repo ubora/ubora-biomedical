@@ -189,7 +189,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             var userProfile = new UserProfile(Guid.NewGuid());
 
             QueryProcessorMock
-                .Setup(x => x.ExecuteQuery(It.Is<FindByEmailQuery>(q => q.Email == email)))
+                .Setup(x => x.ExecuteQuery(It.Is<FindProfileByEmailQuery>(q => q.Email == email)))
                 .Returns(userProfile);
 
             AssignProjectMentorCommand executedCommand = null;

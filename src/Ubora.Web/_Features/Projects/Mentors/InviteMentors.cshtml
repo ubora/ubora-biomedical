@@ -1,0 +1,28 @@
+﻿@using Ubora.Web._Features.Projects.Mentors
+@model MentorsViewModel
+
+Project mentors:
+<ol>
+    @foreach (var mentor in Model.ProjectMentors)
+    {
+        <li>@mentor.FullName</li>
+    }
+</ol>
+
+
+@*active*@
+@*pending invitation*@
+
+All UBORA mentors:
+<ol>
+    @foreach (var mentor in Model.UboraMentors)
+    {
+        <li>
+            @mentor.FullName
+            <form asp-action="InviteMentor">
+                <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId" />
+                <button type="submit"></button>
+            </form>
+        </li>
+    }
+</ol>

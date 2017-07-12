@@ -4,7 +4,7 @@ using Ubora.Domain.Infrastructure.Queries;
 
 namespace Ubora.Domain.Users.Queries
 {
-    public class FindByEmailQuery : IQuery<UserProfile>
+    public class FindProfileByEmailQuery : IQuery<UserProfile>
     {
         private string _email;
         public string Email
@@ -13,13 +13,13 @@ namespace Ubora.Domain.Users.Queries
             set => _email = value?.Trim();
         }
 
-        public class Handler : QueryHandler<FindByEmailQuery, UserProfile>
+        public class Handler : QueryHandler<FindProfileByEmailQuery, UserProfile>
         {
             public Handler(IQueryProcessor queryProcessor) : base(queryProcessor)
             {
             }
 
-            public override UserProfile Handle(FindByEmailQuery query)
+            public override UserProfile Handle(FindProfileByEmailQuery query)
             {
                 var userProfile = QueryProcessor.Find<UserProfile>()
                     .SingleOrDefault(x => x.Email.Equals(query.Email, StringComparison.OrdinalIgnoreCase));
