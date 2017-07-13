@@ -11,6 +11,7 @@
         <p class="notification--message">@Html.ActionLink(Model.UserFullName, "View", "Profile", new { userId = Model.UserId }) asks to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a></p>
         <div class="notification--controls">
             <form class="default-form notification-action" method="post">
+                @Html.AntiForgeryToken()
                 <input type="hidden" asp-for="RequestId" />
                 <div class="form-input">
                     <button class="button secondary-button small-button" type="submit" asp-controller="Requests" asp-action="Decline">Decline</button>
