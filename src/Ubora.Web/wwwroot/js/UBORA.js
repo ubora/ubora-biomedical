@@ -24,14 +24,6 @@ if (sideMenuButton) {
             sideMenu.style.display = 'block';
         }
     });
-
-    window.addEventListener('scroll', function (event) {
-        if (document.body.scrollTop > headerHeight) {
-            sideMenu.style.top = '0px';
-        } else {
-            sideMenu.style.top = totalPadding + 'px';
-        }
-    });
 }
 
 window.addEventListener('load', function () {

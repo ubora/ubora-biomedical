@@ -36,11 +36,12 @@
 
 .side-menu {
 	background-color: var(--white);
+    bottom: 0;
 	display: none;
 	font-size: 150%;
 	height: 100%;
 	padding:.5em 1.5em 1em 1.5em;
-	position: fixed;
+	position: absolute;
     max-width: 300px;
 	right:0;
 	top:0;
