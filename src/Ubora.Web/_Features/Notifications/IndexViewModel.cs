@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Notifications;
-using Ubora.Domain.Notifications.Invitation;
-using Ubora.Domain.Notifications.Join;
 using Ubora.Domain.Notifications.Specifications;
 using Ubora.Web._Features.Notifications.Factory;
 
@@ -63,11 +62,21 @@ namespace Ubora.Web._Features.Notifications
     public class IndexInvitationViewModel : BaseInvitationViewModel
     {
         public bool IsUnread { get; set; }
+
+        public override IHtmlContent GetPartialView(IHtmlHelper htmlHelper)
+        {
+            return htmlHelper.Partial("~/_Features/Notifications/Partials/IndexInvitationPartial.cshtml", this);
+        }
     }
 
     public class IndexRequestViewModel : BaseRequestViewModel
     {
         public Guid UserId { get; set; }
         public bool IsUnread { get; set; }
+
+        public override IHtmlContent GetPartialView(IHtmlHelper htmlHelper)
+        {
+            return htmlHelper.Partial("~/_Features/Notifications/Partials/IndexRequestPartial.cshtml", this);
+        }
     }
 }
