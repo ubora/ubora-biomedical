@@ -8,19 +8,22 @@
 }
 
 <section class="medium-width">
-    @if (Model.IsProjectMember)
-    {
-        <a class="project-control" asp-controller="Members" asp-action="Invite">
-            <i class="material-icons">person_add</i>Invite member to project
-        </a>
-    }
+    <div class="project-control-options">
+        @if (Model.IsProjectMember)
+        {
+            <a class="project-control" asp-controller="Members" asp-action="Invite">
+                <i class="material-icons">person_add</i>Invite member to project
+            </a>
+        }
 
-    @if (Model.IsProjectMember && !Model.IsProjectLeader)
-    {
-        <a class="project-control" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId">
-            <i class="material-icons">exit_to_app</i>Leave project
-        </a>
-    }
+        @if (Model.IsProjectMember && !Model.IsProjectLeader)
+        {
+            <a class="project-control" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId">
+                <i class="material-icons">exit_to_app</i>Leave project
+            </a>
+        }
+    </div>
+
     <h1 class="full-width">Project members</h1>
 </section>
 
