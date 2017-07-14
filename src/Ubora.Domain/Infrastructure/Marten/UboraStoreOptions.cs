@@ -27,6 +27,8 @@ namespace Ubora.Domain.Infrastructure.Marten
 
             return options =>
             {
+                options.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
+
                 options.Events.UseAggregatorLookup(AggregationLookupStrategy.UsePrivateApply);
                 options.Serializer(serializer);
 
