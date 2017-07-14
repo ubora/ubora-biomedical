@@ -57,8 +57,14 @@
 }
 
 .notification--controls {
-    align-items: flex-start;
     display: flex;
+    flex-direction: row;
+    margin: 0;
+}
+
+.notification-action {
+    margin: 0;
+    justify-content: center;
 }
 
 .notification-action:last-of-type {

@@ -9,17 +9,15 @@
 <div class="notification @isUnreadCss">
     <div class="notification-container">
         <p class="notification--message">You have been asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a></p>
-        <div class="notification--controls">
-            <form class="default-form notification-action" method="post">
-                @Html.AntiForgeryToken()
-                <input type="hidden" asp-for="InviteId" />
-                <div class="form-input">
-                    <button class="button secondary-button small-button" type="submit" asp-controller="Invitations" asp-action="Decline">Decline</button>
-                </div>
-                <div class="form-input">
-                    <button class="button secondary-button small-button" type="submit" asp-controller="Invitations" asp-action="Accept">Accept</button>
-                </div>
-            </form>
-        </div>
+        <form class="notification--controls" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="InviteId" />
+            <div class="form-input notification-action">
+                <button class="button secondary-button small-button" type="submit" asp-controller="Invitations" asp-action="Decline">Decline</button>
+            </div>
+            <div class="form-input notification-action">
+                <button class="button secondary-button small-button" type="submit" asp-controller="Invitations" asp-action="Accept">Accept</button>
+            </div>
+        </form>
     </div>
 </div>
