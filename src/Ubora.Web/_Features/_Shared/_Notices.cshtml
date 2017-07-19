@@ -1,0 +1,24 @@
+﻿@using Ubora.Web._Features._Shared.Notices
+@model IReadOnlyCollection<Notice>
+
+@foreach (var notice in Model)
+{
+    switch (notice.Type)
+    {
+        case NoticeType.Info:
+            <div>
+                <p>@notice.Text</p>
+            </div>
+            break;
+        case NoticeType.Success:
+            <div>
+                <p>@notice.Text</p>
+            </div>
+            break;
+        case NoticeType.Error:
+            <div>
+                <p>@notice.Text</p>
+            </div>
+            break;
+    }
+}

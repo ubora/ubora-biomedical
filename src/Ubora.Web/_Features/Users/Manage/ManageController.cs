@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Users.Manage
 {
@@ -59,7 +60,7 @@ namespace Ubora.Web._Features.Users.Manage
                 Logins = await _userManager.GetLoginsAsync(user),
                 BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
             };
-            return View(model);
+            return View(nameof(Index), model);
         }
 
         [HttpPost]
@@ -188,6 +189,10 @@ namespace Ubora.Web._Features.Users.Manage
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, $"{user.Id} is the identity of the user who changed their password successfully.");
+
+                    var successNotice = new Notice("Password changed successfully!", NoticeType.Success);
+                    ShowNotice(successNotice);
+
                     return RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
                 }
                 AddErrors(result);

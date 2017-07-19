@@ -10,6 +10,8 @@ using Ubora.Web._Features.Home;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Ubora.Web._Features._Shared;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features
 {
@@ -49,7 +51,15 @@ namespace Ubora.Web._Features
             get => _commandProcessor ?? (_commandProcessor = ServiceLocator.GetService<ICommandProcessor>());
         }
 
-        private IServiceProvider ServiceLocator => HttpContext.RequestServices; 
+        private IServiceProvider ServiceLocator => HttpContext.RequestServices;
+
+        private TempDataWrapper _tempDataWrapper;
+        public TempDataWrapper TempDataWrapper => _tempDataWrapper ?? (_tempDataWrapper = new TempDataWrapper(TempData));
+
+        public void ShowNotice(Notice notice)
+        {
+            TempDataWrapper.AddNotice(notice);
+        }
 
         protected void ExecuteUserCommand<T>(T command) where T : IUserCommand
         {
