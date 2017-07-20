@@ -31,7 +31,8 @@ namespace Ubora.Web._Features.Users.Manage
             _signInManager = signInManager;
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _emailSender = emailSender;
-            _logger = loggerFactory.CreateLogger<ManageController>();
+            _logger = loggerFactory.CreateLogger(nameof(ManageController));
+
         }
 
         [HttpGet]
@@ -181,6 +182,7 @@ namespace Ubora.Web._Features.Users.Manage
             {
                 return View(model);
             }
+
             var user = await GetCurrentUserAsync();
             if (user != null)
             {
@@ -193,12 +195,15 @@ namespace Ubora.Web._Features.Users.Manage
                     var successNotice = new Notice("Password changed successfully!", NoticeType.Success);
                     ShowNotice(successNotice);
 
-                    return RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
+                    return RedirectToAction(nameof(Index));
                 }
                 AddErrors(result);
                 return View(model);
             }
-            return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
+            var errorNotice = new Notice("Password could not be changed!", NoticeType.Error);
+            ShowNotice(errorNotice);
+
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
