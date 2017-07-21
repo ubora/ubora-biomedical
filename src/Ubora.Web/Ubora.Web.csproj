@@ -21,6 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\images\projectlogodefault.png" />
+    <Content Include="wwwroot\images\projectlogodefault_thumbnail.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.1.0" />
     <PackageReference Include="AutoMapper" Version="6.0.2" />
@@ -49,7 +54,7 @@
     <PackageReference Include="TwentyTwenty.Storage" Version="2.0.0" />
     <PackageReference Include="TwentyTwenty.Storage.Azure" Version="2.0.0" />
     <PackageReference Include="TwentyTwenty.Storage.Local" Version="2.0.0" />
-    <PackageReference Include="WindowsAzure.Storage" Version="8.1.4" />
+    <PackageReference Include="WindowsAzure.Storage" Version="8.2.0" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />

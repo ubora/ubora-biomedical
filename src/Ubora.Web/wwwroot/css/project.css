@@ -39,8 +39,22 @@
 .project_section--photo {
     align-self: center;
     width: 100%;
-    max-height: 600px;
+    max-width:1500px;
+    max-height: 300px;
     object-fit: contain;
+}
+
+.project_photo--controls {
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding:0 .5em;
+}
+
+.project_photo--controls a {
+    align-self: flex-end;
+    margin:.5em 0;
 }
 
 .project_section--title {

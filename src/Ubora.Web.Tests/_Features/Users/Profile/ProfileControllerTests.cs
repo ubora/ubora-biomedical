@@ -6,13 +6,13 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features.Users.Profile;
 using Xunit;
+using Ubora.Web.Infrastructure.ImageServices;
 
 namespace Ubora.Web.Tests._Features.Users.Profile
 {
@@ -20,7 +20,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
     {
         private readonly Mock<FakeUserManager> _userManagerMock;
         private readonly Mock<FakeSignInManager> _signInManagerMock;
-        private readonly Mock<IStorageProvider> _storageProviderMock;
+        private readonly Mock<ImageStorageProvider> _imageStorageProviderMock;
 
         private readonly ProfileController _controller;
 
@@ -28,8 +28,8 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         {
             _userManagerMock = new Mock<FakeUserManager>();
             _signInManagerMock = new Mock<FakeSignInManager>();
-            _storageProviderMock = new Mock<IStorageProvider>();
-            _controller = new ProfileController(_userManagerMock.Object, _signInManagerMock.Object, _storageProviderMock.Object);
+            _imageStorageProviderMock = new Mock<ImageStorageProvider>();
+            _controller = new ProfileController(_userManagerMock.Object, _signInManagerMock.Object, _imageStorageProviderMock.Object);
             SetUpForTest(_controller);
         }
 

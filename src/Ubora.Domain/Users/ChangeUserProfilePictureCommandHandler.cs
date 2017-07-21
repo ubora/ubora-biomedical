@@ -1,5 +1,6 @@
 ﻿using Marten;
 using TwentyTwenty.Storage;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.Users
@@ -26,13 +27,16 @@ namespace Ubora.Domain.Users
 
             if (userProfile.ProfilePictureBlobName != null)
             {
-                _storageProvider.DeleteBlobAsync("users", $"{userProfile.UserId}/profile-pictures/{userProfile.ProfilePictureBlobName}").Wait();
+                _storageProvider.DeleteBlobAsync(BlobLocation.ContainerNames.Users, $"{userProfile.UserId}/profile-pictures/{userProfile.ProfilePictureBlobName}")
+                    .GetAwaiter()
+                    .GetResult();
             }
 
             userProfile.ProfilePictureBlobName = cmd.FileName;
 
-            _storageProvider.SaveBlobStreamAsync("users", $"{userProfile.UserId}/profile-pictures/{userProfile.ProfilePictureBlobName}", cmd.Stream, blobProperties)
-                .Wait();
+            _storageProvider.SaveBlobStreamAsync(BlobLocation.ContainerNames.Users, $"{userProfile.UserId}/profile-pictures/{userProfile.ProfilePictureBlobName}", cmd.Stream, blobProperties)
+                .GetAwaiter()
+                .GetResult();
 
             _documentSession.Store(userProfile);
             _documentSession.SaveChanges();

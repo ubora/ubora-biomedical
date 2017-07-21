@@ -31,11 +31,12 @@ namespace Ubora.Domain.Projects.Repository
             };
 
             var blobLocation = new BlobLocation(
-                containerName: "projects", 
-                blobName: $"{project.Id}/repository/{Guid.NewGuid()}/{cmd.FileName}");
+                containerName: BlobLocation.ContainerNames.Projects,
+                blobPath: $"{project.Id}/repository/{Guid.NewGuid()}/{cmd.FileName}");
 
-            _storageProvider.SaveBlobStreamAsync(blobLocation.ContainerName, blobLocation.BlobName, cmd.Stream, blobProperties)
-                .Wait();
+            _storageProvider.SaveBlobStreamAsync(blobLocation.ContainerName, blobLocation.BlobPath, cmd.Stream, blobProperties)
+                .GetAwaiter()
+                .GetResult();
 
             var @event = new FileAddedEvent(
                 cmd.Actor,

@@ -1,13 +1,11 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TwentyTwenty.Storage;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
 using Ubora.Web.Authorization;
-using Ubora.Web.Infrastructure;
-using Ubora.Web.Infrastructure.Extensions;
+using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web._Features.Projects.Dashboard
 {
@@ -15,14 +13,14 @@ namespace Ubora.Web._Features.Projects.Dashboard
     public class DashboardController : ProjectController
     {
         private readonly IStorageProvider _storageProvider;
-        private readonly ImageResizer _imageResizer;
+        private readonly ImageStorageProvider _imageStorage;
 
         public DashboardController(
             IStorageProvider storageProvider,
-            ImageResizer imageResizer)
+            ImageStorageProvider imageStorage)
         {
             _storageProvider = storageProvider;
-            _imageResizer = imageResizer;
+            _imageStorage = imageStorage;
         }
 
         [AllowAnonymous]
@@ -30,8 +28,11 @@ namespace Ubora.Web._Features.Projects.Dashboard
         {
             var model = AutoMapper.Map<ProjectDashboardViewModel>(Project);
             model.IsProjectMember = await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
-            model.ImagePath = _storageProvider.GetDefaultOrBlobUrl(Project, 1500, 300);
-            model.HasImage = Project.ProjectImageLastUpdated != null;
+            model.HasImage = Project.HasImage;
+            if (Project.HasImage)
+            {
+                model.ImagePath = _imageStorage.GetUrl(BlobLocations.GetProjectImageBlobLocation(ProjectId), ImageSize.Banner1500x300);
+            }
 
             return View(nameof(Dashboard), model);
         }
@@ -87,12 +88,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
 
             var imageStream = model.Image.OpenReadStream();
 
-            var containerName = BlobLocation.ContainerNames.Projects;
-            var blobLocation = $"{ProjectId}/project-image/";
-
-            await _imageResizer.SaveAsJpegAsync(new BlobLocation(containerName, blobLocation + "original.jpg"), imageStream);
-            await _imageResizer.CreateResizedImageAndSaveAsJpegAsync(new BlobLocation(containerName, blobLocation + "400x150.jpg"), imageStream, 400, 150);
-            await _imageResizer.CreateResizedImageAndSaveAsJpegAsync(new BlobLocation(containerName, blobLocation + "1500x300.jpg"), imageStream, 1500, 300);
+            await _imageStorage.SaveImageAsync(imageStream, BlobLocations.GetProjectImageBlobLocation(ProjectId), SizeOptions.AllDefaultSizes);
 
             ExecuteUserProjectCommand(new UpdateProjectImageCommand
             {
@@ -128,12 +124,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
                 return RemoveProjectImage();
             }
 
-            var containerName = BlobLocation.ContainerNames.Projects;
-            var blobLocation = $"{ProjectId}/project-image/";
-
-            await _storageProvider.DeleteBlobAsync(containerName, blobLocation + "original.jpg");
-            await _storageProvider.DeleteBlobAsync(containerName, blobLocation + "400x150.jpg");
-            await _storageProvider.DeleteBlobAsync(containerName, blobLocation + "1500x300.jpg");
+            await _imageStorage.DeleteImagesAsync(BlobLocations.GetProjectImageBlobLocation(ProjectId));
 
             ExecuteUserProjectCommand(new DeleteProjectImageCommand
             {

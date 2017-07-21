@@ -2,13 +2,16 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
 using Ubora.Web._Features.Projects.Dashboard;
-using Ubora.Web.Infrastructure;
+using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web.Infrastructure.Storage;
 using Xunit;
 
 namespace Ubora.Web.Tests._Features.Projects.Dashboard
@@ -16,13 +19,13 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
     public class DashboardControllerTests : ProjectControllerTestsBase
     {
         private readonly Mock<IStorageProvider> _storageProviderMock;
-        private readonly Mock<ImageResizer> _imageResizerMock;
+        private readonly Mock<ImageStorageProvider> _imageResizerMock;
         private readonly DashboardController _dashboardController;
 
         public DashboardControllerTests()
         {
             _storageProviderMock = new Mock<IStorageProvider>();
-            _imageResizerMock = new Mock<ImageResizer>();
+            _imageResizerMock = new Mock<ImageStorageProvider>();
 
             _dashboardController = new DashboardController(
                 _storageProviderMock.Object,
@@ -37,19 +40,16 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
             CommandProcessorMock.Setup(x => x.Execute(It.IsAny<UpdateProjectImageCommand>()))
                 .Returns(new CommandResult());
 
-            var fileMock = Mock.Of<IFormFile>(x => x.FileName == "image.jpg");
-            var model = new EditProjectImageViewModel { Image = fileMock };
+            var file = Mock.Of<IFormFile>();
+            var model = new EditProjectImageViewModel { Image = file };
+            var expectedBlobLocation = BlobLocations.GetProjectImageBlobLocation(ProjectId);
+            Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName && b.BlobPath == expectedBlobLocation.BlobPath;
 
             // Act
             var result = await _dashboardController.EditProjectImage(model);
 
             // Assert
-            var expectedContainerName = BlobLocation.ContainerNames.Projects;
-            var expectedBlobName = $"{ProjectId}/project-image/";
-
-            _imageResizerMock.Verify(x => x.SaveAsJpegAsync(It.Is<BlobLocation>(y => y.ContainerName == expectedContainerName && y.BlobName == expectedBlobName + "original.jpg"), null));
-            _imageResizerMock.Verify(x => x.CreateResizedImageAndSaveAsJpegAsync(It.Is<BlobLocation>(y => y.ContainerName == expectedContainerName && y.BlobName == expectedBlobName + "400x150.jpg"), null, 400, 150));
-            _imageResizerMock.Verify(x => x.CreateResizedImageAndSaveAsJpegAsync(It.Is<BlobLocation>(y => y.ContainerName == expectedContainerName && y.BlobName == expectedBlobName + "1500x300.jpg"), null, 1500, 300));
+            _imageResizerMock.Verify(v => v.SaveImageAsync(null, It.Is(expectedBlobLocationFunc), SizeOptions.AllDefaultSizes));
 
             var actionResult = (RedirectToActionResult)result;
             actionResult.ActionName.Should().Be(nameof(DashboardController.Dashboard));
@@ -79,17 +79,14 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
                 .Returns(new CommandResult());
 
             var model = new RemoveProjectImageViewModel();
+            var expectedBlobLocation = BlobLocations.GetProjectImageBlobLocation(ProjectId);
+            Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName && b.BlobPath == expectedBlobLocation.BlobPath;
 
             // Act
             var result = await _dashboardController.RemoveProjectImage(model);
 
             // Assert
-            var expectedContainerName = BlobLocation.ContainerNames.Projects;
-            var expectedBlobName = $"{ProjectId}/project-image/";
-
-            _storageProviderMock.Verify(x => x.DeleteBlobAsync(expectedContainerName, expectedBlobName + "original.jpg"));
-            _storageProviderMock.Verify(x => x.DeleteBlobAsync(expectedContainerName, expectedBlobName + "400x150.jpg"));
-            _storageProviderMock.Verify(x => x.DeleteBlobAsync(expectedContainerName, expectedBlobName + "1500x300.jpg"));
+            _imageResizerMock.Verify(x => x.DeleteImagesAsync(It.Is(expectedBlobLocationFunc)));
 
             var actionResult = (RedirectToActionResult)result;
             actionResult.ActionName.Should().Be(nameof(DashboardController.Dashboard));

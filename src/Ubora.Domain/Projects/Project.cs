@@ -22,6 +22,7 @@ namespace Ubora.Domain.Projects
         public string Description { get; private set; }
         public bool IsInDraft { get; private set; } = true;
         public DateTime? ProjectImageLastUpdated { get; private set; }
+        public bool HasImage => ProjectImageLastUpdated != null;
 
         [JsonProperty(nameof(Members))]
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
