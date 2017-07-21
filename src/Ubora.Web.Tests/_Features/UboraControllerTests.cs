@@ -14,6 +14,10 @@ namespace Ubora.Web.Tests._Features
     {
         public class TestController : UboraController
         {
+            public void TestShowNotice(Notice notice)
+            {
+                ShowNotice(notice);
+            }
         }
 
         [Fact]
@@ -25,7 +29,7 @@ namespace Ubora.Web.Tests._Features
             var notice = new Notice("test", NoticeType.Success);
 
             // Act
-            controller.ShowNotice(notice);
+            controller.TestShowNotice(notice);
 
             // Assert
             var actualNotices = controller.TempDataWrapper.Notices;

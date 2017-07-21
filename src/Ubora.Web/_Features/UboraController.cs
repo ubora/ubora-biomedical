@@ -56,7 +56,7 @@ namespace Ubora.Web._Features
         private TempDataWrapper _tempDataWrapper;
         public TempDataWrapper TempDataWrapper => _tempDataWrapper ?? (_tempDataWrapper = new TempDataWrapper(TempData));
 
-        public void ShowNotice(Notice notice)
+        protected void ShowNotice(Notice notice)
         {
             TempDataWrapper.AddNotice(notice);
         }

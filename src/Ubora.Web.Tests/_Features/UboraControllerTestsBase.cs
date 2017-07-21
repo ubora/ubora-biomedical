@@ -13,6 +13,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Web.Tests.Helper;
+using Ubora.Web._Features._Shared;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web.Tests._Features
 {
@@ -41,6 +46,9 @@ namespace Ubora.Web.Tests._Features
 
             var serviceProviderMock = new Mock<IServiceProvider>();
             controller.ControllerContext.HttpContext.RequestServices = serviceProviderMock.Object;
+
+            // Set temp data
+            SetTempData(controller);
 
             // Set user (ClaimsPrincipal)
             controller.ControllerContext.HttpContext.User = User;
@@ -71,6 +79,15 @@ namespace Ubora.Web.Tests._Features
             {
                 Assert.Contains(error.ErrorMessage, result);
             }
+        }
+
+        private void SetTempData(UboraController controller)
+        {
+            var tempDataDictionary = new TestTempDataDictionary();
+            var noticesKey = nameof(TempDataWrapper.Notices);
+            tempDataDictionary[noticesKey] = JsonConvert.SerializeObject(new List<Notice>());
+
+            controller.TempData = tempDataDictionary;
         }
     }
 }

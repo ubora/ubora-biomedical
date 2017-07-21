@@ -71,7 +71,7 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             _userManagerMock.Setup(x => x.ChangePasswordAsync(applicationUser, currentPassword, newPassword))
                 .ReturnsAsync(identitySuccessResult);
 
-            SetTempData(_controller);
+           // SetTempData(_controller);
 
             // Act
             var result = (RedirectToActionResult) await _controller.ChangePassword(viewModel);
@@ -105,7 +105,7 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             _userManagerMock.Setup(x => x.GetUserAsync(_controller.HttpContext.User))
                 .ReturnsAsync((ApplicationUser) null);
 
-            SetTempData(_controller);
+            //SetTempData(_controller);
 
             // Act
             var result = (RedirectToActionResult)await _controller.ChangePassword(viewModel);
