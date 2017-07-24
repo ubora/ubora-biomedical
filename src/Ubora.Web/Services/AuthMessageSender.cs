@@ -7,6 +7,7 @@ namespace Ubora.Web.Services
 {
     public interface IAuthMessageSender
     {
+        Task SendEmailConfirmationMessage(ApplicationUser user);
         Task SendForgotPasswordMessageAsync(ApplicationUser user);
     }
 
@@ -21,6 +22,18 @@ namespace Ubora.Web.Services
             _userManager = userManager;
             _urlHelper = urlHelper;
             _emailSender = emailSender;
+        }
+
+        public async Task SendEmailConfirmationMessage(ApplicationUser user)
+        {
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            var callbackUrl = _urlHelper.Action("ConfirmEmail", "Account", new { userId = user.Id, code },
+                protocol: _urlHelper.ActionContext.HttpContext.Request.Scheme);
+
+            var message = "<h1 style='color:#4777BB;'>Confirm email</h1><p>Please confirm your account by clicking <a href=\"" + callbackUrl + "\">this link</a>.</p>";
+
+            await _emailSender.SendEmailAsync(user.Email, "Confirm email", message);
         }
 
         public async Task SendForgotPasswordMessageAsync(ApplicationUser user)
