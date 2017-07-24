@@ -2,8 +2,11 @@
 const webpack = require("webpack");
 
 module.exports = {
-    entry: [
-        "./wwwroot/js/UBORA.js"
+    entry: {
+        app: [ "./wwwroot/js/UBORA.js" ]
+    },
+    plugins: [
+
     ],
     output: {
         publicPath: "/",

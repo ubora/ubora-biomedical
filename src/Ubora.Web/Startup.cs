@@ -131,7 +131,8 @@ namespace Ubora.Web
                 app.UseBrowserLink();
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions()
                 {
-                    ConfigFile = "webpack.config.js"
+                    ConfigFile = "webpack.config.js",
+                    HotModuleReplacement = true
                 });
 
             }

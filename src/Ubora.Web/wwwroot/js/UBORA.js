@@ -133,3 +133,7 @@ const testString = `This is a test to see, if ${webpackString} works!`;
 const randomFunction = () => {
     console.log(testString);
 };
+
+if (module.hot) {
+    module.hot.accept()
+}
