@@ -8,6 +8,7 @@ using TwentyTwenty.Storage;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure.Extensions;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Users.Profile
 {
@@ -84,8 +85,19 @@ namespace Ubora.Web._Features.Users.Profile
             };
             ExecuteUserCommand(command);
 
+            if (!ModelState.IsValid)
+            {
+                var errorNotice = new Notice("Failed to change profile!", NoticeType.Error);
+                ShowNotice(errorNotice);
+
+                return RedirectToAction("Index", "Manage");
+            }
+
             var user = await _userManager.FindByIdAsync(userId);
             await _signInManager.RefreshSignInAsync(user);
+
+            var successNotice = new Notice("Profile changed successfully!", NoticeType.Success);
+            ShowNotice(successNotice);
 
             return RedirectToAction("Index", "Manage");
         }

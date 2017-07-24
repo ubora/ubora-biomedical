@@ -13,6 +13,8 @@ using Ubora.Web.Data;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features.Users.Profile;
 using Xunit;
+using Ubora.Web._Features._Shared.Notices;
+using Ubora.Web._Features.Users.Manage;
 
 namespace Ubora.Web.Tests._Features.Users.Profile
 {
@@ -247,6 +249,72 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             //Act
             result.Should().BeOfType<NotFoundResult>();
             AutoMapperMock.Verify(m => m.Map(It.IsAny<UserProfile>(), It.IsAny<ProfileViewModel>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task EditProfile_Changes_Profile_And_Redirects_And_Shows_Success_Notice_When_Changed_Successfully()
+        {
+            var userId = Guid.NewGuid().ToString();
+            _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>()))
+                .Returns(userId);
+
+            var role = "NewRole";
+            var userProfileViewModel = new UserProfileViewModel
+            {
+                Role = role
+            };
+            var commandResult = new CommandResult();
+
+            var executedCommand = new EditUserProfileCommand();
+            CommandProcessorMock
+                .Setup(p => p.Execute(It.IsAny<EditUserProfileCommand>()))
+                .Callback<EditUserProfileCommand>(c => executedCommand = c)
+                .Returns(commandResult);
+
+            var user = new ApplicationUser();
+            _userManagerMock.Setup(m => m.FindByIdAsync(userId))
+                .ReturnsAsync(user);
+
+            // Act
+            var result = (RedirectToActionResult)await _controller.EditProfile(userProfileViewModel);
+
+            // Assert
+            executedCommand.Role.Should().Be(role);
+
+            result.ControllerName.Should().Be("Manage");
+            result.ActionName.Should().Be("Index");
+
+            var notice = _controller.TempDataWrapper.Notices.Single();
+            notice.Text.Should().Be("Profile changed successfully!");
+            notice.Type.Should().Be(NoticeType.Success);
+        }
+
+        [Fact]
+        public async Task EditProfile_Redirects_And_Shows_Error_Notice_When_Not_Changed_Successfully()
+        {
+            var userId = Guid.NewGuid().ToString();
+            _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>()))
+                .Returns(userId);
+
+            var userProfileViewModel = new UserProfileViewModel();
+            var commandResult = new CommandResult("errorResult");
+
+            var executedCommand = new EditUserProfileCommand();
+            CommandProcessorMock
+                .Setup(p => p.Execute(It.IsAny<EditUserProfileCommand>()))
+                .Callback<EditUserProfileCommand>(c => executedCommand = c)
+                .Returns(commandResult);
+
+            // Act
+            var result = (RedirectToActionResult)await _controller.EditProfile(userProfileViewModel);
+
+            // Assert
+            result.ControllerName.Should().Be("Manage");
+            result.ActionName.Should().Be("Index");
+
+            var notice = _controller.TempDataWrapper.Notices.Single();
+            notice.Text.Should().Be("Failed to change profile!");
+            notice.Type.Should().Be(NoticeType.Error);
         }
     }
 }
