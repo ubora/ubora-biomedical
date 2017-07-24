@@ -6,18 +6,21 @@
     switch (notice.Type)
     {
         case NoticeType.Info:
-            <div>
-                <p>@notice.Text</p>
+            <div class="notice notice-info">
+                <span class="notice-close js-notice-close">Close</span>
+                <p class="notice-text">@notice.Text</p>
             </div>
             break;
         case NoticeType.Success:
-            <div>
-                <p>@notice.Text</p>
+            <div class="notice notice-success">
+                <span class="notice-close js-notice-close">Close</span>
+                <p class="notice-text">@notice.Text</p>
             </div>
             break;
         case NoticeType.Error:
-            <div>
-                <p>@notice.Text</p>
+            <div class="notice notice-error">
+                <span class="notice-close js-notice-close">Close</span>
+                <p class="notice-text">@notice.Text</p>
             </div>
             break;
     }
