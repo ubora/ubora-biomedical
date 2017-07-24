@@ -126,14 +126,7 @@ function feedbackModule(requestPath, sendFeedbackUrl) {
     });
 }
 
-
-const webpackString = 'Webpack';
-const testString = `This is a test to see, if ${webpackString} works!`;
-
-const randomFunction = () => {
-    console.log(testString);
-};
-
+// Webpack Hot Module Reload
 if (module.hot) {
-    module.hot.accept()
+    module.hot.accept();
 }
