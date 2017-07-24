@@ -1,0 +1,23 @@
+.footer {
+    background-color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-legal {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding:1em;
+    color: var(--quartinary-shade);
+}
+
+.legal-flag {
+    width:5em;
+    display: inline-block;
+}
+.legal-quote {
+    font-size: 80%;
+    font-style: italic;
+}
