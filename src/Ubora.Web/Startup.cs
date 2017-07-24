@@ -23,6 +23,8 @@ using TwentyTwenty.Storage;
 using TwentyTwenty.Storage.Azure;
 using TwentyTwenty.Storage.Local;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.SpaServices.Webpack;
+
 
 namespace Ubora.Web
 {
@@ -127,6 +129,11 @@ namespace Ubora.Web
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions()
+                {
+                    ConfigFile = "webpack.config.js"
+                });
+
             }
             else
             {

@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "name": "asp.net",
+  "private": true,
+  "devDependencies": {
+    "aspnet-webpack": "^2.0.1",
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2017": "^6.24.1",
+    "webpack": "3.3.0"
+  }
+}
