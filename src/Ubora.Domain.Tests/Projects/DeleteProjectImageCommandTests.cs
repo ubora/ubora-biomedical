@@ -36,7 +36,7 @@ namespace Ubora.Domain.Tests.Projects
             // Assert
             var project = Session.Load<Project>(expectedProjectId);
 
-            project.ProjectImageLastUpdated.Should().BeNull();
+            project.ProjectImageBlobLocation.Should().BeNull();
         }
     }
 }

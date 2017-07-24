@@ -8,12 +8,12 @@ namespace Ubora.Web.Infrastructure.Extensions
     {
         public static string GetDefaultOrBlobUrl(this ImageStorageProvider storageProvider, UserProfile userProfile)
         {
-            if (userProfile.ProfilePictureBlobName == null)
+            if (userProfile.ProfilePictureBlobLocation == null)
             {
                 return "/images/profileimagedefault.png";
             }
 
-            var blobLocation = BlobLocations.GetUserProfilePictureLocation(userProfile.UserId, userProfile.ProfilePictureBlobName);
+            var blobLocation = userProfile.ProfilePictureBlobLocation;
             return storageProvider.GetUrl(blobLocation);
         }
     }

@@ -98,7 +98,7 @@ namespace Ubora.Web._Features.ProjectList
 
                 if (project.HasImage)
                 {
-                    projectListItem.ImagePath = _imageStorage.GetUrl(BlobLocations.GetProjectImageBlobLocation(project.Id), ImageSize.Thumbnail400x150);
+                    projectListItem.ImagePath = _imageStorage.GetUrl(project.ProjectImageBlobLocation, ImageSize.Thumbnail400x150);
                 }
 
                 return projectListItem;

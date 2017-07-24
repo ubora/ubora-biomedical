@@ -2,6 +2,7 @@
 using System;
 using Ubora.Domain.Projects;
 using Xunit;
+using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Domain.Tests.Projects
 {
@@ -21,7 +22,8 @@ namespace Ubora.Domain.Tests.Projects
             var command = new UpdateProjectImageCommand
             {
                 Actor = new DummyUserInfo(),
-                ProjectId = expectedProjectId
+                ProjectId = expectedProjectId,
+                BlobLocation = new BlobLocation("test", "test.jpg")
             };
 
             // Act
@@ -30,7 +32,7 @@ namespace Ubora.Domain.Tests.Projects
             // Assert
             var project = Session.Load<Project>(expectedProjectId);
 
-            project.ProjectImageLastUpdated.Should().NotBeNull();
+            project.ProjectImageBlobLocation.Should().NotBeNull();
         }
     }
 }

@@ -55,8 +55,23 @@ namespace Ubora.Web.Infrastructure.ImageServices
             {
                 var fullOriginalBlobLocation = new BlobLocation(blobLocation.ContainerName, $"{blobLocation.BlobPath}original.jpg");
 
-                await SaveAsync(fullOriginalBlobLocation, stream);
+                await SaveAsJpegAsync(fullOriginalBlobLocation, stream);
             }
+        }
+
+        public virtual async Task SaveImageAsync(Stream stream, BlobLocation blobLocation)
+        {
+            if (stream == null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            if (blobLocation == null)
+            {
+                throw new ArgumentNullException(nameof(blobLocation));
+            }
+
+            await SaveStreamToBlobAsync(blobLocation, stream);
         }
 
         public virtual string GetUrl(BlobLocation blobLocation, ImageSize size)
@@ -70,7 +85,7 @@ namespace Ubora.Web.Infrastructure.ImageServices
             {
                 throw new ArgumentNullException(nameof(size));
             }
-            
+
             var blobUrl = _storageProvider.GetBlobUrl(blobLocation.ContainerName, $"{blobLocation.BlobPath}{size}.jpg");
 
             return blobUrl;
@@ -123,7 +138,7 @@ namespace Ubora.Web.Infrastructure.ImageServices
             }
         }
 
-        private async Task SaveAsync(BlobLocation blobLocation, Stream stream)
+        private async Task SaveAsJpegAsync(BlobLocation blobLocation, Stream stream)
         {
             stream.Seek(0, SeekOrigin.Begin);
 

@@ -21,8 +21,9 @@ namespace Ubora.Domain.Projects
         public string DeviceClassification { get; private set; }
         public string Description { get; private set; }
         public bool IsInDraft { get; private set; } = true;
-        public DateTime? ProjectImageLastUpdated { get; private set; }
-        public bool HasImage => ProjectImageLastUpdated != null;
+        public BlobLocation ProjectImageBlobLocation { get; set; }
+        public DateTime ProjectImageLastUpdated { get; private set; }
+        public bool HasImage => ProjectImageBlobLocation != null;
 
         [JsonProperty(nameof(Members))]
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
@@ -117,12 +118,14 @@ namespace Ubora.Domain.Projects
 
         private void Apply(ProjectImageUpdatedEvent e)
         {
+            ProjectImageBlobLocation = e.BlobLocation;
             ProjectImageLastUpdated = e.When;
         }
 
         private void Apply(ProjectImageDeletedEvent e)
         {
-            ProjectImageLastUpdated = null;
+            ProjectImageBlobLocation = null;
+            ProjectImageLastUpdated = e.When;
         }
 
         public override string ToString()

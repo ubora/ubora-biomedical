@@ -31,7 +31,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
             model.HasImage = Project.HasImage;
             if (Project.HasImage)
             {
-                model.ImagePath = _imageStorage.GetUrl(BlobLocations.GetProjectImageBlobLocation(ProjectId), ImageSize.Banner1500x300);
+                model.ImagePath = _imageStorage.GetUrl(Project.ProjectImageBlobLocation, ImageSize.Banner1500x300);
             }
 
             return View(nameof(Dashboard), model);
@@ -87,12 +87,13 @@ namespace Ubora.Web._Features.Projects.Dashboard
             }
 
             var imageStream = model.Image.OpenReadStream();
-
-            await _imageStorage.SaveImageAsync(imageStream, BlobLocations.GetProjectImageBlobLocation(ProjectId), SizeOptions.AllDefaultSizes);
+            var blobLocation = BlobLocations.GetProjectImageBlobLocation(ProjectId);
+            await _imageStorage.SaveImageAsync(imageStream, blobLocation, SizeOptions.AllDefaultSizes);
 
             ExecuteUserProjectCommand(new UpdateProjectImageCommand
             {
                 ProjectId = ProjectId,
+                BlobLocation = blobLocation,
                 Actor = UserInfo
             });
 

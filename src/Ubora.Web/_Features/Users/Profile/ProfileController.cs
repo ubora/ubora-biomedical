@@ -8,6 +8,7 @@ using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web._Features.Users.Profile
 {
@@ -18,8 +19,8 @@ namespace Ubora.Web._Features.Users.Profile
         private readonly ImageStorageProvider _imageStorageProvider;
 
         public ProfileController(
-            UserManager<ApplicationUser> userManager, 
-            SignInManager<ApplicationUser> signInManager, 
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             ImageStorageProvider imageStorageProvider)
         {
             _userManager = userManager;
@@ -151,16 +152,13 @@ namespace Ubora.Web._Features.Users.Profile
                 return model.IsFirstTimeEditProfile ? FirstTimeEditProfile() : EditProfile();
             }
 
-            var userId = _userManager.GetUserId(User);
+            var blobLocation = BlobLocations.GetUserProfilePictureLocation(UserId, model.ImageName);
 
-            var filePath = model.ProfilePicture.FileName.Replace(@"\", "/");
-            var fileName = Path.GetFileName(filePath);
+            await _imageStorageProvider.SaveImageAsync(model.ProfilePicture.OpenReadStream(), blobLocation);
 
             ExecuteUserCommand(new ChangeUserProfilePictureCommand
             {
-                UserId = new Guid(userId),
-                Stream = model.ProfilePicture.OpenReadStream(),
-                FileName = fileName
+                BlobLocation = blobLocation
             });
 
             if (!ModelState.IsValid)
@@ -168,7 +166,7 @@ namespace Ubora.Web._Features.Users.Profile
                 return model.IsFirstTimeEditProfile ? FirstTimeEditProfile() : EditProfile();
             }
 
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(UserId.ToString());
             await _signInManager.RefreshSignInAsync(user);
 
             return RedirectToAction(model.IsFirstTimeEditProfile ? nameof(FirstTimeEditProfile) : nameof(EditProfile));

@@ -159,14 +159,13 @@ namespace Ubora.Web
 
                 var seeder = serviceProvider.GetService<ApplicationDataSeeder>();
                 seeder.SeedIfNecessary()
-                    .GetAwaiter().GetResult();
+                    .GetAwaiter()
+                    .GetResult();
             }
 
             var logger = loggerFactory.CreateLogger<Startup>();
             // Logging this as an error so it reaches all loggers (for tracking application restarts and testing if logging actually works)
             logger.LogError("Application started!");
         }
-
-
     }
 }

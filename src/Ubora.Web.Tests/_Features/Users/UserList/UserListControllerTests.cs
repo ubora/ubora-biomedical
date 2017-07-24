@@ -33,7 +33,7 @@ namespace Ubora.Web.Tests._Features.Users.UserList
 
             if (blobname != null)
             {
-                userProfile.ProfilePictureBlobName = "test.jpg";
+                userProfile.ProfilePictureBlobLocation = new BlobLocation("test", blobname);
             }
 
             var userProfiles = new List<UserProfile>

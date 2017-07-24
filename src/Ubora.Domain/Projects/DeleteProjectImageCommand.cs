@@ -1,4 +1,5 @@
 ﻿using Marten;
+using System;
 using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.Projects
@@ -18,7 +19,7 @@ namespace Ubora.Domain.Projects
             {
                 var project = _documentSession.Load<Project>(cmd.ProjectId);
 
-                var @event = new ProjectImageDeletedEvent(cmd.Actor);
+                var @event = new ProjectImageDeletedEvent(DateTime.UtcNow, cmd.Actor);
 
                 _documentSession.Events.Append(project.Id, @event);
                 _documentSession.SaveChanges();
