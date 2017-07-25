@@ -4,13 +4,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Web._Features.Projects.Repository;
+using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web.Tests.Helper;
 using Xunit;
 
@@ -20,11 +23,13 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
     {
         private readonly RepositoryController _controller;
         private readonly Mock<IStorageProvider> _storageProviderMock;
+        private readonly Mock<IUboraStorageProvider> _uboraStorageProviderMock;
 
         public RepositoryControllerTests()
         {
             _storageProviderMock = new Mock<IStorageProvider>();
-            _controller = new RepositoryController(_storageProviderMock.Object);
+            _uboraStorageProviderMock = new Mock<IUboraStorageProvider>();
+            _controller = new RepositoryController(_storageProviderMock.Object, _uboraStorageProviderMock.Object);
             SetUpForTest(_controller);
         }
 
@@ -95,7 +100,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         }
 
         [Fact]
-        public void AddFile_Executes_AddFileCommand_When_Valid_ModelState()
+        public async Task AddFile_Executes_AddFileCommand_When_Valid_ModelState()
         {
             var fileMock = new Mock<IFormFile>();
 
@@ -106,22 +111,30 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
 
             AddFileCommand executedCommand = null;
 
-            fileMock.Setup(f => f.FileName).Returns("C:\\Test\\Parent\\Parent\\image.png");
+            var fileName = "fileName";
+            fileMock.Setup(f => f.FileName).Returns($"C:\\Test\\Parent\\Parent\\{fileName}");
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<AddFileCommand>()))
                 .Callback<AddFileCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
 
             //Act
-            var result = (RedirectToActionResult)_controller.AddFile(model);
-
+            var result = (RedirectToActionResult) await _controller.AddFile(model);
+             
             //Assert
             executedCommand.ProjectId.Should().Be(ProjectId);
+            var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
+            executedCommand.BlobLocation.BlobPath.Should()
+                .StartWith($"{ProjectId}/repository/")
+                // Guid in the middle.
+                .And.EndWith(fileName);
             result.ActionName.Should().Be(nameof(RepositoryController.Repository));
+
+            _uboraStorageProviderMock.Verify(x => x.SavePrivateStreamToBlobAsync(It.IsAny<BlobLocation>(), It.IsAny<Stream>()), Times.Once);
         }
 
         [Fact]
-        public void AddFile_Returns_Repository_View_With_ModelState_Errors_When_Form_Post_Is_Not_Valid()
+        public async Task AddFile_Returns_Repository_View_With_ModelState_Errors_When_Form_Post_Is_Not_Valid()
         {
             var fileMock = new Mock<IFormFile>();
 
@@ -133,15 +146,17 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             CreateTestProject();
 
             //Act
-            var result = (ViewResult)_controller.AddFile(model);
+            var result = (ViewResult)await _controller.AddFile(model);
 
             //Assert
             result.ViewName.Should().Be(nameof(RepositoryController.Repository));
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
+
+            _uboraStorageProviderMock.Verify(x => x.SavePrivateStreamToBlobAsync(It.IsAny<BlobLocation>(), It.IsAny<Stream>()), Times.Never);
         }
 
         [Fact]
-        public void AddFile_Returns_Repository_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful()
+        public async Task AddFile_Returns_Repository_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful()
         {
             var fileMock = new Mock<IFormFile>();
 
@@ -161,11 +176,13 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             CreateTestProject();
 
             //Act
-            var result = (ViewResult)_controller.AddFile(model);
+            var result = (ViewResult)await _controller.AddFile(model);
 
             //Assert
             result.ViewName.Should().Be(nameof(RepositoryController.Repository));
             AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
+
+            _uboraStorageProviderMock.Verify(x => x.SavePrivateStreamToBlobAsync(It.IsAny<BlobLocation>(), It.IsAny<Stream>()), Times.Once);
         }
 
 

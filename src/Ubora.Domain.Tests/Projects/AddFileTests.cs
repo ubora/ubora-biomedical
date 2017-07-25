@@ -24,7 +24,8 @@ namespace Ubora.Domain.Tests.Projects
                 FileName = "expectedFileName",
                 ProjectId = expectedProjectId,
                 Id = expectedFileId,
-                Actor = new DummyUserInfo()
+                Actor = new DummyUserInfo(),
+                BlobLocation = new Domain.Infrastructure.BlobLocation("container", "blobPath")
             };
 
             // Act
@@ -36,10 +37,7 @@ namespace Ubora.Domain.Tests.Projects
             file.Id.Should().Be(expectedFileId);
             file.ProjectId.Should().Be(expectedProjectId);
             file.FileName.Should().Be("expectedFileName");
-            file.Location.BlobPath.Should()
-                .StartWith($"{expectedProjectId}/repository/")
-                // Guid in the middle.
-                .And.EndWith("expectedFileName");
+            file.Location.BlobPath.Should().Be("blobPath");
         }
     }
 }

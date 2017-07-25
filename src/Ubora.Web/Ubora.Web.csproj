@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="Storage\Infrastructure\" />
   </ItemGroup>
 
 </Project>

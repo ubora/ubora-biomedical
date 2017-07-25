@@ -8,6 +8,7 @@ using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Web._Features.Notifications.Factory;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Feedback;
+using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -50,6 +51,7 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();
 
             builder.RegisterType<SendFeedbackCommand.Handler>().As<ICommandHandler<SendFeedbackCommand>>().InstancePerLifetimeScope();
+            builder.RegisterType<UboraStorageProvider>().As<IUboraStorageProvider>().InstancePerLifetimeScope();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)

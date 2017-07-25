@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using TwentyTwenty.Storage;
 using Ubora.Domain.Projects.Repository;
+using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web._Features.Projects.Repository
 {
@@ -12,16 +14,18 @@ namespace Ubora.Web._Features.Projects.Repository
     public class RepositoryController : ProjectController
     {
         private readonly IStorageProvider _storageProvider;
+        private readonly IUboraStorageProvider _uboraStorageProvider;
 
-        public RepositoryController(IStorageProvider storageProvider)
+        public RepositoryController(IStorageProvider storageProvider, IUboraStorageProvider uboraStorageProvider)
         {
             _storageProvider = storageProvider;
+            _uboraStorageProvider = uboraStorageProvider;
         }
 
         public IActionResult Repository()
         {
             var projectFiles = QueryProcessor.Find<ProjectFile>().Where(x => x.ProjectId == ProjectId);
-
+            var blobExpiration = DateTime.UtcNow.AddHours(12);
             var model = new ProjectRepositoryViewModel
             {
                 ProjectId = ProjectId,
@@ -29,7 +33,7 @@ namespace Ubora.Web._Features.Projects.Repository
                 Files = projectFiles.Select(x =>
                 {
                     var fileViewModel = AutoMapper.Map<ProjectFileViewModel>(x);
-                    fileViewModel.FileLocation = _storageProvider.GetBlobUrl(x.Location.ContainerName, x.Location.BlobPath);
+                    fileViewModel.FileLocation = _storageProvider.GetBlobSasUrl(x.Location.ContainerName, x.Location.BlobPath, blobExpiration);
                     return fileViewModel;
                 }).ToList()
             };
@@ -39,8 +43,7 @@ namespace Ubora.Web._Features.Projects.Repository
 
         [HttpPost]
         [Authorize]
-        [Route(nameof(AddFile))]
-        public IActionResult AddFile(AddFileViewModel model)
+        public async Task<IActionResult> AddFile(AddFileViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -50,10 +53,15 @@ namespace Ubora.Web._Features.Projects.Repository
             var filePath = model.ProjectFile.FileName.Replace(@"\", "/");
             var fileName = Path.GetFileName(filePath);
 
+            var fileStream = model.ProjectFile.OpenReadStream();
+            var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
+
+            await _uboraStorageProvider.SavePrivateStreamToBlobAsync(blobLocation, fileStream);
+
             ExecuteUserProjectCommand(new AddFileCommand
             {
                 Id = Guid.NewGuid(),
-                Stream = model.ProjectFile.OpenReadStream(),
+                BlobLocation = blobLocation,
                 FileName = fileName,
             });
 
