@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TwentyTwenty.Storage;
+using Ubora.Domain.Projects.Queries;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Web.Infrastructure.Storage;
 
@@ -22,7 +23,7 @@ namespace Ubora.Web._Features.Projects.Repository
 
         public IActionResult Repository()
         {
-            var projectFiles = QueryProcessor.Find<ProjectFile>().Where(x => x.ProjectId == ProjectId && !x.IsHidden);
+            var projectFiles = QueryProcessor.ExecuteQuery(new GetAvailableProjectFilesQuery(ProjectId));
             var model = new ProjectRepositoryViewModel
             {
                 ProjectId = ProjectId,

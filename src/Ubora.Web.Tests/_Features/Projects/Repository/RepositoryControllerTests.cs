@@ -18,6 +18,7 @@ using Ubora.Web._Features.Projects.Repository;
 using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web.Tests.Helper;
 using Xunit;
+using Ubora.Domain.Projects.Queries;
 
 namespace Ubora.Web.Tests._Features.Projects.Repository
 {
@@ -58,24 +59,17 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             var otherProjetFile = new ProjectFile()
                 .Set(x => x.Location, new BlobLocation("", ""));
 
-            var allProjectFiles = new List<ProjectFile>()
-            {
-                projectFile1,
-                projectFile2,
-                otherProjetFile
-            };
-
-            QueryProcessorMock
-                .Setup(x => x.Find<ProjectFile>(null))
-                .Returns(allProjectFiles);
-
-            CreateTestProject();
-
             var expectedProjectFiles = new List<ProjectFile>()
             {
                 projectFile1,
                 projectFile2,
             };
+
+            QueryProcessorMock
+                .Setup(x => x.ExecuteQuery(It.IsAny<GetAvailableProjectFilesQuery>()))
+                .Returns(expectedProjectFiles);
+
+            CreateTestProject();
 
             var projectFileViewModels = new List<ProjectFileViewModel>();
             foreach (var file in expectedProjectFiles)
