@@ -10,15 +10,7 @@ Scenario: Get the title of Ubora
 
 Scenario: I register an account
     When I click on the element "a=Sign in/sign up"
-    When I click on the element "a=Sign up"
-    Then I expect the title of the page "Sign up - UBORA"
-    When I set value "Change" to the element "#FirstName"
-    When I set value "Password" to the element "#LastName"
-    When I set value "change@password.com" to the element "#Email"
-    When I set value "Test12345" to the element "#Password"
-    When I set value "Test12345" to the element "#ConfirmPassword"
-    When I click on the element "#IsAgreedToTermsOfService"
-    When I click on the element "button=Create an account"
+    When I sign up as "change@password.com" first name "Change" last name "Password"
     Then I expect the title of the page "Create a profile - UBORA"
     When I click on the element "span=Menu"
     Then I expect the element "p=TestFirstName TestLastName" is visible
@@ -36,17 +28,12 @@ Scenario: I change my password
     Then I expect the title of the page "Manage your account - UBORA"
 
 Scenario: I log out
-    When I click on the element "span=Menu"
-    When I click on the element "button=Log out"
+    When I log out
     Then I expect the title of the page "Welcome - UBORA"
     Then I expect the element "a=Sign in/sign up" is visible
 
 Scenario: I log in with my changed password
-    When I click on the element "a=Sign in/sign up"
-    Then I expect the title of the page "Sign in to UBORA - UBORA"
-    When I set value "change@password.com" to the element "#Email"
-    When I set value "PasswordChanged123!" to the element "#Password"
-    When I click on the element "button=Sign in"
+    When I sign in as "change@password.com" with password "PasswordChanged123!"
     Then I expect the title of the page "Welcome - UBORA"
     When I click on the element "span=Menu"
     Then I expect the element "p=Change Password" is visible

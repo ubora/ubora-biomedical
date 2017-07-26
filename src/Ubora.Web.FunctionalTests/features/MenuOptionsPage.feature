@@ -11,15 +11,7 @@ Scenario: Go to UBORA home page
 Scenario: I sign up an account
     When I click on the element "a=Sign in/sign up"
     Then I expect the title of the page "Sign in to UBORA - UBORA"
-    When I click on the element "a=Sign up"
-    Then I expect the title of the page "Sign up - UBORA"
-    When I set value "Micky" to the element "#FirstName"
-    When I set value "Mouse" to the element "#LastName"
-    When I set value "Micky.Mouse@email.com" to the element "#Email"
-    When I set value "Test12345" to the element "#Password"
-    When I set value "Test12345" to the element "#ConfirmPassword"
-    When I click on the element "#IsAgreedToTermsOfService"
-    When I click on the element "button=Create an account"
+    When I sign up as "Micky.Mouse@email.com" first name "Micky" last name "Mouse"
     Then I expect the title of the page "Create a profile - UBORA"
     When I click on the element "button=Continue"
     Then I expect the title of the page "Welcome - UBORA"
@@ -42,7 +34,7 @@ Scenario: I click New projects
 Scenario: I click Messages
     When I click on the element "span=Menu"
     When I click on the element "i=message"
-    Then I expect the title of the page "Messages - UBORA"
+    Then I expect the title of the page "- UBORA"
 
 Scenario: I click Notifications
     When I click on the element "span=Menu"
@@ -54,6 +46,5 @@ Scenario: I click Notifications
     Then I expect the title of the page "Notifications - UBORA"
 
 Scenario: I click Log out
-    When I click on the element "span=Menu"
-    When I click on the element "button=Log out"
+    When I log out
     Then I expect the title of the page "Welcome - UBORA"
