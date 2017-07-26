@@ -17,7 +17,10 @@
         @foreach (var file in Model.Files)
         {
             <li class="file-list--item">
-                <a href="@file.FileLocation"><i class="file-list--item-control material-icons">cloud_download</i></a>
+                <a href="@Url.Action("DownloadFile", new { fileId = file.Id})"><i class="file-list--item-control material-icons">cloud_download</i></a>
+                <a href="@Url.Action("HideFile", new { fileId = file.Id})">
+                    <i class="file-list--item-control material-icons">delete</i>
+                </a>
                 <span class="file-list--name">@file.FileName</span>
             </li>
         }

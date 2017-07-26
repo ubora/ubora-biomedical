@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Ubora.Web._Features.Projects.Repository
@@ -16,6 +15,5 @@ namespace Ubora.Web._Features.Projects.Repository
     {
         public Guid Id { get; set; }
         public string FileName { get; set; }
-        public string FileLocation { get; set; }
     }
 }

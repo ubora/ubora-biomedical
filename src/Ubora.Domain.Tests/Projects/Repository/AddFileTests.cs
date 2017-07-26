@@ -1,10 +1,11 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
+using FluentAssertions;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Repository;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Projects
+namespace Ubora.Domain.Tests.Projects.Repository
 {
     public class AddFileTests : IntegrationFixture
     {
@@ -25,7 +26,7 @@ namespace Ubora.Domain.Tests.Projects
                 ProjectId = expectedProjectId,
                 Id = expectedFileId,
                 Actor = new DummyUserInfo(),
-                BlobLocation = new Domain.Infrastructure.BlobLocation("container", "blobPath")
+                BlobLocation = new BlobLocation("container", "blobPath")
             };
 
             // Act
@@ -38,6 +39,7 @@ namespace Ubora.Domain.Tests.Projects
             file.ProjectId.Should().Be(expectedProjectId);
             file.FileName.Should().Be("expectedFileName");
             file.Location.BlobPath.Should().Be("blobPath");
+            file.IsHidden.Should().BeFalse();
         }
     }
 }

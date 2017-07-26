@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
@@ -32,6 +33,18 @@ namespace Ubora.Web.Infrastructure.Storage
             };
 
             await _storageProvider.SaveBlobStreamAsync(blobLocation.ContainerName, blobLocation.BlobPath, stream, blobProperties);
+        }
+
+        public string GetBlobSasUrl(BlobLocation blobLocation, DateTime expiry)
+        {
+            if (blobLocation == null)
+            {
+                throw new ArgumentNullException(nameof(blobLocation));
+            }
+
+            var blobUrl = _storageProvider.GetBlobSasUrl(blobLocation.ContainerName, blobLocation.BlobPath, expiry);
+
+            return blobUrl;
         }
     }
 }

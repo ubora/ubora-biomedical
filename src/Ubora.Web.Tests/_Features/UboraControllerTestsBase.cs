@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -71,6 +74,25 @@ namespace Ubora.Web.Tests._Features
             {
                 Assert.Contains(error.ErrorMessage, result);
             }
+        }
+
+        protected void AssertHasAttribute(Type controller, string methodName, Type attributeType)
+        {
+            var methodInfos = GetMethodInfos(controller, methodName);
+            foreach (var customAttributes in methodInfos.Select(i => i.GetCustomAttributes()))
+            {
+                Assert.True(customAttributes.Any(a => a.GetType() == attributeType));
+            }
+        }
+
+        private static IEnumerable<MethodInfo> GetMethodInfos(Type controller, string methodName)
+        {
+            if (controller.GetMethods().All(m => m.Name != methodName))
+            {
+                Assert.False(true, $"HasAttribute controller.method:  '{controller.Name}.{methodName}' does not exist  - copy/paste ? :)");
+            }
+
+            return controller.GetMethods().Where(m => m.Name == methodName);
         }
     }
 }

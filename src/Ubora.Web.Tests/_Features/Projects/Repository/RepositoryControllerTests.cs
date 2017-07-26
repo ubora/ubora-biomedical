@@ -3,10 +3,12 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
@@ -22,15 +24,24 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
     public class RepositoryControllerTests : ProjectControllerTestsBase
     {
         private readonly RepositoryController _controller;
-        private readonly Mock<IStorageProvider> _storageProviderMock;
         private readonly Mock<IUboraStorageProvider> _uboraStorageProviderMock;
 
         public RepositoryControllerTests()
         {
-            _storageProviderMock = new Mock<IStorageProvider>();
             _uboraStorageProviderMock = new Mock<IUboraStorageProvider>();
-            _controller = new RepositoryController(_storageProviderMock.Object, _uboraStorageProviderMock.Object);
+            _controller = new RepositoryController(_uboraStorageProviderMock.Object);
             SetUpForTest(_controller);
+        }
+
+        [Fact]
+        public void Actions_Have_Authorize_Attributes()  
+        {
+            AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.AddFile),
+                typeof(AuthorizeAttribute));
+            AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.DownloadFile),
+                typeof(AuthorizeAttribute));
+            AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.HideFile),
+                typeof(AuthorizeAttribute));
         }
 
         [Fact]
@@ -69,20 +80,12 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             var projectFileViewModels = new List<ProjectFileViewModel>();
             foreach (var file in expectedProjectFiles)
             {
-                var expectedFile = new ProjectFileViewModel
-                {
-                    FileLocation = "testFileLocation"
-                };
+                var expectedFile = new ProjectFileViewModel();
                 AutoMapperMock
                     .Setup(m => m.Map<ProjectFileViewModel>(file))
                     .Returns(expectedFile);
                 projectFileViewModels.Add(expectedFile);
             }
-
-            // TODO(Kaspar Kallas): Test more thoroughly
-            _storageProviderMock
-                .Setup(x => x.GetBlobUrl(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns("testFileLocation");
 
             var expectedModel = new ProjectRepositoryViewModel
             {
@@ -92,7 +95,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             };
 
             // Act
-            var result = (ViewResult) _controller.Repository();
+            var result = (ViewResult)_controller.Repository();
 
             // Assert
             result.ViewName.Should().Be(nameof(RepositoryController.Repository));
@@ -119,8 +122,8 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .Returns(new CommandResult());
 
             //Act
-            var result = (RedirectToActionResult) await _controller.AddFile(model);
-             
+            var result = (RedirectToActionResult)await _controller.AddFile(model);
+
             //Assert
             executedCommand.ProjectId.Should().Be(ProjectId);
             var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
@@ -183,6 +186,42 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
 
             _uboraStorageProviderMock.Verify(x => x.SavePrivateStreamToBlobAsync(It.IsAny<BlobLocation>(), It.IsAny<Stream>()), Times.Once);
+        }
+
+        [Fact]
+        public void HideFile_Redirects_To_Repository_And_Hides_File()
+        {
+            var fileId = Guid.NewGuid();
+            var executedCommand = new HideFileCommand();
+
+            CommandProcessorMock.Setup(p => p.Execute(It.IsAny<HideFileCommand>())).Callback<HideFileCommand>(c => executedCommand = c)
+                .Returns(new CommandResult());
+
+
+            //Act
+            var result = (RedirectToActionResult) _controller.HideFile(fileId);
+
+            executedCommand.ProjectId.Should().Be(ProjectId);
+            executedCommand.Id.Should().Be(fileId);
+            result.ActionName.Should().Be(nameof(Repository));
+        }
+
+        [Fact]
+        public void DownloadFile_Returns_RedirectToUrl()
+        {
+            var fileId = Guid.NewGuid();
+            QueryProcessorMock.Setup(p => p.FindById<ProjectFile>(fileId)).Returns(new ProjectFile());
+
+            var expectedBlobSasUrl = "expectedBlobSasUrl";
+            _uboraStorageProviderMock.Setup(p => p.GetBlobSasUrl(It.IsAny<BlobLocation>(), It.IsAny<DateTime>()))
+                .Returns(expectedBlobSasUrl);
+
+            //Act
+            var result = (RedirectResult) _controller.DownloadFile(fileId);
+
+            //Assert
+            result.Url.Should().Be(expectedBlobSasUrl);
+
         }
 
 

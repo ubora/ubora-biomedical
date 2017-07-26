@@ -13,19 +13,16 @@ namespace Ubora.Web._Features.Projects.Repository
     [ProjectRoute("[controller]")]
     public class RepositoryController : ProjectController
     {
-        private readonly IStorageProvider _storageProvider;
         private readonly IUboraStorageProvider _uboraStorageProvider;
 
-        public RepositoryController(IStorageProvider storageProvider, IUboraStorageProvider uboraStorageProvider)
+        public RepositoryController(IUboraStorageProvider uboraStorageProvider)
         {
-            _storageProvider = storageProvider;
             _uboraStorageProvider = uboraStorageProvider;
         }
 
         public IActionResult Repository()
         {
-            var projectFiles = QueryProcessor.Find<ProjectFile>().Where(x => x.ProjectId == ProjectId);
-            var blobExpiration = DateTime.UtcNow.AddHours(12);
+            var projectFiles = QueryProcessor.Find<ProjectFile>().Where(x => x.ProjectId == ProjectId && !x.IsHidden);
             var model = new ProjectRepositoryViewModel
             {
                 ProjectId = ProjectId,
@@ -33,7 +30,6 @@ namespace Ubora.Web._Features.Projects.Repository
                 Files = projectFiles.Select(x =>
                 {
                     var fileViewModel = AutoMapper.Map<ProjectFileViewModel>(x);
-                    fileViewModel.FileLocation = _storageProvider.GetBlobSasUrl(x.Location.ContainerName, x.Location.BlobPath, blobExpiration);
                     return fileViewModel;
                 }).ToList()
             };
@@ -41,6 +37,7 @@ namespace Ubora.Web._Features.Projects.Repository
             return View(nameof(Repository), model);
         }
 
+        [Route("AddFile")]
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> AddFile(AddFileViewModel model)
@@ -71,6 +68,26 @@ namespace Ubora.Web._Features.Projects.Repository
             }
 
             return RedirectToAction(nameof(Repository));
+        }
+
+        [Route("HideFile")]
+        [Authorize]
+        public IActionResult HideFile(Guid fileid)
+        {
+            ExecuteUserProjectCommand(new HideFileCommand { Id = fileid });
+
+            return RedirectToAction(nameof(Repository));
+        }
+
+        [Route("DownloadFile")]
+        [Authorize]
+        public IActionResult DownloadFile(Guid fileId)
+        {
+            var file = QueryProcessor.FindById<ProjectFile>(fileId);
+
+            var blobSasUrl = _uboraStorageProvider.GetBlobSasUrl(file.Location, DateTime.UtcNow.AddSeconds(15));
+
+            return Redirect(blobSasUrl);
         }
     }
 }
