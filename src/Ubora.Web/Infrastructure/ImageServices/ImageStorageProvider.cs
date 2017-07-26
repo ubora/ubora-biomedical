@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
+using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web.Infrastructure.ImageServices
 {
@@ -15,11 +16,12 @@ namespace Ubora.Web.Infrastructure.ImageServices
     public class ImageStorageProvider
     {
         private readonly IStorageProvider _storageProvider;
+        private readonly IUboraStorageProvider _uboraStorageProvider;
 
-        //todo: this will use uboraStorageprovider
-        public ImageStorageProvider(IStorageProvider storageProvider)
+        public ImageStorageProvider(IStorageProvider storageProvider, IUboraStorageProvider uboraStorageProvider)
         {
             _storageProvider = storageProvider;
+            _uboraStorageProvider = uboraStorageProvider;
         }
 
         protected ImageStorageProvider()
@@ -72,7 +74,7 @@ namespace Ubora.Web.Infrastructure.ImageServices
                 throw new ArgumentNullException(nameof(blobLocation));
             }
 
-            await SaveStreamToBlobAsync(blobLocation, stream);
+            await _uboraStorageProvider.SavePublicStreamToBlobAsync(blobLocation, stream);
         }
 
         public virtual string GetUrl(BlobLocation blobLocation, ImageSize size)
@@ -135,7 +137,7 @@ namespace Ubora.Web.Infrastructure.ImageServices
                 }
                 outputStream.Seek(0, SeekOrigin.Begin);
 
-                await SaveStreamToBlobAsync(blobLocation, outputStream);
+                await _uboraStorageProvider.SavePublicStreamToBlobAsync(blobLocation, outputStream);
             }
         }
 
@@ -152,7 +154,7 @@ namespace Ubora.Web.Infrastructure.ImageServices
 
                 outputStream.Seek(0, SeekOrigin.Begin);
 
-                await SaveStreamToBlobAsync(blobLocation, outputStream);
+                await _uboraStorageProvider.SavePublicStreamToBlobAsync(blobLocation, outputStream);
             }
         }
 
@@ -178,16 +180,6 @@ namespace Ubora.Web.Infrastructure.ImageServices
             }
 
             return new Rectangle(0, 0, width, height);
-        }
-
-        private async Task SaveStreamToBlobAsync(BlobLocation blobLocation, Stream stream)
-        {
-            var blobProperties = new BlobProperties
-            {
-                Security = BlobSecurity.Public
-            };
-
-            await _storageProvider.SaveBlobStreamAsync(blobLocation.ContainerName, blobLocation.BlobPath, stream, blobProperties);
         }
     }
 }

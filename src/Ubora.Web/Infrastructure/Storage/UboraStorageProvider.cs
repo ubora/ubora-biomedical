@@ -23,5 +23,15 @@ namespace Ubora.Web.Infrastructure.Storage
 
             await _storageProvider.SaveBlobStreamAsync(blobLocation.ContainerName, blobLocation.BlobPath, stream, blobProperties);
         }
+
+        public async Task SavePublicStreamToBlobAsync(BlobLocation blobLocation, Stream stream)
+        {
+            var blobProperties = new BlobProperties
+            {
+                Security = BlobSecurity.Public
+            };
+
+            await _storageProvider.SaveBlobStreamAsync(blobLocation.ContainerName, blobLocation.BlobPath, stream, blobProperties);
+        }
     }
 }
