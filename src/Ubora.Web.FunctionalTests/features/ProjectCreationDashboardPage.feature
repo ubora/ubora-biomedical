@@ -16,6 +16,16 @@ Scenario: I sign up to create a project
     When I click on the element "button=Continue"
     Then I expect the title of the page "Project drafting - UBORA"
 
+Scenario: I try to create an empty project
+    When I click on the element "a=I have an idea"
+    Then I expect the title of the page "Project drafting - UBORA"
+    When I click on the element "button=Continue"
+    Then I expect the element "span=The Project title field is required." is visible
+    Then I expect the element "span=The Clinical need field is required." is visible
+    Then I expect the element "span=The Area field is required." is visible
+    Then I expect the element "span=The Technology field is required." is visible
+    Then I expect the title of the page "Project drafting - UBORA"
+
 Scenario: I create a project
     When I click on the element "a=I have an idea"
     When I set value "TestProject" to the element "#Title"
@@ -287,7 +297,7 @@ Scenario: I review WP2 as system administrator and accept it
     When I log out
     Then I expect the title of the page "Welcome - UBORA"
 
-Scenario: On project Dashboard I click Repository
+Scenario: I click Repository
     When I sign in as "project@email.com" with password "Test12345"
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
@@ -297,7 +307,7 @@ Scenario: On project Dashboard I click Repository
     When I click on the element "button=Upload new file"
     Then I expect the element "span=Please select a file to upload!" is visible
 
-Scenario: On project Dashboard I click Assignments and add an Assignment
+Scenario: I click Assignments and add an Assignment
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "a=Assignments"
@@ -312,7 +322,7 @@ Scenario: On project Dashboard I click Assignments and add an Assignment
     Then I expect the title of the page "Assignments - UBORA"
     Then I expect the element "value=Assignment Description" is visible
     
-Scenario: On project Dashboard I click Assingments and try to add an empty Assignment
+Scenario: I click Assingments and try to add an empty Assignment
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "a=Assignments"
@@ -324,13 +334,23 @@ Scenario: On project Dashboard I click Assingments and try to add an empty Assig
     Then I expect the element "span=The Description field is required." is visible
     Then I expect the title of the page "Assignments - UBORA"
 
-Scenario: On Project Dashboard I click History
+Scenario: I click History
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "a=History"
     Then I expect the title of the page "History - UBORA"
 
-Scenario: On Project Dashboard page I click Members and try to add new member
+Scenario: I click Members and try to add a member without email
+    When I click on the element "h4=TestProject"
+    Then I expect the title of the page "Dashboard - UBORA"
+    When I click on the element "a=Members"
+    Then I expect the title of the page "Members - UBORA"
+    When I click on the element "i=person_add"
+    Then I expect the title of the page "Members - UBORA"
+    When I click on the element "button=Invite member"
+    Then I expect the element "span=The Email field is required." is visible
+
+Scenario: I click Members and try to add new member
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "a=Members"

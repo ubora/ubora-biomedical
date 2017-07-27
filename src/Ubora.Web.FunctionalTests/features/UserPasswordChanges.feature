@@ -15,6 +15,17 @@ Scenario: I register an account
     When I click on the element "span=Menu"
     Then I expect the element "p=TestFirstName TestLastName" is visible
 
+Scenario: I try to change my password to empty password
+    When I click on the element "span=Menu"
+    When I click on the element "a=View profile"
+    Then I expect the title of the page "Manage your account - UBORA"
+    When I click on the element "a=Change password"
+    Then I expect the title of the page "Change Password - UBORA"
+    When I click on the element "button=Change password"
+    Then I expect the element "span=The Old password field is required." is visible
+    Then I expect the element "span=The New password field is required." is visible
+    Then I expect the title of the page "Change Password - UBORA"
+
 Scenario: I change my password
     When I click on the element "span=Menu"
     When I click on the element "a=View profile"
