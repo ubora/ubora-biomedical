@@ -35,7 +35,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         }
 
         [Fact]
-        public void Actions_Have_Authorize_Attributes()  
+        public void Actions_Have_Authorize_Attributes()
         {
             AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.AddFile),
                 typeof(AuthorizeAttribute));
@@ -86,6 +86,10 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 ProjectId = ProjectId,
                 ProjectName = "Title",
                 Files = projectFileViewModels,
+                AddFileViewModel = new AddFileViewModel()
+                {
+                    ActionName = "AddFile"
+                }
             };
 
             // Act
@@ -120,7 +124,6 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
 
             //Assert
             executedCommand.ProjectId.Should().Be(ProjectId);
-            var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
             executedCommand.BlobLocation.BlobPath.Should()
                 .StartWith($"{ProjectId}/repository/")
                 // Guid in the middle.
@@ -137,8 +140,10 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
 
             var model = new AddFileViewModel();
 
-            _controller.ModelState.AddModelError("", "testError");
-            fileMock.Setup(f => f.FileName).Returns("C:\\Test\\Parent\\Parent\\image.png");
+            var errorMessage = "testError";
+            _controller.ModelState.AddModelError("", errorMessage);
+            fileMock.Setup(f => f.FileName)
+                .Returns("C:\\Test\\Parent\\Parent\\image.png");
 
             CreateTestProject();
 
@@ -147,6 +152,9 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
 
             //Assert
             result.ViewName.Should().Be(nameof(RepositoryController.Repository));
+
+            AssertModelStateContainsError(result, errorMessage);
+
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
 
             _uboraStorageProviderMock.Verify(x => x.SavePrivateStreamToBlobAsync(It.IsAny<BlobLocation>(), It.IsAny<Stream>()), Times.Never);
@@ -177,6 +185,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
 
             //Assert
             result.ViewName.Should().Be(nameof(RepositoryController.Repository));
+
             AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
 
             _uboraStorageProviderMock.Verify(x => x.SavePrivateStreamToBlobAsync(It.IsAny<BlobLocation>(), It.IsAny<Stream>()), Times.Once);
@@ -188,12 +197,13 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             var fileId = Guid.NewGuid();
             var executedCommand = new HideFileCommand();
 
-            CommandProcessorMock.Setup(p => p.Execute(It.IsAny<HideFileCommand>())).Callback<HideFileCommand>(c => executedCommand = c)
+            CommandProcessorMock.Setup(p => p.Execute(It.IsAny<HideFileCommand>()))
+                .Callback<HideFileCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
 
 
             //Act
-            var result = (RedirectToActionResult) _controller.HideFile(fileId);
+            var result = (RedirectToActionResult)_controller.HideFile(fileId);
 
             executedCommand.ProjectId.Should().Be(ProjectId);
             executedCommand.Id.Should().Be(fileId);
@@ -211,11 +221,138 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .Returns(expectedBlobSasUrl);
 
             //Act
-            var result = (RedirectResult) _controller.DownloadFile(fileId);
+            var result = (RedirectResult)_controller.DownloadFile(fileId);
 
             //Assert
             result.Url.Should().Be(expectedBlobSasUrl);
+        }
 
+        [Fact]
+        public void UpdateFile_Returns_View()
+        {
+            var fileId = Guid.NewGuid();
+            var projectFile = new ProjectFile();
+            QueryProcessorMock.Setup(q => q.FindById<ProjectFile>(fileId))
+                .Returns(projectFile);
+
+            var expectedViewModel = new UpdateFileViewModel();
+            AutoMapperMock.Setup(m => m.Map<UpdateFileViewModel>(projectFile))
+                .Returns(expectedViewModel);
+
+            // Act
+            var result = (ViewResult)_controller.UpdateFile(fileId);
+
+            // Assert
+            result.Model.Should().Be(expectedViewModel);
+        }
+
+        [Fact]
+        public async Task UpdateFile_Updates_File_Location_And_Redirects_To_Repository()
+        {
+            var fileId = Guid.NewGuid();
+            var fileMock = new Mock<IFormFile>();
+            var addFileViewModel = new AddFileViewModel
+            {
+                FileId = fileId,
+                ProjectFile = fileMock.Object,
+            };
+
+            var fileName = "fileName";
+            fileMock.Setup(f => f.FileName)
+                .Returns($"C:\\Test\\Parent\\Parent\\{fileName}");
+
+            QueryProcessorMock.Setup(q => q.FindById<ProjectFile>(fileId))
+                .Returns(new ProjectFile());
+
+            UpdateFileCommand executedCommand = null;
+            CommandProcessorMock
+                .Setup(p => p.Execute(It.IsAny<UpdateFileCommand>()))
+                .Callback<UpdateFileCommand>(c => executedCommand = c)
+                .Returns(new CommandResult());
+
+
+
+            // Act
+            var result = (RedirectToActionResult)await _controller.UpdateFile(addFileViewModel);
+
+            // Assert
+            _uboraStorageProviderMock.Verify(p => p.SavePrivateStreamToBlobAsync(It.IsAny<BlobLocation>(), It.IsAny<Stream>()), Times.Once);
+
+            result.ActionName.Should().Be(nameof(RepositoryController.Repository));
+
+            executedCommand.BlobLocation.BlobPath.Should()
+                .StartWith($"{ProjectId}/repository/")
+                // Guid in the middle.
+                .And.EndWith(fileName);
+        }
+
+        [Fact]
+        public async Task UpdateFile_Returns_UpdateFile_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful()
+        {
+            var fileMock = new Mock<IFormFile>();
+
+            var fileId = Guid.NewGuid();
+            var addFileViewModel = new AddFileViewModel
+            {
+                FileId = fileId,
+                ProjectFile = fileMock.Object,
+            };
+
+            var fileName = "fileName";
+            fileMock.Setup(f => f.FileName)
+                .Returns($"C:\\Test\\Parent\\Parent\\{fileName}");
+
+            var projectFile = new ProjectFile();
+
+            QueryProcessorMock.Setup(q => q.FindById<ProjectFile>(fileId))
+                .Returns(projectFile);
+
+            var commandResult = new CommandResult("testError1", "testError2");
+            CommandProcessorMock
+                .Setup(p => p.Execute(It.IsAny<UpdateFileCommand>()))
+                .Returns(commandResult);
+
+            var expectedViewModel = new UpdateFileViewModel();
+            AutoMapperMock.Setup(m => m.Map<UpdateFileViewModel>(projectFile))
+                .Returns(expectedViewModel);
+
+            //Act
+            var result = (ViewResult)await _controller.UpdateFile(addFileViewModel);
+
+            //Assert
+            result.ViewName.Should().Be(nameof(RepositoryController.UpdateFile));
+            AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
+        }
+
+        [Fact]
+        public async Task UpdateFile_Returns_UpdateFile_View_With_ModelState_Errors_When_Form_Post_Is_Not_Valid()
+        {
+            var fileMock = new Mock<IFormFile>();
+            fileMock.Setup(f => f.FileName)
+                .Returns("C:\\Test\\Parent\\Parent\\image.png");
+
+            var model = new AddFileViewModel()
+            {
+                FileId = Guid.NewGuid()
+            };
+
+            var projectFile = new ProjectFile();
+            QueryProcessorMock.Setup(q => q.FindById<ProjectFile>(model.FileId))
+                .Returns(projectFile);
+
+            var expectedViewModel = new UpdateFileViewModel();
+            AutoMapperMock.Setup(m => m.Map<UpdateFileViewModel>(projectFile))
+                .Returns(expectedViewModel);
+
+            var errorMessage = "testError";
+            _controller.ModelState.AddModelError("", errorMessage);
+
+            //Act
+            var result = (ViewResult)await _controller.UpdateFile(model);
+
+            //Assert
+            result.ViewName.Should().Be(nameof(RepositoryController.UpdateFile));
+            AssertModelStateContainsError(result, errorMessage);
         }
 
 

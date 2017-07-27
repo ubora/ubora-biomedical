@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using TwentyTwenty.Storage;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Queries;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Web.Infrastructure.Storage;
@@ -32,7 +32,11 @@ namespace Ubora.Web._Features.Projects.Repository
                 {
                     var fileViewModel = AutoMapper.Map<ProjectFileViewModel>(x);
                     return fileViewModel;
-                }).ToList()
+                }).ToList(),
+                AddFileViewModel = new AddFileViewModel
+                {
+                    ActionName = nameof(AddFile)
+                }
             };
 
             return View(nameof(Repository), model);
@@ -51,10 +55,8 @@ namespace Ubora.Web._Features.Projects.Repository
             var filePath = model.ProjectFile.FileName.Replace(@"\", "/");
             var fileName = Path.GetFileName(filePath);
 
-            var fileStream = model.ProjectFile.OpenReadStream();
-            var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
-
-            await _uboraStorageProvider.SavePrivateStreamToBlobAsync(blobLocation, fileStream);
+            var blobLocation = GetBlobLocation(model);
+            await SaveBlobAsync(model, blobLocation);
 
             ExecuteUserProjectCommand(new AddFileCommand
             {
@@ -71,6 +73,7 @@ namespace Ubora.Web._Features.Projects.Repository
             return RedirectToAction(nameof(Repository));
         }
 
+        
         [Route("HideFile")]
         [Authorize]
         public IActionResult HideFile(Guid fileid)
@@ -89,6 +92,65 @@ namespace Ubora.Web._Features.Projects.Repository
             var blobSasUrl = _uboraStorageProvider.GetBlobSasUrl(file.Location, DateTime.UtcNow.AddSeconds(15));
 
             return Redirect(blobSasUrl);
+        }
+
+        [Route("UpdateFile")]
+        [Authorize]
+        public IActionResult UpdateFile(Guid fileId)
+        {
+            var file = QueryProcessor.FindById<ProjectFile>(fileId);
+            var model = AutoMapper.Map<UpdateFileViewModel>(file);
+            model.AddFileViewModel = new AddFileViewModel
+            {
+                ActionName = nameof(UpdateFile),
+                FileId = file.Id
+            };
+
+            return View(nameof(UpdateFile), model);
+        }
+
+        [Route("UpdateFile")]
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> UpdateFile(AddFileViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return UpdateFile(model.FileId);
+            }
+
+            var blobLocation = GetBlobLocation(model);
+            await SaveBlobAsync(model, blobLocation);
+
+            var file = QueryProcessor.FindById<ProjectFile>(model.FileId);
+
+            ExecuteUserProjectCommand(new UpdateFileCommand
+            {
+                Id = file.Id,
+                BlobLocation = blobLocation,
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return UpdateFile(model.FileId);
+            }
+
+            return RedirectToAction(nameof(Repository));
+        }
+
+        private BlobLocation GetBlobLocation(AddFileViewModel model)
+        {
+            var filePath = model.ProjectFile.FileName.Replace(@"\", "/");
+            var fileName = Path.GetFileName(filePath);
+            var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
+
+            return blobLocation;
+        }
+
+        private async Task SaveBlobAsync(AddFileViewModel model, BlobLocation blobLocation)
+        {
+            var fileStream = model.ProjectFile.OpenReadStream();
+            await _uboraStorageProvider.SavePrivateStreamToBlobAsync(blobLocation, fileStream);
         }
     }
 }

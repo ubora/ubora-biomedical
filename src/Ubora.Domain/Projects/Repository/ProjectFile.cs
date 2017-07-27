@@ -17,7 +17,6 @@ namespace Ubora.Domain.Projects.Repository
             ProjectId = e.ProjectId;
             FileName = e.FileName;
             Location = e.Location;
-            IsHidden = false;
         }
 
         private void Apply(FileHidEvent e)
@@ -25,6 +24,11 @@ namespace Ubora.Domain.Projects.Repository
             Id = e.Id;
             FileName = e.FileName;
             IsHidden = true; 
+        }
+
+        private void Apply(FileUpdatedEvent e)
+        {
+            Location = e.Location;
         }
     }
 }
