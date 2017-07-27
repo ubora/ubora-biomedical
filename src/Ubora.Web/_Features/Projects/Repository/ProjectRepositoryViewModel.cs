@@ -9,6 +9,7 @@ namespace Ubora.Web._Features.Projects.Repository
         public string ProjectName { get; set; }
         public AddFileViewModel AddFileViewModel { get; set; }
         public IEnumerable<ProjectFileViewModel> Files { get; set; }
+        public bool IsProjectLeader { get; set; }
     }
 
     public class ProjectFileViewModel

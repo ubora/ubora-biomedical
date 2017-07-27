@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
@@ -20,9 +21,10 @@ namespace Ubora.Domain.Tests.Projects.Repository
             });
 
             var expectedFileId = Guid.NewGuid();
+            var fileName = "expectedFileName";
             Processor.Execute(new AddFileCommand
             {
-                FileName = "expectedFileName",
+                FileName = fileName,
                 ProjectId = expectedProjectId,
                 Id = expectedFileId,
                 Actor = new DummyUserInfo(),
@@ -43,9 +45,15 @@ namespace Ubora.Domain.Tests.Projects.Repository
 
             file.Id.Should().Be(expectedFileId);
             file.ProjectId.Should().Be(expectedProjectId);
-            file.FileName.Should().Be("expectedFileName");
+            file.FileName.Should().Be(fileName);
             file.Location.BlobPath.Should().Be("blobPath");
             file.IsHidden.Should().BeTrue();
+
+            var fileHidEvents = Session.Events.QueryRawEventDataOnly<FileHidEvent>();
+
+            fileHidEvents.Count().Should().Be(1);
+            fileHidEvents.First().Id.Should().Be(expectedFileId);
+            fileHidEvents.First().FileName.Should().Be(fileName);
         }
     }
 }

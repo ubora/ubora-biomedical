@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using System;
+using System.Linq;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Repository;
 using Xunit;
@@ -44,6 +45,13 @@ namespace Ubora.Domain.Tests.Projects.Repository
             file.FileName.Should().Be("fileName");
             file.Location.Should().Be(expectedBlobLocation);
             file.IsHidden.Should().BeFalse();
+
+            var fileUpdateEvents = Session.Events.QueryRawEventDataOnly<FileUpdatedEvent>();
+
+            fileUpdateEvents.Count().Should().Be(1);
+            fileUpdateEvents.First().Id.Should().Be(expectedFileId);
+            fileUpdateEvents.First().ProjectId.Should().Be(expectedProjectId);
+            fileUpdateEvents.First().Location.BlobPath.Should().Be("expectedBlobPath");
         }
     }
 }

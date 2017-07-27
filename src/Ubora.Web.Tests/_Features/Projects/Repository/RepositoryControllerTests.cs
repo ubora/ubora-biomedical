@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -9,10 +8,10 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Web._Features.Projects.Repository;
 using Ubora.Web.Infrastructure.Storage;
@@ -56,20 +55,24 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .Set(x => x.ProjectId, ProjectId)
                 .Set(x => x.Location, new BlobLocation("", ""));
 
-            var otherProjetFile = new ProjectFile()
-                .Set(x => x.Location, new BlobLocation("", ""));
-
             var expectedProjectFiles = new List<ProjectFile>()
             {
                 projectFile1,
-                projectFile2,
+                projectFile2
             };
+
+            var project = new Mock<Project>();
+
+            project.Setup(x => x.Id).Returns(Guid.NewGuid);
+            project.Setup(x => x.Title).Returns("Title");
+            project.Setup(x => x.Members).Returns(new List<ProjectMember> {new ProjectLeader(UserId)});
 
             QueryProcessorMock
                 .Setup(x => x.ExecuteQuery(It.IsAny<GetAvailableProjectFilesQuery>()))
                 .Returns(expectedProjectFiles);
 
-            CreateTestProject();
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
+                .Returns(project.Object);
 
             var projectFileViewModels = new List<ProjectFileViewModel>();
             foreach (var file in expectedProjectFiles)
@@ -89,7 +92,8 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 AddFileViewModel = new AddFileViewModel()
                 {
                     ActionName = "AddFile"
-                }
+                },
+                IsProjectLeader = true
             };
 
             // Act

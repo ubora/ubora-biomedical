@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Queries;
 using Ubora.Domain.Projects.Repository;
+using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web._Features.Projects.Repository
@@ -24,6 +25,9 @@ namespace Ubora.Web._Features.Projects.Repository
         public IActionResult Repository()
         {
             var projectFiles = QueryProcessor.ExecuteQuery(new GetAvailableProjectFilesQuery(ProjectId));
+
+            var isProjectLeader = Project.Members.Any(x => x.UserId == UserId && x.IsLeader);
+
             var model = new ProjectRepositoryViewModel
             {
                 ProjectId = ProjectId,
@@ -36,7 +40,8 @@ namespace Ubora.Web._Features.Projects.Repository
                 AddFileViewModel = new AddFileViewModel
                 {
                     ActionName = nameof(AddFile)
-                }
+                },
+                IsProjectLeader = isProjectLeader
             };
 
             return View(nameof(Repository), model);
@@ -75,7 +80,7 @@ namespace Ubora.Web._Features.Projects.Repository
 
         
         [Route("HideFile")]
-        [Authorize]
+        [Authorize(Policy = nameof(Policies.CanHideProjectFile))]
         public IActionResult HideFile(Guid fileid)
         {
             ExecuteUserProjectCommand(new HideFileCommand { Id = fileid });
