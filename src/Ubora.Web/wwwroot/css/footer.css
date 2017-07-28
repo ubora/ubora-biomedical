@@ -12,7 +12,9 @@
 }
 
 .social-item {
+  align-items: center;
   color: var(--white);
+  display: flex;
   margin:0 1em;
 }
 
@@ -24,8 +26,9 @@
 }
 
 .social-item--image {
-  height: 50px;
-  width: 50px;
+  height: 25px;
+  margin:0 0 0 1em;
+  width: 25px;
 }
 
 
