@@ -21,13 +21,15 @@ namespace Ubora.Domain.Tests.Projects.Repository
             });
 
             var expectedFileId = Guid.NewGuid();
+            var expectedBlobPath = "blobPath";
+            var expectedFileName = "expectedFileName";
             var command = new AddFileCommand
             {
-                FileName = "expectedFileName",
+                FileName = expectedFileName,
                 ProjectId = expectedProjectId,
                 Id = expectedFileId,
                 Actor = new DummyUserInfo(),
-                BlobLocation = new BlobLocation("container", "blobPath")
+                BlobLocation = new BlobLocation("container", expectedBlobPath)
             };
 
             // Act
@@ -38,8 +40,8 @@ namespace Ubora.Domain.Tests.Projects.Repository
 
             file.Id.Should().Be(expectedFileId);
             file.ProjectId.Should().Be(expectedProjectId);
-            file.FileName.Should().Be("expectedFileName");
-            file.Location.BlobPath.Should().Be("blobPath");
+            file.FileName.Should().Be(expectedFileName);
+            file.Location.BlobPath.Should().Be(expectedBlobPath);
             file.IsHidden.Should().BeFalse();
 
             var fileAddedEvents = Session.Events.QueryRawEventDataOnly<FileAddedEvent>();
@@ -47,7 +49,7 @@ namespace Ubora.Domain.Tests.Projects.Repository
             fileAddedEvents.Count().Should().Be(1);
             fileAddedEvents.First().Id.Should().Be(expectedFileId);
             fileAddedEvents.First().FileName.Should().Be(command.FileName);
-            fileAddedEvents.First().Location.BlobPath.Should().Be("blobPath");
+            fileAddedEvents.First().Location.BlobPath.Should().Be(expectedBlobPath);
             fileAddedEvents.First().ProjectId.Should().Be(expectedProjectId);
         }
     }

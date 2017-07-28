@@ -22,7 +22,6 @@ namespace Ubora.Domain.Projects.Repository
         private void Apply(FileHidEvent e)
         {
             Id = e.Id;
-            FileName = e.FileName;
             IsHidden = true; 
         }
 

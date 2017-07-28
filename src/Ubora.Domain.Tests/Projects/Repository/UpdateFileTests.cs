@@ -14,13 +14,14 @@ namespace Ubora.Domain.Tests.Projects.Repository
         {
             var expectedProjectId = Guid.NewGuid();
             var expectedFileId = Guid.NewGuid();
+            var expectedFileName = "fileName";
             var blobLocation = new BlobLocation("container", "path");
 
             var fileAddedEvent = new FileAddedEvent(
                 initiatedBy: new DummyUserInfo(),
                 projectId: expectedProjectId,
                 id: expectedFileId,
-                fileName: "fileName",
+                fileName: expectedFileName,
                 location: blobLocation);
             Session.Events.Append(expectedProjectId, fileAddedEvent);
             Session.SaveChanges();
@@ -42,7 +43,7 @@ namespace Ubora.Domain.Tests.Projects.Repository
 
             file.Id.Should().Be(expectedFileId);
             file.ProjectId.Should().Be(expectedProjectId);
-            file.FileName.Should().Be("fileName");
+            file.FileName.Should().Be(expectedFileName);
             file.Location.Should().Be(expectedBlobLocation);
             file.IsHidden.Should().BeFalse();
 

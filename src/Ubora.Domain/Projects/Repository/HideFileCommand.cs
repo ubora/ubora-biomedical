@@ -27,8 +27,7 @@ namespace Ubora.Domain.Projects.Repository
 
                 var @event = new FileHidEvent(
                     cmd.Actor,
-                    cmd.Id,
-                    file.FileName
+                    cmd.Id
                 );
 
                 _documentSession.Events.Append(file.ProjectId, @event);

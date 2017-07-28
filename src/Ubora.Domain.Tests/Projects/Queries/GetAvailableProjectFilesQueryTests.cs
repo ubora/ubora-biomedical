@@ -11,45 +11,22 @@ namespace Ubora.Domain.Tests.Projects.Queries
     public class GetAvailableProjectFilesQueryTests : IntegrationFixture
     {
         [Fact]
-        public void Updates_File_From_Project()
+        public void GetAvailableProjectFilesQuery_Returns_Project_Files_That_Are_Not_Hidden()
         {
             var expectedProjectId = Guid.NewGuid();
             var expectedFileId = Guid.NewGuid();
-            var blobLocation = new BlobLocation("container", "path");
+            var expectedFileName = "expectedFileName";
 
-            var fileAddedEvent1 = new FileAddedEvent(
-                initiatedBy: new DummyUserInfo(),
-                projectId: expectedProjectId,
-                id: expectedFileId,
-                fileName: "fileName1",
-                location: blobLocation);
-            Session.Events.Append(expectedProjectId, fileAddedEvent1);
-            Session.SaveChanges();
+            AppendFileAddedEventToSession(expectedProjectId, expectedFileId, expectedFileName);
+            
+            AppendFileAddedEventToSession(projectId: Guid.NewGuid(), fileId: Guid.NewGuid(), fileName: "fileFromOtherProject");
 
-            var otherProjectId = Guid.NewGuid();
-            var fileAddedEvent2 = new FileAddedEvent(
-                initiatedBy: new DummyUserInfo(),
-                projectId: otherProjectId,
-                id: Guid.NewGuid(),
-                fileName: "fileName2",
-                location: blobLocation);
-            Session.Events.Append(otherProjectId, fileAddedEvent2);
-            Session.SaveChanges();
-
-            var fileId = Guid.NewGuid();
-            var fileAddedEvent3 = new FileAddedEvent(
-                initiatedBy: new DummyUserInfo(),
-                projectId: expectedProjectId,
-                id: fileId,
-                fileName: "fileName3",
-                location: blobLocation);
-            Session.Events.Append(expectedProjectId, fileAddedEvent3);
-            Session.SaveChanges();
+            var hiddenFileId = Guid.NewGuid();
+            AppendFileAddedEventToSession(projectId: expectedProjectId, fileId: hiddenFileId, fileName: "hiddenFileName");
 
             var fileHidEvent = new FileHidEvent(
                 initiatedBy: new DummyUserInfo(),
-                id: fileId,
-                fileName: "fileName3"
+                id: hiddenFileId
                 );
             Session.Events.Append(expectedProjectId, fileHidEvent);
             Session.SaveChanges();
@@ -63,7 +40,21 @@ namespace Ubora.Domain.Tests.Projects.Queries
             result.Single().Id.Should().Be(expectedFileId);
             result.Single().ProjectId.Should().Be(expectedProjectId);
             result.Single().IsHidden.Should().BeFalse();
-            result.Single().FileName.Should().Be(fileAddedEvent1.FileName);
+            result.Single().FileName.Should().Be(expectedFileName);
+        }
+
+        private void AppendFileAddedEventToSession(Guid projectId, Guid fileId, string fileName)
+        {
+            var fileAddedEvent = new FileAddedEvent(
+                initiatedBy: new DummyUserInfo(),
+                projectId: projectId,
+                id: fileId,
+                fileName: fileName,
+                location: new BlobLocation("container", "path")
+                );
+
+            Session.Events.Append(projectId, fileAddedEvent);
+            Session.SaveChanges();
         }
     }
 }
