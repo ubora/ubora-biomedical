@@ -91,13 +91,13 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 Files = projectFileViewModels,
                 AddFileViewModel = new AddFileViewModel()
                 {
-                    ActionName = "AddFile"
+                    ActionName = "AddFile",
                 },
                 IsProjectLeader = true
             };
 
             // Act
-            var result = (ViewResult)_controller.Repository();
+            var result = (ViewResult) _controller.Repository();
 
             // Assert
             result.ViewName.Should().Be(nameof(RepositoryController.Repository));
@@ -274,8 +274,6 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .Callback<UpdateFileCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
 
-
-
             // Act
             var result = (RedirectToActionResult)await _controller.UpdateFile(addFileViewModel);
 
@@ -358,7 +356,6 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             result.ViewName.Should().Be(nameof(RepositoryController.UpdateFile));
             AssertModelStateContainsError(result, errorMessage);
         }
-
 
         private void CreateTestProject()
         {

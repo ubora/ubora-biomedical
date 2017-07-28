@@ -57,17 +57,14 @@ namespace Ubora.Web._Features.Projects.Repository
                 return Repository();
             }
 
-            var filePath = model.ProjectFile.FileName.Replace(@"\", "/");
-            var fileName = Path.GetFileName(filePath);
-
-            var blobLocation = GetBlobLocation(model);
+            var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, model.FileName);
             await SaveBlobAsync(model, blobLocation);
 
             ExecuteUserProjectCommand(new AddFileCommand
             {
                 Id = Guid.NewGuid(),
                 BlobLocation = blobLocation,
-                FileName = fileName,
+                FileName = model.FileName,
             });
 
             if (!ModelState.IsValid)
@@ -124,7 +121,7 @@ namespace Ubora.Web._Features.Projects.Repository
                 return UpdateFile(model.FileId);
             }
 
-            var blobLocation = GetBlobLocation(model);
+            var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, model.FileName);
             await SaveBlobAsync(model, blobLocation);
 
             var file = QueryProcessor.FindById<ProjectFile>(model.FileId);
@@ -141,15 +138,6 @@ namespace Ubora.Web._Features.Projects.Repository
             }
 
             return RedirectToAction(nameof(Repository));
-        }
-
-        private BlobLocation GetBlobLocation(AddFileViewModel model)
-        {
-            var filePath = model.ProjectFile.FileName.Replace(@"\", "/");
-            var fileName = Path.GetFileName(filePath);
-            var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
-
-            return blobLocation;
         }
 
         private async Task SaveBlobAsync(AddFileViewModel model, BlobLocation blobLocation)
