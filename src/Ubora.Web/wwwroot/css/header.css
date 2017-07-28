@@ -56,9 +56,11 @@
 }
 
 .menu-profile-image {
-	border-radius: 1em;
-	margin:0 .5em 0 0;
-	width: 3em;
+    border-radius: 1em;
+    margin: 0 .5em 0 0;
+    width: 3em;
+    height: 3em;
+    object-fit: cover;
 }
 
 .menu-profile-name {
