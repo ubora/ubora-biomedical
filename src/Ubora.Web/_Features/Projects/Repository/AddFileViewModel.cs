@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
+using System.IO;
 using Ubora.Web.Infrastructure;
 
 namespace Ubora.Web._Features.Projects.Repository
@@ -16,7 +17,9 @@ namespace Ubora.Web._Features.Projects.Repository
             {
                 if(ProjectFile != null)
                 {
-                    return ProjectFile.FileName.Replace(@"\", "/");
+                    var filePath = ProjectFile.FileName.Replace(@"\", "/");
+                    var fileName = Path.GetFileName(filePath);
+                    return fileName;
                 }
 
                 return "";
