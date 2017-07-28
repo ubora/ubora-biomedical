@@ -17,15 +17,15 @@
         {
 
             <li class="file-list--item">
-                <a href="@Url.Action("DownloadFile", new {fileId = file.Id})">
+                <a href="@Url.Action("DownloadFile", new {fileId = file.Id})" title="Download file" aria-label="Download file">
                     <i class="file-list--item-control material-icons">cloud_download</i>
                 </a>
-                <a href="@Url.Action("UpdateFile", new {fileId = file.Id})">
+                <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file">
                     <i class="file-list--item-control material-icons">cloud_upload</i>
                 </a>
                 @if (Model.IsProjectLeader)
                 {
-                <a href="@Url.Action("HideFile", new {fileId = file.Id})">
+                <a href="@Url.Action("HideFile", new {fileId = file.Id})" title="Delete file forever" aria-label="Delete file forever">
                     <i class="file-list--item-control material-icons">delete_forever</i>
                 </a>
                 }

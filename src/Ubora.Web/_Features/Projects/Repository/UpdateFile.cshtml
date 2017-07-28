@@ -6,14 +6,21 @@
     ViewData["MenuOption"] = ProjectMenuOption.Repository;
 }
 
-@Html.HiddenFor(model => model.FileId)
-@Html.LabelFor(model => model.FileName)
-<br>
-@Html.TextBoxFor(model => model.FileName, new { @disabled = "disabled" })
-<br>
-<br>
+<section class="narrow-width">
+  <h1>Replace file</h1>
 
-<div class="file-upload">
-    <h3>Replace file</h3>
-    @Html.Partial("AddFilePartial", Model.AddFileViewModel)
-</div>
+  <div class="form-input">
+    @Html.HiddenFor(model => model.FileId)
+  </div>
+
+  <div class="form-input">
+    @Html.LabelFor(model => model.FileName)
+  </div>
+
+  <div class="form-input">
+    @Html.TextBoxFor(model => model.FileName, new { @disabled = "disabled" })
+  </div>
+
+  @Html.Partial("AddFilePartial", Model.AddFileViewModel)
+
+</section>
