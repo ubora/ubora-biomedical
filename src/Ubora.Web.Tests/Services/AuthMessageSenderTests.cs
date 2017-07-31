@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -31,12 +29,48 @@ namespace Ubora.Web.Tests.Services
         }
 
         [Fact]
+        public async Task SendEmailConfirmationMessage_Sends_Confirmation_Message()
+        {
+            var applicationUser = new ApplicationUser() { Email = "test@test.com" };
+            var emailConfirmationToken = "342hdba7ydi3di73h2hia7d7i3";
+            var expectedUrl = "https://www.google.com/";
+            var subject = "Confirm email";
+            var expectedMessage = $"<h1 style='color:#4777BB;'>Confirm email</h1><p>Please confirm your account by clicking <a href=\"{expectedUrl}\">this link</a>.</p>";
+
+            _userManagerMock.Setup(
+                    x => x.GenerateEmailConfirmationTokenAsync(It.IsAny<ApplicationUser>()))
+                .ReturnsAsync(emailConfirmationToken);
+
+            _urlHelperMock.Setup(
+                h =>
+                    h.ActionContext).Returns(new EmptyInitializedActionContext());
+
+            UrlActionContext urlActionContext = null;
+
+            _urlHelperMock
+                .Setup(h => h.Action(It.IsAny<UrlActionContext>()))
+                .Callback<UrlActionContext>(c => urlActionContext = c)
+                .Returns(expectedUrl);
+
+            //Act
+            await _sut.SendEmailConfirmationMessage(applicationUser);
+
+            //Assert
+            urlActionContext.Action.Should().Be("ConfirmEmail");
+            urlActionContext.Controller.Should().Be("Account");
+            urlActionContext.Values.GetPropertyValue<Guid>("userId").Should().Be(applicationUser.Id);
+            urlActionContext.Values.GetPropertyValue<string>("code").Should().Be(emailConfirmationToken);
+
+            _emailSenderMock.Verify(x => x.SendEmailAsync(applicationUser.Email, subject, expectedMessage), Times.Once);
+        }
+
+        [Fact]
         public async Task SendForgotPasswordMessageAsync_Sends_Confirmation_Message()
         {
             var applicationUser = new ApplicationUser() { Email = "test@test.com" };
             var emailConfirmationToken = "342hdba7ydi3di73h2hia7d7i3";
             var expectedUrl = "https://www.google.com/";
-            var resetPassword = "Password reset";
+            var subject = "Password reset";
             var expectedMessage = $"<h1 style='color:#4777BB;'>Password reset</h1><p>You can reset your password by clicking <a href=\"{expectedUrl}\">this link</a>.</p>";
 
             _userManagerMock.Setup(
@@ -63,7 +97,7 @@ namespace Ubora.Web.Tests.Services
             urlActionContext.Values.GetPropertyValue<Guid>("userId").Should().Be(applicationUser.Id);
             urlActionContext.Values.GetPropertyValue<string>("code").Should().Be(emailConfirmationToken);
 
-            _emailSenderMock.Verify(x => x.SendEmailAsync(applicationUser.Email, resetPassword, expectedMessage), Times.Once);
+            _emailSenderMock.Verify(x => x.SendEmailAsync(applicationUser.Email, subject, expectedMessage), Times.Once);
         }
     }
 }

@@ -44,7 +44,7 @@ namespace Ubora.Web._Features
         }
 
         private ICommandProcessor _commandProcessor;
-        private ICommandProcessor CommandProcessor
+        protected ICommandProcessor CommandProcessor
         {
             get => _commandProcessor ?? (_commandProcessor = ServiceLocator.GetService<ICommandProcessor>());
         }

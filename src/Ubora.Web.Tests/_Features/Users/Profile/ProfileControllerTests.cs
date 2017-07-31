@@ -29,7 +29,11 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             _userManagerMock = new Mock<FakeUserManager>();
             _signInManagerMock = new Mock<FakeSignInManager>();
             _storageProviderMock = new Mock<IStorageProvider>();
-            _controller = new ProfileController(_userManagerMock.Object, _signInManagerMock.Object, _storageProviderMock.Object);
+            var urlHelperMock = new Mock<IUrlHelper>();
+            _controller = new ProfileController(_userManagerMock.Object, _signInManagerMock.Object, _storageProviderMock.Object)
+            {
+                Url = urlHelperMock.Object
+            };
             SetUpForTest(_controller);
         }
 
@@ -159,7 +163,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async Task ChangeProfilePicture_View_With_ModelState_Errors_When_Validation_Result_Is_FailureAsync(bool isFirstTimeEditProfile)
+        public async Task ChangeProfilePicture_View_With_ModelState_Errors_When_Validation_Result_Is_Failure(bool isFirstTimeEditProfile)
         {
             var fileMock = new Mock<IFormFile>();
             var userId = Guid.NewGuid().ToString();
@@ -247,6 +251,111 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             //Act
             result.Should().BeOfType<NotFoundResult>();
             AutoMapperMock.Verify(m => m.Map(It.IsAny<UserProfile>(), It.IsAny<ProfileViewModel>()), Times.Never);
+        }
+
+        [Fact]
+        public void FirstTimeEditProfile_Returns_View()
+        {
+            var userId = Guid.NewGuid().ToString();
+            _userManagerMock.Setup(m => m.GetUserId(User)).Returns(userId);
+            var userProfile = new UserProfile(new Guid(userId))
+            {
+                IsFirstTimeEditedProfile = false
+            };
+            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(new Guid(userId)))
+                .Returns(userProfile);
+
+            //Act
+            var result = (ViewResult)_controller.FirstTimeEditProfile(null);
+
+            //Assert
+            result.ViewName.Should().Be("FirstTimeEditProfile");
+            result.Model.As<FirstTimeEditProfileModel>().ProfilePictureViewModel.IsFirstTimeEditProfile.Should()
+                .BeTrue();
+        }
+
+        [Fact]
+        public void FirstTimeEditProfile_Redirects_ReturnUrl_When_Command_Is_Executed_Successfully()
+        {
+            EditUserProfileCommand executedCommand = null;
+
+            CommandProcessorMock
+                .Setup(p => p.Execute(It.IsAny<EditUserProfileCommand>()))
+                .Callback<EditUserProfileCommand>(c => executedCommand = c)
+                .Returns(new CommandResult());
+
+            var userProfile = new UserProfile(UserId) { FirstName = "expactedFirstName", LastName = "expactedLastName" };
+
+            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(It.IsAny<Guid>()))
+                .Returns(userProfile);
+
+            //Act
+            var result =
+                (RedirectToActionResult)_controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel(), null);
+
+            //Assert
+            result.ActionName.Should().Be("Index");
+            executedCommand.UserId.Should().Be(UserId);
+        }
+
+        [Fact]
+        public void FirstTimeEditProfile_Returns_View_With_ModelState_Errors_When_Validation_Result_Is_Failure()
+        {
+
+            var userId = Guid.NewGuid().ToString();
+            _userManagerMock.Setup(m => m.GetUserId(User)).Returns(userId);
+            var userProfile = new UserProfile(new Guid(userId))
+            {
+                IsFirstTimeEditedProfile = false
+            };
+            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(new Guid(userId)))
+                .Returns(userProfile);
+
+            var errorMessage = "errormessage";
+            _controller.ModelState.AddModelError("errorKey", errorMessage);
+
+            //Act
+            var result = (ViewResult)_controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel(), null);
+
+            //Assert
+            result.ViewName.Should().Be("FirstTimeEditProfile");
+            result.Model.As<FirstTimeEditProfileModel>().ProfilePictureViewModel.IsFirstTimeEditProfile.Should()
+                .BeTrue();
+            AssertModelStateContainsError(result, errorMessage);
+        }
+
+        [Fact]
+        public void
+            FirstTimeEditProfile_Returns_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful()
+        {
+            var userId = Guid.NewGuid().ToString();
+            _userManagerMock.Setup(m => m.GetUserId(User)).Returns(userId);
+            var userProfile2 = new UserProfile(new Guid(userId))
+            {
+                IsFirstTimeEditedProfile = false
+            };
+            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(new Guid(userId)))
+                .Returns(userProfile2);
+
+            var commandResult = new CommandResult("testError");
+
+            CommandProcessorMock
+                .Setup(p => p.Execute(It.IsAny<EditUserProfileCommand>()))
+                .Returns(commandResult);
+
+            var userProfile = new UserProfile(UserId) { FirstName = "expactedFirstName", LastName = "expactedLastName" };
+
+            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(It.IsAny<Guid>()))
+                .Returns(userProfile);
+
+            //Act
+            var result = (ViewResult)_controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel(), null);
+
+            //Assert
+            result.ViewName.Should().Be("FirstTimeEditProfile");
+            result.Model.As<FirstTimeEditProfileModel>().ProfilePictureViewModel.IsFirstTimeEditProfile.Should()
+                .BeTrue();
+            AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
         }
     }
 }

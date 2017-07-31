@@ -30,6 +30,7 @@ namespace Ubora.Domain.Users
         public string Skills { get; set; }
         public string Role { get; set; }
         public string ProfilePictureBlobName { get; set; }
+        public bool IsFirstTimeEditedProfile { get; set; }
 
         public string FullName => $"{FirstName} {LastName}";
     }

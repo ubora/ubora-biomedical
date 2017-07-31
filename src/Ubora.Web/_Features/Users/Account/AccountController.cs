@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
@@ -23,7 +22,6 @@ namespace Ubora.Web._Features.Users.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly IAuthMessageSender _authMessageSender;
-        private readonly ICommandQueryProcessor _processor;
         private readonly ILogger _logger;
         private readonly string _externalCookieScheme;
 
@@ -32,16 +30,15 @@ namespace Ubora.Web._Features.Users.Account
             SignInManager<ApplicationUser> signInManager,
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
-            ILoggerFactory loggerFactory,
-            ICommandQueryProcessor processor, IAuthMessageSender authMessageSender)
+            ILogger<AccountController> logger,
+            IAuthMessageSender authMessageSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _emailSender = emailSender;
-            _processor = processor;
             _authMessageSender = authMessageSender;
-            _logger = loggerFactory.CreateLogger<AccountController>();
+            _logger = logger;
         }
 
         public IActionResult ProfileCreation()
@@ -92,13 +89,27 @@ namespace Ubora.Web._Features.Users.Account
                         return View(model);
                     }
                 }
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation(1, $"{model.Email} is the email of the user who logged in.");
-                    return RedirectToLocal(returnUrl);
+
+                    var userProfile = QueryProcessor.FindById<UserProfile>(user.Id);
+
+                    if (userProfile.IsFirstTimeEditedProfile)
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction(
+                            actionName: nameof(ProfileController.FirstTimeEditProfile),
+                            controllerName: nameof(ProfileController).Replace("Controller", ""),
+                            routeValues: new { returnUrl });
+                    }
+
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -143,12 +154,12 @@ namespace Ubora.Web._Features.Users.Account
 
                 if (result.Succeeded)
                 {
-                    _processor.Execute(new CreateUserProfileCommand
+                    CommandProcessor.Execute(new CreateUserProfileCommand
                     {
                         UserId = user.Id,
                         Email = user.Email,
                         FirstName = model.FirstName,
-                        LastName = model.LastName,
+                        LastName = model.LastName
                     });
 
                     await _authMessageSender.SendEmailConfirmationMessage(user);
