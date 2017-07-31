@@ -50,4 +50,12 @@ module.exports = function () {
             .setValue('#Password', password)
             .click('button=Sign in')
         });
+
+    this.When(/^I sign in as administrator$/, () => {
+            browser
+            .click('a=Sign in/sign up')
+            .setValue('#Email', 'admin@agileworks.eu')
+            .setValue('#Password', 'ChangeMe123!')
+            .click('button=Sign in')
+        });
 }
