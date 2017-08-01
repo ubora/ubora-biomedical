@@ -44,8 +44,7 @@ namespace Ubora.Web._Features.Users.Profile
         [Authorize]
         public IActionResult EditProfile()
         {
-            var userId = _userManager.GetUserId(User);
-            var userProfile = QueryProcessor.FindById<UserProfile>(new Guid(userId));
+            var userProfile = QueryProcessor.FindById<UserProfile>(UserId);
 
             var userViewModel = AutoMapper.Map<UserProfileViewModel>(userProfile);
             var editProfileViewModel = new EditProfileViewModel
@@ -60,8 +59,6 @@ namespace Ubora.Web._Features.Users.Profile
         [HttpPost]
         public async Task<IActionResult> EditProfile(UserProfileViewModel model)
         {
-            var userId = _userManager.GetUserId(User);
-
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Index", "Manage");
@@ -69,7 +66,7 @@ namespace Ubora.Web._Features.Users.Profile
 
             var command = new EditUserProfileCommand
             {
-                UserId = new Guid(userId),
+                UserId = this.UserId,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Biography = model.Biography,
@@ -84,7 +81,7 @@ namespace Ubora.Web._Features.Users.Profile
             };
             ExecuteUserCommand(command);
 
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(UserId.ToString());
             await _signInManager.RefreshSignInAsync(user);
 
             return RedirectToAction("Index", "Manage");
@@ -93,8 +90,7 @@ namespace Ubora.Web._Features.Users.Profile
         // TODO(Kaspar Kallas): Move to more specific controller (1/2)
         public IActionResult FirstTimeEditProfile(string returnUrl = null)
         {
-            var userId = _userManager.GetUserId(User);
-            var userProfile = QueryProcessor.FindById<UserProfile>(new Guid(userId));
+            var userProfile = QueryProcessor.FindById<UserProfile>(UserId);
 
             if (userProfile.IsFirstTimeEditedProfile)
             {
@@ -156,15 +152,13 @@ namespace Ubora.Web._Features.Users.Profile
             {
                 return model.IsFirstTimeEditProfile ? FirstTimeEditProfile() : EditProfile();
             }
-
-            var userId = _userManager.GetUserId(User);
-
+       
             var filePath = model.ProfilePicture.FileName.Replace(@"\", "/");
             var fileName = Path.GetFileName(filePath);
 
             ExecuteUserCommand(new ChangeUserProfilePictureCommand
             {
-                UserId = new Guid(userId),
+                UserId = UserId,
                 Stream = model.ProfilePicture.OpenReadStream(),
                 FileName = fileName
             });
@@ -174,7 +168,7 @@ namespace Ubora.Web._Features.Users.Profile
                 return model.IsFirstTimeEditProfile ? FirstTimeEditProfile() : EditProfile();
             }
 
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(UserId.ToString());
             await _signInManager.RefreshSignInAsync(user);
 
             return RedirectToAction(model.IsFirstTimeEditProfile ? nameof(FirstTimeEditProfile) : nameof(EditProfile));

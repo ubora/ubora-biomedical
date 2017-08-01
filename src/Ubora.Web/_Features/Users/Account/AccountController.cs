@@ -95,6 +95,7 @@ namespace Ubora.Web._Features.Users.Account
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    _logger.LogInformation(1, $"{model.Email} is the email of the user who logged in.");
 
                     var userProfile = QueryProcessor.FindById<UserProfile>(user.Id);
 
@@ -151,6 +152,8 @@ namespace Ubora.Web._Features.Users.Account
 
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
+
+                _logger.LogInformation(3, $"{model.Email} is the email of the user who created a new account with password.");
 
                 if (result.Succeeded)
                 {
