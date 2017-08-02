@@ -125,13 +125,13 @@ function feedbackModule(requestPath, sendFeedbackUrl) {
 }
 
 // Notification
-function dismissNotification(mouseEvent) {
+function dismissNotification(userEvent) {
   function removeParentElement(currentElement) {
     var parentElement = currentElement.parentElement;
     parentElement.remove();
   }
 
-  var currentElement = mouseEvent.target;
+  var currentElement = userEvent.target;
   var notificationElement = currentElement.classList.contains('js-notice-close');
 
   if (notificationElement) {
