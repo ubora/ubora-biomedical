@@ -124,17 +124,25 @@ function feedbackModule(requestPath, sendFeedbackUrl) {
     });
 }
 
-/*
- * This is a weird bug.
- * I have not been able to solve this properly, other than through the
- * global scope. For some reason, Chrome does not allow me to query the exact
- * element and add a listener to it - rather, I have to do it like so:
- */
-window.addEventListener('click', e => {
-    const targetElement = e.target.classList.contains('js-notice-close');
+// Notification
+function dismissNotification(userEvent) {
+  function removeParentElement(currentElement) {
+    var parentElement = currentElement.parentElement;
+    parentElement.remove();
+  }
 
-    if (targetElement) {
-        const parentElement = e.target.parentElement;
-        parentElement.remove();
-    }
+  var currentElement = userEvent.target;
+  var notificationElement = currentElement.classList.contains('js-notice-close');
+
+  if (notificationElement) {
+    removeParentElement(currentElement);
+  }
+}
+
+window.addEventListener('click', function (event) {
+  dismissNotification(event);
 });
+
+window.addEventListener('touchend', function (event) {
+  dismissNotification(event);
+}, false);
