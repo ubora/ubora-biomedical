@@ -8,8 +8,6 @@
 
     <h1>@ViewData["Title"]</h1>
 
-    @Html.Partial("_Notices", Web.Notices)
-
     <div class="profile_edit--container">
         <a class="button secondary-button small-button profile_edit--button" asp-controller="Profile" asp-action="EditProfile">Edit profile</a>
         <a class="button secondary-button small-button profile_edit--button" asp-controller="Manage" asp-action="ChangePassword">Change password</a>
