@@ -1,10 +1,13 @@
-﻿@{
+﻿@model Ubora.Web._Features.Users.Account.RegisterViewModel
+
+@{
     ViewData["Title"] = "Confirm your email";
 }
 
 <section class="narrow-width center-text">
     <h1 class="full-width">@ViewData["Title"]</h1>
-    @*TODO: Add user email*@
-    <p>We have sent an email to <b>[Enter user email address here]</b>.</p>
+    <p>We have sent an email to <b>@Model.Email</b>.</p>
     <p>Please click the link found in that message to activate your account.</p>
+    
+    <a class="button primary-button full-width" asp-controller="Profile" asp-action="FirstTimeEditProfile">Edit profile to continue</a>
 </section>

@@ -69,7 +69,6 @@ namespace Ubora.Web
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
                 {
-                    o.SignIn.RequireConfirmedEmail = true;
                     o.Password.RequireNonAlphanumeric = false;
                 })
                 .AddUserManager<ApplicationUserManager>()

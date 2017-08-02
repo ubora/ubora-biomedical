@@ -78,31 +78,6 @@ namespace Ubora.Web.Tests._Features.Users.Account
             QueryProcessorMock.Verify(p => p.FindById<UserProfile>(It.IsAny<Guid>()), Times.Never);
         }
 
-        [Fact]
-        public async void Login_Returns_View_With_Error_If_Is_Not_Email_Confirmed()
-        {
-            var loginViewModel = GetLoginViewModel();
-
-            var applicationUser = new ApplicationUser();
-            _userManagerMock.Setup(x => x.FindByNameAsync(loginViewModel.Email)).ReturnsAsync(applicationUser);
-            _userManagerMock.Setup(x => x.IsEmailConfirmedAsync(applicationUser)).ReturnsAsync(false);
-
-            var returnUrl = "/UserList/Index";
-
-            //Act
-            var result = (ViewResult)await _controller.Login(loginViewModel, returnUrl);
-
-            //Assert  
-            result.Model.Should().Be(loginViewModel);
-            result.ViewData.Values.Last().Should().Be(returnUrl);
-            AssertModelStateContainsError(result, "You must have a confirmed email to log in.");
-
-            _signInManagerMock.Verify(
-                m => m.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>()),
-                Times.Never);
-            QueryProcessorMock.Verify(p => p.FindById<UserProfile>(It.IsAny<Guid>()), Times.Never);
-        }
-
         [Theory]
         [InlineData(true)]
         [InlineData(false)]

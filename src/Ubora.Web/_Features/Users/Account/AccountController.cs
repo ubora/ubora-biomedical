@@ -80,16 +80,6 @@ namespace Ubora.Web._Features.Users.Account
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(model.Email);
-                if (user != null)
-                {
-                    if (!await _userManager.IsEmailConfirmedAsync(user))
-                    {
-                        ModelState.AddModelError(string.Empty, "You must have a confirmed email to log in.");
-                        return View(model);
-                    }
-                }
-
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
@@ -97,6 +87,7 @@ namespace Ubora.Web._Features.Users.Account
                 {
                     _logger.LogInformation(1, $"{model.Email} is the email of the user who logged in.");
 
+                    var user = await _userManager.FindByNameAsync(model.Email);
                     var userProfile = QueryProcessor.FindById<UserProfile>(user.Id);
 
                     if (userProfile.IsFirstTimeEditedProfile)
@@ -165,8 +156,10 @@ namespace Ubora.Web._Features.Users.Account
                         LastName = model.LastName
                     });
 
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
                     await _authMessageSender.SendEmailConfirmationMessage(user);
-                    return View("SentEmailConfirmation");
+                    return View("SentEmailConfirmation", model);
                 }
                 AddErrors(result);
             }
