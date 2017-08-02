@@ -1,9 +1,9 @@
 ﻿@{
-    ViewData["Title"] = "Confirm Email";
+    ViewData["Title"] = "Email confirmation";
 }
 
 <section class="narrow-width center-text">
-    <h2 class="full-width">@ViewData["Title"]</h2>
-
-    <h4>Thank you for confirming your email. Please <a asp-controller="Account" asp-action="Login">Click here to Log in</a>.</h4>
+    <h1 class="full-width">Thank you for joining!</h1>
+    <p>Your email has been confirmed and can now access all features of UBORA platform.</p>
+    <a class="button primary-button full-width" asp-controller="Account" asp-action="Login">Log in to continue</a>
 </section>
