@@ -31,9 +31,9 @@ namespace Ubora.Web.Services
             var callbackUrl = _urlHelper.Action("ConfirmEmail", "Account", new { userId = user.Id, code },
                 protocol: _urlHelper.ActionContext.HttpContext.Request.Scheme);
 
-            var message = "<h1 style='color:#4777BB;'>Confirm email</h1><p>Please confirm your account by clicking <a href=\"" + callbackUrl + "\">this link</a>.</p>";
+            var message = "<h1 style='color:#4777BB;'>E-mail confirmation</h1><p>Please confirm your e-mail by clicking here or navigating to <a href=\"" + callbackUrl + "\">this link</a>.</p>";
 
-            await _emailSender.SendEmailAsync(user.Email, "Confirm email", message);
+            await _emailSender.SendEmailAsync(user.Email, "UBORA: e-mail confirmation", message);
         }
 
         public async Task SendForgotPasswordMessageAsync(ApplicationUser user)
@@ -45,7 +45,7 @@ namespace Ubora.Web.Services
 
             var message = "<h1 style='color:#4777BB;'>Password reset</h1><p>You can reset your password by clicking <a href=\"" + callbackUrl + "\">this link</a>.</p>";
 
-            await _emailSender.SendEmailAsync(user.Email, "Password reset", message);
+            await _emailSender.SendEmailAsync(user.Email, "UBORA: Password reset", message);
         }
     }
 }

@@ -247,7 +247,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         }
 
         [Fact]
-        public void FirstTimeEditProfile_Returns_View()
+        public void FirstTimeEditProfile_Returns_View_When_User_Has_Not_Edited_Profile_First_Time()
         {
             var userProfile = new UserProfile(UserId)
             {
