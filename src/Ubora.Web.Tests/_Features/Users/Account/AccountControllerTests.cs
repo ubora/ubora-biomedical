@@ -81,7 +81,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async void Login_Signs_In_UserManager_And_Redirects_To_ReturnUrl_When_Are_Success(bool isFirstTimeEditedProfile)
+        public async void Login_Signs_In_UserManager_And_Redirects_To_ReturnUrl(bool isFirstTimeEditedProfile)
         {
             var loginViewModel = GetLoginViewModel();
 
@@ -104,8 +104,10 @@ namespace Ubora.Web.Tests._Features.Users.Account
             };
             QueryProcessorMock.Setup(p => p.FindById<UserProfile>(applicationUser.Id)).Returns(userProfile);
 
+            var returnUrl = "/UserList/Index";
+
             //Act
-            var result = (RedirectToActionResult)await _controller.Login(loginViewModel, "/");
+            var result = (RedirectToActionResult)await _controller.Login(loginViewModel, returnUrl);
 
             //Assert
             if (isFirstTimeEditedProfile)
@@ -195,7 +197,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
                 UserName = registerViewModel.Email,
                 Email = registerViewModel.Email
             };
-            ApplicationUser createdUser = null;
+            
             var identityError = new IdentityError
             {
                 Code = Guid.NewGuid().ToString(),
@@ -203,6 +205,8 @@ namespace Ubora.Web.Tests._Features.Users.Account
             };
             var identityResult = IdentityResult.Failed(identityError);
             identityResult.Set(nameof(IdentityResult.Succeeded), false);
+
+            ApplicationUser createdUser = null;
 
             _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<ApplicationUser>(), registerViewModel.Password))
                 .Callback<ApplicationUser, string>((user, password) => createdUser = user)
@@ -274,7 +278,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void ConfirmEmail_Returns_Error_View_When_UserId_Is_Null_Or_Code_Is_Null()
+        public async void ConfirmEmail_Returns_Error_View_When_UserId_Is_Null_And_Code_Is_Null()
         {
             //Act
             var result = (ViewResult)await _controller.ConfirmEmail(null, null);

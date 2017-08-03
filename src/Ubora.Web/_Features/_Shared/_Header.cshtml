@@ -10,7 +10,7 @@
 {
     <span class="development-notice">In-development preview</span>
     var user = await UserManager.FindByIdAsync(User.GetId().ToString());
-    if (!await UserManager.IsEmailConfirmedAsync(user))
+    if (user != null && !await UserManager.IsEmailConfirmedAsync(user))
     {
         <span class="account-confirmation">Your Email has not been verified!</span>
     }
