@@ -10,6 +10,7 @@ namespace Ubora.Web._Features.Projects.Members
         public bool CanRemoveProjectMembers { get; set; }
         public bool IsProjectMember { get; set; }
         public bool IsProjectLeader { get; set; }
+        public bool IsProjectMentor { get; set; }
 
         public class Item
         {
