@@ -254,7 +254,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         }
 
         [Fact]
-        public void ViewProfile_Returns_View_And_ProfileViewModel_When_Should_Have_User()
+        public void View_Returns_View_And_ProfileViewModel_When_User_Exists()
         {
             var userId = Guid.NewGuid();
 
@@ -291,7 +291,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         }
 
         [Fact]
-        public void FirstTimeEditProfile_Returns_View_When_User_Has_Not_Edited_Profile_First_Time()
+        public void FirstTimeEditProfile_Returns_FirstTimeEditProfile_View_When_User_Has_Not_Edited_Profile_First_Time()
         {
             var userProfile = new UserProfile(UserId)
             {
@@ -301,12 +301,30 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 .Returns(userProfile);
 
             //Act
-            var result = (ViewResult)_controller.FirstTimeEditProfile(null);
+            var result = (ViewResult)_controller.FirstTimeEditProfile();
 
             //Assert
             result.ViewName.Should().Be("FirstTimeEditProfile");
             result.Model.As<FirstTimeEditProfileModel>().ProfilePictureViewModel.IsFirstTimeEditProfile.Should()
                 .BeTrue();
+        }
+
+        [Fact]
+        public void FirstTimeEditProfile_Redirects_Home_When_Profile_Is_First_Time_Edited()
+        {
+            var userProfile = new UserProfile(UserId)
+            {
+                IsFirstTimeEditedProfile = true
+            };
+            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(UserId))
+                .Returns(userProfile);
+
+            //Act
+            var result = (RedirectToActionResult)_controller.FirstTimeEditProfile();
+
+            //Assert
+            result.ActionName.Should().Be("Index");
+            result.ControllerName.Should().Be("Home");
         }
 
         [Fact]
@@ -326,7 +344,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
 
             //Act
             var result =
-                (RedirectToActionResult)_controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel(), null);
+                (RedirectToActionResult)_controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel());
 
             //Assert
             result.ActionName.Should().Be("Index");
@@ -347,7 +365,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             _controller.ModelState.AddModelError("errorKey", errorMessage);
 
             //Act
-            var result = (ViewResult)_controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel(), null);
+            var result = (ViewResult)_controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel());
 
             //Assert
             result.ViewName.Should().Be("FirstTimeEditProfile");
@@ -371,7 +389,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 .Returns(userProfile);
 
             //Act
-            var result = (ViewResult)_controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel(), null);
+            var result = (ViewResult)_controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel());
 
             //Assert
             result.ViewName.Should().Be("FirstTimeEditProfile");

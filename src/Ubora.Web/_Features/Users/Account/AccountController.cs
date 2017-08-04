@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -112,11 +113,8 @@ namespace Ubora.Web._Features.Users.Account
                     _logger.LogWarning(2, $"{model.Email} is the email of the user who logged in.");
                     return View("Lockout");
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
-                }
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(model);
             }
 
             // If we got this far, something failed, redisplay form
@@ -156,10 +154,10 @@ namespace Ubora.Web._Features.Users.Account
                         LastName = model.LastName
                     });
 
+                    await _authMessageSender.SendEmailConfirmationMessage(user);
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    await _authMessageSender.SendEmailConfirmationMessage(user);
-                    return View("SentEmailConfirmation", model);
+                    return RedirectToAction("SentEmailConfirmation", new { email = model.Email, returnUrl });
                 }
                 AddErrors(result);
             }
@@ -261,10 +259,19 @@ namespace Ubora.Web._Features.Users.Account
         }
 
         [HttpGet]
+        [Authorize]
+        public IActionResult SentEmailConfirmation(string email, string returnUrl = null)
+        {
+            var sentEmailConfirmationViewModel = new SentEmailCorfirmationViewModel { Email = email, ReturnUrl = returnUrl };
+
+            return View(sentEmailConfirmationViewModel);
+        }
+
+        [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
-            if (userId == null || code == null)
+            if (userId.IsEmpty() || code.IsEmpty())
             {
                 return View("Error");
             }

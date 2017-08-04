@@ -8,6 +8,7 @@ using TwentyTwenty.Storage;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure.Extensions;
+using Ubora.Web._Features.Home;
 
 namespace Ubora.Web._Features.Users.Profile
 {
@@ -88,7 +89,7 @@ namespace Ubora.Web._Features.Users.Profile
         }
 
         // TODO(Kaspar Kallas): Move to more specific controller (1/2)
-        public IActionResult FirstTimeEditProfile(string returnUrl = null)
+        public IActionResult FirstTimeEditProfile()
         {
             var userProfile = QueryProcessor.FindById<UserProfile>(UserId);
 
@@ -96,8 +97,6 @@ namespace Ubora.Web._Features.Users.Profile
             {
                 return RedirectToAction("Index", "Home");
             }
-
-            ViewData["ReturnUrl"] = returnUrl;
 
             var firstTimeEditProfileModel = new FirstTimeEditProfileModel
             {
@@ -112,11 +111,11 @@ namespace Ubora.Web._Features.Users.Profile
 
         // TODO(Kaspar Kallas): Move to more specific controller (2/2)
         [HttpPost]
-        public IActionResult FirstTimeEditProfile(FirstTimeUserProfileViewModel model, string returnUrl = null)
+        public IActionResult FirstTimeEditProfile(FirstTimeUserProfileViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return FirstTimeEditProfile(returnUrl);
+                return FirstTimeEditProfile();
             }
 
             ExecuteUserCommand(new EditUserProfileCommand
@@ -138,10 +137,10 @@ namespace Ubora.Web._Features.Users.Profile
 
             if (!ModelState.IsValid)
             {
-                return FirstTimeEditProfile(returnUrl);
+                return FirstTimeEditProfile();
             }
 
-            return RedirectToLocal(returnUrl);
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         [HttpPost]

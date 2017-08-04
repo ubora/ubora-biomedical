@@ -1,4 +1,4 @@
-﻿@model Ubora.Web._Features.Users.Account.RegisterViewModel
+﻿@model Ubora.Web._Features.Users.Account.SentEmailCorfirmationViewModel
 
 @{
     ViewData["Title"] = "Confirm your email";
@@ -9,5 +9,6 @@
     <p>We have sent an email to <b>@Model.Email</b>.</p>
     <p>Please click the link found in that message to activate your account.</p>
     
+    <a class="button primary-button full-width" href="@Model.ReturnUrl">Return to project</a>
     <a class="button primary-button full-width" asp-controller="Profile" asp-action="FirstTimeEditProfile">Edit profile to continue</a>
 </section>
