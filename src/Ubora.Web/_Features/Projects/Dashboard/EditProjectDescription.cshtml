@@ -1,0 +1,28 @@
+﻿@using Ubora.Web._Features.Projects._Shared
+@using Ubora.Web._Features.Projects.Dashboard
+
+@model EditProjectDescriptionViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["MenuOption"] = ProjectMenuOption.Overview;
+}
+
+<section class="project-view full-width">
+    <section class="medium-width">
+        <form action="" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h2>Project description</h2>
+            <label>
+                <textarea class="content_editable" asp-for="ProjectDescription" rows="8"></textarea>
+            </label>
+
+            <div class="center-element">
+                <a class="button secondary-button small-button" asp-controller="Dashboard" asp-action="Dashboard">Discard</a>
+                <button class="button primary-button small-button" type="submit">Save changes</button>
+            </div>
+
+        </form>
+    </section>
+</section>

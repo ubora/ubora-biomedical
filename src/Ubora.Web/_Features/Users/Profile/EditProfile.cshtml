@@ -1,0 +1,14 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@model Ubora.Web._Features.Users.Profile.EditProfileViewModel
+
+@{
+    ViewData["Title"] = "Edit profile";
+}
+
+<section class="narrow-width">
+    <h2>@ViewData["Title"]</h2>
+    
+    @Html.Partial("ChangeProfilePicturePartial", @Model.ProfilePictureViewModel)
+    @Html.Partial("EditProfilePartial", @Model.UserViewModel)
+
+</section>

@@ -1,12 +1,14 @@
 {
     "version": "0.1.0",
-    "command": "dotnet",
+    "command": "",
     "isShellCommand": true,
     "args": [],
     "tasks": [
         {
             "taskName": "build",
+            "command": "dotnet",
             "args": [
+                "build",
                 "${workspaceRoot}/Ubora.Web/Ubora.Web.csproj"
             ],
             "isBuildCommand": true,
@@ -14,9 +16,11 @@
         },
         {
             "taskName": "test",
+            "command": "bash",        
             "isTestCommand": true,
-            "args": ["Ubora.Domain.Tests/Ubora.Domain.Tests.csproj"]        
-            
+            "args": [
+                "RunTests.sh"
+            ]   
         }
     ]
 }

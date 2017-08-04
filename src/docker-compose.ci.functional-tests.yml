@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  ubora.web:
+    build: ./Ubora.Web/
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+    ports:
+      - "5000:80"
+    networks:
+      - ubora-testnetwork
+
+  postgres:
+    container_name: 'postgres'
+    image: postgres
+    ports:
+      - "5400:5432"
+    environment:
+      POSTGRES_PASSWORD: ubora
+      POSTGRES_DB: ubora
+    networks:
+      - ubora-testnetwork
+  
+  functional.tests:
+    build: ./Ubora.Web.FunctionalTests/
+    volumes:
+      - ./Ubora.Web.FunctionalTests:/app
+    command: /bin/bash -c "./wait-for-it.sh ubora.web:80 -t 30 && npm test -- --host selenium"
+    networks:
+      - ubora-testnetwork
+
+  selenium:
+    image: selenium/standalone-chrome
+    ports:
+      - "4444:4444"  
+    networks:
+      - ubora-testnetwork
+
+networks:
+  ubora-testnetwork:
+    driver: bridge

@@ -1,0 +1,70 @@
+@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Dashboard.ProjectDashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["MenuOption"] = ProjectMenuOption.Overview;
+}
+
+<section class="medium-width">
+    @if (!Model.IsProjectMember)
+    {
+        <a href="@Url.Action("Join", "Members")"><i class="material-icons">add</i>Join project</a>
+    }
+    <div class="project_section">
+        <img class="project_section--photo" src="//placehold.it/1500x300" alt="Example image">
+    </div>
+
+    @if (Model.IsInDraft)
+    {
+        <div class="project_section">
+            <span class="project_status full-width">Draft</span>
+        </div>
+    }
+
+    <div class="project_section">
+        <h1 class="project_section--title">@Model.Title</h1>
+    </div>
+
+    <div class="project_section project_section--editable">
+        <h2>Project description</h2>
+        @if (Model.IsProjectMember)
+        {
+            <a asp-controller="Dashboard" asp-action="EditProjectDescription"><i class="material-icons">mode_edit</i>&nbsp;Edit</a>
+        }
+
+    </div>
+
+    <div class="project_section">
+        @if (!string.IsNullOrWhiteSpace(Model.Description))
+        {
+            <div class="text-markdown">@Model.Description</div>
+        }
+        else
+        {
+            <p class="text_placeholder">No project description set yet.</p>
+        }
+    </div>
+
+    <div class="project_section project_section--tags">
+        <h2>Medical tags</h2>
+        <div class="medical_tag--list">
+            <div class="medical_tag--item">
+                <h3>Clinical need</h3>
+                <p>@Model.ClinicalNeedTags</p>
+            </div>
+            <div class="medical_tag--item">
+                <h3>Clinical area</h3>
+                <p>@Model.AreaOfUsageTags</p>
+            </div>
+            <div class="medical_tag--item">
+                <h3>Technology</h3>
+                <p>@Model.PotentialTechnologyTags</p>
+            </div>
+            <div class="medical_tag--item">
+                <h3>Project keywords</h3>
+                <p>@Model.Gmdn</p>
+            </div>
+        </div>
+    </div>
+</section>

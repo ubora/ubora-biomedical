@@ -1,0 +1,44 @@
+@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Workpackages.Steps.EditStepViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
+
+<section class="project-view full-width">
+    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+
+    <section class="medium-width step-view">
+
+        <h1 class="full-width">@Model.Title</h1>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Description))
+        {
+            <div class="step-tips">
+                <h6>Helpful tips</h6>
+                <p class="step-tips--text">@Model.Description</p>
+            </div>
+        }
+
+        <form action="@Model.EditStepUrl" method="post" asp-antiforgery="true">
+            <h6>Your input</h6>
+            <input asp-for="StepId" type="hidden" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <label>
+                <textarea class="content_editable" asp-for="Content" rows="8"></textarea>
+                <span asp-validation-for="Content"></span>
+            </label>
+
+            <div class="center-element">
+                <a class="button secondary-button small-button" href="@Model.ReadStepUrl">Discard</a>
+                <button class="button primary-button small-button" type="submit">Save changes</button>
+            </div>
+
+        </form>
+
+    </section>
+</section>

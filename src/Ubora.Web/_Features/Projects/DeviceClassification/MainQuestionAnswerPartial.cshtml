@@ -1,0 +1,10 @@
+﻿@using Ubora.Web._Features.Projects.DeviceClassification.ViewModels
+
+@model MainQuestionAnswerViewModel
+
+<form class="default-form" asp-controller="DeviceClassification" asp-action="MainQuestionAnswer" method="post">
+    <input type="hidden" asp-for="MainQuestionId" />
+    <input type="hidden" asp-for="PairedQuestionId" />
+
+    <button class="button secondary-button small-button full-width" type="submit">@Model.QuestionText</button>
+</form>

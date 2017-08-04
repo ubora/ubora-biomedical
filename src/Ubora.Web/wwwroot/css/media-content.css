@@ -1,0 +1,16 @@
+img {
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.avatar {
+	border-radius: 2em;
+  object-fit: cover;
+}
+
+.material-icons {
+	vertical-align: text-top;
+	font-size:150%;
+	color: var(--primary-color);
+	padding:0 .2em 0 0;
+}

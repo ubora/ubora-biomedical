@@ -1,0 +1,34 @@
+@using Ubora.Web._Features.Notifications
+@model IndexViewModel
+
+@{
+    ViewData["Title"] = "Notifications";
+}
+
+<section class="medium-width">
+    <a class="notifications_history-button" asp-controller="Notifications" asp-action="History"><i class="material-icons">history</i>Notification history</a>
+
+    @if (Model.Notifications.Any())
+    {
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <h1>Pending invitations</h1>
+
+            @foreach (var notification in Model.Notifications)
+            {
+                if (notification is IndexInvitationViewModel)
+                {
+                    @Html.Partial("~/_Features/Notifications/Partials/IndexInvitationPartial.cshtml", (IndexInvitationViewModel)notification);
+                }
+                else if (notification is IndexRequestViewModel)
+                {
+                    @Html.Partial("~/_Features/Notifications/Partials/IndexRequestPartial.cshtml", (IndexRequestViewModel)notification);
+                }
+            }
+    }
+    else
+    {
+        <div class="center-element">
+            <h3>You currently have no pending invitations.</h3>
+        </div>
+    }
+</section>

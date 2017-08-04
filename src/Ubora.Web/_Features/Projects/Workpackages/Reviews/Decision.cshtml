@@ -1,0 +1,29 @@
+﻿@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Workpackages.Reviews.WorkpackageReviewDecisionPostModel
+
+@{
+    ViewData["Title"] = "Write a review";
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
+
+<section class="medium-width">
+    <h1>Review WP1</h1>
+
+    <h3>Provide some feedback about this project.<br>Please remember to be constructive!</h3>
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <div class="form-input">
+            <textarea asp-for="ConcludingComment" placeholder="Provide some feedback..." rows="8"></textarea>
+        </div>
+
+        <div class="form-input-options">
+            <div class="form-input">
+                <button class="button secondary-button small-button" type="submit" formaction="@Model.RejectUrl">Reject</button>
+            </div>
+
+            <div class="form-input">
+                <button class="button secondary-button small-button" type="submit" formaction="@Model.AcceptUrl">Accept</button>
+            </div>
+        </div>
+    </form>
+</section>

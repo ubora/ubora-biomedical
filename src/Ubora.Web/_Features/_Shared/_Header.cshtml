@@ -1,0 +1,99 @@
+﻿@using Ubora.Web.Data
+@using Ubora.Web.Services
+@using Ubora.Web._Features.Notifications
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject ApplicationUserManager UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <span class="development-notice">In-development preview</span>
+    <header class="header">
+
+        <a asp-controller="Home" asp-action="Index" asp-area="">
+            <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" width="100">
+        </a>
+
+        <span class="header-title">
+            <a asp-controller="ProjectList" asp-action="MyProjects">
+                <i class="material-icons">folder</i>My projects
+            </a>
+
+        </span>
+
+        <div class="header-controls">
+            <a class="header-controls--action header-controls--search" asp-controller="ProjectList" asp-action="Search">
+                <i class="material-icons">search</i><span class="header-controls--description">Search</span>
+            </a>
+
+            <a class="header-controls--action header-controls--menu js-side-menu-control">
+                <i class="material-icons ">menu</i><span class="header-controls--description">Menu</span>
+            </a>
+        </div>
+
+    </header>
+
+    <aside class="side-menu js-side-menu">
+
+        <div class="menu-profile">
+            <img class="menu-profile-image" src="@User.GetProfilePictureUrl()" alt="Profile icon">
+            <div>
+                <p class="menu-profile-name">@User.GetFullName()</p>
+                <p class="menu-profile-link">@User.GetEmail()</p>
+                <a asp-controller="Manage" asp-action="Index" class="menu-profile-link">View profile</a>
+            </div>
+        </div>
+
+        <nav>
+            <a class="menu-link" asp-controller="ProjectList" asp-action="MyProjects">
+                <i class="material-icons">folder</i>My projects
+            </a>
+
+            <a class="menu-link" asp-controller="ProjectCreation" asp-action="Create">
+                <i class="material-icons">create_new_folder</i>New project
+            </a>
+
+            <a class="menu-link" asp-controller="Notifications" asp-action="Index">
+                <i class="material-icons">notifications</i>Notifications @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
+            </a>
+
+            @if (User.IsInRole(ApplicationRole.Admin))
+            {
+                <a class="menu-link" asp-controller="Admin" asp-action="Diagnostics">
+                    <i class="material-icons">build</i>Diagnostics
+                </a>
+            }
+
+        </nav>
+
+        <form class="logout-form" asp-action="Logout" asp-controller="Account" method="post">
+            <button class="button secondary-button logout-button" type="submit">Log out</button>
+        </form>
+
+    </aside>
+}
+else
+{
+    <span class="development-notice">In-development preview</span>
+
+    <header class="header">
+
+        <div class="header-element">
+            <a asp-controller="Home" asp-action="Index">
+                <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" width="100">
+            </a>
+        </div>
+
+        <div class="header-element">
+            <a asp-controller="Account" asp-action="Login">Sign in/sign up</a>
+        </div>
+
+        <div class="header-element">
+            <a class="header-action" asp-controller="ProjectList" asp-action="Search">
+                <i class="header-action-icon material-icons">search</i>
+                <span class="header-action-description">Search</span>
+            </a>
+        </div>
+
+    </header>
+}

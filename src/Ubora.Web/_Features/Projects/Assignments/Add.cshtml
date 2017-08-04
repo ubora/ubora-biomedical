@@ -1,0 +1,31 @@
+﻿@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Assignments.AddAssignmentViewModel
+
+@{
+    ViewData["Title"] = "Assignments";
+    ViewData["MenuOption"] = ProjectMenuOption.Assignments;
+}
+
+<section class="medium-width">
+    <h1 class="full-width">Assignment draft</h1>
+
+    <form asp-controller="Assignments" asp-action="Add" method="post">
+        <input asp-for="ProjectId" type="hidden">
+
+        <div class="form-input">
+            <label asp-for="Title">Title</label>
+            <input asp-for="Title" placeholder="Assignment title" autofocus>
+            <span asp-validation-for="Title"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="Description">Description</label>
+            <textarea asp-for="Description" placeholder="Assignment description" rows="8"></textarea>
+            <span asp-validation-for="Description"></span>
+        </div>
+
+        <div class="form-input">
+            <button class="button primary-button full-width" type="submit">Add Assignment</button>
+        </div>
+    </form>
+</section>

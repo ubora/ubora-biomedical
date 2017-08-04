@@ -1,0 +1,59 @@
+﻿@model Ubora.Web._Features.Users.Account.RegisterViewModel
+@{
+    ViewData["Title"] = "Sign up";
+}
+
+<section class="narrow-width">
+    <h2>@ViewData["Title"]</h2>
+
+    <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-input">
+            <label asp-for="FirstName">First name</label>
+            <input asp-for="FirstName" placeholder="First name" autofocus>
+            <span asp-validation-for="FirstName"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="LastName">Last name</label>
+            <input asp-for="LastName" placeholder="Last name">
+            <span asp-validation-for="LastName"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="Email">Email address</label>
+            <input asp-for="Email" placeholder="email@example.com">
+            <span asp-validation-for="Email"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="Password">Secret passphrase</label>
+            <input asp-for="Password" placeholder="Secret passphrase">
+            <span asp-validation-for="Password"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="ConfirmPassword">Secret passphrase again</label>
+            <input asp-for="ConfirmPassword" placeholder="Secret passphrase again">
+            <span asp-validation-for="ConfirmPassword"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="IsAgreedToTermsOfService">
+                <input asp-for="IsAgreedToTermsOfService" required>
+                <span class="textbox-label">I agree to</span>
+                <a asp-controller="Account" asp-action="TermsOfService" target="_blank">Terms of Service</a>
+            </label>
+            <span asp-validation-for="IsAgreedToTermsOfService"></span>
+        </div>
+
+        <button type="submit" class="button primary-button">Create an account</button>
+
+    </form>
+</section>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

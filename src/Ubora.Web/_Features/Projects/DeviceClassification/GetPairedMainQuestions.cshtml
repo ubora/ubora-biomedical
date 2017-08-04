@@ -1,0 +1,41 @@
+﻿@using Ubora.Web._Features.Projects.DeviceClassification.ViewModels
+
+@model PairedMainQuestionsViewModel
+
+@{
+    ViewData["Title"] = "Device classification";
+}
+
+<section class="medium-width questionnaire">
+    <h1>Please select an option:</h1>
+
+        <div class="questionnaire-question">
+            @Html.Partial("MainQuestionAnswerPartial", new MainQuestionAnswerViewModel { QuestionText = Model.MainQuestionOne, MainQuestionId = Model.MainQuestionOneId, PairedQuestionId = Model.PairedQuestionId })
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.MainQuestionTwo))
+        {
+            <div class="questionnaire-question">
+                @Html.Partial("MainQuestionAnswerPartial", new MainQuestionAnswerViewModel { QuestionText = Model.MainQuestionTwo, MainQuestionId = Model.MainQuestionTwoId, PairedQuestionId = Model.PairedQuestionId })
+            </div>
+        }
+        else
+        {
+            <div class="questionnaire-question">
+                <a class="button secondary-button small-button full-width" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-pairedMainQuestionsId="@Model.PairedQuestionId">Not applicable</a>
+            </div>
+        }
+    </ul>
+    @if (Model.Notes.Any())
+    {
+        <h3>Notes</h3>
+        <ul>
+            @foreach (var note in Model.Notes)
+            {
+                <li>
+                    <p>@note</p>
+                </li>
+            }
+        </ul>
+    }
+</section>

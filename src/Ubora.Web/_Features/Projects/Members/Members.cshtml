@@ -1,0 +1,76 @@
+﻿@using Ubora.Web.Data
+@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Members.ProjectMemberListViewModel
+
+@{
+    ViewData["Title"] = "Members";
+    ViewData["MenuOption"] = ProjectMenuOption.Members;
+}
+
+<section class="medium-width">
+    <div class="project-control-options">
+        @if (Model.IsProjectMember)
+        {
+            <a class="project-control" asp-controller="Members" asp-action="Invite">
+                <i class="material-icons">person_add</i>Invite member to project
+            </a>
+        }
+
+        @if (Model.IsProjectMember && !Model.IsProjectLeader)
+        {
+            <a class="project-control" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId">
+                <i class="material-icons">exit_to_app</i>Leave project
+            </a>
+        }
+    </div>
+
+    <h1 class="full-width">Project members</h1>
+</section>
+
+<section class="narrow-width">
+    @foreach (var member in Model.Members)
+    {
+        <div class="project-member">
+            <span class="project-member--status">
+                @if (member.IsProjectLeader)
+                {
+                    @* TODO: Add a 'title' attribute with correct roles in the future.*@
+                    <i class="material-icons" title="Project leader">supervisor_account</i>
+                }
+            </span>
+
+            <span class="project-member--name">
+                <a asp-controller="Profile" asp-action="View" asp-route-userId="@member.UserId">
+                    @member.FullName
+                </a>
+            </span>
+
+            <span class="project-member--controls">
+                @{
+                    var isRemoveMemberButtonVisible = Model.CanRemoveProjectMembers && !member.IsProjectLeader;
+                }
+                @if (isRemoveMemberButtonVisible)
+                {
+                    <a class="project-member--remove" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId">
+                        <i class="material-icons">close</i>
+                    </a>
+                }
+            </span>
+        </div>
+    }
+
+    @{
+        var isAdmin = User.IsInRole(ApplicationRole.Admin);
+        var hasMentorAuthorityAlready = await AuthorizationService.AuthorizeAsync(User, Policies.CanReviewProjectWorkpackages);
+        var isAssignMeAsMentorButtonVisible = isAdmin && !hasMentorAuthorityAlready;
+    }
+    @if (isAssignMeAsMentorButtonVisible)
+    {
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form method="post">
+            <div class="form-input">
+                <button type="submit" asp-action="AssignMeAsMentor" class="button secondary-button">Assign me as project mentor</button>
+            </div>
+        </form>
+    }
+</section>

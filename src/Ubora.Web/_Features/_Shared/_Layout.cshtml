@@ -1,0 +1,53 @@
+﻿@using Ubora.Web._Features.Projects._Shared
+@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - UBORA</title>
+    <link rel="icon" type="image/png" href="~/images/favicon.png">
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="~/lib/openSans/openSans.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/styles.css?v1">
+    <link rel="stylesheet" href="~/lib/simplemde/dist/simplemde.min.css">
+
+    @Html.Raw(JavaScriptSnippet.FullScript)
+</head>
+
+<body>
+    @await Html.PartialAsync("_Header")
+
+    <main>
+        @{
+            var projectMenuOption = ViewData["MenuOption"];
+            if (projectMenuOption != null)
+            {
+                @await Html.PartialAsync("~/_Features/Projects/_Shared/_ProjectMenu.cshtml", new ProjectMenuViewModel((ProjectMenuOption)projectMenuOption))
+            }
+        }
+        @RenderBody()
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            @Html.Partial("_FeedbackModal")
+            <a href="javascript:void(0);" id="feedback-modal-trigger"><i class="material-icons">chat_bubble</i>Feedback</a>
+        }
+    </main>
+
+    @await Html.PartialAsync("_Footer")
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/simplemde/dist/simplemde.min.js"></script>
+    <script src="~/lib/marked/marked.min.js"></script>
+    <script src="~/js/UBORA.js"></script>
+
+    <script>
+        $(function() {
+            feedbackModule('@Context.Request.Path', '@Url.Action("Send", "Feedback")');
+        })
+    </script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

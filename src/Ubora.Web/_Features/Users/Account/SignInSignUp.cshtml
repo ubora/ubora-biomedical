@@ -1,0 +1,30 @@
+@{
+	ViewData["Title"] = "Sign in";
+}
+
+<section class="signing narrow-width">
+	<h2 class="full-width">Choose sign in option</h2>
+
+	<a class="button secondary-button login-button" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]">
+		<img class="login-button-image" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
+		Continue with UBORA
+	</a>
+
+	<!-- <a class="button secondary-button login-button" href="#">
+		<img class="login-button-image" src="~/images/icons/twitter-logo.svg" alt="Twitter logo">
+		Continue with Twitter
+	</a>
+
+	<a class="button secondary-button login-button" href="#">
+		<img class="login-button-image" src="~/images/icons/facebook-logo.svg" alt="Facebook logo">
+		Continue with Facebook
+	</a>
+
+	<a class="button secondary-button login-button" href="#">
+		<img class="login-button-image" src="~/images/icons/google-logo.svg" alt="Google logo">
+		Continue with Google
+	</a> -->
+
+	<h3>Don't have an account?</h3>
+	<a class="button primary-button full-width" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Sign up</a>
+</section>

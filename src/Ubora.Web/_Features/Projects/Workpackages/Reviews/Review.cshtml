@@ -1,0 +1,74 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Workpackages.Reviews.WorkpackageReviewListViewModel
+
+@{
+    ViewData["Title"] = "Formal review";
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
+
+<section class="project-view full-width">
+    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+
+    <section class="medium-width step-view">
+        <h1>Formal review</h1>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        @if (Model.SubmitForReviewButton.IsVisible)
+        {
+            <section class="narrow-width">
+                <form action="@Model.SubmitForReviewUrl" method="post" asp-antiforgery="true">
+                    <div class="form-input">
+                        <button type="submit" class="button primary-button full-width">Submit project for review</button>
+                    </div>
+                </form>
+            </section>
+        }
+        else if (Model.SubmitForReviewButton.IsHiddenWithMessage)
+        {
+            @* TODO(from Kaspar Kallas to Risto Kitsing) *@
+            <section class="full-width">
+                <p><i>@Model.SubmitForReviewButton.HideReasonMessage</i></p>
+            </section>
+        }
+
+        @if (Model.Reviews.Any())
+        {
+            <section class="full-width">
+                <h2>Reviews</h2>
+                @foreach (var review in Model.Reviews)
+                {
+                    <table class="review-table">
+                        <tr>
+                            <td><b>Status</b></td>
+                            <td>@review.Status.ToString()</td>
+                        </tr>
+                        <tr>
+                            <td><b>Concluding comment</b></td>
+                            <td>@review.ConcludingComment</td>
+                        </tr>
+                        <tr>
+                            <td><b>Created at</b></td>
+                            <td>@review.SubmittedAt</td>
+                        </tr>
+                        <tr>
+                            <td><b>Concluded at</b></td>
+                            <td>@review.ConcludedAt</td>
+                        </tr>
+                    </table>
+                    <br>
+                }
+
+                @{
+
+                    var isWriteReviewButtonVisible = await AuthorizationService.AuthorizeAsync(User, Policies.CanReviewProjectWorkpackages);
+                    if (isWriteReviewButtonVisible)
+                    {
+                        <a href="@Model.ReviewDecisionUrl" class="button primary-button small-button">Write a review</a>
+                    }
+                }
+            </section>
+        }
+    </section>
+</section>
