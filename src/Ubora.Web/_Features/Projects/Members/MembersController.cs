@@ -38,7 +38,8 @@ namespace Ubora.Web._Features.Projects.Members
                 // TODO(Kaspar Kallas): Eliminate SELECT(N + 1)
                 FullName = QueryProcessor.FindById<UserProfile>(m.UserId).FullName,
                 IsProjectLeader = m.IsLeader,
-                IsCurrentUser = isAuthenticated && UserId == m.UserId
+                IsCurrentUser = isAuthenticated && UserId == m.UserId,
+                IsProjectMentor = m.IsMentor
             });
 
             var isProjectLeader = isAuthenticated && members.Any(x => x.UserId == UserId && x.IsProjectLeader);

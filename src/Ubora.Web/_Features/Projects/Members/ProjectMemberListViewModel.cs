@@ -17,6 +17,7 @@ namespace Ubora.Web._Features.Projects.Members
             public string FullName { get; set; }
             public bool IsProjectLeader { get; set; }
             public bool IsCurrentUser { get; set; }
+            public bool IsProjectMentor { get; set; }
         }
     }
 }
