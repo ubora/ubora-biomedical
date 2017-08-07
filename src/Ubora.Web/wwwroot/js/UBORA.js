@@ -124,8 +124,8 @@ function feedbackModule(requestPath, sendFeedbackUrl) {
     });
 }
 
-// Notification
-function dismissNotification(userEvent) {
+// Notices
+function dismissNotice(userEvent) {
   function removeParentElement(currentElement) {
     var parentElement = currentElement.parentElement;
     parentElement.remove();
@@ -140,9 +140,9 @@ function dismissNotification(userEvent) {
 }
 
 window.addEventListener('click', function (event) {
-  dismissNotification(event);
+  dismissNotice(event);
 });
 
 window.addEventListener('touchend', function (event) {
-  dismissNotification(event);
+  dismissNotice(event);
 }, false);
