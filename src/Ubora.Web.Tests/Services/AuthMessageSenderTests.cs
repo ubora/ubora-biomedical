@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
-using Ubora.Web.Tests.Authorization;
 using Ubora.Web.Tests.Fakes;
-using Ubora.Web.Tests.Helper;
+using Ubora.Web._Features._Shared.Templates;
 using Xunit;
 
 namespace Ubora.Web.Tests.Services
@@ -17,15 +13,15 @@ namespace Ubora.Web.Tests.Services
     {
         private readonly AuthMessageSender _sut;
         private readonly Mock<FakeUserManager> _userManagerMock;
-        private readonly Mock<IUrlHelper> _urlHelperMock;
         private readonly Mock<IEmailSender> _emailSenderMock;
+        private readonly Mock<IViewRender> _viewRenderMock;
 
         public AuthMessageSenderTests()
         {
             _userManagerMock = new Mock<FakeUserManager>();
-            _urlHelperMock = new Mock<IUrlHelper>();
             _emailSenderMock = new Mock<IEmailSender>();
-            _sut = new AuthMessageSender(_userManagerMock.Object, _urlHelperMock.Object, _emailSenderMock.Object);
+            _viewRenderMock = new Mock<IViewRender>();
+            _sut = new AuthMessageSender(_userManagerMock.Object, _emailSenderMock.Object, _viewRenderMock.Object);
         }
 
         [Fact]
@@ -38,23 +34,13 @@ namespace Ubora.Web.Tests.Services
             var expectedMessage = $"<h1 style='color:#4777BB;'>E-mail confirmation</h1><p>Please confirm your e-mail by clicking here or navigating to <a href=\"{expectedUrl}\">this link</a>.</p>";
 
             _userManagerMock.Setup(x => x.GenerateEmailConfirmationTokenAsync(It.IsAny<ApplicationUser>())).ReturnsAsync(code);
-            _urlHelperMock.Setup(h => h.ActionContext).Returns(new EmptyInitializedActionContext());
-
-            UrlActionContext urlActionContext = null;
-            _urlHelperMock
-                .Setup(h => h.Action(It.IsAny<UrlActionContext>()))
-                .Callback<UrlActionContext>(c => urlActionContext = c)
-                .Returns(expectedUrl);
+            _viewRenderMock.Setup(r => r.Render(It.IsAny<string>(), It.IsAny<string>(),
+                It.IsAny<ForgotPasswordMessageTemplateViewModel>())).Returns(expectedMessage);
 
             //Act
             await _sut.SendEmailConfirmationMessage(applicationUser);
 
             //Assert
-            urlActionContext.Action.Should().Be("ConfirmEmail");
-            urlActionContext.Controller.Should().Be("Account");
-            urlActionContext.Values.GetPropertyValue<Guid>("userId").Should().Be(applicationUser.Id);
-            urlActionContext.Values.GetPropertyValue<string>("code").Should().Be(code);
-
             _emailSenderMock.Verify(x => x.SendEmailAsync(applicationUser.Email, subject, expectedMessage), Times.Once);
         }
 
@@ -68,25 +54,13 @@ namespace Ubora.Web.Tests.Services
             var expectedMessage = $"<h1 style='color:#4777BB;'>Password reset</h1><p>You can reset your password by clicking <a href=\"{expectedUrl}\">this link</a>.</p>";
 
             _userManagerMock.Setup(x => x.GeneratePasswordResetTokenAsync(It.IsAny<ApplicationUser>())).ReturnsAsync(code);
-            _urlHelperMock
-                .Setup(h => h.ActionContext)
-                .Returns(new EmptyInitializedActionContext());
-
-            UrlActionContext urlActionContext = null;
-            _urlHelperMock
-                .Setup(h => h.Action(It.IsAny<UrlActionContext>()))
-                .Callback<UrlActionContext>(c => urlActionContext = c)
-                .Returns(expectedUrl);
+            _viewRenderMock.Setup(r => r.Render(It.IsAny<string>(), It.IsAny<string>(),
+                It.IsAny<ForgotPasswordMessageTemplateViewModel>())).Returns(expectedMessage);
 
             //Act
-            await _sut.SendForgotPasswordMessageAsync(applicationUser);
+            await _sut.SendForgotPasswordMessage(applicationUser);
 
             //Assert
-            urlActionContext.Action.Should().Be("ResetPassword");
-            urlActionContext.Controller.Should().Be("Account");
-            urlActionContext.Values.GetPropertyValue<Guid>("userId").Should().Be(applicationUser.Id);
-            urlActionContext.Values.GetPropertyValue<string>("code").Should().Be(code);
-
             _emailSenderMock.Verify(x => x.SendEmailAsync(applicationUser.Email, subject, expectedMessage), Times.Once);
         }
     }

@@ -1,49 +1,55 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Ubora.Web.Data;
+using Ubora.Web._Features._Shared.Templates;
 
 namespace Ubora.Web.Services
 {
     public interface IAuthMessageSender
     {
         Task SendEmailConfirmationMessage(ApplicationUser user);
-        Task SendForgotPasswordMessageAsync(ApplicationUser user);
+        Task SendForgotPasswordMessage(ApplicationUser user);
     }
 
     public class AuthMessageSender : IAuthMessageSender
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IUrlHelper _urlHelper;
         private readonly IEmailSender _emailSender;
+        private readonly IViewRender _view;
 
-        public AuthMessageSender(UserManager<ApplicationUser> userManager, IUrlHelper urlHelper, IEmailSender emailSender)
+        public AuthMessageSender(UserManager<ApplicationUser> userManager, IEmailSender emailSender, IViewRender view)
         {
             _userManager = userManager;
-            _urlHelper = urlHelper;
             _emailSender = emailSender;
+            _view = view;
         }
 
         public async Task SendEmailConfirmationMessage(ApplicationUser user)
         {
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            var callbackUrl = _urlHelper.Action("ConfirmEmail", "Account", new { userId = user.Id, code },
-                protocol: _urlHelper.ActionContext.HttpContext.Request.Scheme);
+            var forgotPasswordMessageTemplateViewModel = new ForgotPasswordMessageTemplateViewModel
+            {
+                UserId = user.Id,
+                Code = code
+            };
 
-            var message = "<h1 style='color:#4777BB;'>E-mail confirmation</h1><p>Please confirm your e-mail by clicking here or navigating to <a href=\"" + callbackUrl + "\">this link</a>.</p>";
+            var message = _view.Render("~/_Features/_Shared/Templates/", "EmailConfirmationMessageTemplate.cshtml", forgotPasswordMessageTemplateViewModel);
 
             await _emailSender.SendEmailAsync(user.Email, "UBORA: e-mail confirmation", message);
         }
 
-        public async Task SendForgotPasswordMessageAsync(ApplicationUser user)
+        public async Task SendForgotPasswordMessage(ApplicationUser user)
         {
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-            var callbackUrl = _urlHelper.Action("ResetPassword", "Account", new { userId = user.Id, code }, 
-                protocol: _urlHelper.ActionContext.HttpContext.Request.Scheme);
+            var forgotPasswordMessageTemplateViewModel = new ForgotPasswordMessageTemplateViewModel
+            {
+                UserId = user.Id,
+                Code = code
+            };
 
-            var message = "<h1 style='color:#4777BB;'>Password reset</h1><p>You can reset your password by clicking <a href=\"" + callbackUrl + "\">this link</a>.</p>";
+            var message = _view.Render("~/_Features/_Shared/Templates/", "ForgotPasswordMessageTemplate.cshtml", forgotPasswordMessageTemplateViewModel);
 
             await _emailSender.SendEmailAsync(user.Email, "UBORA: Password reset", message);
         }

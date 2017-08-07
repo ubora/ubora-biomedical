@@ -301,7 +301,7 @@ namespace Ubora.Web._Features.Users.Account
                 var user = await _userManager.FindByNameAsync(model.Email);
                 if (user == null)
                     return View("ForgotPasswordConfirmation");
-                await _authMessageSender.SendForgotPasswordMessageAsync(user);
+                await _authMessageSender.SendForgotPasswordMessage(user);
                 return View("ForgotPasswordConfirmation");
             }
 

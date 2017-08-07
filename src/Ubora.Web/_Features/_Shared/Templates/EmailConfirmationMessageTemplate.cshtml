@@ -1,0 +1,12 @@
+﻿@model Ubora.Web._Features._Shared.Templates.ForgotPasswordMessageTemplateViewModel
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>E-mail confirmation</title>
+</head>
+<body>
+<h1 style='color:#4777BB;'>E-mail confirmation</h1>
+<p>Please confirm your e-mail by clicking here or navigating to <a href="@Html.Raw(Url.Action("ConfirmEmail", "Account", new { userId = Model.UserId, Model.Code }, Context.Request.Scheme))">this link</a>."</p>
+</body>

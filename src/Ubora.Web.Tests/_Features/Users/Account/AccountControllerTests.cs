@@ -461,7 +461,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _userManagerMock.Setup(x => x.FindByNameAsync(forgotPasswordViewModel.Email))
                 .ReturnsAsync(identity);
             _userManagerMock.Setup(x => x.IsEmailConfirmedAsync(identity)).ReturnsAsync(true);
-            _authMessageSenderMock.Setup(x => x.SendForgotPasswordMessageAsync(identity)).Returns(Task.FromResult(identity));
+            _authMessageSenderMock.Setup(x => x.SendForgotPasswordMessage(identity)).Returns(Task.FromResult(identity));
             _controller.ControllerContext.HttpContext = new DefaultHttpContext();
             _controller.ControllerContext.HttpContext.Request.Scheme = "http";
 
