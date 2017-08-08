@@ -10,7 +10,7 @@ namespace Ubora.Web.Infrastructure.Extensions
             string blobUrl;
             if (userProfile.ProfilePictureBlobName == null)
             {
-                blobUrl = "/images/profileimagedefault.png";
+                blobUrl = "/images/profileimagedefault.svg";
             }
             else
             {

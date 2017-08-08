@@ -100,6 +100,12 @@ namespace Ubora.Domain.Projects
 
         private void Apply(ProjectMentorAssignedEvent e)
         {
+            var isMember = this.DoesSatisfy(new HasMember<ProjectMember>(e.UserId));
+            if (isMember)
+            {
+                _members.RemoveWhere(m => m.UserId == e.UserId);
+            }
+
             var isAlreadyMentor = this.DoesSatisfy(new HasMember<ProjectMentor>(e.UserId));
             if (isAlreadyMentor)
             {

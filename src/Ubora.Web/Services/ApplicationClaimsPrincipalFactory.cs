@@ -33,6 +33,9 @@ namespace Ubora.Web.Services
             var profilePictureUrl = _storageProvider.GetDefaultOrBlobUrl(userProfile);
             claimsIdentity.AddClaim(new Claim(ApplicationUser.ProfilePictureUrlClaimType, profilePictureUrl));
 
+            var userEmail = userProfile.Email;
+            claimsIdentity.AddClaim(new Claim(ApplicationUser.EmailClaimType, userEmail));
+
             return claimsPrincipal;
         }
     }
