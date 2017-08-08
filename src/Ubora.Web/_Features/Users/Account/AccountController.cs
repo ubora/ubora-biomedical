@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
+using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Home;
 using Ubora.Web._Features.Users.Profile;

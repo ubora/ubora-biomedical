@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Ubora.Web.Data;
+using Ubora.Web.Services;
 using Ubora.Web._Features._Shared.Templates;
 
-namespace Ubora.Web.Services
+namespace Ubora.Web.Infrastructure
 {
     public interface IAuthMessageSender
     {
@@ -28,13 +29,13 @@ namespace Ubora.Web.Services
         {
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            var forgotPasswordMessageTemplateViewModel = new ForgotPasswordMessageTemplateViewModel
+            var callBackUrlTemplateViewModel = new CallBackUrlTemplateViewModel
             {
                 UserId = user.Id,
                 Code = code
             };
 
-            var message = _view.Render("~/_Features/_Shared/Templates/", "EmailConfirmationMessageTemplate.cshtml", forgotPasswordMessageTemplateViewModel);
+            var message = _view.Render("~/_Features/_Shared/Templates/", "EmailConfirmationMessageTemplate.cshtml", callBackUrlTemplateViewModel);
 
             await _emailSender.SendEmailAsync(user.Email, "UBORA: e-mail confirmation", message);
         }
@@ -43,13 +44,13 @@ namespace Ubora.Web.Services
         {
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-            var forgotPasswordMessageTemplateViewModel = new ForgotPasswordMessageTemplateViewModel
+            var callBackUrlTemplateViewModel = new CallBackUrlTemplateViewModel
             {
                 UserId = user.Id,
                 Code = code
             };
 
-            var message = _view.Render("~/_Features/_Shared/Templates/", "ForgotPasswordMessageTemplate.cshtml", forgotPasswordMessageTemplateViewModel);
+            var message = _view.Render("~/_Features/_Shared/Templates/", "ForgotPasswordMessageTemplate.cshtml", callBackUrlTemplateViewModel);
 
             await _emailSender.SendEmailAsync(user.Email, "UBORA: Password reset", message);
         }

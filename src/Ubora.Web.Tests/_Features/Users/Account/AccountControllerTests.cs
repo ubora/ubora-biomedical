@@ -12,6 +12,7 @@ using Moq;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
+using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web.Tests.Helper;

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 
-namespace Ubora.Web.Services
+namespace Ubora.Web.Infrastructure
 {
     public interface IViewRender
     {

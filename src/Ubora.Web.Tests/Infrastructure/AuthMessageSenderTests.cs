@@ -2,12 +2,13 @@
 using System.Threading.Tasks;
 using Moq;
 using Ubora.Web.Data;
+using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features._Shared.Templates;
 using Xunit;
 
-namespace Ubora.Web.Tests.Services
+namespace Ubora.Web.Tests.Infrastructure
 {
     public class AuthMessageSenderTests
     {
@@ -34,8 +35,8 @@ namespace Ubora.Web.Tests.Services
             var expectedMessage = $"<h1 style='color:#4777BB;'>E-mail confirmation</h1><p>Please confirm your e-mail by clicking here or navigating to <a href=\"{expectedUrl}\">this link</a>.</p>";
 
             _userManagerMock.Setup(x => x.GenerateEmailConfirmationTokenAsync(It.IsAny<ApplicationUser>())).ReturnsAsync(code);
-            _viewRenderMock.Setup(r => r.Render(It.IsAny<string>(), It.IsAny<string>(),
-                It.IsAny<ForgotPasswordMessageTemplateViewModel>())).Returns(expectedMessage);
+            _viewRenderMock.Setup(r => r.Render("~/_Features/_Shared/Templates/", "EmailConfirmationMessageTemplate.cshtml",
+                It.IsAny<CallBackUrlTemplateViewModel>())).Returns(expectedMessage);
 
             //Act
             await _sut.SendEmailConfirmationMessage(applicationUser);
@@ -53,9 +54,10 @@ namespace Ubora.Web.Tests.Services
             var subject = "UBORA: Password reset";
             var expectedMessage = $"<h1 style='color:#4777BB;'>Password reset</h1><p>You can reset your password by clicking <a href=\"{expectedUrl}\">this link</a>.</p>";
 
+
             _userManagerMock.Setup(x => x.GeneratePasswordResetTokenAsync(It.IsAny<ApplicationUser>())).ReturnsAsync(code);
-            _viewRenderMock.Setup(r => r.Render(It.IsAny<string>(), It.IsAny<string>(),
-                It.IsAny<ForgotPasswordMessageTemplateViewModel>())).Returns(expectedMessage);
+            _viewRenderMock.Setup(r => r.Render("~/_Features/_Shared/Templates/", "ForgotPasswordMessageTemplate.cshtml",
+                It.IsAny<CallBackUrlTemplateViewModel>())).Returns(expectedMessage);
 
             //Act
             await _sut.SendForgotPasswordMessage(applicationUser);
