@@ -4,8 +4,8 @@ img {
 }
 
 .avatar {
-	border-radius: 50%;
-    object-fit: cover;
+	border-radius: 2em;
+  object-fit: cover;
 }
 
 .material-icons {

@@ -19,9 +19,25 @@ Recipe:
   - *Shared Docker Drives (project's)*
 
 ## Running UBORA on Atom *under Windows*
-Navigate to `src\Ubora.Web` in Explorer and run `Run Web.ps1`. Server should be up and running on `http://localhost:5000` in `Production` mode!
+Navigate to `src\Ubora.Web` in Explorer and run `Run Web.ps1`. Server should be up and running on `http://localhost:5000`  
 
-### Atom notes:
-* Have a good linter
-  * `.cshtml` linter is bad/evil/buggy - **do not** use it!
-* Be aware that when adding files, you have to run `run` again for the server to register a new file. However, this case might be fixed soon with `dotnet watch` implementation.
+## Running Functional tests locally: ##
+* You need **Visual Studio Code** installed
+* You need **Docker** installed
+ * Open up project in VS Code.
+ * Open up the folder you have **Ubora\src** in TERMINAL in VS Code.
+ * Run the tests using `docker-compose -f docker-compose.ci.functional-tests.yml up`
+ If you have errors do one of the following:
+ * `docker-compose -f docker-compose.ci.functional-tests.yml down` and run tests again
+ * `CMD` and command `docker rm -f postgres` and run tests again
+ * If nothing works Restarting the computer is always a good option
+ Getting the latest changes to the test environment when you are running tests locally you need to build them locally in VS Code using these two commands:
+ * `docker-compose -f src\docker-compose.ci.build.yml up` in folder **\ubora** (Repo) in VS Code
+ * `docker-compose -f docker-compose.ci.functional-tests.yml build` in folder **\ubora\src** in VS Code
+
+## User accounts
+Currently, there exists a predefined `System Administrator` account:  
+```
+admin@agileworks.eu
+ChangeMe123!
+```
