@@ -59,7 +59,7 @@ namespace Ubora.Web._Features.Notifications
         }
     }
 
-    public class IndexInvitationViewModel : BaseInvitationViewModel
+    public class IndexInvitationViewModel : InvitationViewModel
     {
         public bool IsUnread { get; set; }
 
@@ -69,7 +69,7 @@ namespace Ubora.Web._Features.Notifications
         }
     }
 
-    public class IndexRequestViewModel : BaseRequestViewModel
+    public class IndexRequestViewModel : RequestViewModel
     {
         public Guid UserId { get; set; }
         public bool IsUnread { get; set; }

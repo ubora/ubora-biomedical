@@ -52,7 +52,7 @@ namespace Ubora.Web._Features.Notifications
         }
     }
 
-    public class HistoryInvitationViewModel : BaseInvitationViewModel
+    public class HistoryInvitationViewModel : InvitationViewModel
     {
         public bool WasAccepted { get; set; }
 
@@ -62,7 +62,7 @@ namespace Ubora.Web._Features.Notifications
         }
     }
 
-    public class HistoryRequestViewModel : BaseRequestViewModel
+    public class HistoryRequestViewModel : RequestViewModel
     {
         public Guid UserId { get; set; }
         public bool WasAccepted { get; set; }
