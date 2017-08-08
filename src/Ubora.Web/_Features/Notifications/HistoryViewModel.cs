@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Notifications;
 using Ubora.Domain.Notifications.Specifications;
 using Ubora.Web._Features.Notifications.Factory;
 
@@ -51,14 +52,24 @@ namespace Ubora.Web._Features.Notifications
         }
     }
 
-    public class HistoryInvitationViewModel : BaseInvitationViewModel
+    public class HistoryInvitationViewModel : InvitationViewModel
     {
         public bool WasAccepted { get; set; }
+
+        public override IHtmlContent GetPartialView(IHtmlHelper htmlHelper)
+        {
+            return htmlHelper.Partial("~/_Features/Notifications/Partials/HistoryInvitationPartial.cshtml", this);
+        }
     }
 
-    public class HistoryRequestViewModel : BaseRequestViewModel
+    public class HistoryRequestViewModel : RequestViewModel
     {
         public Guid UserId { get; set; }
         public bool WasAccepted { get; set; }
+
+        public override IHtmlContent GetPartialView(IHtmlHelper htmlHelper)
+        {
+            return htmlHelper.Partial("~/_Features/Notifications/Partials/HistoryRequestPartial.cshtml", this);
+        }
     }
 }
