@@ -1,8 +1,9 @@
 ﻿@using Ubora.Web._Features._Shared.Notices
-@model IReadOnlyCollection<Notice>
+@model dynamic
 
-@foreach (var notice in Model)
+@while (Notices.Count > 0)
 {
+    var notice = Notices.Dequeue();
     switch (notice.Type)
     {
         case NoticeType.Info:

@@ -152,10 +152,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         public void Returns_DesignPlanning_View_With_Success_Notice_When_DesignPlanning_Was_Saved_Successfully()
         {
             var projectTitle = "projectTitle";
-            UpdateProjectCommand executedCommand = new UpdateProjectCommand
-            {
-                Title = projectTitle
-            };
+            UpdateProjectCommand executedCommand = null;
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<UpdateProjectCommand>()))
                 .Callback<UpdateProjectCommand>(c => executedCommand = c)
@@ -187,7 +184,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             executedCommand.ClinicalNeedTags.Should().Be(clinicalNeedTags);
             executedCommand.Title.Should().Be(projectTitle);
 
-            var successNotice = _workpackageOneController.TempDataWrapper.Notices.Single();
+            var successNotice = _workpackageOneController.Notices.Dequeue();
             successNotice.Text.Should().Be("Design planning changed successfully!");
             successNotice.Type.Should().Be(NoticeType.Success);
         }
@@ -196,10 +193,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         public void Returns_DesignPlanning_View_With_Error_Notice_When_DesignPlanning_Was_Not_Saved_Successfully()
         {
             var projectTitle = "projectTitle";
-            UpdateProjectCommand executedCommand = new UpdateProjectCommand
-            {
-                Title = projectTitle
-            };
+            UpdateProjectCommand executedCommand = null;
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<UpdateProjectCommand>()))
                 .Callback<UpdateProjectCommand>(c => executedCommand = c)
@@ -231,7 +225,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             executedCommand.ClinicalNeedTags.Should().Be(clinicalNeedTags);
             executedCommand.Title.Should().Be(projectTitle);
 
-            var successNotice = _workpackageOneController.TempDataWrapper.Notices.Single();
+            var successNotice = _workpackageOneController.Notices.Dequeue();
             successNotice.Text.Should().Be("Failed to change design planning!");
             successNotice.Type.Should().Be(NoticeType.Error);
         }

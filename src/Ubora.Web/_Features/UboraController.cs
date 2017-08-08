@@ -12,6 +12,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features._Shared.Notices;
+// ReSharper disable ArrangeAccessorOwnerBody
 
 namespace Ubora.Web._Features
 {
@@ -53,12 +54,15 @@ namespace Ubora.Web._Features
 
         private IServiceProvider ServiceLocator => HttpContext.RequestServices;
 
-        private TempDataWrapper _tempDataWrapper;
-        public TempDataWrapper TempDataWrapper => _tempDataWrapper ?? (_tempDataWrapper = new TempDataWrapper(TempData));
+        private NoticeQueue _notices;
+        public NoticeQueue Notices
+        {
+            get => _notices ?? (_notices = new NoticeQueue(TempData));
+        }
 
         protected void ShowNotice(Notice notice)
         {
-            TempDataWrapper.AddNotice(notice);
+            Notices.Enqueue(notice);
         }
 
         protected void ExecuteUserCommand<T>(T command) where T : IUserCommand

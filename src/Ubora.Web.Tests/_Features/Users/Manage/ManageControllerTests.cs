@@ -8,15 +8,9 @@ using Ubora.Web._Features.Users.Manage;
 using Xunit;
 using Ubora.Web.Data;
 using System.Threading.Tasks;
-using System.Linq;
 using Ubora.Web._Features._Shared.Notices;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Web.Tests.Helper;
-using Ubora.Web._Features._Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System;
 
 namespace Ubora.Web.Tests._Features.Users.Manage
 {
@@ -80,7 +74,7 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             _userManagerMock
                 .Verify(x => x.ChangePasswordAsync(applicationUser, currentPassword, newPassword), Times.Once);
 
-            var successNotice = _controller.TempDataWrapper.Notices.Single();
+            var successNotice = _controller.Notices.Dequeue();
             successNotice.Text.Should().Be("Password changed successfully!");
             successNotice.Type.Should().Be(NoticeType.Success);
 
@@ -117,7 +111,7 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             _signInManagerMock
                .Verify(x => x.SignInAsync(It.IsAny<ApplicationUser>(), false, null), Times.Never);
 
-            var successNotice = _controller.TempDataWrapper.Notices.Single();
+            var successNotice = _controller.Notices.Dequeue();
             successNotice.Text.Should().Be("Password could not be changed!");
             successNotice.Type.Should().Be(NoticeType.Error);
 
@@ -127,15 +121,6 @@ namespace Ubora.Web.Tests._Features.Users.Manage
         private static void AssertRedirectToIndex(RedirectToActionResult result)
         {
             result.ActionName.Should().Be(nameof(ManageController.Index));
-        }
-
-        private void SetTempData(ManageController controller)
-        {
-            var tempDataDictionary = new TestTempDataDictionary();
-            var noticesKey = nameof(TempDataWrapper.Notices);
-            tempDataDictionary[noticesKey] = JsonConvert.SerializeObject(new List<Notice>());
-
-            controller.TempData = tempDataDictionary;
         }
     }
 }

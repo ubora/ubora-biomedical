@@ -284,7 +284,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             result.ControllerName.Should().Be("Manage");
             result.ActionName.Should().Be("Index");
 
-            var notice = _controller.TempDataWrapper.Notices.Single();
+            var notice = _controller.Notices.Dequeue();
             notice.Text.Should().Be("Profile changed successfully!");
             notice.Type.Should().Be(NoticeType.Success);
         }
@@ -312,7 +312,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             result.ControllerName.Should().Be("Manage");
             result.ActionName.Should().Be("Index");
 
-            var notice = _controller.TempDataWrapper.Notices.Single();
+            var notice = _controller.Notices.Dequeue();
             notice.Text.Should().Be("Failed to change profile!");
             notice.Type.Should().Be(NoticeType.Error);
         }
