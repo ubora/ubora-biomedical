@@ -20,11 +20,6 @@ namespace Ubora.Web.Infrastructure.DataSeeding
 
         public void SeedProject(ApplicationUser user)
         {
-            CreateTestProject(user);
-        }
-
-        private void CreateTestProject(ApplicationUser user)
-        {
             var userInfo = new UserInfo(user.Id, "Test User");
             var commandResult = _processor.Execute(new CreateProjectCommand
             {

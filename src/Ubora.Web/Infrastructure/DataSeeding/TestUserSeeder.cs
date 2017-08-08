@@ -3,8 +3,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
@@ -13,38 +11,26 @@ namespace Ubora.Web.Infrastructure.DataSeeding
 {
     public class TestUserSeeder
     {
-        public class Options
-        {
-            public string UserName { get; set; }
-            public string Password { get; set; }
-        }
-
-        private readonly Options _options;
         private readonly ICommandProcessor _processor;
         private readonly ApplicationUserManager _userManager;
 
-        public TestUserSeeder(IOptions<Options> optionsAccessor, ICommandProcessor processor, ApplicationUserManager userManager)
+        public TestUserSeeder(ICommandProcessor processor, ApplicationUserManager userManager)
         {
-            _options = optionsAccessor.Value;
             _processor = processor;
             _userManager = userManager;
         }
 
         public async Task<ApplicationUser> SeedUser()
         {
-            var user = await CreateUserAndProfile();
-            return user;
-        }
-
-        private async Task<ApplicationUser> CreateUserAndProfile()
-        {
+            var email = "test@agileworks.eu";
             var user = new ApplicationUser
             {
-                UserName = _options.UserName,
-                Email = _options.UserName
+                UserName = email,
+                Email = email
             };
 
-            var identityResult = await _userManager.CreateAsync(user, _options.Password);
+            var password = "ChangeMe123!";
+            var identityResult = await _userManager.CreateAsync(user, password);
             if (!identityResult.Succeeded)
             {
                 var errorMessages = identityResult.Errors.Select(x => x.Description);

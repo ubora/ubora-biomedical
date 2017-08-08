@@ -68,7 +68,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DataSeeding\Infrastructure\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 
