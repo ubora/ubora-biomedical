@@ -165,9 +165,12 @@ namespace Ubora.Web
                 seeder.SeedIfNecessary()
                     .GetAwaiter().GetResult();
 
-                var testDataSeeder = serviceProvider.GetService<TestDataSeeder>();
-                testDataSeeder.SeedIfNecessary()
-                    .GetAwaiter().GetResult();
+                if (env.IsDevelopment())
+                {
+                    var testDataSeeder = serviceProvider.GetService<TestDataSeeder>();
+                    testDataSeeder.SeedIfNecessary()
+                        .GetAwaiter().GetResult();
+                }
             }
 
             var logger = loggerFactory.CreateLogger<Startup>();
@@ -175,6 +178,6 @@ namespace Ubora.Web
             logger.LogError("Application started!");
         }
 
-   
+
     }
 }
