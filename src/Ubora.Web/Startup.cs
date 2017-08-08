@@ -84,8 +84,12 @@ namespace Ubora.Web
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddSingleton<ApplicationDataSeeder>();
+            services.AddSingleton<TestDataSeeder>();
             services.AddSingleton<AdminSeeder>();
+            services.AddSingleton<TestUserSeeder>();
+            services.AddSingleton<TestProjectSeeder>();
             services.Configure<AdminSeeder.Options>(Configuration.GetSection("InitialAdminOptions"));
+            services.Configure<TestUserSeeder.Options>(Configuration.GetSection("TestUserOptions"));
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
 
@@ -159,6 +163,10 @@ namespace Ubora.Web
 
                 var seeder = serviceProvider.GetService<ApplicationDataSeeder>();
                 seeder.SeedIfNecessary()
+                    .GetAwaiter().GetResult();
+
+                var testDataSeeder = serviceProvider.GetService<TestDataSeeder>();
+                testDataSeeder.SeedIfNecessary()
                     .GetAwaiter().GetResult();
             }
 
