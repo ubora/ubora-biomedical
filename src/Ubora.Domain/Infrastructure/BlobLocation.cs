@@ -1,14 +1,22 @@
+using System;
+
 namespace Ubora.Domain.Infrastructure
 {
     public class BlobLocation
     {
-        public string ContainerName { get; }
-        public string BlobName { get; }
+        public string ContainerName { get; private set; }
+        public string BlobPath { get; private set; }
 
-        public BlobLocation(string containerName, string blobName)
+        public BlobLocation(string containerName, string blobPath)
         {
             ContainerName = containerName;
-            BlobName = blobName;
+            BlobPath = blobPath;
+        }
+
+        public static class ContainerNames
+        {
+            public const string Projects = "projects";
+            public const string Users = "users";
         }
     }
 }

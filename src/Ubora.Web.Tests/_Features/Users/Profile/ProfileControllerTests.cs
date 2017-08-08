@@ -6,7 +6,6 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
@@ -15,6 +14,7 @@ using Ubora.Web._Features.Users.Profile;
 using Xunit;
 using Ubora.Web._Features._Shared.Notices;
 using Ubora.Web._Features.Users.Manage;
+using Ubora.Web.Infrastructure.ImageServices;
 
 namespace Ubora.Web.Tests._Features.Users.Profile
 {
@@ -22,7 +22,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
     {
         private readonly Mock<FakeUserManager> _userManagerMock;
         private readonly Mock<FakeSignInManager> _signInManagerMock;
-        private readonly Mock<IStorageProvider> _storageProviderMock;
+        private readonly Mock<ImageStorageProvider> _imageStorageProviderMock;
 
         private readonly ProfileController _controller;
 
@@ -30,8 +30,8 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         {
             _userManagerMock = new Mock<FakeUserManager>();
             _signInManagerMock = new Mock<FakeSignInManager>();
-            _storageProviderMock = new Mock<IStorageProvider>();
-            _controller = new ProfileController(_userManagerMock.Object, _signInManagerMock.Object, _storageProviderMock.Object);
+            _imageStorageProviderMock = new Mock<ImageStorageProvider>();
+            _controller = new ProfileController(_userManagerMock.Object, _signInManagerMock.Object, _imageStorageProviderMock.Object);
             SetUpForTest(_controller);
         }
 
@@ -69,7 +69,6 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         public async Task ChangeProfilePicture_Redirects_EditProfile_When_Command_Is_Executed_Successfully(bool isFirstTimeEditProfile)
         {
             var fileMock = new Mock<IFormFile>();
-            var userId = Guid.NewGuid().ToString();
 
             var profilePictureViewModel = new ProfilePictureViewModel
             {
@@ -77,18 +76,15 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 IsFirstTimeEditProfile = isFirstTimeEditProfile
             };
 
-            ChangeUserProfilePictureCommand executedCommand = null;
             var applicationUser = new ApplicationUser();
 
             fileMock.Setup(f => f.FileName).Returns("C:\\Test\\Parent\\Parent\\image.png");
-            _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
 
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>()))
-                .Callback<ChangeUserProfilePictureCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
-
-            _userManagerMock.Setup(m => m.FindByIdAsync(userId)).ReturnsAsync(applicationUser);
+            
+            _userManagerMock.Setup(m => m.FindByIdAsync(UserId.ToString())).ReturnsAsync(applicationUser);
 
             //Act
             var result = (RedirectToActionResult)await _controller.ChangeProfilePicture(profilePictureViewModel);
@@ -102,7 +98,6 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             {
                 result.ActionName.Should().Be("FirstTimeEditProfile");
             }
-            executedCommand.UserId.Should().Be(userId);
             _signInManagerMock.Verify(m => m.RefreshSignInAsync(applicationUser), Times.Once);
         }
 
