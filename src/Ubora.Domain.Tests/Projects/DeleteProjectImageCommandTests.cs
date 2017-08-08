@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using System;
+using System.Linq;
 using Ubora.Domain.Projects;
 using Xunit;
 
@@ -37,6 +38,9 @@ namespace Ubora.Domain.Tests.Projects
             var project = Session.Load<Project>(expectedProjectId);
 
             project.ProjectImageBlobLocation.Should().BeNull();
+
+            var @event = Session.Events.QueryRawEventDataOnly<ProjectImageDeletedEvent>().Single();
+            @event.Should().NotBeNull();
         }
     }
 }
