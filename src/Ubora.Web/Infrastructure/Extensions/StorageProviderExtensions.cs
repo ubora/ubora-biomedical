@@ -1,25 +1,20 @@
-﻿using TwentyTwenty.Storage;
-using Ubora.Domain.Users;
+﻿using Ubora.Domain.Users;
+using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web.Infrastructure.Extensions
 {
     public static class StorageProviderExtensions
     {
-        public static string GetDefaultOrBlobUrl(this IStorageProvider storageProvider, UserProfile userProfile)
+        public static string GetDefaultOrBlobUrl(this ImageStorageProvider storageProvider, UserProfile userProfile)
         {
-            string blobUrl;
-            if (userProfile.ProfilePictureBlobName == null)
+            if (userProfile.ProfilePictureBlobLocation == null)
             {
-                blobUrl = "/images/profileimagedefault.svg";
-            }
-            else
-            {
-                blobUrl = storageProvider
-                    .GetBlobUrl($"users/{userProfile.UserId}/profile-pictures", userProfile.ProfilePictureBlobName)
-                    .Replace("/app/wwwroot", "");
+                return "/images/profileimagedefault.svg";
             }
 
-            return blobUrl;
+            var blobLocation = userProfile.ProfilePictureBlobLocation;
+            return storageProvider.GetUrl(blobLocation);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Ubora.Web.Tests.Infrastructure
                 var result = _fileSizeAttribute.GetValidationResult(fileMock.Object, _validationContext);
 
                 //Assert
-                result.ErrorMessage.Should().Be("Please upload a file of less than 4 MB!");
+                result.ErrorMessage.Should().Be("Please upload a smaller file!");
             }
         }
 
