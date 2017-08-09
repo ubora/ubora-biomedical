@@ -7,6 +7,7 @@ using Ubora.Domain.Projects.Members;
 using Ubora.Web._Features.Users.UserList;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Mentors
 {
@@ -69,6 +70,8 @@ namespace Ubora.Web._Features.Projects.Mentors
             {
                 return InviteMentors();
             }
+
+            ShowNotice(new Notice("Mentor successfully invited.", NoticeType.Success));
 
             return RedirectToAction(nameof(InviteMentors));
         }
