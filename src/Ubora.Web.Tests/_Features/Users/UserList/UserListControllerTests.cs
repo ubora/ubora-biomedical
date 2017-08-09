@@ -4,22 +4,23 @@ using System.Linq;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using TwentyTwenty.Storage;
 using Ubora.Domain.Users;
 using Ubora.Web._Features.Users.UserList;
 using Xunit;
+using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Web.Tests._Features.Users.UserList
 {
     public class UserListControllerTests : UboraControllerTestsBase
     {
-        private readonly Mock<IStorageProvider> _storageProviderMock;
+        private readonly Mock<ImageStorageProvider> _imageStorageProviderMock;
         private readonly UserListController _controller;
 
         public UserListControllerTests()
         {
-            _storageProviderMock = new Mock<IStorageProvider>();
-            _controller = new UserListController(_storageProviderMock.Object);
+            _imageStorageProviderMock = new Mock<ImageStorageProvider>();
+            _controller = new UserListController(_imageStorageProviderMock.Object);
             SetUpForTest(_controller);
         }
 
@@ -32,7 +33,7 @@ namespace Ubora.Web.Tests._Features.Users.UserList
 
             if (blobname != null)
             {
-                userProfile.ProfilePictureBlobName = "test.jpg";
+                userProfile.ProfilePictureBlobLocation = new BlobLocation("test", blobname);
             }
 
             var userProfiles = new List<UserProfile>
@@ -41,11 +42,12 @@ namespace Ubora.Web.Tests._Features.Users.UserList
             };
 
             var url = $"/app/wwwroot/images/storages/users/{userProfile.UserId}/profile-pictures/test.jpg";
-            var expectedUrl = $"/images/storages/users/{userProfile.UserId}/profile-pictures/test.jpg";
+            var expectedUrl = $"/app/wwwroot/images/storages/users/{userProfile.UserId}/profile-pictures/test.jpg";
 
             if (blobname != null)
             {
-                _storageProviderMock.Setup(p => p.GetBlobUrl(It.IsAny<string>(), It.IsAny<string>())).Returns(url);
+                _imageStorageProviderMock.Setup(p => p.GetUrl(It.IsAny<BlobLocation>()))
+                    .Returns(url);
             }
 
             QueryProcessorMock.Setup(p => p.Find<UserProfile>(null)).Returns(userProfiles);
@@ -60,7 +62,7 @@ namespace Ubora.Web.Tests._Features.Users.UserList
             result.Model.As<IEnumerable<UserListItemViewModel>>()
                 .Last()
                 .ProfilePictureLink.Should()
-                .Be(blobname != null ? expectedUrl : "/images/profileimagedefault.png");
+                .Be(blobname != null ? expectedUrl : "/images/profileimagedefault.svg");
         }
     }
 }

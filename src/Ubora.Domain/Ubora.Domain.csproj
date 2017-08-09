@@ -35,8 +35,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="Projects\Project.HasLeader.cs" />
-  </ItemGroup>
-
 </Project>

@@ -1,5 +1,6 @@
 ﻿using System;
 using Marten.Schema;
+using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Domain.Users
 {
@@ -29,7 +30,7 @@ namespace Ubora.Domain.Users
         public string Institution { get; set; }
         public string Skills { get; set; }
         public string Role { get; set; }
-        public string ProfilePictureBlobName { get; set; }
+        public BlobLocation ProfilePictureBlobLocation { get; set; }
 
         public string FullName => $"{FirstName} {LastName}";
     }

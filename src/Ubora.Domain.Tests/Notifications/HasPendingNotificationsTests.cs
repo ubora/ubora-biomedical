@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Ubora.Domain.Notifications;
-using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications.Invitation;
-using Ubora.Domain.Projects;
-using Ubora.Domain.Users;
 using Xunit;
 using FluentAssertions;
 using Ubora.Domain.Notifications.Specifications;

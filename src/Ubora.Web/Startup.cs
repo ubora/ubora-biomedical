@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
@@ -21,8 +20,8 @@ using Ubora.Web.Services;
 using Ubora.Web.Infrastructure.DataSeeding;
 using TwentyTwenty.Storage;
 using TwentyTwenty.Storage.Azure;
-using TwentyTwenty.Storage.Local;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web
 {
@@ -89,22 +88,23 @@ namespace Ubora.Web
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
 
+            var azureBlobConnectionString = Configuration.GetConnectionString("AzureBlobConnectionString");
             var autofacContainerBuilder = new ContainerBuilder();
-
-            IStorageProvider storageProvider;
+            var azOptions = new AzureProviderOptions
+            {
+                ConnectionString = azureBlobConnectionString
+            };
+            var azureStorageProvider = new AzureStorageProvider(azOptions);
+            IStorageProvider storageProvider = null;
             var isLocalStorage = Configuration.GetValue<bool?>("Storage:IsLocal") ?? false;
+
             if (isLocalStorage)
             {
-                var basePath = Path.GetFullPath("wwwroot/images/storages");
-                storageProvider = new FixedLocalStorageProvider(basePath, new LocalStorageProvider(basePath));
+                storageProvider = new CustomDevelopmentAzureStorageProvider(azOptions, azureStorageProvider);
             }
             else
             {
-                var options = new AzureProviderOptions
-                {
-                    ConnectionString = Configuration.GetConnectionString("AzureBlobConnectionString")
-                };
-                storageProvider = new AzureStorageProvider(options);
+                storageProvider = new CustomAzureStorageProvider(azOptions, azureStorageProvider);
             }
 
             var domainModule = new DomainAutofacModule(connectionString, storageProvider);
@@ -159,7 +159,8 @@ namespace Ubora.Web
 
                 var seeder = serviceProvider.GetService<ApplicationDataSeeder>();
                 seeder.SeedIfNecessary()
-                    .GetAwaiter().GetResult();
+                    .GetAwaiter()
+                    .GetResult();
             }
 
             var logger = loggerFactory.CreateLogger<Startup>();

@@ -6,17 +6,10 @@
 }
 
 <section class="medium-width">
-    <a asp-controller="Notifications" asp-action="Index"><i class="material-icons">notifications</i>Pending invitations</a>
+    <a class="notifications_pending-button" asp-controller="Notifications" asp-action="Index"><i class="material-icons">notifications</i>Pending invitations</a>
     <h1>History</h1>
     @foreach (var notification in Model.Notifications)
     {
-        if (notification is HistoryInvitationViewModel)
-        {
-            @Html.Partial("~/_Features/Notifications/Partials/HistoryInvitationPartial.cshtml", (HistoryInvitationViewModel)notification);
-        }
-        else if (notification is HistoryRequestViewModel)
-        {
-            @Html.Partial("~/_Features/Notifications/Partials/HistoryRequestPartial.cshtml", (HistoryRequestViewModel)notification);
-        }
+        @notification.GetPartialView(Html)
     }
 </section>

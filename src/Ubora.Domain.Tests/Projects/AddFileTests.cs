@@ -36,7 +36,7 @@ namespace Ubora.Domain.Tests.Projects
             file.Id.Should().Be(expectedFileId);
             file.ProjectId.Should().Be(expectedProjectId);
             file.FileName.Should().Be("expectedFileName");
-            file.Location.BlobName.Should()
+            file.Location.BlobPath.Should()
                 .StartWith($"{expectedProjectId}/repository/")
                 // Guid in the middle.
                 .And.EndWith("expectedFileName");
