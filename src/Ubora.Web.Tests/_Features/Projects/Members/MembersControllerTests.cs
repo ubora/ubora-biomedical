@@ -8,7 +8,6 @@ using Ubora.Domain.Notifications.Join;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
-using Ubora.Domain.Users.Queries;
 using Ubora.Web._Features.Projects.Members;
 using Ubora.Web._Features.Users.Account;
 using Ubora.Web.Tests.Fakes;
@@ -167,52 +166,6 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             viewModel.ProjectId.Should().Be(projectId);
             viewModel.UserId.Should().Be(UserId);
             viewModel.ProjectName.Should().Be("projectTitle");
-        }
-
-        [Fact]
-        public void AssignMentor_Returns_Error_When_User_With_Email_Not_Found()
-        {
-            // Act
-            _membersController.AssignMentor(new AssignMentorViewModel());
-
-            // Assert
-            _membersController.ModelState.ErrorCount
-                .Should().Be(1);
-
-            CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
-        }
-
-        [Fact]
-        public void AssignMentor_Executes_Command_With_User_From_Query_Result()
-        {
-            var email = "test@test.com";
-            var userProfile = new UserProfile(Guid.NewGuid());
-
-            QueryProcessorMock
-                .Setup(x => x.ExecuteQuery(It.Is<FindProfileByEmailQuery>(q => q.Email == email)))
-                .Returns(userProfile);
-
-            AssignProjectMentorCommand executedCommand = null;
-            CommandProcessorMock
-                .Setup(x => x.Execute(It.IsAny<AssignProjectMentorCommand>()))
-                .Callback<AssignProjectMentorCommand>(c => executedCommand = c)
-                .Returns(new CommandResult());
-
-
-            var model = new AssignMentorViewModel
-            {
-                Email = email
-            };
-
-            // Act
-            var result = (RedirectToActionResult)_membersController.AssignMentor(model);
-
-            // Assert
-            executedCommand.UserId
-                .Should().Be(userProfile.UserId);
-
-            result.ActionName
-                .Should().Be(nameof(MembersController.Members));
         }
     }
 }

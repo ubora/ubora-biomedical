@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Identity;
 using Ubora.Web.Data;
 using Ubora.Domain.Notifications.Invitation;
 using Ubora.Domain.Notifications.Join;
-using Ubora.Domain.Users.Queries;
 
 namespace Ubora.Web._Features.Projects.Members
 {
@@ -190,50 +189,6 @@ namespace Ubora.Web._Features.Projects.Members
             }
 
             return RedirectToAction("Dashboard", "Dashboard", new { });
-        }
-
-        [Route(nameof(AssignMentor))]
-        [DisableProjectControllerAuthorization]
-        [Authorize(Roles = ApplicationRole.Admin)]
-        public IActionResult AssignMentor()
-        {
-            return View(nameof(AssignMentor));
-        }
-
-        [HttpPost]
-        [Route(nameof(AssignMentor))]
-        [DisableProjectControllerAuthorization]
-        [Authorize(Roles = ApplicationRole.Admin)]
-        public IActionResult AssignMentor(AssignMentorViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return AssignMentor();
-            }
-
-            var userProfile = QueryProcessor.ExecuteQuery(new FindProfileByEmailQuery
-            {
-                Email = model.Email
-            });
-
-            if (userProfile == null)
-            {
-                ModelState.AddModelError("", "User not found with e-mail address.");
-            }
-            else
-            {
-                ExecuteUserProjectCommand(new AssignProjectMentorCommand
-                {
-                    UserId = userProfile.UserId
-                });
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return AssignMentor();
-            }
-
-            return RedirectToAction(nameof(Members));
         }
     }
 }
