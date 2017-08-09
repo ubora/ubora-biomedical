@@ -27,7 +27,6 @@ namespace Ubora.Domain.Users
             userProfile.Institution = cmd.Institution;
             userProfile.Skills = cmd.Skills;
             userProfile.Role = cmd.Role;
-            userProfile.IsFirstTimeEditedProfile = cmd.IsFirstTimeEditedProfile;
 
             _documentSession.Store(userProfile);
             _documentSession.SaveChanges();

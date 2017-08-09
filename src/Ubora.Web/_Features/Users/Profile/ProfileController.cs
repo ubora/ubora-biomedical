@@ -91,13 +91,6 @@ namespace Ubora.Web._Features.Users.Profile
         // TODO(Kaspar Kallas): Move to more specific controller (1/2)
         public IActionResult FirstTimeEditProfile()
         {
-            var userProfile = QueryProcessor.FindById<UserProfile>(UserId);
-
-            if (userProfile.IsFirstTimeEditedProfile)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             var firstTimeEditProfileModel = new FirstTimeEditProfileModel
             {
                 ProfilePictureViewModel = new ProfilePictureViewModel
@@ -131,8 +124,7 @@ namespace Ubora.Web._Features.Users.Profile
                 MedicalDevice = model.MedicalDevice,
                 Institution = model.Institution,
                 Skills = model.Skills,
-                Role = model.Role,
-                IsFirstTimeEditedProfile = true
+                Role = model.Role
             });
 
             if (!ModelState.IsValid)

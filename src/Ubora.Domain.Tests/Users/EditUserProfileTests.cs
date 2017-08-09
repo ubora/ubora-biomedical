@@ -28,8 +28,7 @@ namespace Ubora.Domain.Tests.Users
                 MedicalDevice = "expectedMedicalDevice",
                 Institution = "expectedInstitution",
                 Skills = "expectedSkills",
-                Role = "expectedRole",
-                IsFirstTimeEditedProfile = true
+                Role = "expectedRole"
             };
             var commandProcessor = Container.Resolve<ICommandProcessor>();
 
@@ -52,7 +51,6 @@ namespace Ubora.Domain.Tests.Users
             updatedUserProfile.Institution.Should().Be("expectedInstitution");
             updatedUserProfile.Skills.Should().Be("expectedSkills");
             updatedUserProfile.Role.Should().Be("expectedRole");
-            updatedUserProfile.IsFirstTimeEditedProfile.Should().BeTrue();
         }
 
         private void CreateExistingUserProfile(Guid userId)

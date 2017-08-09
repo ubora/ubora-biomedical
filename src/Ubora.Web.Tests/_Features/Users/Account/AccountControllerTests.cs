@@ -52,7 +52,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void Login_Returns_Login_View_And_ViewModel_When_ModelState_Is_Invalid()
+        public async Task Login_Returns_Login_View_And_ViewModel_When_ModelState_Is_Invalid()
         {
             var loginViewModel = new LoginViewModel
             {
@@ -80,7 +80,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void Login_Logs_In_And_Redirects_To_ReturnUrl_When_Valid_ModelState()
+        public async Task Login_Logs_In_And_Redirects_To_ReturnUrl_When_Valid_ModelState()
         {
             var loginViewModel = GetLoginViewModel();
 
@@ -94,20 +94,14 @@ namespace Ubora.Web.Tests._Features.Users.Account
                     x => x.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, false, false))
                 .ReturnsAsync(SignInResult.Success);
 
-            var userProfile = new UserProfile(applicationUser.Id)
-            {
-                IsFirstTimeEditedProfile = false
-            };
-            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(applicationUser.Id)).Returns(userProfile);
-
             var returnUrl = "/UserList/Index";
 
             //Act
             var result = (RedirectToActionResult)await _controller.Login(loginViewModel, returnUrl);
 
             //Assert
-            result.ActionName.Should().Be(nameof(ProfileController.FirstTimeEditProfile));
-            result.ControllerName.Should().Be("Profile");
+            result.ActionName.Should().Be("Index");
+            result.ControllerName.Should().Be("Home");
 
             _loggerMock.Verify(
                 m => m.Log(
@@ -122,7 +116,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void Login_Logs_In_And_Redirects_To_ReturnUrl_When_Profile_Is_First_Time_Edited_And_Valid_ModelState()
+        public async Task Login_Logs_In_And_Redirects_To_ReturnUrl_When_Profile_Is_First_Time_Edited_And_Valid_ModelState()
         {
             var loginViewModel = GetLoginViewModel();
 
@@ -135,12 +129,6 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _signInManagerMock.Setup(
                     x => x.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, false, false))
                 .ReturnsAsync(SignInResult.Success);
-
-            var userProfile = new UserProfile(applicationUser.Id)
-            {
-                IsFirstTimeEditedProfile = true
-            };
-            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(applicationUser.Id)).Returns(userProfile);
 
             var returnUrl = "/UserList/Index";
 
@@ -164,7 +152,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void Login_Returns_Login_View_With_Error_When_Login_Fails()
+        public async Task Login_Returns_Login_View_With_Error_When_Login_Fails()
         {
             var loginViewModel = GetLoginViewModel();
 
@@ -209,7 +197,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void Register_Returns_Register_View_And_Model_When_ModelState_Is_Invalid()
+        public async Task Register_Returns_Register_View_And_Model_When_ModelState_Is_Invalid()
         {
             var registerViewModel = GetRegisterViewModel();
             _controller.ViewData.ModelState.AddModelError("", "You must enter a valid email address");
@@ -227,7 +215,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void Register_Returns_Errors_When_User_Creation_Fails()
+        public async Task Register_Returns_Errors_When_User_Creation_Fails()
         {
             var registerViewModel = GetRegisterViewModel();
 
@@ -264,7 +252,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void Register_Creates_And_Signs_In_And_Redirects_To_SentEmaiConfirmation()
+        public async Task Register_Creates_And_Signs_In_And_Redirects_To_SentEmaiConfirmation()
         {
             var registerViewModel = GetRegisterViewModel();
             var expectedUser = new ApplicationUser
@@ -294,7 +282,9 @@ namespace Ubora.Web.Tests._Features.Users.Account
             var result = (RedirectToActionResult)await _controller.Register(registerViewModel, returnUrl);
 
             //Assert 
-            result.ActionName.Should().Be("SentEmailConfirmation");
+            result.ActionName.Should().Be(nameof(ProfileController.FirstTimeEditProfile));
+            result.ControllerName.Should().Be("Profile");
+            result.RouteValues.Values.Single().Should().Be(returnUrl);
             expectedUser.Email.Should().Be(createdUser.Email);
             expectedUser.UserName.Should().Be(createdUser.UserName);
             executedCommand.Email.Should().Be(expectedUser.Email);
@@ -332,7 +322,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         [InlineData("", "code")]
         [InlineData("userId", "")]
         [InlineData("", "")]
-        public async void ConfirmEmail_Returns_Error_View_When_UserId_Or_Code_Is_Null_Or_Empty(string userId, string code)
+        public async Task ConfirmEmail_Returns_Error_View_When_UserId_Or_Code_Is_Null_Or_Empty(string userId, string code)
         {
             //Act
             var result = (ViewResult)await _controller.ConfirmEmail(userId, code);
@@ -345,7 +335,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void ConfirmEmail_Returns_Error_View_When_User_Is_Not_Found()
+        public async Task ConfirmEmail_Returns_Error_View_When_User_Is_Not_Found()
         {
             var userId = "testUserId";
             var code = "testCode";
@@ -362,7 +352,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void ConfirmEmail_Confirms_And_Returns_CorfirmEmail_View()
+        public async Task ConfirmEmail_Confirms_And_Returns_CorfirmEmail_View()
         {
             var userId = "testUserId";
             var code = "testCode";
@@ -379,7 +369,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void ConfirmEmail_Returns_Error_View_When_Does_Not_Confirm()
+        public async Task ConfirmEmail_Returns_Error_View_When_Does_Not_Confirm()
         {
             var userId = "testUserId";
             var code = "testCode";
@@ -396,7 +386,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void ForgotPassword_Returns_View_And_Model_When_ModelState_Is_Invalid()
+        public async Task ForgotPassword_Returns_View_And_Model_When_ModelState_Is_Invalid()
         {
             var forgotPasswordViewModel = new ForgotPasswordViewModel
             {
@@ -412,7 +402,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void ForgotPassword_Returns_ForgotPasswordConfirmation_View_If_User_Is_Not_Found()
+        public async Task ForgotPassword_Returns_ForgotPasswordConfirmation_View_If_User_Is_Not_Found()
         {
             var forgotpasswordviewmodel = new ForgotPasswordViewModel
             {
@@ -433,7 +423,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void ForgotPassword_Sends_Password_Reset_Mail_To_User_And_Results_ForgotPasswordConfirmation_View()
+        public async Task ForgotPassword_Sends_Password_Reset_Mail_To_User_And_Results_ForgotPasswordConfirmation_View()
         {
             var forgotPasswordViewModel = new ForgotPasswordViewModel
             {

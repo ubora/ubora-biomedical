@@ -177,10 +177,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         public async Task ChangeProfilePicture_Returns_FirstTimeEditProfile_View_With_ModelState_Errors_When_Validation_Result_Is_Failure()
         {
             var fileMock = new Mock<IFormFile>();
-            var userProfile = new UserProfile(UserId)
-            {
-                IsFirstTimeEditedProfile = false
-            };
+            var userProfile = new UserProfile(UserId);
             var userViewModel = new UserProfileViewModel();
 
             var profilePictureViewModel = new ProfilePictureViewModel()
@@ -214,10 +211,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         public async Task ChangeProfilePicture_Returns_EditProfile_View_With_ModelState_Errors_When_Validation_Result_Is_Failure()
         {
             var fileMock = new Mock<IFormFile>();
-            var userProfile = new UserProfile(UserId)
-            {
-                IsFirstTimeEditedProfile = false
-            };
+            var userProfile = new UserProfile(UserId);
             var userViewModel = new UserProfileViewModel();
 
             var profilePictureViewModel = new ProfilePictureViewModel()
@@ -291,15 +285,8 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         }
 
         [Fact]
-        public void FirstTimeEditProfile_Returns_FirstTimeEditProfile_View_When_User_Has_Not_Edited_Profile_First_Time()
+        public void FirstTimeEditProfile_Returns_View()
         {
-            var userProfile = new UserProfile(UserId)
-            {
-                IsFirstTimeEditedProfile = false
-            };
-            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(UserId))
-                .Returns(userProfile);
-
             //Act
             var result = (ViewResult)_controller.FirstTimeEditProfile();
 
@@ -310,21 +297,15 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         }
 
         [Fact]
-        public void FirstTimeEditProfile_Redirects_Home_When_Profile_Is_First_Time_Edited()
+        public void FirstTimeEditProfile_Returns_FirstTimeEditProfile_View_When_User_Has_Not_Edited_Profile_First_Time()
         {
-            var userProfile = new UserProfile(UserId)
-            {
-                IsFirstTimeEditedProfile = true
-            };
-            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(UserId))
-                .Returns(userProfile);
-
             //Act
-            var result = (RedirectToActionResult)_controller.FirstTimeEditProfile();
+            var result = (ViewResult)_controller.FirstTimeEditProfile();
 
             //Assert
-            result.ActionName.Should().Be("Index");
-            result.ControllerName.Should().Be("Home");
+            result.ViewName.Should().Be("FirstTimeEditProfile");
+            result.Model.As<FirstTimeEditProfileModel>().ProfilePictureViewModel.IsFirstTimeEditProfile.Should()
+                .BeTrue();
         }
 
         [Fact]
@@ -354,13 +335,6 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         [Fact]
         public void FirstTimeEditProfile_Returns_View_With_ModelState_Errors_When_Validation_Result_Is_Failure()
         {
-            var userProfile = new UserProfile(UserId)
-            {
-                IsFirstTimeEditedProfile = false
-            };
-            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(UserId))
-                .Returns(userProfile);
-
             var errorMessage = "errormessage";
             _controller.ModelState.AddModelError("errorKey", errorMessage);
 
@@ -383,7 +357,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 .Setup(p => p.Execute(It.IsAny<EditUserProfileCommand>()))
                 .Returns(commandResult);
 
-            var userProfile = new UserProfile(UserId) { FirstName = "expactedFirstName", LastName = "expactedLastName", IsFirstTimeEditedProfile = false };
+            var userProfile = new UserProfile(UserId) { FirstName = "expactedFirstName", LastName = "expactedLastName" };
 
             QueryProcessorMock.Setup(p => p.FindById<UserProfile>(UserId))
                 .Returns(userProfile);

@@ -87,22 +87,7 @@ namespace Ubora.Web._Features.Users.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, $"{model.Email} is the email of the user who logged in.");
-
-                    var user = await _userManager.FindByNameAsync(model.Email);
-                    var userProfile = QueryProcessor.FindById<UserProfile>(user.Id);
-
-                    if (userProfile.IsFirstTimeEditedProfile)
-                    {
-                        return RedirectToLocal(returnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction(
-                            actionName: nameof(ProfileController.FirstTimeEditProfile),
-                            controllerName: nameof(ProfileController).Replace("Controller", ""),
-                            routeValues: new { returnUrl });
-                    }
-
+                    return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -157,7 +142,10 @@ namespace Ubora.Web._Features.Users.Account
                     await _authMessageSender.SendEmailConfirmationMessage(user);
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    return RedirectToAction("SentEmailConfirmation", new { email = model.Email, returnUrl });
+                    return RedirectToAction(
+                        actionName: nameof(ProfileController.FirstTimeEditProfile),
+                        controllerName: nameof(ProfileController).Replace("Controller", ""),
+                        routeValues: new { returnUrl });
                 }
                 AddErrors(result);
             }

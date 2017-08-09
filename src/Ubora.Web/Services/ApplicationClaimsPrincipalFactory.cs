@@ -1,3 +1,4 @@
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -35,6 +36,17 @@ namespace Ubora.Web.Services
 
             var userEmail = userProfile.Email;
             claimsIdentity.AddClaim(new Claim(ApplicationUser.EmailClaimType, userEmail));
+
+            var applicationUser = await UserManager.FindByIdAsync(user.Id.ToString());
+            if (applicationUser != null)
+            {
+                var isEmailConfirmed = await UserManager.IsEmailConfirmedAsync(applicationUser);
+                claimsIdentity.AddClaim(new Claim(ApplicationUser.IsEmailConfirmedType, isEmailConfirmed.ToString()));
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(applicationUser));
+            }
 
             return claimsPrincipal;
         }
