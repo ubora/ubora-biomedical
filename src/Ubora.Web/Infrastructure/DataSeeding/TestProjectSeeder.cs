@@ -3,24 +3,22 @@ using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
 using Ubora.Web.Data;
-using Ubora.Web.Services;
 
 namespace Ubora.Web.Infrastructure.DataSeeding
 {
     public class TestProjectSeeder
     {
         private readonly ICommandProcessor _processor;
-        private readonly ApplicationUserManager _userManager;
 
-        public TestProjectSeeder(ICommandProcessor processor, ApplicationUserManager userManager)
+        public TestProjectSeeder(ICommandProcessor processor)
         {
             _processor = processor;
-            _userManager = userManager;
         }
 
         public void SeedProject(ApplicationUser user)
         {
             var userInfo = new UserInfo(user.Id, "Test User");
+
             var commandResult = _processor.Execute(new CreateProjectCommand
             {
                 Actor = userInfo,

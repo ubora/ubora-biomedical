@@ -23,13 +23,14 @@ namespace Ubora.Web.Infrastructure.DataSeeding
         public async Task<ApplicationUser> SeedUser()
         {
             var email = "test@agileworks.eu";
+            var password = "ChangeMe123!";
+
             var user = new ApplicationUser
             {
                 UserName = email,
                 Email = email
             };
 
-            var password = "ChangeMe123!";
             var identityResult = await _userManager.CreateAsync(user, password);
             if (!identityResult.Succeeded)
             {

@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Notifications.Invitation;
@@ -10,7 +11,7 @@ namespace Ubora.Web._Features.Notifications.Invitations
     {
         [HttpPost]
         [SaveTempDataModelState]
-        public IActionResult Accept(InvitationPartialViewModel invitationPartialViewModel)
+        public IActionResult Accept([NotDefault]Guid inviteId)
         {
             if (!ModelState.IsValid)
             {
@@ -19,7 +20,7 @@ namespace Ubora.Web._Features.Notifications.Invitations
 
             ExecuteUserCommand(new AcceptInvitationToProjectCommand
             {
-                InvitationId = invitationPartialViewModel.InviteId
+                InvitationId = inviteId
             });
 
             return RedirectToAction("Index", "Notifications");
@@ -27,7 +28,7 @@ namespace Ubora.Web._Features.Notifications.Invitations
 
         [HttpPost]
         [SaveTempDataModelState]
-        public IActionResult Decline(InvitationPartialViewModel invitationPartialViewModel)
+        public IActionResult Decline([NotDefault]Guid inviteId)
         {
             if (!ModelState.IsValid)
             {
@@ -36,7 +37,7 @@ namespace Ubora.Web._Features.Notifications.Invitations
 
             ExecuteUserCommand(new DeclineInvitationToProjectCommand
             {
-                InvitationId = invitationPartialViewModel.InviteId
+                InvitationId = inviteId
             });
 
             return RedirectToAction("Index", "Notifications");
