@@ -301,20 +301,6 @@ namespace Ubora.Web.Tests._Features.Users.Account
             );
         }
 
-        [Fact]
-        public void SentEmailConfirmation_Returns_View()
-        {
-            var returnUrl = "/UserList/Index";
-            var email = "test@test.com";
-
-            //Act
-            var result = (ViewResult)_controller.SentEmailConfirmation(email, returnUrl);
-
-            //Assert
-            result.Model.As<SentEmailConfirmationViewModel>().Email.Should().Be(email);
-            result.Model.As<SentEmailConfirmationViewModel>().ReturnUrl.Should().Be(returnUrl);
-        }
-
         [Theory]
         [InlineData(null,"code")]
         [InlineData("userId", null)]

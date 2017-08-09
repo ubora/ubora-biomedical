@@ -247,15 +247,6 @@ namespace Ubora.Web._Features.Users.Account
         }
 
         [HttpGet]
-        [Authorize]
-        public IActionResult SentEmailConfirmation(string email, string returnUrl = null)
-        {
-            var sentEmailConfirmationViewModel = new SentEmailConfirmationViewModel { Email = email, ReturnUrl = returnUrl };
-
-            return View(sentEmailConfirmationViewModel);
-        }
-
-        [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
