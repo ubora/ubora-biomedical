@@ -5,6 +5,7 @@ using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web.Authorization;
 using Ubora.Web._Features._Shared;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -43,8 +44,14 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             if (!ModelState.IsValid)
             {
+                var errorNotice = new Notice("Failed to change design planning!", NoticeType.Error);
+                ShowNotice(errorNotice);
+
                 return DesignPlanning();
             }
+
+            var successNotice = new Notice("Design planning changed successfully!", NoticeType.Success);
+            ShowNotice(successNotice);
 
             return View();
         }

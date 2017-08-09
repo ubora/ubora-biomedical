@@ -23,14 +23,12 @@ namespace Ubora.Web.Tests._Features.Notifications.Requests
         [Fact]
         public void Accept_Redirects_To_Notifications_If_Accept_Command_Succeeds()
         {
-            var model = new RequestPartialViewModel { RequestId = Guid.NewGuid() };
-
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<AcceptRequestToJoinProjectCommand>()))
                 .Returns(new CommandResult());
 
             // Act
-            var result = (RedirectToActionResult)_requestsController.Accept(model);
+            var result = (RedirectToActionResult)_requestsController.Accept(requestId: Guid.NewGuid());
 
             // Assert
             result.ActionName.Should().Be(nameof(NotificationsController.Index));
@@ -39,14 +37,12 @@ namespace Ubora.Web.Tests._Features.Notifications.Requests
         [Fact]
         public void Accept_Returns_ModelState_With_Error_If_Command_Fails()
         {
-            var model = new RequestPartialViewModel { RequestId = Guid.NewGuid() };
-
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<AcceptRequestToJoinProjectCommand>()))
                 .Returns(new CommandResult("Something went wrong"));
 
             // Act
-            var result = (RedirectToActionResult)_requestsController.Accept(model);
+            var result = (RedirectToActionResult)_requestsController.Accept(requestId: Guid.NewGuid());
 
             // Assert
             _requestsController.ModelState.ErrorCount.Should().Be(1);
@@ -56,14 +52,12 @@ namespace Ubora.Web.Tests._Features.Notifications.Requests
         [Fact]
         public void Decline_Redirects_To_Notifications_If_Accept_Command_Succeeds()
         {
-            var model = new RequestPartialViewModel { RequestId = Guid.NewGuid() };
-
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<DeclineRequestToJoinProjectCommand>()))
                 .Returns(new CommandResult());
 
             // Act
-            var result = (RedirectToActionResult)_requestsController.Decline(model);
+            var result = (RedirectToActionResult)_requestsController.Decline(requestId: Guid.NewGuid());
 
             // Assert
             result.ActionName.Should().Be(nameof(NotificationsController.Index));
@@ -72,14 +66,12 @@ namespace Ubora.Web.Tests._Features.Notifications.Requests
         [Fact]
         public void Decline_Returns_ModelState_With_Error_If_Command_Fails()
         {
-            var model = new RequestPartialViewModel { RequestId = Guid.NewGuid() };
-
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<DeclineRequestToJoinProjectCommand>()))
                 .Returns(new CommandResult("Something went wrong"));
 
             // Act
-            var result = (RedirectToActionResult)_requestsController.Decline(model);
+            var result = (RedirectToActionResult)_requestsController.Decline(requestId: Guid.NewGuid());
 
             // Assert
             _requestsController.ModelState.ErrorCount.Should().Be(1);

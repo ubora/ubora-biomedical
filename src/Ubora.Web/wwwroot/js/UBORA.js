@@ -1,5 +1,3 @@
-'use strict';
-
 // Menu animation & controls - simple version for the time being
 var noticeElement = document.querySelector('.development-notice');
 var headerElement = document.querySelector('.header');
@@ -48,12 +46,12 @@ marked.setOptions({
 // Open link which redirects out of Ubora in new tab/window.
 renderer.link = function (href, title, text) {
     return '<a target="_blank" href="' + href + '" title="' + title + '">' + text + '</a>';
-}
+};
 
 // Picture size is optimized.
 renderer.image = function (href, title) {
     return '<img class="image-markdown" src="' + href + ' " alt="' + title + '" />';
-}
+};
 
 var markdownContainerArray = document.querySelectorAll('.text-markdown');
 var markdownArrayHasItems = markdownContainerArray.length > 0;
@@ -65,7 +63,7 @@ if (markdownArrayHasItems) {
 }
 
 var simpleMde = new SimpleMDE({
-    element: document.querySelector(".content_editable"), previewRender: function (plainText) {
+    element: document.querySelector('.content_editable'), previewRender: function (plainText) {
         return marked(plainText, { renderer: renderer });
     }
 });
@@ -73,7 +71,7 @@ var simpleMde = new SimpleMDE({
 // Feedback modal
 function feedbackModule(requestPath, sendFeedbackUrl) {
     function hideModal(event) {
-        if (event.target == modal) {
+        if (event.target === modal) {
             modal.style.display = 'none';
         }
     }
@@ -84,13 +82,13 @@ function feedbackModule(requestPath, sendFeedbackUrl) {
 
     triggerButton.onclick = function () {
         modal.style.display = 'block';
-    }
+    };
 
     closeButtton.onclick = function () {
         modal.style.display = 'none';
-    }
+    };
 
-    window.addEventListener("touchend", hideModal, false);
+    window.addEventListener('touchend', hideModal, false);
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = hideModal;
@@ -125,3 +123,26 @@ function feedbackModule(requestPath, sendFeedbackUrl) {
         });
     });
 }
+
+// Notices
+function dismissNotice(userEvent) {
+  function removeParentElement(currentElement) {
+    var parentElement = currentElement.parentElement;
+    parentElement.remove();
+  }
+
+  var currentElement = userEvent.target;
+  var notificationElement = currentElement.classList.contains('js-notice-close');
+
+  if (notificationElement) {
+    removeParentElement(currentElement);
+  }
+}
+
+window.addEventListener('click', function (event) {
+  dismissNotice(event);
+});
+
+window.addEventListener('touchend', function (event) {
+  dismissNotice(event);
+}, false);

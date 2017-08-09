@@ -29,7 +29,7 @@ namespace Ubora.Web._Features.Projects.Repository
                 Files = projectFiles.Select(x =>
                 {
                     var fileViewModel = AutoMapper.Map<ProjectFileViewModel>(x);
-                    fileViewModel.FileLocation = _storageProvider.GetBlobUrl(x.Location.ContainerName, x.Location.BlobName);
+                    fileViewModel.FileLocation = _storageProvider.GetBlobUrl(x.Location.ContainerName, x.Location.BlobPath);
                     return fileViewModel;
                 }).ToList()
             };

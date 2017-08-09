@@ -9,7 +9,6 @@ namespace Ubora.Web.Infrastructure
     public class IsImageAttribute : ValidationAttribute
     {
         public const int ImageMinimumBytes = 512;
-        public const int ImageMaximumBytes = 1048576;
 
         public IsImageAttribute() : base("This is not an image file!")
         {
@@ -52,11 +51,6 @@ namespace Ubora.Web.Infrastructure
                 if (file.Length < ImageMinimumBytes)
                 {
                     return new ValidationResult(ErrorMessage);
-                }
-
-                if (file.Length > ImageMaximumBytes)
-                {
-                    return new ValidationResult("The limit for profile images is 1 MB");
                 }
             }
             catch (Exception)
