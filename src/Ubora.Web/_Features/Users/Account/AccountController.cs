@@ -262,7 +262,7 @@ namespace Ubora.Web._Features.Users.Account
         [Authorize]
         public IActionResult SentEmailConfirmation(string email, string returnUrl = null)
         {
-            var sentEmailConfirmationViewModel = new SentEmailCorfirmationViewModel { Email = email, ReturnUrl = returnUrl };
+            var sentEmailConfirmationViewModel = new SentEmailConfirmationViewModel { Email = email, ReturnUrl = returnUrl };
 
             return View(sentEmailConfirmationViewModel);
         }

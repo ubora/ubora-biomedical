@@ -280,7 +280,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         {
             var userId = Guid.NewGuid();
 
-            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(UserId));
+            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(userId)).Returns((UserProfile)null);
 
             //Act
             var result = _controller.View(userId);

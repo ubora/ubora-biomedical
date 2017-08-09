@@ -37,7 +37,7 @@ namespace Ubora.Web.Tests.Services
             var subject = "UBORA: e-mail confirmation";
             var expectedMessage = $"<h1 style='color:#4777BB;'>E-mail confirmation</h1><p>Please confirm your e-mail by clicking here or navigating to <a href=\"{expectedUrl}\">this link</a>.</p>";
 
-            _userManagerMock.Setup(x => x.GenerateEmailConfirmationTokenAsync(It.IsAny<ApplicationUser>())).ReturnsAsync(code);
+            _userManagerMock.Setup(x => x.GenerateEmailConfirmationTokenAsync(applicationUser)).ReturnsAsync(code);
             _urlHelperMock.Setup(h => h.ActionContext).Returns(new EmptyInitializedActionContext());
 
             UrlActionContext urlActionContext = null;
@@ -67,7 +67,7 @@ namespace Ubora.Web.Tests.Services
             var subject = "UBORA: Password reset";
             var expectedMessage = $"<h1 style='color:#4777BB;'>Password reset</h1><p>You can reset your password by clicking <a href=\"{expectedUrl}\">this link</a>.</p>";
 
-            _userManagerMock.Setup(x => x.GeneratePasswordResetTokenAsync(It.IsAny<ApplicationUser>())).ReturnsAsync(code);
+            _userManagerMock.Setup(x => x.GeneratePasswordResetTokenAsync(applicationUser)).ReturnsAsync(code);
             _urlHelperMock
                 .Setup(h => h.ActionContext)
                 .Returns(new EmptyInitializedActionContext());

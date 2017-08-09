@@ -28,7 +28,7 @@ namespace Ubora.Web._Features.Projects.Repository
                 ProjectName = Project.Title,
                 Files = projectFiles.Select(x =>
                 {
-                    var fileViewModel =AutoMapper.Map<ProjectFileViewModel>(x);
+                    var fileViewModel = AutoMapper.Map<ProjectFileViewModel>(x);
                     fileViewModel.FileLocation = _storageProvider.GetBlobUrl(x.Location.ContainerName, x.Location.BlobName);
                     return fileViewModel;
                 }).ToList()

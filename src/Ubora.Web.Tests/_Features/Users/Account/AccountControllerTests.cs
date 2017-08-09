@@ -14,7 +14,6 @@ using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 using Ubora.Web.Tests.Fakes;
-using Ubora.Web.Tests.Helper;
 using Ubora.Web._Features.Home;
 using Ubora.Web._Features.Users.Account;
 using Ubora.Web._Features.Users.Profile;
@@ -65,15 +64,17 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _controller.ViewData.ModelState.AddModelError("", errorMessage);
             var returnUrl = "/UserList/Index";
 
+            _userManagerMock.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync((ApplicationUser) null);
+
             //Act
             var result = (ViewResult)await _controller.Login(loginViewModel, returnUrl);
+
             //Assert
             result.Model.Should().Be(loginViewModel);
             result.ViewData.Values.Last().Should().Be(returnUrl);
             AssertModelStateContainsError(result, errorMessage);
 
             _userManagerMock.Verify(m => m.FindByNameAsync(It.IsAny<string>()), Times.Never);
-            _userManagerMock.Verify(m => m.IsEmailConfirmedAsync(It.IsAny<ApplicationUser>()), Times.Never);
             _signInManagerMock.Verify(m => m.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>()), Times.Never);
             QueryProcessorMock.Verify(p => p.FindById<UserProfile>(It.IsAny<Guid>()), Times.Never);
         }
@@ -83,9 +84,6 @@ namespace Ubora.Web.Tests._Features.Users.Account
         {
             var loginViewModel = GetLoginViewModel();
 
-            var signInResult = new SignInResult();
-            signInResult.Set(nameof(SignInResult.Succeeded), true);
-
             var applicationUser = new ApplicationUser
             {
                 Id = Guid.NewGuid()
@@ -94,7 +92,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _userManagerMock.Setup(x => x.IsEmailConfirmedAsync(applicationUser)).ReturnsAsync(true);
             _signInManagerMock.Setup(
                     x => x.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, false, false))
-                .ReturnsAsync(signInResult);
+                .ReturnsAsync(SignInResult.Success);
 
             var userProfile = new UserProfile(applicationUser.Id)
             {
@@ -128,9 +126,6 @@ namespace Ubora.Web.Tests._Features.Users.Account
         {
             var loginViewModel = GetLoginViewModel();
 
-            var signInResult = new SignInResult();
-            signInResult.Set(nameof(SignInResult.Succeeded), true);
-
             var applicationUser = new ApplicationUser
             {
                 Id = Guid.NewGuid()
@@ -139,7 +134,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _userManagerMock.Setup(x => x.IsEmailConfirmedAsync(applicationUser)).ReturnsAsync(true);
             _signInManagerMock.Setup(
                     x => x.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, false, false))
-                .ReturnsAsync(signInResult);
+                .ReturnsAsync(SignInResult.Success);
 
             var userProfile = new UserProfile(applicationUser.Id)
             {
@@ -173,12 +168,9 @@ namespace Ubora.Web.Tests._Features.Users.Account
         {
             var loginViewModel = GetLoginViewModel();
 
-            var signInResult = new SignInResult();
-            signInResult.Set(nameof(SignInResult.Succeeded), false);
-
             _signInManagerMock.Setup(
                     x => x.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, false, false))
-                .ReturnsAsync(signInResult);
+                .ReturnsAsync(SignInResult.Failed);
 
             var returnUrl = "/UserList/Index";
 
@@ -251,10 +243,8 @@ namespace Ubora.Web.Tests._Features.Users.Account
                 Description = Guid.NewGuid().ToString()
             };
             var identityResult = IdentityResult.Failed(identityError);
-            identityResult.Set(nameof(IdentityResult.Succeeded), false);
 
             ApplicationUser createdUser = null;
-
             _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<ApplicationUser>(), registerViewModel.Password))
                 .Callback<ApplicationUser, string>((user, password) => createdUser = user)
                 .ReturnsAsync(identityResult);
@@ -285,12 +275,9 @@ namespace Ubora.Web.Tests._Features.Users.Account
             };
 
             ApplicationUser createdUser = null;
-            var identityResult = new IdentityResult();
-            identityResult.Set(nameof(IdentityResult.Succeeded), true);
-
             _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<ApplicationUser>(), registerViewModel.Password))
                 .Callback<ApplicationUser, string>((user, password) => createdUser = user)
-                .ReturnsAsync(identityResult);
+                .ReturnsAsync(IdentityResult.Success);
 
             _authMessageSenderMock.Setup(x => x.SendEmailConfirmationMessage(It.IsAny<ApplicationUser>())).Returns(Task.FromResult(expectedUser));
 
@@ -334,8 +321,8 @@ namespace Ubora.Web.Tests._Features.Users.Account
             var result = (ViewResult)_controller.SentEmailConfirmation(email, returnUrl);
 
             //Assert
-            result.Model.As<SentEmailCorfirmationViewModel>().Email.Should().Be(email);
-            result.Model.As<SentEmailCorfirmationViewModel>().ReturnUrl.Should().Be(returnUrl);
+            result.Model.As<SentEmailConfirmationViewModel>().Email.Should().Be(email);
+            result.Model.As<SentEmailConfirmationViewModel>().ReturnUrl.Should().Be(returnUrl);
         }
 
         [Theory]
@@ -377,14 +364,12 @@ namespace Ubora.Web.Tests._Features.Users.Account
         [Fact]
         public async void ConfirmEmail_Confirms_And_Returns_CorfirmEmail_View()
         {
-            var identityResult = new IdentityResult();
-            identityResult.Set(nameof(IdentityResult.Succeeded), true);
             var userId = "testUserId";
             var code = "testCode";
 
             _userManagerMock.Setup(x => x.FindByIdAsync(userId)).ReturnsAsync(new ApplicationUser());
             _userManagerMock.Setup(x => x.ConfirmEmailAsync(It.IsAny<ApplicationUser>(), code))
-                .ReturnsAsync(identityResult);
+                .ReturnsAsync(IdentityResult.Success);
 
             //Act
             var result = (ViewResult)await _controller.ConfirmEmail(userId, code);
@@ -396,14 +381,12 @@ namespace Ubora.Web.Tests._Features.Users.Account
         [Fact]
         public async void ConfirmEmail_Returns_Error_View_When_Does_Not_Confirm()
         {
-            var identityResult = new IdentityResult();
-            identityResult.Set(nameof(IdentityResult.Succeeded), false);
-            const string userId = "testUserId";
-            const string code = "testCode";
+            var userId = "testUserId";
+            var code = "testCode";
 
             _userManagerMock.Setup(x => x.FindByIdAsync(userId)).ReturnsAsync(new ApplicationUser());
             _userManagerMock.Setup(x => x.ConfirmEmailAsync(It.IsAny<ApplicationUser>(), code))
-                .ReturnsAsync(identityResult);
+                .ReturnsAsync(IdentityResult.Failed());
 
             //Act
             var result = (ViewResult)await _controller.ConfirmEmail(userId, code);
@@ -456,6 +439,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             {
                 Email = "test@test.com"
             };
+
             var identity = new ApplicationUser();
 
             _userManagerMock.Setup(x => x.FindByNameAsync(forgotPasswordViewModel.Email))
