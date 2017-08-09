@@ -38,7 +38,6 @@ namespace Ubora.Web.Tests._Features
             {
                 controller.ControllerContext.HttpContext = new DefaultHttpContext();
             }
-
             var serviceProviderMock = new Mock<IServiceProvider>();
             controller.ControllerContext.HttpContext.RequestServices = serviceProviderMock.Object;
 
@@ -53,7 +52,9 @@ namespace Ubora.Web.Tests._Features
 
             // Stub ASP.NET MVC services
             serviceProviderMock.Setup(x => x.GetService(typeof(IUrlHelperFactory))).Returns(Mock.Of<IUrlHelperFactory>());
-            serviceProviderMock.Setup(x => x.GetService(typeof(ITempDataDictionaryFactory))).Returns(Mock.Of<ITempDataDictionaryFactory>());
+            serviceProviderMock
+                .Setup(x => x.GetService(typeof(ITempDataDictionaryFactory)))
+                .Returns(Mock.Of<ITempDataDictionaryFactory>(f => f.GetTempData(controller.ControllerContext.HttpContext) == new TempDataDictionary(controller.ControllerContext.HttpContext, Mock.Of<ITempDataProvider>())));
         }
 
         protected virtual ClaimsPrincipal CreateUser(Guid userId)
