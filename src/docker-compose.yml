@@ -7,5 +7,5 @@ services:
       - ./appsecrets.env
     build:
       context: ./Ubora.Web
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-dev
 

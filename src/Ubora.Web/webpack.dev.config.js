@@ -9,6 +9,9 @@ module.exports = {
         colors: true
     },
     watch: true,
+    watchOptions: {
+        poll: true
+    },
     entry: {
         app: [ './wwwroot/build/app.js' ]
     },

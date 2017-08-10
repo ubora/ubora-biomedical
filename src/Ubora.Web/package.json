@@ -20,8 +20,11 @@
     "postcss-safe-parser": "^3.0.1",
     "style-loader": "^0.18.2",
     "uglifyjs-webpack-plugin": "^0.4.6",
-    "webpack": "3.3.0",
-    "webpack-hot-middleware": "^2.18.2"
+    "webpack": "3.3.0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "scripts": {
+    "webpack-dev": "webpack --watch --color --config webpack.dev.config.js",
+    "webpack-release": "webpack --config webpack.release.config.js"
+  }
 }

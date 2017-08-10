@@ -129,12 +129,6 @@ namespace Ubora.Web
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions()
-                {
-                    ConfigFile = "webpack.config.js",
-                    HotModuleReplacement = true
-                });
-
             }
             else
             {

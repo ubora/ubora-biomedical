@@ -70,6 +70,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="wwwroot\dist\" />
   </ItemGroup>
+  <Target Name="Webpack" AfterTargets="Build">
+  <Exec Command="npm run webpack-release" />
+  </Target>
 
 </Project>
