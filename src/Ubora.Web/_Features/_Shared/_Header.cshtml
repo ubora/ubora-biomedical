@@ -5,26 +5,41 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject ApplicationUserManager UserManager
 
+<header class="header">
+  <div class="header-notices">
+    <p class="notice-indev">In-development preview</p>
+  </div>
+  @if (SignInManager.IsSignedIn(User)) {
+
+  } else {
+    <nav class="header-element-list">
+      <a asp-controller="Home" asp-action="Index">
+        <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" width="100">
+      </a>
+
+      <a class="header-status-action" asp-controller="Account" asp-action="Login">Sign&nbsp;in/sign&nbsp;up</a>
+
+      <div class="header-action-list">
+        <a class="header-action header-action-search" asp-controller="ProjectList" asp-action="Search">
+          <i class="header-action-icon material-icons">search</i>
+          <span class="header-action-description">Search</span>
+        </a>
+        <a role="button" tabindex="0" class="header-action header-action-menu js-toggle-sidemenu">
+          <i class="header-action-icon material-icons">menu</i>
+          <span class="header-action-description">Menu</span>
+        </a>
+      </div>
+    </nav>
+  }
+</header>
+
+
+@*
 @if (SignInManager.IsSignedIn(User))
 {
-    <span class="development-notice">In-development preview</span>
-    <header class="header">
 
-        <a asp-controller="Home" asp-action="Index" asp-area="">
-            <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" width="100">
-        </a>
 
-        <span class="header-title">
-            <a asp-controller="ProjectList" asp-action="MyProjects">
-                <i class="material-icons">folder</i>My projects
-            </a>
 
-        </span>
-
-        <div class="header-controls">
-            <a class="header-controls--action header-controls--search" asp-controller="ProjectList" asp-action="Search">
-                <i class="material-icons">search</i><span class="header-controls--description">Search</span>
-            </a>
 
             <a class="header-controls--action header-controls--menu js-side-menu-control">
                 <i class="material-icons ">menu</i><span class="header-controls--description">Menu</span>
@@ -72,28 +87,4 @@
 
     </aside>
 }
-else
-{
-    <span class="development-notice">In-development preview</span>
-
-    <header class="header">
-
-        <div class="header-element">
-            <a asp-controller="Home" asp-action="Index">
-                <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" width="100">
-            </a>
-        </div>
-
-        <div class="header-element">
-            <a asp-controller="Account" asp-action="Login">Sign in/sign up</a>
-        </div>
-
-        <div class="header-element">
-            <a class="header-action" asp-controller="ProjectList" asp-action="Search">
-                <i class="header-action-icon material-icons">search</i>
-                <span class="header-action-description">Search</span>
-            </a>
-        </div>
-
-    </header>
-}
+*@

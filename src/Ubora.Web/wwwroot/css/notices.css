@@ -1,0 +1,7 @@
+.notice-indev {
+	background-color: var(--primary-color);
+	color:var(--white);
+	padding:.5em 0;
+	margin: 0;
+	text-align: center;
+}
