@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
@@ -19,26 +20,28 @@ namespace Ubora.Web._Features.Users.Account
     [Authorize]
     public class AccountController : UboraController
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IApplicationUserManager _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly IAuthMessageSender _authMessageSender;
         private readonly ILogger _logger;
+        private readonly ICommandProcessor _commandProcessor;
         private readonly string _externalCookieScheme;
 
         public AccountController(
-            UserManager<ApplicationUser> userManager,
+            IApplicationUserManager userManager,
             SignInManager<ApplicationUser> signInManager,
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
             ILogger<AccountController> logger,
-            IAuthMessageSender authMessageSender)
+            IAuthMessageSender authMessageSender, ICommandProcessor commandProcessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _emailSender = emailSender;
             _authMessageSender = authMessageSender;
+            _commandProcessor = commandProcessor;
             _logger = logger;
         }
 
@@ -131,7 +134,7 @@ namespace Ubora.Web._Features.Users.Account
 
                 if (result.Succeeded)
                 {
-                    CommandProcessor.Execute(new CreateUserProfileCommand
+                    _commandProcessor.Execute(new CreateUserProfileCommand
                     {
                         UserId = user.Id,
                         Email = user.Email,

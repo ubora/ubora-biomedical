@@ -31,21 +31,23 @@ namespace Ubora.Web.Tests._Features.Users.Account
         private readonly Mock<IEmailSender> _emailSenderMock;
         private readonly Mock<ILogger<AccountController>> _loggerMock;
         private readonly Mock<IAuthMessageSender> _authMessageSenderMock;
+        private readonly Mock<ICommandProcessor> _commandProcessor;
         private readonly AccountController _controller;
 
         public AccountControllerTests()
         {
-            _userManagerMock = new Mock<FakeUserManager>();
+            _userManagerMock = new Mock<FakeUserManager>(MockBehavior.Strict);
             _signInManagerMock = new Mock<FakeSignInManager>();
             _identityCookieOptionsMock = new Mock<IOptions<IdentityCookieOptions>>();
             _identityCookieOptionsMock.Setup(o => o.Value).Returns(new IdentityCookieOptions());
             _emailSenderMock = new Mock<IEmailSender>();
             _loggerMock = new Mock<ILogger<AccountController>>();
             _authMessageSenderMock = new Mock<IAuthMessageSender>(MockBehavior.Strict);
+            _commandProcessor = new Mock<ICommandProcessor>();
             var urlHelperMock = new Mock<IUrlHelper>();
             _controller = new AccountController(_userManagerMock.Object, _signInManagerMock.Object,
                 _identityCookieOptionsMock.Object, _emailSenderMock.Object,
-                _loggerMock.Object, _authMessageSenderMock.Object)
+                _loggerMock.Object, _authMessageSenderMock.Object, _commandProcessor.Object)
             {
                 Url = urlHelperMock.Object
             };
@@ -272,7 +274,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
 
             CreateUserProfileCommand executedCommand = null;
 
-            CommandProcessorMock
+            _commandProcessor
                 .Setup(p => p.Execute(It.IsAny<CreateUserProfileCommand>()))
                 .Callback<CreateUserProfileCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());

@@ -43,6 +43,7 @@ namespace Ubora.Web.Infrastructure
             })
             .As<IUrlHelper>().InstancePerLifetimeScope();
 
+            builder.RegisterType<ApplicationUserManager>().As<IApplicationUserManager>().InstancePerLifetimeScope();
             builder.RegisterType<AuthMessageSender>().As<IAuthMessageSender>().InstancePerLifetimeScope();
             builder.RegisterType<NotificationViewModelFactory>().As<INotificationViewModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<ImageServices.ImageStorageProvider>().AsSelf().InstancePerLifetimeScope();
