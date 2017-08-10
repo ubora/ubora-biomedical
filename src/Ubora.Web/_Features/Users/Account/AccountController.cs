@@ -250,17 +250,41 @@ namespace Ubora.Web._Features.Users.Account
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
+            if (User.IsEmailConfirmed())
+            {
+                return View("ConfirmEmail");
+            }
+
             if (userId.IsEmpty() || code.IsEmpty())
             {
                 return View("Error");
             }
+
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 return View("Error");
             }
+
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            if (!result.Succeeded)
+            {
+                return View("Error");
+            }
+
+            var getCurrentUserId = _userManager.GetUserId(User);
+            if (getCurrentUserId == null)
+            {
+                return View("ConfirmEmail");
+            }
+
+            if (getCurrentUserId == userId)
+            {
+                await _signInManager.RefreshSignInAsync(user);
+                return RedirectToAction("ConfirmEmail");
+            }
+
+            return View("Error");
         }
 
         [HttpGet]
