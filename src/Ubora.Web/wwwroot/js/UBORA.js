@@ -1,33 +1,27 @@
-// Menu animation & controls - simple version for the time being
-var noticeElement = document.querySelector('.development-notice');
-var headerElement = document.querySelector('.header');
+// TODO: Add to ES6 module under 'sidemenu' namespace + Babel
+const toggleSideMenu = () => {
+  return document
+      .querySelector('.js-sidemenu')
+      .classList
+        .toggle('sidemenu-open');
+};
 
-var noticeHeight = noticeElement.offsetHeight;
-var headerHeight = headerElement.offsetHeight;
-
-var totalPadding = Math.ceil(noticeHeight + headerHeight);
-
-var sideMenuButton = document.querySelector('.js-side-menu-control');
-var sideMenu = document.querySelector('.js-side-menu');
-
-if (sideMenuButton) {
-    sideMenuButton.addEventListener('click', function () {
-        var menuVisibility = sideMenu.style.display;
-
-        sideMenu.style.top = totalPadding + 'px';
-
-        if (menuVisibility === 'block') {
-            sideMenu.style.display = 'none';
-        } else {
-            sideMenu.style.display = 'block';
-        }
+document
+  .querySelectorAll('.js-sidemenu-toggle')
+  .forEach(element => {
+    element.addEventListener('click', toggleSideMenu);
+    element.addEventListener('keyup', event => {
+      const isEnterPressed = event.code === 'Enter';
+      isEnterPressed ? toggleSideMenu() : undefined;
     });
-}
+});
+
 
 window.addEventListener('load', function () {
     // Target is to have this number in production setting < 500ms
     console.info('UBORA: page loaded in ' + Math.ceil(window.performance.now()) + 'ms');
 });
+
 
 // Markdown editor
 var renderer = new marked.Renderer();
