@@ -15,13 +15,13 @@ namespace Ubora.Web.Tests.Infrastructure
         private readonly AuthMessageSender _sut;
         private readonly Mock<FakeUserManager> _userManagerMock;
         private readonly Mock<IEmailSender> _emailSenderMock;
-        private readonly Mock<IViewRender> _viewRenderMock;
+        private readonly Mock<ViewRender> _viewRenderMock;
 
         public AuthMessageSenderTests()
         {
             _userManagerMock = new Mock<FakeUserManager>();
             _emailSenderMock = new Mock<IEmailSender>();
-            _viewRenderMock = new Mock<IViewRender>();
+            _viewRenderMock = new Mock<ViewRender>();
             _sut = new AuthMessageSender(_userManagerMock.Object, _emailSenderMock.Object, _viewRenderMock.Object);
         }
 

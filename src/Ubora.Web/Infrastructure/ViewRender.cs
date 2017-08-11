@@ -11,16 +11,15 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Ubora.Web.Infrastructure
 {
-    public interface IViewRender
-    {
-        string Render<TModel>(string path, string fileName, TModel model);
-    }
-
-    public class ViewRender : IViewRender
+    public class ViewRender
     {
         private readonly IRazorViewEngine _viewEngine;
         private readonly ITempDataProvider _tempDataProvider;
         private readonly HttpContext _context;
+
+        protected ViewRender()
+        {  
+        }
 
         public ViewRender(IRazorViewEngine viewEngine, ITempDataProvider tempDataProvider, IHttpContextAccessor accessor)
         {
@@ -29,7 +28,7 @@ namespace Ubora.Web.Infrastructure
             _context = accessor.HttpContext;
         }
 
-        public string Render<TModel>(string path, string fileName, TModel model)
+        public virtual string Render<TModel>(string path, string fileName, TModel model)
         {
             var viewEngineResult = _viewEngine.GetView(path, fileName, false);
 

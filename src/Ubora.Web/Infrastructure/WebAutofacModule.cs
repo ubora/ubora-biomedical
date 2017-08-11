@@ -8,6 +8,7 @@ using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Web._Features.Notifications.Factory;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Feedback;
+using Ubora.Web._Features.Users.Account;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -46,7 +47,8 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterType<ApplicationUserManager>().As<IApplicationUserManager>().InstancePerLifetimeScope();
             builder.RegisterType<ApplicationSignInManager>().As<IApplicationSignInManager>().InstancePerLifetimeScope();
 
-            builder.RegisterType<AuthMessageSender>().As<IAuthMessageSender>().InstancePerLifetimeScope();
+            builder.RegisterType<AuthMessageSender>().As<IPasswordRecoveryMessageSender>().As<IEmailConfirmationMessageSender>().InstancePerLifetimeScope();
+            builder.RegisterType<ViewRender>().InstancePerLifetimeScope();
             builder.RegisterType<NotificationViewModelFactory>().As<INotificationViewModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<ImageServices.ImageStorageProvider>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterAssemblyTypes(ThisAssembly).Where(t => t.IsNested && t.Name.EndsWith("Factory")).InstancePerLifetimeScope();

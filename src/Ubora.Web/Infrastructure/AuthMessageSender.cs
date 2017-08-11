@@ -2,23 +2,18 @@
 using Microsoft.AspNetCore.Identity;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
+using Ubora.Web._Features.Users.Account;
 using Ubora.Web._Features._Shared.Templates;
 
 namespace Ubora.Web.Infrastructure
 {
-    public interface IAuthMessageSender
-    {
-        Task SendEmailConfirmationMessage(ApplicationUser user);
-        Task SendForgotPasswordMessage(ApplicationUser user);
-    }
-
-    public class AuthMessageSender : IAuthMessageSender
+    public class AuthMessageSender : IPasswordRecoveryMessageSender, IEmailConfirmationMessageSender
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
-        private readonly IViewRender _view;
+        private readonly ViewRender _view;
 
-        public AuthMessageSender(UserManager<ApplicationUser> userManager, IEmailSender emailSender, IViewRender view)
+        public AuthMessageSender(UserManager<ApplicationUser> userManager, IEmailSender emailSender, ViewRender view)
         {
             _userManager = userManager;
             _emailSender = emailSender;

@@ -11,7 +11,6 @@ using Microsoft.Extensions.Options;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
-using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Home;
 using Ubora.Web._Features.Users.Profile;
@@ -24,9 +23,10 @@ namespace Ubora.Web._Features.Users.Account
         private readonly IApplicationUserManager _userManager;
         private readonly IApplicationSignInManager _signInManager;
         private readonly IEmailSender _emailSender;
-        private readonly IAuthMessageSender _authMessageSender;
         private readonly ILogger _logger;
         private readonly ICommandProcessor _commandProcessor;
+        private readonly IEmailConfirmationMessageSender _confirmationMessageSender;
+        private readonly IPasswordRecoveryMessageSender _passwordRecoveryMessageSender;
         private readonly string _externalCookieScheme;
 
         public AccountController(
@@ -35,14 +35,15 @@ namespace Ubora.Web._Features.Users.Account
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
             ILogger<AccountController> logger,
-            IAuthMessageSender authMessageSender, ICommandProcessor commandProcessor)
+            ICommandProcessor commandProcessor, IEmailConfirmationMessageSender confirmationMessageSender, IPasswordRecoveryMessageSender passwordRecoveryMessageSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _emailSender = emailSender;
-            _authMessageSender = authMessageSender;
             _commandProcessor = commandProcessor;
+            _confirmationMessageSender = confirmationMessageSender;
+            _passwordRecoveryMessageSender = passwordRecoveryMessageSender;
             _logger = logger;
         }
 
@@ -143,7 +144,7 @@ namespace Ubora.Web._Features.Users.Account
                         LastName = model.LastName
                     });
 
-                    await _authMessageSender.SendEmailConfirmationMessage(user);
+                    await _confirmationMessageSender.SendEmailConfirmationMessage(user);
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
                     return RedirectToAction(
@@ -308,7 +309,7 @@ namespace Ubora.Web._Features.Users.Account
                 var user = await _userManager.FindByNameAsync(model.Email);
                 if (user == null)
                     return View("ForgotPasswordConfirmation");
-                await _authMessageSender.SendForgotPasswordMessage(user);
+                await _passwordRecoveryMessageSender.SendForgotPasswordMessage(user);
                 return View("ForgotPasswordConfirmation");
             }
 
@@ -467,7 +468,7 @@ namespace Ubora.Web._Features.Users.Account
                 return View("Error");
             }
 
-            await _authMessageSender.SendEmailConfirmationMessage(user);
+            await _confirmationMessageSender.SendEmailConfirmationMessage(user);
 
             return View();
         }

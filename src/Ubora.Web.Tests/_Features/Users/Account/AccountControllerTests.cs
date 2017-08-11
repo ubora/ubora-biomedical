@@ -13,7 +13,6 @@ using Moq;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
-using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features.Home;
@@ -31,7 +30,8 @@ namespace Ubora.Web.Tests._Features.Users.Account
         private readonly Mock<IOptions<IdentityCookieOptions>> _identityCookieOptionsMock;
         private readonly Mock<IEmailSender> _emailSenderMock;
         private readonly Mock<ILogger<AccountController>> _loggerMock;
-        private readonly Mock<IAuthMessageSender> _authMessageSenderMock;
+        private readonly Mock<IEmailConfirmationMessageSender> _confirmationMessageSenderMock;
+        private readonly Mock<IPasswordRecoveryMessageSender> _passwordRecoveryMessageSenderMock;
         private readonly Mock<ICommandProcessor> _commandProcessor;
         private readonly AccountController _controller;
 
@@ -43,12 +43,13 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _identityCookieOptionsMock.Setup(o => o.Value).Returns(new IdentityCookieOptions());
             _emailSenderMock = new Mock<IEmailSender>();
             _loggerMock = new Mock<ILogger<AccountController>>();
-            _authMessageSenderMock = new Mock<IAuthMessageSender>(MockBehavior.Strict);
+            _confirmationMessageSenderMock = new Mock<IEmailConfirmationMessageSender>(MockBehavior.Strict);
+            _passwordRecoveryMessageSenderMock = new Mock<IPasswordRecoveryMessageSender>(MockBehavior.Strict);
             _commandProcessor = new Mock<ICommandProcessor>();
             var urlHelperMock = new Mock<IUrlHelper>();
             _controller = new AccountController(_userManagerMock.Object, _signInManagerMock.Object,
                 _identityCookieOptionsMock.Object, _emailSenderMock.Object,
-                _loggerMock.Object, _authMessageSenderMock.Object, _commandProcessor.Object)
+                _loggerMock.Object, _commandProcessor.Object, _confirmationMessageSenderMock.Object, _passwordRecoveryMessageSenderMock.Object)
             {
                 Url = urlHelperMock.Object
             };
@@ -215,7 +216,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             result.Model.Should().Be(registerViewModel);
             result.ViewData.Values.Last().Should().Be(returnUrl);
             _userManagerMock.Verify(m => m.CreateAsync(It.IsAny<ApplicationUser>()), Times.Never);
-            _authMessageSenderMock.Verify(m => m.SendEmailConfirmationMessage(It.IsAny<ApplicationUser>()), Times.Never);
+            _confirmationMessageSenderMock.Verify(m => m.SendEmailConfirmationMessage(It.IsAny<ApplicationUser>()), Times.Never);
         }
 
         [Fact]
@@ -252,7 +253,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             expectedUser.Email.Should().Be(createdUser.Email);
             expectedUser.UserName.Should().Be(createdUser.UserName);
             AssertModelStateContainsError(result, identityError.Description);
-            _authMessageSenderMock.Verify(x => x.SendEmailConfirmationMessage(It.IsAny<ApplicationUser>()), Times.Never);
+            _confirmationMessageSenderMock.Verify(x => x.SendEmailConfirmationMessage(It.IsAny<ApplicationUser>()), Times.Never);
         }
 
         [Fact]
@@ -271,7 +272,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
                 .Callback<ApplicationUser, string>((user, password) => createdUser = user)
                 .ReturnsAsync(IdentityResult.Success);
 
-            _authMessageSenderMock.Setup(x => x.SendEmailConfirmationMessage(It.IsAny<ApplicationUser>())).Returns(Task.FromResult(expectedUser));
+            _confirmationMessageSenderMock.Setup(x => x.SendEmailConfirmationMessage(It.IsAny<ApplicationUser>())).Returns(Task.FromResult(expectedUser));
 
             CreateUserProfileCommand executedCommand = null;
 
@@ -296,7 +297,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             expectedUser.UserName.Should().Be(createdUser.UserName);
             executedCommand.Email.Should().Be(expectedUser.Email);
 
-            _authMessageSenderMock.Verify(x => x.SendEmailConfirmationMessage(It.IsAny<ApplicationUser>()), Times.Once);
+            _confirmationMessageSenderMock.Verify(x => x.SendEmailConfirmationMessage(It.IsAny<ApplicationUser>()), Times.Once);
             _loggerMock.Verify(
                 m => m.Log(
                     LogLevel.Information,
@@ -474,7 +475,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _userManagerMock.Setup(x => x.FindByNameAsync(forgotPasswordViewModel.Email))
                 .ReturnsAsync(identity);
             _userManagerMock.Setup(x => x.IsEmailConfirmedAsync(identity)).ReturnsAsync(true);
-            _authMessageSenderMock.Setup(x => x.SendForgotPasswordMessage(identity)).Returns(Task.FromResult(identity));
+            _passwordRecoveryMessageSenderMock.Setup(x => x.SendForgotPasswordMessage(identity)).Returns(Task.FromResult(identity));
             _controller.ControllerContext.HttpContext = new DefaultHttpContext();
             _controller.ControllerContext.HttpContext.Request.Scheme = "http";
 
@@ -491,14 +492,14 @@ namespace Ubora.Web.Tests._Features.Users.Account
         {
             var applicationUser = new ApplicationUser();
             _userManagerMock.Setup(m => m.GetUserAsync(User)).ReturnsAsync(applicationUser);
-            _authMessageSenderMock.Setup(s => s.SendEmailConfirmationMessage(applicationUser))
+            _confirmationMessageSenderMock.Setup(s => s.SendEmailConfirmationMessage(applicationUser))
                 .Returns(Task.FromResult(applicationUser));
 
             //Act
             var result = (ViewResult) await _controller.ResendEmailConfirmation();
 
             //Assert
-            _authMessageSenderMock.Verify(s => s.SendEmailConfirmationMessage(applicationUser), Times.Once);
+            _confirmationMessageSenderMock.Verify(s => s.SendEmailConfirmationMessage(applicationUser), Times.Once);
         }
 
         [Fact]
@@ -510,7 +511,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             var result = (ViewResult)await _controller.ResendEmailConfirmation();
 
             //Assert
-            _authMessageSenderMock.Verify(s => s.SendEmailConfirmationMessage(It.IsAny<ApplicationUser>()), Times.Never);
+            _confirmationMessageSenderMock.Verify(s => s.SendEmailConfirmationMessage(It.IsAny<ApplicationUser>()), Times.Never);
         }
 
         private LoginViewModel GetLoginViewModel()
