@@ -1,5 +1,4 @@
-﻿@using Ubora.Web._Features.Notifications
-@model HistoryRequestViewModel
+﻿@model Ubora.Web._Features.Notifications.Requests.RequestToJoinProjectNotifiationViewModel
 
 <p>
     @Html.ActionLink(Model.UserFullName, "View", "Profile", new { userId = Model.UserId }) asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.&nbsp;

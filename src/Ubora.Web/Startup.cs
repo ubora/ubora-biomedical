@@ -43,9 +43,11 @@ namespace Ubora.Web
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+            IsDevelopment = env.IsDevelopment();
         }
 
         public IConfigurationRoot Configuration { get; }
+        private bool IsDevelopment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
@@ -81,6 +83,13 @@ namespace Ubora.Web
             services.AddUboraAuthorization();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            if (IsDevelopment)
+            {
+                services.AddSingleton<TestDataSeeder>();
+                services.AddSingleton<TestUserSeeder>();
+                services.AddSingleton<TestProjectSeeder>();
+            }
 
             services.AddSingleton<ApplicationDataSeeder>();
             services.AddSingleton<AdminSeeder>();
@@ -159,8 +168,14 @@ namespace Ubora.Web
 
                 var seeder = serviceProvider.GetService<ApplicationDataSeeder>();
                 seeder.SeedIfNecessary()
-                    .GetAwaiter()
-                    .GetResult();
+                    .GetAwaiter().GetResult();
+
+                if (env.IsDevelopment())
+                {
+                    var testDataSeeder = serviceProvider.GetService<TestDataSeeder>();
+                    testDataSeeder.SeedIfNecessary()
+                        .GetAwaiter().GetResult();
+                }
             }
 
             var logger = loggerFactory.CreateLogger<Startup>();
