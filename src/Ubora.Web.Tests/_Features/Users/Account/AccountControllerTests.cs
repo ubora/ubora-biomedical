@@ -25,8 +25,8 @@ namespace Ubora.Web.Tests._Features.Users.Account
 {
     public class AccountControllerTests : UboraControllerTestsBase
     {
-        private readonly Mock<FakeUserManager> _userManagerMock;
-        private readonly Mock<FakeSignInManager> _signInManagerMock;
+        private readonly Mock<IApplicationUserManager> _userManagerMock;
+        private readonly Mock<IApplicationSignInManager> _signInManagerMock;
         private readonly Mock<IOptions<IdentityCookieOptions>> _identityCookieOptionsMock;
         private readonly Mock<IEmailSender> _emailSenderMock;
         private readonly Mock<ILogger<AccountController>> _loggerMock;
@@ -36,8 +36,8 @@ namespace Ubora.Web.Tests._Features.Users.Account
 
         public AccountControllerTests()
         {
-            _userManagerMock = new Mock<FakeUserManager>(MockBehavior.Strict);
-            _signInManagerMock = new Mock<FakeSignInManager>();
+            _userManagerMock = new Mock<IApplicationUserManager>(MockBehavior.Strict);
+            _signInManagerMock = new Mock<IApplicationSignInManager>(MockBehavior.Strict);
             _identityCookieOptionsMock = new Mock<IOptions<IdentityCookieOptions>>();
             _identityCookieOptionsMock.Setup(o => o.Value).Returns(new IdentityCookieOptions());
             _emailSenderMock = new Mock<IEmailSender>();
@@ -279,6 +279,9 @@ namespace Ubora.Web.Tests._Features.Users.Account
                 .Callback<CreateUserProfileCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
 
+            _signInManagerMock.Setup(m => m.SignInAsync(It.IsAny<ApplicationUser>(), false, null))
+                .Returns(Task.FromResult(new ApplicationUser()));
+
             var returnUrl = "/UserList/Index";
 
             //Act
@@ -302,6 +305,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
                     It.IsAny<Func<object, Exception, string>>()
                 )
             );
+            _signInManagerMock.Verify(m => m.SignInAsync(It.IsAny<ApplicationUser>(), false, null), Times.Once);
         }
 
         [Theory]
@@ -353,6 +357,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _userManagerMock.Setup(x => x.FindByIdAsync(userId)).ReturnsAsync(new ApplicationUser());
             _userManagerMock.Setup(x => x.ConfirmEmailAsync(It.IsAny<ApplicationUser>(), code))
                 .ReturnsAsync(IdentityResult.Success);
+            _userManagerMock.Setup(m => m.GetUserId(User)).Returns((string) null);
 
             //Act
             var result = (ViewResult)await _controller.ConfirmEmail(userId, code);
@@ -377,6 +382,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
 
             //Assert
             result.ViewName.Should().Be("Error");
+            _userManagerMock.Verify(m => m.GetUserId(It.IsAny<ClaimsPrincipal>()), Times.Never);
             _signInManagerMock.Verify(m => m.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never());
         }
 
@@ -391,6 +397,8 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _userManagerMock.Setup(x => x.ConfirmEmailAsync(applicationUser, code))
                 .ReturnsAsync(IdentityResult.Success);
             _userManagerMock.Setup(m => m.GetUserId(User)).Returns(userId);
+            _signInManagerMock.Setup(m => m.RefreshSignInAsync(applicationUser))
+                .Returns(Task.FromResult(applicationUser));
 
             //Act
             var result = (RedirectToActionResult)await _controller.ConfirmEmail(userId, code);
