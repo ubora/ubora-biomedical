@@ -1,5 +1,4 @@
-﻿@using System.Runtime.InteropServices.ComTypes
-@using Ubora.Web.Data
+﻿@using Ubora.Web.Data
 @using Ubora.Web.Services
 @using Ubora.Web._Features.Notifications
 
@@ -9,10 +8,9 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <span class="development-notice">In-development preview</span>
-    var user = await UserManager.FindByIdAsync(User.GetId().ToString());
-    if (user != null && !await UserManager.IsEmailConfirmedAsync(user))
+    if (!User.IsEmailConfirmed())
     {
-        <span class="account-confirmation">Your Email has not been verified!</span>
+        <span class="account-confirmation">Confirm your email<br>We have sent an email to @User.GetEmail()<br><a href=@Url.Action("ResendEmailConfirmation","Account")>Resend an email message</a></span>
     }
     <header class="header">
 

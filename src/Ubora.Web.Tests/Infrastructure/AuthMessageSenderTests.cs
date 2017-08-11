@@ -32,7 +32,7 @@ namespace Ubora.Web.Tests.Infrastructure
             var code = "CfDJ8P0gmJ3q+8lOjMslRCyVLI489QEEOu2Pg/jBZf0eqbHkFI6CTBXS/Kj2gU9jrQW3LFe+3EPA0ez/bMdnz4Yj+951ShLZCJSLYc7ttMJ3/8bRr9/0GTNQ7Cxysuykp2/+/+rAW1TIbO7nDCK/X2BUf3PbaBUrdqaoszbsu/CnAQgVeDZBHJMGH1znLZw8R75WzmdaLJX/4a3xv2VZi0OElz70n4UiEs914Nn45aQ2zZXEV14OoLRRbZITgLeajRK8Rg==";
             var expectedUrl = $"http://ubora-dev.azurewebsites.net/Account/ConfirmEmail?userId=\"{applicationUser.Id}\"&code=\"{code}\"";
             var subject = "UBORA: e-mail confirmation";
-            var expectedMessage = $"<h1 style='color:#4777BB;'>E-mail confirmation</h1><p>Please confirm your e-mail by clicking here or navigating to <a href=\"{expectedUrl}\">this link</a>.</p>";
+            var expectedMessage = $"<h1 style='color:#4777BB; font-family: sans-serif; text-align:center;'>E-mail confirmation</h1><p>Please confirm your e-mail by clicking here on the following link or copy-paste it in your browser: <br /><a href=\"{expectedUrl}\">{expectedUrl}</a>.</p>";
 
             _userManagerMock.Setup(x => x.GenerateEmailConfirmationTokenAsync(It.IsAny<ApplicationUser>())).ReturnsAsync(code);
             _viewRenderMock.Setup(r => r.Render("~/_Features/_Shared/Templates/", "EmailConfirmationMessageTemplate.cshtml",
@@ -52,7 +52,7 @@ namespace Ubora.Web.Tests.Infrastructure
             var code = "CfDJ8P0gmJ3q+8lOjMslRCyVLI489QEEOu2Pg/jBZf0eqbHkFI6CTBXS/Kj2gU9jrQW3LFe+3EPA0ez/bMdnz4Yj+951ShLZCJSLYc7ttMJ3/8bRr9/0GTNQ7Cxysuykp2/+/+rAW1TIbO7nDCK/X2BUf3PbaBUrdqaoszbsu/CnAQgVeDZBHJMGH1znLZw8R75WzmdaLJX/4a3xv2VZi0OElz70n4UiEs914Nn45aQ2zZXEV14OoLRRbZITgLeajRK8Rg==";
             var expectedUrl = $"http://ubora-dev.azurewebsites.net/Account/ConfirmEmail?userId=\"{applicationUser.Id}\"&code=\"{code}\"";
             var subject = "UBORA: Password reset";
-            var expectedMessage = $"<h1 style='color:#4777BB;'>Password reset</h1><p>You can reset your password by clicking <a href=\"{expectedUrl}\">this link</a>.</p>";
+            var expectedMessage = $"<h1 style='color:#4777BB; font-family: sans-serif; text-align:center;'>Password reset</h1><p style='font-family:sans-serif;'>You can reset your password by clicking on the following link or copy-paste it in your browser: <br /><a href=\"{expectedUrl}\">{expectedUrl}</a>.</p>";
 
 
             _userManagerMock.Setup(x => x.GeneratePasswordResetTokenAsync(It.IsAny<ApplicationUser>())).ReturnsAsync(code);

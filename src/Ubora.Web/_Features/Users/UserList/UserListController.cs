@@ -1,18 +1,18 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using TwentyTwenty.Storage;
 using Ubora.Domain.Users;
 using Ubora.Web.Infrastructure.Extensions;
+using Ubora.Web.Infrastructure.ImageServices;
 
 namespace Ubora.Web._Features.Users.UserList
 {
     public class UserListController : UboraController
     {
-        private readonly IStorageProvider _storageProvider;
+        private readonly ImageStorageProvider _imageStorageProvider;
 
-        public UserListController(IStorageProvider storageProvider)
+        public UserListController(ImageStorageProvider imageStorageProvider)
         {
-            _storageProvider = storageProvider;
+            _imageStorageProvider = imageStorageProvider;
         }
 
         public IActionResult Index()
@@ -24,7 +24,7 @@ namespace Ubora.Web._Features.Users.UserList
                 UserId = userProfile.UserId,
                 Email = userProfile.Email,
                 FullName = userProfile.FullName,
-                ProfilePictureLink = _storageProvider.GetDefaultOrBlobUrl(userProfile)
+                ProfilePictureLink = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile)
             });
 
             return View(viewmodel);

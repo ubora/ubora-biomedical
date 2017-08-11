@@ -1,5 +1,4 @@
-﻿using System;
-using Ubora.Domain.Infrastructure.Queries;
+﻿using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Notifications.Invitation;
 using Ubora.Domain.Notifications.Join;
@@ -39,7 +38,7 @@ namespace Ubora.Web._Features.Notifications.Factory
                 WasAccepted = requestToJoinProject.IsAccepted.Value,
                 UserFullName = invitedMemberUserProfile.FullName,
                 UserId = invitedMemberUserProfile.UserId,
-                RequestToJoinProjectId = requestToJoinProject.Id,
+                RequestId = requestToJoinProject.Id,
             };
 
             return viewModel;
@@ -72,7 +71,7 @@ namespace Ubora.Web._Features.Notifications.Factory
                 IsUnread = !requestToJoinProject.HasBeenViewed,
                 UserFullName = askingToJoinMemberUserProfile.FullName,
                 UserId = askingToJoinMemberUserProfile.UserId,
-                RequestToJoinProjectId = requestToJoinProject.Id,
+                RequestId = requestToJoinProject.Id,
             };
 
             return viewModel;

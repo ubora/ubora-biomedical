@@ -10,6 +10,9 @@ using Ubora.Web._Features.Home;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Ubora.Web._Features._Shared;
+using Ubora.Web._Features._Shared.Notices;
+// ReSharper disable ArrangeAccessorOwnerBody
 
 namespace Ubora.Web._Features
 {
@@ -44,12 +47,23 @@ namespace Ubora.Web._Features
         }
 
         private ICommandProcessor _commandProcessor;
-        protected ICommandProcessor CommandProcessor
+        private ICommandProcessor CommandProcessor
         {
             get => _commandProcessor ?? (_commandProcessor = ServiceLocator.GetService<ICommandProcessor>());
         }
 
-        private IServiceProvider ServiceLocator => HttpContext.RequestServices; 
+        private IServiceProvider ServiceLocator => HttpContext.RequestServices;
+
+        private NoticeQueue _notices;
+        public NoticeQueue Notices
+        {
+            get => _notices ?? (_notices = new NoticeQueue(TempData));
+        }
+
+        protected void ShowNotice(Notice notice)
+        {
+            Notices.Enqueue(notice);
+        }
 
         protected void ExecuteUserCommand<T>(T command) where T : IUserCommand
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +16,6 @@ using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
 using Ubora.Web.Tests.Fakes;
-using Ubora.Web.Tests.Helper;
 using Ubora.Web._Features.Home;
 using Ubora.Web._Features.Users.Account;
 using Ubora.Web._Features.Users.Profile;
@@ -26,27 +26,29 @@ namespace Ubora.Web.Tests._Features.Users.Account
 {
     public class AccountControllerTests : UboraControllerTestsBase
     {
-        private readonly Mock<FakeUserManager> _userManagerMock;
-        private readonly Mock<FakeSignInManager> _signInManagerMock;
+        private readonly Mock<IApplicationUserManager> _userManagerMock;
+        private readonly Mock<IApplicationSignInManager> _signInManagerMock;
         private readonly Mock<IOptions<IdentityCookieOptions>> _identityCookieOptionsMock;
         private readonly Mock<IEmailSender> _emailSenderMock;
         private readonly Mock<ILogger<AccountController>> _loggerMock;
         private readonly Mock<IAuthMessageSender> _authMessageSenderMock;
+        private readonly Mock<ICommandProcessor> _commandProcessor;
         private readonly AccountController _controller;
 
         public AccountControllerTests()
         {
-            _userManagerMock = new Mock<FakeUserManager>();
-            _signInManagerMock = new Mock<FakeSignInManager>();
+            _userManagerMock = new Mock<IApplicationUserManager>(MockBehavior.Strict);
+            _signInManagerMock = new Mock<IApplicationSignInManager>(MockBehavior.Strict);
             _identityCookieOptionsMock = new Mock<IOptions<IdentityCookieOptions>>();
             _identityCookieOptionsMock.Setup(o => o.Value).Returns(new IdentityCookieOptions());
             _emailSenderMock = new Mock<IEmailSender>();
             _loggerMock = new Mock<ILogger<AccountController>>();
             _authMessageSenderMock = new Mock<IAuthMessageSender>(MockBehavior.Strict);
+            _commandProcessor = new Mock<ICommandProcessor>();
             var urlHelperMock = new Mock<IUrlHelper>();
             _controller = new AccountController(_userManagerMock.Object, _signInManagerMock.Object,
                 _identityCookieOptionsMock.Object, _emailSenderMock.Object,
-                _loggerMock.Object, _authMessageSenderMock.Object)
+                _loggerMock.Object, _authMessageSenderMock.Object, _commandProcessor.Object)
             {
                 Url = urlHelperMock.Object
             };
@@ -54,7 +56,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void Login_Returns_Login_View_And_ViewModel_When_ModelState_Is_Invalid()
+        public async Task Login_Returns_Login_View_And_ViewModel_When_ModelState_Is_Invalid()
         {
             var loginViewModel = new LoginViewModel
             {
@@ -66,26 +68,25 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _controller.ViewData.ModelState.AddModelError("", errorMessage);
             var returnUrl = "/UserList/Index";
 
+            _userManagerMock.Setup(m => m.FindByNameAsync(loginViewModel.Email)).ReturnsAsync((ApplicationUser)null);
+
             //Act
             var result = (ViewResult)await _controller.Login(loginViewModel, returnUrl);
+
             //Assert
             result.Model.Should().Be(loginViewModel);
             result.ViewData.Values.Last().Should().Be(returnUrl);
             AssertModelStateContainsError(result, errorMessage);
 
             _userManagerMock.Verify(m => m.FindByNameAsync(It.IsAny<string>()), Times.Never);
-            _userManagerMock.Verify(m => m.IsEmailConfirmedAsync(It.IsAny<ApplicationUser>()), Times.Never);
             _signInManagerMock.Verify(m => m.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>()), Times.Never);
             QueryProcessorMock.Verify(p => p.FindById<UserProfile>(It.IsAny<Guid>()), Times.Never);
         }
 
         [Fact]
-        public async void Login_Logs_In_And_Redirects_To_ReturnUrl_When_Valid_ModelState()
+        public async Task Login_Logs_In_And_Redirects_To_ReturnUrl_When_Valid_ModelState()
         {
             var loginViewModel = GetLoginViewModel();
-
-            var signInResult = new SignInResult();
-            signInResult.Set(nameof(SignInResult.Succeeded), true);
 
             var applicationUser = new ApplicationUser
             {
@@ -95,13 +96,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _userManagerMock.Setup(x => x.IsEmailConfirmedAsync(applicationUser)).ReturnsAsync(true);
             _signInManagerMock.Setup(
                     x => x.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, false, false))
-                .ReturnsAsync(signInResult);
-
-            var userProfile = new UserProfile(applicationUser.Id)
-            {
-                IsFirstTimeEditedProfile = false
-            };
-            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(applicationUser.Id)).Returns(userProfile);
+                .ReturnsAsync(SignInResult.Success);
 
             var returnUrl = "/UserList/Index";
 
@@ -109,8 +104,8 @@ namespace Ubora.Web.Tests._Features.Users.Account
             var result = (RedirectToActionResult)await _controller.Login(loginViewModel, returnUrl);
 
             //Assert
-            result.ActionName.Should().Be(nameof(ProfileController.FirstTimeEditProfile));
-            result.ControllerName.Should().Be("Profile");
+            result.ActionName.Should().Be("Index");
+            result.ControllerName.Should().Be("Home");
 
             _loggerMock.Verify(
                 m => m.Log(
@@ -125,12 +120,9 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void Login_Logs_In_And_Redirects_To_ReturnUrl_When_Profile_Is_First_Time_Edited_And_Valid_ModelState()
+        public async Task Login_Logs_In_And_Redirects_To_ReturnUrl_When_Profile_Is_First_Time_Edited_And_Valid_ModelState()
         {
             var loginViewModel = GetLoginViewModel();
-
-            var signInResult = new SignInResult();
-            signInResult.Set(nameof(SignInResult.Succeeded), true);
 
             var applicationUser = new ApplicationUser
             {
@@ -140,13 +132,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _userManagerMock.Setup(x => x.IsEmailConfirmedAsync(applicationUser)).ReturnsAsync(true);
             _signInManagerMock.Setup(
                     x => x.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, false, false))
-                .ReturnsAsync(signInResult);
-
-            var userProfile = new UserProfile(applicationUser.Id)
-            {
-                IsFirstTimeEditedProfile = true
-            };
-            QueryProcessorMock.Setup(p => p.FindById<UserProfile>(applicationUser.Id)).Returns(userProfile);
+                .ReturnsAsync(SignInResult.Success);
 
             var returnUrl = "/UserList/Index";
 
@@ -170,16 +156,13 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void Login_Returns_Login_View_With_Error_When_Login_Fails()
+        public async Task Login_Returns_Login_View_With_Error_When_Login_Fails()
         {
             var loginViewModel = GetLoginViewModel();
 
-            var signInResult = new SignInResult();
-            signInResult.Set(nameof(SignInResult.Succeeded), false);
-
             _signInManagerMock.Setup(
                     x => x.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, false, false))
-                .ReturnsAsync(signInResult);
+                .ReturnsAsync(SignInResult.Failed);
 
             var returnUrl = "/UserList/Index";
 
@@ -218,7 +201,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void Register_Returns_Register_View_And_Model_When_ModelState_Is_Invalid()
+        public async Task Register_Returns_Register_View_And_Model_When_ModelState_Is_Invalid()
         {
             var registerViewModel = GetRegisterViewModel();
             _controller.ViewData.ModelState.AddModelError("", "You must enter a valid email address");
@@ -236,7 +219,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void Register_Returns_Errors_When_User_Creation_Fails()
+        public async Task Register_Returns_Errors_When_User_Creation_Fails()
         {
             var registerViewModel = GetRegisterViewModel();
 
@@ -252,10 +235,8 @@ namespace Ubora.Web.Tests._Features.Users.Account
                 Description = Guid.NewGuid().ToString()
             };
             var identityResult = IdentityResult.Failed(identityError);
-            identityResult.Set(nameof(IdentityResult.Succeeded), false);
 
             ApplicationUser createdUser = null;
-
             _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<ApplicationUser>(), registerViewModel.Password))
                 .Callback<ApplicationUser, string>((user, password) => createdUser = user)
                 .ReturnsAsync(identityResult);
@@ -275,7 +256,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void Register_Creates_And_Signs_In_And_Redirects_To_SentEmaiConfirmation()
+        public async Task Register_Creates_And_Signs_In_And_Redirects_To_SentEmaiConfirmation()
         {
             var registerViewModel = GetRegisterViewModel();
             var expectedUser = new ApplicationUser
@@ -286,21 +267,21 @@ namespace Ubora.Web.Tests._Features.Users.Account
             };
 
             ApplicationUser createdUser = null;
-            var identityResult = new IdentityResult();
-            identityResult.Set(nameof(IdentityResult.Succeeded), true);
-
             _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<ApplicationUser>(), registerViewModel.Password))
                 .Callback<ApplicationUser, string>((user, password) => createdUser = user)
-                .ReturnsAsync(identityResult);
+                .ReturnsAsync(IdentityResult.Success);
 
             _authMessageSenderMock.Setup(x => x.SendEmailConfirmationMessage(It.IsAny<ApplicationUser>())).Returns(Task.FromResult(expectedUser));
 
             CreateUserProfileCommand executedCommand = null;
 
-            CommandProcessorMock
+            _commandProcessor
                 .Setup(p => p.Execute(It.IsAny<CreateUserProfileCommand>()))
                 .Callback<CreateUserProfileCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
+
+            _signInManagerMock.Setup(m => m.SignInAsync(It.IsAny<ApplicationUser>(), false, null))
+                .Returns(Task.FromResult(new ApplicationUser()));
 
             var returnUrl = "/UserList/Index";
 
@@ -308,7 +289,9 @@ namespace Ubora.Web.Tests._Features.Users.Account
             var result = (RedirectToActionResult)await _controller.Register(registerViewModel, returnUrl);
 
             //Assert 
-            result.ActionName.Should().Be("SentEmailConfirmation");
+            result.ActionName.Should().Be(nameof(ProfileController.FirstTimeEditProfile));
+            result.ControllerName.Should().Be("Profile");
+            result.RouteValues.Values.Single().Should().Be(returnUrl);
             expectedUser.Email.Should().Be(createdUser.Email);
             expectedUser.UserName.Should().Be(createdUser.UserName);
             executedCommand.Email.Should().Be(expectedUser.Email);
@@ -323,30 +306,17 @@ namespace Ubora.Web.Tests._Features.Users.Account
                     It.IsAny<Func<object, Exception, string>>()
                 )
             );
-        }
-
-        [Fact]
-        public void SentEmailConfirmation_Returns_View()
-        {
-            var returnUrl = "/UserList/Index";
-            var email = "test@test.com";
-
-            //Act
-            var result = (ViewResult)_controller.SentEmailConfirmation(email, returnUrl);
-
-            //Assert
-            result.Model.As<SentEmailCorfirmationViewModel>().Email.Should().Be(email);
-            result.Model.As<SentEmailCorfirmationViewModel>().ReturnUrl.Should().Be(returnUrl);
+            _signInManagerMock.Verify(m => m.SignInAsync(It.IsAny<ApplicationUser>(), false, null), Times.Once);
         }
 
         [Theory]
-        [InlineData(null,"code")]
+        [InlineData(null, "code")]
         [InlineData("userId", null)]
         [InlineData(null, null)]
         [InlineData("", "code")]
         [InlineData("userId", "")]
         [InlineData("", "")]
-        public async void ConfirmEmail_Returns_Error_View_When_UserId_Or_Code_Is_Null_Or_Empty(string userId, string code)
+        public async Task ConfirmEmail_Returns_Error_View_When_UserId_Or_Code_Is_Null_Or_Empty(string userId, string code)
         {
             //Act
             var result = (ViewResult)await _controller.ConfirmEmail(userId, code);
@@ -356,10 +326,12 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _userManagerMock.Verify(x => x.FindByIdAsync(It.IsAny<string>()), Times.Never);
             _userManagerMock.Verify(x => x.ConfirmEmailAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
                 Times.Never);
+            _userManagerMock.Verify(m => m.GetUserId(It.IsAny<ClaimsPrincipal>()), Times.Never);
+            _signInManagerMock.Verify(m => m.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never());
         }
 
         [Fact]
-        public async void ConfirmEmail_Returns_Error_View_When_User_Is_Not_Found()
+        public async Task ConfirmEmail_Returns_Error_View_When_User_Is_Not_Found()
         {
             var userId = "testUserId";
             var code = "testCode";
@@ -373,48 +345,87 @@ namespace Ubora.Web.Tests._Features.Users.Account
             result.ViewName.Should().Be("Error");
             _userManagerMock.Verify(x => x.ConfirmEmailAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
                 Times.Never);
+            _userManagerMock.Verify(m => m.GetUserId(It.IsAny<ClaimsPrincipal>()), Times.Never);
+            _signInManagerMock.Verify(m => m.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never());
         }
 
         [Fact]
-        public async void ConfirmEmail_Confirms_And_Returns_CorfirmEmail_View()
+        public async Task ConfirmEmail_Confirms_And_Returns_CorfirmEmail_View_When_Current_User_Is_Not_Found()
         {
-            var identityResult = new IdentityResult();
-            identityResult.Set(nameof(IdentityResult.Succeeded), true);
             var userId = "testUserId";
             var code = "testCode";
 
             _userManagerMock.Setup(x => x.FindByIdAsync(userId)).ReturnsAsync(new ApplicationUser());
             _userManagerMock.Setup(x => x.ConfirmEmailAsync(It.IsAny<ApplicationUser>(), code))
-                .ReturnsAsync(identityResult);
+                .ReturnsAsync(IdentityResult.Success);
+            _userManagerMock.Setup(m => m.GetUserId(User)).Returns((string) null);
 
             //Act
             var result = (ViewResult)await _controller.ConfirmEmail(userId, code);
 
             //Assert
             result.ViewName.Should().Be("ConfirmEmail");
+            _signInManagerMock.Verify(m => m.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never());
         }
 
         [Fact]
-        public async void ConfirmEmail_Returns_Error_View_When_Does_Not_Confirm()
+        public async Task ConfirmEmail_Returns_Error_View_When_Does_Not_Confirm()
         {
-            var identityResult = new IdentityResult();
-            identityResult.Set(nameof(IdentityResult.Succeeded), false);
-            const string userId = "testUserId";
-            const string code = "testCode";
+            var userId = "testUserId";
+            var code = "testCode";
 
             _userManagerMock.Setup(x => x.FindByIdAsync(userId)).ReturnsAsync(new ApplicationUser());
             _userManagerMock.Setup(x => x.ConfirmEmailAsync(It.IsAny<ApplicationUser>(), code))
-                .ReturnsAsync(identityResult);
+                .ReturnsAsync(IdentityResult.Failed());
 
             //Act
             var result = (ViewResult)await _controller.ConfirmEmail(userId, code);
 
             //Assert
             result.ViewName.Should().Be("Error");
+            _userManagerMock.Verify(m => m.GetUserId(It.IsAny<ClaimsPrincipal>()), Times.Never);
+            _signInManagerMock.Verify(m => m.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never());
         }
 
         [Fact]
-        public async void ForgotPassword_Returns_View_And_Model_When_ModelState_Is_Invalid()
+        public async Task ConfirmEmail_Refresh_In_Sign_And_Redirect_To_ConfirmEmail_View_When_Current_User_Is_Found()
+        {
+            var userId = "testUserId";
+            var code = "testCode";
+
+            var applicationUser = new ApplicationUser();
+            _userManagerMock.Setup(x => x.FindByIdAsync(userId)).ReturnsAsync(applicationUser);
+            _userManagerMock.Setup(x => x.ConfirmEmailAsync(applicationUser, code))
+                .ReturnsAsync(IdentityResult.Success);
+            _userManagerMock.Setup(m => m.GetUserId(User)).Returns(userId);
+            _signInManagerMock.Setup(m => m.RefreshSignInAsync(applicationUser))
+                .Returns(Task.FromResult(applicationUser));
+
+            //Act
+            var result = (RedirectToActionResult)await _controller.ConfirmEmail(userId, code);
+
+            //Assert
+            result.ActionName.Should().Be("ConfirmEmail");
+            _signInManagerMock.Verify(m => m.RefreshSignInAsync(applicationUser), Times.Once);
+        }
+
+        [Fact]
+        public async Task ConfirmEmail_Refresh_In_Sign_And_Redirect_To_ConfirmEmail_View_When_Email_Is_Confirmed()
+        {
+            var userId = "testUserId";
+            var code = "testCode";
+
+            _controller.ControllerContext.HttpContext.User = FakeClaimsPrincipalFactory.CreateConfirmedUser(Guid.NewGuid(), nameof(ApplicationUser.FullNameClaimType) + Guid.NewGuid());
+
+            //Act
+            var result = (ViewResult) await _controller.ConfirmEmail(userId, code);
+
+            //Assert
+            result.ViewName.Should().Be("ConfirmEmail");
+        }
+
+        [Fact]
+        public async Task ForgotPassword_Returns_View_And_Model_When_ModelState_Is_Invalid()
         {
             var forgotPasswordViewModel = new ForgotPasswordViewModel
             {
@@ -430,7 +441,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void ForgotPassword_Returns_ForgotPasswordConfirmation_View_If_User_Is_Not_Found()
+        public async Task ForgotPassword_Returns_ForgotPasswordConfirmation_View_If_User_Is_Not_Found()
         {
             var forgotpasswordviewmodel = new ForgotPasswordViewModel
             {
@@ -451,12 +462,13 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async void ForgotPassword_Sends_Password_Reset_Mail_To_User_And_Results_ForgotPasswordConfirmation_View()
+        public async Task ForgotPassword_Sends_Password_Reset_Mail_To_User_And_Results_ForgotPasswordConfirmation_View()
         {
             var forgotPasswordViewModel = new ForgotPasswordViewModel
             {
                 Email = "test@test.com"
             };
+
             var identity = new ApplicationUser();
 
             _userManagerMock.Setup(x => x.FindByNameAsync(forgotPasswordViewModel.Email))
@@ -472,6 +484,33 @@ namespace Ubora.Web.Tests._Features.Users.Account
 
             //Assert
             result.ViewName.Should().Be("ForgotPasswordConfirmation");
+        }
+
+        [Fact]
+        public async Task ResendEmailConfirmation_Resends_Email_Confirmation_Message_And_Returns_View()
+        {
+            var applicationUser = new ApplicationUser();
+            _userManagerMock.Setup(m => m.GetUserAsync(User)).ReturnsAsync(applicationUser);
+            _authMessageSenderMock.Setup(s => s.SendEmailConfirmationMessage(applicationUser))
+                .Returns(Task.FromResult(applicationUser));
+
+            //Act
+            var result = (ViewResult) await _controller.ResendEmailConfirmation();
+
+            //Assert
+            _authMessageSenderMock.Verify(s => s.SendEmailConfirmationMessage(applicationUser), Times.Once);
+        }
+
+        [Fact]
+        public async Task ResendEmailConfirmation_Returns_Error_View()
+        {
+            _userManagerMock.Setup(m => m.GetUserAsync(User)).ReturnsAsync((ApplicationUser)null);
+
+            //Act
+            var result = (ViewResult)await _controller.ResendEmailConfirmation();
+
+            //Assert
+            _authMessageSenderMock.Verify(s => s.SendEmailConfirmationMessage(It.IsAny<ApplicationUser>()), Times.Never);
         }
 
         private LoginViewModel GetLoginViewModel()

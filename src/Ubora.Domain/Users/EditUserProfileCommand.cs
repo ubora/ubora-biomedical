@@ -17,6 +17,5 @@ namespace Ubora.Domain.Users
         public string Institution { get; set; }
         public string Skills { get; set; }
         public string Role { get; set; }
-        public bool IsFirstTimeEditedProfile { get; set; }
     }
 }
