@@ -67,7 +67,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _controller.ViewData.ModelState.AddModelError("", errorMessage);
             var returnUrl = "/UserList/Index";
 
-            _userManagerMock.Setup(m => m.FindByNameAsync(It.IsAny<string>())).ReturnsAsync((ApplicationUser)null);
+            _userManagerMock.Setup(m => m.FindByNameAsync(loginViewModel.Email)).ReturnsAsync((ApplicationUser)null);
 
             //Act
             var result = (ViewResult)await _controller.Login(loginViewModel, returnUrl);
@@ -483,6 +483,33 @@ namespace Ubora.Web.Tests._Features.Users.Account
 
             //Assert
             result.ViewName.Should().Be("ForgotPasswordConfirmation");
+        }
+
+        [Fact]
+        public async Task ResendEmailConfirmation_Resends_Email_Confirmation_Message_And_Returns_View()
+        {
+            var applicationUser = new ApplicationUser();
+            _userManagerMock.Setup(m => m.GetUserAsync(User)).ReturnsAsync(applicationUser);
+            _authMessageSenderMock.Setup(s => s.SendEmailConfirmationMessage(applicationUser))
+                .Returns(Task.FromResult(applicationUser));
+
+            //Act
+            var result = (ViewResult) await _controller.ResendEmailConfirmation();
+
+            //Assert
+            _authMessageSenderMock.Verify(s => s.SendEmailConfirmationMessage(applicationUser), Times.Once);
+        }
+
+        [Fact]
+        public async Task ResendEmailConfirmation_Returns_Error_View()
+        {
+            _userManagerMock.Setup(m => m.GetUserAsync(User)).ReturnsAsync((ApplicationUser)null);
+
+            //Act
+            var result = (ViewResult)await _controller.ResendEmailConfirmation();
+
+            //Assert
+            _authMessageSenderMock.Verify(s => s.SendEmailConfirmationMessage(It.IsAny<ApplicationUser>()), Times.Never);
         }
 
         private LoginViewModel GetLoginViewModel()

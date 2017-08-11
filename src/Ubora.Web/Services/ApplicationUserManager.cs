@@ -22,6 +22,7 @@ namespace Ubora.Web.Services
     /// </summary>
     public interface IApplicationUserManager
     {
+        Task<ApplicationUser> GetUserAsync(ClaimsPrincipal principal);
         string GetUserId(ClaimsPrincipal principal);
         Task<IdentityResult> CreateAsync(ApplicationUser user);
         Task<ApplicationUser> FindByIdAsync(string userId);

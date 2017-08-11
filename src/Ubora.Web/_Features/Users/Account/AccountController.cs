@@ -455,6 +455,22 @@ namespace Ubora.Web._Features.Users.Account
             return View();
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> ResendEmailConfirmation()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return View("Error");
+            }
+
+            await _authMessageSender.SendEmailConfirmationMessage(user);
+
+            return View();
+        }
+
         #region Helpers
 
         private void AddErrors(IdentityResult result)
