@@ -1,7 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +14,7 @@ using Ubora.Web.Data;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Home;
 using Ubora.Web._Features.Users.Profile;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Users.Account
 {
@@ -258,36 +259,35 @@ namespace Ubora.Web._Features.Users.Account
                 return View("ConfirmEmail");
             }
 
-            if (userId.IsEmpty() || code.IsEmpty())
-            {
-                return View("Error");
-            }
-
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return View("Error");
+                throw new InvalidOperationException();
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (!result.Succeeded)
             {
-                return View("Error");
+                var errorNotice = new Notice("Code is wrong or expired", NoticeType.Error);
+                ShowNotice(errorNotice);
+                return RedirectToAction("Index", "Home");
             }
 
-            var getCurrentUserId = _userManager.GetUserId(User);
-            if (getCurrentUserId == null)
+            if (User.Identity.IsAuthenticated)
             {
-                return View("ConfirmEmail");
+                var isDifferentUserSignedIn = new Guid(userId) != UserId;
+                if (isDifferentUserSignedIn)
+                {
+                    await _signInManager.SignOutAsync();
+                }
+                else
+                {
+                    await _signInManager.RefreshSignInAsync(user);
+                    return RedirectToAction("ConfirmEmail");
+                }
             }
 
-            if (getCurrentUserId == userId)
-            {
-                await _signInManager.RefreshSignInAsync(user);
-                return RedirectToAction("ConfirmEmail");
-            }
-
-            return View("Error");
+            return View("ConfirmEmail");
         }
 
         [HttpGet]
