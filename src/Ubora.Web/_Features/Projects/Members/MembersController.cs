@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Identity;
 using Ubora.Web.Data;
 using Ubora.Domain.Notifications.Invitation;
 using Ubora.Domain.Notifications.Join;
+using System.Collections.Generic;
+using Ubora.Domain.Users.Specifications;
+using Ubora.Domain.Users.Queries;
 
 namespace Ubora.Web._Features.Projects.Members
 {
@@ -210,6 +213,21 @@ namespace Ubora.Web._Features.Projects.Members
             }
 
             return RedirectToAction(nameof(Members));
+        }
+
+        [HttpGet]
+        [Route(nameof(SearchUsers))]
+        public JsonResult SearchUsers(string searchPhrase)
+        {
+            var searchResult = QueryProcessor.ExecuteQuery(new SearchUsersQuery(searchPhrase));
+
+            var peopleDict = new Dictionary<string, string>();
+            foreach(var result in searchResult)
+            {
+                peopleDict.Add(result.Email, result.FullName);
+            }
+
+            return Json(peopleDict);
         }
     }
 }
