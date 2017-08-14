@@ -7,10 +7,10 @@ namespace Ubora.Domain.Notifications
         public Guid Id { get; private set; }
         public Guid NotificationTo { get; private set; }
         public bool HasBeenViewed { get; set; }
-        public abstract bool IsArchived { get; }
-        public abstract bool IsPending { get; }
         public DateTime? DecidedAt { get; private set; }
         public bool? IsAccepted { get; private set; }
+        public bool IsArchived => !IsPending;
+        public bool IsPending => IsAccepted == null && DecidedAt == null;
 
         protected UserBinaryAction(Guid userId)
         {

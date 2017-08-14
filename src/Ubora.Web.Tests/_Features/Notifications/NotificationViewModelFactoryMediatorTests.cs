@@ -64,9 +64,6 @@ namespace Ubora.Web.Tests._Features.Notifications
             public TestNotification() : base(Guid.Empty)
             {
             }
-
-            public override bool IsArchived { get; }
-            public override bool IsPending { get; }
         }
 
         public class TestNotificationViewModel : INotificationViewModel<TestNotification>

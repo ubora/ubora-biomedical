@@ -12,7 +12,5 @@ namespace Ubora.Domain.Notifications.Invitation
 
         public Guid InvitedMemberId { get; private set; }
         public Guid ProjectId { get; private set; }
-        public override bool IsArchived => !IsPending;
-        public override bool IsPending => IsAccepted == null && DecidedAt == null;
     }
 }
