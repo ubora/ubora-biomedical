@@ -50,7 +50,8 @@
         <div class="sidemenu-profile">
           <img class="sidemenu-profile-image avatar" src="@User.GetProfilePictureUrl()" alt="Profile picture" width="100">
           <div>
-            <p class="sidemenu-profile-name">@User.GetFullName()</p>
+              <p class="sidemenu-profile-name">@User.GetFullName()</p>
+              <p class="menu-profile-link">@User.GetEmail()</p>
             <a asp-controller="Manage" asp-action="Index">View profile</a>
           </div>
         </div>
