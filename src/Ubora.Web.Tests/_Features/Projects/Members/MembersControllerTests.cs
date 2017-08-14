@@ -13,6 +13,9 @@ using Ubora.Web.Tests.Fakes;
 using Ubora.Web.Tests.Helper;
 using Xunit;
 using Ubora.Web._Features.Projects.Dashboard;
+using Ubora.Domain.Users.Queries;
+using Ubora.Domain.Users;
+using System.Collections.Generic;
 
 namespace Ubora.Web.Tests._Features.Projects.Members
 {
@@ -165,6 +168,43 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             viewModel.ProjectId.Should().Be(projectId);
             viewModel.UserId.Should().Be(UserId);
             viewModel.ProjectName.Should().Be("projectTitle");
+        }
+
+        [Fact]
+        public void SearchUsers_Returns_Users_Json()
+        {
+            var userProfile1 = new UserProfile(Guid.NewGuid());
+            userProfile1.Set(x => x.Email, "Email1");
+            userProfile1.Set(x => x.FirstName, "FirstName1");
+            userProfile1.Set(x => x.LastName, "LastName1");
+
+            var userProfile2 = new UserProfile(Guid.NewGuid());
+            userProfile2.Set(x => x.Email, "Email2");
+            userProfile2.Set(x => x.FirstName, "FirstName2");
+            userProfile2.Set(x => x.LastName, "LastName2");
+
+            var searchResults = new[]
+            {
+                userProfile1,
+                userProfile2
+            };
+
+            var searchPhrase = "searchPhrase";
+            QueryProcessorMock.Setup(p => p.ExecuteQuery(It.IsAny<SearchUsersQuery>()))
+                .Returns(searchResults);
+
+            // Act
+            var result = _membersController.SearchUsers(searchPhrase);
+
+            // Assert
+            var usersDictionary = (Dictionary<string, string>) result.Value;
+            usersDictionary.Count.Should().Be(2);
+
+            usersDictionary.TryGetValue("Email1", out string user1FullName);
+            user1FullName.Should().Be("FirstName1 LastName1");
+
+            usersDictionary.TryGetValue("Email2", out string user2FullName);
+            user2FullName.Should().Be("FirstName2 LastName2");
         }
     }
 }
