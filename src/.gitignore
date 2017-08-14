@@ -259,3 +259,6 @@ _Pvt_Extensions
 .gulp
 node_modules/
 bower_components
+
+# JetBrains Rider
+.idea/
