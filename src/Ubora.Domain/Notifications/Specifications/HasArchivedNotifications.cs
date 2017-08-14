@@ -3,7 +3,7 @@ using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Notifications.Specifications
 {
-    public class HasArchivedNotifications<T> : WrappedSpecification<T> where T : BaseNotification
+    public class HasArchivedNotifications<T> : WrappedSpecification<T> where T : INotification
     {
         private readonly Guid _userId;
 
@@ -18,7 +18,7 @@ namespace Ubora.Domain.Notifications.Specifications
         } 
     }
 
-    public class HasArchivedNotifications : HasArchivedNotifications<BaseNotification>
+    public class HasArchivedNotifications : HasArchivedNotifications<INotification>
     {
         public HasArchivedNotifications(Guid userId) : base(userId)
         {

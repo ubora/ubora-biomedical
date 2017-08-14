@@ -4,7 +4,7 @@ using Ubora.Domain.Notifications;
 
 namespace Ubora.Web._Features.Notifications._Base
 {
-    public interface INotificationViewModel<T> : INotificationViewModel where T : BaseNotification
+    public interface INotificationViewModel<T> : INotificationViewModel where T : INotification
     {
     }
 

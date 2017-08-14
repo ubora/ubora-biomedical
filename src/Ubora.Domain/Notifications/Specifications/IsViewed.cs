@@ -4,7 +4,7 @@ using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Notifications.Specifications
 {
-    public class IsViewed<T> : Specification<T> where T : BaseNotification
+    public class IsViewed<T> : Specification<T> where T : UserBinaryAction
     {
         public IsViewed()
         {
@@ -16,7 +16,7 @@ namespace Ubora.Domain.Notifications.Specifications
         }
     }
 
-    public class IsViewed : IsViewed<BaseNotification>
+    public class IsViewed : IsViewed<UserBinaryAction>
     {
     }
 }

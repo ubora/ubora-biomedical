@@ -10,38 +10,37 @@ namespace Ubora.Domain.Notifications.Join
 {
     public class JoinProjectCommand : UserProjectCommand
     {
-    }
-
-    internal class JoinProjectCommandHandler : CommandHandler<JoinProjectCommand>
-    {
-        public JoinProjectCommandHandler(IDocumentSession documentSession) : base(documentSession)
+        internal class Handler : CommandHandler<JoinProjectCommand>
         {
-        }
-
-        public override ICommandResult Handle(JoinProjectCommand cmd)
-        {
-            var userProfile = DocumentSession.Load<UserProfile>(cmd.Actor.UserId);
-            if (userProfile == null) throw new InvalidOperationException();
-
-            var project = DocumentSession.Load<Project>(cmd.ProjectId);
-
-            var isUserAlreadyMember = project.DoesSatisfy(new HasMember(cmd.Actor.UserId));
-            if (isUserAlreadyMember)
+            public Handler(IDocumentSession documentSession) : base(documentSession)
             {
-                return new CommandResult($"[{cmd.Actor.UserId}] is already member of project [{cmd.ProjectId}].");
             }
 
-            var projectLeaderId = project.Members
-                .Where(x => x is ProjectLeader)
-                .Select(x => x.UserId)
-                .First();
+            public override ICommandResult Handle(JoinProjectCommand cmd)
+            {
+                var userProfile = DocumentSession.Load<UserProfile>(cmd.Actor.UserId);
+                if (userProfile == null) throw new InvalidOperationException();
 
-            var joinProject = new RequestToJoinProject(Guid.NewGuid(), projectLeaderId, cmd.Actor.UserId, cmd.ProjectId);
+                var project = DocumentSession.Load<Project>(cmd.ProjectId);
 
-            DocumentSession.Store(joinProject);
-            DocumentSession.SaveChanges();
+                var isUserAlreadyMember = project.DoesSatisfy(new HasMember(cmd.Actor.UserId));
+                if (isUserAlreadyMember)
+                {
+                    return new CommandResult($"[{cmd.Actor.UserId}] is already member of project [{cmd.ProjectId}].");
+                }
 
-            return new CommandResult();
+                var projectLeaderId = project.Members
+                    .Where(x => x is ProjectLeader)
+                    .Select(x => x.UserId)
+                    .First();
+
+                var joinProject = new RequestToJoinProject(projectLeaderId, cmd.Actor.UserId, cmd.ProjectId);
+
+                DocumentSession.Store(joinProject);
+                DocumentSession.SaveChanges();
+
+                return new CommandResult();
+            }
         }
     }
 }

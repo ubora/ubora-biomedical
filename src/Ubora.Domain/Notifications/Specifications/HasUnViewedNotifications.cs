@@ -3,7 +3,7 @@ using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Notifications.Specifications
 {
-    public class HasUnViewedNotifications<T> : WrappedSpecification<T> where T : BaseNotification
+    public class HasUnViewedNotifications<T> : WrappedSpecification<T> where T : UserBinaryAction
     {
         private readonly Guid _userId;
 
@@ -18,7 +18,7 @@ namespace Ubora.Domain.Notifications.Specifications
         }
     }
 
-    public class HasUnViewedNotifications : HasUnViewedNotifications<BaseNotification>
+    public class HasUnViewedNotifications : HasUnViewedNotifications<UserBinaryAction>
     {
         public HasUnViewedNotifications(Guid userId) : base(userId)
         {

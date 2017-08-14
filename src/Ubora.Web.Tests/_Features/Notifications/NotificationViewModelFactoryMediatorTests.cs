@@ -59,9 +59,9 @@ namespace Ubora.Web.Tests._Features.Notifications
             act.ShouldThrow<InvalidOperationException>();
         }
 
-        public class TestNotification : BaseNotification
+        public class TestNotification : UserBinaryAction
         {
-            public TestNotification() : base(Guid.Empty, Guid.Empty)
+            public TestNotification() : base(Guid.Empty)
             {
             }
 
