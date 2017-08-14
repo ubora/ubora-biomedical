@@ -9,7 +9,8 @@ namespace Ubora.Domain.Notifications
         /// UserId of the user the notification is to.
         /// </summary>
         Guid NotificationTo { get; }
-        bool HasBeenViewed { get; }
+        // Todo: internal
+        bool HasBeenViewed { get; set; }
         bool IsArchived { get; }
     }
 }
