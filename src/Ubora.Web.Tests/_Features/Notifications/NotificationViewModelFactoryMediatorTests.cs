@@ -72,6 +72,8 @@ namespace Ubora.Web.Tests._Features.Notifications
             {
                 throw new NotImplementedException();
             }
+
+            public bool IsUnread { get; }
         }
     }
 }

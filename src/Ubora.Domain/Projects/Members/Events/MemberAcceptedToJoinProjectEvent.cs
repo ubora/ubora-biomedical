@@ -1,7 +1,7 @@
 ﻿using System;
 using Ubora.Domain.Infrastructure.Events;
 
-namespace Ubora.Domain.Projects.Members
+namespace Ubora.Domain.Projects.Members.Events
 {
     internal class MemberAcceptedToJoinProjectEvent : UboraEvent
     {

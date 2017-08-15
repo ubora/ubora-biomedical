@@ -7,6 +7,7 @@ using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Notifications.Join;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
+using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Domain.Users;
 using Ubora.Web._Features.Projects.Members;
 using Ubora.Web._Features.Users.Account;

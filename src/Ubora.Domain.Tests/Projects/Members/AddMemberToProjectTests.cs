@@ -10,6 +10,7 @@ using Ubora.Domain.Notifications.Join;
 using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
+using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Domain.Users;
 using Xunit;
 

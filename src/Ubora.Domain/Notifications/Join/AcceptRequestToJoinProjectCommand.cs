@@ -3,6 +3,7 @@ using System;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
+using Ubora.Domain.Projects.Members.Events;
 using Ubora.Domain.Users;
 
 namespace Ubora.Domain.Notifications.Join

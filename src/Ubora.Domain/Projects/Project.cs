@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.DeviceClassification;
-using System.Linq;
+using Ubora.Domain.Projects.Members.Events;
 using Ubora.Domain.Projects.Workpackages.Events;
 
 namespace Ubora.Domain.Projects
@@ -101,22 +101,6 @@ namespace Ubora.Domain.Projects
             Description = e.Description;
         }
 
-        private void Apply(ProjectMentorAssignedEvent e)
-        {
-            var isMember = this.DoesSatisfy(new HasMember<ProjectMember>(e.UserId));
-            if (isMember)
-            {
-                _members.RemoveWhere(m => m.UserId == e.UserId);
-            }
-
-            var isAlreadyMentor = this.DoesSatisfy(new HasMember<ProjectMentor>(e.UserId));
-            if (isAlreadyMentor)
-            {
-                return;
-            }
-            _members.Add(new ProjectMentor(e.UserId));
-        }
-
         private void Apply(WorkpackageOneReviewAcceptedEvent e)
         {
             IsInDraft = false;
@@ -132,6 +116,17 @@ namespace Ubora.Domain.Projects
         {
             ProjectImageBlobLocation = null;
             ProjectImageLastUpdated = e.When;
+        }
+
+        private void Apply(MentorJoinedProjectEvent e)
+        {
+            var isMentorAlready = this.DoesSatisfy(new HasMember<ProjectMentor>(e.UserId));
+            if (isMentorAlready)
+            {
+                throw new InvalidOperationException();
+            }
+
+            _members.Add(new ProjectMentor(e.UserId));
         }
 
         public override string ToString()

@@ -4,8 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Ubora.Domain.Projects.Members;
+using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Web._Features.Users.UserList;
 using Ubora.Web.Data;
+using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
 using Ubora.Web._Features._Shared.Notices;
 
@@ -60,8 +62,7 @@ namespace Ubora.Web._Features.Projects.Mentors
                 return InviteMentors();
             }
 
-            // TODO(Kaspar Kallas): Invitation with notification
-            ExecuteUserProjectCommand(new AssignProjectMentorCommand
+            ExecuteUserProjectCommand(new InviteProjectMentorCommand
             {
                 UserId = userId
             });

@@ -10,6 +10,7 @@ using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Notifications.Invitation;
 using Ubora.Domain.Notifications.Join;
+using Ubora.Domain.Projects.Members;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
@@ -42,7 +43,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.AddEventTypes(eventTypes);
 
                 options.Schema.For<INotification>()
-                    .AddSubClassHierarchy(typeof(UserBinaryAction), typeof(InvitationToProject), typeof(RequestToJoinProject));
+                    .AddSubClassHierarchy(typeof(UserBinaryAction), typeof(InvitationToProject), typeof(RequestToJoinProject), typeof(ProjectMentorInvitation));
             };
         }
     }

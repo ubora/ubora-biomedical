@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
+using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Domain.Users;
 
@@ -34,11 +36,21 @@ namespace Ubora.Domain.Tests
 
         public static void Assign_Project_Mentor(this IntegrationFixture fixture, Guid projectId, Guid userId)
         {
-            fixture.Processor.Execute(new AssignProjectMentorCommand
+            fixture.Processor.Execute(new InviteProjectMentorCommand
             {
                 UserId = userId,
                 ProjectId = projectId,
                 Actor = new DummyUserInfo()
+            });
+
+            var invitation = fixture.Processor.Find<ProjectMentorInvitation>()
+                .Last(x => x.InviteeUserId == userId);
+
+            fixture.Processor.Execute(new AcceptInvitationToJoinProjectAsMentorCommand
+            {
+                ProjectId = projectId,
+                Actor = new DummyUserInfo(),
+                InvitationId = invitation.Id
             });
         }
 
