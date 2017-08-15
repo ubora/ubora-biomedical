@@ -14,7 +14,11 @@ namespace Ubora.Web._Features.Notifications._Base
             _factories = factories;
         }
 
-        public INotificationViewModel Create(BaseNotification notification)
+        protected NotificationViewModelFactoryMediator()
+        {
+        }
+
+        public virtual INotificationViewModel Create(INotification notification)
         {
             var notificationType = notification.GetType();
 
