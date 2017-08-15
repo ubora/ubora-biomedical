@@ -11,7 +11,7 @@
     <form asp-controller="Members" asp-action="Invite" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <input asp-for="ProjectId" type="hidden"/>
+        <input asp-for="ProjectId" type="hidden" />
 
         <div class="form-input">
             <label asp-for="Email">User's email address</label>
@@ -27,36 +27,9 @@
 
 @section Scripts {
     <script>
-    (() => {
-        AutoComplete({
-            Limit: 100,
-            MinChars: 2,
-            Url: "/Projects/@Model.ProjectId/Members/SearchUsers",
-            QueryArg: "searchPhrase",
-            EmptyMessage: "No results",
-            _RenderResponseItems: function (response) {
-                var ul = document.createElement("ul"),
-                    li = document.createElement("li"),
-                    limit = this._Limit();
-
-                // Order
-                if (limit < 0) {
-                    response = response.reverse();
-                } else if (limit === 0) {
-                    limit = response.length;
-                }
-
-                for (var item = 0; item < Math.min(Math.abs(limit), response.length); item++) {
-                    li.innerHTML = response[item].Label + ' - ' + response[item].Value;
-                    li.setAttribute("data-autocomplete-value", response[item].Value);
-
-                    ul.appendChild(li);
-                    li = document.createElement("li");
-                }
-
-                return ul;
-            },
-        }, "#autocomplete");
-    })();
+    $(function () {
+        var searchUsersUrl = '/Projects/@Model.ProjectId/Members/SearchUsers';
+        autoComplete(searchUsersUrl);
+    })
     </script>
 }
