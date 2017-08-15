@@ -13,9 +13,9 @@ using Ubora.Web.Tests.Fakes;
 using Ubora.Web.Tests.Helper;
 using Xunit;
 using Ubora.Web._Features.Projects.Dashboard;
-using Ubora.Domain.Users.Queries;
 using Ubora.Domain.Users;
 using System.Collections.Generic;
+using Ubora.Domain.Users.Specifications;
 
 namespace Ubora.Web.Tests._Features.Projects.Members
 {
@@ -190,7 +190,9 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             };
 
             var searchPhrase = "searchPhrase";
-            QueryProcessorMock.Setup(p => p.ExecuteQuery(It.IsAny<SearchUsersQuery>()))
+            var specification = new UserFullNameContainsPhraseSpec(searchPhrase)
+                || new UserEmailContainsPhraseSpec(searchPhrase);
+            QueryProcessorMock.Setup(p => p.Find(specification))
                 .Returns(searchResults);
 
             // Act
