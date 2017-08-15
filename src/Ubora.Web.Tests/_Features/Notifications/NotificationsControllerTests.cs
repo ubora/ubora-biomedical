@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Ubora.Domain.Notifications;
 using Ubora.Web._Features.Notifications;
 using Xunit;
-using Ubora.Web.Services;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Notifications.Invitation;
 using Ubora.Domain.Notifications.Specifications;
@@ -28,7 +27,7 @@ namespace Ubora.Web.Tests._Features.Notifications
         [Fact]
         public void Index_Marks_Invitations_As_Viewed()
         {
-            var invitation = new InvitationToProject(Guid.NewGuid(), UserId, UserId, Guid.NewGuid());
+            var invitation = new InvitationToProject(UserId, Guid.NewGuid());
             var invitations = new List<InvitationToProject> { invitation };
 
             QueryProcessorMock
