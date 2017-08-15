@@ -28,7 +28,7 @@ namespace Ubora.Domain.Notifications.Join
             var isUserAlreadyMember = project.DoesSatisfy(new HasMember(cmd.Actor.UserId));
             if (isUserAlreadyMember)
             {
-                return new CommandResult($"[{cmd.Actor.UserId}] is already member of project [{cmd.ProjectId}].");
+                return new CommandResult($"[{userProfile.FullName}] is already member of project [{project.Title}].");
             }
 
             var projectLeaderId = project.Members
