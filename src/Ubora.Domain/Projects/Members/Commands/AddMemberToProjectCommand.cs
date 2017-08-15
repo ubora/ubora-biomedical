@@ -18,10 +18,8 @@ namespace Ubora.Domain.Projects.Members.Commands
 
             public override ICommandResult Handle(AddMemberToProjectCommand cmd)
             {
-                var userProfile = DocumentSession.Load<UserProfile>(cmd.UserId);
-                if (userProfile == null) throw new InvalidOperationException();
-
-                var project = DocumentSession.Load<Project>(cmd.ProjectId);
+                var userProfile = DocumentSession.LoadOrThrow<UserProfile>(cmd.UserId);
+                var project = DocumentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
                 var isUserAlreadyMember = project.DoesSatisfy(new HasMember(cmd.UserId));
                 if (isUserAlreadyMember)

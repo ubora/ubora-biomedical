@@ -1,10 +1,9 @@
-﻿using Ubora.Domain.Infrastructure.Commands;
+﻿using System.Linq;
 using Marten;
-using System.Linq;
-using Ubora.Domain.Projects;
+using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
 
-namespace Ubora.Domain.Notifications.Invitation
+namespace Ubora.Domain.Projects.Members.Commands
 {
     public class InviteMemberToProjectCommand : UserProjectCommand
     {
@@ -27,7 +26,7 @@ namespace Ubora.Domain.Notifications.Invitation
                     return new CommandResult($"Email [{cmd.InvitedMemberEmail}] not found.");
                 }
 
-                var project = _documentSession.Load<Project>(cmd.ProjectId);
+                var project = _documentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
                 var isUserAlreadyMember = project.Members.Any(m => m.UserId == userProfile.UserId);
                 if (isUserAlreadyMember)

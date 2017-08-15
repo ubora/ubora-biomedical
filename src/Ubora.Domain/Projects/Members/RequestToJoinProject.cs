@@ -1,6 +1,7 @@
 ﻿using System;
+using Ubora.Domain.Notifications;
 
-namespace Ubora.Domain.Notifications.Join
+namespace Ubora.Domain.Projects.Members
 {
     public class RequestToJoinProject : UserBinaryAction
     {

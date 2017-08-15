@@ -10,8 +10,6 @@ using Ubora.Domain.Projects;
 using Ubora.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Ubora.Web.Data;
-using Ubora.Domain.Notifications.Invitation;
-using Ubora.Domain.Notifications.Join;
 using Ubora.Domain.Projects.Members.Commands;
 
 namespace Ubora.Web._Features.Projects.Members

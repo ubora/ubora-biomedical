@@ -1,12 +1,10 @@
 ﻿using System;
+using System.Linq;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
-using Ubora.Domain.Projects;
-using System.Linq;
-using Ubora.Domain.Projects.Members;
 
-namespace Ubora.Domain.Notifications.Join
+namespace Ubora.Domain.Projects.Members.Commands
 {
     public class JoinProjectCommand : UserProjectCommand
     {
@@ -18,16 +16,14 @@ namespace Ubora.Domain.Notifications.Join
 
             public override ICommandResult Handle(JoinProjectCommand cmd)
             {
-                var userProfile = DocumentSession.Load<UserProfile>(cmd.Actor.UserId);
-                if (userProfile == null) throw new InvalidOperationException();
+                var userProfile = DocumentSession.LoadOrThrow<UserProfile>(cmd.Actor.UserId);
+                var project = DocumentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
-                var project = DocumentSession.Load<Project>(cmd.ProjectId);
-
-            var isUserAlreadyMember = project.DoesSatisfy(new HasMember(cmd.Actor.UserId));
-            if (isUserAlreadyMember)
-            {
-                return new CommandResult($"[{userProfile.FullName}] is already member of project [{project.Title}].");
-            }
+                var isUserAlreadyMember = project.DoesSatisfy(new HasMember(cmd.Actor.UserId));
+                if (isUserAlreadyMember)
+                {
+                    return new CommandResult($"[{userProfile.FullName}] is already member of project [{project.Title}].");
+                }
 
                 var projectLeaderId = project.Members
                     .Where(x => x is ProjectLeader)

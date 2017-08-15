@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Notifications.Invitation;
+using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Web.Infrastructure;
 
 namespace Ubora.Web._Features.Notifications.Invitations

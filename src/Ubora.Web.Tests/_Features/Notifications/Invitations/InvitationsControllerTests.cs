@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Notifications.Invitation;
+using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Web._Features.Notifications;
 using Ubora.Web._Features.Notifications.Invitations;
 using Xunit;

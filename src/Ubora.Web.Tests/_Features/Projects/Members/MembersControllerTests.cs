@@ -4,7 +4,6 @@ using Moq;
 using System;
 using System.Security.Claims;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Notifications.Join;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Commands;

@@ -1,11 +1,10 @@
-﻿using Marten;
-using System;
+﻿using System;
+using Marten;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members.Events;
 using Ubora.Domain.Users;
 
-namespace Ubora.Domain.Notifications.Invitation
+namespace Ubora.Domain.Projects.Members.Commands
 {
     public class AcceptInvitationToProjectCommand : UserCommand
     {
@@ -26,11 +25,11 @@ namespace Ubora.Domain.Notifications.Invitation
                 var userProfile = _documentSession.LoadOrThrow<UserProfile>(invite.InvitedMemberId);
                 var project = _documentSession.LoadOrThrow<Project>(invite.ProjectId);
 
-            var isUserAlreadyMember = project.DoesSatisfy(new HasMember(invite.InvitedMemberId));
-            if (isUserAlreadyMember)
-            {
-                return new CommandResult($"[{userProfile.FullName}] is already member of project [{project.Title}].");
-            }
+                var isUserAlreadyMember = project.DoesSatisfy(new HasMember(invite.InvitedMemberId));
+                if (isUserAlreadyMember)
+                {
+                    return new CommandResult($"[{userProfile.FullName}] is already member of project [{project.Title}].");
+                }
 
                 invite.Accept();
 

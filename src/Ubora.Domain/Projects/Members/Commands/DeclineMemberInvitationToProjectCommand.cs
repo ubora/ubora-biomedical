@@ -2,7 +2,7 @@
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 
-namespace Ubora.Domain.Notifications.Invitation
+namespace Ubora.Domain.Projects.Members.Commands
 {
     public class DeclineInvitationToProjectCommand : UserCommand
     {

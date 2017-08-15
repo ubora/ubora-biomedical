@@ -8,8 +8,6 @@ using Ubora.Domain.Projects.Tasks;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Notifications;
-using Ubora.Domain.Notifications.Invitation;
-using Ubora.Domain.Notifications.Join;
 using Ubora.Domain.Projects.Members;
 
 namespace Ubora.Domain.Infrastructure.Marten
