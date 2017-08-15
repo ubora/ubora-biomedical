@@ -23,11 +23,11 @@ namespace Ubora.Domain.Notifications.Join
 
                 var project = DocumentSession.Load<Project>(cmd.ProjectId);
 
-                var isUserAlreadyMember = project.DoesSatisfy(new HasMember(cmd.Actor.UserId));
-                if (isUserAlreadyMember)
-                {
-                    return new CommandResult($"[{cmd.Actor.UserId}] is already member of project [{cmd.ProjectId}].");
-                }
+            var isUserAlreadyMember = project.DoesSatisfy(new HasMember(cmd.Actor.UserId));
+            if (isUserAlreadyMember)
+            {
+                return new CommandResult($"[{userProfile.FullName}] is already member of project [{project.Title}].");
+            }
 
                 var projectLeaderId = project.Members
                     .Where(x => x is ProjectLeader)

@@ -48,7 +48,6 @@ namespace Ubora.Domain.Tests
 
             fixture.Processor.Execute(new AcceptInvitationToJoinProjectAsMentorCommand
             {
-                ProjectId = projectId,
                 Actor = new DummyUserInfo(),
                 InvitationId = invitation.Id
             });
