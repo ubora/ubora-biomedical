@@ -33,7 +33,7 @@
     position: fixed;
     bottom: 0;
     right: 0;
-    background-color: var(--secondary-color);
+    background-color: var(--quaternary-color);
     padding: 5px;
     font-size: 120%;
 }
