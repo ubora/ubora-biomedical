@@ -7,28 +7,27 @@ namespace Ubora.Domain.Notifications.Invitation
     public class DeclineInvitationToProjectCommand : UserCommand
     {
         public Guid InvitationId { get; set; }
-    }
 
-    internal class DeclineInvitationToProjectCommandHandler : ICommandHandler<DeclineInvitationToProjectCommand>
-    {
-        private readonly IDocumentSession _documentSession;
-
-        public DeclineInvitationToProjectCommandHandler(IDocumentSession documentSession)
+        internal class DeclineInvitationToProjectCommandHandler : ICommandHandler<DeclineInvitationToProjectCommand>
         {
-            _documentSession = documentSession;
-        }
+            private readonly IDocumentSession _documentSession;
 
-        public ICommandResult Handle(DeclineInvitationToProjectCommand command)
-        {
-            var invite = _documentSession.Load<InvitationToProject>(command.InvitationId);
-            if (invite == null) throw new InvalidOperationException();
+            public DeclineInvitationToProjectCommandHandler(IDocumentSession documentSession)
+            {
+                _documentSession = documentSession;
+            }
 
-            invite.Decline();
+            public ICommandResult Handle(DeclineInvitationToProjectCommand command)
+            {
+                var invite = _documentSession.LoadOrThrow<InvitationToProject>(command.InvitationId);
 
-            _documentSession.Store(invite);
-            _documentSession.SaveChanges();
+                invite.Decline();
 
-            return new CommandResult();
+                _documentSession.Store(invite);
+                _documentSession.SaveChanges();
+
+                return new CommandResult();
+            }
         }
     }
 }
