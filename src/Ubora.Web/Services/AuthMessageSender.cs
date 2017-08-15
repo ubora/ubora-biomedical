@@ -28,8 +28,8 @@ namespace Ubora.Web.Services
         {
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            var callbackUrl = _urlHelper.Action("ConfirmEmail", "Account", new { userId = user.Id, code },
-                protocol: _urlHelper.ActionContext.HttpContext.Request.Scheme);
+            var protocol = _urlHelper.ActionContext.HttpContext.Request.Scheme;
+            var callbackUrl = _urlHelper.Action("ConfirmEmail", "Account", new { userId = user.Id, code }, protocol);
 
             var message = "<h1 style='color:#4777BB; font-family: sans-serif; text-align:center;'>E-mail confirmation</h1><p>Please confirm your e-mail by clicking here on the following link or copy-paste it in your browser: <br /><a href=\"" + callbackUrl + "\">" + callbackUrl + "</a>.</p>";
 

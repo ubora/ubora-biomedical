@@ -254,21 +254,21 @@ namespace Ubora.Web._Features.Users.Account
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
-            if (User.IsEmailConfirmed())
-            {
-                return View("ConfirmEmail");
-            }
-
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 throw new InvalidOperationException();
             }
 
+            if(user.EmailConfirmed)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (!result.Succeeded)
             {
-                var errorNotice = new Notice("Code is wrong or expired", NoticeType.Error);
+                var errorNotice = new Notice("Confirmation code is wrong or expired!", NoticeType.Error);
                 ShowNotice(errorNotice);
                 return RedirectToAction("Index", "Home");
             }
@@ -283,11 +283,12 @@ namespace Ubora.Web._Features.Users.Account
                 else
                 {
                     await _signInManager.RefreshSignInAsync(user);
-                    return RedirectToAction("ConfirmEmail");
                 }
             }
 
-            return View("ConfirmEmail");
+            var successNotice = new Notice("Your email has been confirmed successfully!", NoticeType.Success);
+            ShowNotice(successNotice);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -463,7 +464,7 @@ namespace Ubora.Web._Features.Users.Account
 
             if (user == null)
             {
-                return View("Error");
+                return RedirectToAction("Index", "Home");
             }
 
             await _authMessageSender.SendEmailConfirmationMessage(user);
