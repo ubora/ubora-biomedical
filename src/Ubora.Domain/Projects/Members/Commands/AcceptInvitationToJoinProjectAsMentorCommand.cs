@@ -18,7 +18,6 @@ namespace Ubora.Domain.Projects.Members.Commands
                 _documentSession = documentSession;
             }
 
-            // TODO(tests)
             public ICommandResult Handle(AcceptInvitationToJoinProjectAsMentorCommand command)
             {
                 var invite = _documentSession.LoadOrThrow<ProjectMentorInvitation>(command.InvitationId);
@@ -30,11 +29,14 @@ namespace Ubora.Domain.Projects.Members.Commands
                 var @event = new MentorJoinedProjectEvent(
                     projectId: project.Id,
                     userId: userProfile.UserId,
-                    userFullName: userProfile.FullName,
                     initiatedBy: command.Actor);
 
                 _documentSession.Events.Append(invite.ProjectId, @event);
                 _documentSession.Store(invite);
+
+                var notification = new MentorJoinedProjectEvent.NotificationToInviter(invite.InvitedBy, userProfile.UserId, project.Id);
+                _documentSession.Store(notification);
+
                 _documentSession.SaveChanges();
 
                 return new CommandResult();

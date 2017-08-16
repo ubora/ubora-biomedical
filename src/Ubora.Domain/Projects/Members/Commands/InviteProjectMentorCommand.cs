@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
@@ -23,11 +24,17 @@ namespace Ubora.Domain.Projects.Members.Commands
                 var isAlreadyMentor = project.DoesSatisfy(new HasMember<ProjectMentor>(cmd.UserId));
                 if (isAlreadyMentor)
                 {
-                    return new CommandResult("User is already project mentor.");
+                    return new CommandResult("User is already a mentor of this project.");
                 }
 
-                // TODO(!!!)
-                var invite = new ProjectMentorInvitation(userProfile.UserId, project.Id, Guid.Empty);
+                var isAlreadyInvited = DocumentSession.Query<ProjectMentorInvitation>()
+                    .Any(x => x.ProjectId == project.Id && x.InviteeUserId == cmd.UserId && x.IsPending);
+                if (isAlreadyInvited)
+                {
+                    return new CommandResult($"{userProfile.FullName} already has a pending mentor invitation to this project.");
+                }
+
+                var invite = new ProjectMentorInvitation(userProfile.UserId, project.Id, cmd.Actor.UserId);
 
                 DocumentSession.Store(invite);
                 DocumentSession.SaveChanges();

@@ -1,28 +1,32 @@
-﻿@using Ubora.Web._Features.Projects.Mentors
-@model MentorsViewModel
+﻿@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Mentors.MentorsViewModel
+@{
+    ViewData["Title"] = "Mentors";
+    ViewData["MenuOption"] = ProjectMenuOption.Members;
+}
 
-Project mentors:
-<ol>
-    @foreach (var mentor in Model.ProjectMentors)
-    {
-        <li>@mentor.FullName</li>
-    }
-</ol>
+<section class="narrow-width">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+    <h2 class="full-width">Project mentors</h2>
+    <ol>
+        @foreach (var mentor in Model.ProjectMentors)
+        {
+            <li>@mentor.FullName</li>
+        }
+    </ol>
 
-@*active*@
-@*pending invitation*@
-
-All UBORA mentors:
-<ol>
-    @foreach (var mentor in Model.UboraMentors)
-    {
-        <li>
-            @mentor.FullName
-            <form asp-action="InviteMentor">
-                <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId" />
-                <button type="submit"></button>
-            </form>
-        </li>
-    }
-</ol>
+    <h2 class="full-width">All UBORA mentors:</h2>
+    <ol>
+        @foreach (var mentor in Model.UboraMentors)
+            {
+            <li>
+                <form asp-action="InviteMentor">
+                    @mentor.FullName
+                    <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId" />
+                    <button type="submit">Invite mentor</button>
+                </form>
+            </li>
+        }
+    </ol>
+</section>

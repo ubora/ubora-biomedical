@@ -12,6 +12,7 @@ using Ubora.Web._Features.Users.UserList;
 using Ubora.Web._Features.Projects.Repository;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Web._Features.Projects.Assignments;
+using Ubora.Web._Features.Projects.Mentors;
 
 namespace Ubora.Web._Features._Shared
 {
@@ -28,7 +29,6 @@ namespace Ubora.Web._Features._Shared
             CreateMap<Project, ProjectListViewModel.ProjectListItem>()
                 .ForMember(dest => dest.ImagePath, o => o.Ignore());
 
-
             CreateMap<Project, UpdateProjectCommand>()
                 .ForMember(dest => dest.ProjectId, o => o.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Actor, o => o.Ignore());
@@ -42,8 +42,12 @@ namespace Ubora.Web._Features._Shared
                 .IncludeBase<WorkpackageStep, EditStepViewModel>()
                 .ForMember(dest => dest.EditButton, o => o.Ignore());
 
-            CreateMap<UserProfile, UserListItemViewModel>(MemberList.None);
-            CreateMap<UserProfile, ProfileViewModel>(MemberList.None);
+            CreateMap<UserProfile, UserListItemViewModel>()
+                .ForMember(dest => dest.ProfilePictureLink, o => o.Ignore());
+
+            CreateMap<UserProfile, ProfileViewModel>()
+                .ForMember(dest => dest.ProfilePictureLink, o => o.Ignore());
+
             CreateMap<UserProfile, UserProfileViewModel>().ForMember(dest => dest.CountryCode, o => o.MapFrom(src => src.Country.Code));
 
             CreateMap<Project, DesignPlanningViewModel>();

@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Commands;
-using Ubora.Web._Features.Users.UserList;
 using Ubora.Web.Data;
-using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
 using Ubora.Web._Features._Shared.Notices;
 
@@ -24,19 +20,9 @@ namespace Ubora.Web._Features.Projects.Mentors
 
         [DisableProjectControllerAuthorization]
         [Authorize(Roles = ApplicationRole.Admin)]
-        public IActionResult InviteMentors()
+        public IActionResult InviteMentors([FromServices]MentorsViewModel.Factory modelFactory)
         {
-            var projectMentors = QueryProcessor.ExecuteQuery(new FindProjectMentorProfilesQuery
-            {
-                ProjectId = this.ProjectId
-            });
-            var uboraMentors = QueryProcessor.ExecuteQuery(new FindUboraMentorProfilesQuery());
-
-            var model = new MentorsViewModel
-            {
-                UboraMentors = uboraMentors.Select(AutoMapper.Map<UserListItemViewModel>),
-                ProjectMentors = projectMentors.Select(AutoMapper.Map<UserListItemViewModel>)
-            };
+            var model = modelFactory.Create(this.ProjectId);
 
             return View(nameof(InviteMentors), model);
         }
@@ -44,7 +30,7 @@ namespace Ubora.Web._Features.Projects.Mentors
         [HttpPost]
         [DisableProjectControllerAuthorization]
         [Authorize(Roles = ApplicationRole.Admin)]
-        public async Task<IActionResult> InviteMentor(Guid userId)
+        public async Task<IActionResult> InviteMentor(Guid userId, [FromServices]MentorsViewModel.Factory modelFactory)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user == null)
@@ -59,7 +45,7 @@ namespace Ubora.Web._Features.Projects.Mentors
 
             if (!ModelState.IsValid)
             {
-                return InviteMentors();
+                return InviteMentors(modelFactory);
             }
 
             ExecuteUserProjectCommand(new InviteProjectMentorCommand
@@ -69,7 +55,7 @@ namespace Ubora.Web._Features.Projects.Mentors
 
             if (!ModelState.IsValid)
             {
-                return InviteMentors();
+                return InviteMentors(modelFactory);
             }
 
             ShowNotice(new Notice("Mentor successfully invited.", NoticeType.Success));

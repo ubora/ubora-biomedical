@@ -2,6 +2,7 @@
 
 namespace Ubora.Domain.Notifications
 {
+    // TODO: Don't forget to add type to AddSubClassHierarchy() in UboraStoreOptions
     public interface INotification
     {
         Guid Id { get; }

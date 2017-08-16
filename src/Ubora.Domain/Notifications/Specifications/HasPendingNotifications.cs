@@ -18,7 +18,7 @@ namespace Ubora.Domain.Notifications.Specifications
         }
     }
 
-    public class HasPendingNotifications : HasPendingNotifications<UserBinaryAction>
+    public class HasPendingNotifications : HasPendingNotifications<INotification>
     {
         public HasPendingNotifications(Guid userId) : base(userId)
         {
