@@ -36,6 +36,7 @@
     background-color: var(--quaternary-color);
     padding: 5px;
     font-size: 120%;
+    border-radius: 5px;
 }
 
     #feedback-modal-trigger,
