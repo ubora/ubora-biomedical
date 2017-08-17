@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -15,17 +16,23 @@ namespace Ubora.Web.Infrastructure
     {
         private readonly IRazorViewEngine _viewEngine;
         private readonly ITempDataProvider _tempDataProvider;
-        private readonly HttpContext _context;
+        private readonly HttpContext _httpContext;
+        private readonly ActionContext _actionContext;
 
         protected ViewRender()
         {  
         }
 
-        public ViewRender(IRazorViewEngine viewEngine, ITempDataProvider tempDataProvider, IHttpContextAccessor accessor)
+        public ViewRender(IRazorViewEngine viewEngine, 
+            ITempDataProvider tempDataProvider, 
+            IHttpContextAccessor httpContextAccessor,
+            IActionContextAccessor actionContextAccessor
+            )
         {
             _viewEngine = viewEngine;
             _tempDataProvider = tempDataProvider;
-            _context = accessor.HttpContext;
+            _httpContext = httpContextAccessor.HttpContext;
+            _actionContext = actionContextAccessor.ActionContext;
         }
 
         public virtual string Render<TModel>(string path, string fileName, TModel model)
@@ -37,25 +44,24 @@ namespace Ubora.Web.Infrastructure
                 throw new InvalidOperationException($"Couldn't find path '{path}' or view '{fileName}'");
             }
 
-            var actionContext = new ActionContext(_context, new RouteData(), new ActionDescriptor());
             var view = viewEngineResult.View;
 
             using (var output = new StringWriter())
             {
                 var viewContext = new ViewContext(
-                    actionContext,
+                    _actionContext,
                     view,
                     new ViewDataDictionary<TModel>(new EmptyModelMetadataProvider(), new ModelStateDictionary())
                     {
                         Model = model
                     },
                     new TempDataDictionary(
-                        actionContext.HttpContext,
+                        _actionContext.HttpContext,
                         _tempDataProvider),
                     output,
                     new HtmlHelperOptions())
                 {
-                    RouteData = _context.GetRouteData()
+                    RouteData = _httpContext.GetRouteData()
                     
                 };
 

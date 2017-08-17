@@ -7,6 +7,7 @@ using Ubora.Web.Services;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features._Shared.Templates;
 using Xunit;
+using System.Linq.Expressions;
 
 namespace Ubora.Web.Tests.Infrastructure
 {
@@ -28,16 +29,29 @@ namespace Ubora.Web.Tests.Infrastructure
         [Fact]
         public async Task SendEmailConfirmationMessage_Sends_Confirmation_Message()
         {
-            var applicationUser = new ApplicationUser { Email = "test@test.com", Id = Guid.NewGuid() };
-            var code = "CfDJ8P0gmJ3q+8lOjMslRCyVLI489QEEOu2Pg/jBZf0eqbHkFI6CTBXS/Kj2gU9jrQW3LFe+3EPA0ez/bMdnz4Yj+951ShLZCJSLYc7ttMJ3/8bRr9/0GTNQ7Cxysuykp2/+/+rAW1TIbO7nDCK/X2BUf3PbaBUrdqaoszbsu/CnAQgVeDZBHJMGH1znLZw8R75WzmdaLJX/4a3xv2VZi0OElz70n4UiEs914Nn45aQ2zZXEV14OoLRRbZITgLeajRK8Rg==";
-            var expectedUrl = $"http://ubora-dev.azurewebsites.net/Account/ConfirmEmail?userId=\"{applicationUser.Id}\"&code=\"{code}\"";
+            var applicationUser = new ApplicationUser
+            {
+                Email = "email",
+                Id = Guid.NewGuid()
+            };
+
+            var code = "confimationCode";
             var subject = "UBORA: e-mail confirmation";
-            var expectedMessage = $"<h1 style='color:#4777BB; font-family: sans-serif; text-align:center;'>E-mail confirmation</h1><p>Please confirm your e-mail by clicking here on the following link or copy-paste it in your browser: <br /><a href=\"{expectedUrl}\">{expectedUrl}</a>.</p>";
+            var expectedMessage = "expectedMessage";
 
             _userManagerMock.Setup(x => x.GenerateEmailConfirmationTokenAsync(applicationUser))
                 .ReturnsAsync(code);
+
+            var callbackUrlTemplateViewModel = new CallBackUrlTemplateViewModel
+            {
+                Code = code,
+                UserId = applicationUser.Id
+            };
+            Expression<Func<CallBackUrlTemplateViewModel, bool>> expectedViewModelFunc = x => x.Code == callbackUrlTemplateViewModel.Code
+                && x.UserId == callbackUrlTemplateViewModel.UserId;
+
             _viewRenderMock.Setup(r => r.Render("~/_Features/_Shared/Templates/", "EmailConfirmationMessageTemplate.cshtml",
-                It.IsAny<CallBackUrlTemplateViewModel>())).Returns(expectedMessage);
+                It.Is(expectedViewModelFunc))).Returns(expectedMessage);
 
             //Act
             await _sut.SendEmailConfirmationMessage(applicationUser);
@@ -49,16 +63,27 @@ namespace Ubora.Web.Tests.Infrastructure
         [Fact]
         public async Task SendForgotPasswordMessageAsync_Sends_Confirmation_Message()
         {
-            var applicationUser = new ApplicationUser { Email = "test@test.com", Id = Guid.NewGuid() };
-            var code = "CfDJ8P0gmJ3q+8lOjMslRCyVLI489QEEOu2Pg/jBZf0eqbHkFI6CTBXS/Kj2gU9jrQW3LFe+3EPA0ez/bMdnz4Yj+951ShLZCJSLYc7ttMJ3/8bRr9/0GTNQ7Cxysuykp2/+/+rAW1TIbO7nDCK/X2BUf3PbaBUrdqaoszbsu/CnAQgVeDZBHJMGH1znLZw8R75WzmdaLJX/4a3xv2VZi0OElz70n4UiEs914Nn45aQ2zZXEV14OoLRRbZITgLeajRK8Rg==";
-            var expectedUrl = $"http://ubora-dev.azurewebsites.net/Account/ConfirmEmail?userId=\"{applicationUser.Id}\"&code=\"{code}\"";
+            var applicationUser = new ApplicationUser
+            {
+                Email = "email",
+                Id = Guid.NewGuid()
+            };
+            var code = "confirmationCode";
             var subject = "UBORA: Password reset";
-            var expectedMessage = $"<h1 style='color:#4777BB; font-family: sans-serif; text-align:center;'>Password reset</h1><p style='font-family:sans-serif;'>You can reset your password by clicking on the following link or copy-paste it in your browser: <br /><a href=\"{expectedUrl}\">{expectedUrl}</a>.</p>";
+            var expectedMessage = $"expectedMessage";
 
+            _userManagerMock.Setup(x => x.GeneratePasswordResetTokenAsync(applicationUser)).ReturnsAsync(code);
 
-            _userManagerMock.Setup(x => x.GeneratePasswordResetTokenAsync(It.IsAny<ApplicationUser>())).ReturnsAsync(code);
-            _viewRenderMock.Setup(r => r.Render("~/_Features/_Shared/Templates/", "ForgotPasswordMessageTemplate.cshtml",
-                It.IsAny<CallBackUrlTemplateViewModel>())).Returns(expectedMessage);
+            var callbackUrlTemplateViewModel = new CallBackUrlTemplateViewModel
+            {
+                Code = code,
+                UserId = applicationUser.Id
+            };
+            Expression<Func<CallBackUrlTemplateViewModel, bool>> expectedViewModelFunc = x => x.Code == callbackUrlTemplateViewModel.Code
+                && x.UserId == callbackUrlTemplateViewModel.UserId;
+
+            _viewRenderMock.Setup(r => r.Render("~/_Features/_Shared/Templates/", "ForgotPasswordMessageTemplate.cshtml", It.Is(expectedViewModelFunc)))
+                .Returns(expectedMessage);
 
             //Act
             await _sut.SendForgotPasswordMessage(applicationUser);
