@@ -74,7 +74,7 @@ namespace Ubora.Web.Infrastructure.ImageServices
                 throw new ArgumentNullException(nameof(blobLocation));
             }
 
-            await _uboraStorageProvider.SavePublicStreamToBlobAsync(blobLocation, stream);
+            await _uboraStorageProvider.SavePublic(blobLocation, stream);
         }
 
         public virtual string GetUrl(BlobLocation blobLocation, ImageSize size)
@@ -137,7 +137,7 @@ namespace Ubora.Web.Infrastructure.ImageServices
                 }
                 outputStream.Seek(0, SeekOrigin.Begin);
 
-                await _uboraStorageProvider.SavePublicStreamToBlobAsync(blobLocation, outputStream);
+                await _uboraStorageProvider.SavePublic(blobLocation, outputStream);
             }
         }
 
@@ -154,7 +154,7 @@ namespace Ubora.Web.Infrastructure.ImageServices
 
                 outputStream.Seek(0, SeekOrigin.Begin);
 
-                await _uboraStorageProvider.SavePublicStreamToBlobAsync(blobLocation, outputStream);
+                await _uboraStorageProvider.SavePublic(blobLocation, outputStream);
             }
         }
 

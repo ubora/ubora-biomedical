@@ -7,8 +7,8 @@ namespace Ubora.Web.Infrastructure.Storage
 {
     public interface IUboraStorageProvider
     {
-        Task SavePrivateStreamToBlobAsync(BlobLocation blobLocation, Stream stream);
-        Task SavePublicStreamToBlobAsync(BlobLocation blobLocation, Stream stream);
-        string GetBlobSasUrl(BlobLocation blobLocation, DateTime expiry);
+        Task SavePrivate(BlobLocation blobLocation, Stream stream);
+        Task SavePublic(BlobLocation blobLocation, Stream stream);
+        string GetReadUrl(BlobLocation blobLocation, DateTime expiry);
     }
 }

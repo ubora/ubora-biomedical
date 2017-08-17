@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Projects.Repository
 {
-    public class HideFileTests : IntegrationFixture
+    public class HideFileCommandHandlerTests : IntegrationFixture
     {
         private readonly Guid _projectId = Guid.NewGuid();
         private readonly Guid _fileId = Guid.NewGuid();
@@ -61,7 +61,7 @@ namespace Ubora.Domain.Tests.Projects.Repository
 
         private void Assert_FileHid_Is_Added_In_Events()
         {
-            var fileHidEvents = Session.Events.QueryRawEventDataOnly<FileHidEvent>();
+            var fileHidEvents = Session.Events.QueryRawEventDataOnly<FileHiddenEvent>();
 
             fileHidEvents.Count().Should().Be(1);
             fileHidEvents.First().Id.Should().Be(_fileId);

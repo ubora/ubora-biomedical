@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Projects.Queries;
 using Ubora.Domain.Projects.Repository;
+using Ubora.Domain.Projects.Specifications;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Storage;
 
@@ -24,7 +23,8 @@ namespace Ubora.Web._Features.Projects.Repository
 
         public IActionResult Repository()
         {
-            var projectFiles = QueryProcessor.ExecuteQuery(new GetAvailableProjectFilesQuery(ProjectId));
+            var projectFiles = QueryProcessor.Find(new IsProjectFileSpec(ProjectId)
+                    && !new IsHiddenFileSpec());
 
             var isProjectLeader = Project.Members.Any(x => x.UserId == UserId && x.IsLeader);
 
@@ -91,7 +91,7 @@ namespace Ubora.Web._Features.Projects.Repository
         {
             var file = QueryProcessor.FindById<ProjectFile>(fileId);
 
-            var blobSasUrl = _uboraStorageProvider.GetBlobSasUrl(file.Location, DateTime.UtcNow.AddSeconds(15));
+            var blobSasUrl = _uboraStorageProvider.GetReadUrl(file.Location, DateTime.UtcNow.AddSeconds(15));
 
             return Redirect(blobSasUrl);
         }
@@ -143,7 +143,7 @@ namespace Ubora.Web._Features.Projects.Repository
         private async Task SaveBlobAsync(AddFileViewModel model, BlobLocation blobLocation)
         {
             var fileStream = model.ProjectFile.OpenReadStream();
-            await _uboraStorageProvider.SavePrivateStreamToBlobAsync(blobLocation, fileStream);
+            await _uboraStorageProvider.SavePrivate(blobLocation, fileStream);
         }
     }
 }

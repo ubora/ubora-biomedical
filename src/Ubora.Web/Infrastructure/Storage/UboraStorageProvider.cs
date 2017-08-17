@@ -15,7 +15,7 @@ namespace Ubora.Web.Infrastructure.Storage
             _storageProvider = storageProvider;
         }
 
-        public async Task SavePrivateStreamToBlobAsync(BlobLocation blobLocation, Stream stream)
+        public async Task SavePrivate(BlobLocation blobLocation, Stream stream)
         {
             var blobProperties = new BlobProperties
             {
@@ -25,7 +25,7 @@ namespace Ubora.Web.Infrastructure.Storage
             await _storageProvider.SaveBlobStreamAsync(blobLocation.ContainerName, blobLocation.BlobPath, stream, blobProperties);
         }
 
-        public async Task SavePublicStreamToBlobAsync(BlobLocation blobLocation, Stream stream)
+        public async Task SavePublic(BlobLocation blobLocation, Stream stream)
         {
             var blobProperties = new BlobProperties
             {
@@ -35,7 +35,7 @@ namespace Ubora.Web.Infrastructure.Storage
             await _storageProvider.SaveBlobStreamAsync(blobLocation.ContainerName, blobLocation.BlobPath, stream, blobProperties);
         }
 
-        public string GetBlobSasUrl(BlobLocation blobLocation, DateTime expiry)
+        public string GetReadUrl(BlobLocation blobLocation, DateTime expiry)
         {
             if (blobLocation == null)
             {

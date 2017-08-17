@@ -19,7 +19,7 @@ namespace Ubora.Domain.Projects.Repository
             Location = e.Location;
         }
 
-        private void Apply(FileHidEvent e)
+        private void Apply(FileHiddenEvent e)
         {
             Id = e.Id;
             IsHidden = true; 

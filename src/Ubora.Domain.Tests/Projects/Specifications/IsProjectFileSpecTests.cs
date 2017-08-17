@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using System;
 using System.Linq;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Repository;
@@ -14,36 +15,29 @@ namespace Ubora.Domain.Tests.Projects.Specifications
         [Fact]
         public void Specification_Returns_ProjectFiles_Which_Are_From_Project()
         {
-            var otherProjectId = Guid.NewGuid();
-            Processor.Execute(new CreateProjectCommand
-            {
-                NewProjectId = otherProjectId,
-                Actor = new UserInfo(Guid.NewGuid(), "")
-            });
-
-            var projectId = Guid.NewGuid();
-            Processor.Execute(new CreateProjectCommand
-            {
-                NewProjectId = projectId,
-                Actor = new UserInfo(Guid.NewGuid(), "")
-            });
-
+            var expectedProjectId = Guid.NewGuid();
             var expectedFileId = Guid.NewGuid();
-            Processor.Execute(new AddFileCommand
-            {
-                ProjectId = projectId,
-                Id = expectedFileId,
-                Actor = new UserInfo(Guid.NewGuid(), ""),
-            });
+            var userInfo = new DummyUserInfo();
+            var fileAddedEvent = new FileAddedEvent(
+                initiatedBy: userInfo,
+                projectId: expectedProjectId,
+                id: expectedFileId,
+                fileName: "expectedFileName",
+                location: new BlobLocation("container", "path"));
+            Session.Events.Append(expectedProjectId, fileAddedEvent);
+            Session.SaveChanges();
 
-            // Insert file to other project
-            Processor.Execute(new AddFileCommand
-            {
-                ProjectId = otherProjectId,
-                Actor = new UserInfo(Guid.NewGuid(), "")
-            });
+            var otherProjectId = Guid.NewGuid();
+            var otherFileAddedEvent = new FileAddedEvent(
+                initiatedBy: userInfo,
+                projectId: otherProjectId,
+                id: Guid.NewGuid(),
+                fileName: "fileName",
+                location: new BlobLocation("container", "path"));
+            Session.Events.Append(otherProjectId, otherFileAddedEvent);
+            Session.SaveChanges();
 
-            var sut = new IsProjectFileSpec(projectId);
+            var sut = new IsProjectFileSpec(expectedProjectId);
 
             RefreshSession();
 

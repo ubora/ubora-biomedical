@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Projects.Repository
 {
-    public class AddFileTests : IntegrationFixture
+    public class AddFileCommandHandlerTests : IntegrationFixture
     {
         private readonly Guid _projectId = Guid.NewGuid();
         private readonly Guid _fileId = Guid.NewGuid();

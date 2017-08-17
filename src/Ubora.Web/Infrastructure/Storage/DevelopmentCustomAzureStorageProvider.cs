@@ -17,7 +17,7 @@ namespace Ubora.Web.Infrastructure.Storage
             return blobUrl.Replace("http://azurite:10000/devstoreaccount1", "http://localhost:32500/devstoreaccount1");
         }
 
-        // For development because azurite does not support this yet! Mardo brain not function jet!
+        // For development because azurite does not support this yet!
         public override string GetBlobSasUrl(string containerName, string blobName, DateTimeOffset expiry, bool isDownload = false, string fileName = null, string contentType = null, BlobUrlAccess access = BlobUrlAccess.Read)
         {
             return GetBlobUrl(containerName, blobName);

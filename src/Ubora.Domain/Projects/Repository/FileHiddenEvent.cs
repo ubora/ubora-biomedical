@@ -3,14 +3,14 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects.Repository
 {
-    public class FileHidEvent : UboraEvent, IFileEvent
+    public class FileHiddenEvent : UboraEvent, IFileEvent
     {
-        public FileHidEvent(UserInfo initiatedBy, Guid id) : base(initiatedBy)
+        public FileHiddenEvent(UserInfo initiatedBy, Guid id) : base(initiatedBy)
         {
             Id = id;
         }
 
-        public Guid Id { get; private set; }
+        public Guid Id { get; private set;} 
 
         public override string GetDescription()
         {

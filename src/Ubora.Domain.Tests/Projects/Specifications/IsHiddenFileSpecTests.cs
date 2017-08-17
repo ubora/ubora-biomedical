@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using System;
 using System.Linq;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Repository;
@@ -21,26 +22,32 @@ namespace Ubora.Domain.Tests.Projects.Specifications
                 Actor = new UserInfo(Guid.NewGuid(), "")
             });
 
+            var userInfo = new DummyUserInfo();
             var expectedFileId = Guid.NewGuid();
-            Processor.Execute(new AddFileCommand
-            {
-                ProjectId = projectId,
-                Id = expectedFileId,
-                Actor = new UserInfo(Guid.NewGuid(), ""),
-            });
+            var fileAddedEvent = new FileAddedEvent(
+                initiatedBy: userInfo,
+                projectId: projectId,
+                id: expectedFileId,
+                fileName: "expectedFileName",
+                location: new BlobLocation("container","path"));
+            Session.Events.Append(projectId, fileAddedEvent);
+            Session.SaveChanges();
 
-            Processor.Execute(new AddFileCommand
-            {
-                ProjectId = projectId,
-                Actor = new UserInfo(Guid.NewGuid(), "")
-            });
+            var otherFileAddedEvent = new FileAddedEvent(
+                initiatedBy: userInfo,
+                projectId: projectId,
+                id: Guid.NewGuid(),
+                fileName: "expectedFileName",
+                location: new BlobLocation("container", "path"));
+            Session.Events.Append(projectId, otherFileAddedEvent);
+            Session.SaveChanges();
 
-            Processor.Execute(new HideFileCommand
-            {
-                ProjectId = projectId,
-                Id = expectedFileId,
-                Actor = new UserInfo(Guid.NewGuid(), "")
-            });
+            var fileHiddenEvent = new FileHiddenEvent(
+                initiatedBy: userInfo,
+                id: expectedFileId
+                );
+            Session.Events.Append(projectId, fileHiddenEvent);
+            Session.SaveChanges();
 
             var sut = new IsHiddenFileSpec();
 

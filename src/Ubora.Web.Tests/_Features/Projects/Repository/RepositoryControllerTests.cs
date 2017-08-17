@@ -17,7 +17,8 @@ using Ubora.Web._Features.Projects.Repository;
 using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web.Tests.Helper;
 using Xunit;
-using Ubora.Domain.Projects.Queries;
+using Ubora.Domain.Projects.Specifications;
+using System.Linq.Expressions;
 
 namespace Ubora.Web.Tests._Features.Projects.Repository
 {
@@ -61,18 +62,20 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 projectFile2
             };
 
-            var project = new Mock<Project>();
+            var project = new Project();
+            project.Set(p => p.Id, ProjectId);
+            project.Set(p => p.Title, "Title");
+            var projectMembers = new List<ProjectMember> { new ProjectLeader(UserId) };
+            project.Set(p => p.Members, projectMembers);
 
-            project.Setup(x => x.Id).Returns(Guid.NewGuid);
-            project.Setup(x => x.Title).Returns("Title");
-            project.Setup(x => x.Members).Returns(new List<ProjectMember> {new ProjectLeader(UserId)});
-
+            var specification = new IsProjectFileSpec(ProjectId)
+                    && !new IsHiddenFileSpec();
             QueryProcessorMock
-                .Setup(x => x.ExecuteQuery(It.IsAny<GetAvailableProjectFilesQuery>()))
+                .Setup(x => x.Find(specification))
                 .Returns(expectedProjectFiles);
 
             QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
-                .Returns(project.Object);
+                .Returns(project);
 
             var projectFileViewModels = new List<ProjectFileViewModel>();
             foreach (var file in expectedProjectFiles)
@@ -93,11 +96,11 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 {
                     ActionName = "AddFile",
                 },
-                IsProjectLeader = true
+                IsProjectLeader = false
             };
 
             // Act
-            var result = (ViewResult) _controller.Repository();
+            var result = (ViewResult)_controller.Repository();
 
             // Assert
             result.ViewName.Should().Be(nameof(RepositoryController.Repository));
@@ -114,14 +117,23 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 ProjectFile = fileMock.Object
             };
 
-            AddFileCommand executedCommand = null;
-
             var fileName = "fileName";
-            fileMock.Setup(f => f.FileName).Returns($"C:\\Test\\Parent\\Parent\\{fileName}");
+            fileMock.Setup(f => f.FileName)
+                .Returns($"C:\\Test\\Parent\\Parent\\{fileName}");
+
+            var stream = Mock.Of<Stream>();
+            fileMock.Setup(f => f.OpenReadStream())
+                .Returns(stream);
+
+            AddFileCommand executedCommand = null;
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<AddFileCommand>()))
                 .Callback<AddFileCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
+
+            var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
+            Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName
+                && b.BlobPath.Contains(fileName) && b.BlobPath.Contains(ProjectId.ToString());
 
             //Act
             var result = (RedirectToActionResult)await _controller.AddFile(model);
@@ -132,9 +144,11 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .StartWith($"{ProjectId}/repository/")
                 // Guid in the middle.
                 .And.EndWith(fileName);
+            executedCommand.FileName.Should().Be(fileName);
+
             result.ActionName.Should().Be(nameof(RepositoryController.Repository));
 
-            _uboraStorageProviderMock.Verify(x => x.SavePrivateStreamToBlobAsync(It.IsAny<BlobLocation>(), It.IsAny<Stream>()), Times.Once);
+            _uboraStorageProviderMock.Verify(x => x.SavePrivate(It.Is(expectedBlobLocationFunc), stream));
         }
 
         [Fact]
@@ -161,7 +175,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
 
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
 
-            _uboraStorageProviderMock.Verify(x => x.SavePrivateStreamToBlobAsync(It.IsAny<BlobLocation>(), It.IsAny<Stream>()), Times.Never);
+            _uboraStorageProviderMock.Verify(x => x.SavePrivate(It.IsAny<BlobLocation>(), It.IsAny<Stream>()), Times.Never);
         }
 
         [Fact]
@@ -174,13 +188,22 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 ProjectFile = fileMock.Object
             };
 
+            var fileName = "fileName";
             fileMock.Setup(f => f.FileName)
-                .Returns("C:\\Test\\Parent\\Parent\\image.png");
+                .Returns(fileName);
+
+            var stream = Mock.Of<Stream>();
+            fileMock.Setup(f => f.OpenReadStream())
+                .Returns(stream);
 
             var commandResult = new CommandResult("testError1", "testError2");
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<AddFileCommand>()))
                 .Returns(commandResult);
+
+            var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
+            Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName
+                && b.BlobPath.Contains(fileName) && b.BlobPath.Contains(ProjectId.ToString());
 
             CreateTestProject();
 
@@ -192,7 +215,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
 
             AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
 
-            _uboraStorageProviderMock.Verify(x => x.SavePrivateStreamToBlobAsync(It.IsAny<BlobLocation>(), It.IsAny<Stream>()), Times.Once);
+            _uboraStorageProviderMock.Verify(x => x.SavePrivate(It.Is(expectedBlobLocationFunc), stream), Times.Once);
         }
 
         [Fact]
@@ -205,23 +228,28 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .Callback<HideFileCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
 
-
             //Act
             var result = (RedirectToActionResult)_controller.HideFile(fileId);
 
             executedCommand.ProjectId.Should().Be(ProjectId);
             executedCommand.Id.Should().Be(fileId);
+
             result.ActionName.Should().Be(nameof(Repository));
         }
 
         [Fact]
         public void DownloadFile_Returns_RedirectToUrl()
         {
+            var projectFile = new ProjectFile();
+            var blobLocation = new BlobLocation("container", "path");
+            projectFile.Set(f => f.Location, blobLocation);
+
             var fileId = Guid.NewGuid();
-            QueryProcessorMock.Setup(p => p.FindById<ProjectFile>(fileId)).Returns(new ProjectFile());
+            QueryProcessorMock.Setup(p => p.FindById<ProjectFile>(fileId))
+                .Returns(projectFile);
 
             var expectedBlobSasUrl = "expectedBlobSasUrl";
-            _uboraStorageProviderMock.Setup(p => p.GetBlobSasUrl(It.IsAny<BlobLocation>(), It.IsAny<DateTime>()))
+            _uboraStorageProviderMock.Setup(p => p.GetReadUrl(blobLocation, It.IsAny<DateTime>()))
                 .Returns(expectedBlobSasUrl);
 
             //Act
@@ -265,8 +293,14 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             fileMock.Setup(f => f.FileName)
                 .Returns($"C:\\Test\\Parent\\Parent\\{fileName}");
 
+            var stream = Mock.Of<Stream>();
+            fileMock.Setup(f => f.OpenReadStream())
+                .Returns(stream);
+
+            var projectFile = new ProjectFile();
+            projectFile.Set(f => f.Id, fileId);
             QueryProcessorMock.Setup(q => q.FindById<ProjectFile>(fileId))
-                .Returns(new ProjectFile());
+                .Returns(projectFile);
 
             UpdateFileCommand executedCommand = null;
             CommandProcessorMock
@@ -274,11 +308,15 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .Callback<UpdateFileCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
 
+            var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
+            Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName
+                && b.BlobPath.Contains(fileName) && b.BlobPath.Contains(ProjectId.ToString());
+
             // Act
             var result = (RedirectToActionResult)await _controller.UpdateFile(addFileViewModel);
 
             // Assert
-            _uboraStorageProviderMock.Verify(p => p.SavePrivateStreamToBlobAsync(It.IsAny<BlobLocation>(), It.IsAny<Stream>()), Times.Once);
+            _uboraStorageProviderMock.Verify(p => p.SavePrivate(It.Is(expectedBlobLocationFunc), stream));
 
             result.ActionName.Should().Be(nameof(RepositoryController.Repository));
 
@@ -286,6 +324,8 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .StartWith($"{ProjectId}/repository/")
                 // Guid in the middle.
                 .And.EndWith(fileName);
+            executedCommand.ProjectId.Should().Be(ProjectId);
+            executedCommand.Id.Should().Be(fileId);
         }
 
         [Fact]

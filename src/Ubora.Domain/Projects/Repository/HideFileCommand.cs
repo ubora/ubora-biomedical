@@ -25,7 +25,7 @@ namespace Ubora.Domain.Projects.Repository
                     throw new InvalidOperationException();
                 }
 
-                var @event = new FileHidEvent(
+                var @event = new FileHiddenEvent(
                     cmd.Actor,
                     cmd.Id
                 );
