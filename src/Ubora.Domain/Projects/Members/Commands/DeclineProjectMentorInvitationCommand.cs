@@ -5,11 +5,11 @@ using Ubora.Domain.Notifications;
 
 namespace Ubora.Domain.Projects.Members.Commands
 {
-    public class DeclineInvitationToJoinProjectAsMentorCommand : UserCommand
+    public class DeclineProjectMentorInvitationCommand : UserCommand
     {
         public Guid InvitationId { get; set; }
 
-        internal class Handler : ICommandHandler<DeclineInvitationToJoinProjectAsMentorCommand>
+        internal class Handler : ICommandHandler<DeclineProjectMentorInvitationCommand>
         {
             private readonly IDocumentSession _documentSession;
 
@@ -18,14 +18,14 @@ namespace Ubora.Domain.Projects.Members.Commands
                 _documentSession = documentSession;
             }
 
-            public ICommandResult Handle(DeclineInvitationToJoinProjectAsMentorCommand cmd)
+            public ICommandResult Handle(DeclineProjectMentorInvitationCommand cmd)
             {
-                var invite = _documentSession.LoadOrThrow<ProjectMentorInvitation>(cmd.InvitationId);
+                var invitation = _documentSession.LoadOrThrow<ProjectMentorInvitation>(cmd.InvitationId);
 
-                invite.Decline();
-                _documentSession.Store(invite);
+                invitation.Decline();
+                _documentSession.Store(invitation);
 
-                var notification = new YourInvitationToJoinProjectAsMentorWasDeclinedNotification(invite.InvitedBy, invite.InviteeUserId, invite.ProjectId);
+                var notification = new NotificationToInviter(invitation.InvitedBy, invitation.InviteeUserId, invitation.ProjectId);
                 _documentSession.Store(notification);
 
                 _documentSession.SaveChanges();
@@ -34,9 +34,9 @@ namespace Ubora.Domain.Projects.Members.Commands
             }
         }
 
-        public class YourInvitationToJoinProjectAsMentorWasDeclinedNotification : GeneralNotification
+        public class NotificationToInviter : GeneralNotification
         {
-            public YourInvitationToJoinProjectAsMentorWasDeclinedNotification(Guid notificationTo, Guid declinerUserId, Guid projectId) : base(notificationTo)
+            public NotificationToInviter(Guid notificationTo, Guid declinerUserId, Guid projectId) : base(notificationTo)
             {
                 DeclinerUserId = declinerUserId;
                 ProjectId = projectId;

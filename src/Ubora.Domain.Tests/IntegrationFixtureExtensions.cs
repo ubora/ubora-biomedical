@@ -46,7 +46,7 @@ namespace Ubora.Domain.Tests
             var invitation = fixture.Processor.Find<ProjectMentorInvitation>()
                 .Last(x => x.InviteeUserId == userId);
 
-            fixture.Processor.Execute(new AcceptInvitationToJoinProjectAsMentorCommand
+            fixture.Processor.Execute(new AcceptProjectMentorInvitationCommand
             {
                 Actor = new DummyUserInfo(),
                 InvitationId = invitation.Id

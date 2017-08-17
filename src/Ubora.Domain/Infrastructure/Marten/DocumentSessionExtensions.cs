@@ -13,10 +13,5 @@ namespace Marten
             }
             return loaded;
         }
-
-        internal static object LoadOrThrow<T>(Guid projectId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

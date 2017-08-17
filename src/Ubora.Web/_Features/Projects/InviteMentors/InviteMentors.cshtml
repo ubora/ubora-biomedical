@@ -1,5 +1,5 @@
 ﻿@using Ubora.Web._Features.Projects._Shared
-@model Ubora.Web._Features.Projects.Mentors.MentorsViewModel
+@model Ubora.Web._Features.Projects.InviteMentors.MentorsViewModel
 @{
     ViewData["Title"] = "Mentors";
     ViewData["MenuOption"] = ProjectMenuOption.Members;
@@ -16,7 +16,7 @@
         }
     </ol>
 
-    <h2 class="full-width">All UBORA mentors:</h2>
+    <h2 class="full-width">All UBORA mentors</h2>
     <ol>
         @foreach (var mentor in Model.UboraMentors)
             {

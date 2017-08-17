@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using System;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +11,6 @@ using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Web._Features.Projects.Repository;
-using Ubora.Web.Tests.Helper;
 using Xunit;
 
 namespace Ubora.Web.Tests._Features.Projects.Repository

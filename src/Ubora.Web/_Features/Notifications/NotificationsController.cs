@@ -50,16 +50,16 @@ namespace Ubora.Web._Features.Notifications
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult AcceptMentorInvitation(Guid inviteId)
+        public IActionResult AcceptMentorInvitation(Guid invitationId)
         {
             if (!ModelState.IsValid)
             {
                 return Index();
             }
 
-            ExecuteUserCommand(new AcceptInvitationToJoinProjectAsMentorCommand
+            ExecuteUserCommand(new AcceptProjectMentorInvitationCommand
             {
-                InvitationId = inviteId
+                InvitationId = invitationId
             });
 
             if (!ModelState.IsValid)
@@ -74,16 +74,16 @@ namespace Ubora.Web._Features.Notifications
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult DeclineMentorInvitation(Guid inviteId)
+        public IActionResult DeclineMentorInvitation(Guid invitationId)
         {
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Index", "Notifications");
             }
 
-            ExecuteUserCommand(new DeclineInvitationToJoinProjectAsMentorCommand
+            ExecuteUserCommand(new DeclineProjectMentorInvitationCommand
             {
-                InvitationId = inviteId
+                InvitationId = invitationId
             });
 
             if (!ModelState.IsValid)

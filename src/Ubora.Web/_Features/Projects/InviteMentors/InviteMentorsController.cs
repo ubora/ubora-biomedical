@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 using Ubora.Web._Features._Shared.Notices;
 
-namespace Ubora.Web._Features.Projects.Mentors
+namespace Ubora.Web._Features.Projects.InviteMentors
 {
-    public class MentorsController : ProjectController
+    [Authorize(Roles = ApplicationRole.Admin)]
+    public class InviteMentorsController : ProjectController
     {
         private readonly ApplicationUserManager _userManager;
 
-        public MentorsController(ApplicationUserManager userManager)
+        public InviteMentorsController(ApplicationUserManager userManager)
         {
             _userManager = userManager;
         }
@@ -32,7 +33,7 @@ namespace Ubora.Web._Features.Projects.Mentors
         [Authorize(Roles = ApplicationRole.Admin)]
         public async Task<IActionResult> InviteMentor(Guid userId, [FromServices]MentorsViewModel.Factory modelFactory)
         {
-            var user = await _userManager.FindByIdAsync(userId.ToString());
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 throw new InvalidOperationException();
@@ -58,7 +59,7 @@ namespace Ubora.Web._Features.Projects.Mentors
                 return InviteMentors(modelFactory);
             }
 
-            ShowNotice(new Notice("Mentor successfully invited.", NoticeType.Success));
+            Notices.Success("Mentor successfully invited.");
 
             return RedirectToAction(nameof(InviteMentors));
         }

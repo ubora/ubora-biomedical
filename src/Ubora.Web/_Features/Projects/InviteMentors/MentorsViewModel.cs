@@ -5,7 +5,7 @@ using AutoMapper;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Web._Features.Users.UserList;
 
-namespace Ubora.Web._Features.Projects.Mentors
+namespace Ubora.Web._Features.Projects.InviteMentors
 {
     public class MentorsViewModel
     {

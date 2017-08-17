@@ -91,8 +91,7 @@ namespace Ubora.Web._Features.Users.Profile
 
             if (!ModelState.IsValid)
             {
-                var errorNotice = new Notice("Failed to change profile!", NoticeType.Error);
-                ShowNotice(errorNotice);
+                Notices.Error("Failed to change profile!");
 
                 return RedirectToAction("Index", "Manage");
             }
@@ -100,8 +99,7 @@ namespace Ubora.Web._Features.Users.Profile
             var user = await _userManager.FindByIdAsync(userId);
             await _signInManager.RefreshSignInAsync(user);
 
-            var successNotice = new Notice("Profile changed successfully!", NoticeType.Success);
-            ShowNotice(successNotice);
+            Notices.Success("Profile changed successfully!");
 
             return RedirectToAction("Index", "Manage");
         }

@@ -12,7 +12,6 @@ using Ubora.Web._Features.Users.UserList;
 using Ubora.Web._Features.Projects.Repository;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Web._Features.Projects.Assignments;
-using Ubora.Web._Features.Projects.Mentors;
 
 namespace Ubora.Web._Features._Shared
 {

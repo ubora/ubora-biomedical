@@ -19,18 +19,18 @@ namespace Ubora.Domain.Projects
 
         public class NotificationToInviter : GeneralNotification
         {
-            public NotificationToInviter(Guid notificationTo, Guid declinerUserId, Guid projectId) : base(notificationTo)
+            public NotificationToInviter(Guid notificationTo, Guid joinerId, Guid projectId) : base(notificationTo)
             {
-                DeclinerUserId = declinerUserId;
+                JoinerId = joinerId;
                 ProjectId = projectId;
             }
 
-            public Guid DeclinerUserId { get; set; }
+            public Guid JoinerId { get; set; }
             public Guid ProjectId { get; set; }
 
             public override string GetDescription()
             {
-                return $"{Template.User(DeclinerUserId)} accepted your invitation to join project {Template.Project(ProjectId)} as mentor.";
+                return $"{Template.User(JoinerId)} accepted your invitation to join project {Template.Project(ProjectId)} as mentor.";
             }
         }
     }

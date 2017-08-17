@@ -44,14 +44,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             if (!ModelState.IsValid)
             {
-                var errorNotice = new Notice("Failed to change design planning!", NoticeType.Error);
-                ShowNotice(errorNotice);
+                Notices.Error("Failed to change design planning!");
 
                 return DesignPlanning();
             }
 
-            var successNotice = new Notice("Design planning changed successfully!", NoticeType.Success);
-            ShowNotice(successNotice);
+            Notices.Success("Design planning changed successfully!");
 
             return View();
         }

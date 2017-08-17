@@ -6,7 +6,7 @@ using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Web._Features.Notifications._Base;
 
-namespace Ubora.Web._Features.Projects.Mentors
+namespace Ubora.Web._Features.Projects.InviteMentors
 {
     public class ProjectMentorInvitationNotificationViewModel : INotificationViewModel<ProjectMentorInvitation>
     {
@@ -14,12 +14,12 @@ namespace Ubora.Web._Features.Projects.Mentors
         public bool WasAccepted { get; set; }
         public Guid ProjectId { get; set; }
         public string ProjectTitle { get; set; }
-        public Guid InviteId { get; set; }
+        public Guid InvitationId { get; set; }
         public bool IsHistory { get; set; }
 
         public IHtmlContent GetPartialView(IHtmlHelper htmlHelper, bool isHistory)
         {
-            return htmlHelper.Partial("~/_Features/Projects/Mentors/_MentorInvitationNotificationPartial.cshtml", this);
+            return htmlHelper.Partial("~/_Features/Projects/InviteMentors/_MentorInvitationNotificationPartial.cshtml", this);
         }
 
         public class Factory : NotificationViewModelFactory<ProjectMentorInvitation, ProjectMentorInvitationNotificationViewModel>
@@ -41,7 +41,7 @@ namespace Ubora.Web._Features.Projects.Mentors
                     WasAccepted = notification.IsAccepted ?? false,
                     ProjectId = notification.ProjectId,
                     ProjectTitle = project.Title,
-                    InviteId = notification.Id,
+                    InvitationId = notification.Id,
                     IsHistory = notification.IsArchived
                 };
 

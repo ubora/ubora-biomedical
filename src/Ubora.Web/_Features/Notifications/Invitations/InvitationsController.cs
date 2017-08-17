@@ -11,7 +11,7 @@ namespace Ubora.Web._Features.Notifications.Invitations
     {
         [HttpPost]
         [SaveTempDataModelState]
-        public IActionResult Accept([NotDefault]Guid inviteId)
+        public IActionResult Accept(Guid invitationId)
         {
             if (!ModelState.IsValid)
             {
@@ -20,7 +20,7 @@ namespace Ubora.Web._Features.Notifications.Invitations
 
             ExecuteUserCommand(new AcceptInvitationToProjectCommand
             {
-                InvitationId = inviteId
+                InvitationId = invitationId
             });
 
             return RedirectToAction("Index", "Notifications");
@@ -28,7 +28,7 @@ namespace Ubora.Web._Features.Notifications.Invitations
 
         [HttpPost]
         [SaveTempDataModelState]
-        public IActionResult Decline([NotDefault]Guid inviteId)
+        public IActionResult Decline(Guid invitationId)
         {
             if (!ModelState.IsValid)
             {
@@ -37,7 +37,7 @@ namespace Ubora.Web._Features.Notifications.Invitations
 
             ExecuteUserCommand(new DeclineInvitationToProjectCommand
             {
-                InvitationId = inviteId
+                InvitationId = invitationId
             });
 
             return RedirectToAction("Index", "Notifications");

@@ -11,8 +11,7 @@ namespace Ubora.Domain.Projects
 {
     public class Project : Entity<Project>
     {
-        // Virtual for testing
-        public virtual Guid Id { get; private set; }
+        public Guid Id { get; private set; }
         public string Title { get; private set; }
         public string Gmdn { get; private set; }
         public string ClinicalNeedTags { get; private set; }
