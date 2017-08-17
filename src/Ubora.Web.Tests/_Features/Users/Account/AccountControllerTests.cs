@@ -20,6 +20,7 @@ using Ubora.Web._Features.Users.Account;
 using Ubora.Web._Features.Users.Profile;
 using Xunit;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web.Tests._Features.Users.Account
 {
@@ -310,69 +311,29 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _signInManagerMock.Verify(m => m.SignInAsync(It.IsAny<ApplicationUser>(), false, null), Times.Once);
         }
 
-        [Theory]
-        [InlineData(null, "code")]
-        [InlineData("userId", null)]
-        [InlineData(null, null)]
-        [InlineData("", "code")]
-        [InlineData("userId", "")]
-        [InlineData("", "")]
-        public async Task ConfirmEmail_Returns_Error_View_When_UserId_Or_Code_Is_Null_Or_Empty(string userId, string code)
-        {
-            //Act
-            var result = (ViewResult)await _controller.ConfirmEmail(userId, code);
-
-            //Assert
-            result.ViewName.Should().Be("Error");
-            _userManagerMock.Verify(x => x.FindByIdAsync(It.IsAny<string>()), Times.Never);
-            _userManagerMock.Verify(x => x.ConfirmEmailAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
-                Times.Never);
-            _userManagerMock.Verify(m => m.GetUserId(It.IsAny<ClaimsPrincipal>()), Times.Never);
-            _signInManagerMock.Verify(m => m.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never());
-        }
-
         [Fact]
-        public async Task ConfirmEmail_Returns_Error_View_When_User_Is_Not_Found()
+        public async Task ConfirmEmail_Throws_InvalidOperationException_When_User_Is_Not_Found()
         {
-            var userId = "testUserId";
+            var userId = Guid.NewGuid().ToString();
             var code = "testCode";
 
             _userManagerMock.Setup(x => x.FindByIdAsync(userId)).Returns(Task.FromResult<ApplicationUser>(null));
 
             //Act
-            var result = (ViewResult)await _controller.ConfirmEmail(userId, code);
+            Func<Task> act = async () => await _controller.ConfirmEmail(userId, code);
 
             //Assert
-            result.ViewName.Should().Be("Error");
+            await Assert.ThrowsAsync<InvalidOperationException>(act);
             _userManagerMock.Verify(x => x.ConfirmEmailAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
                 Times.Never);
-            _userManagerMock.Verify(m => m.GetUserId(It.IsAny<ClaimsPrincipal>()), Times.Never);
             _signInManagerMock.Verify(m => m.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never());
+            _signInManagerMock.Verify(m => m.SignOutAsync(), Times.Never);
         }
 
         [Fact]
-        public async Task ConfirmEmail_Confirms_And_Returns_CorfirmEmail_View_When_Current_User_Is_Not_Found()
+        public async Task ConfirmEmail_Redirects_To_Home_Index_With_ErrorNotice_When_Confirmation_Is_Not_Successful()
         {
-            var userId = "testUserId";
-            var code = "testCode";
-
-            _userManagerMock.Setup(x => x.FindByIdAsync(userId)).ReturnsAsync(new ApplicationUser());
-            _userManagerMock.Setup(x => x.ConfirmEmailAsync(It.IsAny<ApplicationUser>(), code))
-                .ReturnsAsync(IdentityResult.Success);
-            _userManagerMock.Setup(m => m.GetUserId(User)).Returns((string) null);
-
-            //Act
-            var result = (ViewResult)await _controller.ConfirmEmail(userId, code);
-
-            //Assert
-            result.ViewName.Should().Be("ConfirmEmail");
-            _signInManagerMock.Verify(m => m.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never());
-        }
-
-        [Fact]
-        public async Task ConfirmEmail_Returns_Error_View_When_Does_Not_Confirm()
-        {
-            var userId = "testUserId";
+            var userId = "userId";
             var code = "testCode";
 
             _userManagerMock.Setup(x => x.FindByIdAsync(userId)).ReturnsAsync(new ApplicationUser());
@@ -380,18 +341,25 @@ namespace Ubora.Web.Tests._Features.Users.Account
                 .ReturnsAsync(IdentityResult.Failed());
 
             //Act
-            var result = (ViewResult)await _controller.ConfirmEmail(userId, code);
+            var result = (RedirectToActionResult) await _controller.ConfirmEmail(userId, code);
 
             //Assert
-            result.ViewName.Should().Be("Error");
+            result.ActionName.Should().Be("Index");
+            result.ControllerName.Should().Be("Home");
+
+            var errorNotice = _controller.Notices.Dequeue();
+            errorNotice.Text.Should().Be("Confirmation code is wrong or expired!");
+            errorNotice.Type.Should().Be(NoticeType.Error);
+
             _userManagerMock.Verify(m => m.GetUserId(It.IsAny<ClaimsPrincipal>()), Times.Never);
             _signInManagerMock.Verify(m => m.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never());
+            _signInManagerMock.Verify(m => m.SignOutAsync(), Times.Never);
         }
 
         [Fact]
-        public async Task ConfirmEmail_Refresh_In_Sign_And_Redirect_To_ConfirmEmail_View_When_Current_User_Is_Found()
+        public async Task ConfirmEmail_Refreshes_SignIn_And_Redirects_To_Home_Index_With_SuccessNotice_When_User_Is_Authenticated_With_Successful_Email_Confirmation()
         {
-            var userId = "testUserId";
+            var userId = UserId.ToString();
             var code = "testCode";
 
             var applicationUser = new ApplicationUser();
@@ -403,26 +371,66 @@ namespace Ubora.Web.Tests._Features.Users.Account
                 .Returns(Task.FromResult(applicationUser));
 
             //Act
-            var result = (RedirectToActionResult)await _controller.ConfirmEmail(userId, code);
+            var result = (RedirectToActionResult) await _controller.ConfirmEmail(userId, code);
 
             //Assert
-            result.ActionName.Should().Be("ConfirmEmail");
+            result.ControllerName.Should().Be("Home");
+            result.ActionName.Should().Be("Index");
+
             _signInManagerMock.Verify(m => m.RefreshSignInAsync(applicationUser), Times.Once);
+            _signInManagerMock.Verify(m => m.SignOutAsync(), Times.Never);
+
+            var successNotice = _controller.Notices.Dequeue();
+            successNotice.Text.Should().Be("Your email has been confirmed successfully!");
+            successNotice.Type.Should().Be(NoticeType.Success);
         }
 
         [Fact]
-        public async Task ConfirmEmail_Refresh_In_Sign_And_Redirect_To_ConfirmEmail_View_When_Email_Is_Confirmed()
+        public async Task ConfirmEmail_Signs_Out_And_Redirects_To_Home_Index_With_SuccessNotice_When_User_Is_Not_Authenticated()
         {
-            var userId = "testUserId";
+            var userId = Guid.NewGuid().ToString();
             var code = "testCode";
 
-            _controller.ControllerContext.HttpContext.User = FakeClaimsPrincipalFactory.CreateConfirmedUser(Guid.NewGuid(), nameof(ApplicationUser.FullNameClaimType) + Guid.NewGuid());
+            var applicationUser = new ApplicationUser();
+            _userManagerMock.Setup(x => x.FindByIdAsync(userId)).ReturnsAsync(applicationUser);
+            _userManagerMock.Setup(x => x.ConfirmEmailAsync(applicationUser, code))
+                .ReturnsAsync(IdentityResult.Success);
+            _userManagerMock.Setup(m => m.GetUserId(User)).Returns(userId);
+            _signInManagerMock.Setup(m => m.SignOutAsync())
+                .Returns(Task.FromResult(applicationUser));
 
             //Act
-            var result = (ViewResult) await _controller.ConfirmEmail(userId, code);
+            var result = (RedirectToActionResult) await _controller.ConfirmEmail(userId, code);
 
             //Assert
-            result.ViewName.Should().Be("ConfirmEmail");
+            result.ControllerName.Should().Be("Home");
+            result.ActionName.Should().Be("Index");
+
+            var successNotice = _controller.Notices.Dequeue();
+            successNotice.Text.Should().Be("Your email has been confirmed successfully!");
+            successNotice.Type.Should().Be(NoticeType.Success);
+
+            _signInManagerMock.Verify(m => m.SignOutAsync(),Times.Once);
+            _signInManagerMock.Verify(m => m.RefreshSignInAsync(applicationUser), Times.Never);
+        }
+
+        [Fact]
+        public async Task ConfirmEmail_Redirects_To_Home_Index_When_Email_Is_Already_Confirmed()
+        {
+            var userId = "userId";
+            var applicationUser = new ApplicationUser()
+            {
+                EmailConfirmed = true
+            };
+            _userManagerMock.Setup(x => x.FindByIdAsync(userId))
+                .ReturnsAsync(applicationUser);
+
+            //Act
+            var result = (RedirectToActionResult) await _controller.ConfirmEmail(userId, "code");
+
+            //Assert
+            result.ControllerName.Should().Be("Home");
+            result.ActionName.Should().Be("Index");
         }
 
         [Fact]
@@ -496,19 +504,19 @@ namespace Ubora.Web.Tests._Features.Users.Account
                 .Returns(Task.FromResult(applicationUser));
 
             //Act
-            var result = (ViewResult) await _controller.ResendEmailConfirmation();
+            var result = (ViewResult)await _controller.ResendEmailConfirmation();
 
             //Assert
             _confirmationMessageSenderMock.Verify(s => s.SendEmailConfirmationMessage(applicationUser), Times.Once);
         }
 
         [Fact]
-        public async Task ResendEmailConfirmation_Returns_Error_View()
+        public async Task ResendEmailConfirmation_Redirects_To_Home_Index_When_User_Is_Not_Found()
         {
             _userManagerMock.Setup(m => m.GetUserAsync(User)).ReturnsAsync((ApplicationUser)null);
 
             //Act
-            var result = (ViewResult)await _controller.ResendEmailConfirmation();
+            var result = (RedirectToActionResult) await _controller.ResendEmailConfirmation();
 
             //Assert
             _confirmationMessageSenderMock.Verify(s => s.SendEmailConfirmationMessage(It.IsAny<ApplicationUser>()), Times.Never);

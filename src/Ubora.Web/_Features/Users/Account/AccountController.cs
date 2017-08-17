@@ -1,7 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +14,7 @@ using Ubora.Web.Data;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Home;
 using Ubora.Web._Features.Users.Profile;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Users.Account
 {
@@ -255,41 +256,41 @@ namespace Ubora.Web._Features.Users.Account
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
-            if (User.IsEmailConfirmed())
-            {
-                return View("ConfirmEmail");
-            }
-
-            if (userId.IsEmpty() || code.IsEmpty())
-            {
-                return View("Error");
-            }
-
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return View("Error");
+                throw new InvalidOperationException();
+            }
+
+            if(user.EmailConfirmed)
+            {
+                return RedirectToAction("Index", "Home");
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (!result.Succeeded)
             {
-                return View("Error");
+                var errorNotice = new Notice("Confirmation code is wrong or expired!", NoticeType.Error);
+                ShowNotice(errorNotice);
+                return RedirectToAction("Index", "Home");
             }
 
-            var getCurrentUserId = _userManager.GetUserId(User);
-            if (getCurrentUserId == null)
+            if (User.Identity.IsAuthenticated)
             {
-                return View("ConfirmEmail");
+                var isDifferentUserSignedIn = new Guid(userId) != UserId;
+                if (isDifferentUserSignedIn)
+                {
+                    await _signInManager.SignOutAsync();
+                }
+                else
+                {
+                    await _signInManager.RefreshSignInAsync(user);
+                }
             }
 
-            if (getCurrentUserId == userId)
-            {
-                await _signInManager.RefreshSignInAsync(user);
-                return RedirectToAction("ConfirmEmail");
-            }
-
-            return View("Error");
+            var successNotice = new Notice("Your email has been confirmed successfully!", NoticeType.Success);
+            ShowNotice(successNotice);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -465,7 +466,7 @@ namespace Ubora.Web._Features.Users.Account
 
             if (user == null)
             {
-                return View("Error");
+                return RedirectToAction("Index", "Home");
             }
 
             await _confirmationMessageSender.SendEmailConfirmationMessage(user);

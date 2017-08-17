@@ -30,6 +30,11 @@ namespace Ubora.Web.Services
 
         public override async Task<ClaimsPrincipal> CreateAsync(ApplicationUser user)
         {
+            if(user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+        
             var claimsPrincipal = await base.CreateAsync(user);
             var claimsIdentity = (ClaimsIdentity)claimsPrincipal.Identity;
 
@@ -42,16 +47,8 @@ namespace Ubora.Web.Services
             var userEmail = userProfile.Email;
             claimsIdentity.AddClaim(new Claim(ApplicationUser.EmailClaimType, userEmail));
 
-            var applicationUser = await UserManager.FindByIdAsync(user.Id.ToString());
-            if (applicationUser != null)
-            {
-                var isEmailConfirmed = await UserManager.IsEmailConfirmedAsync(applicationUser);
-                claimsIdentity.AddClaim(new Claim(ApplicationUser.IsEmailConfirmedType, isEmailConfirmed.ToString()));
-            }
-            else
-            {
-                throw new ArgumentNullException(nameof(applicationUser));
-            }
+            var isEmailConfirmed = await UserManager.IsEmailConfirmedAsync(user);
+            claimsIdentity.AddClaim(new Claim(ApplicationUser.IsEmailConfirmedType, isEmailConfirmed.ToString()));
 
             return claimsPrincipal;
         }
