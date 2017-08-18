@@ -94,16 +94,22 @@ a {
 
 a:active,
 a:focus,
-a:hover,
 a:hover {
 	color: var(--secondary-color);
 }
 
-a:hover .material-icons {
+a:active .material-icons,
+a:focus .material-icons,
+a:hover .material-icons
+ {
 	color:var(--secondary-color);
 	transition:
 		color .3s ease,
 		background-color .3s ease;
+}
+
+a[role=button]:hover {
+	cursor: pointer;
 }
 
 .project_sidemenu_link--disabled,

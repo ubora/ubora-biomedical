@@ -2,7 +2,7 @@
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
-    public class DesignPlanningViewModel
+    public class ProjectOverviewViewModel
     {
         [Required]
         [Display(Name = "Clinical need")]
