@@ -4,21 +4,22 @@ using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Notifications.Specifications
 {
-    public class IsForUser<T> : Specification<T> where T : BaseNotification
+    public class IsForUser<T> : Specification<T> where T : INotification
     {
-        protected Guid _userId;
+        public Guid UserId { get; }
+
         public IsForUser(Guid userId)
         {
-            _userId = userId;
+            UserId = userId;
         }
 
         internal override Expression<Func<T, bool>> ToExpression()
         {
-            return x => x.NotificationTo == _userId;
+            return x => x.NotificationTo == UserId;
         }
     }
 
-    public class IsForUser : IsForUser<BaseNotification>
+    public class IsForUser : IsForUser<INotification>
     {
         public IsForUser(Guid userId) : base(userId)
         {
