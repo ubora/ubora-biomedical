@@ -7,6 +7,7 @@
 .footer-social {
   display: flex;
   color: var(--white);
+  flex-wrap: wrap;
   justify-content: center;
   margin:2em 0;
 }
@@ -27,11 +28,9 @@
 }
 
 .social-item--image {
-  height: 50px;
-  margin:0 0 0 .5em;
-  width: 50px;
+  height: 2em;
+  width: 2em;
 }
-
 
 .footer-legal {
   align-items: center;
@@ -53,11 +52,16 @@
 
 
 @media screen and (max-width: 50em) {
-	.footer-social {
+  .social-item--image {
+    height: 3em;
+    margin: .5em;
+    width: 3em;
+  }
+}
+
+@media screen and (max-width: 21.875em) {
+  .footer-social {
     align-items: center;
     flex-direction: column;
-  }
-  .social-item {
-    margin: .5em 1em;
   }
 }
