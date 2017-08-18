@@ -16,7 +16,6 @@ document
     });
 });
 
-
 window.addEventListener('load', function () {
     // Target is to have this number in production setting < 500ms
     console.info('UBORA: page loaded in ' + Math.ceil(window.performance.now()) + 'ms');

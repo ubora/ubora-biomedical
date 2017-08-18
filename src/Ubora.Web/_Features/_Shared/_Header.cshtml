@@ -24,7 +24,8 @@
 
         <a class="header-action" asp-controller="Notifications" asp-action="Index">
           <i class="header-action-icon material-icons">notifications</i>
-          <span class="header-action-description">Notifications @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))</span>
+          <span class="header-action-description">Notifications</span>
+          <span>@await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))</span>
         </a>
 
         <a class="header-action" asp-controller="ProjectList" asp-action="Search">
@@ -50,8 +51,7 @@
         <div class="sidemenu-profile">
           <img class="sidemenu-profile-image avatar" src="@User.GetProfilePictureUrl()" alt="Profile picture" width="100">
           <div>
-              <p class="sidemenu-profile-name">@User.GetFullName()</p>
-              <p class="menu-profile-link">@User.GetEmail()</p>
+            <p class="sidemenu-profile-name">@User.GetFullName()</p>
             <a asp-controller="Manage" asp-action="Index">View profile</a>
           </div>
         </div>
