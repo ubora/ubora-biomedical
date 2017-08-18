@@ -1,0 +1,88 @@
+﻿@using Newtonsoft.Json
+@model IEnumerable<Ubora.Web._Features.Admin.Tests.DiagnosticsTestAction>
+
+<style>
+    .diagnostics-table tr th,
+    .diagnostics-table tr td {
+        text-align: left !important;
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    .diagnostics-error {
+        color: #853333;
+    }
+
+    .diagnostics-success {
+        color: #1c8c1d;
+    }
+</style>
+
+<section class="medium-width">
+    <table class="diagnostics-table table">
+        <thead>
+            <tr>
+                <th>Test</th>
+                <th style="width: 80%;">Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <tr>
+                    <td>@Model.ElementAt(i).Name</td>
+                    <td>
+                        <span id="actionResult@(i)"></span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        (function () {
+            (function (diagnostics, $) {
+                diagnostics.initDiagnostics = function (actionUrls) {
+                    var index = 0;
+                    runAction(index, actionUrls);
+                };
+
+                function runAction(index, actionUrls) {
+                    if (index >= actionUrls.length)
+                        return;
+
+                    $("#actionResult" + index).html("...");
+
+                    $.ajax({
+                        url: actionUrls[index],
+                        success: function (data) {
+                            var resultHtml = (data.message || "")
+                                .replace(/(?:\r\n|\r|\n)/g, "<br />\n");
+
+                            $("#actionResult" + index).html(resultHtml)
+                                .addClass(data.isSuccess ? "diagnostics-success" : "diagnostics-error");
+
+                            // Run next action
+                            runAction(index + 1, actionUrls);
+                        },
+                        error: function (jqXhr, textStatus, errorThrown) {
+                            $("#actionResult" + index).html(errorThrown)
+                                .addClass("diagnostics-error");
+
+                            // Run next action
+                            runAction(index + 1, actionUrls);
+                        }
+                    });
+                }
+            }(window.Amica.Diagnostics = window.Amica.Diagnostics || {}, jQuery));
+        }(window.Amica = window.Amica || {}, jQuery));
+
+        $(function() {
+            var actionUrls = @Html.Raw(JsonConvert.SerializeObject(Model.Select(a => a.ActionUrl)));
+            Amica.Diagnostics.initDiagnostics(actionUrls);
+        });
+    </script>
+}
