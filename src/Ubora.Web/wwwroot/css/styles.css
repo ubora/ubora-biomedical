@@ -24,7 +24,9 @@
 @import url('process-steps.css');
 @import url('feedback.css');
 
+
 @import url('autocomplete.css');
+@import url('notices.css');
 
 :root {
 	--primary-color: #4777BB;
@@ -71,12 +73,4 @@ body {
 		font-size:14px;
 		line-height: 2em;
 	}
-}
-
-
-.development-notice {
-	background-color: var(--primary-color);
-	color:var(--white);
-	padding:.5em 0;
-	text-align: center;
 }

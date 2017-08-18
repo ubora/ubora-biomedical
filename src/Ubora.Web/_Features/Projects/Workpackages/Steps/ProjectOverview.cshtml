@@ -1,9 +1,9 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages
 @using Ubora.Web._Features.Projects._Shared
-@model Ubora.Web._Features.Projects.Workpackages.Steps.DesignPlanningViewModel
+@model Ubora.Web._Features.Projects.Workpackages.Steps.ProjectOverviewViewModel
 
 @{
-    ViewData["Title"] = "Design planning";
+    ViewData["Title"] = "Project Overview";
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
@@ -11,8 +11,8 @@
     @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
 
     <section class="medium-width step-view">
-        <h1 class="full-width">Design planning</h1>
-        <form asp-controller="WorkpackageOne" asp-action="DesignPlanning" method="post">
+        <h1 class="full-width">Project Overview</h1>
+        <form asp-controller="WorkpackageOne" asp-action="ProjectOverview" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-input">
@@ -64,9 +64,10 @@
             </div>
 
             <div class="center-element">
-                <a class="button secondary-button small-button" asp-controller="WorkpackageOne" asp-action="DesignPlanning">Discard changes</a>
+                <a class="button secondary-button small-button" asp-controller="WorkpackageOne" asp-action="ProjectOverview">Discard changes</a>
                 <button class="button primary-button small-button" type="submit">Save changes</button>
             </div>
+
         </form>
     </section>
 </section>

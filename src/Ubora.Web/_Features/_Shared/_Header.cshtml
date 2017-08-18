@@ -5,95 +5,100 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject ApplicationUserManager UserManager
 
-@if (SignInManager.IsSignedIn(User))
-{
-    <span class="development-notice">In-development preview</span>
-    <header class="header">
+<header class="header">
+  <div class="header-notices">
+    <p class="notice-indev">In-development preview</p>
+    @if (SignInManager.IsSignedIn(User))
+    {
+      if (!User.IsEmailConfirmed())
+      {
+          <p class="notice-account-confirmation">We have sent an email confirmation link to @User.GetEmail()<br><a class="notice-account-confirmation-link" href="@Url.Action("ResendEmailConfirmation", "Account")">Resend confirmation email?</a></p>
+      }
+    }
+  </div>
 
-        <a asp-controller="Home" asp-action="Index" asp-area="">
-            <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" width="100">
+  @if (SignInManager.IsSignedIn(User)) {
+    <nav class="header-element-list">
+      <a asp-controller="Home" asp-action="Index">
+        <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" width="100">
+      </a>
+
+      <div class="header-action-list">
+        <a class="header-action" asp-controller="ProjectList" asp-action="MyProjects">
+          <i class="header-action-icon material-icons">folder</i>
+          <span class="header-action-description">My projects</span>
         </a>
 
-        <span class="header-title">
-            <a asp-controller="ProjectList" asp-action="MyProjects">
-                <i class="material-icons">folder</i>My projects
-            </a>
+        <a class="header-action" asp-controller="Notifications" asp-action="Index">
+          <i class="header-action-icon material-icons">notifications</i>
+          <span class="header-action-description">Notifications</span>
+          <span>@await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))</span>
+        </a>
 
-        </span>
+        <a class="header-action" asp-controller="ProjectList" asp-action="Search">
+          <i class="header-action-icon material-icons">search</i>
+          <span class="header-action-description">Search</span>
+        </a>
 
-        <div class="header-controls">
-            <a class="header-controls--action header-controls--search" asp-controller="ProjectList" asp-action="Search">
-                <i class="material-icons">search</i><span class="header-controls--description">Search</span>
-            </a>
+        <a class="header-action js-sidemenu-toggle" role="button" tabindex="0">
+          <i class="header-action-icon material-icons">menu</i>
+          <span class="header-action-description">Menu</span>
+        </a>
+      </div>
+    </nav>
 
-            <a class="header-controls--action header-controls--menu js-side-menu-control">
-                <i class="material-icons ">menu</i><span class="header-controls--description">Menu</span>
-            </a>
+    <aside class="sidemenu js-sidemenu">
+      <div class="sidemenu-action-close">
+        <a class="js-sidemenu-toggle" role="button" tabindex="0">
+          <i class="material-icons">close</i>Close menu
+        </a>
+      </div>
+
+      <div class="sidemenu-profile-wrapper">
+        <div class="sidemenu-profile">
+          <img class="sidemenu-profile-image avatar" src="@User.GetProfilePictureUrl()" alt="Profile picture" width="100">
+          <div>
+            <p class="sidemenu-profile-name">@User.GetFullName()</p>
+            <a asp-controller="Manage" asp-action="Index">View profile</a>
+          </div>
         </div>
+      </div>
 
-    </header>
+      <nav class="sidemenu-action-list">
 
-    <aside class="side-menu js-side-menu">
+          <a class="sidemenu-action" asp-controller="ProjectCreation" asp-action="Create">
+              <i class="material-icons">create_new_folder</i>New project
+          </a>
 
-        <div class="menu-profile">
-            <img class="menu-profile-image" src="@User.GetProfilePictureUrl()" alt="Profile icon">
-            <div>
-                <p class="menu-profile-name">@User.GetFullName()</p>
-                <p class="menu-profile-link">@User.GetEmail()</p>
-                <a asp-controller="Manage" asp-action="Index" class="menu-profile-link">View profile</a>
-            </div>
-        </div>
+          @if (User.IsInRole(ApplicationRole.Admin))
+          {
+              <a class="sidemenu-action" asp-controller="Admin" asp-action="Diagnostics">
+                  <i class="material-icons">build</i>Diagnostics
+              </a>
+          }
 
-        <nav>
-            <a class="menu-link" asp-controller="ProjectList" asp-action="MyProjects">
-                <i class="material-icons">folder</i>My projects
-            </a>
-
-            <a class="menu-link" asp-controller="ProjectCreation" asp-action="Create">
-                <i class="material-icons">create_new_folder</i>New project
-            </a>
-
-            <a class="menu-link" asp-controller="Notifications" asp-action="Index">
-                <i class="material-icons">notifications</i>Notifications @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
-            </a>
-
-            @if (User.IsInRole(ApplicationRole.Admin))
-            {
-                <a class="menu-link" asp-controller="Admin" asp-action="Diagnostics">
-                    <i class="material-icons">build</i>Diagnostics
-                </a>
-            }
-
-        </nav>
-
-        <form class="logout-form" asp-action="Logout" asp-controller="Account" method="post">
-            <button class="button secondary-button logout-button" type="submit">Log out</button>
-        </form>
+          <form class="signout-form" asp-action="Logout" asp-controller="Account" method="post">
+            <button class="sidemenu-action sidemenu-action-signout" type="submit">
+              <i class="material-icons">exit_to_app</i>Sign out
+            </button>
+          </form>
+      </nav>
 
     </aside>
-}
-else
-{
-    <span class="development-notice">In-development preview</span>
+  } else {
+    <nav class="header-element-list">
+      <a asp-controller="Home" asp-action="Index">
+        <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" width="100">
+      </a>
 
-    <header class="header">
+      <a class="header-status-action" asp-controller="Account" asp-action="Login">Sign&nbsp;in/sign&nbsp;up</a>
 
-        <div class="header-element">
-            <a asp-controller="Home" asp-action="Index">
-                <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" width="100">
-            </a>
-        </div>
-
-        <div class="header-element">
-            <a asp-controller="Account" asp-action="Login">Sign in/sign up</a>
-        </div>
-
-        <div class="header-element">
-            <a class="header-action" asp-controller="ProjectList" asp-action="Search">
-                <i class="header-action-icon material-icons">search</i>
-                <span class="header-action-description">Search</span>
-            </a>
-        </div>
-
-    </header>
-}
+      <div class="header-action-list">
+        <a class="header-action header-action-search" asp-controller="ProjectList" asp-action="Search">
+          <i class="header-action-icon material-icons">search</i>
+          <span class="header-action-description">Search</span>
+        </a>
+      </div>
+    </nav>
+  }
+</header>

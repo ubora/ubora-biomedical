@@ -1,35 +1,26 @@
-'use strict';
+// TODO: Add to ES6 module under 'sidemenu' namespace + Babel
+const toggleSideMenu = () => {
+  return document
+      .querySelector('.js-sidemenu')
+      .classList
+        .toggle('sidemenu-open');
+};
 
-// Menu animation & controls - simple version for the time being
-var noticeElement = document.querySelector('.development-notice');
-var headerElement = document.querySelector('.header');
-
-var noticeHeight = noticeElement.offsetHeight;
-var headerHeight = headerElement.offsetHeight;
-
-var totalPadding = Math.ceil(noticeHeight + headerHeight);
-
-var sideMenuButton = document.querySelector('.js-side-menu-control');
-var sideMenu = document.querySelector('.js-side-menu');
-
-if (sideMenuButton) {
-    sideMenuButton.addEventListener('click', function () {
-        var menuVisibility = sideMenu.style.display;
-
-        sideMenu.style.top = totalPadding + 'px';
-
-        if (menuVisibility === 'block') {
-            sideMenu.style.display = 'none';
-        } else {
-            sideMenu.style.display = 'block';
-        }
+document
+  .querySelectorAll('.js-sidemenu-toggle')
+  .forEach(element => {
+    element.addEventListener('click', toggleSideMenu);
+    element.addEventListener('keyup', event => {
+      const isEnterPressed = event.code === 'Enter';
+      isEnterPressed ? toggleSideMenu() : undefined;
     });
-}
+});
 
 window.addEventListener('load', function () {
     // Target is to have this number in production setting < 500ms
     console.info('UBORA: page loaded in ' + Math.ceil(window.performance.now()) + 'ms');
 });
+
 
 // Markdown editor
 var renderer = new marked.Renderer();
@@ -48,12 +39,12 @@ marked.setOptions({
 // Open link which redirects out of Ubora in new tab/window.
 renderer.link = function (href, title, text) {
     return '<a target="_blank" href="' + href + '" title="' + title + '">' + text + '</a>';
-}
+};
 
 // Picture size is optimized.
 renderer.image = function (href, title) {
     return '<img class="image-markdown" src="' + href + ' " alt="' + title + '" />';
-}
+};
 
 var markdownContainerArray = document.querySelectorAll('.text-markdown');
 var markdownArrayHasItems = markdownContainerArray.length > 0;
@@ -65,7 +56,7 @@ if (markdownArrayHasItems) {
 }
 
 var simpleMde = new SimpleMDE({
-    element: document.querySelector(".content_editable"), previewRender: function (plainText) {
+    element: document.querySelector('.content_editable'), previewRender: function (plainText) {
         return marked(plainText, { renderer: renderer });
     }
 });
@@ -73,7 +64,7 @@ var simpleMde = new SimpleMDE({
 // Feedback modal
 function feedbackModule(requestPath, sendFeedbackUrl) {
     function hideModal(event) {
-        if (event.target == modal) {
+        if (event.target === modal) {
             modal.style.display = 'none';
         }
     }
@@ -84,13 +75,13 @@ function feedbackModule(requestPath, sendFeedbackUrl) {
 
     triggerButton.onclick = function () {
         modal.style.display = 'block';
-    }
+    };
 
     closeButtton.onclick = function () {
         modal.style.display = 'none';
-    }
+    };
 
-    window.addEventListener("touchend", hideModal, false);
+    window.addEventListener('touchend', hideModal, false);
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = hideModal;
@@ -125,3 +116,26 @@ function feedbackModule(requestPath, sendFeedbackUrl) {
         });
     });
 }
+
+// Notices
+function dismissNotice(userEvent) {
+  function removeParentElement(currentElement) {
+    var parentElement = currentElement.parentElement;
+    parentElement.remove();
+  }
+
+  var currentElement = userEvent.target;
+  var notificationElement = currentElement.classList.contains('js-notice-close');
+
+  if (notificationElement) {
+    removeParentElement(currentElement);
+  }
+}
+
+window.addEventListener('click', function (event) {
+  dismissNotice(event);
+});
+
+window.addEventListener('touchend', function (event) {
+  dismissNotice(event);
+}, false);

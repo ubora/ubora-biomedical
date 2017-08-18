@@ -34,7 +34,7 @@ namespace Ubora.Domain.Notifications.Invitation
             var isUserAlreadyMember = project.DoesSatisfy(new HasMember(invite.InvitedMemberId));
             if (isUserAlreadyMember)
             {
-                return new CommandResult($"[{invite.InvitedMemberId}] is already member of project [{invite.ProjectId}].");
+                return new CommandResult($"[{userProfile.FullName}] is already member of project [{project.Title}].");
             }
 
             invite.Accept();

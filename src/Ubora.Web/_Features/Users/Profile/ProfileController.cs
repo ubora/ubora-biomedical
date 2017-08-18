@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure.Extensions;
+using Ubora.Web._Features._Shared.Notices;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web._Features.Home;
 
 namespace Ubora.Web._Features.Users.Profile
 {
@@ -48,8 +50,7 @@ namespace Ubora.Web._Features.Users.Profile
         [Authorize]
         public IActionResult EditProfile()
         {
-            var userId = _userManager.GetUserId(User);
-            var userProfile = QueryProcessor.FindById<UserProfile>(new Guid(userId));
+            var userProfile = QueryProcessor.FindById<UserProfile>(UserId);
 
             var userViewModel = AutoMapper.Map<UserProfileViewModel>(userProfile);
             var editProfileViewModel = new EditProfileViewModel
@@ -64,8 +65,6 @@ namespace Ubora.Web._Features.Users.Profile
         [HttpPost]
         public async Task<IActionResult> EditProfile(UserProfileViewModel model)
         {
-            var userId = _userManager.GetUserId(User);
-
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Index", "Manage");
@@ -73,7 +72,7 @@ namespace Ubora.Web._Features.Users.Profile
 
             var command = new EditUserProfileCommand
             {
-                UserId = new Guid(userId),
+                UserId = this.UserId,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Biography = model.Biography,
@@ -88,8 +87,19 @@ namespace Ubora.Web._Features.Users.Profile
             };
             ExecuteUserCommand(command);
 
-            var user = await _userManager.FindByIdAsync(userId);
+            if (!ModelState.IsValid)
+            {
+                var errorNotice = new Notice("Failed to change profile!", NoticeType.Error);
+                ShowNotice(errorNotice);
+
+                return RedirectToAction("Index", "Manage");
+            }
+
+            var user = await _userManager.FindByIdAsync(UserId.ToString());
             await _signInManager.RefreshSignInAsync(user);
+
+            var successNotice = new Notice("Profile changed successfully!", NoticeType.Success);
+            ShowNotice(successNotice);
 
             return RedirectToAction("Index", "Manage");
         }
@@ -98,7 +108,6 @@ namespace Ubora.Web._Features.Users.Profile
         public IActionResult FirstTimeEditProfile(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-
             var firstTimeEditProfileModel = new FirstTimeEditProfileModel
             {
                 ProfilePictureViewModel = new ProfilePictureViewModel
@@ -112,11 +121,11 @@ namespace Ubora.Web._Features.Users.Profile
 
         // TODO(Kaspar Kallas): Move to more specific controller (2/2)
         [HttpPost]
-        public IActionResult FirstTimeEditProfile(FirstTimeUserProfileViewModel model, string returnUrl = null)
+        public IActionResult FirstTimeEditProfile(FirstTimeUserProfileViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return FirstTimeEditProfile(returnUrl);
+                return FirstTimeEditProfile();
             }
 
             ExecuteUserCommand(new EditUserProfileCommand
@@ -137,10 +146,10 @@ namespace Ubora.Web._Features.Users.Profile
 
             if (!ModelState.IsValid)
             {
-                return FirstTimeEditProfile(returnUrl);
+                return FirstTimeEditProfile();
             }
 
-            return RedirectToLocal(returnUrl);
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         [HttpPost]
