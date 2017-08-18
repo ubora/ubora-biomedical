@@ -27,5 +27,8 @@
 
             return ul;
         },
+        _Highlight: function (label) {
+            return label;
+        },
     }, "#autocomplete");
 }
