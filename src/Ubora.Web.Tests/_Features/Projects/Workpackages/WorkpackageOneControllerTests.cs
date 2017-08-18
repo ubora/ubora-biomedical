@@ -10,7 +10,6 @@ using Xunit;
 using Ubora.Domain.Projects;
 using Ubora.Web.Tests.Helper;
 using Ubora.Web._Features._Shared.Notices;
-using System.Linq;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages
 {

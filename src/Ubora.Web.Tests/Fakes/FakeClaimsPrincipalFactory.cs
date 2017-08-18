@@ -9,9 +9,14 @@ namespace Ubora.Web.Tests.Fakes
     {
         public static ClaimsPrincipal CreateAuthenticatedUser(
             Guid? userId = null,
-            string fullName = null)
+            string fullName = null,
+            bool isEmailConfirmed = false)
         {
             var claims = CreateUserClaims(userId, fullName);
+            if(isEmailConfirmed)
+            {
+                claims.Add(new Claim(ApplicationUser.IsEmailConfirmedType, "true"));
+            }
 
             var user = new ClaimsPrincipal(new ClaimsIdentity(claims, authenticationType: "any"));
 
