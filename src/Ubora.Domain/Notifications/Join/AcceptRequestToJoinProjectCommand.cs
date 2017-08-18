@@ -34,7 +34,7 @@ namespace Ubora.Domain.Notifications.Join
             var isUserAlreadyMember = project.DoesSatisfy(new HasMember(request.AskingToJoinMemberId));
             if (isUserAlreadyMember)
             {
-                return new CommandResult($"[{request.AskingToJoinMemberId}] is already member of project [{request.ProjectId}].");
+                return new CommandResult($"[{userProfile.FullName}] is already member of project [{project.Title}].");
             }
 
             request.Accept();

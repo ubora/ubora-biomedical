@@ -26,7 +26,7 @@ namespace Ubora.Domain.Projects.Members
             var isUserAlreadyMember = project.DoesSatisfy(new HasMember(cmd.UserId));
             if (isUserAlreadyMember)
             {
-                return new CommandResult($"[{cmd.UserId}] is already member of project [{cmd.ProjectId}].");
+                return new CommandResult($"[{userProfile.FullName}] is already member of project [{project.Title}].");
             }
 
             var @event = new MemberAddedToProjectEvent(cmd.Actor)
