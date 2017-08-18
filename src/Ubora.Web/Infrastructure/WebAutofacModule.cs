@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Web._Features.Notifications.Factory;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Feedback;
 using Ubora.Web._Features.Users.Account;
+using Ubora.Web._Features.Notifications._Base;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -49,12 +49,17 @@ namespace Ubora.Web.Infrastructure
 
             builder.RegisterType<AuthMessageSender>().As<IPasswordRecoveryMessageSender>().As<IEmailConfirmationMessageSender>().InstancePerLifetimeScope();
             builder.RegisterType<ViewRender>().InstancePerLifetimeScope();
-            builder.RegisterType<NotificationViewModelFactory>().As<INotificationViewModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<ImageServices.ImageStorageProvider>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterAssemblyTypes(ThisAssembly).Where(t => t.IsNested && t.Name.EndsWith("Factory")).InstancePerLifetimeScope();
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();
 
             builder.RegisterType<SendFeedbackCommand.Handler>().As<ICommandHandler<SendFeedbackCommand>>().InstancePerLifetimeScope();
+
+            builder.RegisterType<NotificationViewModelFactoryMediator>().AsSelf().InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .AsClosedTypesOf(typeof(NotificationViewModelFactory<,>)).As<INotificationViewModelFactory>()
+                .InstancePerLifetimeScope();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)
