@@ -10,7 +10,7 @@
     <span class="development-notice">In-development preview</span>
     if (!User.IsEmailConfirmed())
     {
-        <span class="account-confirmation">We have sent an email confirmation link to @User.GetEmail(). <a href="@Url.Action("ResendEmailConfirmation", "Account")">Resend an email confirmation link</a></span>
+        <span class="account-confirmation">We have sent an email confirmation link to @User.GetEmail(). No mail? <a href="@Url.Action("ResendEmailConfirmation", "Account")">Resend confirmation link.</a></span>
     }
     <header class="header">
 
