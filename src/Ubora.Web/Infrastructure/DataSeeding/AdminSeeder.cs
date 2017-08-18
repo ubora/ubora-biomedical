@@ -40,7 +40,8 @@ namespace Ubora.Web.Infrastructure.DataSeeding
             var user = new ApplicationUser
             {
                 UserName = _options.UserName,
-                Email = _options.UserName
+                Email = _options.UserName,
+                EmailConfirmed = true
             };
 
             var identityResult = await _userManager.CreateAsync(user, _options.Password);

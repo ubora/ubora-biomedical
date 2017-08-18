@@ -49,7 +49,7 @@ namespace Ubora.Web._Features._Shared
 
             CreateMap<UserProfile, UserProfileViewModel>().ForMember(dest => dest.CountryCode, o => o.MapFrom(src => src.Country.Code));
 
-            CreateMap<Project, DesignPlanningViewModel>();
+            CreateMap<Project, ProjectOverviewViewModel>();
             CreateMap<Project, ProjectDashboardViewModel>()
                 .ForMember(dest => dest.IsProjectMember, o => o.Ignore())
                 .ForMember(dest => dest.ImagePath, o => o.Ignore())

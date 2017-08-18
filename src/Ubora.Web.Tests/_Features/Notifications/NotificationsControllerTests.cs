@@ -31,7 +31,7 @@ namespace Ubora.Web.Tests._Features.Notifications
             var invitations = new List<InvitationToProject> { invitation };
 
             QueryProcessorMock
-                .Setup(x => x.Find(new HasUnViewedNotifications(UserId)))
+                .Setup(x => x.Find(new HasPendingNotifications(UserId)))
                 .Returns(invitations);
 
             CommandProcessorMock.Setup(x => x.Execute(It.IsAny<MarkNotificationsAsViewedCommand>()))

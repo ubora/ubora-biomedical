@@ -49,6 +49,16 @@ namespace Ubora.Web.Services
             return userEmail;
         }
 
+        public static bool IsEmailConfirmed(this IPrincipal principal)
+        {
+            if (principal == null) throw new ArgumentNullException(nameof(principal));
+
+            var claimsPrincipal = (ClaimsPrincipal)principal;
+            var isEmailConfirmed = Convert.ToBoolean(claimsPrincipal.FindFirstValue(ApplicationUser.IsEmailConfirmedType));
+
+            return isEmailConfirmed;
+        }
+
         public static UserInfo GetInfo(this IPrincipal principal)
         {
             if (principal == null) throw new ArgumentNullException(nameof(principal));

@@ -71,6 +71,12 @@ body {
 	}
 }
 
+.account-confirmation {
+    background-color: var(--quaternary-color);
+    color: var(--white);
+    padding: .5em 0;
+    text-align: center;
+}
 
 .development-notice {
 	background-color: var(--primary-color);
@@ -78,3 +84,5 @@ body {
 	padding:.5em 0;
 	text-align: center;
 }
+
+

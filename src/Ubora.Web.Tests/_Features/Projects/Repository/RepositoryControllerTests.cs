@@ -128,6 +128,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
 
             _controller.ModelState.AddModelError("", "testError");
             fileMock.Setup(f => f.FileName).Returns("C:\\Test\\Parent\\Parent\\image.png");
+            QueryProcessorMock.Setup(p => p.Find<ProjectFile>(null)).Returns(new List<ProjectFile>());
 
             CreateTestProject();
 
@@ -156,6 +157,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<AddFileCommand>()))
                 .Returns(commandResult);
+            QueryProcessorMock.Setup(p => p.Find<ProjectFile>(null)).Returns(new List<ProjectFile>());
 
             CreateTestProject();
 

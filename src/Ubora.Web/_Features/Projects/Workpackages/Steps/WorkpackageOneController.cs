@@ -15,22 +15,22 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         private WorkpackageOne _workpackageOne;
         public WorkpackageOne WorkpackageOne => _workpackageOne ?? (_workpackageOne = QueryProcessor.FindById<WorkpackageOne>(ProjectId));
 
-        [Route(nameof(DesignPlanning))]
-        public IActionResult DesignPlanning()
+        [Route(nameof(ProjectOverView))]
+        public IActionResult ProjectOverView()
         {
-            var model = AutoMapper.Map<DesignPlanningViewModel>(Project);
+            var model = AutoMapper.Map<ProjectOverviewViewModel>(Project);
 
             return View(model);
         }
 
         [HttpPost]
-        [Route(nameof(DesignPlanning))]
+        [Route(nameof(ProjectOverView))]
         [Authorize(Policies.CanEditWorkpackageOne)]
-        public IActionResult DesignPlanning(DesignPlanningViewModel model)
+        public IActionResult ProjectOverview(ProjectOverviewViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return DesignPlanning();
+                return ProjectOverView();
             }
 
             ExecuteUserProjectCommand(new UpdateProjectCommand
@@ -44,12 +44,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             if (!ModelState.IsValid)
             {
-                Notices.Error("Failed to change design planning!");
+                Notices.Error("Failed to change project overview!");
 
-                return DesignPlanning();
+                return ProjectOverView();
             }
 
-            Notices.Success("Design planning changed successfully!");
+            Notices.Success("Project overview changed successfully!");
 
             return View();
         }
