@@ -27,7 +27,6 @@ namespace Ubora.Web._Features.Projects.InviteMentors
                 var project = _queryProcessor.FindById<Project>(query.ProjectId);
 
                 var projectMentorUserIds = project.Members
-                    // TODO(Kaspar Kallas): Use specification instead.
                     .Where(m => m is ProjectMentor)
                     .Select(x => x.UserId);
 

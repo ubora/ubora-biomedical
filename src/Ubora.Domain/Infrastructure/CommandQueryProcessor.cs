@@ -48,7 +48,6 @@ namespace Ubora.Domain.Infrastructure
                 : dbSet.ToList();
         }
 
-
         public T FindById<T>(Guid id)
         {
             return _querySession.Load<T>(id);

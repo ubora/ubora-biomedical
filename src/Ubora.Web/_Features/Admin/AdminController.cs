@@ -42,7 +42,7 @@ namespace Ubora.Web._Features.Admin
         [Authorize(Roles = ApplicationRole.Admin)]
         public async Task<IActionResult> AddAdministratorRole(Guid userId)
         {
-            var user = await _userManager.FindByIdAsync(userId.ToString());
+            var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.AddToRoleAsync(user, ApplicationRole.Admin);
 
             if (!result.Succeeded)
@@ -59,7 +59,7 @@ namespace Ubora.Web._Features.Admin
         [Authorize(Roles = ApplicationRole.Admin)]
         public async Task<IActionResult> RemoveAdministratorRole(Guid userId)
         {
-            var user = await _userManager.FindByIdAsync(userId.ToString());
+            var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.RemoveFromRoleAsync(user, ApplicationRole.Admin);
 
             if (!result.Succeeded)
@@ -76,7 +76,7 @@ namespace Ubora.Web._Features.Admin
         [Authorize(Roles = ApplicationRole.Admin)]
         public async Task<IActionResult> AddMentorRole(Guid userId)
         {
-            var user = await _userManager.FindByIdAsync(userId.ToString());
+            var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.AddToRoleAsync(user, ApplicationRole.Mentor);
 
             if (!result.Succeeded)
@@ -93,7 +93,7 @@ namespace Ubora.Web._Features.Admin
         [Authorize(Roles = ApplicationRole.Admin)]
         public async Task<IActionResult> RemoveMentorRole(Guid userId)
         {
-            var user = await _userManager.FindByIdAsync(userId.ToString());
+            var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.RemoveFromRoleAsync(user, ApplicationRole.Mentor);
 
             if (!result.Succeeded)
