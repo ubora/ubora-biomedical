@@ -76,11 +76,16 @@ namespace Ubora.Web.Tests._Features
             }
         }
 
-        protected void AssertHasAttribute(Type controller, string methodName, Type attributeType)
+        protected void AssertHasAttribute(Type controller, string methodName, Type attributeType, string attributePolicy = null)
         {
             var methodInfos = GetMethodInfos(controller, methodName);
-            foreach (var customAttributes in methodInfos.Select(i => i.GetCustomAttributes()))
+            foreach (var customAttributes in methodInfos.Select(i => i.GetCustomAttributes(typeof(AuthorizeAttribute), true)))
             {
+                if (attributePolicy != null)
+                {
+                    Assert.True(customAttributes.Any(a => ((AuthorizeAttribute)a).Policy == attributePolicy));
+                }
+
                 Assert.True(customAttributes.Any(a => a.GetType() == attributeType));
             }
         }

@@ -19,6 +19,7 @@ using Ubora.Web.Tests.Helper;
 using Xunit;
 using Ubora.Domain.Projects.Specifications;
 using System.Linq.Expressions;
+using Ubora.Web.Authorization;
 
 namespace Ubora.Web.Tests._Features.Projects.Repository
 {
@@ -42,7 +43,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.DownloadFile),
                 typeof(AuthorizeAttribute));
             AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.HideFile),
-                typeof(AuthorizeAttribute));
+                typeof(AuthorizeAttribute), nameof(Policies.CanHideProjectFile));
         }
 
         [Fact]
