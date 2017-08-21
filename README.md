@@ -34,6 +34,13 @@ Navigate to `src\Ubora.Web` in Explorer and run `Run Web.ps1`. Server should be 
  Getting the latest changes to the test environment when you are running tests locally you need to build them locally in VS Code using these two commands:
  * `docker-compose -f src\docker-compose.ci.build.yml up` in folder **\ubora** (Repo) in VS Code
  * `docker-compose -f docker-compose.ci.functional-tests.yml build` in folder **\ubora\src** in VS Code
+ If you have this error: 
+ * `standard_init_linux.go:187: exec user process caused "no such file or directory"`
+ Then do the following:
+ Open git bash in Ubora repo folder and insert those three commands:
+ * `dos2unix RunCIBuild.sh
+ * `dos2unix RunTests.sh
+ * `dos2unix wait-for-it.sh`
 
 ## User accounts
 Currently, there exists a predefined `System Administrator` account:  
