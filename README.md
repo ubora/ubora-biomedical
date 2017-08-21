@@ -27,17 +27,17 @@ Navigate to `src\Ubora.Web` in Explorer and run `Run Web.ps1`. Server should be 
  * Open up project in VS Code.
  * Open up the folder you have **Ubora\src** in TERMINAL in VS Code.
  * Run the tests using `docker-compose -f docker-compose.ci.functional-tests.yml up`
-# If you have errors do one of the following:
+### If you have errors do one of the following:
  * `docker-compose -f docker-compose.ci.functional-tests.yml down` and run tests again
  * `CMD` and command `docker rm -f postgres` and run tests again
  * If nothing works Restarting the computer is always a good option
-# Getting the latest changes to the test environment when you are running tests locally you need to build them locally in VS Code using these two commands:
+### Getting the latest changes to the test environment when you are running tests locally you need to build them locally in VS Code using these two commands:
  * `docker-compose -f src\docker-compose.ci.build.yml up` in folder **\ubora** (Repo) in VS Code
  * `docker-compose -f docker-compose.ci.functional-tests.yml build` in folder **\ubora\src** in VS Code
-# If you have this error: 
+### If you have this error: 
  * `standard_init_linux.go:187: exec user process caused "no such file or directory"`
-# Then do the following:
-# Open git bash in Ubora repo folder and insert those three commands:
+### Then do the following:
+### Open git bash in Ubora repo folder and insert those three commands:
  * `dos2unix RunCIBuild.sh`
  * `dos2unix RunTests.sh`
  * `dos2unix wait-for-it.sh`
