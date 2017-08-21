@@ -38,8 +38,8 @@ Navigate to `src\Ubora.Web` in Explorer and run `Run Web.ps1`. Server should be 
  * `standard_init_linux.go:187: exec user process caused "no such file or directory"`
  Then do the following:
  Open git bash in Ubora repo folder and insert those three commands:
- * `dos2unix RunCIBuild.sh
- * `dos2unix RunTests.sh
+ * `dos2unix RunCIBuild.sh`
+ * `dos2unix RunTests.sh`
  * `dos2unix wait-for-it.sh`
 
 ## User accounts
