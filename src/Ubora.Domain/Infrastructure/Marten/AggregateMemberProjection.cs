@@ -4,9 +4,9 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Marten;
-using Marten.Events;
 using Marten.Events.Projections;
 using Marten.Events.Projections.Async;
+using Marten.Storage;
 using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Infrastructure.Marten
@@ -20,9 +20,9 @@ namespace Ubora.Domain.Infrastructure.Marten
 
         public AsyncOptions AsyncOptions => new AsyncOptions();
 
-        public void Apply(IDocumentSession session, EventStream[] streams)
+        public void Apply(IDocumentSession session, EventPage page)
         {
-            foreach (var stream in streams)
+            foreach (var stream in page.Streams)
             {
                 foreach (var martenEvent in stream.Events)
                 {
@@ -60,7 +60,12 @@ namespace Ubora.Domain.Infrastructure.Marten
             return methodParameters.Single().ParameterType == type;
         }
 
-        public Task ApplyAsync(IDocumentSession session, EventStream[] streams, CancellationToken token)
+        public Task ApplyAsync(IDocumentSession session, EventPage page, CancellationToken token)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EnsureStorageExists(ITenant tenant)
         {
             throw new NotImplementedException();
         }
