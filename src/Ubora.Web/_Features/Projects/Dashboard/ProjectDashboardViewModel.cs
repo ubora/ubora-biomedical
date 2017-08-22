@@ -11,7 +11,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
         public string AreaOfUsageTags { get; set; }
         public string PotentialTechnologyTags { get; set; }
         public string Gmdn { get; set; }
-        public AuthorizationResult IsProjectMember { get; set; }
+        public bool IsProjectMember { get; set; }
         public bool IsInDraft { get; set; }
         public string ImagePath { get; set; }
         public bool HasImage { get; set; }
