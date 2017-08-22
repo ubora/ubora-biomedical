@@ -8,14 +8,14 @@
     @{
         var isProjectMember = await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
     }
-    @if (isProjectMember)
+    @if (isProjectMember.Succeeded)
     {
         <a class="project_navigation_link @Model.WorkpackagesActivityCssClass" asp-controller="Workpackages" asp-action="OverviewOfAll">Work packages</a>
         <a class="project_navigation_link @Model.RepositoryActivityCssClass" asp-controller="Repository" asp-action="Repository">Repository</a>
         <a class="project_navigation_link @Model.TasksActivityCssClass" asp-controller="Assignments" asp-action="Assignments">Assignments</a>
     }
     <a class="project_navigation_link @Model.MembersActivityCssClass" asp-controller="Members" asp-action="Members">Members</a>
-    @if (isProjectMember)
+    @if (isProjectMember.Succeeded)
     {
         <a class="project_navigation_link @Model.HistoryActivityCssClass" asp-controller="History" asp-action="History">History</a>
     }

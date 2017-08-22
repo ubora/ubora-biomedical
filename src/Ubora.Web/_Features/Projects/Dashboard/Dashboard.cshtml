@@ -8,7 +8,7 @@
 
 <section class="medium-width">
     
-    @if (!Model.IsProjectMember)
+    @if (!Model.IsProjectMember.Succeeded)
     {
         <a href="@Url.Action("Join", "Members")"><i class="material-icons">add</i>Join project</a>
     }
@@ -38,7 +38,7 @@
 
     <div class="project_section project_section--editable">
         <h2>Project description</h2>
-        @if (Model.IsProjectMember)
+        @if (Model.IsProjectMember.Succeeded)
         {
             <a asp-controller="Dashboard" asp-action="EditProjectDescription"><i class="material-icons">mode_edit</i>&nbsp;Edit</a>
         }

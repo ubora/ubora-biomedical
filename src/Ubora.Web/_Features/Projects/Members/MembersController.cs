@@ -38,18 +38,18 @@ namespace Ubora.Web._Features.Projects.Members
                 // TODO(Kaspar Kallas): Eliminate SELECT(N + 1)
                 FullName = QueryProcessor.FindById<UserProfile>(m.UserId).FullName,
                 IsProjectLeader = m.IsLeader,
-                IsCurrentUser = isAuthenticated && UserId == m.UserId,
+                IsCurrentUser = isAuthenticated.Succeeded && UserId == m.UserId,
                 IsProjectMentor = m.IsMentor
             });
 
-            var isProjectLeader = isAuthenticated && members.Any(x => x.UserId == UserId && x.IsProjectLeader);
+            var isProjectLeader = isAuthenticated.Succeeded && members.Any(x => x.UserId == UserId && x.IsProjectLeader);
 
             var model = new ProjectMemberListViewModel
             {
                 Id = ProjectId,
-                CanRemoveProjectMembers = canRemoveProjectMembers,
+                CanRemoveProjectMembers = canRemoveProjectMembers.Succeeded,
                 Members = members,
-                IsProjectMember = isAuthenticated && isProjectMember,
+                IsProjectMember = isAuthenticated.Succeeded && isProjectMember.Succeeded,
                 IsProjectLeader = isProjectLeader
             };
 

@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
@@ -22,25 +22,22 @@ namespace Ubora.Web._Features.Users.Account
     public class AccountController : UboraController
     {
         private readonly IApplicationUserManager _userManager;
-        private readonly IApplicationSignInManager _signInManager;
+        private readonly ApplicationSignInManager _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly ICommandProcessor _commandProcessor;
         private readonly IEmailConfirmationMessageSender _confirmationMessageSender;
         private readonly IPasswordRecoveryMessageSender _passwordRecoveryMessageSender;
-        private readonly string _externalCookieScheme;
 
         public AccountController(
             IApplicationUserManager userManager,
-            IApplicationSignInManager signInManager,
-            IOptions<IdentityCookieOptions> identityCookieOptions,
+            ApplicationSignInManager signInManager,
             IEmailSender emailSender,
             ILogger<AccountController> logger,
             ICommandProcessor commandProcessor, IEmailConfirmationMessageSender confirmationMessageSender, IPasswordRecoveryMessageSender passwordRecoveryMessageSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _emailSender = emailSender;
             _commandProcessor = commandProcessor;
             _confirmationMessageSender = confirmationMessageSender;
@@ -73,7 +70,7 @@ namespace Ubora.Web._Features.Users.Account
         public async Task<IActionResult> Login(string returnUrl = null)
         {
             // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.Authentication.SignOutAsync(_externalCookieScheme);
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             ViewData["ReturnUrl"] = returnUrl;
             return View();
