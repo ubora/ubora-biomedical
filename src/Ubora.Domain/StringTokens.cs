@@ -1,17 +1,17 @@
 using System;
 
-namespace Ubora.Domain.Notifications
+namespace Ubora.Domain
 {
-    public static class Template
+    public static class StringTokens
     {
         public static string User(Guid userId)
         {
-            return userId.ToString();
+            return $"#user{{{userId}}}";
         }
 
         public static string Project(Guid projectId)
         {
-            return projectId.ToString();
+            return $"#project{{{projectId}}}";
         }
     }
 }

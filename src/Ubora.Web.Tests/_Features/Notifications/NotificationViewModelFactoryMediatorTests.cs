@@ -6,6 +6,7 @@ using Moq;
 using Ubora.Domain.Notifications;
 using Ubora.Web._Features.Notifications;
 using Ubora.Web._Features.Notifications._Base;
+using Ubora.Web._Features._Shared.Tokens;
 using Xunit;
 
 namespace Ubora.Web.Tests._Features.Notifications
@@ -16,7 +17,7 @@ namespace Ubora.Web.Tests._Features.Notifications
 
         public NotificationViewModelFactoryMediatorTests()
         {
-            _generalFactory = new GeneralNotificationViewModel.Factory();
+            _generalFactory = new GeneralNotificationViewModel.Factory(Mock.Of<TokenReplacerMediator>());
         }
 
         [Fact]

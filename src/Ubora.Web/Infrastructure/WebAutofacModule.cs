@@ -9,6 +9,7 @@ using Ubora.Web.Services;
 using Ubora.Web._Features.Feedback;
 using Ubora.Web._Features.Users.Account;
 using Ubora.Web._Features.Notifications._Base;
+using Ubora.Web._Features._Shared.Tokens;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -59,6 +60,12 @@ namespace Ubora.Web.Infrastructure
 
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .AsClosedTypesOf(typeof(NotificationViewModelFactory<,>)).As<INotificationViewModelFactory>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<TokenReplacerMediator>().AsSelf().InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .AssignableTo<ITokenReplacer>().As<ITokenReplacer>()
                 .InstancePerLifetimeScope();
         }
 
