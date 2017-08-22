@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using System;
+using System.Linq;
 using Ubora.Domain.Projects;
 using Xunit;
 using Ubora.Domain.Infrastructure;
@@ -19,11 +20,12 @@ namespace Ubora.Domain.Tests.Projects
                 NewProjectId = expectedProjectId
             });
 
+            var blobLocation = new BlobLocation("test", "test.jpg");
             var command = new UpdateProjectImageCommand
             {
                 Actor = new DummyUserInfo(),
                 ProjectId = expectedProjectId,
-                BlobLocation = new BlobLocation("test", "test.jpg")
+                BlobLocation = blobLocation
             };
 
             // Act
@@ -33,6 +35,9 @@ namespace Ubora.Domain.Tests.Projects
             var project = Session.Load<Project>(expectedProjectId);
 
             project.ProjectImageBlobLocation.Should().NotBeNull();
+
+            var @event = Session.Events.QueryRawEventDataOnly<ProjectImageUpdatedEvent>().Single();
+            @event.BlobLocation.ShouldBeEquivalentTo(blobLocation);
         }
     }
 }

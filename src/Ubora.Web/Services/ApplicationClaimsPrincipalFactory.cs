@@ -1,3 +1,4 @@
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -29,6 +30,11 @@ namespace Ubora.Web.Services
 
         public override async Task<ClaimsPrincipal> CreateAsync(ApplicationUser user)
         {
+            if(user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+        
             var claimsPrincipal = await base.CreateAsync(user);
             var claimsIdentity = (ClaimsIdentity)claimsPrincipal.Identity;
 
@@ -37,6 +43,12 @@ namespace Ubora.Web.Services
 
             var profilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile);
             claimsIdentity.AddClaim(new Claim(ApplicationUser.ProfilePictureUrlClaimType, profilePictureUrl));
+
+            var userEmail = userProfile.Email;
+            claimsIdentity.AddClaim(new Claim(ApplicationUser.EmailClaimType, userEmail));
+
+            var isEmailConfirmed = await UserManager.IsEmailConfirmedAsync(user);
+            claimsIdentity.AddClaim(new Claim(ApplicationUser.IsEmailConfirmedType, isEmailConfirmed.ToString()));
 
             return claimsPrincipal;
         }

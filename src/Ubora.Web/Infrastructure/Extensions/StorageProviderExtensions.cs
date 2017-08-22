@@ -10,7 +10,7 @@ namespace Ubora.Web.Infrastructure.Extensions
         {
             if (userProfile.ProfilePictureBlobLocation == null)
             {
-                return "/images/profileimagedefault.png";
+                return "/images/profileimagedefault.svg";
             }
 
             var blobLocation = userProfile.ProfilePictureBlobLocation;

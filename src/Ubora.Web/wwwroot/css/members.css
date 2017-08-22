@@ -1,3 +1,8 @@
+.project-control-options {
+    display: flex;
+    flex-direction: column;
+}
+
 .project-control {
     margin:.5em 0;
     padding:0;

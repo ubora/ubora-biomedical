@@ -62,7 +62,7 @@ namespace Ubora.Web.Tests._Features.Users.UserList
             result.Model.As<IEnumerable<UserListItemViewModel>>()
                 .Last()
                 .ProfilePictureLink.Should()
-                .Be(blobname != null ? expectedUrl : "/images/profileimagedefault.png");
+                .Be(blobname != null ? expectedUrl : "/images/profileimagedefault.svg");
         }
     }
 }

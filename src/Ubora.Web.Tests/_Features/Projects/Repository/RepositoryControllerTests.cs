@@ -163,6 +163,8 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             _controller.ModelState.AddModelError("", errorMessage);
             fileMock.Setup(f => f.FileName)
                 .Returns("C:\\Test\\Parent\\Parent\\image.png");
+            QueryProcessorMock.Setup(p => p.Find(new IsProjectFileSpec(ProjectId) && !new IsHiddenFileSpec()))
+                .Returns(new List<ProjectFile>());
 
             CreateTestProject();
 
@@ -201,6 +203,8 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<AddFileCommand>()))
                 .Returns(commandResult);
+            QueryProcessorMock.Setup(p => p.Find(new IsProjectFileSpec(ProjectId) && !new IsHiddenFileSpec()))
+                .Returns(new List<ProjectFile>());
 
             var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
             Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName

@@ -11,8 +11,6 @@ using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web.Infrastructure.ImageServices
 {
-
-
     public class ImageStorageProvider
     {
         private readonly IStorageProvider _storageProvider;
@@ -26,26 +24,14 @@ namespace Ubora.Web.Infrastructure.ImageServices
 
         protected ImageStorageProvider()
         {
-
         }
 
         // https://andrewlock.net/using-imagesharp-to-resize-images-in-asp-net-core-part-2/
         public virtual async Task SaveImageAsync(Stream stream, BlobLocation blobLocation, SizeOptions sizeOptions)
         {
-            if (stream == null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-
-            if (blobLocation == null)
-            {
-                throw new ArgumentNullException(nameof(blobLocation));
-            }
-
-            if (sizeOptions == null)
-            {
-                throw new ArgumentNullException(nameof(sizeOptions));
-            }
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+            if (blobLocation == null) throw new ArgumentNullException(nameof(blobLocation));
+            if (sizeOptions == null) throw new ArgumentNullException(nameof(sizeOptions));
 
             foreach (ImageSize imageSize in sizeOptions)
             {
@@ -64,30 +50,16 @@ namespace Ubora.Web.Infrastructure.ImageServices
 
         public virtual async Task SaveImageAsync(Stream stream, BlobLocation blobLocation)
         {
-            if (stream == null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+            if (blobLocation == null) throw new ArgumentNullException(nameof(blobLocation));
 
-            if (blobLocation == null)
-            {
-                throw new ArgumentNullException(nameof(blobLocation));
-            }
-
-            await _uboraStorageProvider.SavePublic(blobLocation, stream);
+            await SaveStreamToBlobAsync(blobLocation, stream);
         }
 
         public virtual string GetUrl(BlobLocation blobLocation, ImageSize size)
         {
-            if (blobLocation == null)
-            {
-                throw new ArgumentNullException(nameof(blobLocation));
-            }
-
-            if (size == null)
-            {
-                throw new ArgumentNullException(nameof(size));
-            }
+            if (blobLocation == null) throw new ArgumentNullException(nameof(blobLocation));
+            if (size == null) throw new ArgumentNullException(nameof(size));
 
             var blobUrl = _storageProvider.GetBlobUrl(blobLocation.ContainerName, $"{blobLocation.BlobPath}{size}.jpg");
 
@@ -96,26 +68,22 @@ namespace Ubora.Web.Infrastructure.ImageServices
 
         public virtual string GetUrl(BlobLocation blobLocation)
         {
-            if (blobLocation == null)
-            {
-                throw new ArgumentNullException(nameof(blobLocation));
-            }
+            if (blobLocation == null) throw new ArgumentNullException(nameof(blobLocation));
 
             return _storageProvider.GetBlobUrl(blobLocation.ContainerName, blobLocation.BlobPath);
         }
 
         public virtual async Task DeleteImagesAsync(BlobLocation blobLocation)
         {
-            if (blobLocation == null)
-            {
-                throw new ArgumentNullException(nameof(blobLocation));
-            }
+            if (blobLocation == null) throw new ArgumentNullException(nameof(blobLocation));
 
             await _storageProvider.DeleteBlobAsync(blobLocation.ContainerName, blobLocation.BlobPath);
         }
 
         private async Task<IEnumerable<BlobDescriptor>> GetBlobs(BlobLocation blobLocation)
         {
+            if (blobLocation == null) throw new ArgumentNullException(nameof(blobLocation));
+
             var allBlobs = await _storageProvider.ListBlobsAsync(blobLocation.ContainerName);
 
             return allBlobs.Where(x => x.Url.Contains(blobLocation.BlobPath));
@@ -123,6 +91,9 @@ namespace Ubora.Web.Infrastructure.ImageServices
 
         private async Task SaveAsync(BlobLocation blobLocation, Stream stream, int width, int height)
         {
+            if (blobLocation == null) throw new ArgumentNullException(nameof(blobLocation));
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+
             stream.Seek(0, SeekOrigin.Begin);
 
             using (var outputStream = new MemoryStream())
@@ -143,6 +114,9 @@ namespace Ubora.Web.Infrastructure.ImageServices
 
         private async Task SaveAsJpegAsync(BlobLocation blobLocation, Stream stream)
         {
+            if (blobLocation == null) throw new ArgumentNullException(nameof(blobLocation));
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+
             stream.Seek(0, SeekOrigin.Begin);
 
             using (var outputStream = new MemoryStream())
@@ -180,6 +154,19 @@ namespace Ubora.Web.Infrastructure.ImageServices
             }
 
             return new Rectangle(0, 0, width, height);
+        }
+
+        private async Task SaveStreamToBlobAsync(BlobLocation blobLocation, Stream stream)
+        {
+            if (blobLocation == null) throw new ArgumentNullException(nameof(blobLocation));
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+
+            var blobProperties = new BlobProperties
+            {
+                Security = BlobSecurity.Public
+            };
+
+            await _storageProvider.SaveBlobStreamAsync(blobLocation.ContainerName, blobLocation.BlobPath, stream, blobProperties);
         }
     }
 }

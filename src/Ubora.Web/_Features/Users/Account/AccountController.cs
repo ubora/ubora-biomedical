@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -7,41 +8,44 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Home;
 using Ubora.Web._Features.Users.Profile;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Users.Account
 {
     [Authorize]
     public class AccountController : UboraController
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IApplicationUserManager _userManager;
+        private readonly IApplicationSignInManager _signInManager;
         private readonly IEmailSender _emailSender;
-        private readonly IAuthMessageSender _authMessageSender;
-        private readonly ICommandQueryProcessor _processor;
         private readonly ILogger _logger;
+        private readonly ICommandProcessor _commandProcessor;
+        private readonly IEmailConfirmationMessageSender _confirmationMessageSender;
+        private readonly IPasswordRecoveryMessageSender _passwordRecoveryMessageSender;
         private readonly string _externalCookieScheme;
 
         public AccountController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            IApplicationUserManager userManager,
+            IApplicationSignInManager signInManager,
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
-            ILoggerFactory loggerFactory,
-            ICommandQueryProcessor processor, IAuthMessageSender authMessageSender)
+            ILogger<AccountController> logger,
+            ICommandProcessor commandProcessor, IEmailConfirmationMessageSender confirmationMessageSender, IPasswordRecoveryMessageSender passwordRecoveryMessageSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _emailSender = emailSender;
-            _processor = processor;
-            _authMessageSender = authMessageSender;
-            _logger = loggerFactory.CreateLogger<AccountController>();
+            _commandProcessor = commandProcessor;
+            _confirmationMessageSender = confirmationMessageSender;
+            _passwordRecoveryMessageSender = passwordRecoveryMessageSender;
+            _logger = logger;
         }
 
         public IActionResult ProfileCreation()
@@ -100,11 +104,8 @@ namespace Ubora.Web._Features.Users.Account
                     _logger.LogWarning(2, $"{model.Email} is the email of the user who logged in.");
                     return View("Lockout");
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
-                }
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(model);
             }
 
             // If we got this far, something failed, redisplay form
@@ -132,25 +133,20 @@ namespace Ubora.Web._Features.Users.Account
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
+                _logger.LogInformation(3, $"{model.Email} is the email of the user who created a new account with password.");
+
                 if (result.Succeeded)
                 {
-                    _processor.Execute(new CreateUserProfileCommand
+                    _commandProcessor.Execute(new CreateUserProfileCommand
                     {
                         UserId = user.Id,
                         Email = user.Email,
                         FirstName = model.FirstName,
-                        LastName = model.LastName,
+                        LastName = model.LastName
                     });
 
+                    await _confirmationMessageSender.SendEmailConfirmationMessage(user);
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, $"{model.Email} is the email of the user who created a new account with password.");
-
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
-                    // Send an email with this link
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                    //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
 
                     return RedirectToAction(
                         actionName: nameof(ProfileController.FirstTimeEditProfile),
@@ -260,17 +256,41 @@ namespace Ubora.Web._Features.Users.Account
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
-            if (userId == null || code == null)
-            {
-                return View("Error");
-            }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return View("Error");
+                throw new InvalidOperationException();
             }
+
+            if(user.EmailConfirmed)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            if (!result.Succeeded)
+            {
+                var errorNotice = new Notice("Confirmation code is wrong or expired!", NoticeType.Error);
+                ShowNotice(errorNotice);
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var isDifferentUserSignedIn = new Guid(userId) != UserId;
+                if (isDifferentUserSignedIn)
+                {
+                    await _signInManager.SignOutAsync();
+                }
+                else
+                {
+                    await _signInManager.RefreshSignInAsync(user);
+                }
+            }
+
+            var successNotice = new Notice("Your email has been confirmed successfully!", NoticeType.Success);
+            ShowNotice(successNotice);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -290,7 +310,7 @@ namespace Ubora.Web._Features.Users.Account
                 var user = await _userManager.FindByNameAsync(model.Email);
                 if (user == null)
                     return View("ForgotPasswordConfirmation");
-                await _authMessageSender.SendForgotPasswordMessageAsync(user);
+                await _passwordRecoveryMessageSender.SendForgotPasswordMessage(user);
                 return View("ForgotPasswordConfirmation");
             }
 
@@ -435,6 +455,22 @@ namespace Ubora.Web._Features.Users.Account
         [HttpGet]
         public IActionResult AccessDenied()
         {
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> ResendEmailConfirmation()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            await _confirmationMessageSender.SendEmailConfirmationMessage(user);
+
             return View();
         }
 

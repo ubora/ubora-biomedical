@@ -5,7 +5,8 @@ namespace Ubora.Domain.Projects
 {
     internal class ProjectImageDeletedEvent : UboraEvent
     {
-        public DateTime When { get; set; }
+        public DateTime When { get; private set; }
+
         public ProjectImageDeletedEvent(DateTime when, UserInfo initiatedBy) : base(initiatedBy)
         {
             When = when;
