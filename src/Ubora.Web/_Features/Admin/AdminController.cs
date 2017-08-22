@@ -10,7 +10,7 @@ using Ubora.Web.Services;
 
 namespace Ubora.Web._Features.Admin
 {
-    [Authorize(Roles = ApplicationRole.Admin)] // Important!
+    [Authorize(Roles = ApplicationRole.Admin)]
     public class AdminController : UboraController
     {
         private readonly ApplicationUserManager _userManager;

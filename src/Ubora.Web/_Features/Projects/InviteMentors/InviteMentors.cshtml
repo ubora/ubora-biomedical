@@ -6,41 +6,35 @@
 }
 
 <section class="narrow-width">
-  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 </section>
 
-<section class="narrow-width">
-  <h2 class="full-width">Project mentors</h2>
-  @foreach (var mentor in Model.ProjectMentors)
-  {
-    <div class="project-member">
-      <span class="project-member--status"></span>
-      <span class="project-member--name">
-        @*TODO: Add link to Mentor profile? Add Mentor email? *@
-        <p>@mentor.FullName</p>
-        <p>
-          <a href="#">mentor.Email</a>
-        </p>
-      </span>
-      <span class="project-member--controls"></span>
-    </div>
-  }
+<section class="medium-width user-list">
+    <h2 class="full-width">Project mentors</h2>
+    @foreach (var mentor in Model.ProjectMentors)
+    {
+        <div class="card user-card center-element">
+            <img class="avatar" src="@mentor.ProfilePictureLink" alt="@mentor.FullName profile picture" width="100" height="100">
+            <h2><a asp-action="View" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h2>
+            <form asp-action="InviteMentor">
+                <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId">
+            </form>
+        </div>
+    }
 </section>
 
 
-<section class="medium-width">
-  <h2 class="full-width">All UBORA mentors</h2>
-</section>
-<section class="full-width user-list">
-
-  @foreach (var mentor in Model.UboraMentors)
-  {
-    <div class="card user-card">
-      <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId">
-      <h3 class="user-card--name">@mentor.FullName</h3>
-      <form asp-action="InviteMentor">
-        <button class="button secondary-button small-button" type="submit">Invite mentor</button>
-      </form>
-    </div>
-  }
+<section class="medium-width user-list">
+    <h2 class="full-width">All UBORA mentors</h2>
+    @foreach (var mentor in Model.UboraMentors)
+    {
+        <div class="card user-card center-element">
+            <img class="avatar" src="@mentor.ProfilePictureLink" alt="@mentor.FullName profile picture" width="100" height="100">
+            <h2><a asp-action="View" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h2>
+            <form asp-action="InviteMentor">
+                <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId">
+                <button class="button secondary-button small-button" type="submit">Invite mentor</button>
+            </form>
+        </div>
+    }
 </section>
