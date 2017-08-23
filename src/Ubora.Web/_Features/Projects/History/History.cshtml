@@ -9,12 +9,13 @@
 <section class="medium-width">
     <h1 class="full-width">Project history</h1>
     
-    <ol>
+    <ul class="list--none">
         @foreach (var eventDescription in Model.Events)
         {
-            <li>
+            <li class="history-list-item">
                 @eventDescription
+                <p class="history-timestamp">8/22/2017 10:35 AM</p>
             </li>
         }
-    </ol>
+    </ul>
 </section>
