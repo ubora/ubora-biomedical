@@ -8,13 +8,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Internal;
-using Microsoft.Extensions.Options;
 using Moq;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
-using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features.Home;
 using Ubora.Web._Features.Users.Account;
 using Ubora.Web._Features.Users.Profile;
@@ -28,7 +26,6 @@ namespace Ubora.Web.Tests._Features.Users.Account
     {
         private readonly Mock<IApplicationUserManager> _userManagerMock;
         private readonly Mock<IApplicationSignInManager> _signInManagerMock;
-        private readonly Mock<IOptions<IdentityCookieOptions>> _identityCookieOptionsMock;
         private readonly Mock<IEmailSender> _emailSenderMock;
         private readonly Mock<ILogger<AccountController>> _loggerMock;
         private readonly Mock<IEmailConfirmationMessageSender> _confirmationMessageSenderMock;
@@ -40,8 +37,6 @@ namespace Ubora.Web.Tests._Features.Users.Account
         {
             _userManagerMock = new Mock<IApplicationUserManager>(MockBehavior.Strict);
             _signInManagerMock = new Mock<IApplicationSignInManager>(MockBehavior.Strict);
-            _identityCookieOptionsMock = new Mock<IOptions<IdentityCookieOptions>>();
-            _identityCookieOptionsMock.Setup(o => o.Value).Returns(new IdentityCookieOptions());
             _emailSenderMock = new Mock<IEmailSender>();
             _loggerMock = new Mock<ILogger<AccountController>>();
             _confirmationMessageSenderMock = new Mock<IEmailConfirmationMessageSender>(MockBehavior.Strict);
@@ -49,7 +44,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _commandProcessor = new Mock<ICommandProcessor>();
             var urlHelperMock = new Mock<IUrlHelper>();
             _controller = new AccountController(_userManagerMock.Object, _signInManagerMock.Object,
-                _identityCookieOptionsMock.Object, _emailSenderMock.Object,
+                 _emailSenderMock.Object,
                 _loggerMock.Object, _commandProcessor.Object, _confirmationMessageSenderMock.Object, _passwordRecoveryMessageSenderMock.Object)
             {
                 Url = urlHelperMock.Object
@@ -341,7 +336,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
                 .ReturnsAsync(IdentityResult.Failed());
 
             //Act
-            var result = (RedirectToActionResult) await _controller.ConfirmEmail(userId, code);
+            var result = (RedirectToActionResult)await _controller.ConfirmEmail(userId, code);
 
             //Assert
             result.ActionName.Should().Be("Index");
@@ -371,7 +366,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
                 .Returns(Task.FromResult(applicationUser));
 
             //Act
-            var result = (RedirectToActionResult) await _controller.ConfirmEmail(userId, code);
+            var result = (RedirectToActionResult)await _controller.ConfirmEmail(userId, code);
 
             //Assert
             result.ControllerName.Should().Be("Home");
@@ -400,7 +395,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
                 .Returns(Task.FromResult(applicationUser));
 
             //Act
-            var result = (RedirectToActionResult) await _controller.ConfirmEmail(userId, code);
+            var result = (RedirectToActionResult)await _controller.ConfirmEmail(userId, code);
 
             //Assert
             result.ControllerName.Should().Be("Home");
@@ -410,7 +405,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             successNotice.Text.Should().Be("Your email has been confirmed successfully!");
             successNotice.Type.Should().Be(NoticeType.Success);
 
-            _signInManagerMock.Verify(m => m.SignOutAsync(),Times.Once);
+            _signInManagerMock.Verify(m => m.SignOutAsync(), Times.Once);
             _signInManagerMock.Verify(m => m.RefreshSignInAsync(applicationUser), Times.Never);
         }
 
@@ -426,7 +421,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
                 .ReturnsAsync(applicationUser);
 
             //Act
-            var result = (RedirectToActionResult) await _controller.ConfirmEmail(userId, "code");
+            var result = (RedirectToActionResult)await _controller.ConfirmEmail(userId, "code");
 
             //Assert
             result.ControllerName.Should().Be("Home");
@@ -516,7 +511,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _userManagerMock.Setup(m => m.GetUserAsync(User)).ReturnsAsync((ApplicationUser)null);
 
             //Act
-            var result = (RedirectToActionResult) await _controller.ResendEmailConfirmation();
+            var result = (RedirectToActionResult)await _controller.ResendEmailConfirmation();
 
             //Assert
             _confirmationMessageSenderMock.Verify(s => s.SendEmailConfirmationMessage(It.IsAny<ApplicationUser>()), Times.Never);

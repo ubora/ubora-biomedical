@@ -65,8 +65,8 @@
 
     @{
         var isAdmin = User.IsInRole(ApplicationRole.Admin);
-        var hasMentorAuthorityAlready = await AuthorizationService.AuthorizeAsync(User, Policies.CanReviewProjectWorkpackages);
-        var isAssignMeAsMentorButtonVisible = isAdmin && !hasMentorAuthorityAlready.Succeeded;
+        var hasMentorAuthorityAlready = (await AuthorizationService.AuthorizeAsync(User, Policies.CanReviewProjectWorkpackages)).Succeeded;
+        var isAssignMeAsMentorButtonVisible = isAdmin && !hasMentorAuthorityAlready;
     }
     @if (isAssignMeAsMentorButtonVisible)
     {

@@ -45,6 +45,7 @@ namespace Ubora.Web.Infrastructure
             .As<IUrlHelper>().InstancePerLifetimeScope();
 
             builder.RegisterType<ApplicationUserManager>().As<IApplicationUserManager>().InstancePerLifetimeScope();
+            builder.RegisterType<ApplicationSignInManager>().As<IApplicationSignInManager>().InstancePerLifetimeScope();
 
             builder.RegisterType<AuthMessageSender>().As<IPasswordRecoveryMessageSender>().As<IEmailConfirmationMessageSender>().InstancePerLifetimeScope();
             builder.RegisterType<ViewRender>().InstancePerLifetimeScope();

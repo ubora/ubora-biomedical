@@ -78,11 +78,23 @@ namespace Ubora.Web.Tests.Authorization
 
             IAuthorizationRequirement[] authorizedRequirements = null;
 
-            authorizationServiceMock
-                .Setup(x => x.AuthorizeAsync(currentUser, null, It.IsAny<IEnumerable<IAuthorizationRequirement>>()))
-                .Callback<ClaimsPrincipal, object, IEnumerable<IAuthorizationRequirement>>(
-                    (user, resource, requirements) => authorizedRequirements = requirements.ToArray())
-                .ReturnsAsync(isAuthorized);
+            if (isAuthorized)
+            {
+                authorizationServiceMock
+                    .Setup(x => x.AuthorizeAsync(currentUser, null, It.IsAny<IEnumerable<IAuthorizationRequirement>>()))
+                    .Callback<ClaimsPrincipal, object, IEnumerable<IAuthorizationRequirement>>(
+                        (user, resource, requirements) => authorizedRequirements = requirements.ToArray())
+                    .ReturnsAsync(AuthorizationResult.Success);
+            }
+            else
+            {
+                authorizationServiceMock
+                    .Setup(x => x.AuthorizeAsync(currentUser, null, It.IsAny<IEnumerable<IAuthorizationRequirement>>()))
+                    .Callback<ClaimsPrincipal, object, IEnumerable<IAuthorizationRequirement>>(
+                        (user, resource, requirements) => authorizedRequirements = requirements.ToArray())
+                    .ReturnsAsync(AuthorizationResult.Failed());
+            }
+
 
             // Act
             await _handlerUnderTest.HandleAsync(handlerContext);

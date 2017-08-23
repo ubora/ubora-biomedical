@@ -22,7 +22,7 @@ namespace Ubora.Web._Features.Users.Account
     public class AccountController : UboraController
     {
         private readonly IApplicationUserManager _userManager;
-        private readonly ApplicationSignInManager _signInManager;
+        private readonly IApplicationSignInManager _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly ICommandProcessor _commandProcessor;
@@ -31,7 +31,7 @@ namespace Ubora.Web._Features.Users.Account
 
         public AccountController(
             IApplicationUserManager userManager,
-            ApplicationSignInManager signInManager,
+            IApplicationSignInManager signInManager,
             IEmailSender emailSender,
             ILogger<AccountController> logger,
             ICommandProcessor commandProcessor, IEmailConfirmationMessageSender confirmationMessageSender, IPasswordRecoveryMessageSender passwordRecoveryMessageSender)

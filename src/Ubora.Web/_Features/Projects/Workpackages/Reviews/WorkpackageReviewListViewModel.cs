@@ -27,8 +27,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
                 return UiElementVisibility.HiddenCompletely();
             }
 
-            var isAuthenticated = await authorizationService.AuthorizeAsync(user, Policies.CanSubmitWorkpackageForReview);
-            if (!isAuthenticated.Succeeded)
+            var isAuthenticated = (await authorizationService.AuthorizeAsync(user, Policies.CanSubmitWorkpackageForReview)).Succeeded;
+            if (!isAuthenticated)
             {
                 return UiElementVisibility.HiddenWithMessage("You can not submit work package for review, because you are not the project leader.");
             }

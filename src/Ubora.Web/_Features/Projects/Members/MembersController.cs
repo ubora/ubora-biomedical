@@ -28,9 +28,9 @@ namespace Ubora.Web._Features.Projects.Members
         [AllowAnonymous]
         public async Task<IActionResult> Members()
         {
-            var canRemoveProjectMembers = await AuthorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember);
-            var isProjectMember = await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
-            var isAuthenticated = await AuthorizationService.AuthorizeAsync(User, Policies.IsAuthenticatedUser);
+            var canRemoveProjectMembers = (await AuthorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember)).Succeeded;
+            var isProjectMember = (await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement())).Succeeded;
+            var isAuthenticated = (await AuthorizationService.AuthorizeAsync(User, Policies.IsAuthenticatedUser)).Succeeded;
 
             var members = Project.Members.Select(m => new ProjectMemberListViewModel.Item
             {
@@ -38,18 +38,18 @@ namespace Ubora.Web._Features.Projects.Members
                 // TODO(Kaspar Kallas): Eliminate SELECT(N + 1)
                 FullName = QueryProcessor.FindById<UserProfile>(m.UserId).FullName,
                 IsProjectLeader = m.IsLeader,
-                IsCurrentUser = isAuthenticated.Succeeded && UserId == m.UserId,
+                IsCurrentUser = isAuthenticated && UserId == m.UserId,
                 IsProjectMentor = m.IsMentor
             });
 
-            var isProjectLeader = isAuthenticated.Succeeded && members.Any(x => x.UserId == UserId && x.IsProjectLeader);
+            var isProjectLeader = isAuthenticated && members.Any(x => x.UserId == UserId && x.IsProjectLeader);
 
             var model = new ProjectMemberListViewModel
             {
                 Id = ProjectId,
-                CanRemoveProjectMembers = canRemoveProjectMembers.Succeeded,
+                CanRemoveProjectMembers = canRemoveProjectMembers,
                 Members = members,
-                IsProjectMember = isAuthenticated.Succeeded && isProjectMember.Succeeded,
+                IsProjectMember = isAuthenticated && isProjectMember,
                 IsProjectLeader = isProjectLeader
             };
 
