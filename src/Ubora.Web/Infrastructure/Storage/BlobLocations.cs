@@ -20,5 +20,13 @@ namespace Ubora.Web.Infrastructure.Storage
 
             return new BlobLocation(containerName, blobPath);
         }
+
+        public static BlobLocation GetRepositoryFileBlobLocation(Guid projectId, string fileName)
+        {
+            var containerName = BlobLocation.ContainerNames.Projects;
+            var blobPath = $"{projectId}/repository/{Guid.NewGuid()}/{fileName}";
+
+            return new BlobLocation(containerName, blobPath);
+        }
     }
 }
