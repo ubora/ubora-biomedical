@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
 
@@ -16,21 +17,7 @@ namespace Ubora.Web
 
             try
             {
-                var hostBuilder = new WebHostBuilder()
-                    .UseKestrel()
-                    .UseContentRoot(Directory.GetCurrentDirectory())
-                    .UseStartup<Startup>()
-                    .UseIISIntegration()
-                    .UseApplicationInsights();
-
-                if (args == null || args.Length > 0)
-                {
-                    hostBuilder.UseUrls(args[0]);
-                }
-
-                 var host = hostBuilder.Build();
-
-                 host.Run();
+                BuildWebHost(args).Run();
             }
             catch (Exception e)
             {
@@ -44,6 +31,22 @@ namespace Ubora.Web
                 }
                 throw;
             }
+        }
+
+        public static IWebHost BuildWebHost(string[] args)
+        {
+            var hostBuilder = WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .UseApplicationInsights();
+
+            if (args == null || args.Length > 0)
+            {
+                hostBuilder.UseUrls(args[1]);
+            }
+
+            var host = hostBuilder.Build();
+
+            return host;
         }
     }
 }
