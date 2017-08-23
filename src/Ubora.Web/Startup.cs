@@ -57,6 +57,13 @@ namespace Ubora.Web
             services.AddApplicationInsightsTelemetry(Configuration);
 
             var connectionString = Configuration.GetConnectionString("ApplicationDbConnection");
+            var npgSqlConnectionString = new NpgsqlConnectionStringBuilder(connectionString);
+
+            var isListeningPostgres = WaitForHost(npgSqlConnectionString.Host, npgSqlConnectionString.Port, TimeSpan.FromSeconds(15));
+            if (!isListeningPostgres)
+            {
+                throw new Exception("Database (Postgres) could not be connected to.");
+            }
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString));
@@ -184,6 +191,29 @@ namespace Ubora.Web
 
             // Logging this as an error so it reaches all loggers (for tracking application restarts and testing if logging actually works)
             logger.LogError("Application started!");
+        }
+
+        //Wait and try to connect a remote TCP host for synchronizing. (Tcp​Client.​Connect method for synchronizing only available in CORE 2.0)
+        private bool WaitForHost(string server, int port, TimeSpan timeout)
+        {
+            using (TcpClient client = new TcpClient())
+            {
+                var connected = false;
+                var timeoutTime = DateTime.Now.AddSeconds(timeout.Seconds);
+                while (!connected && DateTime.Now < timeoutTime)
+                {
+                    try
+                    {
+                        client.ConnectAsync(server, port).Wait(timeout);
+                        connected = true;
+                    }
+                    catch
+                    {
+                        connected = false;
+                    }
+                }
+                return connected;
+            }
         }
     }
 }
