@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.DeviceClassification;
-using System.Linq;
 using Ubora.Domain.Projects.Workpackages.Events;
 
 namespace Ubora.Domain.Projects
@@ -13,7 +12,7 @@ namespace Ubora.Domain.Projects
     {
         // Virtual for testing
         public virtual Guid Id { get; private set; }
-        public string Title { get; private set; }
+        public virtual string Title { get; private set; }
         public string Gmdn { get; private set; }
         public string ClinicalNeedTags { get; private set; }
         public string AreaOfUsageTags { get; private set; }
@@ -28,7 +27,14 @@ namespace Ubora.Domain.Projects
         [JsonProperty(nameof(Members))]
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
         [JsonIgnore]
-        public IReadOnlyCollection<ProjectMember> Members => _members;
+        public IReadOnlyCollection<ProjectMember> Members
+        {
+            get
+            {
+                return _members;
+            }
+            private set { }
+        }
 
         public bool HasMember<T>(Guid userId) where T : ProjectMember
         {

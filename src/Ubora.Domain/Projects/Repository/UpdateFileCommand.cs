@@ -1,19 +1,16 @@
 ﻿using Marten;
 using System;
-using System.IO;
-using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.Projects.Repository
 {
-    public class AddFileCommand : UserProjectCommand
+    public class UpdateFileCommand : UserProjectCommand
     {
         public Guid Id { get; set; }
         public BlobLocation BlobLocation { get; set; }
-        public string FileName { get; set; }
 
-        internal class Handler : ICommandHandler<AddFileCommand>
+        internal class Handler : ICommandHandler<UpdateFileCommand>
         {
             private readonly IDocumentSession _documentSession;
 
@@ -22,23 +19,22 @@ namespace Ubora.Domain.Projects.Repository
                 _documentSession = documentSession;
             }
 
-            public ICommandResult Handle(AddFileCommand cmd)
+            public ICommandResult Handle(UpdateFileCommand cmd)
             {
-                var project = _documentSession.Load<Project>(cmd.ProjectId);
-                if (project == null)
+                var projectFile = _documentSession.Load<ProjectFile>(cmd.Id);
+                if (projectFile == null)
                 {
                     throw new InvalidOperationException();
                 }
 
-                var @event = new FileAddedEvent(
-                    cmd.Actor,
-                    cmd.ProjectId,
-                    cmd.Id,
-                    cmd.FileName,
-                    cmd.BlobLocation
+                var @event = new FileUpdatedEvent(
+                    projectFile.Id,
+                    projectFile.ProjectId,
+                    cmd.BlobLocation,
+                    cmd.Actor
                 );
 
-                _documentSession.Events.Append(cmd.ProjectId, @event);
+                _documentSession.Events.Append(projectFile.ProjectId, @event);
                 _documentSession.SaveChanges();
 
                 return new CommandResult();

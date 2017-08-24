@@ -50,6 +50,12 @@ namespace Ubora.Web.Authorization
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                     policyBuilder.AddRequirements(new IsWorkpackageOneNotLockedRequirement());
                 });
+
+                options.AddPolicy(nameof(Policies.CanHideProjectFile), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
             });
 
             return services;
