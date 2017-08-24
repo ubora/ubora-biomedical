@@ -1,3 +1,9 @@
+window.addEventListener('DOMContentLoaded', event => {
+    const endpoint = getApiEndpoint('input[name="searchUsersUrl"]');
+    const targetElement = '.js-search-user';
+    createAutoComplete(endpoint, targetElement);
+});
+
 function getApiEndpoint(nodeSelector) {
   const node = document.querySelector(nodeSelector);
   if (node !== null && node.value !== '') {
@@ -41,9 +47,3 @@ function createAutoComplete(apiEndpoint, targetElement) {
     },
   }, targetElement);
 }
-
-window.addEventListener('DOMContentLoaded', event => {
-  const endpoint = getApiEndpoint('input[name="searchUsersUrl"]');
-  const targetElement = '.js-search-user';
-  createAutoComplete(endpoint, targetElement);
-});
