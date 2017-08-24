@@ -56,6 +56,8 @@ namespace Ubora.Web._Features._Shared
                 .ForMember(dest => dest.HasImage, o => o.Ignore());
 
             CreateMap<WorkpackageReview, WorkpackageReviewViewModel>();
+
+            CreateMap<Project, DeviceClassificationViewModel>();
         }
     }
 }
