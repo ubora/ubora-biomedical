@@ -14,7 +14,7 @@ Scenario: I sign up an account
 
 Scenario: I click View profile
     When I click on the element "span=Menu"
-    And I click on the element "=View profile"
+    And I click on the element "a=View profile"
     Then I expect the title of the page "Manage your account - UBORA"
 
 Scenario: I click My projects
