@@ -121,11 +121,11 @@ namespace Ubora.Web._Features.Users.Profile
 
         // TODO(Kaspar Kallas): Move to more specific controller (2/2)
         [HttpPost]
-        public IActionResult FirstTimeEditProfile(FirstTimeUserProfileViewModel model)
+        public IActionResult FirstTimeEditProfile(FirstTimeUserProfileViewModel model, string returnUrl = null)
         {
             if (!ModelState.IsValid)
             {
-                return FirstTimeEditProfile();
+                return FirstTimeEditProfile(returnUrl);
             }
 
             ExecuteUserCommand(new EditUserProfileCommand
@@ -146,10 +146,10 @@ namespace Ubora.Web._Features.Users.Profile
 
             if (!ModelState.IsValid)
             {
-                return FirstTimeEditProfile();
+                return FirstTimeEditProfile(returnUrl);
             }
 
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToLocal(returnUrl);
         }
 
         [HttpPost]

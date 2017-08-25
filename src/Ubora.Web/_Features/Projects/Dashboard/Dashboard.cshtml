@@ -40,7 +40,7 @@
         <h2>Project description</h2>
         @if (Model.IsProjectMember)
         {
-            <a asp-controller="Dashboard" asp-action="EditProjectDescription"><i class="material-icons">mode_edit</i>&nbsp;Edit</a>
+            <a asp-controller="Dashboard" asp-action="EditProjectDescription" id="EditProjectDescription"><i class="material-icons">mode_edit</i>&nbsp;Edit</a>
         }
 
     </div>
@@ -74,6 +74,10 @@
             <div class="medical_tag--item">
                 <h3>Project keywords</h3>
                 <p>@Model.Gmdn</p>
+            </div>
+            <div class="medical_tag--item">
+                <h3>Device classification</h3>
+                <p>@Model.DeviceClassification</p>
             </div>
         </div>
     </div>

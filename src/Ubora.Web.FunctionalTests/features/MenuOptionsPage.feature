@@ -6,7 +6,7 @@ Background:
     Given I go to Home page
 
 Scenario: I sign up an account
-    When I click on the element "a=Sign in/sign up"
+    When I click on the element "#SignInSignUp"
     And I sign up as "James.House@email.com" first name "James" last name "House"
     Then I expect the title of the page "Create a profile - UBORA"
     When I click on the element "button=Continue"
@@ -14,7 +14,7 @@ Scenario: I sign up an account
 
 Scenario: I click View profile
     When I click on the element "span=Menu"
-    And I click on the element "=View profile"
+    And I click on the element "a=View profile"
     Then I expect the title of the page "Manage your account - UBORA"
 
 Scenario: I click My projects

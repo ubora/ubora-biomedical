@@ -46,7 +46,8 @@ namespace Ubora.Web._Features.ProjectList
 
             public ProjectListViewModel Create(string header)
             {
-                var projects = _queryProcessor.Find<Project>();
+                var projects = _queryProcessor.Find<Project>()
+                    .OrderBy(p => p.Title);
 
                 var model = new ProjectListViewModel
                 {
