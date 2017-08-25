@@ -7,16 +7,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
+using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web.Infrastructure.ImageServices
 {
     public class ImageStorageProvider
     {
         private readonly IStorageProvider _storageProvider;
+        private readonly IUboraStorageProvider _uboraStorageProvider;
 
-        public ImageStorageProvider(IStorageProvider storageProvider)
+        public ImageStorageProvider(IStorageProvider storageProvider, IUboraStorageProvider uboraStorageProvider)
         {
             _storageProvider = storageProvider;
+            _uboraStorageProvider = uboraStorageProvider;
         }
 
         protected ImageStorageProvider()
@@ -105,7 +108,7 @@ namespace Ubora.Web.Infrastructure.ImageServices
                 }
                 outputStream.Seek(0, SeekOrigin.Begin);
 
-                await SaveStreamToBlobAsync(blobLocation, outputStream);
+                await _uboraStorageProvider.SavePublic(blobLocation, outputStream);
             }
         }
 
@@ -125,7 +128,7 @@ namespace Ubora.Web.Infrastructure.ImageServices
 
                 outputStream.Seek(0, SeekOrigin.Begin);
 
-                await SaveStreamToBlobAsync(blobLocation, outputStream);
+                await _uboraStorageProvider.SavePublic(blobLocation, outputStream);
             }
         }
 
