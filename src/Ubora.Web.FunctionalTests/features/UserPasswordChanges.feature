@@ -6,7 +6,7 @@ Background:
     Given I go to Home page
 
 Scenario: I register an account
-    When I click on the element "a=Sign in/sign up"
+    When I click on the element "#SignInSignUp"
     And I sign up as "change@password.com" first name "Change" last name "Password"
     When I click on the element "span=Menu"
     Then I expect the element "p=TestFirstName TestLastName" is visible
@@ -35,7 +35,7 @@ Scenario: I change my password
 Scenario: I log out
     When I log out
     Then I expect the title of the page "Welcome - UBORA"
-    And I expect the element "a=Sign in/sign up" is visible
+    And I expect the element "#SignInSignUp" is visible
 
 Scenario: I log in with my changed password
     When I sign in as "change@password.com" with password "PasswordChanged123!"

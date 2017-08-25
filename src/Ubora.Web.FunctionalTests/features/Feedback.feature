@@ -6,7 +6,7 @@ Background:
     Given I go to Home page
 
 Scenario: I sign up and send feedback
-    When I click on the element "a=Sign in/sign up"
+    When I click on the element "#SignInSignUp"
     And I sign up as "Major.Dajor@email.com" first name "Major" last name "Dajor"
     And I click on the element "i=chat_bubble"
     Then I expect the element "h2=Feedback" is visible
