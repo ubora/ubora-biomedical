@@ -83,7 +83,7 @@ namespace Ubora.Web.Infrastructure.Storage
             return await _azureStorageProvider.GetBlobDescriptorAsync(containerName, blobName);
         }
 
-        public string GetBlobSasUrl(string containerName, string blobName, DateTimeOffset expiry, bool isDownload = false, string fileName = null, string contentType = null, BlobUrlAccess access = BlobUrlAccess.Read)
+        public virtual string GetBlobSasUrl(string containerName, string blobName, DateTimeOffset expiry, bool isDownload = false, string fileName = null, string contentType = null, BlobUrlAccess access = BlobUrlAccess.Read)
         {
             return _azureStorageProvider.GetBlobSasUrl(containerName, blobName, expiry, isDownload, fileName, contentType, access);
         }

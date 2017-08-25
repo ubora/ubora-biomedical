@@ -3,15 +3,30 @@
 }
 
 .file-list {
-    flex-grow: 3;
+    flex-grow: 2;
+    padding: 0;
+    margin: 0;
 }
 
 .file-list--item {
     display: flex;
-    margin:.5em 0;
+    margin: .5em 0;
 }
 
-.file-list--download {
+.file-list--item-control {
+    font-size: 200%;
+    margin: 0 .1em;
+    text-align: center;
+    transition: color .3s ease;
+}
+
+    .file-list--item-control:hover {
+        color: var(--secondary-color);
+        cursor: pointer;
+    }
+
+.file-list--name {
+    align-self: center;
     margin: 0 0 0 .5em;
 }
 
