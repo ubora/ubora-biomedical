@@ -51,7 +51,12 @@ var markdownArrayHasItems = markdownContainerArray.length > 0;
 
 if (markdownArrayHasItems) {
     for (var i = 0; i < markdownContainerArray.length; i++) {
-        markdownContainerArray[i].innerHTML = marked(markdownContainerArray[i].innerHTML, { renderer: renderer });
+
+        // .innerHtml, .text etc always get encoded unless using <textarea>. Because we need '>' for blockquotes then unencode it.
+        var innerHtmlUnencoded = markdownContainerArray[i].innerHTML
+            .replace(/&gt;/g, '>'); // Using regex will replace all occurrences.
+
+        markdownContainerArray[i].innerHTML = marked(innerHtmlUnencoded, { renderer: renderer });
     }
 }
 
@@ -63,7 +68,7 @@ var simpleMde = new SimpleMDE({
         name: "bold",
         action: SimpleMDE.toggleBold,
         className: "fa fa-bold",
-        title: "Bold",
+        title: "Bold"
     },
     {
         name: "italic",
@@ -79,7 +84,15 @@ var simpleMde = new SimpleMDE({
         title: "Heading",
         default: true
     },
+
         "|",
+    {
+        name: "quote",
+        action: SimpleMDE.toggleBlockquote,
+        className: "fa fa-quote-left",
+        title: "Quote",
+        default: true
+    },
     {
         name: "unordered-list",
         action: SimpleMDE.toggleUnorderedList,
@@ -145,7 +158,7 @@ var simpleMde = new SimpleMDE({
         className: "fa fa-repeat no-disable",
         title: "Redo"
     }
-    ],
+    ]
 });
 
 // Feedback modal
