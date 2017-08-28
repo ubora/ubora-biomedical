@@ -17,11 +17,15 @@ namespace Ubora.Domain.Tests
             });
         }
 
-        public static void Create_User(this IntegrationFixture fixture, Guid userId)
+        public static void Create_User(this IntegrationFixture fixture, Guid userId, 
+            string email = "email", string firstName = "firstName", string lastName = "lastName")
         {
             fixture.Processor.Execute(new CreateUserProfileCommand
             {
                 UserId = userId,
+                Email = email,
+                FirstName = firstName,
+                LastName = lastName,
                 Actor = new DummyUserInfo()
             });
         }

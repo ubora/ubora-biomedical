@@ -29,7 +29,7 @@ namespace Ubora.Web.Authorization
                 var serviceProvider = filterContext.HttpContext.RequestServices;
                 var authorizationService = serviceProvider.GetService<IAuthorizationService>();
 
-                var isAuthorized = await authorizationService.AuthorizeAsync(context.User,
+                var authorizationResult = await authorizationService.AuthorizeAsync(context.User,
                     resource: null,
                     requirements: new IAuthorizationRequirement[]
                     {
@@ -37,7 +37,7 @@ namespace Ubora.Web.Authorization
                         new IsProjectMemberRequirement()
                     });
 
-                if (isAuthorized)
+                if (authorizationResult.Succeeded)
                 {
                     context.Succeed(requirement);
                 }
