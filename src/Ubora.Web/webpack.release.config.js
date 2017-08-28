@@ -1,49 +1,72 @@
-
+const webpack = require('webpack');
 const path = require('path');
+
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-    stats: {
-        colors: true
-    },
-    entry: {
-        app: [ './wwwroot/build/app.js' ]
-    },
-    output: {
-        publicPath: '/',
-        path: path.join(__dirname, 'wwwroot/dist'),
-        filename: '[name].min.js'
-    },
-    plugins: [
-        new UglifyJSPlugin({
-            parallel: true,
-            uglifyOptions: {
-                ecma: 7,
-                compress: true
-            },
-            extractComments: true
-        }),
-        new ExtractTextPlugin('app.css')
+  entry: {
+    scripts: [
+      './wwwroot/build/app.js'
     ],
-    module: {
-      rules: [
-        {
-            test: /\.js$/,
-            exclude: /node_modules|bower_components/,
-            loader: 'babel-loader',
-            query: {
-                presets: ['env', 'es2017']
-            }
-        },
-        {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          { loader: 'css-loader', options: { importLoaders: 1 } },
-          'postcss-loader'
-        ]
+    vendors: [
+      './node_modules/jquery/dist/jquery.min.js',
+      './node_modules/jquery-validation/dist/jquery.validate.min.js',
+      './node_modules/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js',
+      './node_modules/autocomplete-js/dist/autocomplete.min.js',
+      './node_modules/simplemde/dist/simplemde.min.js',
+      './node_modules/simplemde/dist/simplemde.min.css',
+      './node_modules/marked/marked.min.js'
+    ]
+  },
+  output: {
+    publicPath: '/',
+    path: path.join(__dirname, 'wwwroot/dist'),
+    filename: 'scripts.min.js'
+  },
+  module: {
+    loaders: [
+      {
+				test: /\.css$/,
+				use: ExtractTextPlugin.extract({
+					fallback: "style-loader",
+					use: [
+            {
+              loader: 'css-loader',
+              options: { importLoaders: 1 }
+            },
+            'postcss-loader'
+          ]
+				})
+			},
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['env']
+          }
+        }
       }
-      ]
-    }
-};
+    ]
+  },
+  plugins: [
+    new ExtractTextPlugin({
+      filename: './styles.min.css'
+    }),
+    new UglifyJSPlugin({
+      parallel: true,
+      uglifyOptions: {
+        ecma: 8,
+        compress: true
+      },
+      extractComments: true
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendors',
+      filename: 'vendors.js',
+      minChunks: Infinity
+    })
+  ]
+}

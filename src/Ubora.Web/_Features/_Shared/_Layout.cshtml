@@ -7,9 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"] - UBORA</title>
     <link href="~/images/favicon.png" rel="icon" type="image/png">
+
+    <link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="~/lib/openSans/openSans.css" rel="stylesheet">
-    <link href="~/lib/simplemde/dist/simplemde.min.css" rel="stylesheet">
+
+    <environment names="Development">
+      <link href="~/dist/styles.dev.css" rel="stylesheet">
+    </environment>
+    
+    <environment names="Staging,Production">
+      <link href="~/dist/styles.min.css" rel="stylesheet" asp-append-version="true">
+    </environment>
 
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
@@ -25,6 +33,7 @@
                 @await Html.PartialAsync("~/_Features/Projects/_Shared/_ProjectMenu.cshtml", new ProjectMenuViewModel((ProjectMenuOption)projectMenuOption))
             }
         }
+
         @RenderBody()
 
         @if (User.Identity.IsAuthenticated)
@@ -37,17 +46,20 @@
 
     @await Html.PartialAsync("_Footer")
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/autocomplete.js/dist/autocomplete.min.js"></script>
-    <script src="~/lib/simplemde/dist/simplemde.min.js"></script>
     <script src="~/lib/marked/marked.min.js"></script>
-    <script src="~/dist/app.min.js?v1"></script>
 
-    <script>
-        $(function() {
-            feedbackModule('@Context.Request.Path', '@Url.Action("Send", "Feedback")');
-        })
-    </script>
+    <environment names="Development">
+      <script src="~/dist/scripts.dev.js"></script>
+      <script>
+      $(function() {
+        // feedbackModule('@Context.Request.Path', '@Url.Action("Send", "Feedback")');
+        console.info('@Context.Request.Path', '@Url.Action("Send", "Feedback")');
+      })
+      </script>
+    </environment>
+    <environment names="Staging,Production">
+      <script src="~/dist/scripts.min.js" asp-append-version="true"></script>
+    </environment>
 
     @RenderSection("Scripts", required: false)
 </body>

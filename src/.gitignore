@@ -39,7 +39,6 @@ dist/
 bld/
 [Bb]in/
 [Oo]bj/
-dist/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -260,6 +259,8 @@ _Pvt_Extensions
 .gulp
 node_modules/
 bower_components
+# npm generated file
+package-lock.json
 
 # JetBrains Rider
 .idea/

@@ -1,54 +1,47 @@
-
+const webpack = require('webpack');
 const path = require('path');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-    devtool: 'source-map',
-    stats: {
-        colors: true
-    },
-    watch: true,
-    watchOptions: {
-        poll: true
-    },
-    entry: {
-        app: [ './wwwroot/build/app.js' ]
-    },
-    output: {
-        publicPath: '/',
-        path: path.join(__dirname, 'wwwroot/dist'),
-        filename: '[name].min.js'
-    },
-    plugins: [
-        new UglifyJSPlugin({
-            parallel: true,
-            uglifyOptions: {
-                ecma: 7,
-                compress: true
-            },
-            extractComments: true
-        }),
-        new ExtractTextPlugin('app.css')
+  devtool: 'source-map',
+  watch: false,
+  entry: {
+    scripts: [
+      './wwwroot/build/app.js'
     ],
-    module: {
-      rules: [
-        {
-            test: /\.js$/,
-            exclude: /node_modules|bower_components/,
-            loader: 'babel-loader',
-            query: {
-                presets: ['env', 'es2017']
-            }
-        },
-        {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          { loader: 'css-loader', options: { importLoaders: 1 } },
-          'postcss-loader'
-        ]
-      }
-      ]
-    }
-};
+    vendors: [
+      './node_modules/jquery/dist/jquery.min.js',
+      './node_modules/jquery-validation/dist/jquery.validate.min.js',
+      './node_modules/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js',
+      './node_modules/autocomplete-js/dist/autocomplete.min.js',
+      './node_modules/simplemde/dist/simplemde.min.js',
+      './node_modules/simplemde/dist/simplemde.min.css',
+      './node_modules/marked/marked.min.js'
+    ]
+  },
+  output: {
+    publicPath: '/',
+    path: path.join(__dirname, 'wwwroot/dist'),
+    filename: 'scripts.dev.js'
+  },
+  module: {
+    loaders: [
+      {
+				test: /\.css$/,
+				use: ExtractTextPlugin.extract({
+					fallback: "style-loader",
+					use: 'css-loader'
+				})
+			}
+    ],
+  },
+  plugins: [
+    new ExtractTextPlugin({ filename: './styles.dev.css' }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendors',
+      filename: 'vendors.js',
+      minChunks: Infinity
+    })
+  ]
+}

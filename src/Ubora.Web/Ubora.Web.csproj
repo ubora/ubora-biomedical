@@ -75,7 +75,7 @@
     <Folder Include="wwwroot\dist\" />
   </ItemGroup>
   <Target Name="Webpack" AfterTargets="Build">
-  <Exec Command="npm run webpack-release" />
+  <Exec Command="npm run webpack-dev" />
   </Target>
 
 </Project>
