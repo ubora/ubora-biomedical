@@ -50,7 +50,7 @@ namespace Ubora.Web.Tests.Infrastructure
             Expression<Func<CallBackUrlTemplateViewModel, bool>> expectedViewModelFunc = x => x.Code == callbackUrlTemplateViewModel.Code
                 && x.UserId == callbackUrlTemplateViewModel.UserId;
 
-            _viewRenderMock.Setup(r => r.Render("~/_Features/_Shared/Templates/", "EmailConfirmationMessageTemplate.cshtml",
+            _viewRenderMock.Setup(r => r.Render("/_Features/_Shared/Templates/", "EmailConfirmationMessageTemplate.cshtml",
                 It.Is(expectedViewModelFunc))).Returns(expectedMessage);
 
             //Act
@@ -82,7 +82,7 @@ namespace Ubora.Web.Tests.Infrastructure
             Expression<Func<CallBackUrlTemplateViewModel, bool>> expectedViewModelFunc = x => x.Code == callbackUrlTemplateViewModel.Code
                 && x.UserId == callbackUrlTemplateViewModel.UserId;
 
-            _viewRenderMock.Setup(r => r.Render("~/_Features/_Shared/Templates/", "ForgotPasswordMessageTemplate.cshtml", It.Is(expectedViewModelFunc)))
+            _viewRenderMock.Setup(r => r.Render("/_Features/_Shared/Templates/", "ForgotPasswordMessageTemplate.cshtml", It.Is(expectedViewModelFunc)))
                 .Returns(expectedMessage);
 
             //Act

@@ -30,7 +30,7 @@ namespace Ubora.Web.Infrastructure
                 Code = code
             };
 
-            var message = _view.Render("~/_Features/_Shared/Templates/", "EmailConfirmationMessageTemplate.cshtml", callBackUrlTemplateViewModel);
+            var message = _view.Render("/_Features/_Shared/Templates/", "EmailConfirmationMessageTemplate.cshtml", callBackUrlTemplateViewModel);
 
             await _emailSender.SendEmailAsync(user.Email, "UBORA: e-mail confirmation", message);
         }
@@ -45,7 +45,7 @@ namespace Ubora.Web.Infrastructure
                 Code = code
             };
 
-            var message = _view.Render("~/_Features/_Shared/Templates/", "ForgotPasswordMessageTemplate.cshtml", callBackUrlTemplateViewModel);
+            var message = _view.Render("/_Features/_Shared/Templates/", "ForgotPasswordMessageTemplate.cshtml", callBackUrlTemplateViewModel);
 
             await _emailSender.SendEmailAsync(user.Email, "UBORA: Password reset", message);
         }
