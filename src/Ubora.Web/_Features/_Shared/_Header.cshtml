@@ -79,7 +79,7 @@
 
           <form class="signout-form" asp-action="Logout" asp-controller="Account" method="post">
             <button class="sidemenu-action sidemenu-action-signout" type="submit">
-              <i class="material-icons">exit_to_app</i>Sign out
+              <i class="material-icons" id="SignOut">exit_to_app</i>Sign out
             </button>
           </form>
       </nav>
@@ -91,7 +91,7 @@
         <img class="header-logo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" width="100">
       </a>
 
-      <a class="header-status-action" asp-controller="Account" asp-action="Login">Sign&nbsp;in/sign&nbsp;up</a>
+      <a class="header-status-action" id="SignInSignUp" asp-controller="Account" asp-action="Login">Sign&nbsp;in/sign&nbsp;up</a>
 
       <div class="header-action-list">
         <a class="header-action header-action-search" asp-controller="ProjectList" asp-action="Search">

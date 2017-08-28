@@ -1,0 +1,26 @@
+﻿@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Repository.UpdateFileViewModel
+
+@{
+    ViewData["Title"] = "Replace file";
+    ViewData["MenuOption"] = ProjectMenuOption.Repository;
+}
+
+<section class="narrow-width">
+  <h1>Replace file</h1>
+
+  <div class="form-input">
+    @Html.HiddenFor(model => model.FileId)
+  </div>
+
+  <div class="form-input">
+    @Html.LabelFor(model => model.FileName)
+  </div>
+
+  <div class="form-input">
+    @Html.TextBoxFor(model => model.FileName, new { @disabled = "disabled" })
+  </div>
+
+  @Html.Partial("AddFilePartial", Model.AddFileViewModel)
+
+</section>
