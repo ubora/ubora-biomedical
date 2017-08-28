@@ -65,19 +65,19 @@ Scenario: On project Dashboard page I click Work packages
     When I click on the element "a=Work packages"
     Then I expect the title of the page "Work packages - UBORA"
 
-Scenario: I make changes in Design planning and check them
+Scenario: I make changes in Project overview and check them
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "a=Work packages"
     Then I expect the title of the page "Work packages - UBORA"
-    When I click on the element "a=Design planning"
-    Then I expect the title of the page "Design planning - UBORA"
+    When I click on the element "#ProjectOverview"
+    Then I expect the title of the page "Project Overview - UBORA"
     When I select value "Movement impairment" from element "#ClinicalNeedTags"
     And I select value "Cardiology" from element "#AreaOfUsageTags"
     And I select value "Wheelchairs" from element "#PotentialTechnologyTags"
     And I set value "Magnificent other!" to the element "#Gmdn"
     And I click on the element "button=Save changes"
-    Then I expect the title of the page "Design planning - UBORA"
+    Then I expect the title of the page "Project Overview - UBORA"
     When I click on the element "a=Project overview"
     Then I expect the element "p=Movement impairment" is visible
     And I expect the element "p=Cardiology" is visible
@@ -90,8 +90,8 @@ Scenario: On project Dashboard page I click different WP1 Work packages and try 
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "a=Work packages"
     Then I expect the title of the page "Work packages - UBORA"
-    When I click on the element "a=Design planning"
-    Then I expect the element "h1=Design planning" is visible
+    When I click on the element "#ProjectOverview"
+    Then I expect the element "h1=Project Overview" is visible
     When I click on the element "a=Description of Needs"
     Then I expect the element "h1=Description of Needs" is visible
     When I click on the element "i=mode_edit"
@@ -326,7 +326,7 @@ Scenario: On Project Dashboard page I click Members and on project owner
 
 Scenario: On Project Dashboard page I click Edit Project Description
     When I click on the element "h4=TestProject"
-    And I click on the element "i=mode_edit"
+    And I click on the element "#EditProjectDescription"
     And I click on the element ".project-view.full-width"
     And I click on the key "Tab"
     And I click on keys "Welcome to my Project"
@@ -336,7 +336,7 @@ Scenario: On Project Dashboard page I click Edit Project Description
 
 Scenario: On Project Dashboard page I click Edit Project Description but Discard it
     When I click on the element "h4=TestProject"
-    And I click on the element "i=mode_edit"
+    And I click on the element "#EditProjectDescription"
     And I click on the element "a=Discard"
     Then I expect the element "code=Welcome to my Project" is visible
     And I expect the title of the page "Dashboard - UBORA"

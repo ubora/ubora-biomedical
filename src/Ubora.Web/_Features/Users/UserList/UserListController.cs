@@ -17,7 +17,8 @@ namespace Ubora.Web._Features.Users.UserList
 
         public IActionResult Index()
         {
-            var userProfiles = QueryProcessor.Find<UserProfile>();
+            var userProfiles = QueryProcessor.Find<UserProfile>()
+                .OrderBy(u => u.FullName);
 
             var viewmodel = userProfiles.Select(userProfile => new UserListItemViewModel
             {
