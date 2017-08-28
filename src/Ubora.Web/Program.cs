@@ -28,9 +28,9 @@ namespace Ubora.Web
                     hostBuilder.UseUrls(args[0]);
                 }
 
-                 var host = hostBuilder.Build();
+                var host = hostBuilder.Build();
 
-                 host.Run();
+                host.Run();
             }
             catch (Exception e)
             {

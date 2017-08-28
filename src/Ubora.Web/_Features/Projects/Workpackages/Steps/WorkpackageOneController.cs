@@ -15,8 +15,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         private WorkpackageOne _workpackageOne;
         public WorkpackageOne WorkpackageOne => _workpackageOne ?? (_workpackageOne = QueryProcessor.FindById<WorkpackageOne>(ProjectId));
 
-        [Route(nameof(ProjectOverView))]
-        public IActionResult ProjectOverView()
+        [Route(nameof(ProjectOverview))]
+        public IActionResult ProjectOverview()
         {
             var model = AutoMapper.Map<ProjectOverviewViewModel>(Project);
 
@@ -24,13 +24,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [HttpPost]
-        [Route(nameof(ProjectOverView))]
+        [Route(nameof(ProjectOverview))]
         [Authorize(Policies.CanEditWorkpackageOne)]
         public IActionResult ProjectOverview(ProjectOverviewViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return ProjectOverView();
+                return ProjectOverview();
             }
 
             ExecuteUserProjectCommand(new UpdateProjectCommand
@@ -46,7 +46,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
                 Notices.Error("Failed to change project overview!");
 
-                return ProjectOverView();
+                return ProjectOverview();
             }
 
             Notices.Success("Project overview changed successfully!");
@@ -57,7 +57,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Route(nameof(DeviceClassification))]
         public IActionResult DeviceClassification()
         {
-            return View();
+            var model = AutoMapper.Map<DeviceClassificationViewModel>(Project);
+
+            return View(nameof(DeviceClassification), model);
         }
 
         [Route("{stepId}")]

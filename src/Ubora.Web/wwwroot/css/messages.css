@@ -114,3 +114,9 @@
 .notice-error {
     background-color: var(--quaternary-color);
 }
+
+@media screen and (max-width: 50em) {
+  .notification-container {
+    flex-direction: column;
+  }
+}

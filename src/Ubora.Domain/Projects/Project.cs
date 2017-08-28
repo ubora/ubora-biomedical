@@ -27,7 +27,14 @@ namespace Ubora.Domain.Projects
         [JsonProperty(nameof(Members))]
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
         [JsonIgnore]
-        public IReadOnlyCollection<ProjectMember> Members => _members;
+        public IReadOnlyCollection<ProjectMember> Members
+        {
+            get
+            {
+                return _members;
+            }
+            private set { }
+        }
 
         public bool HasMember<T>(Guid userId) where T : ProjectMember
         {

@@ -22,8 +22,11 @@ namespace Ubora.Web._Features._Shared
             CreateMap<ProjectTask, AssignmentListItemViewModel>();
             CreateMap<ProjectTask, EditAssignmentViewModel>();
 
-            CreateMap<ProjectFile, ProjectFileViewModel>()
-                .ForMember(dest => dest.FileLocation, o => o.Ignore());
+            CreateMap<ProjectFile, ProjectFileViewModel>();
+
+            CreateMap<ProjectFile, UpdateFileViewModel>()
+                .ForMember(dest => dest.FileId, o => o.MapFrom(src => src.Id))
+                .ForMember(dest => dest.AddFileViewModel, o => o.Ignore());
 
             CreateMap<Project, ProjectListViewModel.ProjectListItem>()
                 .ForMember(dest => dest.ImagePath, o => o.Ignore());
@@ -56,6 +59,8 @@ namespace Ubora.Web._Features._Shared
                 .ForMember(dest => dest.HasImage, o => o.Ignore());
 
             CreateMap<WorkpackageReview, WorkpackageReviewViewModel>();
+
+            CreateMap<Project, DeviceClassificationViewModel>();
         }
     }
 }

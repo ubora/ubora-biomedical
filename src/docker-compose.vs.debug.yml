@@ -1,11 +1,8 @@
-version: '2'
+version: '3'
 
 services:
   ubora.web:
     image: ubora.web:dev
-    build:
-      args:
-        source: ${DOCKER_BUILD_SOURCE}
     environment:
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - "ConnectionStrings:AzureBlobConnectionString=UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://azurite;"

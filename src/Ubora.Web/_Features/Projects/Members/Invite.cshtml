@@ -7,18 +7,23 @@
 }
 
 <section class="narrow-width">
+  <input type="hidden" name="searchUsersUrl" value="@Url.Action("SearchUsers","UserList")">
 
     <form asp-controller="Members" asp-action="Invite" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="form-input">
             <label asp-for="Email">User's email address</label>
-            <input asp-for="Email" placeholder="Email address" autofocus>
+            <input asp-for="Email" placeholder="Email address" class="js-search-user" autofocus>
             <span asp-validation-for="Email"></span>
         </div>
 
         <div class="form-input">
-            <button class="button primary-button full-width" type="submit">Invite member</button>
+            <button class="button primary-button small-button" type="submit">Invite member</button>
         </div>
     </form>
 </section>
+
+@section Scripts {
+  <script src="~/js/UboraAutoComplete.js"></script>
+}

@@ -24,6 +24,17 @@ section {
 	margin: 0 auto;
 }
 
+.mobile-full-width {
+    width: 100%;
+}
+
+@media screen and (min-width: 40em) {
+    .mobile-full-width {
+        width: 50%;
+    }
+}
+
+
 .section-width {
 	width:90%;
 	margin:0 auto;

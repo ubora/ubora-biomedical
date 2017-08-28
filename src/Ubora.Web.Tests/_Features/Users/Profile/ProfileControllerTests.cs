@@ -321,12 +321,14 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             QueryProcessorMock.Setup(p => p.FindById<UserProfile>(It.IsAny<Guid>()))
                 .Returns(userProfile);
 
+            var returnUrl = "/Home/Index";
+
             //Act
-            var result =
-                (RedirectToActionResult)_controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel());
+            var result = (RedirectToActionResult) _controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel(), returnUrl);
 
             //Assert
             result.ActionName.Should().Be("Index");
+            result.ControllerName.Should().Be("Home");
             executedCommand.UserId.Should().Be(UserId);
         }
 
@@ -336,11 +338,14 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             var errorMessage = "errormessage";
             _controller.ModelState.AddModelError("errorKey", errorMessage);
 
+            var returnUrl = "returnUrl";
+
             //Act
-            var result = (ViewResult)_controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel());
+            var result = (ViewResult)_controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel(), returnUrl);
 
             //Assert
             result.ViewName.Should().Be("FirstTimeEditProfile");
+            result.ViewData.Values.Last().Should().Be(returnUrl);
             result.Model.As<FirstTimeEditProfileModel>().ProfilePictureViewModel.IsFirstTimeEditProfile.Should()
                 .BeTrue();
             AssertModelStateContainsError(result, errorMessage);
@@ -360,11 +365,14 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             QueryProcessorMock.Setup(p => p.FindById<UserProfile>(UserId))
                 .Returns(userProfile);
 
+            var returnUrl = "returnUrl";
+
             //Act
-            var result = (ViewResult)_controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel());
+            var result = (ViewResult)_controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel(), returnUrl);
 
             //Assert
             result.ViewName.Should().Be("FirstTimeEditProfile");
+            result.ViewData.Values.Last().Should().Be(returnUrl);
             result.Model.As<FirstTimeEditProfileModel>().ProfilePictureViewModel.IsFirstTimeEditProfile.Should()
                 .BeTrue();
             AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
