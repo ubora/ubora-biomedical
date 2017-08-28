@@ -10,6 +10,7 @@ using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web._Features._Shared.Notices;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web._Features.Home;
 
 namespace Ubora.Web._Features.Users.Profile
 {
@@ -49,8 +50,7 @@ namespace Ubora.Web._Features.Users.Profile
         [Authorize]
         public IActionResult EditProfile()
         {
-            var userId = _userManager.GetUserId(User);
-            var userProfile = QueryProcessor.FindById<UserProfile>(new Guid(userId));
+            var userProfile = QueryProcessor.FindById<UserProfile>(UserId);
 
             var userViewModel = AutoMapper.Map<UserProfileViewModel>(userProfile);
             var editProfileViewModel = new EditProfileViewModel
@@ -65,8 +65,6 @@ namespace Ubora.Web._Features.Users.Profile
         [HttpPost]
         public async Task<IActionResult> EditProfile(UserProfileViewModel model)
         {
-            var userId = _userManager.GetUserId(User);
-
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Index", "Manage");
@@ -74,7 +72,7 @@ namespace Ubora.Web._Features.Users.Profile
 
             var command = new EditUserProfileCommand
             {
-                UserId = new Guid(userId),
+                UserId = this.UserId,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Biography = model.Biography,
@@ -97,7 +95,7 @@ namespace Ubora.Web._Features.Users.Profile
                 return RedirectToAction("Index", "Manage");
             }
 
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(UserId.ToString());
             await _signInManager.RefreshSignInAsync(user);
 
             var successNotice = new Notice("Profile changed successfully!", NoticeType.Success);
@@ -110,7 +108,6 @@ namespace Ubora.Web._Features.Users.Profile
         public IActionResult FirstTimeEditProfile(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-
             var firstTimeEditProfileModel = new FirstTimeEditProfileModel
             {
                 ProfilePictureViewModel = new ProfilePictureViewModel

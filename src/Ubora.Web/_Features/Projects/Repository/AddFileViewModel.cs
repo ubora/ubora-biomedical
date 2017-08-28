@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
+using System;
+using System.IO;
 using Ubora.Web.Infrastructure;
 
 namespace Ubora.Web._Features.Projects.Repository
@@ -8,5 +9,21 @@ namespace Ubora.Web._Features.Projects.Repository
     {
         [FileSize(4000000)]
         public IFormFile ProjectFile { get; set; }
+        public string ActionName { get; set; }
+        public Guid FileId { get; set; }
+        public string FileName
+        {
+            get
+            {
+                if(ProjectFile != null)
+                {
+                    var filePath = ProjectFile.FileName.Replace(@"\", "/");
+                    var fileName = Path.GetFileName(filePath);
+                    return fileName;
+                }
+
+                return "";
+            }
+        }
     }
 }

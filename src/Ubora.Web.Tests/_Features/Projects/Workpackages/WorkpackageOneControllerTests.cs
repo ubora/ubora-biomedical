@@ -10,7 +10,6 @@ using Xunit;
 using Ubora.Domain.Projects;
 using Ubora.Web.Tests.Helper;
 using Ubora.Web._Features._Shared.Notices;
-using System.Linq;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages
 {
@@ -149,7 +148,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         }
 
         [Fact]
-        public void Returns_DesignPlanning_View_With_Success_Notice_When_DesignPlanning_Was_Saved_Successfully()
+        public void Returns_ProjectOverview_View_With_Success_Notice_When_ProjectOverview_Was_Saved_Successfully()
         {
             var projectTitle = "projectTitle";
             UpdateProjectCommand executedCommand = null;
@@ -162,7 +161,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var clinicalNeedTags = "ClinicalNeedTags";
             var gmdn = "Gmdn";
             var potentialTechnologyTags = "PotentialTechnologyTags";
-            var desingPlanningViewModel = new DesignPlanningViewModel
+            var projectOverViewModel = new ProjectOverviewViewModel
             {
                 AreaOfUsageTags = areaOfUsageTags,
                 ClinicalNeedTags = clinicalNeedTags,
@@ -175,7 +174,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Returns(project);
 
             // Act
-            var result = (ViewResult)_workpackageOneController.DesignPlanning(desingPlanningViewModel);
+            var result = (ViewResult)_workpackageOneController.ProjectOverview(projectOverViewModel);
 
             // Assert
             executedCommand.PotentialTechnologyTags.Should().Be(potentialTechnologyTags);
@@ -185,12 +184,12 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             executedCommand.Title.Should().Be(projectTitle);
 
             var successNotice = _workpackageOneController.Notices.Dequeue();
-            successNotice.Text.Should().Be("Design planning changed successfully!");
+            successNotice.Text.Should().Be("Project overview changed successfully!");
             successNotice.Type.Should().Be(NoticeType.Success);
         }
 
         [Fact]
-        public void Returns_DesignPlanning_View_With_Error_Notice_When_DesignPlanning_Was_Not_Saved_Successfully()
+        public void Returns_ProjectOverview_View_With_Error_Notice_When_ProjectOverview_Was_Not_Saved_Successfully()
         {
             var projectTitle = "projectTitle";
             UpdateProjectCommand executedCommand = null;
@@ -203,7 +202,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var clinicalNeedTags = "ClinicalNeedTags";
             var gmdn = "Gmdn";
             var potentialTechnologyTags = "PotentialTechnologyTags";
-            var desingPlanningViewModel = new DesignPlanningViewModel
+            var projectOverViewModel = new ProjectOverviewViewModel
             {
                 AreaOfUsageTags = areaOfUsageTags,
                 ClinicalNeedTags = clinicalNeedTags,
@@ -216,7 +215,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Returns(project);
 
             // Act
-            var result = (ViewResult)_workpackageOneController.DesignPlanning(desingPlanningViewModel);
+            var result = (ViewResult)_workpackageOneController.ProjectOverview(projectOverViewModel);
 
             // Assert
             executedCommand.PotentialTechnologyTags.Should().Be(potentialTechnologyTags);
@@ -226,8 +225,27 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             executedCommand.Title.Should().Be(projectTitle);
 
             var successNotice = _workpackageOneController.Notices.Dequeue();
-            successNotice.Text.Should().Be("Failed to change design planning!");
+            successNotice.Text.Should().Be("Failed to change project overview!");
             successNotice.Type.Should().Be(NoticeType.Error);
+        }
+
+        [Fact]
+        public void DeviceClassification_Returns_DeviceClassification_View_With_Expected_Model()
+        {
+            var project = new Project();
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
+                .Returns(project);
+
+            var expectedModel = new DeviceClassificationViewModel();
+            AutoMapperMock.Setup(m => m.Map<DeviceClassificationViewModel>(project))
+                .Returns(expectedModel);
+
+            // Act
+            var result = (ViewResult)_workpackageOneController.DeviceClassification();
+
+            // Assert
+            result.Model.Should().BeSameAs(expectedModel);
+            result.ViewName.Should().Be(nameof(WorkpackageOneController.DeviceClassification));
         }
     }
 }

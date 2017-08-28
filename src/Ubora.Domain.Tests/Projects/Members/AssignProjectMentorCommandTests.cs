@@ -17,7 +17,7 @@ namespace Ubora.Domain.Tests.Projects.Members
         public void Mentor_Can_Be_Assigned_To_Project()
         {
             this.Given(_ => this.Create_Project(_projectId))
-                    .And(_ => this.Create_User(_userId))
+                    .And(_ => this.Create_User(_userId, null, null, null))
                 .When(_ => this.Assign_Project_Mentor(_projectId, _userId))
                 .Then(_ => this.AssertUserIsProjectMentor())
                 .BDDfy();
@@ -27,7 +27,7 @@ namespace Ubora.Domain.Tests.Projects.Members
         public void Duplicate_Mentor_Can_Not_Be_Assigned_To_Project()
         {
             this.Given(_ => this.Create_Project(_projectId))
-                    .And(_ => this.Create_User(_userId))
+                    .And(_ => this.Create_User(_userId, null, null, null))
                     .And(_ => this.Assign_Project_Mentor(_projectId, _userId))
                 .When(_ => this.Assign_Project_Mentor(_projectId, _userId))
                 .Then(_ => this.Then_User_Is_Not_Duplicate_Project_Mentor())

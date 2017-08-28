@@ -1,10 +1,12 @@
 ﻿@model Ubora.Web._Features.Projects.Repository.AddFileViewModel
 
-<form method="post" enctype="multipart/form-data" asp-controller="Repository" asp-action="AddFile">
-    <div class="form-input">
-        <input asp-for="ProjectFile">
-        <span asp-validation-for="ProjectFile"></span>
-    </div>
+<form method="post" enctype="multipart/form-data" asp-controller="Repository" asp-action="@Model.ActionName">
+  @Html.HiddenFor(m => m.FileId)
+
+  <div class="form-input">
+      <input asp-for="ProjectFile">
+      <span asp-validation-for="ProjectFile"></span>
+  </div>
 
     <div class="form-input">
         <button class="button primary-button small-button">Upload new file</button>

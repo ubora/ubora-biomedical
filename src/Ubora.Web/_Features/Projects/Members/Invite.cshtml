@@ -7,15 +7,16 @@
 }
 
 <section class="narrow-width">
+  <input type="hidden" name="searchUsersUrl" value="@Url.Action("SearchUsers","UserList")">
 
     <form asp-controller="Members" asp-action="Invite" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <input asp-for="ProjectId" type="hidden"/>
+        <input asp-for="ProjectId" type="hidden" />
 
         <div class="form-input">
             <label asp-for="Email">User's email address</label>
-            <input asp-for="Email" placeholder="Email address" autofocus>
+            <input asp-for="Email" placeholder="Email address" class="js-search-user" autofocus>
             <span asp-validation-for="Email"></span>
         </div>
 
@@ -24,3 +25,7 @@
         </div>
     </form>
 </section>
+
+@section Scripts {
+  <script src="~/js/UboraAutoComplete.js"></script>
+}
