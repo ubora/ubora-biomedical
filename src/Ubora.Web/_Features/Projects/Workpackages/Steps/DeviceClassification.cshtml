@@ -15,12 +15,12 @@
             @if (Model.DeviceClassification == null)
             {
                 <h3>Please answer to the following questionnaire to identify your device classification.</h3>
-                <a asp-controller="DeviceClassification" asp-action="GetPairedMainQuestions" class="button primary-button">Go to device classification</a>
+                <a asp-controller="DeviceClassification" asp-action="GetPairedMainQuestions" class="button primary-button small-button">Go to device classification</a>
             }
             else
             {
                 <h2>Your current device classification: @Model.DeviceClassification</h2>
-                <a asp-controller="DeviceClassification" asp-action="GetPairedMainQuestions" class="button secondary-button">Retake questionnaire?</a>
+                <a asp-controller="DeviceClassification" asp-action="GetPairedMainQuestions" class="button secondary-button small-button">Retake questionnaire?</a>
             }
 
         </div>
