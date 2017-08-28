@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Notifications.Join;
@@ -10,7 +11,7 @@ namespace Ubora.Web._Features.Notifications.Requests
     {
         [HttpPost]
         [SaveTempDataModelState]
-        public IActionResult Accept(RequestPartialViewModel requestPartialViewModel)
+        public IActionResult Accept([NotDefault]Guid requestId)
         {
             if (!ModelState.IsValid)
             {
@@ -19,7 +20,7 @@ namespace Ubora.Web._Features.Notifications.Requests
 
             ExecuteUserCommand(new AcceptRequestToJoinProjectCommand
             {
-                RequestId = requestPartialViewModel.RequestId
+                RequestId = requestId
             });
 
             return RedirectToAction("Index", "Notifications");
@@ -27,7 +28,7 @@ namespace Ubora.Web._Features.Notifications.Requests
 
         [HttpPost]
         [SaveTempDataModelState]
-        public IActionResult Decline(RequestPartialViewModel requestPartialViewModel)
+        public IActionResult Decline([NotDefault]Guid requestId)
         {
             if (!ModelState.IsValid)
             {
@@ -36,7 +37,7 @@ namespace Ubora.Web._Features.Notifications.Requests
 
             ExecuteUserCommand(new DeclineRequestToJoinProjectCommand
             {
-                RequestId = requestPartialViewModel.RequestId
+                RequestId = requestId
             });
 
             return RedirectToAction("Index", "Notifications");

@@ -25,6 +25,7 @@
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.1.0" />
     <PackageReference Include="AutoMapper" Version="6.0.2" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="2.0.1" />
+    <PackageReference Include="ImageSharp" Version="1.0.0-alpha9-00169" />
     <PackageReference Include="JetBrains.Annotations" Version="10.4.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.1" />
     <PackageReference Include="MailKit" Version="1.16.1" />
@@ -49,7 +50,7 @@
     <PackageReference Include="TwentyTwenty.Storage" Version="2.0.0" />
     <PackageReference Include="TwentyTwenty.Storage.Azure" Version="2.0.0" />
     <PackageReference Include="TwentyTwenty.Storage.Local" Version="2.0.0" />
-    <PackageReference Include="WindowsAzure.Storage" Version="8.1.4" />
+    <PackageReference Include="WindowsAzure.Storage" Version="8.2.0" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
@@ -70,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="Storage\Infrastructure\" />
     <Folder Include="wwwroot\dist\" />
   </ItemGroup>
   <Target Name="Webpack" AfterTargets="Build">

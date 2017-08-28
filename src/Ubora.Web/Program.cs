@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Net.Sockets;
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
 
@@ -15,13 +14,6 @@ namespace Ubora.Web
                 .WriteTo.RollingFile(Path.GetFullPath(Path.Combine("log", "log-{Date}.txt")))
                 .CreateLogger();
 
-            var isListeningPostgres = WaitForHost("postgres", 5432, TimeSpan.FromSeconds(15));
-
-            if (!isListeningPostgres)
-            {
-                Log.Fatal("Postgres not found!");
-            }
-              
             try
             {
                 var hostBuilder = new WebHostBuilder()
@@ -36,9 +28,9 @@ namespace Ubora.Web
                     hostBuilder.UseUrls(args[0]);
                 }
 
-                 var host = hostBuilder.Build();
+                var host = hostBuilder.Build();
 
-                 host.Run();
+                host.Run();
             }
             catch (Exception e)
             {
@@ -51,29 +43,6 @@ namespace Ubora.Web
                     // ignored
                 }
                 throw;
-            }
-
-            //Wait and try to connect a remote TCP host for synchronizing. (Tcp​Client.​Connect method for synchronizing only available in CORE 2.0)
-            bool WaitForHost(string server, int port, TimeSpan timeout)
-            {
-                using (TcpClient client = new TcpClient())
-                {
-                    var connected = false;
-                    var timeoutTime = DateTime.Now.AddSeconds(timeout.Seconds);
-                    while (!connected && DateTime.Now < timeoutTime)
-                    {
-                        try
-                        {
-                            client.ConnectAsync(server, port).Wait(timeout);
-                            connected = true;
-                        }
-                        catch
-                        {
-                            connected = false;
-                        }                      
-                    }
-                    return connected;
-                }
             }
         }
     }

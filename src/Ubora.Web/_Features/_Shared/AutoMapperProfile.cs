@@ -22,10 +22,15 @@ namespace Ubora.Web._Features._Shared
             CreateMap<ProjectTask, AssignmentListItemViewModel>();
             CreateMap<ProjectTask, EditAssignmentViewModel>();
 
-            CreateMap<ProjectFile, ProjectFileViewModel>()
-                .ForMember(dest => dest.FileLocation, o => o.Ignore());
+            CreateMap<ProjectFile, ProjectFileViewModel>();
 
-            CreateMap<Project, ProjectListViewModel.ProjectListItem>();
+            CreateMap<ProjectFile, UpdateFileViewModel>()
+                .ForMember(dest => dest.FileId, o => o.MapFrom(src => src.Id))
+                .ForMember(dest => dest.AddFileViewModel, o => o.Ignore());
+
+            CreateMap<Project, ProjectListViewModel.ProjectListItem>()
+                .ForMember(dest => dest.ImagePath, o => o.Ignore());
+
 
             CreateMap<Project, UpdateProjectCommand>()
                 .ForMember(dest => dest.ProjectId, o => o.MapFrom(src => src.Id))
@@ -44,11 +49,15 @@ namespace Ubora.Web._Features._Shared
             CreateMap<UserProfile, ProfileViewModel>(MemberList.None);
             CreateMap<UserProfile, UserProfileViewModel>().ForMember(dest => dest.CountryCode, o => o.MapFrom(src => src.Country.Code));
 
-            CreateMap<Project, DesignPlanningViewModel>();
+            CreateMap<Project, ProjectOverviewViewModel>();
             CreateMap<Project, ProjectDashboardViewModel>()
-                .ForMember(dest => dest.IsProjectMember, o => o.Ignore());
+                .ForMember(dest => dest.IsProjectMember, o => o.Ignore())
+                .ForMember(dest => dest.ImagePath, o => o.Ignore())
+                .ForMember(dest => dest.HasImage, o => o.Ignore());
 
             CreateMap<WorkpackageReview, WorkpackageReviewViewModel>();
+
+            CreateMap<Project, DeviceClassificationViewModel>();
         }
     }
 }

@@ -3,7 +3,7 @@ Feature: Home page
     I want to click all buttons on Home page
 
 Background:
-    Given I go to the website "/"
+    Given I go to Home page
 
 Scenario: Go to UBORA home page 
     Then I expect the title of the page "Welcome - UBORA"
@@ -13,7 +13,7 @@ Scenario: Click Home button
     Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: Click Sign in/sign up button
-    When I click on the element "a=Sign in/sign up"
+    When I click on the element "#SignInSignUp"
     Then I expect the title of the page "Sign in to UBORA - UBORA"
 
 Scenario: Click I have an idea button

@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.DeviceClassification;
-using System.Linq;
 using Ubora.Domain.Projects.Workpackages.Events;
 
 namespace Ubora.Domain.Projects
@@ -13,7 +12,7 @@ namespace Ubora.Domain.Projects
     {
         // Virtual for testing
         public virtual Guid Id { get; private set; }
-        public string Title { get; private set; }
+        public virtual string Title { get; private set; }
         public string Gmdn { get; private set; }
         public string ClinicalNeedTags { get; private set; }
         public string AreaOfUsageTags { get; private set; }
@@ -21,15 +20,25 @@ namespace Ubora.Domain.Projects
         public string DeviceClassification { get; private set; }
         public string Description { get; private set; }
         public bool IsInDraft { get; private set; } = true;
+        public BlobLocation ProjectImageBlobLocation { get; set; }
+        public DateTime ProjectImageLastUpdated { get; private set; }
+        public bool HasImage => ProjectImageBlobLocation != null;
 
         [JsonProperty(nameof(Members))]
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
         [JsonIgnore]
-        public IReadOnlyCollection<ProjectMember> Members => _members;
+        public IReadOnlyCollection<ProjectMember> Members
+        {
+            get
+            {
+                return _members;
+            }
+            private set { }
+        }
 
         public bool HasMember<T>(Guid userId) where T : ProjectMember
         {
-            return DoesSatisfy(new HasMember<T>(userId)); 
+            return DoesSatisfy(new HasMember<T>(userId));
         }
 
         private void Apply(ProjectCreatedEvent e)
@@ -100,6 +109,12 @@ namespace Ubora.Domain.Projects
 
         private void Apply(ProjectMentorAssignedEvent e)
         {
+            var isMember = this.DoesSatisfy(new HasMember<ProjectMember>(e.UserId));
+            if (isMember)
+            {
+                _members.RemoveWhere(m => m.UserId == e.UserId);
+            }
+
             var isAlreadyMentor = this.DoesSatisfy(new HasMember<ProjectMentor>(e.UserId));
             if (isAlreadyMentor)
             {
@@ -111,6 +126,18 @@ namespace Ubora.Domain.Projects
         private void Apply(WorkpackageOneReviewAcceptedEvent e)
         {
             IsInDraft = false;
+        }
+
+        private void Apply(ProjectImageUpdatedEvent e)
+        {
+            ProjectImageBlobLocation = e.BlobLocation;
+            ProjectImageLastUpdated = e.When;
+        }
+
+        private void Apply(ProjectImageDeletedEvent e)
+        {
+            ProjectImageBlobLocation = null;
+            ProjectImageLastUpdated = e.When;
         }
 
         public override string ToString()

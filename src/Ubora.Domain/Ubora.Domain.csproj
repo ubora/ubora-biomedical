@@ -15,12 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Microsoft.Extensions.Configuration.UserSecrets">
-      <HintPath>..\..\..\Users\Kaspar\.nuget\packages\microsoft.extensions.configuration.usersecrets\1.1.2\lib\netstandard1.5\Microsoft.Extensions.Configuration.UserSecrets.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Projects\Workpackages\Placeholders.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -33,10 +27,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Placeholders.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Projects\Project.HasLeader.cs" />
   </ItemGroup>
 
 </Project>

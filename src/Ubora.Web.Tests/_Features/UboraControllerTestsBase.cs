@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +24,7 @@ namespace Ubora.Web.Tests._Features
         protected ClaimsPrincipal User { get; }
         protected Guid UserId { get; }
 
-        public Mock<IQueryProcessor> QueryProcessorMock { get; private set; } = new Mock<IQueryProcessor>();
+        public Mock<IQueryProcessor> QueryProcessorMock { get; private set; } = new Mock<IQueryProcessor>(MockBehavior.Strict);
         public Mock<ICommandProcessor> CommandProcessorMock { get; private set; } = new Mock<ICommandProcessor>();
         public Mock<IMapper> AutoMapperMock { get; private set; } = new Mock<IMapper>();
         public Mock<IAuthorizationService> AuthorizationServiceMock { get; private set; } = new Mock<IAuthorizationService>();
@@ -38,7 +41,6 @@ namespace Ubora.Web.Tests._Features
             {
                 controller.ControllerContext.HttpContext = new DefaultHttpContext();
             }
-
             var serviceProviderMock = new Mock<IServiceProvider>();
             controller.ControllerContext.HttpContext.RequestServices = serviceProviderMock.Object;
 
@@ -53,7 +55,9 @@ namespace Ubora.Web.Tests._Features
 
             // Stub ASP.NET MVC services
             serviceProviderMock.Setup(x => x.GetService(typeof(IUrlHelperFactory))).Returns(Mock.Of<IUrlHelperFactory>());
-            serviceProviderMock.Setup(x => x.GetService(typeof(ITempDataDictionaryFactory))).Returns(Mock.Of<ITempDataDictionaryFactory>());
+            serviceProviderMock
+                .Setup(x => x.GetService(typeof(ITempDataDictionaryFactory)))
+                .Returns(Mock.Of<ITempDataDictionaryFactory>(f => f.GetTempData(controller.ControllerContext.HttpContext) == new TempDataDictionary(controller.ControllerContext.HttpContext, Mock.Of<ITempDataProvider>())));
         }
 
         protected virtual ClaimsPrincipal CreateUser(Guid userId)
@@ -71,6 +75,30 @@ namespace Ubora.Web.Tests._Features
             {
                 Assert.Contains(error.ErrorMessage, result);
             }
+        }
+
+        protected void AssertHasAttribute(Type controller, string methodName, Type attributeType, string attributePolicy = null)
+        {
+            var methodInfos = GetMethodInfos(controller, methodName);
+            foreach (var customAttributes in methodInfos.Select(i => i.GetCustomAttributes(typeof(AuthorizeAttribute), true)))
+            {
+                if (attributePolicy != null)
+                {
+                    Assert.True(customAttributes.Any(a => ((AuthorizeAttribute)a).Policy == attributePolicy));
+                }
+
+                Assert.True(customAttributes.Any(a => a.GetType() == attributeType));
+            }
+        }
+
+        private static IEnumerable<MethodInfo> GetMethodInfos(Type controller, string methodName)
+        {
+            if (controller.GetMethods().All(m => m.Name != methodName))
+            {
+                Assert.False(true, $"HasAttribute controller.method:  '{controller.Name}.{methodName}' does not exist  - copy/paste ? :)");
+            }
+
+            return controller.GetMethods().Where(m => m.Name == methodName);
         }
     }
 }

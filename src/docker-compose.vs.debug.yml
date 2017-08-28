@@ -1,13 +1,12 @@
-version: '2'
+version: '3'
 
 services:
   ubora.web:
     image: ubora.web:dev
-    build:
-      args:
-        source: ${DOCKER_BUILD_SOURCE}
     environment:
       - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - "ConnectionStrings:AzureBlobConnectionString=UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://azurite;"
+      - "ConnectionStrings:ApplicationDbConnection=server=postgres;Port=5432;userid=postgres;password=ubora;database=postgres"
     volumes:
       - ./Ubora.Web:/app
       - ~/.nuget/packages:/root/.nuget/packages:ro
@@ -28,6 +27,16 @@ services:
     environment:
       POSTGRES_PASSWORD: ubora
       POSTGRES_DB: ubora
+    networks:
+      - ubora-network
+
+  azurite:
+    container_name: 'azurite'
+    image: mpahk/azurite
+    labels:
+      - "com.microsoft.visualstudio.targetoperatingsystem=linux"
+    ports:
+      - "32500:10000"
     networks:
       - ubora-network
 

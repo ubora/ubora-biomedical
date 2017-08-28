@@ -39,6 +39,26 @@ namespace Ubora.Web.Services
             return userId;
         }
 
+        public static string GetEmail(this IPrincipal principal)
+        {
+            if (principal == null) throw new ArgumentNullException(nameof(principal));
+
+            var claimsPrincipal = (ClaimsPrincipal)principal;
+            var userEmail = claimsPrincipal.FindFirstValue(ApplicationUser.EmailClaimType);
+
+            return userEmail;
+        }
+
+        public static bool IsEmailConfirmed(this IPrincipal principal)
+        {
+            if (principal == null) throw new ArgumentNullException(nameof(principal));
+
+            var claimsPrincipal = (ClaimsPrincipal)principal;
+            var isEmailConfirmed = Convert.ToBoolean(claimsPrincipal.FindFirstValue(ApplicationUser.IsEmailConfirmedType));
+
+            return isEmailConfirmed;
+        }
+
         public static UserInfo GetInfo(this IPrincipal principal)
         {
             if (principal == null) throw new ArgumentNullException(nameof(principal));

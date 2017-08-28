@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using System.Net.Sockets;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
@@ -21,10 +21,10 @@ using Ubora.Web.Services;
 using Ubora.Web.Infrastructure.DataSeeding;
 using TwentyTwenty.Storage;
 using TwentyTwenty.Storage.Azure;
-using TwentyTwenty.Storage.Local;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.SpaServices.Webpack;
-
+using Npgsql;
+using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web
 {
@@ -46,16 +46,25 @@ namespace Ubora.Web
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+            IsDevelopment = env.IsDevelopment();
         }
 
         public IConfigurationRoot Configuration { get; }
+        private bool IsDevelopment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            var connectionString = Configuration["ConnectionStrings:ApplicationDbConnection"];
+            var connectionString = Configuration.GetConnectionString("ApplicationDbConnection");
+            var npgSqlConnectionString = new NpgsqlConnectionStringBuilder(connectionString);
+
+            var isListeningPostgres = WaitForHost(npgSqlConnectionString.Host, npgSqlConnectionString.Port, TimeSpan.FromSeconds(15));
+            if (!isListeningPostgres)
+            {
+                throw new Exception("Database (Postgres) could not be connected to.");
+            }
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString));
@@ -85,28 +94,37 @@ namespace Ubora.Web
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            if (IsDevelopment)
+            {
+                services.AddSingleton<TestDataSeeder>();
+                services.AddSingleton<TestUserSeeder>();
+                services.AddSingleton<TestProjectSeeder>();
+            }
+
             services.AddSingleton<ApplicationDataSeeder>();
             services.AddSingleton<AdminSeeder>();
             services.Configure<AdminSeeder.Options>(Configuration.GetSection("InitialAdminOptions"));
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
 
-            var autofacContainerBuilder = new ContainerBuilder();
 
-            IStorageProvider storageProvider;
+            var azureBlobConnectionString = Configuration.GetConnectionString("AzureBlobConnectionString");
+            var autofacContainerBuilder = new ContainerBuilder();
+            var azOptions = new AzureProviderOptions
+            {
+                ConnectionString = azureBlobConnectionString
+            };
+            var azureStorageProvider = new AzureStorageProvider(azOptions);
+            IStorageProvider storageProvider = null;
             var isLocalStorage = Configuration.GetValue<bool?>("Storage:IsLocal") ?? false;
+
             if (isLocalStorage)
             {
-                var basePath = Path.GetFullPath("wwwroot/images/storages");
-                storageProvider = new FixedLocalStorageProvider(basePath, new LocalStorageProvider(basePath));
+                storageProvider = new CustomDevelopmentAzureStorageProvider(azOptions, azureStorageProvider);
             }
             else
             {
-                var options = new AzureProviderOptions
-                {
-                    ConnectionString = Configuration.GetConnectionString("AzureBlobConnectionString")
-                };
-                storageProvider = new AzureStorageProvider(options);
+                storageProvider = new CustomAzureStorageProvider(azOptions, azureStorageProvider);
             }
 
             var domainModule = new DomainAutofacModule(connectionString, storageProvider);
@@ -123,6 +141,7 @@ namespace Ubora.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            var logger = loggerFactory.CreateLogger<Startup>();
 
             if (env.IsDevelopment())
             {
@@ -162,13 +181,40 @@ namespace Ubora.Web
                 var seeder = serviceProvider.GetService<ApplicationDataSeeder>();
                 seeder.SeedIfNecessary()
                     .GetAwaiter().GetResult();
+
+                if (env.IsDevelopment())
+                {
+                    var testDataSeeder = serviceProvider.GetService<TestDataSeeder>();
+                    testDataSeeder.SeedIfNecessary()
+                        .GetAwaiter().GetResult();
+                }
             }
 
-            var logger = loggerFactory.CreateLogger<Startup>();
             // Logging this as an error so it reaches all loggers (for tracking application restarts and testing if logging actually works)
             logger.LogError("Application started!");
         }
 
-   
+        //Wait and try to connect a remote TCP host for synchronizing. (Tcp​Client.​Connect method for synchronizing only available in CORE 2.0)
+        private bool WaitForHost(string server, int port, TimeSpan timeout)
+        {
+            using (TcpClient client = new TcpClient())
+            {
+                var connected = false;
+                var timeoutTime = DateTime.Now.AddSeconds(timeout.Seconds);
+                while (!connected && DateTime.Now < timeoutTime)
+                {
+                    try
+                    {
+                        client.ConnectAsync(server, port).Wait(timeout);
+                        connected = true;
+                    }
+                    catch
+                    {
+                        connected = false;
+                    }
+                }
+                return connected;
+            }
+        }
     }
 }
