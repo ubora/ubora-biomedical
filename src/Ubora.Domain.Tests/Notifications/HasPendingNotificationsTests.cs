@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Ubora.Domain.Notifications.Invitation;
 using Xunit;
 using FluentAssertions;
 using Ubora.Domain.Notifications.Specifications;
+using Ubora.Domain.Projects.Members;
 
 namespace Ubora.Domain.Tests.Notifications
 {
@@ -14,8 +14,8 @@ namespace Ubora.Domain.Tests.Notifications
         {
             var expectedUserId = Guid.NewGuid();
 
-            var invitationToProject = new InvitationToProject(Guid.NewGuid(), expectedUserId, expectedUserId, Guid.NewGuid());
-            var expectedInvitation = new InvitationToProject(Guid.NewGuid(), expectedUserId, expectedUserId, Guid.NewGuid());
+            var invitationToProject = new InvitationToProject(expectedUserId, Guid.NewGuid());
+            var expectedInvitation = new InvitationToProject(expectedUserId, Guid.NewGuid());
             expectedInvitation.Accept();
 
             Session.Store(invitationToProject);

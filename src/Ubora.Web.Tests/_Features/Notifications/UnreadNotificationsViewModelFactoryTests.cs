@@ -3,8 +3,8 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Notifications.Invitation;
 using Ubora.Domain.Notifications.Specifications;
+using Ubora.Domain.Projects.Members;
 using Ubora.Web._Features.Notifications;
 using Xunit;
 
@@ -26,9 +26,9 @@ namespace Ubora.Web.Tests._Features.Notifications
         {
             var userId = Guid.NewGuid();
 
-            var invitation1 = new InvitationToProject(Guid.NewGuid(), userId, userId, Guid.NewGuid());
-            var invitation2 = new InvitationToProject(Guid.NewGuid(), userId, userId, Guid.NewGuid());
-            var invitation3 = new InvitationToProject(Guid.NewGuid(), userId, userId, Guid.NewGuid());
+            var invitation1 = new InvitationToProject(userId, Guid.NewGuid());
+            var invitation2 = new InvitationToProject(userId, Guid.NewGuid());
+            var invitation3 = new InvitationToProject(userId, Guid.NewGuid());
 
             var invitations = new List<InvitationToProject>
             {

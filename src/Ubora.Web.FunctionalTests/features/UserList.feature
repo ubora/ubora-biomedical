@@ -14,11 +14,11 @@ Scenario: I click a Ubora logo
     Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: I click a Sign in/sign up button
-    When I click on the element "a=Sign in/sign up"
+    When I click on the element "#SignInSignUp"
     Then I expect the title of the page "Sign in to UBORA - UBORA"
 
 Scenario: I sign up and check my profile on Members page
-    When I click on the element "a=Sign in/sign up"
+    When I click on the element "#SignInSignUp"
     And I sign up as "emailemail@email.com" first name "TestName" last name "TestLastName"
     And I click on the element ".header-logo"
     And I click on the element "a=View members"

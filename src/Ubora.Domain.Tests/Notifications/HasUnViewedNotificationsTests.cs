@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
 using System;
 using System.Linq;
-using Ubora.Domain.Notifications.Join;
 using Ubora.Domain.Notifications.Specifications;
+using Ubora.Domain.Projects.Members;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Notifications
@@ -14,11 +14,11 @@ namespace Ubora.Domain.Tests.Notifications
         {
             var expectedUserId = Guid.NewGuid();
 
-            var requestToJoinProject = new RequestToJoinProject(Guid.NewGuid(), expectedUserId, Guid.NewGuid(), Guid.NewGuid())
+            var requestToJoinProject = new RequestToJoinProject(expectedUserId, Guid.NewGuid(), Guid.NewGuid())
             {
                 HasBeenViewed = true
             };
-            var expectedRequest = new RequestToJoinProject(Guid.NewGuid(), expectedUserId, Guid.NewGuid(), Guid.NewGuid());
+            var expectedRequest = new RequestToJoinProject(expectedUserId, Guid.NewGuid(), Guid.NewGuid());
 
             Session.Store(requestToJoinProject);
             Session.Store(expectedRequest);

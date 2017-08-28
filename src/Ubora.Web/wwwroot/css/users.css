@@ -20,6 +20,10 @@
     word-break: break-word;
 }
 
+.user-role-list {
+  align-self: flex-start;
+}
+
 @media screen and (max-width: 21.875em) {
     .user-list {
         justify-content: center;

@@ -28,7 +28,7 @@ module.exports = function () {
     this.When(/^I log out$/, () => {
             browser
             .click('span=Menu')
-            .click('button=Log out')
+            .click('#SignOut')
         });
 
     this.When(/^I sign up as "([^"]*)?" first name "([^"]*)?" last name "([^"]*)?"$/, (email, firstName, lastName) => {
@@ -45,7 +45,7 @@ module.exports = function () {
 
     this.When(/^I sign in as "([^"]*)?" with password "([^"]*)?"$/, (email, password) => {
             browser
-            .click('a=Sign in/sign up')
+            .click('#SignInSignUp')
             .setValue('#Email', email)
             .setValue('#Password', password)
             .click('button=Sign in')
@@ -53,7 +53,7 @@ module.exports = function () {
 
     this.When(/^I sign in as administrator$/, () => {
             browser
-            .click('a=Sign in/sign up')
+            .click('#SignInSignUp')
             .setValue('#Email', 'admin@agileworks.eu')
             .setValue('#Password', 'ChangeMe123!')
             .click('button=Sign in')

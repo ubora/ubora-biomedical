@@ -2,16 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Users;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Ubora.Domain.Projects.Members;
 using Microsoft.AspNetCore.Authorization;
 using Ubora.Web.Authorization;
 using Ubora.Domain.Projects;
 using Ubora.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Ubora.Web.Data;
-using Ubora.Domain.Notifications.Invitation;
-using Ubora.Domain.Notifications.Join;
+using Ubora.Domain.Projects.Members.Commands;
 
 namespace Ubora.Web._Features.Projects.Members
 {
@@ -32,23 +31,28 @@ namespace Ubora.Web._Features.Projects.Members
             var isProjectMember = await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
             var isAuthenticated = await AuthorizationService.AuthorizeAsync(User, Policies.IsAuthenticatedUser);
 
-            var members = Project.Members.Select(m => new ProjectMemberListViewModel.Item
+            var memberListItemViewModels = new List<ProjectMemberListViewModel.Item>();
+            foreach (var userMembers in Project.Members.GroupBy(m => m.UserId))
             {
-                UserId = m.UserId,
-                // TODO(Kaspar Kallas): Eliminate SELECT(N + 1)
-                FullName = QueryProcessor.FindById<UserProfile>(m.UserId).FullName,
-                IsProjectLeader = m.IsLeader,
-                IsCurrentUser = isAuthenticated && UserId == m.UserId,
-                IsProjectMentor = m.IsMentor
-            });
+                var memberUserId = userMembers.Key;
+                var itemModel = new ProjectMemberListViewModel.Item
+                {
+                    UserId = memberUserId,
+                    IsProjectLeader = userMembers.Any(x => x.IsLeader),
+                    IsProjectMentor = userMembers.Any(x => x.IsMentor),
+                    IsCurrentUser = (isAuthenticated && this.UserId == memberUserId),
+                    FullName = QueryProcessor.FindById<UserProfile>(memberUserId).FullName
+                };
+                memberListItemViewModels.Add(itemModel);
+            }
 
-            var isProjectLeader = isAuthenticated && members.Any(x => x.UserId == UserId && x.IsProjectLeader);
+            var isProjectLeader = isAuthenticated && Project.Members.Any(x => x.UserId == UserId && x.IsLeader);
 
             var model = new ProjectMemberListViewModel
             {
                 Id = ProjectId,
                 CanRemoveProjectMembers = canRemoveProjectMembers,
-                Members = members,
+                Members = memberListItemViewModels,
                 IsProjectMember = isAuthenticated && isProjectMember,
                 IsProjectLeader = isProjectLeader
             };
@@ -59,9 +63,7 @@ namespace Ubora.Web._Features.Projects.Members
         [Route(nameof(Invite))]
         public IActionResult Invite()
         {
-            var model = new InviteProjectMemberViewModel { ProjectId = ProjectId };
-
-            return View(model);
+            return View();
         }
 
         [HttpPost]
@@ -83,7 +85,7 @@ namespace Ubora.Web._Features.Projects.Members
                 return Invite();
             }
 
-            return RedirectToAction(nameof(Members), new { id = model.ProjectId });
+            return RedirectToAction(nameof(Members));
         }
 
         [AllowAnonymous]
@@ -191,25 +193,6 @@ namespace Ubora.Web._Features.Projects.Members
             }
 
             return RedirectToAction("Dashboard", "Dashboard", new { });
-        }
-
-        [HttpPost]
-        [Route(nameof(AssignMeAsMentor))]
-        [DisableProjectControllerAuthorization]
-        [Authorize(Roles = ApplicationRole.Admin)]
-        public async Task<IActionResult> AssignMeAsMentor()
-        {
-            ExecuteUserProjectCommand(new AssignProjectMentorCommand
-            {
-                UserId = this.UserId
-            });
-
-            if (!ModelState.IsValid)
-            {
-                return await Members();
-            }
-
-            return RedirectToAction(nameof(Members));
         }
     }
 }

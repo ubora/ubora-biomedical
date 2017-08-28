@@ -1,0 +1,23 @@
+﻿@using Ubora.Web._Features.Notifications.Requests
+
+@model RequestToJoinProjectNotifiationViewModel
+
+@{
+    var isUnreadCss = Model.IsUnread ? "notification--unread" : "";
+}
+
+<div class="notification @isUnreadCss">
+    <div class="notification-container">
+        <p class="notification--message">@Html.ActionLink(Model.UserFullName, "View", "Profile", new { userId = Model.UserId }) asks to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a></p>
+        <form class="notification--controls " method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="RequestId" />
+            <div class="form-input notification-action">
+                <button class="button secondary-button small-button" type="submit" asp-controller="Requests" asp-action="Decline">Decline</button>
+            </div>
+            <div class="form-input notification-action">
+                <button class="button secondary-button small-button" type="submit" asp-controller="Requests" asp-action="Accept">Accept</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Autofac;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
@@ -42,9 +43,9 @@ namespace Ubora.Domain.Infrastructure
         {
             var dbSet = _querySession.Query<T>();
 
-            return specification != null 
-                ? specification.SatisfyEntitiesFrom(dbSet)
-                : dbSet;
+            return specification != null
+                ? specification.SatisfyEntitiesFrom(dbSet).ToList()
+                : dbSet.ToList();
         }
 
         public T FindById<T>(Guid id)

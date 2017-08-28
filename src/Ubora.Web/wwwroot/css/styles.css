@@ -25,6 +25,10 @@
 @import url('feedback.css');
 @import url('history.css');
 
+
+@import url('autocomplete.css');
+@import url('notices.css');
+
 :root {
 	--primary-color: #4777BB;
 	--secondary-color: #44AAE0;
@@ -70,12 +74,4 @@ body {
 		font-size:14px;
 		line-height: 2em;
 	}
-}
-
-
-.development-notice {
-	background-color: var(--primary-color);
-	color:var(--white);
-	padding:.5em 0;
-	text-align: center;
 }

@@ -5,11 +5,10 @@ using TestStack.BDDfy;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications;
-using Ubora.Domain.Notifications.Invitation;
-using Ubora.Domain.Notifications.Join;
 using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
+using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Domain.Users;
 using Xunit;
 
@@ -275,7 +274,7 @@ namespace Ubora.Domain.Tests.Projects.Members
 
         private void User_Does_Not_Get_Invite()
         {
-            var invites = Session.Query<BaseNotification>().Where(x => x.NotificationTo == _invitedUserId && x.IsPending);
+            var invites = Session.Query<UserBinaryAction>().Where(x => x.NotificationTo == _invitedUserId && x.IsPending);
             invites.Count().Should().Be(0);
         }
     }

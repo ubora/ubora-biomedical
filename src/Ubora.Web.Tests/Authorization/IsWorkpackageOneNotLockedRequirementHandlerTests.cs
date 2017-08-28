@@ -30,12 +30,12 @@ namespace Ubora.Web.Tests.Authorization
             var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(userId);
 
             var handlerContext = new AuthorizationHandlerContext(
-                requirements: new[] { new IsWorkpackageOneNotLockedRequirement(),  },
+                requirements: new[] { new IsWorkpackageOneNotLockedRequirement() },
                 user: user,
                 resource: null);
 
             var projectId = Guid.NewGuid();
-            var project = Mock.Of<Project>(x => x.Id == projectId);
+            var project = new Project().Set(x => x.Id, projectId);
             _handlerUnderTest.SetProject(project);
 
             var workpackageOneMock = new Mock<WorkpackageOne>();
@@ -65,7 +65,7 @@ namespace Ubora.Web.Tests.Authorization
                 resource: null);
 
             var projectId = Guid.NewGuid();
-            var project = Mock.Of<Project>(x => x.Id == projectId);
+            var project = new Project().Set(x => x.Id, projectId);
             _handlerUnderTest.SetProject(project);
 
             var workpackageOneMock = new Mock<WorkpackageOne>();
@@ -89,7 +89,7 @@ namespace Ubora.Web.Tests.Authorization
             private Project _project = Mock.Of<Project>();
             private IQueryProcessor _queryProcessor = Mock.Of<IQueryProcessor>();
 
-            public HandlerUnderTest() 
+            public HandlerUnderTest()
                 : base(Mock.Of<IHttpContextAccessor>(x => x.HttpContext == Mock.Of<HttpContext>()))
             {
             }

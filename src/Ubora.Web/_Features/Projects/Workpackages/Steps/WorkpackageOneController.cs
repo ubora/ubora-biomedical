@@ -15,22 +15,22 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         private WorkpackageOne _workpackageOne;
         public WorkpackageOne WorkpackageOne => _workpackageOne ?? (_workpackageOne = QueryProcessor.FindById<WorkpackageOne>(ProjectId));
 
-        [Route(nameof(DesignPlanning))]
-        public IActionResult DesignPlanning()
+        [Route(nameof(ProjectOverview))]
+        public IActionResult ProjectOverview()
         {
-            var model = AutoMapper.Map<DesignPlanningViewModel>(Project);
+            var model = AutoMapper.Map<ProjectOverviewViewModel>(Project);
 
             return View(model);
         }
 
         [HttpPost]
-        [Route(nameof(DesignPlanning))]
+        [Route(nameof(ProjectOverview))]
         [Authorize(Policies.CanEditWorkpackageOne)]
-        public IActionResult DesignPlanning(DesignPlanningViewModel model)
+        public IActionResult ProjectOverview(ProjectOverviewViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return DesignPlanning();
+                return ProjectOverview();
             }
 
             ExecuteUserProjectCommand(new UpdateProjectCommand
@@ -44,14 +44,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             if (!ModelState.IsValid)
             {
-                var errorNotice = new Notice("Failed to change design planning!", NoticeType.Error);
-                ShowNotice(errorNotice);
+                Notices.Error("Failed to change project overview!");
 
-                return DesignPlanning();
+                return ProjectOverview();
             }
 
-            var successNotice = new Notice("Design planning changed successfully!", NoticeType.Success);
-            ShowNotice(successNotice);
+            Notices.Success("Project overview changed successfully!");
 
             return View();
         }
@@ -59,7 +57,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Route(nameof(DeviceClassification))]
         public IActionResult DeviceClassification()
         {
-            return View();
+            var model = AutoMapper.Map<DeviceClassificationViewModel>(Project);
+
+            return View(nameof(DeviceClassification), model);
         }
 
         [Route("{stepId}")]

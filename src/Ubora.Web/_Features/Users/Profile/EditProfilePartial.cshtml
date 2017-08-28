@@ -18,6 +18,11 @@
         <span asp-validation-for="LastName"></span>
     </div>
 
+    <div class="form-input">
+      <label>Email</label>
+      <input type="text" disabled value="@User.GetEmail()">
+    </div>
+
     <h3>Personal - Education</h3>
     <div class="form-input">
         <label asp-for="Biography">Bio</label>
@@ -71,5 +76,5 @@
         <span asp-validation-for="Role"></span>
     </div>
 
-    <button type="submit" class="button primary-button">Edit profile</button>
+    <button type="submit" class="button primary-button small-button">Edit profile</button>
 </form>
