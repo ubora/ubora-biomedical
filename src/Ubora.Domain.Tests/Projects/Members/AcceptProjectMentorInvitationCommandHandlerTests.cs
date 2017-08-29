@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using FluentAssertions;
 using Marten;
+using Marten.Events;
 using Moq;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
@@ -36,7 +37,8 @@ namespace Ubora.Domain.Tests.Projects.Members
 
             MentorJoinedProjectEvent storedEvent = null;
             _documentSessionStrictMock.Setup(x => x.Events.Append(projectId, It.IsAny<object[]>()))
-                .Callback<Guid, object[]>((streamId, events) => storedEvent = (MentorJoinedProjectEvent)events.Single());
+                .Callback<Guid, object[]>((streamId, events) => storedEvent = (MentorJoinedProjectEvent)events.Single())
+                .Returns((EventStream)null);
 
             ProjectMentorInvitation storedInvitation = null;
             _documentSessionStrictMock.Setup(x => x.Store(It.IsAny<ProjectMentorInvitation[]>()))
