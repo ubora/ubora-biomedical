@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Projects.Workpackages;
@@ -57,7 +58,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         {
             AuthorizationServiceMock
                 .Setup(x => x.AuthorizeAsync(this.User, It.IsAny<object>(), Policies.CanSubmitWorkpackageForReview))
-                .ReturnsAsync(false);
+                .ReturnsAsync(AuthorizationResult.Failed());
 
             // Act
             var result = (ViewResult)await _workpackageOneReviewController.Review();
@@ -74,7 +75,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         {
             AuthorizationServiceMock
                 .Setup(x => x.AuthorizeAsync(this.User, It.IsAny<object>(), Policies.CanSubmitWorkpackageForReview))
-                .ReturnsAsync(true);
+                .ReturnsAsync(AuthorizationResult.Success);
 
             // Act
             var result = (ViewResult)await _workpackageOneReviewController.Review();

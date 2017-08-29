@@ -28,9 +28,9 @@ namespace Ubora.Web._Features.Projects.Members
         [AllowAnonymous]
         public async Task<IActionResult> Members()
         {
-            var canRemoveProjectMembers = await AuthorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember);
-            var isProjectMember = await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
-            var isAuthenticated = await AuthorizationService.AuthorizeAsync(User, Policies.IsAuthenticatedUser);
+            var canRemoveProjectMembers = (await AuthorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember)).Succeeded;
+            var isProjectMember = (await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement())).Succeeded;
+            var isAuthenticated = (await AuthorizationService.AuthorizeAsync(User, Policies.IsAuthenticatedUser)).Succeeded;
 
             var members = Project.Members.Select(m => new ProjectMemberListViewModel.Item
             {
