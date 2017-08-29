@@ -2,8 +2,8 @@ using System;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Notifications.Invitation;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.Members;
 using Ubora.Web._Features.Notifications._Base;
 
 namespace Ubora.Web._Features.Notifications.Invitations
@@ -14,7 +14,7 @@ namespace Ubora.Web._Features.Notifications.Invitations
         public bool WasAccepted { get; set; }
         public string ProjectTitle { get; set; }
         public Guid ProjectId { get; set; }
-        public Guid InviteId { get; set; }
+        public Guid InvitationId { get; set; }
 
         public IHtmlContent GetPartialView(IHtmlHelper htmlHelper, bool isHistory)
         {
@@ -46,7 +46,7 @@ namespace Ubora.Web._Features.Notifications.Invitations
                     ProjectTitle = project.Title,
                     ProjectId = project.Id,
                     WasAccepted = notification.IsAccepted ?? false,
-                    InviteId = notification.Id,
+                    InvitationId = notification.Id,
                     IsUnread = !notification.HasBeenViewed
                 };
 

@@ -267,8 +267,8 @@ namespace Ubora.Web._Features.Users.Account
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (!result.Succeeded)
             {
-                var errorNotice = new Notice("Confirmation code is wrong or expired!", NoticeType.Error);
-                ShowNotice(errorNotice);
+                Notices.Error("Confirmation code is wrong or expired!");
+
                 return RedirectToAction("Index", "Home");
             }
 
@@ -285,8 +285,8 @@ namespace Ubora.Web._Features.Users.Account
                 }
             }
 
-            var successNotice = new Notice("Your email has been confirmed successfully!", NoticeType.Success);
-            ShowNotice(successNotice);
+            Notices.Success("Your email has been confirmed successfully!");
+
             return RedirectToAction("Index", "Home");
         }
 

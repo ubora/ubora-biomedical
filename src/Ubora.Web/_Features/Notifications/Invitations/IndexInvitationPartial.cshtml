@@ -9,7 +9,7 @@
         <p class="notification--message">You have been asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a></p>
         <form class="notification--controls" method="post">
             @Html.AntiForgeryToken()
-            <input type="hidden" asp-for="InviteId" />
+            <input type="hidden" asp-for="InvitationId" />
             <div class="form-input notification-action">
                 <button class="button secondary-button small-button" type="submit" asp-controller="Invitations" asp-action="Decline">Decline</button>
             </div>

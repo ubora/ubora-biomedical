@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Ubora.Web._Features._Shared;
-using Ubora.Web._Features._Shared.Notices;
+
 // ReSharper disable ArrangeAccessorOwnerBody
 
 namespace Ubora.Web._Features
@@ -58,11 +58,6 @@ namespace Ubora.Web._Features
         public NoticeQueue Notices
         {
             get => _notices ?? (_notices = new NoticeQueue(TempData));
-        }
-
-        protected void ShowNotice(Notice notice)
-        {
-            Notices.Enqueue(notice);
         }
 
         protected void ExecuteUserCommand<T>(T command) where T : IUserCommand

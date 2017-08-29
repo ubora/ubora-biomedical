@@ -190,16 +190,15 @@ namespace Ubora.Web._Features.Users.Manage
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, $"{user.Id} is the identity of the user who changed their password successfully.");
 
-                    var successNotice = new Notice("Password changed successfully!", NoticeType.Success);
-                    ShowNotice(successNotice);
+                    Notices.Success("Password changed successfully!");
 
                     return RedirectToAction(nameof(Index));
                 }
                 AddErrors(result);
                 return View(model);
             }
-            var errorNotice = new Notice("Password could not be changed!", NoticeType.Error);
-            ShowNotice(errorNotice);
+
+            Notices.Error("Password could not be changed!");
 
             return RedirectToAction(nameof(Index));
         }

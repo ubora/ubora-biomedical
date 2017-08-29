@@ -2,7 +2,7 @@
 @model Ubora.Web._Features.Projects.Members.InviteProjectMemberViewModel
 
 @{
-    ViewData["Title"] = "Members";
+    ViewData["Title"] = "Invite member";
     ViewData["MenuOption"] = ProjectMenuOption.Members;
 }
 
@@ -11,8 +11,6 @@
 
     <form asp-controller="Members" asp-action="Invite" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-        <input asp-for="ProjectId" type="hidden" />
 
         <div class="form-input">
             <label asp-for="Email">User's email address</label>

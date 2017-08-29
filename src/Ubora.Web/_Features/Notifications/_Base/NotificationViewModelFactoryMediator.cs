@@ -6,12 +6,14 @@ namespace Ubora.Web._Features.Notifications._Base
 {
     public class NotificationViewModelFactoryMediator
     {
-        private readonly IEnumerable<INotificationViewModelFactory> _factories;
+        private readonly IEnumerable<INotificationViewModelFactory> _concreteFactories;
+        private readonly GeneralNotificationViewModel.Factory _generalFactory;
 
         /// <remarks> Autofac Implicit Relationship Types - http://docs.autofac.org/en/latest/resolve/relationships.html?highlight=ienumerable#enumeration-ienumerable-b-ilist-b-icollection-b </remarks>>
-        public NotificationViewModelFactoryMediator(IEnumerable<INotificationViewModelFactory> factories)
+        public NotificationViewModelFactoryMediator(IEnumerable<INotificationViewModelFactory> concreteFactories, GeneralNotificationViewModel.Factory generalFactory)
         {
-            _factories = factories;
+            _generalFactory = generalFactory;
+            _concreteFactories = concreteFactories;
         }
 
         protected NotificationViewModelFactoryMediator()
@@ -22,7 +24,7 @@ namespace Ubora.Web._Features.Notifications._Base
         {
             var notificationType = notification.GetType();
 
-            foreach (var factory in _factories)
+            foreach (var factory in _concreteFactories)
             {
                 if (factory.CanCreateFor(notificationType))
                 {
@@ -30,6 +32,11 @@ namespace Ubora.Web._Features.Notifications._Base
 
                     return viewModel;
                 }
+            }
+
+            if (_generalFactory.CanCreateFor(notificationType))
+            {
+                return _generalFactory.Create((GeneralNotification)notification);
             }
 
             throw new InvalidOperationException("View model factory not found for notification type.");

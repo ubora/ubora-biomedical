@@ -44,14 +44,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             if (!ModelState.IsValid)
             {
-                var errorNotice = new Notice("Failed to change project overview!", NoticeType.Error);
-                ShowNotice(errorNotice);
+                Notices.Error("Failed to change project overview!");
 
                 return ProjectOverview();
             }
 
-            var successNotice = new Notice("Project overview changed successfully!", NoticeType.Success);
-            ShowNotice(successNotice);
+            Notices.Success("Project overview changed successfully!");
 
             return View();
         }

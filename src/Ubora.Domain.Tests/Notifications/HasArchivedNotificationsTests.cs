@@ -1,9 +1,9 @@
 ﻿using System;
-using Ubora.Domain.Notifications.Invitation;
 using Xunit;
 using System.Linq;
 using FluentAssertions;
 using Ubora.Domain.Notifications.Specifications;
+using Ubora.Domain.Projects.Members;
 
 namespace Ubora.Domain.Tests.Notifications
 {

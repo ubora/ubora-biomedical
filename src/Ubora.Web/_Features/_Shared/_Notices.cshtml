@@ -1,7 +1,7 @@
 ﻿@using Ubora.Web._Features._Shared.Notices
 @model dynamic
 
-@while (Notices.Count > 0)
+@while (Notices.Any())
 {
     var notice = Notices.Dequeue();
     switch (notice.Type)

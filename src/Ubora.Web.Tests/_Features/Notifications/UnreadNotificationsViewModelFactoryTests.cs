@@ -3,8 +3,8 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Notifications.Invitation;
 using Ubora.Domain.Notifications.Specifications;
+using Ubora.Domain.Projects.Members;
 using Ubora.Web._Features.Notifications;
 using Xunit;
 

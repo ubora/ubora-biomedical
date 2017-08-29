@@ -11,6 +11,7 @@ using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Notifications;
 using Module = Autofac.Module;
 using Ubora.Domain.Projects.DeviceClassification;
 
@@ -37,26 +38,26 @@ namespace Ubora.Domain.Infrastructure
                 options.NameDataLength = 100;
 
                 var eventTypes = FindDomainEventConcreteTypes();
-                var configureAction = new UboraStoreOptions().Configuration(eventTypes);
+                var notificationTypes = FindDomainNotificationConcreteTypes();
+                var configureAction = new UboraStoreOptions().Configuration(eventTypes, notificationTypes);
 
                 configureAction.Invoke(options);
 
                 builder.RegisterInstance(new DocumentStore(options)).As<IDocumentStore>().SingleInstance();
             }
 
-           
             builder.Register(x => x.Resolve<IDocumentStore>().OpenSession()).As<IDocumentSession>().As<IQuerySession>().InstancePerLifetimeScope();
             builder.Register(x => x.Resolve<IDocumentSession>().Events).As<IEventStore>().InstancePerLifetimeScope();
 
             builder.RegisterType<EventStreamQuery>().As<IEventStreamQuery>().InstancePerLifetimeScope();
             builder.RegisterType<DeviceClassificationProvider>().As<IDeviceClassificationProvider>().InstancePerLifetimeScope();
             builder.RegisterType<CommandQueryProcessor>().As<ICommandProcessor>().As<IQueryProcessor>().As<ICommandQueryProcessor>().InstancePerLifetimeScope();
-            
+
             // Storage abstraction
             builder.Register(x => _storageProvider)
                 .As<IStorageProvider>()
                 .SingleInstance();
-       
+
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(ICommandHandler<>)).InstancePerLifetimeScope();
             builder.RegisterType<DeviceClassification>().As<IDeviceClassification>().InstancePerLifetimeScope();
 
@@ -72,6 +73,17 @@ namespace Ubora.Domain.Infrastructure
                 .Where(type => eventBaseType.IsAssignableFrom(type) && !type.GetTypeInfo().IsAbstract);
 
             return eventTypes;
+        }
+
+        public IEnumerable<MappedType> FindDomainNotificationConcreteTypes()
+        {
+            var notificationBaseType = typeof(INotification);
+
+            var eventTypes = ThisAssembly
+                .GetTypes()
+                .Where(type => notificationBaseType.IsAssignableFrom(type) && !type.GetTypeInfo().IsAbstract);
+
+            return eventTypes.Select(x => new MappedType(x));
         }
 
         // Static helper for tests
