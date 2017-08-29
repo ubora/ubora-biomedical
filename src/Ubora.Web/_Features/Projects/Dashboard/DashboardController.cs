@@ -27,7 +27,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
         public async Task<IActionResult> Dashboard()
         {
             var model = AutoMapper.Map<ProjectDashboardViewModel>(Project);
-            model.IsProjectMember = await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement());
+            model.IsProjectMember = (await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement())).Succeeded;
             model.HasImage = Project.HasImage;
             if (Project.HasImage)
             {

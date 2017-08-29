@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Users;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Domain.Users.Specifications;
 
 namespace Ubora.Web._Features.Users.UserList
 {
@@ -17,7 +18,8 @@ namespace Ubora.Web._Features.Users.UserList
 
         public IActionResult Index()
         {
-            var userProfiles = QueryProcessor.Find<UserProfile>();
+            var userProfiles = QueryProcessor.Find<UserProfile>()
+                .OrderBy(u => u.FullName);
 
             var viewmodel = userProfiles.Select(userProfile => new UserListItemViewModel
             {
@@ -28,6 +30,17 @@ namespace Ubora.Web._Features.Users.UserList
             });
 
             return View(viewmodel);
+        }
+
+        [HttpGet]
+        public JsonResult SearchUsers(string searchPhrase)
+        {
+            var searchResult = QueryProcessor.Find(new UserFullNameContainsPhraseSpec(searchPhrase)
+                    || new UserEmailContainsPhraseSpec(searchPhrase));
+
+            var peopleDictionary = searchResult.ToDictionary(user => user.Email, user => user.FullName);
+
+            return Json(peopleDictionary);
         }
     }
 }

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
-using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.InviteMentors
 {
@@ -36,7 +35,7 @@ namespace Ubora.Web._Features.Projects.InviteMentors
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(userId.ToString());
             }
 
             if (!await _userManager.IsInRoleAsync(user, ApplicationRole.Mentor))

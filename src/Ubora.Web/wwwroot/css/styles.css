@@ -24,6 +24,10 @@
 @import url('process-steps.css');
 @import url('feedback.css');
 
+
+@import url('autocomplete.css');
+@import url('notices.css');
+
 :root {
 	--primary-color: #4777BB;
 	--secondary-color: #44AAE0;
@@ -70,19 +74,3 @@ body {
 		line-height: 2em;
 	}
 }
-
-.account-confirmation {
-    background-color: var(--quaternary-color);
-    color: var(--white);
-    padding: .5em 0;
-    text-align: center;
-}
-
-.development-notice {
-	background-color: var(--primary-color);
-	color:var(--white);
-	padding:.5em 0;
-	text-align: center;
-}
-
-

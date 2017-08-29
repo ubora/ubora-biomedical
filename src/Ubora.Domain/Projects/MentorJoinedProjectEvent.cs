@@ -30,7 +30,7 @@ namespace Ubora.Domain.Projects
 
             public override string GetDescription()
             {
-                return $"{Template.User(JoinerId)} accepted your invitation to join project {Template.Project(ProjectId)} as mentor.";
+                return $"{StringTokens.User(JoinerId)} accepted your invitation to join project {StringTokens.Project(ProjectId)} as mentor.";
             }
         }
     }

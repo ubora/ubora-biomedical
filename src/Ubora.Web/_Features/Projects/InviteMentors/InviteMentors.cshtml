@@ -7,26 +7,34 @@
 
 <section class="narrow-width">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+</section>
 
+<section class="medium-width user-list">
     <h2 class="full-width">Project mentors</h2>
-    <ol>
-        @foreach (var mentor in Model.ProjectMentors)
-        {
-            <li>@mentor.FullName</li>
-        }
-    </ol>
+    @foreach (var mentor in Model.ProjectMentors)
+    {
+        <div class="card user-card center-element">
+            <img class="avatar" src="@mentor.ProfilePictureLink" alt="@mentor.FullName profile picture" width="100" height="100">
+            <h2><a asp-action="View" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h2>
+            <form asp-action="InviteMentor">
+                <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId">
+            </form>
+        </div>
+    }
+</section>
 
+
+<section class="medium-width user-list">
     <h2 class="full-width">All UBORA mentors</h2>
-    <ol>
-        @foreach (var mentor in Model.UboraMentors)
-            {
-            <li>
-                <form asp-action="InviteMentor">
-                    @mentor.FullName
-                    <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId" />
-                    <button type="submit">Invite mentor</button>
-                </form>
-            </li>
-        }
-    </ol>
+    @foreach (var mentor in Model.UboraMentors)
+    {
+        <div class="card user-card center-element">
+            <img class="avatar" src="@mentor.ProfilePictureLink" alt="@mentor.FullName profile picture" width="100" height="100">
+            <h2><a asp-action="View" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h2>
+            <form asp-action="InviteMentor">
+                <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId">
+                <button class="button secondary-button small-button" type="submit">Invite mentor</button>
+            </form>
+        </div>
+    }
 </section>

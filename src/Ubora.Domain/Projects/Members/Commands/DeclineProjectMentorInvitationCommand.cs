@@ -47,7 +47,7 @@ namespace Ubora.Domain.Projects.Members.Commands
 
             public override string GetDescription()
             {
-                return $"{Template.User(DeclinerUserId)} declined your invitation to join project {Template.Project(ProjectId)} as mentor.";
+                return $"{StringTokens.User(DeclinerUserId)} declined your invitation to join project {StringTokens.Project(ProjectId)} as mentor.";
             }
         }
     }

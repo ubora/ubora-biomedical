@@ -1,41 +1,48 @@
 ﻿@using System.Linq
 @model System.Collections.Generic.List<Ubora.Web._Features.Admin.UserViewModel>
 
-<section class="narrow-width">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <ol>
-        @foreach (var user in Model)
-        {
-            <li>
-                @user.UserEmail
-                @if (user.Roles.Any())
-                {
-                    <br>
-                    @:Roles: @string.Join(", ", user.Roles)
+<section class="full-width user-list">
+  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+  @foreach (var user in Model)
+  {
+    <div class="card user-card">
+      <h2 class="user-card--name">@user.UserEmail</h2>
+
+      <div class="user-role-controls">
+        <form method="post">
+            <input type="hidden" name="userId" value="@user.UserId">
+            @if (user.IsAdmin)
+            {
+              <button class="button secondary-button small-button full-width" type="submit" asp-action="RemoveAdministratorRole">Remove administrator role</button>
             }
-                <form method="post">
-                    <input type="hidden" name="userId" value="@user.UserId" />
-                    @if (user.IsAdmin)
-                {
-                        <button type="submit" asp-action="RemoveAdministratorRole">Remove administrator role</button>
-                    }
-                    else
-                    {
-                        <button type="submit" asp-action="AddAdministratorRole">Add administrator role</button>
-                    }
+            else
+            {
+              <button class="button secondary-button small-button full-width" type="submit" asp-action="AddAdministratorRole">Add administrator role</button>
+            }
 
-                    @if (user.IsMentor)
-                {
-                        <button type="submit" asp-action="RemoveMentorRole">Remove mentor role</button>
-                    }
-                    else
-                    {
-                        <button type="submit" asp-action="AddMentorRole">Add mentor role</button>
-                    }
-                </form>
-            </li>
+            @if (user.IsMentor)
+            {
+              <button class="button secondary-button small-button full-width" type="submit" asp-action="RemoveMentorRole">Remove mentor role</button>
+            }
+            else
+            {
+              <button class="button secondary-button small-button full-width" type="submit" asp-action="AddMentorRole">Add mentor role</button>
+            }
+        </form>
+      </div>
+
+      <div class="user-role-list">
+        <h4>Roles</h4>
+        @if (user.Roles.Any())
+        {
+          @*TODO: Can be replaced with icons? Each role on new line?*@
+          @string.Join(", ", user.Roles)
         }
-    </ol>
+      </div>
+    </div>
+  }
+</section>
 
+<section class="narrow-width">
     @Html.ActionLink("Run diagnostics tests", "RunTests", "Tests")
 </section>
