@@ -45,12 +45,12 @@ namespace Ubora.Domain.Tests
 
         public override void Dispose()
         {
-            var schemaName = Advanced.Options.DatabaseSchemaName;
+            var schemaName = this.Options.DatabaseSchemaName;
 
             if (schemaName != StoreOptions.DefaultDatabaseSchemaName)
             {
                 var sql = $"DROP SCHEMA {schemaName} CASCADE;";
-                using (var conn = Advanced.OpenConnection())
+                using (var conn = this.Tenancy.Default.OpenConnection())
                 {
                     conn.Execute(cmd => cmd.CommandText = sql);
                 }

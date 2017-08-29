@@ -1,4 +1,6 @@
-﻿namespace Ubora.Web._Features.Projects.Dashboard
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace Ubora.Web._Features.Projects.Dashboard
 {
     public class ProjectDashboardViewModel
     {

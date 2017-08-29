@@ -69,7 +69,7 @@
 
                 @{
 
-                    var isWriteReviewButtonVisible = await AuthorizationService.AuthorizeAsync(User, Policies.CanReviewProjectWorkpackages);
+                    var isWriteReviewButtonVisible = (await AuthorizationService.AuthorizeAsync(User, Policies.CanReviewProjectWorkpackages)).Succeeded;
                     if (isWriteReviewButtonVisible)
                     {
                         <a href="@Model.ReviewDecisionUrl" class="button primary-button small-button">Write a review</a>

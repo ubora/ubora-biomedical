@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Moq;
 using Ubora.Web.Services;
 using Ubora.Web.Tests.Fakes;
@@ -18,7 +17,6 @@ namespace Ubora.Web.Tests._Features.Users.Manage
     {
         private readonly Mock<FakeUserManager> _userManagerMock;
         private readonly Mock<FakeSignInManager> _signInManagerMock;
-        private readonly Mock<IOptions<IdentityCookieOptions>> _identityCookieOptionsMock;
         private readonly Mock<IEmailSender> _emailSenderMock;
         private readonly Mock<ILoggerFactory> _loggerFactoryMock;
         private readonly Mock<ILogger<ManageController>> _logger;
@@ -28,8 +26,6 @@ namespace Ubora.Web.Tests._Features.Users.Manage
         {
             _userManagerMock = new Mock<FakeUserManager>();
             _signInManagerMock = new Mock<FakeSignInManager>();
-            _identityCookieOptionsMock = new Mock<IOptions<IdentityCookieOptions>>();
-            _identityCookieOptionsMock.Setup(o => o.Value).Returns(new IdentityCookieOptions());
             _emailSenderMock = new Mock<IEmailSender>();
             _loggerFactoryMock = new Mock<ILoggerFactory>();
             _logger = new Mock<ILogger<ManageController>>();
@@ -37,7 +33,7 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             _loggerFactoryMock.Setup(x => x.CreateLogger("ManageController"))
                 .Returns(_logger.Object);
             
-            _controller = new ManageController(_userManagerMock.Object, _signInManagerMock.Object, _identityCookieOptionsMock.Object, _emailSenderMock.Object, _loggerFactoryMock.Object);
+            _controller = new ManageController(_userManagerMock.Object, _signInManagerMock.Object, _emailSenderMock.Object, _loggerFactoryMock.Object);
             SetUpForTest(_controller);
         }
 
