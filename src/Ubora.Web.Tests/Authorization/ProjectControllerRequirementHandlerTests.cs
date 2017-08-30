@@ -82,7 +82,7 @@ namespace Ubora.Web.Tests.Authorization
                 .Setup(x => x.AuthorizeAsync(currentUser, null, It.IsAny<IEnumerable<IAuthorizationRequirement>>()))
                 .Callback<ClaimsPrincipal, object, IEnumerable<IAuthorizationRequirement>>(
                     (user, resource, requirements) => authorizedRequirements = requirements.ToArray())
-                .ReturnsAsync(isAuthorized);
+                .ReturnsAsync(isAuthorized ? AuthorizationResult.Success() : AuthorizationResult.Failed());
 
             // Act
             await _handlerUnderTest.HandleAsync(handlerContext);
