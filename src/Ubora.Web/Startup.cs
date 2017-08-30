@@ -99,6 +99,7 @@ namespace Ubora.Web
                 services.AddSingleton<TestDataSeeder>();
                 services.AddSingleton<TestUserSeeder>();
                 services.AddSingleton<TestProjectSeeder>();
+                services.AddSingleton<TestMentorSeeder>();
             }
 
             services.AddSingleton<ApplicationDataSeeder>();
