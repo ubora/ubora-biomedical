@@ -7,7 +7,7 @@ Background:
 
 Scenario: I sign up an account and create my profile
     When I click on the element "#SignInSignUp"
-    And I sign up as "gmail@gmail.com" first name "FirstName" last name "LastName"
+    And I sign up as "user@profile.com" first name "FirstName" last name "LastName"
     And I set value "Bio Bio Bio, Test Test Test" to the element "#Biography"
     And I select value "AGO" from element "#CountryCode"
     And I set value "DegreeTest" to the element "#Degree"
@@ -27,6 +27,7 @@ Scenario: I check my created profile
     Then I expect the title of the page "Edit profile - UBORA"
     And I expect the element "value=FirstName" is visible
     And I expect the element "value=LastName" is visible
+    And I expect the element "value=test@agileworks.eu" is visible
     And I expect the element "textarea=Bio Bio Bio, Test Test Test" is visible
     And I expect the element "option=Angola" is visible
     And I expect the element "value=DegreeTest" is visible
@@ -59,6 +60,7 @@ Scenario: I change my profile and check if my changes have been saved
     Then I expect the title of the page "Edit profile - UBORA"
     And I expect the element "value=NameFirst" is visible
     And I expect the element "value=NameLast" is visible
+    And I expect the element "value=test@agileworks.eu" is visible
     And I expect the element "textarea=Test Test Test, Bio Bio Bio" is visible
     And I expect the element "option=Bulgaria" is visible
     And I expect the element "value=TestDegree" is visible

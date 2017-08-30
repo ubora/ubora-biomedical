@@ -2,33 +2,37 @@ const expect = require('chai').expect;
 
 module.exports = function () {
     this.When(/^I click on the element "([^"]*)?"$/, (element) => {
-            browser.click(element);
+            browser.click(element)
         });
 
     this.When(/^I set value "([^"]*)?" to the element "([^"]*)?"$/, (value, element) => {
-            browser.setValue(element, value);
+            browser.setValue(element, value)
         });
 
     this.When(/^I select value "([^"]*)?" from element "([^"]*)?"$/, (value, element) => {
-            browser.selectByValue(element,value);
+            browser.selectByValue(element,value)
         });
 
     this.When(/^I click on the key "([^"]*)?"$/, (value) => {
-            browser.keys(value);
+            browser.keys(value)
         });
 
     this.When(/^I go back to last page$/, () => {
-            browser.back();
+            browser.back()
         });
     
     this.When(/^I click on keys "([^"]*)?"$/, (value) => {
-            browser.keys(value);
+            browser.keys(value)
+        });
+
+    this.When(/^I wait for the element "([^"]*)?"$/, (value) => {
+            browser.waitForExist(value)
         });
 
     this.When(/^I log out$/, () => {
-            browser
-            .click('span=Menu')
-            .click('#SignOut')
+            browser.click('span=Menu');
+            browser.waitForExist('#SignOut');
+            browser.click('#SignOut');
         });
 
     this.When(/^I sign up as "([^"]*)?" first name "([^"]*)?" last name "([^"]*)?"$/, (email, firstName, lastName) => {
@@ -48,6 +52,14 @@ module.exports = function () {
             .click('#SignInSignUp')
             .setValue('#Email', email)
             .setValue('#Password', password)
+            .click('button=Sign in')
+        });
+
+        this.When(/^I sign in as user$/, () => {
+            browser
+            .click('#SignInSignUp')
+            .setValue('#Email', 'test@agileworks.eu')
+            .setValue('#Password', 'ChangeMe123!')
             .click('button=Sign in')
         });
 
