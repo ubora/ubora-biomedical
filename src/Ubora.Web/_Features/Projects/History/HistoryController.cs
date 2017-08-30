@@ -20,7 +20,8 @@ namespace Ubora.Web._Features.Projects.History
 
         public IActionResult History()
         {
-            var projectEvents = _eventStore.FetchStream(ProjectId);
+            var projectEvents = _eventStore.FetchStream(ProjectId)
+                .OrderByDescending(x => x.Timestamp);
 
             var viewModels = projectEvents.Select(x => _eventViewModelFactoryMediator.Create((UboraEvent)x.Data, x.Timestamp));
 

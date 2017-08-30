@@ -20,10 +20,10 @@ namespace Ubora.Domain.Projects.DeviceClassification
         {
             if (CurrentClassification == null)
             {
-                return $"Classification saved to project. Classification is '{NewClassification.Text}'";
+                return $"saved classification to project. Classification is '{NewClassification.Text}'";
             }
 
-            return $"Saved new classification to project. New '{NewClassification.Text}', Current {CurrentClassification.Text}";
+            return $"saved new classification to project. New '{NewClassification.Text}', Current {CurrentClassification.Text}";
         }
     }
 }

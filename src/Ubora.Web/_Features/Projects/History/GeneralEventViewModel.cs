@@ -37,7 +37,7 @@ namespace Ubora.Web._Features.Projects.History
                 return new GeneralEventViewModel
                 {
                     Message = _tokenReplacerMediator.EncodeAndReplaceAllTokens(generalEvent.ToString()),
-                    Timestamp = timestamp.ToLocalTime()
+                    Timestamp = timestamp
                 };
             }
         }
