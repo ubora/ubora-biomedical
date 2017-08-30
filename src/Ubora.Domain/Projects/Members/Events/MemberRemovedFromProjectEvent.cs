@@ -13,6 +13,6 @@ namespace Ubora.Domain.Projects.Members.Events
         public Guid UserId { get; internal set; }
         public string UserFullName { get; internal set; }
 
-        public override string GetDescription() => $"{UserFullName} was removed from project.";
+        public override string GetDescription() => $"removed {StringTokens.User(UserId)} from project.";
     }
 }

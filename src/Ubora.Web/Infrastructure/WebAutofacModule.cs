@@ -11,6 +11,7 @@ using Ubora.Web._Features.Users.Account;
 using Ubora.Web._Features.Notifications._Base;
 using Ubora.Web._Features._Shared.Tokens;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web._Features.Projects.History._Base;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -61,6 +62,12 @@ namespace Ubora.Web.Infrastructure
 
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .AsClosedTypesOf(typeof(NotificationViewModelFactory<,>)).As<INotificationViewModelFactory>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<EventViewModelFactoryMediator>().AsSelf().InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .AsClosedTypesOf(typeof(EventViewModelFactory<,>)).As<IEventViewModelFactory>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<TokenReplacerMediator>().AsSelf().InstancePerLifetimeScope();
