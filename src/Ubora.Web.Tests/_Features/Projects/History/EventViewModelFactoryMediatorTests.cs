@@ -1,8 +1,6 @@
 ﻿using FluentAssertions;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Web._Features._Shared.Tokens;
 using Ubora.Web._Features.Projects.History;
@@ -41,13 +39,15 @@ namespace Ubora.Web.Tests._Features.Projects.History
             var uboraEvent = new TestUboraEvent(userInfo);
             var expectedViewModel = new TestEventViewModel();
 
-            correctFactoryMock.Setup(x => x.Create(uboraEvent, new DateTimeOffset()))
+            var timestamp = DateTimeOffset.Now;
+
+            correctFactoryMock.Setup(x => x.Create(uboraEvent, timestamp))
                 .Returns(expectedViewModel);
 
             var mediator = new EventViewModelFactoryMediator(factories, _generalFactory);
 
             // Act
-            var result = mediator.Create(uboraEvent, new DateTimeOffset());
+            var result = mediator.Create(uboraEvent, timestamp);
 
             // Assert
             result.Should().Be(expectedViewModel);
@@ -64,11 +64,12 @@ namespace Ubora.Web.Tests._Features.Projects.History
 
             var userInfo = new UserInfo(Guid.NewGuid(), "");
             var uboraEvent = new TestUboraEvent(userInfo);
+            var timestamp = DateTimeOffset.Now;
 
             var mediator = new EventViewModelFactoryMediator(factories, _generalFactory);
 
             // Act
-            var result = mediator.Create(uboraEvent, new DateTimeOffset());
+            var result = mediator.Create(uboraEvent, timestamp);
 
             // Assert
             result.Should().BeOfType<GeneralEventViewModel>();
