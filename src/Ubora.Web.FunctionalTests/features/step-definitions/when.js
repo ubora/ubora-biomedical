@@ -55,10 +55,18 @@ module.exports = function () {
             .click('button=Sign in')
         });
 
-        this.When(/^I sign in as user$/, () => {
+    this.When(/^I sign in as user$/, () => {
             browser
             .click('#SignInSignUp')
             .setValue('#Email', 'test@agileworks.eu')
+            .setValue('#Password', 'ChangeMe123!')
+            .click('button=Sign in')
+        });
+
+    this.When(/^I sign in as mentor$/, () => {
+            browser
+            .click('#SignInSignUp')
+            .setValue('#Email', 'mentor@agileworks.eu')
             .setValue('#Password', 'ChangeMe123!')
             .click('button=Sign in')
         });

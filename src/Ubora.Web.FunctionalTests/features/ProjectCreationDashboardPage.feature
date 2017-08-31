@@ -142,14 +142,36 @@ Scenario: I Submit project for WP1 review
     When I log out
     Then I expect the title of the page "Welcome - UBORA"
 
-Scenario: I review project WP1 as system administrator and reject it
+Scenario: System administrator adds Mentor to the project
     When I sign in as administrator
     And I click on the element "h4=TestProject"
     And I click on the element "a=Members"
     Then I expect the title of the page "Members - UBORA"
-    When I click on the element "button=Assign me as project mentor"
-    Then I expect the element "a=Work packages" is visible
-    When I click on the element "a=Work packages"
+    When I click on the element "#MentorInviteButton"
+    Then I expect the title of the page "Mentors - UBORA"
+    When I click on the element "button=Invite mentor"
+    Then I expect the element "p=Mentor successfully invited." is visible
+    When I click on the element "span=Close"
+    And I log out
+    Then I expect the title of the page "Welcome - UBORA"
+
+Scenario: Mentor accepts the mentor invitation
+    When I sign in as mentor
+    And I click on the element "span=Notifications"
+    And I click on the element "button=Accept"
+    Then I expect the title of the page "Notifications - UBORA"
+    When I click on the element "span=My projects"
+    Then I expect the element "h4=TestProject" is visible
+    And I expect the title of the page "View projects - UBORA"
+    When I click on the element "h4=TestProject"
+    Then I expect the element "a=Repository" is visible
+    When I click on the element "a=Members"
+    Then I expect the element "a=Test Mentor" is visible
+    And I expect the element "title=Project mentor" is visible
+
+Scenario: Project mentor rejects WP1 formal review
+    When I click on the element "h4=TestProject"
+    And I click on the element "a=Work packages"
     And I click on the element "a=Formal review"
     And I click on the element "a=Write a review"
     Then I expect the title of the page "Write a review - UBORA"
@@ -175,8 +197,8 @@ Scenario: I submit my rejected WP1 again for formal review
     When I log out
     Then I expect the title of the page "Welcome - UBORA"
 
-Scenario: I review WP1 as system administrator and accept it
-    When I sign in as administrator
+Scenario: Project mentor accepts WP1 formal review
+    When I sign in as mentor
     And I click on the element "h4=TestProject"
     And I click on the element "a=Work packages"
     And I click on the element "a=Formal review"
@@ -223,8 +245,8 @@ Scenario: I Submit project for WP2 review
     When I log out
     Then I expect the title of the page "Welcome - UBORA"
 
-Scenario: System administrator rejects WP2 formal review
-    When I sign in as administrator
+Scenario: Project mentor rejects WP2 formal review
+    When I sign in as mentor
     And I click on the element "h4=TestProject"
     And I expect the element "a=Work packages" is visible
     And I click on the element "a=Work packages"
@@ -248,8 +270,8 @@ Scenario: I submit my rejected WP2 again for formal review
     When I log out
     Then I expect the title of the page "Welcome - UBORA"
 
-Scenario: I review WP2 as system administrator and accept it
-    When I sign in as administrator
+Scenario: Project mentor accepts WP2 formal review
+    When I sign in as mentor
     And I click on the element "h4=TestProject"
     And I click on the element "a=Work packages"
     And I click on the element ".wp2.formal-review"
@@ -304,7 +326,7 @@ Scenario: I click Members and try to add a member without email
     When I click on the element "h4=TestProject"
     And I click on the element "a=Members"
     And I click on the element "i=person_add"
-    Then I expect the title of the page "Members - UBORA"
+    Then I expect the title of the page "Invite member - UBORA"
     When I click on the element "button=Invite member"
     Then I expect the element "span=The Email field is required." is visible
 
@@ -315,7 +337,7 @@ Scenario: I click Members and try to add new member
     And I set value "emailemail@email.com" to the element "#Email"
     Then I expect the element "value=emailemail@email.com" is visible
     When I click on the element "button=Invite member"
-    Then I expect the title of the page "Members - UBORA"
+    Then I expect the title of the page "Invite member - UBORA"
 
 Scenario: On Project Dashboard page I click Members and on project owner
     When I click on the element "h4=TestProject"
@@ -323,6 +345,13 @@ Scenario: On Project Dashboard page I click Members and on project owner
     And I click on the element "a=TestFirstName TestLastName"
     Then I expect the element "p=TestFirstName TestLastName" is visible
     And I expect the title of the page "View profile - UBORA"
+
+Scenario: I click Edit image
+    When I click on the element "h4=TestProject"
+    And I click on the element "#EditImage"
+    And I click on the element "button=Upload image"
+    Then I expect the element "span=Please select an image to upload first!" is visible
+    And I expect the title of the page "Dashboard - UBORA"
 
 Scenario: On Project Dashboard page I click Edit Project Description
     When I click on the element "h4=TestProject"

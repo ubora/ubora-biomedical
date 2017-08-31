@@ -71,6 +71,15 @@ Scenario: I change my profile and check if my changes have been saved
     And I expect the element "value=TestSkills" is visible
     And I expect the element "option=Mentor" is visible
 
+Scenario: I check terms of service
+    When I click on the element "span=Menu"
+    And I wait for the element "a=View profile"
+    And I click on the element "a=View profile"
+    And I click on the element "a=Terms of Service"
+    Then I expect the title of the page "Terms of Service - UBORA"
+    And I expect the element "h1=UBORA e-infrastructure Terms of Service and Privacy Policy" is visible
+    And I expect the element "a=http://e-infrastructure.ubora-biomedical.org" is visible
+
 Scenario: I log out
     When I log out
     Then I expect the title of the page "Welcome - UBORA"
