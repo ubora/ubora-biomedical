@@ -18,5 +18,15 @@ namespace Ubora.Domain
         {
             return $"#file{{{fileId}}}";
         }
+
+        public static string Review()
+        {
+            return $"#review";
+        }
+
+        public static string Task(Guid taskId)
+        {
+            return $"#task{{{taskId}}}";
+        }
     }
 }

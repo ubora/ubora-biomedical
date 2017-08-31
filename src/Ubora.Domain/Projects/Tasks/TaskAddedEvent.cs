@@ -16,7 +16,7 @@ namespace Ubora.Domain.Projects.Tasks
 
         public override string GetDescription()
         {
-            return $"added task \"{Title}\"";
+            return $"added task \"{StringTokens.Task(Id)}\"";
         }
     }
 }
