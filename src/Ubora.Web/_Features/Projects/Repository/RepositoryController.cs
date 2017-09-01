@@ -75,7 +75,7 @@ namespace Ubora.Web._Features.Projects.Repository
             return RedirectToAction(nameof(Repository));
         }
 
-        
+
         [Route("HideFile")]
         [Authorize(Policy = nameof(Policies.CanHideProjectFile))]
         public IActionResult HideFile(Guid fileid)
@@ -138,6 +138,11 @@ namespace Ubora.Web._Features.Projects.Repository
             }
 
             return RedirectToAction(nameof(Repository));
+        }
+
+        [Route("HistoryFile")]
+        public IActionResult HistoryFile() {
+          return View();
         }
 
         private async Task SaveBlobAsync(AddFileViewModel model, BlobLocation blobLocation)

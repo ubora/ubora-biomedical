@@ -20,7 +20,6 @@
   <div class="form-input">
     @Html.TextBoxFor(model => model.FileName, new { @disabled = "disabled" })
   </div>
-
-  @Html.Partial("AddFilePartial", Model.AddFileViewModel)
-
 </section>
+
+@Html.Partial("AddFilePartial", Model.AddFileViewModel)

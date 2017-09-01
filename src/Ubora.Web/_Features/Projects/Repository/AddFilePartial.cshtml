@@ -1,14 +1,37 @@
-﻿@model Ubora.Web._Features.Projects.Repository.AddFileViewModel
+@model Ubora.Web._Features.Projects.Repository.AddFileViewModel
+
+<section class="narrow-width">
+  <h2>Upload new file</h2>
+
+  <span asp-validation-for="ProjectFile"></span>
 
 <form method="post" enctype="multipart/form-data" asp-controller="Repository" asp-action="@Model.ActionName">
   @Html.HiddenFor(m => m.FileId)
 
   <div class="form-input">
-      <input asp-for="ProjectFile">
-      <span asp-validation-for="ProjectFile"></span>
+    <input asp-for="ProjectFile" multiple>
+    @* TODO: Martin Betlem - add `multiple` attribute to enable multiple file upload *@
+    <span asp-validation-for="ProjectFile"></span>
   </div>
 
-    <div class="form-input">
-        <button class="button primary-button small-button">Upload new file</button>
-    </div>
+  <div class="form-input">
+    <label for="TODO">Select a folder</label>
+    <select name="TODO">
+      <option value="">Hardware</option>
+      <option value="">Electronics and firmware</option>
+      <option value="">Software</option>
+      <option value="">System integrations</option>
+    </select>
+  </div>
+
+  <div class="form-input">
+    <label for="TODO2">Comment</label>
+    <input type="text" name="TODO2" placeholder="Enter a comment...">
+  </div>
+
+  <div class="form-input">
+    <button class="button primary-button small-button">Upload new file</button>
+  </div>
 </form>
+
+</section>
