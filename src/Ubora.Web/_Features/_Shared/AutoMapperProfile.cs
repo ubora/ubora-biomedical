@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Ubora.Domain.ApplicableRegulations;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
 using Ubora.Domain.Projects.Workpackages;
@@ -11,6 +12,7 @@ using Ubora.Web._Features.Users.Profile;
 using Ubora.Web._Features.Users.UserList;
 using Ubora.Web._Features.Projects.Repository;
 using Ubora.Domain.Projects.Repository;
+using Ubora.Web._Features.Projects.ApplicableRegulations;
 using Ubora.Web._Features.Projects.Assignments;
 
 namespace Ubora.Web._Features._Shared
