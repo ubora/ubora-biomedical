@@ -27,7 +27,20 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             QueryProcessorMock.Setup(x => x.FindById<WorkpackageTwo>(ProjectId))
                 .Returns(dummyWorkpackage);
         }
-        
+
+        [Fact]
+        public void Actions_Have_Authorize_Attributes()
+        {
+            AssertHasAttribute(typeof(WorkpackageTwoReviewController), nameof(WorkpackageTwoReviewController.SubmitForReview),
+                typeof(AuthorizeAttribute), nameof(Policies.CanSubmitWorkpackageForReview), nameof(Policies.ProjectController));
+            AssertHasAttribute(typeof(WorkpackageTwoReviewController), nameof(WorkpackageTwoReviewController.Decision),
+                typeof(AuthorizeAttribute), nameof(Policies.CanReviewProjectWorkpackages), nameof(Policies.ProjectController));
+            AssertHasAttribute(typeof(WorkpackageTwoReviewController), nameof(WorkpackageTwoReviewController.Accept),
+                typeof(AuthorizeAttribute), nameof(Policies.CanReviewProjectWorkpackages), nameof(Policies.ProjectController));
+            AssertHasAttribute(typeof(WorkpackageTwoReviewController), nameof(WorkpackageTwoReviewController.Reject),
+                typeof(AuthorizeAttribute), nameof(Policies.CanReviewProjectWorkpackages), nameof(Policies.ProjectController));
+        }
+
         [Theory]
         [InlineData(true, false)]
         [InlineData(false, true)]

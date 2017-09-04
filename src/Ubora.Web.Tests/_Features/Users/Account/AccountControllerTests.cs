@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -50,6 +51,39 @@ namespace Ubora.Web.Tests._Features.Users.Account
                 Url = urlHelperMock.Object
             };
             SetUpForTest(_controller);
+        }
+
+        [Fact]
+        public void Actions_Have_Authorize_Attributes()
+        {
+            AssertHasAttribute(typeof(AccountController), nameof(AccountController.TermsOfService),
+                typeof(AllowAnonymousAttribute));
+            AssertHasAttribute(typeof(AccountController), nameof(AccountController.SignInSignUp),
+                typeof(AllowAnonymousAttribute));
+            AssertHasAttribute(typeof(AccountController), nameof(AccountController.Login),
+                typeof(AllowAnonymousAttribute));
+            AssertHasAttribute(typeof(AccountController), nameof(AccountController.Register),
+                typeof(AllowAnonymousAttribute));
+            AssertHasAttribute(typeof(AccountController), nameof(AccountController.ExternalLogin),
+                typeof(AllowAnonymousAttribute));
+            AssertHasAttribute(typeof(AccountController), nameof(AccountController.ExternalLoginCallback),
+                typeof(AllowAnonymousAttribute));
+            AssertHasAttribute(typeof(AccountController), nameof(AccountController.ExternalLoginConfirmation),
+                typeof(AllowAnonymousAttribute));
+            AssertHasAttribute(typeof(AccountController), nameof(AccountController.ConfirmEmail),
+                typeof(AllowAnonymousAttribute));
+            AssertHasAttribute(typeof(AccountController), nameof(AccountController.ForgotPassword),
+                typeof(AllowAnonymousAttribute));
+            AssertHasAttribute(typeof(AccountController), nameof(AccountController.ForgotPasswordConfirmation),
+                typeof(AllowAnonymousAttribute));
+            AssertHasAttribute(typeof(AccountController), nameof(AccountController.ResetPassword),
+                typeof(AllowAnonymousAttribute));
+            AssertHasAttribute(typeof(AccountController), nameof(AccountController.ResetPasswordConfirmation),
+                typeof(AllowAnonymousAttribute));
+            AssertHasAttribute(typeof(AccountController), nameof(AccountController.SendCode),
+                typeof(AllowAnonymousAttribute));
+            AssertHasAttribute(typeof(AccountController), nameof(AccountController.VerifyCode),
+                typeof(AllowAnonymousAttribute));
         }
 
         [Fact]

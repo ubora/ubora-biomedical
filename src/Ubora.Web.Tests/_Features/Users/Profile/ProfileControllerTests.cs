@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -13,7 +14,6 @@ using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features.Users.Profile;
 using Xunit;
 using Ubora.Web._Features._Shared.Notices;
-using Ubora.Web._Features.Users.Manage;
 using Ubora.Web.Infrastructure.ImageServices;
 
 namespace Ubora.Web.Tests._Features.Users.Profile
@@ -37,6 +37,19 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 Url = urlHelperMock.Object
             };
             SetUpForTest(_controller);
+        }
+
+        [Fact]
+        public void Actions_Have_Authorize_Attributes()
+        {
+            AssertHasAttribute(typeof(ProfileController), nameof(ProfileController.ViewProfile),
+                typeof(AllowAnonymousAttribute));
+            AssertHasAttribute(typeof(ProfileController), nameof(ProfileController.EditProfile),
+                typeof(AuthorizeAttribute));
+            AssertHasAttribute(typeof(ProfileController), nameof(ProfileController.FirstTimeEditProfile),
+                typeof(AuthorizeAttribute));
+            AssertHasAttribute(typeof(ProfileController), nameof(ProfileController.ChangeProfilePicture),
+                typeof(AuthorizeAttribute));
         }
 
         [Fact]
@@ -260,7 +273,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 .Returns(expectedProfileViewModel);
 
             //Act
-            var result = (ViewResult)_controller.View(userId);
+            var result = (ViewResult)_controller.ViewProfile(userId);
 
             //Act
             result.Model.As<ProfileViewModel>()
@@ -275,7 +288,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             QueryProcessorMock.Setup(p => p.FindById<UserProfile>(userId)).Returns((UserProfile)null);
 
             //Act
-            var result = _controller.View(userId);
+            var result = _controller.ViewProfile(userId);
 
             //Act
             result.Should().BeOfType<NotFoundResult>();

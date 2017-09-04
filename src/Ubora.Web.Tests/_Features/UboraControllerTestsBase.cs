@@ -77,17 +77,27 @@ namespace Ubora.Web.Tests._Features
             }
         }
 
-        protected void AssertHasAttribute(Type controller, string methodName, Type attributeType, string attributePolicy = null)
+        protected void AssertHasAttribute(Type controller, string methodName, Type attributeType, params string[] attributePolicies)
         {
             var methodInfos = GetMethodInfos(controller, methodName);
-            foreach (var customAttributes in methodInfos.Select(i => i.GetCustomAttributes(typeof(AuthorizeAttribute), true)))
+
+            var customAttributeController = Attribute.GetCustomAttribute(controller, attributeType);
+
+            foreach (var customAttributes in methodInfos.Select(i => i.GetCustomAttributes(attributeType, true)))
             {
-                if (attributePolicy != null)
+                if (customAttributes.Contains(customAttributeController))
                 {
-                    Assert.True(customAttributes.Any(a => ((AuthorizeAttribute)a).Policy == attributePolicy));
+                    Assert.False(true, $"duplicated attributes!");
                 }
 
-                Assert.True(customAttributes.Any(a => a.GetType() == attributeType));
+                var attributes = customAttributes.ToList();
+                attributes.Add(customAttributeController);
+
+                if (attributePolicies.Length >= 1)
+                {
+                    var policies = attributes.Select(a => ((AuthorizeAttribute)a).Policy);
+                    Assert.True(policies.Intersect(attributePolicies).Any());
+                }
             }
         }
 

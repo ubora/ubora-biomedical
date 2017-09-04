@@ -2,6 +2,7 @@
 using Moq;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Ubora.Domain.Notifications;
 using Ubora.Web._Features.Notifications;
 using Xunit;
@@ -22,6 +23,15 @@ namespace Ubora.Web.Tests._Features.Notifications
             _notificationViewModelFactoryMediatorMock = new Mock<NotificationViewModelFactoryMediator>();
             _notificationsController = new NotificationsController(_notificationViewModelFactoryMediatorMock.Object);
             SetUpForTest(_notificationsController);
+        }
+
+        [Fact]
+        public void Actions_Have_Authorize_Attributes()
+        {
+            AssertHasAttribute(typeof(NotificationsController), nameof(NotificationsController.AcceptMentorInvitation),
+                typeof(AllowAnonymousAttribute));
+            AssertHasAttribute(typeof(NotificationsController), nameof(NotificationsController.DeclineMentorInvitation),
+                typeof(AllowAnonymousAttribute));
         }
 
         [Fact]

@@ -5,6 +5,7 @@ using Moq;
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
@@ -32,6 +33,13 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
                 _imageResizerMock.Object);
 
             SetUpForTest(_dashboardController);
+        }
+
+        [Fact]
+        public void Actions_Have_Authorize_Attributes()
+        {
+            AssertHasAttribute(typeof(DashboardController), nameof(DashboardController.Dashboard),
+                typeof(AllowAnonymousAttribute));
         }
 
         [Fact]

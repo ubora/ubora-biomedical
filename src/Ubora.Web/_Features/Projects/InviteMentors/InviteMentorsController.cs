@@ -8,7 +8,6 @@ using Ubora.Web.Services;
 
 namespace Ubora.Web._Features.Projects.InviteMentors
 {
-    [Authorize(Roles = ApplicationRole.Admin)]
     public class InviteMentorsController : ProjectController
     {
         private readonly ApplicationUserManager _userManager;

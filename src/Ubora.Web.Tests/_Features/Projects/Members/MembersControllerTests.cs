@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
 using System.Security.Claims;
+using Marten.Util;
+using Microsoft.AspNetCore.Authorization;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
-using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Commands;
-using Ubora.Domain.Users;
+using Ubora.Web.Authorization;
 using Ubora.Web._Features.Projects.Members;
 using Ubora.Web._Features.Users.Account;
 using Ubora.Web.Tests.Fakes;
-using Ubora.Web.Tests.Helper;
 using Xunit;
 using Ubora.Web._Features.Projects.Dashboard;
 
@@ -29,7 +29,19 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             {
                 Url = Mock.Of<IUrlHelper>()
             };
+            
             SetUpForTest(_membersController);
+        }
+
+        [Fact]
+        public void Actions_Have_Authorize_Attributes()
+        {
+            AssertHasAttribute(typeof(MembersController), nameof(MembersController.Members),
+                typeof(AllowAnonymousAttribute));
+            AssertHasAttribute(typeof(MembersController), nameof(MembersController.Join),
+                typeof(AllowAnonymousAttribute));
+            AssertHasAttribute(typeof(MembersController), nameof(MembersController.RemoveMember),
+                typeof(AuthorizeAttribute), nameof(Policies.CanRemoveProjectMember));
         }
 
         [Fact]
@@ -47,6 +59,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
 
             // Act
             var result = (RedirectToActionResult)_membersController.RemoveMember(viewModel);
+            
 
             // Assert
             result.ActionName.Should().Be(nameof(MembersController.Members));

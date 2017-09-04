@@ -38,12 +38,8 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         [Fact]
         public void Actions_Have_Authorize_Attributes()
         {
-            AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.AddFile),
-                typeof(AuthorizeAttribute));
-            AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.DownloadFile),
-                typeof(AuthorizeAttribute));
             AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.HideFile),
-                typeof(AuthorizeAttribute), nameof(Policies.CanHideProjectFile));
+                typeof(AuthorizeAttribute), nameof(Policies.CanHideProjectFile), nameof(Policies.ProjectController));
         }
 
         [Fact]

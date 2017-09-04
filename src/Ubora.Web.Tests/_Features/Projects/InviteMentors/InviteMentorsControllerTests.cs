@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Infrastructure.Commands;
@@ -25,6 +26,15 @@ namespace Ubora.Web.Tests._Features.Projects.InviteMentors
             _inviteMentorsController = new InviteMentorsController(_userManagerMock.Object);
 
             SetUpForTest(_inviteMentorsController);
+        }
+
+        [Fact]
+        public void Actions_Have_Authorize_Attributes()
+        {
+            AssertHasAttribute(typeof(InviteMentorsController), nameof(InviteMentorsController.InviteMentors),
+                typeof(AuthorizeAttribute));
+            AssertHasAttribute(typeof(InviteMentorsController), nameof(InviteMentorsController.InviteMentor),
+                typeof(AuthorizeAttribute));
         }
 
         [Fact]

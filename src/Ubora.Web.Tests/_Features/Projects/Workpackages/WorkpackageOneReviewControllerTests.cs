@@ -28,6 +28,19 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Returns(dummyWorkpackage);
         }
 
+        [Fact]
+        public void Actions_Have_Authorize_Attributes()
+        {
+            AssertHasAttribute(typeof(WorkpackageOneReviewController), nameof(WorkpackageOneReviewController.SubmitForReview),
+                typeof(AuthorizeAttribute), nameof(Policies.CanSubmitWorkpackageForReview), nameof(Policies.ProjectController));
+            AssertHasAttribute(typeof(WorkpackageOneReviewController), nameof(WorkpackageOneReviewController.Decision),
+                typeof(AuthorizeAttribute), nameof(Policies.CanReviewProjectWorkpackages), nameof(Policies.ProjectController));
+            AssertHasAttribute(typeof(WorkpackageOneReviewController), nameof(WorkpackageOneReviewController.Accept),
+                typeof(AuthorizeAttribute), nameof(Policies.CanReviewProjectWorkpackages), nameof(Policies.ProjectController));
+            AssertHasAttribute(typeof(WorkpackageOneReviewController), nameof(WorkpackageOneReviewController.Reject),
+                typeof(AuthorizeAttribute), nameof(Policies.CanReviewProjectWorkpackages), nameof(Policies.ProjectController));
+        }
+
         [Theory]
         [InlineData(true, false)]
         [InlineData(false, true)]
