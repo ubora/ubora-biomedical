@@ -18,7 +18,7 @@ namespace Ubora.Domain.Projects
 
         public override string GetDescription()
         {
-            return $"Project created \"{Title}\"";
+            return $"created project \"{StringTokens.Project(Id)}\"";
         }
     }
 }
