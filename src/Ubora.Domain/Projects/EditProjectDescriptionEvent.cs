@@ -12,6 +12,6 @@ namespace Ubora.Domain.Projects
         {
         }
 
-        public override string GetDescription() => "Updated project description";
+        public override string GetDescription() => "updated project description.";
     }
 }

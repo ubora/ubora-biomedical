@@ -15,6 +15,6 @@ namespace Ubora.Domain.Projects
             BlobLocation = blobLocation;
         }
 
-        public override string GetDescription() => "Updated project image.";
+        public override string GetDescription() => "updated project image.";
     }
 }

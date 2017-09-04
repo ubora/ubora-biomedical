@@ -17,6 +17,6 @@ namespace Ubora.Domain.Projects.Workpackages.Events
         public string ConcludingComment { get; private set; }
         public DateTimeOffset RejectedAt { get; private set; }
 
-        public override string GetDescription() => "Rejected workpackage by review.";
+        public override string GetDescription() => "rejected workpackage 2 by review.";
     }
 }
