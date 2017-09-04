@@ -5,7 +5,6 @@ var jsonReports = process.cwd() + '/reports/jsons';
 var htmlReports = process.cwd() + '/reports';
 
 exports.config = {
-    debug: true,
     // Set a base URL in order to shorten url command calls. If your url parameter starts
     // with "/", then the base url gets prepended.
     baseUrl: 'http://ubora.web:80',
@@ -139,7 +138,7 @@ exports.config = {
         profile: [],        // <string[]> (name) specify the profile to use
         strict: false,      // <boolean> fail if there are any undefined or pending steps
         tags: [],           // <string[]> (expression) only execute the features or scenarios with tags matching the expression
-        timeout: 20000000,     // <number> timeout for step definitions
+        timeout: 20000,     // <number> timeout for step definitions
         ignoreUndefinedDefinitions: false, // <boolean> Enable this config to treat undefined definitions as warnings.
     },
 
@@ -158,9 +157,6 @@ exports.config = {
      */
     onPrepare: function (config, capabilities) {
         rmdir(jsonReports, function (err, dirs, files) {
-            console.log(dirs);
-            console.log(files);
-            console.log('all files are removed');
         });
     },
     /**
