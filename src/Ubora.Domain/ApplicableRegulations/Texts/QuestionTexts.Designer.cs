@@ -124,7 +124,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 4.1.1. By Ethilene Oxide?.
+        ///   Looks up a localized string similar to 4.1.1. (Will it be terminally sterilized) by Ethilene Oxide?.
         /// </summary>
         public static string Q4_1_1 {
             get {
@@ -133,7 +133,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 4.1.2. By Irradiation?.
+        ///   Looks up a localized string similar to 4.1.2. (Will it be terminally sterilized) by Irradiation?.
         /// </summary>
         public static string Q4_1_2 {
             get {
@@ -142,7 +142,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 4.1.3. By moist heat, steam?.
+        ///   Looks up a localized string similar to 4.1.3. (Will it be terminally sterilized) by moist heat, steam?.
         /// </summary>
         public static string Q4_1_3 {
             get {
@@ -151,7 +151,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 4.1.4. By dry heat?.
+        ///   Looks up a localized string similar to 4.1.4. (Will it be terminally sterilized) by dry heat?.
         /// </summary>
         public static string Q4_1_4 {
             get {

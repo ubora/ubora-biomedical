@@ -5,7 +5,7 @@ using Ubora.Domain.ApplicableRegulations;
 
 namespace Ubora.Web._Features.Projects.ApplicableRegulations
 {
-    public class ReviewViewModel
+    public class ReviewQuestionnaireViewModel
     {
         public IEnumerable<QuestionAnswerListItem> QuestionAnswerList { get; set; }
 
@@ -18,19 +18,21 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 
         public class Factory
         {
-            public ReviewViewModel Create(Questionnaire questionnaire)
+            public ReviewQuestionnaireViewModel Create(Questionnaire questionnaire)
             {
                 if (questionnaire == null) { throw new ArgumentNullException(nameof(questionnaire)); }
 
-                var answeredQuestions = questionnaire.GetAllQuestions().Where(x => x.Answer.HasValue);
+                var answeredQuestions = questionnaire.GetAllQuestions()
+                    .Where(x => x.Answer.HasValue);
 
-                return new ReviewViewModel
+                return new ReviewQuestionnaireViewModel
                 {
                     QuestionAnswerList = answeredQuestions.Select(x => new QuestionAnswerListItem
                     {
                         QuestionText = x.QuestionText,
+                        // ReSharper disable once PossibleInvalidOperationException
                         Answer = x.Answer.Value,
-                        IsoStandardText = x.AffirmativeAnswerText
+                        IsoStandardText = x.IsoStandardHtmlText
                     })
                 };
             }

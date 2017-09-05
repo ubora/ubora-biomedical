@@ -27,7 +27,7 @@ namespace Ubora.Domain.ApplicableRegulations.Commands
                 var question = aggregate.Questionnaire.FindQuestionOrThrow(cmd.QuestionId);
                 if (question.Answer.HasValue)
                 {
-                    return CommandResult.Failed("Already answered. Refresh...");
+                    return CommandResult.Failed("Question has already been answered. Please reload the questionnaire.");
                 }
 
                 var @event = new ApplicableRegulationsQuestionAnsweredEvent(cmd.Actor, cmd.QuestionId, cmd.Answer);

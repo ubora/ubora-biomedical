@@ -6,7 +6,7 @@ using Ubora.Domain.Infrastructure.Queries;
 
 namespace Ubora.Web._Features.Projects.ApplicableRegulations
 {
-    public class IndexViewModel
+    public class QuestionnaireIndexViewModel
     {
         public QuestionnaireListItem Last { get; set; }
         public IEnumerable<QuestionnaireListItem> Previous { get; set; }
@@ -15,6 +15,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
         {
             public Guid QuestionnaireId { get; set; }
             public DateTime StartedAt { get; set; }
+            public bool IsFinished { get; set; }
         }
 
         public class Factory
@@ -26,7 +27,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
                 _queryProcessor = queryProcessor;
             }
 
-            public IndexViewModel Create(Guid projectId)
+            public QuestionnaireIndexViewModel Create(Guid projectId)
             {
                 var questionnaires = _queryProcessor.Find<ApplicableRegulationsQuestionnaireAggregate>()
                     .Where(x => x.ProjectId == projectId)
@@ -34,19 +35,20 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
                     .Select(x => new QuestionnaireListItem
                     {
                         QuestionnaireId = x.Id,
-                        StartedAt = x.StartedAt
+                        StartedAt = x.StartedAt,
+                        IsFinished = x.IsFinished
                     })
                     .ToList();
 
-                var lastQuestionnaire = questionnaires.FirstOrDefault();
-                if (lastQuestionnaire != null)
+                var latestStartedQuestionnaire = questionnaires.FirstOrDefault();
+                if (latestStartedQuestionnaire != null)
                 {
-                    questionnaires.Remove(lastQuestionnaire);
+                    questionnaires.Remove(latestStartedQuestionnaire);
                 }
 
-                return new IndexViewModel
+                return new QuestionnaireIndexViewModel
                 {
-                    Last = lastQuestionnaire,
+                    Last = latestStartedQuestionnaire,
                     Previous = questionnaires
                 };
             }

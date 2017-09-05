@@ -1,0 +1,21 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@model Ubora.Web._Features.Projects.ApplicableRegulations.NextQuestionViewModel
+
+<section class="project-view full-width">
+    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+    <section class="medium-width">
+        <h2>@Model.Text</h2>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form class="notification--controls" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="QuestionnaireId" />
+            <div class="form-input">
+                <button class="button secondary-button small-button" type="submit" asp-action="Yes">Yes</button>
+            </div>
+            <div class="form-input">
+                <button class="button secondary-button small-button" type="submit" asp-action="No">No</button>
+            </div>
+        </form>
+    </section>
+</section>

@@ -8,7 +8,7 @@ namespace Ubora.Domain.ApplicableRegulations
 {
     public class Question
     {
-        /// <param name="resourceName">Used for getting appropriate texts for <see cref="QuestionText"/> and <see cref="AffirmativeAnswerText"/>.</param>
+        /// <param name="resourceName">Used for getting appropriate texts for <see cref="QuestionText"/> and <see cref="IsoStandardHtmlText"/>.</param>
         /// <param name="nextMainQuestion"></param>
         /// <param name="subQuestions"></param>
         public Question(string resourceName, Question nextMainQuestion, IEnumerable<Question> subQuestions = null)
@@ -36,7 +36,8 @@ namespace Ubora.Domain.ApplicableRegulations
 
         public string ResourceName { get; private set; }
         public string QuestionText => QuestionTexts.ResourceManager.GetString(this.ResourceName);
-        public string AffirmativeAnswerText => IsoStandardTexts.ResourceManager.GetString(this.ResourceName);
+        /// <remarks>Bear in mind that this will go straight to the web client.</remarks>
+        public string IsoStandardHtmlText => IsoStandardTexts.ResourceManager.GetString(this.ResourceName);
 
         public void AnswerQuestion(bool answer)
         {

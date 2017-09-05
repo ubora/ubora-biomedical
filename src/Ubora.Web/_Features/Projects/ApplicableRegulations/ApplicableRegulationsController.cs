@@ -1,34 +1,38 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.ApplicableRegulations;
 using Ubora.Domain.ApplicableRegulations.Commands;
+using Ubora.Web._Features.Projects._Shared;
 
 namespace Ubora.Web._Features.Projects.ApplicableRegulations
 {
     public class ApplicableRegulationsController : ProjectController
     {
-        public IActionResult Index([FromServices]IndexViewModel.Factory modelFactory)
+        public IActionResult Index([FromServices]QuestionnaireIndexViewModel.Factory modelFactory)
         {
             var model = modelFactory.Create(this.ProjectId);
-            return View(nameof(Index), model);
+
+            return View("QuestionnaireIndex", model);
         }
 
-        public IActionResult Review(Guid questionnaireId, [FromServices]ReviewViewModel.Factory modelFactory)
+        public IActionResult Review(Guid questionnaireId, [FromServices]ReviewQuestionnaireViewModel.Factory modelFactory)
         {
             var questionnaire = QueryProcessor.FindById<ApplicableRegulationsQuestionnaireAggregate>(questionnaireId);
             if (questionnaire == null) { return NotFound(); }
 
             if (!questionnaire.IsFinished)
             {
+                // Can't review when all questions have not been answered.
                 return RedirectToAction(nameof(Next), new { questionnaireId });
             }
 
             var model = modelFactory.Create(questionnaire.Questionnaire);
-            return View("Review", model);
+            return View("ReviewQuestionnaire", model);
         }
 
         [HttpPost]
-        public IActionResult Start([FromServices]IndexViewModel.Factory modelFactory)
+        public IActionResult Start([FromServices]QuestionnaireIndexViewModel.Factory modelFactory)
         {
             var id = Guid.NewGuid();
             ExecuteUserProjectCommand(new StartApplicableRegulationsQuestionnaireCommand
@@ -55,17 +59,17 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
             }
 
             var nextQuestion = questionnaire.Questionnaire.FindNextUnansweredQuestion();
-            var model = new QuestionViewModel
+            var model = new NextQuestionViewModel
             {
                 Id = nextQuestion.Id,
                 Text = nextQuestion.QuestionText,
                 QuestionnaireId = questionnaire.Id,
             };
-            return View("Next", model);
+            return View("NextQuestion", model);
         }
 
         [HttpPost]
-        public IActionResult Yes(QuestionViewModel model)
+        public IActionResult Yes(NextQuestionViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -88,7 +92,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
         }
 
         [HttpPost]
-        public IActionResult No(QuestionViewModel model)
+        public IActionResult No(NextQuestionViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -108,6 +112,14 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
             }
 
             return RedirectToAction(nameof(Next), new { questionnaireId = model.QuestionnaireId });
+        }
+
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            ViewData["Title"] = "Applicable regulations questionnaire";
+            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+
+            base.OnActionExecuted(context);
         }
     }
 }
