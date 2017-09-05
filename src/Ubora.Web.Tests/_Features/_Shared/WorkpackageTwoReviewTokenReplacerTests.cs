@@ -8,25 +8,24 @@ using Xunit;
 
 namespace Ubora.Web.Tests._Features._Shared
 {
-    public class ReviewTokenReplacerTests
+    public class WorkpackageTwoReviewTokenReplacerTests
     {
-        private readonly ReviewTokenReplacer _reviewTokenReplacer;
+        private readonly WorkpackageTwoReviewTokenReplacer _reviewTokenReplacer;
         private readonly Mock<IUrlHelper> _urlHelperMock;
 
-        public ReviewTokenReplacerTests()
+        public WorkpackageTwoReviewTokenReplacerTests()
         {
             _urlHelperMock = new Mock<IUrlHelper>();
-            _reviewTokenReplacer = new ReviewTokenReplacer(_urlHelperMock.Object);
+            _reviewTokenReplacer = new WorkpackageTwoReviewTokenReplacer(_urlHelperMock.Object);
         }
 
         [Fact]
         public void Replaces_Project_Tokens_With_Anchor_Tags()
         {
-            var controller = "controller";
-            var text = $"test1 {StringTokens.Review(controller)} test2";
+            var text = $"test1 {StringTokens.WorkpackageTwoReview()} test2";
 
             _urlHelperMock.Setup(h => h.Action(It.Is<UrlActionContext>(
-                    x => x.Action == "Review" && x.Controller == controller)))
+                    x => x.Action == "Review" && x.Controller == "WorkpackageTwoReview")))
                 .Returns("reviewLink");
 
             // Act
