@@ -1,27 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Text.RegularExpressions;
-using Ubora.Domain.Infrastructure.Queries;
 
 namespace Ubora.Web._Features._Shared.Tokens
 {
     public class ReviewTokenReplacer : ITokenReplacer
     {
-        private readonly IQueryProcessor _queryProcessor;
         private readonly IUrlHelper _urlHelper;
-        public ReviewTokenReplacer(IQueryProcessor queryProcessor, IUrlHelper urlHelper)
+        public ReviewTokenReplacer(IUrlHelper urlHelper)
         {
-            _queryProcessor = queryProcessor;
             _urlHelper = urlHelper;
         }
 
-        public static Regex Regex = new Regex("\\#review");
+        public static Regex Regex = new Regex(@"\#review{([0-9A-z-]+)\}");
 
         public string ReplaceTokens(string text)
         {
             var replacedText = Regex.Replace(text, match =>
             {
-                var reviewLink = _urlHelper.Action("Review", "WorkpackageOneReview");
+                var controllerName = match.Groups[1].Value;
+
+                var reviewLink = _urlHelper.Action("Review", controllerName);
 
                 return $"<a href=\"{reviewLink}\">review</a>";
             });

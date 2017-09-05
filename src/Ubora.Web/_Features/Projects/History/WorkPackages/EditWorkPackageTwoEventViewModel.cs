@@ -7,14 +7,14 @@ using Ubora.Web._Features.Projects.History._Base;
 
 namespace Ubora.Web._Features.Projects.History.WorkPackages
 {
-    public class EditWorkPackageOneEventViewModel : EditWorkPackageStepEventViewModel, IEventViewModel<WorkpackageOneStepEditedEvent>
+    public class EditWorkPackageTwoEventViewModel : EditWorkPackageStepEventViewModel, IEventViewModel<WorkpackageTwoStepEdited>
     {
         public IHtmlContent GetPartialView(IHtmlHelper htmlHelper)
         {
-            return htmlHelper.Partial("~/_Features/Projects/History/WorkPackages/_EditWorkPackageOneEventPartial.cshtml", this);
+            return htmlHelper.Partial("~/_Features/Projects/History/WorkPackages/_EditWorkPackageTwoEventPartial.cshtml", this);
         }
 
-        public class Factory : EventViewModelFactory<WorkpackageOneStepEditedEvent, EditWorkPackageOneEventViewModel>
+        public class Factory : EventViewModelFactory<WorkpackageTwoStepEdited, EditWorkPackageTwoEventViewModel>
         {
             private readonly IQueryProcessor _queryProcessor;
 
@@ -23,9 +23,9 @@ namespace Ubora.Web._Features.Projects.History.WorkPackages
                 _queryProcessor = queryProcessor;
             }
 
-            public override EditWorkPackageOneEventViewModel Create(WorkpackageOneStepEditedEvent editEvent, DateTimeOffset timestamp)
+            public override EditWorkPackageTwoEventViewModel Create(WorkpackageTwoStepEdited editEvent, DateTimeOffset timestamp)
             {
-                var viewModel = new EditWorkPackageOneEventViewModel
+                var viewModel = new EditWorkPackageTwoEventViewModel
                 {
                     EventInitiatedBy = editEvent.InitiatedBy,
                     StepId = editEvent.StepId,

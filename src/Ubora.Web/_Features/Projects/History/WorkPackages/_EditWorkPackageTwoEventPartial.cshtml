@@ -1,0 +1,6 @@
+﻿@model Ubora.Web._Features.Projects.History.WorkPackages.EditWorkPackageTwoEventViewModel
+
+<li class="history-list-item">
+    @Html.ActionLink(Model.EventInitiatedBy.Name, "View", "Profile", new { userId = Model.EventInitiatedBy.UserId }) edited workpackage 1 <a asp-controller="WorkpackageTwo" asp-action="Read" asp-route-stepId="@Model.StepId">@Model.Title</a>.&nbsp;
+    <p class="history-timestamp">@Model.Timestamp.ToString("dd-MM-yyyy HH:mm:ss")</p>
+</li>
