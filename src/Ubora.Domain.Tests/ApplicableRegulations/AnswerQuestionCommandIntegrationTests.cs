@@ -36,7 +36,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
         private void Create_Project_And_Applicable_Regulations_Questionnaire()
         {
             var projectCreatedEvent = new ProjectCreatedEvent(new DummyUserInfo()) { Id = _projectId };
-            var questionnaireStartedEvent = new QuestionnaireStartedEvent(new DummyUserInfo(), _questionnaireId, _projectId);
+            var questionnaireStartedEvent = new ApplicableRegulationsQuestionnaireStartedEvent(new DummyUserInfo(), _questionnaireId, _projectId);
 
             Session.Events.Append(_projectId, projectCreatedEvent);
             Session.SaveChanges();
@@ -46,9 +46,9 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
 
         private void Answer_First_Question()
         {
-            _firstQuestionId = Processor.FindById<ProjectQuestionnaireAggregate>(_questionnaireId)
+            _firstQuestionId = Processor.FindById<ApplicableRegulationsQuestionnaireAggregate>(_questionnaireId)
                 .Questionnaire
-                .GetNextUnanswered()
+                .FindNextUnansweredQuestion()
                 .Id;
 
             ExecuteAnswerQuestionCommand(_firstQuestionId);
@@ -56,7 +56,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
 
         private void ExecuteAnswerQuestionCommand(Guid questionId)
         {
-            var command = new AnswerQuestionCommand
+            var command = new AnswerApplicableRegulationsQuestionCommand
             {
                 ProjectId = _projectId,
                 QuestionnaireId = _questionnaireId,
@@ -69,9 +69,9 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
 
         private void Answer_Second_Question()
         {
-            _secondQuestionId = Processor.FindById<ProjectQuestionnaireAggregate>(_questionnaireId)
+            _secondQuestionId = Processor.FindById<ApplicableRegulationsQuestionnaireAggregate>(_questionnaireId)
                 .Questionnaire
-                .GetNextUnanswered()
+                .FindNextUnansweredQuestion()
                 .Id;
 
             ExecuteAnswerQuestionCommand(_secondQuestionId);
@@ -79,7 +79,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
 
         public void Assert_Question_Is_Answered(Guid questionId)
         {
-            var aggregate = Session.Load<ProjectQuestionnaireAggregate>(_questionnaireId);
+            var aggregate = Session.Load<ApplicableRegulationsQuestionnaireAggregate>(_questionnaireId);
 
             var question = aggregate.Questionnaire.FindQuestionOrThrow(questionId);
 

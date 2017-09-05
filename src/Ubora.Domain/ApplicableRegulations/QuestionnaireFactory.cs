@@ -1,5 +1,4 @@
-﻿using System;
-using Ubora.Domain.ApplicableRegulations.Texts;
+﻿using Ubora.Domain.ApplicableRegulations.Texts;
 
 // ReSharper disable InconsistentNaming
 
@@ -7,9 +6,10 @@ namespace Ubora.Domain.ApplicableRegulations
 {
     public static class QuestionnaireFactory
     {
-        public static Questionnaire Create(Guid id)
+        /// <remarks>When the structure of the questionnaire significantly changes then a new versioned method should be made and the old method kept (to keep old answered questionnaires intact).</remarks>>
+        public static Questionnaire Create()
         {
-            var question5_1 = new Question(nameof(QuestionTexts.Q5_1), nextQuestion: null);
+            var question5_1 = new Question(nameof(QuestionTexts.Q5_1), nextMainQuestion: null);
             var question5 = new Question(nameof(QuestionTexts.Q5), null, new[] { question5_1 });
             var question4_2 = new Question(nameof(QuestionTexts.Q4_2), question5);
             var question4_1_4 = new Question(nameof(QuestionTexts.Q4_1_4), question5);
@@ -24,7 +24,7 @@ namespace Ubora.Domain.ApplicableRegulations
             var question2 = new Question(nameof(QuestionTexts.Q2), question3, new[] { question2_1 });
             var question1 = new Question(nameof(QuestionTexts.Q1), question2);
 
-            return new Questionnaire(id, question1);
+            return new Questionnaire(question1);
         }
     }
 }

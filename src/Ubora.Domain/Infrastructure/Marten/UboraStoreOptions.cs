@@ -36,7 +36,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageThree>();
-                options.Events.InlineProjections.AggregateStreamsWith<ProjectQuestionnaireAggregate>();
+                options.Events.InlineProjections.AggregateStreamsWith<ApplicableRegulationsQuestionnaireAggregate>();
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectTask, ITaskEvent>());
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());
 

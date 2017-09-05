@@ -23,7 +23,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
 
         private void Start_Questionnaire()
         {
-            Processor.Execute(new StartQuestionnaireCommand
+            Processor.Execute(new StartApplicableRegulationsQuestionnaireCommand
             {
                 NewQuestionnaireId = _questionnaireId,
                 ProjectId = _projectId,
@@ -34,12 +34,12 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
         private void Assert_Questionnaire_Is_Initialized()
         {
             var projectQuestionnaireAggregate = Session.Events
-                .AggregateStream<ProjectQuestionnaireAggregate>(_questionnaireId);
+                .AggregateStream<ApplicableRegulationsQuestionnaireAggregate>(_questionnaireId);
 
             projectQuestionnaireAggregate.ProjectId
                 .Should().Be(_projectId);
 
-            var expectedQuestionnaire = QuestionnaireFactory.Create(_questionnaireId);
+            var expectedQuestionnaire = QuestionnaireFactory.Create();
 
             projectQuestionnaireAggregate.Questionnaire
                 .ShouldBeEquivalentTo(expectedQuestionnaire);

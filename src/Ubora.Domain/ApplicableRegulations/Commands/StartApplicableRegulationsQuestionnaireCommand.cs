@@ -8,11 +8,11 @@ using Ubora.Domain.Projects;
 
 namespace Ubora.Domain.ApplicableRegulations.Commands
 {
-    public class StartQuestionnaireCommand : UserProjectCommand
+    public class StartApplicableRegulationsQuestionnaireCommand : UserProjectCommand
     {
         public Guid NewQuestionnaireId { get; set; }
 
-        public class Handler : ICommandHandler<StartQuestionnaireCommand>
+        public class Handler : ICommandHandler<StartApplicableRegulationsQuestionnaireCommand>
         {
             private readonly IDocumentSession _documentSession;
             private readonly IQueryProcessor _queryProcessor;
@@ -23,7 +23,7 @@ namespace Ubora.Domain.ApplicableRegulations.Commands
                 _queryProcessor = queryProcessor;
             }
 
-            public ICommandResult Handle(StartQuestionnaireCommand cmd)
+            public ICommandResult Handle(StartApplicableRegulationsQuestionnaireCommand cmd)
             {
                 var project = _documentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
@@ -35,9 +35,9 @@ namespace Ubora.Domain.ApplicableRegulations.Commands
                     return CommandResult.Failed("Already questionnaire running...");
                 }
 
-                var @event = new QuestionnaireStartedEvent(cmd.Actor, cmd.NewQuestionnaireId, project.Id);
+                var @event = new ApplicableRegulationsQuestionnaireStartedEvent(cmd.Actor, cmd.NewQuestionnaireId, project.Id);
 
-                _documentSession.Events.StartStream<ProjectQuestionnaireAggregate>(cmd.NewQuestionnaireId, @event);
+                _documentSession.Events.StartStream<ApplicableRegulationsQuestionnaireAggregate>(cmd.NewQuestionnaireId, @event);
                 _documentSession.SaveChanges();
 
                 return CommandResult.Success;

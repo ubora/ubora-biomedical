@@ -3,9 +3,9 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.ApplicableRegulations.Events
 {
-    public class QuestionAnsweredEvent : UboraEvent
+    public class ApplicableRegulationsQuestionAnsweredEvent : UboraEvent
     {
-        public QuestionAnsweredEvent(UserInfo initiatedBy, Guid questionId, bool answer) : base(initiatedBy)
+        public ApplicableRegulationsQuestionAnsweredEvent(UserInfo initiatedBy, Guid questionId, bool answer) : base(initiatedBy)
         {
             QuestionId = questionId;
             Answer = answer;

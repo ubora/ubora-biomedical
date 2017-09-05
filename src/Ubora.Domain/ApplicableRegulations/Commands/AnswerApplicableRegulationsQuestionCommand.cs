@@ -5,13 +5,13 @@ using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.ApplicableRegulations.Commands
 {
-    public class AnswerQuestionCommand : UserProjectCommand
+    public class AnswerApplicableRegulationsQuestionCommand : UserProjectCommand
     {
         public Guid QuestionnaireId { get; set; }
         public Guid QuestionId { get; set; }
         public bool Answer { get; set; }
 
-        public class Handler : ICommandHandler<AnswerQuestionCommand>
+        public class Handler : ICommandHandler<AnswerApplicableRegulationsQuestionCommand>
         {
             private readonly IDocumentSession _documentSession;
 
@@ -20,9 +20,9 @@ namespace Ubora.Domain.ApplicableRegulations.Commands
                 _documentSession = documentSession;
             }
 
-            public ICommandResult Handle(AnswerQuestionCommand cmd)
+            public ICommandResult Handle(AnswerApplicableRegulationsQuestionCommand cmd)
             {
-                var aggregate = _documentSession.LoadOrThrow<ProjectQuestionnaireAggregate>(cmd.QuestionnaireId);
+                var aggregate = _documentSession.LoadOrThrow<ApplicableRegulationsQuestionnaireAggregate>(cmd.QuestionnaireId);
 
                 var question = aggregate.Questionnaire.FindQuestionOrThrow(cmd.QuestionId);
                 if (question.Answer.HasValue)
@@ -30,7 +30,7 @@ namespace Ubora.Domain.ApplicableRegulations.Commands
                     return CommandResult.Failed("Already answered. Refresh...");
                 }
 
-                var @event = new QuestionAnsweredEvent(cmd.Actor, cmd.QuestionId, cmd.Answer);
+                var @event = new ApplicableRegulationsQuestionAnsweredEvent(cmd.Actor, cmd.QuestionId, cmd.Answer);
                 _documentSession.Events.Append(cmd.QuestionnaireId, @event);
                 _documentSession.SaveChanges();
 

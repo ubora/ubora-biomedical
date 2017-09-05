@@ -10,9 +10,8 @@ namespace Ubora.Domain.ApplicableRegulations
         [JsonProperty(nameof(_firstQuestion))]
         private readonly Question _firstQuestion;
 
-        public Questionnaire(Guid id, Question firstQuestion)
+        public Questionnaire(Question firstQuestion)
         {
-            Id = id;
             _firstQuestion = firstQuestion ?? throw new ArgumentNullException();
         }
 
@@ -21,43 +20,43 @@ namespace Ubora.Domain.ApplicableRegulations
         {
         }
 
-        public Guid Id { get; private set; }
-
-        /// <summary>
-        /// A list of question follows. All main questions (number 1, 2, 3….) shall always be asked. 
-        /// Subsequent questions (1.1; 1.1.1 and so on) shall be asked only if the answer to the main question was “YES”
-        /// </summary>
-        public Question GetNextUnanswered()
+        /// <returns>Returns NULL when all questions answered.</returns>
+        public Question FindNextUnansweredQuestion()
         {
-            return GetNextUnansweredFrom(_firstQuestion);
+            return FindNextUnansweredFrom(_firstQuestion);
         }
 
-        private Question GetNextUnansweredFrom(Question question)
+        /// <summary>Finds the next unaswered question after the one given.</summary>
+        private Question FindNextUnansweredFrom(Question question)
         {
-            if (question == null)
-            {
-                return null;
-            }
+            if (question == null) { throw new ArgumentNullException(nameof(question)); }
 
-            if (question.Answer == null)
+            var isUnanswered = (question.Answer == null);
+            if (isUnanswered)
             {
                 return question;
             }
 
+            // Find next unanswered sub question ONLY when answered 'true'.
             if (question.Answer.Value == true)
             {
-                var unansweredQuestionBelow = FindNextUnansweredQuestionBelow(question);
-                if (unansweredQuestionBelow != null)
+                var unansweredSubQuestion = FindNextUnansweredSubQuestion(question);
+                if (unansweredSubQuestion != null)
                 {
-                    return unansweredQuestionBelow;
+                    return unansweredSubQuestion;
                 }
             }
 
-            return GetNextUnansweredFrom(question.NextQuestion);
+            if (question.NextMainQuestion == null)
+            {
+                return null;
+            }
+
+            return FindNextUnansweredFrom(question.NextMainQuestion);
         }
 
         /// <remarks> Returns NULL if none found. </remarks>>
-        private Question FindNextUnansweredQuestionBelow(Question question)
+        private Question FindNextUnansweredSubQuestion(Question question)
         {
             if (!question.SubQuestions.Any())
             {
@@ -66,10 +65,11 @@ namespace Ubora.Domain.ApplicableRegulations
 
             var lastQuestionWithAnswer = question.SubQuestions.LastOrDefault(x => x.Answer.HasValue);
 
-            if (lastQuestionWithAnswer != null 
+            // When last question was answered 'true' then look for it's sub questions (recursion).
+            if (lastQuestionWithAnswer != null
                 && lastQuestionWithAnswer.Answer == true)
             {
-                var levelDeeperUnansweredQuestion = FindNextUnansweredQuestionBelow(lastQuestionWithAnswer);
+                var levelDeeperUnansweredQuestion = FindNextUnansweredSubQuestion(lastQuestionWithAnswer);
                 if (levelDeeperUnansweredQuestion != null)
                 {
                     return levelDeeperUnansweredQuestion;
@@ -89,27 +89,30 @@ namespace Ubora.Domain.ApplicableRegulations
 
                 if (question.SubQuestions.Any())
                 {
-                    foreach (var subQuestion in GetAllQuestionsBelow(question))
+                    // Bit 'weird' foreach to enable yield-return.
+                    foreach (var subQuestion in GetAllSubQuestions(question))
                     {
                         yield return subQuestion;
                     }
                 }
 
-                question = question.NextQuestion;
+                question = question.NextMainQuestion;
             }
         }
 
-        private IEnumerable<Question> GetAllQuestionsBelow(Question parentQuestion)
+        private IEnumerable<Question> GetAllSubQuestions(Question parentQuestion)
         {
             for (int i = 0; i < parentQuestion.SubQuestions.Count(); i++)
             {
                 var subQuestion = parentQuestion.SubQuestions.ElementAt(i);
+
                 yield return subQuestion;
 
-                var questionsBelowSubQuestion = GetAllQuestionsBelow(subQuestion);
-                foreach (var questionBelowSubQuestion in questionsBelowSubQuestion)
+                // Return sub questions of the sub question (recursion).
+                // Bit 'weird' foreach to enable yield-return.
+                foreach (var subQuestionSubQuestion in GetAllSubQuestions(subQuestion))
                 {
-                    yield return questionBelowSubQuestion;
+                    yield return subQuestionSubQuestion;
                 }
             }
         }

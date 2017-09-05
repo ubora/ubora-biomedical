@@ -4,7 +4,7 @@ using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.ApplicableRegulations.Specifications
 {
-    public class IsActiveApplicableRegulationsQuestionnaireSpec : Specification<ProjectQuestionnaireAggregate>
+    public class IsActiveApplicableRegulationsQuestionnaireSpec : Specification<ApplicableRegulationsQuestionnaireAggregate>
     {
         public Guid ProjectId { get; }
 
@@ -14,7 +14,7 @@ namespace Ubora.Domain.ApplicableRegulations.Specifications
             ProjectId = projectId;
         }
 
-        internal override Expression<Func<ProjectQuestionnaireAggregate, bool>> ToExpression()
+        internal override Expression<Func<ApplicableRegulationsQuestionnaireAggregate, bool>> ToExpression()
         {
             return x => x.ProjectId == this.ProjectId && x.FinishedAt == null;
         }

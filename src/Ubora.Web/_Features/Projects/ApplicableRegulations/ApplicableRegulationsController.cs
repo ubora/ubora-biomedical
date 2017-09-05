@@ -15,7 +15,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 
         public IActionResult Review(Guid questionnaireId, [FromServices]ReviewViewModel.Factory modelFactory)
         {
-            var questionnaire = QueryProcessor.FindById<ProjectQuestionnaireAggregate>(questionnaireId);
+            var questionnaire = QueryProcessor.FindById<ApplicableRegulationsQuestionnaireAggregate>(questionnaireId);
             if (questionnaire == null) { return NotFound(); }
 
             if (!questionnaire.IsFinished)
@@ -31,7 +31,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
         public IActionResult Start([FromServices]IndexViewModel.Factory modelFactory)
         {
             var id = Guid.NewGuid();
-            ExecuteUserProjectCommand(new StartQuestionnaireCommand
+            ExecuteUserProjectCommand(new StartApplicableRegulationsQuestionnaireCommand
             {
                 NewQuestionnaireId = id
             });
@@ -46,7 +46,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 
         public IActionResult Next(Guid questionnaireId)
         {
-            var questionnaire = QueryProcessor.FindById<ProjectQuestionnaireAggregate>(questionnaireId);
+            var questionnaire = QueryProcessor.FindById<ApplicableRegulationsQuestionnaireAggregate>(questionnaireId);
             if (questionnaire == null) { return NotFound(); }
 
             if (questionnaire.IsFinished)
@@ -54,7 +54,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
                 return RedirectToAction(nameof(Review), new { questionnaireId });
             }
 
-            var nextQuestion = questionnaire.Questionnaire.GetNextUnanswered();
+            var nextQuestion = questionnaire.Questionnaire.FindNextUnansweredQuestion();
             var model = new QuestionViewModel
             {
                 Id = nextQuestion.Id,
@@ -72,7 +72,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
                 return Next(model.QuestionnaireId);
             }
 
-            ExecuteUserProjectCommand(new AnswerQuestionCommand
+            ExecuteUserProjectCommand(new AnswerApplicableRegulationsQuestionCommand
             {
                 QuestionnaireId = model.QuestionnaireId,
                 QuestionId = model.Id,
@@ -95,7 +95,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
                 return Next(model.QuestionnaireId);
             }
 
-            ExecuteUserProjectCommand(new AnswerQuestionCommand
+            ExecuteUserProjectCommand(new AnswerApplicableRegulationsQuestionCommand
             {
                 QuestionnaireId = model.QuestionnaireId,
                 QuestionId = model.Id,

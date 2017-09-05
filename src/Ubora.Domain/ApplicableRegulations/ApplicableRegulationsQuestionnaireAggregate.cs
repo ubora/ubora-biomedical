@@ -3,7 +3,7 @@ using Ubora.Domain.ApplicableRegulations.Events;
 
 namespace Ubora.Domain.ApplicableRegulations
 {
-    public class ProjectQuestionnaireAggregate
+    public class ApplicableRegulationsQuestionnaireAggregate
     {
         public Guid Id { get; private set; }
         public Guid ProjectId { get; private set; }
@@ -12,7 +12,7 @@ namespace Ubora.Domain.ApplicableRegulations
         public DateTime? FinishedAt { get; private set; }
         public bool IsFinished => FinishedAt.HasValue;
 
-        private void Apply(QuestionnaireStartedEvent e)
+        private void Apply(ApplicableRegulationsQuestionnaireStartedEvent e)
         {
             if (e.NewQuestionnaireId == default(Guid)) { throw new InvalidOperationException(); }
             if (e.ProjectId == default(Guid)) { throw new InvalidOperationException(); }
@@ -21,12 +21,12 @@ namespace Ubora.Domain.ApplicableRegulations
             Id = e.NewQuestionnaireId;
             ProjectId = e.ProjectId;
             StartedAt = DateTime.UtcNow;
-            Questionnaire = QuestionnaireFactory.Create(e.NewQuestionnaireId);
+            Questionnaire = QuestionnaireFactory.Create();
         }
 
-        private void Apply(QuestionAnsweredEvent e)
+        private void Apply(ApplicableRegulationsQuestionAnsweredEvent e)
         {
-            var question = Questionnaire.GetNextUnanswered();
+            var question = Questionnaire.FindNextUnansweredQuestion();
             if (question.Id != e.QuestionId)
             {
                 throw new InvalidOperationException();
@@ -34,7 +34,7 @@ namespace Ubora.Domain.ApplicableRegulations
 
             question.AnswerQuestion(e.Answer);
 
-            if (Questionnaire.GetNextUnanswered() == null)
+            if (Questionnaire.FindNextUnansweredQuestion() == null)
             {
                 FinishedAt = DateTime.UtcNow;
             }

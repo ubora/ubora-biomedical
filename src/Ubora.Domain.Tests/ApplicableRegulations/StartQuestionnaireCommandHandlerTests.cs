@@ -14,7 +14,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
 {
     public class StartQuestionnaireCommandHandlerTests
     {
-        private readonly StartQuestionnaireCommand.Handler _handlerUnderTest;
+        private readonly StartApplicableRegulationsQuestionnaireCommand.Handler _handlerUnderTest;
         private readonly Mock<IDocumentSession> _documentSessionMock;
         private readonly Mock<IQueryProcessor> _queryProcessorMock;
 
@@ -22,14 +22,14 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
         {
             _documentSessionMock = new Mock<IDocumentSession>(MockBehavior.Strict);
             _queryProcessorMock = new Mock<IQueryProcessor>();
-            _handlerUnderTest = new StartQuestionnaireCommand.Handler(_documentSessionMock.Object, _queryProcessorMock.Object);
+            _handlerUnderTest = new StartApplicableRegulationsQuestionnaireCommand.Handler(_documentSessionMock.Object, _queryProcessorMock.Object);
         }
 
         [Fact]
         public void Returns_Failed_Result_When_Project_Has_Unfinished_Questionnaire()
         {
             var project = new Project();
-            var command = new StartQuestionnaireCommand
+            var command = new StartApplicableRegulationsQuestionnaireCommand
             {
                 ProjectId = project.Id,
                 NewQuestionnaireId = Guid.NewGuid(),
@@ -41,7 +41,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
 
             _queryProcessorMock
                 .Setup(x => x.ExecuteQuery(It.Is<ActiveApplicableRegulationsQuestionnaireQuery>(q => q.ProjectId == project.Id)))
-                .Returns(new ProjectQuestionnaireAggregate());
+                .Returns(new ApplicableRegulationsQuestionnaireAggregate());
 
             // Act
             var result = _handlerUnderTest.Handle(command);

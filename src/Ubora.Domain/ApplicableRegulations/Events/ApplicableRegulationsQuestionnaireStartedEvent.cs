@@ -3,9 +3,9 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.ApplicableRegulations.Events
 {
-    public class QuestionnaireStartedEvent : UboraEvent
+    public class ApplicableRegulationsQuestionnaireStartedEvent : UboraEvent
     {
-        public QuestionnaireStartedEvent(UserInfo initiatedBy, Guid newQuestionnaireId, Guid projectId) : base(initiatedBy)
+        public ApplicableRegulationsQuestionnaireStartedEvent(UserInfo initiatedBy, Guid newQuestionnaireId, Guid projectId) : base(initiatedBy)
         {
             NewQuestionnaireId = newQuestionnaireId;
             ProjectId = projectId;

@@ -28,7 +28,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 
             public IndexViewModel Create(Guid projectId)
             {
-                var questionnaires = _queryProcessor.Find<ProjectQuestionnaireAggregate>()
+                var questionnaires = _queryProcessor.Find<ApplicableRegulationsQuestionnaireAggregate>()
                     .Where(x => x.ProjectId == projectId)
                     .OrderByDescending(x => x.StartedAt)
                     .Select(x => new QuestionnaireListItem
