@@ -1,7 +1,7 @@
 using System;
 using Ubora.Domain.Infrastructure.Events;
 
-namespace Ubora.Domain.ApplicableRegulations
+namespace Ubora.Domain.ApplicableRegulations.Events
 {
     public class QuestionAnsweredEvent : UboraEvent
     {
@@ -14,9 +14,6 @@ namespace Ubora.Domain.ApplicableRegulations
         public Guid QuestionId { get; private set; }
         public bool Answer { get; private set; }
 
-        public override string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
+        public override string GetDescription() => "answered a question.";
     }
 }

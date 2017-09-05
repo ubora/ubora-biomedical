@@ -1,8 +1,9 @@
 using System;
 using Marten;
+using Ubora.Domain.ApplicableRegulations.Events;
 using Ubora.Domain.Infrastructure.Commands;
 
-namespace Ubora.Domain.ApplicableRegulations
+namespace Ubora.Domain.ApplicableRegulations.Commands
 {
     public class AnswerQuestionCommand : UserProjectCommand
     {

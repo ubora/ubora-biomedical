@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Linq;
 using Marten;
+using Ubora.Domain.ApplicableRegulations.Events;
 using Ubora.Domain.ApplicableRegulations.Queries;
-using Ubora.Domain.ApplicableRegulations.Specifications;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 
-namespace Ubora.Domain.ApplicableRegulations
+namespace Ubora.Domain.ApplicableRegulations.Commands
 {
     public class StartQuestionnaireCommand : UserProjectCommand
     {

@@ -3,6 +3,7 @@ using FluentAssertions;
 using Marten;
 using Moq;
 using Ubora.Domain.ApplicableRegulations;
+using Ubora.Domain.ApplicableRegulations.Commands;
 using Ubora.Domain.ApplicableRegulations.Queries;
 using Ubora.Domain.ApplicableRegulations.Specifications;
 using Ubora.Domain.Infrastructure.Queries;

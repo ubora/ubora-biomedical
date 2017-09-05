@@ -36,7 +36,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
         }
 
         [Fact]
-        public void GetAllQuestions_Returns_All_Questions()
+        public void GetAllQuestions_Returns_All_Questions_In_Order()
         {
             var question4 = new Question("4", null);
             var question3 = new Question("3", question4);
@@ -47,25 +47,14 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
             var question2 = new Question("2", question3, new[] { question2_1, question2_2 });
             var question1 = new Question("1", question2);
 
-            var allQuestions = new List<Question>
-            {
-                question1,
-                question2,
-                question2_1,
-                question2_1_1,
-                question2_1_2,
-                question2_2,
-                question3,
-                question4
-            };
-
             var questionnaire = new Questionnaire(id: Guid.NewGuid(), firstQuestion: question1);
 
             // Act
             var result = questionnaire.GetAllQuestions();
 
             // Assert
-            result.Should().BeEquivalentTo(allQuestions);
+            result.Should()
+                .ContainInOrder(question1, question2, question2_1, question2_1_1, question2_1_2, question2_2, question3, question4);
         }
 
         [Fact]

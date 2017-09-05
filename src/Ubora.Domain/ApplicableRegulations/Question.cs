@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Ubora.Domain.ApplicableRegulations.Texts;
 
 namespace Ubora.Domain.ApplicableRegulations
 {
     public class Question
     {
-        public Question(string text, Question nextQuestion, IEnumerable<Question> subQuestions = null)
+        public Question(string resourceName, Question nextQuestion, IEnumerable<Question> subQuestions = null)
         {
             Id = Guid.NewGuid();
-            Text = text;
+            ResourceName = resourceName;
             NextQuestion = nextQuestion;
             SubQuestions = subQuestions ?? Enumerable.Empty<Question>();
 
@@ -28,23 +29,20 @@ namespace Ubora.Domain.ApplicableRegulations
         public Guid Id { get; private set; }
         public Question NextQuestion { get; private set; }
         public IEnumerable<Question> SubQuestions { get; private set; }
-        public string Text { get; private set; }
+        public string ResourceName { get; private set; }
 
-        [JsonProperty(nameof(Answer))]
-        private bool? _answer;
+        public bool? Answer { get; private set; }
 
-        [JsonIgnore]
-        public bool? Answer
+        public string QuestionText => QuestionTexts.ResourceManager.GetString(this.ResourceName);
+        public string AffirmativeAnswerText => IsoStandardTexts.ResourceManager.GetString(this.ResourceName);
+
+        public void AnswerQuestion(bool answer)
         {
-            get => _answer;
-            set
+            if (this.Answer.HasValue)
             {
-                if (Answer.HasValue)
-                {
-                    throw new InvalidOperationException("Already answered.");
-                }
-                _answer = value;
+                throw new InvalidOperationException("Already answered.");
             }
+            Answer = answer;
         }
     }
 }

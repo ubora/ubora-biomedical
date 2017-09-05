@@ -1,19 +1,34 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.ApplicableRegulations;
+using Ubora.Domain.ApplicableRegulations.Commands;
 
 namespace Ubora.Web._Features.Projects.ApplicableRegulations
 {
     public class ApplicableRegulationsController : ProjectController
     {
-        public IActionResult Index()
+        public IActionResult Index([FromServices]IndexViewModel.Factory modelFactory)
         {
-            return View(nameof(Index));
+            var model = modelFactory.Create(this.ProjectId);
+            return View(nameof(Index), model);
+        }
+
+        public IActionResult Review(Guid questionnaireId, [FromServices]ReviewViewModel.Factory modelFactory)
+        {
+            var questionnaire = QueryProcessor.FindById<ProjectQuestionnaireAggregate>(questionnaireId);
+            if (questionnaire == null) { return NotFound(); }
+
+            if (!questionnaire.IsFinished)
+            {
+                return RedirectToAction(nameof(Next), new { questionnaireId });
+            }
+
+            var model = modelFactory.Create(questionnaire.Questionnaire);
+            return View("Review", model);
         }
 
         [HttpPost]
-        public IActionResult Start()
+        public IActionResult Start([FromServices]IndexViewModel.Factory modelFactory)
         {
             var id = Guid.NewGuid();
             ExecuteUserProjectCommand(new StartQuestionnaireCommand
@@ -23,29 +38,30 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 
             if (!ModelState.IsValid)
             {
-                return Index();
+                return Index(modelFactory);
             }
 
             return RedirectToAction(nameof(Next), new { questionnaireId = id });
         }
 
-        public IActionResult Next()
+        public IActionResult Next(Guid questionnaireId)
         {
-            // check if questionnaire exists for project
+            var questionnaire = QueryProcessor.FindById<ProjectQuestionnaireAggregate>(questionnaireId);
+            if (questionnaire == null) { return NotFound(); }
 
-            var aggregate = QueryProcessor.Find<ProjectQuestionnaireAggregate>()
-                .Single(x => x.ProjectId == this.Project.Id && x.FinishedAt == null);
+            if (questionnaire.IsFinished)
+            {
+                return RedirectToAction(nameof(Review), new { questionnaireId });
+            }
 
-            var nextQuestion = aggregate.Questionnaire.GetNextUnanswered();
-
+            var nextQuestion = questionnaire.Questionnaire.GetNextUnanswered();
             var model = new QuestionViewModel
             {
                 Id = nextQuestion.Id,
-                Text = nextQuestion.Text,
-                QuestionnaireId = aggregate.Id,
+                Text = nextQuestion.QuestionText,
+                QuestionnaireId = questionnaire.Id,
             };
-
-            return View(nameof(Next), model);
+            return View("Next", model);
         }
 
         [HttpPost]
@@ -53,7 +69,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
         {
             if (!ModelState.IsValid)
             {
-                return Next();
+                return Next(model.QuestionnaireId);
             }
 
             ExecuteUserProjectCommand(new AnswerQuestionCommand
@@ -65,7 +81,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 
             if (!ModelState.IsValid)
             {
-                return Next();
+                return Next(model.QuestionnaireId);
             }
 
             return RedirectToAction(nameof(Next), new { questionnaireId = model.QuestionnaireId });
@@ -76,7 +92,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
         {
             if (!ModelState.IsValid)
             {
-                return Next();
+                return Next(model.QuestionnaireId);
             }
 
             ExecuteUserProjectCommand(new AnswerQuestionCommand
@@ -88,7 +104,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 
             if (!ModelState.IsValid)
             {
-                return Next();
+                return Next(model.QuestionnaireId);
             }
 
             return RedirectToAction(nameof(Next), new { questionnaireId = model.QuestionnaireId });

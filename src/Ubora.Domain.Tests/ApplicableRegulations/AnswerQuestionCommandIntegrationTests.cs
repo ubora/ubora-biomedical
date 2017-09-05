@@ -2,6 +2,8 @@
 using FluentAssertions;
 using TestStack.BDDfy;
 using Ubora.Domain.ApplicableRegulations;
+using Ubora.Domain.ApplicableRegulations.Commands;
+using Ubora.Domain.ApplicableRegulations.Events;
 using Ubora.Domain.Projects;
 using Xunit;
 

@@ -85,6 +85,8 @@ namespace Ubora.Domain.ApplicableRegulations
 
             while (question != null)
             {
+                yield return question;
+
                 if (question.SubQuestions.Any())
                 {
                     foreach (var subQuestion in GetAllQuestionsBelow(question))
@@ -92,8 +94,6 @@ namespace Ubora.Domain.ApplicableRegulations
                         yield return subQuestion;
                     }
                 }
-
-                yield return question;
 
                 question = question.NextQuestion;
             }
@@ -104,14 +104,13 @@ namespace Ubora.Domain.ApplicableRegulations
             for (int i = 0; i < parentQuestion.SubQuestions.Count(); i++)
             {
                 var subQuestion = parentQuestion.SubQuestions.ElementAt(i);
+                yield return subQuestion;
 
                 var questionsBelowSubQuestion = GetAllQuestionsBelow(subQuestion);
                 foreach (var questionBelowSubQuestion in questionsBelowSubQuestion)
                 {
                     yield return questionBelowSubQuestion;
                 }
-
-                yield return subQuestion;
             }
         }
 

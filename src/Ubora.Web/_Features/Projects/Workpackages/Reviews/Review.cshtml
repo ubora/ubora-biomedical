@@ -11,9 +11,6 @@
     @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
 
     <section class="medium-width step-view">
-
-    
-
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         @if (Model.SubmitForReviewButton.IsVisible)
@@ -31,7 +28,7 @@
         {
             @* TODO(from Kaspar Kallas to Risto Kitsing) *@
 
-          
+
 
             <section class="full-width">
                 <p><i>@Model.SubmitForReviewButton.HideReasonMessage</i></p>
@@ -40,7 +37,7 @@
 
         @if (Model.Reviews.Any())
         {
-          
+
 
             <section class="full-width">
                 <h2>Reviews</h2>
@@ -76,6 +73,6 @@
                     }
                 }
             </section>
-        }
+                    }
     </section>
 </section>

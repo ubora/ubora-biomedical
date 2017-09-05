@@ -1,0 +1,11 @@
+﻿@model Ubora.Web._Features.Projects.ApplicableRegulations.ReviewViewModel
+
+@foreach (var questionAnswer in Model.QuestionAnswerList)
+{
+    <p>Question: @questionAnswer.QuestionText</p>
+    <p>Answer: @(questionAnswer.Answer ? "Yes" : "No")</p>
+    if (questionAnswer.Answer == true)
+    {
+        <p style="margin-left: 1cm">@Html.Raw(questionAnswer.IsoStandardText)</p>
+    }
+}

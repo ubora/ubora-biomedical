@@ -1,4 +1,5 @@
 ﻿using System;
+using Ubora.Domain.ApplicableRegulations.Events;
 
 namespace Ubora.Domain.ApplicableRegulations
 {
@@ -7,7 +8,9 @@ namespace Ubora.Domain.ApplicableRegulations
         public Guid Id { get; private set; }
         public Guid ProjectId { get; private set; }
         public Questionnaire Questionnaire { get; private set; }
+        public DateTime StartedAt { get; private set; }
         public DateTime? FinishedAt { get; private set; }
+        public bool IsFinished => FinishedAt.HasValue;
 
         private void Apply(QuestionnaireStartedEvent e)
         {
@@ -17,6 +20,7 @@ namespace Ubora.Domain.ApplicableRegulations
 
             Id = e.NewQuestionnaireId;
             ProjectId = e.ProjectId;
+            StartedAt = DateTime.UtcNow;
             Questionnaire = QuestionnaireFactory.Create(e.NewQuestionnaireId);
         }
 
@@ -28,7 +32,7 @@ namespace Ubora.Domain.ApplicableRegulations
                 throw new InvalidOperationException();
             }
 
-            question.Answer = e.Answer;
+            question.AnswerQuestion(e.Answer);
 
             if (Questionnaire.GetNextUnanswered() == null)
             {
