@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Tasks;
@@ -28,7 +29,9 @@ namespace Ubora.Web._Features._Shared.Tokens
                 var task = _queryProcessor.FindById<ProjectTask>(taskId);
                 var tasksLink = _urlHelper.Action("Assignments", "Assignments");
 
-                return $"<a href=\"{tasksLink}\">{task.Title}</a>";
+                var encodedTaskTitle = HtmlEncoder.Default.Encode(task.Title);
+
+                return $"<a href=\"{tasksLink}\">{encodedTaskTitle}</a>";
             });
 
             return replacedText;

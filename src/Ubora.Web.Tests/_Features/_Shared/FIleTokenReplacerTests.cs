@@ -10,13 +10,13 @@ using Xunit;
 
 namespace Ubora.Web.Tests._Features._Shared
 {
-    public class FIleTokenReplacerTests
+    public class FileTokenReplacerTests
     {
         private readonly FileTokenReplacer _fileTokenReplacer;
         private readonly Mock<IUrlHelper> _urlHelperMock;
         private readonly Mock<IQueryProcessor> _queryProcessorMock;
 
-        public FIleTokenReplacerTests()
+        public FileTokenReplacerTests()
         {
             _queryProcessorMock = new Mock<IQueryProcessor>();
             _urlHelperMock = new Mock<IUrlHelper>();
@@ -24,7 +24,7 @@ namespace Ubora.Web.Tests._Features._Shared
         }
 
         [Fact]
-        public void Replaces_Project_Tokens_With_Anchor_Tags()
+        public void Replaces_File_Tokens_With_Anchor_Tags()
         {
             var file1 = new ProjectFile()
                 .Set(x => x.Id, Guid.NewGuid())

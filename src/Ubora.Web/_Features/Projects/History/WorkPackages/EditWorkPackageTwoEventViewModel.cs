@@ -4,17 +4,18 @@ using System;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Workpackages.Events;
 using Ubora.Web._Features.Projects.History._Base;
+using Ubora.Web._Features.Users;
 
 namespace Ubora.Web._Features.Projects.History.WorkPackages
 {
-    public class EditWorkPackageTwoEventViewModel : EditWorkPackageStepEventViewModel, IEventViewModel<WorkpackageTwoStepEdited>
+    public class EditWorkpackageTwoEventViewModel : EditWorkpackageStepEventViewModel, IEventViewModel<WorkpackageTwoStepEdited>
     {
         public IHtmlContent GetPartialView(IHtmlHelper htmlHelper)
         {
-            return htmlHelper.Partial("~/_Features/Projects/History/WorkPackages/_EditWorkPackageTwoEventPartial.cshtml", this);
+            return htmlHelper.Partial("~/_Features/Projects/History/WorkPackages/_EditWorkpackageTwoEventPartial.cshtml", this);
         }
 
-        public class Factory : EventViewModelFactory<WorkpackageTwoStepEdited, EditWorkPackageTwoEventViewModel>
+        public class Factory : EventViewModelFactory<WorkpackageTwoStepEdited, EditWorkpackageTwoEventViewModel>
         {
             private readonly IQueryProcessor _queryProcessor;
 
@@ -23,11 +24,11 @@ namespace Ubora.Web._Features.Projects.History.WorkPackages
                 _queryProcessor = queryProcessor;
             }
 
-            public override EditWorkPackageTwoEventViewModel Create(WorkpackageTwoStepEdited editEvent, DateTimeOffset timestamp)
+            public override EditWorkpackageTwoEventViewModel Create(WorkpackageTwoStepEdited editEvent, DateTimeOffset timestamp)
             {
-                var viewModel = new EditWorkPackageTwoEventViewModel
+                var viewModel = new EditWorkpackageTwoEventViewModel
                 {
-                    EventInitiatedBy = editEvent.InitiatedBy,
+                    EventInitiatedBy = new UserInfoViewModel(editEvent.InitiatedBy),
                     StepId = editEvent.StepId,
                     Title = editEvent.Title,
                     Timestamp = timestamp

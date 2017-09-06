@@ -20,7 +20,7 @@ namespace Ubora.Web.Tests._Features._Shared
         }
 
         [Fact]
-        public void Replaces_Project_Tokens_With_Anchor_Tags()
+        public void Replaces_Review_Tokens_With_Review_Link()
         {
             var text = $"test1 {StringTokens.WorkpackageOneReview()} test2";
 

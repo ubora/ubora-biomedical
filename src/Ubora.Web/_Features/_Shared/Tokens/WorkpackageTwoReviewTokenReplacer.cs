@@ -11,7 +11,7 @@ namespace Ubora.Web._Features._Shared.Tokens
             _urlHelper = urlHelper;
         }
 
-        public static Regex Regex = new Regex("\\#review2");
+        public static Regex Regex = new Regex("\\#{review2}");
 
         public string ReplaceTokens(string text)
         {

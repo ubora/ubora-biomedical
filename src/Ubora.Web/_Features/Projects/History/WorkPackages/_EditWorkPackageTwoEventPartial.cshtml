@@ -1,4 +1,4 @@
-﻿@model Ubora.Web._Features.Projects.History.WorkPackages.EditWorkPackageTwoEventViewModel
+﻿@model Ubora.Web._Features.Projects.History.WorkPackages.EditWorkpackageTwoEventViewModel
 
 <li class="history-list-item">
     @Html.ActionLink(Model.EventInitiatedBy.Name, "View", "Profile", new { userId = Model.EventInitiatedBy.UserId }) edited workpackage 2 <a asp-controller="WorkpackageTwo" asp-action="Read" asp-route-stepId="@Model.StepId">@Model.Title</a>.&nbsp;
