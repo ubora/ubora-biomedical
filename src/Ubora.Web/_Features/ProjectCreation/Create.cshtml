@@ -37,11 +37,73 @@
             <label asp-for="AreaOfUsageTags">Area</label>
             <select asp-for="AreaOfUsageTags">
                 <option selected disabled>Select an area of usage</option>
-                <option value="Cardiology">Cardiology</option>
-                <option value="Dermatology">Dermatology</option>
-                <option value="Neurology">Neurology</option>
-                <option value="m-Health">m-Health</option>
-                <option value="e-Health">e-Health</option>
+                <optgroup label="From surgical fields">
+                    <option value="Cardiovascular surgery">Cardiovascular surgery</option>
+                    <option value="Colorectal surgery">Colorectal surgery</option>
+                    <option value="General surgery">General surgery</option>
+                    <option value="Neurosurgery">Neurosurgery</option>
+                    <option value="Oncologic surgery">Oncologic surgery</option>
+                    <option value="Ophthalmic surgery">Ophthalmic surgery</option>
+                    <option value="Oral and maxillofacial surgery">Oral and maxillofacial surgery</option>
+                    <option value="Orthopedic surgery">Orthopedic surgery</option>
+                    <option value="Otolaryngology">Otolaryngology</option>
+                    <option value="Pediatric surgery">Pediatric surgery</option>
+                    <option value="Plastic surgery">Plastic surgery</option>
+                    <option value="Podiatric surgery">Podiatric surgery</option>
+                    <option value="Transplant surgery">Transplant surgery</option>
+                    <option value="Trauma surgery">Trauma surgery</option>
+                    <option value="Urology">Urology</option>
+                    <option value="Vascular surgery">Vascular surgery</option>
+                </optgroup>
+                <optgroup label="From internal medicine">
+                    <option value="Angiology / vascular medicine">Angiology / vascular medicine</option>
+                    <option value="Cardiology">Cardiology</option>
+                    <option value="Critical care medicine">Critical care medicine</option>
+                    <option value="Endocrinology">Endocrinology</option>
+                    <option value="Gastroenterology">Gastroenterology</option>
+                    <option value="Geriatrics">Geriatrics</option>
+                    <option value="Hematology">Hematology</option>
+                    <option value="Hepatology">Hepatology</option>
+                    <option value="Infectious disease">Infectious disease</option>
+                    <option value="Nephrology">Nephrology</option>
+                    <option value="Neurology">Neurology</option>
+                    <option value="Oncology">Oncology</option>
+                    <option value="Pediatrics">Pediatrics</option>
+                    <option value="Pneumology / chest medicine">Pneumology / chest medicine</option>
+                    <option value="Rheumatology">Rheumatology</option>
+                    <option value="Sports medicine">Sports medicine</option>
+                    <option value="Traumatology and orthopedics">Traumatology and orthopedics</option>
+                </optgroup>
+                <optgroup label="From diagnostic medicine">
+                    <option value="Athology">Athology</option>
+                    <option value="Cellular pathology">Cellular pathology</option>
+                    <option value="Clinical chemistry">Clinical chemistry</option>
+                    <option value="Clinical immunology">Clinical immunology</option>
+                    <option value="Clinical microbiology">Clinical microbiology</option>
+                    <option value="Clinical neurophysiology">Clinical neurophysiology</option>
+                    <option value="Diagnostic radiology">Diagnostic radiology</option>
+                    <option value="Hematology">Hematology</option>
+                    <option value="Molecular biology">Molecular biology</option>
+                    <option value="Nuclear medicine">Nuclear medicine</option>
+                    <option value="Transfusion medicine">Transfusion medicine</option>
+                </optgroup>
+                <optgroup label="From other major disciplines">
+                    <option value="Anesthesiology">Anesthesiology</option>
+                    <option value="Dermatology">Dermatology</option>
+                    <option value="Emergency medicine">Emergency medicine</option>
+                    <option value="Family medicine">Family medicine</option>
+                    <option value="Gerontology">Gerontology</option>
+                    <option value="Medical genetics">Medical genetics</option>
+                    <option value="Neurology">Neurology</option>
+                    <option value="Obstetrics and gynecology">Obstetrics and gynecology</option>
+                    <option value="Ophthalmology">Ophthalmology</option>
+                    <option value="Pediatrics">Pediatrics</option>
+                    <option value="Pharmaceutical medicine">Pharmaceutical medicine</option>
+                    <option value="Preventive medicine">Preventive medicine</option>
+                    <option value="Psychiatry">Psychiatry</option>
+                    <option value="Public health">Public health</option>
+                    <option value="Rehabilitation">Rehabilitation</option>
+                </optgroup>
             </select>
             <span asp-validation-for="AreaOfUsageTags"></span>
         </div>
