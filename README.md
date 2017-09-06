@@ -48,3 +48,31 @@ Currently, there exists a predefined `System Administrator` account:
 admin@agileworks.eu
 ChangeMe123!
 ```
+
+## Developing functional tests (or running functional tests locally without using Docker)
+Generally speaking, running through Docker, you always create the database, you always start up the application, you always run all the tests, not to mention the re-building of Docker images which takes ages... That's a lot of time just to run tests. You can develop functional tests much faster by hosting the application separately from running tests, and only running the single test you are writing. Here's how:
+
+**1. Set up Selenium environment with Chrome driver**
+
+1. Download the latest Selenium Standalone Server (.jar) from http://www.seleniumhq.org/download/
+2. Download the latest ChromeDriver from https://sites.google.com/a/chromium.org/chromedriver/
+3. Start the selenium standalone server by `java -jar -Dwebdriver.chrome.driver=PATH_TO_CHROMEDRIVER PATH_TO_SELENIUM_STANDALONE_SERVER`. 
+_Example when files are located in the same folder and the Command Prompt points to it:_ `java -jar -Dwebdriver.chrome.driver=chromedriver.exe selenium-server-standalone-3.0.1.jar`
+
+NOTES: When you go to http://localhost:4444/ you should see text about Selenium. And more info about setting up the environment here: http://webdriver.io/guide/getstarted/install.html#Set-up-your-Selenium-environment
+
+**2. Host the UBORA web application**
+
+1. Start the application through Visual Studio or PowerShell script and take note on what port it's hosted.
+
+**3. Specify port in WebDriverIO config**
+
+1. Make sure the `baseUrl` in `wdio.conf.js` (which is located under `Ubora/src/Ubora.Web.FunctionalTests`) is set to "http://localhost:YOUR_PORT/". _Example:_ `baseUrl: 'http://localhost:32769/'`
+
+WARNING: Don't commit this! This would break the build in TeamCity.
+
+**4. Run the tests **
+
+1. Open Git Bash window which points to `../Ubora.Web.FunctionalTests`. If you have the extension, you can just navigate to the folder, right-click and select "Git Bash".
+2. To run all the tests: `node_modules/.bin/wdio --port 4444`
+3. To run a single test: `node_modules/.bin/wdio --port 4444 --spec ./features/ApplicableRegulations.feature`
