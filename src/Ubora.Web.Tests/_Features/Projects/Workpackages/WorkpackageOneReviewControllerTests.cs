@@ -36,22 +36,22 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                     new RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(WorkpackageOneReviewController.SubmitForReview),
-                        Policies = new List<string>{ nameof(Policies.CanSubmitWorkpackageForReview) }
+                        Policies = new []{ nameof(Policies.CanSubmitWorkpackageForReview) }
                     },
                     new RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(WorkpackageOneReviewController.Decision),
-                        Policies = new List<string>{ nameof(Policies.CanReviewProjectWorkpackages)}
+                        Policies = new []{ nameof(Policies.CanReviewProjectWorkpackages)}
                     },
                     new RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(WorkpackageOneReviewController.Accept),
-                        Policies = new List<string>{ nameof(Policies.CanReviewProjectWorkpackages) }
+                        Policies = new []{ nameof(Policies.CanReviewProjectWorkpackages) }
                     },
                     new RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(WorkpackageOneReviewController.Reject),
-                        Policies = new List<string>{ nameof(Policies.CanReviewProjectWorkpackages) }
+                        Policies = new []{ nameof(Policies.CanReviewProjectWorkpackages) }
                     }
                 };
 

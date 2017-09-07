@@ -46,18 +46,15 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             {
                 new RolesAndPoliciesAuthorization
                 {
-                    MethodName = nameof(ProfileController.EditProfile),
-                    Policies = new List<string>()
+                    MethodName = nameof(ProfileController.EditProfile)
                 },
                 new RolesAndPoliciesAuthorization
                 {
-                    MethodName = nameof(ProfileController.FirstTimeEditProfile),
-                    Policies = new List<string>()
+                    MethodName = nameof(ProfileController.FirstTimeEditProfile)
                 },
                 new RolesAndPoliciesAuthorization
                 {
-                    MethodName = nameof(ProfileController.ChangeProfilePicture),
-                    Policies = new List<string>()
+                    MethodName = nameof(ProfileController.ChangeProfilePicture)
                 }
             };
 

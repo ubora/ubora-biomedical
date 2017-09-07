@@ -12,7 +12,6 @@ using Ubora.Web._Features;
 using Xunit;
 using Moq;
 using AutoMapper;
-using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -80,86 +79,70 @@ namespace Ubora.Web.Tests._Features
 
         public void AssertHasAuthorizeAttributes(Type controller, List<RolesAndPoliciesAuthorization> rolesAndPoliciesAuthorizations)
         {
-
-            var authorizedControllerMethods = controller.Assembly.Types()
-                .Where(controller.IsAssignableFrom)
-                .SelectMany(type => type.GetMethods())
-                .Where(method => method.IsPublic && !method.IsDefined(typeof(NonActionAttribute)) &&
-                                 method.GetCustomAttributes(typeof(AuthorizeAttribute), true).Any());
+            var authorizedControllerMethods = GetAuthorizedControllerMethods(controller);
 
             foreach (var authorizedControllerMethod in authorizedControllerMethods)
             {
-                var hasMethodbeenTested = rolesAndPoliciesAuthorizations.Select(x => x.MethodName).Contains(authorizedControllerMethod.Name);
-                if (!hasMethodbeenTested)
+                HasMethodbeenTested(authorizedControllerMethod, rolesAndPoliciesAuthorizations);
+                HasAttributesbeenDuplicated(controller, authorizedControllerMethod);
+
+                var rolesAndPoliciesAuthorization = rolesAndPoliciesAuthorizations.SingleOrDefault(a => a.MethodName == authorizedControllerMethod.Name);
+                HasPoliciesbeenTested(authorizedControllerMethod, rolesAndPoliciesAuthorization);
+            }
+        }
+
+        private static IEnumerable<MethodInfo> GetAuthorizedControllerMethods(Type controller)
+        {
+            return controller.GetMethods().Where(method => method.IsPublic && !method.IsDefined(typeof(NonActionAttribute)) && method.GetCustomAttributes(typeof(AuthorizeAttribute), true).Any());
+        }
+
+        private static void HasMethodbeenTested(MethodInfo authorizedControllerMethod, IEnumerable<RolesAndPoliciesAuthorization> rolesAndPoliciesAuthorizations)
+        {
+            var hasMethodbeenTested = rolesAndPoliciesAuthorizations.Select(x => x.MethodName).Contains(authorizedControllerMethod.Name);
+            if (!hasMethodbeenTested)
+            {
+                Assert.False(true, $"{authorizedControllerMethod.Name} was not tested");
+            }
+        }
+
+        private static void HasAttributesbeenDuplicated(Type controller, MemberInfo methodInfo)
+        {
+            var controllerAttributes = Attribute.GetCustomAttribute(controller, typeof(AuthorizeAttribute));
+
+            foreach (var methodAttributes in methodInfo.GetCustomAttributes(typeof(AuthorizeAttribute), true))
+            {
+                if (Equals(methodAttributes, controllerAttributes))
                 {
-                    Assert.False(true, $"{controller.Name}.{authorizedControllerMethod} was not tested");
+                    Assert.False(true, $"Duplicated action and controller attributes!");
                 }
+            }
+        }
 
-                var authorizedControllerMethodPolicies = authorizedControllerMethod.GetCustomAttributes(typeof(AuthorizeAttribute), true).Where(a => ((AuthorizeAttribute)a).Policy != null).Select(x => ((AuthorizeAttribute)x).Policy).ToList();
-
-                if (authorizedControllerMethodPolicies.Count >= 1)
+        private void HasPoliciesbeenTested(MethodInfo authorizedControllerMethod, RolesAndPoliciesAuthorization rolesAndPoliciesAuthorization)
+        {
+            foreach (var authorizedControllerMethodpolicy in GetAuthorizedControllerMethodPolicies(authorizedControllerMethod))
+            {
+                if (authorizedControllerMethodpolicy != null)
                 {
-
-                    foreach (var rolesAndPoliciesAuthorization in rolesAndPoliciesAuthorizations)
+                    var hasPoliciesbeenTested = rolesAndPoliciesAuthorization.Policies.Contains(authorizedControllerMethodpolicy);
+                    if (!hasPoliciesbeenTested)
                     {
-                        AssertHasAttribute(controller, rolesAndPoliciesAuthorization.MethodName, rolesAndPoliciesAuthorization.Policies);
-
-                        if (rolesAndPoliciesAuthorization.MethodName == authorizedControllerMethod.Name)
-                        {
-                            foreach (var policy in rolesAndPoliciesAuthorization.Policies)
-                            {
-                                var hasPoliciesbeenTested = authorizedControllerMethodPolicies.Contains(policy);
-
-                                if (!hasPoliciesbeenTested)
-                                {
-                                    Assert.False(true, $"{controller.Name}.{authorizedControllerMethod}.{policy} was not tested");
-                                }
-                            }
-                        }
+                        Assert.False(true, $"{authorizedControllerMethod.Name}.{authorizedControllerMethodpolicy} was not tested");
                     }
                 }
             }
         }
 
+        private IEnumerable<string> GetAuthorizedControllerMethodPolicies(MethodInfo authorizedControllerMethod)
+        {
+            return authorizedControllerMethod.GetCustomAttributes(typeof(AuthorizeAttribute), true).Select(x => ((AuthorizeAttribute)x).Policy);
+        }
+
         public class RolesAndPoliciesAuthorization
         {
             public string MethodName { get; set; }
-            public List<string> Policies { get; set; }
-            public List<string> Roles { get; set; }
-        }
-
-        private void AssertHasAttribute(Type controller, string methodName, List<string> attributePolicies)
-        {
-            var methodInfos = GetMethodInfos(controller, methodName);
-
-            var customAttributeController = Attribute.GetCustomAttribute(controller, typeof(AuthorizeAttribute));
-
-            foreach (var customAttributes in methodInfos.Select(i => i.GetCustomAttributes(typeof(AuthorizeAttribute), true)))
-            {
-                if (customAttributes.Contains(customAttributeController))
-                {
-                    Assert.False(true, $"Duplicated action and controller attributes!");
-                }
-
-                var attributes = customAttributes.ToList();
-                attributes.Add(customAttributeController);
-
-                if (attributePolicies.Any())
-                {
-                    var policies = attributes.Select(a => ((AuthorizeAttribute)a).Policy);
-                    Assert.True(policies.Intersect(attributePolicies).Any());
-                }
-            }
-        }
-
-        private static IEnumerable<MethodInfo> GetMethodInfos(Type controller, string methodName)
-        {
-            if (controller.GetMethods().All(m => m.Name != methodName))
-            {
-                Assert.False(true, $"HasAttribute controller.method:  '{controller.Name}.{methodName}' does not exist  - copy/paste ? :)");
-            }
-
-            return controller.GetMethods().Where(m => m.Name == methodName);
+            public IEnumerable<string> Policies { get; set; }
+            public IEnumerable<string> Roles { get; set; }
         }
     }
 }

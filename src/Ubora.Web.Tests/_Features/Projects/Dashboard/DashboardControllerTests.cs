@@ -36,11 +36,6 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
         }
 
         [Fact]
-        public void Actions_Have_Authorize_Attributes()
-        {
-        }
-
-        [Fact]
         public async Task EditProjectImage_Saves_New_Image_And_Creates_New_Resized_Ones_And_Redirects_To_Dashboard()
         {
             CommandProcessorMock.Setup(x => x.Execute(It.IsAny<UpdateProjectImageCommand>()))

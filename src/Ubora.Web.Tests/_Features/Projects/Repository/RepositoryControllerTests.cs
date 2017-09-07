@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
@@ -15,12 +14,10 @@ using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Web._Features.Projects.Repository;
 using Ubora.Web.Infrastructure.Storage;
-using Ubora.Web.Tests.Helper;
 using Xunit;
 using Ubora.Domain.Projects.Specifications;
 using System.Linq.Expressions;
 using Ubora.Web.Authorization;
-using Ubora.Web._Features.Projects.InviteMentors;
 
 namespace Ubora.Web.Tests._Features.Projects.Repository
 {
@@ -39,12 +36,12 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         [Fact]
         public void Actions_Have_Authorize_Attributes()
         {
-            var methodPolicies = new List<RolesAndPoliciesAuthorization>()
+            var methodPolicies = new List<RolesAndPoliciesAuthorization>
                 {
                     new RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(RepositoryController.HideFile),
-                        Policies = new List<string>{ Policies.CanHideProjectFile}
+                        Policies = new []{ Policies.CanHideProjectFile}
                     }
                 };
 

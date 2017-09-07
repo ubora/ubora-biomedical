@@ -32,17 +32,15 @@ namespace Ubora.Web.Tests._Features.Projects.InviteMentors
         [Fact]
         public void Actions_Have_Authorize_Attributes()
         {
-            var methodPolicies = new List<RolesAndPoliciesAuthorization>()
+            var methodPolicies = new List<RolesAndPoliciesAuthorization>
             {
                 new RolesAndPoliciesAuthorization()
                 {
-                   MethodName = nameof(InviteMentorsController.InviteMentor),
-                   Policies = new List<string>()
+                   MethodName = nameof(InviteMentorsController.InviteMentor)
                 },
                 new RolesAndPoliciesAuthorization()
                 {
-                    MethodName = nameof(InviteMentorsController.InviteMentors),
-                    Policies = new List<string>()
+                    MethodName = nameof(InviteMentorsController.InviteMentors)
                 }
             };
 
