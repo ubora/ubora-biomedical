@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.ApplicableRegulations
 {
-    public class AnswerQuestionCommandIntegrationTests : IntegrationFixture
+    public class AnswerApplicableRegulationsQuestionCommandIntegrationTests : IntegrationFixture
     {
         private readonly Guid _projectId = Guid.NewGuid();
         private readonly Guid _questionnaireId = Guid.NewGuid();

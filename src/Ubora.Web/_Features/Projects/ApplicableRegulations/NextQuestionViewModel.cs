@@ -7,5 +7,6 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
         public Guid Id { get; set; }
         public Guid QuestionnaireId { get; set; }
         public string Text { get; set; }
+        public bool Answer { get; set; }
     }
 }

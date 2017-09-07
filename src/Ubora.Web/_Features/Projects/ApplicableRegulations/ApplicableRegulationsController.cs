@@ -9,7 +9,15 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 {
     public class ApplicableRegulationsController : ProjectController
     {
-        public IActionResult Index([FromServices]QuestionnaireIndexViewModel.Factory modelFactory)
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            base.OnActionExecuted(context);
+
+            ViewData["Title"] = "Applicable regulations questionnaire";
+            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+        }
+
+        public virtual IActionResult Index([FromServices]QuestionnaireIndexViewModel.Factory modelFactory)
         {
             var model = modelFactory.Create(this.ProjectId);
 
@@ -48,7 +56,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
             return RedirectToAction(nameof(Next), new { questionnaireId = id });
         }
 
-        public IActionResult Next(Guid questionnaireId)
+        public virtual IActionResult Next(Guid questionnaireId)
         {
             var questionnaire = QueryProcessor.FindById<ApplicableRegulationsQuestionnaireAggregate>(questionnaireId);
             if (questionnaire == null) { return NotFound(); }
@@ -112,14 +120,6 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
             }
 
             return RedirectToAction(nameof(Next), new { questionnaireId = model.QuestionnaireId });
-        }
-
-        public override void OnActionExecuted(ActionExecutedContext context)
-        {
-            ViewData["Title"] = "Applicable regulations questionnaire";
-            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
-
-            base.OnActionExecuted(context);
         }
     }
 }

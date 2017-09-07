@@ -5,20 +5,19 @@ using Moq;
 using Ubora.Domain.ApplicableRegulations;
 using Ubora.Domain.ApplicableRegulations.Commands;
 using Ubora.Domain.ApplicableRegulations.Queries;
-using Ubora.Domain.ApplicableRegulations.Specifications;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 using Xunit;
 
 namespace Ubora.Domain.Tests.ApplicableRegulations
 {
-    public class StartQuestionnaireCommandHandlerTests
+    public class StartApplicableRegulationsQuestionnaireCommandHandlerTests
     {
         private readonly StartApplicableRegulationsQuestionnaireCommand.Handler _handlerUnderTest;
         private readonly Mock<IDocumentSession> _documentSessionMock;
         private readonly Mock<IQueryProcessor> _queryProcessorMock;
 
-        public StartQuestionnaireCommandHandlerTests()
+        public StartApplicableRegulationsQuestionnaireCommandHandlerTests()
         {
             _documentSessionMock = new Mock<IDocumentSession>(MockBehavior.Strict);
             _queryProcessorMock = new Mock<IQueryProcessor>();

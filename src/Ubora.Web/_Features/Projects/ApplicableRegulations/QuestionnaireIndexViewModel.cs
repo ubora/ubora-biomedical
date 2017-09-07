@@ -27,7 +27,11 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
                 _queryProcessor = queryProcessor;
             }
 
-            public QuestionnaireIndexViewModel Create(Guid projectId)
+            protected Factory()
+            {
+            }
+
+            public virtual QuestionnaireIndexViewModel Create(Guid projectId)
             {
                 var questionnaires = _queryProcessor.Find<ApplicableRegulationsQuestionnaireAggregate>()
                     .Where(x => x.ProjectId == projectId)
