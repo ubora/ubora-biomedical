@@ -30,7 +30,6 @@ namespace Ubora.Web.Tests._Features
         public Mock<ICommandProcessor> CommandProcessorMock { get; private set; } = new Mock<ICommandProcessor>(MockBehavior.Strict);
         protected void AssertZeroCommandsExecuted() => CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
 
-
         protected UboraControllerTestsBase()
         {
             UserId = Guid.NewGuid();
