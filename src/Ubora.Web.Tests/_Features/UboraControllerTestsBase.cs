@@ -87,7 +87,7 @@ namespace Ubora.Web.Tests._Features
                 HasAttributesbeenDuplicated(controller, authorizedControllerMethod);
 
                 var rolesAndPoliciesAuthorization = rolesAndPoliciesAuthorizations.SingleOrDefault(a => a.MethodName == authorizedControllerMethod.Name);
-                HasPoliciesbeenTested(authorizedControllerMethod, rolesAndPoliciesAuthorization);
+                HasRolesAndPoliciesbeenTested(authorizedControllerMethod, rolesAndPoliciesAuthorization);
             }
         }
 
@@ -118,24 +118,34 @@ namespace Ubora.Web.Tests._Features
             }
         }
 
-        private void HasPoliciesbeenTested(MethodInfo authorizedControllerMethod, RolesAndPoliciesAuthorization rolesAndPoliciesAuthorization)
+        private void HasRolesAndPoliciesbeenTested(MethodInfo authorizedControllerMethod, RolesAndPoliciesAuthorization rolesAndPoliciesAuthorization)
         {
-            foreach (var authorizedControllerMethodpolicy in GetAuthorizedControllerMethodPolicies(authorizedControllerMethod))
+            foreach (var attribute in authorizedControllerMethod.GetCustomAttributes(typeof(AuthorizeAttribute), true))
             {
-                if (authorizedControllerMethodpolicy != null)
+                if (((AuthorizeAttribute)attribute).Policy != null)
                 {
-                    var hasPoliciesbeenTested = rolesAndPoliciesAuthorization.Policies.Contains(authorizedControllerMethodpolicy);
+                    var hasPoliciesbeenTested = rolesAndPoliciesAuthorization.Policies.Contains(((AuthorizeAttribute)attribute).Policy);
                     if (!hasPoliciesbeenTested)
                     {
-                        Assert.False(true, $"{authorizedControllerMethod.Name}.{authorizedControllerMethodpolicy} was not tested");
+                        
+                        Assert.False(true, $"{authorizedControllerMethod.Name}.{attribute} was not tested");
+                    }
+                }
+
+                if (((AuthorizeAttribute)attribute).Roles != null)
+                {
+                    if (rolesAndPoliciesAuthorization.Roles == null)
+                    {
+                        Assert.False(true, $"{authorizedControllerMethod.Name}.{attribute} was not tested");
+                    }
+
+                    var hasRolesbeenTested = rolesAndPoliciesAuthorization.Roles.Contains(((AuthorizeAttribute)attribute).Roles);
+                    if (!hasRolesbeenTested)
+                    {
+                        Assert.False(true, $"{authorizedControllerMethod.Name}.{attribute} was not tested");
                     }
                 }
             }
-        }
-
-        private IEnumerable<string> GetAuthorizedControllerMethodPolicies(MethodInfo authorizedControllerMethod)
-        {
-            return authorizedControllerMethod.GetCustomAttributes(typeof(AuthorizeAttribute), true).Select(x => ((AuthorizeAttribute)x).Policy);
         }
 
         public class RolesAndPoliciesAuthorization

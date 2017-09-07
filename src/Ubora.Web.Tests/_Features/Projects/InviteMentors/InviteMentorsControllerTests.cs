@@ -12,7 +12,6 @@ using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features.Projects.InviteMentors;
 using Ubora.Web._Features._Shared.Notices;
 using Xunit;
-using Ubora.Web.Authorization;
 
 namespace Ubora.Web.Tests._Features.Projects.InviteMentors
 {
@@ -34,13 +33,15 @@ namespace Ubora.Web.Tests._Features.Projects.InviteMentors
         {
             var methodPolicies = new List<RolesAndPoliciesAuthorization>
             {
-                new RolesAndPoliciesAuthorization()
+                new RolesAndPoliciesAuthorization
                 {
-                   MethodName = nameof(InviteMentorsController.InviteMentor)
+                    MethodName = nameof(InviteMentorsController.InviteMentor),
+                    Roles = new []{ ApplicationRole.Admin }
                 },
-                new RolesAndPoliciesAuthorization()
+                new RolesAndPoliciesAuthorization
                 {
-                    MethodName = nameof(InviteMentorsController.InviteMentors)
+                    MethodName = nameof(InviteMentorsController.InviteMentors),
+                    Roles = new []{ ApplicationRole.Admin }
                 }
             };
 
