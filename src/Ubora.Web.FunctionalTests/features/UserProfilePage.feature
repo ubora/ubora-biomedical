@@ -77,6 +77,7 @@ Scenario: I try to add an empty profile picture
         And I click on the element "a=Edit profile"
         And I click on the element "button=Upload image"
     Then I expect the title of the page "Edit profile - UBORA"
+        And I expect the element "span=Please select an image to upload first!" is visible
 
 Scenario: I check terms of service
     When I click on the element "span=Menu"
