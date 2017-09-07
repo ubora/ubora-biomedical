@@ -9,6 +9,7 @@ using Xunit;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects.Members;
+using Ubora.Web.Authorization;
 using Ubora.Web._Features.Notifications._Base;
 
 namespace Ubora.Web.Tests._Features.Notifications
@@ -23,15 +24,6 @@ namespace Ubora.Web.Tests._Features.Notifications
             _notificationViewModelFactoryMediatorMock = new Mock<NotificationViewModelFactoryMediator>();
             _notificationsController = new NotificationsController(_notificationViewModelFactoryMediatorMock.Object);
             SetUpForTest(_notificationsController);
-        }
-
-        [Fact]
-        public void Actions_Have_Authorize_Attributes()
-        {
-            AssertHasAttribute(typeof(NotificationsController), nameof(NotificationsController.AcceptMentorInvitation),
-                typeof(AllowAnonymousAttribute));
-            AssertHasAttribute(typeof(NotificationsController), nameof(NotificationsController.DeclineMentorInvitation),
-                typeof(AllowAnonymousAttribute));
         }
 
         [Fact]

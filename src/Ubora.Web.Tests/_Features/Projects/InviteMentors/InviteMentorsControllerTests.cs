@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Infrastructure.Commands;
@@ -12,6 +12,7 @@ using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features.Projects.InviteMentors;
 using Ubora.Web._Features._Shared.Notices;
 using Xunit;
+using Ubora.Web.Authorization;
 
 namespace Ubora.Web.Tests._Features.Projects.InviteMentors
 {
@@ -31,10 +32,21 @@ namespace Ubora.Web.Tests._Features.Projects.InviteMentors
         [Fact]
         public void Actions_Have_Authorize_Attributes()
         {
-            AssertHasAttribute(typeof(InviteMentorsController), nameof(InviteMentorsController.InviteMentors),
-                typeof(AuthorizeAttribute));
-            AssertHasAttribute(typeof(InviteMentorsController), nameof(InviteMentorsController.InviteMentor),
-                typeof(AuthorizeAttribute));
+            var methodPolicies = new List<RolesAndPoliciesAuthorization>()
+            {
+                new RolesAndPoliciesAuthorization()
+                {
+                   MethodName = nameof(InviteMentorsController.InviteMentor),
+                   Policies = new List<string>()
+                },
+                new RolesAndPoliciesAuthorization()
+                {
+                    MethodName = nameof(InviteMentorsController.InviteMentors),
+                    Policies = new List<string>()
+                }
+            };
+
+            AssertHasAuthorizeAttributes(typeof(InviteMentorsController), methodPolicies);
         }
 
         [Fact]

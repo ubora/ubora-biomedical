@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -42,14 +42,26 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         [Fact]
         public void Actions_Have_Authorize_Attributes()
         {
-            AssertHasAttribute(typeof(ProfileController), nameof(ProfileController.ViewProfile),
-                typeof(AllowAnonymousAttribute));
-            AssertHasAttribute(typeof(ProfileController), nameof(ProfileController.EditProfile),
-                typeof(AuthorizeAttribute));
-            AssertHasAttribute(typeof(ProfileController), nameof(ProfileController.FirstTimeEditProfile),
-                typeof(AuthorizeAttribute));
-            AssertHasAttribute(typeof(ProfileController), nameof(ProfileController.ChangeProfilePicture),
-                typeof(AuthorizeAttribute));
+            var methodPolicies = new List<RolesAndPoliciesAuthorization>
+            {
+                new RolesAndPoliciesAuthorization
+                {
+                    MethodName = nameof(ProfileController.EditProfile),
+                    Policies = new List<string>()
+                },
+                new RolesAndPoliciesAuthorization
+                {
+                    MethodName = nameof(ProfileController.FirstTimeEditProfile),
+                    Policies = new List<string>()
+                },
+                new RolesAndPoliciesAuthorization
+                {
+                    MethodName = nameof(ProfileController.ChangeProfilePicture),
+                    Policies = new List<string>()
+                }
+            };
+
+            AssertHasAuthorizeAttributes(typeof(ProfileController), methodPolicies);
         }
 
         [Fact]
@@ -97,7 +109,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>()))
                 .Returns(new CommandResult());
-            
+
             _userManagerMock.Setup(m => m.FindByIdAsync(UserId.ToString())).ReturnsAsync(applicationUser);
 
             //Act
@@ -337,7 +349,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             var returnUrl = "/Home/Index";
 
             //Act
-            var result = (RedirectToActionResult) _controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel(), returnUrl);
+            var result = (RedirectToActionResult)_controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel(), returnUrl);
 
             //Assert
             result.ActionName.Should().Be("Index");

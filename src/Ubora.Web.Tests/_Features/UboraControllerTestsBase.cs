@@ -12,6 +12,7 @@ using Ubora.Web._Features;
 using Xunit;
 using Moq;
 using AutoMapper;
+using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -77,23 +78,73 @@ namespace Ubora.Web.Tests._Features
             }
         }
 
-        protected void AssertHasAttribute(Type controller, string methodName, Type attributeType, params string[] attributePolicies)
+        public void AssertHasAuthorizeAttributes(Type controller, List<RolesAndPoliciesAuthorization> rolesAndPoliciesAuthorizations)
+        {
+
+            var authorizedControllerMethods = controller.Assembly.Types()
+                .Where(controller.IsAssignableFrom)
+                .SelectMany(type => type.GetMethods())
+                .Where(method => method.IsPublic && !method.IsDefined(typeof(NonActionAttribute)) &&
+                                 method.GetCustomAttributes(typeof(AuthorizeAttribute), true).Any());
+
+            foreach (var authorizedControllerMethod in authorizedControllerMethods)
+            {
+                var hasMethodbeenTested = rolesAndPoliciesAuthorizations.Select(x => x.MethodName).Contains(authorizedControllerMethod.Name);
+                if (!hasMethodbeenTested)
+                {
+                    Assert.False(true, $"{controller.Name}.{authorizedControllerMethod} was not tested");
+                }
+
+                var authorizedControllerMethodPolicies = authorizedControllerMethod.GetCustomAttributes(typeof(AuthorizeAttribute), true).Where(a => ((AuthorizeAttribute)a).Policy != null).Select(x => ((AuthorizeAttribute)x).Policy).ToList();
+
+                if (authorizedControllerMethodPolicies.Count >= 1)
+                {
+
+                    foreach (var rolesAndPoliciesAuthorization in rolesAndPoliciesAuthorizations)
+                    {
+                        AssertHasAttribute(controller, rolesAndPoliciesAuthorization.MethodName, rolesAndPoliciesAuthorization.Policies);
+
+                        if (rolesAndPoliciesAuthorization.MethodName == authorizedControllerMethod.Name)
+                        {
+                            foreach (var policy in rolesAndPoliciesAuthorization.Policies)
+                            {
+                                var hasPoliciesbeenTested = authorizedControllerMethodPolicies.Contains(policy);
+
+                                if (!hasPoliciesbeenTested)
+                                {
+                                    Assert.False(true, $"{controller.Name}.{authorizedControllerMethod}.{policy} was not tested");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public class RolesAndPoliciesAuthorization
+        {
+            public string MethodName { get; set; }
+            public List<string> Policies { get; set; }
+            public List<string> Roles { get; set; }
+        }
+
+        private void AssertHasAttribute(Type controller, string methodName, List<string> attributePolicies)
         {
             var methodInfos = GetMethodInfos(controller, methodName);
 
-            var customAttributeController = Attribute.GetCustomAttribute(controller, attributeType);
+            var customAttributeController = Attribute.GetCustomAttribute(controller, typeof(AuthorizeAttribute));
 
-            foreach (var customAttributes in methodInfos.Select(i => i.GetCustomAttributes(attributeType, true)))
+            foreach (var customAttributes in methodInfos.Select(i => i.GetCustomAttributes(typeof(AuthorizeAttribute), true)))
             {
                 if (customAttributes.Contains(customAttributeController))
                 {
-                    Assert.False(true, $"duplicated attributes!");
+                    Assert.False(true, $"Duplicated action and controller attributes!");
                 }
 
                 var attributes = customAttributes.ToList();
                 attributes.Add(customAttributeController);
 
-                if (attributePolicies.Length >= 1)
+                if (attributePolicies.Any())
                 {
                     var policies = attributes.Select(a => ((AuthorizeAttribute)a).Policy);
                     Assert.True(policies.Intersect(attributePolicies).Any());

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using Marten.Util;
 using Microsoft.AspNetCore.Authorization;
@@ -14,6 +15,7 @@ using Ubora.Web._Features.Users.Account;
 using Ubora.Web.Tests.Fakes;
 using Xunit;
 using Ubora.Web._Features.Projects.Dashboard;
+using Ubora.Web._Features.Projects.Repository;
 
 namespace Ubora.Web.Tests._Features.Projects.Members
 {
@@ -36,12 +38,18 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         [Fact]
         public void Actions_Have_Authorize_Attributes()
         {
-            AssertHasAttribute(typeof(MembersController), nameof(MembersController.Members),
-                typeof(AllowAnonymousAttribute));
-            AssertHasAttribute(typeof(MembersController), nameof(MembersController.Join),
-                typeof(AllowAnonymousAttribute));
-            AssertHasAttribute(typeof(MembersController), nameof(MembersController.RemoveMember),
-                typeof(AuthorizeAttribute), nameof(Policies.CanRemoveProjectMember));
+            var methodPolicies = new List<RolesAndPoliciesAuthorization>()
+            {
+                new RolesAndPoliciesAuthorization
+                {
+                    MethodName = nameof(MembersController.RemoveMember),
+                    Policies = new List<string>{ nameof(Policies.CanRemoveProjectMember) }
+                }
+            };
+
+            AssertHasAuthorizeAttributes(typeof(MembersController), methodPolicies);
+
+
         }
 
         [Fact]

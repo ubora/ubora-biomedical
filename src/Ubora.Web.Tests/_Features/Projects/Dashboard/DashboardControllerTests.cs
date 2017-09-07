@@ -38,8 +38,6 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
         [Fact]
         public void Actions_Have_Authorize_Attributes()
         {
-            AssertHasAttribute(typeof(DashboardController), nameof(DashboardController.Dashboard),
-                typeof(AllowAnonymousAttribute));
         }
 
         [Fact]

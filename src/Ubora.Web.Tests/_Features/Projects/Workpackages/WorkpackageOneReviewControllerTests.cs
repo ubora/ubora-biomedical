@@ -31,14 +31,31 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         [Fact]
         public void Actions_Have_Authorize_Attributes()
         {
-            AssertHasAttribute(typeof(WorkpackageOneReviewController), nameof(WorkpackageOneReviewController.SubmitForReview),
-                typeof(AuthorizeAttribute), nameof(Policies.CanSubmitWorkpackageForReview), nameof(Policies.ProjectController));
-            AssertHasAttribute(typeof(WorkpackageOneReviewController), nameof(WorkpackageOneReviewController.Decision),
-                typeof(AuthorizeAttribute), nameof(Policies.CanReviewProjectWorkpackages), nameof(Policies.ProjectController));
-            AssertHasAttribute(typeof(WorkpackageOneReviewController), nameof(WorkpackageOneReviewController.Accept),
-                typeof(AuthorizeAttribute), nameof(Policies.CanReviewProjectWorkpackages), nameof(Policies.ProjectController));
-            AssertHasAttribute(typeof(WorkpackageOneReviewController), nameof(WorkpackageOneReviewController.Reject),
-                typeof(AuthorizeAttribute), nameof(Policies.CanReviewProjectWorkpackages), nameof(Policies.ProjectController));
+            var methodPolicies = new List<RolesAndPoliciesAuthorization>
+                {
+                    new RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(WorkpackageOneReviewController.SubmitForReview),
+                        Policies = new List<string>{ nameof(Policies.CanSubmitWorkpackageForReview) }
+                    },
+                    new RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(WorkpackageOneReviewController.Decision),
+                        Policies = new List<string>{ nameof(Policies.CanReviewProjectWorkpackages)}
+                    },
+                    new RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(WorkpackageOneReviewController.Accept),
+                        Policies = new List<string>{ nameof(Policies.CanReviewProjectWorkpackages) }
+                    },
+                    new RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(WorkpackageOneReviewController.Reject),
+                        Policies = new List<string>{ nameof(Policies.CanReviewProjectWorkpackages) }
+                    }
+                };
+
+            AssertHasAuthorizeAttributes(typeof(WorkpackageOneReviewController), methodPolicies);
         }
 
         [Theory]
@@ -49,8 +66,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             bool hasBeenAccepted)
         {
             var workpackage = Mock.Of<WorkpackageOne>(
-                x => x.HasReviewInProcess == isReviewInProcess 
-                && x.HasBeenAccepted == hasBeenAccepted 
+                x => x.HasReviewInProcess == isReviewInProcess
+                && x.HasBeenAccepted == hasBeenAccepted
                 && x.Reviews == new List<WorkpackageReview>());
 
             QueryProcessorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
@@ -94,7 +111,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var result = (ViewResult)await _workpackageOneReviewController.Review();
 
             // Assert
-            var viewModel = (WorkpackageReviewListViewModel) result.Model;
+            var viewModel = (WorkpackageReviewListViewModel)result.Model;
             viewModel
                 .SubmitForReviewButton.IsVisible
                 .Should().BeTrue();
