@@ -5,7 +5,6 @@ Feature: Project Applicable Regulations Questionnaire
 Background:
     Given I am signed in as user and on first page
         And I click on the element "h4=Test title"
-        And Debug
         And I click on the element "a=Work packages"
         And I click on the element "a=Regulation checklist"
 
