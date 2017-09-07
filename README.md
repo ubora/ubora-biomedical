@@ -47,6 +47,10 @@ Currently, there exists a predefined `System Administrator` account:
 ```
 admin@agileworks.eu
 ChangeMe123!
+mentor@agileworks.eu
+ChangeMe123!
+test@agileworks.eu
+ChangeMe123!
 ```
 
 ## Developing functional tests (or running functional tests locally without using Docker)
