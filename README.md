@@ -60,7 +60,7 @@ Generally speaking, running through Docker, you always create the database, you 
 
 1. Download the latest Selenium Standalone Server (.jar) from http://www.seleniumhq.org/download/
 2. Download the latest ChromeDriver from https://sites.google.com/a/chromium.org/chromedriver/ (NOTE: Unpack the .zip)
-3. Start the selenium standalone server by `java -jar -Dwebdriver.chrome.driver=PATH_TO_CHROMEDRIVER PATH_TO_SELENIUM_STANDALONE_SERVER`. 
+3. Start the selenium standalone server by entering `java -jar -Dwebdriver.chrome.driver=PATH_TO_CHROMEDRIVER PATH_TO_SELENIUM_STANDALONE_SERVER` on your favourite command line tool. 
 _Example when files are located in the same folder and the Command Prompt points to it:_ `java -jar -Dwebdriver.chrome.driver=chromedriver.exe selenium-server-standalone-3.0.1.jar`
 
 NOTES: When you go to http://localhost:4444/ you should see text about Selenium. And more info about setting up the environment here: http://webdriver.io/guide/getstarted/install.html#Set-up-your-Selenium-environment
