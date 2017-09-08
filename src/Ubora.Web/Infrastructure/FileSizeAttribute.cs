@@ -7,15 +7,15 @@ namespace Ubora.Web.Infrastructure
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
     public class FileSizeAttribute : ValidationAttribute
     {
-        public long MaxBytes { get; set; }
+        public int MaxBytes { get; set; }
         public string FileTooLargeMessage { get; set; }
 
-        public FileSizeAttribute(long maxBytes)
+        public FileSizeAttribute(int maxBytes)
         {
             MaxBytes = maxBytes;
         }
 
-        public FileSizeAttribute(long maxBytes, string fileTooLargeMessage)
+        public FileSizeAttribute(int maxBytes, string fileTooLargeMessage)
         {
             MaxBytes = maxBytes;
             FileTooLargeMessage = fileTooLargeMessage;
