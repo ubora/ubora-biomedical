@@ -11,11 +11,13 @@ namespace Ubora.Web._Features._Shared.Tokens
     {
         private readonly IQueryProcessor _queryProcessor;
         private readonly IUrlHelper _urlHelper;
+        private readonly HtmlEncoder _htmlEncoder;
 
-        public TaskTokenReplacer(IQueryProcessor queryProcessor, IUrlHelper urlHelper)
+        public TaskTokenReplacer(IQueryProcessor queryProcessor, IUrlHelper urlHelper, HtmlEncoder htmlEncoder)
         {
             _queryProcessor = queryProcessor;
             _urlHelper = urlHelper;
+            _htmlEncoder = htmlEncoder;
         }
 
         public static Regex Regex = new Regex("\\#task{([0-9A-f-]+)\\}");
@@ -29,7 +31,7 @@ namespace Ubora.Web._Features._Shared.Tokens
                 var task = _queryProcessor.FindById<ProjectTask>(taskId);
                 var tasksLink = _urlHelper.Action("Assignments", "Assignments");
 
-                var encodedTaskTitle = HtmlEncoder.Default.Encode(task.Title);
+                var encodedTaskTitle = _htmlEncoder.Encode(task.Title);
 
                 return $"<a href=\"{tasksLink}\">{encodedTaskTitle}</a>";
             });

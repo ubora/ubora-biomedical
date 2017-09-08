@@ -3,8 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Text.Encodings.Web;
 using Ubora.Domain;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Tasks;
@@ -18,18 +17,20 @@ namespace Ubora.Web.Tests._Features._Shared
         private readonly TaskTokenReplacer _taskTokenReplacer;
         private readonly Mock<IUrlHelper> _urlHelperMock;
         private readonly Mock<IQueryProcessor> _queryProcessorMock;
+        private readonly Mock<HtmlEncoder> _htmlEncoderMock;
 
         public TaskTokenReplacerTests()
         {
             _queryProcessorMock = new Mock<IQueryProcessor>();
             _urlHelperMock = new Mock<IUrlHelper>();
-            _taskTokenReplacer = new TaskTokenReplacer(_queryProcessorMock.Object, _urlHelperMock.Object);
+            _htmlEncoderMock = new Mock<HtmlEncoder>();
+            _taskTokenReplacer = new TaskTokenReplacer(_queryProcessorMock.Object, _urlHelperMock.Object, _htmlEncoderMock.Object);
         }
 
         [Fact]
         public void Replaces_Task_Tokens_With_Anchor_Tags()
         {
-            var task1Title = "<\"123\">";
+            var task1Title = "task1Title";
             var task1 = new ProjectTask()
                 .Set(x => x.Id, Guid.NewGuid())
                 .Set(x => x.Title, task1Title);
@@ -51,11 +52,19 @@ namespace Ubora.Web.Tests._Features._Shared
                     x => x.Action == "Assignments" && x.Controller == "Assignments")))
                 .Returns("tasksLink");
 
+            var encodedTask1Title = "encodedTask1Title";
+            _htmlEncoderMock.Setup(x => x.Encode(task1.Title))
+                .Returns(encodedTask1Title);
+
+            var encodedTask2Title = "encodedTask2Title";
+            _htmlEncoderMock.Setup(x => x.Encode(task2.Title))
+                .Returns(encodedTask2Title);
+
             // Act
             var result = _taskTokenReplacer.ReplaceTokens(text);
 
             // Assert
-            var expected = "test1 <a href=\"tasksLink\">&lt;&quot;123&quot;&gt;</a> test2 <a href=\"tasksLink\">task2Title</a> test3";
+            var expected = $"test1 <a href=\"tasksLink\">{encodedTask1Title}</a> test2 <a href=\"tasksLink\">{encodedTask2Title}</a> test3";
 
             result.Should().Be(expected);
         }

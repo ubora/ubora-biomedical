@@ -8,6 +8,7 @@ using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 using Ubora.Web._Features._Shared.Tokens;
 using Xunit;
+using System.Text.Encodings.Web;
 
 namespace Ubora.Web.Tests._Features._Shared
 {
@@ -16,12 +17,14 @@ namespace Ubora.Web.Tests._Features._Shared
         private readonly ProjectTokenReplacer _userTokenReplacer;
         private readonly Mock<IUrlHelper> _urlHelperMock;
         private readonly Mock<IQueryProcessor> _queryProcessorMock;
+        private readonly Mock<HtmlEncoder> _htmlEncoderMock;
 
         public ProjectTokenReplacerTests()
         {
             _queryProcessorMock = new Mock<IQueryProcessor>();
             _urlHelperMock = new Mock<IUrlHelper>();
-            _userTokenReplacer = new ProjectTokenReplacer(_queryProcessorMock.Object, _urlHelperMock.Object);
+            _htmlEncoderMock = new Mock<HtmlEncoder>();
+            _userTokenReplacer = new ProjectTokenReplacer(_queryProcessorMock.Object, _urlHelperMock.Object, _htmlEncoderMock.Object);
         }
 
         [Fact]
@@ -29,7 +32,7 @@ namespace Ubora.Web.Tests._Features._Shared
         {
             var project1 = new Project()
                 .Set(x => x.Id, Guid.NewGuid())
-                .Set(x => x.Title, "<\"project1Title\">");
+                .Set(x => x.Title, "project1Title");
 
             var project2 = new Project()
                 .Set(x => x.Id, Guid.NewGuid())
@@ -51,11 +54,19 @@ namespace Ubora.Web.Tests._Features._Shared
                     x => x.Action == "Dashboard" && x.Controller == "Dashboard" && x.Values.GetPropertyValue<Guid>("projectId") == project2.Id)))
                 .Returns("project2link");
 
+            var encodedProject1Title = "encodedProject1Title";
+            _htmlEncoderMock.Setup(x => x.Encode(project1.Title))
+                .Returns(encodedProject1Title);
+
+            var encodedProject2Title = "encodedProject2Title";
+            _htmlEncoderMock.Setup(x => x.Encode(project2.Title))
+                .Returns(encodedProject2Title);
+
             // Act
             var result = _userTokenReplacer.ReplaceTokens(text);
 
             // Assert
-            var expected = "test1 <a href=\"project1link\">&lt;&quot;project1Title&quot;&gt;</a> test2 <a href=\"project2link\">project2Title</a> test3";
+            var expected = $"test1 <a href=\"project1link\">{encodedProject1Title}</a> test2 <a href=\"project2link\">{encodedProject2Title}</a> test3";
 
             result.Should().Be(expected);
         }

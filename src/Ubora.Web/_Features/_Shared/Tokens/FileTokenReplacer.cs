@@ -11,11 +11,13 @@ namespace Ubora.Web._Features._Shared.Tokens
     {
         private readonly IQueryProcessor _queryProcessor;
         private readonly IUrlHelper _urlHelper;
+        private readonly HtmlEncoder _htmlEncoder;
 
-        public FileTokenReplacer(IQueryProcessor queryProcessor, IUrlHelper urlHelper)
+        public FileTokenReplacer(IQueryProcessor queryProcessor, IUrlHelper urlHelper, HtmlEncoder htmlEncoder)
         {
             _queryProcessor = queryProcessor;
             _urlHelper = urlHelper;
+            _htmlEncoder = htmlEncoder;
         }
 
         public static Regex Regex = new Regex("\\#file{([0-9A-f-]+)\\}");
@@ -28,7 +30,7 @@ namespace Ubora.Web._Features._Shared.Tokens
 
                 var file = _queryProcessor.FindById<ProjectFile>(fileId);
 
-                var encodedFileName = HtmlEncoder.Default.Encode(file.FileName);
+                var encodedFileName = _htmlEncoder.Encode(file.FileName);
 
                 return $"{encodedFileName}";
             });

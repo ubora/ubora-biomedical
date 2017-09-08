@@ -11,11 +11,13 @@ namespace Ubora.Web._Features._Shared.Tokens
     {
         private readonly IQueryProcessor _queryProcessor;
         private readonly IUrlHelper _urlHelper;
+        private readonly HtmlEncoder _htmlEncoder;
 
-        public UserTokenReplacer(IQueryProcessor queryProcessor, IUrlHelper urlHelper)
+        public UserTokenReplacer(IQueryProcessor queryProcessor, IUrlHelper urlHelper, HtmlEncoder htmlEncoder)
         {
             _queryProcessor = queryProcessor;
             _urlHelper = urlHelper;
+            _htmlEncoder = htmlEncoder;
         }
 
         public static Regex Regex = new Regex("\\#user{([0-9A-f-]+)\\}");
@@ -29,7 +31,7 @@ namespace Ubora.Web._Features._Shared.Tokens
                 var userProfile = _queryProcessor.FindById<UserProfile>(userId);
                 var profileLink = _urlHelper.Action("View", "Profile", new { userId = userProfile.UserId });
 
-                var encodedUserFullName = HtmlEncoder.Default.Encode(userProfile.FullName);
+                var encodedUserFullName = _htmlEncoder.Encode(userProfile.FullName);
 
                 return $"<a href=\"{profileLink}\">{encodedUserFullName}</a>";
             });
