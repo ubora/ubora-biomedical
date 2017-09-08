@@ -81,13 +81,32 @@ namespace Ubora.Web.Tests._Features
         {
             var authorizedControllerMethods = GetAuthorizedControllerMethods(controller);
 
+            var errorMessages = new List<string>();
+
             foreach (var authorizedControllerMethod in authorizedControllerMethods)
             {
+                HasAttributeController(controller, rolesAndPoliciesAuthorizations);
                 HasMethodbeenTested(authorizedControllerMethod, rolesAndPoliciesAuthorizations);
                 HasAttributesbeenDuplicated(controller, authorizedControllerMethod);
 
                 var rolesAndPoliciesAuthorization = rolesAndPoliciesAuthorizations.SingleOrDefault(a => a.MethodName == authorizedControllerMethod.Name);
-                HasRolesAndPoliciesbeenTested(authorizedControllerMethod, rolesAndPoliciesAuthorization);
+                HasRolesAndPoliciesbeenTested(authorizedControllerMethod, rolesAndPoliciesAuthorization, errorMessages);
+            }
+
+            if (errorMessages.Count >= 1)
+            {
+                Assert.False(true, $"{String.Join(String.Empty, errorMessages)}");
+            }
+        }
+
+        private static void HasAttributeController(Type controller, List<RolesAndPoliciesAuthorization> authorizations)
+        {
+            foreach (var authorization in authorizations)
+            {
+                if (controller.GetMethods().All(m => m.Name != authorization.MethodName))
+                {
+                    Assert.False(true, $"HasAttribute controller.method:  '{controller.Name}.{authorization.MethodName}' does not exist  - copy/paste ?");
+                }
             }
         }
 
@@ -99,9 +118,10 @@ namespace Ubora.Web.Tests._Features
         private static void HasMethodbeenTested(MethodInfo authorizedControllerMethod, IEnumerable<RolesAndPoliciesAuthorization> rolesAndPoliciesAuthorizations)
         {
             var hasMethodbeenTested = rolesAndPoliciesAuthorizations.Select(x => x.MethodName).Contains(authorizedControllerMethod.Name);
+
             if (!hasMethodbeenTested)
             {
-                Assert.False(true, $"{authorizedControllerMethod.Name} was not tested");
+                Assert.False(true, $"{authorizedControllerMethod.Name} was not tested ");
             }
         }
 
@@ -113,22 +133,37 @@ namespace Ubora.Web.Tests._Features
             {
                 if (Equals(methodAttributes, controllerAttributes))
                 {
-                    Assert.False(true, $"Duplicated action and controller attributes!");
+                    Assert.False(true, $"Duplicated action and controller attributes! ");
                 }
             }
         }
 
-        private void HasRolesAndPoliciesbeenTested(MethodInfo authorizedControllerMethod, RolesAndPoliciesAuthorization rolesAndPoliciesAuthorization)
+        private static void HasRolesAndPoliciesbeenTested(MethodInfo authorizedControllerMethod, RolesAndPoliciesAuthorization rolesAndPoliciesAuthorization, List<string> errors)
         {
             foreach (var attribute in authorizedControllerMethod.GetCustomAttributes(typeof(AuthorizeAttribute), true))
             {
                 if (((AuthorizeAttribute)attribute).Policy != null)
                 {
-                    var hasPoliciesbeenTested = rolesAndPoliciesAuthorization.Policies.Contains(((AuthorizeAttribute)attribute).Policy);
-                    if (!hasPoliciesbeenTested)
+                    if (rolesAndPoliciesAuthorization.Policies == null)
                     {
-                        
-                        Assert.False(true, $"{authorizedControllerMethod.Name}.{attribute} was not tested");
+                        errors.Add($"{authorizedControllerMethod.Name}.{attribute} was not tested ");
+                    }
+                    else
+                    {
+                        var hasPoliciesbeenTested =
+                            rolesAndPoliciesAuthorization.Policies.Contains(((AuthorizeAttribute)attribute).Policy);
+                        if (!hasPoliciesbeenTested)
+                        {
+
+                            errors.Add($"{authorizedControllerMethod.Name}.{attribute} was not tested ");
+                        }
+                    }
+                }
+                else
+                {
+                    if (rolesAndPoliciesAuthorization.Policies != null)
+                    {
+                        errors.Add($"{authorizedControllerMethod.Name}.{attribute}.{((AuthorizeAttribute)attribute).Policy} haven't ");
                     }
                 }
 
@@ -136,13 +171,22 @@ namespace Ubora.Web.Tests._Features
                 {
                     if (rolesAndPoliciesAuthorization.Roles == null)
                     {
-                        Assert.False(true, $"{authorizedControllerMethod.Name}.{attribute} was not tested");
+                        errors.Add($"{authorizedControllerMethod.Name}.{attribute}.{((AuthorizeAttribute)attribute).Roles} was not tested ");
                     }
-
-                    var hasRolesbeenTested = rolesAndPoliciesAuthorization.Roles.Contains(((AuthorizeAttribute)attribute).Roles);
-                    if (!hasRolesbeenTested)
+                    else
                     {
-                        Assert.False(true, $"{authorizedControllerMethod.Name}.{attribute} was not tested");
+                        var hasRolesbeenTested = rolesAndPoliciesAuthorization.Roles.Contains(((AuthorizeAttribute)attribute).Roles);
+                        if (!hasRolesbeenTested)
+                        {
+                            errors.Add($"{authorizedControllerMethod.Name}.{attribute}.{((AuthorizeAttribute)attribute).Roles} was not tested ");
+                        }
+                    }
+                }
+                else
+                {
+                    if (rolesAndPoliciesAuthorization.Roles != null)
+                    {
+                        errors.Add($"{authorizedControllerMethod.Name}.{attribute}.{((AuthorizeAttribute)attribute).Roles} haven't ");
                     }
                 }
             }
