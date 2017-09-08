@@ -27,7 +27,7 @@ namespace Ubora.Web.Tests._Features._Shared
         [Fact]
         public void Replaces_User_Tokens_With_Anchor_Tags()
         {
-            var user1 = new UserProfile(userId: Guid.NewGuid()) { FirstName = "user1first", LastName = "user1last" };
+            var user1 = new UserProfile(userId: Guid.NewGuid()) { FirstName = "<script>First", LastName = "Last</script>" };
             var user2 = new UserProfile(userId: Guid.NewGuid()) { FirstName = "user2first", LastName = "user2last" };
             var text = $"test1 {StringTokens.User(user1.UserId)} test2 {StringTokens.User(user2.UserId)} test3";
 
@@ -49,7 +49,7 @@ namespace Ubora.Web.Tests._Features._Shared
             var result = _userTokenReplacer.ReplaceTokens(text);
 
             // Assert
-            var expected = "test1 <a href=\"user1link\">user1first user1last</a> test2 <a href=\"user2link\">user2first user2last</a> test3";
+            var expected = "test1 <a href=\"user1link\">&lt;script&gt;First Last&lt;/script&gt;</a> test2 <a href=\"user2link\">user2first user2last</a> test3";
 
             result.Should().Be(expected);
         }

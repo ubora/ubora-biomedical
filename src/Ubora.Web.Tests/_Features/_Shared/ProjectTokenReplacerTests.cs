@@ -29,7 +29,7 @@ namespace Ubora.Web.Tests._Features._Shared
         {
             var project1 = new Project()
                 .Set(x => x.Id, Guid.NewGuid())
-                .Set(x => x.Title, "project1Title");
+                .Set(x => x.Title, "<\"project1Title\">");
 
             var project2 = new Project()
                 .Set(x => x.Id, Guid.NewGuid())
@@ -55,7 +55,7 @@ namespace Ubora.Web.Tests._Features._Shared
             var result = _userTokenReplacer.ReplaceTokens(text);
 
             // Assert
-            var expected = "test1 <a href=\"project1link\">project1Title</a> test2 <a href=\"project2link\">project2Title</a> test3";
+            var expected = "test1 <a href=\"project1link\">&lt;&quot;project1Title&quot;&gt;</a> test2 <a href=\"project2link\">project2Title</a> test3";
 
             result.Should().Be(expected);
         }

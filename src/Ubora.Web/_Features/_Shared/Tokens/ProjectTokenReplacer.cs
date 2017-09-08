@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
+using System.Text.Encodings.Web;
 
 namespace Ubora.Web._Features._Shared.Tokens
 {
@@ -28,7 +29,9 @@ namespace Ubora.Web._Features._Shared.Tokens
                 var project = _queryProcessor.FindById<Project>(projectId);
                 var projectLink = _urlHelper.Action("Dashboard", "Dashboard", new { projectId = project.Id });
 
-                return $"<a href=\"{projectLink}\">{project.Title}</a>";
+                var encodedProjectTitle = HtmlEncoder.Default.Encode(project.Title);
+
+                return $"<a href=\"{projectLink}\">{encodedProjectTitle}</a>";
             });
 
             return replacedText;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Repository;
@@ -27,7 +28,9 @@ namespace Ubora.Web._Features._Shared.Tokens
 
                 var file = _queryProcessor.FindById<ProjectFile>(fileId);
 
-                return $"{file.FileName}";
+                var encodedFileName = HtmlEncoder.Default.Encode(file.FileName);
+
+                return $"{encodedFileName}";
             });
 
             return replacedText;

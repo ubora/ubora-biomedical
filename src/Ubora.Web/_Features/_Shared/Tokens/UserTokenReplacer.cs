@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Users;
+using System.Text.Encodings.Web;
 
 namespace Ubora.Web._Features._Shared.Tokens
 {
@@ -28,7 +29,9 @@ namespace Ubora.Web._Features._Shared.Tokens
                 var userProfile = _queryProcessor.FindById<UserProfile>(userId);
                 var profileLink = _urlHelper.Action("View", "Profile", new { userId = userProfile.UserId });
 
-                return $"<a href=\"{profileLink}\">{userProfile.FullName}</a>";
+                var encodedUserFullName = HtmlEncoder.Default.Encode(userProfile.FullName);
+
+                return $"<a href=\"{profileLink}\">{encodedUserFullName}</a>";
             });
 
             return replacedText;

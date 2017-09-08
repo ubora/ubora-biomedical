@@ -28,7 +28,7 @@ namespace Ubora.Web.Tests._Features._Shared
         {
             var file1 = new ProjectFile()
                 .Set(x => x.Id, Guid.NewGuid())
-                .Set(x => x.FileName, "file1Name");
+                .Set(x => x.FileName, "<\"file1Name\">");
 
             var file2 = new ProjectFile()
                 .Set(x => x.Id, Guid.NewGuid())
@@ -46,7 +46,7 @@ namespace Ubora.Web.Tests._Features._Shared
             var result = _fileTokenReplacer.ReplaceTokens(text);
 
             // Assert
-            var expected = "test1 file1Name test2 file2Name test3";
+            var expected = "test1 &lt;&quot;file1Name&quot;&gt; test2 file2Name test3";
 
             result.Should().Be(expected);
         }
