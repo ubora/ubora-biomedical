@@ -85,21 +85,29 @@ namespace Ubora.Web.Tests._Features
 
             foreach (var authorizedControllerMethod in authorizedControllerMethods)
             {
-                HasAttributeController(controller, rolesAndPoliciesAuthorizations);
-                HasMethodbeenTested(authorizedControllerMethod, rolesAndPoliciesAuthorizations);
-                HasAttributesbeenDuplicated(controller, authorizedControllerMethod);
+                HasMethodName(controller, rolesAndPoliciesAuthorizations);
+                HasAttributesbeenDuplicated(controller, authorizedControllerMethod, errorMessages);
 
-                var rolesAndPoliciesAuthorization = rolesAndPoliciesAuthorizations.SingleOrDefault(a => a.MethodName == authorizedControllerMethod.Name);
-                HasRolesAndPoliciesbeenTested(authorizedControllerMethod, rolesAndPoliciesAuthorization, errorMessages);
+                var hasMethodbeenTested = HasMethodbeenTested(authorizedControllerMethod, rolesAndPoliciesAuthorizations, errorMessages);
+                if (hasMethodbeenTested)
+                {
+                    var rolesAndPoliciesAuthorization = rolesAndPoliciesAuthorizations.SingleOrDefault(a => a.MethodName == authorizedControllerMethod.Name);
+                    HasRolesAndPoliciesbeenTested(authorizedControllerMethod, rolesAndPoliciesAuthorization, errorMessages);
+                }
             }
 
             if (errorMessages.Count >= 1)
             {
-                Assert.False(true, $"{String.Join(String.Empty, errorMessages)}");
+                Assert.False(true, $"{string.Join(string.Empty, errorMessages)}");
             }
         }
 
-        private static void HasAttributeController(Type controller, List<RolesAndPoliciesAuthorization> authorizations)
+        private static IEnumerable<MethodInfo> GetAuthorizedControllerMethods(Type controller)
+        {
+            return controller.GetMethods().Where(method => method.IsPublic && !method.IsDefined(typeof(NonActionAttribute)) && method.GetCustomAttributes(typeof(AuthorizeAttribute), true).Any());
+        }
+
+        private static void HasMethodName(Type controller, List<RolesAndPoliciesAuthorization> authorizations)
         {
             foreach (var authorization in authorizations)
             {
@@ -110,22 +118,7 @@ namespace Ubora.Web.Tests._Features
             }
         }
 
-        private static IEnumerable<MethodInfo> GetAuthorizedControllerMethods(Type controller)
-        {
-            return controller.GetMethods().Where(method => method.IsPublic && !method.IsDefined(typeof(NonActionAttribute)) && method.GetCustomAttributes(typeof(AuthorizeAttribute), true).Any());
-        }
-
-        private static void HasMethodbeenTested(MethodInfo authorizedControllerMethod, IEnumerable<RolesAndPoliciesAuthorization> rolesAndPoliciesAuthorizations)
-        {
-            var hasMethodbeenTested = rolesAndPoliciesAuthorizations.Select(x => x.MethodName).Contains(authorizedControllerMethod.Name);
-
-            if (!hasMethodbeenTested)
-            {
-                Assert.False(true, $"{authorizedControllerMethod.Name} was not tested ");
-            }
-        }
-
-        private static void HasAttributesbeenDuplicated(Type controller, MemberInfo methodInfo)
+        private static void HasAttributesbeenDuplicated(Type controller, MemberInfo methodInfo, List<string> errors)
         {
             var controllerAttributes = Attribute.GetCustomAttribute(controller, typeof(AuthorizeAttribute));
 
@@ -133,9 +126,22 @@ namespace Ubora.Web.Tests._Features
             {
                 if (Equals(methodAttributes, controllerAttributes))
                 {
-                    Assert.False(true, $"Duplicated action and controller attributes! ");
+                    errors.Add($"Duplicated action {methodInfo.Name} and controller {controller.Name} attributes! \n");
                 }
             }
+        }
+
+        private static bool HasMethodbeenTested(MethodInfo authorizedControllerMethod, IEnumerable<RolesAndPoliciesAuthorization> rolesAndPoliciesAuthorizations, List<string> errors)
+        {
+            var hasMethodbeenTested = rolesAndPoliciesAuthorizations.Select(x => x.MethodName).Contains(authorizedControllerMethod.Name);
+
+            if (!hasMethodbeenTested)
+            {
+                errors.Add($"{authorizedControllerMethod.Name} was not tested \n");
+                return false;
+            }
+
+            return true;
         }
 
         private static void HasRolesAndPoliciesbeenTested(MethodInfo authorizedControllerMethod, RolesAndPoliciesAuthorization rolesAndPoliciesAuthorization, List<string> errors)
@@ -146,7 +152,7 @@ namespace Ubora.Web.Tests._Features
                 {
                     if (rolesAndPoliciesAuthorization.Policies == null)
                     {
-                        errors.Add($"{authorizedControllerMethod.Name}.{attribute} was not tested ");
+                        errors.Add($"{authorizedControllerMethod.Name} {((AuthorizeAttribute)attribute).Policy} policy was not tested \n");
                     }
                     else
                     {
@@ -155,7 +161,7 @@ namespace Ubora.Web.Tests._Features
                         if (!hasPoliciesbeenTested)
                         {
 
-                            errors.Add($"{authorizedControllerMethod.Name}.{attribute} was not tested ");
+                            errors.Add($"{authorizedControllerMethod.Name} {((AuthorizeAttribute)attribute).Policy} policy was not tested \n");
                         }
                     }
                 }
@@ -163,7 +169,7 @@ namespace Ubora.Web.Tests._Features
                 {
                     if (rolesAndPoliciesAuthorization.Policies != null)
                     {
-                        errors.Add($"{authorizedControllerMethod.Name}.{attribute}.{((AuthorizeAttribute)attribute).Policy} haven't ");
+                        errors.Add($"{authorizedControllerMethod.Name}.{attribute}.{((AuthorizeAttribute)attribute).Policy} policy haven't in controller \n");
                     }
                 }
 
@@ -171,14 +177,14 @@ namespace Ubora.Web.Tests._Features
                 {
                     if (rolesAndPoliciesAuthorization.Roles == null)
                     {
-                        errors.Add($"{authorizedControllerMethod.Name}.{attribute}.{((AuthorizeAttribute)attribute).Roles} was not tested ");
+                        errors.Add($"{authorizedControllerMethod.Name} {((AuthorizeAttribute)attribute).Roles} roles was not tested \n");
                     }
                     else
                     {
                         var hasRolesbeenTested = rolesAndPoliciesAuthorization.Roles.Contains(((AuthorizeAttribute)attribute).Roles);
                         if (!hasRolesbeenTested)
                         {
-                            errors.Add($"{authorizedControllerMethod.Name}.{attribute}.{((AuthorizeAttribute)attribute).Roles} was not tested ");
+                            errors.Add($"{authorizedControllerMethod.Name} {((AuthorizeAttribute)attribute).Roles} roles was not tested \n");
                         }
                     }
                 }
@@ -186,7 +192,7 @@ namespace Ubora.Web.Tests._Features
                 {
                     if (rolesAndPoliciesAuthorization.Roles != null)
                     {
-                        errors.Add($"{authorizedControllerMethod.Name}.{attribute}.{((AuthorizeAttribute)attribute).Roles} haven't ");
+                        errors.Add($"{authorizedControllerMethod.Name}.{attribute}.{((AuthorizeAttribute)attribute).Roles} roles haven't in controller \n");
                     }
                 }
             }
