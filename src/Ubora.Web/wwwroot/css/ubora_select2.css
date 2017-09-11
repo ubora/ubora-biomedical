@@ -1,6 +1,5 @@
 ﻿.select2-container--ubora  {
     width: 100% !important;
-
 }
 
 .select2-results > .select2-results__options {
@@ -37,12 +36,15 @@ li[aria-disabled="true"] {
     display: none;
 }
 
-
 .select2-results__group {
     background-color: var(--quartinary-shade);
     display: block;
     width: 100%;
-    /*padding:0;*/
-    margin:0;
+    margin: 0;
+    padding: 6px 0;
+}
 
+input.select2-search__field,
+input.select2-search__field:focus {
+    border: 1px solid var(--secondary-color);
 }
