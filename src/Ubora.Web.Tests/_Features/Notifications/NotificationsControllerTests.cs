@@ -2,14 +2,12 @@
 using Moq;
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
 using Ubora.Domain.Notifications;
 using Ubora.Web._Features.Notifications;
 using Xunit;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects.Members;
-using Ubora.Web.Authorization;
 using Ubora.Web._Features.Notifications._Base;
 
 namespace Ubora.Web.Tests._Features.Notifications

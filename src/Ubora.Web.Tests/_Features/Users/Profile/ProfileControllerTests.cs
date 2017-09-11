@@ -42,7 +42,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         [Fact]
         public void Actions_Have_Authorize_Attributes()
         {
-            var methodPolicies = new List<RolesAndPoliciesAuthorization>
+            var rolesAndPoliciesAuthorizations = new List<RolesAndPoliciesAuthorization>
             {
                 new RolesAndPoliciesAuthorization
                 {
@@ -58,7 +58,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 }
             };
 
-            AssertHasAuthorizeAttributes(typeof(ProfileController), methodPolicies);
+            AssertHasAuthorizeAttributes(typeof(ProfileController), rolesAndPoliciesAuthorizations);
         }
 
         [Fact]

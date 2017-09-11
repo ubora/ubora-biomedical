@@ -31,7 +31,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         [Fact]
         public void Actions_Have_Authorize_Attributes()
         {
-            var methodPolicies = new List<RolesAndPoliciesAuthorization>
+            var rolesAndPoliciesAuthorizations = new List<RolesAndPoliciesAuthorization>
             {
                 new RolesAndPoliciesAuthorization
                 {
@@ -55,7 +55,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 }
             };
 
-            AssertHasAuthorizeAttributes(typeof(WorkpackageTwoReviewController), methodPolicies);
+            AssertHasAuthorizeAttributes(typeof(WorkpackageTwoReviewController), rolesAndPoliciesAuthorizations);
         }
 
         [Theory]
@@ -66,8 +66,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             bool hasBeenAccepted)
         {
             var workpackage = Mock.Of<WorkpackageTwo>(
-                x => x.HasReviewInProcess == isReviewInProcess 
-                && x.HasBeenAccepted == hasBeenAccepted 
+                x => x.HasReviewInProcess == isReviewInProcess
+                && x.HasBeenAccepted == hasBeenAccepted
                 && x.Reviews == new List<WorkpackageReview>());
 
             QueryProcessorMock.Setup(x => x.FindById<WorkpackageTwo>(ProjectId))

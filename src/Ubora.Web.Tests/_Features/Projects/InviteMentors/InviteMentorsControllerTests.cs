@@ -31,7 +31,7 @@ namespace Ubora.Web.Tests._Features.Projects.InviteMentors
         [Fact]
         public void Actions_Have_Authorize_Attributes()
         {
-            var methodPolicies = new List<RolesAndPoliciesAuthorization>
+            var rolesAndPoliciesAuthorizations = new List<RolesAndPoliciesAuthorization>
             {
                 new RolesAndPoliciesAuthorization
                 {
@@ -45,7 +45,7 @@ namespace Ubora.Web.Tests._Features.Projects.InviteMentors
                 }
             };
 
-            AssertHasAuthorizeAttributes(typeof(InviteMentorsController), methodPolicies);
+            AssertHasAuthorizeAttributes(typeof(InviteMentorsController), rolesAndPoliciesAuthorizations);
         }
 
         [Fact]

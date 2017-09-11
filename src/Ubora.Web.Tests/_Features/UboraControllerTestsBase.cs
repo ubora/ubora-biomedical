@@ -137,7 +137,7 @@ namespace Ubora.Web.Tests._Features
 
             if (!hasMethodbeenTested)
             {
-                errors.Add($"{authorizedControllerMethod.Name} was not tested \n");
+                errors.Add($"{authorizedControllerMethod.Name} method was not tested \n");
                 return false;
             }
 
@@ -148,53 +148,76 @@ namespace Ubora.Web.Tests._Features
         {
             foreach (var attribute in authorizedControllerMethod.GetCustomAttributes(typeof(AuthorizeAttribute), true))
             {
-                if (((AuthorizeAttribute)attribute).Policy != null)
-                {
-                    if (rolesAndPoliciesAuthorization.Policies == null)
-                    {
-                        errors.Add($"{authorizedControllerMethod.Name} {((AuthorizeAttribute)attribute).Policy} policy was not tested \n");
-                    }
-                    else
-                    {
-                        var hasPoliciesbeenTested =
-                            rolesAndPoliciesAuthorization.Policies.Contains(((AuthorizeAttribute)attribute).Policy);
-                        if (!hasPoliciesbeenTested)
-                        {
+                var authorizeAttribute = (AuthorizeAttribute)attribute;
 
-                            errors.Add($"{authorizedControllerMethod.Name} {((AuthorizeAttribute)attribute).Policy} policy was not tested \n");
-                        }
-                    }
+                if (authorizeAttribute.Policy != null)
+                {
+                    HasPoliciesbeenTested(rolesAndPoliciesAuthorization, authorizeAttribute, errors);
                 }
                 else
                 {
-                    if (rolesAndPoliciesAuthorization.Policies != null)
-                    {
-                        errors.Add($"{authorizedControllerMethod.Name}.{attribute}.{((AuthorizeAttribute)attribute).Policy} policy haven't in controller \n");
-                    }
+                    HasPoliciesAuthorization(rolesAndPoliciesAuthorization, authorizeAttribute, errors);
                 }
 
-                if (((AuthorizeAttribute)attribute).Roles != null)
+                if (authorizeAttribute.Roles != null)
                 {
-                    if (rolesAndPoliciesAuthorization.Roles == null)
-                    {
-                        errors.Add($"{authorizedControllerMethod.Name} {((AuthorizeAttribute)attribute).Roles} roles was not tested \n");
-                    }
-                    else
-                    {
-                        var hasRolesbeenTested = rolesAndPoliciesAuthorization.Roles.Contains(((AuthorizeAttribute)attribute).Roles);
-                        if (!hasRolesbeenTested)
-                        {
-                            errors.Add($"{authorizedControllerMethod.Name} {((AuthorizeAttribute)attribute).Roles} roles was not tested \n");
-                        }
-                    }
+                    HasRolesbeenTested(rolesAndPoliciesAuthorization, authorizeAttribute, errors);
                 }
                 else
                 {
-                    if (rolesAndPoliciesAuthorization.Roles != null)
-                    {
-                        errors.Add($"{authorizedControllerMethod.Name}.{attribute}.{((AuthorizeAttribute)attribute).Roles} roles haven't in controller \n");
-                    }
+                    HasRolesAuthorization(rolesAndPoliciesAuthorization, authorizeAttribute, errors);
                 }
+            }
+        }
+
+        private static void HasPoliciesbeenTested(RolesAndPoliciesAuthorization rolesAndPoliciesAuthorization, AuthorizeAttribute attribute, List<string> errors)
+        {
+            if (rolesAndPoliciesAuthorization.Policies == null)
+            {
+                errors.Add($"{attribute.Policy} policy was not tested in {rolesAndPoliciesAuthorization.MethodName} method \n");
+            }
+            else
+            {
+                var hasPoliciesbeenTested =
+                    rolesAndPoliciesAuthorization.Policies.Contains(attribute.Policy);
+                if (!hasPoliciesbeenTested)
+                {
+
+                    errors.Add($"{attribute.Policy} policy was not tested in {rolesAndPoliciesAuthorization.MethodName} method \n");
+                }
+            }
+        }
+
+        private static void HasPoliciesAuthorization(RolesAndPoliciesAuthorization rolesAndPoliciesAuthorization, AuthorizeAttribute attribute, List<string> errors)
+        {
+            if (rolesAndPoliciesAuthorization.Policies != null)
+            {
+                errors.Add($"{attribute.Policy} policy haven't in {rolesAndPoliciesAuthorization.MethodName} method \n");
+            }
+        }
+
+
+        private static void HasRolesbeenTested(RolesAndPoliciesAuthorization rolesAndPoliciesAuthorization, AuthorizeAttribute attribute, List<string> errors)
+        {
+            if (rolesAndPoliciesAuthorization.Roles == null)
+            {
+                errors.Add($"{attribute.Roles} roles was not tested in {rolesAndPoliciesAuthorization.MethodName} method \n");
+            }
+            else
+            {
+                var hasRolesbeenTested = rolesAndPoliciesAuthorization.Roles.Contains(attribute.Roles);
+                if (!hasRolesbeenTested)
+                {
+                    errors.Add($"{attribute.Roles} roles was not tested in {rolesAndPoliciesAuthorization.MethodName} method \n");
+                }
+            }
+        }
+
+        private static void HasRolesAuthorization(RolesAndPoliciesAuthorization rolesAndPoliciesAuthorization, AuthorizeAttribute attribute, List<string> errors)
+        {
+            if (rolesAndPoliciesAuthorization.Roles != null)
+            {
+                errors.Add($"{attribute.Roles} roles haven't in {rolesAndPoliciesAuthorization.MethodName} method \n");
             }
         }
 

@@ -31,7 +31,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         [Fact]
         public void Actions_Have_Authorize_Attributes()
         {
-            var methodPolicies = new List<RolesAndPoliciesAuthorization>
+            var rolesAndPoliciesAuthorizations = new List<RolesAndPoliciesAuthorization>
                 {
                     new RolesAndPoliciesAuthorization
                     {
@@ -41,7 +41,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                     new RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(WorkpackageOneReviewController.Decision),
-                        Policies = new []{ nameof(Policies.CanReviewProjectWorkpackages)}
+                        Policies = new []{ nameof(Policies.CanReviewProjectWorkpackages) }
                     },
                     new RolesAndPoliciesAuthorization
                     {
@@ -55,7 +55,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                     }
                 };
 
-            AssertHasAuthorizeAttributes(typeof(WorkpackageOneReviewController), methodPolicies);
+            AssertHasAuthorizeAttributes(typeof(WorkpackageOneReviewController), rolesAndPoliciesAuthorizations);
         }
 
         [Theory]
