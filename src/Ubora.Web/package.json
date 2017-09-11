@@ -23,7 +23,8 @@
     "simplemde": "^1.11.2",
     "style-loader": "^0.18.2",
     "uglifyjs-webpack-plugin": "^0.4.6",
-    "webpack": "^3.3.0"
+    "webpack": "^3.3.0",
+    "webpack-bundle-analyzer": "^2.9.0"
   },
   "dependencies": {},
   "scripts": {
