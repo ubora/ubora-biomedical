@@ -1,0 +1,48 @@
+﻿.select2-container--ubora  {
+    width: 100% !important;
+
+}
+
+.select2-results > .select2-results__options {
+    max-height: 30vh;
+    overflow-y: auto;
+}
+
+.select2-selection__arrow {
+    height: 26px;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 20px;
+}
+
+.select2-selection__arrow b {
+    border-color: #888 transparent transparent transparent;
+    border-style: solid;
+    border-width: 5px 4px 0 4px;
+    height: 0;
+    left: 50%;
+    margin-left: -4px;
+    margin-top: -2px;
+    position: absolute;
+    top: 50%;
+    width: 0;
+}
+
+.select2-selection__rendered {
+    padding: 6px 0;
+}
+
+li[aria-disabled="true"] {
+    display: none;
+}
+
+
+.select2-results__group {
+    background-color: var(--quartinary-shade);
+    display: block;
+    width: 100%;
+    /*padding:0;*/
+    margin:0;
+
+}

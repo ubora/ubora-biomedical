@@ -11,7 +11,7 @@
     <link href="~/lib/openSans/openSans.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/styles.css?v1">
     <link rel="stylesheet" href="~/lib/simplemde/dist/simplemde.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css" rel="stylesheet" />
 
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
@@ -51,7 +51,9 @@
             feedbackModule('@Context.Request.Path', '@Url.Action("Send", "Feedback")');
         })
 
-        $('select').select2();
+        $('select').select2({
+            theme: 'ubora'
+        });
     </script>
 
     @RenderSection("Scripts", required: false)
