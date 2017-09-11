@@ -22,7 +22,8 @@ namespace Ubora.Web.Infrastructure.DataSeeding
 
         internal async Task SeedIfNecessary()
         {
-            await AddRolesIfNecessary();
+            await AddRoleIfNecessary(ApplicationRole.Admin);
+            await AddRoleIfNecessary(ApplicationRole.Mentor);
 
             var isSeedNecessary = !_documentSession.Query<DeviceClassification>().Any();
             if (!isSeedNecessary)
@@ -39,15 +40,14 @@ namespace Ubora.Web.Infrastructure.DataSeeding
             await _adminSeeder.SeedAdmin();
         }
 
-        private async Task AddRolesIfNecessary()
+        private async Task AddRoleIfNecessary(string roleName)
         {
-            if (!await _roleManager.RoleExistsAsync(ApplicationRole.Admin))
+            if (!await _roleManager.RoleExistsAsync(roleName))
             {
-                var adminRole = new ApplicationRole
+                await _roleManager.CreateAsync(new ApplicationRole
                 {
-                    Name = ApplicationRole.Admin
-                };
-                await _roleManager.CreateAsync(adminRole);
+                    Name = roleName
+                });
             }
         }
     }

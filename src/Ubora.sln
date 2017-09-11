@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ubora.Web", "Ubora.Web\Ubora.Web.csproj", "{5A686F3D-2BA3-4064-B936-DC7956D1CD95}"
 EndProject
@@ -33,7 +33,6 @@ Global
 		{90DFD079-3246-488D-AC3A-A9804643DC50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{90DFD079-3246-488D-AC3A-A9804643DC50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90DFD079-3246-488D-AC3A-A9804643DC50}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90DFD079-3246-488D-AC3A-A9804643DC50}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5BC0E274-A30D-4F1D-A487-3C521E69C1D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5BC0E274-A30D-4F1D-A487-3C521E69C1D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BC0E274-A30D-4F1D-A487-3C521E69C1D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -49,5 +48,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {78CABD96-6EDA-4711-9D29-A260667238E8}
 	EndGlobalSection
 EndGlobal

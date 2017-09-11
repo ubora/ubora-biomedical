@@ -11,5 +11,6 @@ namespace Ubora.Web._Features.Notifications._Base
     public interface INotificationViewModel
     {
         IHtmlContent GetPartialView(IHtmlHelper htmlHelper, bool isHistory);
+        bool IsUnread { get; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Marten;
 using Marten.Services;
 using Marten.Services.Events;
@@ -8,14 +9,14 @@ using Ubora.Domain.Projects.Tasks;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Notifications;
-using Ubora.Domain.Notifications.Invitation;
-using Ubora.Domain.Notifications.Join;
+using Ubora.Domain.Projects.Members;
+using Ubora.Domain.Projects.Members.Commands;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
     public class UboraStoreOptions
     {
-        public Action<StoreOptions> Configuration(IEnumerable<Type> eventTypes)
+        public Action<StoreOptions> Configuration(IEnumerable<Type> eventTypes, IEnumerable<MappedType> notificationTypes)
         {
             if (eventTypes == null)
             {
@@ -42,7 +43,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.AddEventTypes(eventTypes);
 
                 options.Schema.For<INotification>()
-                    .AddSubClassHierarchy(typeof(UserBinaryAction), typeof(InvitationToProject), typeof(RequestToJoinProject));
+                    .AddSubClassHierarchy(notificationTypes.ToArray());
             };
         }
     }

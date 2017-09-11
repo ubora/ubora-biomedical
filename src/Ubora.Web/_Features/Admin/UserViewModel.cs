@@ -14,5 +14,6 @@ namespace Ubora.Web._Features.Admin
         public IEnumerable<string> Roles { get; set; }
 
         public bool IsAdmin => Roles.Any(x => x == ApplicationRole.Admin);
+        public bool IsMentor => Roles.Any(x => x == ApplicationRole.Mentor);
     }
 }

@@ -2,8 +2,8 @@ using System;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Notifications.Join;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
 using Ubora.Web._Features.Notifications._Base;
 

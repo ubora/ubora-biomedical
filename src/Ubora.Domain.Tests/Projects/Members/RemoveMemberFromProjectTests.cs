@@ -6,6 +6,7 @@ using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
+using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Domain.Users;
 using Xunit;
 

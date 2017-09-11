@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
+﻿using System.Collections;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features._Shared
 {
-    public class NoticeQueue
+    public class NoticeQueue : IEnumerable<Notice>
     {
         public const string TempDataKey = nameof(NoticeQueue) + "_6954A13F-D23D-407B-9EB9-D199C2BF3763";
 
@@ -18,7 +19,20 @@ namespace Ubora.Web._Features._Shared
             _innerQueue = GetExistingOrCreateNew();
         }
 
-        public int Count => _innerQueue.Count;
+        public void Success(string text)
+        {
+            this.Enqueue(new Notice(text, NoticeType.Success));
+        }
+
+        public void Error(string text)
+        {
+            this.Enqueue(new Notice(text, NoticeType.Error));
+        }
+
+        public void Info(string text)
+        {
+            this.Enqueue(new Notice(text, NoticeType.Info));
+        }
 
         public void Enqueue(Notice notice)
         {
@@ -49,6 +63,16 @@ namespace Ubora.Web._Features._Shared
         private void UpdateTempData()
         {
             _tempData[TempDataKey] = JsonConvert.SerializeObject(_innerQueue);
+        }
+
+        public IEnumerator<Notice> GetEnumerator()
+        {
+            return _innerQueue.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable) _innerQueue).GetEnumerator();
         }
     }
 }

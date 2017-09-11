@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Linq;
+using System.Reflection;
 using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Domain.Tests
@@ -11,9 +13,41 @@ namespace Ubora.Domain.Tests
         {
             var entityType = entity.GetType();
 
-            var applyMethod = entityType.GetMethod("Apply", BindingFlags.NonPublic | BindingFlags.Instance);
+            // Look for method from base type when dynamically mocked object.
+            if (entityType.Namespace == "Castle.Proxies")
+            {
+                entityType = entityType.GetTypeInfo().BaseType;
+            }
 
-            applyMethod.Invoke(entity, new object[] { @event });
+            var applyMethod = entityType
+                .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
+                .Single(method => IsApplyMethodForType(method, typeof(TEvent)));
+
+            try
+            {
+                applyMethod.Invoke(entity, new object[] { @event });
+            }
+            catch (TargetInvocationException e)
+            {
+                if (e.InnerException != null)
+                {
+                    throw e.InnerException;
+                }
+                throw;
+            }
+        }
+
+        private static bool IsApplyMethodForType(MethodInfo methodInfo, Type type)
+        {
+            var methodParameters = methodInfo.GetParameters();
+            var isApplyMethod = (methodInfo.Name == "Apply" && methodParameters.Length == 1);
+
+            if (!isApplyMethod)
+            {
+                return false;
+            }
+
+            return methodParameters.Single().ParameterType == type;
         }
     }
 }
