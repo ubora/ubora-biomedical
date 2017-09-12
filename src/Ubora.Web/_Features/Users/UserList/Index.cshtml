@@ -10,7 +10,7 @@
     {
         <div class="card user-card center-element">
             <img class="avatar" src="@user.ProfilePictureLink" alt="@user.FullName profile picture" width="100" height="100">
-            <h2>@Html.ActionLink(user.FullName, "View", "Profile", new { userId = user.UserId }, new {@class = "user-card--name"})</h2>
+            <h2>@Html.ActionLink(user.FullName, "ViewProfile", "Profile", new { userId = user.UserId }, new {@class = "user-card--name"})</h2>
             <a class="user-card--email" href="mailto:@user.Email?Subject=Message%20from%20UBORA">@user.Email</a>
         </div>
     }
