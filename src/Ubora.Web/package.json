@@ -4,31 +4,33 @@
   "private": true,
   "devDependencies": {
     "aspnet-webpack": "^2.0.1",
-    "autocomplete-js": "^2.6.4",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
+    "clean-webpack-plugin": "^0.1.16",
     "css-loader": "^0.28.5",
     "cssnano": "^3.10.0",
     "extract-text-webpack-plugin": "^3.0.0",
-    "jquery": "^3.2.1",
-    "jquery-validation": "^1.17.0",
-    "jquery-validation-unobtrusive": "^3.2.6",
-    "marked": "^0.3.6",
     "postcss-cssnext": "^3.0.2",
     "postcss-import": "^10.0.0",
     "postcss-load-config": "^1.2.0",
     "postcss-loader": "^2.0.6",
     "postcss-safe-parser": "^3.0.1",
-    "simplemde": "^1.11.2",
     "style-loader": "^0.18.2",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^3.3.0",
     "webpack-bundle-analyzer": "^2.9.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "autocomplete-js": "^2.6.4",
+    "jquery": "^3.2.1",
+    "jquery-validation": "^1.17.0",
+    "jquery-validation-unobtrusive": "^3.2.6",
+    "marked": "^0.3.6",
+    "simplemde": "^1.11.2"
+  },
   "scripts": {
     "webpack-dev": "webpack --config webpack.dev.config.js",
-    "webpack-release": "webpack --config webpack.release.config.js"
+    "webpack-prod": "webpack --config webpack.release.config.js"
   }
 }
