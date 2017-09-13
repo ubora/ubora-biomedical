@@ -1,16 +1,7 @@
 @import url('ubora_select2.css');
 
-/*::selection {
-	background-color: var(--secondary-color);
-	color: var(--quartinary-shade);
-}*/
-
-
-
-/*Inputs*/
 input,
 select,
-.select2,
 textarea {
     background-color: transparent;
     border-top: 0;
@@ -27,8 +18,6 @@ textarea {
     vertical-align: middle;
     transition: color .3s ease, background-color .3s ease;
 }
-
-
 
 textarea {
 	border:2px solid var(--primary-color);
@@ -84,8 +73,6 @@ textarea:disabled {
 	cursor:not-allowed;
 }
 
-
-/*Anchors*/
 a {
 	background-color: transparent;
     box-sizing: border-box;
@@ -129,7 +116,6 @@ a[role=button]:hover {
     cursor: not-allowed;
 }
 
-/*Buttons*/
 .button {
 	background-color: #FFF;
 	border:1px solid var(--text-color);
