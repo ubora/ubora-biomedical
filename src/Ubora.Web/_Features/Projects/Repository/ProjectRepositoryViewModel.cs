@@ -16,5 +16,8 @@ namespace Ubora.Web._Features.Projects.Repository
     {
         public Guid Id { get; set; }
         public string FileName { get; set; }
+        public string Comment { get; set; }
+        public long FileSize { get; set; }
+        public string FolderName { get; set; }
     }
 }

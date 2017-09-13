@@ -4,18 +4,12 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects.Repository
 {
-    public class FileUpdatedEvent : UboraEvent, IFileEvent
+    public class FileUpdatedEvent : UboraFileEvent, IFileEvent
     {
-        public FileUpdatedEvent(Guid id, Guid projectId, BlobLocation location, UserInfo initiatedBy) : base(initiatedBy)
+        public FileUpdatedEvent(Guid id, Guid projectId, BlobLocation location, string comment, long fileSize, UserInfo initiatedBy) 
+            : base(id, projectId, location, comment, fileSize, initiatedBy)
         {
-            Id = id;
-            ProjectId = projectId;
-            Location = location;
         }
-
-        public Guid Id { get; private set; }
-        public Guid ProjectId { get; private set; }
-        public BlobLocation Location { get; private set; }
 
         public override string GetDescription()
         {

@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects.Specifications;
 using Ubora.Web.Authorization;
@@ -15,10 +19,13 @@ namespace Ubora.Web._Features.Projects.Repository
     public class RepositoryController : ProjectController
     {
         private readonly IUboraStorageProvider _uboraStorageProvider;
+        private readonly IEventStreamQuery _eventStreamQuery;
 
-        public RepositoryController(IUboraStorageProvider uboraStorageProvider)
+        public RepositoryController(IUboraStorageProvider uboraStorageProvider,
+            IEventStreamQuery eventStreamQuery)
         {
             _uboraStorageProvider = uboraStorageProvider;
+            _eventStreamQuery = eventStreamQuery;
         }
 
         public IActionResult Repository()
@@ -37,10 +44,7 @@ namespace Ubora.Web._Features.Projects.Repository
                     var fileViewModel = AutoMapper.Map<ProjectFileViewModel>(x);
                     return fileViewModel;
                 }).ToList(),
-                AddFileViewModel = new AddFileViewModel
-                {
-                    ActionName = nameof(AddFile)
-                },
+                AddFileViewModel = new AddFileViewModel(),
                 IsProjectLeader = isProjectLeader
             };
 
@@ -57,19 +61,25 @@ namespace Ubora.Web._Features.Projects.Repository
                 return Repository();
             }
 
-            var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, model.FileName);
-            await SaveBlobAsync(model, blobLocation);
-
-            ExecuteUserProjectCommand(new AddFileCommand
+            foreach (var file in model.ProjectFiles)
             {
-                Id = Guid.NewGuid(),
-                BlobLocation = blobLocation,
-                FileName = model.FileName,
-            });
+                var fileName = GetFileName(file);
+                var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, model.FolderName, fileName);
+                await SaveBlobAsync(file, blobLocation);
 
-            if (!ModelState.IsValid)
-            {
-                return Repository();
+                ExecuteUserProjectCommand(new AddFileCommand
+                {
+                    Id = Guid.NewGuid(),
+                    BlobLocation = blobLocation,
+                    FileName = fileName,
+                    FileSize = file.Length,
+                    Comment = model.Comment
+                });
+
+                if (!ModelState.IsValid)
+                {
+                    return Repository();
+                }
             }
 
             return RedirectToAction(nameof(Repository));
@@ -102,11 +112,6 @@ namespace Ubora.Web._Features.Projects.Repository
         {
             var file = QueryProcessor.FindById<ProjectFile>(fileId);
             var model = AutoMapper.Map<UpdateFileViewModel>(file);
-            model.AddFileViewModel = new AddFileViewModel
-            {
-                ActionName = nameof(UpdateFile),
-                FileId = file.Id
-            };
 
             return View(nameof(UpdateFile), model);
         }
@@ -114,22 +119,25 @@ namespace Ubora.Web._Features.Projects.Repository
         [Route("UpdateFile")]
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> UpdateFile(AddFileViewModel model)
+        public async Task<IActionResult> UpdateFile(UpdateFileViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return UpdateFile(model.FileId);
             }
 
-            var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, model.FileName);
-            await SaveBlobAsync(model, blobLocation);
-
             var file = QueryProcessor.FindById<ProjectFile>(model.FileId);
+            var fileName = GetFileName(model.ProjectFile);
+
+            var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, file.Location.FolderName, fileName);
+            await SaveBlobAsync(model.ProjectFile, blobLocation);
 
             ExecuteUserProjectCommand(new UpdateFileCommand
             {
                 Id = file.Id,
                 BlobLocation = blobLocation,
+                FileSize = model.ProjectFile.Length,
+                Comment = model.Comment
             });
 
             if (!ModelState.IsValid)
@@ -140,15 +148,47 @@ namespace Ubora.Web._Features.Projects.Repository
             return RedirectToAction(nameof(Repository));
         }
 
-        [Route("HistoryFile")]
-        public IActionResult HistoryFile() {
-          return View();
+        [Route("FileHistory")]
+        public IActionResult FileHistory(Guid fileId)
+        {
+            var fileEvents = _eventStreamQuery.FindFileEvents(ProjectId, fileId);
+
+            var allFiles = fileEvents
+                .Select(x => new FileItemHistoryViewModel
+                {
+                    DownloadUrl = _uboraStorageProvider.GetReadUrl(((UboraFileEvent)x.Data).Location, DateTime.UtcNow.AddSeconds(15)),
+                    FileSize = ((UboraFileEvent)x.Data).FileSize,
+                    FileAddedOn = x.Timestamp,
+                    Comment = ((UboraFileEvent)x.Data).Comment
+                });
+
+            var file = QueryProcessor.FindById<ProjectFile>(fileId);
+
+            var model = new FileHistoryViewModel
+            {
+                FileName = file.FileName,
+                ProjectName = Project.Title,
+                Files = allFiles.OrderByDescending(x => x.FileAddedOn)
+            };
+            return View(nameof(FileHistory), model);
         }
 
-        private async Task SaveBlobAsync(AddFileViewModel model, BlobLocation blobLocation)
+        private async Task SaveBlobAsync(IFormFile projectFile, BlobLocation blobLocation)
         {
-            var fileStream = model.ProjectFile.OpenReadStream();
+            var fileStream = projectFile.OpenReadStream();
             await _uboraStorageProvider.SavePrivate(blobLocation, fileStream);
+        }
+
+        private string GetFileName(IFormFile projectFile)
+        {
+            if (projectFile != null)
+            {
+                var filePath = projectFile.FileName.Replace(@"\", "/");
+                var fileName = Path.GetFileName(filePath);
+                return fileName;
+            }
+
+            return "";
         }
     }
 }

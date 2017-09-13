@@ -22,11 +22,12 @@ namespace Ubora.Web._Features._Shared
             CreateMap<ProjectTask, AssignmentListItemViewModel>();
             CreateMap<ProjectTask, EditAssignmentViewModel>();
 
-            CreateMap<ProjectFile, ProjectFileViewModel>();
+            CreateMap<ProjectFile, ProjectFileViewModel>()
+                .ForMember(dest => dest.FolderName, o => o.MapFrom(src => src.Location.FolderName));
 
             CreateMap<ProjectFile, UpdateFileViewModel>()
-                .ForMember(dest => dest.FileId, o => o.MapFrom(src => src.Id))
-                .ForMember(dest => dest.AddFileViewModel, o => o.Ignore());
+                .ForMember(dest => dest.ProjectFile, o => o.Ignore())
+                .ForMember(dest => dest.FileId, o => o.MapFrom(src => src.Id));
 
             CreateMap<Project, ProjectListViewModel.ProjectListItem>()
                 .ForMember(dest => dest.ImagePath, o => o.Ignore());

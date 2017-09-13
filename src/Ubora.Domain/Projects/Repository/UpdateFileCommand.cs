@@ -9,6 +9,8 @@ namespace Ubora.Domain.Projects.Repository
     {
         public Guid Id { get; set; }
         public BlobLocation BlobLocation { get; set; }
+        public string Comment { get; set; }
+        public long FileSize { get; set; }
 
         internal class Handler : ICommandHandler<UpdateFileCommand>
         {
@@ -31,6 +33,8 @@ namespace Ubora.Domain.Projects.Repository
                     projectFile.Id,
                     projectFile.ProjectId,
                     cmd.BlobLocation,
+                    cmd.Comment,
+                    cmd.FileSize,
                     cmd.Actor
                 );
 

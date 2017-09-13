@@ -20,6 +20,7 @@ using Xunit;
 using Ubora.Domain.Projects.Specifications;
 using System.Linq.Expressions;
 using Ubora.Web.Authorization;
+using Ubora.Domain.Infrastructure.Queries;
 
 namespace Ubora.Web.Tests._Features.Projects.Repository
 {
@@ -27,11 +28,13 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
     {
         private readonly RepositoryController _controller;
         private readonly Mock<IUboraStorageProvider> _uboraStorageProviderMock;
+        private readonly Mock<IEventStreamQuery> _eventStreamQueryMock;
 
         public RepositoryControllerTests()
         {
             _uboraStorageProviderMock = new Mock<IUboraStorageProvider>();
-            _controller = new RepositoryController(_uboraStorageProviderMock.Object);
+            _eventStreamQueryMock = new Mock<IEventStreamQuery>();
+            _controller = new RepositoryController(_uboraStorageProviderMock.Object, _eventStreamQueryMock.Object);
             SetUpForTest(_controller);
         }
 
@@ -93,10 +96,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 ProjectId = ProjectId,
                 ProjectName = "Title",
                 Files = projectFileViewModels,
-                AddFileViewModel = new AddFileViewModel()
-                {
-                    ActionName = "AddFile",
-                },
+                AddFileViewModel = new AddFileViewModel(),
                 IsProjectLeader = false
             };
 
@@ -112,15 +112,23 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         public async Task AddFile_Executes_AddFileCommand_When_Valid_ModelState()
         {
             var fileMock = new Mock<IFormFile>();
+            var folderName = "folderName";
+            var comment = "comment";
 
             var model = new AddFileViewModel
             {
-                ProjectFile = fileMock.Object
+                ProjectFiles = new List<IFormFile> { fileMock.Object },
+                FolderName = folderName,
+                Comment = comment
             };
 
             var fileName = "fileName";
             fileMock.Setup(f => f.FileName)
                 .Returns($"C:\\Test\\Parent\\Parent\\{fileName}");
+
+            var fileSize = 1234;
+            fileMock.Setup(f => f.Length)
+                .Returns(fileSize);
 
             var stream = Mock.Of<Stream>();
             fileMock.Setup(f => f.OpenReadStream())
@@ -132,7 +140,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .Callback<AddFileCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
 
-            var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
+            var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, folderName, fileName);
             Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName
                 && b.BlobPath.Contains(fileName) && b.BlobPath.Contains(ProjectId.ToString());
 
@@ -145,7 +153,10 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .StartWith($"{ProjectId}/repository/")
                 // Guid in the middle.
                 .And.EndWith(fileName);
+            executedCommand.BlobLocation.FolderName.Should().Be(folderName);
             executedCommand.FileName.Should().Be(fileName);
+            executedCommand.Comment.Should().Be(comment);
+            executedCommand.FileSize.Should().Be(fileSize);
 
             result.ActionName.Should().Be(nameof(RepositoryController.Repository));
 
@@ -186,9 +197,13 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         {
             var fileMock = new Mock<IFormFile>();
 
+            var folderName = "folderName";
+            var comment = "comment";
             var model = new AddFileViewModel
             {
-                ProjectFile = fileMock.Object
+                ProjectFiles = new List<IFormFile> { fileMock.Object },
+                FolderName = folderName,
+                Comment = comment
             };
 
             var fileName = "fileName";
@@ -206,7 +221,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             QueryProcessorMock.Setup(p => p.Find(new IsProjectFileSpec(ProjectId) && !new IsHiddenFileSpec()))
                 .Returns(new List<ProjectFile>());
 
-            var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
+            var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, folderName, fileName);
             Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName
                 && b.BlobPath.Contains(fileName) && b.BlobPath.Contains(ProjectId.ToString());
 
@@ -288,10 +303,12 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         {
             var fileId = Guid.NewGuid();
             var fileMock = new Mock<IFormFile>();
-            var addFileViewModel = new AddFileViewModel
+            var comment = "comment";
+            var addFileViewModel = new UpdateFileViewModel
             {
-                FileId = fileId,
                 ProjectFile = fileMock.Object,
+                FileId = fileId,
+                Comment = comment
             };
 
             var fileName = "fileName";
@@ -302,8 +319,15 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             fileMock.Setup(f => f.OpenReadStream())
                 .Returns(stream);
 
+            var fileSize = 1234;
+            fileMock.Setup(f => f.Length)
+                .Returns(fileSize);
+
             var projectFile = new ProjectFile();
             projectFile.Set(f => f.Id, fileId);
+            var folderName = "folderName";
+            var location = new BlobLocation("containerName", "blobPath", folderName);
+            projectFile.Set(f => f.Location, location);
             QueryProcessorMock.Setup(q => q.FindById<ProjectFile>(fileId))
                 .Returns(projectFile);
 
@@ -313,7 +337,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .Callback<UpdateFileCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
 
-            var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
+            var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, folderName, fileName);
             Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName
                 && b.BlobPath.Contains(fileName) && b.BlobPath.Contains(ProjectId.ToString());
 
@@ -329,8 +353,10 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .StartWith($"{ProjectId}/repository/")
                 // Guid in the middle.
                 .And.EndWith(fileName);
+            executedCommand.FileSize.Should().Be(fileSize);
             executedCommand.ProjectId.Should().Be(ProjectId);
             executedCommand.Id.Should().Be(fileId);
+            executedCommand.Comment.Should().Be(comment);
         }
 
         [Fact]
@@ -339,10 +365,11 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             var fileMock = new Mock<IFormFile>();
 
             var fileId = Guid.NewGuid();
-            var addFileViewModel = new AddFileViewModel
+            var addFileViewModel = new UpdateFileViewModel
             {
                 FileId = fileId,
                 ProjectFile = fileMock.Object,
+                Comment = "comment",
             };
 
             var fileName = "fileName";
@@ -350,6 +377,8 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .Returns($"C:\\Test\\Parent\\Parent\\{fileName}");
 
             var projectFile = new ProjectFile();
+            var location = new BlobLocation("containerName", "blobPath", "folderName");
+            projectFile.Set(f => f.Location, location);
 
             QueryProcessorMock.Setup(q => q.FindById<ProjectFile>(fileId))
                 .Returns(projectFile);
@@ -378,7 +407,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             fileMock.Setup(f => f.FileName)
                 .Returns("C:\\Test\\Parent\\Parent\\image.png");
 
-            var model = new AddFileViewModel()
+            var model = new UpdateFileViewModel()
             {
                 FileId = Guid.NewGuid()
             };

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Web.Infrastructure.Storage
@@ -21,12 +22,15 @@ namespace Ubora.Web.Infrastructure.Storage
             return new BlobLocation(containerName, blobPath);
         }
 
-        public static BlobLocation GetRepositoryFileBlobLocation(Guid projectId, string fileName)
+        public static BlobLocation GetRepositoryFileBlobLocation(Guid projectId, string folderName, string fileName)
         {
-            var containerName = BlobLocation.ContainerNames.Projects;
-            var blobPath = $"{projectId}/repository/{Guid.NewGuid()}/{fileName}";
+            var folderNameToLower = folderName?.ToLower();
+            var modifiedFolderName = Regex.Replace(folderName, @"\s+", "-");
 
-            return new BlobLocation(containerName, blobPath);
+            var containerName = BlobLocation.ContainerNames.Projects;
+            var blobPath = $"{projectId}/repository/{folderName}/{Guid.NewGuid()}/{fileName}";
+
+            return new BlobLocation(containerName, blobPath, folderName);
         }
     }
 }

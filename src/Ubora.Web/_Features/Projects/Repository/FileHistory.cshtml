@@ -1,0 +1,36 @@
+@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Repository.FileHistoryViewModel
+
+@{
+    ViewData["Title"] = "File history";
+    ViewData["MenuOption"] = ProjectMenuOption.Repository;
+}
+
+<section class="medium-width">
+    <h1>@Model.ProjectName</h1>
+</section>
+
+<section class="medium-width">
+    <h2>History of @Model.FileName</h2>
+    <table class="table table-revision">
+        <tr>
+            <th>Download</th>
+            <th>Date added</th>
+            <th>Size</th>
+            <th>Comment</th>
+        </tr>
+        @foreach (var file in Model.Files)
+        {
+            <tr class="table-row-content-center">
+                <td>
+                    <a href="@file.DownloadUrl" title="Download file" aria-label="Download file">
+                        <i class="file-list--item-control material-icons">file_download</i>
+                    </a>
+                </td>
+                <td>@file.FileAddedOn</td>
+                <td>@file.FileSize</td>
+                <td>@file.Comment</td>
+            </tr>
+        }
+    </table>
+</section>

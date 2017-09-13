@@ -4,20 +4,15 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects.Repository
 {
-    public class FileAddedEvent : UboraEvent, IFileEvent
+    public class FileAddedEvent : UboraFileEvent, IFileEvent
     {
-        public FileAddedEvent(UserInfo initiatedBy, Guid projectId, Guid id, string fileName, BlobLocation location) : base(initiatedBy)
+        public FileAddedEvent(Guid id, Guid projectId, BlobLocation location, string comment, long fileSize, UserInfo initiatedBy, string fileName) 
+            : base(id, projectId, location, comment, fileSize, initiatedBy)
         {
-            ProjectId = projectId;
-            Id = id;
             FileName = fileName;
-            Location = location;
         }
 
-        public Guid ProjectId { get; private set; }
-        public Guid Id { get; private set; }
         public string FileName { get; private set;  }
-        public BlobLocation Location { get; private set; }
 
         public override string GetDescription()
         {

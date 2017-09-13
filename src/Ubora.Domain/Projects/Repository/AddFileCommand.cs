@@ -12,6 +12,8 @@ namespace Ubora.Domain.Projects.Repository
         public Guid Id { get; set; }
         public BlobLocation BlobLocation { get; set; }
         public string FileName { get; set; }
+        public string Comment { get; set; }
+        public long FileSize { get; set; }
 
         internal class Handler : ICommandHandler<AddFileCommand>
         {
@@ -31,11 +33,13 @@ namespace Ubora.Domain.Projects.Repository
                 }
 
                 var @event = new FileAddedEvent(
-                    cmd.Actor,
-                    cmd.ProjectId,
                     cmd.Id,
-                    cmd.FileName,
-                    cmd.BlobLocation
+                    cmd.ProjectId,
+                    cmd.BlobLocation,
+                    cmd.Comment,
+                    cmd.FileSize,
+                    cmd.Actor,
+                    cmd.FileName
                 );
 
                 _documentSession.Events.Append(cmd.ProjectId, @event);

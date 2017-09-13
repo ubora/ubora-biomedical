@@ -14,6 +14,8 @@ namespace Ubora.Domain.Tests.Projects.Repository
         private readonly Guid _fileId = Guid.NewGuid();
         private readonly string _fileName = "expectedFileName";
         private readonly BlobLocation _blobLocation = new BlobLocation("container", "blobPath");
+        private readonly string _comment = "comment";
+        private readonly long _fileSize = 1234;
 
         [Fact]
         public void Hides_File_From_Project()
@@ -32,6 +34,8 @@ namespace Ubora.Domain.Tests.Projects.Repository
                 projectId: _projectId,
                 id: _fileId,
                 fileName: _fileName,
+                comment: _comment,
+                fileSize: _fileSize,
                 location: _blobLocation);
             Session.Events.Append(_projectId, fileAddedEvent);
             Session.SaveChanges();
