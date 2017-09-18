@@ -1,0 +1,60 @@
+.js-feedback-modal-invisible {
+  display: none;
+}
+
+.feedback-trigger {
+  color: var(--white);
+  background-color: var(--quaternary-color);
+  border: 0;
+  border-radius: .2em;
+  bottom: .5em;
+  font-family: inherit;
+  font-size: 150%;
+  padding:.5em;
+  position: fixed;
+  right: .5em;
+  transition: background-color .3s ease-in;
+  z-index: 999;
+}
+
+.feedback-trigger > .material-icons {
+  background-color: transparent;
+  color: var(--white);
+}
+
+.feedback-trigger:hover {
+  background-color: var(--text-color);
+  cursor: pointer;
+}
+
+
+.feedback-modal {
+  background-color: rgba(0,0,0,.5);
+  height: 100vh;
+  left:0;
+  position: fixed;
+  top:0;
+  width: 100vw;
+  z-index: 9999;
+}
+
+.feedback-modal-content {
+  background-color: var(--white);
+  left: 50%;
+  padding:2em;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 60vw;
+}
+
+@media screen and (max-width: 50em) {
+  .feedback-modal {
+    background-color: var(--white);
+  }
+
+  .feedback-modal-content {
+    margin:.5em auto;
+    width: 90vw;
+  }
+}

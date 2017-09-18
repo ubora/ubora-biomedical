@@ -149,6 +149,10 @@ namespace Ubora.Web
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
+                  HotModuleReplacement = true
+                });
                 app.UseBrowserLink();
             }
             else

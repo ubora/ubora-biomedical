@@ -42,3 +42,19 @@
 
     </section>
 </section>
+
+@section Scripts {
+  <script
+    src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"
+    asp-fallback-src="~/dist/libs/marked.min.js"
+    asp-fallback-test="window.marked">
+  </script>
+  <link rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.css"
+    asp-fallback-href="~/dist/libs/simplemde.min.css">
+  <script
+    src="//cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.js"
+    asp-fallback-src="~/dist/libs/simplemde.min.js"
+    asp-fallback-test="window.SimpleMDE">
+  </script>
+}

@@ -7,21 +7,10 @@
     <meta name="description" content="The biomedical engineering open design platform">
     <meta name="author" content="AgileWorks Ltd.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>@ViewData["Title"] - UBORA</title>
-
     <link href="~/images/favicon.png" rel="icon" type="image/png">
-
+    <title>@ViewData["Title"] - UBORA</title>
     <link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <environment names="Development">
-      <link href="~/dist/styles.dev.css" rel="stylesheet">
-    </environment>
-
-    <environment names="Staging,Production">
-      <link href="~/dist/styles.bundle.css" rel="stylesheet" asp-append-version="true">
-    </environment>
 
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
@@ -43,34 +32,33 @@
         @if (User.Identity.IsAuthenticated)
         {
             @Html.Partial("_FeedbackModal")
-            <a href="javascript:void(0);" id="feedback-modal-trigger"><i class="material-icons">chat_bubble</i>Feedback</a>
         }
+
         @Html.Partial("_Notices")
     </main>
 
     @await Html.PartialAsync("_Footer")
 
+    @RenderSection("Scripts", required: false)
+
     <environment names="Development">
-      <script src="~/dist/vendors.dev.js"></script>
-      <script src="~/dist/scripts.dev.js"></script>
+      <script
+        src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+        asp-fallback-src="~/dist/libs/jquery.min.js"
+        asp-fallback-test="window.jQuery">
+      </script>
 
-      @*<script src="~/dist/vendors.js"></script>
-      <script src="~/dist/scripts.bundle.js"></script>*@
-
-
-      @*<script>
-      $(function() {
-        // feedbackModule('@Context.Request.Path', '@Url.Action("Send", "Feedback")');
-        console.info('@Context.Request.Path', '@Url.Action("Send", "Feedback")');
-      })
-    </script>*@
-
+      <script src="~/dist/scripts.bundle.js"></script>
     </environment>
 
     <environment names="Staging,Production">
+      <script
+        src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+        asp-fallback-src="~/dist/libs/jquery.min.js"
+        asp-fallback-test="window.jQuery">
+      </script>
       <script src="~/dist/scripts.bundle.js" asp-append-version="true"></script>
     </environment>
 
-    @RenderSection("Scripts", required: false)
 </body>
 </html>

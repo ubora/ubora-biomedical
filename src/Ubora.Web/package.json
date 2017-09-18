@@ -8,8 +8,10 @@
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
     "clean-webpack-plugin": "^0.1.16",
+    "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.5",
     "cssnano": "^3.10.0",
+    "expose-loader": "^0.7.3",
     "extract-text-webpack-plugin": "^3.0.0",
     "postcss-cssnext": "^3.0.2",
     "postcss-import": "^10.0.0",
@@ -19,7 +21,9 @@
     "style-loader": "^0.18.2",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^3.3.0",
-    "webpack-bundle-analyzer": "^2.9.0"
+    "webpack-bundle-analyzer": "^2.9.0",
+    "webpack-hot-middleware": "^2.19.1",
+    "webpack-merge": "^4.1.0"
   },
   "dependencies": {
     "autocomplete-js": "^2.6.4",
@@ -29,8 +33,5 @@
     "marked": "^0.3.6",
     "simplemde": "^1.11.2"
   },
-  "scripts": {
-    "webpack-dev": "webpack --config webpack.dev.config.js",
-    "webpack-prod": "webpack --config webpack.release.config.js"
-  }
+  "scripts": {}
 }

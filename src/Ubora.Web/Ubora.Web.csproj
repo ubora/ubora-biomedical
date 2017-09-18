@@ -1,71 +1,99 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-  </PropertyGroup>
+<PropertyGroup>
+  <TargetFramework>netcoreapp2.0</TargetFramework>
+</PropertyGroup>
 
-  <PropertyGroup>
-    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
-  </PropertyGroup>
+<PropertyGroup>
+  <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+</PropertyGroup>
 
-  <PropertyGroup>
-    <UserSecretsId>aspnet-Ubora.Web-d1f6fc32-3f07-4ac3-bdfa-0102a5b76a9d</UserSecretsId>
-    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
-  </PropertyGroup>
+<PropertyGroup>
+  <UserSecretsId>aspnet-Ubora.Web-d1f6fc32-3f07-4ac3-bdfa-0102a5b76a9d</UserSecretsId>
+  <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+</PropertyGroup>
+
+<ItemGroup>
+  <Compile Remove="Features\**" />
+  <Content Remove="Features\**" />
+  <EmbeddedResource Remove="Features\**" />
+  <None Remove="Features\**" />
+</ItemGroup>
+
+<ItemGroup>
+  <PackageReference Include="Autofac" Version="4.6.0" />
+  <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.1.0" />
+  <PackageReference Include="AutoMapper" Version="6.0.2" />
+  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="2.0.1" />
+  <PackageReference Include="ImageSharp" Version="1.0.0-alpha9-00169" />
+  <PackageReference Include="JetBrains.Annotations" Version="10.4.0" />
+  <PackageReference Include="MailKit" Version="1.16.1" />
+  <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+  <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
+  <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0" />
+  <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.1" />
+  <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.0" />
+  <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.0.0" />
+  <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
+  <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
+  <PackageReference Include="OdeToCode.AddFeatureFolders" Version="1.0.4" />
+  <PackageReference Include="TwentyTwenty.Storage" Version="2.0.0" />
+  <PackageReference Include="TwentyTwenty.Storage.Azure" Version="2.0.0" />
+  <PackageReference Include="TwentyTwenty.Storage.Local" Version="2.0.0" />
+  <PackageReference Include="WindowsAzure.Storage" Version="8.2.0" />
+</ItemGroup>
+
+<ItemGroup>
+  <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+  <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+  <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
+</ItemGroup>
+
+<ItemGroup>
+  <ProjectReference Include="..\Ubora.Domain\Ubora.Domain.csproj" />
+</ItemGroup>
+
+<ItemGroup>
+  <Reference Include="System.Transactions">
+    <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Transactions.dll</HintPath>
+  </Reference>
+  <Reference Include="System.Web">
+    <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Web.dll</HintPath>
+  </Reference>
+</ItemGroup>
+
+<ItemGroup>
+  <Folder Include="Properties\" />
+  <Folder Include="Storage\Infrastructure\" />
+  <Folder Include="wwwroot\dist\" />
+</ItemGroup>
+
+<!-- TODO: Risto Kitsing - investigate if and how we could solve this
+ <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Development'  And !Exists('wwwroot\dist') "> -->
+<Target Name="DebugRunWebpack" BeforeTargets="Build">
+  <Exec Command="node --version" ContinueOnError="true">
+    <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+  </Exec>
+  <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and try again." />
+
+  <Message Importance="high" Text="Performing first-run Webpack build..." />
+  <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js" />
+  <Exec Command="node node_modules/webpack/bin/webpack.js" />
+</Target>
+
+<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+  <Exec Command="npm install" />
+  <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env.prod" />
+  <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
 
   <ItemGroup>
-    <Compile Remove="Features\**" />
-    <Content Remove="Features\**" />
-    <EmbeddedResource Remove="Features\**" />
-    <None Remove="Features\**" />
+    <DistFiles Include="wwwroot\dist\**" />
+    <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+      <RelativePath>%(DistFiles.Identity)</RelativePath>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </ResolvedFileToPublish>
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.6.0" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.1.0" />
-    <PackageReference Include="AutoMapper" Version="6.0.2" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="2.0.1" />
-    <PackageReference Include="ImageSharp" Version="1.0.0-alpha9-00169" />
-    <PackageReference Include="JetBrains.Annotations" Version="10.4.0" />
-    <PackageReference Include="MailKit" Version="1.16.1" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.1" />
-    <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
-    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
-    <PackageReference Include="OdeToCode.AddFeatureFolders" Version="1.0.4" />
-    <PackageReference Include="TwentyTwenty.Storage" Version="2.0.0" />
-    <PackageReference Include="TwentyTwenty.Storage.Azure" Version="2.0.0" />
-    <PackageReference Include="TwentyTwenty.Storage.Local" Version="2.0.0" />
-    <PackageReference Include="WindowsAzure.Storage" Version="8.2.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
-    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Ubora.Domain\Ubora.Domain.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Transactions">
-      <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Transactions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web">
-      <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Web.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-    <Folder Include="Storage\Infrastructure\" />
-    <Folder Include="wwwroot\dist\" />
-  </ItemGroup>
-  <Target Name="Webpack" AfterTargets="Build">
-  <Exec Command="npm run webpack-dev" />
-  </Target>
+</Target>
 
 </Project>
