@@ -13,7 +13,7 @@ namespace Ubora.Domain.Projects.Repository
 
         public override string GetDescription()
         {
-            return $"Updated file [{Id}]";
+            return $"updated file [{StringTokens.File(Id)}]";
         }
     }
 }

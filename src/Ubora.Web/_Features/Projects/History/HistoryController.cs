@@ -1,29 +1,31 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Web._Features.Projects.History._Base;
+using Marten.Events;
+using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Web._Features.Projects.History
 {
     [ProjectRoute("[controller]")]
     public class HistoryController : ProjectController
     {
-        private readonly IEventStreamQuery _eventStreamQuery;
-        
-        public HistoryController(IEventStreamQuery eventStreamQuery)
+        private readonly EventViewModelFactoryMediator _eventViewModelFactoryMediator;
+        private readonly IEventStore _eventStore;
+
+        public HistoryController(EventViewModelFactoryMediator eventViewModelFactoryMediator, IEventStore eventStore)
         {
-            _eventStreamQuery = eventStreamQuery;
+            _eventViewModelFactoryMediator = eventViewModelFactoryMediator;
+            _eventStore = eventStore;
         }
 
         public IActionResult History()
         {
-            var projectEventStream = _eventStreamQuery.Find(ProjectId);
+            var projectEvents = _eventStore.FetchStream(ProjectId)
+                .OrderByDescending(x => x.Timestamp);
 
-            var model = new ProjectHistoryViewModel
-            {
-                Events = projectEventStream.Select(x => x.ToString())
-            };
+            var viewModels = projectEvents.Select(x => _eventViewModelFactoryMediator.Create((UboraEvent)x.Data, x.Timestamp));
 
-            return View(model);
+            return View(viewModels);
         }
     }
 }

@@ -13,5 +13,10 @@ namespace Ubora.Domain
         {
             return $"#project{{{projectId}}}";
         }
+
+        public static string File(Guid fileId)
+        {
+            return $"#file{{{fileId}}}";
+        }
     }
 }

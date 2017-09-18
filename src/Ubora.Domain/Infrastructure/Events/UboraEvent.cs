@@ -16,7 +16,7 @@ namespace Ubora.Domain.Infrastructure.Events
 
         public override string ToString()
         {
-            return $"\"{InitiatedBy.Name}\": {GetDescription()}";
+            return $"{StringTokens.User(InitiatedBy.UserId)} {GetDescription()}";
         }
     }
 }

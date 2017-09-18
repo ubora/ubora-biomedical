@@ -1,5 +1,5 @@
 ﻿@using Ubora.Web._Features.Projects._Shared
-@model Ubora.Web._Features.Projects.History.ProjectHistoryViewModel
+@model System.Collections.Generic.IEnumerable<Ubora.Web._Features.Projects.History._Base.IEventViewModel>
 
 @{
     ViewData["Title"] = "History";
@@ -9,12 +9,10 @@
 <section class="medium-width">
     <h1 class="full-width">Project history</h1>
     
-    <ol>
-        @foreach (var eventDescription in Model.Events)
+    <ul class="list--none">
+        @foreach (var uboraEvent in Model)
         {
-            <li>
-                @eventDescription
-            </li>
+            @uboraEvent.GetPartialView(Html)
         }
-    </ol>
+    </ul>
 </section>
