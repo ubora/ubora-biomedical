@@ -46,8 +46,16 @@ namespace Ubora.Web.Tests._Features.Projects.History
 
         }
 
+        protected override void RegisterAdditional(ContainerBuilder builder)
+        {
+            var webAutofacModule = new WebAutofacModule(true);
+            builder.RegisterModule(webAutofacModule);
+            builder.RegisterInstance(_htmlEncoderMock.Object).SingleInstance();
+            builder.RegisterInstance(_urlHelperMock.Object).As<IUrlHelper>().SingleInstance();
+        }
+
         [Fact(Skip = "Explicit test")]
-        public async Task Returns_TimeElapsed_For_Hundreds_Of_Events_Need_To_Be_Handled()
+        public void Returns_TimeElapsed_For_Hundreds_Of_Events_Need_To_Be_Handled()
         {
             CreateProject();
 
@@ -196,12 +204,5 @@ namespace Ubora.Web.Tests._Features.Projects.History
             return userInfo;
         }
 
-        protected override void RegisterAdditional(ContainerBuilder builder)
-        {
-            var webAutofacModule = new WebAutofacModule(true);
-            builder.RegisterModule(webAutofacModule);
-            builder.RegisterInstance(_htmlEncoderMock.Object).SingleInstance();
-            builder.RegisterInstance(_urlHelperMock.Object).As<IUrlHelper>().SingleInstance();
-        }
     }
 }
