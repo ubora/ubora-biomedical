@@ -4,8 +4,10 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using System.Text;
 using System.Text.Encodings.Web;
+using System.Threading.Tasks;
+using Marten.Events;
 using Ubora.Domain;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
@@ -45,13 +47,8 @@ namespace Ubora.Web.Tests._Features.Projects.History
         }
 
         [Fact(Skip = "Explicit test")]
-        public void Returns_TimeElapsed_For_Hundreds_Of_Events_Need_To_Be_Handled()
+        public async Task Returns_TimeElapsed_For_Hundreds_Of_Events_Need_To_Be_Handled()
         {
-            var mediator = Container.Resolve<EventViewModelFactoryMediator>();
-
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-
             CreateProject();
 
             for (int i = 0; i < 100; i++)
@@ -73,15 +70,29 @@ namespace Ubora.Web.Tests._Features.Projects.History
             }
 
             var events = Session.Events.FetchStream(_projectId);
+            var stopwatch = new Stopwatch();
+
+            var messageBuilder = new StringBuilder();
 
             // Act
-            var result = events.Select(x => mediator.Create((UboraEvent)x.Data, x.Timestamp)).ToList();
+            stopwatch.Start();
+            RunMediator(events);
             stopwatch.Stop();
 
             // Assert
-            var timeElapsed = stopwatch.Elapsed;
+            messageBuilder.AppendLine($"Mediator handled {events.Count} events. It took {stopwatch.Elapsed.TotalSeconds} seconds");
 
-            throw new InvalidOperationException($"Mediator handled {events.Count} events. Time elapsed: {timeElapsed}");
+            throw new Exception(messageBuilder.ToString());
+        }
+
+        private void RunMediator(IReadOnlyList<IEvent> events)
+        {
+            var mediator = Container.Resolve<EventViewModelFactoryMediator>();
+
+            foreach (var e in events)
+            {
+                mediator.Create((UboraEvent) e.Data, e.Timestamp);
+            }
         }
 
         private void EditWorkPackageTwo()
