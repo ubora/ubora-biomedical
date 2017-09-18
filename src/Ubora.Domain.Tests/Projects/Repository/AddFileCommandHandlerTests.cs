@@ -3,7 +3,6 @@ using System.Linq;
 using FluentAssertions;
 using TestStack.BDDfy;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Repository;
 using Xunit;
 
@@ -14,6 +13,7 @@ namespace Ubora.Domain.Tests.Projects.Repository
         private readonly Guid _projectId = Guid.NewGuid();
         private readonly Guid _fileId = Guid.NewGuid();
         private readonly string _fileName = "fileName";
+        private readonly string _folderName = "folderName";
         private readonly BlobLocation _blobLocation = new BlobLocation("expectedContainer", "expectedBlobPath");
 
         [Fact]
@@ -34,7 +34,8 @@ namespace Ubora.Domain.Tests.Projects.Repository
                 ProjectId = _projectId,
                 Id = _fileId,
                 Actor = new DummyUserInfo(),
-                BlobLocation = _blobLocation
+                BlobLocation = _blobLocation,
+                FolderName = _folderName
             };
 
             // Act
@@ -48,7 +49,9 @@ namespace Ubora.Domain.Tests.Projects.Repository
             file.Id.Should().Be(_fileId);
             file.ProjectId.Should().Be(_projectId);
             file.FileName.Should().Be(_fileName);
+            file.FolderName.Should().Be(_folderName);
             file.Location.Should().Be(_blobLocation);
+            file.RevisionNumber.Should().Be(1);
             file.IsHidden.Should().BeFalse();
         }
 

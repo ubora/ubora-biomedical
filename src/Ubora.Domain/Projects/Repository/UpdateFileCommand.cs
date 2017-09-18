@@ -29,13 +29,15 @@ namespace Ubora.Domain.Projects.Repository
                     throw new InvalidOperationException();
                 }
 
+                var revisionNumber = projectFile.RevisionNumber + 1;
                 var @event = new FileUpdatedEvent(
                     projectFile.Id,
                     projectFile.ProjectId,
                     cmd.BlobLocation,
                     cmd.Comment,
                     cmd.FileSize,
-                    cmd.Actor
+                    cmd.Actor,
+                    revisionNumber
                 );
 
                 _documentSession.Events.Append(projectFile.ProjectId, @event);

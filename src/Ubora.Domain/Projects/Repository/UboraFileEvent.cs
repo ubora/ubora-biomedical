@@ -6,7 +6,7 @@ namespace Ubora.Domain.Projects.Repository
 {
     public abstract class UboraFileEvent : UboraEvent
     {
-        public UboraFileEvent(Guid id, Guid projectId, BlobLocation location, string comment, long fileSize, UserInfo initiatedBy) 
+        public UboraFileEvent(Guid id, Guid projectId, BlobLocation location, string comment, long fileSize, UserInfo initiatedBy, int revisionNumber) 
             : base(initiatedBy)
         {
             Id = id;
@@ -14,6 +14,7 @@ namespace Ubora.Domain.Projects.Repository
             Location = location;
             Comment = comment;
             FileSize = fileSize;
+            RevisionNumber = revisionNumber;
         }
 
 
@@ -22,6 +23,7 @@ namespace Ubora.Domain.Projects.Repository
         public BlobLocation Location { get; private set; }
         public string Comment { get; private set; }
         public long FileSize { get; private set; }
+        public int RevisionNumber { get; private set; }
 
         public override abstract string GetDescription();
     }

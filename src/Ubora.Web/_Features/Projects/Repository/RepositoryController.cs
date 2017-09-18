@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
@@ -39,11 +38,8 @@ namespace Ubora.Web._Features.Projects.Repository
             {
                 ProjectId = ProjectId,
                 ProjectName = Project.Title,
-                Files = projectFiles.Select(x =>
-                {
-                    var fileViewModel = AutoMapper.Map<ProjectFileViewModel>(x);
-                    return fileViewModel;
-                }).ToList(),
+                AllFiles = projectFiles.GroupBy(file => file.FolderName, 
+                    file => AutoMapper.Map<ProjectFileViewModel>(file)),
                 AddFileViewModel = new AddFileViewModel(),
                 IsProjectLeader = isProjectLeader
             };
@@ -64,7 +60,7 @@ namespace Ubora.Web._Features.Projects.Repository
             foreach (var file in model.ProjectFiles)
             {
                 var fileName = GetFileName(file);
-                var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, model.FolderName, fileName);
+                var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
                 await SaveBlobAsync(file, blobLocation);
 
                 ExecuteUserProjectCommand(new AddFileCommand
@@ -73,7 +69,8 @@ namespace Ubora.Web._Features.Projects.Repository
                     BlobLocation = blobLocation,
                     FileName = fileName,
                     FileSize = file.Length,
-                    Comment = model.Comment
+                    Comment = model.Comment,
+                    FolderName = model.FolderName
                 });
 
                 if (!ModelState.IsValid)
@@ -129,9 +126,9 @@ namespace Ubora.Web._Features.Projects.Repository
             var file = QueryProcessor.FindById<ProjectFile>(model.FileId);
             var fileName = GetFileName(model.ProjectFile);
 
-            var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, file.Location.FolderName, fileName);
+            var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
             await SaveBlobAsync(model.ProjectFile, blobLocation);
-
+            
             ExecuteUserProjectCommand(new UpdateFileCommand
             {
                 Id = file.Id,
@@ -158,6 +155,7 @@ namespace Ubora.Web._Features.Projects.Repository
                 {
                     DownloadUrl = _uboraStorageProvider.GetReadUrl(((UboraFileEvent)x.Data).Location, DateTime.UtcNow.AddSeconds(15)),
                     FileSize = ((UboraFileEvent)x.Data).FileSize,
+                    RevisionNumber = ((UboraFileEvent)x.Data).RevisionNumber,
                     FileAddedOn = x.Timestamp,
                     Comment = ((UboraFileEvent)x.Data).Comment
                 });

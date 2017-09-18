@@ -15,12 +15,15 @@ using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Web._Features.Projects.Repository;
 using Ubora.Web.Infrastructure.Storage;
-using Ubora.Web.Tests.Helper;
 using Xunit;
 using Ubora.Domain.Projects.Specifications;
 using System.Linq.Expressions;
 using Ubora.Web.Authorization;
 using Ubora.Domain.Infrastructure.Queries;
+using Marten.Events;
+using Marten.Events.Projections;
+using Ubora.Domain.Infrastructure.Events;
+using Ubora.Web.Tests.Helper;
 
 namespace Ubora.Web.Tests._Features.Projects.Repository
 {
@@ -54,16 +57,24 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         {
             var projectFile1 = new ProjectFile()
                 .Set(x => x.ProjectId, ProjectId)
-                .Set(x => x.Location, new BlobLocation("", ""));
+                .Set(x => x.Location, new BlobLocation("", ""))
+                .Set(x => x.FolderName, "folder1");
 
             var projectFile2 = new ProjectFile()
                 .Set(x => x.ProjectId, ProjectId)
-                .Set(x => x.Location, new BlobLocation("", ""));
+                .Set(x => x.Location, new BlobLocation("", ""))
+                .Set(x => x.FolderName, "folder2");
+
+            var projectFile3 = new ProjectFile()
+                .Set(x => x.ProjectId, ProjectId)
+                .Set(x => x.Location, new BlobLocation("", ""))
+                .Set(x => x.FolderName, "folder2");
 
             var expectedProjectFiles = new List<ProjectFile>()
             {
                 projectFile1,
-                projectFile2
+                projectFile2,
+                projectFile3
             };
 
             var project = new Project();
@@ -81,21 +92,22 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);
 
-            var projectFileViewModels = new List<ProjectFileViewModel>();
+            var expectedFile = new ProjectFileViewModel();
             foreach (var file in expectedProjectFiles)
             {
-                var expectedFile = new ProjectFileViewModel();
                 AutoMapperMock
                     .Setup(m => m.Map<ProjectFileViewModel>(file))
                     .Returns(expectedFile);
-                projectFileViewModels.Add(expectedFile);
             }
 
+            var projectFilesViewModel = expectedProjectFiles
+                .GroupBy(f => f.FolderName, f => expectedFile);
+            
             var expectedModel = new ProjectRepositoryViewModel
             {
                 ProjectId = ProjectId,
                 ProjectName = "Title",
-                Files = projectFileViewModels,
+                AllFiles = projectFilesViewModel,
                 AddFileViewModel = new AddFileViewModel(),
                 IsProjectLeader = false
             };
@@ -106,19 +118,24 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             // Assert
             result.ViewName.Should().Be(nameof(RepositoryController.Repository));
             result.Model.As<ProjectRepositoryViewModel>().ShouldBeEquivalentTo(expectedModel);
+            result.Model.As<ProjectRepositoryViewModel>().AllFiles
+                .First(f => f.Key == "folder1")
+                .Count().Should().Be(1);
+
+            result.Model.As<ProjectRepositoryViewModel>().AllFiles
+                .First(f => f.Key == "folder2")
+                .Count().Should().Be(2);
         }
 
         [Fact]
         public async Task AddFile_Executes_AddFileCommand_When_Valid_ModelState()
         {
             var fileMock = new Mock<IFormFile>();
-            var folderName = "folderName";
             var comment = "comment";
 
             var model = new AddFileViewModel
             {
                 ProjectFiles = new List<IFormFile> { fileMock.Object },
-                FolderName = folderName,
                 Comment = comment
             };
 
@@ -140,7 +157,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .Callback<AddFileCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
 
-            var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, folderName, fileName);
+            var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
             Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName
                 && b.BlobPath.Contains(fileName) && b.BlobPath.Contains(ProjectId.ToString());
 
@@ -153,7 +170,6 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .StartWith($"{ProjectId}/repository/")
                 // Guid in the middle.
                 .And.EndWith(fileName);
-            executedCommand.BlobLocation.FolderName.Should().Be(folderName);
             executedCommand.FileName.Should().Be(fileName);
             executedCommand.Comment.Should().Be(comment);
             executedCommand.FileSize.Should().Be(fileSize);
@@ -197,12 +213,10 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         {
             var fileMock = new Mock<IFormFile>();
 
-            var folderName = "folderName";
             var comment = "comment";
             var model = new AddFileViewModel
             {
                 ProjectFiles = new List<IFormFile> { fileMock.Object },
-                FolderName = folderName,
                 Comment = comment
             };
 
@@ -221,7 +235,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             QueryProcessorMock.Setup(p => p.Find(new IsProjectFileSpec(ProjectId) && !new IsHiddenFileSpec()))
                 .Returns(new List<ProjectFile>());
 
-            var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, folderName, fileName);
+            var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
             Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName
                 && b.BlobPath.Contains(fileName) && b.BlobPath.Contains(ProjectId.ToString());
 
@@ -325,9 +339,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
 
             var projectFile = new ProjectFile();
             projectFile.Set(f => f.Id, fileId);
-            var folderName = "folderName";
-            var location = new BlobLocation("containerName", "blobPath", folderName);
-            projectFile.Set(f => f.Location, location);
+
             QueryProcessorMock.Setup(q => q.FindById<ProjectFile>(fileId))
                 .Returns(projectFile);
 
@@ -337,7 +349,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .Callback<UpdateFileCommand>(c => executedCommand = c)
                 .Returns(new CommandResult());
 
-            var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, folderName, fileName);
+            var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
             Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName
                 && b.BlobPath.Contains(fileName) && b.BlobPath.Contains(ProjectId.ToString());
 
@@ -377,7 +389,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .Returns($"C:\\Test\\Parent\\Parent\\{fileName}");
 
             var projectFile = new ProjectFile();
-            var location = new BlobLocation("containerName", "blobPath", "folderName");
+            var location = new BlobLocation("containerName", "blobPath");
             projectFile.Set(f => f.Location, location);
 
             QueryProcessorMock.Setup(q => q.FindById<ProjectFile>(fileId))
@@ -429,6 +441,115 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             //Assert
             result.ViewName.Should().Be(nameof(RepositoryController.UpdateFile));
             AssertModelStateContainsError(result, errorMessage);
+        }
+
+        [Fact]
+        public void FileHistory_Returns_View_With_Expected_Model()
+        {
+            var fileId = Guid.NewGuid();
+            var userInfo = new UserInfo(UserId, "user name");
+            var fileAddedEvent = new FileAddedEvent(
+                id: fileId,
+                comment: "comment",
+                fileName: "fileName",
+                fileSize: 111,
+                folderName: "folderName",
+                initiatedBy: userInfo,
+                location: new BlobLocation("containerName", "blobPath"),
+                projectId: ProjectId,
+                revisionNumber: 1
+                );
+
+            var fileUpdatedEvent = new FileUpdatedEvent(
+                id: fileId,
+                projectId: ProjectId,
+                location: new BlobLocation("containerName2", "blobPath2"),
+                comment: "comment2",
+                fileSize: 222,
+                initiatedBy: userInfo,
+                revisionNumber: 2
+                );
+
+            var fileUpdatedEvent2 = new FileUpdatedEvent(
+                id: fileId,
+                projectId: ProjectId,
+                location: new BlobLocation("containerName3", "blobPath3"),
+                comment: "comment3",
+                fileSize: 333,
+                initiatedBy: userInfo,
+                revisionNumber: 3
+                );
+
+            var fileAddedDate = DateTimeOffset.Now;
+            var fileUpdatedDate = DateTimeOffset.Now.AddDays(1);
+            var fileUpdated2Date = DateTimeOffset.Now.AddDays(2);
+            var events = new List<IEvent>
+            {
+                new TestEvent{ Timestamp = fileAddedDate, Data = fileAddedEvent },
+                new TestEvent{ Timestamp = fileUpdatedDate, Data = fileUpdatedEvent },
+                new TestEvent{ Timestamp = fileUpdated2Date, Data = fileUpdatedEvent2 },
+            };
+
+            _eventStreamQueryMock.Setup(q => q.FindFileEvents(ProjectId, fileId))
+                .Returns(events);
+
+            var downLoadUrl = "downloadUrl";
+            _uboraStorageProviderMock.Setup(p => p.GetReadUrl(It.IsAny<BlobLocation>(), It.IsAny<DateTime>()))
+                .Returns(downLoadUrl);
+
+            var projectFile = new ProjectFile();
+            projectFile.Set(f => f.FileName, "fileName");
+            QueryProcessorMock.Setup(q => q.FindById<ProjectFile>(fileId))
+                .Returns(projectFile);
+
+            var project = new Project();
+            project.Set(p => p.Id, ProjectId);
+            project.Set(p => p.Title, "Title");
+
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
+                .Returns(project);
+
+            var expectedFiles = new List<FileItemHistoryViewModel>
+            {
+                new FileItemHistoryViewModel
+                {
+                    Comment = "comment",
+                    DownloadUrl = downLoadUrl,
+                    FileAddedOn = fileAddedDate,
+                    FileSize = 111,
+                    RevisionNumber = 1
+                },
+                new FileItemHistoryViewModel
+                {
+                    Comment = "comment2",
+                    DownloadUrl = downLoadUrl,
+                    FileAddedOn = fileUpdatedDate,
+                    FileSize = 222,
+                    RevisionNumber = 2
+                },
+                new FileItemHistoryViewModel
+                {
+                    Comment = "comment3",
+                    DownloadUrl = downLoadUrl,
+                    FileAddedOn = fileUpdated2Date,
+                    FileSize = 333,
+                    RevisionNumber = 3
+                }
+            };
+
+            var expectedViewModel = new FileHistoryViewModel
+            {
+                FileName = projectFile.FileName,
+                ProjectName = project.Title,
+                Files = expectedFiles.OrderByDescending(x => x.FileAddedOn)
+            };
+
+            // Act
+            var result = (ViewResult) _controller.FileHistory(fileId);
+
+            // Assert
+            result.ViewName.Should().Be(nameof(RepositoryController.FileHistory));
+            result.Model.As<FileHistoryViewModel>().ShouldBeEquivalentTo(expectedViewModel);
         }
 
         private void CreateTestProject()

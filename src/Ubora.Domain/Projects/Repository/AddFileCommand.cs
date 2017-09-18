@@ -1,7 +1,5 @@
 ﻿using Marten;
 using System;
-using System.IO;
-using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 
@@ -14,6 +12,7 @@ namespace Ubora.Domain.Projects.Repository
         public string FileName { get; set; }
         public string Comment { get; set; }
         public long FileSize { get; set; }
+        public string FolderName { get; set; }
 
         internal class Handler : ICommandHandler<AddFileCommand>
         {
@@ -39,7 +38,8 @@ namespace Ubora.Domain.Projects.Repository
                     cmd.Comment,
                     cmd.FileSize,
                     cmd.Actor,
-                    cmd.FileName
+                    cmd.FileName,
+                    cmd.FolderName
                 );
 
                 _documentSession.Events.Append(cmd.ProjectId, @event);

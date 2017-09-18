@@ -18,5 +18,13 @@ namespace Ubora.Web._Features.Projects.Repository
         public DateTimeOffset FileAddedOn { get; set; }
         public long FileSize { get; set; }
         public string DownloadUrl { get; set; }
+        public int RevisionNumber { get; set; }
+        public long FileSizeInKbs
+        {
+            get
+            {
+                return FileSize / 1000;
+            }
+        }
     }
 }

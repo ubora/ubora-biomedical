@@ -16,7 +16,8 @@
         <tr>
             <th>Download</th>
             <th>Date added</th>
-            <th>Size</th>
+            <th>Revision number</th>
+            <th>Size (kB)</th>
             <th>Comment</th>
         </tr>
         @foreach (var file in Model.Files)
@@ -28,7 +29,8 @@
                     </a>
                 </td>
                 <td>@file.FileAddedOn</td>
-                <td>@file.FileSize</td>
+                <td>@file.RevisionNumber</td>
+                <td>@file.FileSizeInKbs</td>
                 <td>@file.Comment</td>
             </tr>
         }

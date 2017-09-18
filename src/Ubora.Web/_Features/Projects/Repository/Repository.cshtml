@@ -13,18 +13,21 @@
 
     <div class="layout-content">
         <section class="medium-width">
-            <div class="repository-folder">
-                <h2>Hardware</h2>
+            @foreach (var files in Model.AllFiles)
+            {
+                <div class="repository-folder">
+                    <h2>@files.Key</h2>
 
                     <table class="table table-filelist">
                         <tr>
                             <th></th>
                             <th>File name</th>
-                            <th>Size</th>
+                            <th>Revision number</th>
+                            <th>Size (kB)</th>
                             <th>Comment</th>
                         </tr>
 
-                        @foreach (var file in Model.Files)
+                        @foreach (var file in files)
                         {
                             <tr class="table-row-content-center">
                                 <td>
@@ -48,23 +51,13 @@
                                     </a>
                                 </td>
                                 <td>@file.FileName</td>
-                                <td>@file.FileSize</td>
+                                <td>@file.RevisionNumber</td>
+                                <td>@file.FileSizeInKbs</td>
                                 <td>@file.Comment</td>
                             </tr>
                         }
                     </table>
-            </div>
-
-            <div class="repository-folder">
-                <h2>Electronics and firmware</h2>
-            </div>
-
-            <div class="repository-folder">
-                <h2>Software</h2>
-            </div>
-
-            <div class="repository-folder">
-                <h2>System integrations</h2>
-            </div>
+                </div>
+            }
         </section>
     </div>

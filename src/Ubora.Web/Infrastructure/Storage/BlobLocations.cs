@@ -22,15 +22,12 @@ namespace Ubora.Web.Infrastructure.Storage
             return new BlobLocation(containerName, blobPath);
         }
 
-        public static BlobLocation GetRepositoryFileBlobLocation(Guid projectId, string folderName, string fileName)
+        public static BlobLocation GetRepositoryFileBlobLocation(Guid projectId, string fileName)
         {
-            var folderNameToLower = folderName?.ToLower();
-            var modifiedFolderName = Regex.Replace(folderName, @"\s+", "-");
-
             var containerName = BlobLocation.ContainerNames.Projects;
-            var blobPath = $"{projectId}/repository/{folderName}/{Guid.NewGuid()}/{fileName}";
+            var blobPath = $"{projectId}/repository/{Guid.NewGuid()}/{fileName}";
 
-            return new BlobLocation(containerName, blobPath, folderName);
+            return new BlobLocation(containerName, blobPath);
         }
     }
 }

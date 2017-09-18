@@ -13,6 +13,7 @@ namespace Ubora.Domain.Tests.Projects.Repository
         private readonly Guid _projectId = Guid.NewGuid();
         private readonly Guid _fileId = Guid.NewGuid();
         private readonly string _fileName = "fileName";
+        private readonly string _folderName = "folderName";
         private readonly BlobLocation _blobLocation = new BlobLocation("expectedContainer", "expectedBlobPath");
         private readonly string _comment = "comment";
         private readonly long _fileSize = 121323421342;
@@ -36,6 +37,7 @@ namespace Ubora.Domain.Tests.Projects.Repository
                 fileName: _fileName,
                 comment: _comment,
                 fileSize: _fileSize,
+                folderName: _folderName,
                 location: new BlobLocation("container", "path"));
             Session.Events.Append(_projectId, fileAddedEvent);
             Session.SaveChanges();
@@ -61,7 +63,9 @@ namespace Ubora.Domain.Tests.Projects.Repository
             file.Id.Should().Be(_fileId);
             file.ProjectId.Should().Be(_projectId);
             file.FileName.Should().Be(_fileName);
+            file.FolderName.Should().Be(_folderName);
             file.Location.Should().Be(_blobLocation);
+            file.RevisionNumber.Should().Be(2);
             file.IsHidden.Should().BeFalse();
         }
 
