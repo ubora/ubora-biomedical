@@ -28,9 +28,9 @@ Scenario: I try to create an empty project
 Scenario: I create a project
     When I click on the element "a=I have an idea"
         And I set value "TestProject" to the element "#Title"
-        And I select value "Child mortality" from element "#ClinicalNeedTags"
-        And I select value "Neurology" from element "#AreaOfUsageTags"
-        And I select value "Bandages" from element "#PotentialTechnologyTags"
+        And I select value "Remote or self-diagnosis" from element "#ClinicalNeedTags"
+        And I select value "Pediatric surgery" from element "#AreaOfUsageTags"
+        And I select value "Surgical device" from element "#PotentialTechnologyTags"
         And I set value "TestGMDN" to the element "#Gmdn"
         And I click on the element "button=Continue"
     Then I expect the title of the page "Dashboard - UBORA"
@@ -72,16 +72,16 @@ Scenario: I make changes in Project overview and check them
     Then I expect the title of the page "Work packages - UBORA"
     When I click on the element "#ProjectOverview"
     Then I expect the title of the page "Project Overview - UBORA"
-    When I select value "Movement impairment" from element "#ClinicalNeedTags"
-        And I select value "Cardiology" from element "#AreaOfUsageTags"
-        And I select value "Wheelchairs" from element "#PotentialTechnologyTags"
+    When I select value "Point-of-care diagnosis" from element "#ClinicalNeedTags"
+        And I select value "Clinical microbiology" from element "#AreaOfUsageTags"
+        And I select value "Mobile-based technology" from element "#PotentialTechnologyTags"
         And I set value "Magnificent other!" to the element "#Gmdn"
         And I click on the element "button=Save changes"
     Then I expect the title of the page "Project Overview - UBORA"
     When I click on the element "a=Project overview"
-    Then I expect the element "p=Movement impairment" is visible
-        And I expect the element "p=Cardiology" is visible
-        And I expect the element "p=Wheelchairs" is visible
+    Then I expect the element "p=Point-of-care diagnosis" is visible
+        And I expect the element "p=Clinical microbiology" is visible
+        And I expect the element "p=Mobile-based technology" is visible
         And I expect the element "p=Magnificent other!" is visible
         And I expect the title of the page "Dashboard - UBORA"
 
