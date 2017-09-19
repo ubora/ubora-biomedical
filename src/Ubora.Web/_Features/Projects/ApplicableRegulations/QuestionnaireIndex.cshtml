@@ -24,12 +24,6 @@
                     </div>
                 }
 
-                @if (Model.Last == null || Model.Last.IsFinished) {
-                    <form asp-action="Start" method="post">
-                        <button type="submit" class="button primary-button small-button">Take questionnaire</button>
-                    </form>
-                }
-
                 <div class="two-columns-responsive">
                     @if (Model.Last.IsFinished) {
                         <div class="center-element">
@@ -53,6 +47,13 @@
                         </div>
                     }
                 </div>
+            }
+
+            @if (Model.Last == null || Model.Last.IsFinished)
+            {
+                <form asp-action="Start" method="post">
+                    <button type="submit" class="button primary-button small-button">Take questionnaire</button>
+                </form>
             }
         </section>
     </section>

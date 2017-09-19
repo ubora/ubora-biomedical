@@ -218,8 +218,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;li&gt;
-        ///    &lt;p&gt;ISO 22442-1:2015(en) and any of the additional chapters of this standard that may be applicable to your specific device&lt;/p&gt;
-        ///    &lt;p&gt;TODO: No link...&lt;/p&gt;
+        ///    &lt;p&gt;&lt;a href=&quot;https://www.iso.org/obp/ui/#iso:std:iso:22442:-1:ed-2:v1:en&quot;&gt;ISO 22442-1:2015(en)&lt;/a&gt; and any of the additional chapters of this standard that may be applicable to your specific device&lt;/p&gt;
         ///&lt;/li&gt;.
         /// </summary>
         public static string Q5_1 {
