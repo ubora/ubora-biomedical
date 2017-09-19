@@ -15,10 +15,12 @@
 
         @if (Model.SubmitForReviewButton.IsVisible)
         {
-            <section class="narrow-width">
+            <section class="medium-width">
                 <form action="@Model.SubmitForReviewUrl" method="post" asp-antiforgery="true">
-                    <div class="form-input center-element formal-review-form">
-                        <h3 class="formal-review-heading">You can submit your project for review.</h3>
+                    <div class="form-input formal-review-form">
+                        <div class="center-element">
+                            <h1 class="formal-review-heading">You can submit your project for review.</h1>
+                        </div>
                         <button type="submit" class="button primary-button small-button">Submit project for review</button>
                     </div>
                 </form>
@@ -26,7 +28,6 @@
         }
         else if (Model.SubmitForReviewButton.IsHiddenWithMessage)
         {
-            @* TODO(from Kaspar Kallas to Risto Kitsing) *@
             <section class="full-width">
                 <p><i>@Model.SubmitForReviewButton.HideReasonMessage</i></p>
             </section>

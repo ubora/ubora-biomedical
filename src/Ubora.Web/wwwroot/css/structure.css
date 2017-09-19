@@ -84,3 +84,24 @@ section {
 .form-input-options > .form-input {
     margin-right: 1em;
 }
+
+
+.two-columns-responsive {
+	display: flex;
+}
+
+@media screen and (max-width: 50em) {
+	.two-columns-responsive {
+		flex-direction: column;
+	}
+}
+
+.previous-questionnaire-result-list {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+.previous-questionnaire-result-list > li {
+	margin: .5em;
+}
