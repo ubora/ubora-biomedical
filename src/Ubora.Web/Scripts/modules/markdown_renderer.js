@@ -1,5 +1,5 @@
-class MarkdownRenderer {
-  constructor(element) {
+export class MarkdownRenderer {
+  constructor() {
     const renderer = new marked.Renderer();
 
     renderer.link = (href, title, text) => {
@@ -23,32 +23,20 @@ class MarkdownRenderer {
       smartypants: false
     };
     marked.setOptions(markdownRendererOptions);
-
-    this.renderMarkdown(element);
   }
 
   renderMarkdown(element) {
-    marked(element);
+    const UnEncodedInnerHtml = element.innerHTML.replace(/&gt;/g, '>');
+    return element.innerHTML = window.marked(UnEncodedInnerHtml, { renderer: this.renderer });
   }
 }
 
 const markdownSelector = '.text-markdown';
 const markdownElementCollection = document.querySelectorAll(markdownSelector);
 
-if (markdownElementCollection.length > 0) {
+if (markdownElementCollection.length > 0 && window.marked) {
   const markdownRenderer = new MarkdownRenderer();
   Array.prototype.map.call(markdownElementCollection, markdownElement => {
     return markdownRenderer.renderMarkdown(markdownElement);
   });
 }
-
-// TODO: Risto Kitsing - https://github.com/chjj/marked
-// const markdownContainerArray = document.querySelectorAll('.text-markdown');
-// const markdownArrayHasItems = markdownContainerArray.length > 0;
-//
-// if (markdownArrayHasItems) {
-//   for (let i = 0; i < markdownContainerArray.length; i++) {
-//     let innerHtmlUnencoded = markdownContainerArray[i].innerHTML.replace(/&gt;/g, '>');
-//     markdownContainerArray[i].innerHTML = marked(innerHtmlUnencoded, { renderer: renderer });
-//   }
-// }

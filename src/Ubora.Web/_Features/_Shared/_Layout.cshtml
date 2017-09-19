@@ -12,6 +12,22 @@
     <link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <environment names="Development">
+      <script
+        src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+        asp-fallback-src="~/dist/libs/jquery.min.js"
+        asp-fallback-test="window.jQuery">
+      </script>
+    </environment>
+
+    <environment names="Staging,Production">
+      <script
+        src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+        asp-fallback-src="~/dist/libs/jquery.min.js"
+        asp-fallback-test="window.jQuery">
+      </script>
+    </environment>
+
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 
@@ -42,22 +58,13 @@
 
     @RenderSection("Scripts", required: false)
 
-    <environment names="Development">
-      <script
-        src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
-        asp-fallback-src="~/dist/libs/jquery.min.js"
-        asp-fallback-test="window.jQuery">
-      </script>
 
+
+    <environment names="Development">
       <script src="~/dist/scripts.bundle.js"></script>
     </environment>
 
     <environment names="Staging,Production">
-      <script
-        src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
-        asp-fallback-src="~/dist/libs/jquery.min.js"
-        asp-fallback-test="window.jQuery">
-      </script>
       <script src="~/dist/scripts.bundle.js" asp-append-version="true"></script>
     </environment>
 
