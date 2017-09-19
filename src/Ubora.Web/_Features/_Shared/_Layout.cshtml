@@ -40,6 +40,7 @@
     @await Html.PartialAsync("_Footer")
 
 
+    @RenderSection("Scripts", required: false)
 
     <environment names="Development">
       <script
@@ -60,7 +61,6 @@
       <script src="~/dist/scripts.bundle.js" asp-append-version="true"></script>
     </environment>
 
-    @RenderSection("Scripts", required: false)
 
 @*
 TODO: Risto Kitsing - Finish work with Select2

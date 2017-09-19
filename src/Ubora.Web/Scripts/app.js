@@ -7,10 +7,12 @@ if (module.hot) {
 }
 
 const sidemenu = require('./modules/sidemenu');
-const marked = require('./modules/marked');
 const autocomplete = require('./modules/autocomplete');
 const notices = require('./modules/notices');
 const feedback = require('./modules/feedback');
+
+const markdown_editor = require('./modules/markdown_editor');
+const markdown_renderer = require('./modules/markdown_renderer');
 
 window.addEventListener('load', () => {
   console.info(`UBORA: page loaded in ${Math.ceil(window.performance.now())}ms / target <500ms`);
