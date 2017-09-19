@@ -143,3 +143,19 @@
         </div>
     </form>
 </section>
+
+@section Scripts {
+  <link rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"
+    asp-fallback-href="~/dist/lib/select2.min.css">
+  <script
+    src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"
+    asp-fallback-src="~/dist/lib/select2.min.js"
+    asp-fallback-test="window.select2">
+  </script>
+  <script>
+    // document.querySelector('select').select2({ theme: 'ubora' });
+    $('select').select2({ theme: 'ubora' });
+  </script>
+  @*$('select').select2({ theme: 'ubora' });*@
+}

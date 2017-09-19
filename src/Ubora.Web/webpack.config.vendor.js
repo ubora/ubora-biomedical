@@ -11,7 +11,8 @@ const vendors = [
   'jquery-validation-unobtrusive',
   'autocomplete-js',
   'simplemde',
-  'marked'
+  'marked',
+  'select2'
 ];
 
 module.exports = env => {
@@ -61,7 +62,9 @@ module.exports = env => {
         { from: './node_modules/autocomplete-js/dist/autocomplete.min.css', to: './lib' },
         { from: './node_modules/marked/marked.min.js', to: './lib' },
         { from: './node_modules/simplemde/dist/simplemde.min.js', to: './lib' },
-        { from: './node_modules/simplemde/dist/simplemde.min.css', to: './lib' }
+        { from: './node_modules/simplemde/dist/simplemde.min.css', to: './lib' },
+        { from: './node_modules/select2/dist/js/select2.min.js', to: './lib' },
+        { from: './node_modules/select2/dist/css/select2.min.css', to: './lib' }
       ])
     ].concat(isDevBuild ? [] : [
       new webpack.optimize.UglifyJsPlugin()
