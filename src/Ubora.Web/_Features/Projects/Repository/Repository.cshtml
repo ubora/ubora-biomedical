@@ -40,7 +40,7 @@
                                         <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history">
                                         <i class="file-list--item-control material-icons">history</i>
                                     </a>
-                                    <i class="file-list--item-control material-icons" title="Copy file" aria-label="Copy file">content_copy</i>
+                                    <i class="file-list--item-control material-icons" title="Copy file path to clipboard" aria-label="Copy file">content_copy</i>
                                         @if (Model.IsProjectLeader)
                                     {
                                         <a href="@Url.Action("HideFile", new {fileId = file.Id})" title="Delete file forever" aria-label="Delete file forever">
