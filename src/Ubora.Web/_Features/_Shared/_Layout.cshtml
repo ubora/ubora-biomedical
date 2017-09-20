@@ -58,8 +58,6 @@
 
     @RenderSection("Scripts", required: false)
 
-
-
     <environment names="Development">
       <script src="~/dist/scripts.bundle.js"></script>
     </environment>
@@ -67,15 +65,5 @@
     <environment names="Staging,Production">
       <script src="~/dist/scripts.bundle.js" asp-append-version="true"></script>
     </environment>
-
-
-@*
-TODO: Risto Kitsing - Finish work with Select2
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css" rel="stylesheet" />
-$('select').select2({
-    theme: 'ubora'
-});
-*@
-
 </body>
 </html>
