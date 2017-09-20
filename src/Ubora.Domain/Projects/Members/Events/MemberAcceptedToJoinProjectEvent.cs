@@ -13,6 +13,6 @@ namespace Ubora.Domain.Projects.Members.Events
         public Guid UserId { get; internal set; }
         public string UserFullName { get; internal set; }
 
-        public override string GetDescription() => $"{UserFullName} joined project.";
+        public override string GetDescription() => $"accepted {StringTokens.User(UserId)} to join project.";
     }
 }

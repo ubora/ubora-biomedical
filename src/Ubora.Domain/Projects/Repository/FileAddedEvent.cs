@@ -21,7 +21,7 @@ namespace Ubora.Domain.Projects.Repository
 
         public override string GetDescription()
         {
-            return $"Added file \"{FileName}\"";
+            return $"added file \"{StringTokens.File(Id)}\"";
         }
     }
 }

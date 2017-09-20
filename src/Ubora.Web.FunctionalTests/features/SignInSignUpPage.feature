@@ -4,7 +4,7 @@ Feature: Sign in Sign up page
 
 Background:
     Given I go to Home page
-    And I clicked on the element "#SignInSignUp"
+        And I clicked on the element "#SignInSignUp"
 
 Scenario: Click Logo
     When I click on the element ".header-logo"
@@ -24,11 +24,11 @@ Scenario: Click Forgot password?
     When I click on the element "button=Submit"
     Then I expect the element "span=The Email field is required." is visible
     When I set value "change@password.com" to the element "#Email"
-    And I click on the element "button=Submit"
-    Then I expect the title of the page "Forgot Password Confirmation - UBORA"
+        And I click on the element "button=Submit"
+    Then I expect the title of the page "Reset Password - UBORA"
 
 Scenario: I sign in without credentials
     When I click on the element "button=Sign in"
     Then I expect the element "span=The Email field is required." is visible
-    And I expect the element "span=The Password field is required." is visible
-    And I expect the title of the page "Sign in to UBORA - UBORA"
+        And I expect the element "span=The Password field is required." is visible
+        And I expect the title of the page "Sign in to UBORA - UBORA"

@@ -8,6 +8,7 @@ using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Users;
 using Ubora.Web._Features._Shared.Tokens;
 using Xunit;
+using System.Text.Encodings.Web;
 
 namespace Ubora.Web.Tests._Features._Shared
 {
@@ -16,12 +17,14 @@ namespace Ubora.Web.Tests._Features._Shared
         private readonly UserTokenReplacer _userTokenReplacer;
         private readonly Mock<IUrlHelper> _urlHelperMock;
         private readonly Mock<IQueryProcessor> _queryProcessorMock;
+        private readonly Mock<HtmlEncoder> _htmlEncoderMock;
 
         public UserTokenReplacerTests()
         {
             _queryProcessorMock = new Mock<IQueryProcessor>();
             _urlHelperMock = new Mock<IUrlHelper>();
-            _userTokenReplacer = new UserTokenReplacer(_queryProcessorMock.Object, _urlHelperMock.Object);
+            _htmlEncoderMock = new Mock<HtmlEncoder>();
+            _userTokenReplacer = new UserTokenReplacer(_queryProcessorMock.Object, _urlHelperMock.Object, _htmlEncoderMock.Object);
         }
 
         [Fact]
@@ -45,11 +48,19 @@ namespace Ubora.Web.Tests._Features._Shared
                     x => x.Action == "View" && x.Controller == "Profile" && x.Values.GetPropertyValue<Guid>("userId") == user2.UserId)))
                 .Returns("user2link");
 
+            var encodedUser1Name = "encodedUser1Name";
+            _htmlEncoderMock.Setup(x => x.Encode(user1.FullName))
+                .Returns(encodedUser1Name);
+
+            var encodedUser2Name = "encodedUser2Name";
+            _htmlEncoderMock.Setup(x => x.Encode(user2.FullName))
+                .Returns(encodedUser2Name);
+
             // Act
             var result = _userTokenReplacer.ReplaceTokens(text);
 
             // Assert
-            var expected = "test1 <a href=\"user1link\">user1first user1last</a> test2 <a href=\"user2link\">user2first user2last</a> test3";
+            var expected = $"test1 <a href=\"user1link\">{encodedUser1Name}</a> test2 <a href=\"user2link\">{encodedUser2Name}</a> test3";
 
             result.Should().Be(expected);
         }
