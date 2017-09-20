@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Web.Authorization;
+using Ubora.Web.Tests.Helper;
 using Ubora.Web._Features.Projects.Workpackages.Reviews;
 using Xunit;
 
@@ -29,26 +30,26 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         }
 
         [Fact]
-        public void Actions_Have_Authorize_Attributes()
+        public override void Actions_Have_Authorize_Attributes()
         {
-            var rolesAndPoliciesAuthorizations = new List<RolesAndPoliciesAuthorization>
+            var rolesAndPoliciesAuthorizations = new List<AuthorizationTestHelper.RolesAndPoliciesAuthorization>
                 {
-                    new RolesAndPoliciesAuthorization
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(WorkpackageOneReviewController.SubmitForReview),
                         Policies = new []{ nameof(Policies.CanSubmitWorkpackageForReview) }
                     },
-                    new RolesAndPoliciesAuthorization
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(WorkpackageOneReviewController.Decision),
                         Policies = new []{ nameof(Policies.CanReviewProjectWorkpackages) }
                     },
-                    new RolesAndPoliciesAuthorization
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(WorkpackageOneReviewController.Accept),
                         Policies = new []{ nameof(Policies.CanReviewProjectWorkpackages) }
                     },
-                    new RolesAndPoliciesAuthorization
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(WorkpackageOneReviewController.Reject),
                         Policies = new []{ nameof(Policies.CanReviewProjectWorkpackages) }

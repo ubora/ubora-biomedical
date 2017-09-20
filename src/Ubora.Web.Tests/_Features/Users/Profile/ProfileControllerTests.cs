@@ -15,6 +15,7 @@ using Ubora.Web._Features.Users.Profile;
 using Xunit;
 using Ubora.Web._Features._Shared.Notices;
 using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web.Tests.Helper;
 
 namespace Ubora.Web.Tests._Features.Users.Profile
 {
@@ -40,19 +41,19 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         }
 
         [Fact]
-        public void Actions_Have_Authorize_Attributes()
+        public override void Actions_Have_Authorize_Attributes()
         {
-            var rolesAndPoliciesAuthorizations = new List<RolesAndPoliciesAuthorization>
+            var rolesAndPoliciesAuthorizations = new List<AuthorizationTestHelper.RolesAndPoliciesAuthorization>
             {
-                new RolesAndPoliciesAuthorization
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                 {
                     MethodName = nameof(ProfileController.EditProfile)
                 },
-                new RolesAndPoliciesAuthorization
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                 {
                     MethodName = nameof(ProfileController.FirstTimeEditProfile)
                 },
-                new RolesAndPoliciesAuthorization
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                 {
                     MethodName = nameof(ProfileController.ChangeProfilePicture)
                 }

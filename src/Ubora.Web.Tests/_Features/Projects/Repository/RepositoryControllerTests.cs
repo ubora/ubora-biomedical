@@ -18,6 +18,7 @@ using Xunit;
 using Ubora.Domain.Projects.Specifications;
 using System.Linq.Expressions;
 using Ubora.Web.Authorization;
+using Ubora.Web.Tests.Helper;
 
 namespace Ubora.Web.Tests._Features.Projects.Repository
 {
@@ -34,11 +35,11 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         }
 
         [Fact]
-        public void Actions_Have_Authorize_Attributes()
+        public override void Actions_Have_Authorize_Attributes()
         {
-            var methodPolicies = new List<RolesAndPoliciesAuthorization>
+            var methodPolicies = new List<AuthorizationTestHelper.RolesAndPoliciesAuthorization>
                 {
-                    new RolesAndPoliciesAuthorization
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(RepositoryController.HideFile),
                         Policies = new []{ Policies.CanHideProjectFile}
