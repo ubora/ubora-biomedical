@@ -7,6 +7,7 @@ using Moq;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Commands;
+using Ubora.Domain.Projects._Events;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Projects.Members

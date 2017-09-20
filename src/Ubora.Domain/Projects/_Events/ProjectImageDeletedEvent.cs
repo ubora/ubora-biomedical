@@ -1,7 +1,7 @@
 ﻿using System;
 using Ubora.Domain.Infrastructure.Events;
 
-namespace Ubora.Domain.Projects
+namespace Ubora.Domain.Projects._Events
 {
     internal class ProjectImageDeletedEvent : UboraEvent
     {

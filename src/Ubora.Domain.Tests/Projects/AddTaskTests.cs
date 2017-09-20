@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
+using Ubora.Domain.Projects._Commands;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Projects

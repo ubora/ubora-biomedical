@@ -2,6 +2,7 @@
 using System.Linq;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Users;
 
 namespace Ubora.Domain.Projects.Members.Commands

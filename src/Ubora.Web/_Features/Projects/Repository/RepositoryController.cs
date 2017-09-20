@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Repository;
-using Ubora.Domain.Projects.Specifications;
+using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Storage;
 

@@ -5,7 +5,8 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Repository;
-using Ubora.Domain.Projects.Specifications;
+using Ubora.Domain.Projects._Commands;
+using Ubora.Domain.Projects._Specifications;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Projects.Specifications

@@ -17,8 +17,8 @@ using Ubora.Web._Features.Projects.Repository;
 using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web.Tests.Helper;
 using Xunit;
-using Ubora.Domain.Projects.Specifications;
 using System.Linq.Expressions;
+using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Authorization;
 
 namespace Ubora.Web.Tests._Features.Projects.Repository

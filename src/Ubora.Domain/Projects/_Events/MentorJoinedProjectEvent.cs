@@ -2,7 +2,7 @@
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications;
 
-namespace Ubora.Domain.Projects
+namespace Ubora.Domain.Projects._Events
 {
     public class MentorJoinedProjectEvent : UboraEvent
     {

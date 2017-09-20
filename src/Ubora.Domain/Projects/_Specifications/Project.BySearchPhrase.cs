@@ -1,9 +1,9 @@
-﻿using Marten.Util;
-using System;
+﻿using System;
 using System.Linq.Expressions;
+using Marten.Util;
 using Ubora.Domain.Infrastructure.Specifications;
 
-namespace Ubora.Domain.Projects
+namespace Ubora.Domain.Projects._Specifications
 {
     public class BySearchPhrase : Specification<Project>
     {

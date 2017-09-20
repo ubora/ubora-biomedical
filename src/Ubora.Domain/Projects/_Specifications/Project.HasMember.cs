@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.Members;
 
-namespace Ubora.Domain.Projects
+namespace Ubora.Domain.Projects._Specifications
 {
     public class HasMember<T> : Specification<Project> where T : ProjectMember
     {

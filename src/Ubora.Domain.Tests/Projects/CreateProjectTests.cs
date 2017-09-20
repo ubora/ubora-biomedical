@@ -9,6 +9,7 @@ using Ubora.Domain.Projects;
 using Xunit;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Workpackages;
+using Ubora.Domain.Projects._Commands;
 
 namespace Ubora.Domain.Tests.Projects
 {

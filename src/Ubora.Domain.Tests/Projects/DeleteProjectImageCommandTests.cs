@@ -2,6 +2,8 @@
 using System;
 using System.Linq;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects._Commands;
+using Ubora.Domain.Projects._Events;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Projects

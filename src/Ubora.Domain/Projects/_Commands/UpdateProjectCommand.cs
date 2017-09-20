@@ -1,7 +1,8 @@
 ﻿using Marten;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Projects._Events;
 
-namespace Ubora.Domain.Projects
+namespace Ubora.Domain.Projects._Commands
 {
     public class UpdateProjectCommand : UserProjectCommand
     {

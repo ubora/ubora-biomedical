@@ -4,6 +4,8 @@ using System.Linq;
 using Ubora.Domain.Projects;
 using Xunit;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Projects._Commands;
+using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Tests.Projects
 {

@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.Repository;
 
-namespace Ubora.Domain.Projects.Specifications
+namespace Ubora.Domain.Projects._Specifications
 {
     public class IsProjectFileSpec : Specification<ProjectFile>
     {

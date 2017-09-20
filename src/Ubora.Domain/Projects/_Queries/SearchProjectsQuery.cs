@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Projects._Specifications;
 
-namespace Ubora.Domain.Projects.Queries
+namespace Ubora.Domain.Projects._Queries
 {
     public class SearchProjectsQuery : IQuery<IEnumerable<Project>>
     {

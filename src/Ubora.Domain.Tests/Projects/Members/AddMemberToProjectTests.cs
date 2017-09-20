@@ -9,6 +9,8 @@ using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Commands;
+using Ubora.Domain.Projects._Commands;
+using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Users;
 using Xunit;
 
