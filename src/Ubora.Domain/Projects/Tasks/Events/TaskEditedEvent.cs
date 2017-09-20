@@ -1,7 +1,7 @@
 using System;
 using Ubora.Domain.Infrastructure.Events;
 
-namespace Ubora.Domain.Projects.Tasks
+namespace Ubora.Domain.Projects.Tasks.Events
 {
     public class TaskEditedEvent : UboraEvent, ITaskEvent
     {

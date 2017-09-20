@@ -13,6 +13,7 @@ using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.DeviceClassification;
 using Ubora.Domain.Projects.Tasks;
+using Ubora.Domain.Projects.Tasks.Events;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Events;
 using Ubora.Domain.Projects._Events;

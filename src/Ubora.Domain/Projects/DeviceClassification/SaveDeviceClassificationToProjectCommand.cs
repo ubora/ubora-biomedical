@@ -7,35 +7,32 @@ namespace Ubora.Domain.Projects.DeviceClassification
     public class SetDeviceClassificationForProjectCommand : UserProjectCommand
     {
         public Classification DeviceClassification { get; set; }
-    }
 
-    internal class SaveDeviceClassificationToProjectCommandHandler : CommandHandler<SetDeviceClassificationForProjectCommand>
-    {
-        private IDeviceClassification _deviceClassification;
-
-        public SaveDeviceClassificationToProjectCommandHandler(
-            IDocumentSession documentSession,
-            IDeviceClassificationProvider deviceClassificationProvider) : base(documentSession)
+        internal class Handler : CommandHandler<SetDeviceClassificationForProjectCommand>
         {
-            _deviceClassification = deviceClassificationProvider.Provide();
-        }
+            private readonly IDeviceClassification _deviceClassification;
 
-        public override ICommandResult Handle(SetDeviceClassificationForProjectCommand cmd)
-        {
-            var project = DocumentSession.Load<Project>(cmd.ProjectId);
-            if (project == null)
+            public Handler(
+                IDocumentSession documentSession,
+                IDeviceClassificationProvider deviceClassificationProvider) : base(documentSession)
             {
-                throw new InvalidOperationException();
+                _deviceClassification = deviceClassificationProvider.Provide();
             }
 
-            var currentClassification = string.IsNullOrEmpty(project.DeviceClassification) ? null : _deviceClassification.GetClassification(project.DeviceClassification);
+            public override ICommandResult Handle(SetDeviceClassificationForProjectCommand cmd)
+            {
+                var project = DocumentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
-            var @event = new EditedProjectDeviceClassificationEvent(cmd.ProjectId, cmd.DeviceClassification, currentClassification, cmd.Actor);
+                var currentClassification = string.IsNullOrEmpty(project.DeviceClassification) ? null : _deviceClassification.GetClassification(project.DeviceClassification);
 
-            DocumentSession.Events.Append(cmd.ProjectId, @event);
-            DocumentSession.SaveChanges();
+                var @event = new EditedProjectDeviceClassificationEvent(cmd.ProjectId, cmd.DeviceClassification, currentClassification, cmd.Actor);
 
-            return new CommandResult();
+                DocumentSession.Events.Append(cmd.ProjectId, @event);
+                DocumentSession.SaveChanges();
+
+                return CommandResult.Success;
+            }
         }
     }
+
 }

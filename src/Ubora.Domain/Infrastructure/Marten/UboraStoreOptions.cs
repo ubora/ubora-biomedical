@@ -11,6 +11,7 @@ using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Commands;
+using Ubora.Domain.Projects.Tasks.Events;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
