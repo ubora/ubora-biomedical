@@ -1,14 +1,37 @@
-﻿@model Ubora.Web._Features.Projects.Repository.AddFileViewModel
+@model Ubora.Web._Features.Projects.Repository.AddFileViewModel
 
-<form method="post" enctype="multipart/form-data" asp-controller="Repository" asp-action="@Model.ActionName">
-  @Html.HiddenFor(m => m.FileId)
+<section class="narrow-width">
+    <h2>Upload new file</h2>
 
-  <div class="form-input">
-      <input asp-for="ProjectFile">
-      <span asp-validation-for="ProjectFile"></span>
-  </div>
+    <span asp-validation-for="ProjectFiles"></span>
 
-    <div class="form-input">
-        <button class="button primary-button small-button">Upload new file</button>
-    </div>
-</form>
+    <form method="post" enctype="multipart/form-data" asp-controller="Repository" asp-action="AddFile">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-input">
+            <input asp-for="ProjectFiles" multiple>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="FolderName">Select a folder</label>
+            <select asp-for="FolderName">
+                <option selected disabled>Select a folder</option>
+                <option value="Hardware">Hardware</option>
+                <option value="Electronics and firmware">Electronics and firmware</option>
+                <option value="Software">Software</option>
+                <option value="System integrations">System integrations</option>
+            </select>
+            <span asp-validation-for="FolderName"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="Comment">Comment</label>
+            <input asp-for="Comment" type="text" placeholder="Enter a comment...">
+        </div>
+
+        <div class="form-input">
+            <button class="button primary-button small-button">Upload new file</button>
+        </div>
+    </form>
+
+</section>
