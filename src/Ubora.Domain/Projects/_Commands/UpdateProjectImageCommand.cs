@@ -21,14 +21,18 @@ namespace Ubora.Domain.Projects._Commands
 
             public ICommandResult Handle(UpdateProjectImageCommand cmd)
             {
-                var project = _documentSession.Load<Project>(cmd.ProjectId);
+                var project = _documentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
-                var @event = new ProjectImageUpdatedEvent(cmd.BlobLocation, DateTime.UtcNow, cmd.Actor);
+                var @event = new ProjectImageUpdatedEvent(
+                    initiatedBy: cmd.Actor,
+                    projectId: cmd.ProjectId,
+                    when: DateTime.UtcNow,
+                    blobLocation: cmd.BlobLocation);
 
                 _documentSession.Events.Append(project.Id, @event);
                 _documentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }

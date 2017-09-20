@@ -176,11 +176,15 @@ namespace Ubora.Web.Tests._Features.Projects.History
 
         private void CreateProject()
         {
-            var projectAddedEvent = new ProjectCreatedEvent(initiatedBy: _userInfo)
-            {
-                Id = _projectId,
-                Title = "Awesome Project"
-            };
+            var projectAddedEvent = new ProjectCreatedEvent(
+                initiatedBy: _userInfo, 
+                projectId: _projectId, 
+                title: "Awesome Project",
+                clinicalNeed: "",
+                areaOfUsage: "",
+                potentialTechnology: "",
+                gmdn: "");
+
             Session.Events.Append(_projectId, projectAddedEvent);
             Session.SaveChanges();
         }

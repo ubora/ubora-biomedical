@@ -22,17 +22,14 @@ namespace Ubora.Domain.Projects._Commands
 
             public override ICommandResult Handle(CreateProjectCommand cmd)
             {
-                var project = DocumentSession.LoadOrThrow<Project>(cmd.NewProjectId);
-
-                var @event = new ProjectCreatedEvent(cmd.Actor)
-                {
-                    Id = cmd.NewProjectId,
-                    Title = cmd.Title,
-                    AreaOfUsage = cmd.AreaOfUsage,
-                    ClinicalNeed = cmd.ClinicalNeed,
-                    Gmdn = cmd.Gmdn,
-                    PotentialTechnology = cmd.PotentialTechnology
-                };
+                var @event = new ProjectCreatedEvent(
+                    initiatedBy: cmd.Actor,
+                    projectId: cmd.NewProjectId,
+                    title: cmd.Title,
+                    clinicalNeed: cmd.ClinicalNeed,
+                    areaOfUsage: cmd.AreaOfUsage,
+                    potentialTechnology: cmd.PotentialTechnology,
+                    gmdn: cmd.Gmdn);
 
                 DocumentSession.Events.Append(cmd.NewProjectId, @event);
                 DocumentSession.SaveChanges();

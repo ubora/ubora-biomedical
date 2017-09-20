@@ -3,22 +3,26 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects._Events
 {
-    public class ProjectCreatedEvent : UboraEvent 
+    public class ProjectCreatedEvent : ProjectEvent 
     {
-        public ProjectCreatedEvent(UserInfo initiatedBy) : base(initiatedBy)
+        public ProjectCreatedEvent(UserInfo initiatedBy, Guid projectId, string title, string clinicalNeed, string areaOfUsage, string potentialTechnology, string gmdn) : base(initiatedBy, projectId)
         {
+            Title = title;
+            ClinicalNeed = clinicalNeed;
+            AreaOfUsage = areaOfUsage;
+            PotentialTechnology = potentialTechnology;
+            Gmdn = gmdn;
         }
 
-        public Guid Id { get; set; }
-        public string Title { get; set; }
-        public string ClinicalNeed { get; set; }
-        public string AreaOfUsage { get; set; }
-        public string PotentialTechnology { get; set; }
-        public string Gmdn { get; set; }
+        public string Title { get; private set; }
+        public string ClinicalNeed { get; private set; }
+        public string AreaOfUsage { get; private set; }
+        public string PotentialTechnology { get; private set; }
+        public string Gmdn { get; private set; }
 
         public override string GetDescription()
         {
-            return $"created project \"{StringTokens.Project(Id)}\".";
+            return $"created project \"{StringTokens.Project(ProjectId)}\".";
         }
     }
 }

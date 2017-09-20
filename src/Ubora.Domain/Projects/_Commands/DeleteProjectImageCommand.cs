@@ -18,14 +18,17 @@ namespace Ubora.Domain.Projects._Commands
 
             public ICommandResult Handle(DeleteProjectImageCommand cmd)
             {
-                var project = _documentSession.Load<Project>(cmd.ProjectId);
+                var project = _documentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
-                var @event = new ProjectImageDeletedEvent(DateTime.UtcNow, cmd.Actor);
+                var @event = new ProjectImageDeletedEvent(
+                    initiatedBy: cmd.Actor, 
+                    projectId: cmd.ProjectId, 
+                    when: DateTime.UtcNow);
 
                 _documentSession.Events.Append(project.Id, @event);
                 _documentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }

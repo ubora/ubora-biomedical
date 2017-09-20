@@ -16,18 +16,17 @@ namespace Ubora.Domain.Projects._Commands
 
             public override ICommandResult Handle(UpdateProjectDescriptionCommand cmd)
             {
-                var project = DocumentSession.Load<Project>(cmd.ProjectId);
+                var project = DocumentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
-                var @event = new EditProjectDescriptionEvent(cmd.Actor)
-                {
-                    Id = cmd.ProjectId,
-                    Description = cmd.Description
-                };
+                var @event = new EditProjectDescriptionEvent(
+                    initiatedBy: cmd.Actor,
+                    projectId: cmd.ProjectId,
+                    description: cmd.Description);
 
                 DocumentSession.Events.Append(project.Id, @event);
                 DocumentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }

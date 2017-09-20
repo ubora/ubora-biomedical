@@ -20,22 +20,21 @@ namespace Ubora.Domain.Projects._Commands
 
             public override ICommandResult Handle(UpdateProjectCommand cmd)
             {
-                var project = DocumentSession.Load<Project>(cmd.ProjectId);
+                var project = DocumentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
-                var @event = new ProjectUpdatedEvent(cmd.Actor)
-                {
-                    Id = cmd.ProjectId,
-                    Title = cmd.Title,
-                    ClinicalNeedTags = cmd.ClinicalNeedTags,
-                    AreaOfUsageTags = cmd.AreaOfUsageTags,
-                    PotentialTechnologyTags = cmd.PotentialTechnologyTags,
-                    Gmdn = cmd.Gmdn
-                };
+                var @event = new ProjectUpdatedEvent(
+                    initiatedBy: cmd.Actor,
+                    projectId: cmd.ProjectId,
+                    title: cmd.Title,
+                    clinicalNeedTags: cmd.ClinicalNeedTags,
+                    areaOfUsageTags: cmd.AreaOfUsageTags,
+                    potentialTechnologyTags: cmd.PotentialTechnologyTags,
+                    gmdn: cmd.Gmdn);
 
                 DocumentSession.Events.Append(project.Id, @event);
                 DocumentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }
