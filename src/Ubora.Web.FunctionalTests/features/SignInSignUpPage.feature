@@ -25,7 +25,7 @@ Scenario: Click Forgot password?
     Then I expect the element "span=The Email field is required." is visible
     When I set value "change@password.com" to the element "#Email"
         And I click on the element "button=Submit"
-    Then I expect the title of the page "Forgot Password Confirmation - UBORA"
+    Then I expect the title of the page "Reset Password - UBORA"
 
 Scenario: I sign in without credentials
     When I click on the element "button=Sign in"

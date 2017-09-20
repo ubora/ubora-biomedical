@@ -78,6 +78,7 @@ namespace Ubora.Web._Features.Projects.Assignments
 
             ExecuteUserProjectCommand(new EditTaskCommand
             {
+                Id = model.Id,
                 Title = model.Title,
                 Description = model.Description
             });
