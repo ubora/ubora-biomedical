@@ -23,6 +23,9 @@ namespace Ubora.Domain.Tests.Projects.Specifications
                 projectId: expectedProjectId,
                 id: expectedFileId,
                 fileName: "expectedFileName",
+                folderName: "folderName",
+                comment: "comment",
+                fileSize: 1234,
                 location: new BlobLocation("container", "path"));
             Session.Events.Append(expectedProjectId, fileAddedEvent);
             Session.SaveChanges();
@@ -33,6 +36,9 @@ namespace Ubora.Domain.Tests.Projects.Specifications
                 projectId: otherProjectId,
                 id: Guid.NewGuid(),
                 fileName: "fileName",
+                folderName: "folderName",
+                comment: "comment",
+                fileSize: 1234,
                 location: new BlobLocation("container", "path"));
             Session.Events.Append(otherProjectId, otherFileAddedEvent);
             Session.SaveChanges();
