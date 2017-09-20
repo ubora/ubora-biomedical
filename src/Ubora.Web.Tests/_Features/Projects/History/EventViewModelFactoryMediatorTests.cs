@@ -89,6 +89,8 @@ namespace Ubora.Web.Tests._Features.Projects.History
 
         public class TestEventViewModel : IEventViewModel<TestUboraEvent>
         {
+            public DateTimeOffset Timestamp { get; set; }
+
             public IHtmlContent GetPartialView(IHtmlHelper htmlHelper)
             {
                 throw new NotImplementedException();

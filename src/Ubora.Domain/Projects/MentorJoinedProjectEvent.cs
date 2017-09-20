@@ -15,7 +15,7 @@ namespace Ubora.Domain.Projects
         public Guid ProjectId { get; private set; }
         public Guid UserId { get; private set; }
 
-        public override string GetDescription() => $"{InitiatedBy.Name} joined as mentor.";
+        public override string GetDescription() => $"joined as mentor.";
 
         public class NotificationToInviter : GeneralNotification
         {
