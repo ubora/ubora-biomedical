@@ -1,13 +1,13 @@
-const autocompleteElement = document.querySelector('.js-search-user');
+export class Autocomplete {
+  constructor() {
+    window.addEventListener('DOMContentLoaded', event => {
+        const endpoint = this._getApiEndpoint('input[name="searchUsersUrl"]');
+        const targetElement = '.js-search-user';
+        this._createAutoComplete(endpoint, targetElement);
+    });
+  }
 
-if (autocompleteElement) {
-  window.addEventListener('DOMContentLoaded', event => {
-      const endpoint = getApiEndpoint('input[name="searchUsersUrl"]');
-      const targetElement = '.js-search-user';
-      createAutoComplete(endpoint, targetElement);
-  });
-
-  function getApiEndpoint(nodeSelector) {
+  _getApiEndpoint(nodeSelector) {
     const node = document.querySelector(nodeSelector);
     if (node !== null && node.value !== '') {
       return node.value;
@@ -16,7 +16,7 @@ if (autocompleteElement) {
     }
   }
 
-  function createAutoComplete(apiEndpoint, targetElement) {
+  _createAutoComplete(apiEndpoint, targetElement) {
     return AutoComplete({
       Limit: 10,
       MinChars: 2,
@@ -50,4 +50,9 @@ if (autocompleteElement) {
       },
     }, targetElement);
   }
+}
+
+const autocompleteElement = document.querySelector('.js-search-user');
+if (autocompleteElement && window.AutoComplete) {
+  new Autocomplete();
 }

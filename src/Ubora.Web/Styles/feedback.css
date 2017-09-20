@@ -1,7 +1,3 @@
-.js-feedback-modal-invisible {
-  display: none;
-}
-
 .feedback-trigger {
   color: var(--white);
   background-color: var(--quaternary-color);
@@ -27,8 +23,7 @@
   cursor: pointer;
 }
 
-
-.feedback-modal {
+.modal {
   background-color: rgba(0,0,0,.5);
   height: 100vh;
   left:0;
@@ -38,23 +33,17 @@
   z-index: 9999;
 }
 
-.feedback-modal-content {
+.modal-content {
   background-color: var(--white);
+  border-radius: .2em;
   left: 50%;
-  padding:2em;
+  padding: 2em;
   position: absolute;
-  top: 50%;
   transform: translate(-50%, -50%);
-  width: 60vw;
+  top: 50%;
+  width:80vw;
 }
 
-@media screen and (max-width: 50em) {
-  .feedback-modal {
-    background-color: var(--white);
-  }
-
-  .feedback-modal-content {
-    margin:.5em auto;
-    width: 90vw;
-  }
+.feedback-modal {
+  display: none;
 }

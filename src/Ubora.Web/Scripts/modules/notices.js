@@ -1,21 +1,27 @@
-const dismissNotice = userEvent => {
-  const removeParentElement = currentElement => {
-    const parentElement = currentElement.parentElement;
-    return parentElement.remove();
+export class Notices {
+  constructor() {
+    window.addEventListener('click', event => {
+        this._dismissNotice(event);
+    });
+
+    window.addEventListener('touchend', event => {
+        this._dismissNotice(event);
+    }, false);
   }
 
-  const currentElement = userEvent.target;
-  const notificationElement = currentElement.classList.contains('js-notice-close');
+  _dismissNotice(userEvent) {
+    const removeParentElement = currentElement => {
+      const parentElement = currentElement.parentElement;
+      return parentElement.remove();
+    }
 
-  if (notificationElement) {
-    removeParentElement(currentElement)
+    const currentElement = userEvent.target;
+    const notificationElement = currentElement.classList.contains('js-notice-close');
+
+    if (notificationElement) {
+      removeParentElement(currentElement)
+    }
   }
 }
 
-window.addEventListener('click', event => {
-    dismissNotice(event);
-});
-
-window.addEventListener('touchend', event => {
-    dismissNotice(event);
-}, false);
+new Notices();

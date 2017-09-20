@@ -1,46 +1,66 @@
-// TODO: Risto Kitsing - finish up what I started
+export class Feedback {
+  constructor(triggerElement) {
+    const modal = document.querySelector('.js-feedback-modal');
+    const modalSendButton = document.querySelector('.js-feedback-send');
+    const modalCloseButton = document.querySelector('.js-feedback-close');
+    const userFeedback = document.querySelector('.js-feedback-input');
+
+    triggerElement.addEventListener('click', event => {
+      return this._openModal();
+    });
+
+    modalCloseButton.addEventListener('click', event => {
+      return this._closeModal();
+    });
+
+    window.addEventListener('keyup', event => {
+      if (event.key === 'Escape') {
+        return this._closeModal();
+      }
+    });
+
+    modalSendButton.addEventListener('click', event => {
+      const data = {
+        feedback: userFeedback.value,
+        fromPath: window.top.location.pathname
+      };
+      return this._sendFeedback(data);
+    });
+
+    window.addEventListener('click', event => {
+      if (event.path[0] === modal) {
+        this._closeModal();
+      }
+    });
+  }
+
+  _closeModal() {
+    const modal = document.querySelector('.js-feedback-modal');
+    const textarea = document.querySelector('.js-feedback-input');
+
+    textarea.value = '';
+    modal.style.display = 'none';
+  }
+
+  _openModal() {
+    const modal = document.querySelector('.js-feedback-modal');
+    modal.style.display = 'block';
+  }
+
+  _sendFeedback(data) {
+    $.ajax({
+      url: `${window.top.location.origin}/Feedback/Send`,
+      type: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json; charset=utf-8',
+      success: () => {
+        return this._closeModal();
+      }
+    });
+  }
+}
+
 const feedbackButtonElement = document.querySelector('.js-feedback-trigger');
-
 if (feedbackButtonElement) {
-  const feedbackSendButtonElement = document.querySelector('.js-feedback-send');
-  const feedbackCancelButtonElement = document.querySelector('.js-feedback-cancel');
-  const feedbackModalElement = document.querySelector('.js-feedback-modal');
-
-  function toggleFeedbackModalVisibility() {
-    return feedbackModalElement.classList.toggle('js-feedback-modal-invisible');
-  }
-
-  function sendFeedback() {
-    const feedbackUrl = `${window.top.location.origin}/Feedback/Send`;
-    const feedbackString = JSON.stringify(document.querySelector('.js-feedback-input').value);
-    console.log(feedbackString);
-
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: feedbackString
-    };
-
-    const sendAction = fetch(feedbackUrl, options).then(response => console.log(response));
-  }
-
-  feedbackButtonElement.addEventListener('click', event => {
-    return toggleFeedbackModalVisibility();
-  });
-
-  feedbackCancelButtonElement.addEventListener('click', event => {
-    return toggleFeedbackModalVisibility();
-  });
-
-  feedbackSendButtonElement.addEventListener('click', event => {
-    sendFeedback();
-  });
-
-  window.addEventListener('keyup', event => {
-    if (event.key === 'Escape') {
-      return toggleFeedbackModalVisibility();
-    }
-  });
+  new Feedback(feedbackButtonElement);
 }

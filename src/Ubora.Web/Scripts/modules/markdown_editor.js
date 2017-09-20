@@ -1,4 +1,4 @@
-class MarkdownEditor {
+export class MarkdownEditor {
   constructor (selector) {
     this._loadSimpleMDE(selector);
   }
@@ -37,7 +37,7 @@ class MarkdownEditor {
 const markdownSelector = 'textarea.content_editable';
 const markdownElementCollection = document.querySelectorAll(markdownSelector);
 
-if (markdownElementCollection.length > 0) {
+if (markdownElementCollection.length > 0 && window.SimpleMDE) {
   Array.prototype.map.call(markdownElementCollection, markdownElement => {
     return new MarkdownEditor(markdownElement);
   });
