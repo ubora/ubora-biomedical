@@ -72,7 +72,7 @@ Scenario: Take questionnaire and answer all questions NO
     Then I expect the element "h1=5. Does your device come in contact to the human body (any kind of contact, brief or permanent, in any location of the human body)?" is visible
     When I click on the element "button=No"
     Then I expect the element "p=You answered: no" is visible
-        And I expect the element "EN ISO 14971:2012" is visible
+        And I expect the element "a=EN ISO 14971:2012" is visible
 
 Scenario: Take questionnaire but stop it
     Then I expect the element "h3=Previous results:" is visible
