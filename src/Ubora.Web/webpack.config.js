@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const merge = require('webpack-merge');
 
@@ -45,7 +46,7 @@ module.exports = env => {
       })
     ] : [
       new ExtractTextPlugin({ filename: './[name].bundle.css' }),
-      new webpack.optimize.UglifyJSPlugin({
+      new UglifyJsPlugin({
         parallel: true,
         uglifyOptions: {
           ecma: 8,
