@@ -149,11 +149,14 @@ namespace Ubora.Web
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                if (Configuration["FunctionalTesting"] == null)
                 {
-                  HotModuleReplacement = true
-                });
-                app.UseBrowserLink();
+                    app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                    {
+                        HotModuleReplacement = true
+                    });
+                    app.UseBrowserLink();
+                }
             }
             else
             {
