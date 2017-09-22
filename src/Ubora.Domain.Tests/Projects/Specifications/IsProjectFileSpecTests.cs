@@ -2,9 +2,8 @@
 using System;
 using System.Linq;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Repository;
+using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Domain.Projects._Specifications;
 using Xunit;
 

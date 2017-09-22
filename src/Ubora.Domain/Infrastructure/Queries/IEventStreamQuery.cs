@@ -4,6 +4,7 @@ using System.Linq;
 using Marten.Events;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects.Repository;
+using Ubora.Domain.Projects.Repository.Events;
 
 namespace Ubora.Domain.Infrastructure.Queries
 {

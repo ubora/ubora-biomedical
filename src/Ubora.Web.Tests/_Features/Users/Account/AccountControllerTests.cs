@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging.Internal;
 using Moq;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
+using Ubora.Domain.Users.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Home;

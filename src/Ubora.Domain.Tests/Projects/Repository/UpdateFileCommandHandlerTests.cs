@@ -4,6 +4,8 @@ using System.Linq;
 using TestStack.BDDfy;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Repository;
+using Ubora.Domain.Projects.Repository.Commands;
+using Ubora.Domain.Projects.Repository.Events;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Projects.Repository

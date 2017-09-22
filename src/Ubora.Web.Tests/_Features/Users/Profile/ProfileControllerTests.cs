@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
+using Ubora.Domain.Users.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features.Users.Profile;

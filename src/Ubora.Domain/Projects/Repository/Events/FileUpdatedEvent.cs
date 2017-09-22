@@ -2,7 +2,7 @@
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
 
-namespace Ubora.Domain.Projects.Repository
+namespace Ubora.Domain.Projects.Repository.Events
 {
     public class FileUpdatedEvent : UboraFileEvent, IFileEvent
     {

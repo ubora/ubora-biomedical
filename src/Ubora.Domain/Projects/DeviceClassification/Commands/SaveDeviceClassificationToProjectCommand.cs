@@ -1,8 +1,8 @@
 ﻿using Marten;
-using System;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Projects.DeviceClassification.Events;
 
-namespace Ubora.Domain.Projects.DeviceClassification
+namespace Ubora.Domain.Projects.DeviceClassification.Commands
 {
     public class SetDeviceClassificationForProjectCommand : UserProjectCommand
     {

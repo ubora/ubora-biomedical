@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.DeviceClassification;
+using Ubora.Domain.Projects.DeviceClassification.Events;
 using Ubora.Domain.Projects.Members.Events;
 using Ubora.Domain.Projects.Workpackages.Events;
 using Ubora.Domain.Projects._Events;

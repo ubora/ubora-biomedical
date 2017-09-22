@@ -1,8 +1,9 @@
 ﻿using System;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Projects.Repository.Events;
 
-namespace Ubora.Domain.Projects.Repository
+namespace Ubora.Domain.Projects.Repository.Commands
 {
     public class HideFileCommand : UserProjectCommand
     {
@@ -19,11 +20,7 @@ namespace Ubora.Domain.Projects.Repository
 
             public ICommandResult Handle(HideFileCommand cmd)
             {
-                var file = _documentSession.Load<ProjectFile>(cmd.Id);
-                if (file == null)
-                {
-                    throw new InvalidOperationException();
-                }
+                var file = _documentSession.LoadOrThrow<ProjectFile>(cmd.Id);
 
                 var @event = new FileHiddenEvent(
                     cmd.Actor,
@@ -33,7 +30,7 @@ namespace Ubora.Domain.Projects.Repository
                 _documentSession.Events.Append(file.ProjectId, @event);
                 _documentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }

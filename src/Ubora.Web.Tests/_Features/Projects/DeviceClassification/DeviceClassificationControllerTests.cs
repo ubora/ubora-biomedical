@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.DeviceClassification;
+using Ubora.Domain.Projects.DeviceClassification.Commands;
 using Ubora.Web._Features.Projects.DeviceClassification;
 using Ubora.Web._Features.Projects.DeviceClassification.ViewModels;
 using Ubora.Web.Tests.Helper;

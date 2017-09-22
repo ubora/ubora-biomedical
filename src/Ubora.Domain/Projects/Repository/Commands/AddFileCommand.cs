@@ -1,9 +1,10 @@
-﻿using Marten;
-using System;
+﻿using System;
+using Marten;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Projects.Repository.Events;
 
-namespace Ubora.Domain.Projects.Repository
+namespace Ubora.Domain.Projects.Repository.Commands
 {
     public class AddFileCommand : UserProjectCommand
     {
@@ -25,11 +26,7 @@ namespace Ubora.Domain.Projects.Repository
 
             public ICommandResult Handle(AddFileCommand cmd)
             {
-                var project = _documentSession.Load<Project>(cmd.ProjectId);
-                if (project == null)
-                {
-                    throw new InvalidOperationException();
-                }
+                var project = _documentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
                 var @event = new FileAddedEvent(
                     cmd.Id,
@@ -45,7 +42,7 @@ namespace Ubora.Domain.Projects.Repository
                 _documentSession.Events.Append(cmd.ProjectId, @event);
                 _documentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }

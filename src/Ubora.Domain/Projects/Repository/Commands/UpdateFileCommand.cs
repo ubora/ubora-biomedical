@@ -1,9 +1,10 @@
-﻿using Marten;
-using System;
+﻿using System;
+using Marten;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Projects.Repository.Events;
 
-namespace Ubora.Domain.Projects.Repository
+namespace Ubora.Domain.Projects.Repository.Commands
 {
     public class UpdateFileCommand : UserProjectCommand
     {
@@ -23,11 +24,7 @@ namespace Ubora.Domain.Projects.Repository
 
             public ICommandResult Handle(UpdateFileCommand cmd)
             {
-                var projectFile = _documentSession.Load<ProjectFile>(cmd.Id);
-                if (projectFile == null)
-                {
-                    throw new InvalidOperationException();
-                }
+                var projectFile = _documentSession.LoadOrThrow<ProjectFile>(cmd.Id);
 
                 var revisionNumber = projectFile.RevisionNumber + 1;
                 var @event = new FileUpdatedEvent(
@@ -43,7 +40,7 @@ namespace Ubora.Domain.Projects.Repository
                 _documentSession.Events.Append(projectFile.ProjectId, @event);
                 _documentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }

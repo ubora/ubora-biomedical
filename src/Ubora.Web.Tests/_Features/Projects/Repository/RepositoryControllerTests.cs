@@ -21,8 +21,9 @@ using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Authorization;
 using Ubora.Domain.Infrastructure.Queries;
 using Marten.Events;
-using Marten.Events.Projections;
 using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Projects.Repository.Commands;
+using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Web.Tests.Helper;
 
 namespace Ubora.Web.Tests._Features.Projects.Repository

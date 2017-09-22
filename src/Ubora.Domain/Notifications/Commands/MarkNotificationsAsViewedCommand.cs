@@ -1,9 +1,9 @@
-﻿using Marten;
-using System.Linq;
+﻿using System.Linq;
+using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Notifications.Specifications;
 
-namespace Ubora.Domain.Notifications
+namespace Ubora.Domain.Notifications.Commands
 {
     public class MarkNotificationsAsViewedCommand : UserCommand
     {

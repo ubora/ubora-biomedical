@@ -1,11 +1,8 @@
 ﻿using Marten;
-using System;
-using System.IO;
-using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 
-namespace Ubora.Domain.Users
+namespace Ubora.Domain.Users.Commands
 {
     public class ChangeUserProfilePictureCommand : UserCommand
     {
@@ -14,31 +11,22 @@ namespace Ubora.Domain.Users
         internal class Handler : ICommandHandler<ChangeUserProfilePictureCommand>
         {
             private readonly IDocumentSession _documentSession;
-            private readonly IStorageProvider _storageProvider;
 
-            public Handler(IDocumentSession documentSession, IStorageProvider storageProvider)
+            public Handler(IDocumentSession documentSession)
             {
                 _documentSession = documentSession;
-                _storageProvider = storageProvider;
             }
 
             public ICommandResult Handle(ChangeUserProfilePictureCommand cmd)
             {
-                var blobProperties = new BlobProperties
-                {
-                    Security = BlobSecurity.Public
-                };
-
-                var userProfile = _documentSession.Load<UserProfile>(cmd.Actor.UserId);
-                if (userProfile == null) throw new InvalidOperationException();
+                var userProfile = _documentSession.LoadOrThrow<UserProfile>(cmd.Actor.UserId);
 
                 userProfile.ProfilePictureBlobLocation = cmd.BlobLocation;
 
                 _documentSession.Store(userProfile);
                 _documentSession.SaveChanges();
 
-
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }
