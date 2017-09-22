@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Ubora.Web._Features.Projects.Repository
 {
-    public class ProjectRepositoryViewModel
+    public class FileHistoryViewModel
     {
-        public Guid ProjectId { get; set; }
+        public IEnumerable<FileItemHistoryViewModel> Files { get; set; }
         public string ProjectName { get; set; }
-        public AddFileViewModel AddFileViewModel { get; set; }
-        public bool IsProjectLeader { get; set; }
-        public IEnumerable<IGrouping<string, ProjectFileViewModel>> AllFiles { get; set; }
+        public string FileName { get; set; }
     }
 
-    public class ProjectFileViewModel
+    public class FileItemHistoryViewModel
     {
-        public Guid Id { get; set; }
-        public string FileName { get; set; }
         public string Comment { get; set; }
+        public DateTimeOffset FileAddedOn { get; set; }
         public long FileSize { get; set; }
+        public string DownloadUrl { get; set; }
         public int RevisionNumber { get; set; }
         public long FileSizeInKbs
         {
