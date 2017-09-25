@@ -9,6 +9,8 @@ namespace Ubora.Domain.Projects.Repository
     {
         public Guid Id { get; set; }
         public BlobLocation BlobLocation { get; set; }
+        public string Comment { get; set; }
+        public long FileSize { get; set; }
 
         internal class Handler : ICommandHandler<UpdateFileCommand>
         {
@@ -27,11 +29,15 @@ namespace Ubora.Domain.Projects.Repository
                     throw new InvalidOperationException();
                 }
 
+                var revisionNumber = projectFile.RevisionNumber + 1;
                 var @event = new FileUpdatedEvent(
                     projectFile.Id,
                     projectFile.ProjectId,
                     cmd.BlobLocation,
-                    cmd.Actor
+                    cmd.Comment,
+                    cmd.FileSize,
+                    cmd.Actor,
+                    revisionNumber
                 );
 
                 _documentSession.Events.Append(projectFile.ProjectId, @event);

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ubora.Web.Infrastructure
@@ -28,12 +29,39 @@ namespace Ubora.Web.Infrastructure
                 return new ValidationResult("Please select a file to upload!");
             }
 
-            var file = (IFormFile)value;
+            if (value as IFormFile != null)
+            {
+                return IsValidFileSize((IFormFile)value);
+            }
 
+            if (value as IEnumerable<IFormFile> != null)
+            {
+                return IsValidFileSizes((IEnumerable<IFormFile>)value);
+            }
+
+            return new ValidationResult("error");
+        }
+
+        private ValidationResult IsValidFileSize(IFormFile file)
+        {
             if (file.Length > MaxBytes)
             {
                 var message = string.IsNullOrEmpty(FileTooLargeMessage) ? "Please upload a smaller file!" : FileTooLargeMessage;
                 return new ValidationResult(message);
+            }
+
+            return ValidationResult.Success;
+        }
+
+        private ValidationResult IsValidFileSizes(IEnumerable<IFormFile> files)
+        {
+            foreach (var file in files)
+            {
+                if (file.Length > MaxBytes)
+                {
+                    var message = string.IsNullOrEmpty(FileTooLargeMessage) ? "Please upload a smaller file!" : FileTooLargeMessage;
+                    return new ValidationResult(message);
+                }
             }
 
             return ValidationResult.Success;
