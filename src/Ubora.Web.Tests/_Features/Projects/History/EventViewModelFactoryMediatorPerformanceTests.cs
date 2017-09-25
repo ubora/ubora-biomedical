@@ -177,7 +177,7 @@ namespace Ubora.Web.Tests._Features.Projects.History
         {
             var projectAddedEvent = new ProjectCreatedEvent(
                 initiatedBy: _userInfo, 
-                id: _projectId, 
+                projectId: _projectId, 
                 title: "Awesome Project",
                 clinicalNeed: "",
                 areaOfUsage: "",
