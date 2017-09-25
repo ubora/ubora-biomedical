@@ -276,7 +276,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _commandProcessor
                 .Setup(p => p.Execute(It.IsAny<CreateUserProfileCommand>()))
                 .Callback<CreateUserProfileCommand>(c => executedCommand = c)
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             _signInManagerMock.Setup(m => m.SignInAsync(It.IsAny<ApplicationUser>(), false, null))
                 .Returns(Task.FromResult(new ApplicationUser()));

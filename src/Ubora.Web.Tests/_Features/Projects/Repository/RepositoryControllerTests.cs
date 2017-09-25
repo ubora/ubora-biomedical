@@ -156,7 +156,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<AddFileCommand>()))
                 .Callback<AddFileCommand>(c => executedCommand = c)
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
             Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName
@@ -229,7 +229,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             fileMock.Setup(f => f.OpenReadStream())
                 .Returns(stream);
 
-            var commandResult = new CommandResult("testError1", "testError2");
+            var commandResult = CommandResult.Failed("testError1", "testError2");
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<AddFileCommand>()))
                 .Returns(commandResult);
@@ -261,7 +261,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
 
             CommandProcessorMock.Setup(p => p.Execute(It.IsAny<HideFileCommand>()))
                 .Callback<HideFileCommand>(c => executedCommand = c)
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             //Act
             var result = (RedirectToActionResult)_controller.HideFile(fileId);
@@ -348,7 +348,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<UpdateFileCommand>()))
                 .Callback<UpdateFileCommand>(c => executedCommand = c)
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
             Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName
@@ -396,7 +396,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             QueryProcessorMock.Setup(q => q.FindById<ProjectFile>(fileId))
                 .Returns(projectFile);
 
-            var commandResult = new CommandResult("testError1", "testError2");
+            var commandResult = CommandResult.Failed("testError1", "testError2");
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<UpdateFileCommand>()))
                 .Returns(commandResult);

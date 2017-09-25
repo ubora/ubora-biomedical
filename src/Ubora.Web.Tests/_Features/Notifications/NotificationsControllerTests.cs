@@ -35,7 +35,7 @@ namespace Ubora.Web.Tests._Features.Notifications
                 .Returns(invitations);
 
             CommandProcessorMock.Setup(x => x.Execute(It.IsAny<MarkNotificationsAsViewedCommand>()))
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             // Act
             var result = (ViewResult)_notificationsController.Index();

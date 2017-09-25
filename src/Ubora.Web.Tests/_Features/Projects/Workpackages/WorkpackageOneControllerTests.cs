@@ -68,7 +68,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             AutoMapperMock.Setup(m => m.Map<EditStepViewModel>(step))
                 .Returns(expectedModel);
 
-            CommandProcessorMock.Setup(x => x.Execute(It.IsAny<ICommand>())).Returns(new CommandResult("dummyError"));
+            CommandProcessorMock.Setup(x => x.Execute(It.IsAny<ICommand>()))
+                .Returns(CommandResult.Failed("dummyError"));
 
             var postModel = new EditStepViewModel { StepId = stepId };
 
@@ -86,7 +87,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<EditWorkpackageOneStepCommand>()))
                 .Callback<EditWorkpackageOneStepCommand>(c => executedCommand = c)
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             var stepId = Guid.NewGuid().ToString();
             var postModel = new EditStepViewModel
@@ -156,7 +157,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<UpdateProjectCommand>()))
                 .Callback<UpdateProjectCommand>(c => executedCommand = c)
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             var areaOfUsageTags = "AreaOfUsageTags";
             var clinicalNeedTags = "ClinicalNeedTags";
@@ -197,7 +198,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<UpdateProjectCommand>()))
                 .Callback<UpdateProjectCommand>(c => executedCommand = c)
-                .Returns(new CommandResult(new[] { "error" }));
+                .Returns(CommandResult.Failed("error"));
 
             var areaOfUsageTags = "AreaOfUsageTags";
             var clinicalNeedTags = "ClinicalNeedTags";

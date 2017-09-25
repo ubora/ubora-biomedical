@@ -28,13 +28,13 @@ namespace Ubora.Domain.Projects.Members.Commands
                 var isUserMember = project.DoesSatisfy(new HasMember(cmd.UserId));
                 if (!isUserMember)
                 {
-                    return new CommandResult($"User [{cmd.UserId}] is not part of project [{cmd.ProjectId}]");
+                    return CommandResult.Failed($"User [{cmd.UserId}] is not part of project [{cmd.ProjectId}]");
                 }
 
                 var isProjectLeader = project.DoesSatisfy(new HasLeader(cmd.UserId));
                 if (isProjectLeader)
                 {
-                    return new CommandResult($"User [{cmd.UserId}] can not be removed from project [{cmd.ProjectId}] because user is project leader");
+                    return CommandResult.Failed($"User [{cmd.UserId}] can not be removed from project [{cmd.ProjectId}] because user is project leader");
                 }
 
                 var @event = new MemberRemovedFromProjectEvent(cmd.Actor)
@@ -47,7 +47,7 @@ namespace Ubora.Domain.Projects.Members.Commands
                 _documentSession.Events.Append(cmd.ProjectId, @event);
                 _documentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }

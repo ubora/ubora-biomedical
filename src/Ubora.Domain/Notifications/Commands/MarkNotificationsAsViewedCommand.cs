@@ -30,7 +30,7 @@ namespace Ubora.Domain.Notifications.Commands
                 _documentSession.Store(invitations);
                 _documentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }

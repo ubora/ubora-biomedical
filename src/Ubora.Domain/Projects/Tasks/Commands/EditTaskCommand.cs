@@ -19,11 +19,7 @@ namespace Ubora.Domain.Projects.Tasks.Commands
 
             public override ICommandResult Handle(EditTaskCommand cmd)
             {
-                var project = DocumentSession.Load<Project>(cmd.ProjectId);
-                if (project == null)
-                {
-                    throw new InvalidOperationException();
-                }
+                var project = DocumentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
                 var @event = new TaskEditedEvent(cmd.Actor)
                 {
@@ -36,7 +32,7 @@ namespace Ubora.Domain.Projects.Tasks.Commands
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }

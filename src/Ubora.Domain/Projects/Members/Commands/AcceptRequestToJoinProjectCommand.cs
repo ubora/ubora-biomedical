@@ -29,7 +29,7 @@ namespace Ubora.Domain.Projects.Members.Commands
                 var isUserAlreadyMember = project.DoesSatisfy(new HasMember(request.AskingToJoinMemberId));
                 if (isUserAlreadyMember)
                 {
-                    return new CommandResult($"[{userProfile.FullName}] is already member of project [{project.Title}].");
+                    return CommandResult.Failed($"[{userProfile.FullName}] is already member of project [{project.Title}].");
                 }
 
                 request.Accept();
@@ -45,7 +45,7 @@ namespace Ubora.Domain.Projects.Members.Commands
                 _documentSession.Store(request);
                 _documentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }

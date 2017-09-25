@@ -16,16 +16,12 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
 
             public override ICommandResult Handle(SubmitWorkpackageTwoForReviewCommand cmd)
             {
-                var workpackageOne = DocumentSession.Load<WorkpackageTwo>(cmd.ProjectId);
-                if (workpackageOne == null)
-                {
-                    throw new InvalidOperationException($"{nameof(WorkpackageTwo)} not found with id [{cmd.ProjectId}]");
-                }
+                var workpackageOne = DocumentSession.LoadOrThrow<WorkpackageTwo>(cmd.ProjectId);
 
                 var canHandle = workpackageOne.DoesSatisfy(new CanSubmitWorkpackageReview<WorkpackageTwo>());
                 if (!canHandle)
                 {
-                    return new CommandResult("Work package can not be submitted for review.");
+                    return CommandResult.Failed("Work package can not be submitted for review.");
                 }
 
                 var @event = new WorkpackageTwoSubmittedForReviewEvent(
@@ -37,7 +33,7 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }

@@ -25,7 +25,7 @@ namespace Ubora.Domain.Projects.Members.Commands
                 var isUserAlreadyMember = project.DoesSatisfy(new HasMember(cmd.UserId));
                 if (isUserAlreadyMember)
                 {
-                    return new CommandResult($"[{cmd.UserId}] is already member of project [{cmd.ProjectId}].");
+                    return CommandResult.Failed($"[{cmd.UserId}] is already member of project [{cmd.ProjectId}].");
                 }
 
                 var @event = new MemberAddedToProjectEvent(cmd.Actor)
@@ -38,7 +38,7 @@ namespace Ubora.Domain.Projects.Members.Commands
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }
