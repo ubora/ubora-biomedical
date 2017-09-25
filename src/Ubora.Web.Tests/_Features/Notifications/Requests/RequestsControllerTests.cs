@@ -25,7 +25,7 @@ namespace Ubora.Web.Tests._Features.Notifications.Requests
         {
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<AcceptRequestToJoinProjectCommand>()))
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             // Act
             var result = (RedirectToActionResult)_requestsController.Accept(requestId: Guid.NewGuid());
@@ -39,7 +39,7 @@ namespace Ubora.Web.Tests._Features.Notifications.Requests
         {
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<AcceptRequestToJoinProjectCommand>()))
-                .Returns(new CommandResult("Something went wrong"));
+                .Returns(CommandResult.Failed("Something went wrong"));
 
             // Act
             var result = (RedirectToActionResult)_requestsController.Accept(requestId: Guid.NewGuid());
@@ -54,7 +54,7 @@ namespace Ubora.Web.Tests._Features.Notifications.Requests
         {
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<DeclineRequestToJoinProjectCommand>()))
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             // Act
             var result = (RedirectToActionResult)_requestsController.Decline(requestId: Guid.NewGuid());
@@ -68,7 +68,7 @@ namespace Ubora.Web.Tests._Features.Notifications.Requests
         {
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<DeclineRequestToJoinProjectCommand>()))
-                .Returns(new CommandResult("Something went wrong"));
+                .Returns(CommandResult.Failed("Something went wrong"));
 
             // Act
             var result = (RedirectToActionResult)_requestsController.Decline(requestId: Guid.NewGuid());
