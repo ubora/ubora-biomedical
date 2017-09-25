@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging.Internal;
 using Moq;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
+using Ubora.Domain.Users.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Home;
@@ -275,7 +276,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _commandProcessor
                 .Setup(p => p.Execute(It.IsAny<CreateUserProfileCommand>()))
                 .Callback<CreateUserProfileCommand>(c => executedCommand = c)
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             _signInManagerMock.Setup(m => m.SignInAsync(It.IsAny<ApplicationUser>(), false, null))
                 .Returns(Task.FromResult(new ApplicationUser()));

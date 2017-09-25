@@ -30,7 +30,7 @@ namespace Ubora.Domain.Projects.Members.Commands
 
                 _documentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
 

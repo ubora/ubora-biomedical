@@ -6,6 +6,7 @@ using Ubora.Domain.Users;
 using Xunit;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Users.Commands;
 
 namespace Ubora.Domain.Tests.Users
 {

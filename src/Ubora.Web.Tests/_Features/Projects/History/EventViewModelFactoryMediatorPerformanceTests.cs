@@ -6,17 +6,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 using Marten.Events;
 using Ubora.Domain;
 using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.DeviceClassification;
-using Ubora.Domain.Projects.Tasks;
+using Ubora.Domain.Projects.DeviceClassification.Events;
+using Ubora.Domain.Projects.Tasks.Events;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Events;
+using Ubora.Domain.Projects._Events;
 using Ubora.Domain.Tests;
-using Ubora.Domain.Users;
+using Ubora.Domain.Users.Commands;
 using Ubora.Web._Features.Projects.History._Base;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
@@ -29,7 +29,7 @@ namespace Ubora.Web.Tests._Features.Projects.History
         private readonly Mock<HtmlEncoder> _htmlEncoderMock;
         private readonly Mock<IUrlHelper> _urlHelperMock;
 
-        private UserInfo _userInfo;
+        private readonly UserInfo _userInfo;
         private readonly Guid _projectId;
 
         public EventViewModelFactoryMediatorPerformanceTests()
@@ -175,11 +175,15 @@ namespace Ubora.Web.Tests._Features.Projects.History
 
         private void CreateProject()
         {
-            var projectAddedEvent = new ProjectCreatedEvent(initiatedBy: _userInfo)
-            {
-                Id = _projectId,
-                Title = "Awesome Project"
-            };
+            var projectAddedEvent = new ProjectCreatedEvent(
+                initiatedBy: _userInfo, 
+                id: _projectId, 
+                title: "Awesome Project",
+                clinicalNeed: "",
+                areaOfUsage: "",
+                potentialTechnology: "",
+                gmdn: "");
+
             Session.Events.Append(_projectId, projectAddedEvent);
             Session.SaveChanges();
         }
