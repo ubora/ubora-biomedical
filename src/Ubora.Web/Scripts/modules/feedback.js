@@ -48,12 +48,33 @@ export class Feedback {
   }
 
   _sendFeedback(data) {
+    function createNotice(noticeTypeClass, stringMessage) {
+      const noticeContainerElement = document.createElement('div');
+      noticeContainerElement.classList.add('notice', noticeTypeClass);
+
+      const noticeCloseElement = document.createElement('span');
+      const noticeCloseTextElement = document.createTextNode('Close');
+      noticeCloseElement.classList.add('notice-close', 'js-notice-close');
+      noticeCloseElement.appendChild(noticeCloseTextElement);
+
+      const noticeMessageElement = document.createElement('p');
+      const noticeMessageTextElement = document.createTextNode(stringMessage);
+      noticeMessageElement.classList.add('notice-text');
+      noticeMessageElement.appendChild(noticeMessageTextElement);
+
+      noticeContainerElement.appendChild(noticeCloseElement);
+      noticeContainerElement.appendChild(noticeMessageElement);
+
+      return document.querySelector('body').appendChild(noticeContainerElement);
+    }
+
     $.ajax({
       url: `${window.top.location.origin}/Feedback/Send`,
       type: 'POST',
       data: JSON.stringify(data),
       contentType: 'application/json; charset=utf-8',
       success: () => {
+        createNotice('notice-success', 'Thank you for your feedback! 😃');
         return this._closeModal();
       }
     });
