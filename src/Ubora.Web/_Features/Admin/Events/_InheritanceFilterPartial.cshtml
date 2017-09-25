@@ -7,7 +7,7 @@
     @foreach (var grouping in eventGroupings)
     {
         <li>
-            @grouping.Key.Name.ToUpper()
+            @grouping.Key.Name : <small>@grouping.Key.BaseType.Name</small>
             <ul>
                 @foreach (var evnt in grouping)
                 {
