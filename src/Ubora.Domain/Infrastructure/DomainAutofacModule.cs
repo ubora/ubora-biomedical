@@ -64,22 +64,22 @@ namespace Ubora.Domain.Infrastructure
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();
         }
 
-        public IEnumerable<Type> FindDomainEventConcreteTypes()
+        public static IEnumerable<Type> FindDomainEventConcreteTypes()
         {
             var eventBaseType = typeof(UboraEvent);
 
-            var eventTypes = ThisAssembly
+            var eventTypes = typeof(DomainAutofacModule).Assembly
                 .GetTypes()
                 .Where(type => eventBaseType.IsAssignableFrom(type) && !type.GetTypeInfo().IsAbstract);
 
             return eventTypes;
         }
 
-        public IEnumerable<MappedType> FindDomainNotificationConcreteTypes()
+        public static IEnumerable<MappedType> FindDomainNotificationConcreteTypes()
         {
             var notificationBaseType = typeof(INotification);
 
-            var eventTypes = ThisAssembly
+            var eventTypes = typeof(DomainAutofacModule).Assembly
                 .GetTypes()
                 .Where(type => notificationBaseType.IsAssignableFrom(type) && !type.GetTypeInfo().IsAbstract);
 

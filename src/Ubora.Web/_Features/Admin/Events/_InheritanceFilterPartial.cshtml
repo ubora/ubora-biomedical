@@ -1,0 +1,25 @@
+﻿@model Ubora.Web._Features.Admin.Events.EventsViewModel
+
+@{
+    var eventGroupings = Model.Events.GroupBy(x => x.Info.BaseType);
+}
+<ul>
+    @foreach (var grouping in eventGroupings)
+    {
+        <li>
+            @grouping.Key.Name.ToUpper()
+            <ul>
+                @foreach (var evnt in grouping)
+                {
+                    <li>
+                        <strong>@evnt.Info.Name</strong> <small>@evnt.Info.Namespace</small><br />
+                        @foreach (var propertyInfo in evnt.PropertyInfos)
+                        {
+                            @propertyInfo.Name <small>(@propertyInfo.PropertyType.Name)</small><br />
+                        }
+                    </li>
+                }
+            </ul>
+        </li>
+    }
+</ul>

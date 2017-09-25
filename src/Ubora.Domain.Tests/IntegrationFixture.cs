@@ -25,8 +25,8 @@ namespace Ubora.Domain.Tests
         protected IntegrationFixture()
         {
             _domainAutofacModule = new DomainAutofacModule(ConnectionSource.ConnectionString, Mock.Of<IStorageProvider>());
-            var eventTypes = _domainAutofacModule.FindDomainEventConcreteTypes();
-            var notificationTypes = _domainAutofacModule.FindDomainNotificationConcreteTypes();
+            var eventTypes = DomainAutofacModule.FindDomainEventConcreteTypes();
+            var notificationTypes = DomainAutofacModule.FindDomainNotificationConcreteTypes();
             StoreOptions(new UboraStoreOptions().Configuration(eventTypes, notificationTypes));
         }
 
