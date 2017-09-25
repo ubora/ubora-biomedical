@@ -20,7 +20,7 @@ namespace Ubora.Domain.Projects._Commands
 
                 var @event = new EditProjectDescriptionEvent(
                     initiatedBy: cmd.Actor,
-                    projectId: cmd.ProjectId,
+                    id: cmd.ProjectId,
                     description: cmd.Description);
 
                 DocumentSession.Events.Append(project.Id, @event);

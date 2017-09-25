@@ -12,7 +12,7 @@ namespace Ubora.Domain.Projects.Workpackages
         
         private void Apply(ProjectCreatedEvent e)
         {
-            ProjectId = e.ProjectId;
+            ProjectId = e.Id;
 
             Title = "Medical need and product specification";
 

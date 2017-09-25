@@ -25,7 +25,6 @@ namespace Ubora.Domain.Projects._Commands
 
                 var @event = new ProjectImageUpdatedEvent(
                     initiatedBy: cmd.Actor,
-                    projectId: cmd.ProjectId,
                     when: DateTime.UtcNow,
                     blobLocation: cmd.BlobLocation);
 

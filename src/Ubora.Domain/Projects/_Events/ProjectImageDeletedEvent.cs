@@ -3,14 +3,14 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects._Events
 {
-    internal class ProjectImageDeletedEvent : ProjectEvent
+    internal class ProjectImageDeletedEvent : UboraEvent
     {
-        public ProjectImageDeletedEvent(UserInfo initiatedBy, Guid projectId, DateTime @when) : base(initiatedBy, projectId)
+        public DateTime When { get; private set; }
+
+        public ProjectImageDeletedEvent(DateTime when, UserInfo initiatedBy) : base(initiatedBy)
         {
             When = when;
         }
-
-        public DateTime When { get; private set; }
 
         public override string GetDescription() => "deleted project image.";
     }

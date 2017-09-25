@@ -5,7 +5,7 @@ using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.Repository.Events
 {
-    public abstract class UboraFileEvent : UboraEvent, IProjectEvent
+    public abstract class UboraFileEvent : UboraEvent
     {
         protected UboraFileEvent(Guid id, Guid projectId, BlobLocation location, string comment, long fileSize, UserInfo initiatedBy, int revisionNumber) 
             : base(initiatedBy)

@@ -24,7 +24,7 @@ namespace Ubora.Domain.Projects._Commands
 
                 var @event = new ProjectUpdatedEvent(
                     initiatedBy: cmd.Actor,
-                    projectId: cmd.ProjectId,
+                    id: cmd.ProjectId,
                     title: cmd.Title,
                     clinicalNeedTags: cmd.ClinicalNeedTags,
                     areaOfUsageTags: cmd.AreaOfUsageTags,

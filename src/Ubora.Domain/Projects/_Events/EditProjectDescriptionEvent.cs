@@ -3,14 +3,16 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects._Events
 {
-    public class EditProjectDescriptionEvent : ProjectEvent
+    public class EditProjectDescriptionEvent : UboraEvent
     {
-        public EditProjectDescriptionEvent(UserInfo initiatedBy, Guid projectId, string description) : base(initiatedBy, projectId)
+        public Guid Id { get; set; }
+        public string Description { get; set; }
+
+        public EditProjectDescriptionEvent(UserInfo initiatedBy, Guid id, string description) : base(initiatedBy)
         {
+            Id = id;
             Description = description;
         }
-
-        public string Description { get; private set; }
 
         public override string GetDescription() => "updated project description.";
     }

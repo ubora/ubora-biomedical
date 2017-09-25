@@ -46,7 +46,7 @@ namespace Ubora.Domain.Projects
 
         private void Apply(ProjectCreatedEvent e)
         {
-            Id = e.ProjectId;
+            Id = e.Id;
             Title = e.Title;
             AreaOfUsageTags = e.AreaOfUsage;
             ClinicalNeedTags = e.ClinicalNeed;

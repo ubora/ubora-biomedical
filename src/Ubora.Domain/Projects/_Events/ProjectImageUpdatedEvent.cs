@@ -4,16 +4,16 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects._Events
 {
-    internal class ProjectImageUpdatedEvent : ProjectEvent
+    internal class ProjectImageUpdatedEvent : UboraEvent
     {
-        public ProjectImageUpdatedEvent(UserInfo initiatedBy, Guid projectId, DateTime @when, BlobLocation blobLocation) : base(initiatedBy, projectId)
+        public DateTime When { get; private set; }
+        public BlobLocation BlobLocation { get; private set; }
+
+        public ProjectImageUpdatedEvent(BlobLocation blobLocation, DateTime when, UserInfo initiatedBy) : base(initiatedBy)
         {
             When = when;
             BlobLocation = blobLocation;
         }
-
-        public DateTime When { get; private set; }
-        public BlobLocation BlobLocation { get; private set; }
 
         public override string GetDescription() => "updated project image.";
     }
