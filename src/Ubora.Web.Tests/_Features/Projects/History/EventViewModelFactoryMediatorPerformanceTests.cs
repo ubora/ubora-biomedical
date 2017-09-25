@@ -99,17 +99,18 @@ namespace Ubora.Web.Tests._Features.Projects.History
 
             foreach (var e in events)
             {
-                mediator.Create((UboraEvent) e.Data, e.Timestamp);
+                mediator.Create((UboraEvent)e.Data, e.Timestamp);
             }
         }
 
         private void EditWorkPackageTwo()
         {
             var editedWorkpackageTwoEvent = new WorkpackageTwoStepEdited(
-                                initiatedBy: _userInfo,
-                                newValue: "new value",
-                                title: "new title",
-                                stepId: WorkpackageStepIds.DescriptionOfFunctions);
+                projectId: _projectId,
+                initiatedBy: _userInfo,
+                newValue: "new value",
+                title: "new title",
+                stepId: WorkpackageStepIds.DescriptionOfFunctions);
             Session.Events.Append(_projectId, editedWorkpackageTwoEvent);
             Session.SaveChanges();
         }
@@ -117,11 +118,10 @@ namespace Ubora.Web.Tests._Features.Projects.History
         private void AcceptWorkPackageOneByReview()
         {
             var workPackageOneReviewAcceptedEvent = new WorkpackageOneReviewAcceptedEvent(
-                            initiatedBy: _userInfo,
-                            projectId: _projectId,
-                            acceptedAt: DateTimeOffset.Now,
-                            concludingComment: "comment"
-                            );
+                initiatedBy: _userInfo,
+                projectId: _projectId,
+                acceptedAt: DateTimeOffset.Now,
+                concludingComment: "comment");
             Session.Events.Append(_projectId, workPackageOneReviewAcceptedEvent);
             Session.SaveChanges();
         }
@@ -129,10 +129,10 @@ namespace Ubora.Web.Tests._Features.Projects.History
         private void SubmitWorkPackageOneForReview()
         {
             var workPackageOneReviewSubmittedEvent = new WorkpackageOneSubmittedForReviewEvent(
-                            initiatedBy: _userInfo,
-                            projectId: _projectId,
-                            reviewId: Guid.NewGuid(),
-                            submittedAt: DateTimeOffset.Now);
+                initiatedBy: _userInfo,
+                projectId: _projectId,
+                reviewId: Guid.NewGuid(),
+                submittedAt: DateTimeOffset.Now);
             Session.Events.Append(_projectId, workPackageOneReviewSubmittedEvent);
             Session.SaveChanges();
         }
@@ -140,10 +140,11 @@ namespace Ubora.Web.Tests._Features.Projects.History
         private void EditProject()
         {
             var editedWorkpackageOneEvent = new WorkpackageOneStepEditedEvent(
-                                initiatedBy: _userInfo,
-                                newValue: "new value",
-                                title: "new title",
-                                stepId: WorkpackageStepIds.DescriptionOfNeeds);
+                projectId: _projectId,
+                initiatedBy: _userInfo,
+                newValue: "new value",
+                title: "new title",
+                stepId: WorkpackageStepIds.DescriptionOfNeeds);
             Session.Events.Append(_projectId, editedWorkpackageOneEvent);
             Session.SaveChanges();
         }
@@ -151,10 +152,10 @@ namespace Ubora.Web.Tests._Features.Projects.History
         private void EditProjectDeviceClassification()
         {
             var editedDeviceClassificationEvent = new EditedProjectDeviceClassificationEvent(
-                                id: _projectId,
-                                newClassification: new Classification("IIb", 3, new List<Guid>()),
-                                currentClassification: new Classification("IIa", 3, new List<Guid>()),
-                                initiatedBy: _userInfo);
+                projectId: _projectId,
+                newClassification: new Classification("IIb", 3, new List<Guid>()),
+                currentClassification: new Classification("IIa", 3, new List<Guid>()),
+                initiatedBy: _userInfo);
             Session.Events.Append(_projectId, editedDeviceClassificationEvent);
             Session.SaveChanges();
         }
@@ -162,13 +163,12 @@ namespace Ubora.Web.Tests._Features.Projects.History
         private void AddTask()
         {
             var taskAddedEvent = new TaskAddedEvent(
-                                initiatedBy: _userInfo)
-            {
-                Id = Guid.NewGuid(),
-                ProjectId = _projectId,
-                Title = "title",
-                Description = $"submitted workpackage 1 for review {StringTokens.WorkpackageOneReview()}"
-            };
+                initiatedBy: _userInfo,
+                id: Guid.NewGuid(),
+                projectId: _projectId,
+                title: "title",
+                description: $"submitted workpackage 1 for review {StringTokens.WorkpackageOneReview()}"
+            );
             Session.Events.Append(_projectId, taskAddedEvent);
             Session.SaveChanges();
         }
@@ -176,8 +176,8 @@ namespace Ubora.Web.Tests._Features.Projects.History
         private void CreateProject()
         {
             var projectAddedEvent = new ProjectCreatedEvent(
-                initiatedBy: _userInfo, 
-                projectId: _projectId, 
+                initiatedBy: _userInfo,
+                projectId: _projectId,
                 title: "Awesome Project",
                 clinicalNeed: "",
                 areaOfUsage: "",

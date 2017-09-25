@@ -1,11 +1,12 @@
 ﻿using System;
 using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.Repository.Events
 {
-    public class FileHiddenEvent : UboraEvent, IFileEvent
+    public class FileHiddenEvent : ProjectEvent, IFileEvent
     {
-        public FileHiddenEvent(UserInfo initiatedBy, Guid id) : base(initiatedBy)
+        public FileHiddenEvent(UserInfo initiatedBy, Guid projectId, Guid id) : base(initiatedBy, projectId)
         {
             Id = id;
         }

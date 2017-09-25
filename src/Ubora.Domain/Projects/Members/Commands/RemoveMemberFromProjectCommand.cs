@@ -37,12 +37,11 @@ namespace Ubora.Domain.Projects.Members.Commands
                     return CommandResult.Failed($"User [{cmd.UserId}] can not be removed from project [{cmd.ProjectId}] because user is project leader");
                 }
 
-                var @event = new MemberRemovedFromProjectEvent(cmd.Actor)
-                {
-                    ProjectId = cmd.ProjectId,
-                    UserFullName = userProfile.FullName,
-                    UserId = cmd.UserId
-                };
+                var @event = new MemberRemovedFromProjectEvent(
+                    initiatedBy: cmd.Actor,
+                    projectId: cmd.ProjectId,
+                    userId: cmd.UserId
+                );
 
                 _documentSession.Events.Append(cmd.ProjectId, @event);
                 _documentSession.SaveChanges();

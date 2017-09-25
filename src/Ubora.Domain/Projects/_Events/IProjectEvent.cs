@@ -3,12 +3,7 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects._Events
 {
-    public interface IProjectEvent
-    {
-        Guid ProjectId { get; }
-    }
-
-    public abstract class ProjectEvent : UboraEvent, IProjectEvent
+    public abstract class ProjectEvent : UboraEvent
     {
         protected ProjectEvent(UserInfo initiatedBy, Guid projectId) : base(initiatedBy)
         {
