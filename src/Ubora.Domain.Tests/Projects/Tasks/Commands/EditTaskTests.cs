@@ -3,13 +3,12 @@ using Autofac;
 using FluentAssertions;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
 using Ubora.Domain.Projects.Tasks.Commands;
 using Ubora.Domain.Projects._Commands;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Projects
+namespace Ubora.Domain.Tests.Projects.Tasks.Commands
 {
     public class EditTaskTests : IntegrationFixture
     {

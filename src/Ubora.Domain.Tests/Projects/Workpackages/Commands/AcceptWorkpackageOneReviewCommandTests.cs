@@ -6,7 +6,7 @@ using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Workpackages;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Projects.Workpackages
+namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
 {
     public class AcceptWorkpackageOneReviewCommandTests : IntegrationFixture
     {

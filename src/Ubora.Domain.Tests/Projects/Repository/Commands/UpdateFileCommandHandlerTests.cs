@@ -1,6 +1,6 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
 using System.Linq;
+using FluentAssertions;
 using TestStack.BDDfy;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Repository;
@@ -8,7 +8,7 @@ using Ubora.Domain.Projects.Repository.Commands;
 using Ubora.Domain.Projects.Repository.Events;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Projects.Repository
+namespace Ubora.Domain.Tests.Projects.Repository.Commands
 {
     public class UpdateFileCommandHandlerTests : IntegrationFixture
     {

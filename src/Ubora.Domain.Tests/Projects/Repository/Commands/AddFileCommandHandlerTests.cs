@@ -8,7 +8,7 @@ using Ubora.Domain.Projects.Repository.Commands;
 using Ubora.Domain.Projects.Repository.Events;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Projects.Repository
+namespace Ubora.Domain.Tests.Projects.Repository.Commands
 {
     public class AddFileCommandHandlerTests : IntegrationFixture
     {

@@ -1,17 +1,14 @@
-﻿using FluentAssertions;
-using System;
-using System.Linq;
+﻿using System;
+using FluentAssertions;
 using TestStack.BDDfy;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
-using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Domain.Projects._Specifications;
-using Ubora.Domain.Users;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Projects.Members
+namespace Ubora.Domain.Tests.Projects.Members.Commands
 {
     public class RemoveMemberFromProjectTests : IntegrationFixture
     {

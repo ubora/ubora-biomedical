@@ -6,12 +6,12 @@ using TestStack.BDDfy;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
-using Xunit;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects._Commands;
+using Xunit;
 
-namespace Ubora.Domain.Tests.Projects
+namespace Ubora.Domain.Tests.Projects._Commands
 {
     public class CreateProjectTests : IntegrationFixture
     {

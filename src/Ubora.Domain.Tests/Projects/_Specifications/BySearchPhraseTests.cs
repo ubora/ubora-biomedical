@@ -7,7 +7,7 @@ using Ubora.Domain.Projects._Commands;
 using Ubora.Domain.Projects._Specifications;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Projects
+namespace Ubora.Domain.Tests.Projects._Specifications
 {
     public class BySearchPhraseTests : IntegrationFixture
     {

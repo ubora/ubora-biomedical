@@ -13,7 +13,7 @@ using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Users;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Projects.Members
+namespace Ubora.Domain.Tests.Projects.Members.Commands
 {
     public class InviteProjectMentorCommandHandlerTests
     {

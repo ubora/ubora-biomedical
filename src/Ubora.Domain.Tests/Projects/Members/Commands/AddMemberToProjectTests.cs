@@ -1,6 +1,6 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
 using System.Linq;
+using FluentAssertions;
 using TestStack.BDDfy;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
@@ -15,7 +15,7 @@ using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Users.Commands;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Projects.Members
+namespace Ubora.Domain.Tests.Projects.Members.Commands
 {
     public class AddMemberToProjectTests : IntegrationFixture
     {

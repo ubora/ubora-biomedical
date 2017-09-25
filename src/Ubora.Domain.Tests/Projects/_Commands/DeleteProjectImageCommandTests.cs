@@ -1,12 +1,12 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
 using System.Linq;
+using FluentAssertions;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Domain.Projects._Events;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Projects
+namespace Ubora.Domain.Tests.Projects._Commands
 {
     public class DeleteProjectImageCommandTests : IntegrationFixture
     {

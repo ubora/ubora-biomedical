@@ -5,7 +5,7 @@ using Ubora.Domain.Projects;
 using Ubora.Domain.Projects._Commands;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Projects
+namespace Ubora.Domain.Tests.Projects._Commands
 {
     public class UpdateProjectTests : IntegrationFixture
     {

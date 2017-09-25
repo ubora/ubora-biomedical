@@ -5,7 +5,7 @@ using TestStack.BDDfy;
 using Ubora.Domain.Projects.Workpackages;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Projects.Workpackages
+namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
 {
     public class SubmitWorkpackageTwoForReviewCommandTests : IntegrationFixture
     {

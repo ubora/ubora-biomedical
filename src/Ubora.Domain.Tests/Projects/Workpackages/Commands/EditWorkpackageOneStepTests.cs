@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Domain.Projects._Commands;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Projects.Workpackages
+namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
 {
     public class EditWorkpackageOneStepTests : IntegrationFixture
     {
