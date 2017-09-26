@@ -10,8 +10,6 @@ using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Projects.DeviceClassification;
-using Ubora.Domain.Projects.Members;
-using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Domain.Projects.Tasks.Events;
 using Ubora.Domain.Users;
@@ -32,8 +30,6 @@ namespace Ubora.Domain.Infrastructure.Marten
 
             return options =>
             {
-                options.AutoCreateSchemaObjects = AutoCreate.None;
-
                 options.Events.UseAggregatorLookup(AggregationLookupStrategy.UsePrivateApply);
                 options.Serializer(serializer);
 

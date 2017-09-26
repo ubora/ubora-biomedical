@@ -34,11 +34,13 @@ namespace Ubora.Domain.Infrastructure
             {
                 var options = new StoreOptions();
                 options.Connection(_connectionString);
-
+                options.AutoCreateSchemaObjects = AutoCreate.None;
                 options.NameDataLength = 100;
+                options.PLV8Enabled = false;
 
                 var eventTypes = FindDomainEventConcreteTypes();
                 var notificationTypes = FindDomainNotificationConcreteTypes();
+
                 var configureAction = new UboraStoreOptions().Configuration(eventTypes, notificationTypes);
 
                 configureAction.Invoke(options);
@@ -53,7 +55,6 @@ namespace Ubora.Domain.Infrastructure
                 upgrader.PerformUpgrade();
 
                 var store = new DocumentStore(options);
-                options.PLV8Enabled = false;
                 store.Schema.WritePatchByType("Patches");
 
                 builder.RegisterInstance(store).As<IDocumentStore>().SingleInstance();
