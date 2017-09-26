@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.IO;
 using Autofac;
+using DbUp;
 using Marten;
 using Marten.Events;
 using TwentyTwenty.Storage;
@@ -43,7 +43,20 @@ namespace Ubora.Domain.Infrastructure
 
                 configureAction.Invoke(options);
 
-                builder.RegisterInstance(new DocumentStore(options)).As<IDocumentStore>().SingleInstance();
+                var upgrader =
+                    DeployChanges.To
+                        .PostgresqlDatabase(_connectionString)
+                        .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
+                        .WithVariablesDisabled()
+                        .Build();
+
+                upgrader.PerformUpgrade();
+
+                var store = new DocumentStore(options);
+                options.PLV8Enabled = false;
+                store.Schema.WritePatchByType("Patches");
+
+                builder.RegisterInstance(store).As<IDocumentStore>().SingleInstance();
             }
 
             builder.Register(x => x.Resolve<IDocumentStore>().OpenSession()).As<IDocumentSession>().As<IQuerySession>().InstancePerLifetimeScope();

@@ -53,7 +53,8 @@ namespace Ubora.Domain.Tests.Projects._Specifications
 
             var fileHiddenEvent = new FileHiddenEvent(
                 initiatedBy: userInfo,
-                id: expectedFileId
+                id: expectedFileId,
+                projectId:projectId
                 );
             Session.Events.Append(projectId, fileHiddenEvent);
             Session.SaveChanges();

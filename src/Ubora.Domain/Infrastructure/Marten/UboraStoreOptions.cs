@@ -9,10 +9,12 @@ using Ubora.Domain.Projects.Tasks;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Notifications;
+using Ubora.Domain.Projects.DeviceClassification;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Domain.Projects.Tasks.Events;
+using Ubora.Domain.Users;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
@@ -30,11 +32,15 @@ namespace Ubora.Domain.Infrastructure.Marten
 
             return options =>
             {
-                options.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
+                options.AutoCreateSchemaObjects = AutoCreate.None;
 
                 options.Events.UseAggregatorLookup(AggregationLookupStrategy.UsePrivateApply);
                 options.Serializer(serializer);
 
+                options.Schema.For<UserProfile>();
+                options.Schema.For<DeviceClassification>();
+                options.Schema.For<ProjectFile>();
+                options.Schema.For<ProjectTask>();
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
