@@ -3,7 +3,11 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Scripts\Script0002 - Add ProjectId.sql" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Scripts\Script0001 - InitialCreate.sql" />
+    <EmbeddedResource Include="Scripts\Script0002 - Add ProjectId.sql" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.1" />
