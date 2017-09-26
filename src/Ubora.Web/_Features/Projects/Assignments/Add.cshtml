@@ -19,6 +19,15 @@
         </div>
 
         <div class="form-input">
+          <label>Assignee</label>
+          <select class="js-example multiple-select-box select2" name="states[]" multiple="multiple">
+            @* TODO: <option value=""></option> *@
+          </select>
+        </div>
+
+
+
+        <div class="form-input">
             <label asp-for="Description">Description</label>
             <textarea asp-for="Description" placeholder="Assignment description" rows="8"></textarea>
             <span asp-validation-for="Description"></span>
@@ -29,3 +38,11 @@
         </div>
     </form>
 </section>
+
+@section Scripts {
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.js-example').select2();
+    });
+  </script>
+}
