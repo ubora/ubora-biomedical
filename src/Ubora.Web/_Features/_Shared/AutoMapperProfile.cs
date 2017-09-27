@@ -11,6 +11,7 @@ using Ubora.Web._Features.Users.Profile;
 using Ubora.Web._Features.Users.UserList;
 using Ubora.Web._Features.Projects.Repository;
 using Ubora.Domain.Projects.Repository;
+using Ubora.Domain.Projects._Commands;
 using Ubora.Web._Features.Projects.Assignments;
 
 namespace Ubora.Web._Features._Shared
@@ -25,8 +26,8 @@ namespace Ubora.Web._Features._Shared
             CreateMap<ProjectFile, ProjectFileViewModel>();
 
             CreateMap<ProjectFile, UpdateFileViewModel>()
-                .ForMember(dest => dest.FileId, o => o.MapFrom(src => src.Id))
-                .ForMember(dest => dest.AddFileViewModel, o => o.Ignore());
+                .ForMember(dest => dest.ProjectFile, o => o.Ignore())
+                .ForMember(dest => dest.FileId, o => o.MapFrom(src => src.Id));
 
             CreateMap<Project, ProjectListViewModel.ProjectListItem>()
                 .ForMember(dest => dest.ImagePath, o => o.Ignore());

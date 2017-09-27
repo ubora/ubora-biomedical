@@ -4,7 +4,9 @@ using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Domain.Projects._Commands;
 using Ubora.Domain.Users;
+using Ubora.Domain.Users.Commands;
 
 namespace Ubora.Domain.Tests
 {

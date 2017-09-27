@@ -61,7 +61,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
 
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<RemoveMemberFromProjectCommand>()))
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             // Act
             var result = (RedirectToActionResult)_membersController.RemoveMember(viewModel);
@@ -82,7 +82,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
 
              CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<RemoveMemberFromProjectCommand>()))
-                .Returns(new CommandResult("Something went wrong"));
+                .Returns(CommandResult.Failed("Something went wrong"));
 
             // Act
             var result = (ViewResult)_membersController.RemoveMember(viewModel);
@@ -96,7 +96,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         {
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<RemoveMemberFromProjectCommand>()))
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             // Act
             var result = (RedirectToActionResult)_membersController.LeaveProject();
@@ -110,7 +110,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         {
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<RemoveMemberFromProjectCommand>()))
-                .Returns(new CommandResult("Something went wrong"));
+                .Returns(CommandResult.Failed("Something went wrong"));
 
             // Act
             var result = (ViewResult)_membersController.LeaveProject();
@@ -124,7 +124,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         {
             CommandProcessorMock
                 .Setup(x => x.Execute(It.Is<JoinProjectCommand>(y => y.Actor.UserId == UserId)))
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             var viewModel = new JoinProjectViewModel();
 
@@ -140,7 +140,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         {
             CommandProcessorMock
                 .Setup(x => x.Execute(It.Is<JoinProjectCommand>(y => y.Actor.UserId == UserId)))
-                .Returns(new CommandResult("Something went wrong"));
+                .Returns(CommandResult.Failed("Something went wrong"));
 
             var viewModel = new JoinProjectViewModel();
 
