@@ -63,24 +63,47 @@
     </div>
 </div>
 
-<div id="dropzone">
-    <form action="@Url.Action("AddFile", "Repository")" class="dropzone" id="uploader">
-        <div class="fallback">
-            <input asp-for="AddFileViewModel.ProjectFiles">
-        </div>
-    </form>
-</div>
+<button id="submit-all">Submit all files</button>
+
+
+
+<form action="@Url.Action("AddFile", "Repository")" class="dropzone" id="my-dropzone" enctype="multipart/form-data">
+    <select name="FolderName">
+        <option selected disabled>Select a folder</option>
+        <option value="Hardware">Hardware</option>
+        <option value="Electronics and firmware">Electronics and firmware</option>
+        <option value="Software">Software</option>
+        <option value="System integrations">System integrations</option>
+    </select>
+
+    <input type="text" name="Comment" placeholder="Enter a comment...">
+
+</form>
+
 
 @section Scripts {
     <link rel="stylesheet"
           href="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css">
-    <script
-        src="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.js">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.js">
     </script>
     <script>
-        Dropzone.options.uploader = {
-            paramName: "ProjectFiles",
-            maxFilesize: 5
+        Dropzone.options.myDropzone = {
+            paramName: parameterName,
+            uploadMultiple: true,
+            autoProcessQueue: false,
+            init: function () {
+                var submitButton = document.querySelector("#submit-all")
+                myDropzone = this;
+
+                submitButton.addEventListener("click", function () {
+                    myDropzone.processQueue();
+                });
+            }
         };
+
+        //Ignore to appending [n] to name
+        function parameterName() {
+            return "ProjectFiles";
+        }
     </script>
 }
