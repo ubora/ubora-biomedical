@@ -24,30 +24,75 @@ namespace Ubora.Web.Infrastructure
         {
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
+            var uboraLogoContentId = "uboraLogoIcon";
+            var emailLogoContentId = "emailLogoIcon";
+            var facebookLogoContentId = "facebookLogoIcon";
+            var twitterLogoContentId = "twitterLogoIcon";
+            var emailIcons = new[]
+            {
+                new EmailIcon("./wwwroot/images/icon.png", uboraLogoContentId),
+                new EmailIcon("./wwwroot/images/icons/email_icon.png", emailLogoContentId),
+                new EmailIcon("./wwwroot/images/icons/facebook_icon.png", facebookLogoContentId),
+                new EmailIcon("./wwwroot/images/icons/twitter_icon.png", twitterLogoContentId)
+            };
+
             var callBackUrlTemplateViewModel = new CallBackUrlTemplateViewModel
             {
                 UserId = user.Id,
-                Code = code
+                Code = code,
+                UboraLogoContentId = uboraLogoContentId,
+                EmailLogoContentId = emailLogoContentId,
+                FacebookLogoContentId = facebookLogoContentId,
+                TwitterLogoContentId = twitterLogoContentId
             };
 
             var message = _view.Render("/_Features/_Shared/Templates/", "EmailConfirmationMessageTemplate.cshtml", callBackUrlTemplateViewModel);
 
-            await _emailSender.SendEmailAsync(user.Email, "UBORA: e-mail confirmation", message);
+            await _emailSender.SendEmailAsync(user.Email, "UBORA: e-mail confirmation", message, emailIcons);
         }
 
         public async Task SendForgotPasswordMessage(ApplicationUser user)
         {
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
 
+            var uboraLogoContentId = "uboraLogoIcon";
+            var emailLogoContentId = "emailLogoIcon";
+            var facebookLogoContentId = "facebookLogoIcon";
+            var twitterLogoContentId = "twitterLogoIcon";
+            var emailIcons = new[]
+            {
+                new EmailIcon("./wwwroot/images/icon.png", uboraLogoContentId),
+                new EmailIcon("./wwwroot/images/icons/email_icon.png", emailLogoContentId),
+                new EmailIcon("./wwwroot/images/icons/facebook_icon.png", facebookLogoContentId),
+                new EmailIcon("./wwwroot/images/icons/twitter_icon.png", twitterLogoContentId)
+            };
+
             var callBackUrlTemplateViewModel = new CallBackUrlTemplateViewModel
             {
                 UserId = user.Id,
-                Code = code
+                Code = code,
+                UboraLogoContentId = uboraLogoContentId,
+                EmailLogoContentId = emailLogoContentId,
+                FacebookLogoContentId = facebookLogoContentId,
+                TwitterLogoContentId = twitterLogoContentId
             };
 
             var message = _view.Render("/_Features/_Shared/Templates/", "ForgotPasswordMessageTemplate.cshtml", callBackUrlTemplateViewModel);
 
-            await _emailSender.SendEmailAsync(user.Email, "UBORA: Password reset", message);
+            await _emailSender.SendEmailAsync(user.Email, "UBORA: Password reset", message, emailIcons);
         }
+    }
+
+
+    public class EmailIcon
+    {
+        public EmailIcon(string path, string contentId)
+        {
+            Path = path;
+            ContentId = contentId;
+        }
+
+        public string Path { get; set; }
+        public string ContentId { get; set; }
     }
 }
