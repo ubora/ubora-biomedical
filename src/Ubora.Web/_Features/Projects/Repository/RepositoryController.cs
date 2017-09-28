@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Repository;
-using Ubora.Domain.Projects.Specifications;
+using Ubora.Domain.Projects.Repository.Commands;
+using Ubora.Domain.Projects.Repository.Events;
+using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Storage;
 

@@ -13,23 +13,23 @@
     @Html.TextBoxFor(model => model.FileName, new { @disabled = "disabled" })
   </div>
 
+  <form method="post" enctype="multipart/form-data" asp-controller="Repository" asp-action="UpdateFile">
+      @Html.HiddenFor(m => m.FileId)
+      @Html.HiddenFor(m => m.FileName)
+
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      <div class="form-input">
+          <input asp-for="ProjectFile">
+      </div>
+
+      <div class="form-input">
+          <label asp-for="Comment">Comment</label>
+          <input asp-for="Comment" type="text" placeholder="Enter a comment...">
+      </div>
+
+      <div class="form-input">
+          <button class="button primary-button small-button">Upload new file</button>
+      </div>
+  </form>
+
 </section>
-
-<form method="post" enctype="multipart/form-data" asp-controller="Repository" asp-action="UpdateFile">
-    @Html.HiddenFor(m => m.FileId)
-    @Html.HiddenFor(m => m.FileName)
-
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-input">
-        <input asp-for="ProjectFile">
-    </div>
-
-    <div class="form-input">
-        <label asp-for="Comment">Comment</label>
-        <input asp-for="Comment" type="text" placeholder="Enter a comment...">
-    </div>
-
-    <div class="form-input">
-        <button class="button primary-button small-button">Upload new file</button>
-    </div>
-</form>

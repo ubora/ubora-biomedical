@@ -24,7 +24,7 @@ namespace Ubora.Web._Features.Feedback
                 _documentSession.Store(feedback);
                 _documentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }

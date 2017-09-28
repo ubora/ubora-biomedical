@@ -4,14 +4,29 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="description" content="The biomedical engineering open design platform">
+    <meta name="author" content="AgileWorks Ltd.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/images/favicon.png" rel="icon" type="image/png">
     <title>@ViewData["Title"] - UBORA</title>
-    <link rel="icon" type="image/png" href="~/images/favicon.png">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="~/lib/openSans/openSans.css" rel="stylesheet">
-    <link rel="stylesheet" href="~/css/styles.css?v1">
-    <link rel="stylesheet" href="~/lib/simplemde/dist/simplemde.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css" rel="stylesheet" />
+
+    <environment names="Development">
+      <script
+        src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+        asp-fallback-src="~/dist/libs/jquery.min.js"
+        asp-fallback-test="window.jQuery">
+      </script>
+    </environment>
+
+    <environment names="Staging,Production">
+      <script
+        src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+        asp-fallback-src="~/dist/libs/jquery.min.js"
+        asp-fallback-test="window.jQuery">
+      </script>
+    </environment>
 
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
@@ -27,35 +42,28 @@
                 @await Html.PartialAsync("~/_Features/Projects/_Shared/_ProjectMenu.cshtml", new ProjectMenuViewModel((ProjectMenuOption)projectMenuOption))
             }
         }
+
         @RenderBody()
 
         @if (User.Identity.IsAuthenticated)
         {
             @Html.Partial("_FeedbackModal")
-            <a href="javascript:void(0);" id="feedback-modal-trigger"><i class="material-icons">chat_bubble</i>Feedback</a>
         }
+
         @Html.Partial("_Notices")
     </main>
 
     @await Html.PartialAsync("_Footer")
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/autocomplete.js/dist/autocomplete.min.js"></script>
-    <script src="~/lib/simplemde/dist/simplemde.min.js"></script>
-    <script src="~/lib/marked/marked.min.js"></script>
-    <script src="~/js/UBORA.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-
-    <script>
-        $(function() {
-            feedbackModule('@Context.Request.Path', '@Url.Action("Send", "Feedback")');
-        })
-
-        $('select').select2({
-            theme: 'ubora'
-        });
-    </script>
 
     @RenderSection("Scripts", required: false)
+
+    <environment names="Development">
+      <script src="~/dist/scripts.bundle.js"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+      <script src="~/dist/scripts.bundle.js" asp-append-version="true"></script>
+    </environment>
 </body>
 </html>

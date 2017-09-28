@@ -23,6 +23,7 @@ using Ubora.Web.Infrastructure.DataSeeding;
 using TwentyTwenty.Storage;
 using TwentyTwenty.Storage.Azure;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.SpaServices.Webpack;
 using Npgsql;
 using Ubora.Web.Infrastructure.Storage;
 
@@ -148,7 +149,14 @@ namespace Ubora.Web
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                app.UseBrowserLink();
+                if (Configuration["FunctionalTesting"] == null)
+                {
+                    app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                    {
+                        HotModuleReplacement = true
+                    });
+                    app.UseBrowserLink();
+                }
             }
             else
             {

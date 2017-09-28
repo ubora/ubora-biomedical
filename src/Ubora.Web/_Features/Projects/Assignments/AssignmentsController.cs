@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.Tasks;
+using Ubora.Domain.Projects.Tasks.Commands;
 
 namespace Ubora.Web._Features.Projects.Assignments
 {
@@ -78,6 +79,7 @@ namespace Ubora.Web._Features.Projects.Assignments
 
             ExecuteUserProjectCommand(new EditTaskCommand
             {
+                Id = model.Id,
                 Title = model.Title,
                 Description = model.Description
             });

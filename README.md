@@ -80,6 +80,6 @@ WARNING: Don't commit this! This would break the build in TeamCity.
 1. Open Git Bash window which points to _../Ubora.Web.FunctionalTests_. If you have the extension, you can just navigate to the folder, right-click and select "Git Bash".
 2. Do "npm install" if you haven't done so before.
 3. To run all the tests: `./node_modules/.bin/wdio --port 4444`
-4. To run a single test: `./node_modules/.bin/wdio --port 4444 --spec ./features/ApplicableRegulations.feature`
+4. To run a single test: `./node_modules/.bin/wdio --port 4444 --spec ./features/YOURSPECNAME.feature`
 
-NOTE: If you have problems, you might need to update Node. (Find out your version by entering `node -v`.)
+NOTE: If you have problems, you might need to update Node. (Find out your version by entering `node -v`.) Or you have wrong port specified under the _wdio.conf.js_ --- the application has to be running and hosted on exactly that URL.

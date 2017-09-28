@@ -1,4 +1,5 @@
 ﻿using System;
+using Ubora.Domain.Projects.Tasks.Events;
 
 namespace Ubora.Domain.Projects.Tasks
 {
