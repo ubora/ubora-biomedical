@@ -1,5 +1,5 @@
 ﻿@model Ubora.Web._Features._Shared.Templates.CallBackUrlTemplateViewModel
-@{ 
+@{
     var confirmationUrl = Html.Raw(Url.Action("ConfirmEmail", "Account", new { userId = Model.UserId, Model.Code }, Context.Request.Scheme));
 }
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -11,7 +11,9 @@
     <title>Email Design</title>
     <style type="text/css">
         @@media only screen and (min-device-width: 601px) {
-          .content {width: 600px !important;}
+            .content {
+                width: 600px !important;
+            }
         }
     </style>
 </head>
@@ -74,6 +76,11 @@
                                         If the button does not work, please confirm your email by clicking here on the following link or copy-paste it in your browser:
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>
+                                        <a href="@confirmationUrl">@confirmationUrl</a>
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -86,13 +93,19 @@
                                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                             <tr>
                                                 <td width="260" valign="top" align="right">
-                                                    <img src="cid:@Model.FacebookLogoContentId" alt="facebook logo" width="20" height="20" style="display: block;" />
+                                                    <a href="//www.facebook.com/UBORA-261898414244796">
+                                                        <img src="cid:@Model.FacebookLogoContentId" alt="facebook logo" width="20" height="20" style="display: block;" />
+                                                    </a>
                                                 </td>
                                                 <td width="260" valign="top" align="center">
-                                                    <img src="cid:@Model.TwitterLogoContentId" alt="twitter logo" width="20" height="20" style="display: block;" />
+                                                    <a href="//twitter.com/uborabiomedical">
+                                                        <img src="cid:@Model.TwitterLogoContentId" alt="twitter logo" width="20" height="20" style="display: block;" />
+                                                    </a>
                                                 </td>
                                                 <td width="260" valign="top" align="left">
-                                                    <img src="cid:@Model.EmailLogoContentId" alt="email logo" width="20" height="20" style="display: block;" />
+                                                    <a href="mailto:info@uborabiomedical.org">
+                                                        <img src="cid:@Model.EmailLogoContentId" alt="email logo" width="20" height="20" style="display: block;" />
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table>
@@ -111,4 +124,3 @@
     </table>
 </body>
 </html>
-
