@@ -61,3 +61,26 @@
             }
         </section>
     </div>
+</div>
+
+<div id="dropzone">
+    <form action="@Url.Action("AddFile", "Repository")" class="dropzone" id="uploader">
+        <div class="fallback">
+            <input asp-for="AddFileViewModel.ProjectFiles">
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css">
+    <script
+        src="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.js">
+    </script>
+    <script>
+        Dropzone.options.uploader = {
+            paramName: "ProjectFiles",
+            maxFilesize: 5
+        };
+    </script>
+}
