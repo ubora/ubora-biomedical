@@ -38,7 +38,7 @@ cucumber_html_reporter.html.json
 [Rr]eleases/
 x64/
 x86/
-build/
+dist/
 bld/
 [Bb]in/
 [Oo]bj/
@@ -262,6 +262,8 @@ _Pvt_Extensions
 .gulp
 node_modules/
 bower_components
+# npm generated file
+package-lock.json
 
 # JetBrains Rider
 .idea/
