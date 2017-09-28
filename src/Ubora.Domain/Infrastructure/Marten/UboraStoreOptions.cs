@@ -16,20 +16,25 @@ using Ubora.Domain.Users;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
-    public class UboraStoreOptions
+    public class UboraStoreOptionsConfigurer
     {
-        public Action<StoreOptions> Configuration(IEnumerable<Type> eventTypes, IEnumerable<MappedType> notificationTypes)
+        public Action<StoreOptions> CreateConfigureAction(
+            IEnumerable<Type> eventTypes, 
+            IEnumerable<MappedType> notificationTypes,
+            AutoCreate autoCreate)
         {
-            if (eventTypes == null)
-            {
-                throw new ArgumentNullException(nameof(eventTypes));
-            }
+            if (eventTypes == null) { throw new ArgumentNullException(nameof(eventTypes)); }
+            if (notificationTypes == null) { throw new ArgumentNullException(nameof(notificationTypes)); }
 
             var serializer = new JsonNetSerializer();
             serializer.Customize(c => c.ContractResolver = new PrivateSetterResolver());
 
             return options =>
             {
+                options.AutoCreateSchemaObjects = autoCreate;
+                options.NameDataLength = 100;
+                options.PLV8Enabled = false;
+
                 options.Events.UseAggregatorLookup(AggregationLookupStrategy.UsePrivateApply);
                 options.Serializer(serializer);
 

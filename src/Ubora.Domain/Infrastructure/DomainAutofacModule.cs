@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Autofac;
-using DbUp;
 using Marten;
 using Marten.Events;
 using TwentyTwenty.Storage;
@@ -34,31 +33,19 @@ namespace Ubora.Domain.Infrastructure
             {
                 var options = new StoreOptions();
                 options.Connection(_connectionString);
-                options.AutoCreateSchemaObjects = AutoCreate.None;
-                options.NameDataLength = 100;
-                options.PLV8Enabled = false;
 
                 var eventTypes = FindDomainEventConcreteTypes();
                 var notificationTypes = FindDomainNotificationConcreteTypes();
 
-                var configureAction = new UboraStoreOptions().Configuration(eventTypes, notificationTypes);
-
-                configureAction.Invoke(options);
-
-                var upgrader =
-                    DeployChanges.To
-                        .PostgresqlDatabase(_connectionString)
-                        .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
-                        .WithVariablesDisabled()
-                        .Build();
-
-                upgrader.PerformUpgrade();
+                new UboraStoreOptionsConfigurer()
+                    .CreateConfigureAction(eventTypes, notificationTypes, AutoCreate.None)
+                    .Invoke(options);
 
                 var store = new DocumentStore(options);
-                store.Schema.WritePatchByType("Patches");
 
                 builder.RegisterInstance(store).As<IDocumentStore>().SingleInstance();
             }
+            builder.RegisterType<DomainMigrator>().AsSelf().SingleInstance();
 
             builder.Register(x => x.Resolve<IDocumentStore>().OpenSession()).As<IDocumentSession>().As<IQuerySession>().InstancePerLifetimeScope();
             builder.Register(x => x.Resolve<IDocumentSession>().Events).As<IEventStore>().InstancePerLifetimeScope();

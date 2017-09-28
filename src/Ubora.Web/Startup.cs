@@ -3,6 +3,7 @@ using System.Net.Sockets;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
+using Marten;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +32,8 @@ namespace Ubora.Web
 {
     public class Startup
     {
+        private string ConnectionString => Configuration.GetConnectionString("ApplicationDbConnection");
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -58,8 +61,7 @@ namespace Ubora.Web
         {
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            var connectionString = Configuration.GetConnectionString("ApplicationDbConnection");
-            var npgSqlConnectionString = new NpgsqlConnectionStringBuilder(connectionString);
+            var npgSqlConnectionString = new NpgsqlConnectionStringBuilder(ConnectionString);
 
             var isListeningPostgres = WaitForHost(npgSqlConnectionString.Host, npgSqlConnectionString.Port, TimeSpan.FromSeconds(15));
             if (!isListeningPostgres)
@@ -68,7 +70,7 @@ namespace Ubora.Web
             }
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(connectionString));
+                options.UseNpgsql(ConnectionString));
 
             services
                 .AddMvc()
@@ -129,7 +131,7 @@ namespace Ubora.Web
                 storageProvider = new CustomAzureStorageProvider(azOptions, azureStorageProvider);
             }
 
-            var domainModule = new DomainAutofacModule(connectionString, storageProvider);
+            var domainModule = new DomainAutofacModule(ConnectionString, storageProvider);
             var webModule = new WebAutofacModule(useSpecifiedPickupDirectory);
             autofacContainerBuilder.RegisterModule(domainModule);
             autofacContainerBuilder.RegisterModule(webModule);
@@ -185,7 +187,15 @@ namespace Ubora.Web
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var serviceProvider = serviceScope.ServiceProvider;
-                serviceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+
+                var applicationDbContext = serviceProvider.GetService<ApplicationDbContext>();
+                applicationDbContext.Database.Migrate();
+
+                var domainMigrator = serviceProvider.GetService<DomainMigrator>();
+                domainMigrator.MigrateDomain(ConnectionString);
+
+                var documentStore = serviceProvider.GetService<IDocumentStore>();
+                documentStore.Schema.WritePatchByType("Patches");
 
                 var seeder = serviceProvider.GetService<ApplicationDataSeeder>();
                 seeder.SeedIfNecessary()
