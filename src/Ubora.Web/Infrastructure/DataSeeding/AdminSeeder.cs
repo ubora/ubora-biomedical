@@ -31,6 +31,12 @@ namespace Ubora.Web.Infrastructure.DataSeeding
 
         public async Task SeedAdmin()
         {
+            var existingAdmin = await _userManager.FindByNameAsync(_options.UserName);
+            if (existingAdmin != null)
+            {
+                return;
+            }
+
             var adminUser = await CreateAdminUserAndProfile();
 
             await AddAdminRole(adminUser);
@@ -38,6 +44,7 @@ namespace Ubora.Web.Infrastructure.DataSeeding
 
         private async Task<ApplicationUser> CreateAdminUserAndProfile()
         {
+
             var user = new ApplicationUser
             {
                 UserName = _options.UserName,

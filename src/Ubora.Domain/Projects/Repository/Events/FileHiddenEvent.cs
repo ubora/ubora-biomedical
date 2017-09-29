@@ -15,7 +15,7 @@ namespace Ubora.Domain.Projects.Repository.Events
 
         public override string GetDescription()
         {
-            return $"removed file [{StringTokens.File(Id)}]";
+            return $"removed file \"{StringTokens.File(Id)}\"";
         }
     }
 }

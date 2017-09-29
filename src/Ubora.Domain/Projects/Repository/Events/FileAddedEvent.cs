@@ -18,7 +18,7 @@ namespace Ubora.Domain.Projects.Repository.Events
 
         public override string GetDescription()
         {
-            return $"added file \"{StringTokens.File(Id)}\"";
+            return $"added file \"{FileName}\"";
         }
     }
 }
