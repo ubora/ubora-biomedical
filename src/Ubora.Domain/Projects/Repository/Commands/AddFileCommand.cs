@@ -29,14 +29,15 @@ namespace Ubora.Domain.Projects.Repository.Commands
                 var project = _documentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
                 var @event = new FileAddedEvent(
-                    cmd.Id,
-                    cmd.ProjectId,
-                    cmd.BlobLocation,
-                    cmd.Comment,
-                    cmd.FileSize,
-                    cmd.Actor,
-                    cmd.FileName,
-                    cmd.FolderName
+                    id: cmd.Id,
+                    projectId: cmd.ProjectId,
+                    location: cmd.BlobLocation,
+                    comment: cmd.Comment,
+                    fileSize: cmd.FileSize,
+                    initiatedBy: cmd.Actor,
+                    fileName: cmd.FileName,
+                    folderName: cmd.FolderName,
+                    revisionNumber: 1
                 );
 
                 _documentSession.Events.Append(cmd.ProjectId, @event);

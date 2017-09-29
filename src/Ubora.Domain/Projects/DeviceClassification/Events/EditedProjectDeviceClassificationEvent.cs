@@ -1,20 +1,19 @@
 ﻿using System;
 using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.DeviceClassification.Events
 {
-    public class EditedProjectDeviceClassificationEvent : UboraEvent
+    public class EditedProjectDeviceClassificationEvent : ProjectEvent
     {
-        public Classification NewClassification { get; }
-        public Classification CurrentClassification { get; }
-        public Guid Id { get; }
-
-        public EditedProjectDeviceClassificationEvent(Guid id, Classification newClassification, Classification currentClassification, UserInfo initiatedBy) : base(initiatedBy)
+        public EditedProjectDeviceClassificationEvent(UserInfo initiatedBy, Guid projectId, Classification newClassification, Classification currentClassification) : base(initiatedBy, projectId)
         {
-            Id = id;
             NewClassification = newClassification;
             CurrentClassification = currentClassification;
         }
+
+        public Classification NewClassification { get; }
+        public Classification CurrentClassification { get; }
 
         public override string GetDescription()
         {

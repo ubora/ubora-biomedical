@@ -1,19 +1,17 @@
 ﻿using System;
 using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.Workpackages.Events
 {
-    public class WorkpackageOneSubmittedForReviewEvent : UboraEvent
+    public class WorkpackageOneSubmittedForReviewEvent : ProjectEvent
     {
-        public WorkpackageOneSubmittedForReviewEvent(UserInfo initiatedBy, Guid projectId, Guid reviewId, DateTimeOffset submittedAt) 
-            : base(initiatedBy)
+        public WorkpackageOneSubmittedForReviewEvent(UserInfo initiatedBy, Guid projectId, Guid reviewId, DateTimeOffset submittedAt) : base(initiatedBy, projectId)
         {
-            ProjectId = projectId;
             ReviewId = reviewId;
             SubmittedAt = submittedAt;
         }
 
-        public Guid ProjectId { get; private set; }
         public Guid ReviewId { get; private set; }
         public DateTimeOffset SubmittedAt { get; private set; }
 

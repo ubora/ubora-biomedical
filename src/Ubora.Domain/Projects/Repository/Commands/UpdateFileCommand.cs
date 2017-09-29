@@ -28,13 +28,13 @@ namespace Ubora.Domain.Projects.Repository.Commands
 
                 var revisionNumber = projectFile.RevisionNumber + 1;
                 var @event = new FileUpdatedEvent(
-                    projectFile.Id,
-                    projectFile.ProjectId,
-                    cmd.BlobLocation,
-                    cmd.Comment,
-                    cmd.FileSize,
-                    cmd.Actor,
-                    revisionNumber
+                    id: projectFile.Id,
+                    projectId: projectFile.ProjectId,
+                    location: cmd.BlobLocation,
+                    comment: cmd.Comment,
+                    fileSize: cmd.FileSize,
+                    initiatedBy: cmd.Actor,
+                    revisionNumber: revisionNumber
                 );
 
                 _documentSession.Events.Append(projectFile.ProjectId, @event);

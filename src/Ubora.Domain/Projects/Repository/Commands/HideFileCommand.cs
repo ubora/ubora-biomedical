@@ -23,8 +23,9 @@ namespace Ubora.Domain.Projects.Repository.Commands
                 var file = _documentSession.LoadOrThrow<ProjectFile>(cmd.Id);
 
                 var @event = new FileHiddenEvent(
-                    cmd.Actor,
-                    cmd.Id
+                    projectId: cmd.ProjectId,
+                    initiatedBy: cmd.Actor,
+                    id: cmd.Id
                 );
 
                 _documentSession.Events.Append(file.ProjectId, @event);
