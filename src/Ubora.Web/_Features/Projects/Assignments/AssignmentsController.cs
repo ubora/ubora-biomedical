@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.Tasks;
 using Ubora.Domain.Projects.Tasks.Commands;
+using Ubora.Domain.Users;
 
 namespace Ubora.Web._Features.Projects.Assignments
 {
@@ -26,9 +27,17 @@ namespace Ubora.Web._Features.Projects.Assignments
         [Route(nameof(Add))]
         public IActionResult Add()
         {
+            var projectMembers = Project.Members;
+            var taskAssigneeViewModel = projectMembers.Select(x => new TaskAssigneeViewModel
+            {
+                AssigneeId = x.UserId,
+                FullName = QueryProcessor.FindById<UserProfile>(x.UserId).FullName
+            });
+            
             var model = new AddAssignmentViewModel
             {
-                ProjectId = ProjectId
+                ProjectId = ProjectId,
+                ProjectMembers = taskAssigneeViewModel
             };
 
             return View(model);

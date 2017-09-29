@@ -20,12 +20,13 @@
 
         <div class="form-input">
           <label>Assignee</label>
-          <select class="js-example multiple-select-box select2" name="states[]" multiple="multiple">
-            @* TODO: <option value=""></option> *@
+          <select asp-for="AssignmentMembers" class="js-example multiple-select-box select2" name="states[]" multiple="multiple">
+              @foreach (var member in Model.ProjectMembers)
+              {
+                <option selected value="@member.AssigneeId">@member.FullName</option>
+              }
           </select>
         </div>
-
-
 
         <div class="form-input">
             <label asp-for="Description">Description</label>
