@@ -10,28 +10,39 @@ using Ubora.Domain.Projects.Tasks;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Notifications;
+using Ubora.Domain.Projects.DeviceClassification;
+using Ubora.Domain.Projects.Repository.Events;
+using Ubora.Domain.Projects.Tasks.Events;
+using Ubora.Domain.Users;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
-    public class UboraStoreOptions
+    public class UboraStoreOptionsConfigurer
     {
-        public Action<StoreOptions> Configuration(IEnumerable<Type> eventTypes, IEnumerable<MappedType> notificationTypes)
+        public Action<StoreOptions> CreateConfigureAction(
+            IEnumerable<Type> eventTypes, 
+            IEnumerable<MappedType> notificationTypes,
+            AutoCreate autoCreate)
         {
-            if (eventTypes == null)
-            {
-                throw new ArgumentNullException(nameof(eventTypes));
-            }
+            if (eventTypes == null) { throw new ArgumentNullException(nameof(eventTypes)); }
+            if (notificationTypes == null) { throw new ArgumentNullException(nameof(notificationTypes)); }
 
             var serializer = new JsonNetSerializer();
             serializer.Customize(c => c.ContractResolver = new PrivateSetterResolver());
 
             return options =>
             {
-                options.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
+                options.AutoCreateSchemaObjects = autoCreate;
+                options.NameDataLength = 100;
+                options.PLV8Enabled = false;
 
                 options.Events.UseAggregatorLookup(AggregationLookupStrategy.UsePrivateApply);
                 options.Serializer(serializer);
 
+                options.Schema.For<UserProfile>();
+                options.Schema.For<DeviceClassification>();
+                options.Schema.For<ProjectFile>();
+                options.Schema.For<ProjectTask>();
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();

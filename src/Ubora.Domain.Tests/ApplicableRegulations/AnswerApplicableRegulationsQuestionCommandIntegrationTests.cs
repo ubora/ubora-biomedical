@@ -4,7 +4,7 @@ using TestStack.BDDfy;
 using Ubora.Domain.ApplicableRegulations;
 using Ubora.Domain.ApplicableRegulations.Commands;
 using Ubora.Domain.ApplicableRegulations.Events;
-using Ubora.Domain.Projects;
+using Ubora.Domain.Projects._Events;
 using Xunit;
 
 namespace Ubora.Domain.Tests.ApplicableRegulations
@@ -35,7 +35,14 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
 
         private void Create_Project_And_Applicable_Regulations_Questionnaire()
         {
-            var projectCreatedEvent = new ProjectCreatedEvent(new DummyUserInfo()) { Id = _projectId };
+            var projectCreatedEvent = new ProjectCreatedEvent(
+                initiatedBy: new DummyUserInfo(), 
+                projectId: _projectId,
+                title: "",
+                clinicalNeed: "",
+                areaOfUsage: "",
+                potentialTechnology: "",
+                gmdn: "");
             var questionnaireStartedEvent = new ApplicableRegulationsQuestionnaireStartedEvent(new DummyUserInfo(), _questionnaireId, _projectId);
 
             Session.Events.Append(_projectId, projectCreatedEvent);

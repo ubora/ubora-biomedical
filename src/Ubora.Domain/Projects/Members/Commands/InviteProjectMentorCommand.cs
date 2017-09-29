@@ -4,6 +4,7 @@ using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Notifications.Specifications;
+using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Users;
 
 namespace Ubora.Domain.Projects.Members.Commands

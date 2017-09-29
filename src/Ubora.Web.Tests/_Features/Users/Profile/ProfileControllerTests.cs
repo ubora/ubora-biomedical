@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -8,13 +9,14 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
+using Ubora.Domain.Users.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features.Users.Profile;
 using Xunit;
 using Ubora.Web._Features._Shared.Notices;
-using Ubora.Web._Features.Users.Manage;
 using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web.Tests.Helper;
 
 namespace Ubora.Web.Tests._Features.Users.Profile
 {
@@ -37,6 +39,28 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 Url = urlHelperMock.Object
             };
             SetUpForTest(_controller);
+        }
+
+        [Fact]
+        public override void Actions_Have_Authorize_Attributes()
+        {
+            var rolesAndPoliciesAuthorizations = new List<AuthorizationTestHelper.RolesAndPoliciesAuthorization>
+            {
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                {
+                    MethodName = nameof(ProfileController.EditProfile)
+                },
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                {
+                    MethodName = nameof(ProfileController.FirstTimeEditProfile)
+                },
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                {
+                    MethodName = nameof(ProfileController.ChangeProfilePicture)
+                }
+            };
+
+            AssertHasAuthorizeAttributes(typeof(ProfileController), rolesAndPoliciesAuthorizations);
         }
 
         [Fact]
@@ -83,7 +107,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
 
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<ChangeUserProfilePictureCommand>()))
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
             
             _userManagerMock.Setup(m => m.FindByIdAsync(UserId.ToString())).ReturnsAsync(applicationUser);
 
@@ -109,7 +133,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 IsFirstTimeEditProfile = true
             };
 
-            var commandResult = new CommandResult("testError");
+            var commandResult = CommandResult.Failed("testError");
 
             fileMock.Setup(f => f.FileName).Returns("C:\\Test\\Parent\\Parent\\image.png");
             _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(UserId.ToString);
@@ -146,7 +170,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 IsFirstTimeEditProfile = false
             };
 
-            var commandResult = new CommandResult("testError");
+            var commandResult = CommandResult.Failed("testError");
 
             fileMock.Setup(f => f.FileName).Returns("C:\\Test\\Parent\\Parent\\image.png");
             _userManagerMock.Setup(m => m.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(UserId.ToString);
@@ -260,7 +284,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 .Returns(expectedProfileViewModel);
 
             //Act
-            var result = (ViewResult)_controller.View(userId);
+            var result = (ViewResult)_controller.ViewProfile(userId);
 
             //Act
             result.Model.As<ProfileViewModel>()
@@ -275,7 +299,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             QueryProcessorMock.Setup(p => p.FindById<UserProfile>(userId)).Returns((UserProfile)null);
 
             //Act
-            var result = _controller.View(userId);
+            var result = _controller.ViewProfile(userId);
 
             //Act
             result.Should().BeOfType<NotFoundResult>();
@@ -314,7 +338,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<EditUserProfileCommand>()))
                 .Callback<EditUserProfileCommand>(c => executedCommand = c)
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             var userProfile = new UserProfile(UserId) { FirstName = "expactedFirstName", LastName = "expactedLastName" };
 
@@ -324,7 +348,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             var returnUrl = "/Home/Index";
 
             //Act
-            var result = (RedirectToActionResult) _controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel(), returnUrl);
+            var result = (RedirectToActionResult)_controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel(), returnUrl);
 
             //Assert
             result.ActionName.Should().Be("Index");
@@ -354,7 +378,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         [Fact]
         public void FirstTimeEditProfile_Returns_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful()
         {
-            var commandResult = new CommandResult("testError");
+            var commandResult = CommandResult.Failed("testError");
 
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<EditUserProfileCommand>()))
@@ -390,13 +414,12 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             {
                 Role = role
             };
-            var commandResult = new CommandResult();
 
             var executedCommand = new EditUserProfileCommand();
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<EditUserProfileCommand>()))
                 .Callback<EditUserProfileCommand>(c => executedCommand = c)
-                .Returns(commandResult);
+                .Returns(CommandResult.Success);
 
             var user = new ApplicationUser();
             _userManagerMock.Setup(m => m.FindByIdAsync(userId))
@@ -424,13 +447,12 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 .Returns(userId);
 
             var userProfileViewModel = new UserProfileViewModel();
-            var commandResult = new CommandResult("errorResult");
 
             var executedCommand = new EditUserProfileCommand();
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<EditUserProfileCommand>()))
                 .Callback<EditUserProfileCommand>(c => executedCommand = c)
-                .Returns(commandResult);
+                .Returns(CommandResult.Failed("error"));
 
             // Act
             var result = (RedirectToActionResult)await _controller.EditProfile(userProfileViewModel);

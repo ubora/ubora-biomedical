@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Web.Tests.Helper;
 
 namespace Ubora.Web.Tests._Features
 {
@@ -25,7 +24,9 @@ namespace Ubora.Web.Tests._Features
         protected Guid UserId { get; }
         public Mock<IQueryProcessor> QueryProcessorMock { get; private set; } = new Mock<IQueryProcessor>();
         public Mock<IMapper> AutoMapperMock { get; private set; } = new Mock<IMapper>();
-        public Mock<IAuthorizationService> AuthorizationServiceMock { get; private set; } = new Mock<IAuthorizationService>();
+
+        public Mock<IAuthorizationService> AuthorizationServiceMock { get; private set; } =
+            new Mock<IAuthorizationService>();
 
         public Mock<ICommandProcessor> CommandProcessorMock { get; private set; } = new Mock<ICommandProcessor>(MockBehavior.Strict);
         protected void AssertZeroCommandsExecuted() => CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
@@ -49,16 +50,31 @@ namespace Ubora.Web.Tests._Features
             controller.ControllerContext.HttpContext.User = User;
 
             // Mock common Ubora services
-            serviceProviderMock.Setup(x => x.GetService(typeof(ICommandProcessor))).Returns(CommandProcessorMock.Object);
+            serviceProviderMock.Setup(x => x.GetService(typeof(ICommandProcessor)))
+                .Returns(CommandProcessorMock.Object);
             serviceProviderMock.Setup(x => x.GetService(typeof(IQueryProcessor))).Returns(QueryProcessorMock.Object);
             serviceProviderMock.Setup(x => x.GetService(typeof(IMapper))).Returns(AutoMapperMock.Object);
-            serviceProviderMock.Setup(x => x.GetService(typeof(IAuthorizationService))).Returns(AuthorizationServiceMock.Object);
+            serviceProviderMock.Setup(x => x.GetService(typeof(IAuthorizationService)))
+                .Returns(AuthorizationServiceMock.Object);
 
             // Stub ASP.NET MVC services
-            serviceProviderMock.Setup(x => x.GetService(typeof(IUrlHelperFactory))).Returns(Mock.Of<IUrlHelperFactory>());
+            serviceProviderMock.Setup(x => x.GetService(typeof(IUrlHelperFactory)))
+                .Returns(Mock.Of<IUrlHelperFactory>());
             serviceProviderMock
                 .Setup(x => x.GetService(typeof(ITempDataDictionaryFactory)))
-                .Returns(Mock.Of<ITempDataDictionaryFactory>(f => f.GetTempData(controller.ControllerContext.HttpContext) == new TempDataDictionary(controller.ControllerContext.HttpContext, Mock.Of<ITempDataProvider>())));
+                .Returns(Mock.Of<ITempDataDictionaryFactory>(f =>
+                    f.GetTempData(controller.ControllerContext.HttpContext) ==
+                    new TempDataDictionary(controller.ControllerContext.HttpContext, Mock.Of<ITempDataProvider>())));
+        }
+
+        [Fact]
+        public virtual void Actions_Have_Authorize_Attributes()
+        {
+            var methodPolicies = new List<AuthorizationTestHelper.RolesAndPoliciesAuthorization>
+            {
+            };
+
+            AssertHasAuthorizeAttributes(typeof(UboraController), methodPolicies);
         }
 
         protected virtual ClaimsPrincipal CreateUser(Guid userId)
@@ -78,28 +94,9 @@ namespace Ubora.Web.Tests._Features
             }
         }
 
-        protected void AssertHasAttribute(Type controller, string methodName, Type attributeType, string attributePolicy = null)
+        protected void AssertHasAuthorizeAttributes(Type controller, List<AuthorizationTestHelper.RolesAndPoliciesAuthorization> rolesAndPoliciesAuthorizations)
         {
-            var methodInfos = GetMethodInfos(controller, methodName);
-            foreach (var customAttributes in methodInfos.Select(i => i.GetCustomAttributes(typeof(AuthorizeAttribute), true)))
-            {
-                if (attributePolicy != null)
-                {
-                    Assert.True(customAttributes.Any(a => ((AuthorizeAttribute)a).Policy == attributePolicy));
-                }
-
-                Assert.True(customAttributes.Any(a => a.GetType() == attributeType));
-            }
-        }
-
-        private static IEnumerable<MethodInfo> GetMethodInfos(Type controller, string methodName)
-        {
-            if (controller.GetMethods().All(m => m.Name != methodName))
-            {
-                Assert.False(true, $"HasAttribute controller.method:  '{controller.Name}.{methodName}' does not exist  - copy/paste ? :)");
-            }
-
-            return controller.GetMethods().Where(m => m.Name == methodName);
+            AuthorizationTestHelper.AssertHasAuthorizeAttributes(controller, rolesAndPoliciesAuthorizations);
         }
     }
 }

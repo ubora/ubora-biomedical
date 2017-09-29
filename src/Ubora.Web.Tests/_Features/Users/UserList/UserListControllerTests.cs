@@ -9,7 +9,6 @@ using Ubora.Web._Features.Users.UserList;
 using Xunit;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Domain.Infrastructure;
-using Ubora.Web.Tests.Helper;
 using Ubora.Domain.Users.Specifications;
 
 namespace Ubora.Web.Tests._Features.Users.UserList

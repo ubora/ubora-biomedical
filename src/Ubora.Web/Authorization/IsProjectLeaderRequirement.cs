@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Services;
 
 namespace Ubora.Web.Authorization

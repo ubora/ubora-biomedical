@@ -19,11 +19,7 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
 
             public override ICommandResult Handle(EditWorkpackageTwoStepCommand cmd)
             {
-                var workpackage = DocumentSession.Load<WorkpackageTwo>(cmd.ProjectId);
-                if (workpackage == null)
-                {
-                    throw new InvalidOperationException($"{nameof(WorkpackageTwo)} not found with id [{cmd.ProjectId}]");
-                }
+                var workpackage = DocumentSession.LoadOrThrow<WorkpackageTwo>(cmd.ProjectId);
 
                 var step = workpackage.Steps.SingleOrDefault(x => x.Id == cmd.StepId);
                 if (step == null)
@@ -36,13 +32,14 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                     initiatedBy: cmd.Actor,
                     stepId: cmd.StepId,
                     title: step.Title,
-                    newValue: cmd.NewValue
+                    newValue: cmd.NewValue,
+                    projectId: cmd.ProjectId
                 );
 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }
