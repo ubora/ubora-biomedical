@@ -3,11 +3,10 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Projects._Events
 {
-    public class ProjectUpdatedEvent : UboraEvent
+    public class ProjectUpdatedEvent : ProjectEvent
     {
-        public ProjectUpdatedEvent(UserInfo initiatedBy, Guid id, string title, string clinicalNeedTags, string areaOfUsageTags, string potentialTechnologyTags, string gmdn) : base(initiatedBy)
+        public ProjectUpdatedEvent(UserInfo initiatedBy, Guid projectId, string title, string clinicalNeedTags, string areaOfUsageTags, string potentialTechnologyTags, string gmdn) : base(initiatedBy, projectId)
         {
-            Id = id;
             Title = title;
             ClinicalNeedTags = clinicalNeedTags;
             AreaOfUsageTags = areaOfUsageTags;
@@ -15,16 +14,15 @@ namespace Ubora.Domain.Projects._Events
             Gmdn = gmdn;
         }
 
-        public Guid Id { get; set; }
-        public string Title { get; set; }
-        public string ClinicalNeedTags { get; set; }
-        public string AreaOfUsageTags { get; set; }
-        public string PotentialTechnologyTags { get; set; }
-        public string Gmdn { get; set; }
+        public string Title { get; private set; }
+        public string ClinicalNeedTags { get; private set; }
+        public string AreaOfUsageTags { get; private set; }
+        public string PotentialTechnologyTags { get; private set; }
+        public string Gmdn { get; private set; }
 
         public override string GetDescription()
         {
-            return $"updated project \"{StringTokens.Project(Id)}\" details.";
+            return $"updated project \"{StringTokens.Project(ProjectId)}\" details.";
         }
     }
 }

@@ -28,12 +28,11 @@ namespace Ubora.Domain.Projects.Members.Commands
                     return CommandResult.Failed($"[{cmd.UserId}] is already member of project [{cmd.ProjectId}].");
                 }
 
-                var @event = new MemberAddedToProjectEvent(cmd.Actor)
-                {
-                    ProjectId = cmd.ProjectId,
-                    UserId = cmd.UserId,
-                    UserFullName = userProfile.FullName
-                };
+                var @event = new MemberAddedToProjectEvent(
+                    initiatedBy: cmd.Actor,
+                    projectId: cmd.ProjectId,
+                    userId: cmd.UserId
+                );
 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();
