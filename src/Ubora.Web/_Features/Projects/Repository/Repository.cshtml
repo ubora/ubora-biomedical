@@ -31,22 +31,22 @@
                         {
                             <tr class="table-row-content-center">
                                 <td>
-                                    <a href="@Url.Action("DownloadFile", new {fileId = file.Id})" title="Download file" aria-label="Download file">
+                                    <a href="@Url.Action("DownloadFile", new {fileId=file.Id})" title="Download file" aria-label="Download file">
                                         <i class="file-list--item-control material-icons">file_download</i>
                                     </a>
 
-                                    <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file">
+                                    <a href="@Url.Action("UpdateFile", new {fileId=file.Id})" title="Update file" aria-label="Update file">
                                         <i class="file-list--item-control material-icons">file_upload</i>
                                     </a>
 
                                     @if (Model.IsProjectLeader)
                                     {
-                                        <a href="@Url.Action("HideFile", new {fileId = file.Id})" title="Delete file forever" aria-label="Delete file forever">
+                                        <a href="@Url.Action("HideFile", new {fileId=file.Id})" title="Delete file forever" aria-label="Delete file forever">
                                             <i class="file-list--item-control material-icons">delete_forever</i>
                                         </a>
                                     }
 
-                                    <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history">
+                                    <a href="@Url.Action("FileHistory", new {fileId=file.Id})" title="File history" aria-label="File history">
                                         <i class="file-list--item-control material-icons">history</i>
                                     </a>
                                 </td>
@@ -71,9 +71,9 @@
     <script>
     Dropzone.autoDiscover = false;
     $(document).ready(function () {
-        var myDropzone = new Dropzone("#my-dropzone", {
+        var myDropzone = new Dropzone("div#my-dropzone", {
+            url: '@Url.Action("AddFile","Repository")',
             autoProcessQueue: false,
-            parallelUploads: 10,
             paramName: parameterName,
             uploadMultiple: true
         });
@@ -82,15 +82,17 @@
             if ($("#FolderName").val().length != 0) {
                 formData.append('FolderName', $("#FolderName").val());
             }
-
             formData.append('Comment', $("#Comment").val());
         });
 
-        $('#btnSubmit').on('click', function (e) {
+        $('#btnSubmit').on('click', function () {
             if (myDropzone.files.length > 0) {
-                e.preventDefault();
-                myDropzone.processQueue();
+                 myDropzone.processQueue();
             }
+        });
+
+        myDropzone.on('success', function () {
+            window.location.reload();
         });
 
         //Ignore to appending [n] to name

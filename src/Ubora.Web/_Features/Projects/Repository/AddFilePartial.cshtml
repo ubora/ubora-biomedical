@@ -3,29 +3,36 @@
 <section class="narrow-width">
     <h2>Upload new file</h2>
 
-    <form class="dropzone" id="my-dropzone" enctype="multipart/form-data" asp-controller="Repository" asp-action="AddFile">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    </form>    
-    
-    <div class="form-input">
-        <label asp-for="FolderName">Select a folder</label>
-        <select asp-for="FolderName">
-            <option selected disabled>Select a folder</option>
-            <option value="Hardware">Hardware</option>
-            <option value="Electronics and firmware">Electronics and firmware</option>k
-            <option value="Software">Software</option>
-            <option value="System integrations">System integrations</option>
-        </select>
-        <span asp-validation-for="FolderName"></span>
-    </div>
+    <form method="post" enctype="multipart/form-data">
 
-    <div class="form-input">
-        <label asp-for="Comment">Comment</label>
-        <input asp-for="Comment" type="text" placeholder="Enter a comment...">
-    </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
 
-    <div class="form-input">
-        <button id="btnSubmit" class="button primary-button small-button">Upload new file</button>
-    </div>
+        <div class="dropzone" id="my-dropzone">
+
+        </div>
+        <span asp-validation-for="ProjectFiles"></span>
+
+        <div class="form-input">
+            <label asp-for="FolderName">Select a folder</label>
+            <select asp-for="FolderName">
+                <option selected disabled>Select a folder</option>
+                <option value="Hardware">Hardware</option>
+                <option value="Electronics and firmware">Electronics and firmware</option>k
+                <option value="Software">Software</option>
+                <option value="System integrations">System integrations</option>
+            </select>
+            <span asp-validation-for="FolderName"></span>
+        </div>
+
+        <div class="form-input">
+            <label asp-for="Comment">Comment</label>
+            <input asp-for="Comment" type="text" placeholder="Enter a comment...">
+        </div>
+
+        <div class="form-input">
+            <button id="btnSubmit" type="button" class="button primary-button small-button">Upload new file</button>
+        </div>
+    </form>
+
 </section>
 
