@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -8,10 +7,8 @@ using Ubora.Domain.Users;
 using Ubora.Domain.Users.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure.Extensions;
-using Ubora.Web._Features._Shared.Notices;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
-using Ubora.Web._Features.Home;
 
 namespace Ubora.Web._Features.Users.Profile
 {
@@ -33,7 +30,7 @@ namespace Ubora.Web._Features.Users.Profile
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult View(Guid userId)
+        public IActionResult ViewProfile(Guid userId)
         {
             var userProfile = QueryProcessor.FindById<UserProfile>(userId);
 
@@ -64,6 +61,7 @@ namespace Ubora.Web._Features.Users.Profile
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> EditProfile(UserProfileViewModel model)
         {
             if (!ModelState.IsValid)
@@ -104,6 +102,7 @@ namespace Ubora.Web._Features.Users.Profile
         }
 
         // TODO(Kaspar Kallas): Move to more specific controller (1/2)
+        [Authorize]
         public IActionResult FirstTimeEditProfile(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -120,6 +119,7 @@ namespace Ubora.Web._Features.Users.Profile
 
         // TODO(Kaspar Kallas): Move to more specific controller (2/2)
         [HttpPost]
+        [Authorize]
         public IActionResult FirstTimeEditProfile(FirstTimeUserProfileViewModel model, string returnUrl = null)
         {
             if (!ModelState.IsValid)
