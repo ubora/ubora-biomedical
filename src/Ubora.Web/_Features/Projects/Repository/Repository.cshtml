@@ -63,47 +63,40 @@
     </div>
 </div>
 
-<button id="submit-all">Submit all files</button>
-
-
-
-<form action="@Url.Action("AddFile", "Repository")" class="dropzone" id="my-dropzone" enctype="multipart/form-data">
-    <select name="FolderName">
-        <option selected disabled>Select a folder</option>
-        <option value="Hardware">Hardware</option>
-        <option value="Electronics and firmware">Electronics and firmware</option>
-        <option value="Software">Software</option>
-        <option value="System integrations">System integrations</option>
-    </select>
-
-    <input type="text" name="Comment" placeholder="Enter a comment...">
-
-</form>
-
-
 @section Scripts {
     <link rel="stylesheet"
           href="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.js">
     </script>
     <script>
-        Dropzone.options.myDropzone = {
-            paramName: parameterName,
-            uploadMultiple: true,
+    Dropzone.autoDiscover = false;
+    $(document).ready(function () {
+        var myDropzone = new Dropzone("#my-dropzone", {
             autoProcessQueue: false,
-            init: function () {
-                var submitButton = document.querySelector("#submit-all")
-                myDropzone = this;
+            parallelUploads: 10,
+            paramName: parameterName,
+            uploadMultiple: true
+        });
 
-                submitButton.addEventListener("click", function () {
-                    myDropzone.processQueue();
-                });
+        myDropzone.on('sending', function (file, xhr, formData) {
+            if ($("#FolderName").val().length != 0) {
+                formData.append('FolderName', $("#FolderName").val());
             }
-        };
+
+            formData.append('Comment', $("#Comment").val());
+        });
+
+        $('#btnSubmit').on('click', function (e) {
+            if (myDropzone.files.length > 0) {
+                e.preventDefault();
+                myDropzone.processQueue();
+            }
+        });
 
         //Ignore to appending [n] to name
-        function parameterName() {
+        function parameterName(){
             return "ProjectFiles";
         }
+    });
     </script>
 }

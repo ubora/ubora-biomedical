@@ -54,8 +54,6 @@ namespace Ubora.Web._Features.Projects.Repository
         [Authorize]
         public async Task<IActionResult> AddFile(AddFileViewModel model)
         {
-            string page = HttpContext.Request.Query["page"];
-
             if (!ModelState.IsValid)
             {
                 return Repository();
