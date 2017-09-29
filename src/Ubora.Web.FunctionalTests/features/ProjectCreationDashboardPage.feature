@@ -96,38 +96,47 @@ Scenario: On project Dashboard page I click different WP1 Work packages and try 
     Then I expect the element "h1=Description of Needs" is visible
     When I click on the element "i=mode_edit"
     Then I expect the title of the page "Description of Needs - UBORA"
+        And I expect the element ".editor-toolbar" is visible
     When I click on the element "a=Description of Existing Solutions and Analysis"
     Then I expect the element "h1=Description of Existing Solutions and Analysis" is visible
     When I click on the element "i=mode_edit"
     Then I expect the title of the page "Description of Existing Solutions and Analysis - UBORA"
+        And I expect the element ".editor-toolbar" is visible
     When I click on the element "a=Product Functionality"
     Then I expect the element "h1=Product Functionality" is visible
     When I click on the element "i=mode_edit"
     Then I expect the title of the page "Product Functionality - UBORA"
+        And I expect the element ".editor-toolbar" is visible
     When I click on the element "a=Product Performance"
     Then I expect the element "h1=Product Performance" is visible
     When I click on the element "i=mode_edit"
     Then I expect the title of the page "Product Performance - UBORA"
+        And I expect the element ".editor-toolbar" is visible
     When I click on the element "a=Product Usability"
     Then I expect the element "h1=Product Usability" is visible
     When I click on the element "i=mode_edit"
     Then I expect the title of the page "Product Usability - UBORA"
+        And I expect the element ".editor-toolbar" is visible
     When I click on the element "a=Product Safety"
     Then I expect the element "h1=Product Safety" is visible
     When I click on the element "i=mode_edit"
     Then I expect the title of the page "Product Safety - UBORA"
+        And I expect the element ".editor-toolbar" is visible
     When I click on the element "a=Patient Population Study"
     Then I expect the element "h1=Patient Population Study" is visible
     When I click on the element "i=mode_edit"
     Then I expect the title of the page "Patient Population Study - UBORA"
+        And I expect the element ".editor-toolbar" is visible
     When I click on the element "a=User Requirement Study"
     Then I expect the element "h1=User Requirement Study" is visible
     When I click on the element "i=mode_edit"
     Then I expect the title of the page "User Requirement Study - UBORA"
+        And I expect the element ".editor-toolbar" is visible
     When I click on the element "a=Additional Information"
     Then I expect the element "h1=Additional Information" is visible
     When I click on the element "i=mode_edit"
     Then I expect the title of the page "Additional Information - UBORA"
+        And I expect the element ".editor-toolbar" is visible
     When I click on the element "a=Formal review"
     Then I expect the element "h1=Formal review" is visible
 
@@ -219,22 +228,27 @@ Scenario: I click on WP2 work packages and try to edit them
     Then I expect the element "h1=Description of Functions" is visible
     When I click on the element "i=mode_edit"
     Then I expect the title of the page "Description of Functions - UBORA"
+        And I expect the element ".editor-toolbar" is visible
     When I click on the element "a=Description of Minimal Requirements for Safety and ISO Compliance"
     Then I expect the element "h1=Description of Minimal Requirements for Safety and ISO Compliance" is visible
     When I click on the element "i=mode_edit"
     Then I expect the title of the page "Description of Minimal Requirements for Safety and ISO Compliance - UBORA"
+        And I expect the element ".editor-toolbar" is visible
     When I click on the element "a=Sketches of Alternate Ideas and Designs"
     Then I expect the element "h1=Sketches of Alternate Ideas and Designs" is visible
     When I click on the element "i=mode_edit"
     Then I expect the title of the page "Sketches of Alternate Ideas and Designs - UBORA"
+        And I expect the element ".editor-toolbar" is visible
     When I click on the element "a=Selection of Best Idea: Reaching the Concept"
     Then I expect the element "h1=Selection of Best Idea: Reaching the Concept" is visible
     When I click on the element "i=mode_edit"
     Then I expect the title of the page "Selection of Best Idea: Reaching the Concept - UBORA"
+        And I expect the element ".editor-toolbar" is visible
     When I click on the element "a=Latest Concept Description"
     Then I expect the element "h1=Latest Concept Description" is visible
     When I click on the element "i=mode_edit"
     Then I expect the title of the page "Latest Concept Description - UBORA"
+        And I expect the element ".editor-toolbar" is visible
 
 Scenario: I Submit project for WP2 review
     When I click on the element "h4=TestProject"
@@ -355,7 +369,8 @@ Scenario: I click Edit image
 
 Scenario: On Project Dashboard page I click Edit Project Description
     When I click on the element "h4=TestProject"
-        And I click on the element "#EditProjectDescription"
+    Then I expect the element ".editor-toolbar" is visible
+    When I click on the element "#EditProjectDescription"
         And I click on the element ".project-view.full-width"
         And I click on the key "Tab"
         And I click on keys "Welcome to my Project"
