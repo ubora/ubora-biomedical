@@ -1,15 +1,7 @@
 @model Ubora.Web._Features.Projects.Repository.AddFileViewModel
 
-<section class="narrow-width">
-    <h2>Upload new file</h2>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <form method="post" enctype="multipart/form-data">
-
-        <div asp-validation-summary="All" class="text-danger"></div>
-
-        <div class="dropzone" id="my-dropzone">
-
-        </div>
         <span asp-validation-for="ProjectFiles"></span>
 
         <div class="form-input">
@@ -28,11 +20,3 @@
             <label asp-for="Comment">Comment</label>
             <input asp-for="Comment" type="text" placeholder="Enter a comment...">
         </div>
-
-        <div class="form-input">
-            <button id="btnSubmit" type="button" class="button primary-button small-button">Upload new file</button>
-        </div>
-    </form>
-
-</section>
-

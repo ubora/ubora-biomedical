@@ -54,9 +54,11 @@ namespace Ubora.Web._Features.Projects.Repository
         [Authorize]
         public async Task<IActionResult> AddFile(AddFileViewModel model)
         {
+            string page = HttpContext.Request.Query["page"];
+
             if (!ModelState.IsValid)
             {
-                return Repository();
+                return PartialView("AddFilePartial", model);
             }
 
             foreach (var file in model.ProjectFiles)
@@ -77,11 +79,11 @@ namespace Ubora.Web._Features.Projects.Repository
 
                 if (!ModelState.IsValid)
                 {
-                    return Repository();
+                    return PartialView("AddFilePartial", model);
                 }
             }
 
-            return RedirectToAction(nameof(Repository));
+            return Ok();
         }
 
 

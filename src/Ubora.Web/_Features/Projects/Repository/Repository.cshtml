@@ -8,7 +8,17 @@
 
 <div class="layout-columns">
     <div class="layout-sidemenu">
-        @Html.Partial("AddFilePartial", Model.AddFileViewModel)
+        <section class="narrow-width">
+            <h2>Upload new file</h2>
+            <div class="dropzone" id="my-dropzone">
+            </div>
+            <div id="myform">
+                @Html.Partial("AddFilePartial", Model.AddFileViewModel)
+            </div>
+            <div class="form-input">
+                <button id="btnSubmit" type="button" class="button primary-button small-button">Upload new file</button>
+            </div>
+        </section>
     </div>
 
     <div class="layout-content">
@@ -79,26 +89,31 @@
         });
 
         myDropzone.on('sending', function (file, xhr, formData) {
-            if ($("#FolderName").val().length != 0) {
+            if ($("#FolderName").val() != null) {
                 formData.append('FolderName', $("#FolderName").val());
+            } else {
+                console.log("log");
             }
             formData.append('Comment', $("#Comment").val());
         });
 
         $('#btnSubmit').on('click', function () {
-            if (myDropzone.files.length > 0) {
-                 myDropzone.processQueue();
-            }
+            myDropzone.processQueue();
         });
 
-        myDropzone.on('success', function () {
-            window.location.reload();
+        myDropzone.on('success', function (file, response) {
+            if (response.length > 0) {
+                this.removeFile(file);
+                $('#myform').html(response);
+            } else {
+                window.location.reload();
+            }
         });
 
         //Ignore to appending [n] to name
         function parameterName(){
             return "ProjectFiles";
         }
-    });
+        });
     </script>
 }
