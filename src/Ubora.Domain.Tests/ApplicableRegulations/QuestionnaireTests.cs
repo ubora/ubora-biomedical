@@ -56,7 +56,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
         }
 
         [Fact]
-        public void GetNextUnanswered_Returns_Next_Unanswered_Question()
+        public void FindNextUnansweredQuestion_Returns_Next_Unanswered_Question_And_All_Questions_Can_Be_Answered_Through_That_When_Interated()
         {
             var question4 = new Question("4", null);
             var question3 = new Question("3", question4);
@@ -73,7 +73,9 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
             // Act
             for (int i = 0; i < allQuestions.Count; i++)
             {
-                questionnaire.FindNextUnansweredQuestion().AnswerQuestion(true);
+                questionnaire
+                    .FindNextUnansweredQuestion()
+                    .AnswerQuestion(true);
             }
 
             // Assert

@@ -62,7 +62,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
         }
 
         [Fact]
-        public void Yes_Does_Not_Execute_Command_When_Model_Is_Invalid()
+        public void AnswerYes_Does_Not_Execute_Command_When_Model_Is_Invalid()
         {
             _controller.ModelState.AddModelError("", "dummyError");
 
@@ -76,7 +76,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
                 .Returns(expectedResult);
 
             // Act
-            var result = _controller.Yes(model);
+            var result = _controller.AnswerYes(model);
 
             // Assert
             result.Should().BeSameAs(expectedResult);
@@ -84,7 +84,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
         }
 
         [Fact]
-        public void Yes_Executes_Command_With_Success()
+        public void AnswerYes_Executes_Command_With_Success()
         {
             AnswerApplicableRegulationsQuestionCommand executedCommand = null;
 
@@ -99,7 +99,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
             };
 
             // Act
-            var result = (RedirectToActionResult)_controller.Yes(model);
+            var result = (RedirectToActionResult)_controller.AnswerYes(model);
 
             // Assert
             executedCommand.Answer.Should().BeTrue();
@@ -112,7 +112,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
         }
 
         [Fact]
-        public void Yes_Executes_Command_With_Failure()
+        public void AnswerYes_Executes_Command_With_Failure()
         {
             CommandProcessorMock.Setup(x => x.Execute(It.IsAny<AnswerApplicableRegulationsQuestionCommand>()))
                 .Returns(CommandResult.Failed(""));
@@ -127,7 +127,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
                 .Returns(expectedResult);
 
             // Act
-            var result = _controller.Yes(model);
+            var result = _controller.AnswerYes(model);
 
             // Assert
             result.Should().BeSameAs(expectedResult);
@@ -135,7 +135,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
         }
 
         [Fact]
-        public void No_Does_Not_Execute_Command_When_Model_Is_Invalid()
+        public void AnswerNo_Does_Not_Execute_Command_When_Model_Is_Invalid()
         {
             _controller.ModelState.AddModelError("", "dummyError");
 
@@ -149,7 +149,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
                 .Returns(expectedResult);
 
             // Act
-            var result = _controller.No(model);
+            var result = _controller.AnswerNo(model);
 
             // Assert
             result.Should().BeSameAs(expectedResult);
@@ -157,7 +157,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
         }
 
         [Fact]
-        public void No_Executes_Command_With_Success()
+        public void AnswerNo_Executes_Command_With_Success()
         {
             AnswerApplicableRegulationsQuestionCommand executedCommand = null;
 
@@ -172,7 +172,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
             };
 
             // Act
-            var result = (RedirectToActionResult)_controller.No(model);
+            var result = (RedirectToActionResult)_controller.AnswerNo(model);
 
             // Assert
             executedCommand.Answer.Should().BeFalse();
@@ -185,7 +185,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
         }
 
         [Fact]
-        public void No_Executes_Command_With_Failure()
+        public void AnswerNo_Executes_Command_With_Failure()
         {
             CommandProcessorMock.Setup(x => x.Execute(It.IsAny<AnswerApplicableRegulationsQuestionCommand>()))
                 .Returns(CommandResult.Failed(""));
@@ -200,7 +200,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
                 .Returns(expectedResult);
 
             // Act
-            var result = _controller.No(model);
+            var result = _controller.AnswerNo(model);
 
             // Assert
             result.Should().BeSameAs(expectedResult);

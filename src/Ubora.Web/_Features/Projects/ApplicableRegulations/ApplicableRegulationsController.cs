@@ -77,7 +77,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
         }
 
         [HttpPost]
-        public IActionResult Yes(NextQuestionViewModel model)
+        public IActionResult AnswerYes(NextQuestionViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -100,7 +100,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
         }
 
         [HttpPost]
-        public IActionResult No(NextQuestionViewModel model)
+        public IActionResult AnswerNo(NextQuestionViewModel model)
         {
             if (!ModelState.IsValid)
             {
