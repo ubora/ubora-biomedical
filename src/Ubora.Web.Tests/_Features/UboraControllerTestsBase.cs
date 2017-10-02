@@ -22,16 +22,14 @@ namespace Ubora.Web.Tests._Features
     {
         protected ClaimsPrincipal User { get; }
         protected Guid UserId { get; }
-
         public Mock<IQueryProcessor> QueryProcessorMock { get; private set; } = new Mock<IQueryProcessor>();
-
-        public Mock<ICommandProcessor> CommandProcessorMock { get; private set; } =
-            new Mock<ICommandProcessor>(MockBehavior.Strict);
-
         public Mock<IMapper> AutoMapperMock { get; private set; } = new Mock<IMapper>();
 
         public Mock<IAuthorizationService> AuthorizationServiceMock { get; private set; } =
             new Mock<IAuthorizationService>();
+
+        public Mock<ICommandProcessor> CommandProcessorMock { get; private set; } = new Mock<ICommandProcessor>(MockBehavior.Strict);
+        protected void AssertZeroCommandsExecuted() => CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
 
         protected UboraControllerTestsBase()
         {

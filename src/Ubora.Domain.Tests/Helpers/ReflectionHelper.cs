@@ -36,7 +36,8 @@ namespace System
 
         public static T GetPropertyValue<T>(this object instance, string propertyName)
         {
-            var propertyValue = instance.GetType().GetProperty(propertyName, AllInstanceBindingFlags)
+            var propertyValue = instance.GetType()
+                .GetProperty(propertyName, AllInstanceBindingFlags)
                 .GetValue(instance);
 
             return (T)propertyValue;

@@ -17,6 +17,16 @@ module.exports = function () {
         .click('button=Sign in')
     });
 
+    this.Given(/^I am signed in as user and on first page$/, () => {
+        browser
+        .deleteCookie(".AspNetCore.Identity.Application")
+        .url('/')
+        .click('#SignInSignUp')
+        .setValue('#Email', 'test@agileworks.eu')
+        .setValue('#Password', 'ChangeMe123!')
+        .click('button=Sign in')
+    });
+
     this.Given(/^I expected the element "([^"]*)?" is visible$/, (element) => {
         expect(browser.isVisible(element))
     });
