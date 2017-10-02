@@ -124,10 +124,10 @@
     <value>2. Is your device “active” and its source of energy is electrical?</value>
   </data>
   <data name="Q2_1" xml:space="preserve">
-    <value>2.1. Is your device a SW or does it contain SW (applies also to firmware)?</value>
+    <value>2.1. Is your device a software or does it contain software (applies also to firmware)?</value>
   </data>
   <data name="Q2_1_1" xml:space="preserve">
-    <value>2.1.1. Is the device containing SW intended to be part of a IT-network?</value>
+    <value>2.1.1. Is the device containing software intended to be part of a IT-network?</value>
   </data>
   <data name="Q3" xml:space="preserve">
     <value>3. Is your device “implantable” and “active”?</value>

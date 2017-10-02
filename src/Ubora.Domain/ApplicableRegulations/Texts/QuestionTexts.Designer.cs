@@ -79,7 +79,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2.1. Is your device a SW or does it contain SW (applies also to firmware)?.
+        ///   Looks up a localized string similar to 2.1. Is your device a software or does it contain software (applies also to firmware)?.
         /// </summary>
         public static string Q2_1 {
             get {
@@ -88,7 +88,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2.1.1. Is the device containing SW intended to be part of a IT-network?.
+        ///   Looks up a localized string similar to 2.1.1. Is the device containing software intended to be part of a IT-network?.
         /// </summary>
         public static string Q2_1_1 {
             get {
