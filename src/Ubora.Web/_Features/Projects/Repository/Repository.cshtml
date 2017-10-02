@@ -91,14 +91,17 @@
         myDropzone.on('sending', function (file, xhr, formData) {
             if ($("#FolderName").val() != null) {
                 formData.append('FolderName', $("#FolderName").val());
-            } else {
-                console.log("log");
             }
             formData.append('Comment', $("#Comment").val());
         });
 
-        $('#btnSubmit').on('click', function () {
-            myDropzone.processQueue();
+        $('#btnSubmit').on('click', function (file) {
+            if ($("#FolderName").val() == null) {
+                $('span[data-valmsg-for="FolderName"]').html('<span class="field-validation-error" data-valmsg-for="FolderName" data-valmsg-replace="true">The FolderName field is required.</span>');
+            } else {
+                $('span[data-valmsg-for="FolderName"]').html('<span class="field-validation-error" data-valmsg-for="FolderName" data-valmsg-replace="true"></span>');
+                myDropzone.processQueue();
+            }
         });
 
         myDropzone.on('success', function (file, response) {
