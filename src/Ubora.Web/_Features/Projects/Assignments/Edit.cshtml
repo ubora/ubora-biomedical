@@ -20,6 +20,16 @@
         </div>
 
         <div class="form-input">
+            <label>Assignee</label>
+            <select asp-for="AssigneeIds" class="js-example multiple-select-box select2" multiple="multiple">
+                @foreach (var member in Model.ProjectMembers)
+                {
+                    <option value="@member.AssigneeId">@member.FullName</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-input">
             <label asp-for="Description">Description</label>
             <textarea asp-for="Description" placeholder="Assignment description" rows="8"></textarea>
             <span asp-validation-for="Description"></span>
@@ -30,3 +40,11 @@
         </div>
     </form>
 </section>
+
+@section Scripts {
+    <script type="text/javascript">
+    $(document).ready(function() {
+      $('.js-example').select2();
+    });
+    </script>
+}

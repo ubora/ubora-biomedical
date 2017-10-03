@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Ubora.Domain.Projects.Tasks.Events;
 
 namespace Ubora.Domain.Projects.Tasks
@@ -30,12 +31,29 @@ namespace Ubora.Domain.Projects.Tasks
             ProjectId = e.ProjectId;
             Title = e.Title;
             Description = e.Description;
+
+            if(e.AssigneeIds == null)
+            {
+                return;
+            }
+
+            var assignees = e.AssigneeIds.Select(x => new TaskAssignee(x));
+            _assignees.UnionWith(assignees);
         }
 
         private void Apply(TaskEditedEvent e)
         {
             Title = e.Title;
             Description = e.Description;
+
+            _assignees.Clear();
+            if(e.AssigneeIds == null)
+            {
+                return;
+            }
+
+            var assignees = e.AssigneeIds.Select(x => new TaskAssignee(x));
+            _assignees.UnionWith(assignees);
         }
     }
 }

@@ -12,13 +12,7 @@ namespace Ubora.Web._Features.Projects.Assignments
         [Required]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
-        public IEnumerable<TaskAssigneeViewModel> AssignmentMembers { get; set; }
+        public Guid[] AssigneeIds { get; set; }
         public IEnumerable<TaskAssigneeViewModel> ProjectMembers { get; set; }
-    }
-
-    public class TaskAssigneeViewModel
-    {
-        public Guid AssigneeId { get; set; }
-        public string FullName { get; set; }
     }
 }

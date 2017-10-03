@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ubora.Web._Features.Projects.Assignments
@@ -12,5 +13,7 @@ namespace Ubora.Web._Features.Projects.Assignments
         [Required]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+        public Guid[] AssigneeIds { get; set; }
+        public IEnumerable<TaskAssigneeViewModel> ProjectMembers { get; set; }
     }
 }

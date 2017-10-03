@@ -9,7 +9,7 @@
 <section class="medium-width">
     <h1 class="full-width">Assignment draft</h1>
 
-    <form asp-controller="Assignments" asp-action="Add" method="post">
+    <form asp-controller="Assignments" enctype="multipart/form-data" asp-action="Add" method="post">
         <input asp-for="ProjectId" type="hidden">
 
         <div class="form-input">
@@ -19,15 +19,15 @@
         </div>
 
         <div class="form-input">
-          <label>Assignee</label>
-          <select asp-for="AssignmentMembers" class="js-example multiple-select-box select2" name="states[]" multiple="multiple">
-              @foreach (var member in Model.ProjectMembers)
-              {
-                <option selected value="@member.AssigneeId">@member.FullName</option>
-              }
-          </select>
+            <label>Assignee</label>
+            <select asp-for="AssigneeIds" class="js-example multiple-select-box select2" multiple="multiple">
+                @foreach (var member in Model.ProjectMembers)
+                {
+                    <option value="@member.AssigneeId">@member.FullName</option>
+                }
+            </select>
         </div>
-
+        
         <div class="form-input">
             <label asp-for="Description">Description</label>
             <textarea asp-for="Description" placeholder="Assignment description" rows="8"></textarea>

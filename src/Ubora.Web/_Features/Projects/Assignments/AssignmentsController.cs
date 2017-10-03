@@ -56,7 +56,8 @@ namespace Ubora.Web._Features.Projects.Assignments
             {
                 Id = Guid.NewGuid(),
                 Title = model.Title,
-                Description = model.Description
+                Description = model.Description,
+                AssigneeIds = model.AssigneeIds
             });
 
             if (!ModelState.IsValid)
@@ -71,8 +72,18 @@ namespace Ubora.Web._Features.Projects.Assignments
         public IActionResult Edit(Guid id)
         {
             var task = QueryProcessor.FindById<ProjectTask>(id);
+            var assignees = task.Assignees;
+
+            var projectMembers = Project.Members;
+            var projectMembersViewModel = projectMembers.Select(x => new TaskAssigneeViewModel
+            {
+                AssigneeId = x.UserId,
+                FullName = QueryProcessor.FindById<UserProfile>(x.UserId).FullName
+            });
 
             var model = AutoMapper.Map<EditAssignmentViewModel>(task);
+            model.ProjectMembers = projectMembersViewModel;
+            model.AssigneeIds = assignees.Select(x => x.UserId).ToArray();
 
             return View(model);
         }
@@ -90,7 +101,8 @@ namespace Ubora.Web._Features.Projects.Assignments
             {
                 Id = model.Id,
                 Title = model.Title,
-                Description = model.Description
+                Description = model.Description,
+                AssigneeIds = model.AssigneeIds
             });
 
             if (!ModelState.IsValid)
