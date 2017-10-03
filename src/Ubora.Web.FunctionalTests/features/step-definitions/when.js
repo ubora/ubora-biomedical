@@ -81,10 +81,9 @@ module.exports = function () {
 
     this.When(/^I answer ([^\s]+) to question "([^"]*)?"$/, (answer, question) => {
         expect(browser.isVisible("h1=" + question))
-
-        if (answer === "yes") {
+        if (answer.toLowerCase() === "yes") {
             browser.click("button=Yes")  
-        } else if (answer === "no") {
+        } else if (answer.toLowerCase() === "no") {
             browser.click("button=No")  
         } else {
             throw "Answer could not be parsed: " + answer
