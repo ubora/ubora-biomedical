@@ -40,7 +40,8 @@ namespace Ubora.Domain.Tests.Projects.Repository.Commands
                 comment: _comment,
                 fileSize: _fileSize,
                 folderName: _folderName,
-                location: new BlobLocation("container", "path"));
+                location: new BlobLocation("container", "path"),
+                revisionNumber: 1);
             Session.Events.Append(_projectId, fileAddedEvent);
             Session.SaveChanges();
         }

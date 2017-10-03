@@ -19,7 +19,8 @@ Recipe:
   - *Shared Docker Drives (project's)*
 
 ## Running UBORA on Atom *under Windows*
-Navigate to `src\Ubora.Web` in Explorer and run `Run Web.ps1`. Server should be up and running on `http://localhost:5000`  
+Navigate to `src\Ubora.Web` in Explorer and run `Install dependencies.ps1`. This makes sure that all necessary Node modules have been installed and Webpack has compiled necessary bundles/run tasks.  
+Next, run `Run Web.ps1` Server should be up and running on `http://localhost:5000` 😊  
 
 ## Running Functional tests locally: ##
 * You need **Visual Studio Code** installed

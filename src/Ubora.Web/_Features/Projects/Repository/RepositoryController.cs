@@ -51,7 +51,6 @@ namespace Ubora.Web._Features.Projects.Repository
 
         [Route("AddFile")]
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> AddFile(AddFileViewModel model)
         {
             if (!ModelState.IsValid)
@@ -95,7 +94,6 @@ namespace Ubora.Web._Features.Projects.Repository
         }
 
         [Route("DownloadFile")]
-        [Authorize]
         public IActionResult DownloadFile(Guid fileId)
         {
             var file = QueryProcessor.FindById<ProjectFile>(fileId);
@@ -106,7 +104,6 @@ namespace Ubora.Web._Features.Projects.Repository
         }
 
         [Route("UpdateFile")]
-        [Authorize]
         public IActionResult UpdateFile(Guid fileId)
         {
             var file = QueryProcessor.FindById<ProjectFile>(fileId);
@@ -117,7 +114,6 @@ namespace Ubora.Web._Features.Projects.Repository
 
         [Route("UpdateFile")]
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> UpdateFile(UpdateFileViewModel model)
         {
             if (!ModelState.IsValid)

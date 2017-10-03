@@ -27,7 +27,7 @@
                 }
             </select>
         </div>
-        
+
         <div class="form-input">
             <label asp-for="Description">Description</label>
             <textarea asp-for="Description" placeholder="Assignment description" rows="8"></textarea>
@@ -41,9 +41,16 @@
 </section>
 
 @section Scripts {
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $('.js-example').select2();
-    });
-  </script>
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"
+          asp-fallback-href="~/dist/lib/select2.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"
+            asp-fallback-src="~/dist/lib/select2.min.js"
+            asp-fallback-test="window.select2">
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.js-example').select2();
+        });
+    </script>
 }

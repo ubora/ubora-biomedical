@@ -27,15 +27,13 @@ namespace Ubora.Domain.Projects.Tasks.Commands
 
                 var task = DocumentSession.LoadOrThrow<ProjectTask>(cmd.Id);
                 var previousAssignees = task.Assignees?.Select(x => x.UserId).ToList();
-
-                var @event = new TaskEditedEvent(cmd.Actor)
-                {
-                    Description = cmd.Description,
-                    ProjectId = project.Id,
-                    Id = cmd.Id,
-                    Title = cmd.Title,
-                    AssigneeIds = cmd.AssigneeIds
-                };
+                var @event = new TaskEditedEvent(
+                    initiatedBy: cmd.Actor,
+                    description: cmd.Description,
+                    projectId: cmd.ProjectId,
+                    id: cmd.Id,
+                    title: cmd.Title,
+                    assigneeIds: cmd.AssigneeIds);
 
                 DocumentSession.Events.Append(project.Id, @event);
                 DocumentSession.SaveChanges();

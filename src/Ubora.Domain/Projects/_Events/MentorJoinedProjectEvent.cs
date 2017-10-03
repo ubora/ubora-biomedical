@@ -4,15 +4,13 @@ using Ubora.Domain.Notifications;
 
 namespace Ubora.Domain.Projects._Events
 {
-    public class MentorJoinedProjectEvent : UboraEvent
+    public class MentorJoinedProjectEvent : ProjectEvent
     {
-        public MentorJoinedProjectEvent(Guid projectId, Guid userId, UserInfo initiatedBy) : base(initiatedBy)
+        public MentorJoinedProjectEvent(UserInfo initiatedBy, Guid projectId, Guid userId) : base(initiatedBy, projectId)
         {
-            ProjectId = projectId;
             UserId = userId;
         }
 
-        public Guid ProjectId { get; private set; }
         public Guid UserId { get; private set; }
 
         public override string GetDescription() => $"joined as mentor.";

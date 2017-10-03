@@ -32,7 +32,8 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                     initiatedBy: cmd.Actor,
                     stepId: cmd.StepId,
                     title: step.Title,
-                    newValue: cmd.NewValue
+                    newValue: cmd.NewValue,
+                    projectId: cmd.ProjectId
                 );
 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
