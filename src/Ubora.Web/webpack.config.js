@@ -11,6 +11,10 @@ module.exports = env => {
   const isDevBuild = !(env && env.prod);
   const config = {
     stats: { modules: false },
+    watch: true,
+    watchOptions: {
+        poll: true
+    },
     context: __dirname,
     resolve: { extensions: ['.js', '.css'] },
     output: {

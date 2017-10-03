@@ -67,15 +67,6 @@
   <Folder Include="wwwroot\dist\" />
 </ItemGroup>
 
-<Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' ">
-  <Exec Command="node --version" ContinueOnError="true">
-    <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
-  </Exec>
-  <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and try again." />
-
-  <Message Importance="high" Text="Performing first-run Webpack build..." />
-</Target>
-
 <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
   <Exec Command="npm install" />
   <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
