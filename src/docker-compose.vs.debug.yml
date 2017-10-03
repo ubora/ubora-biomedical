@@ -34,7 +34,7 @@ services:
     container_name: 'webpack'
     image: node:6
     working_dir: /Ubora.Web
-    command: /bin/bash -c "npm install && node ./node_modules/webpack/bin/webpack.js --watch --config webpack.config.js"
+    command: /bin/bash -c "npm install && node ./node_modules/webpack/bin/webpack.js --watch --watch-poll --config webpack.config.js"
     volumes:
       - ./Ubora.Web:/Ubora.Web
     ports:
