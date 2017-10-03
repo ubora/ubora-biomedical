@@ -5,8 +5,6 @@ import Feedback from './modules/feedback';
 import Sidemenu from './modules/sidemenu';
 import Notices from './modules/notices';
 
-const styles = require('../Styles/styles.css').toString();
-
 if (module.hot) {
   module.hot.accept();
 }
