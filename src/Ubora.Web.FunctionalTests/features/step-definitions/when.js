@@ -78,4 +78,16 @@ module.exports = function () {
             .setValue('#Password', 'ChangeMe123!')
             .click('button=Sign in')
         });
+
+    this.When(/^I answer ([^\s]+) to question "([^"]*)?"$/, (answer, question) => {
+        expect(browser.isVisible("h1=" + question))
+
+        if (answer === "yes") {
+            browser.click("button=Yes")  
+        } else if (answer === "no") {
+            browser.click("button=No")  
+        } else {
+            throw "Answer could not be parsed: " + answer
+        }
+    });
 }

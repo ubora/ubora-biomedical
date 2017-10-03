@@ -3,7 +3,7 @@ const expect = require('chai').expect;
 module.exports = function () {
     this.Given(/^I clicked on the element "([^"]*)?"$/, (element) => {
             browser.click(element)
-        });
+    });
 
     this.Given(/^I go to Home page$/, () => {
         browser.url('/')
@@ -15,6 +15,23 @@ module.exports = function () {
         .setValue('#Email', 'test@agileworks.eu')
         .setValue('#Password', 'ChangeMe123!')
         .click('button=Sign in')
+    });
+
+    this.Given(/^I am signed in as brand new user and on first page$/, () => {
+        var id = Math.random().toString(36).substring(7);
+        browser
+        .deleteCookie(".AspNetCore.Identity.Application")
+        .url('/')
+        .click('#SignInSignUp')
+        .click('a=Sign up')
+        .setValue('#FirstName', 'testFirstName')
+        .setValue('#LastName', 'testLastName')
+        .setValue('#Email', id + '@agileworks.eu')
+        .setValue('#Password', "testPassword123!")
+        .setValue('#ConfirmPassword', "testPassword123!")
+        .click('#IsAgreedToTermsOfService')
+        .click('button=Create an account')
+        .url('/')
     });
 
     this.Given(/^I am signed in as user and on first page$/, () => {
