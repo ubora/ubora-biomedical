@@ -27,6 +27,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>IsoStandardTexts.resx</DependentUpon>
     </Compile>
+    <Compile Update="ApplicableRegulations\Texts\NoteTexts.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NoteTexts.resx</DependentUpon>
+    </Compile>
     <Compile Update="ApplicableRegulations\Texts\QuestionTexts.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -42,6 +47,10 @@
     <EmbeddedResource Update="ApplicableRegulations\Texts\IsoStandardTexts.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>IsoStandardTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ApplicableRegulations\Texts\NoteTexts.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>NoteTexts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="ApplicableRegulations\Texts\QuestionTexts.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
