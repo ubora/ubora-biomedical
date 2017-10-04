@@ -2,6 +2,7 @@
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.Members.Events;
+using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Users;
 
 namespace Ubora.Domain.Projects.Members.Commands
@@ -27,26 +28,25 @@ namespace Ubora.Domain.Projects.Members.Commands
                 var isUserMember = project.DoesSatisfy(new HasMember(cmd.UserId));
                 if (!isUserMember)
                 {
-                    return new CommandResult($"User [{cmd.UserId}] is not part of project [{cmd.ProjectId}]");
+                    return CommandResult.Failed($"User [{cmd.UserId}] is not part of project [{cmd.ProjectId}]");
                 }
 
                 var isProjectLeader = project.DoesSatisfy(new HasLeader(cmd.UserId));
                 if (isProjectLeader)
                 {
-                    return new CommandResult($"User [{cmd.UserId}] can not be removed from project [{cmd.ProjectId}] because user is project leader");
+                    return CommandResult.Failed($"User [{cmd.UserId}] can not be removed from project [{cmd.ProjectId}] because user is project leader");
                 }
 
-                var @event = new MemberRemovedFromProjectEvent(cmd.Actor)
-                {
-                    ProjectId = cmd.ProjectId,
-                    UserFullName = userProfile.FullName,
-                    UserId = cmd.UserId
-                };
+                var @event = new MemberRemovedFromProjectEvent(
+                    initiatedBy: cmd.Actor,
+                    projectId: cmd.ProjectId,
+                    userId: cmd.UserId
+                );
 
                 _documentSession.Events.Append(cmd.ProjectId, @event);
                 _documentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }

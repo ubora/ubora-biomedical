@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Web.Authorization;
+using Ubora.Web.Tests.Helper;
 using Ubora.Web._Features.Projects.Workpackages.Reviews;
 using Xunit;
 
@@ -28,6 +29,36 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Returns(dummyWorkpackage);
         }
 
+        [Fact]
+        public override void Actions_Have_Authorize_Attributes()
+        {
+            var rolesAndPoliciesAuthorizations = new List<AuthorizationTestHelper.RolesAndPoliciesAuthorization>
+                {
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(WorkpackageOneReviewController.SubmitForReview),
+                        Policies = new []{ nameof(Policies.CanSubmitWorkpackageForReview) }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(WorkpackageOneReviewController.Decision),
+                        Policies = new []{ nameof(Policies.CanReviewProjectWorkpackages) }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(WorkpackageOneReviewController.Accept),
+                        Policies = new []{ nameof(Policies.CanReviewProjectWorkpackages) }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(WorkpackageOneReviewController.Reject),
+                        Policies = new []{ nameof(Policies.CanReviewProjectWorkpackages) }
+                    }
+                };
+
+            AssertHasAuthorizeAttributes(typeof(WorkpackageOneReviewController), rolesAndPoliciesAuthorizations);
+        }
+
         [Theory]
         [InlineData(true, false)]
         [InlineData(false, true)]
@@ -36,8 +67,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             bool hasBeenAccepted)
         {
             var workpackage = Mock.Of<WorkpackageOne>(
-                x => x.HasReviewInProcess == isReviewInProcess 
-                && x.HasBeenAccepted == hasBeenAccepted 
+                x => x.HasReviewInProcess == isReviewInProcess
+                && x.HasBeenAccepted == hasBeenAccepted
                 && x.Reviews == new List<WorkpackageReview>());
 
             QueryProcessorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
@@ -81,7 +112,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var result = (ViewResult)await _workpackageOneReviewController.Review();
 
             // Assert
-            var viewModel = (WorkpackageReviewListViewModel) result.Model;
+            var viewModel = (WorkpackageReviewListViewModel)result.Model;
             viewModel
                 .SubmitForReviewButton.IsVisible
                 .Should().BeTrue();

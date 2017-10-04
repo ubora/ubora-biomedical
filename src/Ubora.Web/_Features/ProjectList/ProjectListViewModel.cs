@@ -4,7 +4,7 @@ using System.Linq;
 using AutoMapper;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
-using Ubora.Domain.Projects.Queries;
+using Ubora.Domain.Projects._Queries;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
 

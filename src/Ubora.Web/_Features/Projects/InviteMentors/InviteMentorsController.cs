@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.Members.Commands;
+using Ubora.Web.Authorization;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 
 namespace Ubora.Web._Features.Projects.InviteMentors
 {
-    [Authorize(Roles = ApplicationRole.Admin)]
     public class InviteMentorsController : ProjectController
     {
         private readonly ApplicationUserManager _userManager;

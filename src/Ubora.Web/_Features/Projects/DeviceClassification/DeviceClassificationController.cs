@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using Ubora.Domain.Projects.DeviceClassification;
+using Ubora.Domain.Projects.DeviceClassification.Commands;
 using Ubora.Web._Features.Projects.DeviceClassification.Services;
 using Ubora.Web._Features.Projects.DeviceClassification.ViewModels;
 
