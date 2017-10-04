@@ -2,7 +2,6 @@
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using System.Net.Mail;
 using System.Collections.Generic;
 using Ubora.Web.Infrastructure;
 
@@ -38,9 +37,6 @@ namespace Ubora.Web.Services
 
             builder.HtmlBody = message;
             emailMessage.Body = builder.ToMessageBody();
-
-            var otherClient = new SmtpClient();
-            otherClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
 
             using (var client = new MailKit.Net.Smtp.SmtpClient())
             {
