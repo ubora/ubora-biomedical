@@ -4,6 +4,7 @@ using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.Tasks.Events;
 using System.Collections.Generic;
 using Ubora.Domain.Projects.Tasks.Notifications;
+using System.Linq;
 
 namespace Ubora.Domain.Projects.Tasks.Commands
 {
@@ -12,7 +13,13 @@ namespace Ubora.Domain.Projects.Tasks.Commands
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public IEnumerable<Guid> AssigneeIds { get; set; }
+
+        public IEnumerable<Guid> _assigneeIds;
+        public IEnumerable<Guid> AssigneeIds
+        {
+            get { return _assigneeIds ?? Enumerable.Empty<Guid>(); }
+            set { _assigneeIds = value; }
+        }
 
         internal class Handler : CommandHandler<AddTaskCommand>
         {
@@ -34,19 +41,14 @@ namespace Ubora.Domain.Projects.Tasks.Commands
                 );
 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
-                DocumentSession.SaveChanges();
-
-                if(cmd.AssigneeIds == null)
-                {
-                    return CommandResult.Success;
-                }
 
                 foreach (var assigneeId in cmd.AssigneeIds)
                 {
-                    var notification = new AssignmentAssignedToNotification(assigneeId, cmd.Actor.UserId, cmd.ProjectId, cmd.Id);
+                    var notification = new AssignmentAssignedToNotification(notificationTo: assigneeId, requesterId: cmd.Actor.UserId, projectId: cmd.ProjectId, taskId: cmd.Id);
                     DocumentSession.Store(notification);
-                    DocumentSession.SaveChanges();
                 }
+
+                DocumentSession.SaveChanges();
 
                 return CommandResult.Success;
             }

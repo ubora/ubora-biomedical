@@ -12,13 +12,13 @@ namespace Ubora.Domain.Projects.Tasks.Notifications
             TaskId = taskId;
         }
 
-        public Guid RequesterId { get; set; }
-        public Guid ProjectId { get; set; }
-        public Guid TaskId { get; set; }
+        public Guid RequesterId { get; private set; }
+        public Guid ProjectId { get; private set; }
+        public Guid TaskId { get; private set; }
 
         public override string GetDescription()
         {
-            return $"An assignment {StringTokens.Task(TaskId)} was removed from you!";
+            return $"Assignment {StringTokens.Task(TaskId)} was removed from you!";
         }
     }
 }

@@ -12,16 +12,13 @@ namespace Ubora.Domain.Projects.Tasks
         public Guid ProjectId { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
+
         [JsonProperty(nameof(Assignees))]
         private readonly HashSet<TaskAssignee> _assignees = new HashSet<TaskAssignee>();
-
         [JsonIgnore]
         public IReadOnlyCollection<TaskAssignee> Assignees
         {
-            get
-            {
-                return _assignees;
-            }
+            get { return _assignees; }
             private set { }
         }
 
@@ -32,13 +29,10 @@ namespace Ubora.Domain.Projects.Tasks
             Title = e.Title;
             Description = e.Description;
 
-            if(e.AssigneeIds == null)
+            foreach (var assigneeId in e.AssigneeIds)
             {
-                return;
+                _assignees.Add(new TaskAssignee(assigneeId));
             }
-
-            var assignees = e.AssigneeIds.Select(x => new TaskAssignee(x));
-            _assignees.UnionWith(assignees);
         }
 
         private void Apply(TaskEditedEvent e)
@@ -47,13 +41,10 @@ namespace Ubora.Domain.Projects.Tasks
             Description = e.Description;
 
             _assignees.Clear();
-            if(e.AssigneeIds == null)
+            foreach (var assigneeId in e.AssigneeIds)
             {
-                return;
+                _assignees.Add(new TaskAssignee(assigneeId));
             }
-
-            var assignees = e.AssigneeIds.Select(x => new TaskAssignee(x));
-            _assignees.UnionWith(assignees);
         }
     }
 }

@@ -52,7 +52,7 @@ namespace Ubora.Domain.Tests.Projects.Tasks.Commands
             storedNotification.ProjectId.Should().Be(expectedProjectId);
             storedNotification.TaskId.Should().Be(expectedTaskId);
             storedNotification.RequesterId.Should().Be(actor.UserId);
-            storedNotification.GetDescription().Should().Be($"An assignment {StringTokens.Task(expectedTaskId)} was assigned to you!");
+            storedNotification.GetDescription().Should().Be($"Assignment {StringTokens.Task(expectedTaskId)} was assigned to you!");
         }
     }
 }

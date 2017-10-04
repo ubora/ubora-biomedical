@@ -13,7 +13,13 @@ namespace Ubora.Domain.Projects.Tasks.Commands
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public IEnumerable<Guid> AssigneeIds { get; set; }
+
+        public IEnumerable<Guid> _assigneeIds;
+        public IEnumerable<Guid> AssigneeIds
+        {
+            get { return _assigneeIds ?? Enumerable.Empty<Guid>(); }
+            set { _assigneeIds = value; }
+        }
 
         internal class Handler : CommandHandler<EditTaskCommand>
         {
@@ -24,9 +30,10 @@ namespace Ubora.Domain.Projects.Tasks.Commands
             public override ICommandResult Handle(EditTaskCommand cmd)
             {
                 var project = DocumentSession.LoadOrThrow<Project>(cmd.ProjectId);
-
                 var task = DocumentSession.LoadOrThrow<ProjectTask>(cmd.Id);
-                var previousAssignees = task.Assignees?.Select(x => x.UserId).ToList();
+
+                var previousAssigneeIds = task.Assignees.Select(x => x.UserId).ToList();
+
                 var @event = new TaskEditedEvent(
                     initiatedBy: cmd.Actor,
                     description: cmd.Description,
@@ -36,24 +43,18 @@ namespace Ubora.Domain.Projects.Tasks.Commands
                     assigneeIds: cmd.AssigneeIds);
 
                 DocumentSession.Events.Append(project.Id, @event);
-                DocumentSession.SaveChanges();
 
-                if (cmd.AssigneeIds == null)
+                var addedAssigneeIds = cmd.AssigneeIds.Except(previousAssigneeIds);
+                foreach (var assigneeId in addedAssigneeIds)
                 {
-                    return CommandResult.Success;
-                }
-
-                var addedAssignees = cmd.AssigneeIds?.Except(previousAssignees).ToList();
-                foreach (var assigneeId in addedAssignees)
-                {
-                    var notification = new AssignmentAssignedToNotification(assigneeId, cmd.Actor.UserId, cmd.ProjectId, cmd.Id);
+                    var notification = new AssignmentAssignedToNotification(notificationTo: assigneeId, requesterId: cmd.Actor.UserId, projectId: cmd.ProjectId, taskId: cmd.Id);
                     DocumentSession.Store(notification);
                 }
 
-                var removedAssignees = previousAssignees?.Except(cmd.AssigneeIds).ToList();
-                foreach (var assigneeId in removedAssignees)
+                var removedAssigneeIds = previousAssigneeIds.Except(cmd.AssigneeIds);
+                foreach (var assigneeId in removedAssigneeIds)
                 {
-                    var notification = new AssignmentRemovedFromNotification(assigneeId, cmd.Actor.UserId, cmd.ProjectId, cmd.Id);
+                    var notification = new AssignmentRemovedFromNotification(notificationTo: assigneeId, requesterId: cmd.Actor.UserId, projectId: cmd.ProjectId, taskId: cmd.Id);
                     DocumentSession.Store(notification);
                 }
 
