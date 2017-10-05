@@ -3,7 +3,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.Tasks;
 using Ubora.Domain.Projects.Tasks.Commands;
-using Ubora.Domain.Users;
 
 namespace Ubora.Web._Features.Projects.Assignments
 {
@@ -25,21 +24,9 @@ namespace Ubora.Web._Features.Projects.Assignments
         }
 
         [Route(nameof(Add))]
-        public IActionResult Add()
+        public IActionResult Add([FromServices]AddAssignmentViewModel.Factory modelFactory)
         {
-            var projectMembers = Project.Members;
-            var taskAssigneeViewModel = projectMembers.Select(x => new TaskAssigneeViewModel
-            {
-                AssigneeId = x.UserId,
-                FullName = QueryProcessor.FindById<UserProfile>(x.UserId).FullName
-            });
-            
-            var model = new AddAssignmentViewModel
-            {
-                ProjectId = ProjectId,
-                ProjectMembers = taskAssigneeViewModel
-            };
-
+            var model = modelFactory.Create(ProjectId);
             return View(model);
         }
 
@@ -69,22 +56,9 @@ namespace Ubora.Web._Features.Projects.Assignments
         }
 
         [Route(nameof(Edit))]
-        public IActionResult Edit(Guid id)
+        public IActionResult Edit(Guid id, [FromServices]EditAssignmentViewModel.Factory modelFactory)
         {
-            var task = QueryProcessor.FindById<ProjectTask>(id);
-            var assignees = task.Assignees;
-
-            var projectMembers = Project.Members;
-            var projectMembersViewModel = projectMembers.Select(x => new TaskAssigneeViewModel
-            {
-                AssigneeId = x.UserId,
-                FullName = QueryProcessor.FindById<UserProfile>(x.UserId).FullName
-            });
-
-            var model = AutoMapper.Map<EditAssignmentViewModel>(task);
-            model.ProjectMembers = projectMembersViewModel;
-            model.AssigneeIds = assignees.Select(x => x.UserId).ToArray();
-
+            var model = modelFactory.Create(id);
             return View(model);
         }
 

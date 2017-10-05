@@ -16,7 +16,8 @@ namespace Ubora.Domain.Projects.Tasks
         [JsonProperty(nameof(Assignees))]
         private readonly HashSet<TaskAssignee> _assignees = new HashSet<TaskAssignee>();
         [JsonIgnore]
-        public IReadOnlyCollection<TaskAssignee> Assignees
+        // Virtual for testing.
+        public virtual IReadOnlyCollection<TaskAssignee> Assignees
         {
             get { return _assignees; }
             private set { }
