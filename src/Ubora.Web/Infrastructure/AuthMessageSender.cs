@@ -48,7 +48,9 @@ namespace Ubora.Web.Infrastructure
 
             var message = _view.Render("/_Features/_Shared/Templates/", "EmailConfirmationMessageTemplate.cshtml", callBackUrlTemplateViewModel);
 
-            await _emailSender.SendEmailAsync(user.Email, "UBORA: e-mail confirmation", message, emailIcons);
+            var result = PreMailer.Net.PreMailer.MoveCssInline(message, removeStyleElements: true);
+
+            await _emailSender.SendEmailAsync(user.Email, "UBORA: e-mail confirmation", result.Html, emailIcons);
         }
 
         public async Task SendForgotPasswordMessage(ApplicationUser user)
@@ -79,7 +81,9 @@ namespace Ubora.Web.Infrastructure
 
             var message = _view.Render("/_Features/_Shared/Templates/", "ForgotPasswordMessageTemplate.cshtml", callBackUrlTemplateViewModel);
 
-            await _emailSender.SendEmailAsync(user.Email, "UBORA: Password reset", message, emailIcons);
+            var result = PreMailer.Net.PreMailer.MoveCssInline(message, removeStyleElements: true);
+
+            await _emailSender.SendEmailAsync(user.Email, "UBORA: Password reset", result.Html, emailIcons);
         }
     }
 
