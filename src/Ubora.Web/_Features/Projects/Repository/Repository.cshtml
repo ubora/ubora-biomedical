@@ -74,49 +74,9 @@
 </div>
 
 @section Scripts {
-    <link rel="stylesheet"
-          href="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.js">
-    </script>
-    <script>
-    Dropzone.autoDiscover = false;
-    $(document).ready(function () {
-        var myDropzone = new Dropzone("div#my-dropzone", {
-            url: '@Url.Action("AddFile","Repository")',
-            autoProcessQueue: false,
-            paramName: parameterName,
-            uploadMultiple: true
-        });
-
-        myDropzone.on('sending', function (file, xhr, formData) {
-            if ($("#FolderName").val() != null) {
-                formData.append('FolderName', $("#FolderName").val());
-            }
-            formData.append('Comment', $("#Comment").val());
-        });
-
-        $('#btnSubmit').on('click', function (file) {
-            if ($("#FolderName").val() == null) {
-                $('span[data-valmsg-for="FolderName"]').html('<span class="field-validation-error" data-valmsg-for="FolderName" data-valmsg-replace="true">The FolderName field is required.</span>');
-            } else {
-                $('span[data-valmsg-for="FolderName"]').html('<span class="field-validation-error" data-valmsg-for="FolderName" data-valmsg-replace="true"></span>');
-                myDropzone.processQueue();
-            }
-        });
-
-        myDropzone.on('success', function (file, response) {
-            if (response.length > 0) {
-                this.removeFile(file);
-                $('#myform').html(response);
-            } else {
-                window.location.reload();
-            }
-        });
-
-        //Ignore to appending [n] to name
-        function parameterName(){
-            return "ProjectFiles";
-        }
-        });
+  <link rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css"
+    asp-fallback-href="~/dist/lib/dropzone.min.css">
+    <script src="~/dist/lib/dropzone.js">
     </script>
 }

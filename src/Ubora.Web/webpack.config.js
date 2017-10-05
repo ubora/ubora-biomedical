@@ -14,7 +14,7 @@ module.exports = env => {
     resolve: { extensions: ['.js'] },
     output: {
       filename: '[name].bundle.js',
-      publicPath: '/'
+      publicPath: '/dist/'
     },
     module: {
       rules: [
