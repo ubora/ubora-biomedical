@@ -73,7 +73,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
                 Id = nextQuestion.Id,
                 Text = nextQuestion.QuestionText,
                 QuestionnaireId = questionnaire.Id,
-                Note = NoteTexts.ResourceManager.GetString(nextQuestion.ResourceName)
+                Note = nextQuestion.NoteText
         };
             return View("NextQuestion", model);
         }
