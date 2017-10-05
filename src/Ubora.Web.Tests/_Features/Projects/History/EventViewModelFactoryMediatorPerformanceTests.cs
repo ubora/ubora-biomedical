@@ -6,17 +6,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 using Marten.Events;
 using Ubora.Domain;
 using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.DeviceClassification;
-using Ubora.Domain.Projects.Tasks;
+using Ubora.Domain.Projects.DeviceClassification.Events;
+using Ubora.Domain.Projects.Tasks.Events;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Events;
+using Ubora.Domain.Projects._Events;
 using Ubora.Domain.Tests;
-using Ubora.Domain.Users;
+using Ubora.Domain.Users.Commands;
 using Ubora.Web._Features.Projects.History._Base;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
@@ -29,7 +29,7 @@ namespace Ubora.Web.Tests._Features.Projects.History
         private readonly Mock<HtmlEncoder> _htmlEncoderMock;
         private readonly Mock<IUrlHelper> _urlHelperMock;
 
-        private UserInfo _userInfo;
+        private readonly UserInfo _userInfo;
         private readonly Guid _projectId;
 
         public EventViewModelFactoryMediatorPerformanceTests()
@@ -99,17 +99,18 @@ namespace Ubora.Web.Tests._Features.Projects.History
 
             foreach (var e in events)
             {
-                mediator.Create((UboraEvent) e.Data, e.Timestamp);
+                mediator.Create((UboraEvent)e.Data, e.Timestamp);
             }
         }
 
         private void EditWorkPackageTwo()
         {
             var editedWorkpackageTwoEvent = new WorkpackageTwoStepEdited(
-                                initiatedBy: _userInfo,
-                                newValue: "new value",
-                                title: "new title",
-                                stepId: WorkpackageStepIds.DescriptionOfFunctions);
+                projectId: _projectId,
+                initiatedBy: _userInfo,
+                newValue: "new value",
+                title: "new title",
+                stepId: WorkpackageStepIds.DescriptionOfFunctions);
             Session.Events.Append(_projectId, editedWorkpackageTwoEvent);
             Session.SaveChanges();
         }
@@ -117,11 +118,10 @@ namespace Ubora.Web.Tests._Features.Projects.History
         private void AcceptWorkPackageOneByReview()
         {
             var workPackageOneReviewAcceptedEvent = new WorkpackageOneReviewAcceptedEvent(
-                            initiatedBy: _userInfo,
-                            projectId: _projectId,
-                            acceptedAt: DateTimeOffset.Now,
-                            concludingComment: "comment"
-                            );
+                initiatedBy: _userInfo,
+                projectId: _projectId,
+                acceptedAt: DateTimeOffset.Now,
+                concludingComment: "comment");
             Session.Events.Append(_projectId, workPackageOneReviewAcceptedEvent);
             Session.SaveChanges();
         }
@@ -129,10 +129,10 @@ namespace Ubora.Web.Tests._Features.Projects.History
         private void SubmitWorkPackageOneForReview()
         {
             var workPackageOneReviewSubmittedEvent = new WorkpackageOneSubmittedForReviewEvent(
-                            initiatedBy: _userInfo,
-                            projectId: _projectId,
-                            reviewId: Guid.NewGuid(),
-                            submittedAt: DateTimeOffset.Now);
+                initiatedBy: _userInfo,
+                projectId: _projectId,
+                reviewId: Guid.NewGuid(),
+                submittedAt: DateTimeOffset.Now);
             Session.Events.Append(_projectId, workPackageOneReviewSubmittedEvent);
             Session.SaveChanges();
         }
@@ -140,10 +140,11 @@ namespace Ubora.Web.Tests._Features.Projects.History
         private void EditProject()
         {
             var editedWorkpackageOneEvent = new WorkpackageOneStepEditedEvent(
-                                initiatedBy: _userInfo,
-                                newValue: "new value",
-                                title: "new title",
-                                stepId: WorkpackageStepIds.DescriptionOfNeeds);
+                projectId: _projectId,
+                initiatedBy: _userInfo,
+                newValue: "new value",
+                title: "new title",
+                stepId: WorkpackageStepIds.DescriptionOfNeeds);
             Session.Events.Append(_projectId, editedWorkpackageOneEvent);
             Session.SaveChanges();
         }
@@ -151,10 +152,10 @@ namespace Ubora.Web.Tests._Features.Projects.History
         private void EditProjectDeviceClassification()
         {
             var editedDeviceClassificationEvent = new EditedProjectDeviceClassificationEvent(
-                                id: _projectId,
-                                newClassification: new Classification("IIb", 3, new List<Guid>()),
-                                currentClassification: new Classification("IIa", 3, new List<Guid>()),
-                                initiatedBy: _userInfo);
+                projectId: _projectId,
+                newClassification: new Classification("IIb", 3, new List<Guid>()),
+                currentClassification: new Classification("IIa", 3, new List<Guid>()),
+                initiatedBy: _userInfo);
             Session.Events.Append(_projectId, editedDeviceClassificationEvent);
             Session.SaveChanges();
         }
@@ -162,24 +163,27 @@ namespace Ubora.Web.Tests._Features.Projects.History
         private void AddTask()
         {
             var taskAddedEvent = new TaskAddedEvent(
-                                initiatedBy: _userInfo)
-            {
-                Id = Guid.NewGuid(),
-                ProjectId = _projectId,
-                Title = "title",
-                Description = $"submitted workpackage 1 for review {StringTokens.WorkpackageOneReview()}"
-            };
+                initiatedBy: _userInfo,
+                id: Guid.NewGuid(),
+                projectId: _projectId,
+                title: "title",
+                description: $"submitted workpackage 1 for review {StringTokens.WorkpackageOneReview()}"
+            );
             Session.Events.Append(_projectId, taskAddedEvent);
             Session.SaveChanges();
         }
 
         private void CreateProject()
         {
-            var projectAddedEvent = new ProjectCreatedEvent(initiatedBy: _userInfo)
-            {
-                Id = _projectId,
-                Title = "Awesome Project"
-            };
+            var projectAddedEvent = new ProjectCreatedEvent(
+                initiatedBy: _userInfo,
+                projectId: _projectId,
+                title: "Awesome Project",
+                clinicalNeed: "",
+                areaOfUsage: "",
+                potentialTechnology: "",
+                gmdn: "");
+
             Session.Events.Append(_projectId, projectAddedEvent);
             Session.SaveChanges();
         }

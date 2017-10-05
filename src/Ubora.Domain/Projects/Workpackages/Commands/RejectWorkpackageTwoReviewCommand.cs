@@ -20,16 +20,12 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
 
             public override ICommandResult Handle(RejectWorkpackageTwoReviewCommand cmd)
             {
-                var workpackageOne = DocumentSession.Load<WorkpackageTwo>(cmd.ProjectId);
-                if (workpackageOne == null)
-                {
-                    throw new InvalidOperationException($"{nameof(WorkpackageTwo)} not found with id [{cmd.ProjectId}]");
-                }
+                var workpackageOne = DocumentSession.LoadOrThrow<WorkpackageTwo>(cmd.ProjectId);
 
                 var canHandle = workpackageOne.DoesSatisfy(new CanRejectWorkpackageReview<WorkpackageTwo>());
                 if (!canHandle)
                 {
-                    return new CommandResult("Work package can not be rejected.");
+                    return CommandResult.Failed("Work package can not be rejected.");
                 }
 
                 var @event = new WorkpackageTwoReviewRejectedEvent(
@@ -41,7 +37,7 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }

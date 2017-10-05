@@ -2,10 +2,10 @@
 using Moq;
 using System;
 using System.Collections.Generic;
-using Ubora.Domain.Notifications;
 using Ubora.Web._Features.Notifications;
 using Xunit;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Notifications.Commands;
 using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects.Members;
 using Ubora.Web._Features.Notifications._Base;
@@ -35,7 +35,7 @@ namespace Ubora.Web.Tests._Features.Notifications
                 .Returns(invitations);
 
             CommandProcessorMock.Setup(x => x.Execute(It.IsAny<MarkNotificationsAsViewedCommand>()))
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             // Act
             var result = (ViewResult)_notificationsController.Index();

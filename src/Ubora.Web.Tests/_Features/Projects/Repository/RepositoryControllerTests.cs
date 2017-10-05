@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
@@ -16,13 +15,14 @@ using Ubora.Domain.Projects.Repository;
 using Ubora.Web._Features.Projects.Repository;
 using Ubora.Web.Infrastructure.Storage;
 using Xunit;
-using Ubora.Domain.Projects.Specifications;
 using System.Linq.Expressions;
+using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Authorization;
 using Ubora.Domain.Infrastructure.Queries;
 using Marten.Events;
-using Marten.Events.Projections;
 using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Projects.Repository.Commands;
+using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Web.Tests.Helper;
 
 namespace Ubora.Web.Tests._Features.Projects.Repository
@@ -42,14 +42,18 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         }
 
         [Fact]
-        public void Actions_Have_Authorize_Attributes()
+        public override void Actions_Have_Authorize_Attributes()
         {
-            AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.AddFile),
-                typeof(AuthorizeAttribute));
-            AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.DownloadFile),
-                typeof(AuthorizeAttribute));
-            AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.HideFile),
-                typeof(AuthorizeAttribute), nameof(Policies.CanHideProjectFile));
+            var methodPolicies = new List<AuthorizationTestHelper.RolesAndPoliciesAuthorization>
+                {
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(RepositoryController.HideFile),
+                        Policies = new []{ Policies.CanHideProjectFile}
+                    }
+                };
+
+            AssertHasAuthorizeAttributes(typeof(RepositoryController), methodPolicies);
         }
 
         [Fact]
@@ -155,7 +159,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<AddFileCommand>()))
                 .Callback<AddFileCommand>(c => executedCommand = c)
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
             Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName
@@ -228,7 +232,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             fileMock.Setup(f => f.OpenReadStream())
                 .Returns(stream);
 
-            var commandResult = new CommandResult("testError1", "testError2");
+            var commandResult = CommandResult.Failed("testError1", "testError2");
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<AddFileCommand>()))
                 .Returns(commandResult);
@@ -260,7 +264,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
 
             CommandProcessorMock.Setup(p => p.Execute(It.IsAny<HideFileCommand>()))
                 .Callback<HideFileCommand>(c => executedCommand = c)
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             //Act
             var result = (RedirectToActionResult)_controller.HideFile(fileId);
@@ -347,7 +351,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<UpdateFileCommand>()))
                 .Callback<UpdateFileCommand>(c => executedCommand = c)
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
             Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName
@@ -395,7 +399,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             QueryProcessorMock.Setup(q => q.FindById<ProjectFile>(fileId))
                 .Returns(projectFile);
 
-            var commandResult = new CommandResult("testError1", "testError2");
+            var commandResult = CommandResult.Failed("testError1", "testError2");
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<UpdateFileCommand>()))
                 .Returns(commandResult);

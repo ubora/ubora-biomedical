@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.Tasks;
+using Ubora.Domain.Projects.Tasks.Commands;
 
 namespace Ubora.Web._Features.Projects.Assignments
 {

@@ -26,7 +26,7 @@ namespace Ubora.Domain.Projects.Members.Commands
                 _documentSession.Store(invite);
                 _documentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }

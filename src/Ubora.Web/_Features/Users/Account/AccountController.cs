@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
+using Ubora.Domain.Users.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Home;
 using Ubora.Web._Features.Users.Profile;
-using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Users.Account
 {
@@ -456,7 +456,6 @@ namespace Ubora.Web._Features.Users.Account
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> ResendEmailConfirmation()
         {
             var user = await _userManager.GetUserAsync(User);

@@ -1,5 +1,6 @@
 ﻿using System;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Projects.Repository.Events;
 
 namespace Ubora.Domain.Projects.Repository
 {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.IO;
 using Autofac;
 using Marten;
 using Marten.Events;
@@ -35,16 +34,18 @@ namespace Ubora.Domain.Infrastructure
                 var options = new StoreOptions();
                 options.Connection(_connectionString);
 
-                options.NameDataLength = 100;
-
                 var eventTypes = FindDomainEventConcreteTypes();
                 var notificationTypes = FindDomainNotificationConcreteTypes();
-                var configureAction = new UboraStoreOptions().Configuration(eventTypes, notificationTypes);
 
-                configureAction.Invoke(options);
+                new UboraStoreOptionsConfigurer()
+                    .CreateConfigureAction(eventTypes, notificationTypes, AutoCreate.None)
+                    .Invoke(options);
 
-                builder.RegisterInstance(new DocumentStore(options)).As<IDocumentStore>().SingleInstance();
+                var store = new DocumentStore(options);
+
+                builder.RegisterInstance(store).As<IDocumentStore>().SingleInstance();
             }
+            builder.RegisterType<DomainMigrator>().AsSelf().SingleInstance();
 
             builder.Register(x => x.Resolve<IDocumentStore>().OpenSession()).As<IDocumentSession>().As<IQuerySession>().InstancePerLifetimeScope();
             builder.Register(x => x.Resolve<IDocumentSession>().Events).As<IEventStore>().InstancePerLifetimeScope();
@@ -64,22 +65,22 @@ namespace Ubora.Domain.Infrastructure
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();
         }
 
-        public IEnumerable<Type> FindDomainEventConcreteTypes()
+        public static IEnumerable<Type> FindDomainEventConcreteTypes()
         {
             var eventBaseType = typeof(UboraEvent);
 
-            var eventTypes = ThisAssembly
+            var eventTypes = typeof(DomainAutofacModule).Assembly
                 .GetTypes()
                 .Where(type => eventBaseType.IsAssignableFrom(type) && !type.GetTypeInfo().IsAbstract);
 
             return eventTypes;
         }
 
-        public IEnumerable<MappedType> FindDomainNotificationConcreteTypes()
+        public static IEnumerable<MappedType> FindDomainNotificationConcreteTypes()
         {
             var notificationBaseType = typeof(INotification);
 
-            var eventTypes = ThisAssembly
+            var eventTypes = typeof(DomainAutofacModule).Assembly
                 .GetTypes()
                 .Where(type => notificationBaseType.IsAssignableFrom(type) && !type.GetTypeInfo().IsAbstract);
 

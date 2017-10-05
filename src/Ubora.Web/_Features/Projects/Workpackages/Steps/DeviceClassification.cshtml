@@ -14,7 +14,7 @@
         <div class="center-element">
             @if (Model.DeviceClassification == null)
             {
-                <h3>Please answer to the following questionnaire to identify your device classification.</h3>
+                <h1>Please answer to the following questionnaire to identify your device classification.</h1>
                 <a asp-controller="DeviceClassification" asp-action="GetPairedMainQuestions" class="button primary-button small-button">Go to device classification</a>
             }
             else

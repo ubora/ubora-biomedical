@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace Ubora.Domain.Infrastructure.Commands
 {
-    public class CommandResult : ICommandResult
+    public sealed class CommandResult : ICommandResult
     {
         private readonly List<string> _errorMessages = new List<string>();
         public IEnumerable<string> ErrorMessages => _errorMessages;
 
-        public CommandResult(params string[] errors)
+        private CommandResult(params string[] errors)
         {
             if (errors != null)
             {
