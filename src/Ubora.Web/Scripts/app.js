@@ -4,7 +4,7 @@ import Autocomplete from './modules/autocomplete';
 import Feedback from './modules/feedback';
 import Sidemenu from './modules/sidemenu';
 import Notices from './modules/notices';
-import FileUploads from './modules/file_uploads';
+import DragNDropFileUploads from './modules/drag_n_drop_file_uploads';
 
 const styles = require('../Styles/styles.css').toString();
 
