@@ -163,7 +163,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 && b.BlobPath.Contains(fileName) && b.BlobPath.Contains(ProjectId.ToString());
 
             //Act
-            var result = (RedirectToActionResult)await _controller.AddFile(model);
+            var result = (OkResult)await _controller.AddFile(model);
 
             //Assert
             executedCommand.ProjectId.Should().Be(ProjectId);
@@ -175,7 +175,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             executedCommand.Comment.Should().Be(comment);
             executedCommand.FileSize.Should().Be(fileSize);
 
-            result.ActionName.Should().Be(nameof(RepositoryController.Repository));
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             _uboraStorageProviderMock.Verify(x => x.SavePrivate(It.Is(expectedBlobLocationFunc), stream));
         }
@@ -191,18 +191,17 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             _controller.ModelState.AddModelError("", errorMessage);
             fileMock.Setup(f => f.FileName)
                 .Returns("C:\\Test\\Parent\\Parent\\image.png");
-            QueryProcessorMock.Setup(p => p.Find(new IsProjectFileSpec(ProjectId) && !new IsHiddenFileSpec()))
-                .Returns(new List<ProjectFile>());
-
-            CreateTestProject();
 
             //Act
-            var result = (ViewResult)await _controller.AddFile(model);
+            var result = (PartialViewResult)await _controller.AddFile(model);
 
             //Assert
-            result.ViewName.Should().Be(nameof(RepositoryController.Repository));
+            result.ViewName.Should().Be("AddFilePartial");
 
-            AssertModelStateContainsError(result, errorMessage);
+            foreach (var error in result.ViewData.ModelState.Root.Errors)
+            {
+                Assert.Contains(error.ErrorMessage, errorMessage);
+            }
 
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
 
@@ -233,22 +232,21 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<AddFileCommand>()))
                 .Returns(commandResult);
-            QueryProcessorMock.Setup(p => p.Find(new IsProjectFileSpec(ProjectId) && !new IsHiddenFileSpec()))
-                .Returns(new List<ProjectFile>());
 
             var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
             Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName
                 && b.BlobPath.Contains(fileName) && b.BlobPath.Contains(ProjectId.ToString());
 
-            CreateTestProject();
-
             //Act
-            var result = (ViewResult)await _controller.AddFile(model);
+            var result = (PartialViewResult) await _controller.AddFile(model);
 
             //Assert
-            result.ViewName.Should().Be(nameof(RepositoryController.Repository));
+            result.ViewName.Should().Be("AddFilePartial");
 
-            AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
+            foreach (var error in result.ViewData.ModelState.Root.Errors)
+            {
+                Assert.Contains(error.ErrorMessage, commandResult.ErrorMessages.ToArray());
+            }
 
             _uboraStorageProviderMock.Verify(x => x.SavePrivate(It.Is(expectedBlobLocationFunc), stream), Times.Once);
         }
