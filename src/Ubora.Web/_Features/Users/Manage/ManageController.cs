@@ -9,6 +9,8 @@ using Microsoft.Extensions.Options;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 using Ubora.Web._Features._Shared.Notices;
+using Ubora.Web._Features.Users.Account;
+using Ubora.Domain.Users.Commands;
 
 namespace Ubora.Web._Features.Users.Manage
 {
@@ -19,18 +21,20 @@ namespace Ubora.Web._Features.Users.Manage
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private readonly IEmailConfirmationMessageSender _confirmationMessageSender;
 
         public ManageController(
           UserManager<ApplicationUser> userManager,
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
-          ILoggerFactory loggerFactory)
+          ILoggerFactory loggerFactory,
+          IEmailConfirmationMessageSender confirmationMessageSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = loggerFactory.CreateLogger(nameof(ManageController));
-
+            _confirmationMessageSender = confirmationMessageSender;
         }
 
         [HttpGet]
@@ -201,6 +205,77 @@ namespace Ubora.Web._Features.Users.Manage
             Notices.Error("Password could not be changed!");
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult ChangeEmail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeEmail(ChangeEmailViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await GetCurrentUserAsync();
+            if (user == null)
+            {
+                return View(model);
+            }
+
+            var isCorrectPassword = await _userManager.CheckPasswordAsync(user, model.Password);
+            if(!isCorrectPassword)
+            {
+                Notices.Error("Password is not correct!");
+                return View(model);
+            }
+
+            var changeEmailResult = await ChangeEmailAsync(model.NewEmail, user);
+
+            if (!changeEmailResult.Succeeded)
+            {
+                AddErrors(changeEmailResult);
+
+                return View(model);
+            }
+
+            var command = new ChangeUserEmailCommand
+            {
+                UserId = UserId,
+                Email = model.NewEmail
+            };
+            ExecuteUserCommand(command);
+
+            if (!ModelState.IsValid)
+            {
+                Notices.Error("Failed to change email!");
+
+                return RedirectToAction("Index", "Manage");
+            }
+
+            await _signInManager.RefreshSignInAsync(user);
+
+            await _confirmationMessageSender.SendEmailConfirmationMessage(user);
+
+            Notices.Success("Email was changed successfully!");
+
+            return RedirectToAction(nameof(Index));
+
+        }
+
+        private async Task<IdentityResult> ChangeEmailAsync(string newEmail, ApplicationUser user)
+        {
+            user.Email = newEmail;
+            user.UserName = newEmail;
+            user.EmailConfirmed = false;
+
+            var result = await _userManager.UpdateAsync(user);
+            return result;
         }
 
         [HttpGet]
