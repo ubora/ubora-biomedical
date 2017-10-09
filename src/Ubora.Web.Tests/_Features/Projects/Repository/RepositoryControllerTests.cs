@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
@@ -43,14 +42,18 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         }
 
         [Fact]
-        public void Actions_Have_Authorize_Attributes()
+        public override void Actions_Have_Authorize_Attributes()
         {
-            AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.AddFile),
-                typeof(AuthorizeAttribute));
-            AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.DownloadFile),
-                typeof(AuthorizeAttribute));
-            AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.HideFile),
-                typeof(AuthorizeAttribute), nameof(Policies.CanHideProjectFile));
+            var methodPolicies = new List<AuthorizationTestHelper.RolesAndPoliciesAuthorization>
+                {
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(RepositoryController.HideFile),
+                        Policies = new []{ Policies.CanHideProjectFile}
+                    }
+                };
+
+            AssertHasAuthorizeAttributes(typeof(RepositoryController), methodPolicies);
         }
 
         [Fact]
