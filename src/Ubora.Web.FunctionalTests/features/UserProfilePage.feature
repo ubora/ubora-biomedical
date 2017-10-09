@@ -7,7 +7,7 @@ Background:
 
 Scenario: I sign up an account and create my profile
     When I click on the element "#SignInSignUp"
-        And I sign up as "user@profile.com" first name "FirstName" last name "LastName"
+        And I sign up as "user@profile.com"
         And I set value "Bio Bio Bio, Test Test Test" to the element "#Biography"
         And I select value "AGO" from element "#CountryCode"
         And I set value "DegreeTest" to the element "#Degree"
