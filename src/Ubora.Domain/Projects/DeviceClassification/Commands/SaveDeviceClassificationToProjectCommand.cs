@@ -25,7 +25,11 @@ namespace Ubora.Domain.Projects.DeviceClassification.Commands
 
                 var currentClassification = string.IsNullOrEmpty(project.DeviceClassification) ? null : _deviceClassification.GetClassification(project.DeviceClassification);
 
-                var @event = new EditedProjectDeviceClassificationEvent(cmd.ProjectId, cmd.DeviceClassification, currentClassification, cmd.Actor);
+                var @event = new EditedProjectDeviceClassificationEvent(
+                    projectId: cmd.ProjectId, 
+                    newClassification: cmd.DeviceClassification, 
+                    currentClassification: currentClassification, 
+                    initiatedBy: cmd.Actor);
 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();

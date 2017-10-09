@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
@@ -46,7 +45,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         }
 
         [Fact]
-        public void Actions_Have_Authorize_Attributes()
+        public override void Actions_Have_Authorize_Attributes()
         {
             AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.AddFile),
                 typeof(AuthorizeAttribute));
@@ -104,7 +103,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
 
             var projectFilesViewModel = expectedProjectFiles
                 .GroupBy(f => f.FolderName, f => expectedFile);
-            
+
             var expectedModel = new ProjectRepositoryViewModel
             {
                 ProjectId = ProjectId,

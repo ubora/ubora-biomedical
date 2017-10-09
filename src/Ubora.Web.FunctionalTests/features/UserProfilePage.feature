@@ -74,6 +74,7 @@ Scenario: I change my profile and check if my changes have been saved
 Scenario: I try to add an empty profile picture
     When I click on the element "span=Menu"
         And I click on the element "a=View profile"
+        And I wait for the element "a=Edit profile"
         And I click on the element "a=Edit profile"
         And I click on the element "button=Upload image"
     Then I expect the title of the page "Edit profile - UBORA"

@@ -34,12 +34,11 @@ namespace Ubora.Domain.Projects.Members.Commands
 
                 invite.Accept();
 
-                var @event = new MemberAddedToProjectEvent(command.Actor)
-                {
-                    ProjectId = invite.ProjectId,
-                    UserId = invite.InvitedMemberId,
-                    UserFullName = userProfile.FullName
-                };
+                var @event = new MemberAddedToProjectEvent(
+                    projectId: invite.ProjectId,
+                    userId: invite.InvitedMemberId,
+                    initiatedBy: command.Actor
+                );
 
                 _documentSession.Events.Append(invite.ProjectId, @event);
                 _documentSession.Store(invite);

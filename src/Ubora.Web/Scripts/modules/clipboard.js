@@ -1,4 +1,4 @@
-export class CopyToClipboard {
+export class CopyingToClipboard {
   constructor() {
     const clipboardTriggerNodeList = document.querySelectorAll('.js-copy-to-clipboard');
 
@@ -33,4 +33,4 @@ export class CopyToClipboard {
   }
 }
 
-new CopyToClipboard();
+new CopyingToClipboard();

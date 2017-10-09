@@ -1,3 +1,7 @@
+.questionnaire-form {
+    display: flex;
+}
+
 .questionnaire-question {
     margin: 1em 0;
 }

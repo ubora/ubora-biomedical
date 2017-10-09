@@ -34,12 +34,11 @@ namespace Ubora.Domain.Projects.Members.Commands
 
                 request.Accept();
 
-                var @event = new MemberAcceptedToJoinProjectEvent(command.Actor)
-                {
-                    ProjectId = request.ProjectId,
-                    UserId = request.AskingToJoinMemberId,
-                    UserFullName = userProfile.FullName
-                };
+                var @event = new MemberAcceptedToJoinProjectEvent(
+                    initiatedBy: command.Actor,
+                    projectId: request.ProjectId,
+                    userId: request.AskingToJoinMemberId
+                );
 
                 _documentSession.Events.Append(request.ProjectId, @event);
                 _documentSession.Store(request);

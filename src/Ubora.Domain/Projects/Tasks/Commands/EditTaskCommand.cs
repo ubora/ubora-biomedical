@@ -21,13 +21,12 @@ namespace Ubora.Domain.Projects.Tasks.Commands
             {
                 var project = DocumentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
-                var @event = new TaskEditedEvent(cmd.Actor)
-                {
-                    Description = cmd.Description,
-                    ProjectId = cmd.ProjectId,
-                    Id = cmd.Id,
-                    Title = cmd.Title
-                };
+                var @event = new TaskEditedEvent(
+                    initiatedBy: cmd.Actor,
+                    description: cmd.Description,
+                    projectId: cmd.ProjectId,
+                    id: cmd.Id,
+                    title: cmd.Title);
 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();

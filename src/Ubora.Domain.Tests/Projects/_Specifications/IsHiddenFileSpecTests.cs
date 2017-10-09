@@ -33,7 +33,8 @@ namespace Ubora.Domain.Tests.Projects._Specifications
                 folderName: "folderName",
                 comment: "comment",
                 fileSize: 12131,
-                location: new BlobLocation("container","path"));
+                location: new BlobLocation("container","path"),
+                revisionNumber: 1);
             Session.Events.Append(projectId, fileAddedEvent);
             Session.SaveChanges();
 
@@ -45,13 +46,15 @@ namespace Ubora.Domain.Tests.Projects._Specifications
                 folderName: "folderName",
                 comment: "comment",
                 fileSize: 12344,
-                location: new BlobLocation("container", "path"));
+                location: new BlobLocation("container", "path"),
+                revisionNumber: 1);
             Session.Events.Append(projectId, otherFileAddedEvent);
             Session.SaveChanges();
 
             var fileHiddenEvent = new FileHiddenEvent(
                 initiatedBy: userInfo,
-                id: expectedFileId
+                id: expectedFileId,
+                projectId:projectId
                 );
             Session.Events.Append(projectId, fileHiddenEvent);
             Session.SaveChanges();

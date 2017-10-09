@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -14,8 +15,8 @@ using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features.Users.Profile;
 using Xunit;
 using Ubora.Web._Features._Shared.Notices;
-using Ubora.Web._Features.Users.Manage;
 using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web.Tests.Helper;
 
 namespace Ubora.Web.Tests._Features.Users.Profile
 {
@@ -38,6 +39,28 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 Url = urlHelperMock.Object
             };
             SetUpForTest(_controller);
+        }
+
+        [Fact]
+        public override void Actions_Have_Authorize_Attributes()
+        {
+            var rolesAndPoliciesAuthorizations = new List<AuthorizationTestHelper.RolesAndPoliciesAuthorization>
+            {
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                {
+                    MethodName = nameof(ProfileController.EditProfile)
+                },
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                {
+                    MethodName = nameof(ProfileController.FirstTimeEditProfile)
+                },
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                {
+                    MethodName = nameof(ProfileController.ChangeProfilePicture)
+                }
+            };
+
+            AssertHasAuthorizeAttributes(typeof(ProfileController), rolesAndPoliciesAuthorizations);
         }
 
         [Fact]
@@ -261,7 +284,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 .Returns(expectedProfileViewModel);
 
             //Act
-            var result = (ViewResult)_controller.View(userId);
+            var result = (ViewResult)_controller.ViewProfile(userId);
 
             //Act
             result.Model.As<ProfileViewModel>()
@@ -276,7 +299,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             QueryProcessorMock.Setup(p => p.FindById<UserProfile>(userId)).Returns((UserProfile)null);
 
             //Act
-            var result = _controller.View(userId);
+            var result = _controller.ViewProfile(userId);
 
             //Act
             result.Should().BeOfType<NotFoundResult>();
@@ -325,7 +348,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             var returnUrl = "/Home/Index";
 
             //Act
-            var result = (RedirectToActionResult) _controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel(), returnUrl);
+            var result = (RedirectToActionResult)_controller.FirstTimeEditProfile(new FirstTimeUserProfileViewModel(), returnUrl);
 
             //Assert
             result.ActionName.Should().Be("Index");

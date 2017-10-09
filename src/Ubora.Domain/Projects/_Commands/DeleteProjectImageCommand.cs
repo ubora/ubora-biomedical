@@ -22,6 +22,7 @@ namespace Ubora.Domain.Projects._Commands
 
                 var @event = new ProjectImageDeletedEvent(
                     initiatedBy: cmd.Actor, 
+                    projectId: cmd.ProjectId, 
                     when: DateTime.UtcNow);
 
                 _documentSession.Events.Append(project.Id, @event);
