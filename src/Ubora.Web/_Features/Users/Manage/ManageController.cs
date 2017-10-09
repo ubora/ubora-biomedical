@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
-using Ubora.Web._Features._Shared.Notices;
 using Ubora.Web._Features.Users.Account;
 using Ubora.Domain.Users.Commands;
 
@@ -255,7 +253,7 @@ namespace Ubora.Web._Features.Users.Manage
             {
                 Notices.Error("Failed to change email!");
 
-                return RedirectToAction("Index", "Manage");
+                return RedirectToAction(nameof(Index));
             }
 
             await _signInManager.RefreshSignInAsync(user);
