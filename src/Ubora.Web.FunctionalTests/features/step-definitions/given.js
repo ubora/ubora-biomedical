@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 
 module.exports = function () {
     this.Given(/^I clicked on the element "([^"]*)?"$/, (element) => {
-            browser.click(element)
+        browser.click(element)
     });
 
     this.Given(/^I go to Home page$/, () => {
@@ -17,22 +17,6 @@ module.exports = function () {
         .click('button=Sign in')
     });
 
-    this.Given(/^I am signed in as brand new user and on first page$/, () => {
-        var id = Math.random().toString(36).substring(7);
-        browser
-        .deleteCookie(".AspNetCore.Identity.Application")
-        .url('/')
-        .click('#SignInSignUp')
-        .click('a=Sign up')
-        .setValue('#FirstName', 'testFirstName')
-        .setValue('#LastName', 'testLastName')
-        .setValue('#Email', id + '@agileworks.eu')
-        .setValue('#Password', "testPassword123!")
-        .setValue('#ConfirmPassword', "testPassword123!")
-        .click('#IsAgreedToTermsOfService')
-        .click('button=Create an account')
-        .url('/')
-    });
 
     this.Given(/^I am signed in as user and on first page$/, () => {
         browser
@@ -50,5 +34,21 @@ module.exports = function () {
 
     this.Given(/^I expected the title of the page "([^"]*)"$/, (title) => {
         expect(browser.getTitle()).to.be.eql(title)
+    });
+
+    this.Given(/^I sign up as "([^"]*)?" and on first page$/, (email) => {
+        browser
+        .deleteCookie('.AspNetCore.Identity.Application')
+        .url('/')
+        .click('#SignInSignUp')
+        .click('a=Sign up')
+        .setValue('#FirstName', 'testFirstName')
+        .setValue('#LastName', 'testLastName')
+        .setValue('#Email', email)
+        .setValue('#Password', 'Test12345')
+        .setValue('#ConfirmPassword', 'Test12345')
+        .click('#IsAgreedToTermsOfService')
+        .click('button=Create an account')
+        .url('/')
     });
 }

@@ -21,7 +21,7 @@ Scenario: I click on Terms of Service
 
 Scenario: I submit valid registration form then user is logged in and full name displayed
     When I click on the element "#SignInSignUp"
-        And I sign up as "email@email.com" first name "TestFirstName" last name "TestLastName"
+        And I sign up as "email@email.com"
         And I click on the element "span=Menu"
     Then I expect the element "p=TestFirstName TestLastName" is visible
     When I click on the element "#SignOut"

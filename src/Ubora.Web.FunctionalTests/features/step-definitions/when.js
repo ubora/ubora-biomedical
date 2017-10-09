@@ -35,11 +35,11 @@ module.exports = function () {
             browser.click('#SignOut');
         });
 
-    this.When(/^I sign up as "([^"]*)?" first name "([^"]*)?" last name "([^"]*)?"$/, (email, firstName, lastName) => {
+    this.When(/^I sign up as "([^"]*)?"$/, (email) => {
             browser
             .click('a=Sign up')
-            .setValue('#FirstName', firstName)
-            .setValue('#LastName', lastName)
+            .setValue('#FirstName', 'firstName')
+            .setValue('#LastName', 'lastName')
             .setValue('#Email', email)
             .setValue('#Password', 'Test12345')
             .setValue('#ConfirmPassword', 'Test12345')

@@ -11,7 +11,7 @@ Scenario: Create a project
 Scenario: I sign up to create a project
     When I click on the element "a=I have an idea"
     Then I expect the title of the page "Sign in to UBORA - UBORA"
-    When I sign up as "project@email.com" first name "TestFirstName" last name "TestLastName"
+    When I sign up as "project@email.com"
     Then I expect the title of the page "Create a profile - UBORA"
     When I click on the element "button=Continue"
     Then I expect the title of the page "Project drafting - UBORA"
@@ -342,7 +342,7 @@ Scenario: I click Members and try to add new member
 Scenario: On Project Dashboard page I click Members and on project owner
     When I click on the element "h4=TestProject"
         And I click on the element "a=Members"
-        And I click on the element "a=TestFirstName TestLastName"
+        And I click on the element "a=firstName lastName"
     Then I expect the element "p=TestFirstName TestLastName" is visible
         And I expect the title of the page "View profile - UBORA"
 
