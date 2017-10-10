@@ -18,9 +18,18 @@
     </div>
 
     <div class="initiative-option">
-        <a asp-controller="ProjectCreation" asp-action="Create" class="button primary-button">I have an idea</a>
-        <h2>Propose your biomedical solution.</h2>
+        @if (!User.IsEmailConfirmed())
+        {
+            <button class="button secondary-button" disabled>I have an idea</button>
+            <h2>Your email must be confirmed to create a project!</h2>
+        }
+        else
+        {
+            <a asp-controller="ProjectCreation" asp-action="Create" class="button primary-button">I have an idea</a>
+            <h2>Propose your biomedical solution.</h2>
+        }
     </div>
+
 </section>
 
 <section class="projects">
