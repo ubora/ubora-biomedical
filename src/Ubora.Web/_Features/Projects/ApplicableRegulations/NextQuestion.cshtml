@@ -22,5 +22,12 @@
             </div>
 
         </form>
+
+        @if (!string.IsNullOrEmpty(Model.Note))
+        {
+            <h3>Notes</h3>
+            
+            <p>@Model.Note</p>
+        }
     </section>
 </section>
