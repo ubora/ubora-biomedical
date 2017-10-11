@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects._Commands;
-using Ubora.Web.Services;
+using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.ProjectCreation
 {
     [Authorize]
+    [Authorize(Policy = nameof(Policies.CanCreateProject))]
     public class ProjectCreationController : UboraController
     {
         public IActionResult Create()
@@ -17,11 +18,6 @@ namespace Ubora.Web._Features.ProjectCreation
         [HttpPost]
         public IActionResult Create(CreateProjectViewModel model)
         {
-            if(!User.IsEmailConfirmed())
-            {
-                return View(model);
-            }
-
             if (!ModelState.IsValid)
             {
                 return View(model);
