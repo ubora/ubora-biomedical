@@ -40,6 +40,7 @@
                                     <li>
                                         <a asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@questionnaire.QuestionnaireId">
                                             @questionnaire.StartedAt
+
                                         </a>
                                     </li>
                                 }
@@ -48,6 +49,10 @@
                     }
                 </div>
             }
+            <div class="center-element">
+                <a class="button secondary-button small-button" asp-controller="WorkpackageOne" asp-action="ProjectOverview">Discard changes</a>
+                <button class="button primary-button small-button" type="submit">Save changes</button>
+            </div>
 
             @if (Model.Last == null || Model.Last.IsFinished)
             {

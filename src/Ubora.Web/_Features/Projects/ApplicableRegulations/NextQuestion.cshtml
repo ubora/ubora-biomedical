@@ -15,12 +15,19 @@
 
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="QuestionnaireId" />
-            
+
             <div class="center-element">
                 <button class="button secondary-button small-button" type="submit" asp-action="AnswerYes">Yes</button>
                 <button class="button secondary-button small-button" type="submit" asp-action="AnswerNo">No</button>
             </div>
 
         </form>
+            <div class="center-element">
+              
+                <input type="hidden" asp-for="Id"/>
+                <input type="hidden" asp-for="QuestionnaireId"/>
+                <a class="button primary-button small-button" asp-action="PreviousQuestion" asp-route-questionnaireId="@Model.QuestionnaireId" asp-route-questionId="@Model.Id">Back</a>
+
+            </div>
     </section>
 </section>

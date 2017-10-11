@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.ApplicableRegulations;
@@ -9,6 +11,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 {
     public class ApplicableRegulationsController : ProjectController
     {
+
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             base.OnActionExecuted(context);
@@ -42,6 +45,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
         [HttpPost]
         public IActionResult Start([FromServices]QuestionnaireIndexViewModel.Factory modelFactory)
         {
+
             var id = Guid.NewGuid();
             ExecuteUserProjectCommand(new StartApplicableRegulationsQuestionnaireCommand
             {
@@ -120,6 +124,93 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
             }
 
             return RedirectToAction(nameof(Next), new { questionnaireId = model.QuestionnaireId });
+        }
+
+        public IActionResult PreviousQuestion(Guid questionnaireId, Guid questionId)
+        {
+            var questionnaire = QueryProcessor.FindById<ApplicableRegulationsQuestionnaireAggregate>(questionnaireId);
+            if (questionnaire == null) { return NotFound(); }
+            var answeredQuestions = questionnaire.Questionnaire.GetAllQuestions().Where(x => x.Answer.HasValue);
+
+
+            var previousQuestion = PreviewsAnsweredQuestion(answeredQuestions, questionId);
+            if (previousQuestion == null)
+            {
+                //peaks indeksi lehele minema
+                return NotFound();
+            }
+
+            var model = new LastQuestionViewModel
+            {
+                Id = previousQuestion.Id,
+                Text = previousQuestion.QuestionText,
+                QuestionnaireId = questionnaireId,
+                Answer = previousQuestion.Answer.Value
+            };
+            
+            //var lastQuestion2 = questionnaire.Questionnaire.GetAllQuestions().(x => x.Id == Guid.NewGuid());
+
+            return View("LastQuestion", model);
+        }
+        public IActionResult ForwardQuestion(Guid questionnaireId, Guid questionId)
+        {
+            var questionnaire = QueryProcessor.FindById<ApplicableRegulationsQuestionnaireAggregate>(questionnaireId);
+            if (questionnaire == null) { return NotFound(); }
+            var answeredQuestions = questionnaire.Questionnaire.GetAllQuestions().Where(x => x.Answer.HasValue);
+
+            var nextQuestion = NextAnsweredQuestion(answeredQuestions, questionId);
+            if (nextQuestion == null)
+            {
+                return RedirectToAction(nameof(Next), new { questionnaireId });
+            }
+            var model = new LastQuestionViewModel()
+            {
+                Id = nextQuestion.Id,
+                Text = nextQuestion.QuestionText,
+                QuestionnaireId = questionnaire.Id,
+                Answer = nextQuestion.Answer.Value
+
+            };
+            return View("LastQuestion", model);
+        }
+
+
+
+        private static Question PreviewsAnsweredQuestion(IEnumerable<Question> answeredQuestions, Guid lastQuestionId)
+        {
+            Question prev = null;
+            foreach (var q in answeredQuestions)
+            {
+                if (q.Id == lastQuestionId)
+                {
+                    break;
+                }
+                prev = q;
+            }
+
+            if (prev == null)
+            {
+
+            }
+            return prev;
+        }
+        private static Question NextAnsweredQuestion(IEnumerable<Question> answeredQuestions, Guid lastQuestionId)
+        {
+            Question prev = null;
+            foreach (var q in answeredQuestions.Reverse())
+            {
+                if (q.Id == lastQuestionId)
+                {
+                    break;
+                }
+                prev = q;
+            }
+
+            if (prev == null)
+            {
+                return null;
+            }
+            return prev;
         }
     }
 }

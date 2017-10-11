@@ -54,7 +54,7 @@ namespace Ubora.Domain.ApplicableRegulations
 
             return FindNextUnansweredFrom(question.NextMainQuestion);
         }
-
+        
         /// <remarks> Returns NULL if none found. </remarks>>
         private Question FindNextUnansweredSubQuestion(Question question)
         {
@@ -121,5 +121,26 @@ namespace Ubora.Domain.ApplicableRegulations
         {
             return GetAllQuestions().First(x => x.Id == id);
         }
+
+        // TODO throwaway logic
+        //public Question FindQuestionBefore(Guid id)
+        //{
+        //    Question prev = null;
+        //    foreach (var q in GetAllQuestions())
+        //    {
+        //        if (q.Id == id)
+        //        {
+        //            break;
+        //        }
+        //        prev = q;
+        //    }
+
+        //    if (prev == null)
+        //    {
+
+        //    }
+
+        //    return prev;
+        //}
     }
 }

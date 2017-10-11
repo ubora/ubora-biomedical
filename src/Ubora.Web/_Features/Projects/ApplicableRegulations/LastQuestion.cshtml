@@ -1,0 +1,29 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@model Ubora.Web._Features.Projects.ApplicableRegulations.LastQuestionViewModel
+
+<section class="project-view full-width">
+    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+    <section class="medium-width">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="center-element">
+            <h1>@Model.Text</h1>
+            
+        </div>
+        
+
+        @*<input type="hidden" asp-for="Id" />*@
+            
+        <div class="center-element">
+            
+            <h2>@(Model.Answer ? "You answered : Yes" : "You answered : No")</h2>
+        </div>
+            <div class="center-element">
+                
+                
+             
+                <a class="button primary-button small-button" asp-action="PreviousQuestion" asp-route-questionId="@Model.Id" asp-route-questionnaireId="@Model.QuestionnaireId">Back</a>
+                <a class="button primary-button small-button" asp-action="ForwardQuestion" asp-route-questionId="@Model.Id" asp-route-questionnaireId="@Model.QuestionnaireId">Forward</a>
+            </div>
+    </section>
+</section>
