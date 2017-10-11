@@ -1,7 +1,5 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Moq;
 using System;
 using System.Threading.Tasks;
 using Ubora.Web.Authorization;
@@ -13,11 +11,11 @@ namespace Ubora.Web.Tests.Authorization
 {
     public class IsEmailConfirmedRequirementHandlerTests
     {
-        private readonly HandlerUnderTest _handlerUnderTest;
+        private readonly IsEmailConfirmedRequirement.Handler _handlerUnderTest;
 
         public IsEmailConfirmedRequirementHandlerTests()
         {
-            _handlerUnderTest = new HandlerUnderTest();
+            _handlerUnderTest = new IsEmailConfirmedRequirement.Handler();
         }
 
         [Fact]
@@ -56,10 +54,6 @@ namespace Ubora.Web.Tests.Authorization
             // Assert
             handlerContext.HasSucceeded
                 .Should().BeFalse();
-        }
-
-        private class HandlerUnderTest : IsEmailConfirmedRequirement.Handler
-        {
         }
     }
 }
