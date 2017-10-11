@@ -13,16 +13,16 @@
             </div>
         
             @if (Model.Last != null) {
-                @if (!Model.Last.IsFinished) {
-                    <div class="center-element">
-                        <a class="button primary-button small-button" asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">
-                            Continue answering
-                        </a>
-                        <p>
+                if (!Model.Last.IsFinished) {
+                     <div class="center-element">
+                         <a class="button primary-button small-button" asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">
+                             Continue answering
+                         </a>
+                         <p>
                              Questionnaire started at @Model.Last.StartedAt
-                        </p>
-                    </div>
-                }
+                         </p>
+                     </div>
+                 }
 
                 <div class="two-columns-responsive">
                     @if (Model.Last.IsFinished) {
@@ -57,3 +57,4 @@
             }
         </section>
     </section>
+</section>
