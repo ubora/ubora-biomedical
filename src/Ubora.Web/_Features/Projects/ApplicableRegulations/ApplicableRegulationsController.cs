@@ -150,7 +150,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
             
             //var lastQuestion2 = questionnaire.Questionnaire.GetAllQuestions().(x => x.Id == Guid.NewGuid());
 
-            return View("LastQuestion", model);
+            return View("NavigateQuestion", model);
         }
         public IActionResult ForwardQuestion(Guid questionnaireId, Guid questionId)
         {
@@ -171,7 +171,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
                 Answer = nextQuestion.Answer.Value
 
             };
-            return View("LastQuestion", model);
+            return View("NavigateQuestion", model);
         }
 
 
