@@ -47,12 +47,6 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         [Fact]
         public override void Actions_Have_Authorize_Attributes()
         {
-<<<<<<< HEAD
-            AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.AddFile),
-                typeof(AuthorizeAttribute));
-            AssertHasAttribute(typeof(RepositoryController), nameof(RepositoryController.HideFile),
-                typeof(AuthorizeAttribute), nameof(Policies.CanHideProjectFile));
-=======
             var methodPolicies = new List<AuthorizationTestHelper.RolesAndPoliciesAuthorization>
                 {
                     new AuthorizationTestHelper.RolesAndPoliciesAuthorization
@@ -63,7 +57,6 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 };
 
             AssertHasAuthorizeAttributes(typeof(RepositoryController), methodPolicies);
->>>>>>> e3cbe7bf1ba742df4dd3cfe38aa0feafa008c12a
         }
 
         [Fact]
