@@ -1,5 +1,6 @@
 ﻿using System;
 using Marten;
+using Marten.Services;
 
 namespace Ubora.Domain.Tests
 {
@@ -49,10 +50,11 @@ namespace Ubora.Domain.Tests
 
             if (schemaName != StoreOptions.DefaultDatabaseSchemaName)
             {
-                var sql = $"DROP SCHEMA {schemaName} CASCADE;";
+                var sql = $"DROP SCHEMA IF EXISTS {schemaName} CASCADE;";
                 using (var conn = this.Tenancy.Default.OpenConnection())
                 {
-                    conn.Execute(cmd => cmd.CommandText = sql);
+                    conn.Execute(sql);
+                    conn.Commit();
                 }
             }
 

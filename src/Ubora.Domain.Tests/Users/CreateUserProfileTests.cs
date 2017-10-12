@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Ubora.Domain.Users;
+using Ubora.Domain.Users.Commands;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Users

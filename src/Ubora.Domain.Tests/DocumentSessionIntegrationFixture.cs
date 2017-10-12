@@ -3,7 +3,6 @@ using Marten;
 
 namespace Ubora.Domain.Tests
 {
-
     public abstract class DocumentSessionIntegrationFixture : StoreIntegrationFixture
     {
         private Lazy<IDocumentSession> _session;
@@ -15,7 +14,8 @@ namespace Ubora.Domain.Tests
 
         private void InitializeSession()
         {
-            _session = new Lazy<IDocumentSession>(() => theStore.DirtyTrackedSession());
+            // Use 'LightweightSession' because it does not have any caching, which is suitable for testing. http://jasperfx.github.io/marten/documentation/troubleshoot/
+            _session = new Lazy<IDocumentSession>(() => theStore.LightweightSession());
         }
 
         protected IDocumentSession Session => _session.Value;

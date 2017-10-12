@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Ubora.Domain.Projects.DeviceClassification;
 using Ubora.Web._Features.Projects.History._Base;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Projects.DeviceClassification.Events;
 
 namespace Ubora.Web._Features.Projects.History.WorkPackages
 {

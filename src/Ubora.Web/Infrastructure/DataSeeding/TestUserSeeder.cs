@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
+using Ubora.Domain.Users.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 

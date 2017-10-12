@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Ubora.Domain.Projects.Workpackages.Events;
 using Ubora.Domain.Projects.Workpackages.Specifications;
+using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.Workpackages
 {
@@ -11,7 +12,7 @@ namespace Ubora.Domain.Projects.Workpackages
         
         private void Apply(ProjectCreatedEvent e)
         {
-            ProjectId = e.Id;
+            ProjectId = e.ProjectId;
 
             Title = "Medical need and product specification";
 

@@ -23,7 +23,7 @@ namespace Ubora.Domain.Projects.Members.Commands
                 var userProfile = _documentSession.Query<UserProfile>().SingleOrDefault(x => x.Email == cmd.InvitedMemberEmail);
                 if (userProfile == null)
                 {
-                    return new CommandResult($"Email [{cmd.InvitedMemberEmail}] not found.");
+                    return CommandResult.Failed($"Email [{cmd.InvitedMemberEmail}] not found.");
                 }
 
                 var project = _documentSession.LoadOrThrow<Project>(cmd.ProjectId);
@@ -31,7 +31,7 @@ namespace Ubora.Domain.Projects.Members.Commands
                 var isUserAlreadyMember = project.Members.Any(m => m.UserId == userProfile.UserId);
                 if (isUserAlreadyMember)
                 {
-                    return new CommandResult($"[{cmd.InvitedMemberEmail}] is already member of project [{project.Title}].");
+                    return CommandResult.Failed($"[{cmd.InvitedMemberEmail}] is already member of project [{project.Title}].");
                 }
 
                 var invite = new InvitationToProject(userProfile.UserId, cmd.ProjectId);
@@ -39,7 +39,7 @@ namespace Ubora.Domain.Projects.Members.Commands
                 _documentSession.Store(invite);
                 _documentSession.SaveChanges();
 
-                return new CommandResult();
+                return CommandResult.Success;
             }
         }
     }

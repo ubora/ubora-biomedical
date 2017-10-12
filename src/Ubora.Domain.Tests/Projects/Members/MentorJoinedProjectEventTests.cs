@@ -4,6 +4,8 @@ using FluentAssertions;
 using Moq;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
+using Ubora.Domain.Projects._Events;
+using Ubora.Domain.Projects._Specifications;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Projects.Members

@@ -2,18 +2,20 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
+
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
-using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Commands;
-using Ubora.Domain.Users;
+using Ubora.Web.Authorization;
 using Ubora.Web._Features.Projects.Members;
 using Ubora.Web._Features.Users.Account;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web.Tests.Helper;
 using Xunit;
 using Ubora.Web._Features.Projects.Dashboard;
+
 
 namespace Ubora.Web.Tests._Features.Projects.Members
 {
@@ -29,7 +31,23 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             {
                 Url = Mock.Of<IUrlHelper>()
             };
+            
             SetUpForTest(_membersController);
+        }
+
+        [Fact]
+        public override void Actions_Have_Authorize_Attributes()
+        {
+            var methodPolicies = new List<AuthorizationTestHelper.RolesAndPoliciesAuthorization>
+            {
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                {
+                    MethodName = nameof(MembersController.RemoveMember),
+                    Policies = new []{ nameof(Policies.CanRemoveProjectMember) }
+                }
+            };
+
+            AssertHasAuthorizeAttributes(typeof(MembersController), methodPolicies);
         }
 
         [Fact]
@@ -43,10 +61,11 @@ namespace Ubora.Web.Tests._Features.Projects.Members
 
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<RemoveMemberFromProjectCommand>()))
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             // Act
             var result = (RedirectToActionResult)_membersController.RemoveMember(viewModel);
+            
 
             // Assert
             result.ActionName.Should().Be(nameof(MembersController.Members));
@@ -63,7 +82,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
 
              CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<RemoveMemberFromProjectCommand>()))
-                .Returns(new CommandResult("Something went wrong"));
+                .Returns(CommandResult.Failed("Something went wrong"));
 
             // Act
             var result = (ViewResult)_membersController.RemoveMember(viewModel);
@@ -77,7 +96,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         {
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<RemoveMemberFromProjectCommand>()))
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             // Act
             var result = (RedirectToActionResult)_membersController.LeaveProject();
@@ -91,7 +110,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         {
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<RemoveMemberFromProjectCommand>()))
-                .Returns(new CommandResult("Something went wrong"));
+                .Returns(CommandResult.Failed("Something went wrong"));
 
             // Act
             var result = (ViewResult)_membersController.LeaveProject();
@@ -105,7 +124,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         {
             CommandProcessorMock
                 .Setup(x => x.Execute(It.Is<JoinProjectCommand>(y => y.Actor.UserId == UserId)))
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             var viewModel = new JoinProjectViewModel();
 
@@ -121,7 +140,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         {
             CommandProcessorMock
                 .Setup(x => x.Execute(It.Is<JoinProjectCommand>(y => y.Actor.UserId == UserId)))
-                .Returns(new CommandResult("Something went wrong"));
+                .Returns(CommandResult.Failed("Something went wrong"));
 
             var viewModel = new JoinProjectViewModel();
 

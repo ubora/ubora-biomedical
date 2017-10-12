@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -8,6 +9,7 @@ using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Tests.Fakes;
+using Ubora.Web.Tests.Helper;
 using Ubora.Web._Features.Projects.InviteMentors;
 using Ubora.Web._Features._Shared.Notices;
 using Xunit;
@@ -25,6 +27,26 @@ namespace Ubora.Web.Tests._Features.Projects.InviteMentors
             _inviteMentorsController = new InviteMentorsController(_userManagerMock.Object);
 
             SetUpForTest(_inviteMentorsController);
+        }
+
+        [Fact]
+        public override void Actions_Have_Authorize_Attributes()
+        {
+            var rolesAndPoliciesAuthorizations = new List<AuthorizationTestHelper.RolesAndPoliciesAuthorization>
+            {
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                {
+                    MethodName = nameof(InviteMentorsController.InviteMentor),
+                    Roles = new []{ ApplicationRole.Admin }
+                },
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                {
+                    MethodName = nameof(InviteMentorsController.InviteMentors),
+                    Roles = new []{ ApplicationRole.Admin }
+                }
+            };
+
+            AssertHasAuthorizeAttributes(typeof(InviteMentorsController), rolesAndPoliciesAuthorizations);
         }
 
         [Fact]

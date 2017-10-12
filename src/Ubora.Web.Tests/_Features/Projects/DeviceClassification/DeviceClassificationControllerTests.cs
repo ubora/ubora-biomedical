@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.DeviceClassification;
+using Ubora.Domain.Projects.DeviceClassification.Commands;
 using Ubora.Web._Features.Projects.DeviceClassification;
 using Ubora.Web._Features.Projects.DeviceClassification.ViewModels;
 using Ubora.Web.Tests.Helper;
@@ -245,7 +246,7 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<SetDeviceClassificationForProjectCommand>()))
                 .Callback<SetDeviceClassificationForProjectCommand>(c => executedCommand = c)
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             var classification = new Classification("classification", 1, null);
             _deviceClassificationMock
@@ -291,7 +292,7 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassification
             CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<SetDeviceClassificationForProjectCommand>()))
                 .Callback<SetDeviceClassificationForProjectCommand>(c => executedCommand = c)
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             var classification = new Classification("classification", 1, null);
             _deviceClassificationMock.Setup(x => x.GetClassification(nextQuestionId))
