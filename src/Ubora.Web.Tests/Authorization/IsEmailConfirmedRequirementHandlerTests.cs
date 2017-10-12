@@ -23,7 +23,7 @@ namespace Ubora.Web.Tests.Authorization
         {
             var userId = Guid.NewGuid();
             var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(userId: userId, isEmailConfirmed: true);
-            var isPoop = user.IsEmailConfirmed();
+
             var handlerContext = new AuthorizationHandlerContext(
                 requirements: new[] { new IsEmailConfirmedRequirement() },
                 user: user,
@@ -42,7 +42,7 @@ namespace Ubora.Web.Tests.Authorization
         {
             var userId = Guid.NewGuid();
             var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(userId: userId, isEmailConfirmed: false);
-            var isPoop = user.IsEmailConfirmed();
+
             var handlerContext = new AuthorizationHandlerContext(
                 requirements: new[] { new IsEmailConfirmedRequirement() },
                 user: user,

@@ -6,7 +6,6 @@ using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.ProjectCreation
 {
-    [Authorize]
     [Authorize(Policy = nameof(Policies.CanCreateProject))]
     public class ProjectCreationController : UboraController
     {
