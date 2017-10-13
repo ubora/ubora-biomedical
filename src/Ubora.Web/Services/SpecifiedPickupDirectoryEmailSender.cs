@@ -8,7 +8,7 @@ using Ubora.Web.Infrastructure;
 
 namespace Ubora.Web.Services
 {
-    public class SpecifiedPickupDirectoryEmailSender : IEmailSender
+    public class SpecifiedPickupDirectoryEmailSender : EmailSender
     {
         private readonly IOptions<SmtpSettings> _appSettings;
 
@@ -17,47 +17,20 @@ namespace Ubora.Web.Services
             _appSettings = appSettings;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string message, IEnumerable<EmailIcon> emailIcons)
+        public override async Task SendEmailAsync(string email, string subject, string message, Action<AttachmentCollection> handleAttachments = null, Action<AttachmentCollection> handleLinkedResources = null)
         {
-            await SendEmailToPickupDirectory(email, subject, message, emailIcons);
-        }
-
-        private async Task SendEmailToPickupDirectory(string email, string subject, string message, IEnumerable<EmailIcon> emailIcons)
-        {
-            var emailMessage = new MimeMessage();
-
-            emailMessage.From.Add(new MailboxAddress("Ubora", "noreply@ubora-biomedical.org"));
-            emailMessage.To.Add(new MailboxAddress("", email));
-            emailMessage.Subject = subject;
-
-            var builder = new BodyBuilder();
-            if(emailIcons != null)
-            {
-                AddIconsToEmail(emailIcons, builder);
-            }
-
-            builder.HtmlBody = message;
-            emailMessage.Body = builder.ToMessageBody();
+            var emailMessage = PrepareEmailMessage(email, subject, message, handleAttachments, handleLinkedResources);
 
             var pickupDirectory = _appSettings.Value.EmailPickupDirectory;
-
             if (!Directory.Exists(pickupDirectory))
+            {
                 Directory.CreateDirectory(pickupDirectory);
+            }
 
-            var directoryPath = Path.GetFullPath(Path.Combine(pickupDirectory, Guid.NewGuid() + ".eml"));
-
-            using (var stream = new FileStream(directoryPath, FileMode.CreateNew))
+            var emailPath = Path.GetFullPath(Path.Combine(pickupDirectory, Guid.NewGuid() + ".eml"));
+            using (var stream = new FileStream(emailPath, FileMode.CreateNew))
             {
                 emailMessage.WriteTo(stream);
-            }
-        }
-
-        private static void AddIconsToEmail(IEnumerable<EmailIcon> emailIcons, BodyBuilder builder)
-        {
-            foreach (var emailIcon in emailIcons)
-            {
-                var image = builder.LinkedResources.Add(emailIcon.Path);
-                image.ContentId = emailIcon.ContentId;
             }
         }
     }

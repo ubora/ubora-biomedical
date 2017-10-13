@@ -23,7 +23,7 @@ namespace Ubora.Web._Features.Users.Account
     {
         private readonly IApplicationUserManager _userManager;
         private readonly IApplicationSignInManager _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly EmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly ICommandProcessor _commandProcessor;
         private readonly IEmailConfirmationMessageSender _confirmationMessageSender;
@@ -32,7 +32,7 @@ namespace Ubora.Web._Features.Users.Account
         public AccountController(
             IApplicationUserManager userManager,
             IApplicationSignInManager signInManager,
-            IEmailSender emailSender,
+            EmailSender emailSender,
             ILogger<AccountController> logger,
             ICommandProcessor commandProcessor, IEmailConfirmationMessageSender confirmationMessageSender, IPasswordRecoveryMessageSender passwordRecoveryMessageSender)
         {

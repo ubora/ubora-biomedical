@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
-using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Users.Manage
 {
@@ -17,13 +15,13 @@ namespace Ubora.Web._Features.Users.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly EmailSender _emailSender;
         private readonly ILogger _logger;
 
         public ManageController(
           UserManager<ApplicationUser> userManager,
           SignInManager<ApplicationUser> signInManager,
-          IEmailSender emailSender,
+          EmailSender emailSender,
           ILoggerFactory loggerFactory)
         {
             _userManager = userManager;

@@ -15,9 +15,21 @@
 
 <ItemGroup>
   <Compile Remove="Features\**" />
+  <Compile Remove="log\**" />
+  <Compile Remove="Storage\**" />
+  <Compile Remove="UboraMails\**" />
   <Content Remove="Features\**" />
+  <Content Remove="log\**" />
+  <Content Remove="Storage\**" />
+  <Content Remove="UboraMails\**" />
   <EmbeddedResource Remove="Features\**" />
+  <EmbeddedResource Remove="log\**" />
+  <EmbeddedResource Remove="Storage\**" />
+  <EmbeddedResource Remove="UboraMails\**" />
   <None Remove="Features\**" />
+  <None Remove="log\**" />
+  <None Remove="Storage\**" />
+  <None Remove="UboraMails\**" />
 </ItemGroup>
 
 <ItemGroup>
@@ -64,7 +76,6 @@
 
 <ItemGroup>
   <Folder Include="Properties\" />
-  <Folder Include="Storage\Infrastructure\" />
   <Folder Include="wwwroot\dist\" />
 </ItemGroup>
 
