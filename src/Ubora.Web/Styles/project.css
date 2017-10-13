@@ -13,7 +13,7 @@
 }
 
 .project_status {
-    background-color: var(--quaternary-color);
+    background-color: var(--orange);
     color: var(--white);
     display: block;
     padding: 0 1em 0 0;
@@ -59,7 +59,7 @@
 }
 
 .project_section--title {
-    background-color: var(--primary-color);
+    background-color: var(--blue);
     color: #FFF;
     font-weight: bold;
     padding: .5em;
@@ -134,13 +134,13 @@
     }
 
 .project_navigation_link--active:after {
-    border-bottom: 2px solid var(--primary-color);
+    border-bottom: 2px solid var(--blue);
 }
 
 .project_navigation_link:hover:after,
 .project_navigation_link:focus:after {
-    border-color: var(--secondary-color);
-    border-bottom: 2px solid var(--secondary-color);
+    border-color: var(--light-blue);
+    border-bottom: 2px solid var(--light-blue);
 }
 
 
@@ -164,7 +164,7 @@
 
         .project_sidemenu ol::before,
         .project_sidemenu li::before {
-            color: var(--primary-color);
+            color: var(--blue);
         }
 
 .project_sidemenu--workpackage::before {
@@ -185,7 +185,7 @@
 }
 
     .project_member--remove .material-icons {
-        color: var(--quaternary-color);
+        color: var(--orange);
     }
 
 

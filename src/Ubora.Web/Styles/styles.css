@@ -30,15 +30,16 @@
 @import url('notices.css');
 
 :root {
-	--primary-color: #4777BB;
-	--secondary-color: #44AAE0;
-	--tertiary-color: #95CD7C;
-	--quaternary-color: #EF7B52;
+	--blue: #4777BB;
+	--light-blue: #44AAE0;
+	--green: #95CD7C;
+	--orange: #EF7B52;
 	--text-color: #3D3D3D;
 	--primary-shade: #9E9E9E;
 	--secondary-shade: #BDBDBD;
 	--tertiary-shade: #E0E0E0;
 	--quartinary-shade: #F5F5F5;
+  --black: #000;
 	--white: #FFF;
 
 	--smallish-screen: 21.875em;
@@ -47,20 +48,14 @@
 	--hugeish-screen: 125em;
 }
 
-html,
-body {
-	margin:0;
-	padding:0;
-}
-
 body {
 	color: var(--text-color);
-	display:flex;
-	flex-direction: column;
 	font: normal 16px/1.5em 'Open Sans', Helvetica, Arial, sans-serif;
 	font-display: swap;
-	min-height: 100vh;
 }
+
+@import url('overrides/buttons.css');
+@import url('overrides/links.css');
 
 .pseudo-hidden {
 	border: 0;

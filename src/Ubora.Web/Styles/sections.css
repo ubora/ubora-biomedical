@@ -75,7 +75,7 @@
 
 .login-button:hover {
 	background-color: transparent;
-	color:var(--secondary-color);
+	color:var(--light-blue);
 }
 
 .login-button-image {

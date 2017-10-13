@@ -11,6 +11,6 @@ img {
 .material-icons {
 	vertical-align: text-top;
 	font-size:150%;
-	color: var(--primary-color);
+	color: var(--blue);
 	padding:0 .2em 0 0;
 }

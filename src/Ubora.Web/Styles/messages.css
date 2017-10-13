@@ -42,7 +42,7 @@
 }
 
 .notification--unread:before {
-    background-color: var(--primary-color);
+    background-color: var(--blue);
 }
 
 .notification-container {
@@ -104,15 +104,15 @@
 }
 
 .notice-info {
-    background-color: var(--secondary-color);
+    background-color: var(--light-blue);
 }
 
 .notice-success {
-    background-color: var(--tertiary-color);
+    background-color: var(--green);
 }
 
 .notice-error {
-    background-color: var(--quaternary-color);
+    background-color: var(--orange);
 }
 
 @media screen and (max-width: 50em) {

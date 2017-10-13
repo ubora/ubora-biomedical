@@ -118,7 +118,7 @@
 	background-color: transparent;
 	border:0;
 	box-sizing: border-box;
-	color:var(--primary-color);
+	color:var(--blue);
 	display: inline-block;
 	font-family: inherit;
 	padding: 0;
@@ -137,7 +137,7 @@
 .sidemenu-action-signout:active .material-icons,
 .sidemenu-action-signout:focus .material-icons,
 .sidemenu-action-signout:hover .material-icons {
-	color: var(--secondary-color);
+	color: var(--light-blue);
 	cursor: pointer;
 }
 

@@ -1,5 +1,5 @@
 .validation-summary-errors {
-    color: var(--quaternary-color);
+    color: var(--orange);
     font-size: 120%;
 }
 
@@ -14,7 +14,7 @@
         }
 
 .field-validation-error {
-    color: var(--quaternary-color);
+    color: var(--orange);
     display: block;
 }
 
@@ -24,7 +24,7 @@
     }
 
 .input-validation-error {
-    border-color: var(--quaternary-color);
+    border-color: var(--orange);
 }
 
 
@@ -45,7 +45,7 @@ form {
 }
 
     .form-input > label {
-        color: var(--primary-color);
+        color: var(--blue);
     }
 
     .form-input > input,

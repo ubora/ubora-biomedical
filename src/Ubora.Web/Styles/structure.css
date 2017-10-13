@@ -70,7 +70,7 @@ section {
 }
 
 .danger-text--header {
-    color: var(--quaternary-color);
+    color: var(--orange);
 }
 
 .form-input-options {

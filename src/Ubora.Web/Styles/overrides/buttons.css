@@ -1,0 +1,12 @@
+.btn-primary {
+  background-color: var(--blue);
+  border-color: var(--blue);
+  color: var(--white);
+}
+
+.btn-primary:focus,
+.btn-primary:hover {
+  background-color: var(--light-blue);
+  border-color: var(--light-blue);
+  color: var(--white);
+}

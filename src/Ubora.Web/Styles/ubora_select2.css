@@ -1,5 +1,5 @@
 .select2 {
-  border-bottom: 2px solid var(--primary-color);
+  border-bottom: 2px solid var(--blue);
   box-sizing: border-box;
   font-size: 150%;
   min-height: 2em;
@@ -49,11 +49,11 @@ li.select2-results__option[aria-disabled="true"] {
 
 input.select2-search__field,
 input.select2-search__field:focus {
-  border:1px solid var(--secondary-color);
+  border:1px solid var(--light-blue);
 }
 
 
 li.select2-results__option[role="treeitem"]:hover {
-  background-color:var(--primary-color);
+  background-color:var(--blue);
   color:var(--white);
 }
