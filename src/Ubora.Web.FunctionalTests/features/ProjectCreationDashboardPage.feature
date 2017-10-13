@@ -22,7 +22,7 @@ Scenario: I try to create an empty project
     Then I expect the element "span=The Project title field is required." is visible
         And I expect the element "span=The Clinical need field is required." is visible
         And I expect the element "span=The Area field is required." is visible
-        And I expect the element "span=The Technosigny field is required." is visible
+        And I expect the element "span=The Technology field is required." is visible
         And I expect the title of the page "Project drafting - UBORA"
 
 Scenario: I create a project
