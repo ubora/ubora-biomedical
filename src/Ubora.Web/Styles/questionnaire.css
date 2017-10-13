@@ -5,3 +5,13 @@
 .questionnaire-question {
     margin: 1em 0;
 }
+
+.questionnaire-navigation {
+    display: flex;
+    justify-content: space-between;
+}
+
+.questionnaire-navigation a {
+    margin: 0 1em;
+    font-size: 125%;
+}

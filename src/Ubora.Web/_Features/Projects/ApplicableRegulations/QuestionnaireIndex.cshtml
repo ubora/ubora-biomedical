@@ -7,36 +7,44 @@
     <section class="medium-width step-view">
         <section class="full-width">
             <div asp-validation-summary="ModelOnly"></div>
-            
+
             <div class="center-element">
                 <h1>Please take the questionnaire to identify applicable regulations.</h1>
             </div>
-        
-            @if (Model.Last != null) {
-                @if (!Model.Last.IsFinished) {
+
+            @if (Model.Last != null)
+            {
+                if (!Model.Last.IsFinished)
+                {
                     <div class="center-element">
                         <a class="button primary-button small-button" asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">
                             Continue answering
                         </a>
+                        <form asp-action="Retake" method="post">
+                            <button type="submit" class="button primary-button small-button">Retake questionnaire </button>
+                        </form>
                         <p>
-                             Questionnaire started at @Model.Last.StartedAt
+                            Questionnaire started at @Model.Last.StartedAt
                         </p>
                     </div>
                 }
 
                 <div class="two-columns-responsive">
-                    @if (Model.Last.IsFinished) {
+                    @if (Model.Last.IsFinished)
+                    {
                         <div class="center-element">
                             <h3>Last results:</h3>
                             <a asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">@Model.Last.StartedAt</a>
                         </div>
                     }
 
-                    @if (Model.Previous.Any()) {
+                    @if (Model.Previous.Any())
+                    {
                         <div class="center-element">
                             <h3>Previous results:</h3>
                             <ul class="previous-questionnaire-result-list">
-                                @foreach (var questionnaire in Model.Previous) {
+                                @foreach (var questionnaire in Model.Previous)
+                                {
                                     <li>
                                         <a asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@questionnaire.QuestionnaireId">
                                             @questionnaire.StartedAt
@@ -62,3 +70,5 @@
             }
         </section>
     </section>
+  
+</section>

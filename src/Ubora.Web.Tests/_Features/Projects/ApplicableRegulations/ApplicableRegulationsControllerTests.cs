@@ -36,7 +36,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
             // Assert
             executedCommand.NewQuestionnaireId.Should().NotBe(default(Guid));
 
-            result.ActionName.Should().Be(nameof(_controller.Next));
+            result.ActionName.Should().Be(nameof(_controller.CurrentUnansweredQuestion));
 
             result.RouteValues["questionnaireId"].Should().Be(executedCommand.NewQuestionnaireId);
         }
@@ -72,7 +72,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
             };
 
             var expectedResult = Mock.Of<IActionResult>();
-            _controllerMock.Setup(x => x.Next(model.QuestionnaireId))
+            _controllerMock.Setup(x => x.CurrentUnansweredQuestion(model.QuestionnaireId))
                 .Returns(expectedResult);
 
             // Act
@@ -106,7 +106,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
             executedCommand.QuestionId.Should().Be(model.Id);
             executedCommand.QuestionnaireId.Should().Be(model.QuestionnaireId);
 
-            result.ActionName.Should().Be(nameof(_controller.Next));
+            result.ActionName.Should().Be(nameof(_controller.CurrentUnansweredQuestion));
 
             result.RouteValues["questionnaireId"].Should().Be(model.QuestionnaireId);
         }
@@ -123,7 +123,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
             };
 
             var expectedResult = Mock.Of<IActionResult>();
-            _controllerMock.Setup(x => x.Next(model.QuestionnaireId))
+            _controllerMock.Setup(x => x.CurrentUnansweredQuestion(model.QuestionnaireId))
                 .Returns(expectedResult);
 
             // Act
@@ -145,7 +145,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
             };
 
             var expectedResult = Mock.Of<IActionResult>();
-            _controllerMock.Setup(x => x.Next(model.QuestionnaireId))
+            _controllerMock.Setup(x => x.CurrentUnansweredQuestion(model.QuestionnaireId))
                 .Returns(expectedResult);
 
             // Act
@@ -179,7 +179,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
             executedCommand.QuestionId.Should().Be(model.Id);
             executedCommand.QuestionnaireId.Should().Be(model.QuestionnaireId);
 
-            result.ActionName.Should().Be(nameof(_controller.Next));
+            result.ActionName.Should().Be(nameof(_controller.CurrentUnansweredQuestion));
 
             result.RouteValues["questionnaireId"].Should().Be(model.QuestionnaireId);
         }
@@ -196,7 +196,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
             };
 
             var expectedResult = Mock.Of<IActionResult>();
-            _controllerMock.Setup(x => x.Next(model.QuestionnaireId))
+            _controllerMock.Setup(x => x.CurrentUnansweredQuestion(model.QuestionnaireId))
                 .Returns(expectedResult);
 
             // Act

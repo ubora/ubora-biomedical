@@ -35,7 +35,7 @@ namespace Ubora.Domain.ApplicableRegulations
         public IEnumerable<Question> SubQuestions { get; private set; }
 
         public string ResourceName { get; private set; }
-        public string QuestionText => QuestionTexts.ResourceManager.GetString(this.ResourceName);
+        public virtual string QuestionText => QuestionTexts.ResourceManager.GetString(this.ResourceName);
         /// <remarks>Bear in mind that this will go straight to the web client.</remarks>
         public string IsoStandardHtmlText => IsoStandardTexts.ResourceManager.GetString(this.ResourceName);
 

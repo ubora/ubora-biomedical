@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.ApplicableRegulations;
@@ -35,7 +33,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
             if (!questionnaire.IsFinished)
             {
                 // Can't review when all questions have not been answered.
-                return RedirectToAction(nameof(Next), new { questionnaireId });
+                return RedirectToAction(nameof(CurrentUnansweredQuestion), new { questionnaireId });
             }
 
             var model = modelFactory.Create(questionnaire.Questionnaire);
@@ -45,7 +43,6 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
         [HttpPost]
         public IActionResult Start([FromServices]QuestionnaireIndexViewModel.Factory modelFactory)
         {
-
             var id = Guid.NewGuid();
             ExecuteUserProjectCommand(new StartApplicableRegulationsQuestionnaireCommand
             {
@@ -57,13 +54,16 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
                 return Index(modelFactory);
             }
 
-            return RedirectToAction(nameof(Next), new { questionnaireId = id });
+            return RedirectToAction(nameof(CurrentUnansweredQuestion), new { questionnaireId = id });
         }
 
-        public virtual IActionResult Next(Guid questionnaireId)
+        public virtual IActionResult CurrentUnansweredQuestion(Guid questionnaireId)
         {
             var questionnaire = QueryProcessor.FindById<ApplicableRegulationsQuestionnaireAggregate>(questionnaireId);
-            if (questionnaire == null) { return NotFound(); }
+            if (questionnaire == null)
+            {
+                return NotFound();
+            }
 
             if (questionnaire.IsFinished)
             {
@@ -71,13 +71,20 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
             }
 
             var nextQuestion = questionnaire.Questionnaire.FindNextUnansweredQuestion();
-            var model = new NextQuestionViewModel
+
+            return RedirectToAction(nameof(ReviewQuestion), new { questionnaireId, questionId = nextQuestion.Id });
+        }
+
+        public virtual IActionResult ReviewQuestion(Guid questionnaireId, Guid questionId, [FromServices]NextQuestionViewModel.Factory modelFactory)
+        {
+            var questionnaireAggregate = QueryProcessor.FindById<ApplicableRegulationsQuestionnaireAggregate>(questionnaireId);
+            if (questionnaireAggregate == null)
             {
-                Id = nextQuestion.Id,
-                Text = nextQuestion.QuestionText,
-                QuestionnaireId = questionnaire.Id,
-            };
-            return View("NextQuestion", model);
+                return NotFound();
+            }
+
+            var model = modelFactory.Create(questionnaireAggregate, questionId);
+            return View("CurrentUnansweredQuestion", model);
         }
 
         [HttpPost]
@@ -85,7 +92,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
         {
             if (!ModelState.IsValid)
             {
-                return Next(model.QuestionnaireId);
+                return CurrentUnansweredQuestion(model.QuestionnaireId);
             }
 
             ExecuteUserProjectCommand(new AnswerApplicableRegulationsQuestionCommand
@@ -97,10 +104,10 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 
             if (!ModelState.IsValid)
             {
-                return Next(model.QuestionnaireId);
+                return CurrentUnansweredQuestion(model.QuestionnaireId);
             }
 
-            return RedirectToAction(nameof(Next), new { questionnaireId = model.QuestionnaireId });
+            return RedirectToAction(nameof(CurrentUnansweredQuestion), new { questionnaireId = model.QuestionnaireId });
         }
 
         [HttpPost]
@@ -108,7 +115,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
         {
             if (!ModelState.IsValid)
             {
-                return Next(model.QuestionnaireId);
+                return CurrentUnansweredQuestion(model.QuestionnaireId);
             }
 
             ExecuteUserProjectCommand(new AnswerApplicableRegulationsQuestionCommand
@@ -120,97 +127,10 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 
             if (!ModelState.IsValid)
             {
-                return Next(model.QuestionnaireId);
+                return CurrentUnansweredQuestion(model.QuestionnaireId);
             }
 
-            return RedirectToAction(nameof(Next), new { questionnaireId = model.QuestionnaireId });
-        }
-
-        public IActionResult PreviousQuestion(Guid questionnaireId, Guid questionId)
-        {
-            var questionnaire = QueryProcessor.FindById<ApplicableRegulationsQuestionnaireAggregate>(questionnaireId);
-            if (questionnaire == null) { return NotFound(); }
-            var answeredQuestions = questionnaire.Questionnaire.GetAllQuestions().Where(x => x.Answer.HasValue);
-
-
-            var previousQuestion = PreviewsAnsweredQuestion(answeredQuestions, questionId);
-            if (previousQuestion == null)
-            {
-                //peaks indeksi lehele minema
-                return NotFound();
-            }
-
-            var model = new LastQuestionViewModel
-            {
-                Id = previousQuestion.Id,
-                Text = previousQuestion.QuestionText,
-                QuestionnaireId = questionnaireId,
-                Answer = previousQuestion.Answer.Value
-            };
-            
-            //var lastQuestion2 = questionnaire.Questionnaire.GetAllQuestions().(x => x.Id == Guid.NewGuid());
-
-            return View("NavigateQuestion", model);
-        }
-        public IActionResult ForwardQuestion(Guid questionnaireId, Guid questionId)
-        {
-            var questionnaire = QueryProcessor.FindById<ApplicableRegulationsQuestionnaireAggregate>(questionnaireId);
-            if (questionnaire == null) { return NotFound(); }
-            var answeredQuestions = questionnaire.Questionnaire.GetAllQuestions().Where(x => x.Answer.HasValue);
-
-            var nextQuestion = NextAnsweredQuestion(answeredQuestions, questionId);
-            if (nextQuestion == null)
-            {
-                return RedirectToAction(nameof(Next), new { questionnaireId });
-            }
-            var model = new LastQuestionViewModel()
-            {
-                Id = nextQuestion.Id,
-                Text = nextQuestion.QuestionText,
-                QuestionnaireId = questionnaire.Id,
-                Answer = nextQuestion.Answer.Value
-
-            };
-            return View("NavigateQuestion", model);
-        }
-
-
-
-        private static Question PreviewsAnsweredQuestion(IEnumerable<Question> answeredQuestions, Guid lastQuestionId)
-        {
-            Question prev = null;
-            foreach (var q in answeredQuestions)
-            {
-                if (q.Id == lastQuestionId)
-                {
-                    break;
-                }
-                prev = q;
-            }
-
-            if (prev == null)
-            {
-
-            }
-            return prev;
-        }
-        private static Question NextAnsweredQuestion(IEnumerable<Question> answeredQuestions, Guid lastQuestionId)
-        {
-            Question prev = null;
-            foreach (var q in answeredQuestions.Reverse())
-            {
-                if (q.Id == lastQuestionId)
-                {
-                    break;
-                }
-                prev = q;
-            }
-
-            if (prev == null)
-            {
-                return null;
-            }
-            return prev;
+            return RedirectToAction(nameof(CurrentUnansweredQuestion), new { questionnaireId = model.QuestionnaireId });
         }
     }
 }
