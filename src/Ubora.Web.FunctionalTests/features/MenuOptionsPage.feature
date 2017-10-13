@@ -31,6 +31,6 @@ Scenario: I click Notifications
     When I click on the element ".notifications_pending-button"
     Then I expect the title of the page "Notifications - UBORA"
 
-Scenario: I click Log out
-    When I log out
+Scenario: I click Sign out
+    When I sign out
     Then I expect the title of the page "Welcome - UBORA"
