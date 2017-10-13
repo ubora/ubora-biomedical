@@ -4,7 +4,6 @@
 @import url('media-content.css');
 @import url('forms.css');
 
-@import url('header.css');
 @import url('footer.css');
 @import url('process-steps.css');
 @import url('users.css');
@@ -29,23 +28,25 @@
 @import url('autocomplete.css');
 @import url('notices.css');
 
+
+@import url('overrides/buttons.css');
+@import url('overrides/links.css');
+
+@import url('page_components/header.css');
+@import url('page_components/workpackage_header.css');
+
 :root {
 	--blue: #4777BB;
 	--light-blue: #44AAE0;
 	--green: #95CD7C;
 	--orange: #EF7B52;
 	--text-color: #3D3D3D;
-	--primary-shade: #9E9E9E;
-	--secondary-shade: #BDBDBD;
-	--tertiary-shade: #E0E0E0;
-	--quartinary-shade: #F5F5F5;
   --black: #000;
 	--white: #FFF;
-
-	--smallish-screen: 21.875em;
-	--mediumish-screen: 50em;
-	--largeish-screen: 78.125em;
-	--hugeish-screen: 125em;
+  --primary-shade: #9E9E9E;
+  --secondary-shade: #BDBDBD;
+  --tertiary-shade: #E0E0E0;
+  --quartinary-shade: #F5F5F5;
 }
 
 body {
@@ -54,8 +55,11 @@ body {
 	font-display: swap;
 }
 
-@import url('overrides/buttons.css');
-@import url('overrides/links.css');
+
+/** {
+  box-sizing: border-box;
+  border:1px solid black;
+}*/
 
 .pseudo-hidden {
 	border: 0;
@@ -66,18 +70,4 @@ body {
 	overflow: hidden;
 	padding: 0;
 	width: 1px;
-}
-
-@media screen and (max-width: 50em) {
-	body {
-		font-size:15px;
-		line-height: 2em;
-	}
-}
-
-@media screen and (max-width: 21.875em) {
-	body {
-		font-size:14px;
-		line-height: 2em;
-	}
 }
