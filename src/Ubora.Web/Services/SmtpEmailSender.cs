@@ -1,13 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using System.Collections.Generic;
-using Ubora.Web.Infrastructure;
 
 namespace Ubora.Web.Services
 {
-    public class SmtpEmailSender : IEmailSender
+    public class SmtpEmailSender : EmailSender
     {
         private readonly IOptions<SmtpSettings> _appSettings;
 
@@ -16,27 +15,14 @@ namespace Ubora.Web.Services
             _appSettings = appSettings;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string message, IEnumerable<EmailIcon> emailIcons)
+        public override async Task SendEmailAsync(string email, string subject, string message, Action<AttachmentCollection> handleAttachments = null, Action<AttachmentCollection> handleLinkedResources = null)
         {
+            var emailMessage = PrepareEmailMessage(email, subject, message, handleAttachments, handleLinkedResources);
+
             var smtpUsername = _appSettings.Value.SmtpUsername;
             var smtpPassword = _appSettings.Value.SmtpPassword;
             var smtpHostname = _appSettings.Value.SmtpHostname;
             var smtpPort = _appSettings.Value.SmtpPort;
-
-            var emailMessage = new MimeMessage();
-
-            emailMessage.From.Add(new MailboxAddress("Ubora", "noreply@ubora-biomedical.org"));
-            emailMessage.To.Add(new MailboxAddress("", email));
-            emailMessage.Subject = subject;
-
-            var builder = new BodyBuilder();
-            if(emailIcons != null)
-            {
-                AddIconsToEmail(emailIcons, builder);
-            }
-
-            builder.HtmlBody = message;
-            emailMessage.Body = builder.ToMessageBody();
 
             using (var client = new MailKit.Net.Smtp.SmtpClient())
             {
@@ -45,15 +31,6 @@ namespace Ubora.Web.Services
                 await client.AuthenticateAsync(smtpUsername, smtpPassword);
                 await client.SendAsync(emailMessage);
                 await client.DisconnectAsync(true);
-            }
-        }
-
-        private static void AddIconsToEmail(IEnumerable<EmailIcon> emailIcons, BodyBuilder builder)
-        {
-            foreach (var emailIcon in emailIcons)
-            {
-                var image = builder.LinkedResources.Add(emailIcon.Path);
-                image.ContentId = emailIcon.ContentId;
             }
         }
     }
