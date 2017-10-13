@@ -41,7 +41,7 @@ namespace Ubora.Web.Tests.Infrastructure
                 .ReturnsAsync("expectedCode");
 
             EmailConfirmationEmailViewModel viewModel = null;
-            _viewRenderMock.Setup(x => x.Render("/_Features/_Shared/Templates/", "EmailConfirmationMessageTemplate.cshtml", It.IsAny<EmailConfirmationEmailViewModel>()))
+            _viewRenderMock.Setup(x => x.Render("/_Features/_Shared/Emails/", "EmailConfirmationMessageTemplate.cshtml", It.IsAny<EmailConfirmationEmailViewModel>()))
                 .Returns("viewHtml")
                 .Callback<string, string, EmailConfirmationEmailViewModel>((a, b, vm) => viewModel = vm);
 
@@ -74,7 +74,7 @@ namespace Ubora.Web.Tests.Infrastructure
                 .ReturnsAsync("expectedCode");
 
             ForgotPasswordEmailViewModel viewModel = null;
-            _viewRenderMock.Setup(x => x.Render("/_Features/_Shared/Templates/", "ForgotPasswordMessageTemplate.cshtml", It.IsAny<ForgotPasswordEmailViewModel>()))
+            _viewRenderMock.Setup(x => x.Render("/_Features/_Shared/Emails/", "ForgotPasswordMessageTemplate.cshtml", It.IsAny<ForgotPasswordEmailViewModel>()))
                 .Returns("viewHtml")
                 .Callback<string, string, ForgotPasswordEmailViewModel>((a, b, vm) => viewModel = vm);
 

@@ -3,8 +3,6 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using System.Collections.Generic;
-using Ubora.Web.Infrastructure;
 
 namespace Ubora.Web.Services
 {

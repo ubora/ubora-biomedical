@@ -33,7 +33,7 @@ namespace Ubora.Web.Infrastructure
                 Code = code,
             };
 
-            var view = _viewRender.Render("/_Features/_Shared/Templates/", "EmailConfirmationMessageTemplate.cshtml", viewModel);
+            var view = _viewRender.Render("/_Features/_Shared/Emails/", "EmailConfirmationMessageTemplate.cshtml", viewModel);
 
             var messageFinalHtml = _preMailerFactory.Create(view)
                 .MoveCssInline(removeStyleElements: true, ignoreElements: ".ignore-premailer")
@@ -52,7 +52,7 @@ namespace Ubora.Web.Infrastructure
                 Code = code
             };
 
-            var view = _viewRender.Render("/_Features/_Shared/Templates/", "ForgotPasswordMessageTemplate.cshtml", viewModel);
+            var view = _viewRender.Render("/_Features/_Shared/Emails/", "ForgotPasswordMessageTemplate.cshtml", viewModel);
 
             var messageFinalHtml = _preMailerFactory.Create(view)
                 .MoveCssInline(removeStyleElements: true, ignoreElements: ".ignore-premailer")

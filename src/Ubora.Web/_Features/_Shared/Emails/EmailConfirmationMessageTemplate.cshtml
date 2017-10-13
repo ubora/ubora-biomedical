@@ -1,4 +1,4 @@
-﻿@model Ubora.Web._Features._Shared.Templates.CallBackUrlTemplateViewModel
+﻿@model Ubora.Web._Features._Shared.Emails.EmailConfirmationEmailViewModel
 @{
     var confirmationUrl = Html.Raw(Url.Action("ConfirmEmail", "Account", new { userId = Model.UserId, Model.Code }, Context.Request.Scheme));
 }
