@@ -1,8 +1,8 @@
-.table-medical-tags {
+.table-medical-tags,  .table-level-of-completion {
   border: none;
 }
 
-.table-medical-tags td {
+.table-medical-tags td, .table-level-of-completion td  {
   background-color: #fff;
   border-top: none;
 }

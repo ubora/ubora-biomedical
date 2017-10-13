@@ -93,7 +93,7 @@
   </div>
 
   <div class="row">
-    <div class="col">
+    <div class="col px-0">
       <div class="row">
           @* <div class="project_section project_section--editable"> *@
               <div class="col px-0">
@@ -119,10 +119,87 @@
             }
         @*</div>*@
       </div>
-
-
     </div>
   </div>
+
+  <div class="row">
+    <div class="col px-0">
+      <div class="row">
+        <div class="col px-0">
+          <h2>Level of completion</h2>
+        </div>
+        <div class="col-2 d-flex align-items-center justify-content-end">
+          <a href="#"><i class="material-icons">keyboard_arrow_down</i>&nbsp;Show less</a>
+        </div>
+      </div>
+      <div class="row">
+    @*TODO: table-responsive does not work*@
+        <table class="table table-level-of-completion">
+          <tbody>
+            <tr>
+              <td>Design planning</td>
+              @*TODO: progress bar width is broken *@
+              <td class="col-5">
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Medical need and product specification</td>
+              <td>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Conceptual design</td>
+              <td>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Design and prototyping</td>
+              <td>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Implementation</td>
+              <td>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Operation</td>
+              <td>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: 10%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Project closure</td>
+              <td>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: 5%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
 </div>
 
 @section Scripts {
