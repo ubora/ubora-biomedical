@@ -1,0 +1,19 @@
+.form-group label {
+  color: var(--blue);
+  font-size: 1.5rem;
+  margin:1rem 0;
+}
+
+.form-group .form-control {
+  border: 0;
+  border-bottom: 2px solid var(--blue);
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 1.5rem;
+  padding: .5rem 0;
+}
+
+.form-group .form-control:focus {
+  border: 0;
+  border-bottom: 2px solid var(--light-blue);
+}

@@ -27,53 +27,6 @@
     border-color: var(--orange);
 }
 
-
-form {
-    align-items: stretch;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0 auto 2em auto;
-}
-
-.form-input {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin: 1em 0;
-}
-
-    .form-input > label {
-        color: var(--blue);
-    }
-
-    .form-input > input,
-    .form-input > select,
-    .form-input > textarea {
-        width: 100%;
-    }
-
-    .form-input-horizontal {
-        flex-direction: row;
-    }
-
-form > label > input,
-form > label > select,
-form > label > textarea {
-    width: 100%;
-}
-
-    form > label > input[type="checkbox"] {
-        width: inherit;
-    }
-
-form h1,
-form h2,
-form h3 {
-    margin: .5em 0 0 0;
-}
-
 .form-input-file {
     margin: 1em 0;
 }

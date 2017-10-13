@@ -2,12 +2,14 @@
   background-color: var(--blue);
   border-color: var(--blue);
   color: var(--white);
+  font-family: inherit;
 }
 
 .btn-secondary-ghost {
   background-color: transparent;
   border-color: var(--blue);
   color: var(--blue);
+  font-family: inherit;
 }
 
 .btn-secondary-ghost:focus,
@@ -31,6 +33,7 @@
   background-color: var(--primary-shade);
   border-color: var(--primary-shade);
   color: var(--white);
+  font-family: inherit;
 }
 
 .btn-primary[disabled]:focus,
