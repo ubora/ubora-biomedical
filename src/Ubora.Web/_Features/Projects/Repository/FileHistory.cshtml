@@ -28,7 +28,7 @@
                         <i class="file-list--item-control material-icons">file_download</i>
                     </a>
                 </td>
-                <td>@file.FileAddedOn</td>
+                <td><time class="timeago" datetime="@file.FileAddedOn">@file.FileAddedOn</time></td>
                 <td>@file.RevisionNumber</td>
                 <td>@file.FileSizeInKbs</td>
                 <td>@file.Comment</td>
@@ -36,3 +36,11 @@
         }
     </table>
 </section>
+
+<script src="~/dist/lib/jquery.timeago.js" type="text/javascript"></script>
+<script>
+    jQuery(document).ready(function () {
+        console.log("hei");
+        jQuery("time.timeago").timeago();
+    });
+</script>

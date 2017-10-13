@@ -52,7 +52,7 @@
                         </tr>
                         <tr>
                             <td><b>Created at</b></td>
-                            <td>@review.SubmittedAt</td>
+                            <td><time class="timeago" datetime="@review.SubmittedAt">@review.SubmittedAt</time></td>
                         </tr>
                         <tr>
                             <td><b>Concluded at</b></td>
@@ -74,3 +74,11 @@
         }
     </section>
 </section>
+
+
+<script src="~/dist/lib/jquery.timeago.js" type="text/javascript"></script>
+<script>
+    jQuery(document).ready(function () {
+        jQuery("time.timeago").timeago();
+    });
+</script>

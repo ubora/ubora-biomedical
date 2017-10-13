@@ -2,5 +2,13 @@
 
 <li class="history-list-item">
     @Model.Message
-    <p class="history-timestamp">@Model.Timestamp.ToString("dd-MM-yyyy HH:mm:ss")</p>
+    <br />
+    <time class="history-timestamp timeago" datetime="@Model.Timestamp">@Model.Timestamp.ToString("dd-MM-yyyy HH:mm:ss")</time>
 </li>
+
+<script src="~/dist/lib/jquery.timeago.js" type="text/javascript"></script>
+<script>
+    jQuery(document).ready(function () {
+        jQuery("time.timeago").timeago();
+    });
+</script>
