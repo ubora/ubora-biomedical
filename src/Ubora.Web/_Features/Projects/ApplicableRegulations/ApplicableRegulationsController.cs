@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.ApplicableRegulations;
 using Ubora.Domain.ApplicableRegulations.Commands;
 using Ubora.Web._Features.Projects._Shared;
+using Ubora.Domain.ApplicableRegulations.Texts;
 
 namespace Ubora.Web._Features.Projects.ApplicableRegulations
 {
@@ -72,7 +73,8 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
                 Id = nextQuestion.Id,
                 Text = nextQuestion.QuestionText,
                 QuestionnaireId = questionnaire.Id,
-            };
+                Note = nextQuestion.NoteText
+        };
             return View("NextQuestion", model);
         }
 
