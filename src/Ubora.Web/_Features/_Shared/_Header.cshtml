@@ -5,27 +5,6 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject ApplicationUserManager UserManager
 
-@* TODO: copy over to other places
-    <div class="sidemenu-profile">
-      <img class="sidemenu-profile-image avatar" src="@User.GetProfilePictureUrl()" alt="Profile picture" width="100">
-      <div>
-        <p class="sidemenu-profile-name">@User.GetFullName()</p>
-        <a >View profile</a>
-      </div>
-    </div>
-
-      <nav class="sidemenu-action-list">
-
-          <a class="sidemenu-action" asp-controller="ProjectCreation" asp-action="Create">
-              <i class="material-icons">create_new_folder</i>New project
-          </a>
-          <form class="signout-form" asp-action="Logout" asp-controller="Account" method="post">
-            <button class="sidemenu-action sidemenu-action-signout" type="submit">
-              <i class="material-icons" id="SignOut">exit_to_app</i>Sign out
-            </button>
-          </form>
-      </nav>*@
-
 <p class="notice-indev">In-development preview</p>
 @if (SignInManager.IsSignedIn(User))
 {

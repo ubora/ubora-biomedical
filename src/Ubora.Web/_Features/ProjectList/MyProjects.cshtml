@@ -4,6 +4,25 @@
     ViewData["Title"] = "View projects";
 }
 
-<section class="projects">
+<div class="container-fluid mx-2">
+  <div class="card-deck">
+    <div class="card" style="max-width:25rem">
+      <div class="card-body">
+        <h4 class="card-title">
+           <div class="text-center">
+             <i class="material-icons display-1">add</i>
+             <h1 class="display-4">New project</h1>
+           </div>
+        </h4>
+        <div class="card-footer">
+          <div class="text-center">
+            <a class="card-link" asp-controller="ProjectCreation" asp-action="Create">Create a project</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    @* TODO: Add other cards here as <div class="card"> elements! *@
     @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
-</section>
+  </div>
+</div>

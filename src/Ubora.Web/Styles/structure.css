@@ -57,14 +57,6 @@ section {
 	text-align: justify;
 }
 
-.card {
-	box-shadow: 0 3px 6px var(--secondary-shade);
-	display: inline-block;
-	border-radius: 5px;
-	max-width: 22em;
-	margin:1em;
-}
-
 .danger-text {
     text-align: center;
 }
