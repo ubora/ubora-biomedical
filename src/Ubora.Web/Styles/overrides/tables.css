@@ -1,0 +1,8 @@
+.table-medical-tags {
+  border: none;
+}
+
+.table-medical-tags td {
+  background-color: #fff;
+  border-top: none;
+}
