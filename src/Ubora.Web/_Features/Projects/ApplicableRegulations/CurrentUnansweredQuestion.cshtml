@@ -1,0 +1,57 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@model Ubora.Web._Features.Projects.ApplicableRegulations.NextQuestionViewModel
+
+<section class="project-view full-width">
+    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+    <section class="medium-width">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="center-element">
+            <h1>@Model.Text</h1>
+
+        </div>
+
+        @if (Model.Answer.HasValue)
+        {
+            <div class="center-element">
+                <h2>@(Model.Answer.Value ? "You answered : Yes" : "You answered : No")</h2>
+            </div>
+        }
+        else
+        {
+            <form class="questionnaire-form" method="post">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="QuestionnaireId" />
+
+                <div class="center-element">
+                    <button class="button secondary-button small-button" type="submit" asp-action="AnswerYes">Yes</button>
+                    <button class="button secondary-button small-button" type="submit" asp-action="AnswerNo">No</button>
+                </div>
+
+            </form>
+        }
+
+        <div class="questionnaire-navigation">
+            @if (Model.PreviousAnsweredQuestionId.HasValue)
+            {
+                <a asp-action="ReviewQuestion" asp-route-questionId="@Model.PreviousAnsweredQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId"><i class="material-icons">keyboard_arrow_left</i> Back</a>
+            }
+            else
+            {
+                <span></span>
+            }
+
+            @if (Model.NextQuestionId.HasValue)
+            {
+                <a asp-action="ReviewQuestion" asp-route-questionId="@Model.NextQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId">Forward<i class="material-icons">keyboard_arrow_right</i> </a>
+            }
+            else
+            {
+                <span></span>
+            }
+        </div>
+
+    </section>
+</section>

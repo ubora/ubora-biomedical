@@ -54,7 +54,7 @@ namespace Ubora.Domain.ApplicableRegulations
 
             return FindNextUnansweredFrom(question.NextMainQuestion);
         }
-        
+
         /// <remarks> Returns NULL if none found. </remarks>>
         private Question FindNextUnansweredSubQuestion(Question question)
         {
@@ -100,6 +100,11 @@ namespace Ubora.Domain.ApplicableRegulations
             }
         }
 
+        public virtual IEnumerable<Question> GetAllAnsweredQuestions()
+        {
+            return GetAllQuestions().Where(x => x.Answer.HasValue);
+        }
+
         private IEnumerable<Question> GetAllSubQuestions(Question parentQuestion)
         {
             for (int i = 0; i < parentQuestion.SubQuestions.Count(); i++)
@@ -117,30 +122,77 @@ namespace Ubora.Domain.ApplicableRegulations
             }
         }
 
-        public Question FindQuestionOrThrow(Guid id)
+        public virtual Question FindQuestionOrThrow(Guid id)
         {
             return GetAllQuestions().First(x => x.Id == id);
         }
 
-        // TODO throwaway logic
-        //public Question FindQuestionBefore(Guid id)
-        //{
-        //    Question prev = null;
-        //    foreach (var q in GetAllQuestions())
-        //    {
-        //        if (q.Id == id)
-        //        {
-        //            break;
-        //        }
-        //        prev = q;
-        //    }
+        public virtual Question FindPreviousAnsweredQuestionFrom(Question question)
+        {
+            ThrowIfQuestionNotFromQuestionnaire(question);
 
-        //    if (prev == null)
-        //    {
+            return FindClosestAnsweredQuestion(question, Direction.Previous);
+        }
 
-        //    }
+        public virtual Question FindNextQuestionFromAnsweredQuestion(Question question)
+        {
+            if (!question.Answer.HasValue)
+            {
+                throw new InvalidOperationException("Given question is not answered.");
+            }
 
-        //    return prev;
-        //}
+            ThrowIfQuestionNotFromQuestionnaire(question);
+
+            var nextQuestion = FindClosestAnsweredQuestion(question, Direction.Next);
+            if (nextQuestion != null)
+            {
+                return nextQuestion;
+            }
+
+            return FindNextUnansweredQuestion();
+        }
+
+        private void ThrowIfQuestionNotFromQuestionnaire(Question question)
+        {
+            var isFromQuestionnaire = GetAllQuestions().Any(q => q == question);
+            if (!isFromQuestionnaire)
+            {
+                throw new InvalidOperationException("Given question not found from this questionnaire.");
+            }
+        }
+
+        private Question FindClosestAnsweredQuestion(Question question, Direction direction)
+        {
+            var questions = GetAllAnsweredQuestions();
+
+            if (direction.IsNext)
+            {
+                questions = questions.Reverse();
+            }
+
+            Question previous = null;
+            foreach (var q in questions)
+            {
+                if (q == question)
+                {
+                    break;
+                }
+                previous = q;
+            }
+            return previous;
+        }
+
+        private class Direction
+        {
+            public bool IsNext { get; private set; }
+            public bool IsPrevious => !IsNext;
+
+            private Direction()
+            {
+            }
+
+            public static Direction Next => new Direction { IsNext = true };
+            public static Direction Previous => new Direction { IsNext = false };
+        }
     }
 }
