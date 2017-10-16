@@ -17,3 +17,35 @@
   border: 0;
   border-bottom: 2px solid var(--light-blue);
 }
+
+select.form-control:not([size]):not([multiple]) {
+  height: auto;
+}
+
+.custom-file-control {
+  border:0;
+  border-radius: 0;
+  border-bottom: 2px solid var(--blue);
+}
+
+.custom-file-control::before {
+  background-color: var(--blue);
+  border: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: .25rem;
+  color: var(--white);
+  transition:
+    background-color 200ms ease-in,
+    border 200ms ease-in;
+}
+
+.custom-file:hover .custom-file-control::before {
+  background-color: var(--light-blue);
+  /*border-bottom: 2px solid var(--light-blue);*/
+  cursor: pointer;
+}
+
+.custom-file .custom-file-control,
+.custom-file-control::before {
+  line-height: 1;
+}
