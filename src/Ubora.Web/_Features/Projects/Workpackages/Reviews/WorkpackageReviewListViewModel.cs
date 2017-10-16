@@ -15,7 +15,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
         public string SubmitForReviewUrl { get; set; }
         public string ReviewDecisionUrl { get; set; }
         public UiElementVisibility SubmitForReviewButton { get; set; }
-        public bool IsAnyReviewInProcess => Reviews.Any(x => x.Status == WorkpackageReviewStatus.InProcess);
+        public bool IsAuthorizedToWriteReview => Reviews.Any(x => x.Status == WorkpackageReviewStatus.InProcess);
 
         /// <remarks>
         /// Logic moved here to reduce duplication by making the method generic.
