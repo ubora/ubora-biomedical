@@ -32,11 +32,11 @@ namespace Ubora.Web._Features.Projects.Assignments
 
         [HttpPost]
         [Route(nameof(Add))]
-        public IActionResult Add(AddAssignmentViewModel model)
+        public IActionResult Add(AddAssignmentViewModel model, [FromServices]AddAssignmentViewModel.Factory modelFactory)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return Add(modelFactory);
             }
 
             ExecuteUserProjectCommand(new AddTaskCommand
@@ -49,7 +49,7 @@ namespace Ubora.Web._Features.Projects.Assignments
 
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return Add(modelFactory);
             }
 
             return RedirectToAction(nameof(Assignments), new { ProjectId });
@@ -64,11 +64,11 @@ namespace Ubora.Web._Features.Projects.Assignments
 
         [HttpPost]
         [Route(nameof(Edit))]
-        public IActionResult Edit(EditAssignmentViewModel model)
+        public IActionResult Edit(EditAssignmentViewModel model, [FromServices]EditAssignmentViewModel.Factory modelFactory)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return Edit(model.Id, modelFactory);
             }
 
             ExecuteUserProjectCommand(new EditTaskCommand
@@ -81,7 +81,7 @@ namespace Ubora.Web._Features.Projects.Assignments
 
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return Edit(model.Id, modelFactory);
             }
 
             return RedirectToAction(nameof(Assignments), new { ProjectId });
