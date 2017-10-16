@@ -29,7 +29,7 @@ module.exports = function () {
             browser.waitForExist(value)
         });
 
-    this.When(/^I log out$/, () => {
+    this.When(/^I sign out$/, () => {
             browser.click('span=Menu');
             browser.waitForExist('#SignOut');
             browser.click('#SignOut');
