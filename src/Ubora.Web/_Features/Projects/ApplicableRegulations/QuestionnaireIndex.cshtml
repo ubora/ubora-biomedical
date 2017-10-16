@@ -15,7 +15,7 @@
             @if (Model.Last != null) {
                 if (!Model.Last.IsFinished) {
                      <div class="center-element">
-                         <a class="button primary-button small-button" asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">
+                         <a class="btn btn-primary btn-lg" asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">
                              Continue answering
                          </a>
                          <p>
@@ -52,7 +52,7 @@
             @if (Model.Last == null || Model.Last.IsFinished)
             {
                 <form asp-action="Start" method="post">
-                    <button type="submit" class="button primary-button small-button">Take questionnaire</button>
+                    <button type="submit" class="btn btn-primary btn-lg">Take questionnaire</button>
                 </form>
             }
         </section>

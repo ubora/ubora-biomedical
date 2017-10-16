@@ -52,8 +52,8 @@ section {
 }
 
 .text-markdown {
-    font-family: inherit;
-	margin:1em;
+  font-family: inherit;
+	margin:1em 0;
 	text-align: justify;
 }
 
