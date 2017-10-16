@@ -24,13 +24,9 @@ namespace Ubora.Web._Features.Projects.Assignments
         }
 
         [Route(nameof(Add))]
-        public IActionResult Add()
+        public IActionResult Add([FromServices]AddAssignmentViewModel.Factory modelFactory)
         {
-            var model = new AddAssignmentViewModel
-            {
-                ProjectId = ProjectId
-            };
-
+            var model = modelFactory.Create(ProjectId);
             return View(model);
         }
 
@@ -47,7 +43,8 @@ namespace Ubora.Web._Features.Projects.Assignments
             {
                 Id = Guid.NewGuid(),
                 Title = model.Title,
-                Description = model.Description
+                Description = model.Description,
+                AssigneeIds = model.AssigneeIds
             });
 
             if (!ModelState.IsValid)
@@ -59,12 +56,9 @@ namespace Ubora.Web._Features.Projects.Assignments
         }
 
         [Route(nameof(Edit))]
-        public IActionResult Edit(Guid id)
+        public IActionResult Edit(Guid id, [FromServices]EditAssignmentViewModel.Factory modelFactory)
         {
-            var task = QueryProcessor.FindById<ProjectTask>(id);
-
-            var model = AutoMapper.Map<EditAssignmentViewModel>(task);
-
+            var model = modelFactory.Create(id);
             return View(model);
         }
 
@@ -81,7 +75,8 @@ namespace Ubora.Web._Features.Projects.Assignments
             {
                 Id = model.Id,
                 Title = model.Title,
-                Description = model.Description
+                Description = model.Description,
+                AssigneeIds = model.AssigneeIds
             });
 
             if (!ModelState.IsValid)
