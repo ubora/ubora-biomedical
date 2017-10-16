@@ -2,79 +2,77 @@
 @model Ubora.Web._Features.Users.Profile.UserProfileViewModel
 
 <form asp-controller="Profile" asp-action="EditProfile" method="post">
-    <div class="form-input">
-        <label>
-            First name
-        </label>
-        <input asp-for="FirstName" placeholder="First name">
-        <span asp-validation-for="FirstName"></span>
+    <div class="form-group">
+      <label>First name</label>
+      <input class="form-control" asp-for="FirstName" placeholder="First name">
+      <span asp-validation-for="FirstName"></span>
     </div>
 
-    <div class="form-input">
-        <label>
-            Last name
-        </label>
-        <input asp-for="LastName" placeholder="Last name">
+    <div class="form-group">
+        <label>Last name</label>
+        <input class="form-control" asp-for="LastName" placeholder="Last name">
         <span asp-validation-for="LastName"></span>
     </div>
 
-    <div class="form-input">
+    <div class="form-group">
       <label>Email</label>
-      <input type="text" disabled value="@User.GetEmail()" />
+      <input class="form-control" type="text" disabled value="@User.GetEmail()" />
     </div>
 
     <h3>Personal - Education</h3>
-    <div class="form-input">
+    <div class="form-group">
         <label asp-for="Biography">Bio</label>
-        <textarea asp-for="Biography" rows="5" placeholder="Write a few words about yourself!"></textarea>
+        <textarea class="form-control" asp-for="Biography" rows="3" placeholder="Write a few words about yourself!"></textarea>
         <span asp-validation-for="Biography"></span>
     </div>
 
     @Html.Partial("CountrySelectionPartial", @Model)
 
-    <div class="form-input">
+    <div class="form-group">
         <label asp-for="Degree">Degree</label>
-        <input asp-for="Degree" placeholder="Held/obtaining degree">
+        <input class="form-control" asp-for="Degree" placeholder="Held/obtaining degree">
         <span asp-validation-for="Degree"></span>
     </div>
 
-    <div class="form-input">
+    <div class="form-group">
         <label asp-for="Field">Field of study</label>
-        <input asp-for="Field" placeholder="e.g. hardware engineering">
+        <input class="form-control" asp-for="Field" placeholder="e.g. hardware engineering">
         <span asp-validation-for="Field"></span>
     </div>
 
-    <div class="form-input">
+    <div class="form-group">
         <label asp-for="University">University</label>
-        <input asp-for="University" placeholder="Name of university">
+        <input class="form-control" asp-for="University" placeholder="Name of university">
         <span asp-validation-for="University"></span>
     </div>
 
     <h3>Working experience in medical device field</h3>
-    <div class="form-input">
+    <div class="form-group">
         <label asp-for="MedicalDevice">I am involved in development and use of medical devices as...</label>
-        <select asp-for="MedicalDevice" asp-items="@SelectLists.UserMedicalDevices"></select>
+        <select class="form-control" asp-for="MedicalDevice" asp-items="@SelectLists.UserMedicalDevices"></select>
         <span asp-validation-for="MedicalDevice"></span>
     </div>
 
-    <div class="form-input">
+    <div class="form-group">
         <label asp-for="Institution">Please indicate your institution/company</label>
-        <input asp-for="Institution" type="text" placeholder="e.g. company, research institute, hospital">
+        <input class="form-control" asp-for="Institution" type="text" placeholder="e.g. company, research institute, hospital">
         <span asp-validation-for="Institution"></span>
     </div>
 
-    <div class="form-input">
+    <div class="form-group">
         <label asp-for="Skills">Skills</label>
-        <input asp-for="Skills" placeholder="What are you good at?">
+        <input class="form-control" asp-for="Skills" placeholder="What are you good at?">
         <span asp-validation-for="Skills"></span>
     </div>
 
     <h3>UBORA e-infrastructure</h3>
-    <div class="form-input">
+    <div class="form-group">
         <label asp-for="Role">Role</label>
-        <select asp-for="Role" asp-items="@SelectLists.UserRoles"></select>
+        <select class="form-control" asp-for="Role" asp-items="@SelectLists.UserRoles"></select>
         <span asp-validation-for="Role"></span>
     </div>
 
-    <button type="submit" class="button primary-button small-button">Edit profile</button>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary btn-lg">Edit profile</button>
+    </div>
 </form>
