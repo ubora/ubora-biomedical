@@ -10,9 +10,18 @@
 
             <div class="center-element">
                 <h1>Please take the questionnaire to identify applicable regulations.</h1>
+                <h2>@TempData["stop"]</h2>
             </div>
+           
+            @if (Model.Last == null || Model.Last.IsFinished)
+            {
+                <form asp-action="Start" method="post">
+                    <button type="submit" class="button primary-button small-button">Take questionnaire</button>
+                </form>
+            }
 
             @if (Model.Last != null)
+
             {
                 if (!Model.Last.IsFinished)
                 {
@@ -20,14 +29,17 @@
                         <a class="button primary-button small-button" asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">
                             Continue answering
                         </a>
-                        <form asp-action="Retake" method="post">
-                            <button type="submit" class="button primary-button small-button">Retake questionnaire </button>
+                        <form asp-action="Stop" method="post">
+                            <button type="submit" asp-action="Stop" asp-route-questionnaireId="@Model.Last.QuestionnaireId" class="button primary-button small-button">Stop questionnaire </button>
                         </form>
+
                         <p>
                             Questionnaire started at @Model.Last.StartedAt
+
                         </p>
                     </div>
                 }
+
 
                 <div class="two-columns-responsive">
                     @if (Model.Last.IsFinished)
@@ -48,7 +60,6 @@
                                     <li>
                                         <a asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@questionnaire.QuestionnaireId">
                                             @questionnaire.StartedAt
-
                                         </a>
                                     </li>
                                 }
@@ -57,18 +68,10 @@
                     }
                 </div>
             }
-            <div class="center-element">
-                <a class="button secondary-button small-button" asp-controller="WorkpackageOne" asp-action="ProjectOverview">Discard changes</a>
-                <button class="button primary-button small-button" type="submit">Save changes</button>
-            </div>
 
-            @if (Model.Last == null || Model.Last.IsFinished)
-            {
-                <form asp-action="Start" method="post">
-                    <button type="submit" class="button primary-button small-button">Take questionnaire</button>
-                </form>
-            }
+
+          
         </section>
     </section>
-  
+
 </section>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.ApplicableRegulations;
@@ -55,6 +56,23 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
             }
 
             return RedirectToAction(nameof(CurrentUnansweredQuestion), new { questionnaireId = id });
+        }
+        [HttpPost]
+        public IActionResult Stop(Guid questionnaireId, [FromServices]QuestionnaireIndexViewModel.Factory modelFactory)
+        {
+            var questionnaire = QueryProcessor.FindById<ApplicableRegulationsQuestionnaireAggregate>(questionnaireId);
+            if (questionnaire == null)
+            {
+                return NotFound();
+            }
+            ExecuteUserProjectCommand(new StopApplicableRegulationsQuestionnaireCommand
+            {
+                QuestionnaireId = questionnaireId,
+            });
+
+            TempData["stop"] = "Questionnaire was stopped";
+            var model = modelFactory.Create(this.ProjectId);
+            return View("QuestionnaireIndex", model);
         }
 
         public virtual IActionResult CurrentUnansweredQuestion(Guid questionnaireId)

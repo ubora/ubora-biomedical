@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Ubora.Domain.ApplicableRegulations;
 using Ubora.Domain.Infrastructure.Queries;
 
@@ -10,12 +11,14 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
     {
         public QuestionnaireListItem Last { get; set; }
         public IEnumerable<QuestionnaireListItem> Previous { get; set; }
+        
 
         public class QuestionnaireListItem
         {
             public Guid QuestionnaireId { get; set; }
             public DateTime StartedAt { get; set; }
             public bool IsFinished { get; set; }
+           
         }
 
         public class Factory

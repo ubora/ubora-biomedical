@@ -39,5 +39,9 @@ namespace Ubora.Domain.ApplicableRegulations
                 FinishedAt = DateTime.UtcNow;
             }
         }
+        private void Apply(ApplicableRegulationsQuestionnaireStopedEvent e)
+        {
+            FinishedAt = DateTime.UtcNow;
+        }
     }
 }
