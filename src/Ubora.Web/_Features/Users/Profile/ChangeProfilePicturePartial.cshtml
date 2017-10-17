@@ -7,8 +7,8 @@
     <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="ChangeProfilePicture">
         <div class="form-group">
           <label class="custom-file">
-            <input class="custom-file-input" asp-for="ProfilePicture">
-            <span class="custom-file-control"></span>
+            <input class="custom-file-input" data-toggle="custom-file" asp-for="ProfilePicture">
+            <span class="custom-file-control custom-file-name" data-content="Choose a file..."></span>
           </label>
           <span asp-validation-for="ProfilePicture"></span>
         </div>

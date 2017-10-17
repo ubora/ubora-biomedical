@@ -41,7 +41,6 @@ select.form-control:not([size]):not([multiple]) {
 
 .custom-file:hover .custom-file-control::before {
   background-color: var(--light-blue);
-  /*border-bottom: 2px solid var(--light-blue);*/
   cursor: pointer;
 }
 
