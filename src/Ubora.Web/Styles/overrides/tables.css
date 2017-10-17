@@ -16,9 +16,9 @@
   border: 1px solid var(--tertiary-shade);
 }
 
-.table-of-standards tr th{
+.table-heading-light tr th {
   background-color: var(--white);
-  padding: 1em;
+  padding: .5em;
   color: var(--blue);
   border-bottom: 2px solid var(--blue);
   font-size: 1.25rem;

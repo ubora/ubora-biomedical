@@ -16,18 +16,22 @@
       {
         <h2>@files.Key</h2>
 
-        <table class="table table-filelist full-width">
-          <tr>
-              <th></th>
-              <th>File name</th>
-              <th>Revision number</th>
-              <th>Size (kB)</th>
-              <th>Comment</th>
-          </tr>
+        <table class="table table-responsive table-heading-light text-center">
+          <thead>
+            <tr>
+                <th class="w-25"></th>
+                <th class="w-25">File name</th>
+                <th class="w-25">Revision number</th>
+                <th class="w-25">Size (kB)</th>
+                @*TODO: td width should be fixed?*@
+                <th class="w-25">Comment</th>
+            </tr>
+          </thead>
+          <tbody>
 
           @foreach (var file in files)
           {
-            <tr class="table-row-content-center">
+            <tr>
               <td>
                 <a href="@file.DownloadUrl" title="Download file" aria-label="Download file">
                   <i class="file-list--item-control material-icons">file_download</i>
@@ -59,7 +63,8 @@
               <td>@file.Comment</td>
             </tr>
           }
-          </table>
+          </tbody>
+        </table>
       }
     </div>
   </div>
