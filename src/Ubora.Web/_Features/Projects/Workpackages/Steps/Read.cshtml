@@ -7,31 +7,31 @@
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
-<section class="project-view full-width">
-    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
-
-    <section class="medium-width step-view">
-        <div class="step_header">
-            <h1 class="step_title">@Model.Title</h1>
-            @if (Model.EditButton.IsVisible)
-            {
-                <a class="step_edit" href="@Model.EditStepUrl">
-                    <i class="material-icons">mode_edit</i>Edit
-                </a>
-            }
-        </div>
-
-        @* TODO(from Kaspar Kallas to Risto Kitsing) *@
-        @if (Model.EditButton.IsHiddenWithMessage)
+<div class="container-fluid">
+  <div class="row mt-4">
+    <div class="col-xs-12 col-md-4">
+      @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+    </div>
+    <div class="col-xs-12 col-md-8">
+      <div class="row no-gutters d-flex justify-content-between">
+        <h2>@Model.Title</h2>
+        @if (Model.EditButton.IsVisible)
         {
-            <br />
-            <p><i>@Model.EditButton.HideReasonMessage</i></p>
+          <a href="@Model.EditStepUrl">
+            <span>Edit</span>
+            <i class="material-icons">mode_edit</i>
+          </a>
         }
-
-        <div class="text-markdown">@Model.Content</div>
-
-    </section>
-</section>
+      </div>
+      @*TODO: What is this?*@
+      @if (Model.EditButton.IsHiddenWithMessage)
+      {
+          <p><i>@Model.EditButton.HideReasonMessage</i></p>
+      }
+      <div class="text-markdown">@Model.Content</div>
+    </div>
+  </div>
+</div>
 
 @section Scripts {
   <script
