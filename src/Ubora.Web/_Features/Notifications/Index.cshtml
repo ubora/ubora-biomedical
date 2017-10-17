@@ -6,23 +6,31 @@
     ViewData["Title"] = "Notifications";
 }
 
-<section class="medium-width">
-    <a class="notifications_history-button" asp-controller="Notifications" asp-action="History"><i class="material-icons">history</i>Notification history</a>
-
-    @if (Model.Any())
-    {
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="container-fluid my-4">
+  <div class="row">
+    <div class="col">
+      <div class="d-flex justify-content-between">
         <h1>Pending invitations</h1>
+        <a class="btn btn-secondary-ghost" asp-controller="Notifications" asp-action="History">
+          <span>Notification history</span>
+          <i class="material-icons">history</i>
+        </a>
+      </div>
+      @if (Model.Any())
+      {
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         foreach (var notification in Model)
         {
-            @notification.GetPartialView(Html, false)
+          @notification.GetPartialView(Html, false)
         }
-    }
-    else
-    {
-        <div class="center-element">
-            <h3>You currently have no pending invitations.</h3>
+      }
+      else
+      {
+        <div class="text-center my-4">
+          <h2>You currently have no pending invitations.</h2>
         </div>
-    }
-</section>
+      }
+    </div>
+  </div>
+</div>

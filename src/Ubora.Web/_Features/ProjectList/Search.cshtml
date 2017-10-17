@@ -19,8 +19,8 @@
       </form>
     </div>
   </div>
-  <div class="row d-flex flex-column align-items-center">
-    <div class="col-md-3">
+  <div class="row">
+    <div class="col">
       @await Component.InvokeAsync(typeof(SearchingProjectListViewComponent), new { title = @Model.Title })
     </div>
   </div>

@@ -1,4 +1,4 @@
-﻿@model Ubora.Web._Features.ProjectList.ProjectListViewModel
+@model Ubora.Web._Features.ProjectList.ProjectListViewModel
 
 @if (Model.Projects.Any())
 {
@@ -6,6 +6,21 @@
     <div class="col">
       <h2 class="display-3">@Model.Header</h2>
       <div class="card-deck">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">
+               <div class="text-center">
+                 <i class="material-icons display-1">add</i>
+                 <h1 class="display-4">New project</h1>
+               </div>
+            </h4>
+            <div class="card-footer">
+              <div class="text-center">
+                <a class="card-link" asp-controller="ProjectCreation" asp-action="Create">Create a project</a>
+              </div>
+            </div>
+          </div>
+        </div>
         @foreach (var project in Model.Projects)
         {
           <div class="card">
@@ -31,10 +46,10 @@
 else if (Model.ShowDefaultMessage)
 {
   <div class="row">
-    <div class="col d-flex flex-column">
+    <div class="col">
       <div class="text-center">
-        <h2 class="display-3">No current projects</h2>
-        <p>You can help by <a asp-controller="ProjectCreation" asp-action="Create">creating a new project</a>!</p>
+        <h2 class="display-3">You have no projects.</h2>
+        <p>Either <a asp-controller="ProjectCreation" asp-action="Create">create a new one</a> or find projects to <a asp-controller="Home" asp-action="Index" asp-area="">join</a>.</p>
       </div>
     </div>
   </div>

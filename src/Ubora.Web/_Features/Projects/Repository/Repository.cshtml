@@ -8,10 +8,10 @@
 
 <div class="container-fluid">
   <div class="row mt-4">
-    <div class="col-xs-12 col-md-4">
+    <div class="col-sm-12 col-md-4">
       @Html.Partial("AddFilePartial", Model.AddFileViewModel)
     </div>
-    <div class="col-xs-12 col-md-8">
+    <div class="col-sm-12 col-md-8">
       @foreach (var files in Model.AllFiles)
       {
         <h2>@files.Key</h2>

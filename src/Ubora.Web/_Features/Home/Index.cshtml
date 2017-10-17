@@ -20,7 +20,7 @@
   </div>
 </div>
 }
-<div class="container-fluid">
+<div class="container-fluid mb-4">
   <div class="row">
     <div class="col flex-column text-center mr-1 p-5 landing-image-discussion">
       <p class="lead font-weight-bold">Have a need for medical solution? Find it through open discussion.</p>
@@ -33,13 +33,13 @@
   </div>
 </div>
 
-<div class="container-fluid mx-2 mt-2">
+<div class="container-fluid my-4">
   @if (SignInManager.IsSignedIn(User))
   {
       @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
   }
 </div>
-<div class="container-fluid mx-2 mt-2">
+<div class="container-fluid my-4">
   @await Component.InvokeAsync(typeof(PublicProjectListViewComponent))
 </div>
 

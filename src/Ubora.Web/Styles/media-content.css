@@ -1,9 +1,0 @@
-img {
-	vertical-align: middle;
-	display: inline-block;
-}
-
-.avatar {
-	border-radius: 2em;
-  object-fit: cover;
-}

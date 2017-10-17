@@ -6,22 +6,24 @@
     ViewData["MenuOption"] = ProjectMenuOption.Assignments;
 }
 
-<section class="medium-width">
-    <h1>
-        <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-id="@Model.ProjectId">@Model.ProjectName</a>
-    </h1>
-
-    <a asp-controller="Assignments" asp-action="Add" asp-route-projectId="@Model.ProjectId">
-        <i class="material-icons">add_box</i>Add assignment
-    </a>
-
-    <ol>
+<div class="container-fluid my-4">
+  <div class="row">
+    <div class="col">
+      <div class="d-flex justify-content-between">
+        <h1>@Model.ProjectName</h1>
+        <a class="btn btn-secondary-ghost" asp-controller="Assignments" asp-action="Add" asp-route-projectId="@Model.ProjectId">
+            <span>Add assignment</span>
+            <i class="material-icons">add_box</i>
+        </a>
+      </div>
+      <ol>
         @foreach (var assignment in Model.Assignments)
         {
-            <li>
-                <a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a>
-            </li>
+          <li>
+              <a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a>
+          </li>
         }
-    </ol>
-
-</section>
+      </ol>
+    </div>
+  </div>
+</div>

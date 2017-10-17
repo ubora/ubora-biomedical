@@ -1,0 +1,38 @@
+/*Technically hide elements from page rendering flow*/
+.pseudo-hidden {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	position: absolute;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	width: 1px;
+}
+
+/*Avatar image look*/
+.avatar {
+	border-radius: 2em;
+  object-fit: cover;
+}
+
+/*Markdown styles*/
+.text-markdown {
+  font-family: inherit;
+	margin:1em 0;
+	text-align: justify;
+}
+
+.image-markdown {
+    max-height: 844px;
+    height: 100%;
+    max-width: 1500px;
+    width: 100%;
+    object-fit: contain;
+}
+
+/*Override icon default values*/
+.material-icons {
+  font-size: 1.5rem !important;
+  line-height: 1.5 !important;
+}
