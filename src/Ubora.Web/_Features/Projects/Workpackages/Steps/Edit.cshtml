@@ -7,20 +7,20 @@
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
-<div class="container-fluid">
-  <div class="row mt-4">
-    <div class="col-xs-12 col-md-4">
+<div class="container-fluid my-4">
+  <div class="row">
+    <div class="col-sm-12 col-md-4">
       @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
     </div>
-    <div class="col-xs-12 col-md-8">
+    <div class="col-sm-12 col-md-8">
       <h2>@Model.Title</h2>
       @if (!string.IsNullOrWhiteSpace(Model.Description))
       {
-        <div class="helpful-tips js-helpful-tips my-4 d-inline-block">
-          <div class="helpful-tips-title">
+        <div class="my-2">
+          <a href="#" class="btn btn-secondary-ghost js-helpful-tips" role="button">
             <span>Helpful tips</span>
             <i class="material-icons">help</i>
-          </div>
+          </a>
         </div>
         <p class="helpful-tips-content js-helpful-tips-content">@Model.Description</p>
         <script>

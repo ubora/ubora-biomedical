@@ -67,8 +67,8 @@ li.select2-results__option[role="treeitem"]:hover {
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
-  background-color: var(--primary-color) !important;
-  border: 1px solid var(--primary-color) !important;
+  background-color: var(--blue) !important;
+  border: 1px solid var(--blue) !important;
   border-radius: 5px!important;
   color: var(--white);
   margin-top: 15px!important;
@@ -81,7 +81,7 @@ li.select2-results__option[role="treeitem"]:hover {
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
-  color: var(--quaternary-color)!important;
+  color: var(--orange)!important;
 }
 
 .multiple-select-box + .select2-container--default .select2-selection--multiple {
