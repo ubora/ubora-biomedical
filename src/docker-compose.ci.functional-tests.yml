@@ -5,7 +5,6 @@ services:
     build: ./Ubora.Web/
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
-      FunctionalTesting: "DisabledWebPack"
       ConnectionStrings__ApplicationDbConnection: "server=postgres;Port=5432;userid=postgres;password=ubora;database=ubora"
     ports:
       - "5000:80"

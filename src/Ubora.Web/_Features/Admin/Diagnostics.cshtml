@@ -10,7 +10,7 @@
 
       <div class="user-role-controls">
         <form method="post">
-            <input type="hidden" name="userId" value="@user.UserId">
+            <input type="hidden" name="userId" value="@user.UserId" />
             @if (user.IsAdmin)
             {
               <button class="button secondary-button small-button full-width" type="submit" asp-action="RemoveAdministratorRole">Remove administrator role</button>

@@ -24,6 +24,7 @@ using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects.Repository.Commands;
 using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Web.Tests.Helper;
+using AutoMapper;
 
 namespace Ubora.Web.Tests._Features.Projects.Repository
 {
@@ -32,12 +33,14 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         private readonly RepositoryController _controller;
         private readonly Mock<IUboraStorageProvider> _uboraStorageProviderMock;
         private readonly Mock<IEventStreamQuery> _eventStreamQueryMock;
+        private readonly Mock<ProjectFileViewModel.Factory> _projecFileViewModelFactory;
 
         public RepositoryControllerTests()
         {
             _uboraStorageProviderMock = new Mock<IUboraStorageProvider>();
             _eventStreamQueryMock = new Mock<IEventStreamQuery>();
-            _controller = new RepositoryController(_uboraStorageProviderMock.Object, _eventStreamQueryMock.Object);
+            _projecFileViewModelFactory = new Mock<ProjectFileViewModel.Factory>(Mock.Of<IUboraStorageProvider>(), Mock.Of<IMapper>());
+            _controller = new RepositoryController(_uboraStorageProviderMock.Object, _eventStreamQueryMock.Object, _projecFileViewModelFactory.Object);
             SetUpForTest(_controller);
         }
 
@@ -99,14 +102,14 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             var expectedFile = new ProjectFileViewModel();
             foreach (var file in expectedProjectFiles)
             {
-                AutoMapperMock
-                    .Setup(m => m.Map<ProjectFileViewModel>(file))
+                _projecFileViewModelFactory
+                    .Setup(m => m.Create(file))
                     .Returns(expectedFile);
             }
 
             var projectFilesViewModel = expectedProjectFiles
                 .GroupBy(f => f.FolderName, f => expectedFile);
-            
+
             var expectedModel = new ProjectRepositoryViewModel
             {
                 ProjectId = ProjectId,
@@ -273,28 +276,6 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             executedCommand.Id.Should().Be(fileId);
 
             result.ActionName.Should().Be(nameof(Repository));
-        }
-
-        [Fact]
-        public void DownloadFile_Returns_RedirectToUrl()
-        {
-            var projectFile = new ProjectFile();
-            var blobLocation = new BlobLocation("container", "path");
-            projectFile.Set(f => f.Location, blobLocation);
-
-            var fileId = Guid.NewGuid();
-            QueryProcessorMock.Setup(p => p.FindById<ProjectFile>(fileId))
-                .Returns(projectFile);
-
-            var expectedBlobSasUrl = "expectedBlobSasUrl";
-            _uboraStorageProviderMock.Setup(p => p.GetReadUrl(blobLocation, It.IsAny<DateTime>()))
-                .Returns(expectedBlobSasUrl);
-
-            //Act
-            var result = (RedirectResult)_controller.DownloadFile(fileId);
-
-            //Assert
-            result.Url.Should().Be(expectedBlobSasUrl);
         }
 
         [Fact]

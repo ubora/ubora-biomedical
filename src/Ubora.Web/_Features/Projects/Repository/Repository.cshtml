@@ -31,24 +31,29 @@
                         {
                             <tr class="table-row-content-center">
                                 <td>
-                                    <a href="@Url.Action("DownloadFile", new {fileId = file.Id})" title="Download file" aria-label="Download file">
-                                        <i class="file-list--item-control material-icons">file_download</i>
-                                    </a>
+                                  <a href="@file.DownloadUrl" title="Download file" aria-label="Download file">
+                                    <i class="file-list--item-control material-icons">file_download</i>
+                                  </a>
 
-                                    <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file">
-                                        <i class="file-list--item-control material-icons">file_upload</i>
-                                    </a>
+                                  <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file">
+                                    <i class="file-list--item-control material-icons">file_upload</i>
+                                  </a>
 
-                                    @if (Model.IsProjectLeader)
-                                    {
-                                        <a href="@Url.Action("HideFile", new {fileId = file.Id})" title="Delete file forever" aria-label="Delete file forever">
-                                            <i class="file-list--item-control material-icons">delete_forever</i>
-                                        </a>
-                                    }
+                                  <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history">
+                                    <i class="file-list--item-control material-icons">history</i>
+                                  </a>
 
-                                    <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history">
-                                        <i class="file-list--item-control material-icons">history</i>
+                                  <i
+                                    class="file-list--item-control material-icons js-copy-to-clipboard"
+                                    title="Copy file path to clipboard"
+                                    aria-label="Copy file"
+                                    data-uripath="@file.DownloadUrl">content_copy</i>
+                                  @if (Model.IsProjectLeader)
+                                  {
+                                    <a href="@Url.Action("HideFile", new {fileId = file.Id})" title="Delete file forever" aria-label="Delete file forever">
+                                    <i class="file-list--item-control material-icons">delete_forever</i>
                                     </a>
+                                  }
                                 </td>
                                 <td>@file.FileName</td>
                                 <td>@file.RevisionNumber</td>

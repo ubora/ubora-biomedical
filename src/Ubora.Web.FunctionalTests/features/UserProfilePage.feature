@@ -7,7 +7,7 @@ Background:
 
 Scenario: I sign up an account and create my profile
     When I click on the element "#SignInSignUp"
-        And I sign up as "user@profile.com" first name "FirstName" last name "LastName"
+        And I sign up as "user@profile.com"
         And I set value "Bio Bio Bio, Test Test Test" to the element "#Biography"
         And I select value "AGO" from element "#CountryCode"
         And I set value "DegreeTest" to the element "#Degree"
@@ -22,6 +22,7 @@ Scenario: I sign up an account and create my profile
 
 Scenario: I check my created profile
     When I click on the element "span=Menu"
+        And I wait for the element "a=View profile"
         And I click on the element "a=View profile"
         And I click on the element "a=Edit profile"
     Then I expect the title of the page "Edit profile - UBORA"
@@ -42,6 +43,7 @@ Scenario: I check my created profile
 
 Scenario: I change my profile and check if my changes have been saved
     When I click on the element "span=Menu"
+        And I wait for the element "a=View profile"
         And I click on the element "a=View profile"
         And I click on the element "a=Edit profile"
         And I set value "NameFirst" to the element "#FirstName"
@@ -73,6 +75,7 @@ Scenario: I change my profile and check if my changes have been saved
 
 Scenario: I try to add an empty profile picture
     When I click on the element "span=Menu"
+        And I wait for the element "a=View profile"
         And I click on the element "a=View profile"
         And I click on the element "a=Edit profile"
         And I click on the element "button=Upload image"
@@ -88,6 +91,6 @@ Scenario: I check terms of service
         And I expect the element "h1=UBORA e-infrastructure Terms of Service and Privacy Policy" is visible
         And I expect the element "a=http://e-infrastructure.ubora-biomedical.org" is visible
 
-Scenario: I log out
-    When I log out
+Scenario: I sign out
+    When I sign out
     Then I expect the title of the page "Welcome - UBORA"

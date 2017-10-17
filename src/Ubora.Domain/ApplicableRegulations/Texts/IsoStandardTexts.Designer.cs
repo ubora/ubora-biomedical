@@ -62,9 +62,9 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;li&gt;
-        ///    &lt;p&gt;&lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030261816&quot;&gt;EN ISO 14630:2012&lt;/a&gt;&lt;/p&gt;
+        ///    &lt;p&gt;&lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030261816&quot; target=&quot;_blank&quot;&gt; EN ISO 14630:2012&lt;/a&gt;&lt;/p&gt;
         ///    &lt;p&gt;This standard specifies requirements for all devices that are implanted in the human body but are not active.&lt;/p&gt;
-        ///    &lt;p&gt;NOTE: This norm is closely related to &lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030285625&quot;&gt;EN ISO 16061: 2015&lt;/a&gt; that refers to associated instruments.&lt;/p&gt;
+        ///    &lt;p&gt;NOTE: This norm is closely related to &lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030285625&quot; target=&quot;_blank&quot;&gt;EN ISO 16061: 2015&lt;/a&gt; that refers to associated instruments.&lt;/p&gt;
         ///&lt;/li&gt;.
         /// </summary>
         public static string Q1 {
@@ -75,7 +75,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;li&gt;
-        ///    &lt;p&gt;&lt;a href=&quot;https://webstore.iec.ch/publication/2612&quot;&gt;IEC 60601-1:2005+AMD1:2012 CSV (consolidated version)&lt;/a&gt;&lt;/p&gt;
+        ///    &lt;p&gt;&lt;a href=&quot;https://webstore.iec.ch/publication/2612&quot; target=&quot;_blank&quot;&gt;IEC 60601-1:2005+AMD1:2012 CSV (consolidated version)&lt;/a&gt;&lt;/p&gt;
         ///    &lt;p&gt;This standard specifies requirements for electromedical devices; it has more than 60 related publications, that describe very specific areas of electromedical devices.&lt;/p&gt;
         ///&lt;/li&gt;.
         /// </summary>
@@ -87,7 +87,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;li&gt;
-        ///    &lt;p&gt;&lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030287754&quot;&gt;EN 62304:2006+A1:2015&lt;/a&gt;&lt;/p&gt;
+        ///    &lt;p&gt;&lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030287754&quot; target=&quot;_blank&quot;&gt;EN 62304:2006+A1:2015&lt;/a&gt;&lt;/p&gt;
         ///    &lt;p&gt;This standard specifies how to design and code software for medical devices and sets requirements for SW change control.&lt;/p&gt;
         ///&lt;/li&gt;.
         /// </summary>
@@ -99,7 +99,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;li&gt;
-        ///    &lt;p&gt;&lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030157836&quot;&gt;BS EN 80001-1:2011&lt;/a&gt; and &lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030244875&quot;&gt;PD IEC/TR 80001-2-1:2012&lt;/a&gt;&lt;/p&gt;
+        ///    &lt;p&gt;&lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030157836&quot; target=&quot;_blank&quot;&gt;BS EN 80001-1:2011&lt;/a&gt; and &lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030244875&quot; target=&quot;_blank&quot;&gt;PD IEC/TR 80001-2-1:2012&lt;/a&gt;&lt;/p&gt;
         ///    &lt;p&gt;And any additional chapters that may be applicable to your device and your net.&lt;/p&gt;
         ///&lt;/li&gt;.
         /// </summary>
@@ -111,7 +111,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;li&gt;
-        ///    &lt;p&gt;&lt;a href=&quot;http://shop.bsigroup.com/SearchResults/?q=14708&quot;&gt;ISO 14708-1:2014&lt;/a&gt; and any of the additional chapters of this standard that may be applicable to your specific device&lt;/p&gt;
+        ///    &lt;p&gt;&lt;a href=&quot;http://shop.bsigroup.com/SearchResults/?q=14708&quot; target=&quot;_blank&quot;&gt;ISO 14708-1:2014&lt;/a&gt; and any of the additional chapters of this standard that may be applicable to your specific device&lt;/p&gt;
         ///    &lt;p&gt;This standard specifies requirements for all devices that are implanted in the human body and are also active; there are specific chapters for some medical devices (for example, -2 for cardiac pacemakers)&lt;/p&gt;
         ///&lt;/li&gt;.
         /// </summary>
@@ -132,13 +132,13 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;li&gt;
-        ///    &lt;p&gt;&lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030255136&quot;&gt;EN ISO 11607-1:2009+A1:2014&lt;/a&gt;&lt;/p&gt;
+        ///    &lt;p&gt;&lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030255136&quot; target=&quot;_blank&quot;&gt;EN ISO 11607-1:2009+A1:2014&lt;/a&gt;&lt;/p&gt;
         ///    &lt;p&gt;This standard specifies how the devices shall be packaged to allow sterilization and ensure that they remain sterile.&lt;/p&gt;
         ///&lt;/li&gt;
         ///&lt;li&gt;
-        ///    &lt;p&gt;You may also be interested in &lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030152866&quot;&gt;ISO 14644-1&lt;/a&gt;&lt;/p&gt;
+        ///    &lt;p&gt;You may also be interested in &lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030152866&quot; target=&quot;_blank&quot;&gt;ISO 14644-1&lt;/a&gt;&lt;/p&gt;
         ///    &lt;p&gt;This standard specifies requirements for the manufacturing environments.&lt;/p&gt;
-        ///    &lt;p&gt;NOTE: this standards has  [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Q4_1 {
             get {
@@ -148,7 +148,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;li&gt;
-        ///    &lt;p&gt;&lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030318543&quot;&gt;EN ISO 11135:2014&lt;/a&gt;&lt;/p&gt;
+        ///    &lt;p&gt;&lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030318543&quot; target=&quot;_blank&quot;&gt;EN ISO 11135:2014&lt;/a&gt;&lt;/p&gt;
         ///&lt;/li&gt;
         ///&lt;li&gt;
         ///    &lt;p&gt;You may also be interested in &lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030321506&quot;&gt;EN ISO 11138-2:2017&lt;/a&gt;&lt;/p&gt;
@@ -162,7 +162,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;li&gt;
-        ///    &lt;p&gt;&lt;a href=&quot;https://www.iso.org/obp/ui/#iso:std:iso:11137:-1:ed-1:v1:en&quot;&gt;ISO 11137&lt;/a&gt;&lt;/p&gt;
+        ///    &lt;p&gt;&lt;a href=&quot;https://www.iso.org/obp/ui/#iso:std:iso:11137:-1:ed-1:v1:en&quot; target=&quot;_blank&quot;&gt;ISO 11137&lt;/a&gt;&lt;/p&gt;
         ///    &lt;p&gt;Read at least chapter -1 and -2, you may also be interested in chapter -3&lt;/p&gt;
         ///&lt;/li&gt;.
         /// </summary>
@@ -174,7 +174,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;li&gt;
-        ///    &lt;p&gt;&lt;a href=&quot;https://www.iso.org/obp/ui/#iso:std:iso:17665:-1:ed-1:v1:en&quot;&gt;ISO 17665-1:2006(en)&lt;/a&gt;&lt;/p&gt;
+        ///    &lt;p&gt;&lt;a href=&quot;https://www.iso.org/obp/ui/#iso:std:iso:17665:-1:ed-1:v1:en&quot; target=&quot;_blank&quot;&gt;ISO 17665-1:2006(en)&lt;/a&gt;&lt;/p&gt;
         ///    &lt;p&gt;You may also be interested in chapter -2 of this same standard&lt;/p&gt;
         ///&lt;/li&gt;.
         /// </summary>
@@ -185,7 +185,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;li&gt;&lt;a href=&quot;https://www.iso.org/obp/ui/#iso:std:iso:20857:ed-1:v1:en&quot;&gt;ISO 20857:2010(en)&lt;/a&gt;&lt;/li&gt;.
+        ///   Looks up a localized string similar to &lt;li&gt;&lt;a href=&quot;https://www.iso.org/obp/ui/#iso:std:iso:20857:ed-1:v1:en&quot; target=&quot;_blank&quot;&gt;ISO 20857:2010(en)&lt;/a&gt;&lt;/li&gt;.
         /// </summary>
         public static string Q4_1_4 {
             get {
@@ -195,7 +195,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;li&gt;
-        ///    &lt;a href=&quot;https://www.iso.org/obp/ui/#iso:std:iso:13408:-1:ed-2:v1:en&quot;&gt;ISO 13408-1:2008(en)&lt;/a&gt; and any of the additional chapters of this standard that may be applicable to your specific process.
+        ///    &lt;a href=&quot;https://www.iso.org/obp/ui/#iso:std:iso:13408:-1:ed-2:v1:en&quot; target=&quot;_blank&quot;&gt;ISO 13408-1:2008(en)&lt;/a&gt; and any of the additional chapters of this standard that may be applicable to your specific process.
         ///&lt;/li&gt;.
         /// </summary>
         public static string Q4_2 {
@@ -206,7 +206,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;li&gt;
-        ///    &lt;p&gt;&lt;a href=&quot;https://www.iso.org/obp/ui/#iso:std:iso:10993:-1:ed-4:v1:en&quot;&gt;ISO 10993-1&lt;/a&gt; and any of the additional chapters of this standard that may be applicable to your specific device&lt;/p&gt;
+        ///    &lt;p&gt;&lt;a href=&quot;https://www.iso.org/obp/ui/#iso:std:iso:10993:-1:ed-4:v1:en&quot; target=&quot;_blank&quot;&gt;ISO 10993-1&lt;/a&gt; and any of the additional chapters of this standard that may be applicable to your specific device&lt;/p&gt;
         ///    &lt;p&gt;NOTE: This standard has 18 additional chapters, reading the chapter -1 will guide you on the choice of the applicable additional chapters.&lt;/p&gt;
         ///&lt;/li&gt;.
         /// </summary>
@@ -218,7 +218,7 @@ namespace Ubora.Domain.ApplicableRegulations.Texts {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;li&gt;
-        ///    &lt;p&gt;&lt;a href=&quot;https://www.iso.org/obp/ui/#iso:std:iso:22442:-1:ed-2:v1:en&quot;&gt;ISO 22442-1:2015(en)&lt;/a&gt; and any of the additional chapters of this standard that may be applicable to your specific device&lt;/p&gt;
+        ///    &lt;p&gt;&lt;a href=&quot;https://www.iso.org/obp/ui/#iso:std:iso:22442:-1:ed-2:v1:en&quot; target=&quot;_blank&quot;&gt;ISO 22442-1:2015(en)&lt;/a&gt; and any of the additional chapters of this standard that may be applicable to your specific device&lt;/p&gt;
         ///&lt;/li&gt;.
         /// </summary>
         public static string Q5_1 {

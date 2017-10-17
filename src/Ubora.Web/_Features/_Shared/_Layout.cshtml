@@ -13,6 +13,7 @@
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <environment names="Development">
+      <link rel="stylesheet" href="~/dist/styles.bundle.css">
       <script
         src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
         asp-fallback-src="~/dist/libs/jquery.min.js"
@@ -21,6 +22,7 @@
     </environment>
 
     <environment names="Staging,Production">
+      <link rel="stylesheet" href="~/dist/styles.bundle.css" asp-append-version="true">
       <script
         src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
         asp-fallback-src="~/dist/libs/jquery.min.js"
