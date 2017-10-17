@@ -5,11 +5,29 @@
     ViewData["Title"] = "Notification history";
 }
 
-<section class="medium-width">
-    <a class="notifications_pending-button" asp-controller="Notifications" asp-action="Index"><i class="material-icons">notifications</i>Pending invitations</a>
-    <h1>History</h1>
-    @foreach (var notification in Model)
-    {
-        @notification.GetPartialView(Html, true)
-    }
-</section>
+<div class="container-fluid my-4">
+  <div class="row">
+    <div class="col">
+      <div class="d-flex justify-content-between">
+        <h1>History</h1>
+        <a class="btn btn-secondary-ghost" asp-controller="Notifications" asp-action="Index">
+          <span>Pending invitations</span>
+          <i class="material-icons">notifications</i>
+        </a>
+      </div>
+      @if (Model.Any())
+      {
+        foreach (var notification in Model)
+        {
+          @notification.GetPartialView(Html, true)
+        }
+      }
+      else
+      {
+        <div class="text-center my-4">
+          <h2>No history to show.</h2>
+        </div>
+      }
+    </div>
+  </div>
+</div>

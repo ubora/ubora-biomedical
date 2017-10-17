@@ -20,6 +20,21 @@
   cursor: pointer;
 }
 
+.btn-secondary-ghost .material-icons,
+.btn-secondary-ghost span {
+  vertical-align: middle;
+}
+
+.btn-secondary-ghost.btn-highlighted {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+.btn-secondary-ghost.btn-highlighted:hover {
+  background-color: var(--orange);
+  color: var(--white);
+}
+
 .btn-primary:focus,
 .btn-primary:hover {
   background-color: var(--light-blue);

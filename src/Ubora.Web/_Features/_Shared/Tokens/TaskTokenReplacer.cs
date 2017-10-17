@@ -29,7 +29,7 @@ namespace Ubora.Web._Features._Shared.Tokens
                 var taskId = new Guid(match.Groups[1].Value);
 
                 var task = _queryProcessor.FindById<ProjectTask>(taskId);
-                var tasksLink = _urlHelper.Action("Assignments", "Assignments");
+                var tasksLink = _urlHelper.Action("Edit", "Assignments", new { projectId = task.ProjectId, id = task.Id });
 
                 var encodedTaskTitle = _htmlEncoder.Encode(task.Title);
 

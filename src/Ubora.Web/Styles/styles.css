@@ -1,38 +1,26 @@
-@import url('structure.css');
-@import url('user-controls.css');
-@import url('media-content.css');
-@import url('forms.css');
-@import url('footer.css');
-@import url('process-steps.css');
-@import url('users.css');
-@import url('profile.css');
-@import url('messages.css');
-@import url('repository.css');
-@import url('policies.css');
-@import url('members.css');
-@import url('questionnaire.css');
-@import url('markdown.css');
-@import url('project.css');
-@import url('workpackage.css');
-@import url('process-steps.css');
-@import url('feedback.css');
-@import url('history.css');
-@import url('autocomplete.css');
-@import url('notices.css');
+@import url('helpers.css');
 
-@import url('overrides/ubora_select2.css');
-@import url('overrides/typography.css');
-@import url('overrides/buttons.css');
 @import url('overrides/alerts.css');
-@import url('overrides/links.css');
 @import url('overrides/forms.css');
+@import url('overrides/links.css');
 @import url('overrides/tables.css');
+@import url('overrides/buttons.css');
+@import url('overrides/typography.css');
 @import url('overrides/progressbars.css');
+@import url('overrides/ubora_select2.css');
 
 @import url('page_components/header.css');
+@import url('page_components/footer.css');
+@import url('page_components/history.css');
+@import url('page_components/notices.css');
+@import url('page_components/feedback.css');
+@import url('page_components/messages.css');
+@import url('page_components/autocomplete.css');
 @import url('page_components/helpful_tips.css');
+@import url('page_components/project_members.css');
 @import url('page_components/workpackage_header.css');
 @import url('page_components/landing_jumbotron.css');
+
 
 :root {
 	--blue: #4777BB;
@@ -52,21 +40,4 @@ body {
 	color: var(--text-color);
 	font: normal 16px/1.5em 'Open Sans', Helvetica, Arial, sans-serif;
 	font-display: swap;
-}
-
-
-/** {
-  box-sizing: border-box;
-  border:1px solid black;
-}*/
-
-.pseudo-hidden {
-	border: 0;
-	clip: rect(0 0 0 0);
-	height: 1px;
-	position: absolute;
-	margin: -1px;
-	overflow: hidden;
-	padding: 0;
-	width: 1px;
 }

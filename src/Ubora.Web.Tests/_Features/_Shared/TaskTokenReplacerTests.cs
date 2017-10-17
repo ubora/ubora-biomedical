@@ -49,7 +49,7 @@ namespace Ubora.Web.Tests._Features._Shared
                 .Returns(task2);
 
             _urlHelperMock.Setup(h => h.Action(It.Is<UrlActionContext>(
-                    x => x.Action == "Assignments" && x.Controller == "Assignments")))
+                    x => x.Action == "Edit" && x.Controller == "Assignments")))
                 .Returns("tasksLink");
 
             var encodedTask1Title = "encodedTask1Title";

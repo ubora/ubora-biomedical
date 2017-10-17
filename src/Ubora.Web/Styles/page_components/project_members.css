@@ -1,4 +1,4 @@
-.project-control-options {
+/*.project-control-options {
     display: flex;
     flex-direction: column;
 }
@@ -40,4 +40,4 @@
 
 .project-member--remove .material-icons {
     color: var(--orange);
-}
+}*/
