@@ -24,69 +24,64 @@ namespace Ubora.Web._Features.Projects.Assignments
         }
 
         [Route(nameof(Add))]
-        public IActionResult Add()
+        public IActionResult Add([FromServices]AddAssignmentViewModel.Factory modelFactory)
         {
-            var model = new AddAssignmentViewModel
-            {
-                ProjectId = ProjectId
-            };
-
+            var model = modelFactory.Create(ProjectId);
             return View(model);
         }
 
         [HttpPost]
         [Route(nameof(Add))]
-        public IActionResult Add(AddAssignmentViewModel model)
+        public IActionResult Add(AddAssignmentViewModel model, [FromServices]AddAssignmentViewModel.Factory modelFactory)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return Add(modelFactory);
             }
 
             ExecuteUserProjectCommand(new AddTaskCommand
             {
                 Id = Guid.NewGuid(),
                 Title = model.Title,
-                Description = model.Description
+                Description = model.Description,
+                AssigneeIds = model.AssigneeIds
             });
 
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return Add(modelFactory);
             }
 
             return RedirectToAction(nameof(Assignments), new { ProjectId });
         }
 
         [Route(nameof(Edit))]
-        public IActionResult Edit(Guid id)
+        public IActionResult Edit(Guid id, [FromServices]EditAssignmentViewModel.Factory modelFactory)
         {
-            var task = QueryProcessor.FindById<ProjectTask>(id);
-
-            var model = AutoMapper.Map<EditAssignmentViewModel>(task);
-
+            var model = modelFactory.Create(id);
             return View(model);
         }
 
         [HttpPost]
         [Route(nameof(Edit))]
-        public IActionResult Edit(EditAssignmentViewModel model)
+        public IActionResult Edit(EditAssignmentViewModel model, [FromServices]EditAssignmentViewModel.Factory modelFactory)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return Edit(model.Id, modelFactory);
             }
 
             ExecuteUserProjectCommand(new EditTaskCommand
             {
                 Id = model.Id,
                 Title = model.Title,
-                Description = model.Description
+                Description = model.Description,
+                AssigneeIds = model.AssigneeIds
             });
 
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return Edit(model.Id, modelFactory);
             }
 
             return RedirectToAction(nameof(Assignments), new { ProjectId });

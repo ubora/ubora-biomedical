@@ -57,3 +57,37 @@ li.select2-results__option[role="treeitem"]:hover {
   background-color:var(--blue);
   color:var(--white);
 }
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+  border: 0!important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+  margin:-10px 0 !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background-color: var(--primary-color) !important;
+  border: 1px solid var(--primary-color) !important;
+  border-radius: 5px!important;
+  color: var(--white);
+  margin-top: 15px!important;
+  padding: 5px!important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+  color: var(--white) !important;
+  padding-right: .2em;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+  color: var(--quaternary-color)!important;
+}
+
+.multiple-select-box + .select2-container--default .select2-selection--multiple {
+  border: 0;
+}
+
+.select2-selection__rendered {
+  position: relative !important;
+}
