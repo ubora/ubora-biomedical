@@ -1,4 +1,4 @@
-Feature: WP1 Functionality tests
+Feature: Work packages Functionality tests
     As a project leader / system administrator
     I want to modify WP1 different workpackages and go through the review process
 
