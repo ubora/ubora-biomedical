@@ -1,62 +1,58 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages
 @model Ubora.Web._Features.Projects.ApplicableRegulations.QuestionnaireIndexViewModel
 
-
-
-<div class="container-fluid">
-  <div class="row mt-4">
-    <div class="col-xs-12 col-md-4">
+<div class="container-fluid my-4">
+  <div class="row">
+    <div class="col-sm-12 col-md-4">
       @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
     </div>
-
-    <div class="col-sm-12 col-md-8 d-flex flex-column align-items-center">
-      <div asp-validation-summary="ModelOnly"></div>
-
-      @if (Model.Last != null) {
-          if (!Model.Last.IsFinished) {
-             <a class="btn btn-primary" asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">
-                 Continue answering
-             </a>
-             <p>
-                 Questionnaire started at @Model.Last.StartedAt
-             </p>
-           }
-
-        <div class="row">
-            <h1>Please take the questionnaire to identify applicable regulations.</h1>
-
-            <div class="col-6">
-              @if (Model.Last.IsFinished) {
-                <h3>Last results:</h3>
-                <a asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">@Model.Last.StartedAt</a>
-              }
-            </div>
-            <div class="col-6">
-              @if (Model.Previous.Any()) {
-                <h3>Previous results:</h3>
-                <ul class="previous-questionnaire-result-list">
-                    @foreach (var questionnaire in Model.Previous) {
-                        <li>
-                            <a asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@questionnaire.QuestionnaireId">
-                                @questionnaire.StartedAt
-                            </a>
-                        </li>
-                    }
-                </ul>
-              }
-            </div>
+    <div class="col-sm-12 col-md-8">
+      <div class="row">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="col-sm-12 text-center">
+          <h1>Please take the questionnaire to identify applicable regulations.</h1>
         </div>
 
-      }
-
-    <div class="mt-4">
-      @if (Model.Last == null || Model.Last.IsFinished)
-      {
-          <form asp-action="Start" method="post">
+        @if (Model.Last == null || Model.Last.IsFinished)
+        {
+          <div class="col-sm-12 d-flex justify-content-center my-4">
+            <form asp-action="Start" method="post">
               <button type="submit" class="btn btn-primary btn-lg">Take questionnaire</button>
-          </form>
-      }
-    </div>
+            </form>
+          </div>
+        }
+
+        @if (Model.Last != null) {
+          @if (!Model.Last.IsFinished) {
+            <div class="col-sm-12 d-flex justify-content-center my-4">
+              <a class="btn btn-primary" asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Continue answering</a>
+            </div>
+            <div class="col-sm-12 text-center">
+              <p>Questionnaire started at @Model.Last.StartedAt</p>
+            </div>
+          }
+
+          @if (Model.Last.IsFinished) {
+            <div class="col my-2 text-center">
+              <h3>Last results:</h3>
+              <a asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">@Model.Last.StartedAt</a>
+            </div>
+          }
+
+          @if (Model.Previous.Any()) {
+            <div class="col my-2 text-center">
+              <h3>Previous results:</h3>
+              <ul class="px-0">
+                @foreach (var questionnaire in Model.Previous) {
+                  <li class="d-flex justify-content-center my-2">
+                    <a asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@questionnaire.QuestionnaireId">@questionnaire.StartedAt</a>
+                  </li>
+                }
+              </ul>
+            </div>
+          }
+        }
+      </div>
     </div>
   </div>
 </div>

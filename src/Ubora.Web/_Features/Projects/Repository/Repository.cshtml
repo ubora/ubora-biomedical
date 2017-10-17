@@ -6,8 +6,8 @@
     ViewData["MenuOption"] = ProjectMenuOption.Repository;
 }
 
-<div class="container-fluid">
-  <div class="row mt-4">
+<div class="container-fluid my-4">
+  <div class="row">
     <div class="col-sm-12 col-md-4">
       @Html.Partial("AddFilePartial", Model.AddFileViewModel)
     </div>
@@ -16,7 +16,7 @@
       {
         <h2>@files.Key</h2>
 
-        <table class="table table-responsive table-heading-light text-center">
+        <table class="table table-responsive table-theme-light text-center table-repository">
           <thead>
             <tr>
                 <th class="w-25"></th>

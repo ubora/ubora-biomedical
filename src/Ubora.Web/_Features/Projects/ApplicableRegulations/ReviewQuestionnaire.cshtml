@@ -1,14 +1,14 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages
 @model Ubora.Web._Features.Projects.ApplicableRegulations.ReviewQuestionnaireViewModel
 
-<div class="container-fluid">
-  <div class="row mt-4">
+<div class="container-fluid my-4">
+  <div class="row">
     <div class="col-sm-12 col-md-4">
       @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
     </div>
     <div class="col-sm-12 col-md-8">
       <h3>Questionnaire results:</h3>
-      <table class="table table-responsive table-of-standards table-heading-light">
+      <table class="table table-responsive table-of-standards table-theme-light">
         <thead>
           <tr>
             <th class="w-25">Question</th>
@@ -34,7 +34,7 @@
       </table>
 
       <h3 class="mt-4">The following standards and guidelines are applicable to all devices, regardless the kind and risk classification:</h3>
-      <table class="table table-responsive table-of-standards table-heading-light">
+      <table class="table table-responsive table-of-standards table-theme-light">
         <thead>
           <tr>
             <th class="w-25">Standard</th>

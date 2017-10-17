@@ -16,10 +16,16 @@
   border: 1px solid var(--tertiary-shade);
 }
 
-.table-heading-light tr th {
+.table-theme-light tr th {
   background-color: var(--white);
   padding: .5em;
   color: var(--blue);
   border-bottom: 2px solid var(--blue);
   font-size: 1.25rem;
+  font-weight: normal;
+  text-align: center;
+}
+
+.table-repository {
+  border: 1px solid var(--blue);
 }
