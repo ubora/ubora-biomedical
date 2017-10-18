@@ -38,6 +38,7 @@ namespace Ubora.Domain.ApplicableRegulations
         public virtual string QuestionText => QuestionTexts.ResourceManager.GetString(this.ResourceName);
         /// <remarks>Bear in mind that this will go straight to the web client.</remarks>
         public string IsoStandardHtmlText => IsoStandardTexts.ResourceManager.GetString(this.ResourceName);
+        public virtual string NoteText => NoteTexts.ResourceManager.GetString(this.ResourceName);
 
         public void AnswerQuestion(bool answer)
         {

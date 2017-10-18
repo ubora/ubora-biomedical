@@ -7,9 +7,9 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
     {
         public Guid Id { get; set; }
         public Guid QuestionnaireId { get; set; }
-
         public string Text { get; set; }
         public bool? Answer { get; set; }
+        public string Note { get; set; }
         public Guid? PreviousAnsweredQuestionId { get; set; }
         public Guid? NextQuestionId { get; set; }
 
@@ -24,6 +24,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
                     Text = question.QuestionText,
                     QuestionnaireId = questionnaireAggregate.Id,
                     Answer = question.Answer,
+                    Note = question.NoteText,
                     PreviousAnsweredQuestionId = questionnaireAggregate.Questionnaire.FindPreviousAnsweredQuestionFrom(question)?.Id,
                     NextQuestionId = question.Answer.HasValue ? questionnaireAggregate.Questionnaire.FindNextQuestionFromAnsweredQuestion(question)?.Id : null
                 };

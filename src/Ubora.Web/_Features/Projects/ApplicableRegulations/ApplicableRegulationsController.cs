@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.ApplicableRegulations;
 using Ubora.Domain.ApplicableRegulations.Commands;
 using Ubora.Web._Features.Projects._Shared;
+using Ubora.Domain.ApplicableRegulations.Texts;
 
 namespace Ubora.Web._Features.Projects.ApplicableRegulations
 {
