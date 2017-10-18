@@ -57,6 +57,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 
             return RedirectToAction(nameof(CurrentUnansweredQuestion), new { questionnaireId = id });
         }
+
         [HttpPost]
         public IActionResult Stop(Guid questionnaireId, [FromServices]QuestionnaireIndexViewModel.Factory modelFactory)
         {
@@ -65,14 +66,20 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
             {
                 return NotFound();
             }
+
             ExecuteUserProjectCommand(new StopApplicableRegulationsQuestionnaireCommand
             {
                 QuestionnaireId = questionnaireId,
             });
 
-            TempData["stop"] = "Questionnaire was stopped";
-            var model = modelFactory.Create(this.ProjectId);
-            return View("QuestionnaireIndex", model);
+            if (!ModelState.IsValid)
+            {
+                return Index(modelFactory);
+            }
+
+            Notices.Success("Questionnaire was stopped");
+
+            return RedirectToAction(nameof(Index));
         }
 
         public virtual IActionResult CurrentUnansweredQuestion(Guid questionnaireId)

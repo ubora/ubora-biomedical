@@ -21,7 +21,7 @@ namespace Ubora.Domain.ApplicableRegulations
         }
 
         /// <returns>Returns NULL when all questions answered.</returns>
-        public Question FindNextUnansweredQuestion()
+        public virtual Question FindNextUnansweredQuestion()
         {
             return FindNextUnansweredFrom(_firstQuestion);
         }

@@ -10,9 +10,8 @@
 
             <div class="center-element">
                 <h1>Please take the questionnaire to identify applicable regulations.</h1>
-                <h2>@TempData["stop"]</h2>
             </div>
-           
+
             @if (Model.Last == null || Model.Last.IsFinished)
             {
                 <form asp-action="Start" method="post">
@@ -27,10 +26,10 @@
                 {
                     <div class="center-element">
                         <a class="button primary-button small-button" asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">
-                            Continue answering
+                            Continue
                         </a>
                         <form asp-action="Stop" method="post">
-                            <button type="submit" asp-action="Stop" asp-route-questionnaireId="@Model.Last.QuestionnaireId" class="button primary-button small-button">Stop questionnaire </button>
+                            <button class="button secondary-button small-button" type="submit" asp-action="Stop" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Quit</button>
                         </form>
 
                         <p>
@@ -70,7 +69,7 @@
             }
 
 
-          
+
         </section>
     </section>
 

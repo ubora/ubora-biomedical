@@ -42,7 +42,11 @@
             {
                 <span></span>
             }
-
+            @*Todo: Add Bootstrap class*@
+            @*<button type="button" class="btn btn-link">Link</button>*@
+            <form  method="post" type="submit">
+                <button class="button secondary-button small-button" asp-action="Stop" type="submit" asp-route-questionnaireId="@Model.QuestionnaireId">Quit</button>
+            </form>
             @if (Model.NextQuestionId.HasValue)
             {
                 <a asp-action="ReviewQuestion" asp-route-questionId="@Model.NextQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId">Forward<i class="material-icons">keyboard_arrow_right</i> </a>
