@@ -82,6 +82,29 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 
             return RedirectToAction(nameof(Index));
         }
+        [HttpPost]
+        public IActionResult Retake(Guid questionnaireId, [FromServices]QuestionnaireIndexViewModel.Factory modelFactory)
+        {
+            var id = Guid.NewGuid();
+            var questionnaire = QueryProcessor.FindById<ApplicableRegulationsQuestionnaireAggregate>(questionnaireId);
+            if (questionnaire == null)
+            {
+                return NotFound();
+            }
+
+            ExecuteUserProjectCommand(new StopAndStartApplicableRegulationsQuestionCommand
+            {
+                QuestionnaireId = questionnaireId,
+                NewQuestionnaireId = id
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return Index(modelFactory);
+            }
+            
+            return RedirectToAction(nameof(CurrentUnansweredQuestion), new { questionnaireId = id });
+        }
 
         public virtual IActionResult CurrentUnansweredQuestion(Guid questionnaireId)
         {

@@ -26,12 +26,12 @@
                 {
                     <div class="center-element">
                         <a class="button primary-button small-button" asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">
-                            Continue
+                            Continue answering
                         </a>
+                        @*Todo : Use Bootsrtap for Form Inline*@
                         <form asp-action="Stop" method="post">
-                            <button class="button secondary-button small-button" type="submit" asp-action="Stop" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Quit</button>
+                            <button class="button secondary-button small-button" type="submit" asp-action="Retake" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Retake questionnaire</button>
                         </form>
-
                         <p>
                             Questionnaire started at @Model.Last.StartedAt
 
