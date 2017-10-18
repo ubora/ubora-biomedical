@@ -20,6 +20,16 @@
         </div>
 
         <div class="form-input">
+            <label>Assignee</label>
+            <select asp-for="AssigneeIds" class="js-project-member-selection multiple-select-box select2" multiple="multiple">
+                @foreach (var member in Model.ProjectMembers)
+                {
+                    <option value="@member.AssigneeId">@member.FullName</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-input">
             <label asp-for="Description">Description</label>
             <textarea asp-for="Description" placeholder="Assignment description" rows="8"></textarea>
             <span asp-validation-for="Description"></span>
@@ -30,3 +40,19 @@
         </div>
     </form>
 </section>
+
+@section Scripts {
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"
+          asp-fallback-href="~/dist/lib/select2.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"
+            asp-fallback-src="~/dist/lib/select2.min.js"
+            asp-fallback-test="window.select2">
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.js-project-member-selection').select2();
+        });
+    </script>
+}

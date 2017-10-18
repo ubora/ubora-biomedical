@@ -9,13 +9,23 @@
 <section class="medium-width">
     <h1 class="full-width">Assignment draft</h1>
 
-    <form asp-controller="Assignments" asp-action="Add" method="post">
+    <form asp-controller="Assignments" enctype="multipart/form-data" asp-action="Add" method="post">
         <input asp-for="ProjectId" type="hidden">
 
         <div class="form-input">
             <label asp-for="Title">Title</label>
             <input asp-for="Title" placeholder="Assignment title" autofocus>
             <span asp-validation-for="Title"></span>
+        </div>
+
+        <div class="form-input">
+            <label>Assignee</label>
+            <select asp-for="AssigneeIds" class="js-project-member-selection multiple-select-box select2" multiple="multiple">
+                @foreach (var member in Model.ProjectMembers)
+                {
+                    <option value="@member.AssigneeId">@member.FullName</option>
+                }
+            </select>
         </div>
 
         <div class="form-input">
@@ -29,3 +39,18 @@
         </div>
     </form>
 </section>
+
+@section Scripts {
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"
+          asp-fallback-href="~/dist/lib/select2.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"
+            asp-fallback-src="~/dist/lib/select2.min.js"
+            asp-fallback-test="window.select2">
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.js-project-member-selection').select2();
+        });
+    </script>
+}
