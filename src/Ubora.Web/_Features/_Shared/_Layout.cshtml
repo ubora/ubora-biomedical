@@ -50,7 +50,9 @@
         }
     }
 
-    @RenderBody()
+    <main>
+      @RenderBody()
+    </main>
 
     @if (User.Identity.IsAuthenticated)
     {

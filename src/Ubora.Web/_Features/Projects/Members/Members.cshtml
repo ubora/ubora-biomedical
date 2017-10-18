@@ -7,41 +7,41 @@
     ViewData["MenuOption"] = ProjectMenuOption.Members;
 
     var isAdmin = User.IsInRole(ApplicationRole.Admin);
-
-}
+  }
 
 <div class="container-fluid my-4">
   <div class="row">
-    <div class="col">
-      <div class="d-flex justify-content-between flex-wrap flex-xs-column flex-lg-row flex-sm-column">
-        <h1>Project members</h1>
-        @if (Model.IsProjectMember)
-        {
-        <a class="btn btn-secondary-ghost" asp-controller="Members" asp-action="Invite">
-            <span>Invite member to project</span>
-            <i class="material-icons">person_add</i>
+    <div class="col-sm-12 col-lg-6">
+      <h1>Project members</h1>
+    </div>
+    <div class="col-sm-12 col-lg-6">
+      @if (Model.IsProjectMember)
+      {
+        <a class="btn btn-secondary-ghost align-self-start d-sm-block d-lg-inline-block" asp-controller="Members" asp-action="Invite">
+          <span>Invite member to project</span>
+          <i class="material-icons">person_add</i>
         </a>
-        }
-        @if (isAdmin)
-        {
-        <span class="m-2"></span>
-        <a class="btn btn-secondary-ghost" asp-controller="InviteMentors" asp-action="InviteMentors">
+      }
+
+      @if (isAdmin)
+      {
+        <span class="mx-1"></span>
+        <a class="btn btn-secondary-ghost align-self-start d-sm-block d-lg-inline-block" asp-controller="InviteMentors" asp-action="InviteMentors">
           <span>Add mentor to project</span>
           <i class="material-icons" id="MentorInviteButton">person_add</i>
         </a>
-        }
-        @if (Model.IsProjectMember && !Model.IsProjectLeader)
-        {
-        <span class="m-2"></span>
-        <a class="btn btn-secondary-ghost btn-highlighted" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId">
+      }
+      @if (Model.IsProjectMember && !Model.IsProjectLeader)
+      {
+        <span class="mx-1"></span>
+        <a class="btn btn-secondary-ghost btn-highlighted align-self-start d-sm-block d-lg-inline-block" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId">
           <span>Leave project</span>
           <i class="material-icons">exit_to_app</i>
         </a>
-        }
-      </div>
+      }
     </div>
   </div>
-  <div class="row justify-content-center">
+  <div class="row justify-content-center mt-4">
     <div class="col-sm-12 col-md-6">
     <ul class="list-group">
     @foreach (var member in Model.Members)

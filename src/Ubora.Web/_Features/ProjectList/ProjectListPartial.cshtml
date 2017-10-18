@@ -5,22 +5,21 @@
   <div class="row">
     <div class="col">
       <h2 class="display-3">@Model.Header</h2>
-      <div class="card-deck">
+      <div class="row">
         @foreach (var project in Model.Projects)
         {
-          <div class="card">
-            <img class="card-img-top" src="@(string.IsNullOrEmpty(project.ImagePath)?"/images/projectlogodefault_thumbnail.png":project.ImagePath)">
-            @if (project.IsInDraft)
-            {
-              <span class="project_status">Draft</span>
-            }
-            <div class="card-body">
-              <h4 class="card-title">@project.Title</h4>
-              <div class="card-footer">
-                <div class="text-center">
-                  <a href="@Url.Action("Dashboard", "Dashboard", new { projectId = project.Id })" class="card-link">View project</a>
+          <div class="col-sm-12 col-md-4 col-lg-3 my-2">
+            <div class="card w-100 h-100">
+              <a href="@Url.Action("Dashboard", "Dashboard", new { projectId = project.Id })" class="card-link">
+                <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(project.ImagePath)?"/images/projectlogodefault_thumbnail.png":project.ImagePath)">
+                @if (project.IsInDraft)
+                {
+                  <p class="project-status-draft">Draft</p>
+                }
+                <div class="card-body">
+                  <h4 class="card-title">@project.Title</h4>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
         }

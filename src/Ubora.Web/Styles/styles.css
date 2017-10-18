@@ -8,6 +8,7 @@
 @import url('overrides/typography.css');
 @import url('overrides/progressbars.css');
 @import url('overrides/ubora_select2.css');
+@import url('overrides/card-item.css');
 
 @import url('page_components/header.css');
 @import url('page_components/footer.css');
@@ -39,4 +40,11 @@ body {
 	color: var(--text-color);
 	font: normal 16px/1.5em 'Open Sans', Helvetica, Arial, sans-serif;
 	font-display: swap;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+main {
+	flex-grow: 1;
 }

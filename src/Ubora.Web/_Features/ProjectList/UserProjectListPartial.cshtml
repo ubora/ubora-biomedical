@@ -5,37 +5,34 @@
   <div class="row">
     <div class="col">
       <h2 class="display-3">@Model.Header</h2>
-      <div class="card-deck">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">
-               <div class="text-center">
-                 <i class="material-icons display-1">add</i>
-                 <h1 class="display-4">New project</h1>
-               </div>
-            </h4>
-            <div class="card-footer">
-              <div class="text-center">
-                <a class="card-link" asp-controller="ProjectCreation" asp-action="Create">Create a project</a>
+      <div class="row">
+        <div class="col-md-3 my-2">
+          <div class="card w-100 h-100">
+            <a class="card-link h-100 d-flex justify-content-center align-items-center" asp-controller="ProjectCreation" asp-action="Create">
+              <div class="card-body">
+                   <div class="text-center">
+                     <i class="material-icons icon-size-lg">add</i>
+                     <h1 class="display-4">Create new project</h1>
+                   </div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
         @foreach (var project in Model.Projects)
         {
-          <div class="card">
-            <img class="card-img-top" src="@(string.IsNullOrEmpty(project.ImagePath)?"/images/projectlogodefault_thumbnail.png":project.ImagePath)">
-            @if (project.IsInDraft)
-            {
-              <span class="project_status">Draft</span>
-            }
-            <div class="card-body">
-              <h4 class="card-title">@project.Title</h4>
-              <div class="card-footer">
-                <div class="text-center">
-                  <a href="@Url.Action("Dashboard", "Dashboard", new { projectId = project.Id })" class="card-link">View project</a>
+          <div class="col-md-3 my-2">
+            <div class="card w-100 h-100">
+              <a href="@Url.Action("Dashboard", "Dashboard", new { projectId = project.Id })" class="card-link">
+
+                <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(project.ImagePath)?"/images/projectlogodefault_thumbnail.png":project.ImagePath)">
+                @if (project.IsInDraft)
+                {
+                  <p class="project-status-draft">Draft</p>
+                }
+                <div class="card-body">
+                  <h4 class="card-title">@project.Title</h4>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
         }
