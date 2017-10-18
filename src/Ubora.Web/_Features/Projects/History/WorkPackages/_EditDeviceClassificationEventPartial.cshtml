@@ -2,6 +2,5 @@
 
 <li class="history-list-item">
     @Html.ActionLink(Model.EventInitiatedBy.Name, "View", "Profile", new { userId = Model.EventInitiatedBy.UserId }) saved new <a asp-controller="WorkpackageOne" asp-action="DeviceClassification">device classification</a> to project. New classification is @Model.NewClassification.&nbsp;
-    <br />
-    <time class="history-timestamp timeago" datetime="@Model.Timestamp">@Model.Timestamp.ToString("dd.MM.yyyy")</time>
+    <p class="history-timestamp timeago" title="@Model.Timestamp">@Model.Timestamp.ToString("dd.MM.yyyy")</p>
 </li>

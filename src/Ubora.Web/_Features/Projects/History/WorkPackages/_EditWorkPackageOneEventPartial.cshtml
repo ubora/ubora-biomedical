@@ -2,6 +2,5 @@
 
 <li class="history-list-item">
     @Html.ActionLink(Model.EventInitiatedBy.Name, "View", "Profile", new { userId = Model.EventInitiatedBy.UserId }) edited workpackage 1 <a asp-controller="WorkpackageOne" asp-action="Read" asp-route-stepId="@Model.StepId">@Model.Title</a>.&nbsp;
-    <br />
-    <time class="history-timestamp timeago" datetime="@Model.Timestamp">@Model.Timestamp.ToString("dd.MM.yyyy")</time>
+    <p class="history-timestamp timeago" title="@Model.Timestamp">@Model.Timestamp.ToString("dd.MM.yyyy")</p>
 </li>
