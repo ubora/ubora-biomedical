@@ -3,29 +3,19 @@
 
 <div class="container-fluid my-4">
   <div class="row">
-    <div class="col w-100">
+    <div class="col">
       <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-
       <table class="table table-responsive">
-        <thead>
-          <tr>
-            <th class="w-100">email</th>
-            <th>#</th>
-            <th>#</th>
-          </tr>
-        </thead>
         <tbody>
           @foreach (var user in Model)
           {
             <tr>
-              <td>
-                <p class="user-card--name">@user.UserEmail</p>
+              <td class="w-100">
+                <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@user.UserId">@user.UserEmail</a>
               </td>
-
               <form method="post">
                   <input type="hidden" name="userId" value="@user.UserId" />
-                  <td>
+                    <td>
                       @if (user.IsAdmin)
                       {
 
@@ -36,21 +26,17 @@
                         <button class="w-100 btn btn-primary" type="submit" asp-action="AddAdministratorRole">Add administrator role</button>
                       }
                     </td>
-
                     <td>
-
-                  @if (user.IsMentor)
-                  {
-                    <button class="w-100 btn btn-primary" type="submit" asp-action="RemoveMentorRole">Remove mentor role</button>
-                  }
-                  else
-                  {
-                    <button class="w-100 btn btn-primary" type="submit" asp-action="AddMentorRole">Add mentor role</button>
-                  }
-                  </td>
-
+                      @if (user.IsMentor)
+                      {
+                        <button class="w-100 btn btn-primary" type="submit" asp-action="RemoveMentorRole">Remove mentor role</button>
+                      }
+                      else
+                      {
+                        <button class="w-100 btn btn-primary" type="submit" asp-action="AddMentorRole">Add mentor role</button>
+                      }
+                    </td>
               </form>
-
             </tr>
               @*<div class="user-role-list">
                 <h4>Roles</h4>
@@ -60,15 +46,12 @@
                     @*@string.Join(", ", user.Roles)*@
                 @*  }
               </div>*@
-
           }
         </tbody>
       </table>
+
+        <p>@Html.ActionLink("Run diagnostics tests", "RunTests", "Tests")</p>
+        <p>@Html.ActionLink("Look at event metadata", "Events", "Events")</p>
     </div>
   </div>
 </div>
-
-<section class="narrow-width">
-    @Html.ActionLink("Run diagnostics tests", "RunTests", "Tests")<br/>
-    @Html.ActionLink("Look at event metadata", "Events", "Events")
-</section>
