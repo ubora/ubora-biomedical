@@ -65,13 +65,13 @@
 
                 @{
 
-                    var isWriteReviewButtonVisible = (await AuthorizationService.AuthorizeAsync(User, Policies.CanReviewProjectWorkpackages)).Succeeded;
-                    if (isWriteReviewButtonVisible && Model.IsAuthorizedToWriteReview)
+                    var isAuthorizedToWriteReview = (await AuthorizationService.AuthorizeAsync(User, Policies.CanReviewProjectWorkpackages)).Succeeded;
+                    if (isAuthorizedToWriteReview && Model.IsAnyReviewInProcess)
                     {
                         <a href="@Model.ReviewDecisionUrl" class="button primary-button small-button">Write a review</a>
                     }
                 }
             </section>
-                    }
+         }
     </section>
 </section>
