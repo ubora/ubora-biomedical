@@ -31,7 +31,8 @@
     "jquery-validation-unobtrusive": "^3.2.6",
     "marked": "^0.3.6",
     "select2": "^4.0.3",
-    "simplemde": "^1.11.2"
+    "simplemde": "^1.11.2",
+    "timeago": "^1.6.1"
   },
   "scripts": {}
 }
