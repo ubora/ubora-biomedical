@@ -5,7 +5,7 @@ Feature: Project Creation Dashboard page
 Background:
     Given I go to Home page
 
-Scenario: Create a project 
+Scenario: Create a project
     Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: I sign up to create a project
@@ -40,7 +40,7 @@ Scenario: I click on My projects and open up TestProject
     Then I expect the title of the page "View projects - UBORA"
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
-    
+
 Scenario: On project Dashboard page I click Project overview
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
@@ -86,7 +86,7 @@ Scenario: I click Assignments and add an Assignment
     When I click on the element "a=Assignment Title"
     Then I expect the title of the page "Assignments - UBORA"
         And I expect the element "value=Assignment Description" is visible
-    
+
 Scenario: I click Assingments and try to add an empty Assignment
     When I click on the element "h4=TestProject"
         And I click on the element "a=Assignments"
@@ -134,7 +134,8 @@ Scenario: I click Edit image
 
 Scenario: On Project Dashboard page I click Edit Project Description
     When I click on the element "h4=TestProject"
-        And I click on the element "#EditProjectDescription"
+    Then I expect the element ".editor-toolbar" is visible
+    When I click on the element "#EditProjectDescription"
         And I click on the element ".project-view.full-width"
         And I click on the key "Tab"
         And I click on keys "Welcome to my Project"
