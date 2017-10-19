@@ -114,10 +114,6 @@ Scenario: Project mentor rejects WP1 formal review
     When I set value "Good project man!" to the element "#ConcludingComment"
         And I click on the element "button=Reject"
     Then I expect the element "td=Rejected" is visible
-    When I click on the element "a=Write a review"
-        And I set value "Good project man!" to the element "#ConcludingComment"
-        And I click on the element "button=Reject"
-    Then I expect the element "td=Rejected" is visible
 
 Scenario: I submit my rejected WP1 again for formal review
     When I sign out
