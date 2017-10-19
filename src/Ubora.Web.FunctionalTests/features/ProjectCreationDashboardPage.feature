@@ -81,7 +81,7 @@ Scenario: I click Assignments and add an Assignment
     Then I expect the title of the page "Assignments - UBORA"
     When I set value "Assignment Title" to the element "#Title"
         And I set value "Assignment Description" to the element "#Description"
-        And I click on the element "button=Add Assignment"
+        And I click on the element "button=Add assignment"
     Then I expect the element "a=Assignment Title" is visible
     When I click on the element "a=Assignment Title"
     Then I expect the title of the page "Assignments - UBORA"
@@ -91,9 +91,26 @@ Scenario: I click Assingments and try to add an empty Assignment
     When I click on the element "h4=TestProject"
         And I click on the element "a=Assignments"
         And I click on the element "i=add_box"
-        And I click on the element "button=Add Assignment"
+        And I click on the element "button=Add assignment"
     Then I expect the element "span=The Title field is required." is visible
         And I expect the element "span=The Description field is required." is visible
+        And I expect the title of the page "Assignments - UBORA"
+
+Scenario: I click Assignments and click Discard changes in new assignment
+    When I click on the element "h4=TestProject"
+        And I click on the element "a=Assignments"
+        And I click on the element "i=add_box"
+        And I click on the element "a=Discard changes"
+    Then I expect the title of the page "Assignments - UBORA"
+        And I expect the element "a=TestProject" is visible
+
+Scenario: I click Assignments and click Discard changes in Assignment
+    When I click on the element "h4=TestProject"
+        And I click on the element "a=Assignments"
+        And I click on the element "a=Assignment Title"
+    Then I expect the element "h1=Task draft" is visible
+    When I click on the element "a=Discard changes"
+    Then I expect the element "a=Assignment Title" is visible
         And I expect the title of the page "Assignments - UBORA"
 
 Scenario: I click History

@@ -20,6 +20,7 @@ Scenario: I try to change my password to empty password
 
 Scenario: I change my password
     When I click on the element "span=Menu"
+        And I wait for the element "a=View profile"
         And I click on the element "a=View profile"
         And I click on the element "a=Change password"
         And I set value "Test12345" to the element "#OldPassword"
