@@ -29,7 +29,7 @@
                     </a>
                     <i class="file-list--item-control material-icons" title="Copy file path to clipboard" aria-label="Copy file">content_copy</i>
                 </td>
-                <td>@file.FileAddedOn</td>
+                <td class="timeago" title="@file.FileAddedOn">@file.FileAddedOn.ToString("dd.MM.yyyy")</td>
                 <td>@file.RevisionNumber</td>
                 <td>@file.FileSizeInKbs</td>
                 <td>@file.Comment</td>

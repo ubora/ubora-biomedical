@@ -2,5 +2,5 @@
 
 <li class="history-list-item">
     @Model.Message
-    <p class="history-timestamp">@Model.Timestamp.ToString("dd-MM-yyyy HH:mm:ss")</p>
+    <p class="history-timestamp timeago" title="@Model.Timestamp">@Model.Timestamp.ToString("dd.MM.yyyy")</p>
 </li>

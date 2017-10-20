@@ -8,6 +8,7 @@ namespace Ubora.Web._Features.Users.Account
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
+        [StringLength(254, ErrorMessage = "The {0} can be max {1} characters long.")]
         public string Email { get; set; }
 
         [Required]
@@ -23,9 +24,11 @@ namespace Ubora.Web._Features.Users.Account
         public string ConfirmPassword { get; set; }
 
         [Required]
+        [StringLength(50, ErrorMessage = "The {0} can be max {1} characters long.")]
         public string FirstName { get; set; }
 
         [Required]
+        [StringLength(50, ErrorMessage = "The {0} can be max {1} characters long.")]
         public string LastName { get; set; }
 
         [RequiredTrue(ErrorMessage = "You must agree to the terms and conditions!")]
