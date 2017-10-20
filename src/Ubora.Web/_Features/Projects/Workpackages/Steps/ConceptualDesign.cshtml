@@ -1,0 +1,31 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Workpackages.Steps.ConceptualDesignViewModel
+
+@{
+    ViewData["Title"] = "Conceptual Design";
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
+
+<section class="project-view full-width">
+    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+
+    <section class="medium-width step-view">
+        <div class="step_header">
+            <h1 class="step_title">Conceptual Design</h1>
+        </div>
+
+        <p>hei</p>
+
+        @foreach(var candidate in Model.Candidates)
+        {
+            <p>candidate.Title</p>
+            <p>candidate.Description</p>
+        }
+
+        <a asp-controller="ConceptualDesign" asp-action="AddCandidate">Add candidate</a>
+
+    </section>
+</section>
+
+

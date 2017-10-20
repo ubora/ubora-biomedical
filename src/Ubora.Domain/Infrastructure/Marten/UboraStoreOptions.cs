@@ -14,6 +14,7 @@ using Ubora.Domain.Projects.DeviceClassification;
 using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Domain.Projects.Tasks.Events;
 using Ubora.Domain.Users;
+using Ubora.Domain.Projects.Candidates;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
@@ -43,6 +44,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<DeviceClassification>();
                 options.Schema.For<ProjectFile>();
                 options.Schema.For<ProjectTask>();
+                options.Schema.For<Candidate>();
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
