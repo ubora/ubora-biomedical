@@ -13,6 +13,7 @@ using Ubora.Web._Features.Projects.Repository;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Web._Features.Projects.Assignments;
+using Ubora.Domain.Projects.Candidates;
 
 namespace Ubora.Web._Features._Shared
 {
@@ -65,6 +66,8 @@ namespace Ubora.Web._Features._Shared
             CreateMap<WorkpackageReview, WorkpackageReviewViewModel>();
 
             CreateMap<Project, DeviceClassificationViewModel>();
+
+            CreateMap<Candidate, CandidateViewModel>();
         }
     }
 }

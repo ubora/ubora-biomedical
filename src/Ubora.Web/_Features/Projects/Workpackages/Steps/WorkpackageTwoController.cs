@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web._Features._Shared;
@@ -56,6 +58,20 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             return RedirectToAction(nameof(Read), new { stepId = model.StepId });
+        }
+
+        [Route(nameof(ConceptualDesign))]
+        public IActionResult ConceptualDesign()
+        {
+            var allCandidates = QueryProcessor.Find<Candidate>();
+            var candidates = QueryProcessor.Find<Candidate>()
+                .Where(c => c.ProjectId == ProjectId);
+
+            var candidateViewModels = candidates.Select(x => AutoMapper.Map<CandidateViewModel>(x));
+            var model = new ConceptualDesignViewModel();
+            model.Candidates = candidateViewModels;
+
+            return View(nameof(ConceptualDesign), model);
         }
     }
 }

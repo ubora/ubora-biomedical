@@ -1,0 +1,20 @@
+﻿@model Ubora.Web._Features.Projects.Workpackages.Steps.AddCandidateViewModel
+
+<form asp-controller="ConceptualDesign" asp-action="AddCandidate" method="post" enctype="multipart/form-data">
+    <div class="form-input">
+        <label asp-for="Name">Candidate name</label>
+        <input asp-for="Name" placeholder="Enter name of the candidate">
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div class="form-input">
+        <label asp-for="Description">Description</label>
+        <input asp-for="Description" placeholder="Describe your candidate">
+        <span asp-validation-for="Description"></span>
+    </div>
+    <div class="form-input">
+        <input asp-for="Image">
+    </div>
+    <div class="center-element">
+        <button class="button primary-button" type="submit">Submit</button>
+    </div>
+</form>
