@@ -2,8 +2,8 @@
 @model System.Collections.Generic.List<Ubora.Web._Features.Admin.UserViewModel>
 
 <div class="container-fluid my-4">
-  <div class="row">
-    <div class="col">
+  <div class="row justify-content-center">
+    <div class="col-sm-12 col-md-8">
       <div asp-validation-summary="ModelOnly" class="text-danger"></div>
       <table class="table table-responsive">
         <tbody>
@@ -50,8 +50,11 @@
         </tbody>
       </table>
 
-        <p>@Html.ActionLink("Run diagnostics tests", "RunTests", "Tests")</p>
-        <p>@Html.ActionLink("Look at event metadata", "Events", "Events")</p>
+      <div>
+        @Html.ActionLink("Run diagnostics tests", "RunTests", "Tests")
+        <span class="mr-5"></span>
+        @Html.ActionLink("Look at event metadata", "Events", "Events")
+      </div>
     </div>
   </div>
 </div>

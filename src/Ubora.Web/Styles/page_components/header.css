@@ -41,12 +41,12 @@
   bottom: -.5rem;
   color: var(--white);
   font-size: 1rem;
-  height: 2rem;
-  line-height: 2;
+  height: 1.5rem;
+  line-height: 1.5;
   position: absolute;
   right: -.5rem;
   text-align: center;
-  width: 2rem;
+  width: 1.5rem;
 }
 
 .header .nav-link {

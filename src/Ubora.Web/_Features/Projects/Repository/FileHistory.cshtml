@@ -6,34 +6,46 @@
     ViewData["MenuOption"] = ProjectMenuOption.Repository;
 }
 
-<section class="medium-width">
-    <h1>@Model.ProjectName</h1>
-</section>
 
-<section class="medium-width">
-    <h2>History of @Model.FileName</h2>
-    <table class="table table-revision">
-        <tr>
-            <th>Download</th>
-            <th>Date added</th>
-            <th>Revision number</th>
-            <th>Size (kB)</th>
-            <th>Comment</th>
-        </tr>
-        @foreach (var file in Model.Files)
-        {
-            <tr class="table-row-content-center">
-                <td>
-                    <a href="@file.DownloadUrl" title="Download file" aria-label="Download file">
-                        <i class="file-list--item-control material-icons">file_download</i>
-                    </a>
-                    <i class="file-list--item-control material-icons" title="Copy file path to clipboard" aria-label="Copy file">content_copy</i>
-                </td>
-                <td>@file.FileAddedOn</td>
-                <td>@file.RevisionNumber</td>
-                <td>@file.FileSizeInKbs</td>
-                <td>@file.Comment</td>
+
+<div class="container-fluid my-4">
+  <div class="row justify-content-center">
+    <div class="col-sm-12 col-md-8">
+
+      <h1>@Model.ProjectName</h1>
+
+      <div>
+        <h2>History of @Model.FileName</h2>
+        <table class="table table-responsive text-center">
+          <thead>
+            <tr>
+              <th>Download</th>
+              <th class="w-25">Date added</th>
+              <th class="w-25">Revision number</th>
+              <th class="w-25">Size (kB)</th>
+              <th class="w-25">Comment</th>
             </tr>
-        }
-    </table>
-</section>
+          </thead>
+          <tbody>
+            @foreach (var file in Model.Files)
+            {
+                <tr class="table-row-content-center">
+                    <td>
+                        <a href="@file.DownloadUrl" title="Download file" aria-label="Download file">
+                            <i class="file-list--item-control material-icons">file_download</i>
+                        </a>
+                        <i class="file-list--item-control material-icons" title="Copy file path to clipboard" aria-label="Copy file">content_copy</i>
+                    </td>
+                    <td>@file.FileAddedOn</td>
+                    <td>@file.RevisionNumber</td>
+                    <td>@file.FileSizeInKbs</td>
+                    <td>@file.Comment</td>
+                </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
