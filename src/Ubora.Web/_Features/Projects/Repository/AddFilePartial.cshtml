@@ -7,12 +7,14 @@
           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
           <div class="form-group">
-            <span asp-validation-for="ProjectFiles"></span>
             <label asp-for="ProjectFiles" class="custom-file">
-              <input class="custom-file-input" asp-for="ProjectFiles" multiple>
-              <span class="custom-file-control"></span>
+              <input class="custom-file-input" type="file" asp-for="ProjectFiles" multiple>
+              <span class="custom-file-control form-control-file"></span>
             </label>
+            <span asp-validation-for="ProjectFiles"></span>
           </div>
+
+
 
           <div class="form-group">
             <label asp-for="FolderName">Select a folder</label>
@@ -23,7 +25,7 @@
               <option value="Software">Software</option>
               <option value="System integrations">System integrations</option>
             </select>
-            <span asp-validation-for="FolderName"></span>
+            <span class="my-3" asp-validation-for="FolderName"></span>
           </div>
 
           <div class="form-group">
@@ -37,3 +39,11 @@
       </form>
   </div>
 </div>
+
+
+<script>
+  $('.custom-file-input').on('change',function(){
+  var fileName = $(this).val();
+  $(this).next('.form-control-file').addClass("selected").html(fileName);
+  })
+</script>

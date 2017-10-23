@@ -8,26 +8,40 @@
     ViewData["MenuOption"] = ProjectMenuOption.Overview;
 }
 
-<section class="project_view full-width">
-    <section class="medium-width">
-        <form method="post" enctype="multipart/form-data" asp-controller="Dashboard" asp-action="EditProjectImage">
-            <h2>Project image</h2>
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="container-fluid my-4">
+  <div class="row">
+    <div class="col text-center">
+      <form method="post" enctype="multipart/form-data" asp-controller="Dashboard" asp-action="EditProjectImage">
+          <h2>Project image</h2>
+          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-input">
-                <label asp-for="Image">Upload new image</label>
-                <label class="recommendation">Recommended image size is 1920x1285 px. The given image will be cropped and resized to 1500x300 and 400x150 pixel images.</label>
-                <label class="recommendation">Image has to be less than 4 MB</label>
-                <input asp-for="Image">
-                <span asp-validation-for="Image"></span>
-            </div>
+          <div class="form-group">
+              @* <label asp-for="Image">Upload new image</label> *@
+              <label class="text-muted">Recommended image size is 1920x1285 px. The given image will be cropped and resized to 1500x300 and 400x150 pixel images.</label>
+              <label class="text-muted">Image has to be less than 4 MB</label>
+              @* <input asp-for="Image"> *@
+              @* <span class="custom-file-control" asp-validation-for="Image"></span> *@
+              <span asp-validation-for="Image"></span>
+              <label asp-for="Image" class="custom-file">
+                <input class="custom-file-input" type="file" asp-for="Image">
+                <span class="custom-file-control form-control-file"></span>
+              </label>
+          </div>
 
-            <div class="form-input">
-                <div class="center-element">
-                    <button class="button secondary-button small-button" type="submit">Upload image</button>
-                </div>
-            </div>
+          <div class="form-group">
+            <button class="btn btn-secondary-ghost btn-lg" type="submit">Upload image</button>
+          </div>
 
-        </form>
-    </section>
-</section>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  $('.custom-file-input').on('change',function(){
+  var fileName = $(this).val();
+  $(this).next('.form-control-file').addClass("selected").html(fileName);
+  })
+</script>

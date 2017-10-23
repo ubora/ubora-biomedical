@@ -2,7 +2,7 @@
   border: none;
 }
 
-.table-medical-tags td, .table-level-of-completion td  {
+.table-medical-tags td, .table-level-of-completion td, .table-medical-tags th  {
   background-color: #fff;
   border-top: none;
 }

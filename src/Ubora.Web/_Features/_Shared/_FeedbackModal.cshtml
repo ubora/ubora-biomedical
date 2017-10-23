@@ -2,15 +2,36 @@
   <i class="material-icons">chat_bubble</i>Feedback
 </button>
 
+
 <div class="modal feedback-modal js-feedback-modal" style="display: none;">
   <div class="modal-content">
+
     <h1>Leave feedback</h1>
-    <div class="form-input">
-      <textarea class="feedback-input js-feedback-input" placeholder="We highly value your input and appreciate any thoughts about improving UBORA platform!" rows="10"></textarea>
+    <div class="form-group my-4">
+      <textarea class="w-100" class="feedback-input js-feedback-input" placeholder="We highly value your input and appreciate any thoughts about improving UBORA platform!" rows="10"></textarea>
     </div>
-    <div class="center-element">
-      <button class="button secondary-button small-button js-feedback-close">Cancel</button>
+    <div class="form-group d-flex justify-content-center">
+      <button class="btn btn-secondary-ghost btn-lg js-feedback-close">Cancel</button>
+      <span class="mx-1"></span>
       <button class="btn btn-primary btn-lg js-feedback-send">Send</button>
     </div>
+
+    @* TODO: bootstrap integration (WIP) *@
+    @* <div class="modal-header">
+      <h5 class="modal-title">Leave feedback</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <textarea class="feedback-input js-feedback-input" placeholder="We highly value your input and appreciate any thoughts about improving UBORA platform!" rows="10"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary-ghost js-feedback-close" data-dismiss="modal">Cancel</button>
+      <button type="button" class="btn btn-primary js-feedback-send">Send</button>
+    </div> *@
+
   </div>
 </div>

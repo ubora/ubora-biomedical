@@ -5,8 +5,11 @@
     ViewData["Title"] = "Device classification";
 }
 
-<section class="medium-width">
-    <h1>Please select an option:</h1>
+<div class="container-fluid my-4">
+  <div class="row justify-content-center">
+    <div class="col-sm-12 col-md-8">
+
+        <h1>Please select an option:</h1>
         @foreach (var question in Model.Questions)
         {
             <div class="questionnaire-question">
@@ -17,20 +20,22 @@
         @if (Model.Questions.Count == 1)
         {
             <div class="questionnaire-question">
-                <a class="button secondary-button small-button full-width" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-pairedMainQuestionsId="@Model.PairedMainQuestionsId">Not applicable</a>
+                <a class="btn btn-secondary-ghost w-100" asp-controller="DeviceClassification" asp-action="NextMainQuestion" asp-route-pairedMainQuestionsId="@Model.PairedMainQuestionsId">Not applicable</a>
             </div>
         }
-    </ul>
-    @if (Model.Notes.Any())
-    {
-        <h3>Notes</h3>
-        <ul>
-            @foreach (var note in Model.Notes)
-            {
-                <li>
-                    <p>@note</p>
-                </li>
-            }
-        </ul>
-    }
-</section>
+      </ul>
+      @if (Model.Notes.Any())
+      {
+          <h3>Notes</h3>
+          <ul>
+              @foreach (var note in Model.Notes)
+              {
+                  <li>
+                      <p>@note</p>
+                  </li>
+              }
+          </ul>
+      }
+    </div>
+  </div>
+</div>

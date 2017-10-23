@@ -3,11 +3,11 @@
 }
 
 <div class="container-fluid">
-	<div class="row">
-		<div class="col">
+	<div class="row flex-column align-items-center">
+		<div class="col-md-3 text-center">
 			<h1>Choose sign in option</h1>
-			<a class="btn btn-secondary-ghost login-button" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]">
-				<img class="login-button-image" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
+			<a class="btn btn-secondary-ghost btn-lg" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]">
+				@* <img src="~/images/icons/ubora-logo.svg" alt="UBORA logo"> *@
 				Continue with UBORA
 			</a>
 			@* TODO: OAuth 2.0
@@ -28,10 +28,11 @@
 			*@
 		</div>
 	</div>
-	<div class="row">
-		<div class="col">
+
+	<div class="row flex-column align-items-center my-4">
+		<div class="col-md-3 text-center">
 			<h3>Don't have an account?</h3>
-			<a class="btn primary-btn btn-lg" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Sign up</a>
+			<a class="btn btn-secondary-ghost btn-lg" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Sign up</a>
 		</div>
 	</div>
 </div>

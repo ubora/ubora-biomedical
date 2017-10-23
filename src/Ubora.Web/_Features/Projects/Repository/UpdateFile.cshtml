@@ -6,30 +6,33 @@
     ViewData["MenuOption"] = ProjectMenuOption.Repository;
 }
 
-<section class="narrow-width">
-  <h1>Replace file</h1>
+<div class="container-fluid my-4">
+  <div class="row flex-column align-items-center">
+    <h1>Replace file</h1>
+    <div class="col-md-3 text-center">
 
-  <div class="form-input">
-    @Html.TextBoxFor(model => model.FileName, new { @disabled = "disabled" })
-  </div>
-
-  <form method="post" enctype="multipart/form-data" asp-controller="Repository" asp-action="UpdateFile">
-      @Html.HiddenFor(m => m.FileId)
-      @Html.HiddenFor(m => m.FileName)
-
-      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-      <div class="form-input">
-          <input asp-for="ProjectFile">
+      <div class="form-group">
+        @Html.TextBoxFor(model => model.FileName, new { @disabled = "disabled" })
       </div>
 
-      <div class="form-input">
+      <form method="post" enctype="multipart/form-data" asp-controller="Repository" asp-action="UpdateFile">
+        @Html.HiddenFor(m => m.FileId)
+        @Html.HiddenFor(m => m.FileName)
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+          <input asp-for="ProjectFile">
+        </div>
+
+        <div class="form-group">
           <label asp-for="Comment">Comment</label>
           <input asp-for="Comment" type="text" placeholder="Enter a comment...">
-      </div>
-
-      <div class="form-input">
+        </div>
+        
+        <div class="form-group">
           <button class="btn btn-primary btn-lg">Upload new file</button>
-      </div>
-  </form>
-
-</section>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
