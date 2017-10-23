@@ -23,8 +23,8 @@
               @* <span class="custom-file-control" asp-validation-for="Image"></span> *@
               <span asp-validation-for="Image"></span>
               <label asp-for="Image" class="custom-file">
-                <input class="custom-file-input" type="file" asp-for="Image">
-                <span class="custom-file-control form-control-file"></span>
+                <input class="form-control" type="file" asp-for="Image">
+                @* <span class="custom-file-control form-control-file"></span> *@
               </label>
           </div>
 
