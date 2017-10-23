@@ -32,7 +32,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
             model.HasImage = Project.HasImage;
             if (Project.HasImage)
             {
-                model.ImagePath = _imageStorage.GetUrl(Project.ProjectImageBlobLocation, ImageSize.Banner1500x300);
+                model.ImagePath = _imageStorage.GetUrl(Project.ProjectImageBlobLocation, ImageSize.Banner1500x1125);
             }
 
             return View(nameof(Dashboard), model);
