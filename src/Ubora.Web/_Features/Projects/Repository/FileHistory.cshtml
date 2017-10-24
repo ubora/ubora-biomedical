@@ -32,10 +32,17 @@
               {
                 <tr>
                   <td>
-                    <a href="@file.DownloadUrl" title="Download file" aria-label="Download file">
+                    <a href="@file.DownloadUrl" title="Download file" aria-label="Download file"  class="js-tooltip" data-placement="bottom">
                         <i class="file-list--item-control material-icons">file_download</i>
                     </a>
-                    <i class="file-list--item-control material-icons" title="Copy file path to clipboard" aria-label="Copy file">content_copy</i>
+                      <i class="file-list--item-control material-icons js-tooltip js-copy"
+                         title="Copy file path to clipboard"
+                         aria-label="Copy file"
+                         data-toggle="tooltip"
+                         data-placement="bottom"
+                         data-copy="@file.DownloadUrl">
+                          content_copy
+                      </i>
                   </td>
                   <td class="timeago" title="@file.FileAddedOn">@file.FileAddedOn.ToString("dd.MM.yyyy")</td>
                   <td>@file.RevisionNumber</td>

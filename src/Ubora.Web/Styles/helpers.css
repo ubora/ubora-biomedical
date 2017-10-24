@@ -52,3 +52,17 @@
 .orange-text {
 	color: var(--orange);
 }
+
+/*repository icons*/
+.file-list--item-control {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    transition: color .3s ease;
+    color: var(--blue)
+}
+
+    .file-list--item-control:hover {
+        color: var(--light-blue);
+        cursor: pointer;
+    }
