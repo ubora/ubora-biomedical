@@ -1,14 +1,15 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary js-feedback-trigger">
-    Feedback
+<button type="button" class="btn btn-primary btn-lg feedback-trigger js-feedback-trigger">
+    <i class="material-icons align-middle">chat_bubble</i>
+    <span class="align-middle">Feedback</span>
 </button>
 
 <!-- Modal -->
-<div class="modal fade js-feedback-modal" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade js-feedback-modal bd-example-modal-lg" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="feedbackModalLabel">Leave feedback</h5>
+                <h3 class="modal-title" id="feedbackModalLabel">Leave feedback</h3>
                 <button type="button" class="close js-feedback-close" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -18,8 +19,8 @@
                     <textarea class="w-100 feedback-input js-feedback-input" placeholder="We highly value your input and appreciate any thoughts about improving UBORA platform!" rows="10"></textarea>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary js-feedback-cancel">Cancel</button>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-secondary-ghost js-feedback-cancel">Cancel</button>
                 <button type="button" class="btn btn-primary js-feedback-send">Send</button>
             </div>
         </div>

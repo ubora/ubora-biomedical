@@ -1,0 +1,12 @@
+.feedback-trigger {
+  background-color: var(--orange);
+  border: 0;
+  border-radius: .2em;
+  bottom: .5em;
+  font-family: inherit;
+  font-size: 150%;
+  position: fixed;
+  right: .5em;
+  transition: background-color .3s ease-in;
+  z-index: 999;
+}

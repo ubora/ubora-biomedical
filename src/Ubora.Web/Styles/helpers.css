@@ -48,7 +48,7 @@
 	padding: 0 1rem;
 }
 
-/*text coloring to orange*/
-.orange-text {
+/*coloring text to orange*/
+.text-orange {
 	color: var(--orange);
 }
