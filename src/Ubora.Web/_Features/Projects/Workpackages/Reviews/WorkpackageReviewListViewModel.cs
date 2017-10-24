@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Ubora.Domain.Projects.Workpackages;
@@ -14,6 +15,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
         public string SubmitForReviewUrl { get; set; }
         public string ReviewDecisionUrl { get; set; }
         public UiElementVisibility SubmitForReviewButton { get; set; }
+        public bool IsAnyReviewInProcess => Reviews.Any(x => x.Status == WorkpackageReviewStatus.InProcess);
 
         /// <remarks>
         /// Logic moved here to reduce duplication by making the method generic.

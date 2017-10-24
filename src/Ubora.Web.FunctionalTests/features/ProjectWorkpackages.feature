@@ -1,4 +1,4 @@
-Feature: WP1 Functionality tests
+Feature: Work packages Functionality tests
     As a project leader / system administrator
     I want to modify WP1 different workpackages and go through the review process
 
@@ -112,10 +112,6 @@ Scenario: Project mentor rejects WP1 formal review
         And I click on the element "a=Write a review"
     Then I expect the title of the page "Write a review - UBORA"
     When I set value "Good project man!" to the element "#ConcludingComment"
-        And I click on the element "button=Reject"
-    Then I expect the element "td=Rejected" is visible
-    When I click on the element "a=Write a review"
-        And I set value "Good project man!" to the element "#ConcludingComment"
         And I click on the element "button=Reject"
     Then I expect the element "td=Rejected" is visible
 
