@@ -6,14 +6,24 @@
       <form method="post" enctype="multipart/form-data" asp-controller="Repository" asp-action="AddFile">
           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+
+@*
           <div class="form-group">
             <label asp-for="ProjectFiles" class="custom-file">
-              <input class="custom-file-input" type="file" asp-for="ProjectFiles" multiple>
+              <input class="custom-file-input" asp-for="ProjectFiles" multiple>
               <span class="custom-file-control form-control-file"></span>
+              <span asp-validation-for="ProjectFiles" class="custom-file"></span>
+            </label>
+          </div> *@
+
+          <div class="form-group">
+            <label asp-for="ProjectFiles" class="custom-file">
+              <input class="form-control" type="file" asp-for="ProjectFiles" multiple>
+              @* <input class="custom-file-input" type="file" asp-for="ProjectFiles" multiple> *@
+              @* <span class="custom-file-control form-control-file"></span> *@
             </label>
             <span asp-validation-for="ProjectFiles"></span>
           </div>
-
 
 
           <div class="form-group">
@@ -40,10 +50,10 @@
   </div>
 </div>
 
-
-<script>
+@*
+ <script>
   $('.custom-file-input').on('change',function(){
   var fileName = $(this).val();
   $(this).next('.form-control-file').addClass("selected").html(fileName);
   })
-</script>
+</script> *@

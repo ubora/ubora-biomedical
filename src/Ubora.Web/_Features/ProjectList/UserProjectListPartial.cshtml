@@ -6,18 +6,20 @@
     <div class="col">
       <h2 class="display-3">@Model.Header</h2>
       <div class="row">
+
         <div class="col-md-3 my-2">
           <div class="card w-100 h-100">
             <a class="card-link h-100 d-flex justify-content-center align-items-center" asp-controller="ProjectCreation" asp-action="Create">
               <div class="card-body">
-                   <div class="text-center">
-                     <i class="material-icons icon-size-lg">add</i>
-                     <h1 class="display-4">Create new project</h1>
-                   </div>
+                 <div class="text-center">
+                   <i class="material-icons icon-size-lg">add</i>
+                   <h1 class="display-4">Create new project</h1>
+                 </div>
               </div>
             </a>
           </div>
         </div>
+
         @foreach (var project in Model.Projects)
         {
           <div class="col-md-3 my-2">
@@ -40,6 +42,7 @@
     </div>
   </div>
 }
+
 else if (Model.ShowDefaultMessage)
 {
   <div class="row">
@@ -47,6 +50,20 @@ else if (Model.ShowDefaultMessage)
       <div class="text-center">
         <h2 class="display-3">You have no projects.</h2>
         <p>Either <a asp-controller="ProjectCreation" asp-action="Create">create a new one</a> or find projects to <a asp-controller="Home" asp-action="Index" asp-area="">join</a>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-md-3 my-2">
+      <div class="card w-100 h-100 py-5">
+        <a class="card-link h-100 d-flex justify-content-center align-items-center" asp-controller="ProjectCreation" asp-action="Create">
+          <div class="card-body">
+             <div class="text-center">
+               <i class="material-icons icon-size-lg">add</i>
+               <h1 class="display-4">Create new project</h1>
+             </div>
+          </div>
+        </a>
       </div>
     </div>
   </div>

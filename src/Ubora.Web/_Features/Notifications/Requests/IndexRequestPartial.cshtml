@@ -8,7 +8,8 @@
 
 <div class="notification @isUnreadCss">
     <div class="notification-container">
-        <p class="notification--message">@Html.ActionLink(Model.UserFullName, "View", "Profile", new { userId = Model.UserId }) asks to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a></p>
+        <p> <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@Model.UserId">@Model.UserFullName</a> asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.</p>
+
         <form class="notification--controls " method="post">
             @Html.AntiForgeryToken()
             <input type="hidden" asp-for="RequestId" />

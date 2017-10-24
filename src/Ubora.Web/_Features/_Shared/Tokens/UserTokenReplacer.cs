@@ -29,7 +29,7 @@ namespace Ubora.Web._Features._Shared.Tokens
                 var userId = new Guid(match.Groups[1].Value);
 
                 var userProfile = _queryProcessor.FindById<UserProfile>(userId);
-                var profileLink = _urlHelper.Action("View", "Profile", new { userId = userProfile.UserId });
+                var profileLink = _urlHelper.Action("ViewProfile", "Profile", new { userId = userProfile.UserId });
 
                 var encodedUserFullName = _htmlEncoder.Encode(userProfile.FullName);
 
