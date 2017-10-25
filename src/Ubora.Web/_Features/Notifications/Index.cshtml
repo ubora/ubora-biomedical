@@ -7,37 +7,41 @@
 }
 
 <div class="container-fluid my-4">
+  <div class="row justify-content-center">
+    <div class="col-sm-12 col-lg-8">
 
-  <div class="row">
-    <div class="col-sm-12 col-lg-6">
-      <h1>Pending invitations</h1>
-    </div>
-    <div class="col-sm-12 col-lg-6 d-flex justify-content-end">
-      <a class="btn btn-secondary-ghost" asp-controller="Notifications" asp-action="History">
-        <span>Notification history</span>
-        <i class="material-icons">history</i>
-      </a>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-      @if (Model.Any())
-      {
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-        foreach (var notification in Model)
-        {
-          @notification.GetPartialView(Html, false)
-        }
-      }
-      else
-      {
-        <div class="text-center my-4">
-          <h2>You currently have no pending invitations.</h2>
+      <div class="row">
+        <div class="col-sm-12 col-lg-6">
+          <h1>Pending invitations</h1>
         </div>
-      }
+        <div class="col-sm-12 col-lg-6 d-flex justify-content-end">
+          <a class="btn btn-secondary-ghost" asp-controller="Notifications" asp-action="History">
+            <span>Notification history</span>
+            <i class="material-icons">history</i>
+          </a>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          @if (Model.Any())
+          {
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            foreach (var notification in Model)
+            {
+              @notification.GetPartialView(Html, false)
+            }
+          }
+          else
+          {
+            <div class="text-center my-4">
+              <h2>You currently have no pending invitations.</h2>
+            </div>
+          }
+        </div>
+      </div>
+
     </div>
   </div>
-
 </div>

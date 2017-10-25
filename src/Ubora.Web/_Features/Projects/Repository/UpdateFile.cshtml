@@ -12,7 +12,7 @@
     <div class="col-md-3">
 
       <div class="form-group d-flex flex-column">
-        @Html.TextBoxFor(model => model.FileName, new { @disabled = "disabled" })
+        <input class="form-control" asp-for="FileName" disabled>
       </div>
 
       <form method="post" enctype="multipart/form-data" asp-controller="Repository" asp-action="UpdateFile">

@@ -6,28 +6,39 @@
 }
 
 <div class="container-fluid my-4">
-  <div class="row">
-    <div class="col">
-      <div class="d-flex justify-content-between">
-        <h1>History</h1>
-        <a class="btn btn-secondary-ghost" asp-controller="Notifications" asp-action="Index">
-          <span>Pending invitations</span>
-          <i class="material-icons">notifications</i>
-        </a>
-      </div>
-      @if (Model.Any())
-      {
-        foreach (var notification in Model)
-        {
-          @notification.GetPartialView(Html, true)
-        }
-      }
-      else
-      {
-        <div class="text-center my-4">
-          <h2>No history to show.</h2>
+  <div class="row justify-content-center">
+    <div class="col-sm-12 col-lg-8">
+
+      <div class="row">
+        <div class="col-sm-12 col-lg-6">
+          <h1>History</h1>
         </div>
-      }
+        <div class="col-sm-12 col-lg-6 d-flex justify-content-end">
+          <a class="btn btn-secondary-ghost align-self-start d-sm-block" asp-controller="Notifications" asp-action="Index">
+            <span>Pending invitations</span>
+            <i class="material-icons">notifications</i>
+          </a>
+        </div>
+      </div>
+
+      <div class="row my-4">
+        <div class="col">
+          @if (Model.Any())
+          {
+            foreach (var notification in Model)
+            {
+              @notification.GetPartialView(Html, true)
+            }
+          }
+          else
+          {
+            <div class="text-center my-4">
+              <h2>No history to show.</h2>
+            </div>
+          }
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

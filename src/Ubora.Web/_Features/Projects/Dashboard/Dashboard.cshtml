@@ -6,7 +6,7 @@
     ViewData["MenuOption"] = ProjectMenuOption.Overview;
 }
 
-<div class="container-fluid col-8 my-4">
+<div class="container-fluid col-md-8 my-4">
     <div class="row mb-5">
         <div class="col px-0">
 
@@ -31,12 +31,12 @@
 
                     @if (Model.HasImage)
                     {
-                        <a asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons" id="EditImage">mode_edit</i>&nbsp;Change image</a>
-                        <a asp-controller="Dashboard" asp-action="RemoveProjectImage"><i class="material-icons">delete_forever</i>&nbsp;Remove image</a>
+                        <a asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span></a>
+                        <a asp-controller="Dashboard" asp-action="RemoveProjectImage"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Remove image</span></a>
                     }
                     else
                     {
-                        <a asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons" id="EditImage">mode_edit</i>&nbsp;Add image</a>
+                        <a asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Add image</span></a>
                     }
                 </div>
             }
@@ -99,7 +99,7 @@
                 <div class="col-2 d-flex align-items-center justify-content-end">
                     @if (Model.IsProjectMember)
                     {
-                        <a asp-controller="Dashboard" asp-action="EditProjectDescription" id="EditProjectDescription"><i class="material-icons">mode_edit</i>&nbsp;Edit</a>
+                        <a asp-controller="Dashboard" asp-action="EditProjectDescription" id="EditProjectDescription"><i class="material-icons align-middle">mode_edit</i><span class="align-middle">Edit</span></a>
                     }
                 </div>
             </div>
