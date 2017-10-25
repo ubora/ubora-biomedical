@@ -4,7 +4,9 @@
 }
 
 .landing-image-discussion p.lead,
-.landing-image-solution p.lead {
+.landing-image-solution p.lead,
+.landing-image-main p.lead,
+.landing-image-main h1 {
   color: var(--white);
 }
 
