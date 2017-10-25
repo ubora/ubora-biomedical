@@ -52,16 +52,23 @@ export class Feedback {
     _sendFeedback(data) {
         function createNotice(noticeTypeClass, stringMessage) {
             const noticeContainerElement = document.createElement('div');
-            noticeContainerElement.classList.add('notice', noticeTypeClass);
+            noticeContainerElement.classList.add('alert', noticeTypeClass, 'alert-dismissible', 'fade', 'show');
+            noticeContainerElement.setAttribute('role', 'alert');
 
-            const noticeCloseElement = document.createElement('span');
-            const noticeCloseTextElement = document.createTextNode('Close');
-            noticeCloseElement.classList.add('notice-close', 'js-notice-close');
-            noticeCloseElement.appendChild(noticeCloseTextElement);
+            const noticeCloseElement = document.createElement('button');
+            noticeCloseElement.classList.add('close');
+            noticeCloseElement.setAttribute('aria-label', 'Close');
+            noticeCloseElement.setAttribute('data-dismiss', 'alert');
+            const noticeCloseIconElement = document.createElement('span');
+            noticeCloseIconElement.setAttribute('aria-hidden', 'true');
+            const noticeCloseTextElement = document.createTextNode('×');
+            noticeCloseIconElement.appendChild(noticeCloseTextElement);
+            noticeCloseElement.appendChild(noticeCloseIconElement);
+
+
 
             const noticeMessageElement = document.createElement('p');
             const noticeMessageTextElement = document.createTextNode(stringMessage);
-            noticeMessageElement.classList.add('notice-text');
             noticeMessageElement.appendChild(noticeMessageTextElement);
 
             noticeContainerElement.appendChild(noticeCloseElement);
@@ -76,7 +83,7 @@ export class Feedback {
             data: JSON.stringify(data),
             contentType: 'application/json; charset=utf-8',
             success: () => {
-                createNotice('notice-success', 'Thank you for your feedback! 😃');
+                createNotice('alert-success', 'Thank you for your feedback! 😃');
                 return this._closeModal();
             }
         });
