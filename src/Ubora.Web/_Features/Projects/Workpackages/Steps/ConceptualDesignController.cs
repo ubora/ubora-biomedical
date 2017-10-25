@@ -26,7 +26,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCandidateAsync(AddCandidateViewModel model)
+        public async Task<IActionResult> AddCandidate(AddCandidateViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -51,6 +51,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             return RedirectToAction("ConceptualDesign", "WorkpackageTwo");
+        }
+
+        public IActionResult Candidate(Guid candidateId)
+        {
+            return View();
         }
 
         private async Task SaveBlobAsync(IFormFile file, BlobLocation blobLocation)

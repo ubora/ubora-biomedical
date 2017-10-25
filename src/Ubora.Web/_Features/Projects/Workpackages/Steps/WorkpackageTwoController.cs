@@ -67,7 +67,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             var candidates = QueryProcessor.Find<Candidate>()
                 .Where(c => c.ProjectId == ProjectId);
 
-            var candidateViewModels = candidates.Select(x => AutoMapper.Map<CandidateViewModel>(x));
+            var candidateViewModels = candidates.Select(x => AutoMapper.Map<CandidateItemViewModel>(x));
             var model = new ConceptualDesignViewModel();
             model.Candidates = candidateViewModels;
 

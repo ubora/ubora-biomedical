@@ -28,7 +28,8 @@ namespace Ubora.Domain.Projects.Candidates.Commands
                     projectId: cmd.ProjectId,
                     id: cmd.Id,
                     title: cmd.Title,
-                    description: cmd.Description
+                    description: cmd.Description,
+                    imageLocation: cmd.ImageLocation
                 );
 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);

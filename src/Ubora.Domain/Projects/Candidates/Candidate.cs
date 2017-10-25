@@ -10,7 +10,7 @@ namespace Ubora.Domain.Projects.Candidates
         public Guid ProjectId { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
-        public BlobLocation ImageLocation { get; set; }
+        public BlobLocation ImageLocation { get; private set; }
 
         private void Apply(CandidateAddedEvent e)
         {

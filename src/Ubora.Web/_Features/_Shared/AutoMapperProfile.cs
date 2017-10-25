@@ -67,7 +67,7 @@ namespace Ubora.Web._Features._Shared
 
             CreateMap<Project, DeviceClassificationViewModel>();
 
-            CreateMap<Candidate, CandidateViewModel>();
+            CreateMap<Candidate, CandidateItemViewModel>();
         }
     }
 }
