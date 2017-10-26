@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using TestStack.BDDfy;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.Candidates.Commands;
 using Ubora.Domain.Projects.Candidates.Events;
@@ -15,7 +16,7 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
         private readonly Guid _candidateId = Guid.NewGuid();
         private readonly string _candidateTitle = "title";
         private readonly string _candidateDescription = "description";
-        //private readonly BlobLocation _blobLocation = new BlobLocation("expectedContainer", "expectedBlobPath");
+        private readonly BlobLocation _imageLocation = new BlobLocation("expectedContainer", "expectedBlobPath");
 
         [Fact]
         public void Adds_New_File_To_Project()
@@ -35,7 +36,8 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
                 Id = _candidateId,
                 Actor = new DummyUserInfo(),
                 Title = _candidateTitle,
-                Description = _candidateDescription
+                Description = _candidateDescription,
+                ImageLocation = _imageLocation
             };
 
             // Act
@@ -50,7 +52,7 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
             candidate.ProjectId.Should().Be(_projectId);
             candidate.Title.Should().Be(_candidateTitle);
             candidate.Description.Should().Be(_candidateDescription);
-            //candidate.Location.Should().Be(_blobLocation);
+            candidate.ImageLocation.Should().Be(_imageLocation);
         }
 
         private void Assert_CandidateAdded_Is_Added_In_Events()
@@ -60,7 +62,7 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
             fileAddedEvents.Count().Should().Be(1);
             fileAddedEvents.First().Id.Should().Be(_candidateId);
             fileAddedEvents.First().ProjectId.Should().Be(_projectId);
-            //fileAddedEvents.First().Location.BlobPath.Should().Be(_blobLocation.BlobPath);
+            fileAddedEvents.First().ImageLocation.BlobPath.Should().Be(_imageLocation.BlobPath);
         }
     }
 }

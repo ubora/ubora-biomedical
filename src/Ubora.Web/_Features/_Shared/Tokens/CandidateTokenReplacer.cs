@@ -29,11 +29,11 @@ namespace Ubora.Web._Features._Shared.Tokens
                 var candidateId = new Guid(match.Groups[1].Value);
 
                 var candidate = _queryProcessor.FindById<Candidate>(candidateId);
-                var tasksLink = _urlHelper.Action("ConceptualDesign", "WorkpackageTwo", new { projectId = candidate.ProjectId });
+                var candidatesLink = _urlHelper.Action("Candidate", "ConceptualDesign", new { projectId = candidate.ProjectId, candidateId = candidateId });
 
                 var encodedCandidateTitle = _htmlEncoder.Encode(candidate.Title);
 
-                return $"<a href=\"{tasksLink}\">{encodedCandidateTitle}</a>";
+                return $"<a href=\"{candidatesLink}\">{encodedCandidateTitle}</a>";
             });
 
             return replacedText;

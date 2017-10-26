@@ -63,7 +63,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Route(nameof(ConceptualDesign))]
         public IActionResult ConceptualDesign()
         {
-            var allCandidates = QueryProcessor.Find<Candidate>();
             var candidates = QueryProcessor.Find<Candidate>()
                 .Where(c => c.ProjectId == ProjectId);
 
