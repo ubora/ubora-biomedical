@@ -6,7 +6,7 @@ Background:
     Given I go to Home page
 
 Scenario: I try to change my password to empty password
-    When I click on the element "#SignInSignUp"
+    When I click on the element "span=Log in"
         And I sign up as "change@password.eu"
         And I click on the element "span=Menu"
         And I click on the element "a=View profile"
@@ -32,7 +32,7 @@ Scenario: I change my password
 Scenario: I sign out
     When I sign out
     Then I expect the title of the page "Welcome - UBORA"
-        And I expect the element "#SignInSignUp" is visible
+        And I expect the element "span=Log in" is visible
 
 Scenario: I sign in with my changed password
     When I sign in as "change@password.eu" with password "Test1234"

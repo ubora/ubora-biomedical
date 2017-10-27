@@ -5,9 +5,6 @@ Feature: Project Creation Dashboard page
 Background:
     Given I go to Home page
 
-Scenario: Create a project
-    Then I expect the title of the page "Welcome - UBORA"
-
 Scenario: I sign up to create a project
     When I click on the element "a=I have an idea"
     Then I expect the title of the page "Sign in to UBORA - UBORA"
@@ -50,7 +47,7 @@ Scenario: On project Dashboard page I click Project overview
 Scenario: On project Dashboard page I click Home
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
-    When I click on the element ".header-logo"
+    When I click on the element "#UboraLogo"
     Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: On project Dashboard page I click My projects

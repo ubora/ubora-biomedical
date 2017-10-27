@@ -4,14 +4,14 @@ Feature: Sign in Sign up page
 
 Background:
     Given I go to Home page
-        And I clicked on the element "#SignInSignUp"
+        And I clicked on the element "span=Log in"
 
 Scenario: Click Logo
-    When I click on the element ".header-logo"
+    When I click on the element "#UboraLogo"
     Then I expect the title of the page "Welcome - UBORA"
 
-Scenario: Click Sign in/sign up
-    When I click on the element "#SignInSignUp"
+Scenario: Click Log in
+    When I click on the element "span=Log in"
     Then I expect the title of the page "Sign in to UBORA - UBORA"
 
 Scenario: Click Sign up

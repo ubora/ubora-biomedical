@@ -30,9 +30,8 @@ module.exports = function () {
         });
 
     this.When(/^I sign out$/, () => {
-            browser.click('span=Menu');
-            browser.waitForExist('#SignOut');
-            browser.click('#SignOut');
+            browser.click('span=Profile');
+            browser.click('button=Sign out');
         });
 
     this.When(/^I sign up as "([^"]*)?"$/, (email) => {
@@ -43,13 +42,13 @@ module.exports = function () {
             .setValue('#Email', email)
             .setValue('#Password', 'Test12345')
             .setValue('#ConfirmPassword', 'Test12345')
-            .click('#IsAgreedToTermsOfService')
+            .click('span=I agree to')
             .click('button=Create an account')
         });
 
     this.When(/^I sign in as "([^"]*)?" with password "([^"]*)?"$/, (email, password) => {
             browser
-            .click('#SignInSignUp')
+            .click('span=Log in')
             .setValue('#Email', email)
             .setValue('#Password', password)
             .click('button=Sign in')
@@ -57,7 +56,7 @@ module.exports = function () {
 
     this.When(/^I sign in as user$/, () => {
             browser
-            .click('#SignInSignUp')
+            .click('span=Log in')
             .setValue('#Email', 'test@agileworks.eu')
             .setValue('#Password', 'ChangeMe123!')
             .click('button=Sign in')
@@ -65,7 +64,7 @@ module.exports = function () {
 
     this.When(/^I sign in as mentor$/, () => {
             browser
-            .click('#SignInSignUp')
+            .click('span=Log in')
             .setValue('#Email', 'mentor@agileworks.eu')
             .setValue('#Password', 'ChangeMe123!')
             .click('button=Sign in')
@@ -73,7 +72,7 @@ module.exports = function () {
 
     this.When(/^I sign in as administrator$/, () => {
             browser
-            .click('#SignInSignUp')
+            .click('span=Log in')
             .setValue('#Email', 'admin@agileworks.eu')
             .setValue('#Password', 'ChangeMe123!')
             .click('button=Sign in')

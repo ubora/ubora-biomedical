@@ -4,23 +4,23 @@ Feature: Register page
 
 Background:
     Given I go to Home page
-        And I clicked on the element "#SignInSignUp"
+        And I clicked on the element "span=Log in"
         And I clicked on the element "a=Sign up"
 
-Scenario: I click on Logo
-    When I click on the element ".header-logo"
+Scenario: I click Logo
+    When I click on the element "#UboraLogo"
     Then I expect the title of the page "Welcome - UBORA"
 
-Scenario: I click on Sign in/sign up
-    When I click on the element "#SignInSignUp"
+Scenario: I click Log in
+    When I click on the element "span=Log in"
     Then I expect the title of the page "Sign in to UBORA - UBORA"
 
-Scenario: I click on Terms of Service
+Scenario: I click Terms of Service
     When I click on the element "a=Terms of Service"
     Then I expect the title of the page "Sign up - UBORA"
 
 Scenario: I submit valid registration form then user is logged in and full name displayed
-    When I click on the element "#SignInSignUp"
+    When I click on the element "span=Log in"
         And I sign up as "email@email.com"
         And I click on the element "span=Menu"
     Then I expect the element "p=TestFirstName TestLastName" is visible

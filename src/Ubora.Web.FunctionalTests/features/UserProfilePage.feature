@@ -6,7 +6,7 @@ Background:
     Given I go to Home page
 
 Scenario: I sign up an account and create my profile
-    When I click on the element "#SignInSignUp"
+    When I click on the element "span=Log in"
         And I sign up as "user@profile.com"
         And I set value "Bio Bio Bio, Test Test Test" to the element "#Biography"
         And I select value "AGO" from element "#CountryCode"

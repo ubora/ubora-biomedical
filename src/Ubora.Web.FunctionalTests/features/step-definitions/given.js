@@ -11,7 +11,7 @@ module.exports = function () {
 
     this.Given(/^I signed in as user$/, () => {
         browser
-        .click('#SignInSignUp')
+        .click('span=Log in')
         .setValue('#Email', 'test@agileworks.eu')
         .setValue('#Password', 'ChangeMe123!')
         .click('button=Sign in')
@@ -22,7 +22,7 @@ module.exports = function () {
         browser
         .deleteCookie(".AspNetCore.Identity.Application")
         .url('/')
-        .click('#SignInSignUp')
+        .click('span=Log in')
         .setValue('#Email', 'test@agileworks.eu')
         .setValue('#Password', 'ChangeMe123!')
         .click('button=Sign in')
@@ -40,8 +40,8 @@ module.exports = function () {
         browser
         .deleteCookie('.AspNetCore.Identity.Application')
         .url('/')
-        .click('#SignInSignUp')
-        .click('a=Sign up')
+        .click('span=Log in')
+        .click('a=Sign up now!')
         .setValue('#FirstName', 'testFirstName')
         .setValue('#LastName', 'testLastName')
         .setValue('#Email', email)
