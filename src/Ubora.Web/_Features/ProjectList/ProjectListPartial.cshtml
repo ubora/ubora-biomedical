@@ -20,8 +20,17 @@
 }
 else if (Model.ShowDefaultMessage)
 {
-    <div class="center-element">
-        <h3>You have no projects.</h3>
-        <p>Either <a asp-controller="ProjectCreation" asp-action="Create">create a new one</a> or find projects to <a asp-controller="Home" asp-action="Index" asp-area="">join</a>.</p>
-    </div>
+    if (User.IsEmailConfirmed())
+    {
+        <div class="center-element">
+            <h3>You have no projects.</h3>
+            <p>Either <a asp-controller="ProjectCreation" asp-action="Create">create a new one</a> or find projects to <a asp-controller="Home" asp-action="Index" asp-area="">join</a>.</p>
+        </div>
+    }
+    else
+    {
+        <div class="center-element">
+            <h3>Your email must be confirmed to create a project!</h3>
+        </div>
+    }
 }
