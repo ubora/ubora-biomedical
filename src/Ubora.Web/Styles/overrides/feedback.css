@@ -10,3 +10,7 @@
   transition: background-color .3s ease-in;
   z-index: 999;
 }
+
+.modal-open {
+  padding-right: 0px !important;
+}
