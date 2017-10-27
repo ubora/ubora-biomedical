@@ -4,6 +4,7 @@ using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web._Features._Shared;
+using Ubora.Web.Infrastructure.ImageServices;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -11,7 +12,14 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     public class WorkpackageTwoController : ProjectController
     {
         private WorkpackageTwo _workpackageTwo;
+        private readonly ImageStorageProvider imageStorageProvider;
+
         public WorkpackageTwo WorkpackageTwo => _workpackageTwo ?? (_workpackageTwo = QueryProcessor.FindById<WorkpackageTwo>(ProjectId));
+
+        public WorkpackageTwoController(ImageStorageProvider imageStorageProvider)
+        {
+            this.imageStorageProvider = imageStorageProvider;
+        }
 
         [Route("{stepId}")]
         public IActionResult Read(string stepId)

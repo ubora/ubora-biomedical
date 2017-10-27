@@ -1,20 +1,34 @@
-﻿@model Ubora.Web._Features.Projects.Workpackages.Steps.AddCandidateViewModel
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Workpackages.Steps.AddCandidateViewModel
 
-<form asp-controller="ConceptualDesign" asp-action="AddCandidate" method="post" enctype="multipart/form-data">
-    <div class="form-input">
-        <label asp-for="Name">Candidate name</label>
-        <input asp-for="Name" placeholder="Enter name of the candidate">
-        <span asp-validation-for="Name"></span>
-    </div>
-    <div class="form-input">
-        <label asp-for="Description">Description</label>
-        <input asp-for="Description" placeholder="Describe your candidate">
-        <span asp-validation-for="Description"></span>
-    </div>
-    <div class="form-input">
-        <input asp-for="Image">
-    </div>
-    <div class="center-element">
-        <button class="button primary-button" type="submit">Submit</button>
-    </div>
-</form>
+@{
+    ViewData["Title"] = "Conceptual Design";
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
+
+<section class="project-view full-width">
+    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+
+    <form asp-controller="ConceptualDesign" asp-action="AddCandidate" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-input">
+            <label asp-for="Name">Candidate name</label>
+            <input asp-for="Name" placeholder="Enter name of the candidate">
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div class="form-input">
+            <label asp-for="Description">Description</label>
+            <input asp-for="Description" placeholder="Describe your candidate">
+            <span asp-validation-for="Description"></span>
+        </div>
+        <div class="form-input">
+            <input asp-for="Image">
+            <span asp-validation-for="Image"></span>
+        </div>
+        <div class="center-element">
+            <button class="button primary-button" type="submit">Submit</button>
+        </div>
+    </form>
+</section>

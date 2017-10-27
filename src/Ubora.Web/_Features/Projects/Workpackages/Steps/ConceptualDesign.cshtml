@@ -15,12 +15,11 @@
             <h1 class="step_title">Conceptual Design</h1>
         </div>
 
-        <p>hei</p>
-
         @foreach(var candidate in Model.Candidates)
         {
-            <p>@candidate.Title</p>
+            <a href="@Url.Action("Candidate", "ConceptualDesign", new { candidateId = candidate.Id })"><p>@candidate.Title</p></a>
             <p>@candidate.Description</p>
+            <p>...........................</p>
         }
 
         <a asp-controller="ConceptualDesign" asp-action="AddCandidate">Add candidate</a>

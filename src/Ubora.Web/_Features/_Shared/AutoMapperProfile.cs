@@ -67,7 +67,10 @@ namespace Ubora.Web._Features._Shared
 
             CreateMap<Project, DeviceClassificationViewModel>();
 
-            CreateMap<Candidate, CandidateItemViewModel>();
+            CreateMap<Candidate, CandidateItemViewModel>()
+                .ForMember(dest => dest.ImageUrl, o => o.Ignore());
+            CreateMap<Candidate, CandidateViewModel>()
+                .ForMember(dest => dest.ImageUrl, o => o.Ignore());
         }
     }
 }

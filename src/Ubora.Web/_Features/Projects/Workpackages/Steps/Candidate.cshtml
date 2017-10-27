@@ -1,4 +1,22 @@
-﻿@model Ubora.Web._Features.Projects.Workpackages.Steps.CandidateViewModel
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Workpackages.Steps.CandidateViewModel
 
+@{
+    ViewData["Title"] = "Conceptual Design";
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
 
+<section class="project-view full-width">
+    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+
+    <section class="medium-width step-view">
+
+        <p>@Model.Title</p>
+        <p>@Model.Description</p>
+
+        <img src="@Model.ImageUrl"/>
+
+    </section>
+</section>
  

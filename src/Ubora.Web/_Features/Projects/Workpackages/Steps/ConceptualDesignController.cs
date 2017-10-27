@@ -4,18 +4,21 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.Candidates.Commands;
+using Ubora.Web.Infrastructure.Extensions;
+using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     public class ConceptualDesignController : ProjectController
     {
-        private readonly IUboraStorageProvider _uboraStorageProvider;
+        private readonly ImageStorageProvider _imageStorageProvider;
 
-        public ConceptualDesignController(IUboraStorageProvider uboraStorageProvider)
+        public ConceptualDesignController(ImageStorageProvider imageStorageProvider)
         {
-            _uboraStorageProvider = uboraStorageProvider;
+            _imageStorageProvider = imageStorageProvider;
         }
 
 
@@ -34,12 +37,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             var fileName = GetFileName(model.Image);
-            var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
-            await SaveBlobAsync(model.Image, blobLocation);
+            var candidateId = Guid.NewGuid();
+            BlobLocation blobLocation = null;
+            if(model.Image != null)
+            {
+                blobLocation = BlobLocations.GetProjectCandidateBlobLocation(candidateId);
+                var imageStream = model.Image.OpenReadStream();
+                await _imageStorageProvider.SaveImageAsync(imageStream, blobLocation, SizeOptions.AllDefaultSizes);
+            }
 
             ExecuteUserProjectCommand(new AddCandidateCommand
             {
-                Id = Guid.NewGuid(),
+                Id = candidateId,
                 Title = model.Name,
                 Description = model.Description,
                 ImageLocation = blobLocation
@@ -55,15 +64,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         public IActionResult Candidate(Guid candidateId)
         {
-            return View();
-        }
+            var candidate = QueryProcessor.FindById<Candidate>(candidateId);
+            var model = AutoMapper.Map<CandidateViewModel>(candidate);
+            model.ImageUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(candidate.ImageLocation, ImageSize.Banner1500x300);
 
-        private async Task SaveBlobAsync(IFormFile file, BlobLocation blobLocation)
-        {
-            var fileStream = file.OpenReadStream();
-            await _uboraStorageProvider.SavePrivate(blobLocation, fileStream);
+            return View(model);
         }
-
+        
         private string GetFileName(IFormFile projectFile)
         {
             if (projectFile != null)

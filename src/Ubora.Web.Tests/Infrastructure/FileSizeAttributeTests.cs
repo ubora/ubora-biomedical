@@ -27,7 +27,7 @@ namespace Ubora.Web.Tests.Infrastructure
             var result = _fileSizeAttribute.GetValidationResult(null, _validationContext);
 
             // Assert
-            result.ErrorMessage.Should().Be("Please select a file to upload!");
+            Assert.Equal(ValidationResult.Success, result);
         }
 
         [Fact]

@@ -80,6 +80,23 @@ namespace Ubora.Web.Infrastructure.ImageServices
             await _storageProvider.DeleteBlobAsync(blobLocation.ContainerName, blobLocation.BlobPath);
         }
 
+        public string GetReadUrl(BlobLocation blobLocation, ImageSize size,  DateTime expiry)
+        {
+            if (blobLocation == null)
+            {
+                throw new ArgumentNullException(nameof(blobLocation));
+            }
+
+            if (size == null)
+            {
+                throw new ArgumentNullException(nameof(size));
+            }
+
+            var blobUrl = _storageProvider.GetBlobSasUrl(blobLocation.ContainerName, $"{blobLocation.BlobPath}{size}.jpg", expiry);
+
+            return blobUrl;
+        }
+
         private async Task<IEnumerable<BlobDescriptor>> GetBlobs(BlobLocation blobLocation)
         {
             if (blobLocation == null) throw new ArgumentNullException(nameof(blobLocation));

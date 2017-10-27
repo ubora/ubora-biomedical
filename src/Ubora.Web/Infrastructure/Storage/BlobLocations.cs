@@ -29,5 +29,13 @@ namespace Ubora.Web.Infrastructure.Storage
 
             return new BlobLocation(containerName, blobPath);
         }
+
+        public static BlobLocation GetProjectCandidateBlobLocation(Guid candidateId)
+        {
+            var containerName = BlobLocation.ContainerNames.Candidates;
+            var blobPath = $"{candidateId}/candidate-image/";
+
+            return new BlobLocation(containerName, blobPath);
+        }
     }
 }
