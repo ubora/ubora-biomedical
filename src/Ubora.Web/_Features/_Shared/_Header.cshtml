@@ -27,34 +27,34 @@
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link d-flex align-items-center" asp-controller="ProjectList" asp-action="Search">
-          <span class="nav-link-description">Search</span>
           <i class="material-icons">search</i>
+          <span class="nav-link-description">Search</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link d-flex align-items-center" asp-controller="ProjectList" asp-action="MyProjects">
-          <span class="nav-link-description">Projects</span>
           <i class="material-icons">folder</i>
+          <span class="nav-link-description">Projects</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link nav-link-notification d-flex align-items-center" asp-controller="Notifications" asp-action="Index">
-          <span class="nav-link-description">Notifications</span>
           @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
+          <span class="nav-link-description">Notifications</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link d-flex align-items-center" asp-controller="Manage" asp-action="Index">
-          <span class="nav-link-description">Profile</span>
           <i class="material-icons">account_circle</i>
+          <span class="nav-link-description">Profile</span>
         </a>
       </li>
       @if (User.IsInRole(ApplicationRole.Admin))
       {
       <li class="nav-item">
         <a class="nav-link d-flex align-items-center" asp-controller="Admin" asp-action="Diagnostics">
-        <span class="nav-link-description">Admin</span>
           <i class="material-icons">build</i>
+          <span class="nav-link-description">Admin</span>
         </a>
       </li>
       }
@@ -75,14 +75,14 @@ else
     <ul class="navbar-nav">
       <li class="nav-item">
       <a class="nav-link d-flex align-items-center" asp-controller="ProjectList" asp-action="Search">
-        <span class="nav-link-description">Search</span>
         <i class="material-icons">search</i>
+        <span class="nav-link-description">Search</span>
       </a>
       </li>
       <li class="nav-item">
         <a class="nav-link d-flex align-items-center" id="SignInSignUp" class="nav-link" asp-controller="Account" asp-action="Login">
-          <span class="nav-link-description">Log in</span>
           <i class="material-icons">account_circle</i>
+          <span class="nav-link-description">Log in</span>
         </a>
       </li>
     </ul>
