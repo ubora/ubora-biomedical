@@ -26,7 +26,7 @@
             <div class="card w-100 h-100">
               <a href="@Url.Action("Dashboard", "Dashboard", new { projectId = project.Id })" class="card-link">
 
-                <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(project.ImagePath)?"/images/projectlogodefault_thumbnail.png":project.ImagePath)">
+                <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(project.ImagePath)?"/images/project-default-image.png":project.ImagePath)">
                 @if (project.IsInDraft)
                 {
                   <p class="project-status-draft">Draft</p>
