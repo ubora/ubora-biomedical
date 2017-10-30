@@ -171,7 +171,7 @@ namespace Ubora.Web._Features.Projects.Repository
                 throw new InvalidOperationException();
             }
 
-            var blobSasUrl = _uboraStorageProvider.GetReadUrl(file.Location, DateTime.UtcNow.AddSeconds(15));
+            var blobSasUrl = _uboraStorageProvider.GetReadUrl(file.Location, DateTime.UtcNow.AddSeconds(5));
 
             return Redirect(blobSasUrl);
         }
@@ -187,7 +187,7 @@ namespace Ubora.Web._Features.Projects.Repository
 
             var fileLocation = ((UboraFileEvent)fileEvent.Data).Location;
 
-            var blobSasUrl = _uboraStorageProvider.GetReadUrl(fileLocation, DateTime.UtcNow.AddSeconds(15));
+            var blobSasUrl = _uboraStorageProvider.GetReadUrl(fileLocation, DateTime.UtcNow.AddSeconds(5));
 
             return Redirect(blobSasUrl);
         }
