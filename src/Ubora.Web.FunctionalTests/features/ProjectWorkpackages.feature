@@ -84,7 +84,7 @@ Scenario: System administrator adds Mentor to the project
     Then I expect the title of the page "Mentors - UBORA"
     When I click on the element "button=Invite mentor"
     Then I expect the element "p=Mentor successfully invited." is visible
-    When I click on the element "button=x"
+    When I click on the element "#Close"
         And I sign out
     Then I expect the title of the page "Welcome - UBORA"
 

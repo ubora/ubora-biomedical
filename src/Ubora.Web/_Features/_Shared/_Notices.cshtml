@@ -9,7 +9,7 @@
         case NoticeType.Info:
           <div class="alert alert-info alert-dismissible fade show" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+              <span id="Close" aria-hidden="true">&times;</span>
             </button>
             <p>@notice.Text</p>
           </div>
@@ -17,7 +17,7 @@
         case NoticeType.Success:
           <div class="alert alert-success alert-dismissible fade show" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+              <span id="Close" aria-hidden="true">&times;</span>
             </button>
             <p>@notice.Text</p>
           </div>
@@ -25,7 +25,7 @@
         case NoticeType.Error:
           <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+              <span id="Close" aria-hidden="true">&times;</span>
             </button>
             <p>@notice.Text</p>
           </div>
