@@ -2,6 +2,7 @@ const expect = require('chai').expect;
 
 module.exports = function () {
     this.When(/^I click on the element "([^"]*)?"$/, (element) => {
+            browser.waitForEnabled(element)
             browser.click(element)
         });
 
@@ -26,7 +27,7 @@ module.exports = function () {
         });
 
     this.When(/^I wait for the element "([^"]*)?"$/, (value) => {
-            browser.waitForExist(value)
+            browser.waitForEnabled(value)
         });
 
     this.When(/^I sign out$/, () => {
