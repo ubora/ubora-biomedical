@@ -38,25 +38,25 @@ Scenario: I click on My projects and open up TestProject
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
 
-Scenario: On project Dashboard page I click Project overview
+Scenario: I click Project overview
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "a=Project overview"
     Then I expect the title of the page "Dashboard - UBORA"
 
-Scenario: On project Dashboard page I click Home
+Scenario: I click Home
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "#UboraLogo"
     Then I expect the title of the page "Welcome - UBORA"
 
-Scenario: On project Dashboard page I click My projects
+Scenario: I click My projects
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "i=folder"
     Then I expect the title of the page "View projects - UBORA"
 
-Scenario: On project Dashboard page I click Work packages
+Scenario: I click Work packages
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "a=Work packages"
@@ -74,7 +74,7 @@ Scenario: I click Assignments and add an Assignment
     When I click on the element "h4=TestProject"
         And I click on the element "a=Assignments"
     Then I expect the title of the page "Assignments - UBORA"
-    When I click on the element "i=add_box"
+    When I click on the element "span=Add assignment"
     Then I expect the title of the page "Assignments - UBORA"
     When I set value "Assignment Title" to the element "#Title"
         And I set value "Assignment Description" to the element "#Description"
@@ -87,7 +87,7 @@ Scenario: I click Assignments and add an Assignment
 Scenario: I click Assingments and try to add an empty Assignment
     When I click on the element "h4=TestProject"
         And I click on the element "a=Assignments"
-        And I click on the element "i=add_box"
+        And I click on the element "span=Add assignment"
         And I click on the element "button=Add assignment"
     Then I expect the element "span=The Title field is required." is visible
         And I expect the element "span=The Description field is required." is visible
@@ -96,7 +96,7 @@ Scenario: I click Assingments and try to add an empty Assignment
 Scenario: I click Assignments and click Discard changes in new assignment
     When I click on the element "h4=TestProject"
         And I click on the element "a=Assignments"
-        And I click on the element "i=add_box"
+        And I click on the element "span=Add assignment"
         And I click on the element "a=Discard changes"
     Then I expect the title of the page "Assignments - UBORA"
         And I expect the element "a=TestProject" is visible
@@ -132,7 +132,7 @@ Scenario: I click Members and try to add new member
     When I click on the element "button=Invite member"
     Then I expect the title of the page "Invite member - UBORA"
 
-Scenario: On Project Dashboard page I click Members and on project owner
+Scenario: I click Members and on project owner
     When I click on the element "h4=TestProject"
         And I click on the element "a=Members"
         And I click on the element "a=firstName lastName"
@@ -146,18 +146,17 @@ Scenario: I click Edit image
     Then I expect the element "span=Please select an image to upload first!" is visible
         And I expect the title of the page "Dashboard - UBORA"
 
-Scenario: On Project Dashboard page I click Edit Project Description
+Scenario: I click Edit Project Description
     When I click on the element "h4=TestProject"
-    Then I expect the element ".editor-toolbar" is visible
-    When I click on the element "#EditProjectDescription"
-        And I click on the element ".project-view.full-width"
+    Then I expect the element "h2=Medical tags" is visible
+    When I click on the element "span=Edit"
         And I click on the key "Tab"
         And I click on keys "Welcome to my Project"
         And I click on the element "button=Save changes"
     Then I expect the element "code=Welcome to my Project" is visible
         And I expect the title of the page "Dashboard - UBORA"
 
-Scenario: On Project Dashboard page I click Edit Project Description but Discard it
+Scenario: I click Edit Project Description but Discard it
     When I click on the element "h4=TestProject"
         And I click on the element "#EditProjectDescription"
         And I click on the element "a=Discard"

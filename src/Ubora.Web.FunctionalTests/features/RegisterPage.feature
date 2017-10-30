@@ -22,9 +22,9 @@ Scenario: I click Terms of Service
 Scenario: I submit valid registration form then user is logged in and full name displayed
     When I click on the element "span=Log in"
         And I sign up as "email@email.com"
-        And I click on the element "span=Menu"
-    Then I expect the element "p=TestFirstName TestLastName" is visible
-    When I click on the element "#SignOut"
+        And I click on the element "span=Profile"
+    Then I expect the element "h2=TestFirstName TestLastName" is visible
+    When I click on the element "button=Sign out"
     Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: I sumbit empty registration form and try to create an account

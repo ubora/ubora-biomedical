@@ -8,8 +8,7 @@ Background:
 Scenario: I try to change my password to empty password
     When I click on the element "span=Log in"
         And I sign up as "change@password.eu"
-        And I click on the element "span=Menu"
-        And I click on the element "a=View profile"
+        And I click on the element "span=Profile"
     Then I expect the title of the page "Manage your account - UBORA"
     When I click on the element "a=Change password"
     Then I expect the title of the page "Change Password - UBORA"
@@ -19,9 +18,7 @@ Scenario: I try to change my password to empty password
         And I expect the title of the page "Change Password - UBORA"
 
 Scenario: I change my password
-    When I click on the element "span=Menu"
-        And I wait for the element "a=View profile"
-        And I click on the element "a=View profile"
+    When I click on the element "span=Profile"
         And I click on the element "a=Change password"
         And I set value "Test12345" to the element "#OldPassword"
         And I set value "Test1234" to the element "#NewPassword"
@@ -37,5 +34,5 @@ Scenario: I sign out
 Scenario: I sign in with my changed password
     When I sign in as "change@password.eu" with password "Test1234"
     Then I expect the title of the page "Welcome - UBORA"
-    When I click on the element "span=Menu"
+    When I click on the element "span=Profile"
     Then I expect the element "p=Change Password" is visible
