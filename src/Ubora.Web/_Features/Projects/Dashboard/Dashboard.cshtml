@@ -8,11 +8,11 @@
 
 <section class="medium-width">
     
-    @if (!Model.IsProjectMember)
+    @if (!Model.IsProjectMember && User.IsEmailConfirmed())
     {
         <a href="@Url.Action("Join", "Members")"><i class="material-icons">add</i>Join project</a>
     }
-    else
+    @if (Model.IsProjectMember)
     {
         <div class="project_photo--controls">
             <a asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons" id="EditImage">mode_edit</i>&nbsp;Edit image</a>

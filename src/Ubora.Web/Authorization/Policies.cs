@@ -10,5 +10,6 @@
         public const string CanEditWorkpackageOne = nameof(CanEditWorkpackageOne);
         public const string CanHideProjectFile = nameof(CanHideProjectFile);
         public const string CanCreateProject = nameof(CanCreateProject);
+        public const string CanJoinProject = nameof(CanJoinProject);
     }
 }

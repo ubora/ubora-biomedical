@@ -62,6 +62,12 @@ namespace Ubora.Web.Authorization
                     policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsEmailConfirmedRequirement());
                 });
+
+                options.AddPolicy(nameof(Policies.CanJoinProject), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
+                    policyBuilder.AddRequirements(new IsEmailConfirmedRequirement());
+                });
             });
 
             return services;
