@@ -17,6 +17,8 @@
     </style>
     <style type="text/css">
 
+
+
         body {
             background-color: #f5f5f5;
             font-family: 'Arial', sans-serif;
@@ -55,7 +57,7 @@
             width: 50%;
             color: #4777BB;
             padding: 5px;
-            text-align: left;
+            text-align: center;
             font-size: 30px;
         }
 
@@ -118,16 +120,27 @@
 </head>
 <body>
     <table class="container">
+
         <tr>
             <td class="header">
                 <table>
                     <tr>
-                        <td class="logo">
-                            <img src="cid:@EmailLayoutViewModel.HeadingUboraLogoId" alt="Ubora logo" />
+
+                        <td width="600">
+                          <table>
+                              <tr>
+                                <td width="150" align="right" class="logo">
+                                  <img src="cid:@EmailLayoutViewModel.HeadingUboraLogoId" alt="Ubora logo" />
+                                </td>
+                                <td width="300" class="heading-primary" align="center">
+                                    UBORA e-Platform
+                                </td>
+                                <td width="150" align="left">
+                                </td>
+                            </tr>
+                          </table>
                         </td>
-                        <td class="heading-primary">
-                            UBORA e-Platform
-                        </td>
+
                     </tr>
                 </table>
             </td>
@@ -168,6 +181,7 @@
                 </table>
             </td>
         </tr>
+
     </table>
 </body>
 </html>
