@@ -110,7 +110,7 @@ namespace Ubora.Web.Tests._Features.Projects.History
                 initiatedBy: _userInfo,
                 newValue: "new value",
                 title: "new title",
-                stepId: WorkpackageStepIds.DescriptionOfFunctions);
+                stepId: WorkpackageStepIds.PhysicalPrinciples);
             Session.Events.Append(_projectId, editedWorkpackageTwoEvent);
             Session.SaveChanges();
         }
