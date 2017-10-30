@@ -59,7 +59,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return AddCandidate();
             }
 
-            return RedirectToAction("ConceptualDesign", "WorkpackageTwo");
+            return RedirectToAction("Voting", "WorkpackageTwo");
         }
 
         public IActionResult Candidate(Guid candidateId)

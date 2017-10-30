@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
-    public class ConceptualDesignViewModel
+    public class VotingViewModel
     {
         public IEnumerable<CandidateItemViewModel> Candidates { get; set; }
     }

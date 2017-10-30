@@ -68,17 +68,17 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return RedirectToAction(nameof(Read), new { stepId = model.StepId });
         }
 
-        [Route(nameof(ConceptualDesign))]
-        public IActionResult ConceptualDesign()
+        [Route(nameof(Voting))]
+        public IActionResult Voting()
         {
             var candidates = QueryProcessor.Find<Candidate>()
                 .Where(c => c.ProjectId == ProjectId);
 
             var candidateViewModels = candidates.Select(x => AutoMapper.Map<CandidateItemViewModel>(x));
-            var model = new ConceptualDesignViewModel();
+            var model = new VotingViewModel();
             model.Candidates = candidateViewModels;
 
-            return View(nameof(ConceptualDesign), model);
+            return View(nameof(Voting), model);
         }
     }
 }
