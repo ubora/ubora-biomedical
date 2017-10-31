@@ -28,7 +28,7 @@
             <div class="col d-flex justify-content-end flex-wrap">
             @if (!Model.IsProjectMember)
             {
-                <a href="@Url.Action("Join", "Members")"><i class="material-icons">add</i>Join project</a>
+                <a class="btn btn-secondary-ghost d-sm-block d-lg-inline-block" href="@Url.Action("Join", "Members")"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
             }
             else
             {
