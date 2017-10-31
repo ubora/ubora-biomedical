@@ -8,12 +8,21 @@ export default class DragAndDropFileUploads {
             paramName: () => 'ProjectFiles',
             uploadMultiple: true,
             parallelUploads: 5,
-            maxFilesize: 30,
-            addRemoveLinks: true
+            maxFilesize: 30
         });
     }
 
     init() {
+        this.dropzone.on("addedfile", (file) => {
+            console.log(file.size);
+            const projectFilesValidationElement = document.querySelector('span[data-valmsg-for="ProjectFiles"]');
+            if (file.size > 31457280) {
+                this.dropzone.removeFile(file);
+                projectFilesValidationElement.innerHTML =
+                    '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">Please upload a smaller files</span>';
+            }
+        });
+
         this.dropzone.on('sending', (file, xhr, formData) => {
             const folderName = document.getElementById('FolderName').value;
             if (folderName !== 'Select a folder') {
@@ -41,12 +50,27 @@ export default class DragAndDropFileUploads {
         // Client side validation
         submitButton.addEventListener('click',
             () => {
-                const validationElement = document.querySelector('span[data-valmsg-for="FolderName"]');
-                if (document.getElementById('FolderName').value === 'Select a folder') {
-                    validationElement.innerHTML = '<span class="field-validation-error" data-valmsg-for="FolderName" data-valmsg-replace="true">The FolderName field is required.</span>';
-                } else {
-                    validationElement.innerHTML = '<span class="field-validation-error" data-valmsg-for="FolderName" data-valmsg-replace="true"></span>';
+                const projectFilesValidationElement = document.querySelector('span[data-valmsg-for="ProjectFiles"]');
+                const folderNameValidationElement = document.querySelector('span[data-valmsg-for="FolderName"]');
+
+                if (this.dropzone.files.length > 0 && this.dropzone.files.length < 6 && document.getElementById('FolderName').value !== 'Select a folder') {
+                    projectFilesValidationElement.innerHTML = '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true"></span>';
+                    folderNameValidationElement.innerHTML = '<span class="field-validation-error" data-valmsg-for="FolderName" data-valmsg-replace="true"></span>';
                     this.dropzone.processQueue();
+                }
+                if (this.dropzone.files.length > 5) {
+                    projectFilesValidationElement.innerHTML =
+                        '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">You can not upload any more files</span>';
+                } else if (this.dropzone.files.length < 1) {
+                    projectFilesValidationElement.innerHTML = '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">Please select a file to upload!</span>';
+                } else {
+                    projectFilesValidationElement.innerHTML = '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true"></span>';
+                }
+                if (document.getElementById('FolderName').value === 'Select a folder') {
+                    folderNameValidationElement.innerHTML =
+                        '<span class="field-validation-error" data-valmsg-for="FolderName" data-valmsg-replace="true">The FolderName field is required.</span>';
+                } else {
+                    folderNameValidationElement.innerHTML = '<span class="field-validation-error" data-valmsg-for="FolderName" data-valmsg-replace="true"></span>';
                 }
             });
     }
