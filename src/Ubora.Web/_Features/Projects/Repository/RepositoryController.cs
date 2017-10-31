@@ -56,6 +56,8 @@ namespace Ubora.Web._Features.Projects.Repository
         [HttpPost]
         public async Task<IActionResult> AddFile(AddFileViewModel model)
         {
+            string page = HttpContext.Request.Query["page"];
+
             if (!ModelState.IsValid)
             {
                 return PartialView("AddFilePartial", model);
