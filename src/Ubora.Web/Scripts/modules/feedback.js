@@ -60,7 +60,6 @@ export class Feedback {
             noticeCloseElement.setAttribute('aria-label', 'Close');
             noticeCloseElement.setAttribute('data-dismiss', 'alert');
             const noticeCloseIconElement = document.createElement('span');
-            noticeCloseIconElement.setAttribute('id', 'Close');
             noticeCloseIconElement.setAttribute('aria-hidden', 'true');
             const noticeCloseTextElement = document.createTextNode('×');
             noticeCloseIconElement.appendChild(noticeCloseTextElement);
