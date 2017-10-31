@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Web.Infrastructure;
+using Ubora.Web.Services;
 
 namespace Ubora.Web._Features.Notifications.Invitations
 {
@@ -13,6 +14,11 @@ namespace Ubora.Web._Features.Notifications.Invitations
         [SaveTempDataModelState]
         public IActionResult Accept(Guid invitationId)
         {
+            if (!User.IsEmailConfirmed())
+            {
+                ModelState.AddModelError("", "You must confirm your email to join the project.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Index", "Notifications");

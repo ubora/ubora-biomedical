@@ -13,6 +13,7 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsProjectLeaderRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMentorRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsWorkpackageOneNotLockedRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, IsEmailConfirmedRequirement.Handler>();
 
             services.AddAuthorization(options =>
             {
