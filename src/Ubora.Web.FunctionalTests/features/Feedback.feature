@@ -17,8 +17,7 @@ Scenario: I sign in and send feedback
 
 Scenario: I try to send feedback but cancel it
     When I click on the element "button.feedback-trigger"
-    Then I expect the element "h1=Feedback" is visible
-    When I click on the element "textarea.feedback-input"
+        And I click on the element ".feedback-input"
         And I click on keys "There is no feedback for you."
         And I click on the element "button=Cancel"
     Then I expect the element "h3=You have no projects." is visible
