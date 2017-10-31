@@ -1,12 +1,17 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage.Blob;
 using TwentyTwenty.Storage;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Web.Authorization;
+using Ubora.Web.Data;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web._Features.Home;
 
 namespace Ubora.Web._Features.Projects.Dashboard
 {
@@ -29,6 +34,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
         {
             var model = AutoMapper.Map<ProjectDashboardViewModel>(Project);
             model.IsProjectMember = (await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement())).Succeeded;
+
             model.HasImage = Project.HasImage;
             if (Project.HasImage)
             {
@@ -140,6 +146,23 @@ namespace Ubora.Web._Features.Projects.Dashboard
             }
 
             return RedirectToAction(nameof(Dashboard));
+        }
+
+        [DisableProjectControllerAuthorization]
+        [Authorize(Roles = ApplicationRole.Admin)]
+        [HttpPost]
+        public async Task<IActionResult> DeleteProject()
+        {
+            
+           await _storageProvider.DeleteBlobAsync(BlobLocation.ContainerNames.Projects, ProjectId.ToString());
+
+
+            ExecuteUserProjectCommand(new DeleteProjectCommand
+            {
+                ProjectId = Project.Id,
+            });
+
+            return RedirectToAction(nameof(HomeController.Index), nameof(Home));
         }
     }
 }

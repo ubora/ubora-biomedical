@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Ubora.Web.Data;
 
 namespace Ubora.Web.Authorization
 {
@@ -55,6 +56,12 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+
+                options.AddPolicy(nameof(Policies.CanDeleteProject), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
+                    policyBuilder.RequireRole(ApplicationRole.Admin);
                 });
             });
 

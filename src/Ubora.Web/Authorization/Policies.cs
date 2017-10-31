@@ -9,5 +9,6 @@
         public const string CanSubmitWorkpackageForReview = nameof(CanSubmitWorkpackageForReview);
         public const string CanEditWorkpackageOne = nameof(CanEditWorkpackageOne);
         public const string CanHideProjectFile = nameof(CanHideProjectFile);
+        public const string CanDeleteProject = nameof(CanDeleteProject);
     }
 }
