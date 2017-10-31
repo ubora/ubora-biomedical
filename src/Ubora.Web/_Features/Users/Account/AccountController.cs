@@ -259,7 +259,7 @@ namespace Ubora.Web._Features.Users.Account
                 throw new InvalidOperationException();
             }
 
-            if(user.EmailConfirmed)
+            if (user.EmailConfirmed)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -306,7 +306,11 @@ namespace Ubora.Web._Features.Users.Account
             {
                 var user = await _userManager.FindByNameAsync(model.Email);
                 if (user == null)
-                    return View("ForgotPasswordConfirmation");
+                {
+                    ModelState.AddModelError(string.Empty, "Can not find that email address, sorry.");
+                    return View("ForgotPassword");
+                }
+
                 await _passwordRecoveryMessageSender.SendForgotPasswordMessage(user);
                 return View("ForgotPasswordConfirmation");
             }

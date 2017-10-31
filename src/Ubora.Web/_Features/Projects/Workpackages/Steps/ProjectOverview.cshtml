@@ -9,15 +9,24 @@
 
 <section class="project-view full-width">
     @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+    @{
+        var isWp1Locked = !(await AuthorizationService.AuthorizeAsync(this.User, Policies.CanEditWorkpackageOne)).Succeeded;
+    }
 
     <section class="medium-width step-view">
         <h1 class="full-width">Project Overview</h1>
+        @if (isWp1Locked)
+        {
+            <p><i>You can not edit work package when it's under review or has been accepted by review.</i></p>
+        }
+        
         <form asp-controller="WorkpackageOne" asp-action="ProjectOverview" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-input">
                 <label asp-for="ClinicalNeedTags">Clinical need</label>
-                <select asp-for="ClinicalNeedTags">
+
+                <select asp-for="ClinicalNeedTags" ubora-disable="@isWp1Locked">
                     <option selected disabled>Select a clinical need</option>
                     <option value="Monitoring purpose">Monitoring purpose</option>
                     <option value="Non-surgical therapy / Administration of drugs">Non-surgical therapy / Administration of drugs</option>
@@ -31,11 +40,12 @@
                     <option value="Support to surgery">Support to surgery</option>
                 </select>
                 <span asp-validation-for="ClinicalNeedTags"></span>
-            </div>
 
+            </div>
+            
             <div class="form-input">
                 <label asp-for="AreaOfUsageTags">Area</label>
-                <select asp-for="AreaOfUsageTags">
+                <select asp-for="AreaOfUsageTags" ubora-disable="@isWp1Locked">
                     <option selected disabled>Select an area of usage</option>
                     <optgroup label="From surgical fields">
                         <option value="Cardiovascular surgery">Cardiovascular surgery</option>
@@ -107,10 +117,10 @@
                 </select>
                 <span asp-validation-for="AreaOfUsageTags"></span>
             </div>
-
+            
             <div class="form-input">
                 <label asp-for="PotentialTechnologyTags">Technology</label>
-                <select asp-for="PotentialTechnologyTags">
+                <select asp-for="PotentialTechnologyTags" ubora-disable="@isWp1Locked">
                     <option selected disabled>Select potential technology</option>
                     <option value="Active implantable device">Active implantable device</option>
                     <option value="E-based technology">E-based technology</option>
@@ -131,27 +141,39 @@
 
             <div class="form-input">
                 <label asp-for="Gmdn">Project keywords</label>
-                <input asp-for="Gmdn" placeholder="Will be implemented shortly!">
+                <input asp-for="Gmdn" placeholder="Will be implemented shortly!" ubora-disable="@isWp1Locked"  >
                 <span asp-validation-for="Gmdn"></span>
             </div>
 
-            <div class="center-element">
-                <a class="button secondary-button small-button" asp-controller="WorkpackageOne" asp-action="ProjectOverview">Discard changes</a>
-                <button class="button primary-button small-button" type="submit">Save changes</button>
-            </div>
+
+            @if (!isWp1Locked)
+            {
+                <div class="center-element">
+                    <a class="button secondary-button small-button" asp-controller="WorkpackageOne" asp-action="ProjectOverview">Discard changes</a>
+                    <button class="button primary-button small-button" type="submit">Save changes</button>
+                </div>
+            }
+            else
+            {
+                <div class="center-element">
+                    
+                    <button class="button primary-button small-button" disabled="disabled">Save changes</button>
+                </div>
+
+
+            }
 
         </form>
     </section>
 </section>
 
 @section Scripts {
-  <link rel="stylesheet"
-    href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"
-    asp-fallback-href="~/dist/lib/select2.min.css">
-  <script
-    src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"
-    asp-fallback-src="~/dist/lib/select2.min.js"
-    asp-fallback-test="window.select2">
-  </script>
-  <script>$('select').select2({ theme: 'ubora' });</script>
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"
+          asp-fallback-href="~/dist/lib/select2.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"
+            asp-fallback-src="~/dist/lib/select2.min.js"
+            asp-fallback-test="window.select2">
+    </script>
+    <script>$('select').select2({ theme: 'ubora' });</script>
 }

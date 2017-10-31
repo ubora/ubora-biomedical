@@ -5,13 +5,13 @@ Feature: Project Creation Dashboard page
 Background:
     Given I go to Home page
 
-Scenario: Create a project 
+Scenario: Create a project
     Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: I sign up to create a project
     When I click on the element "a=I have an idea"
     Then I expect the title of the page "Sign in to UBORA - UBORA"
-    When I sign up as "project@email.com" first name "TestFirstName" last name "TestLastName"
+    When I sign up as "project@email.com"
     Then I expect the title of the page "Create a profile - UBORA"
     When I click on the element "button=Continue"
     Then I expect the title of the page "Project drafting - UBORA"
@@ -40,7 +40,7 @@ Scenario: I click on My projects and open up TestProject
     Then I expect the title of the page "View projects - UBORA"
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
-    
+
 Scenario: On project Dashboard page I click Project overview
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
@@ -81,19 +81,36 @@ Scenario: I click Assignments and add an Assignment
     Then I expect the title of the page "Assignments - UBORA"
     When I set value "Assignment Title" to the element "#Title"
         And I set value "Assignment Description" to the element "#Description"
-        And I click on the element "button=Add Assignment"
+        And I click on the element "button=Add assignment"
     Then I expect the element "a=Assignment Title" is visible
     When I click on the element "a=Assignment Title"
     Then I expect the title of the page "Assignments - UBORA"
         And I expect the element "value=Assignment Description" is visible
-    
+
 Scenario: I click Assingments and try to add an empty Assignment
     When I click on the element "h4=TestProject"
         And I click on the element "a=Assignments"
         And I click on the element "i=add_box"
-        And I click on the element "button=Add Assignment"
+        And I click on the element "button=Add assignment"
     Then I expect the element "span=The Title field is required." is visible
         And I expect the element "span=The Description field is required." is visible
+        And I expect the title of the page "Assignments - UBORA"
+
+Scenario: I click Assignments and click Discard changes in new assignment
+    When I click on the element "h4=TestProject"
+        And I click on the element "a=Assignments"
+        And I click on the element "i=add_box"
+        And I click on the element "a=Discard changes"
+    Then I expect the title of the page "Assignments - UBORA"
+        And I expect the element "a=TestProject" is visible
+
+Scenario: I click Assignments and click Discard changes in Assignment
+    When I click on the element "h4=TestProject"
+        And I click on the element "a=Assignments"
+        And I click on the element "a=Assignment Title"
+    Then I expect the element "h1=Task draft" is visible
+    When I click on the element "a=Discard changes"
+    Then I expect the element "a=Assignment Title" is visible
         And I expect the title of the page "Assignments - UBORA"
 
 Scenario: I click History
@@ -121,7 +138,7 @@ Scenario: I click Members and try to add new member
 Scenario: On Project Dashboard page I click Members and on project owner
     When I click on the element "h4=TestProject"
         And I click on the element "a=Members"
-        And I click on the element "a=TestFirstName TestLastName"
+        And I click on the element "a=firstName lastName"
     Then I expect the element "p=TestFirstName TestLastName" is visible
         And I expect the title of the page "View profile - UBORA"
 
@@ -134,7 +151,8 @@ Scenario: I click Edit image
 
 Scenario: On Project Dashboard page I click Edit Project Description
     When I click on the element "h4=TestProject"
-        And I click on the element "#EditProjectDescription"
+    Then I expect the element ".editor-toolbar" is visible
+    When I click on the element "#EditProjectDescription"
         And I click on the element ".project-view.full-width"
         And I click on the key "Tab"
         And I click on keys "Welcome to my Project"

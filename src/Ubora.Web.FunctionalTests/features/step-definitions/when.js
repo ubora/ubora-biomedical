@@ -29,17 +29,17 @@ module.exports = function () {
             browser.waitForExist(value)
         });
 
-    this.When(/^I log out$/, () => {
+    this.When(/^I sign out$/, () => {
             browser.click('span=Menu');
             browser.waitForExist('#SignOut');
             browser.click('#SignOut');
         });
 
-    this.When(/^I sign up as "([^"]*)?" first name "([^"]*)?" last name "([^"]*)?"$/, (email, firstName, lastName) => {
+    this.When(/^I sign up as "([^"]*)?"$/, (email) => {
             browser
             .click('a=Sign up')
-            .setValue('#FirstName', firstName)
-            .setValue('#LastName', lastName)
+            .setValue('#FirstName', 'firstName')
+            .setValue('#LastName', 'lastName')
             .setValue('#Email', email)
             .setValue('#Password', 'Test12345')
             .setValue('#ConfirmPassword', 'Test12345')
@@ -78,4 +78,15 @@ module.exports = function () {
             .setValue('#Password', 'ChangeMe123!')
             .click('button=Sign in')
         });
+
+    this.When(/^I answer ([^\s]+) to question "([^"]*)?"$/, (answer, question) => {
+        expect(browser.isVisible("h1=" + question))
+        if (answer.toLowerCase() === "yes") {
+            browser.click("button=Yes")  
+        } else if (answer.toLowerCase() === "no") {
+            browser.click("button=No")  
+        } else {
+            throw "Answer could not be parsed: " + answer
+        }
+    });
 }

@@ -3,7 +3,6 @@
   "name": "UBORA",
   "private": true,
   "devDependencies": {
-    "aspnet-webpack": "^2.0.1",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
@@ -33,7 +32,8 @@
     "marked": "^0.3.6",
     "select2": "^4.0.3",
     "simplemde": "^1.11.2",
-    "dropzone": "5.1.1" 
+    "timeago": "^1.6.1",
+    "dropzone": "5.1.1"
   },
   "scripts": {}
 }

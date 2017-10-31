@@ -21,9 +21,12 @@ namespace Ubora.Web._Features._Shared
         public AutoMapperProfile()
         {
             CreateMap<ProjectTask, AssignmentListItemViewModel>();
-            CreateMap<ProjectTask, EditAssignmentViewModel>();
+            CreateMap<ProjectTask, EditAssignmentViewModel>()
+                .ForMember(dest => dest.AssigneeIds, o => o.Ignore())
+                .ForMember(dest => dest.ProjectMembers, o => o.Ignore());
 
-            CreateMap<ProjectFile, ProjectFileViewModel>();
+            CreateMap<ProjectFile, ProjectFileViewModel>()
+                .ForMember(dest => dest.DownloadUrl, o => o.Ignore());
 
             CreateMap<ProjectFile, UpdateFileViewModel>()
                 .ForMember(dest => dest.ProjectFile, o => o.Ignore())
