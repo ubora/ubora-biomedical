@@ -27,7 +27,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
     {
         private readonly Mock<IApplicationUserManager> _userManagerMock;
         private readonly Mock<IApplicationSignInManager> _signInManagerMock;
-        private readonly Mock<IEmailSender> _emailSenderMock;
+        private readonly Mock<EmailSender> _emailSenderMock;
         private readonly Mock<ILogger<AccountController>> _loggerMock;
         private readonly Mock<IEmailConfirmationMessageSender> _confirmationMessageSenderMock;
         private readonly Mock<IPasswordRecoveryMessageSender> _passwordRecoveryMessageSenderMock;
@@ -38,7 +38,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         {
             _userManagerMock = new Mock<IApplicationUserManager>(MockBehavior.Strict);
             _signInManagerMock = new Mock<IApplicationSignInManager>(MockBehavior.Strict);
-            _emailSenderMock = new Mock<IEmailSender>();
+            _emailSenderMock = new Mock<EmailSender>();
             _loggerMock = new Mock<ILogger<AccountController>>();
             _confirmationMessageSenderMock = new Mock<IEmailConfirmationMessageSender>(MockBehavior.Strict);
             _passwordRecoveryMessageSenderMock = new Mock<IPasswordRecoveryMessageSender>(MockBehavior.Strict);
