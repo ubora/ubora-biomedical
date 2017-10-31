@@ -446,7 +446,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async Task ForgotPassword_Returns_ForgotPasswordConfirmation_View_If_User_Is_Not_Found()
+        public async Task ForgotPassword_Returns_Explaining_Error_User_Is_Not_Found()
         {
             var forgotpasswordviewmodel = new ForgotPasswordViewModel
             {
@@ -462,7 +462,8 @@ namespace Ubora.Web.Tests._Features.Users.Account
             var result = (ViewResult)await _controller.ForgotPassword(forgotpasswordviewmodel);
 
             //Assert
-            result.ViewName.Should().Be("ForgotPasswordConfirmation");
+            result.ViewName.Should().Be("ForgotPassword");
+            result.ViewData.ModelState.IsValid.Should().BeFalse();
             _userManagerMock.Verify(x => x.IsEmailConfirmedAsync(identity), Times.Never);
         }
 
