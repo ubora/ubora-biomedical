@@ -1,4 +1,4 @@
-Feature: WP1 Functionality tests
+Feature: Work packages Functionality tests
     As a project leader / system administrator
     I want to modify WP1 different workpackages and go through the review process
 
@@ -74,7 +74,7 @@ Scenario: I Submit project for WP1 review
         And I expect the element "td=InProcess" is visible
 
 Scenario: System administrator adds Mentor to the project
-    When I log out
+    When I sign out
     Then I expect the title of the page "Welcome - UBORA"
     When I sign in as administrator
         And I click on the element "h4=Test title"
@@ -85,11 +85,11 @@ Scenario: System administrator adds Mentor to the project
     When I click on the element "button=Invite mentor"
     Then I expect the element "p=Mentor successfully invited." is visible
     When I click on the element "span=Close"
-        And I log out
+        And I sign out
     Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: Mentor accepts the mentor invitation
-    When I log out
+    When I sign out
         And I sign in as mentor
         And I click on the element "span=Notifications"
         And I click on the element "button=Accept"
@@ -104,7 +104,7 @@ Scenario: Mentor accepts the mentor invitation
         And I expect the element "title=Project mentor" is visible
 
 Scenario: Project mentor rejects WP1 formal review
-    When I log out
+    When I sign out
         And I sign in as mentor
         And I click on the element "h4=Test title"
         And I click on the element "a=Work packages"
@@ -114,13 +114,9 @@ Scenario: Project mentor rejects WP1 formal review
     When I set value "Good project man!" to the element "#ConcludingComment"
         And I click on the element "button=Reject"
     Then I expect the element "td=Rejected" is visible
-    When I click on the element "a=Write a review"
-        And I set value "Good project man!" to the element "#ConcludingComment"
-        And I click on the element "button=Reject"
-    Then I expect the element "td=Rejected" is visible
 
 Scenario: I submit my rejected WP1 again for formal review
-    When I log out
+    When I sign out
         And I sign in as user
         And I click on the element "h4=Test title"
         And I click on the element "a=Work packages"
@@ -131,7 +127,7 @@ Scenario: I submit my rejected WP1 again for formal review
         And I expect the element "td=InProcess" is visible
 
 Scenario: Project mentor accepts WP1 formal review
-    When I log out
+    When I sign out
         And I sign in as mentor
         And I click on the element "h4=Test title"
         And I click on the element "a=Work packages"
@@ -144,7 +140,7 @@ Scenario: Project mentor accepts WP1 formal review
         And I expect the element "h3=WP2: Conceptual design" is visible
 
 Scenario: I click on WP2 work packages and try to edit them
-    When I log out
+    When I sign out
         And I sign in as user
         And I click on the element "h4=Test title"
         And I click on the element "a=Work packages"
@@ -175,7 +171,7 @@ Scenario: I Submit project for WP2 review
     Then I expect the title of the page "Formal review - UBORA"
 
 Scenario: Project mentor rejects WP2 formal review
-    When I log out
+    When I sign out
         And I sign in as mentor
         And I click on the element "h4=Test title"
         And I expect the element "a=Work packages" is visible
@@ -188,7 +184,7 @@ Scenario: Project mentor rejects WP2 formal review
     Then I expect the element "td=Rejected" is visible
 
 Scenario: I submit my rejected WP2 again for formal review
-    When I log out
+    When I sign out
         And I sign in as user
         And I click on the element "h4=Test title"
         And I click on the element "a=Work packages"
@@ -198,7 +194,7 @@ Scenario: I submit my rejected WP2 again for formal review
         And I expect the element "td=InProcess" is visible
 
 Scenario: Project mentor accepts WP2 formal review
-    When I log out
+    When I sign out
         And I sign in as mentor
         And I click on the element "h4=Test title"
         And I click on the element "a=Work packages"
@@ -210,4 +206,4 @@ Scenario: Project mentor accepts WP2 formal review
     Then I expect the element "td=Accepted" is visible
         And I expect the element "td=Great project man!" is visible
         And I expect the element "h3=WP3: Design and prototyping" is visible
-    When I log out
+    When I sign out

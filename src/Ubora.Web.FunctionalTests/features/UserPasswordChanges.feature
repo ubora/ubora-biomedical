@@ -20,6 +20,7 @@ Scenario: I try to change my password to empty password
 
 Scenario: I change my password
     When I click on the element "span=Menu"
+        And I wait for the element "a=View profile"
         And I click on the element "a=View profile"
         And I click on the element "a=Change password"
         And I set value "Test12345" to the element "#OldPassword"
@@ -28,12 +29,12 @@ Scenario: I change my password
         And I click on the element "button=Change password"
     Then I expect the title of the page "Manage your account - UBORA"
 
-Scenario: I log out
-    When I log out
+Scenario: I sign out
+    When I sign out
     Then I expect the title of the page "Welcome - UBORA"
         And I expect the element "#SignInSignUp" is visible
 
-Scenario: I log in with my changed password
+Scenario: I sign in with my changed password
     When I sign in as "change@password.eu" with password "Test1234"
     Then I expect the title of the page "Welcome - UBORA"
     When I click on the element "span=Menu"
