@@ -19,11 +19,11 @@ Scenario: I search for non-existing project
         And I expect the title of the page "Search - UBORA"
 
 Scenario: I click Home button
-    When I click on the element ".header-logo"
+    When I click on the element "#UboraLogo"
     Then I expect the title of the page "Welcome - UBORA"
 
-Scenario: I click Sign in/sign up
-    When I click on the element "#SignInSignUp"
+Scenario: I click Log in
+    When I click on the element "span=Log in"
     Then I expect the title of the page "Sign in to UBORA - UBORA"
 
 Scenario: I click Search
