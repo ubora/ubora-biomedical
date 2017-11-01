@@ -10,11 +10,14 @@
     <div class="layout-sidemenu">
         <section class="narrow-width">
             <h2>Upload new file</h2>
-            <div class="dropzone" id="my-dropzone">
+            <div class="dropzone-previews dropzone">
+                <span>Drop files here to upload</span>
             </div>
-            <div id="myform">
-                @Html.Partial("AddFilePartial", Model.AddFileViewModel)
-            </div>
+            <form id="my-dropzone">
+                <div id="myform">
+                    @Html.Partial("AddFilePartial", Model.AddFileViewModel)
+                </div>
+            </form>
             <div class="form-input">
                 <button id="btnSubmit" type="button" class="button primary-button small-button">Upload new file</button>
             </div>
@@ -74,9 +77,10 @@
 </div>
 
 @section Scripts {
-  <link rel="stylesheet"
-    href="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css"
-    asp-fallback-href="~/dist/lib/dropzone.min.css">
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css"
+          asp-fallback-href="~/dist/lib/dropzone.min.css">
     <script src="~/dist/lib/dropzone.js">
     </script>
 }
