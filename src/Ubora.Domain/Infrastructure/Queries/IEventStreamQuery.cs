@@ -46,7 +46,7 @@ namespace Ubora.Domain.Infrastructure.Queries
         {
             var uboraEventStream = _eventStore.FetchStream(streamId);
 
-            var fileEvent = uboraEventStream.Single(x => x.Data is UboraFileEvent && x.Id == eventId);
+            var fileEvent = uboraEventStream.Single(x => x.Id == eventId);
 
             return fileEvent;
         }
