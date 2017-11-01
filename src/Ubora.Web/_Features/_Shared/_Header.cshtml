@@ -43,12 +43,6 @@
           <span class="nav-link-description ml-1">Notifications</span>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link d-flex align-items-center" asp-controller="Manage" asp-action="Index">
-          <i class="material-icons">account_circle</i>
-          <span class="nav-link-description ml-1">Profile</span>
-        </a>
-      </li>
       @if (User.IsInRole(ApplicationRole.Admin))
       {
       <li class="nav-item">
@@ -58,6 +52,13 @@
         </a>
       </li>
       }
+      <li class="nav-item">
+        <a class="nav-link d-flex align-items-center" asp-controller="Manage" asp-action="Index">
+          <i class="material-icons">account_circle</i>
+          <span class="nav-link-description ml-1">Profile</span>
+        </a>
+      </li>
+
     </ul>
   </div>
 </nav>
