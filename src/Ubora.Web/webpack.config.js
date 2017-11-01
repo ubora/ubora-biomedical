@@ -47,7 +47,8 @@ module.exports = env => {
         { from: './node_modules/simplemde/dist/simplemde.min.js', to: './lib' },
         { from: './node_modules/simplemde/dist/simplemde.min.css', to: './lib' },
         { from: './node_modules/select2/dist/js/select2.min.js', to: './lib' },
-        { from: './node_modules/select2/dist/css/select2.min.css', to: './lib' }
+        { from: './node_modules/select2/dist/css/select2.min.css', to: './lib' },
+        { from: './node_modules/timeago/jquery.timeago.js', to: './lib' }
       ])
     ]
   };

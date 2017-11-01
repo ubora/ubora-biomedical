@@ -34,7 +34,7 @@ namespace Ubora.Web._Features.ProjectList
         {
             var model = _modelFactory.Create(header: "My projects", userId: User.GetId());
 
-            return View("~/_Features/ProjectList/ProjectListPartial.cshtml", model);
+            return View("~/_Features/ProjectList/UserProjectListPartial.cshtml", model);
         }
     }
 }

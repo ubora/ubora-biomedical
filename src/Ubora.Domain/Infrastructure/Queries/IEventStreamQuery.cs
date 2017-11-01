@@ -12,6 +12,7 @@ namespace Ubora.Domain.Infrastructure.Queries
     {
         IEnumerable<UboraEvent> Find(Guid streamId);
         IEnumerable<IEvent> FindFileEvents(Guid streamId, Guid fileId);
+        IEvent FindFileEvent(Guid streamId, Guid eventId);
     }
 
     public class EventStreamQuery : IEventStreamQuery
@@ -39,6 +40,15 @@ namespace Ubora.Domain.Infrastructure.Queries
             var fileEvents = uboraEventStream.Where(x => x.Data is UboraFileEvent && ((UboraFileEvent)x.Data).Id == fileId);
 
             return fileEvents;
+        }
+
+        public IEvent FindFileEvent(Guid streamId, Guid eventId)
+        {
+            var uboraEventStream = _eventStore.FetchStream(streamId);
+
+            var fileEvent = uboraEventStream.Single(x => x.Id == eventId);
+
+            return fileEvent;
         }
     }
 }
