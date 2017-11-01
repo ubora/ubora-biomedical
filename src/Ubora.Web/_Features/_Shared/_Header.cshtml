@@ -32,6 +32,12 @@
         </a>
       </li>
       <li class="nav-item">
+        <a class="nav-link d-flex align-items-center" asp-controller="UserList" asp-action="Index">
+          <i class="material-icons">people</i>
+          <span class="nav-link-description ml-1">Members</span>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link d-flex align-items-center" asp-controller="ProjectList" asp-action="MyProjects">
           <i class="material-icons">folder</i>
           <span class="nav-link-description ml-1">Projects</span>
@@ -43,12 +49,7 @@
           <span class="nav-link-description ml-1">Notifications</span>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link d-flex align-items-center" asp-controller="UserList" asp-action="Index">
-          <i class="material-icons">people</i>
-          <span class="nav-link-description ml-1">Members</span>
-        </a>
-      </li>
+
       @if (User.IsInRole(ApplicationRole.Admin))
       {
       <li class="nav-item">
