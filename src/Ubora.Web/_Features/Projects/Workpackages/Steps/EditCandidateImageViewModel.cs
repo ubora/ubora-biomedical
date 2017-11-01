@@ -8,9 +8,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     public class EditCandidateImageViewModel
     {
         public Guid Id { get; set; }
+
         [IsImage]
         [FileSize(4000000)]
-        [Required]
+        [Required(ErrorMessage = "Please select an image to upload first!")]
         public IFormFile Image { get; set; }
     }
 }

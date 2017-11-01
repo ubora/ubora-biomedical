@@ -41,7 +41,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             BlobLocation blobLocation = null;
             if(model.Image != null)
             {
-                blobLocation = BlobLocations.GetProjectCandidateBlobLocation(candidateId);
+                blobLocation = BlobLocations.GetProjectCandidateBlobLocation(ProjectId, candidateId);
                 var imageStream = model.Image.OpenReadStream();
                 await _imageStorageProvider.SaveImageAsync(imageStream, blobLocation, SizeOptions.AllDefaultSizes);
             }
@@ -118,7 +118,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return await EditCandidateImage(model);
             }
 
-            var imageLocation = BlobLocations.GetProjectCandidateBlobLocation(model.Id);
+            var imageLocation = BlobLocations.GetProjectCandidateBlobLocation(ProjectId, model.Id);
             var imageStream = model.Image.OpenReadStream();
             await _imageStorageProvider.SaveImageAsync(imageStream, imageLocation, SizeOptions.AllDefaultSizes);
 

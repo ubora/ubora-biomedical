@@ -9,7 +9,6 @@ namespace Ubora.Domain.Infrastructure
         {
             public const string Projects = "projects";
             public const string Users = "users";
-            public const string Candidates = "candidates";
         }
 
         public string ContainerName { get; private set; }

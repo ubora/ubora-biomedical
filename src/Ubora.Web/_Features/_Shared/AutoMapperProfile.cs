@@ -72,7 +72,8 @@ namespace Ubora.Web._Features._Shared
             CreateMap<Candidate, CandidateViewModel>()
                 .ForMember(dest => dest.ImageUrl, o => o.Ignore());
             CreateMap<Candidate, EditCandidateViewModel>();
-            CreateMap<Candidate, EditCandidateImageViewModel>();
+            CreateMap<Candidate, EditCandidateImageViewModel>()
+                .ForMember(dest => dest.Image, o => o.Ignore());
         }
     }
 }

@@ -30,10 +30,10 @@ namespace Ubora.Web.Infrastructure.Storage
             return new BlobLocation(containerName, blobPath);
         }
 
-        public static BlobLocation GetProjectCandidateBlobLocation(Guid candidateId)
+        public static BlobLocation GetProjectCandidateBlobLocation(Guid projectId, Guid candidateId)
         {
-            var containerName = BlobLocation.ContainerNames.Candidates;
-            var blobPath = $"{candidateId}/candidate-image/";
+            var containerName = BlobLocation.ContainerNames.Projects;
+            var blobPath = $"{projectId}/candidates/{candidateId}/candidate-image/";
 
             return new BlobLocation(containerName, blobPath);
         }
