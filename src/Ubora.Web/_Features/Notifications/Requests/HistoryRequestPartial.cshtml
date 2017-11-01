@@ -1,7 +1,7 @@
 ﻿@model Ubora.Web._Features.Notifications.Requests.RequestToJoinProjectNotifiationViewModel
 
 <p>
-    @Html.ActionLink(Model.UserFullName, "View", "Profile", new { userId = Model.UserId }) asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.&nbsp;
+    <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@Model.UserId">@Model.UserFullName asked to join project</a> <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.&nbsp;
     You
     @if (Model.WasAccepted)
     {

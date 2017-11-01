@@ -33,7 +33,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             public virtual CandidateItemViewModel Create(Candidate candidate)
             {
                 var candidateItemViewModel = _mapper.Map<CandidateItemViewModel>(candidate);
-                candidateItemViewModel.ImageUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(candidate.ImageLocation, ImageSize.Thumbnail400x150);
+                candidateItemViewModel.ImageUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(candidate.ImageLocation, ImageSize.Thumbnail400x300);
 
                 return candidateItemViewModel;
             }

@@ -38,7 +38,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 .Returns(candidateItemViewModel);
 
             var imageUrl = "imageUrl";
-            _imageStorageProviderMock.Setup(x => x.GetUrl(candidate.ImageLocation, ImageSize.Thumbnail400x150))
+            _imageStorageProviderMock.Setup(x => x.GetUrl(candidate.ImageLocation, ImageSize.Thumbnail400x300))
                 .Returns(imageUrl);
 
             // Act

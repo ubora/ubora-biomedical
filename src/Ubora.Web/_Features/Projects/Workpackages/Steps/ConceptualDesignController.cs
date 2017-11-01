@@ -66,7 +66,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             var candidate = QueryProcessor.FindById<Candidate>(candidateId);
             var model = AutoMapper.Map<CandidateViewModel>(candidate);
-            model.ImageUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(candidate.ImageLocation, ImageSize.Banner1500x300);
+            model.ImageUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(candidate.ImageLocation, ImageSize.Banner1500x1125);
 
             return View(model);
         }

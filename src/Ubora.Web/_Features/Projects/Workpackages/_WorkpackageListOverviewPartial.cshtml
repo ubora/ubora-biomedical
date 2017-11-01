@@ -7,16 +7,16 @@
         <li class="project_sidemenu--workpackage">
             <h3>WP1: @Model.WorkpackageOne.Title</h3>
             <ol>
-                <li>&nbsp;<a asp-controller="WorkpackageOne" id="ProjectOverview" asp-action="ProjectOverview">Project Overview</a></li>
+                <li><a asp-controller="WorkpackageOne" id="ProjectOverview" asp-action="ProjectOverview">Project Overview</a></li>
                 @foreach (var step in Model.WorkpackageOne.Steps)
                 {
                     <li>
                         <a asp-action="Read" asp-controller="WorkpackageOne" asp-route-stepId="@step.Id">@step.Title</a>
                     </li>
                 }
-                <li>&nbsp;<a asp-controller="WorkpackageOne" asp-action="DeviceClassification">Device classification</a></li>
-                <li>&nbsp;<a asp-controller="ApplicableRegulations" asp-action="Index">Regulation checklist</a></li>
-                <li>&nbsp;<a asp-controller="WorkpackageOneReview" asp-action="Review">Formal review</a></li>
+                <li><a asp-controller="WorkpackageOne" asp-action="DeviceClassification">Device classification</a></li>
+                <li><a asp-controller="ApplicableRegulations" asp-action="Index">Regulation checklist</a></li>
+                <li><a asp-controller="WorkpackageOneReview" asp-action="Review">Formal review</a></li>
             </ol>
         </li>
 

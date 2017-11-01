@@ -10,13 +10,13 @@ Background:
 Scenario: I make changes in Project overview and check them
     Then I expect the title of the page "Work packages - UBORA"
     When I click on the element "#ProjectOverview"
-    Then I expect the title of the page "Project Overview - UBORA"
+    Then I expect the title of the page "Design planning - UBORA"
     When I select value "Point-of-care diagnosis" from element "#ClinicalNeedTags"
         And I select value "Clinical microbiology" from element "#AreaOfUsageTags"
         And I select value "Mobile-based technology" from element "#PotentialTechnologyTags"
         And I set value "Magnificent other!" to the element "#Gmdn"
         And I click on the element "button=Save changes"
-    Then I expect the title of the page "Project Overview - UBORA"
+    Then I expect the title of the page "Design planning - UBORA"
     When I click on the element "a=Project overview"
     Then I expect the element "p=Point-of-care diagnosis" is visible
         And I expect the element "p=Clinical microbiology" is visible
@@ -29,39 +29,39 @@ Scenario: I click different Workpackages and try to edit them
     Then I expect the element "h1=Project Overview" is visible
     When I click on the element "a=Description of Needs"
     Then I expect the element "h1=Description of Needs" is visible
-    When I click on the element "i=mode_edit"
+    When I click on the element "span=Edit"
     Then I expect the title of the page "Description of Needs - UBORA"
     When I click on the element "a=Description of Existing Solutions and Analysis"
     Then I expect the element "h1=Description of Existing Solutions and Analysis" is visible
-    When I click on the element "i=mode_edit"
+    When I click on the element "span=Edit"
     Then I expect the title of the page "Description of Existing Solutions and Analysis - UBORA"
     When I click on the element "a=Product Functionality"
     Then I expect the element "h1=Product Functionality" is visible
-    When I click on the element "i=mode_edit"
+    When I click on the element "span=Edit"
     Then I expect the title of the page "Product Functionality - UBORA"
     When I click on the element "a=Product Performance"
     Then I expect the element "h1=Product Performance" is visible
-    When I click on the element "i=mode_edit"
+    When I click on the element "span=Edit"
     Then I expect the title of the page "Product Performance - UBORA"
     When I click on the element "a=Product Usability"
     Then I expect the element "h1=Product Usability" is visible
-    When I click on the element "i=mode_edit"
+    When I click on the element "span=Edit"
     Then I expect the title of the page "Product Usability - UBORA"
     When I click on the element "a=Product Safety"
     Then I expect the element "h1=Product Safety" is visible
-    When I click on the element "i=mode_edit"
+    When I click on the element "span=Edit"
     Then I expect the title of the page "Product Safety - UBORA"
     When I click on the element "a=Patient Population Study"
     Then I expect the element "h1=Patient Population Study" is visible
-    When I click on the element "i=mode_edit"
+    When I click on the element "span=Edit"
     Then I expect the title of the page "Patient Population Study - UBORA"
     When I click on the element "a=User Requirement Study"
     Then I expect the element "h1=User Requirement Study" is visible
-    When I click on the element "i=mode_edit"
+    When I click on the element "span=Edit"
     Then I expect the title of the page "User Requirement Study - UBORA"
     When I click on the element "a=Additional Information"
     Then I expect the element "h1=Additional Information" is visible
-    When I click on the element "i=mode_edit"
+    When I click on the element "span=Edit"
     Then I expect the title of the page "Additional Information - UBORA"
     When I click on the element "a=Formal review"
     Then I expect the element "h1=Formal review" is visible
@@ -84,8 +84,7 @@ Scenario: System administrator adds Mentor to the project
     Then I expect the title of the page "Mentors - UBORA"
     When I click on the element "button=Invite mentor"
     Then I expect the element "p=Mentor successfully invited." is visible
-    When I click on the element "span=Close"
-        And I sign out
+    When I sign out
     Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: Mentor accepts the mentor invitation
@@ -94,7 +93,7 @@ Scenario: Mentor accepts the mentor invitation
         And I click on the element "span=Notifications"
         And I click on the element "button=Accept"
     Then I expect the title of the page "Notifications - UBORA"
-    When I click on the element "span=My projects"
+    When I click on the element "span=Projects"
     Then I expect the element "h4=Test title" is visible
         And I expect the title of the page "View projects - UBORA"
     When I click on the element "h4=Test title"
@@ -112,10 +111,6 @@ Scenario: Project mentor rejects WP1 formal review
         And I click on the element "a=Write a review"
     Then I expect the title of the page "Write a review - UBORA"
     When I set value "Good project man!" to the element "#ConcludingComment"
-        And I click on the element "button=Reject"
-    Then I expect the element "td=Rejected" is visible
-    When I click on the element "a=Write a review"
-        And I set value "Good project man!" to the element "#ConcludingComment"
         And I click on the element "button=Reject"
     Then I expect the element "td=Rejected" is visible
 
