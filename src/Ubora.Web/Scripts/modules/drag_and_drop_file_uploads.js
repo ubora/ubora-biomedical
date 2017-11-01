@@ -9,59 +9,53 @@ export default class DragAndDropFileUploads {
             uploadMultiple: true,
             addRemoveLinks: true,
             parallelUploads: 5,
-            maxFilesize: 30,
             previewsContainer: ".dropzone-previews",
             clickable: '.dropzone-previews'
         });
     }
 
     init() {
+        const summaryValidationElement = document.querySelector('#myform > div.text-danger.validation-summary-valid');
+
         this.dropzone.on("addedfile", (file) => {
-            console.log(file.size);
-            const projectFilesValidationElement = document.querySelector('span[data-valmsg-for="ProjectFiles"]');
+            // Custom file upload validation and avoid error 404 document type when big image
             if (file.size > 31457280) {
                 this.dropzone.removeFile(file);
-                projectFilesValidationElement.innerHTML =
+                summaryValidationElement.innerHTML =
                     '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">Please upload a smaller files</span>';
             }
         });
 
-        this.dropzone.on('sending', (file, xhr, formData) => {
-            const folderName = document.getElementById('FolderName').value;
-            if (folderName !== 'Select a folder') {
-                formData.append('FolderName', folderName);
-            }
-            formData.append('Comment', document.getElementById('Comment').value);
-        });
-
         this.dropzone.on('success', (file, response) => {
-            // Server side validation
-            if (response.length > 0) {
-                this.dropzone.removeFile(file);
-                const formElement = document.querySelector('#myform');
-                formElement.innerHTML = response;
+            // Server side validation(using ajax)
+            if (response.success === false) {
+                for (var i = 0; i < response.errors.length; i++) {
+                    this.dropzone.removeFile(file);
+                    summaryValidationElement.innerHTML =
+                        '<div class="text-danger validation-summary-errors" data-valmsg-summary="true"><ul><li>' +
+                        response.errors[i] +
+                        '</li></ul></div>';
+                }
             } else {
                 window.location.reload();
             }
         });
 
-        this.onClick();
-    }
-
-    onClick() {
         const submitButton = document.querySelector('#btnSubmit');
-        // Client side validation
+
         submitButton.addEventListener('click',
             () => {
-                const projectFilesValidationElement = document.querySelector('span[data-valmsg-for="ProjectFiles"]');
-
+                // Custom file upload validation 
+                if (this.dropzone.files.length > 5) {
+                    summaryValidationElement.innerHTML =
+                        '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">You can not upload any more files. Its 5 maximum number of files.</span>';
+                }
+                if (this.dropzone.files.length < 1) {
+                    summaryValidationElement.innerHTML = '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">Please select a file to upload!</span>';
+                    // Client side validation(using jquery validation unobtrusive)
+                }
                 if ($('form#my-dropzone').valid()) {
                     this.dropzone.processQueue();
-                } else if (this.dropzone.files.length > 5) {
-                    projectFilesValidationElement.innerHTML =
-                        '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">You can not upload any more files</span>';
-                } else if (this.dropzone.files.length < 1) {
-                    projectFilesValidationElement.innerHTML = '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">Please select a file to upload!</span>';
                 }
             });
     }

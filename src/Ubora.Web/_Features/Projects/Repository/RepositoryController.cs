@@ -60,7 +60,12 @@ namespace Ubora.Web._Features.Projects.Repository
 
             if (!ModelState.IsValid)
             {
-                return PartialView("AddFilePartial", model);
+                return Json(new
+                {
+                    success = false,
+                    errors = ModelState.Keys.SelectMany(k => ModelState[k].Errors)
+                        .Select(m => m.ErrorMessage).ToArray()
+                });
             }
 
             foreach (var file in model.ProjectFiles)
