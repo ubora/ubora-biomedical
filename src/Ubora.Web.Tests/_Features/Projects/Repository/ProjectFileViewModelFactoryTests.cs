@@ -36,10 +36,6 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             projectFile.Set(x => x.RevisionNumber, 2);
             projectFile.Set(x => x.Location, blobLocation);
 
-            var downloadUrl = "downloadUrl";
-            _uboraStorageProvider.Setup(x => x.GetReadUrl(blobLocation, It.IsAny<DateTime>()))
-                .Returns(downloadUrl);
-
             var expectedModel = new ProjectFileViewModel
             {
                 Id = fileId,
@@ -47,7 +43,6 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 Comment = "comment",
                 FileSize = 12345,
                 RevisionNumber = 2,
-                DownloadUrl = downloadUrl
             };
 
             _mapper.Setup(x => x.Map<ProjectFileViewModel>(projectFile))
