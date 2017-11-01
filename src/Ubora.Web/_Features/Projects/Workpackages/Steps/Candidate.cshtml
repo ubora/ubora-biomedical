@@ -17,6 +17,9 @@
 
         <img src="@Model.ImageUrl"/>
 
+        <a href="@Url.Action("EditCandidate", "ConceptualDesign", new { candidateId = Model.Id })">edit</a>
+        <a href="@Url.Action("EditCandidateImage", "ConceptualDesign", new { candidateId = Model.Id })">edit image</a>
+        
     </section>
 </section>
  

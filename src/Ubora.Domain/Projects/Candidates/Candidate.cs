@@ -20,5 +20,16 @@ namespace Ubora.Domain.Projects.Candidates
             Description = e.Description;
             ImageLocation = e.ImageLocation;
         }
+
+        private void Apply(CandidateEditedEvent e)
+        {
+            Title = e.Title;
+            Description = e.Description;
+        }
+
+        private void Apply(CandidateImageEditedEvent e)
+        {
+            ImageLocation = e.ImageLocation;
+        }
     }
 }

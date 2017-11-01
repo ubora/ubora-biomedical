@@ -70,7 +70,72 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             return View(model);
         }
-        
+
+        public IActionResult EditCandidate(Guid candidateId)
+        {
+            var candidate = QueryProcessor.FindById<Candidate>(candidateId);
+            var model = AutoMapper.Map<EditCandidateViewModel>(candidate);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EditCandidate(EditCandidateViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return EditCandidate(model);
+            }
+
+            ExecuteUserProjectCommand(new EditCandidateCommand
+            {
+                Description = model.Description,
+                Title = model.Title,
+                Id = model.Id
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return EditCandidate(model);
+            }
+
+            return RedirectToAction(nameof(Candidate), new { candidateId = model.Id});
+        }
+
+        public IActionResult EditCandidateImage(Guid candidateId)
+        {
+            var candidate = QueryProcessor.FindById<Candidate>(candidateId);
+            var model = AutoMapper.Map<EditCandidateImageViewModel>(candidate);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCandidateImage(EditCandidateImageViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return await EditCandidateImage(model);
+            }
+
+            var imageLocation = BlobLocations.GetProjectCandidateBlobLocation(model.Id);
+            var imageStream = model.Image.OpenReadStream();
+            await _imageStorageProvider.SaveImageAsync(imageStream, imageLocation, SizeOptions.AllDefaultSizes);
+
+            ExecuteUserProjectCommand(new EditCandidateImageCommand
+            {
+                Id = model.Id,
+                ImageLocation = imageLocation
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return await EditCandidateImage(model);
+            }
+
+            return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
+        }
+
         private string GetFileName(IFormFile projectFile)
         {
             if (projectFile != null)

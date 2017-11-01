@@ -19,7 +19,7 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
         private readonly BlobLocation _imageLocation = new BlobLocation("expectedContainer", "expectedBlobPath");
 
         [Fact]
-        public void Adds_New_File_To_Project()
+        public void Adds_New_Candidate_To_Project()
         {
             this.Given(_ => this.Create_Project(_projectId))
                 .When(_ => Add_Candidate_To_Project())

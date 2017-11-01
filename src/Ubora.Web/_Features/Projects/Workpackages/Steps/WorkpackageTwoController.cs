@@ -12,13 +12,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     public class WorkpackageTwoController : ProjectController
     {
         private WorkpackageTwo _workpackageTwo;
-        private readonly ImageStorageProvider imageStorageProvider;
+        private readonly CandidateItemViewModel.Factory _candidateItemViewModelFactory;
 
         public WorkpackageTwo WorkpackageTwo => _workpackageTwo ?? (_workpackageTwo = QueryProcessor.FindById<WorkpackageTwo>(ProjectId));
 
-        public WorkpackageTwoController(ImageStorageProvider imageStorageProvider)
+        public WorkpackageTwoController(CandidateItemViewModel.Factory candidateItemViewModelFactory)
         {
-            this.imageStorageProvider = imageStorageProvider;
+            _candidateItemViewModelFactory = candidateItemViewModelFactory;
         }
 
         [Route("{stepId}")]
@@ -74,7 +74,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             var candidates = QueryProcessor.Find<Candidate>()
                 .Where(c => c.ProjectId == ProjectId);
 
-            var candidateViewModels = candidates.Select(x => AutoMapper.Map<CandidateItemViewModel>(x));
+            var candidateViewModels = candidates.Select(candidate => _candidateItemViewModelFactory.Create(candidate));
             var model = new VotingViewModel();
             model.Candidates = candidateViewModels;
 
