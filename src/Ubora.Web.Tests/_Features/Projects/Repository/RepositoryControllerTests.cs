@@ -203,13 +203,13 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             var result = (JsonResult)await _controller.AddFile(model);
 
             //Assert
-            var data = JsonConvert.DeserializeObject<JsonData>(JsonConvert.SerializeObject(result.Value));
+            var addFileResponse = JsonConvert.DeserializeObject<AddFileResponse>(JsonConvert.SerializeObject(result.Value));
 
-            data.Success.Should().BeFalse();
+            addFileResponse.Success.Should().BeFalse();
 
-            foreach (var error in data.Errors)
+            foreach (var error in addFileResponse.Errors)
             {
-                Assert.Contains(error, errorMessage);
+                errorMessage.Should().Contain(error);
             }
 
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
@@ -250,11 +250,11 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             var result = (JsonResult)await _controller.AddFile(model);
 
             //Assert
-            var test = JsonConvert.DeserializeObject<JsonData>(JsonConvert.SerializeObject(result.Value));
+            var addFileResponse = JsonConvert.DeserializeObject<AddFileResponse>(JsonConvert.SerializeObject(result.Value));
 
-            test.Success.Should().BeFalse();
+            addFileResponse.Success.Should().BeFalse();
 
-            foreach (var error in test.Errors)
+            foreach (var error in addFileResponse.Errors)
             {
                 Assert.Contains(error, commandResult.ErrorMessages.ToArray());
             }
@@ -608,7 +608,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(expectedProject);
         }
-        private class JsonData
+        private class AddFileResponse
         {
             public bool Success { get; set; }
             public List<string> Errors { get; set; }
