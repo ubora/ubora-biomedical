@@ -52,11 +52,6 @@ export default class DragAndDropFileUploads {
     submitButton.addEventListener(
       'click',
       () => {
-        // Client side validation(using jquery validation unobtrusive)
-        if ($('form#my-dropzone').valid() && this.dropzone.files.length < 6 && this.dropzone.files.length > 0) {
-          this.dropzone.processQueue();
-        }
-
         // Custom file upload validation
         if (this.dropzone.files.length > 5) {
           summaryValidationElement.innerHTML =
@@ -66,6 +61,11 @@ export default class DragAndDropFileUploads {
                         '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">Please select a file to upload!</span>';
         } else {
           summaryValidationElement.innerHTML = '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true"></span>';
+        }
+
+        // Client side validation(using jquery validation unobtrusive)
+        if ($('form#my-dropzone').valid() && this.dropzone.files.length < 6 && this.dropzone.files.length > 0) {
+            this.dropzone.processQueue();
         }
       }
     );
