@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Web.Infrastructure.PreMailers;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Feedback;
 using Ubora.Web._Features.Users.Account;
@@ -28,12 +29,12 @@ namespace Ubora.Web.Infrastructure
         {
             if (!_useSpecifiedPickupDirectory)
             {
-                builder.RegisterType<SmtpEmailSender>().As<IEmailSender>()
+                builder.RegisterType<SmtpEmailSender>().As<EmailSender>()
                     .InstancePerLifetimeScope();
             }
             else
             {
-                builder.RegisterType<SpecifiedPickupDirectoryEmailSender>().As<IEmailSender>()
+                builder.RegisterType<SpecifiedPickupDirectoryEmailSender>().As<EmailSender>()
                     .InstancePerLifetimeScope();
             }
 
@@ -50,7 +51,7 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterType<ApplicationUserManager>().As<IApplicationUserManager>().InstancePerLifetimeScope();
             builder.RegisterType<ApplicationSignInManager>().As<IApplicationSignInManager>().InstancePerLifetimeScope();
 
-            builder.RegisterType<AuthMessageSender>().As<IPasswordRecoveryMessageSender>().As<IEmailConfirmationMessageSender>().InstancePerLifetimeScope();
+            builder.RegisterType<ApplicationUserEmailMessageSender>().As<IPasswordRecoveryMessageSender>().As<IEmailConfirmationMessageSender>().InstancePerLifetimeScope();
             builder.RegisterType<ViewRender>().InstancePerLifetimeScope();
             builder.RegisterType<ImageServices.ImageStorageProvider>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterAssemblyTypes(ThisAssembly).Where(t => t.IsNested && t.Name.EndsWith("Factory")).InstancePerLifetimeScope();
@@ -75,7 +76,10 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .AssignableTo<ITokenReplacer>().As<ITokenReplacer>()
                 .InstancePerLifetimeScope();
+
             builder.RegisterType<UboraStorageProvider>().As<IUboraStorageProvider>().InstancePerLifetimeScope();
+
+            builder.RegisterType<PreMailerFactory>().AsSelf().InstancePerLifetimeScope();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)

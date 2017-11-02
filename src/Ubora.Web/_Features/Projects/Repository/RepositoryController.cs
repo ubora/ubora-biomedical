@@ -155,7 +155,7 @@ namespace Ubora.Web._Features.Projects.Repository
             var allFiles = fileEvents
                 .Select(x => new FileItemHistoryViewModel
                 {
-                    DownloadUrl = _uboraStorageProvider.GetReadUrl(((UboraFileEvent)x.Data).Location, DateTime.UtcNow.AddSeconds(15)),
+                    EventId = x.Id,
                     FileSize = ((UboraFileEvent)x.Data).FileSize,
                     RevisionNumber = ((UboraFileEvent)x.Data).RevisionNumber,
                     FileAddedOn = x.Timestamp,
@@ -171,6 +171,36 @@ namespace Ubora.Web._Features.Projects.Repository
                 Files = allFiles.OrderByDescending(x => x.FileAddedOn)
             };
             return View(nameof(FileHistory), model);
+        }
+
+        [Route("DownloadFile")]
+        public IActionResult DownloadFile(Guid fileId)
+        {
+            var file = QueryProcessor.FindById<ProjectFile>(fileId);
+            if (file == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var blobSasUrl = _uboraStorageProvider.GetReadUrl(file.Location, DateTime.UtcNow.AddSeconds(5));
+
+            return Redirect(blobSasUrl);
+        }
+
+        [Route("DownloadHistoryFile")]
+        public IActionResult DownloadHistoryFile(Guid eventId)
+        {
+            var fileEvent = _eventStreamQuery.FindFileEvent(ProjectId, eventId);
+            if (fileEvent == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var fileLocation = ((UboraFileEvent)fileEvent.Data).Location;
+
+            var blobSasUrl = _uboraStorageProvider.GetReadUrl(fileLocation, DateTime.UtcNow.AddSeconds(5));
+
+            return Redirect(blobSasUrl);
         }
 
         private async Task SaveBlobAsync(IFormFile projectFile, BlobLocation blobLocation)

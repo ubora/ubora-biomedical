@@ -4,7 +4,7 @@ namespace Ubora.Web._Features.Projects._Shared
 {
     public class ProjectMenuViewModel
     {
-        private const string ActiveMenuOptionCssClass = "project_navigation_link--active";
+        private const string ActiveMenuOptionCssClass = "active";
 
         public ProjectMenuViewModel(ProjectMenuOption option)
         {

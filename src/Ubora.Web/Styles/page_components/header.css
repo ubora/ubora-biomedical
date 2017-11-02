@@ -1,0 +1,60 @@
+.header {
+  background-color: var(--white);
+}
+
+.header .navbar-nav,
+.header .material-icons {
+  font-size: 150%;
+}
+
+.header .material-icons {
+  margin: 0 0 0 .5rem;
+}
+
+.header .nav-link-notification {
+  position: relative;
+}
+
+.header .navbar-toggler {
+  color: var(--blue);
+  border-color: var(--blue);
+  padding: .5rem;
+  font-size: 150%;
+  margin: .5rem 1rem;
+}
+
+.header .navbar-toggler:focus,
+.header .navbar-toggler:hover {
+  color: var(--light-blue);
+  border-color: var(--light-blue);
+}
+
+.header .navbar-toggler .material-icons {
+  font-size: 150%;
+  margin: 0;
+  vertical-align: middle;
+}
+
+.header .nav-link-notification-count {
+  background-color: var(--orange);
+  border-radius: 50%;
+  bottom: -.5rem;
+  color: var(--white);
+  font-size: 1rem;
+  height: 1.5rem;
+  line-height: 1.5;
+  position: absolute;
+  right: -.5rem;
+  text-align: center;
+  width: 1.5rem;
+}
+
+.header .nav-link {
+  color: var(--blue);
+  transition: color 100ms ease-in;
+}
+
+.header .nav-link:focus,
+.header .nav-link:hover {
+  color: var(--light-blue);
+}

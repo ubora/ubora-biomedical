@@ -25,8 +25,7 @@ namespace Ubora.Web._Features._Shared
                 .ForMember(dest => dest.AssigneeIds, o => o.Ignore())
                 .ForMember(dest => dest.ProjectMembers, o => o.Ignore());
 
-            CreateMap<ProjectFile, ProjectFileViewModel>()
-                .ForMember(dest => dest.DownloadUrl, o => o.Ignore());
+            CreateMap<ProjectFile, ProjectFileViewModel>();
 
             CreateMap<ProjectFile, UpdateFileViewModel>()
                 .ForMember(dest => dest.ProjectFile, o => o.Ignore())

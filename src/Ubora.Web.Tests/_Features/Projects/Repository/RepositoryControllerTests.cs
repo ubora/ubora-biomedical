@@ -471,11 +471,14 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             var fileAddedDate = DateTimeOffset.Now;
             var fileUpdatedDate = DateTimeOffset.Now.AddDays(1);
             var fileUpdated2Date = DateTimeOffset.Now.AddDays(2);
+            var fileAddedEventId = Guid.NewGuid();
+            var fileUpdatedEventId = Guid.NewGuid();
+            var fileUpdatedEvent2Id = Guid.NewGuid();
             var events = new List<IEvent>
             {
-                new TestEvent{ Timestamp = fileAddedDate, Data = fileAddedEvent },
-                new TestEvent{ Timestamp = fileUpdatedDate, Data = fileUpdatedEvent },
-                new TestEvent{ Timestamp = fileUpdated2Date, Data = fileUpdatedEvent2 },
+                new TestEvent{ Timestamp = fileAddedDate, Data = fileAddedEvent , Id = fileAddedEventId},
+                new TestEvent{ Timestamp = fileUpdatedDate, Data = fileUpdatedEvent, Id = fileUpdatedEventId },
+                new TestEvent{ Timestamp = fileUpdated2Date, Data = fileUpdatedEvent2, Id = fileUpdatedEvent2Id },
             };
 
             _eventStreamQueryMock.Setup(q => q.FindFileEvents(ProjectId, fileId))
@@ -501,24 +504,24 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             {
                 new FileItemHistoryViewModel
                 {
+                    EventId = fileAddedEventId,
                     Comment = "comment",
-                    DownloadUrl = downLoadUrl,
                     FileAddedOn = fileAddedDate,
                     FileSize = 111,
                     RevisionNumber = 1
                 },
                 new FileItemHistoryViewModel
                 {
+                    EventId = fileUpdatedEventId,
                     Comment = "comment2",
-                    DownloadUrl = downLoadUrl,
                     FileAddedOn = fileUpdatedDate,
                     FileSize = 222,
                     RevisionNumber = 2
                 },
                 new FileItemHistoryViewModel
                 {
+                    EventId = fileUpdatedEvent2Id,
                     Comment = "comment3",
-                    DownloadUrl = downLoadUrl,
                     FileAddedOn = fileUpdated2Date,
                     FileSize = 333,
                     RevisionNumber = 3
@@ -540,6 +543,71 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             result.Model.As<FileHistoryViewModel>().ShouldBeEquivalentTo(expectedViewModel);
         }
 
+        [Fact]
+        public void DownloadFile_Returns_RedirectToUrl()
+        {
+            var projectFile = new ProjectFile();
+            var blobLocation = new BlobLocation("container", "path");
+            projectFile.Set(f => f.Location, blobLocation);
+
+            var fileId = Guid.NewGuid();
+            QueryProcessorMock.Setup(p => p.FindById<ProjectFile>(fileId))
+                .Returns(projectFile);
+
+            var expectedBlobSasUrl = "expectedBlobSasUrl";
+            _uboraStorageProviderMock.Setup(p => p.GetReadUrl(blobLocation, It.IsAny<DateTime>()))
+                .Returns(expectedBlobSasUrl);
+
+            //Act
+            var result = (RedirectResult)_controller.DownloadFile(fileId);
+
+            //Assert
+            result.Url.Should().Be(expectedBlobSasUrl);
+        }
+
+        [Fact]
+        public void DownloadHistoryFile_Returns_RedirectToUrl()
+        {
+            CreateTestProject();
+            var userInfo = new UserInfo(UserId, "user name");
+            var blobLocation = new BlobLocation("containerName", "blobPath");
+            var fileAddedEvent = new FileAddedEvent(
+                id: Guid.NewGuid(),
+                comment: "comment",
+                fileName: "fileName",
+                fileSize: 111,
+                folderName: "folderName",
+                initiatedBy: userInfo,
+                location: blobLocation,
+                projectId: ProjectId,
+                revisionNumber: 1
+                );
+
+            var fileEvent = new Mock<IEvent>();
+            var eventId = Guid.NewGuid();
+            fileEvent.Setup(x => x.Data)
+                .Returns(fileAddedEvent);
+            _eventStreamQueryMock.Setup(x => x.FindFileEvent(ProjectId, eventId))
+                .Returns(fileEvent.Object);
+
+            var expectedBlobSasUrl = "expectedBlobSasUrl";
+            _uboraStorageProviderMock.Setup(p => p.GetReadUrl(blobLocation, It.IsAny<DateTime>()))
+                .Returns(expectedBlobSasUrl);
+
+            //Act
+            var result = (RedirectResult)_controller.DownloadHistoryFile(eventId);
+
+            //Assert
+            result.Url.Should().Be(expectedBlobSasUrl);
+        }
+
+        private void CreateTestProject()
+        {
+            var expectedProject = new Project().Set(x => x.Title, "Title");
+
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
+                .Returns(expectedProject);
+        }
         private class JsonData
         {
             public bool Success { get; set; }

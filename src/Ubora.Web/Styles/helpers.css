@@ -1,0 +1,68 @@
+/*Technically hide elements from page rendering flow*/
+.pseudo-hidden {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	position: absolute;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	width: 1px;
+}
+
+/*Avatar image look*/
+.avatar {
+	border-radius: 2em;
+  object-fit: cover;
+}
+
+/*Markdown styles*/
+.text-markdown {
+  font-family: inherit;
+	margin:1em 0;
+	text-align: justify;
+}
+
+.image-markdown {
+    max-height: 844px;
+    height: 100%;
+    max-width: 1500px;
+    width: 100%;
+    object-fit: contain;
+}
+
+.material-icons.icon-size-lg {
+	font-size: 5rem !important;
+}
+
+/*Override icon default values*/
+.material-icons {
+  font-size: 1.5rem !important;
+  line-height: 1.5 !important;
+}
+
+/*Project status indicator*/
+.project-status-draft {
+	color: var(--white);
+	background-color: var(--orange);
+	padding: 0 1rem;
+}
+
+/*coloring text to orange*/
+.text-orange {
+	color: var(--orange);
+}
+
+/*repository icons*/
+.file-list--item-control {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    transition: color .3s ease;
+    color: var(--blue)
+}
+
+    .file-list--item-control:hover {
+        color: var(--light-blue);
+        cursor: pointer;
+    }
