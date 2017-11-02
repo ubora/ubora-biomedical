@@ -7,19 +7,31 @@
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
-<section class="project-view full-width">
-    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
 
-    <form asp-controller="ConceptualDesign" asp-action="EditCandidateImage" method="post" enctype="multipart/form-data">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @Html.HiddenFor(m => m.Id)
+<div class="container-fluid my-4">
+  <div class="row">
 
-        <div class="form-input">
-            <input asp-for="Image">
+    <div class="col-sm-12 col-md-4">
+      @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+    </div>
+
+    <div class="col-sm-12 col-md-8 text-center">
+      <form asp-controller="ConceptualDesign" asp-action="EditCandidateImage" method="post" enctype="multipart/form-data">
+          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          @Html.HiddenFor(m => m.Id)
+
+          <div class="form-group">
+            <label class="text-muted">Recommended image size is 1920x1285 px. The given image will be cropped and resized to 1500x1125 and 400x300 pixel images. Image has to be less than 4 MB</label>
+            <label asp-for="Image" class="custom-file">
+              <input class="form-control" type="file" asp-for="Image">
+            </label>
             <span asp-validation-for="Image"></span>
-        </div>
-        <div class="center-element">
-            <button class="button primary-button" type="submit">Submit</button>
-        </div>
-    </form>
-</section>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary btn-lg" type="submit">Upload image</button>
+          </div>
+      </form>
+    </div>
+
+  </div>
+</div>
