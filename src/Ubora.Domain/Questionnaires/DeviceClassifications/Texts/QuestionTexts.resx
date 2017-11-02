@@ -163,10 +163,10 @@
     <value>Is it NOT intended for connection to any active medical device?</value>
   </data>
   <data name="q2_1_1_1" xml:space="preserve">
-    <value>Is it intended for transient use?</value>
+    <value>TODO</value>
   </data>
   <data name="q2_1_2" xml:space="preserve">
-    <value>Is it intended for connection to a class I active medical device?</value>
+    <value>TODO</value>
   </data>
   <data name="q2_1_2_1" xml:space="preserve">
     <value>Is it intended for transient use?</value>
@@ -325,13 +325,13 @@
     <value>Is it intended to provide information which is used to take decisions with diagnosis or therapeutic purposes?</value>
   </data>
   <data name="q3_5_1_1" xml:space="preserve">
-    <value>Does such decision have an impact that may cause death or an irreversible deterioration of a person's state of health?</value>
+    <value>TODO</value>
   </data>
   <data name="q3_5_2" xml:space="preserve">
     <value>Is it intended to monitor physiological processes?</value>
   </data>
   <data name="q3_5_2_1" xml:space="preserve">
-    <value>Does it monitor vital physiological parameters, where the nature of variations of those parameters is such that it could result in immediate danger to the patient?</value>
+    <value>TODO</value>
   </data>
   <data name="q3_6" xml:space="preserve">
     <value>Is it intended to administer and/or remove medicinal products, body liquids or other substances to or from the body?</value>

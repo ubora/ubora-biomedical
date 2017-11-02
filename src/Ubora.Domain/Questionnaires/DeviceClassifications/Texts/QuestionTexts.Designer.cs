@@ -268,7 +268,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended for transient use?.
+        ///   Looks up a localized string similar to TODO.
         /// </summary>
         public static string q2_1_1_1 {
             get {
@@ -277,7 +277,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended for connection to a class I active medical device?.
+        ///   Looks up a localized string similar to TODO.
         /// </summary>
         public static string q2_1_2 {
             get {
@@ -754,7 +754,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Does such decision have an impact that may cause death or an irreversible deterioration of a person&apos;s state of health?.
+        ///   Looks up a localized string similar to TODO.
         /// </summary>
         public static string q3_5_1_1 {
             get {
@@ -772,7 +772,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Does it monitor vital physiological parameters, where the nature of variations of those parameters is such that it could result in immediate danger to the patient?.
+        ///   Looks up a localized string similar to TODO.
         /// </summary>
         public static string q3_5_2_1 {
             get {

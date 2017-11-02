@@ -364,7 +364,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 {
                     new Answer("q3_5_1_1", DeviceClass.Three, "q3_5_2"),
                     new Answer("q3_5_1_2", DeviceClass.TwoB, "q3_5_2"),
-                    new Answer("q3_5_1_3", DeviceClass.TwoA, "q3_5_2")
+                    new Answer("n", DeviceClass.TwoA, "q3_5_2")
                 }),
                 new Question("q3_5_2", new[]
                 {
@@ -379,12 +379,12 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 new Question("q3_6", new[]
                 {
                     new Answer("y", "q3_6_1"),
-                    new Answer("n")
+                    new Answer("n", "q4")
                 }),
                 new Question("q3_6_1", new[]
                 {
-                    new Answer("y", DeviceClass.TwoB),
-                    new Answer("n", DeviceClass.TwoA)
+                    new Answer("y", DeviceClass.TwoB, "q4"),
+                    new Answer("n", DeviceClass.TwoA, "q4")
                 }),
                 new Question("q4", new[]
                 {
@@ -474,8 +474,8 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 }),
                 new Question("q12", new []
                 {
-                    new Answer("y", DeviceClass.Three),
-                    new Answer("n")
+                    new Answer("y", DeviceClass.Three, null),
+                    new Answer("n", null)
                 }),
             };
 

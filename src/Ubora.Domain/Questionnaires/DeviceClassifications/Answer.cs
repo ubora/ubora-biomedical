@@ -10,17 +10,6 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
         {
         }
 
-        public Answer(string id)
-        {
-            Id = id;
-        }
-
-        public Answer(string id, DeviceClass deviceClass)
-        {
-            Id = id;
-            DeviceClass = deviceClass;
-        }
-
         public Answer(string id, DeviceClass deviceClass, string nextQuestionId)
         {
             Id = id;

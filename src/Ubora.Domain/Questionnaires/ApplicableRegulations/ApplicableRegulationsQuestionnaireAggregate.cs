@@ -35,7 +35,7 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations
                 throw new InvalidOperationException();
             }
 
-            question.ChooseAnswer(e.AnswerId);
+            question.ChooseAnswer(e.AnswerId, e.AnsweredAt);
 
             if (Questionnaire.FindNextUnansweredQuestion() == null)
             {

@@ -1,5 +1,4 @@
 using System;
-using Newtonsoft.Json;
 
 namespace Ubora.Domain.Questionnaires
 {
@@ -7,22 +6,17 @@ namespace Ubora.Domain.Questionnaires
     {
         public string Id { get; protected set; }
         public string NextQuestionId { get; protected set; } // Can be null.
+        public DateTime? AnsweredAt { get; private set; }
+        public bool? IsChosen { get; private set; }
 
-        [JsonProperty(nameof(IsChosen))]
-        private bool? _isChosen;
-
-        [JsonIgnore]
-        public bool? IsChosen
+        internal void SetIsChosen(bool isChosen, DateTime at)
         {
-            get { return _isChosen; }
-            internal set
+            if (IsChosen.HasValue)
             {
-                if (IsChosen.HasValue)
-                {
-                    throw new InvalidOperationException();
-                }
-                _isChosen = value;
+                throw new InvalidOperationException();
             }
+            IsChosen = isChosen;
+            AnsweredAt = at;
         }
     }
 }

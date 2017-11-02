@@ -8,11 +8,15 @@ namespace Ubora.Domain.Questionnaires
     {
         public string Id { get; protected set; }
         public TAnswer[] Answers { get; protected set; }
+        public DateTime? AnsweredAt { get; protected set; }
 
         [JsonIgnore]
-        public bool IsAnswered => Answers.Any(x => x.IsChosen.HasValue);
+        public bool IsAnswered => AnsweredAt.HasValue;
 
-        public void ChooseAnswer(string answerId)
+        [JsonIgnore]
+        public TAnswer ChosenAnswer => Answers.SingleOrDefault(a => a.IsChosen == true);
+
+        public void ChooseAnswer(string answerId, DateTime chosenAt)
         {
             if (IsAnswered)
             {
@@ -25,17 +29,14 @@ namespace Ubora.Domain.Questionnaires
                 throw new InvalidOperationException($"Answer not found with ID: {answerId}.");
             }
 
-            answer.IsChosen = true;
+            answer.SetIsChosen(isChosen: true, at: chosenAt);
+            AnsweredAt = chosenAt;
 
             var otherAnswers = Answers.Where(x => x.Id != answer.Id);
             foreach (var otherAnswer in otherAnswers)
             {
-                otherAnswer.IsChosen = false;
+                otherAnswer.SetIsChosen(isChosen: false, at: chosenAt);
             }
         }
-
-
-        [JsonIgnore]
-        public TAnswer ChosenAnswer => Answers.SingleOrDefault(a => a.IsChosen == true);
     }
 }

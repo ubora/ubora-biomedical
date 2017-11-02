@@ -70,7 +70,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INVASIVE.
+        ///   Looks up a localized string similar to NON-INVASIVE.
         /// </summary>
         public static string q1 {
             get {
@@ -79,7 +79,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NON-INVASIVE.
+        ///   Looks up a localized string similar to INVASIVE.
         /// </summary>
         public static string q2 {
             get {
@@ -97,7 +97,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended specifically to control, diagnose, monitor or correct a defect of the heart or of the central circulatory system through direct contact with those parts of the body?.
+        ///   Looks up a localized string similar to Is it intended for transient use?.
         /// </summary>
         public static string q2_1_1_1 {
             get {
@@ -106,7 +106,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it a reusable surgical instrument?.
+        ///   Looks up a localized string similar to Is it intended for short-term use  only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?.
         /// </summary>
         public static string q2_1_1_2 {
             get {
@@ -115,7 +115,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended specifically for use in direct contact with the heart or central circulatory system or the central nervous system?.
+        ///   Looks up a localized string similar to Is it intended for short-term use in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?.
         /// </summary>
         public static string q2_1_1_3 {
             get {
@@ -124,7 +124,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended to supply energy in the form of ionizing radiation?.
+        ///   Looks up a localized string similar to Is it intended for long-term use only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity and it not liable to be absorbed by the mucous membrane?.
         /// </summary>
         public static string q2_1_1_4 {
             get {
@@ -133,7 +133,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended to have a biological effect or be wholly or mainly absorbed?.
+        ///   Looks up a localized string similar to Is it intended for long-term use only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity but it is liable to be absorbed by the mucous membrane?.
         /// </summary>
         public static string q2_1_1_5 {
             get {
@@ -142,7 +142,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended to administer medicinal products by means of a delivery system in a manner that is potentially hazardous?.
+        ///   Looks up a localized string similar to Is it intended for long-term use in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?.
         /// </summary>
         public static string q2_1_1_6 {
             get {
@@ -187,7 +187,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it for SHORT TERM  use?.
+        ///   Looks up a localized string similar to Is it for SHORT TERM use?.
         /// </summary>
         public static string q2_2_2 {
             get {

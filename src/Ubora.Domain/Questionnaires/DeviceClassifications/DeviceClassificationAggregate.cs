@@ -32,7 +32,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 throw new InvalidOperationException();
             }
 
-            question.ChooseAnswer(e.AnswerId);
+            question.ChooseAnswer(e.AnswerId, e.AnsweredAt);
 
             if (QuestionnaireTree.FindNextUnansweredQuestion() == null)
             {

@@ -129,23 +129,25 @@ namespace Ubora.Domain.Questionnaires
 
         private TQuestion FindClosestAnsweredQuestion(TQuestion question, Direction direction)
         {
-            var questions = Questions;
+            var questions = Questions.Where(q => q.IsAnswered).OrderBy(q => q.AnsweredAt).ToList();
 
             if (direction.IsNext)
             {
-                questions = questions.Reverse().ToArray();
+                questions.Reverse();
             }
 
-            TQuestion previous = null;
-            foreach (var q in questions)
+            if (!question.IsAnswered)
             {
-                if (q == question)
-                {
-                    break;
-                }
-                previous = q;
+                return questions.LastOrDefault();
             }
-            return previous;
+
+            var index = questions.IndexOf(question);
+            if (index == 0)
+            {
+                return null;
+            }
+
+            return questions[index - 1];
         }
 
         private class Direction
