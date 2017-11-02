@@ -7,7 +7,7 @@
     <div class="dropzone-previews dropzone"></div>
 
     <form id="my-dropzone">
-
+        @Html.AntiForgeryToken()
         <div asp-validation-summary="All" class="text-danger"></div>
 
         <div class="form-input">

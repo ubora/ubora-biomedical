@@ -54,6 +54,7 @@ namespace Ubora.Web._Features.Projects.Repository
 
         [Route("AddFile")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddFile(AddFileViewModel model)
         {
             if (!ModelState.IsValid)
