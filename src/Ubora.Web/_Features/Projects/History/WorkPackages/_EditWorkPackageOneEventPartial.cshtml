@@ -1,6 +1,9 @@
 ﻿@model Ubora.Web._Features.Projects.History.WorkPackages.EditWorkpackageOneEventViewModel
 
-<li class="history-list-item">
-    @Html.ActionLink(Model.EventInitiatedBy.Name, "View", "Profile", new { userId = Model.EventInitiatedBy.UserId }) edited workpackage 1 <a asp-controller="WorkpackageOne" asp-action="Read" asp-route-stepId="@Model.StepId">@Model.Title</a>.&nbsp;
-    <p class="history-timestamp">@Model.Timestamp.ToString("dd-MM-yyyy HH:mm:ss")</p>
+
+<li class="list-group-item">
+  <div class="col d-flex flex-column">
+    <span>@Html.ActionLink(Model.EventInitiatedBy.Name, "View", "Profile", new { userId = Model.EventInitiatedBy.UserId }) edited workpackage 1 <a asp-controller="WorkpackageOne" asp-action="Read" asp-route-stepId="@Model.StepId">@Model.Title</a>.&nbsp;</span>
+      <p class="history-timestamp timeago" title="@Model.Timestamp">@Model.Timestamp.ToString("dd.MM.yyyy")</p>
+  </div>
 </li>

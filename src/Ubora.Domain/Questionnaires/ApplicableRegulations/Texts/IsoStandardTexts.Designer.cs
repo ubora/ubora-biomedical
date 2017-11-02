@@ -67,9 +67,9 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
         ///    NOTE: This norm is closely related to &lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030285625&quot; target=&quot;_blank&quot;&gt;EN ISO 16061: 2015&lt;/a&gt; that refers to associated instruments.&lt;/td&gt;
         ///    .
         /// </summary>
-        public static string Q1 {
+        public static string q1 {
             get {
-                return ResourceManager.GetString("Q1", resourceCulture);
+                return ResourceManager.GetString("q1", resourceCulture);
             }
         }
         
@@ -79,9 +79,9 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
         ///    &lt;td&gt;This standard specifies requirements for electromedical devices; it has more than 60 related publications, that describe very specific areas of electromedical devices.&lt;/td&gt;
         ///    .
         /// </summary>
-        public static string Q2 {
+        public static string q2 {
             get {
-                return ResourceManager.GetString("Q2", resourceCulture);
+                return ResourceManager.GetString("q2", resourceCulture);
             }
         }
         
@@ -91,9 +91,9 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
         ///    &lt;td&gt;This standard specifies how to design and code software for medical devices and sets requirements for SW change control.&lt;/td&gt;
         ///    .
         /// </summary>
-        public static string Q2_1 {
+        public static string q2_1 {
             get {
-                return ResourceManager.GetString("Q2_1", resourceCulture);
+                return ResourceManager.GetString("q2_1", resourceCulture);
             }
         }
         
@@ -103,9 +103,9 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
         ///    &lt;td&gt;And any additional chapters that may be applicable to your device and your net.&lt;/td&gt;
         ///    .
         /// </summary>
-        public static string Q2_1_1 {
+        public static string q2_1_1 {
             get {
-                return ResourceManager.GetString("Q2_1_1", resourceCulture);
+                return ResourceManager.GetString("q2_1_1", resourceCulture);
             }
         }
         
@@ -115,9 +115,9 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
         ///    &lt;td&gt;This standard specifies requirements for all devices that are implanted in the human body and are also active; there are specific chapters for some medical devices (for example, -2 for cardiac pacemakers)&lt;/td&gt;
         ///    .
         /// </summary>
-        public static string Q3 {
+        public static string q3 {
             get {
-                return ResourceManager.GetString("Q3", resourceCulture);
+                return ResourceManager.GetString("q3", resourceCulture);
             }
         }
         
@@ -127,9 +127,9 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
         ///      &lt;td&gt;&lt;/td&gt;
         ///    .
         /// </summary>
-        public static string Q4 {
+        public static string q4 {
             get {
-                return ResourceManager.GetString("Q4", resourceCulture);
+                return ResourceManager.GetString("q4", resourceCulture);
             }
         }
         
@@ -141,9 +141,9 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
         ///    This standard specifies requirements for the manufacturing environments.&lt;br&gt;
         ///    NOTE: this standards has mult [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string Q4_1 {
+        public static string q4_1 {
             get {
-                return ResourceManager.GetString("Q4_1", resourceCulture);
+                return ResourceManager.GetString("q4_1", resourceCulture);
             }
         }
         
@@ -153,9 +153,9 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
         ///    &lt;td&gt;You may also be interested in &lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030321506&quot;&gt;EN ISO 11138-2:2017&lt;/a&gt;&lt;/td&gt;
         ///    .
         /// </summary>
-        public static string Q4_1_1 {
+        public static string q4_1_1 {
             get {
-                return ResourceManager.GetString("Q4_1_1", resourceCulture);
+                return ResourceManager.GetString("q4_1_1", resourceCulture);
             }
         }
         
@@ -165,9 +165,9 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
         ///    &lt;td&gt;Read at least chapter -1 and -2, you may also be interested in chapter -3&lt;/td&gt;
         ///    .
         /// </summary>
-        public static string Q4_1_2 {
+        public static string q4_1_2 {
             get {
-                return ResourceManager.GetString("Q4_1_2", resourceCulture);
+                return ResourceManager.GetString("q4_1_2", resourceCulture);
             }
         }
         
@@ -177,9 +177,9 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
         ///    &lt;td&gt;You may also be interested in chapter -2 of this same standard&lt;/td&gt;
         ///    .
         /// </summary>
-        public static string Q4_1_3 {
+        public static string q4_1_3 {
             get {
-                return ResourceManager.GetString("Q4_1_3", resourceCulture);
+                return ResourceManager.GetString("q4_1_3", resourceCulture);
             }
         }
         
@@ -189,9 +189,9 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
         ///    &lt;td&gt;&lt;/td&gt;
         ///    .
         /// </summary>
-        public static string Q4_1_4 {
+        public static string q4_1_4 {
             get {
-                return ResourceManager.GetString("Q4_1_4", resourceCulture);
+                return ResourceManager.GetString("q4_1_4", resourceCulture);
             }
         }
         
@@ -201,9 +201,9 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
         ///    &lt;td&gt;&lt;/td&gt;
         ///    .
         /// </summary>
-        public static string Q4_2 {
+        public static string q4_2 {
             get {
-                return ResourceManager.GetString("Q4_2", resourceCulture);
+                return ResourceManager.GetString("q4_2", resourceCulture);
             }
         }
         
@@ -213,9 +213,9 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
         ///    &lt;td&gt;NOTE: This standard has 18 additional chapters, reading the chapter -1 will guide you on the choice of the applicable additional chapters.&lt;/td&gt;
         ///    .
         /// </summary>
-        public static string Q5 {
+        public static string q5 {
             get {
-                return ResourceManager.GetString("Q5", resourceCulture);
+                return ResourceManager.GetString("q5", resourceCulture);
             }
         }
         
@@ -225,9 +225,9 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
         ///    &lt;td&gt;&lt;/td&gt;
         ///    .
         /// </summary>
-        public static string Q5_1 {
+        public static string q5_1 {
             get {
-                return ResourceManager.GetString("Q5_1", resourceCulture);
+                return ResourceManager.GetString("q5_1", resourceCulture);
             }
         }
     }

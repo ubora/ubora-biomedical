@@ -19,6 +19,7 @@
     <PackageReference Include="TwentyTwenty.Storage" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ApplicableRegulations\Events\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>

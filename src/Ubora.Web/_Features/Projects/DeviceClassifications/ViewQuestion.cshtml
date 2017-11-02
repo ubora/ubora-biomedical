@@ -1,28 +1,29 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages
 @model Ubora.Web._Features.Projects.DeviceClassifications.DeviceClassificationQuestionViewModel
 
-<section class="project-view full-width">
-    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
-    <section class="medium-width">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-        <div class="center-element">
-            <h1>@Model.Text</h1>
+<div class="container-fluid my-4">
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+            @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
         </div>
-        <div class="center-element">
+        <div class="col-sm-12 col-md-8 d-flex flex-column align-items-center">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <h2>@Model.Text</h2>
+
             @foreach (var answerChoice in Model.Answers)
             {
-                <form class="questionnaire-form" asp-action="Answer" method="post">
+                <form asp-action="Answer" method="post">
                     <input type="hidden" asp-for="QuestionId" />
                     <input type="hidden" asp-for="QuestionnaireId" />
                     <input type="hidden" name="@nameof(answerChoice.AnswerId)" value="@answerChoice.AnswerId" />
-                    <button class="button secondary-button small-button" type="submit">@answerChoice.Text</button>
+                    <button class="btn btn-secondary-ghost btn-lg" type="submit">@answerChoice.Text</button>
                 </form>
             }
-        </div>
-
-<pre>
+            
+            <pre>
 @Model.Class
 </pre>
-    </section>
-</section>
+        </div>
+    </div>
+</div>

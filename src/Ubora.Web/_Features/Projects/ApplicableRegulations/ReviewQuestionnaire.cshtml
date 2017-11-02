@@ -1,63 +1,96 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages
 @model Ubora.Web._Features.Projects.ApplicableRegulations.ReviewQuestionnaireViewModel
 
-<section class="project-view full-width">
-    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
-    <section class="medium-width step-view">
-        <h3>Questionnaire results:</h3>
-        @foreach (var questionAnswer in Model.QuestionAnswerList)
-        {
-            <h6>@questionAnswer.QuestionText</h6>
-            <p>You answered: @(questionAnswer.Answer)</p>
-            //if (questionAnswer.Answer == true)
-            //{
-                <ul>
-                    @Html.Raw(questionAnswer.IsoStandardText)
-                </ul>
-            @*}*@
-        }
+<div class="container-fluid my-4">
+  <div class="row">
+    <div class="col-sm-12 col-md-4">
+      @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+    </div>
+    <div class="col-sm-12 col-md-8">
+      <h3>Questionnaire results:</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Question</th>
+              <th scope="col">Standard</th>
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var questionAnswer in Model.QuestionAnswerList)
+            {
+              <tr>
+                <td>
+                  @questionAnswer.QuestionText
+                  <p>You answered: @(questionAnswer.Answer)</p>
+                </td>
+                @if (questionAnswer.Answer.Equals("Yes", StringComparison.InvariantCultureIgnoreCase))
+                {
+                  @Html.Raw(questionAnswer.IsoStandardText)
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
 
-        <h3>The following standards and guidelines are applicable to all devices, regardless the kind and risk classification:</h3>
-        <ul>
-            <li>
+      <h3 class="mt-4">The following standards and guidelines are applicable to all devices, regardless the kind and risk classification:</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Standard</th>
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
                 <a href="http://shop.bsigroup.com/ProductDetail?pid=000000000030353196" target="_blank">EN ISO 13485:2016</a>
-                <p>
-                    This standard specifies requirements for all entities involved in medical devices, in all stages of the product life cycle: from design to manufacture to installation to disposal. Ubora Platform is structured to be a guideline for design activities in compliance to this standard.
-                </p>
-            </li>
-
-            <li>
+              </td>
+              <td>
+                This standard specifies requirements for all entities involved in medical devices, in all stages of the product life cycle: from design to manufacture to installation to disposal. Ubora Platform is structured to be a guideline for design activities in compliance to this standard.
+              </td>
+            </tr>
+            <tr>
+              <td>
                 <a href="http://shop.bsigroup.com/ProductDetail?pid=000000000030268035"target="_blank">EN ISO 14971:2012</a>
-                <p>
-                    This standard specifies requirements for designers and manufacturers of medical devices, in order to minimize the risk of the device itself. There is no “risk zero” device but many activities can be implemented to reduce and manage risk. This standard provides useful checklists and also guidance on the most widespread risk management techniques such as FMEA.
-                </p>
-            </li>
-
-            <li>
-                <h6>MEDDEV 2.7.1 rev 4 CLINICAL EVALUATION: A GUIDE FOR MANUFACTURERS AND NOTIFIED BODIES UNDER DIRECTIVES 93/42/EEC and 90/385/EEC</h6>
-                <p>
-                    This guideline provides information on methods used to assess the clinical performance and the clinical benefit of a medical device.
-                    It is provided for free by the Commission at <a href="http://ec.europa.eu/docsroom/documents/17522/attachments/1/translations/en/renditions/native" target="_blank">http://ec.europa.eu/docsroom/documents/17522/attachments/1/translations/en/renditions/native</a>.
-                </p>
-            </li>
-
-            <li>
+              </td>
+              <td>
+                This standard specifies requirements for designers and manufacturers of medical devices, in order to minimize the risk of the device itself. There is no “risk zero” device but many activities can be implemented to reduce and manage risk. This standard provides useful checklists and also guidance on the most widespread risk management techniques such as FMEA.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                MEDDEV 2.7.1 rev 4 CLINICAL EVALUATION: A GUIDE FOR MANUFACTURERS AND NOTIFIED BODIES UNDER DIRECTIVES 93/42/EEC and 90/385/EEC
+              </td>
+              <td>
+                This guideline provides information on methods used to assess the clinical performance and the clinical benefit of a medical device.
+                It is provided for free by the Commission at <a href="http://ec.europa.eu/docsroom/documents/17522/attachments/1/translations/en/renditions/native" target="_blank">http://ec.europa.eu/docsroom/documents/17522/attachments/1/translations/en/renditions/native</a>.
+              </td>
+            </tr>
+            <tr>
+              <td>
                 <a href="https://www.iso.org/obp/ui/#iso:std:iec:62366:-1:ed-1:v1:en,fr" target="_blank">IEC 62366-1</a>
-                <p>
-                    This standard provides guidance on how to manage the human factors while designing a medical device (usability engineering).
-                    NOTE: chapter -2 of ths same standards will provide comments and integrations
-                </p>
-            </li>
-
-            <li>
+              </td>
+              <td>
+                This standard provides guidance on how to manage the human factors while designing a medical device (usability engineering).
+                NOTE: chapter -2 of ths same standards will provide comments and integrations
+              </td>
+            </tr>
+            <tr>
+              <td>
                 <a href="http://shop.bsigroup.com/ProductDetail/?pid=000000000030358535" target="_blank">EN ISO 15223-1:2016</a>
-                <p>
-                    This standard lists a series of symbols that may be applicable in labels of medical devices
-                </p>
-            </li>
-            <li>
-                <h6>There may be product specific standards that apply, talk to your mentor.</h6>
-            </li>
-        </ul>
-    </section>
-</section>
+              </td>
+              <td>
+                This standard lists a series of symbols that may be applicable in labels of medical devices
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-orange">There may be product specific standards that apply, talk to your mentor.</p>
+    </div>
+  </div>
+</div>

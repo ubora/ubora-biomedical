@@ -23,7 +23,6 @@ namespace Ubora.Web._Features.Projects.Repository
         public string Comment { get; set; }
         public long FileSize { get; set; }
         public int RevisionNumber { get; set; }
-        public string DownloadUrl { get; set; }
         public long FileSizeInKbs
         {
             get
@@ -46,8 +45,6 @@ namespace Ubora.Web._Features.Projects.Repository
             public virtual ProjectFileViewModel Create(ProjectFile projectFile)
             {
                 var projectFileViewModel = _mapper.Map<ProjectFileViewModel>(projectFile);
-                projectFileViewModel.DownloadUrl = _uboraStorageProvider.GetReadUrl(projectFile.Location, DateTime.UtcNow.AddSeconds(15));
-
                 return projectFileViewModel;
             }
         }

@@ -63,9 +63,9 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
         /// <summary>
         ///   Looks up a localized string similar to &apos;Terminal sterilization&apos; is process whereby product is sterilized within its sterile barrier system; in common words, a device that is first built, then packaged and then sterilized inside its packaging..
         /// </summary>
-        public static string Q4_1 {
+        public static string q4_1 {
             get {
-                return ResourceManager.GetString("Q4_1", resourceCulture);
+                return ResourceManager.GetString("q4_1", resourceCulture);
             }
         }
     }
