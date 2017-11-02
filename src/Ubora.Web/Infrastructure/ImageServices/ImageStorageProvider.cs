@@ -136,8 +136,15 @@ namespace Ubora.Web.Infrastructure.ImageServices
         {
             var ratio = width / height;
             var imageRatio = imageWidth / imageHeight;
-
-            if (imageRatio < ratio)
+            if (imageHeight < height)
+            {
+                height = imageHeight;
+            }
+            if (imageWidth < width)
+            {
+                width = imageWidth;
+            }
+            if (imageRatio <= ratio)
             {
                 var newHeight = (imageWidth * height) / width;
                 var yPosition = (imageHeight / 2) - (newHeight / 2);
@@ -152,7 +159,7 @@ namespace Ubora.Web.Infrastructure.ImageServices
 
                 return new Rectangle(xPosition, 0, newWidth, imageHeight);
             }
-
+           
             return new Rectangle(0, 0, width, height);
         }
 
