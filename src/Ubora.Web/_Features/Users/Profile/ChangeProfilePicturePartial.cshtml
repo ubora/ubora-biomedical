@@ -1,22 +1,31 @@
 ﻿@using Ubora.Web.Services
 @model Ubora.Web._Features.Users.Profile.ProfilePictureViewModel
 
-<div class="center-element">
-    <img class="avatar" src='@User.GetProfilePictureUrl()' width="300" height="300" />
+<div class="row">
+  <div class="col d-flex flex-column align-items-center">
+    <img class="avatar" src='@User.GetProfilePictureUrl()' width="250" height="250" />
+    <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="ChangeProfilePicture">
+        <div class="form-group">
+          <label class="custom-file">
+            <input class="form-control" data-toggle="custom-file" asp-for="ProfilePicture">
+            @* <span class="custom-file-control custom-file-name form-control-file" data-content="Choose a file..."></span> *@
+          </label>
+          <span asp-validation-for="ProfilePicture"></span>
+        </div>
+
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-primary btn-lg" type="submit">Upload image</button>
+        </div>
+
+        @Html.HiddenFor(m => m.IsFirstTimeEditProfile)
+    </form>
+  </div>
 </div>
 
-<form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="ChangeProfilePicture">
-    <div class="form-input">
-        <label asp-for="ProfilePicture">Upload new image</label>
-        <input asp-for="ProfilePicture">
-        <span asp-validation-for="ProfilePicture"></span>
-    </div>
 
-    <div class="form-input">
-        <div class="center-element">
-            <button class="button secondary-button small-button" type="submit">Upload image</button>
-        </div>
-    </div>
-    
-    @Html.HiddenFor(m => m.IsFirstTimeEditProfile)
-</form>
+<script>
+  $('.custom-file-input').on('change',function(){
+  var fileName = $(this).val();
+  $(this).next('.form-control-file').addClass("selected").html(fileName);
+  })
+</script>

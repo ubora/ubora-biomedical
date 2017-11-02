@@ -6,54 +6,58 @@
     ViewData["MenuOption"] = ProjectMenuOption.Assignments;
 }
 
-<section class="medium-width">
-    <h1 class="full-width">Task draft</h1>
+<div class="container-fluid my-4">
+  <div class="row justify-content-center">
+    <div class="col-sm-12 col-md-3">
+      <h1>Task draft</h1>
+      <form asp-controller="Assignments" asp-action="Edit" method="post">
+          <input asp-for="ProjectId" type="hidden">
+          <input asp-for="Id" type="hidden">
 
-    <form asp-controller="Assignments" asp-action="Edit" method="post">
-        <input asp-for="ProjectId" type="hidden">
-        <input asp-for="Id" type="hidden">
+          <div class="form-group">
+              <label asp-for="Title">Title</label>
+              <input class="form-control" asp-for="Title" placeholder="Assignment title">
+              <span asp-validation-for="Title"></span>
+          </div>
 
-        <div class="form-input">
-            <label asp-for="Title">Title</label>
-            <input asp-for="Title" placeholder="Assignment title">
-            <span asp-validation-for="Title"></span>
-        </div>
-
-        <div class="form-input">
-            <label>Assignee</label>
+          <div class="form-group">
+            <label asp-for="AssigneeIds">Assignee</label>
             <select asp-for="AssigneeIds" class="js-project-member-selection multiple-select-box select2" multiple="multiple">
                 @foreach (var member in Model.ProjectMembers)
                 {
                     <option value="@member.AssigneeId">@member.FullName</option>
                 }
             </select>
-        </div>
+            <span asp-validation-for="AssigneeIds"></span>
+          </div>
 
-        <div class="form-input">
-            <label asp-for="Description">Description</label>
-            <textarea asp-for="Description" placeholder="Assignment description" rows="8"></textarea>
-            <span asp-validation-for="Description"></span>
-        </div>
+          <div class="form-group">
+              <label asp-for="Description">Description</label>
+              <textarea class="form-control" asp-for="Description" placeholder="Assignment description" rows="3"></textarea>
+              <span asp-validation-for="Description"></span>
+          </div>
 
-        <div class="center-element">
-            <a class="button secondary-button small-button" asp-controller="Assignments" asp-action="Assignments">Discard changes</a>
-            <button class="button primary-button small-button" type="submit">Edit assignment</button>
-        </div>
-    </form>
-</section>
+          <div class="d-flex justify-content-center">
+            <a class="btn btn-secondary-ghost btn-lg" asp-controller="Assignments" asp-action="Assignments">Discard changes</a>
+            <span class="mx-1"></span>
+            <button class="btn btn-primary btn-lg" type="submit">Edit assignment</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 @section Scripts {
-    <link rel="stylesheet"
-          href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"
-          asp-fallback-href="~/dist/lib/select2.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"
-            asp-fallback-src="~/dist/lib/select2.min.js"
-            asp-fallback-test="window.select2">
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.js-project-member-selection').select2();
-        });
-    </script>
+<link rel="stylesheet"
+  href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"
+  asp-fallback-href="~/dist/lib/select2.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"
+    asp-fallback-src="~/dist/lib/select2.min.js"
+    asp-fallback-test="window.select2">
+</script>
+<script>
+$(document).ready(function () {
+    $('.js-project-member-selection').select2();
+});
+</script>
 }

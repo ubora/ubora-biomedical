@@ -9,12 +9,12 @@ Background:
 Scenario: I am on View members page 
     Then I expect the title of the page "View members - UBORA"
 
-Scenario: I click a Ubora logo
-    When I click on the element ".header-logo"
+Scenario: I click Ubora logo
+    When I click on the element "#UboraLogo"
     Then I expect the title of the page "Welcome - UBORA"
 
-Scenario: I click a Sign in/sign up button
-    When I click on the element "#SignInSignUp"
+Scenario: I click Log in
+    When I click on the element "span=Log in"
     Then I expect the title of the page "Sign in to UBORA - UBORA"
 
 Scenario: I sign in and check my profile on Members page
