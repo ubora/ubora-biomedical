@@ -57,10 +57,7 @@
                     }
                 </div>
             }
-            <div class="center-element">
-                <a class="button secondary-button small-button" asp-controller="WorkpackageOne" asp-action="ProjectOverview">Discard changes</a>
-                <button class="button primary-button small-button" type="submit">Save changes</button>
-            </div>
+
 
             @if (Model.Last == null || Model.Last.IsFinished)
             {
@@ -70,5 +67,4 @@
             }
         </section>
     </section>
-  
 </section>

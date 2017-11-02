@@ -15,26 +15,25 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
         private Mock<Questionnaire> _questionnaireMock;
 
         [Fact]
-        public void Create_Creats_Next_Question_View_Model_From_Questionnaire_Aggregate_And_QuestionId()
+        public void Create_Creates_Next_Question_View_Model_From_Questionnaire_Aggregate_And_QuestionId()
         {
             var questionId = Guid.NewGuid();
             var questionnaireId = Guid.NewGuid();
             var previousQuestionnaireId = Guid.NewGuid();
             var nextQuestionnaireId = Guid.NewGuid();
             var questionText = "Küsimus";
+            var noteText = "noteText";
 
-
-            var question = Mock.Of<Question>(x => x.QuestionText == questionText)
+            var question = Mock.Of<Question>(x => x.QuestionText == questionText && x.NoteText == noteText)
                 .Set(x => x.Answer, true);
-
-
 
             _questionnaireMock = new Mock<Questionnaire>();
             _questionnaireMock.Setup(x => x.FindQuestionOrThrow(questionId))
                 .Returns(question);
 
             var aggregate = new ApplicableRegulationsQuestionnaireAggregate()
-                .Set(x => x.Questionnaire, _questionnaireMock.Object).Set(x => x.Id, questionnaireId);
+                .Set(x => x.Questionnaire, _questionnaireMock.Object)
+                .Set(x => x.Id, questionnaireId);
 
             var nextQuestion = Mock.Of<Question>()
                 .Set(x => x.Id, nextQuestionnaireId);
@@ -58,14 +57,14 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
             result.Answer.Should().Be(true);
             result.PreviousAnsweredQuestionId.Should().Be(previousQuestion.Id);
             result.NextQuestionId.Should().Be(nextQuestion.Id);
-
+            result.Note.Should().Be(noteText);
         }
+
         [Fact]
         public void Create_When_Question_Has_No_Answer_Next_QuestionId_Should_Be_Null()
         {
             var questionId = Guid.NewGuid();
             var question = Mock.Of<Question>().Set(x => x.Answer, null);
-            //.Set(x=>x.Id, questionId);
 
             _questionnaireMock = new Mock<Questionnaire>();
             _questionnaireMock.Setup(x => x.FindQuestionOrThrow(questionId))
@@ -74,9 +73,6 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
             var aggregate = new ApplicableRegulationsQuestionnaireAggregate()
                 .Set(x => x.Questionnaire, _questionnaireMock.Object);
 
-
-            var nextQuestion = Mock.Of<Question>()
-           .Set(x => x.Id, new Guid());
             _questionnaireMock.Setup(x => x.FindNextQuestionFromAnsweredQuestion(question))
                 .Throws(new AssertionFailedException($"{nameof(Questionnaire.FindNextQuestionFromAnsweredQuestion)} should not have been called!"));
 
@@ -87,7 +83,6 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
 
             // Assert
             result.NextQuestionId.Should().Be(null);
-
         }
     }
 }

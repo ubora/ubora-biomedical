@@ -32,6 +32,7 @@
 
             </form>
         }
+       
 
         <div class="questionnaire-navigation">
             @if (Model.PreviousAnsweredQuestionId != null)
@@ -52,6 +53,12 @@
                 <span></span>
             }
         </div>
+        @if (!string.IsNullOrEmpty(Model.Note))
+        {
+            <h3>Notes</h3>
+
+            <p>@Model.Note</p>
+        }
 
     </section>
 </section>

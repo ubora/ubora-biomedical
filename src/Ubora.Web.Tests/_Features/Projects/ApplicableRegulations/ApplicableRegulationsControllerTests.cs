@@ -94,7 +94,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
 
             var model = new NextQuestionViewModel
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.NewGuid().ToString(),
                 QuestionnaireId = Guid.NewGuid()
             };
 
@@ -102,7 +102,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
             var result = (RedirectToActionResult)_controller.AnswerYes(model);
 
             // Assert
-            executedCommand.Answer.Should().BeTrue();
+            executedCommand.AnswerId.Should().Be("y");
             executedCommand.QuestionId.Should().Be(model.Id);
             executedCommand.QuestionnaireId.Should().Be(model.QuestionnaireId);
 
@@ -167,7 +167,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
 
             var model = new NextQuestionViewModel
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.NewGuid().ToString(),
                 QuestionnaireId = Guid.NewGuid()
             };
 
@@ -175,7 +175,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
             var result = (RedirectToActionResult)_controller.AnswerNo(model);
 
             // Assert
-            executedCommand.Answer.Should().BeFalse();
+            executedCommand.AnswerId.Should().Be("n");
             executedCommand.QuestionId.Should().Be(model.Id);
             executedCommand.QuestionnaireId.Should().Be(model.QuestionnaireId);
 

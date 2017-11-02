@@ -18,8 +18,8 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
         private string _secondQuestionId;
 
         [Theory]
-        [InlineData("a1")]
-        [InlineData("a2")]
+        [InlineData("y")]
+        [InlineData("n")]
         public void Questionnaire_Questions_Can_Be_Answered(
             string answerId)
         {

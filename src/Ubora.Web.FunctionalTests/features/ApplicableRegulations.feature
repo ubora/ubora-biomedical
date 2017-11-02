@@ -9,36 +9,21 @@ Background:
         And I click on the element "a=Regulation checklist"
 
 Scenario: Take questionnaire and answer all questions YES
-    Then I expect the title of the page "Applicable regulations questionnaire - UBORA"
     When I click on the element "button=Take questionnaire"
-    Then I expect the element "h1=1. Is your device “implantable” and “not active”?" is visible
-    When I click on the element "button=Yes"
-    Then I expect the element "h1=2. Is your device “active” and its source of energy is electrical?" is visible
-    When I click on the element "button=Yes"
-    Then I expect the element "h1=2.1. Is your device a SW or does it contain SW (applies also to firmware)?" is visible
-    When I click on the element "button=Yes"
-    Then I expect the element "h1=2.1.1. Is the device containing SW intended to be part of a IT-network?" is visible
-    When I click on the element "button=Yes"
-    Then I expect the element "h1=3. Is your device “implantable” and “active”?" is visible
-    When I click on the element "button=Yes"
-    Then I expect the element "h1=4. Is your device intended to be sterile?" is visible
-    When I click on the element "button=Yes"
-    Then I expect the element "h1=4.1. Will it be terminally sterilized?" is visible
-    When I click on the element "button=Yes"
-    Then I expect the element "h1=4.1.1. (Will it be terminally sterilized) by Ethilene Oxide?" is visible
-    When I click on the element "button=Yes"
-    Then I expect the element "h1=4.1.2. (Will it be terminally sterilized) by Irradiation?" is visible
-    When I click on the element "button=Yes"
-    Then I expect the element "h1=4.1.3. (Will it be terminally sterilized) by moist heat, steam?" is visible
-    When I click on the element "button=Yes"
-    Then I expect the element "h1=4.1.4. (Will it be terminally sterilized) by dry heat?" is visible
-    When I click on the element "button=Yes"
-    Then I expect the element "h1=4.2. Will it be sterilized in process?" is visible
-    When I click on the element "button=Yes"
-    Then I expect the element "h1=5. Does your device come in contact to the human body (any kind of contact, brief or permanent, in any location of the human body)?" is visible
-    When I click on the element "button=Yes"
-    Then I expect the element "h1=5.1. Does your device contain substances of animal origin?" is visible
-    When I click on the element "button=Yes"
+        And I answer YES to question "1. Is your device “implantable” and “not active”?"
+        And I answer YES to question "2. Is your device “active” and its source of energy is electrical?"
+        And I answer YES to question "2.1. Is your device a software or does it contain software (applies also to firmware)?"
+        And I answer YES to question "2.1.1. Is the device containing SW intended to be part of a IT-network?"
+        And I answer YES to question "3. Is your device “implantable” and “active”?"
+        And I answer YES to question "4. Is your device intended to be sterile?"
+        And I answer YES to question "4.1. Will it be terminally sterilized?"
+        And I answer YES to question "4.1.1. (Will it be terminally sterilized) by Ethilene Oxide?"
+        And I answer YES to question "4.1.2. (Will it be terminally sterilized) by Irradiation?"
+        And I answer YES to question "4.1.3. (Will it be terminally sterilized) by moist heat, steam?"
+        And I answer YES to question "4.1.4. (Will it be terminally sterilized) by dry heat?"
+        And I answer YES to question "4.2. Will it be sterilized in process?"
+        And I answer YES to question "5. Does your device come in contact to the human body (any kind of contact, brief or permanent, in any location of the human body)?"
+        And I answer YES to question "5.1. Does your device contain substances of animal origin?"
     Then I expect the element "a=EN ISO 14630:2012" is visible
         And I expect the element "a=EN ISO 16061: 2015" is visible 
         And I expect the element "a=IEC 60601-1:2005+AMD1:2012 CSV (consolidated version)" is visible

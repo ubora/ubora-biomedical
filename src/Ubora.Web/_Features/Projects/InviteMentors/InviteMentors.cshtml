@@ -17,7 +17,7 @@
             <img class="avatar" src="@mentor.ProfilePictureLink" alt="@mentor.FullName profile picture" width="100" height="100">
             <h2><a asp-action="View" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h2>
             <form asp-action="InviteMentor">
-                <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId">
+                <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId" />
             </form>
         </div>
     }
@@ -32,7 +32,7 @@
             <img class="avatar" src="@mentor.ProfilePictureLink" alt="@mentor.FullName profile picture" width="100" height="100">
             <h2><a asp-action="View" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h2>
             <form asp-action="InviteMentor">
-                <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId">
+                <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId" />
                 <button class="button secondary-button small-button" type="submit">Invite mentor</button>
             </form>
         </div>

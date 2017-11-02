@@ -22,7 +22,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AnswerTexts {
+    public class AnswerTexts {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ubora.Domain.Questionnaires.DeviceClassifications.Texts.AnswerTexts", typeof(AnswerTexts).Assembly);
@@ -51,7 +51,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
-        internal static string n {
+        public static string n {
             get {
                 return ResourceManager.GetString("n", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to INVASIVE.
         /// </summary>
-        internal static string q1 {
+        public static string q1 {
             get {
                 return ResourceManager.GetString("q1", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to NON-INVASIVE.
         /// </summary>
-        internal static string q2 {
+        public static string q2 {
             get {
                 return ResourceManager.GetString("q2", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Is it NON-SURGICALLY INVASIVE (this means that it enters in the human body but only through a body orifice and without piercing or cutting the skin or membranes)?.
         /// </summary>
-        internal static string q2_1 {
+        public static string q2_1 {
             get {
                 return ResourceManager.GetString("q2_1", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Is it intended specifically to control, diagnose, monitor or correct a defect of the heart or of the central circulatory system through direct contact with those parts of the body?.
         /// </summary>
-        internal static string q2_1_1_1 {
+        public static string q2_1_1_1 {
             get {
                 return ResourceManager.GetString("q2_1_1_1", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Is it a reusable surgical instrument?.
         /// </summary>
-        internal static string q2_1_1_2 {
+        public static string q2_1_1_2 {
             get {
                 return ResourceManager.GetString("q2_1_1_2", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Is it intended specifically for use in direct contact with the heart or central circulatory system or the central nervous system?.
         /// </summary>
-        internal static string q2_1_1_3 {
+        public static string q2_1_1_3 {
             get {
                 return ResourceManager.GetString("q2_1_1_3", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Is it intended to supply energy in the form of ionizing radiation?.
         /// </summary>
-        internal static string q2_1_1_4 {
+        public static string q2_1_1_4 {
             get {
                 return ResourceManager.GetString("q2_1_1_4", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Is it intended to have a biological effect or be wholly or mainly absorbed?.
         /// </summary>
-        internal static string q2_1_1_5 {
+        public static string q2_1_1_5 {
             get {
                 return ResourceManager.GetString("q2_1_1_5", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Is it intended to administer medicinal products by means of a delivery system in a manner that is potentially hazardous?.
         /// </summary>
-        internal static string q2_1_1_6 {
+        public static string q2_1_1_6 {
             get {
                 return ResourceManager.GetString("q2_1_1_6", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Is it intended for connection to a class I active medical device?.
         /// </summary>
-        internal static string q2_1_2 {
+        public static string q2_1_2 {
             get {
                 return ResourceManager.GetString("q2_1_2", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Is it intended for connection to a class IIa or higher class active medical device?.
         /// </summary>
-        internal static string q2_1_3 {
+        public static string q2_1_3 {
             get {
                 return ResourceManager.GetString("q2_1_3", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Is it SURGICALLY INVASIVE?.
         /// </summary>
-        internal static string q2_2 {
+        public static string q2_2 {
             get {
                 return ResourceManager.GetString("q2_2", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Is it for TRANSIENT use?.
         /// </summary>
-        internal static string q2_2_1 {
+        public static string q2_2_1 {
             get {
                 return ResourceManager.GetString("q2_2_1", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Is it for SHORT TERM  use?.
         /// </summary>
-        internal static string q2_2_2 {
+        public static string q2_2_2 {
             get {
                 return ResourceManager.GetString("q2_2_2", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Is it in the teeth?.
         /// </summary>
-        internal static string q2_2_2_5_1 {
+        public static string q2_2_2_5_1 {
             get {
                 return ResourceManager.GetString("q2_2_2_5_1", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Is it in any part of the body other than the teeth?.
         /// </summary>
-        internal static string q2_2_2_5_2 {
+        public static string q2_2_2_5_2 {
             get {
                 return ResourceManager.GetString("q2_2_2_5_2", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Is it implantable or LONG TERM use?.
         /// </summary>
-        internal static string q2_2_3 {
+        public static string q2_2_3 {
             get {
                 return ResourceManager.GetString("q2_2_3", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Is it in the teeth?.
         /// </summary>
-        internal static string q2_2_3_4_1 {
+        public static string q2_2_3_4_1 {
             get {
                 return ResourceManager.GetString("q2_2_3_4_1", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Is it in any part of the body other than the teeth?.
         /// </summary>
-        internal static string q2_2_3_4_2 {
+        public static string q2_2_3_4_2 {
             get {
                 return ResourceManager.GetString("q2_2_3_4_2", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Does it administer energy to or exchange energy with the human body in a potentially hazardous way (consider nature of energy, density of energy, site of the body)?.
         /// </summary>
-        internal static string q3_1_1 {
+        public static string q3_1_1 {
             get {
                 return ResourceManager.GetString("q3_1_1", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Does it administer energy to or exchange energy with the human body in a NON-hazardous way?.
         /// </summary>
-        internal static string q3_1_2 {
+        public static string q3_1_2 {
             get {
                 return ResourceManager.GetString("q3_1_2", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Does such decision have an impact that may cause death or an irreversible deterioration of a person&apos;s state of health?.
         /// </summary>
-        internal static string q3_5_1_1 {
+        public static string q3_5_1_1 {
             get {
                 return ResourceManager.GetString("q3_5_1_1", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Does such decision have an impact that may cause a serious deterioration of a person&apos;s state of health or a surgical intervention?.
         /// </summary>
-        internal static string q3_5_1_2 {
+        public static string q3_5_1_2 {
             get {
                 return ResourceManager.GetString("q3_5_1_2", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Does it monitor vital physiological parameters, where the nature of variations of those parameters is such that it could result in immediate danger to the patient?.
         /// </summary>
-        internal static string q3_5_2_1 {
+        public static string q3_5_2_1 {
             get {
                 return ResourceManager.GetString("q3_5_2_1", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Does it monitor non-vital physiological parameters, so that the nature of variations of those parameters is such that it could never and in no cases result in immediate danger to the patient?.
         /// </summary>
-        internal static string q3_5_2_2 {
+        public static string q3_5_2_2 {
             get {
                 return ResourceManager.GetString("q3_5_2_2", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Does it present a high or medium potential for internal exposure?.
         /// </summary>
-        internal static string q9_1 {
+        public static string q9_1 {
             get {
                 return ResourceManager.GetString("q9_1", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Does it present a low potential for internal exposure?.
         /// </summary>
-        internal static string q9_2 {
+        public static string q9_2 {
             get {
                 return ResourceManager.GetString("q9_2", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Does it present a negliglible potential for internal exposure?.
         /// </summary>
-        internal static string q9_3 {
+        public static string q9_3 {
             get {
                 return ResourceManager.GetString("q9_3", resourceCulture);
             }
@@ -324,7 +324,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         /// <summary>
         ///   Looks up a localized string similar to Yes.
         /// </summary>
-        internal static string y {
+        public static string y {
             get {
                 return ResourceManager.GetString("y", resourceCulture);
             }

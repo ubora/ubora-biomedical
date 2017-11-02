@@ -21,12 +21,15 @@ namespace Ubora.Web._Features.Projects.Repository
     {
         private readonly IUboraStorageProvider _uboraStorageProvider;
         private readonly IEventStreamQuery _eventStreamQuery;
+        private readonly ProjectFileViewModel.Factory _projecFileViewModelFactory;
 
         public RepositoryController(IUboraStorageProvider uboraStorageProvider,
-            IEventStreamQuery eventStreamQuery)
+            IEventStreamQuery eventStreamQuery,
+            ProjectFileViewModel.Factory projectFileViewModelFactory)
         {
             _uboraStorageProvider = uboraStorageProvider;
             _eventStreamQuery = eventStreamQuery;
+            _projecFileViewModelFactory = projectFileViewModelFactory;
         }
 
         public IActionResult Repository()
@@ -40,8 +43,8 @@ namespace Ubora.Web._Features.Projects.Repository
             {
                 ProjectId = ProjectId,
                 ProjectName = Project.Title,
-                AllFiles = projectFiles.GroupBy(file => file.FolderName, 
-                    file => AutoMapper.Map<ProjectFileViewModel>(file)),
+                AllFiles = projectFiles.GroupBy(file => file.FolderName,
+                    file => _projecFileViewModelFactory.Create(file)),
                 AddFileViewModel = new AddFileViewModel(),
                 IsProjectLeader = isProjectLeader
             };
@@ -93,16 +96,6 @@ namespace Ubora.Web._Features.Projects.Repository
             return RedirectToAction(nameof(Repository));
         }
 
-        [Route("DownloadFile")]
-        public IActionResult DownloadFile(Guid fileId)
-        {
-            var file = QueryProcessor.FindById<ProjectFile>(fileId);
-
-            var blobSasUrl = _uboraStorageProvider.GetReadUrl(file.Location, DateTime.UtcNow.AddSeconds(15));
-
-            return Redirect(blobSasUrl);
-        }
-
         [Route("UpdateFile")]
         public IActionResult UpdateFile(Guid fileId)
         {
@@ -126,7 +119,7 @@ namespace Ubora.Web._Features.Projects.Repository
 
             var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
             await SaveBlobAsync(model.ProjectFile, blobLocation);
-            
+
             ExecuteUserProjectCommand(new UpdateFileCommand
             {
                 Id = file.Id,

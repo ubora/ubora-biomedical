@@ -30,7 +30,8 @@ namespace Ubora.Domain.Projects
         [JsonProperty(nameof(Members))]
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
         [JsonIgnore]
-        public IReadOnlyCollection<ProjectMember> Members
+        // Virtual for testing.
+        public virtual IReadOnlyCollection<ProjectMember> Members
         {
             get
             {

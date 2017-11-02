@@ -11,18 +11,19 @@
     @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
 
     <section class="medium-width step-view">
-        <div class="center-element">
-            @if (Model.DeviceClassification == null)
-            {
-                <h1>Please answer to the following questionnaire to identify your device classification.</h1>
-                <a asp-controller="DeviceClassification" asp-action="GetPairedMainQuestions" class="button primary-button small-button">Go to device classification</a>
-            }
-            else
-            {
-                <h2>Your current device classification: @Model.DeviceClassification</h2>
-                <a asp-controller="DeviceClassification" asp-action="GetPairedMainQuestions" class="button secondary-button small-button">Retake questionnaire?</a>
-            }
-
-        </div>
-    </section>
+        <section class="full-width">
+            <div class="center-element">
+                @if (Model.DeviceClassification == null)
+                {
+                    <h1>Please answer to the following questionnaire to identify your device classification.</h1>
+                    <a asp-controller="DeviceClassification" asp-action="GetPairedMainQuestions" class="button primary-button small-button">Go to device classification</a>
+                }
+                else
+                {
+                    <h2>Your current device classification: @Model.DeviceClassification</h2>
+                    <a asp-controller="DeviceClassification" asp-action="GetPairedMainQuestions" class="button secondary-button small-button">Retake questionnaire?</a>
+                }
+            </div>
+        </section>
+        </section>
 </section>

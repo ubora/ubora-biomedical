@@ -23,6 +23,8 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations
         /// <remarks>Bear in mind that this will go straight to the web client.</remarks>
         [JsonIgnore]
         public string IsoStandardHtmlText => IsoStandardTexts.ResourceManager.GetString(this.Id);
+        [JsonIgnore]
+        public string NoteText => NoteTexts.ResourceManager.GetString(this.Id);
 
         [JsonIgnore]
         public string ChosenAnswerText

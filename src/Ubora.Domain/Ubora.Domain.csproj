@@ -27,11 +27,65 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Placeholders.resx</DependentUpon>
     </Compile>
+    <Compile Update="Questionnaires\ApplicableRegulations\Texts\AnswerTexts.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AnswerTexts.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Questionnaires\ApplicableRegulations\Texts\IsoStandardTexts.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IsoStandardTexts.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Questionnaires\ApplicableRegulations\Texts\NoteTexts.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NoteTexts.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Questionnaires\ApplicableRegulations\Texts\QuestionTexts.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>QuestionTexts.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Questionnaires\DeviceClassifications\Texts\AnswerTexts.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AnswerTexts.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Questionnaires\DeviceClassifications\Texts\QuestionTexts.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>QuestionTexts.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Projects\Workpackages\Placeholders.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Placeholders.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Questionnaires\ApplicableRegulations\Texts\AnswerTexts.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AnswerTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Questionnaires\ApplicableRegulations\Texts\IsoStandardTexts.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>IsoStandardTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Questionnaires\ApplicableRegulations\Texts\NoteTexts.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>NoteTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Questionnaires\ApplicableRegulations\Texts\QuestionTexts.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>QuestionTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Questionnaires\DeviceClassifications\Texts\AnswerTexts.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AnswerTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Questionnaires\DeviceClassifications\Texts\QuestionTexts.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>QuestionTexts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

@@ -9,7 +9,6 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 {
     public class ApplicableRegulationsController : ProjectController
     {
-
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             base.OnActionExecuted(context);
