@@ -6,7 +6,7 @@ namespace Ubora.Web.Tests.Helper
 {
     public class TestEvent : IEvent
     {
-        public Guid Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Guid Id { get; set; }
         public int Version { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public long Sequence { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 

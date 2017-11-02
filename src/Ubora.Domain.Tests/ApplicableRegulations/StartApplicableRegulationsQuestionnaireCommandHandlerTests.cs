@@ -42,6 +42,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
                 .Setup(x => x.ExecuteQuery(It.Is<ActiveApplicableRegulationsQuestionnaireQuery>(q => q.ProjectId == project.Id)))
                 .Returns(new ApplicableRegulationsQuestionnaireAggregate());
 
+
             // Act
             var result = _handlerUnderTest.Handle(command);
 

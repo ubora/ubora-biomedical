@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Ubora.Domain.ApplicableRegulations;
 using Ubora.Domain.Infrastructure.Queries;
 
@@ -10,7 +11,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
     {
         public QuestionnaireListItem Last { get; set; }
         public IEnumerable<QuestionnaireListItem> Previous { get; set; }
-
+        
         public class QuestionnaireListItem
         {
             public Guid QuestionnaireId { get; set; }
@@ -35,6 +36,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
             {
                 var questionnaires = _queryProcessor.Find<ApplicableRegulationsQuestionnaireAggregate>()
                     .Where(x => x.ProjectId == projectId)
+                    .Where(x => !x.IsStopped)
                     .OrderByDescending(x => x.StartedAt)
                     .Select(x => new QuestionnaireListItem
                     {

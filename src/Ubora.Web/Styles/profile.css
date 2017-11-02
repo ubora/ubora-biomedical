@@ -1,8 +1,0 @@
-.profile_edit--container {
-    display: flex;
-    flex-direction: column;
-}
-
-.profile_edit--button {
-    margin:.5em 0;
-}

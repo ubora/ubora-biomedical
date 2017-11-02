@@ -12,23 +12,40 @@
     <link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <environment names="Development">
-      <link rel="stylesheet" href="~/dist/styles.bundle.css">
-      <script
-        src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
-        asp-fallback-src="~/dist/libs/jquery.min.js"
-        asp-fallback-test="window.jQuery">
-      </script>
-    </environment>
+    @* TODO: Add fallbacks, distribute between environments *@
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 
     <environment names="Staging,Production">
       <link rel="stylesheet" href="~/dist/styles.bundle.css" asp-append-version="true">
-      <script
-        src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
-        asp-fallback-src="~/dist/libs/jquery.min.js"
-        asp-fallback-test="window.jQuery">
+      <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+              asp-fallback-src="~/dist/lib/jquery.min.js"
+              asp-fallback-test="window.jQuery">
       </script>
     </environment>
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/dist/styles.bundle.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+                asp-fallback-src="~/dist/libs/jquery.min.js"
+                asp-fallback-test="window.jQuery">
+        </script>
+    </environment>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+    <script src="~/dist/lib/jquery.timeago.js" 
+            asp-fallback-src="//cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.6.1/jquery.timeago.min.js"
+            asp-fallback-test="window.jQuery">
+    </script>
+
+    <script>
+        jQuery(document).ready(function () {
+            jQuery.timeago.settings.cutoff = 1000 * 60 * 60 * 24 * 7; // cutoff when older than 7 days
+            jQuery(".timeago").timeago();
+        });
+    </script>
 
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
@@ -36,27 +53,26 @@
 <body>
     @await Html.PartialAsync("_Header")
 
-    <main>
-        @{
-            var projectMenuOption = ViewData["MenuOption"];
-            if (projectMenuOption != null)
-            {
-                @await Html.PartialAsync("~/_Features/Projects/_Shared/_ProjectMenu.cshtml", new ProjectMenuViewModel((ProjectMenuOption)projectMenuOption))
-            }
-        }
-
-        @RenderBody()
-
-        @if (User.Identity.IsAuthenticated)
+    @{
+        var projectMenuOption = ViewData["MenuOption"];
+        if (projectMenuOption != null)
         {
-            @Html.Partial("_FeedbackModal")
+            @await Html.PartialAsync("~/_Features/Projects/_Shared/_ProjectMenu.cshtml", new ProjectMenuViewModel((ProjectMenuOption)projectMenuOption))
         }
+    }
 
-        @Html.Partial("_Notices")
+    <main>
+      @RenderBody()
     </main>
 
-    @await Html.PartialAsync("_Footer")
+    @if (User.Identity.IsAuthenticated)
+    {
+        @Html.Partial("_FeedbackModal")
+    }
 
+    @Html.Partial("_Notices")
+
+    @await Html.PartialAsync("_Footer")
 
     @RenderSection("Scripts", required: false)
 

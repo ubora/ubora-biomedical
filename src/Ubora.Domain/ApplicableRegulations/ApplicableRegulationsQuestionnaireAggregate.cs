@@ -1,9 +1,10 @@
 ﻿using System;
 using Ubora.Domain.ApplicableRegulations.Events;
+using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Domain.ApplicableRegulations
 {
-    public class ApplicableRegulationsQuestionnaireAggregate
+    public class ApplicableRegulationsQuestionnaireAggregate : Entity<ApplicableRegulationsQuestionnaireAggregate>
     {
         public Guid Id { get; private set; }
         public Guid ProjectId { get; private set; }
@@ -11,6 +12,8 @@ namespace Ubora.Domain.ApplicableRegulations
         public DateTime StartedAt { get; private set; }
         public DateTime? FinishedAt { get; private set; }
         public bool IsFinished => FinishedAt.HasValue;
+        public bool IsStopped => FinishedAt.HasValue && Questionnaire.FindNextUnansweredQuestion() != null;
+      
 
         private void Apply(ApplicableRegulationsQuestionnaireStartedEvent e)
         {
@@ -38,6 +41,14 @@ namespace Ubora.Domain.ApplicableRegulations
             {
                 FinishedAt = DateTime.UtcNow;
             }
+        }
+
+        private void Apply(ApplicableRegulationsQuestionnaireStoppedEvent e)
+        {
+            if (IsFinished) { throw new InvalidOperationException(); }
+
+            FinishedAt = DateTime.UtcNow;
+            
         }
     }
 }
