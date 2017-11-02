@@ -9,8 +9,8 @@ export default class DragAndDropFileUploads {
       uploadMultiple: true,
       addRemoveLinks: true,
       parallelUploads: 5,
-      previewsContainer: '.dropzone-previews',
-      clickable: '.dropzone-previews',
+      previewsContainer: '#my-dropzone > div.dropzone-previews.dropzone',
+      clickable: '#my-dropzone > div.dropzone-previews.dropzone'
     });
   }
 
@@ -20,14 +20,15 @@ export default class DragAndDropFileUploads {
     this.dropzone.on('addedfile', (file) => {
       // Custom file upload validation and avoid error 404 document type when big image
       if (file.size > 31457280) {
-        this.dropzone.removeFile(file);
-        console.log(file);
-        summaryValidationElement.innerHTML =
-                    `<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">Please upload a smaller file. The maximum file size is 30MB. ${
-                      file.name
-                    } file size was ${
-                      file.size
-                    } btyes</span>`;
+          this.dropzone.removeFile(file);
+          summaryValidationElement.innerHTML =
+              `<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">Please upload a smaller file. The maximum file size is 30MB. ${
+              file.name
+              } file size was ${
+              file.size
+              } bytes</span>`;
+      } else {
+          summaryValidationElement.innerHTML = '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true"></span>';
       }
     });
 
@@ -66,7 +67,7 @@ export default class DragAndDropFileUploads {
         } else {
           summaryValidationElement.innerHTML = '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true"></span>';
         }
-      },
+      }
     );
   }
 }

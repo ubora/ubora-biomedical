@@ -4,10 +4,11 @@
     <div class="col d-flex flex-column align-items-center">
         <h2>Upload new file</h2>
 
-        @*Drag and drop*@
-        <div class="dropzone-previews dropzone"></div>
-
         <form id="my-dropzone">
+            
+             @*Drag and drop*@
+            <div class="dropzone-previews dropzone"></div>
+
             @Html.AntiForgeryToken()
             <div asp-validation-summary="All" class="text-danger"></div>
 
