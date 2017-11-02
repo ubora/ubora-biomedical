@@ -25,6 +25,7 @@ using Ubora.Domain.Projects.Repository.Commands;
 using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Web.Tests.Helper;
 using AutoMapper;
+using Newtonsoft.Json;
 
 namespace Ubora.Web.Tests._Features.Projects.Repository
 {
@@ -199,14 +200,16 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .Returns("C:\\Test\\Parent\\Parent\\image.png");
 
             //Act
-            var result = (PartialViewResult)await _controller.AddFile(model);
+            var result = (JsonResult)await _controller.AddFile(model);
 
             //Assert
-            result.ViewName.Should().Be("AddFilePartial");
+            var data = JsonConvert.DeserializeObject<JsonData>(JsonConvert.SerializeObject(result.Value));
 
-            foreach (var error in result.ViewData.ModelState.Root.Errors)
+            data.Success.Should().BeFalse();
+
+            foreach (var error in data.Errors)
             {
-                Assert.Contains(error.ErrorMessage, errorMessage);
+                Assert.Contains(error, errorMessage);
             }
 
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
@@ -244,14 +247,16 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 && b.BlobPath.Contains(fileName) && b.BlobPath.Contains(ProjectId.ToString());
 
             //Act
-            var result = (PartialViewResult) await _controller.AddFile(model);
+            var result = (JsonResult)await _controller.AddFile(model);
 
             //Assert
-            result.ViewName.Should().Be("AddFilePartial");
+            var test = JsonConvert.DeserializeObject<JsonData>(JsonConvert.SerializeObject(result.Value));
 
-            foreach (var error in result.ViewData.ModelState.Root.Errors)
+            test.Success.Should().BeFalse();
+
+            foreach (var error in test.Errors)
             {
-                Assert.Contains(error.ErrorMessage, commandResult.ErrorMessages.ToArray());
+                Assert.Contains(error, commandResult.ErrorMessages.ToArray());
             }
 
             _uboraStorageProviderMock.Verify(x => x.SavePrivate(It.Is(expectedBlobLocationFunc), stream), Times.Once);
@@ -528,19 +533,17 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             };
 
             // Act
-            var result = (ViewResult) _controller.FileHistory(fileId);
+            var result = (ViewResult)_controller.FileHistory(fileId);
 
             // Assert
             result.ViewName.Should().Be(nameof(RepositoryController.FileHistory));
             result.Model.As<FileHistoryViewModel>().ShouldBeEquivalentTo(expectedViewModel);
         }
 
-        private void CreateTestProject()
+        private class JsonData
         {
-            var expectedProject = new Project().Set(x => x.Title, "Title");
-
-            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
-                .Returns(expectedProject);
+            public bool Success { get; set; }
+            public List<string> Errors { get; set; }
         }
     }
 }

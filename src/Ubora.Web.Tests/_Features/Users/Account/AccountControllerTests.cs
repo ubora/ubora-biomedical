@@ -462,7 +462,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             var result = (ViewResult)await _controller.ForgotPassword(forgotpasswordviewmodel);
 
             //Assert
-            result.ViewName.Should().Be("ForgotPasswordConfirmation");
+            result.ViewName.Should().Be("ForgotPassword");
             _userManagerMock.Verify(x => x.IsEmailConfirmedAsync(identity), Times.Never);
         }
 
