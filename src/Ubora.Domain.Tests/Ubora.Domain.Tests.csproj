@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ApplicableRegulations\QuestionnaireTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="4.19.4" />
     <PackageReference Include="Marten" Version="2.3.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />

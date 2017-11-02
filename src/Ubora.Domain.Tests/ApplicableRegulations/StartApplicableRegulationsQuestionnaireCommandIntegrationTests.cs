@@ -2,8 +2,8 @@
 using System.Linq;
 using FluentAssertions;
 using TestStack.BDDfy;
-using Ubora.Domain.ApplicableRegulations;
-using Ubora.Domain.ApplicableRegulations.Commands;
+using Ubora.Domain.Questionnaires.ApplicableRegulations;
+using Ubora.Domain.Questionnaires.ApplicableRegulations.Commands;
 using Xunit;
 
 namespace Ubora.Domain.Tests.ApplicableRegulations
@@ -41,17 +41,15 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
                 .Should().Be(_projectId);
 
             var actualQuestions = projectQuestionnaireAggregate.Questionnaire
-                .GetAllQuestions()
-                .ToList();
+                .Questions.ToList();
 
-            var expectedQuestions = QuestionnaireFactory.Create()
-                .GetAllQuestions()
-                .ToList();
+            var expectedQuestions = QuestionnaireTreeFactory.Create()
+                .Questions.ToList();
 
             actualQuestions.Count.Should().Be(expectedQuestions.Count);
 
             // Assert all resource names from the expected list are represented in the actual list. Not a perfect assert...
-            actualQuestions.All(x => expectedQuestions.Any(eQ => eQ.ResourceName == x.ResourceName))
+            actualQuestions.All(x => expectedQuestions.Any(eQ => eQ.Id == x.Id))
                 .Should().BeTrue();
         }
     }

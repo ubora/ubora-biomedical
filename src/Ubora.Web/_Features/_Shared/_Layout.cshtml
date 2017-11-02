@@ -29,6 +29,8 @@
     </environment>
 
     @Html.Raw(JavaScriptSnippet.FullScript)
+
+    @RenderSection("Head", required: false)
 </head>
 
 <body>

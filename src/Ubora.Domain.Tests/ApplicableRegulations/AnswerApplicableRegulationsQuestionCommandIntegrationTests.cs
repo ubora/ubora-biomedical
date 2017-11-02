@@ -1,10 +1,10 @@
 ﻿using System;
 using FluentAssertions;
 using TestStack.BDDfy;
-using Ubora.Domain.ApplicableRegulations;
-using Ubora.Domain.ApplicableRegulations.Commands;
-using Ubora.Domain.ApplicableRegulations.Events;
 using Ubora.Domain.Projects._Events;
+using Ubora.Domain.Questionnaires.ApplicableRegulations;
+using Ubora.Domain.Questionnaires.ApplicableRegulations.Commands;
+using Ubora.Domain.Questionnaires.ApplicableRegulations.Events;
 using Xunit;
 
 namespace Ubora.Domain.Tests.ApplicableRegulations
@@ -13,17 +13,17 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
     {
         private readonly Guid _projectId = Guid.NewGuid();
         private readonly Guid _questionnaireId = Guid.NewGuid();
-        private bool _expectedAnswer;
-        private Guid _firstQuestionId;
-        private Guid _secondQuestionId;
+        private string _expectedAnswerId;
+        private string _firstQuestionId;
+        private string _secondQuestionId;
 
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [InlineData("a1")]
+        [InlineData("a2")]
         public void Questionnaire_Questions_Can_Be_Answered(
-            bool answer)
+            string answerId)
         {
-            _expectedAnswer = answer;
+            _expectedAnswerId = answerId;
 
             this.Given(_ => Create_Project_And_Applicable_Regulations_Questionnaire())
                 .When(_ => Answer_First_Question())
@@ -43,7 +43,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
                 areaOfUsage: "",
                 potentialTechnology: "",
                 gmdn: "");
-            var questionnaireStartedEvent = new ApplicableRegulationsQuestionnaireStartedEvent(new DummyUserInfo(), _questionnaireId, _projectId);
+            var questionnaireStartedEvent = new ApplicableRegulationsQuestionnaireStartedEvent(new DummyUserInfo(), _questionnaireId, _projectId, QuestionnaireTreeFactory.Create(), DateTime.UtcNow);
 
             Session.Events.Append(_projectId, projectCreatedEvent);
             Session.SaveChanges();
@@ -61,14 +61,14 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
             ExecuteAnswerQuestionCommand(_firstQuestionId);
         }
 
-        private void ExecuteAnswerQuestionCommand(Guid questionId)
+        private void ExecuteAnswerQuestionCommand(string questionId)
         {
             var command = new AnswerApplicableRegulationsQuestionCommand
             {
                 ProjectId = _projectId,
                 QuestionnaireId = _questionnaireId,
                 QuestionId = questionId,
-                Answer = _expectedAnswer,
+                AnswerId = _expectedAnswerId,
                 Actor = new DummyUserInfo()
             };
             Processor.Execute(command);
@@ -84,13 +84,13 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
             ExecuteAnswerQuestionCommand(_secondQuestionId);
         }
 
-        public void Assert_Question_Is_Answered(Guid questionId)
+        public void Assert_Question_Is_Answered(string questionId)
         {
             var aggregate = Session.Load<ApplicableRegulationsQuestionnaireAggregate>(_questionnaireId);
 
             var question = aggregate.Questionnaire.FindQuestionOrThrow(questionId);
 
-            question.Answer.Should().Be(_expectedAnswer);
+            question.ChosenAnswer.Id.Should().Be(_expectedAnswerId);
         }
     }
 }

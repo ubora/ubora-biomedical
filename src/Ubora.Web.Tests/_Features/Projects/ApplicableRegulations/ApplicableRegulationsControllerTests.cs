@@ -2,8 +2,8 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Ubora.Domain.ApplicableRegulations.Commands;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Questionnaires.ApplicableRegulations.Commands;
 using Ubora.Web._Features.Projects.ApplicableRegulations;
 using Xunit;
 

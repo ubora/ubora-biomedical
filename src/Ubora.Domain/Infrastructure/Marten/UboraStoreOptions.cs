@@ -4,7 +4,6 @@ using System.Linq;
 using Marten;
 using Marten.Services;
 using Marten.Services.Events;
-using Ubora.Domain.ApplicableRegulations;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
 using Ubora.Domain.Projects.Repository;
@@ -13,6 +12,8 @@ using Ubora.Domain.Notifications;
 using Ubora.Domain.Projects.DeviceClassification;
 using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Domain.Projects.Tasks.Events;
+using Ubora.Domain.Questionnaires.ApplicableRegulations;
+using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Users;
 
 namespace Ubora.Domain.Infrastructure.Marten
@@ -27,9 +28,6 @@ namespace Ubora.Domain.Infrastructure.Marten
             if (eventTypes == null) { throw new ArgumentNullException(nameof(eventTypes)); }
             if (notificationTypes == null) { throw new ArgumentNullException(nameof(notificationTypes)); }
 
-            var serializer = new JsonNetSerializer();
-            serializer.Customize(c => c.ContractResolver = new PrivateSetterResolver());
-
             return options =>
             {
                 options.AutoCreateSchemaObjects = autoCreate;
@@ -37,7 +35,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.PLV8Enabled = false;
 
                 options.Events.UseAggregatorLookup(AggregationLookupStrategy.UsePrivateApply);
-                options.Serializer(serializer);
+                options.Serializer(serializer: CreateConfiguredJsonSerializer());
 
                 options.Schema.For<UserProfile>();
                 options.Schema.For<DeviceClassification>();
@@ -48,6 +46,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageThree>();
                 options.Events.InlineProjections.AggregateStreamsWith<ApplicableRegulationsQuestionnaireAggregate>();
+                options.Events.InlineProjections.AggregateStreamsWith<DeviceClassificationAggregate>();
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectTask, ITaskEvent>());
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());
 
@@ -56,6 +55,13 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<INotification>()
                     .AddSubClassHierarchy(notificationTypes.ToArray());
             };
+        }
+
+        public static JsonNetSerializer CreateConfiguredJsonSerializer()
+        {
+            var serializer = new JsonNetSerializer();
+            serializer.Customize(c => c.ContractResolver = new PrivateSetterResolver());
+            return serializer;
         }
     }
 }

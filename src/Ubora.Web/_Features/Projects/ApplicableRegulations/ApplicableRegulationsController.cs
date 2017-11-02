@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Ubora.Domain.ApplicableRegulations;
-using Ubora.Domain.ApplicableRegulations.Commands;
+using Ubora.Domain.Questionnaires.ApplicableRegulations;
+using Ubora.Domain.Questionnaires.ApplicableRegulations.Commands;
 using Ubora.Web._Features.Projects._Shared;
 
 namespace Ubora.Web._Features.Projects.ApplicableRegulations
@@ -75,7 +75,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
             return RedirectToAction(nameof(ReviewQuestion), new { questionnaireId, questionId = nextQuestion.Id });
         }
 
-        public virtual IActionResult ReviewQuestion(Guid questionnaireId, Guid questionId, [FromServices]NextQuestionViewModel.Factory modelFactory)
+        public virtual IActionResult ReviewQuestion(Guid questionnaireId, string questionId, [FromServices]NextQuestionViewModel.Factory modelFactory)
         {
             var questionnaireAggregate = QueryProcessor.FindById<ApplicableRegulationsQuestionnaireAggregate>(questionnaireId);
             if (questionnaireAggregate == null)
@@ -99,7 +99,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
             {
                 QuestionnaireId = model.QuestionnaireId,
                 QuestionId = model.Id,
-                Answer = true
+                AnswerId = "y"
             });
 
             if (!ModelState.IsValid)
@@ -122,7 +122,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
             {
                 QuestionnaireId = model.QuestionnaireId,
                 QuestionId = model.Id,
-                Answer = false
+                AnswerId = "n"
             });
 
             if (!ModelState.IsValid)

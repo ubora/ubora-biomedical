@@ -2,11 +2,11 @@
 using FluentAssertions;
 using Marten;
 using Moq;
-using Ubora.Domain.ApplicableRegulations;
-using Ubora.Domain.ApplicableRegulations.Commands;
-using Ubora.Domain.ApplicableRegulations.Queries;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Questionnaires.ApplicableRegulations;
+using Ubora.Domain.Questionnaires.ApplicableRegulations.Commands;
+using Ubora.Domain.Questionnaires.ApplicableRegulations.Queries;
 using Xunit;
 
 namespace Ubora.Domain.Tests.ApplicableRegulations

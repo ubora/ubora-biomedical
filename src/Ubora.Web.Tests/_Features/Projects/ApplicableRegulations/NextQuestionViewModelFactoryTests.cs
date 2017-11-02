@@ -4,7 +4,7 @@ using System.Text;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Moq;
-using Ubora.Domain.ApplicableRegulations;
+using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Ubora.Web._Features.Projects.ApplicableRegulations;
 using Xunit;
 

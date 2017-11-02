@@ -38,7 +38,7 @@ namespace Ubora.Domain.Infrastructure
                 var notificationTypes = FindDomainNotificationConcreteTypes();
 
                 new UboraStoreOptionsConfigurer()
-                    .CreateConfigureAction(eventTypes, notificationTypes, AutoCreate.None)
+                    .CreateConfigureAction(eventTypes, notificationTypes, AutoCreate.All)
                     .Invoke(options);
 
                 var store = new DocumentStore(options);

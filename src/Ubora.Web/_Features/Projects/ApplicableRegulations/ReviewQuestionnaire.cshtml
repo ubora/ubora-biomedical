@@ -8,13 +8,13 @@
         @foreach (var questionAnswer in Model.QuestionAnswerList)
         {
             <h6>@questionAnswer.QuestionText</h6>
-            <p>You answered: @(questionAnswer.Answer ? "yes" : "no")</p>
-            if (questionAnswer.Answer == true)
-            {
+            <p>You answered: @(questionAnswer.Answer)</p>
+            //if (questionAnswer.Answer == true)
+            //{
                 <ul>
                     @Html.Raw(questionAnswer.IsoStandardText)
                 </ul>
-            }
+            @*}*@
         }
 
         <h3>The following standards and guidelines are applicable to all devices, regardless the kind and risk classification:</h3>

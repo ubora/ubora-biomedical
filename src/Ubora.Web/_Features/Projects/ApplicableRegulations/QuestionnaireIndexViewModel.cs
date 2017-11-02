@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ubora.Domain.ApplicableRegulations;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Questionnaires.ApplicableRegulations;
 
 namespace Ubora.Web._Features.Projects.ApplicableRegulations
 {

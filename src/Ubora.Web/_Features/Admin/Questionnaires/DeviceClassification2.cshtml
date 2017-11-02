@@ -1,0 +1,17 @@
+﻿@using System.Web
+@using Newtonsoft.Json;
+@using Ubora.Web._Features.Admin.Questionnaires;
+
+@model Ubora.Domain.DeviceClassifications.QuestionnaireTree
+    
+<ul>
+  @foreach (var question in Model.Questions)
+  {
+      <li>@question.Id <b>@question.Text</b>
+        <ul>@foreach (var answer in question.Answers)
+            {
+                <li>@answer.Text</li>
+            }</ul>
+    </li>
+  }
+</ul>

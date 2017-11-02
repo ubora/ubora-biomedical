@@ -22,16 +22,6 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="ApplicableRegulations\Texts\IsoStandardTexts.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>IsoStandardTexts.resx</DependentUpon>
-    </Compile>
-    <Compile Update="ApplicableRegulations\Texts\QuestionTexts.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>QuestionTexts.resx</DependentUpon>
-    </Compile>
     <Compile Update="Projects\Workpackages\Placeholders.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -39,14 +29,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Update="ApplicableRegulations\Texts\IsoStandardTexts.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>IsoStandardTexts.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="ApplicableRegulations\Texts\QuestionTexts.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>QuestionTexts.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="Projects\Workpackages\Placeholders.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Placeholders.Designer.cs</LastGenOutput>

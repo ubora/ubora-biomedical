@@ -11,10 +11,10 @@
 
         </div>
 
-        @if (Model.Answer.HasValue)
+        @if (!string.IsNullOrWhiteSpace(Model.Answer))
         {
             <div class="center-element">
-                <h2>@(Model.Answer.Value ? "You answered : Yes" : "You answered : No")</h2>
+                <h2>You answered: @(Model.Answer)</h2>
             </div>
         }
         else
@@ -34,7 +34,7 @@
         }
 
         <div class="questionnaire-navigation">
-            @if (Model.PreviousAnsweredQuestionId.HasValue)
+            @if (Model.PreviousAnsweredQuestionId != null)
             {
                 <a asp-action="ReviewQuestion" asp-route-questionId="@Model.PreviousAnsweredQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId"><i class="material-icons">keyboard_arrow_left</i> Back</a>
             }
@@ -43,7 +43,7 @@
                 <span></span>
             }
 
-            @if (Model.NextQuestionId.HasValue)
+            @if (Model.NextQuestionId != null)
             {
                 <a asp-action="ReviewQuestion" asp-route-questionId="@Model.NextQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId">Forward<i class="material-icons">keyboard_arrow_right</i> </a>
             }

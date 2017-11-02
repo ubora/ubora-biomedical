@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Moq;
-using Ubora.Domain.ApplicableRegulations;
+using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Xunit;
 // ReSharper disable InconsistentNaming
 

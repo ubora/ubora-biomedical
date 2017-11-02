@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="q1" xml:space="preserve">
+    <value>Is your device INVASIVE or NON INVASIVE?</value>
+  </data>
+  <data name="q1_1" xml:space="preserve">
+    <value>Is it intended for channelling or storing blood, body liquids, cells or tissues, liquids or gases for the purpose of eventual infusion, administration or introduction into the body?</value>
+  </data>
+  <data name="q1_1_1" xml:space="preserve">
+    <value>May it be connected to an active medical device in class IIa or a higher class?</value>
+  </data>
+  <data name="q1_1_2" xml:space="preserve">
+    <value>Is it intended for use for storing or channelling blood or other body liquids or for storing organs, parts of organs or body cells and tissues, but it is not a blood bag?</value>
+  </data>
+  <data name="q1_1_3" xml:space="preserve">
+    <value>Is it a blood bag?</value>
+  </data>
+  <data name="q1_1_4" xml:space="preserve">
+    <value>Is it intended for modifying the biological or chemical composition of human tissues or cells, blood, other body liquids or other liquids intended for implantation or administration into the body?</value>
+  </data>
+  <data name="q1_1_4_1" xml:space="preserve">
+    <value>Does the treatment consist of filtration, centrifugation or exchanges of gas, heat?</value>
+  </data>
+  <data name="q1_1_4_2" xml:space="preserve">
+    <value>Is the treatment other than filtration, centrifugation or exchanges of gas, heat?</value>
+  </data>
+  <data name="q1_1_4_3" xml:space="preserve">
+    <value>Is your device a substance or a mixture of substances intended to be used in vitro in direct contact with human cells, tissues or organs taken off from the human body or with human embryos before their implantation or administration into the body?</value>
+  </data>
+  <data name="q1_1_5" xml:space="preserve">
+    <value>Is it intended come into contact with injured skin or mucous membrane?</value>
+  </data>
+  <data name="q1_1_5_1" xml:space="preserve">
+    <value>Is it intended to be used as a mechanical barrier, for compression or for absorption of exudates?</value>
+  </data>
+  <data name="q1_1_5_2" xml:space="preserve">
+    <value>Is it intended to be used principally for injuries to skin which have breached the dermis or mucous membrane and can only heal by secondary intent?</value>
+  </data>
+  <data name="q1_1_5_3" xml:space="preserve">
+    <value>Is it principally intended to manage the micro-environment of injured skin or mucous membrane?</value>
+  </data>
+  <data name="q2_1" xml:space="preserve">
+    <value>TODO</value>
+  </data>
+  <data name="q2_1_1" xml:space="preserve">
+    <value>Is it NOT intended for connection to any active medical device?</value>
+  </data>
+  <data name="q2_1_1_1" xml:space="preserve">
+    <value>Is it intended for transient use?</value>
+  </data>
+  <data name="q2_1_2" xml:space="preserve">
+    <value>Is it intended for connection to a class I active medical device?</value>
+  </data>
+  <data name="q2_1_2_1" xml:space="preserve">
+    <value>Is it intended for transient use?</value>
+  </data>
+  <data name="q2_1_2_2" xml:space="preserve">
+    <value>Is it intended for short-term use only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?</value>
+  </data>
+  <data name="q2_1_2_3" xml:space="preserve">
+    <value>Is it intended for short-term use in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?</value>
+  </data>
+  <data name="q2_1_2_4" xml:space="preserve">
+    <value>Is it intended for long-term use only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity but it is liable to be absorbed by the mucous membrane?</value>
+  </data>
+  <data name="q2_1_2_5" xml:space="preserve">
+    <value>Is it intended for long-term use only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity but it is liable to be absorbed by the mucous membrane?</value>
+  </data>
+  <data name="q2_1_2_6" xml:space="preserve">
+    <value>Is it intended for long-term use in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?</value>
+  </data>
+  <data name="q2_2_1" xml:space="preserve">
+    <value>TODO</value>
+  </data>
+  <data name="q2_2_1_1" xml:space="preserve">
+    <value>Is it intended specifically to control, diagnose, monitor or correct a defect of the heart or of the central circulatory system through direct contact with those parts of the body?</value>
+  </data>
+  <data name="q2_2_1_2" xml:space="preserve">
+    <value>Is it a reusable surgical instrument?</value>
+  </data>
+  <data name="q2_2_1_3" xml:space="preserve">
+    <value>Is it intended specifically for use in direct contact with the heart or central circulatory system or the central nervous system?</value>
+  </data>
+  <data name="q2_2_1_4" xml:space="preserve">
+    <value>Is it intended to supply energy in the form of ionizing radiation?</value>
+  </data>
+  <data name="q2_2_1_5" xml:space="preserve">
+    <value>Is it intended to have a biological effect or be wholly or mainly absorbed?</value>
+  </data>
+  <data name="q2_2_1_6" xml:space="preserve">
+    <value>Is it intended to administer medicinal products by means of a delivery system in a manner that is potentially hazardous?</value>
+  </data>
+  <data name="q2_2_2_1" xml:space="preserve">
+    <value>Is it intended specifically to control, diagnose, monitor or correct a defect of the heart or of the central circulatory system through direct contact with those parts of the body?</value>
+  </data>
+  <data name="q2_2_2_2" xml:space="preserve">
+    <value>Is it intended specifically for use in direct contact with the heart or central circulatory system or the central nervous system?</value>
+  </data>
+  <data name="q2_2_2_3" xml:space="preserve">
+    <value>Is it intended to have a biological effect or are wholly or mainly absorbed?</value>
+  </data>
+  <data name="q2_2_2_4" xml:space="preserve">
+    <value>Is it intended to have a biological effect or be wholly or mainly absorbed?</value>
+  </data>
+  <data name="q2_2_2_5" xml:space="preserve">
+    <value>Is it intended to undergo chemical change in the body?</value>
+  </data>
+  <data name="q2_2_2_5_3" xml:space="preserve">
+    <value>Is it intended to administer medicines?</value>
+  </data>
+  <data name="q2_2_3_1" xml:space="preserve">
+    <value>Is it intended to be placed in the teeth?</value>
+  </data>
+  <data name="q2_2_3_2" xml:space="preserve">
+    <value>Is it intended for use in direct contact with the heart or central circulatory system or the central nervous system?</value>
+  </data>
+  <data name="q2_2_3_3" xml:space="preserve">
+    <value>Is it intended to have a biological effect or be wholly or mainly absorbed?</value>
+  </data>
+  <data name="q2_2_3_4" xml:space="preserve">
+    <value>Is it intended to undergo chemical change in the body?</value>
+  </data>
+  <data name="q2_2_3_5" xml:space="preserve">
+    <value>Is it intended to administer medicines?</value>
+  </data>
+  <data name="q2_2_3_6" xml:space="preserve">
+    <value>Is it an active implantable device or its accessory?</value>
+  </data>
+  <data name="q2_2_3_7" xml:space="preserve">
+    <value>Is it a breast implant?</value>
+  </data>
+  <data name="q2_2_3_8" xml:space="preserve">
+    <value>Is it a surgical mesh?</value>
+  </data>
+  <data name="q2_2_3_9" xml:space="preserve">
+    <value>Is it a total or partial joint replacement?</value>
+  </data>
+  <data name="q2_2_3_10" xml:space="preserve">
+    <value>Is it an ancillary component of a total or partial joint replacement such as screws, wedges, plates and instruments?</value>
+  </data>
+  <data name="q2_2_3_11" xml:space="preserve">
+    <value>Is it a spinal disc replacement implant?</value>
+  </data>
+  <data name="q2_2_3_12" xml:space="preserve">
+    <value>Is it an implantable device that come into contact with the spinal column?</value>
+  </data>
+  <data name="q2_2_3_13" xml:space="preserve">
+    <value>Is it an ancillary component of a spinal disc replacement or other device that comes in contact with the spinal column such as screws, wedges, plates and instruments?</value>
+  </data>
+  <data name="q3" xml:space="preserve">
+    <value>Is your device ACTIVE?</value>
+  </data>
+  <data name="q3_1" xml:space="preserve">
+    <value>Is it therapeutic?</value>
+  </data>
+  <data name="q3_1_1" xml:space="preserve">
+    <value>TODO</value>
+  </data>
+  <data name="q3_1_3" xml:space="preserve">
+    <value>Is it intended to emit ionizing radiation?</value>
+  </data>
+  <data name="q3_1_4" xml:space="preserve">
+    <value>Is it intended for therapeutic radiology, including interventional radiology devices and devices which control or monitor such devices, or which directly influence their performance?</value>
+  </data>
+  <data name="q3_1_5" xml:space="preserve">
+    <value>Is it intended to control or monitor a device that emits ionizing radiation, or does it directly influence the performance a device that emits ionizing radiation?</value>
+  </data>
+  <data name="q3_2" xml:space="preserve">
+    <value>Is it intended to control or monitor the performance of active therapeutic class IIb devices, or intended directly to influence the performance of such devices?</value>
+  </data>
+  <data name="q3_3" xml:space="preserve">
+    <value>Is it intended for controlling, monitoring or directly influencing the performance of active implantable devices?</value>
+  </data>
+  <data name="q3_4" xml:space="preserve">
+    <value>Is it intended for diagnosis and monitoring?</value>
+  </data>
+  <data name="q3_4_1" xml:space="preserve">
+    <value>Is it intended to supply energy which will be absorbed by the human body?</value>
+  </data>
+  <data name="q3_4_1_1" xml:space="preserve">
+    <value>Is it only intended to intended to illuminate the patient's body, in the visible spectrum?</value>
+  </data>
+  <data name="q3_4_1_2" xml:space="preserve">
+    <value>Does it supply energy different than light in the visible spectrum?</value>
+  </data>
+  <data name="q3_4_1_3" xml:space="preserve">
+    <value>Is it intended to image in vivo distribution of radiopharmaceuticals?</value>
+  </data>
+  <data name="q3_4_2" xml:space="preserve">
+    <value>Is it intended to allow direct diagnosis or monitoring of vital physiological processes?</value>
+  </data>
+  <data name="q3_4_2_1" xml:space="preserve">
+    <value>Are the vital physiological processes such as the patient may be in immediate danger if the vary (example: variations in cardiac performance, respiration, activity of the central nervous system)?</value>
+  </data>
+  <data name="q3_4_2_2" xml:space="preserve">
+    <value>Is the diagnosis and monitoring done in a clinical situation while the patient is in immediate danger?</value>
+  </data>
+  <data name="q3_4_2_3" xml:space="preserve">
+    <value>TODO</value>
+  </data>
+  <data name="q3_4_3" xml:space="preserve">
+    <value>Is it intended to emit ionizing radiation for diagnostics?</value>
+  </data>
+  <data name="q3_5" xml:space="preserve">
+    <value>Is it a software?</value>
+  </data>
+  <data name="q3_5_1" xml:space="preserve">
+    <value>Is it intended to provide information which is used to take decisions with diagnosis or therapeutic purposes?</value>
+  </data>
+  <data name="q3_5_1_1" xml:space="preserve">
+    <value>Does such decision have an impact that may cause death or an irreversible deterioration of a person's state of health?</value>
+  </data>
+  <data name="q3_5_2" xml:space="preserve">
+    <value>Is it intended to monitor physiological processes?</value>
+  </data>
+  <data name="q3_5_2_1" xml:space="preserve">
+    <value>Does it monitor vital physiological parameters, where the nature of variations of those parameters is such that it could result in immediate danger to the patient?</value>
+  </data>
+  <data name="q3_6" xml:space="preserve">
+    <value>Is it intended to administer and/or remove medicinal products, body liquids or other substances to or from the body?</value>
+  </data>
+  <data name="q3_6_1" xml:space="preserve">
+    <value>Is this done in a manner that is potentially hazardous (taking account of the nature of the substances involved, of the part of the body concerned and of the mode of application)?</value>
+  </data>
+  <data name="q4" xml:space="preserve">
+    <value>Does your device incorporate a medicinal product with an ancillary function?</value>
+  </data>
+  <data name="q5" xml:space="preserve">
+    <value>Is it used for contraception or prevention of the transmission of sexually transmitted diseases?</value>
+  </data>
+  <data name="q5_1" xml:space="preserve">
+    <value>Is it implantable or long term invasive?</value>
+  </data>
+  <data name="q6" xml:space="preserve">
+    <value>Is it intended specifically to be used for disinfecting, cleaning, rinsing or, where appropriate, hydrating contact lenses?</value>
+  </data>
+  <data name="q7" xml:space="preserve">
+    <value>Is it intended specifically to be used for disinfecting or sterilising medical devices that are not contact lenses ? NOTE: If it is only intended for cleaning and only by physical action, this rule does not apply.</value>
+  </data>
+  <data name="q7_1" xml:space="preserve">
+    <value>Is it a disinfecting solution or washer-disinfector, intended specifically to be used for disinfecting invasive devices, as the end point of processing?</value>
+  </data>
+  <data name="q7_3" xml:space="preserve">
+    <value>Is it specifically intended for recording of diagnostic images generated by X-ray radiation?</value>
+  </data>
+  <data name="q8" xml:space="preserve">
+    <value>Is it manufactured utilizing tissues or cells of human or animal origin, or their derivatives, which are non-viable or rendered non-viable?</value>
+  </data>
+  <data name="q9" xml:space="preserve">
+    <value>Does it incorporate or contain nanomaterials?</value>
+  </data>
+  <data name="q9_1" xml:space="preserve">
+    <value>TODO</value>
+  </data>
+  <data name="q10" xml:space="preserve">
+    <value>Is it intended to administer medicinal products by inhalation, being an invasive device with respect to body orifices, other than surgically invasive devices?</value>
+  </data>
+  <data name="q10_1" xml:space="preserve">
+    <value>Does its mode of action have an essential impact on the efficacy and safety of the administered medicinal product?</value>
+  </data>
+  <data name="q10_2" xml:space="preserve">
+    <value>Is it intended to treat life-threatening conditions?</value>
+  </data>
+  <data name="q11" xml:space="preserve">
+    <value>Is it composed of substances or of combinations of substances that are intended to be introduced into the human body via a body orifice or applied to the skin and that are absorbed by or locally dispersed in the human body?</value>
+  </data>
+  <data name="q11_1" xml:space="preserve">
+    <value>Is it or it products of metabolism, systemically absorbed by the human body in order to achieve the intended purpose?</value>
+  </data>
+  <data name="q11_2" xml:space="preserve">
+    <value>Does it achieve its intended purpose in the stomach or lower gastrointestinal tract and it, or its products of metabolism, is systemically absorbed by the human body?</value>
+  </data>
+  <data name="q11_3" xml:space="preserve">
+    <value>Is it applied to the skin or is it are applied in the nasal or oral cavity as far as the pharynx, and achieve the intended purpose on those cavities?</value>
+  </data>
+  <data name="q12" xml:space="preserve">
+    <value>Is it an active therapeutic device with an integrated or incorporated diagnostic function that includes an integrated or incorporated diagnostic function which significantly determines the patient management by the device (example: closed loop systems or automated external defibrillators)?</value>
+  </data>
+</root>
