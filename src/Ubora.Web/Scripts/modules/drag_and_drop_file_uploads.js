@@ -15,7 +15,7 @@ export default class DragAndDropFileUploads {
     }
 
     init() {
-        const summaryValidationElement = document.querySelector('#myform > div.text-danger.validation-summary-valid');
+        const summaryValidationElement = document.querySelector('#my-dropzone > div.text-danger.validation-summary-valid');
 
         this.dropzone.on("addedfile", (file) => {
             // Custom file upload validation and avoid error 404 document type when big image
@@ -25,7 +25,7 @@ export default class DragAndDropFileUploads {
                 summaryValidationElement.innerHTML =
                     '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">Please upload a smaller file. The maximum file size is 30MB. ' +
                     file.name +
-                    ' file size is ' +
+                    ' file size was ' +
                     file.size +
                     ' btyes</span>';
             }
