@@ -10,6 +10,7 @@
 @import url('overrides/ubora_select2.css');
 @import url('overrides/card-item.css');
 @import url('overrides/feedback.css');
+@import url('overrides/drag_and_drop_file_uploads.css');
 
 @import url('page_components/header.css');
 @import url('page_components/footer.css');
