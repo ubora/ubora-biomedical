@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.Candidates.Commands;
+using Ubora.Domain.Projects._Commands;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web._Features.Projects.Dashboard;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -66,7 +68,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             var candidate = QueryProcessor.FindById<Candidate>(candidateId);
             var model = AutoMapper.Map<CandidateViewModel>(candidate);
-            model.ImageUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(candidate.ImageLocation, ImageSize.Banner1500x1125);
+            model.ImageUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(candidate.ImageLocation, ImageSize.Thumbnail400x300);
 
             return View(model);
         }
@@ -132,6 +134,33 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
                 return await EditCandidateImage(model);
             }
+
+            return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
+        }
+
+        
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveCandidateImage(RemoveCandidateImageViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(nameof(EditCandidateImage));
+            }
+
+            await _imageStorageProvider.DeleteImagesAsync(BlobLocations.GetProjectCandidateBlobLocation(ProjectId,model.Id));
+
+            ExecuteUserProjectCommand(new DeleteCandidateImageCommand
+            {
+                CandidateId = model.Id,
+                Actor = UserInfo
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return View(nameof(EditCandidateImage));
+            }
+        
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
         }

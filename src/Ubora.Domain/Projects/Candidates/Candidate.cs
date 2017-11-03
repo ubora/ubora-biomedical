@@ -1,6 +1,8 @@
 ﻿using System;
+using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Candidates.Events;
+using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.Candidates
 {
@@ -11,6 +13,10 @@ namespace Ubora.Domain.Projects.Candidates
         public string Title { get; private set; }
         public string Description { get; private set; }
         public BlobLocation ImageLocation { get; private set; }
+
+        [JsonIgnore]
+        public bool IsDefaultPicture => ImageLocation == null;
+
 
         private void Apply(CandidateAddedEvent e)
         {
@@ -30,6 +36,10 @@ namespace Ubora.Domain.Projects.Candidates
         private void Apply(CandidateImageEditedEvent e)
         {
             ImageLocation = e.ImageLocation;
+        }
+        private void Apply(CandidateImageDeletedEvent e)
+        {
+            ImageLocation = null;
         }
     }
 }
