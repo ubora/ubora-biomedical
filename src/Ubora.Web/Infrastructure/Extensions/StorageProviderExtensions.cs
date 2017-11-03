@@ -23,7 +23,7 @@ namespace Ubora.Web.Infrastructure.Extensions
         {
             if (blobLocation == null)
             {
-                return "/images/projectlogodefault_thumbnail.png";
+                return "/images/project-default-image.png";
             }
 
             return storageProvider.GetUrl(blobLocation, imageSize);
