@@ -12,6 +12,7 @@ using Ubora.Domain.Projects.Repository.Commands;
 using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Authorization;
+using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web._Features.Projects.Repository
@@ -59,12 +60,7 @@ namespace Ubora.Web._Features.Projects.Repository
         {
             if (!ModelState.IsValid)
             {
-                return Json(new
-                {
-                    success = false,
-                    errors = ModelState.Keys.SelectMany(k => ModelState[k].Errors)
-                        .Select(m => m.ErrorMessage).ToArray()
-                });
+                return ModelState.GetErrors();
             }
 
             foreach (var file in model.ProjectFiles)
@@ -85,12 +81,7 @@ namespace Ubora.Web._Features.Projects.Repository
 
                 if (!ModelState.IsValid)
                 {
-                    return Json(new
-                    {
-                        success = false,
-                        errors = ModelState.Keys.SelectMany(k => ModelState[k].Errors)
-                            .Select(m => m.ErrorMessage).ToArray()
-                    });
+                    return ModelState.GetErrors();
                 }
             }
 

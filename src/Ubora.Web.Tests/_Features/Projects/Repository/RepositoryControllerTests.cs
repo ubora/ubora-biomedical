@@ -205,11 +205,9 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             //Assert
             var addFileResponse = JsonConvert.DeserializeObject<AddFileResponse>(JsonConvert.SerializeObject(result.Value));
 
-            addFileResponse.Success.Should().BeFalse();
-
             foreach (var error in addFileResponse.Errors)
             {
-                errorMessage.Should().Contain(error);
+                errorMessage.Should().Be(error);
             }
 
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
@@ -252,12 +250,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             //Assert
             var addFileResponse = JsonConvert.DeserializeObject<AddFileResponse>(JsonConvert.SerializeObject(result.Value));
 
-            addFileResponse.Success.Should().BeFalse();
-
-            foreach (var error in addFileResponse.Errors)
-            {
-                Assert.Contains(error, commandResult.ErrorMessages.ToArray());
-            }
+            commandResult.ErrorMessages.ToArray().Should().Equal(addFileResponse.Errors);
 
             _uboraStorageProviderMock.Verify(x => x.SavePrivate(It.Is(expectedBlobLocationFunc), stream), Times.Once);
         }
@@ -610,7 +603,6 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         }
         private class AddFileResponse
         {
-            public bool Success { get; set; }
             public List<string> Errors { get; set; }
         }
     }

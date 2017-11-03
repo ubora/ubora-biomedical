@@ -34,7 +34,7 @@ export default class DragAndDropFileUploads {
 
     this.dropzone.on('success', (file, response) => {
       // Server side validation(using ajax)
-      if (response.success === false) {
+        if (response.errors !== undefined) {
         for (let i = 0; i < response.errors.length; i += 1) {
           this.dropzone.removeFile(file);
           summaryValidationElement.innerHTML =

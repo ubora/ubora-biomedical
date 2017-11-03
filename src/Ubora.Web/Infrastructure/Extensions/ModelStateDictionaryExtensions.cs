@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Ubora.Domain.Infrastructure.Commands;
 
@@ -15,6 +17,17 @@ namespace Ubora.Web.Infrastructure.Extensions
             {
                 modelState.AddModelError(string.Empty, errorMessage);
             }
+        }
+
+        public static JsonResult GetErrors(this ModelStateDictionary modelState)
+        {
+            if (modelState == null) throw new ArgumentNullException(nameof(modelState));
+
+            return new JsonResult(new
+            {
+                errors = modelState.Keys.SelectMany(k => modelState[k].Errors)
+                    .Select(m => m.ErrorMessage).ToArray()
+            });
         }
     }
 }
