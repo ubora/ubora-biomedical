@@ -72,8 +72,6 @@ export default class DragAndDropFileUploads {
   }
 }
 
-const dropzoneElement = document.querySelector('.dropzone');
-if (dropzoneElement) {
-  const fileupload = new DragAndDropFileUploads();
-  fileupload.init();
-}
+const fileupload = new DragAndDropFileUploads();
+fileupload.init();
+

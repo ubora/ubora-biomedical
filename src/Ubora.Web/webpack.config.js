@@ -12,6 +12,9 @@ module.exports = env => {
   const config = {
     stats: { modules: false },
     context: __dirname,
+    entry: {
+      drag_and_drop_file_uploads: './Scripts/modules/drag_and_drop_file_uploads.js'
+    },
     resolve: { extensions: ['.js', '.css'] },
     output: {
       filename: '[name].bundle.js',
