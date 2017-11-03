@@ -14,17 +14,17 @@
     <div class="col-sm-12 col-lg-8">
 
       <div class="row">
-        <div class="col-sm-12 col-lg-5">
+        <div class="col-sm-12 col-md-12 col-lg-5">
           <h1>Project members</h1>
         </div>
-        <div class="col-sm-12 col-lg-7 d-flex justify-content-end">
+        <div class="col-sm-12 col-md-12 col-lg-7 d-flex justify-content-end">
           <div class="row">
             @if (Model.IsProjectMember)
             {
               <div class="col">
                 <a class="btn btn-secondary-ghost align-self-start d-sm-block d-lg-inline-block" asp-controller="Members" asp-action="Invite">
                   <i class="material-icons">person_add</i>
-                  <span>Invite member to project</span>
+                  <span>Invite member</span>
                 </a>
               </div>
             }
@@ -34,7 +34,7 @@
               <div class="col">
                 <a class="btn btn-secondary-ghost align-self-start d-sm-block d-lg-inline-block" asp-controller="InviteMentors" asp-action="InviteMentors">
                   <i class="material-icons" id="MentorInviteButton">person_add</i>
-                  <span>Add mentor to project</span>
+                  <span>Add mentor</span>
                 </a>
               </div>
             }
