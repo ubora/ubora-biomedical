@@ -18,7 +18,7 @@ namespace Ubora.Web.Services
 
         public virtual Task<ApplicationUser> FindByIdAsync(Guid userId)
         {
-            return base.FindByIdAsync(userId.ToString());
+           return base.FindByIdAsync(userId.ToString());
         }
     }
 

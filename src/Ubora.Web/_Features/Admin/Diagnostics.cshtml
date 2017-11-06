@@ -13,30 +13,34 @@
               <td class="w-100">
                 <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@user.UserId">@user.UserEmail</a>
               </td>
-              <form method="post">
-                  <input type="hidden" name="userId" value="@user.UserId" />
+                <form method="post">
+                    <input type="hidden" name="userId" value="@user.UserId" />
                     <td>
-                      @if (user.IsAdmin)
-                      {
+                        @if (user.IsAdmin)
+                        {
 
-                        <button class="w-100 btn btn-primary" type="submit" asp-action="RemoveAdministratorRole">Remove administrator role</button>
-                      }
-                      else
-                      {
-                        <button class="w-100 btn btn-primary" type="submit" asp-action="AddAdministratorRole">Add administrator role</button>
-                      }
+                            <button class="w-100 btn btn-primary" type="submit" asp-action="RemoveAdministratorRole">Remove administrator role</button>
+                        }
+                        else
+                        {
+                            <button class="w-100 btn btn-primary" type="submit" asp-action="AddAdministratorRole">Add administrator role</button>
+                        }
                     </td>
                     <td>
-                      @if (user.IsMentor)
-                      {
-                        <button class="w-100 btn btn-primary" type="submit" asp-action="RemoveMentorRole">Remove mentor role</button>
-                      }
-                      else
-                      {
-                        <button class="w-100 btn btn-primary" type="submit" asp-action="AddMentorRole">Add mentor role</button>
-                      }
+                        @if (user.IsMentor)
+                        {
+                            <button class="w-100 btn btn-primary" type="submit" asp-action="RemoveMentorRole">Remove mentor role</button>
+                        }
+                        else
+                        {
+                            <button class="w-100 btn btn-primary" type="submit" asp-action="AddMentorRole">Add mentor role</button>
+                        }
                     </td>
-              </form>
+                   
+                </form>
+                <td>
+                    <a class="w-100 btn btn-danger" asp-route-userEmail="@user.UserEmail" asp-action="DeleteUser">Delete user</a>
+                </td>
             </tr>
               @*<div class="user-role-list">
                 <h4>Roles</h4>

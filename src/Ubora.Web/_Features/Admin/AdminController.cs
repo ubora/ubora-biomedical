@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Users.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 
@@ -14,6 +15,7 @@ namespace Ubora.Web._Features.Admin
     public class AdminController : UboraController
     {
         private readonly ApplicationUserManager _userManager;
+
 
         public AdminController(ApplicationUserManager userManager)
         {
@@ -104,6 +106,50 @@ namespace Ubora.Web._Features.Admin
             }
 
             return RedirectToAction(nameof(Diagnostics));
+        }
+
+        [Route(nameof(DeleteUser))]
+        public IActionResult DeleteUser(string userEmail)
+        {
+            var model = new UserViewModel
+            {
+                UserEmail = userEmail
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = ApplicationRole.Admin)]
+        [Route(nameof(DeleteUser))]
+        public async Task<IActionResult> DeleteUser(DeleteUserViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Diagnostics));
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.UserEmail);
+
+            if (user == null)
+            {
+                return RedirectToAction(nameof(Diagnostics));
+            }
+
+            ExecuteUserCommand(new DeleteUserCommand
+            {
+                UserId = user.Id
+            });
+
+            await _userManager.DeleteAsync(user);
+
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Diagnostics));
+            }
+
+            return RedirectToAction(nameof(Diagnostics));
+
         }
 
         private void AddIdentityErrorsToModelState(IdentityResult result)
