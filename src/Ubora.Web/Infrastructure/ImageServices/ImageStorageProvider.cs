@@ -100,9 +100,9 @@ namespace Ubora.Web.Infrastructure.ImageServices
             {
                 using (var image = Image.Load(stream))
                 {
-                    var cropRectangle = GetRectangle(width, height, image.Width, image.Height);
+                    //var cropRectangle = GetRectangle(width, height, image.Width, image.Height);
 
-                    image.Crop(cropRectangle)
+                    image/*Crop(cropRectangle)*/
                          .Resize(width, height)
                          .SaveAsJpeg(outputStream);
                 }
@@ -131,6 +131,7 @@ namespace Ubora.Web.Infrastructure.ImageServices
                 await _uboraStorageProvider.SavePublic(blobLocation, outputStream);
             }
         }
+      
 
         private Rectangle GetRectangle(int width, int height, int imageWidth, int imageHeight)
         {
