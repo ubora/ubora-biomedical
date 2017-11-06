@@ -41,7 +41,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             var fileName = GetFileName(model.Image);
             var candidateId = Guid.NewGuid();
             BlobLocation blobLocation = null;
-            if(model.Image != null)
+            if (model.Image != null)
             {
                 blobLocation = BlobLocations.GetProjectCandidateBlobLocation(ProjectId, candidateId);
                 var imageStream = model.Image.OpenReadStream();
@@ -101,7 +101,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return EditCandidate(model);
             }
 
-            return RedirectToAction(nameof(Candidate), new { candidateId = model.Id});
+            return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
         }
 
         public IActionResult EditCandidateImage(Guid candidateId)
@@ -117,7 +117,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             if (!ModelState.IsValid)
             {
-                return await EditCandidateImage(model);
+                return EditCandidateImage(model.Id);
             }
 
             var imageLocation = BlobLocations.GetProjectCandidateBlobLocation(ProjectId, model.Id);
@@ -132,13 +132,19 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             if (!ModelState.IsValid)
             {
-                return await EditCandidateImage(model);
+                return EditCandidateImage(model.Id);
             }
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
         }
 
-        
+        public IActionResult RemoveCandidateImage(Guid candidateId)
+        {
+            var candidate = QueryProcessor.FindById<Candidate>(candidateId);
+            var model = AutoMapper.Map<RemoveCandidateImageViewModel>(candidate);
+
+            return View(model);
+        }
 
         [HttpPost]
         public async Task<IActionResult> RemoveCandidateImage(RemoveCandidateImageViewModel model)
@@ -148,7 +154,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return View(nameof(EditCandidateImage));
             }
 
-            await _imageStorageProvider.DeleteImagesAsync(BlobLocations.GetProjectCandidateBlobLocation(ProjectId,model.Id));
+            await _imageStorageProvider.DeleteImagesAsync(BlobLocations.GetProjectCandidateBlobLocation(ProjectId, model.Id));
 
             ExecuteUserProjectCommand(new DeleteCandidateImageCommand
             {
@@ -160,7 +166,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
                 return View(nameof(EditCandidateImage));
             }
-        
+
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
         }
