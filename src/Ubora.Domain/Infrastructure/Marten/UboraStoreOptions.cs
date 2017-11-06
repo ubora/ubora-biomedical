@@ -32,14 +32,14 @@ namespace Ubora.Domain.Infrastructure.Marten
 
             return options =>
             {
-                options.AutoCreateSchemaObjects = autoCreate;
+                options.AutoCreateSchemaObjects = AutoCreate.All;
                 options.NameDataLength = 100;
                 options.PLV8Enabled = false;
 
                 options.Events.UseAggregatorLookup(AggregationLookupStrategy.UsePrivateApply);
                 options.Serializer(serializer);
 
-                options.Schema.For<UserProfile>();
+                options.Schema.For<UserProfile>().SoftDeleted();
                 options.Schema.For<DeviceClassification>();
                 options.Schema.For<ProjectFile>();
                 options.Schema.For<ProjectTask>();
