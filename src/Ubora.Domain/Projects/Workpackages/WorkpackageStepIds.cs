@@ -18,9 +18,11 @@ namespace Ubora.Domain.Projects.Workpackages
 
         #region WP2
 
-        public const string PhysicalPrinciples = nameof(PhysicalPrinciples);
-        public const string ConceptDescription = nameof(ConceptDescription);
-        public const string StructuredInformationOnTheDevice = nameof(StructuredInformationOnTheDevice);
+        public const string DescriptionOfFunctions = nameof(DescriptionOfFunctions);
+        public const string DescriptionOfMinimalRequirementsForSafetyAndIsoCompliance = nameof(DescriptionOfMinimalRequirementsForSafetyAndIsoCompliance);
+        public const string SketchesOfAlternateIdeasAndDesigns = nameof(SketchesOfAlternateIdeasAndDesigns);
+        public const string SelectionOfBestIdea = nameof(SelectionOfBestIdea);
+        public const string LatestConceptDescription = nameof(LatestConceptDescription);
 
         #endregion
     }
