@@ -1,112 +1,33 @@
-﻿@model Ubora.Web._Features.Projects.Workpackages.WorkpackageListOverviewViewModel
-@*
-    TODO: Map a tags to work package steps
-*@
+﻿@model IEnumerable<Ubora.Web._Features.Projects.Workpackages.WorkpackageMenuViewModel>
+
 <aside class="project_sidemenu">
-  <div class="">
-    <ul class="list-sidebar">
-      <li class="my-2">
-        <a href="#" class="checked-status">
-          <img class="side-menu-icon-primary mr-1" src="/images/icons/check.svg" alt="Check icon">
-          <span class="nav-label">Design planning</span>
-        </a>
-      </li>
-      <li class="my-2">
-        <a href="#" class="active-status collapsed active" data-toggle="collapse" data-target="#dashboard">
-          <img class="side-menu-icon-primary mr-1" src="/images/icons/one_active.svg" alt="Medical need and product specification icon">
-          <span class="nav-label">Medical need and product specification</span>
-        </a>
-        <ul class="sub-menu collapse" id="dashboard">
-          <li class="my-2"><a href="#" class="active-status"><img class="side-menu-icon-secondary" src="/images/icons/arrow.svg" alt="icon"><span class="ml-4">Clinical needs</span></a></li>
-          <li class="my-2"><a href="#"><img class="side-menu-icon-secondary" src="/images/icons/circle.svg" alt="icon"><span class="ml-4">Existing solutions</span></a></li>
-          <li class="my-2"><a href="#"><img class="side-menu-icon-secondary" src="/images/icons/circle.svg" alt="icon"><span class="ml-4">Intended users</span></a></li>
-          <li class="my-2"><a href="#"><img class="side-menu-icon-secondary" src="/images/icons/circle.svg" alt="icon"><span class="ml-4">Product requirements</span></a></li>
-          <li class="my-2"><a href="#"><img class="side-menu-icon-secondary" src="/images/icons/circle.svg" alt="icon"><span class="ml-4">Standards and regulations</span></a></li>
-          <li class="my-2"><a href="#"><img class="side-menu-icon-secondary" src="/images/icons/circle.svg" alt="icon"><span class="ml-4">Mentor review</span></a></li>
+    <div class="">
+        <ul class="list-sidebar">
+            <li class="my-2">
+                <a asp-action="ProjectOverview" asp-controller="WorkPackageOne" class="checked-status">
+                    <img class="side-menu-icon-primary mr-1" src="/images/icons/check.svg" alt="Check icon">
+                    <span class="nav-label">Design planning</span>
+                </a>
+            </li>
+            @foreach (var workPackage in Model)
+            {
+                <li class="my-2">
+                    <a href="#" class="@(workPackage.HasBeenAccepted ? "checked-status" : workPackage.IsMuted ? "muted-status" : "" ) collapsed active" data-toggle="collapse" data-target="#@workPackage.WorkPackageId">
+                        <img class="side-menu-icon-primary mr-1" src="@workPackage.WorkPackageImageSrc" alt="@workPackage.Title icon">
+                        <span class="nav-label">@workPackage.Title</span>
+                    </a>
+                    <ul class="sub-menu @(workPackage.IsAnyMenuLinkSelected ? "" : "collapse")" id="@workPackage.WorkPackageId">
+                        @foreach (var menuLink in workPackage.MenuLinks)
+                        {
+                            <li class="my-2">
+                                <a class="@(menuLink.IsSelected ? "active-status" : workPackage.HasBeenAccepted ? "checked-status" : "" )" href="@menuLink.Href">
+                                    <img class="side-menu-icon-secondary" src="@(menuLink.IsSelected ? "/images/icons/arrow.svg" : workPackage.HasBeenAccepted ? "/images/icons/check.svg" : "/images/icons/circle.svg")" alt="icon"><span class="ml-4">@menuLink.Name</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
         </ul>
-      </li>
-      <li class="my-2">
-        <a href="#" class="muted-status collapsed active" data-toggle="collapse" data-target="#products">
-          <img class="side-menu-icon-primary mr-1" src="/images/icons/two_muted.svg" alt="Conceptual design icon">
-          <span class="nav-label">Conceptual design</span>
-        </a>
-        <!-- <ul class="sub-menu collapse" id="products">
-          <li class="active my-2"><img class="side-menu-icon-secondary" src="/images/icons/circle.svg" alt="icon"><a href="#"><span class="ml-4">Physical principles</span></a></li>
-          <li class="my-2"><img class="side-menu-icon-secondary" src="/images/icons/circle.svg" alt="icon"><a href="#"><span class="ml-4">Voting</span></a></li>
-          <li class="my-2"><img class="side-menu-icon-secondary" src="/images/icons/circle.svg" alt="icon"><a href="#"><span class="ml-4">Concept description</span></a></li>
-          <li class="my-2"><img class="side-menu-icon-secondary" src="/images/icons/circle.svg" alt="icon"><a href="#"><span class="ml-4">Structured information on the device</span></a></li>
-        </ul> -->
-      </li>
-      <li class="my-2">
-        <a href="#" class="muted-status collapsed active">
-          <img class="side-menu-icon-primary mr-1" src="/images/icons/three_muted.svg" alt="Design and prototyping icon">
-          <span class="nav-label">Design and prototyping</span>
-        </a>
-      </li>
-      <li class="my-2">
-        <a href="#" class="muted-status collapsed active" data-toggle="collapse" data-target="#e-commerce">
-          <img class="side-menu-icon-primary mr-1" src="/images/icons/four_muted.svg" alt="Implementation icon">
-          <span class="nav-label">Implementation</span>
-        </a>
-      </li>
-      <li class="my-2">
-        <a href="" class="muted-status collapsed active">
-          <img class="side-menu-icon-primary mr-1" src="/images/icons/five_muted.svg" alt="Operation icon">
-          <span class="nav-label">Operation</span>
-        </a>
-      </li>
-      <li class="my-2">
-        <a href="#" class="muted-status collapsed active">
-          <img class="side-menu-icon-primary mr-1" src="/images/icons/six_muted.svg" alt="Project closure icon">
-          <span class="nav-label">Project closure</span>
-        </a>
-      </li>
-    </ul>
-  </div>
-
-
-    @* <ol>
-        <li class="project_sidemenu--workpackage">
-            <h3>WP1: @Model.WorkpackageOne.Title</h3>
-            <ol>
-                <li><a asp-controller="WorkpackageOne" id="ProjectOverview" asp-action="ProjectOverview">Project Overview</a></li>
-                @foreach (var step in Model.WorkpackageOne.Steps)
-                {
-                    <li>
-                        <a asp-action="Read" asp-controller="WorkpackageOne" asp-route-stepId="@step.Id">@step.Title</a>
-                    </li>
-                }
-                <li><a asp-controller="WorkpackageOne" asp-action="DeviceClassification">Device classification</a></li>
-                <li><a asp-controller="ApplicableRegulations" asp-action="Index">Regulation checklist</a></li>
-                <li><a asp-controller="WorkpackageOneReview" asp-action="Review">Formal review</a></li>
-            </ol>
-        </li>
-
-        @if (Model.WorkpackageTwo != null)
-        {
-            <li class="project_sidemenu--workpackage">
-                <h3>WP2: @Model.WorkpackageTwo.Title</h3>
-                <ol>
-                    @foreach (var step in Model.WorkpackageTwo.Steps)
-                    {
-                        <li>
-                            <a asp-action="Read" asp-controller="WorkpackageTwo" asp-route-stepId="@step.Id">
-
-                                @step.Title
-                            </a>
-                        </li>
-                    }
-                    <li>&nbsp;<a asp-controller="WorkpackageTwoReview" class="wp2 formal-review" asp-action="Review">Formal review</a></li>
-                </ol>
-            </li>
-        }
-
-        @if (Model.WorkpackageThree != null)
-        {
-            <li class="project_sidemenu--workpackage">
-                <h3>WP3: @Model.WorkpackageThree.Title</h3>
-                <p>Coming soon!</p>
-            </li>
-        }
-    </ol> *@
+    </div>
 </aside>
