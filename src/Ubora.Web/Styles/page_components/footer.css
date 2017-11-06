@@ -45,9 +45,12 @@
   display: inline-block;
   width:5em;
 }
+
+/*TODO: if integrating bootstrap delete all css from this file except this class*/
 .legal-quote {
   font-size: 80%;
   font-style: italic;
+  /*color: var(--quartinary-shade);*/
 }
 
 
@@ -66,6 +69,8 @@
   }
 }
 
-.new-footer {
+
+/*TODO: if integrating bootstrap delete all css from this file except this class*/
+/*.new-footer {
   background-color: var(--blue);
-}
+}*/
