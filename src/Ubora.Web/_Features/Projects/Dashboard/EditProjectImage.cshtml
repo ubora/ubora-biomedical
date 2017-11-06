@@ -16,7 +16,7 @@
           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
           <div class="form-group">
-              <label class="text-muted">Recommended image size is 1920x1285 px. The given image will be cropped and resized to 1500x1125 and 400x300 pixel images.</label>
+              <label class="text-muted">All pictures will be set to 4:3 ratio.</label>
               <label class="text-muted">Image has to be less than 4 MB</label>
               <span asp-validation-for="Image"></span>
               <label asp-for="Image" class="custom-file">
