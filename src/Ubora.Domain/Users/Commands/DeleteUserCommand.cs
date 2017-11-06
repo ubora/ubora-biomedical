@@ -13,7 +13,7 @@ namespace Ubora.Domain.Users.Commands
         {
         
 
-            private IDocumentSession _documentSession;
+            private readonly IDocumentSession _documentSession;
 
             public Handler(IDocumentSession documentSession)
             {
@@ -24,8 +24,9 @@ namespace Ubora.Domain.Users.Commands
             {
 
                 var user = _documentSession.LoadOrThrow<UserProfile>(cmd.UserId);
+
                 //Hard Delete 
-                _documentSession.Delete(user.UserId);
+                _documentSession.Delete<UserProfile>(user.UserId);
                 _documentSession.SaveChanges();
                 return CommandResult.Success;
             }

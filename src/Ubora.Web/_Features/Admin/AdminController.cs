@@ -126,6 +126,7 @@ namespace Ubora.Web._Features.Admin
         {
             if (!ModelState.IsValid)
             {
+                Notices.Error("Something went wrong. Deleting user failed.");
                 return RedirectToAction(nameof(Diagnostics));
             }
 
@@ -133,6 +134,7 @@ namespace Ubora.Web._Features.Admin
 
             if (user == null)
             {
+                Notices.Error("Something went wrong. Deleting user failed.");
                 return RedirectToAction(nameof(Diagnostics));
             }
 
@@ -145,9 +147,11 @@ namespace Ubora.Web._Features.Admin
 
             if (!ModelState.IsValid)
             {
+                Notices.Error("Something went wrong. Deleting user failed.");
                 return RedirectToAction(nameof(Diagnostics));
             }
 
+            Notices.Success($"User {user.Email} successfully deleted");
             return RedirectToAction(nameof(Diagnostics));
 
         }
