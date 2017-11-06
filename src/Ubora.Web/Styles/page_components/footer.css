@@ -65,3 +65,7 @@
     flex-direction: column;
   }
 }
+
+.new-footer {
+  background-color: var(--blue);
+}
