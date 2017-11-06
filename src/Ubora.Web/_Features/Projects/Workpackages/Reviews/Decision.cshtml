@@ -9,7 +9,7 @@
 
 <div class="container-fluid my-4">
     <div class="row justify-content-center">
-        <div class="col-sm-12 col-md-4">
+        <div class="col-sm-12 col-md-3">
             @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
         </div>
 
@@ -17,7 +17,7 @@
 
             <h1>Review WP1</h1>
 
-            <h4>Provide some feedback about this project. Please remember to be constructive.</h4>
+            <p>Provide some feedback about this project. Please remember to be constructive.</p>
 
             <form class="my-4" method="post">
                 @Html.AntiForgeryToken()
