@@ -46,7 +46,10 @@
 	color: var(--white);
 	background-color: var(--orange);
 	padding: 0 1rem;
+	margin-bottom: 0;
 }
+
+
 
 /*coloring text to orange*/
 .text-orange {
