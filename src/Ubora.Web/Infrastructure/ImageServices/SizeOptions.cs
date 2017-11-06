@@ -15,7 +15,7 @@ namespace Ubora.Web.Infrastructure.ImageServices
         }
 
         public static ImageSize Thumbnail400x300 = new ImageSize(400, 300);
-       // public static ImageSize Banner1500x1125 = new ImageSize(1500, 1125);
+      
 
         public override string ToString()
         {
@@ -30,7 +30,7 @@ namespace Ubora.Web.Infrastructure.ImageServices
         public static SizeOptions AllDefaultSizes = new SizeOptions
         {
             ImageSize.Thumbnail400x300,
-          //  ImageSize.Banner1500x1125
+          
         };
     }
 }
