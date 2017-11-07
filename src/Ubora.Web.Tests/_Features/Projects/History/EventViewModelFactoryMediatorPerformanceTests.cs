@@ -110,7 +110,7 @@ namespace Ubora.Web.Tests._Features.Projects.History
                 initiatedBy: _userInfo,
                 newValue: "new value",
                 title: "new title",
-                stepId: WorkpackageStepIds.DescriptionOfFunctions);
+                stepId: WorkpackageStepIds.ClinicalNeeds);
             Session.Events.Append(_projectId, editedWorkpackageTwoEvent);
             Session.SaveChanges();
         }
@@ -144,7 +144,7 @@ namespace Ubora.Web.Tests._Features.Projects.History
                 initiatedBy: _userInfo,
                 newValue: "new value",
                 title: "new title",
-                stepId: WorkpackageStepIds.DescriptionOfNeeds);
+                stepId: WorkpackageStepIds.ClinicalNeeds);
             Session.Events.Append(_projectId, editedWorkpackageOneEvent);
             Session.SaveChanges();
         }
