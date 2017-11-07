@@ -1,16 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Linq;
 using Ubora.Domain.Projects.DeviceClassification;
 using Ubora.Domain.Projects.DeviceClassification.Commands;
 using Ubora.Web._Features.Projects.DeviceClassification.Services;
 using Ubora.Web._Features.Projects.DeviceClassification.ViewModels;
+using Ubora.Web._Features.Projects.Workpackages;
 
 namespace Ubora.Web._Features.Projects.DeviceClassification
 {
     public class DeviceClassificationController : ProjectController
     {
         private readonly IDeviceClassification _deviceClassification;
+
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            base.OnActionExecuted(context);
+
+            ViewData["Title"] = "Device classification";
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.DeviceClassification;
+        }
 
         public DeviceClassificationController(
             IDeviceClassificationProvider deviceClassificationProvider)

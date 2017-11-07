@@ -100,22 +100,21 @@ namespace Ubora.Web._Features.Projects.Workpackages
             {
                 Name = "Device classification",
                 Href = Url.Action("DeviceClassification", "WorkpackageOne"),
-                IsSelected = (this.Request.Path == Url.Action("DeviceClassification", "WorkpackageOne"))
+                IsSelected = IsWorkpackageCustomMenuOptionSelected(WorkpackageMenuOption.DeviceClassification)
             });
 
             menuLinks.Add(new MenuLink
             {
                 Name = "Regulation checklist",
                 Href = Url.Action("Index", "ApplicableRegulations"),
-                IsSelected = (this.Request.Path == Url.Action("Index", "ApplicableRegulations"))
+                IsSelected = IsWorkpackageCustomMenuOptionSelected(WorkpackageMenuOption.RegulationCheckList)
             });
 
             menuLinks.Add(new MenuLink
             {
                 Name = "Mentor review",
                 Href = Url.Action("Review", "WorkpackageOneReview"),
-                IsSelected = (this.Request.Path == Url.Action("Review", "WorkpackageOneReview")
-                    || this.Request.Path == Url.Action("Decision", "WorkpackageOneReview"))
+                IsSelected = IsWorkpackageCustomMenuOptionSelected(WorkpackageMenuOption.Wp1MentorReview)
             });
 
             var workPackageMenu = new WorkpackageMenuViewModel
@@ -157,8 +156,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
             {
                 Name = "Mentor review",
                 Href = Url.Action("Review", "WorkpackageTwoReview"),
-                IsSelected = (this.Request.Path == Url.Action("Review", "WorkpackageTwoReview")
-                    || this.Request.Path == Url.Action("Decision", "WorkpackageTwoReview"))
+                IsSelected = IsWorkpackageCustomMenuOptionSelected(WorkpackageMenuOption.Wp2MentorReview)
             });
 
             var workPackageMenu = new WorkpackageMenuViewModel
@@ -248,6 +246,17 @@ namespace Ubora.Web._Features.Projects.Workpackages
         private string GetSelectedStepId()
         {
             return RouteData.Values["stepId"] as string;
+        }
+
+        private bool IsWorkpackageCustomMenuOptionSelected(WorkpackageMenuOption option)
+        {
+            var menuOption = ViewData["WorkpackageMenuOption"];
+            if (menuOption == null)
+            {
+                return false;
+            }
+
+            return (WorkpackageMenuOption)menuOption == option;
         }
     }
 }

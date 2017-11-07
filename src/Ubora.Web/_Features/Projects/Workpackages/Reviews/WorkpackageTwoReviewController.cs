@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web.Authorization;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 {
@@ -12,6 +13,14 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
     {
         private WorkpackageTwo _workpackageTwo;
         public WorkpackageTwo WorkpackageTwo => _workpackageTwo ?? (_workpackageTwo = QueryProcessor.FindById<WorkpackageTwo>(ProjectId));
+
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            base.OnActionExecuted(context);
+
+            ViewData["Title"] = "Workpackage two review";
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.Wp2MentorReview;
+        }
 
         public async Task<IActionResult> Review()
         {
