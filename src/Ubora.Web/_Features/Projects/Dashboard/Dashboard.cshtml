@@ -14,6 +14,22 @@
             <div class="col">
               <div class="card w-100 h-100">
                   <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(Model.ImagePath)?"/images/project-default-image.png":Model.ImagePath)" alt="Illustrative project photo">
+                  @if (Model.IsProjectMember)
+                  {
+                    <div class="card-img-overlay text-center">
+                    @if (Model.HasImage){
+                      <div class="flex-wrap">
+                        <a class="mx-1" asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span></a>
+                        <a class="mx-1" asp-controller="Dashboard" asp-action="RemoveProjectImage"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Remove image</span></a>
+                      </div>
+                    }
+                    else
+                    {
+                      <a asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Add image</span></a>
+                    }
+                    </div>
+
+                  }
                   @if (Model.IsInDraft)
                   {
                       <p class="project-status-draft">Draft</p>
@@ -27,26 +43,10 @@
           <div class="row mt-1">
             <div class="col d-flex justify-content-end">
               <div>
-
-
-            @if (!Model.IsProjectMember)
-            {
-                <a class="btn btn-secondary-ghost" href="@Url.Action("Join", "Members")"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
-            }
-            else
-            {
-
-                @if (Model.HasImage)
-                {
-                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span></a>
-                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="RemoveProjectImage"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Remove image</span></a>
-                }
-                else
-                {
-                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Add image</span></a>
-                }
-
-            }
+                  @if (!Model.IsProjectMember)
+                  {
+                      <a class="btn btn-secondary-ghost" href="@Url.Action("Join", "Members")"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
+                  }
                 </div>
             </div>
           </div>
