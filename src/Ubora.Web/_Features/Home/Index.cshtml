@@ -29,7 +29,7 @@
       <a class="btn btn-primary btn-disabled btn-lg align-self-end" role="button" disabled="">I have a need</a>
     </div>
     <div class="col flex-column text-center ml-1 p-5 landing-image-solution">
-        @if (User.IsEmailConfirmed())
+        @if (User.IsEmailConfirmed() || !SignInManager.IsSignedIn(User))
         {
           <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
           <a class="btn btn-primary btn-lg align-self-end" asp-controller="ProjectCreation" asp-action="Create" role="button">I have an idea</a>
