@@ -80,7 +80,7 @@ module.exports = function () {
         });
 
     this.When(/^I answer ([^\s]+) to question "([^"]*)?"$/, (answer, question) => {
-        expect(browser.isVisible("h1=" + question))
+        expect(browser.isVisibleWithinViewport("h1=" + question))
         if (answer.toLowerCase() === "yes") {
             browser.click("button=Yes")  
         } else if (answer.toLowerCase() === "no") {

@@ -66,9 +66,9 @@ Scenario: I click Repository
     When I click on the element "h4=TestProject"
         And I click on the element "a=Repository"
     Then I expect the title of the page "Repository - UBORA"
-        And I expect the element "h1=TestProject" is visible
     When I click on the element "button=Upload new file"
     Then I expect the element "span=Please select a file to upload!" is visible
+        And I expect the element "span=The FolderName field is required." is visible
 
 Scenario: I click Assignments and add an Assignment
     When I click on the element "h4=TestProject"
@@ -82,7 +82,7 @@ Scenario: I click Assignments and add an Assignment
     Then I expect the element "a=Assignment Title" is visible
     When I click on the element "a=Assignment Title"
     Then I expect the title of the page "Assignments - UBORA"
-        And I expect the element "value=Assignment Description" is visible
+        And I expect the element "textarea=Assignment Description" is visible
 
 Scenario: I click Assingments and try to add an empty Assignment
     When I click on the element "h4=TestProject"
@@ -99,7 +99,7 @@ Scenario: I click Assignments and click Discard changes in new assignment
         And I click on the element "span=Add assignment"
         And I click on the element "a=Discard changes"
     Then I expect the title of the page "Assignments - UBORA"
-        And I expect the element "a=TestProject" is visible
+        And I expect the element "h1=TestProject" is visible
 
 Scenario: I click Assignments and click Discard changes in Assignment
     When I click on the element "h4=TestProject"
@@ -128,15 +128,14 @@ Scenario: I click Members and try to add new member
         And I click on the element "a=Members"
         And I click on the element "i=person_add"
         And I set value "emailemail@email.com" to the element "#Email"
-    Then I expect the element "value=emailemail@email.com" is visible
-    When I click on the element "button=Invite member"
+        And I click on the element "button=Invite member"
     Then I expect the title of the page "Invite member - UBORA"
 
 Scenario: I click Members and on project owner
     When I click on the element "h4=TestProject"
         And I click on the element "a=Members"
         And I click on the element "a=firstName lastName"
-    Then I expect the element "p=TestFirstName TestLastName" is visible
+    Then I expect the element "h2=firstName lastName" is visible
         And I expect the title of the page "View profile - UBORA"
 
 Scenario: I click Edit image
@@ -150,15 +149,17 @@ Scenario: I click Edit Project Description
     When I click on the element "h4=TestProject"
     Then I expect the element "h2=Medical tags" is visible
     When I click on the element "span=Edit"
-        And I click on the key "Tab"
+        And I click on the element "span=Helpful tips"
+    Then I expect the element "p=Describe in few words the device technology/intended use/and intended clinical benefits of the device. Describe who are the intended users. Describe if there are some limitation about the use of the device (for example need of continuous power supply) and if there are contraindications." is visible
+    When I click on the key "Tab"
         And I click on keys "Welcome to my Project"
         And I click on the element "button=Save changes"
-    Then I expect the element "code=Welcome to my Project" is visible
+    Then I expect the element "p=Welcome to my Project" is visible
         And I expect the title of the page "Dashboard - UBORA"
 
 Scenario: I click Edit Project Description but Discard it
     When I click on the element "h4=TestProject"
-        And I click on the element "#EditProjectDescription"
+        And I click on the element "span=Edit"
         And I click on the element "a=Discard"
-    Then I expect the element "code=Welcome to my Project" is visible
+    Then I expect the element "p=Welcome to my Project" is visible
         And I expect the title of the page "Dashboard - UBORA"

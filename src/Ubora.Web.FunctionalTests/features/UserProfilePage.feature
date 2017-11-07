@@ -24,8 +24,8 @@ Scenario: I check my created profile
     When I click on the element "span=Profile"
         And I click on the element "a=Edit profile"
     Then I expect the title of the page "Edit profile - UBORA"
-        And I expect the element "value=FirstName" is visible
-        And I expect the element "value=LastName" is visible
+        And I expect the element ".form-control=firstName" is visible
+        And I expect the element "value=lastName" is visible
         And I expect the element "value=test@agileworks.eu" is visible
         And I expect the element "textarea=Bio Bio Bio, Test Test Test" is visible
         And I expect the element "option=Angola" is visible

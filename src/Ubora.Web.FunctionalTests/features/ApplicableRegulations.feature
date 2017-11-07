@@ -51,12 +51,11 @@ Scenario: Take questionnaire and answer all questions NO
     When I click on the element "button=Take questionnaire"
         And I click on the element "button=No"
         And I click on the element "button=No"
-    Then I expect the element "h1=3. Is your device “implantable” and “active”?" is visible
+    Then I expect the question "3. Is your device “implantable” and “active”?" is visible
     When I click on the element "button=No"
         And I click on the element "button=No"
-    Then I expect the element "h1=5. Does your device come in contact to the human body (any kind of contact, brief or permanent, in any location of the human body)?" is visible
+    Then I expect the question "5. Does your device come in contact to the human body (any kind of contact, brief or permanent, in any location of the human body)?" is visible
     When I click on the element "button=No"
-    Then I expect the element "p=You answered: no" is visible
         And I expect the element "a=EN ISO 14971:2012" is visible
 
 Scenario: Take questionnaire but stop it

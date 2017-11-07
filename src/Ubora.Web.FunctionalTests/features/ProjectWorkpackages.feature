@@ -18,15 +18,15 @@ Scenario: I make changes in Project overview and check them
         And I click on the element "button=Save changes"
     Then I expect the title of the page "Design planning - UBORA"
     When I click on the element "a=Project overview"
-    Then I expect the element "p=Point-of-care diagnosis" is visible
-        And I expect the element "p=Clinical microbiology" is visible
-        And I expect the element "p=Mobile-based technology" is visible
-        And I expect the element "p=Magnificent other!" is visible
+    Then I expect the element "td=Point-of-care diagnosis" is visible
+        And I expect the element "td=Clinical microbiology" is visible
+        And I expect the element "td=Mobile-based technology" is visible
+        And I expect the element "td=Magnificent other!" is visible
         And I expect the title of the page "Dashboard - UBORA"
 
 Scenario: I click different Workpackages and try to edit them
     When I click on the element "#ProjectOverview"
-    Then I expect the element "h1=Project Overview" is visible
+    Then I expect the element "h1=Design planning" is visible
     When I click on the element "a=Description of Needs"
     Then I expect the element "h1=Description of Needs" is visible
     When I click on the element "span=Edit"
@@ -64,14 +64,12 @@ Scenario: I click different Workpackages and try to edit them
     When I click on the element "span=Edit"
     Then I expect the title of the page "Additional Information - UBORA"
     When I click on the element "a=Formal review"
-    Then I expect the element "h1=Formal review" is visible
+    Then I expect the element "h1=You can submit your project for review." is visible
 
 Scenario: I Submit project for WP1 review
     When I click on the element "a=Formal review"
         And I click on the element "button=Submit project for review"
     Then I expect the title of the page "Formal review - UBORA"
-        And I expect the element "b=Status" is visible
-        And I expect the element "td=InProcess" is visible
 
 Scenario: System administrator adds Mentor to the project
     When I sign out
@@ -100,7 +98,6 @@ Scenario: Mentor accepts the mentor invitation
     Then I expect the element "a=Repository" is visible
     When I click on the element "a=Members"
     Then I expect the element "a=Test Mentor" is visible
-        And I expect the element "title=Project mentor" is visible
 
 Scenario: Project mentor rejects WP1 formal review
     When I sign out
@@ -135,7 +132,6 @@ Scenario: Project mentor accepts WP1 formal review
         And I set value "Good project man!" to the element "#ConcludingComment"
         And I click on the element "button=Accept"
     Then I expect the element "td=Accepted" is visible
-        And I expect the element "td=Good project man!" is visible
         And I expect the element "h3=WP2: Conceptual design" is visible
 
 Scenario: I click on WP2 work packages and try to edit them

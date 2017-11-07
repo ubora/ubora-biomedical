@@ -34,6 +34,7 @@ Scenario: Signed in user searches for existing project
     When I sign in as user
         And I click on the element "span=Search"
         And I set value "Est" to the element "#Title"
+        And I click on the element "button=Search"
     Then I expect the element "h4=Test title" is visible
         And I expect the element "h4=TestProject" is visible
         And I expect the title of the page "Search - UBORA"

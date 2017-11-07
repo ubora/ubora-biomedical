@@ -23,8 +23,9 @@ module.exports = function () {
         browser
         .deleteCookie(".AspNetCore.Identity.Application")
         .url('/')
-        .click('span=Log in')
-        .setValue('#Email', 'test@agileworks.eu')
+        .click('span=Log in');
+        browser.waitForEnabled('#Email');
+        browser.setValue('#Email', 'test@agileworks.eu')
         .setValue('#Password', 'ChangeMe123!')
         .click('button=Sign in')
     });
