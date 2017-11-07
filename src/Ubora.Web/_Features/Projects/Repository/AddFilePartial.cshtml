@@ -7,7 +7,10 @@
         <form id="my-dropzone">
             
              @*Drag and drop*@
-            <div class="dropzone-previews dropzone"></div>
+            <div class="dropzone-previews dropzone">
+                <div class="dz-message">Drop files here or click to upload.
+                </div>
+            </div>
 
             @Html.AntiForgeryToken()
             <div asp-validation-summary="All" class="text-danger"></div>
