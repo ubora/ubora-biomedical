@@ -7,15 +7,15 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations
 {
     public class Question : QuestionBase<Answer>
     {
-        [JsonConstructor]
-        protected Question()
-        {
-        }
-
         public Question(string id, IEnumerable<Answer> answers)
         {
             Id = id;
             Answers = answers.ToArray();
+        }
+
+        [JsonConstructor]
+        protected Question()
+        {
         }
 
         [JsonIgnore]

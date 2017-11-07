@@ -9,7 +9,7 @@ using Ubora.Domain.Questionnaires.ApplicableRegulations.Commands;
 using Ubora.Domain.Questionnaires.ApplicableRegulations.Queries;
 using Xunit;
 
-namespace Ubora.Domain.Tests.ApplicableRegulations
+namespace Ubora.Domain.Tests.Questionnaires.ApplicableRegulations
 {
     public class StartApplicableRegulationsQuestionnaireCommandHandlerTests
     {

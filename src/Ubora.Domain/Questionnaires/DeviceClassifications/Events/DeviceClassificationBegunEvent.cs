@@ -17,9 +17,6 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Events
         public DateTime StartedAt { get; private set; }
         public DeviceClassificationQuestionnaireTree QuestionnaireTree { get; private set; }
 
-        public override string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
+        public override string GetDescription() => "started classifying the device.";
     }
 }

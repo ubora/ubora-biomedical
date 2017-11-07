@@ -7,7 +7,7 @@ using Ubora.Domain.Questionnaires.ApplicableRegulations.Commands;
 using Ubora.Domain.Questionnaires.ApplicableRegulations.Events;
 using Xunit;
 
-namespace Ubora.Domain.Tests.ApplicableRegulations
+namespace Ubora.Domain.Tests.Questionnaires.ApplicableRegulations
 {
     public class AnswerApplicableRegulationsQuestionCommandIntegrationTests : IntegrationFixture
     {
@@ -43,7 +43,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
                 areaOfUsage: "",
                 potentialTechnology: "",
                 gmdn: "");
-            var questionnaireStartedEvent = new ApplicableRegulationsQuestionnaireStartedEvent(new DummyUserInfo(), _questionnaireId, _projectId, QuestionnaireTreeFactory.Create(), DateTime.UtcNow);
+            var questionnaireStartedEvent = new ApplicableRegulationsQuestionnaireStartedEvent(new DummyUserInfo(), _questionnaireId, _projectId, Domain.Questionnaires.ApplicableRegulations.ApplicableRegulationsQuestionnaireTreeFactory.Create(), DateTime.UtcNow);
 
             Session.Events.Append(_projectId, projectCreatedEvent);
             Session.SaveChanges();

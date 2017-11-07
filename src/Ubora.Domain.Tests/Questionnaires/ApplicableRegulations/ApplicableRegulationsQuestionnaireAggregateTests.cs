@@ -5,14 +5,14 @@ using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Ubora.Domain.Questionnaires.ApplicableRegulations.Events;
 using Xunit;
 
-namespace Ubora.Domain.Tests.ApplicableRegulations
+namespace Ubora.Domain.Tests.Questionnaires.ApplicableRegulations
 {
     public class ApplicableRegulationsQuestionnaireAggregateTests
     {
         [Fact]
         public void Apply_With_Stopped_Event_Sets_Value_To_FinishedAt()
         {
-            var stoppedEvent = new ApplicableRegulationsQuestionnaireStoppedEvent(new DummyUserInfo(), new Guid());
+            var stoppedEvent = new ApplicableRegulationsQuestionnaireStoppedEvent(new DummyUserInfo(), new Guid(), DateTime.UtcNow);
             var aggregate = new ApplicableRegulationsQuestionnaireAggregate();
 
             // Act
@@ -27,7 +27,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
         [Fact]
         public void Apply_With_Stopped_Event_Throws_When_Questionnaire_Already_Finished()
         {
-            var stoppedEvent = new ApplicableRegulationsQuestionnaireStoppedEvent(new DummyUserInfo(), new Guid());
+            var stoppedEvent = new ApplicableRegulationsQuestionnaireStoppedEvent(new DummyUserInfo(), new Guid(), DateTime.UtcNow);
 
             var finishTime = new DateTime(2015);
 
@@ -47,11 +47,11 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
         [Fact]
         public void Apply_With_Stopped_Event_Sets_IsStopped_True()
         {
-            var stoppedEvent = new ApplicableRegulationsQuestionnaireStoppedEvent(new DummyUserInfo(), new Guid());
+            var stoppedEvent = new ApplicableRegulationsQuestionnaireStoppedEvent(new DummyUserInfo(), new Guid(), DateTime.UtcNow);
 
             var aggregate = new ApplicableRegulationsQuestionnaireAggregate();
 
-            var mock = new Mock<QuestionnaireTree>();
+            var mock = new Mock<ApplicableRegulationsQuestionnaireTree>();
 
             mock.Setup(x => x.FindNextUnansweredQuestion())
                 .Returns(Mock.Of<Question>());
@@ -83,7 +83,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
             var finishTime = new DateTime(2015);
             var aggregate = new ApplicableRegulationsQuestionnaireAggregate();
 
-            var mock = new Mock<QuestionnaireTree>();
+            var mock = new Mock<ApplicableRegulationsQuestionnaireTree>();
 
             mock.Setup(x => x.FindNextUnansweredQuestion())
                 .Returns(Mock.Of<Question>());
@@ -104,7 +104,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
             var finishTime = new DateTime(2015);
             var aggregate = new ApplicableRegulationsQuestionnaireAggregate();
 
-            var mock = new Mock<QuestionnaireTree>();
+            var mock = new Mock<ApplicableRegulationsQuestionnaireTree>();
 
             mock.Setup(x => x.FindNextUnansweredQuestion())
                 .Returns((Question)null);

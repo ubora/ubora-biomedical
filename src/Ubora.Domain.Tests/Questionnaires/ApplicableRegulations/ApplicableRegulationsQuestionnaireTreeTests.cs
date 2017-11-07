@@ -2,17 +2,18 @@
 using FluentAssertions;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Xunit;
+
 // ReSharper disable InconsistentNaming
 
-namespace Ubora.Domain.Tests.ApplicableRegulations
+namespace Ubora.Domain.Tests.Questionnaires.ApplicableRegulations
 {
-    public class QuestionnaireTests
+    public class ApplicableRegulationsQuestionnaireTreeTests
     {
         [Fact]
         public void FindQuestionOrThrow_Finds_Question_From_Questionnaire_Tree()
         {
             var questions = CreateQuestions();
-            var questionnaire = new QuestionnaireTree(questions);
+            var questionnaire = new ApplicableRegulationsQuestionnaireTree(questions);
 
             // Act & Assert
             foreach (var q in questions)
@@ -25,7 +26,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
         public void FindPreviousAnsweredQuestionFrom_Returns_Previous_Answered_Question()
         {
             var questions = CreateQuestions();
-            var questionnaire = new QuestionnaireTree(questions);
+            var questionnaire = new ApplicableRegulationsQuestionnaireTree(questions);
 
             questions[0].ChooseAnswer("y", DateTime.UtcNow);
             questions[1].ChooseAnswer("y", DateTime.UtcNow);
@@ -42,7 +43,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
         public void FindPreviousAnsweredQuestionFrom_Returns_Previous_Answered_Question_From_All_Questions()
         {
             var questions = CreateQuestions();
-            var questionnaire = new QuestionnaireTree(questions);
+            var questionnaire = new ApplicableRegulationsQuestionnaireTree(questions);
 
             questions[0].ChooseAnswer("y", DateTime.UtcNow);
             questions[1].ChooseAnswer("y", DateTime.UtcNow);
@@ -58,7 +59,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
         public void FindPreviousAnsweredQuestionFrom_Returns_Null_When_First_Question()
         {
             var questions = CreateQuestions();
-            var questionnaire = new QuestionnaireTree(questions); ;
+            var questionnaire = new ApplicableRegulationsQuestionnaireTree(questions); ;
 
             var firstQuestion = questions[0];
             firstQuestion.ChooseAnswer("y", DateTime.UtcNow);
@@ -75,7 +76,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
         {
             var guestionNotFromTheList = new Question("1", new[] { new Answer("y", null), new Answer("n", null) });
 
-            var questionnaire = new QuestionnaireTree(questions: CreateQuestions());
+            var questionnaire = new ApplicableRegulationsQuestionnaireTree(questions: CreateQuestions());
 
             // Act
             Action result = () =>
@@ -91,7 +92,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
         public void FindNextQuestionFromAnsweredQuestion_Throws_When_Question_Is_Not_Answered()
         {
             var questions = CreateQuestions();
-            var questionnaire = new QuestionnaireTree(questions);
+            var questionnaire = new ApplicableRegulationsQuestionnaireTree(questions);
 
             questions[0].ChooseAnswer("y", DateTime.UtcNow);
 
@@ -109,7 +110,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
         public void FindNextQuestionFromAnsweredQuestion_Throws_When_Question_Is_Not_In_The_List()
         {
             var guestionNotFromTheList = new Question("1", new[] { new Answer("y", null), new Answer("n", null) });
-            var questionnaire = new QuestionnaireTree(questions: CreateQuestions());
+            var questionnaire = new ApplicableRegulationsQuestionnaireTree(questions: CreateQuestions());
 
             guestionNotFromTheList.ChooseAnswer("y", DateTime.UtcNow);
 
@@ -127,7 +128,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
         public void FindNextQuestionFromAnsweredQuestion_Returns_Null_When_Last_Question()
         {
             var onlyQuestion = new Question("1", new[] { new Answer("y", null), new Answer("n", null) });
-            var questionnaire = new QuestionnaireTree(new [] { onlyQuestion });
+            var questionnaire = new ApplicableRegulationsQuestionnaireTree(new [] { onlyQuestion });
 
             onlyQuestion.ChooseAnswer("y", DateTime.UtcNow);
 
@@ -142,7 +143,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
         public void FindNextQuestionFromAnsweredQuestion_Returns_Next_Aswered_Question()
         {
             var questions = CreateQuestions();
-            var questionnaire = new QuestionnaireTree(questions);
+            var questionnaire = new ApplicableRegulationsQuestionnaireTree(questions);
 
             questions[0].ChooseAnswer("y", DateTime.UtcNow);
             questions[1].ChooseAnswer("y", DateTime.UtcNow);
@@ -158,7 +159,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
         public void FindNextQuestionFromAnsweredQuestion_Returns_Next_Unasnwered_Question_When_There_Is_No_Answered_Questions_Left()
         {
             var questions = CreateQuestions();
-            var questionnaire = new QuestionnaireTree(questions);
+            var questionnaire = new ApplicableRegulationsQuestionnaireTree(questions);
 
             questions[0].ChooseAnswer("y", DateTime.UtcNow);
             questions[1].ChooseAnswer("y", DateTime.UtcNow);

@@ -35,7 +35,7 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Commands
                     return CommandResult.Failed("Already questionnaire running...");
                 }
 
-                var @event = new ApplicableRegulationsQuestionnaireStartedEvent(cmd.Actor, cmd.NewQuestionnaireId, project.Id, QuestionnaireTreeFactory.Create(), DateTime.UtcNow);
+                var @event = new ApplicableRegulationsQuestionnaireStartedEvent(cmd.Actor, cmd.NewQuestionnaireId, project.Id, ApplicableRegulationsQuestionnaireTreeFactory.Create(), DateTime.UtcNow);
 
                 _documentSession.Events.StartStream<ApplicableRegulationsQuestionnaireAggregate>(cmd.NewQuestionnaireId, @event);
                 _documentSession.SaveChanges();

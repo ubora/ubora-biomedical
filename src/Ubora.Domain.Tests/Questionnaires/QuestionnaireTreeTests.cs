@@ -3,9 +3,9 @@ using FluentAssertions;
 using Ubora.Domain.Questionnaires;
 using Xunit;
 
-namespace Ubora.Domain.Tests.DeviceClassifications
+namespace Ubora.Domain.Tests.Questionnaires
 {
-    public class QuestionnaireTreeTests
+    public class QuestionnaireTreeBaseTests
     {
         [Fact]
         public void ValidateQuestions_Throws_When_Not_All_Questions_Are_Present_That_Are_Specified_As_Next_Question_In_Answers()
@@ -81,7 +81,7 @@ namespace Ubora.Domain.Tests.DeviceClassifications
         }
     }
 
-    public class TestAnswer : Questionnaires.AnswerBase
+    public class TestAnswer : AnswerBase
     {
         public TestAnswer(string id, string nextQuestionId)
         {

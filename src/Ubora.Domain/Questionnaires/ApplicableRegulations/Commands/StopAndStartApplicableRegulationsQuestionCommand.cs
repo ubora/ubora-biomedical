@@ -10,7 +10,7 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Commands
         public Guid QuestionnaireId { get; set; }
         public Guid NewQuestionnaireId { get; set; }
 
-        public class Handler : ICommandHandler<StopAndStartApplicableRegulationsQuestionCommand>
+        internal class Handler : ICommandHandler<StopAndStartApplicableRegulationsQuestionCommand>
         {
             private readonly IDocumentSession _documentSession;
 
@@ -22,14 +22,15 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Commands
             public ICommandResult Handle(StopAndStartApplicableRegulationsQuestionCommand cmd)
             {
                 var aggregate = _documentSession.LoadOrThrow<ApplicableRegulationsQuestionnaireAggregate>(cmd.QuestionnaireId);
-
                 if (aggregate.IsFinished)
                 {
-                    return CommandResult.Failed("Questionnaire is already stopped");
+                    return CommandResult.Failed("Questionnaire is already stopped.");
                 }
 
-                var eventStop = new ApplicableRegulationsQuestionnaireStoppedEvent(cmd.Actor, aggregate.ProjectId);
-                var eventStart = new ApplicableRegulationsQuestionnaireStartedEvent(cmd.Actor, cmd.NewQuestionnaireId, aggregate.ProjectId, QuestionnaireTreeFactory.Create(), DateTime.UtcNow);
+                var now = DateTime.UtcNow;
+
+                var eventStop = new ApplicableRegulationsQuestionnaireStoppedEvent(cmd.Actor, aggregate.ProjectId, now);
+                var eventStart = new ApplicableRegulationsQuestionnaireStartedEvent(cmd.Actor, cmd.NewQuestionnaireId, aggregate.ProjectId, ApplicableRegulationsQuestionnaireTreeFactory.Create(), now);
 
                 _documentSession.Events.Append(cmd.QuestionnaireId, eventStop);
                 _documentSession.Events.StartStream(cmd.NewQuestionnaireId, eventStart);

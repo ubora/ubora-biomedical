@@ -1,8 +1,8 @@
 ﻿namespace Ubora.Domain.Questionnaires.ApplicableRegulations
 {
-    public static class QuestionnaireTreeFactory
+    public static class ApplicableRegulationsQuestionnaireTreeFactory
     {
-        public static QuestionnaireTree Create()
+        public static ApplicableRegulationsQuestionnaireTree Create()
         {
             var questions = new[]
             {
@@ -78,7 +78,7 @@
                 })
             };
 
-            return new QuestionnaireTree(questions);
+            return new ApplicableRegulationsQuestionnaireTree(questions);
         }
     }
 }

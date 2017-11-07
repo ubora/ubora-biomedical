@@ -36,8 +36,6 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 throw new InvalidOperationException("Condition not from questionnaire.");
             }
 
-            bool isSatisfied = true;
-
             foreach (var entry in QuestionIdsWithExpectedChosenAnswerIds)
             {
                 var question = questionnaireTree.FindQuestionOrThrow(entry.Key);
@@ -45,11 +43,11 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
 
                 if (answer.IsChosen != true)
                 {
-                    isSatisfied = false;
+                    return false;
                 }
             }
 
-            return isSatisfied;
+            return true;
         }
     }
 }

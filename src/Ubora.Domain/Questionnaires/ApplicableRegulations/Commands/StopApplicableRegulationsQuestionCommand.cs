@@ -9,7 +9,7 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Commands
     {
         public Guid QuestionnaireId { get; set; }
 
-        public class Handler : ICommandHandler<StopApplicableRegulationsQuestionnaireCommand>
+        internal class Handler : ICommandHandler<StopApplicableRegulationsQuestionnaireCommand>
         {
             private readonly IDocumentSession _documentSession;
 
@@ -21,13 +21,12 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Commands
             public ICommandResult Handle(StopApplicableRegulationsQuestionnaireCommand cmd)
             {
                 var aggregate = _documentSession.LoadOrThrow<ApplicableRegulationsQuestionnaireAggregate>(cmd.QuestionnaireId);
-
                 if (aggregate.IsFinished)
                 {
-                    return CommandResult.Failed("Questionnaire is already stopped");
+                    return CommandResult.Failed("Questionnaire is already stopped.");
                 }
 
-                var @event = new ApplicableRegulationsQuestionnaireStoppedEvent(cmd.Actor, aggregate.ProjectId);
+                var @event = new ApplicableRegulationsQuestionnaireStoppedEvent(cmd.Actor, aggregate.ProjectId, DateTime.UtcNow);
 
                 _documentSession.Events.Append(cmd.QuestionnaireId, @event);
                 _documentSession.SaveChanges();

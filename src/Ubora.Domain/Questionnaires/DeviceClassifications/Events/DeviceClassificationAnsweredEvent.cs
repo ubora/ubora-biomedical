@@ -19,9 +19,6 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Events
         public string AnswerId { get; private set; }
         public DateTime AnsweredAt { get; private set; }
 
-        public override string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
+        public override string GetDescription() => "answered a question";
     }
 }

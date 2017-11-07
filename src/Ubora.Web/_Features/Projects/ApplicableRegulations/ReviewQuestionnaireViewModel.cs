@@ -18,16 +18,13 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 
         public class Factory
         {
-            public ReviewQuestionnaireViewModel Create(QuestionnaireTree questionnaireTree)
+            public ReviewQuestionnaireViewModel Create(ApplicableRegulationsQuestionnaireTree questionnaireTree)
             {
                 if (questionnaireTree == null) { throw new ArgumentNullException(nameof(questionnaireTree)); }
 
-                var answeredQuestions = questionnaireTree.Questions
-                    .Where(x => x.IsAnswered);
-
                 return new ReviewQuestionnaireViewModel
                 {
-                    QuestionAnswerList = answeredQuestions.Select(x => new QuestionAnswerListItem
+                    QuestionAnswerList = questionnaireTree.AnsweredQuestions.Select(x => new QuestionAnswerListItem
                     {
                         QuestionText = x.QuestionText,
                         // ReSharper disable once PossibleInvalidOperationException

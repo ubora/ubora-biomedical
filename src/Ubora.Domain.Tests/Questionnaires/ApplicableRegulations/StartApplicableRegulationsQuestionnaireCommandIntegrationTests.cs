@@ -6,7 +6,7 @@ using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Ubora.Domain.Questionnaires.ApplicableRegulations.Commands;
 using Xunit;
 
-namespace Ubora.Domain.Tests.ApplicableRegulations
+namespace Ubora.Domain.Tests.Questionnaires.ApplicableRegulations
 {
     public class StartApplicableRegulationsQuestionnaireCommandIntegrationTests : IntegrationFixture
     {
@@ -43,7 +43,7 @@ namespace Ubora.Domain.Tests.ApplicableRegulations
             var actualQuestions = projectQuestionnaireAggregate.Questionnaire
                 .Questions.ToList();
 
-            var expectedQuestions = QuestionnaireTreeFactory.Create()
+            var expectedQuestions = Domain.Questionnaires.ApplicableRegulations.ApplicableRegulationsQuestionnaireTreeFactory.Create()
                 .Questions.ToList();
 
             actualQuestions.Count.Should().Be(expectedQuestions.Count);

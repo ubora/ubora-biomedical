@@ -8,7 +8,7 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations
     {
         public Guid Id { get; private set; }
         public Guid ProjectId { get; private set; }
-        public QuestionnaireTree Questionnaire { get; private set; }
+        public ApplicableRegulationsQuestionnaireTree Questionnaire { get; private set; }
         public DateTime StartedAt { get; private set; }
         public DateTime? FinishedAt { get; private set; }
         public bool IsFinished => FinishedAt.HasValue;
@@ -47,8 +47,7 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations
         {
             if (IsFinished) { throw new InvalidOperationException(); }
 
-            FinishedAt = DateTime.UtcNow;
-            
+            FinishedAt = e.StoppedAt;
         }
     }
 }
