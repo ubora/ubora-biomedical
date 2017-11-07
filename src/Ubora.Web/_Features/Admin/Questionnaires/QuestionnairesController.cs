@@ -20,7 +20,6 @@ namespace Ubora.Web._Features.Admin.Questionnaires
         public string[] Answers { get; set; }
     }
 
-
     public class Edge
     {
         public string ResourceName { get; set; }
@@ -44,6 +43,13 @@ namespace Ubora.Web._Features.Admin.Questionnaires
             var questionnaire = DeviceClassificationQuestionnaireTreeFactory.CreateDeviceClassification();
 
             return View("DeviceClassification2", questionnaire);
+        }
+
+        public IActionResult DeviceClassification3()
+        {
+            var questionnaire = DeviceClassificationQuestionnaireTreeFactory.CreateDeviceClassification();
+
+            return View("DeviceClassification3", questionnaire);
         }
     }
 }

@@ -3,6 +3,11 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Projects\DeviceClassification\**" />
+    <EmbeddedResource Remove="Projects\DeviceClassification\**" />
+    <None Remove="Projects\DeviceClassification\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Scripts\2017-02-10 project applicable regulations questionnaire.sql" />
     <None Remove="Scripts\Script0002 - Add ProjectId.sql" />
   </ItemGroup>

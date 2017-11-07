@@ -11,12 +11,10 @@ using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Notifications;
-using Module = Autofac.Module;
-using Ubora.Domain.Projects.DeviceClassification;
 
 namespace Ubora.Domain.Infrastructure
 {
-    public class DomainAutofacModule : Module
+    public class DomainAutofacModule : Autofac.Module
     {
         private readonly string _connectionString;
         private readonly IStorageProvider _storageProvider;
@@ -51,7 +49,6 @@ namespace Ubora.Domain.Infrastructure
             builder.Register(x => x.Resolve<IDocumentSession>().Events).As<IEventStore>().InstancePerLifetimeScope();
 
             builder.RegisterType<EventStreamQuery>().As<IEventStreamQuery>().InstancePerLifetimeScope();
-            builder.RegisterType<DeviceClassificationProvider>().As<IDeviceClassificationProvider>().InstancePerLifetimeScope();
             builder.RegisterType<CommandQueryProcessor>().As<ICommandProcessor>().As<IQueryProcessor>().As<ICommandQueryProcessor>().InstancePerLifetimeScope();
 
             // Storage abstraction
@@ -60,7 +57,6 @@ namespace Ubora.Domain.Infrastructure
                 .SingleInstance();
 
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(ICommandHandler<>)).InstancePerLifetimeScope();
-            builder.RegisterType<DeviceClassification>().As<IDeviceClassification>().InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();
         }

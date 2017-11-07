@@ -1,0 +1,22 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@model Ubora.Web._Features.Projects.DeviceClassifications.DeviceClassificationReviewViewModel
+
+<div class="container-fluid my-4">
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+            @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+        </div>
+        <div class="col-sm-12 col-md-8">
+            <p>Chosen class: @Model.ChosenClass</p>
+            <ul>
+                @foreach (var question in Model.Questions)
+                {
+                    <li>
+                        <h5>@question.QuestionText</h5>
+                        <p>@question.AnswerText</p>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

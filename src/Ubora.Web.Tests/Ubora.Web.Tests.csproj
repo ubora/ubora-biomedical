@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="_Features\Projects\DeviceClassification\**" />
+    <EmbeddedResource Remove="_Features\Projects\DeviceClassification\**" />
+    <None Remove="_Features\Projects\DeviceClassification\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="_Features\Projects\ApplicableRegulations\NextQuestionViewModelFactoryTests.cs" />
   </ItemGroup>
 

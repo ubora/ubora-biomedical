@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
@@ -26,20 +27,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
             if (conditions == null) throw new ArgumentNullException(nameof(conditions));
             Questions = questions ?? throw new ArgumentNullException(nameof(questions));
 
-            var conditionList = conditions.ToList();
-
-            foreach (var q in questions)
-            {
-                foreach (var a in q.Answers)
-                {
-                    if (a.GetDeviceClass() != null)
-                    {
-                        conditionList.Add(new ChosenAnswerDeviceClassCondition(q.Id, a.Id, a.GetDeviceClass()));
-                    }
-                }
-            }
-
-            Conditions = conditionList.ToArray();
+            Conditions = conditions.ToArray();
         }
 
         [JsonConstructor]
@@ -47,11 +35,16 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
         {
         }
 
+        public IEnumerable<DeviceClass> GetDeviceClassHits()
+        {
+            return Conditions.Where(x => x.IsFulfilled(this)).Select(x => x.DeviceClass);
+        }
+
         protected virtual void ValidateConditions(ChosenAnswerDeviceClassCondition[] conditions)
         {
             if (conditions == null) throw new ArgumentNullException(nameof(conditions));
 
-            // Validate 
+            // Validate questions and answers exist
             foreach (var entry in conditions.SelectMany(r => r.QuestionIdsWithExpectedChosenAnswerIds))
             {
                 var question = FindQuestionOrThrow(entry.Key);
@@ -61,6 +54,13 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 {
                     throw new InvalidOperationException($"Answer not found with ID: {entry.Value} from Question with ID: {entry.Key}");
                 }
+            }
+
+            // Validate no duplicate ID-s
+            var duplicateConditionIds = conditions.GroupBy(q => q.Id).Where(g => g.Count() > 1).Select(g => g.Key);
+            if (duplicateConditionIds.Any())
+            {
+                throw new InvalidOperationException($"Following conditon ID-s are duplicated: {string.Join(",", duplicateConditionIds)}");
             }
         }
     }

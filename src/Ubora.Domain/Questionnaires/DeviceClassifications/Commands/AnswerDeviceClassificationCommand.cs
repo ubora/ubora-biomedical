@@ -24,6 +24,12 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Commands
             {
                 var aggregate = _documentSession.LoadOrThrow<DeviceClassificationAggregate>(cmd.QuestionnaireId);
 
+                var question = aggregate.QuestionnaireTree.FindQuestionOrThrow(cmd.QuestionId);
+                if (question.IsAnswered)
+                {
+                    return CommandResult.Failed("Question already answered.");
+                }
+
                 var @event = new DeviceClassificationAnsweredEvent(
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,

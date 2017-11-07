@@ -8,21 +8,20 @@
 }
 
 <div class="container-fluid my-4">
-  <div class="row">
-    <div class="col-sm-12 col-md-4">
-      @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
-    </div>
-    <div class="col-sm-12 col-md-8 text-center">
-        @if (Model.DeviceClassification == null)
-        {
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+            @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+        </div>
+        
+        <div class="col-sm-12 col-md-8 text-center">
+            
+            <div asp-validation-summary="ModelOnly"></div>
+
             <h1 class="mb-4">Please answer to the following questionnaire to identify your device classification:</h1>
-            <a asp-controller="DeviceClassification" asp-action="GetPairedMainQuestions" class="btn btn-primary btn-lg">Go to device classification</a>
-        }
-        else
-        {
-            <h2 class="mb-4">Your current device classification: @Model.DeviceClassification</h2>
-            <a asp-controller="DeviceClassification" asp-action="GetPairedMainQuestions" class="btn btn-secondary-ghost btn-lg">Retake questionnaire?</a>
-        }
+
+            <form asp-action="Start" asp-controller="DeviceClassifications" method="post">
+                <button type="submit" class="btn btn-primary btn-lg">Take questionnaire</button>
+            </form>
+        </div>
     </div>
-  </div>
 </div>

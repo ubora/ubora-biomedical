@@ -250,7 +250,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TODO.
+        ///   Looks up a localized string similar to Is it NON-SURGICALLY INVASIVE or SURGICALLY INVASIVE?.
         /// </summary>
         public static string q2_1 {
             get {
@@ -277,7 +277,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TODO.
+        ///   Looks up a localized string similar to It is intended for class:.
         /// </summary>
         public static string q2_1_2 {
             get {
@@ -718,7 +718,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TODO.
+        ///   Looks up a localized string similar to Is it intended to allow direct diagnosis or monitoring of vital physiological processes, but the patient is not in immediate danger?.
         /// </summary>
         public static string q3_4_2_3 {
             get {
@@ -880,7 +880,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TODO.
+        ///   Looks up a localized string similar to What is the potential for internal exposure?.
         /// </summary>
         public static string q9_1 {
             get {

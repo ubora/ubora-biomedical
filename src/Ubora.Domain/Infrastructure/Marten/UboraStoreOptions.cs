@@ -9,7 +9,6 @@ using Ubora.Domain.Projects.Tasks;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Notifications;
-using Ubora.Domain.Projects.DeviceClassification;
 using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Domain.Projects.Tasks.Events;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
@@ -38,7 +37,6 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Serializer(serializer: CreateConfiguredJsonSerializer());
 
                 options.Schema.For<UserProfile>();
-                options.Schema.For<DeviceClassification>();
                 options.Schema.For<ProjectFile>();
                 options.Schema.For<ProjectTask>();
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();

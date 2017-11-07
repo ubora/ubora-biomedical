@@ -1,0 +1,58 @@
+﻿@model Ubora.Web._Features.Projects.DeviceClassifications.DeviceClassificationQuestionViewModel
+
+<div class="carousel-item @(Model.IsSelected ? "active" : "")">
+    @if (Model.IsAnswered)
+    {
+        <div class="form-group align-left w-100">
+            <div class="text-left w-100">
+                <h4>@Model.QuestionText</h4>
+            </div>
+            <div>
+                @foreach (var answerChoice in Model.Answers)
+                {
+                    <div class="form-check">
+                        <label class="form-check-label" style="color: black; font-size: 1rem">
+                            <input class="form-check-input" type="radio" ubora-disable="true" ubora-checked="@answerChoice.WasAnswerChosen.Value" />
+                            @answerChoice.AnswerText
+                        </label>
+                    </div>
+                }
+            </div>
+            @if (!Model.IsFirstQuestion)
+            {
+                <button id="previous-btn" onclick="carouselPrev()" type="submit" class="btn btn-secondary-ghost">< Previous</button>
+            }
+            <button onclick="carouselNext()" type="submit" class="btn btn-secondary-ghost">Next ></button>
+        </div>
+    }
+    else
+    {
+        <form asp-action="Answer" method="post" class="w-100">
+            <input type="hidden" asp-for="QuestionId" />
+            <input type="hidden" asp-for="QuestionnaireId" />
+            <div class="form-group align-left">
+                <div class="text-left">
+                    <h4>@Model.QuestionText</h4>
+                </div>
+                @foreach (var answerChoice in Model.Answers)
+                {
+                    <div class="form-check">
+                        <label class="form-check-label" style="color: black; font-size: 1rem">
+                            <input class="form-check-input" type="radio" name="@nameof(answerChoice.AnswerId)" value="@answerChoice.AnswerId" />
+                            @answerChoice.AnswerText
+                        </label>
+                    </div>
+                }
+            </div>
+            <div class="form-group">
+
+                <button type="submit" class="btn btn-primary">Answer</button>
+                @if (!Model.IsFirstQuestion)
+                {
+                    <button onclick="carouselPrev()" type="button" class="btn  btn-link">Go to previous question</button>
+                }
+            </div>
+        </form>
+
+    }
+</div>

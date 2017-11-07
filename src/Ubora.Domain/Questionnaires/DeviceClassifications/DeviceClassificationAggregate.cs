@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Events;
 
@@ -8,11 +9,14 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
     {
         public Guid Id { get; private set; }
         public Guid ProjectId { get; private set; }
-        public DateTime BegunAt { get; private set; }
-        public DateTime FinishedAt { get; private set; }
+        public DateTime StartedAt { get; private set; }
+        public DateTime? FinishedAt { get; private set; }
         public DeviceClassificationQuestionnaireTree QuestionnaireTree { get; private set; }
 
-        private void Apply(DeviceClassificationBegunEvent e)
+        [JsonIgnore]
+        public bool IsFinished => FinishedAt.HasValue;
+
+        private void Apply(DeviceClassificationStartedEvent e)
         {
             if (e.Id == default(Guid)) { throw new InvalidOperationException(); }
             if (e.ProjectId == default(Guid)) { throw new InvalidOperationException(); }
@@ -20,7 +24,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
 
             Id = e.Id;
             ProjectId = e.ProjectId;
-            BegunAt = e.BegunAt;
+            StartedAt = e.StartedAt;
             QuestionnaireTree = e.QuestionnaireTree;
         }
 

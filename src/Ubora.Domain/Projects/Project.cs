@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
-using Ubora.Domain.Projects.DeviceClassification;
-using Ubora.Domain.Projects.DeviceClassification.Events;
 using Ubora.Domain.Projects.Members.Events;
 using Ubora.Domain.Projects.Workpackages.Events;
 using Ubora.Domain.Projects._Events;
@@ -25,6 +23,7 @@ namespace Ubora.Domain.Projects
         public bool IsInDraft { get; private set; } = true;
         public BlobLocation ProjectImageBlobLocation { get; set; }
         public DateTime ProjectImageLastUpdated { get; private set; }
+        [JsonIgnore]
         public bool HasImage => ProjectImageBlobLocation != null;
 
         [JsonProperty(nameof(Members))]
@@ -85,14 +84,6 @@ namespace Ubora.Domain.Projects
         {
             var member = new ProjectMember(e.UserId);
             _members.Add(member);
-        }
-
-        private void Apply(EditedProjectDeviceClassificationEvent e)
-        {
-            if (e.CurrentClassification == null || e.NewClassification > e.CurrentClassification)
-            {
-                DeviceClassification = e.NewClassification.Text;
-            }
         }
 
         private void Apply(MemberRemovedFromProjectEvent e)

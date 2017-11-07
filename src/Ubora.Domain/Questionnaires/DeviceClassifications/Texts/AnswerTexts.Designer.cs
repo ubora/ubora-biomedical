@@ -88,7 +88,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it NON-SURGICALLY INVASIVE (this means that it enters in the human body but only through a body orifice and without piercing or cutting the skin or membranes)?.
+        ///   Looks up a localized string similar to NON-SURGICALLY INVASIVE (this means that it enters in the human body but only through a body orifice and without piercing or cutting the skin or membranes)?.
         /// </summary>
         public static string q2_1 {
             get {
@@ -151,7 +151,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended for connection to a class I active medical device?.
+        ///   Looks up a localized string similar to Class I active medical device.
         /// </summary>
         public static string q2_1_2 {
             get {
@@ -160,7 +160,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended for connection to a class IIa or higher class active medical device?.
+        ///   Looks up a localized string similar to Class IIa or higher class active medical device.
         /// </summary>
         public static string q2_1_3 {
             get {
@@ -169,7 +169,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it SURGICALLY INVASIVE?.
+        ///   Looks up a localized string similar to SURGICALLY INVASIVE.
         /// </summary>
         public static string q2_2 {
             get {
@@ -223,7 +223,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it in the teeth?.
+        ///   Looks up a localized string similar to In the teeth.
         /// </summary>
         public static string q2_2_3_4_1 {
             get {
@@ -232,7 +232,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it in any part of the body other than the teeth?.
+        ///   Looks up a localized string similar to In any part of the body other than the teeth.
         /// </summary>
         public static string q2_2_3_4_2 {
             get {
@@ -295,7 +295,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Does it present a high or medium potential for internal exposure?.
+        ///   Looks up a localized string similar to High or medium.
         /// </summary>
         public static string q9_1 {
             get {
@@ -304,7 +304,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Does it present a low potential for internal exposure?.
+        ///   Looks up a localized string similar to Low.
         /// </summary>
         public static string q9_2 {
             get {
@@ -313,7 +313,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Does it present a negliglible potential for internal exposure?.
+        ///   Looks up a localized string similar to Negliglible.
         /// </summary>
         public static string q9_3 {
             get {

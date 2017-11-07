@@ -6,11 +6,11 @@ using Ubora.Domain.Questionnaires.DeviceClassifications.Events;
 
 namespace Ubora.Domain.Questionnaires.DeviceClassifications.Commands
 {
-    public class BeginClassifyingDeviceCommand : UserProjectCommand
+    public class StartClassifyingDeviceCommand : UserProjectCommand
     {
         public Guid Id { get; set; }
 
-        internal class Handler : ICommandHandler<BeginClassifyingDeviceCommand>
+        internal class Handler : ICommandHandler<StartClassifyingDeviceCommand>
         {
             private readonly IDocumentSession _documentSession;
 
@@ -19,15 +19,17 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Commands
                 _documentSession = documentSession;
             }
 
-            public ICommandResult Handle(BeginClassifyingDeviceCommand cmd)
+            public ICommandResult Handle(StartClassifyingDeviceCommand cmd)
             {
                 var project = _documentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
-                var @event = new DeviceClassificationBegunEvent(
+                // THROW IF ALREADY STARTED
+
+                var @event = new DeviceClassificationStartedEvent(
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
                     id: cmd.Id,
-                    begunAt: DateTime.UtcNow,
+                    startedAt: DateTime.UtcNow,
                     questionnaireTree: DeviceClassificationQuestionnaireTreeFactory.CreateDeviceClassification());
 
                 _documentSession.Events.StartStream<DeviceClassificationAggregate>(cmd.Id, @event);

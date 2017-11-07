@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
@@ -23,6 +24,9 @@ namespace Ubora.Domain.Questionnaires
                 _questions = value;
             }
         }
+
+        [JsonIgnore]
+        public IEnumerable<TQuestion> AnsweredQuestions => _questions.Where(q => q.IsAnswered);
 
         public virtual TQuestion FindQuestionOrThrow(string id)
         {

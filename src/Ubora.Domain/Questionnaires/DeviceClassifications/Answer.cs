@@ -5,32 +5,15 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
 {
     public class Answer : AnswerBase
     {
-        [JsonConstructor]
-        protected Answer()
-        {
-        }
-
-        public Answer(string id, DeviceClass deviceClass, string nextQuestionId)
-        {
-            Id = id;
-            NextQuestionId = nextQuestionId;
-            DeviceClass = deviceClass;
-        }
-
         public Answer(string id, string nextQuestionId)
         {
             Id = id;
             NextQuestionId = nextQuestionId;
         }
 
-        private DeviceClass DeviceClass;
-
-        /// <summary>
-        /// Only relevant when constructing the questionnaire tree.
-        /// </summary>
-        public DeviceClass GetDeviceClass()
+        [JsonConstructor]
+        protected Answer()
         {
-            return DeviceClass;
         }
 
         public string Text => AnswerTexts.ResourceManager.GetString(this.Id);

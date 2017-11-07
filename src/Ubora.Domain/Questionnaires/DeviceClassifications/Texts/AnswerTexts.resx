@@ -127,7 +127,7 @@
     <value>INVASIVE</value>
   </data>
   <data name="q2_1" xml:space="preserve">
-    <value>Is it NON-SURGICALLY INVASIVE (this means that it enters in the human body but only through a body orifice and without piercing or cutting the skin or membranes)?</value>
+    <value>NON-SURGICALLY INVASIVE (this means that it enters in the human body but only through a body orifice and without piercing or cutting the skin or membranes)?</value>
   </data>
   <data name="q2_1_1_1" xml:space="preserve">
     <value>Is it intended for transient use?</value>
@@ -148,13 +148,13 @@
     <value>Is it intended for long-term use in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?</value>
   </data>
   <data name="q2_1_2" xml:space="preserve">
-    <value>Is it intended for connection to a class I active medical device?</value>
+    <value>Class I active medical device</value>
   </data>
   <data name="q2_1_3" xml:space="preserve">
-    <value>Is it intended for connection to a class IIa or higher class active medical device?</value>
+    <value>Class IIa or higher class active medical device</value>
   </data>
   <data name="q2_2" xml:space="preserve">
-    <value>Is it SURGICALLY INVASIVE?</value>
+    <value>SURGICALLY INVASIVE</value>
   </data>
   <data name="q2_2_1" xml:space="preserve">
     <value>Is it for TRANSIENT use?</value>
@@ -172,10 +172,10 @@
     <value>Is it implantable or LONG TERM use?</value>
   </data>
   <data name="q2_2_3_4_1" xml:space="preserve">
-    <value>Is it in the teeth?</value>
+    <value>In the teeth</value>
   </data>
   <data name="q2_2_3_4_2" xml:space="preserve">
-    <value>Is it in any part of the body other than the teeth?</value>
+    <value>In any part of the body other than the teeth</value>
   </data>
   <data name="q3_1_1" xml:space="preserve">
     <value>Does it administer energy to or exchange energy with the human body in a potentially hazardous way (consider nature of energy, density of energy, site of the body)?</value>
@@ -196,13 +196,13 @@
     <value>Does it monitor non-vital physiological parameters, so that the nature of variations of those parameters is such that it could never and in no cases result in immediate danger to the patient?</value>
   </data>
   <data name="q9_1" xml:space="preserve">
-    <value>Does it present a high or medium potential for internal exposure?</value>
+    <value>High or medium</value>
   </data>
   <data name="q9_2" xml:space="preserve">
-    <value>Does it present a low potential for internal exposure?</value>
+    <value>Low</value>
   </data>
   <data name="q9_3" xml:space="preserve">
-    <value>Does it present a negliglible potential for internal exposure?</value>
+    <value>Negliglible</value>
   </data>
   <data name="y" xml:space="preserve">
     <value>Yes</value>

@@ -157,7 +157,7 @@
     <value>Is it principally intended to manage the micro-environment of injured skin or mucous membrane?</value>
   </data>
   <data name="q2_1" xml:space="preserve">
-    <value>TODO</value>
+    <value>Is it NON-SURGICALLY INVASIVE or SURGICALLY INVASIVE?</value>
   </data>
   <data name="q2_1_1" xml:space="preserve">
     <value>Is it NOT intended for connection to any active medical device?</value>
@@ -166,7 +166,7 @@
     <value>TODO</value>
   </data>
   <data name="q2_1_2" xml:space="preserve">
-    <value>TODO</value>
+    <value>It is intended for class:</value>
   </data>
   <data name="q2_1_2_1" xml:space="preserve">
     <value>Is it intended for transient use?</value>
@@ -313,7 +313,7 @@
     <value>Is the diagnosis and monitoring done in a clinical situation while the patient is in immediate danger?</value>
   </data>
   <data name="q3_4_2_3" xml:space="preserve">
-    <value>TODO</value>
+    <value>Is it intended to allow direct diagnosis or monitoring of vital physiological processes, but the patient is not in immediate danger?</value>
   </data>
   <data name="q3_4_3" xml:space="preserve">
     <value>Is it intended to emit ionizing radiation for diagnostics?</value>
@@ -367,7 +367,7 @@
     <value>Does it incorporate or contain nanomaterials?</value>
   </data>
   <data name="q9_1" xml:space="preserve">
-    <value>TODO</value>
+    <value>What is the potential for internal exposure?</value>
   </data>
   <data name="q10" xml:space="preserve">
     <value>Is it intended to administer medicinal products by inhalation, being an invasive device with respect to body orifices, other than surgically invasive devices?</value>

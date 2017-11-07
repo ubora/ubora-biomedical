@@ -1,29 +1,48 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages
-@model Ubora.Web._Features.Projects.DeviceClassifications.DeviceClassificationQuestionViewModel
+@using Ubora.Web._Features.Projects._Shared
+@model IEnumerable<Ubora.Web._Features.Projects.DeviceClassifications.DeviceClassificationQuestionViewModel>
 
-<div class="container-fluid my-4">
+@{
+    ViewData["Title"] = "Device classification";
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
+
+<div class="container-fluid my-4 main">
     <div class="row">
         <div class="col-sm-12 col-md-4">
             @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
         </div>
-        <div class="col-sm-12 col-md-8 d-flex flex-column align-items-center">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <h2>@Model.Text</h2>
-
-            @foreach (var answerChoice in Model.Answers)
-            {
-                <form asp-action="Answer" method="post">
-                    <input type="hidden" asp-for="QuestionId" />
-                    <input type="hidden" asp-for="QuestionnaireId" />
-                    <input type="hidden" name="@nameof(answerChoice.AnswerId)" value="@answerChoice.AnswerId" />
-                    <button class="btn btn-secondary-ghost btn-lg" type="submit">@answerChoice.Text</button>
-                </form>
-            }
-            
-            <pre>
-@Model.Class
-</pre>
+        <div class="col-md-8 ">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div id="device-classification-carousel" class="carousel slide d-flex " data-ride="carousel">
+                        <div class="col-sm-10">
+                            <div class="carousel-inner" style="min-height: 500px;" role="listbox">
+                                @foreach (var question in Model)
+                                {
+                                    @Html.Partial("_QuestionPartial", question)
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    $('.carousel').carousel({
+        interval: false,
+        wrap: false
+    });
+
+    function carouselNext() {
+        $('#device-classification-carousel').carousel('next');
+    };
+
+    function carouselPrev() {
+        $('#device-classification-carousel').carousel('prev');
+    };
+</script>
