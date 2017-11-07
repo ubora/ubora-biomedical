@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 
@@ -16,14 +15,17 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
 
         public class Factory
         {
-            public IEnumerable<DeviceClassificationQuestionViewModel> Create(DeviceClassificationAggregate aggregate, string questionId)
+            public IEnumerable<DeviceClassificationQuestionViewModel> Create(DeviceClassificationAggregate aggregate, string selectedQuestionId)
             {
-                var questions = aggregate.QuestionnaireTree.Questions.Where(q => q.IsAnswered).ToList();
+                var questions = aggregate.QuestionnaireTree.AnsweredQuestions.ToList();
                 var nextUnansweredQuestion = aggregate.QuestionnaireTree.FindNextUnansweredQuestion();
                 if (nextUnansweredQuestion != null)
                 {
                     questions.Add(nextUnansweredQuestion);
                 }
+
+                var firstQuestionId = questions.First().Id;
+                var lastQuestionId = questions.Last().Id;
 
                 var models = questions.Select(q => new DeviceClassificationQuestionViewModel
                 {
@@ -37,9 +39,9 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
                         WasAnswerChosen = answer.IsChosen
                     }),
                     IsAnswered = q.IsAnswered,
-                    IsSelected = string.Equals(q.Id, questionId, StringComparison.InvariantCultureIgnoreCase),
-                    IsFirstQuestion = questions.First().Id == q.Id,
-                    IsLastQuestion = questions.Last().Id == q.Id
+                    IsSelected = (q.Id == selectedQuestionId),
+                    IsFirstQuestion = (firstQuestionId == q.Id),
+                    IsLastQuestion = (lastQuestionId == q.Id)
                 });
 
                 return models;

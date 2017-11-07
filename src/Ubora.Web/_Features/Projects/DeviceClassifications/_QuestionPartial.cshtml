@@ -3,7 +3,7 @@
 <div class="carousel-item @(Model.IsSelected ? "active" : "")">
     @if (Model.IsAnswered)
     {
-        <div class="form-group align-left w-100">
+        <div class="align-left w-100">
             <div class="text-left w-100">
                 <h4>@Model.QuestionText</h4>
             </div>
@@ -30,7 +30,7 @@
         <form asp-action="Answer" method="post" class="w-100">
             <input type="hidden" asp-for="QuestionId" />
             <input type="hidden" asp-for="QuestionnaireId" />
-            <div class="form-group align-left">
+            <div class="align-left">
                 <div class="text-left">
                     <h4>@Model.QuestionText</h4>
                 </div>
@@ -45,14 +45,12 @@
                 }
             </div>
             <div class="form-group">
-
-                <button type="submit" class="btn btn-primary">Answer</button>
+                <button type="submit" class="btn btn-primary mr-2">Answer</button>
                 @if (!Model.IsFirstQuestion)
                 {
-                    <button onclick="carouselPrev()" type="button" class="btn  btn-link">Go to previous question</button>
+                    <a class="align-middle" onclick="carouselPrev()" href="javascript:void(0)" >Go to previous question</a>
                 }
             </div>
         </form>
-
     }
 </div>

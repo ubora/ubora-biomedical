@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Commands;
 
@@ -81,6 +79,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
 
             if (!ModelState.IsValid)
             {
+                ModelState.Remove(nameof(model.QuestionId)); // When the question is already answered, we want a new form created with the new question ID input.
                 return ViewQuestion(model.QuestionnaireId, model.QuestionId, modelFactory);
             }
 
@@ -102,44 +101,6 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
 
             var model = modelFactory.Create(questionnaireAggregate);
             return View("Review", model);
-        }
-
-        public virtual string GetClass(Guid questionnaireId)
-        {
-            var questionnaireAggregate = QueryProcessor.FindById<DeviceClassificationAggregate>(questionnaireId);
-            var model = new DeviceClassViewModel();
-
-            var deviceClassHits = questionnaireAggregate.QuestionnaireTree.GetDeviceClassHits();
-            foreach (var deviceClass in deviceClassHits)
-            {
-                if (deviceClass.Name == "I")
-                {
-                    model.HitsForClassOne++;
-                }
-
-                if (deviceClass.Name == "IIa")
-                {
-                    model.HitsForClassTwoA++;
-                }
-
-                if (deviceClass.Name == "IIb")
-                {
-                    model.HitsForClassTwoB++;
-                }
-
-                if (deviceClass.Name == "III")
-                {
-                    model.HitsForClassThree++;
-                }
-            }
-
-            var chosenClass = deviceClassHits.Max();
-            if (chosenClass != null)
-            {
-                model.ChosenClass = chosenClass.Name;
-            }
-
-            return JsonConvert.SerializeObject(model, Formatting.Indented);
         }
     }
 }

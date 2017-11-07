@@ -12,6 +12,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
         public string PreviousAnsweredQuestionId { get; set; }
         public string NextQuestionId { get; set; }
         public string Note { get; set; }
+        public bool IsAnswered => !string.IsNullOrEmpty(Answer);
 
         public class Factory
         {
