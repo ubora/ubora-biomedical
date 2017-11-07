@@ -9,10 +9,10 @@
 
 <div class="container-fluid my-4">
   <div class="row">
-    <div class="col-sm-12 col-md-4">
+    <div class="col-lg-3">
       @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
     </div>
-    <div class="col-sm-12 col-md-8 text-center">
+    <div class="col-lg-9 pr-5 text-center">
         @if (Model.DeviceClassification == null)
         {
             <h1 class="mb-4">Please answer to the following questionnaire to identify your device classification.</h1>
