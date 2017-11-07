@@ -11,20 +11,18 @@
 <div class="container-fluid my-4">
   <div class="row">
     <div class="col justify-content-center">
-      @if (isWp1Locked)
-      {
-        <div class="row">
-          <div class="col text-center">
-            <h1>You can not edit work package when it's under review or has been accepted by review.</h1>
-          </div>
-        </div>
-      }
       <div class="row">
         <div class="col-md-4">
         @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
-      </div>
+        </div>
         <div class="col-sm-12 col-md-8">
-          <h1 class="display-4">Design planning</h1>
+          <h1>Design planning</h1>
+
+          @if (isWp1Locked)
+          {
+            <p>You can not edit work package when it's under review or has been accepted by review.</p>
+          }
+
           <form asp-controller="WorkpackageOne" asp-action="ProjectOverview" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
