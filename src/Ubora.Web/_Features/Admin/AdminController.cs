@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Ubora.Domain.Users.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
@@ -25,6 +26,7 @@ namespace Ubora.Web._Features.Admin
         [Authorize(Roles = ApplicationRole.Admin)]
         public async Task<IActionResult> Diagnostics()
         {
+
             var userViewModels = new List<UserViewModel>();
 
             foreach (var user in _userManager.Users.ToList())
@@ -39,6 +41,7 @@ namespace Ubora.Web._Features.Admin
 
             return View(nameof(Diagnostics), userViewModels);
         }
+
 
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]
@@ -111,7 +114,7 @@ namespace Ubora.Web._Features.Admin
         [Route(nameof(DeleteUser))]
         public IActionResult DeleteUser(string userEmail)
         {
-            var model = new UserViewModel
+            var model = new DeleteUserViewModel
             {
                 UserEmail = userEmail
             };
@@ -122,33 +125,38 @@ namespace Ubora.Web._Features.Admin
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]
         [Route(nameof(DeleteUser))]
+
         public async Task<IActionResult> DeleteUser(DeleteUserViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                Notices.Error("Something went wrong. Deleting user failed.");
-                return RedirectToAction(nameof(Diagnostics));
+                return await Diagnostics();
             }
 
             var user = await _userManager.FindByEmailAsync(model.UserEmail);
-
             if (user == null)
             {
-                Notices.Error("Something went wrong. Deleting user failed.");
-                return RedirectToAction(nameof(Diagnostics));
+                ModelState.AddModelError("", $"User not found by e-mail: {model.UserEmail}");
+                return await Diagnostics();
             }
 
-            ExecuteUserCommand(new DeleteUserCommand
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
             {
-                UserId = user.Id
-            });
-
-            await _userManager.DeleteAsync(user);
+                ExecuteUserCommand(new DeleteUserCommand
+                {
+                    UserId = user.Id
+                });
+            }
+            else
+            {
+                AddIdentityErrorsToModelState(result);
+            }
 
             if (!ModelState.IsValid)
             {
-                Notices.Error("Something went wrong. Deleting user failed.");
-                return RedirectToAction(nameof(Diagnostics));
+
+                return await Diagnostics();
             }
 
             Notices.Success($"User {user.Email} successfully deleted");

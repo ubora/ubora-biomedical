@@ -32,7 +32,7 @@ namespace Ubora.Domain.Infrastructure.Marten
 
             return options =>
             {
-                options.AutoCreateSchemaObjects = AutoCreate.All;
+                options.AutoCreateSchemaObjects = autoCreate;
                 options.NameDataLength = 100;
                 options.PLV8Enabled = false;
 

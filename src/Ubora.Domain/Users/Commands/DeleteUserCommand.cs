@@ -11,7 +11,6 @@ namespace Ubora.Domain.Users.Commands
         public Guid UserId { get; set; }
         public class Handler : ICommandHandler<DeleteUserCommand>
         {
-        
 
             private readonly IDocumentSession _documentSession;
 
@@ -25,9 +24,9 @@ namespace Ubora.Domain.Users.Commands
 
                 var user = _documentSession.LoadOrThrow<UserProfile>(cmd.UserId);
 
-                //Hard Delete 
                 _documentSession.Delete<UserProfile>(user.UserId);
                 _documentSession.SaveChanges();
+
                 return CommandResult.Success;
             }
         }
