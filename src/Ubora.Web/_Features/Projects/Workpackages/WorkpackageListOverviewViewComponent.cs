@@ -67,6 +67,9 @@ namespace Ubora.Web._Features.Projects.Workpackages
             workPackageMenuViewModels.Add(CreateWorkpackageOneMenuViewModel());
             workPackageMenuViewModels.Add(CreateWorkpackageTwoMenuViewModel());
             workPackageMenuViewModels.Add(CreateWorkpackageThreeMenuViewModel());
+            workPackageMenuViewModels.Add(CreateWorkpackageFourMenuViewModel());
+            workPackageMenuViewModels.Add(CreateWorkpackageFiveMenuViewModel());
+            workPackageMenuViewModels.Add(CreateWorkpackageSixMenuViewModel());
 
             return View("~/_Features/Projects/Workpackages/_WorkpackageListOverviewPartial.cshtml", workPackageMenuViewModels);
         }
@@ -204,6 +207,42 @@ namespace Ubora.Web._Features.Projects.Workpackages
             };
 
             return workPackageMenu;
+        }
+
+        private WorkpackageMenuViewModel CreateWorkpackageFourMenuViewModel()
+        {
+            return new WorkpackageMenuViewModel
+            {
+                Title = "Implementation",
+                WorkPackageId = "workpackageFour",
+                MenuLinks = new List<MenuLink>(),
+                IsMuted = true,
+                IconMutedSrc = "/images/icons/four_muted.svg"
+            };
+        }
+
+        private WorkpackageMenuViewModel CreateWorkpackageFiveMenuViewModel()
+        {
+            return new WorkpackageMenuViewModel
+            {
+                Title = "Operation",
+                WorkPackageId = "workpackageFive",
+                MenuLinks = new List<MenuLink>(),
+                IsMuted = true,
+                IconMutedSrc = "/images/icons/five_muted.svg"
+            };
+        }
+
+        private WorkpackageMenuViewModel CreateWorkpackageSixMenuViewModel()
+        {
+            return new WorkpackageMenuViewModel
+            {
+                Title = "Project closure",
+                WorkPackageId = "workpackageSix",
+                MenuLinks = new List<MenuLink>(),
+                IsMuted = true,
+                IconMutedSrc = "/images/icons/six_muted.svg"
+            };
         }
 
         private string GetSelectedStepId()
