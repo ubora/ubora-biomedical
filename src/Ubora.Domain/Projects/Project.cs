@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
-using Ubora.Domain.Projects.DeviceClassification;
 using Ubora.Domain.Projects.DeviceClassification.Events;
 using Ubora.Domain.Projects.Members.Events;
 using Ubora.Domain.Projects.Workpackages.Events;
@@ -23,9 +22,11 @@ namespace Ubora.Domain.Projects
         public string DeviceClassification { get; private set; }
         public string Description { get; private set; }
         public bool IsInDraft { get; private set; } = true;
-        public BlobLocation ProjectImageBlobLocation { get; set; }
+        public BlobLocation ProjectImageBlobLocation { get; private set; }
         public DateTime ProjectImageLastUpdated { get; private set; }
+        [JsonIgnore]
         public bool HasImage => ProjectImageBlobLocation != null;
+        public bool IsDeleted { get; private set; }
 
         [JsonProperty(nameof(Members))]
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
@@ -39,6 +40,7 @@ namespace Ubora.Domain.Projects
             }
             private set { }
         }
+
 
         public bool HasMember<T>(Guid userId) where T : ProjectMember
         {
@@ -137,6 +139,12 @@ namespace Ubora.Domain.Projects
             }
 
             _members.Add(new ProjectMentor(e.UserId));
+        }
+
+        private void Apply(ProjectDeletedEvent e)
+        {
+            if (IsDeleted) { throw new InvalidOperationException(); }
+            IsDeleted = true;
         }
 
         public override string ToString()

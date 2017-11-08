@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FluentAssertions;
+using Marten.Linq.SoftDeletes;
 using TestStack.BDDfy;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects._Commands;
@@ -15,11 +14,12 @@ namespace Ubora.Domain.Tests.Projects._Commands
         private readonly Guid _projectId = Guid.NewGuid();
 
         [Fact]
-        public void Foo()
+        public void Project_Can_Be_Deleted()
         {
             this.Given(_ => this.Create_Project(_projectId))
                 .When(_ => this.Delete_Project())
-                .Then(_ => this.Assert_No_Events_For_Project_Exist())
+                //.Then(_ => this.Assert_No_Events_For_Project_Exist())
+                .Then(_ => this.Assert_Project_Is_Marked_As_Deleted())
                 .BDDfy();
         }
 
@@ -42,6 +42,15 @@ namespace Ubora.Domain.Tests.Projects._Commands
                 .Where(e => e.StreamId == _projectId);
 
             projectEvents.Should().BeEmpty();
+        }
+
+        private void Assert_Project_Is_Marked_As_Deleted()
+        {
+            var project = Session.Load<Project>(_projectId);
+            project.IsDeleted.Should().BeTrue();
+
+            var softDeletedProject = Session.Query<Project>().Single(p => p.IsDeleted());
+            softDeletedProject.Id.Should().Be(project.Id);
         }
     }
 }

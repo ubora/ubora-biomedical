@@ -31,7 +31,7 @@
         var canDeleteProject = (await AuthorizationService.AuthorizeAsync(User, Policies.CanDeleteProject)).Succeeded;
     }
     @if (canDeleteProject){
-        <form asp-controller="Dashboard" asp-action="DeleteProject" method="post">
+        <form asp-controller="DeleteProject" asp-action="DeleteProject" method="post">
 
             <h2>Delete project</h2>
             <div class="center-element">

@@ -1,7 +1,7 @@
 ﻿using Marten;
 using System.Linq;
 using System.Threading.Tasks;
-using Ubora.Domain.Projects;
+using Ubora.Domain.Users;
 
 namespace Ubora.Web.Infrastructure.DataSeeding
 {
@@ -25,7 +25,7 @@ namespace Ubora.Web.Infrastructure.DataSeeding
 
         internal async Task SeedIfNecessary()
         {
-            var isSeedNecessary = !_documentSession.Query<Project>().Any();
+            var isSeedNecessary = !_documentSession.Query<UserProfile>().Any();
             if (!isSeedNecessary)
             {
                 return;
