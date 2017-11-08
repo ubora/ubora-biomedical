@@ -16,7 +16,7 @@
         @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
         </div>
         <div class="col-sm-12 col-md-8">
-          <h1>Design planning</h1>
+          <h1 class="display-4">Design planning</h1>
 
           @if (isWp1Locked)
           {
@@ -150,15 +150,15 @@
             @if (!isWp1Locked)
             {
               <div class="d-flex justify-content-center flex-md-row flex-sm-column">
-                <a class="btn btn-secondary-ghost btn-lg" asp-controller="WorkpackageOne" asp-action="ProjectOverview" role="button">Discard changes</a>
+                <a class="btn btn-secondary-ghost" asp-controller="WorkpackageOne" asp-action="ProjectOverview" role="button">Discard</a>
                 <span class="m-1"></span>
-                <button class="btn btn-primary btn-lg" type="submit">Save changes</button>
+                <button class="btn btn-primary" type="submit">Save changes</button>
               </div>
             }
             else
             {
                 <div class="text-center">
-                    <button class="btn btn-primary btn-disabled btn-lg" disabled="">Save changes</button>
+                    <button class="btn btn-primary btn-disabled" disabled="">Save changes</button>
                 </div>
             }
         </form>
