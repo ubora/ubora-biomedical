@@ -2,11 +2,19 @@
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Commands;
+using Ubora.Web._Features.Projects.ApplicableRegulations;
 
 namespace Ubora.Web._Features.Projects.DeviceClassifications
 {
     public class DeviceClassificationsController : ProjectController
     {
+        public virtual IActionResult Index([FromServices]DeviceClassificationIndexViewModel.Factory modelFactory)
+        {
+            var model = modelFactory.Create(this.ProjectId);
+
+            return View("DeviceClassificationIndex", model);
+        }
+
         [HttpPost]
         public IActionResult Start()
         {

@@ -53,14 +53,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View();
         }
 
-        [Route(nameof(DeviceClassification))]
-        public IActionResult DeviceClassification()
-        {
-            var model = AutoMapper.Map<DeviceClassificationViewModel>(Project);
-
-            return View(nameof(DeviceClassification), model);
-        }
-
         [Route("{stepId}")]
         public IActionResult Read(string stepId)
         {
