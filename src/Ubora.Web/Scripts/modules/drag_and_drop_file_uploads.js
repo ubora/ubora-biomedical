@@ -17,28 +17,13 @@ export default class DragAndDropFileUploads {
   init() {
     const summaryValidationElement = document.querySelector('#my-dropzone > div.text-danger.validation-summary-valid');
 
-    this.dropzone.on('addedfile', (file) => {
-      // Custom file upload validation and avoid error 404 document type when big image
-      if (file.size > 31457280) {
-          this.dropzone.removeFile(file);
-          summaryValidationElement.innerHTML =
-              `<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">Please upload a smaller file. The maximum file size is 30MB. ${
-              file.name
-              } file size was ${
-              file.size
-              } bytes</span>`;
-      } else {
-          summaryValidationElement.innerHTML = '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true"></span>';
-      }
-    });
-
     this.dropzone.on('success', (file, response) => {
       // Server side validation(using ajax)
-        if (response.errors !== undefined) {
+      if (response.errors !== undefined) {
         for (let i = 0; i < response.errors.length; i += 1) {
           this.dropzone.removeFile(file);
           summaryValidationElement.innerHTML =
-                        `<div class="text-danger validation-summary-errors" data-valmsg-summary="true"><ul><li>${
+            `<div class="text-danger validation-summary-errors" data-valmsg-summary="true"><ul><li>${
                           response.errors[i]
                         }</li></ul></div>`;
         }
@@ -52,20 +37,37 @@ export default class DragAndDropFileUploads {
     submitButton.addEventListener(
       'click',
       () => {
+
         // Custom file upload validation
-        if (this.dropzone.files.length > 5) {
+        let isValidFileSize = true;
+
+        if (this.dropzone.files.length < 1) {
           summaryValidationElement.innerHTML =
-                        '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">You can not upload any more files. Its 5 maximum number of files.</span>';
-        } else if (this.dropzone.files.length < 1) {
-          summaryValidationElement.innerHTML =
-                        '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">Please select a file to upload!</span>';
-        } else {
-          summaryValidationElement.innerHTML = '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true"></span>';
+            '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">Please select a file to upload!</span>';
         }
 
-        // Client side validation(using jquery validation unobtrusive)
-        if ($('form#my-dropzone').valid() && this.dropzone.files.length < 6 && this.dropzone.files.length > 0) {
-            this.dropzone.processQueue();
+        for (var value of this.dropzone.files) {
+
+          if (this.dropzone.files.length > 5) {
+            summaryValidationElement.innerHTML =
+              '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">You can not upload any more files. Its 5 maximum number of files.</span>';
+          } else {
+            summaryValidationElement.innerHTML = '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true"></span>';
+          }
+
+          if (value.size > 4000000) {
+            isValidFileSize = false;
+          }
+        }
+
+        if (!isValidFileSize) {
+          summaryValidationElement.innerHTML =
+            `<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">Please upload a smaller file. The maximum file size is 4MB. </span>`;
+        }
+
+        // Client side validation(using jquery validation unobtrusive) and upload.
+        if ($('form#my-dropzone').valid() && this.dropzone.files.length < 6 && this.dropzone.files.length > 0 && isValidFileSize === true) {
+          this.dropzone.processQueue();
         }
       }
     );
