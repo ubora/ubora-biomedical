@@ -33,7 +33,7 @@ else if (Model.ShowDefaultMessage)
     <div class="col d-flex flex-column">
       <div class="text-center">
         <h2 class="display-4">No current projects</h2>
-        @if(User.IsEmailConfirmed()) 
+        @if(await AuthorizationService.IsAuthorized(User, Policies.CanCreateProject)) 
         {
           <p>You can help by <a asp-controller="ProjectCreation" asp-action="Create">creating a new project</a>!</p>
         }

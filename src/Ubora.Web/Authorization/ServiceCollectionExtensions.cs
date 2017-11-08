@@ -29,32 +29,27 @@ namespace Ubora.Web.Authorization
 
                 options.AddPolicy(nameof(Policies.CanRemoveProjectMember), policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
 
                 options.AddPolicy(nameof(Policies.CanReviewProjectWorkpackages), policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsProjectMentorRequirement());
                 });
 
                 options.AddPolicy(nameof(Policies.CanSubmitWorkpackageForReview), policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
 
                 options.AddPolicy(nameof(Policies.CanEditWorkpackageOne), policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                     policyBuilder.AddRequirements(new IsWorkpackageOneNotLockedRequirement());
                 });
 
                 options.AddPolicy(nameof(Policies.CanHideProjectFile), policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
 
@@ -68,6 +63,16 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsEmailConfirmedRequirement());
+                });
+
+                options.AddPolicy(nameof(Policies.CanChangeProjectImage), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
+                });
+
+                options.AddPolicy(nameof(Policies.CanEditProjectDescription), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                 });
             });
 

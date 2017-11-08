@@ -10,92 +10,91 @@
 
     <div class="row">
         <div class="col-sm-12 col-lg-6">
-          <div class="row">
-            <div class="col">
-              <div class="card w-100 h-100">
-                  <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(Model.ImagePath)?"/images/project-default-image.png":Model.ImagePath)" alt="Illustrative project photo">
-                  @if (Model.IsInDraft)
-                  {
-                      <p class="project-status-draft">Draft</p>
-                  }
-                  <div class="card-body">
-                      <h4 class="card-title mt-3">@Model.Title</h4>
-                  </div>
-              </div>
-            </div>
-          </div>
-          <div class="row mt-1">
-            <div class="col d-flex justify-content-end flex-wrap">
-                <div>
-                    @if (!Model.IsProjectMember && User.IsEmailConfirmed())
-                    {
-                    <a class="btn btn-secondary-ghost" href="@Url.Action(" Join", "Members" )"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
-                    }
-                    else
-                    {
-
-                    @if (Model.HasImage && User.IsEmailConfirmed())
-                    {
-                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span></a>
-                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="RemoveProjectImage"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Remove image</span></a>
-                    }
-                    else if(User.IsEmailConfirmed())
-                    {
-                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Add image</span></a>
-                    }
-
-                    }
+            <div class="row">
+                <div class="col">
+                    <div class="card w-100 h-100">
+                        <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(Model.ImagePath)?"/images/project-default-image.png":Model.ImagePath)" alt="Illustrative project photo">
+                        @if (Model.IsInDraft)
+                        {
+                            <p class="project-status-draft">Draft</p>
+                        }
+                        <div class="card-body">
+                            <h4 class="card-title mt-3">@Model.Title</h4>
+                        </div>
+                    </div>
                 </div>
             </div>
-          </div>
+            <div class="row mt-1">
+                <div class="col d-flex justify-content-end flex-wrap">
+                    <div>
+                        @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorized(User, Policies.CanJoinProject))
+                        {
+                            <a class="btn btn-secondary-ghost" href="@Url.Action(" Join", "Members" )"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
+                        }
+
+                        @if (await AuthorizationService.IsAuthorized(User, Policies.CanChangeProjectImage))
+                        {
+                            if (Model.HasImage)
+                            {
+                                <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span></a>
+                                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="RemoveProjectImage"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Remove image</span></a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Add image</span></a>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-sm-12 col-lg-6">
             <h2>Medical tags</h2>
             <div class="table-responsive">
-              <table class="table table-medical-tags">
-                  <tbody>
-                      <tr>
-                          <th class="w-50" scope="row">
-                              <h3 class="display-5">Clinical need:</h3>
-                          </th>
-                          <td>
-                              @Model.ClinicalNeedTags
-                          </td>
-                      </tr>
-                      <tr>
-                          <th scope="row">
-                              <h3 class="display-5">Clinical area:</h3>
-                          </th>
-                          <td>
-                              @Model.AreaOfUsageTags
-                          </td>
-                      </tr>
-                      <tr>
-                          <th scope="row">
-                              <h3 class="display-5">Technology:</h3>
-                          </th>
-                          <td>
-                              @Model.PotentialTechnologyTags
-                          </td>
-                      </tr>
-                      <tr>
-                          <th scope="row">
-                              <h3 class="display-5">Project keywords:</h3>
-                          </th>
-                          <td>
-                              @Model.Gmdn
-                          </td>
-                      </tr>
-                      <tr>
-                          <th scope="row">
-                              <h3 class="display-5">Device classification:</h3>
-                          </th>
-                          <td>
-                              @Model.DeviceClassification
-                          </td>
-                      </tr>
-                  </tbody>
-              </table>
+                <table class="table table-medical-tags">
+                    <tbody>
+                        <tr>
+                            <th class="w-50" scope="row">
+                                <h3 class="display-5">Clinical need:</h3>
+                            </th>
+                            <td>
+                                @Model.ClinicalNeedTags
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <h3 class="display-5">Clinical area:</h3>
+                            </th>
+                            <td>
+                                @Model.AreaOfUsageTags
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <h3 class="display-5">Technology:</h3>
+                            </th>
+                            <td>
+                                @Model.PotentialTechnologyTags
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <h3 class="display-5">Project keywords:</h3>
+                            </th>
+                            <td>
+                                @Model.Gmdn
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <h3 class="display-5">Device classification:</h3>
+                            </th>
+                            <td>
+                                @Model.DeviceClassification
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -107,23 +106,23 @@
                     <h2>Project description</h2>
                 </div>
                 <div class="col-sm-12 col-lg-2 d-flex align-items-center justify-content-end">
-                    @if (Model.IsProjectMember && User.IsEmailConfirmed())
+                    @if (await AuthorizationService.IsAuthorized(User, Policies.CanEditProjectDescription))
                     {
                         <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectDescription" id="EditProjectDescription"><i class="material-icons align-middle">mode_edit</i><span class="align-middle">Edit</span></a>
                     }
                 </div>
             </div>
             <div class="row">
-              <div class="col">
-                @if (!string.IsNullOrWhiteSpace(Model.Description))
-                {
-                    <div class="text-markdown">@Model.Description</div>
-                }
-                else
-                {
-                    <p class="text_placeholder">No project description set yet.</p>
-                }
-              </div>
+                <div class="col">
+                    @if (!string.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        <div class="text-markdown">@Model.Description</div>
+                    }
+                    else
+                    {
+                        <p class="text_placeholder">No project description set yet.</p>
+                    }
+                </div>
             </div>
         </div>
     </div>
