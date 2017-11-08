@@ -9,21 +9,22 @@
 
 <div class="container-fluid my-4 main">
     <div class="row">
-        <div class="col-sm-12 col-md-4">
+        <div class="col-lg-3">
             @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
         </div>
-        <div class="col-md-8 ">
-            <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="col-lg-9 pr-5">
             <div class="row">
-                <div class="col-sm-12 col-md-12">
+                <div class="col-lg-12">
                     <div id="device-classification-carousel" class="carousel slide d-flex " data-ride="carousel">
-                        <div class="col-sm-10">
-                            <div class="carousel-inner" style="min-height: 500px;" role="listbox">
-                                @foreach (var question in Model)
-                                {
-                                    @Html.Partial("_QuestionPartial", question)
-                                }
-                            </div>
+                        <div class="col-lg-10">
+                          <div asp-validation-summary="All" class="text-danger"></div>
+
+                          <div class="carousel-inner" style="min-height: 500px;" role="listbox">
+                              @foreach (var question in Model)
+                              {
+                                  @Html.Partial("_QuestionPartial", question)
+                              }
+                          </div>
                         </div>
                     </div>
                 </div>
