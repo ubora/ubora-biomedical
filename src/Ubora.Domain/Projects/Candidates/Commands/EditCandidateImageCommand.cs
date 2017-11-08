@@ -19,6 +19,8 @@ namespace Ubora.Domain.Projects.Candidates.Commands
 
             public override ICommandResult Handle(EditCandidateImageCommand cmd)
             {
+                var candidate = DocumentSession.LoadOrThrow<Candidate>(cmd.Id);
+
                 var @event = new CandidateImageEditedEvent(
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,

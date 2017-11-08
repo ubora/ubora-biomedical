@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Ubora.Domain.Projects.Candidates;
+using Ubora.Domain.Projects.Candidates.Specifications;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web._Features._Shared;
@@ -71,8 +72,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Route(nameof(Voting))]
         public IActionResult Voting()
         {
-            var candidates = QueryProcessor.Find<Candidate>()
-                .Where(c => c.ProjectId == ProjectId);
+            var candidates = QueryProcessor.Find(new IsProjectCandidateSpec(ProjectId));
 
             var candidateViewModels = candidates.Select(candidate => _candidateItemViewModelFactory.Create(candidate));
             var model = new VotingViewModel();

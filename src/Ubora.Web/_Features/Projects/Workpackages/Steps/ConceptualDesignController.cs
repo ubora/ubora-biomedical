@@ -38,7 +38,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return AddCandidate();
             }
 
-            var fileName = GetFileName(model.Image);
+            var fileName = model.Image.GetFileName();
             var candidateId = Guid.NewGuid();
             BlobLocation blobLocation = null;
             if (model.Image != null)
@@ -86,7 +86,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             if (!ModelState.IsValid)
             {
-                return EditCandidate(model);
+                return EditCandidate(model.Id);
             }
 
             ExecuteUserProjectCommand(new EditCandidateCommand
@@ -98,7 +98,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             if (!ModelState.IsValid)
             {
-                return EditCandidate(model);
+                return EditCandidate(model.Id);
             }
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
@@ -169,18 +169,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
-        }
-
-        private string GetFileName(IFormFile projectFile)
-        {
-            if (projectFile != null)
-            {
-                var filePath = projectFile.FileName.Replace(@"\", "/");
-                var fileName = Path.GetFileName(filePath);
-                return fileName;
-            }
-
-            return "";
         }
     }
 }

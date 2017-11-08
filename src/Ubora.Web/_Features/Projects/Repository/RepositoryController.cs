@@ -13,6 +13,7 @@ using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Projects.Repository
 {
@@ -63,7 +64,7 @@ namespace Ubora.Web._Features.Projects.Repository
 
             foreach (var file in model.ProjectFiles)
             {
-                var fileName = GetFileName(file);
+                var fileName = file.GetFileName();
                 var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
                 await SaveBlobAsync(file, blobLocation);
 
@@ -115,7 +116,7 @@ namespace Ubora.Web._Features.Projects.Repository
             }
 
             var file = QueryProcessor.FindById<ProjectFile>(model.FileId);
-            var fileName = GetFileName(model.ProjectFile);
+            var fileName = model.ProjectFile.GetFileName();
 
             var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
             await SaveBlobAsync(model.ProjectFile, blobLocation);
@@ -196,18 +197,6 @@ namespace Ubora.Web._Features.Projects.Repository
         {
             var fileStream = projectFile.OpenReadStream();
             await _uboraStorageProvider.SavePrivate(blobLocation, fileStream);
-        }
-
-        private string GetFileName(IFormFile projectFile)
-        {
-            if (projectFile != null)
-            {
-                var filePath = projectFile.FileName.Replace(@"\", "/");
-                var fileName = Path.GetFileName(filePath);
-                return fileName;
-            }
-
-            return "";
         }
     }
 }

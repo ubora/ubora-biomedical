@@ -57,12 +57,12 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
 
         private void Assert_CandidateAdded_Is_Added_In_Events()
         {
-            var fileAddedEvents = Session.Events.QueryRawEventDataOnly<CandidateAddedEvent>();
+            var candidateAddedEvents = Session.Events.QueryRawEventDataOnly<CandidateAddedEvent>();
 
-            fileAddedEvents.Count().Should().Be(1);
-            fileAddedEvents.First().Id.Should().Be(_candidateId);
-            fileAddedEvents.First().ProjectId.Should().Be(_projectId);
-            fileAddedEvents.First().ImageLocation.BlobPath.Should().Be(_imageLocation.BlobPath);
+            candidateAddedEvents.Count().Should().Be(1);
+            candidateAddedEvents.First().Id.Should().Be(_candidateId);
+            candidateAddedEvents.First().ProjectId.Should().Be(_projectId);
+            candidateAddedEvents.First().ImageLocation.BlobPath.Should().Be(_imageLocation.BlobPath);
         }
     }
 }
