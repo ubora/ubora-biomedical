@@ -1,12 +1,22 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Commands;
+using Ubora.Web._Features.Projects._Shared;
 
 namespace Ubora.Web._Features.Projects.DeviceClassifications
 {
     public class DeviceClassificationsController : ProjectController
     {
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            ViewData["Title"] = "Device classfication";
+            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+        }
+
         public virtual IActionResult Index([FromServices]DeviceClassificationIndexViewModel.Factory modelFactory)
         {
             var model = modelFactory.Create(this.ProjectId);

@@ -10,9 +10,9 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 {
     public class ApplicableRegulationsController : ProjectController
     {
-        public override void OnActionExecuted(ActionExecutedContext context)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
-            base.OnActionExecuted(context);
+            base.OnActionExecuting(context);
 
             ViewData["Title"] = "Applicable regulations questionnaire";
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
