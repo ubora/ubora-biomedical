@@ -1,5 +1,5 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages
-@model Ubora.Web._Features.Projects.ApplicableRegulations.QuestionnaireIndexViewModel
+@model Ubora.Web._Features.Projects.DeviceClassifications.DeviceClassificationIndexViewModel
 
 <div class="container-fluid my-4">
     <div class="row">
@@ -10,7 +10,7 @@
             <div class="row">
                 <div asp-validation-summary="ModelOnly"></div>
                 <div class="col-sm-12 text-center">
-                    <h1 class="mb-4">Please take the questionnaire to identify applicable regulations:</h1>
+                    <h1 class="mb-4">Please answer to the following questionnaire to identify your device classification:</h1>
                 </div>
 
                 @if (Model.Last == null || Model.Last.IsFinished)
@@ -28,11 +28,8 @@
                     {
                         <div class="col-sm-12 text-center d-flex justify-content-center flex-wrap-reverse">
 
-                            <form asp-action="Stop" method="post">
-                                <button class="btn btn-secondary-ghost btn-lg d-sm-block d-lg-inline-block" type="submit" asp-action="Retake" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Retake questionnaire</button>
-                            </form>
                             <span class="mx-1"></span>
-                            <a class="btn btn-primary btn-lg d-sm-block d-lg-inline-block" asp-controller="ApplicableRegulations" asp-action="CurrentUnansweredQuestion" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Continue answering</a>
+                            <a class="btn btn-primary btn-lg d-sm-block d-lg-inline-block" asp-controller="DeviceClassifications" asp-action="Current" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Continue answering</a>
 
                         </div>
                         <div class="col-sm-12 text-center my-2">
@@ -44,7 +41,7 @@
                     {
                         <div class="col my-2 text-center">
                             <h3>Last results:</h3>
-                            <a asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">@Model.Last.StartedAt</a>
+                            <a asp-controller="DeviceClassifications" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">@Model.Last.StartedAt</a>
                         </div>
                     }
 
@@ -56,7 +53,7 @@
                                 @foreach (var questionnaire in Model.Previous)
                                 {
                                     <li class="d-flex justify-content-center my-2">
-                                        <a asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@questionnaire.QuestionnaireId">@questionnaire.StartedAt</a>
+                                        <a asp-controller="DeviceClassifications" asp-action="Review" asp-route-questionnaireId="@questionnaire.QuestionnaireId">@questionnaire.StartedAt</a>
                                     </li>
                                 }
                             </ul>

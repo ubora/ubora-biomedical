@@ -16,6 +16,9 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
         [JsonIgnore]
         public bool IsFinished => FinishedAt.HasValue;
 
+        [JsonIgnore]
+        public bool IsStopped => FinishedAt.HasValue && QuestionnaireTree.FindNextUnansweredQuestion() != null;
+
         private void Apply(DeviceClassificationStartedEvent e)
         {
             if (e.Id == default(Guid)) { throw new InvalidOperationException(); }

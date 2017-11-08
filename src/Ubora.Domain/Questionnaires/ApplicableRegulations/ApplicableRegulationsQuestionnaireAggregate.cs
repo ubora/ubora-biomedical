@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Questionnaires.ApplicableRegulations.Events;
 
@@ -12,8 +13,8 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations
         public DateTime StartedAt { get; private set; }
         public DateTime? FinishedAt { get; private set; }
         public bool IsFinished => FinishedAt.HasValue;
+        [JsonIgnore]
         public bool IsStopped => FinishedAt.HasValue && Questionnaire.FindNextUnansweredQuestion() != null;
-      
 
         private void Apply(ApplicableRegulationsQuestionnaireStartedEvent e)
         {
