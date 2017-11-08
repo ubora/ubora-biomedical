@@ -52,6 +52,10 @@
           </div>
         </div>
         <div class="col-sm-12 col-lg-6">
+            @if (Model.IsProjectMember)
+            {
+                <a asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@Url.Action("Dashboard","Dashboard")">EDIT</a>
+            }
             <h2>Medical tags</h2>
             <div class="table-responsive">
               <table class="table table-medical-tags">
