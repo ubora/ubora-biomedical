@@ -1,3 +1,15 @@
 ﻿.dropzone-previews {
-    min-width: 350px;
+    min-width: 450px;
+}
+
+#my-dropzone .dropzone {
+  /*border: 2px solid var(--secondary-shade);*/
+  border: none;
+  background-color: var(--quartinary-shade);
+}
+
+.dropzone-previews .dz-message .material-icons {
+  /*color: var(--tertiary-shade);*/
+  color: var(--primary-shade);
+  font-size: 5rem!important;
 }
