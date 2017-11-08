@@ -6,6 +6,10 @@
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
-<section class="project-view medium-width">
-    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
-</section>
+<div class="container-fluid my-4">
+  <div class="row">
+    <div class="col">
+      @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+    </div>
+  </div>
+</div>

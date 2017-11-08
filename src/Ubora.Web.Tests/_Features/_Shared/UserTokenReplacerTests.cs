@@ -41,11 +41,11 @@ namespace Ubora.Web.Tests._Features._Shared
                 .Returns(user2);
 
             _urlHelperMock.Setup(h => h.Action(It.Is<UrlActionContext>(
-                    x => x.Action == "View" && x.Controller == "Profile" && x.Values.GetPropertyValue<Guid>("userId") == user1.UserId)))
+                    x => x.Action == "ViewProfile" && x.Controller == "Profile" && x.Values.GetPropertyValue<Guid>("userId") == user1.UserId)))
                 .Returns("user1link");
 
             _urlHelperMock.Setup(h => h.Action(It.Is<UrlActionContext>(
-                    x => x.Action == "View" && x.Controller == "Profile" && x.Values.GetPropertyValue<Guid>("userId") == user2.UserId)))
+                    x => x.Action == "ViewProfile" && x.Controller == "Profile" && x.Values.GetPropertyValue<Guid>("userId") == user2.UserId)))
                 .Returns("user2link");
 
             var encodedUser1Name = "encodedUser1Name";

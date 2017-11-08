@@ -1,6 +1,8 @@
 ﻿@model Ubora.Web._Features.Projects.History.GeneralEventViewModel
 
-<li class="history-list-item">
-    @Model.Message
-    <p class="history-timestamp timeago" title="@Model.Timestamp">@Model.Timestamp.ToString("dd.MM.yyyy")</p>
+<li class="list-group-item">
+  <div class="col d-flex flex-column">
+    <span>@Model.Message</span>
+    <span class="history-timestamp timeago" title="@Model.Timestamp">@Model.Timestamp.ToString("dd.MM.yyyy")</span>
+  </div>
 </li>

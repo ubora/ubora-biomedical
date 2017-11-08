@@ -1,0 +1,7 @@
+.table-level-of-completion .progress-bar.bg-success {
+  background-color: var(--green) !important;
+}
+
+.table-level-of-completion .progress-bar.bg-warning {
+  background-color: var(--orange) !important;
+}

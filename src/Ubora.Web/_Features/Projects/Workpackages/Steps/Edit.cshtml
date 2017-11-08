@@ -7,41 +7,49 @@
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
-<section class="project-view full-width">
-    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+<div class="container-fluid my-4">
+  <div class="row">
+    <div class="col-sm-12 col-md-4">
+      @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+    </div>
+    <div class="col-sm-12 col-md-8">
+      <h2>@Model.Title</h2>
+      @if (!string.IsNullOrWhiteSpace(Model.Description))
+      {
+        <div class="my-2">
+          <a href="#" class="js-helpful-tips" role="button">
+            <i class="align-middle material-icons">help</i>
+            <span>Helpful tips</span>
+          </a>
+        </div>
+        <p class="helpful-tips-content js-helpful-tips-content">@Model.Description</p>
+        <script>
+          const helpfulTipToggleElement = document.querySelector('.js-helpful-tips');
+          const helpfulTipContentElement = document.querySelector('.js-helpful-tips-content');
 
-    <section class="medium-width step-view">
+          helpfulTipToggleElement.addEventListener('click', event => {
+            helpfulTipContentElement.classList.toggle('helpful-tips-content-visible');
+          });
+        </script>
+      }
+      <form action="@Model.EditStepUrl" method="post" asp-antiforgery="true">
+        <input asp-for="StepId" type="hidden" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <h1 class="full-width">@Model.Title</h1>
+        <div class="form-group">
+          <textarea class="content_editable" asp-for="Content" rows="8"></textarea>
+          <span asp-validation-for="Content"></span>
+        </div>
 
-        @if (!string.IsNullOrWhiteSpace(Model.Description))
-        {
-            <div class="step-tips">
-                <h6>Helpful tips</h6>
-                <p class="step-tips--text">@Model.Description</p>
-            </div>
-        }
-
-        <form action="@Model.EditStepUrl" method="post" asp-antiforgery="true">
-            <h6>Your input</h6>
-            <input asp-for="StepId" type="hidden" />
-
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <label>
-                <textarea class="content_editable" asp-for="Content" rows="8"></textarea>
-                <span asp-validation-for="Content"></span>
-            </label>
-
-            <div class="center-element">
-                <a class="button secondary-button small-button" href="@Model.ReadStepUrl">Discard</a>
-                <button class="button primary-button small-button" type="submit">Save changes</button>
-            </div>
-
-        </form>
-
-    </section>
-</section>
+        <div class="d-flex flex-wrap-reverse justify-content-center">
+          <a class="btn btn-secondary-ghost btn-lg" href="@Model.ReadStepUrl">Discard</a>
+          <span class="mx-1"></span>
+          <button class="btn btn-primary btn-lg" type="submit">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 @section Scripts {
   <link rel="stylesheet"

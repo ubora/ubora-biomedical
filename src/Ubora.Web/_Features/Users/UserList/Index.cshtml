@@ -5,13 +5,24 @@
     ViewData["Title"] = "View members";
 }
 
-<section class="full-width user-list">
-    @foreach (var user in Model)
-    {
-        <div class="card user-card center-element">
-            <img class="avatar" src="@user.ProfilePictureLink" alt="@user.FullName profile picture" width="100" height="100">
-            <h2>@Html.ActionLink(user.FullName, "ViewProfile", "Profile", new { userId = user.UserId }, new {@class = "user-card--name"})</h2>
-            <a class="user-card--email" href="mailto:@user.Email?Subject=Message%20from%20UBORA">@user.Email</a>
-        </div>
-    }
-</section>
+<div class="container-fluid">
+  <div class="row">
+        @foreach (var user in Model)
+        {
+          <div class="col-sm-12 col-md-4 col-lg-3 my-2">
+            <div class="card w-100 h-100 text-center">
+              <div class="d-flex justify-content-center h-100">
+                <img class="card-img-top mt-4 mb-2" src="@user.ProfilePictureLink" alt="@user.FullName profile picture" width="100" height="100">
+              </div>
+              <div class="card-body">
+                <h2 class="card-title">@Html.ActionLink(user.FullName, "ViewProfile", "Profile", new { userId = user.UserId }, new {@class = "user-card--name"})</h2>
+              </div>
+              <div class="card-footer">
+                <a class="card-link" href="mailto:@user.Email?Subject=Message%20from%20UBORA">@user.Email</a>
+              </div>
+            </div>
+          </div>
+
+        }
+  </div>
+</div>
