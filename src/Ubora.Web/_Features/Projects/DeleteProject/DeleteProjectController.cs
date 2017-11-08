@@ -15,9 +15,21 @@ namespace Ubora.Web._Features.Projects.DeleteProject
     [Authorize(Policies.CanDeleteProject)]
     public class DeleteProjectController : ProjectController
     {
-        [HttpPost]
+       
         [Authorize(Policies.CanDeleteProject)]
         public IActionResult DeleteProject()
+        {
+            //   await _storageProvider.DeleteBlobAsync(BlobLocation.ContainerNames.Projects, ProjectId.ToString());
+            var model = new DeleteProjectViewModel
+            {
+                Title = Project.Title
+            };
+           
+            return View(model);
+        }
+        [HttpPost]
+        [Authorize(Policies.CanDeleteProject)]
+        public IActionResult DeleteProject(DeleteProjectViewModel model)
         {
             //   await _storageProvider.DeleteBlobAsync(BlobLocation.ContainerNames.Projects, ProjectId.ToString());
 

@@ -7,16 +7,6 @@
     ViewData["MenuOption"] = ProjectMenuOption.Overview;
 }
 
-
-@{
-    var canDeleteProject = (await AuthorizationService.AuthorizeAsync(User, Policies.CanDeleteProject)).Succeeded;
-}
-@if (canDeleteProject)
-{
-    <div class="col align-self-end">
-        <a asp-controller="DeleteProject" asp-action="DeleteProject"><i class="material-icons align-middle">delete_forever</i><span class="align-middle"></span></a>
-    </div>
-}
 <div class="container-fluid col-md-8 my-4">
     <div class="row">
         <div class="col-sm-12 col-lg-6">
@@ -38,15 +28,12 @@
                 <div class="col d-flex justify-content-end">
                     <div>
 
-
-
                         @if (!Model.IsProjectMember)
                         {
                             <a class="btn btn-secondary-ghost" href="@Url.Action("Join", "Members")"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
                         }
                         else
                         {
-
                             @if (Model.HasImage)
                             {
                                 <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span></a>
@@ -56,7 +43,6 @@
                             {
                                 <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Add image</span></a>
                             }
-
                         }
                     </div>
                 </div>
@@ -140,7 +126,18 @@
             </div>
         </div>
     </div>
-
+    <div>
+        <hr />
+        @{
+            var canDeleteProject = (await AuthorizationService.AuthorizeAsync(User, Policies.CanDeleteProject)).Succeeded;
+        }
+        @if (canDeleteProject)
+            {
+            <div>
+                <a class="btn btn-secondary-ghost" asp-controller="DeleteProject" asp-action="DeleteProject"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete project</span></a>
+            </div>
+        }
+    </div>
     @*TODO: level of completion implementation*@
     @*<div class="row">
           <div class="col px-0">
@@ -222,7 +219,6 @@
             </div>
           </div>
         </div>*@
-
 </div>
 
 @section Scripts {
