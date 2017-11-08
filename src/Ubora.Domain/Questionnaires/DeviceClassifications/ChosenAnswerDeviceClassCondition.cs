@@ -11,16 +11,20 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
         public DeviceClass DeviceClass { get; protected set; }
         public Dictionary<string, string> QuestionIdsWithExpectedChosenAnswerIds { get; protected set; } // Not the greatest name.
 
-        public ChosenAnswerDeviceClassCondition(string questionId, string answerId, DeviceClass deviceClass)
-            : this($"{questionId}+{answerId}", new Dictionary<string, string> { { questionId, answerId} }, deviceClass)
-        {
-        }
-
-        public ChosenAnswerDeviceClassCondition(string ruleId, Dictionary<string, string> questionIdsWithExpectedChosenAnswerIds, DeviceClass deviceClass)
+        public ChosenAnswerDeviceClassCondition(string id, Dictionary<string, string> questionIdsWithExpectedChosenAnswerIds, DeviceClass deviceClass)
         {
             QuestionIdsWithExpectedChosenAnswerIds = questionIdsWithExpectedChosenAnswerIds ?? throw new ArgumentNullException(nameof(questionIdsWithExpectedChosenAnswerIds));
             DeviceClass = deviceClass ?? throw new ArgumentNullException(nameof(deviceClass));
-            Id = ruleId ?? throw new ArgumentNullException(nameof(ruleId));
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+            Id = id;
+        }
+
+        public ChosenAnswerDeviceClassCondition(string questionId, string answerId, DeviceClass deviceClass)
+            : this($"{questionId}+{answerId}", new Dictionary<string, string> { { questionId, answerId} }, deviceClass)
+        {
         }
 
         [JsonConstructor]
