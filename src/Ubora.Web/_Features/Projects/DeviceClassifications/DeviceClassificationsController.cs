@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Commands;
-using Ubora.Web._Features.Projects.ApplicableRegulations;
 
 namespace Ubora.Web._Features.Projects.DeviceClassifications
 {
@@ -16,7 +15,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
         }
 
         [HttpPost]
-        public IActionResult Start()
+        public IActionResult Start([FromServices]DeviceClassificationIndexViewModel.Factory modelFactory)
         {
             var id = Guid.NewGuid();
             ExecuteUserProjectCommand(new StartClassifyingDeviceCommand
@@ -26,8 +25,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
 
             if (!ModelState.IsValid)
             {
-                throw new InvalidOperationException("TODO");
-                //return Index();
+                return Index(modelFactory);
             }
 
             return RedirectToAction(nameof(Current), new { questionnaireId = id });

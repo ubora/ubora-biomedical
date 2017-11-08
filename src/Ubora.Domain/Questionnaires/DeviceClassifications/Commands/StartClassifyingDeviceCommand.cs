@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
@@ -23,7 +24,12 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Commands
             {
                 var project = _documentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
-                // THROW IF ALREADY STARTED
+                var isQuestionnaireAlreadyRunning = _documentSession.Query<DeviceClassificationAggregate>()
+                    .Any(x => x.ProjectId == project.Id && x.FinishedAt == null);
+                if (isQuestionnaireAlreadyRunning)
+                {
+                    return CommandResult.Failed("Already questionnaire running...");
+                }
 
                 var @event = new DeviceClassificationStartedEvent(
                     initiatedBy: cmd.Actor,
