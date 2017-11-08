@@ -60,7 +60,7 @@ namespace Ubora.Web._Features.Projects.Repository
         {
             if (!ModelState.IsValid)
             {
-                return ModelState.GetErrors();
+                return ModelState.ToJsonResult();
             }
 
             foreach (var file in model.ProjectFiles)
@@ -81,7 +81,7 @@ namespace Ubora.Web._Features.Projects.Repository
 
                 if (!ModelState.IsValid)
                 {
-                    return ModelState.GetErrors();
+                    return ModelState.ToJsonResult();
                 }
             }
 

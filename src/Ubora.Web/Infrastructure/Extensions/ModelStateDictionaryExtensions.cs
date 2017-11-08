@@ -19,7 +19,7 @@ namespace Ubora.Web.Infrastructure.Extensions
             }
         }
 
-        public static JsonResult GetErrors(this ModelStateDictionary modelState)
+        public static JsonResult ToJsonResult(this ModelStateDictionary modelState)
         {
             if (modelState == null) throw new ArgumentNullException(nameof(modelState));
 

@@ -3,7 +3,6 @@ export default class DragAndDropFileUploads {
     Dropzone.autoDiscover = false;
 
     this.dropzone = new Dropzone('form#my-dropzone', {
-      url: `${window.location.href}/AddFile`,
       autoProcessQueue: false,
       paramName: () => 'ProjectFiles',
       uploadMultiple: true,
@@ -45,37 +44,39 @@ export default class DragAndDropFileUploads {
       'click',
       () => {
 
+        const setError = (text) => {
+            return `<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">${text} </span>`;
+          }
+
         // Custom file upload validation
         let isValidFileSize = true;
 
         if (this.dropzone.files.length < 1) {
-          summaryValidationElement.innerHTML =
-            '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">Please select a file to upload!</span>';
+          summaryValidationElement.innerHTML = setError('Please select a file to upload!');
         }
 
-        for (var value of this.dropzone.files) {
+        for (var file of this.dropzone.files) {
 
           if (this.dropzone.files.length > 5) {
-            summaryValidationElement.innerHTML =
-              '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">You can not upload any more files. Its 5 maximum number of files.</span>';
+            summaryValidationElement.innerHTML = setError('You can not upload any more files. Its 5 maximum number of files.');
           } else {
-            summaryValidationElement.innerHTML = '<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true"></span>';
+              summaryValidationElement.innerHTML = setError('');
           }
 
-          if (value.size > 4000000) {
+          if (file.size > 4000000) {
             isValidFileSize = false;
           }
         }
 
         if (!isValidFileSize) {
-          summaryValidationElement.innerHTML =
-            `<span class="field-validation-error" data-valmsg-for="ProjectFiles" data-valmsg-replace="true">Please upload a smaller file. The maximum file size is 4MB. </span>`;
+          summaryValidationElement.innerHTML = setError('Please upload a smaller file. The maximum file size is 4MB.');
         }
 
         // Client side validation(using jquery validation unobtrusive) and upload.
         if ($('form#my-dropzone').valid() && this.dropzone.files.length < 6 && this.dropzone.files.length > 0 && isValidFileSize === true) {
           this.dropzone.processQueue();
         }
+
       }
     );
   }
