@@ -1,11 +1,12 @@
 using System;
 using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Events
 {
-    public class ApplicableRegulationsQuestionAnsweredEvent : UboraEvent
+    public class ApplicableRegulationsQuestionAnsweredEvent : ProjectEvent
     {
-        public ApplicableRegulationsQuestionAnsweredEvent(UserInfo initiatedBy, Guid questionnaireId, string questionId, string answerId, DateTime answeredAt) : base(initiatedBy)
+        public ApplicableRegulationsQuestionAnsweredEvent(UserInfo initiatedBy, Guid projectId, Guid questionnaireId, string questionId, string answerId, DateTime answeredAt) : base(initiatedBy, projectId)
         {
             QuestionnaireId = questionnaireId;
             QuestionId = questionId;

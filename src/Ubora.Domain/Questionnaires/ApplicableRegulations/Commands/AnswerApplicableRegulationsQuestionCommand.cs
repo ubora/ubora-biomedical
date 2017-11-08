@@ -30,7 +30,13 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Commands
                     return CommandResult.Failed("Question has already been answered. Please reload the questionnaire.");
                 }
 
-                var @event = new ApplicableRegulationsQuestionAnsweredEvent(cmd.Actor, cmd.QuestionnaireId, cmd.QuestionId, cmd.AnswerId, DateTime.UtcNow);
+                var @event = new ApplicableRegulationsQuestionAnsweredEvent(cmd.Actor, 
+                    projectId: cmd.ProjectId, 
+                    questionnaireId: cmd.QuestionnaireId,
+                    questionId: cmd.QuestionId,
+                    answerId: cmd.AnswerId, 
+                    answeredAt: DateTime.UtcNow);
+
                 _documentSession.Events.Append(cmd.QuestionnaireId, @event);
                 _documentSession.SaveChanges();
 

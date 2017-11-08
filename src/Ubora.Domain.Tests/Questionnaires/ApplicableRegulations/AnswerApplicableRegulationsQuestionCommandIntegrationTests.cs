@@ -43,7 +43,7 @@ namespace Ubora.Domain.Tests.Questionnaires.ApplicableRegulations
                 areaOfUsage: "",
                 potentialTechnology: "",
                 gmdn: "");
-            var questionnaireStartedEvent = new ApplicableRegulationsQuestionnaireStartedEvent(new DummyUserInfo(), _questionnaireId, _projectId, Domain.Questionnaires.ApplicableRegulations.ApplicableRegulationsQuestionnaireTreeFactory.Create(), DateTime.UtcNow);
+            var questionnaireStartedEvent = new ApplicableRegulationsQuestionnaireStartedEvent(new DummyUserInfo(), _projectId, _questionnaireId, ApplicableRegulationsQuestionnaireTreeFactory.Create(), DateTime.UtcNow);
 
             Session.Events.Append(_projectId, projectCreatedEvent);
             Session.SaveChanges();
@@ -84,7 +84,7 @@ namespace Ubora.Domain.Tests.Questionnaires.ApplicableRegulations
             ExecuteAnswerQuestionCommand(_secondQuestionId);
         }
 
-        public void Assert_Question_Is_Answered(string questionId)
+        private void Assert_Question_Is_Answered(string questionId)
         {
             var aggregate = Session.Load<ApplicableRegulationsQuestionnaireAggregate>(_questionnaireId);
 

@@ -1,20 +1,19 @@
 ﻿using System;
 using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Events
 {
-    public class ApplicableRegulationsQuestionnaireStartedEvent : UboraEvent
+    public class ApplicableRegulationsQuestionnaireStartedEvent : ProjectEvent
     {
-        public ApplicableRegulationsQuestionnaireStartedEvent(UserInfo initiatedBy, Guid newQuestionnaireId, Guid projectId, ApplicableRegulationsQuestionnaireTree questionnaireTree, DateTime startedAt) : base(initiatedBy)
+        public ApplicableRegulationsQuestionnaireStartedEvent(UserInfo initiatedBy, Guid projectId, Guid newQuestionnaireId, ApplicableRegulationsQuestionnaireTree questionnaireTree, DateTime startedAt) : base(initiatedBy, projectId)
         {
             NewQuestionnaireId = newQuestionnaireId;
-            ProjectId = projectId;
             QuestionnaireTree = questionnaireTree;
             StartedAt = startedAt;
         }
 
         public Guid NewQuestionnaireId { get; private set; }
-        public Guid ProjectId { get; private set; }
         public ApplicableRegulationsQuestionnaireTree QuestionnaireTree { get; private set; }
         public DateTime StartedAt { get; private set; }
 
