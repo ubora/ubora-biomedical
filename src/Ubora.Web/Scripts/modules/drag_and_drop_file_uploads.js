@@ -17,6 +17,13 @@ export default class DragAndDropFileUploads {
   init() {
     const summaryValidationElement = document.querySelector('#my-dropzone > div.text-danger.validation-summary-valid');
 
+      this.dropzone.on('addedfile',
+          () => {
+              document.querySelector('.dz-progress').remove();
+              document.querySelector('.dz-error-mark').remove();
+              document.querySelector('.dz-success-mark').remove();
+          });
+
     this.dropzone.on('success', (file, response) => {
       // Server side validation(using ajax)
       if (response.errors !== undefined) {
