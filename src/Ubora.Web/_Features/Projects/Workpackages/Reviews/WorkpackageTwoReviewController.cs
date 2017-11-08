@@ -14,9 +14,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
         private WorkpackageTwo _workpackageTwo;
         public WorkpackageTwo WorkpackageTwo => _workpackageTwo ?? (_workpackageTwo = QueryProcessor.FindById<WorkpackageTwo>(ProjectId));
 
-        public override void OnActionExecuted(ActionExecutedContext context)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
-            base.OnActionExecuted(context);
+            base.OnActionExecuting(context);
 
             ViewData["Title"] = "Workpackage two review";
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.Wp2MentorReview;

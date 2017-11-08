@@ -14,9 +14,9 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
     {
         private readonly IDeviceClassification _deviceClassification;
 
-        public override void OnActionExecuted(ActionExecutedContext context)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
-            base.OnActionExecuted(context);
+            base.OnActionExecuting(context);
 
             ViewData["Title"] = "Device classification";
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.DeviceClassification;
