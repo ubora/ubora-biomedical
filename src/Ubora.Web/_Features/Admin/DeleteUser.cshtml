@@ -7,6 +7,7 @@
             <h2 class="mb-4">Do you want to Delete user "@Model.UserEmail". This step can not be undone.</h2>
             <form  asp-controller="Admin" asp-action="DeleteUser" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="UserEmail" type="hidden"/>
                 <div class="form-group">
                     <a class="btn btn-secondary-ghost"  asp-action="Diagnostics">No, cancel</a>
                     <span class="mx-1"></span>

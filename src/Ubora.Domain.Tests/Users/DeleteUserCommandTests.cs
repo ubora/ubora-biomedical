@@ -10,13 +10,11 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Users
 {
-
     public class DeleteUserCommandTests : IntegrationFixture
     {
         [Fact]
-        public void foo_()
+        public void UserProfile_Can_Be_Soft_Deleted()
         {
-
             var deletedUserId = Guid.NewGuid();
             var notDeletedUserId = Guid.NewGuid();
 
@@ -38,7 +36,7 @@ namespace Ubora.Domain.Tests.Users
             AssertDeletedUserIsFilteredFromRegularQueries();
             AssertDeletedAndRegularUsersCanBeQueriedTogether();
             AssertOnlyDeletedUsersCanBeQueried();
-            AssertDeletedUserCanBeLoadedDirectly(deletedUserId);
+            AssertDeletedUserCanBeLoadedDirectlyAndIsMarkedAsDeleted(deletedUserId);
         }
 
         private void AssertOnlyDeletedUsersCanBeQueried()
@@ -59,10 +57,11 @@ namespace Ubora.Domain.Tests.Users
             users.Count.Should().Be(1);
         }
 
-        private void AssertDeletedUserCanBeLoadedDirectly(Guid deletedUserId)
+        private void AssertDeletedUserCanBeLoadedDirectlyAndIsMarkedAsDeleted(Guid deletedUserId)
         {
             var deletedUser = Session.Load<UserProfile>(deletedUserId);
             deletedUser.Should().NotBeNull();
+            deletedUser.IsDeleted.Should().BeTrue();
         }
     }
 }
