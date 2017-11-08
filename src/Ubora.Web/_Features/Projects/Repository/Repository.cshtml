@@ -8,13 +8,13 @@
 
 <div class="container-fluid my-4">
     <div class="row">
-        <div class="col-sm-12 col-md-4">
+        <div class="col-lg-3 pl-5">
             @Html.Partial("AddFilePartial", Model.AddFileViewModel)
         </div>
-        <div class="col-sm-12 col-md-8">
+        <div class="col-lg-9 pr-5">
             @foreach (var files in Model.AllFiles)
             {
-                <h2>@files.Key</h2>
+                <h2 class="mb-4">@files.Key</h2>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
