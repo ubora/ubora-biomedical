@@ -8,6 +8,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public string Title { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
-        public bool IsDefaultPicture { get; set; }
+        public bool HasImage { get; set; }
     }
 }

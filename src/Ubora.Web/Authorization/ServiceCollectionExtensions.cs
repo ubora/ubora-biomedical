@@ -56,6 +56,30 @@ namespace Ubora.Web.Authorization
                     policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
+
+                options.AddPolicy(nameof(Policies.CanAddProjectCandidate), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+
+                options.AddPolicy(nameof(Policies.CanEditProjectCandidate), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+
+                options.AddPolicy(nameof(Policies.CanChangeProjectCandidateImage), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+
+                options.AddPolicy(nameof(Policies.CanRemoveProjectCandidateImage), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
             });
 
             return services;

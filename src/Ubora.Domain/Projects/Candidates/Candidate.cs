@@ -15,7 +15,7 @@ namespace Ubora.Domain.Projects.Candidates
         public BlobLocation ImageLocation { get; private set; }
 
         [JsonIgnore]
-        public bool IsDefaultPicture => ImageLocation == null;
+        public bool HasImage => ImageLocation != null;
 
 
         private void Apply(CandidateAddedEvent e)
