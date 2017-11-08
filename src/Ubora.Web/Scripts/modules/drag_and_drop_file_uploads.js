@@ -74,4 +74,3 @@ export default class DragAndDropFileUploads {
 
 const fileupload = new DragAndDropFileUploads();
 fileupload.init();
-
