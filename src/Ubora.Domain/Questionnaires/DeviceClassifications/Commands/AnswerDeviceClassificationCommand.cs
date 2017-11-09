@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Projects;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Events;
 
 namespace Ubora.Domain.Questionnaires.DeviceClassifications.Commands
@@ -22,9 +24,9 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Commands
 
             public ICommandResult Handle(AnswerDeviceClassificationCommand cmd)
             {
-                var aggregate = _documentSession.LoadOrThrow<DeviceClassificationAggregate>(cmd.QuestionnaireId);
+                var questionnaireAggregate = _documentSession.LoadOrThrow<DeviceClassificationAggregate>(cmd.QuestionnaireId);
 
-                var question = aggregate.QuestionnaireTree.FindQuestionOrThrow(cmd.QuestionId);
+                var question = questionnaireAggregate.QuestionnaireTree.FindQuestionOrThrow(cmd.QuestionId);
                 if (question.IsAnswered)
                 {
                     return CommandResult.Failed("Question already answered.");
@@ -38,7 +40,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Commands
                     answerId: cmd.AnswerId,
                     answeredAt: DateTime.UtcNow);
 
-                _documentSession.Events.Append(aggregate.Id, @event);
+                _documentSession.Events.Append(questionnaireAggregate.Id, @event);
                 _documentSession.SaveChanges();
 
                 return CommandResult.Success;

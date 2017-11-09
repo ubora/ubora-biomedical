@@ -4,7 +4,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
 {
     public class DeviceClassificationQuestionnaireTreeFactory
     {
-        public static DeviceClassificationQuestionnaireTree CreateDeviceClassification()
+        public virtual DeviceClassificationQuestionnaireTree CreateDeviceClassification()
         {
             var questions = new[]
             {

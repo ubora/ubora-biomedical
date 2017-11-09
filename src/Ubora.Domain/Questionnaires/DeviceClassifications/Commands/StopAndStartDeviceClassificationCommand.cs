@@ -13,10 +13,12 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Commands
         internal class Handler : ICommandHandler<StopAndStartDeviceClassificationCommand>
         {
             private readonly IDocumentSession _documentSession;
+            private readonly DeviceClassificationQuestionnaireTreeFactory _questionnaireTreeFactory;
 
-            public Handler(IDocumentSession documentSession)
+            public Handler(IDocumentSession documentSession, DeviceClassificationQuestionnaireTreeFactory questionnaireTreeFactory)
             {
                 _documentSession = documentSession;
+                _questionnaireTreeFactory = questionnaireTreeFactory;
             }
 
             public ICommandResult Handle(StopAndStartDeviceClassificationCommand cmd)
@@ -36,7 +38,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Commands
                 var startEvent = new DeviceClassificationStartedEvent(cmd.Actor,
                     projectId: cmd.ProjectId,
                     id: cmd.StartQuestionnaireId,
-                    questionnaireTree: DeviceClassificationQuestionnaireTreeFactory.CreateDeviceClassification(),
+                    questionnaireTree: _questionnaireTreeFactory.CreateDeviceClassification(),
                     startedAt: now);
 
                 _documentSession.Events.Append(cmd.StopQuestionnaireId, stopEvent);
