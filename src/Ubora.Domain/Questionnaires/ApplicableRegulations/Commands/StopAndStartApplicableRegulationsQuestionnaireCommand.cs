@@ -5,12 +5,12 @@ using Ubora.Domain.Questionnaires.ApplicableRegulations.Events;
 
 namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Commands
 {
-    public class StopAndStartApplicableRegulationsQuestionCommand : UserProjectCommand
+    public class StopAndStartApplicableRegulationsQuestionnaireCommand : UserProjectCommand
     {
         public Guid QuestionnaireId { get; set; }
         public Guid NewQuestionnaireId { get; set; }
 
-        internal class Handler : ICommandHandler<StopAndStartApplicableRegulationsQuestionCommand>
+        internal class Handler : ICommandHandler<StopAndStartApplicableRegulationsQuestionnaireCommand>
         {
             private readonly IDocumentSession _documentSession;
 
@@ -19,7 +19,7 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Commands
                 _documentSession = documentSession;
             }
 
-            public ICommandResult Handle(StopAndStartApplicableRegulationsQuestionCommand cmd)
+            public ICommandResult Handle(StopAndStartApplicableRegulationsQuestionnaireCommand cmd)
             {
                 var aggregate = _documentSession.LoadOrThrow<ApplicableRegulationsQuestionnaireAggregate>(cmd.QuestionnaireId);
                 if (aggregate.IsFinished)

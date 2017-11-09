@@ -92,7 +92,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
                 return NotFound();
             }
 
-            ExecuteUserProjectCommand(new StopAndStartApplicableRegulationsQuestionCommand
+            ExecuteUserProjectCommand(new StopAndStartApplicableRegulationsQuestionnaireCommand
             {
                 QuestionnaireId = questionnaireId,
                 NewQuestionnaireId = id
