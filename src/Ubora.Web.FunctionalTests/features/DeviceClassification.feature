@@ -6,6 +6,8 @@ Background:
     Given I am signed in as user and on first page
         And I click on the element "h4=Test title"
         And I click on the element "a=Work packages"
+        And I click on the element "span=Medical need and product specification"
+        And I click on the element "span=Device classification"
 
 Scenario: I go through Device classification
     When I click on the element "a=Device classification"
