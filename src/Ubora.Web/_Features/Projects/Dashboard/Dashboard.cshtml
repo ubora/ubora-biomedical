@@ -127,12 +127,13 @@
         </div>
     </div>
     <div>
-        <hr />
+        
         @{
             var canDeleteProject = (await AuthorizationService.AuthorizeAsync(User, Policies.CanDeleteProject)).Succeeded;
         }
         @if (canDeleteProject)
             {
+            <hr />
             <div>
                 <a class="btn btn-secondary-ghost" asp-controller="DeleteProject" asp-action="DeleteProject"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete project</span></a>
             </div>
