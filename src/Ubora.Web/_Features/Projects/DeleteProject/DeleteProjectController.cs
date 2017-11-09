@@ -19,7 +19,6 @@ namespace Ubora.Web._Features.Projects.DeleteProject
         [Authorize(Policies.CanDeleteProject)]
         public IActionResult DeleteProject()
         {
-            //   await _storageProvider.DeleteBlobAsync(BlobLocation.ContainerNames.Projects, ProjectId.ToString());
             var model = new DeleteProjectViewModel
             {
                 Title = Project.Title
@@ -31,11 +30,10 @@ namespace Ubora.Web._Features.Projects.DeleteProject
         [Authorize(Policies.CanDeleteProject)]
         public IActionResult DeleteProject(DeleteProjectViewModel model)
         {
-            //   await _storageProvider.DeleteBlobAsync(BlobLocation.ContainerNames.Projects, ProjectId.ToString());
 
             ExecuteUserProjectCommand(new DeleteProjectCommand
             {
-                ProjectId = Project.Id,
+                ProjectId = Project.Id
             });
 
             return RedirectToAction(nameof(HomeController.Index), nameof(Home));

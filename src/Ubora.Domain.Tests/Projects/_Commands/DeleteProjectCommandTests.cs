@@ -18,7 +18,6 @@ namespace Ubora.Domain.Tests.Projects._Commands
         {
             this.Given(_ => this.Create_Project(_projectId))
                 .When(_ => this.Delete_Project())
-                //.Then(_ => this.Assert_No_Events_For_Project_Exist())
                 .Then(_ => this.Assert_Project_Is_Marked_As_Deleted())
                 .BDDfy();
         }

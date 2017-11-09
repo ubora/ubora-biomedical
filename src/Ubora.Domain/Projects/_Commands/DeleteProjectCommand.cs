@@ -22,7 +22,6 @@ namespace Ubora.Domain.Projects._Commands
                 var @event = new ProjectDeletedEvent(cmd.Actor, project.Id);
                 _documentSession.Events.Append(project.Id, @event);
                 _documentSession.Delete<Project>(project.Id);
-                //_documentSession.DeleteWhere<IEvent>(e => e.StreamId == cmd.ProjectId);
                 _documentSession.SaveChanges();
 
                 return CommandResult.Success;
