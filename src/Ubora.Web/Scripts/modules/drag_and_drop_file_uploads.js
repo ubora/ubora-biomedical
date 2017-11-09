@@ -63,18 +63,16 @@ export default class DragAndDropFileUploads {
 
     if (this.dropzone.files.length < 1) {
       element.innerHTML = setError('Please select a file to upload!');
+      return false;
+    }
+
+    if (this.dropzone.files.length > 5) {
+      element.innerHTML = setError('You can not upload any more files. Its 5 maximum number of files.');
+      return false;
     }
 
     let isValidFileSize = true;
-
     for (var file of this.dropzone.files) {
-
-      if (this.dropzone.files.length > 5) {
-        element.innerHTML = setError('You can not upload any more files. Its 5 maximum number of files.');
-      } else {
-        element.innerHTML = setError('');
-      }
-
       if (file.size > 4000000) {
         isValidFileSize = false;
       }
@@ -84,17 +82,14 @@ export default class DragAndDropFileUploads {
       element.innerHTML = setError('Please upload a smaller file. The maximum file size is 4MB.');
     }
 
-    const unobtrusiveValidation = $('form#my-dropzone').valid();
-    if (unobtrusiveValidation &&
-      this.dropzone.files.length < 6 &&
-      this.dropzone.files.length > 0 &&
-      isValidFileSize === true) {
-      return true;
-    } else {
+    if (!$('form#my-dropzone').valid()) {
       return false;
     }
+
+    return true;
   }
 }
+
 
 const fileupload = new DragAndDropFileUploads();
 fileupload.init();
