@@ -44,6 +44,11 @@ namespace Ubora.Web.Tests._Features.Projects.Members
                 {
                     MethodName = nameof(MembersController.RemoveMember),
                     Policies = new []{ nameof(Policies.CanRemoveProjectMember) }
+                },
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                {
+                    MethodName = nameof(MembersController.Join),
+                    Policies = new []{ nameof(Policies.CanJoinProject) }
                 }
             };
 

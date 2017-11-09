@@ -39,6 +39,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
         }
 
         [Route(nameof(EditProjectDescription))]
+        [Authorize(Policies.CanEditProjectDescription)]
         public IActionResult EditProjectDescription()
         {
             var editProjectDescription = new EditProjectDescriptionViewModel
@@ -51,6 +52,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
 
         [HttpPost]
         [Route(nameof(EditProjectDescription))]
+        [Authorize(Policies.CanEditProjectDescription)]
         public IActionResult EditProjectDescription(EditProjectDescriptionViewModel model)
         {
             if (!ModelState.IsValid)
@@ -73,6 +75,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
         }
 
         [Route(nameof(EditProjectImage))]
+        [Authorize(Policies.CanChangeProjectImage)]
         public IActionResult EditProjectImage()
         {
             return View();
@@ -80,6 +83,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
 
         [HttpPost]
         [Route(nameof(EditProjectImage))]
+        [Authorize(Policies.CanChangeProjectImage)]
         public async Task<IActionResult> EditProjectImage(EditProjectImageViewModel model)
         {
             if (!ModelState.IsValid)
