@@ -9,7 +9,7 @@
   border-bottom: 2px solid var(--blue);
   border-radius: 0;
   font-family: inherit;
-  font-size: 1.5rem;
+  font-size: 1rem;
   padding: .5rem 0;
 }
 
@@ -20,6 +20,10 @@
 
 select.form-control:not([size]):not([multiple]) {
   height: auto;
+}
+
+label.custom-file {
+  font-size: 1rem;
 }
 
 .custom-file-control.selected:lang(en)::after {
