@@ -10,12 +10,21 @@ using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web.Authorization;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     public class ConceptualDesignController : ProjectController
     {
         private readonly ImageStorageProvider _imageStorageProvider;
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            ViewData["Title"] = "Voting";
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.Voting;
+        }
 
         public ConceptualDesignController(ImageStorageProvider imageStorageProvider)
         {

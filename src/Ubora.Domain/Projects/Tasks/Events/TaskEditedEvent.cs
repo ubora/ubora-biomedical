@@ -29,7 +29,7 @@ namespace Ubora.Domain.Projects.Tasks.Events
 
         public override string GetDescription()
         {
-            return $"edited task \"{StringTokens.Task(Id)}\"";
+            return $"edited assignment \"{StringTokens.Task(Id)}\"";
         }
     }
 }

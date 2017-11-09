@@ -70,6 +70,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Route(nameof(Voting))]
         public IActionResult Voting()
         {
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.Voting;
+
             var candidates = QueryProcessor.Find(new IsProjectCandidateSpec(ProjectId));
 
             var candidateViewModels = candidates.Select(candidate => _candidateItemViewModelFactory.Create(candidate));

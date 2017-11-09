@@ -29,8 +29,16 @@
       <a class="btn btn-primary btn-disabled btn-lg align-self-end" role="button" disabled="">I have a need</a>
     </div>
     <div class="col flex-column text-center ml-1 p-5 landing-image-solution">
-      <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
-      <a class="btn btn-primary btn-lg align-self-end" asp-controller="ProjectCreation" asp-action="Create" role="button">I have an idea</a>
+        @if (await AuthorizationService.IsAuthorized(User, Policies.CanCreateProject))
+        {
+          <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
+          <a class="btn btn-primary btn-lg align-self-end" asp-controller="ProjectCreation" asp-action="Create" role="button">I have an idea</a>
+        }
+        else 
+        {
+            <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
+            <a class="btn btn-primary btn-disabled btn-lg align-self-end js-tooltip" role="button" disabled title="Your email must be confirmed to create a project!" data-placement="bottom">I have an idea</a>
+        }
     </div>
   </div>
 </div>
