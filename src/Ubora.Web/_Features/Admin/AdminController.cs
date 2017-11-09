@@ -15,10 +15,10 @@ namespace Ubora.Web._Features.Admin
     [Authorize(Roles = ApplicationRole.Admin)]
     public class AdminController : UboraController
     {
-        private readonly ApplicationUserManager _userManager;
+        private readonly IApplicationUserManager _userManager;
 
 
-        public AdminController(ApplicationUserManager userManager)
+        public AdminController(IApplicationUserManager userManager)
         {
             _userManager = userManager;
         }
@@ -125,7 +125,6 @@ namespace Ubora.Web._Features.Admin
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]
         [Route(nameof(DeleteUser))]
-
         public async Task<IActionResult> DeleteUser(DeleteUserViewModel model)
         {
             if (!ModelState.IsValid)
@@ -155,13 +154,11 @@ namespace Ubora.Web._Features.Admin
 
             if (!ModelState.IsValid)
             {
-
                 return await Diagnostics();
             }
 
             Notices.Success($"User {user.Email} successfully deleted");
             return RedirectToAction(nameof(Diagnostics));
-
         }
 
         private void AddIdentityErrorsToModelState(IdentityResult result)
