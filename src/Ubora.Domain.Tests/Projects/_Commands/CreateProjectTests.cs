@@ -77,33 +77,13 @@ namespace Ubora.Domain.Tests.Projects._Commands
 
             var workpackageOneSteps = workpackageOne.Steps.ToArray();
 
-            workpackageOneSteps[0].Title.Should().Be("Description of Needs");
-            workpackageOneSteps[0].Description.Should().Be(Placeholders.DescriptionOfNeeds);
+            workpackageOneSteps[0].Title.Should().Be("Clinical needs");
 
-            workpackageOneSteps[1].Title.Should().Be("Description of Existing Solutions and Analysis");
-            workpackageOneSteps[1].Description.Should().Be(Placeholders.DescriptionOfExistingSolutionsAndAnalysis);
+            workpackageOneSteps[1].Title.Should().Be("Existing solutions");
 
-            workpackageOneSteps[2].Title.Should().Be("Product Functionality");
-            workpackageOneSteps[2].Description.Should().Be(Placeholders.ProductFunctionality);
+            workpackageOneSteps[2].Title.Should().Be("Intended users");
 
-            workpackageOneSteps[3].Title.Should().Be("Product Performance");
-            workpackageOneSteps[3].Description.Should().Be(Placeholders.ProductPerformance);
-
-            workpackageOneSteps[4].Title.Should().Be("Product Usability");
-            workpackageOneSteps[4].Description.Should().Be(Placeholders.ProductUsability);
-
-            workpackageOneSteps[5].Title.Should().Be("Product Safety");
-            workpackageOneSteps[5].Description.Should().Be(Placeholders.ProductSafety);
-
-            workpackageOneSteps[6].Title.Should().Be("Patient Population Study");
-            workpackageOneSteps[6].Description.Should().Be(Placeholders.PatientPopulationStudy);
-
-            workpackageOneSteps[7].Title.Should().Be("User Requirement Study");
-            workpackageOneSteps[7].Description.Should().Be(Placeholders.UserRequirementStudy);
-
-            workpackageOneSteps[8].Title.Should().Be("Additional Information");
-            workpackageOneSteps[8].Description.Should().Be(Placeholders.AdditionalInformation);
-
+            workpackageOneSteps[3].Title.Should().Be("Product requirements");
         }
     }
 }
