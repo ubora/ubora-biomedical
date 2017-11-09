@@ -88,8 +88,8 @@ namespace Ubora.Web._Features.Projects.Members
             return RedirectToAction(nameof(Members));
         }
 
-        [AllowAnonymous]
         [Route(nameof(Join))]
+        [Authorize(Policy = nameof(Policies.CanJoinProject))]
         public IActionResult Join(Guid projectId)
         {
             if (!_signInManager.IsSignedIn(User))
@@ -112,8 +112,8 @@ namespace Ubora.Web._Features.Projects.Members
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [Route(nameof(Join))]
+        [Authorize(Policy = nameof(Policies.CanJoinProject))]
         public IActionResult Join(JoinProjectViewModel model)
         {
             if (!ModelState.IsValid)
