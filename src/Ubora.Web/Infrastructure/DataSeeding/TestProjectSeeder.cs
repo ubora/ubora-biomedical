@@ -1,7 +1,6 @@
 ﻿using System;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Web.Data;
 

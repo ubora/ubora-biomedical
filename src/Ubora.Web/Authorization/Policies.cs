@@ -13,5 +13,6 @@
         public const string CanJoinProject = nameof(CanJoinProject);
         public const string CanChangeProjectImage = nameof(CanChangeProjectImage);
         public const string CanEditProjectDescription = nameof(CanEditProjectDescription);
+        public const string CanDeleteProject = nameof(CanDeleteProject);
     }
 }

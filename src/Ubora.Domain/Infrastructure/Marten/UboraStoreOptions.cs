@@ -43,6 +43,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<DeviceClassification>();
                 options.Schema.For<ProjectFile>();
                 options.Schema.For<ProjectTask>();
+                options.Schema.For<Project>().SoftDeleted();
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
