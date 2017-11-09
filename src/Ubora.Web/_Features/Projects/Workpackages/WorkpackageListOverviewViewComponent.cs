@@ -99,7 +99,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
             menuLinks.Add(new MenuLink
             {
                 Name = "Device classification",
-                Href = Url.Action("DeviceClassification", "WorkpackageOne"),
+                Href = Url.Action("Index", "DeviceClassifications"),
                 IsSelected = IsWorkpackageCustomMenuOptionSelected(WorkpackageMenuOption.DeviceClassification)
             });
 
