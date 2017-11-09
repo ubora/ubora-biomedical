@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.Candidates.Specifications;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web._Features._Shared;
-using Ubora.Web.Infrastructure.ImageServices;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -75,8 +73,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             var candidates = QueryProcessor.Find(new IsProjectCandidateSpec(ProjectId));
 
             var candidateViewModels = candidates.Select(candidate => _candidateItemViewModelFactory.Create(candidate));
-            var model = new VotingViewModel();
-            model.Candidates = candidateViewModels;
+            var model = new VotingViewModel
+            {
+                Candidates = candidateViewModels
+            };
 
             return View(nameof(Voting), model);
         }

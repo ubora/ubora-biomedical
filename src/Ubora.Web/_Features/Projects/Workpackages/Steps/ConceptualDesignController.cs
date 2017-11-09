@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure;
@@ -27,7 +26,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public IActionResult AddCandidate()
         {
             var model = new AddCandidateViewModel();
-            return View(model);
+            return View(nameof(AddCandidate), model);
         }
 
         [HttpPost]
@@ -71,7 +70,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             var model = AutoMapper.Map<CandidateViewModel>(candidate);
             model.ImageUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(candidate.ImageLocation, ImageSize.Thumbnail400x300);
 
-            return View(model);
+            return View(nameof(Candidate), model);
         }
 
         [Authorize(Policy = nameof(Policies.CanEditProjectCandidate))]
