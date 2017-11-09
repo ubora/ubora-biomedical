@@ -28,7 +28,7 @@ namespace Ubora.Web.Infrastructure.DataSeeding
         internal async Task SeedIfNecessary()
         {
             var isAlreadySeeded = _documentSession.Query<Project>().Any(p => p.MaybeDeleted());
-            if (!isAlreadySeeded)
+            if (isAlreadySeeded)
             {
                 return;
             }
