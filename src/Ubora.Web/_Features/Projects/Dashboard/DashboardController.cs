@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Filters;
 using TwentyTwenty.Storage;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Web.Authorization;
+using Ubora.Web.Data;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web._Features.Home;
 
 namespace Ubora.Web._Features.Projects.Dashboard
 {
@@ -29,6 +32,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
         {
             var model = AutoMapper.Map<ProjectDashboardViewModel>(Project);
             model.IsProjectMember = (await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement())).Succeeded;
+
             model.HasImage = Project.HasImage;
             if (Project.HasImage)
             {
@@ -122,6 +126,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
         }
 
         [HttpPost]
+
         [Route(nameof(RemoveProjectImage))]
         public async Task<IActionResult> RemoveProjectImage(RemoveProjectImageViewModel model)
         {

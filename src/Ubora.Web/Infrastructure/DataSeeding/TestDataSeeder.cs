@@ -1,6 +1,8 @@
-﻿using Marten;
+﻿using System;
+using Marten;
 using System.Linq;
 using System.Threading.Tasks;
+using Marten.Linq.SoftDeletes;
 using Ubora.Domain.Projects;
 
 namespace Ubora.Web.Infrastructure.DataSeeding
@@ -25,8 +27,8 @@ namespace Ubora.Web.Infrastructure.DataSeeding
 
         internal async Task SeedIfNecessary()
         {
-            var isSeedNecessary = !_documentSession.Query<Project>().Any();
-            if (!isSeedNecessary)
+            var isAlreadySeeded = _documentSession.Query<Project>().Any(p => p.MaybeDeleted());
+            if (isAlreadySeeded)
             {
                 return;
             }

@@ -7,15 +7,7 @@
     <EmbeddedResource Remove="Projects\DeviceClassification\**" />
     <None Remove="Projects\DeviceClassification\**" />
   </ItemGroup>
-  <ItemGroup>
-    <None Remove="Scripts\2017-02-10 project applicable regulations questionnaire.sql" />
-    <None Remove="Scripts\Script0002 - Add ProjectId.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Scripts\2017-02-10 project applicable regulations questionnaire.sql" />
-    <EmbeddedResource Include="Scripts\Script0001 - InitialCreate.sql" />
-    <EmbeddedResource Include="Scripts\Script0002 - Add ProjectId.sql" />
-  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.1" />
     <PackageReference Include="dbup" Version="3.3.5" />
@@ -25,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Projects\Workpackages\Placeholders.Designer.cs">
