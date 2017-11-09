@@ -12,10 +12,10 @@
   <div class="row">
     <div class="col justify-content-center">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-lg-3">
         @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
         </div>
-        <div class="col-sm-12 col-md-8">
+        <div class="col-lg-9 pr-5">
           <h1 class="display-4">Design planning</h1>
 
           @if (isWp1Locked)
@@ -23,7 +23,7 @@
             <p>You can not edit work package when it's under review or has been accepted by review.</p>
           }
 
-          <form asp-controller="WorkpackageOne" asp-action="ProjectOverview" method="post">
+          <form asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
@@ -149,9 +149,9 @@
 
             @if (!isWp1Locked)
             {
-              <div class="d-flex justify-content-center flex-md-row flex-sm-column">
-                <a class="btn btn-secondary-ghost" asp-controller="WorkpackageOne" asp-action="ProjectOverview" role="button">Discard</a>
-                <span class="m-1"></span>
+              <div class="d-flex justify-content-center flex-wrap-reverse">
+                <a class="btn btn-secondary-ghost" asp-controller="WorkpackageOne" asp-action="DiscardDesignPlanningChanges" asp-route-returnUrl="@ViewData["ReturnUrl"]" role="button">Discard</a>
+                <span class="mx-1"></span>
                 <button class="btn btn-primary" type="submit">Save changes</button>
               </div>
             }
