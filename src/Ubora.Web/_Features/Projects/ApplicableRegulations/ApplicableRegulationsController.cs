@@ -5,6 +5,7 @@ using Ubora.Domain.ApplicableRegulations;
 using Ubora.Domain.ApplicableRegulations.Commands;
 using Ubora.Web._Features.Projects._Shared;
 using Ubora.Domain.ApplicableRegulations.Texts;
+using Ubora.Web._Features.Projects.Workpackages;
 
 namespace Ubora.Web._Features.Projects.ApplicableRegulations
 {
@@ -16,6 +17,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 
             ViewData["Title"] = "Applicable regulations questionnaire";
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.RegulationCheckList;
         }
 
         public virtual IActionResult Index([FromServices]QuestionnaireIndexViewModel.Factory modelFactory)
