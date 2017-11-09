@@ -61,11 +61,10 @@ namespace Ubora.Domain.Projects.Workpackages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Here you should describe the clinical need that is the target of your device.
-        ///•	Example 1: write the common or technical name of the pathology, describe the main symptoms and if it is acute/chronic.
-        ///Example 2: write the common or technical name of the handicap, describe if it is innate or caused by incidents or a consequence of a pathology
-        ///Example 3: describe what is the patient need in terms of cost / improvement of life conditions / improvement of wellbeing
-        ///•	Worked example 1: Down syndrome is a syndr [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;p&gt;You should describe the clinical need that is the target of your device.&lt;/p&gt;
+        ///&lt;ul&gt;
+        ///&lt;li&gt;Example 1: write the common or technical name of the pathology, describe the main symptoms and if it is acute/chronic. &lt;em&gt;“Down syndrome is a syndrome linked to various conditions, from lowered cognitive functions to increased risk of heart failure.”&lt;/em&gt;&lt;/li&gt;
+        ///&lt;li&gt;Example 2: write the common or technical name of the handicap, describe if it is innate or caused by incidents or a consequence of a pathology: &lt;em&gt;“Conge [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ClinicalNeeds {
             get {
@@ -74,9 +73,20 @@ namespace Ubora.Domain.Projects.Workpackages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Here you should describe what are the devices or therapies on the market; if possible, list some pros and cons of the existing solutions.
-        ///•	Example: list medical, surgical or technical solutions available; define the criteria to choose amongst the have different options. Comment on residual side effects or contraindications that may be improved.
-        ///•	Worked example: congenital club foot is usually treated by braces (mild cases) or surgery. Both solutions require long healing times and frequent specialistic f [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;p&gt;You should describe the most important operating physical principle of your medical device.&lt;/p&gt;
+        ///&lt;ul&gt;
+        ///&lt;li&gt;Example: Contactless Infrared Thermometer “An infrared thermometer is a device that measures the infrared radiation – a type of electromagnetic radiation below the visible spectrum of light - emitted by an object. The most basic design of infrared thermometers consists of a lens to focus the infrared thermal radiation onto a detector, which converts the radiant energy into an electric signal. This c [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string ConceptDescription {
+            get {
+                return ResourceManager.GetString("ConceptDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;You should describe what are the devices or therapies on the market; if possible, list some pros and cons of the existing solutions.&lt;/p&gt;
+        ///&lt;ul&gt;
+        ///&lt;li&gt;Example: list medical, surgical or technical solutions available; define the criteria to choose amongst the have different options. Comment on residual side effects or contraindications that may be improved: &lt;em&gt;”Congenital club foot is usually treated by braces (mild cases) or surgery. Both solutions require long healing times and frequent specialistic follo [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ExistingSolutions {
             get {
@@ -85,9 +95,8 @@ namespace Ubora.Domain.Projects.Workpackages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Here you should describe what your end user prefers or needs; this may be the same or different than the patient need and relates more to &quot;easy and friendly to use&quot; that to patient state of health.
-        ///•	Example: describe if the device should be lightweight to be portable; describe the sounds and colors that are expected; describe handling and visual requirements
-        ///•	Worked example 1: a defibrillator for use in airports and other meeting places should be very intuitive to use and should give vocal commands in t [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;p&gt;You should describe who are the intended user of your medical device (e.g. physician, technicians, nurse, midwife, family member, self-use), and where the technology will be used (rural or urban settings, at home, hospital, …).&lt;/p&gt;
+        ///.
         /// </summary>
         public static string IntendedUsers {
             get {
@@ -96,9 +105,9 @@ namespace Ubora.Domain.Projects.Workpackages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Here you should describe the most important operating physical principle of your medical device.
-        ///•	Example 1: Contactless Infrared Thermometer
-        ///•	Worked example 1: An infrared thermometer is a device that measures the infrared radiation – a type of electromagnetic radiation below the visible spectrum of light - emitted by an object. The most basic design of infrared thermometers consists of a lens to focus the infrared thermal radiation onto a detector, which converts the radiant energy into an electric si [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;p&gt;You should describe the most important operating physical principle of your medical device.&lt;/p&gt;
+        ///&lt;ul&gt;
+        ///&lt;li&gt;Example: Contactless Infrared Thermometer “An infrared thermometer is a device that measures the infrared radiation – a type of electromagnetic radiation below the visible spectrum of light - emitted by an object. The most basic design of infrared thermometers consists of a lens to focus the infrared thermal radiation onto a detector, which converts the radiant energy into an electric signal. This c [rest of string was truncated]&quot;;.
         /// </summary>
         public static string PhysicalPrinciples {
             get {
@@ -107,12 +116,13 @@ namespace Ubora.Domain.Projects.Workpackages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Here you should describe all the requirements to certain product. It is written to allow people to understand what a product should do.
-        ///Typical components of a product requirements document are:
-        ///•	Functional requirements 
-        ///o	Describe how your product will meet and solve the clinical need.
-        ///	Example 1: describe how the device interacts with the human body and why this interaction is beneficial.
-        ///	Worked example 1: the syringe allows to deliver liquid substances, for example drugs, to the peripheral blood [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;p&gt;You should describe all the requirements to certain product. It is written to allow people to understand what a product should do. Typical components of a product requirements document are:&lt;/p&gt;
+        ///
+        ///&lt;ul&gt;
+        ///
+        ///&lt;li&gt;Functional requirements
+        ///&lt;ul&gt; 
+        ///&lt;li&gt;Describe how your product will meet and solve the clinical need. Example: describe how the device interacts with the human body and why this interaction is beneficial: &lt;em&gt;”The syringe allows to deliver liquid substances, for example drugs, to the peripheral blood [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ProductRequirements {
             get {

@@ -22,7 +22,7 @@
             <span>Helpful tips</span>
           </a>
         </div>
-        <p class="helpful-tips-content js-helpful-tips-content">@Model.Description</p>
+        <div class="helpful-tips-content js-helpful-tips-content mb-4">@Html.Raw(Model.Description)</div>
         <script>
           const helpfulTipToggleElement = document.querySelector('.js-helpful-tips');
           const helpfulTipContentElement = document.querySelector('.js-helpful-tips-content');
