@@ -29,11 +29,18 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Commands
 
                 var now = DateTime.UtcNow;
 
-                var eventStop = new ApplicableRegulationsQuestionnaireStoppedEvent(cmd.Actor, aggregate.ProjectId, now);
-                var eventStart = new ApplicableRegulationsQuestionnaireStartedEvent(cmd.Actor, cmd.NewQuestionnaireId, aggregate.ProjectId, ApplicableRegulationsQuestionnaireTreeFactory.Create(), now);
+                var eventStop = new ApplicableRegulationsQuestionnaireStoppedEvent(cmd.Actor, 
+                    projectId: aggregate.ProjectId,
+                    stoppedAt: now);
+
+                var eventStart = new ApplicableRegulationsQuestionnaireStartedEvent(cmd.Actor,
+                    projectId: aggregate.ProjectId,
+                    newQuestionnaireId: cmd.NewQuestionnaireId, 
+                    questionnaireTree: ApplicableRegulationsQuestionnaireTreeFactory.Create(), 
+                    startedAt: now);
 
                 _documentSession.Events.Append(cmd.QuestionnaireId, eventStop);
-                _documentSession.Events.StartStream(cmd.NewQuestionnaireId, eventStart);
+                _documentSession.Events.StartStream<ApplicableRegulationsQuestionnaireAggregate>(cmd.NewQuestionnaireId, eventStart);
                 _documentSession.SaveChanges();
 
                 return CommandResult.Success;
