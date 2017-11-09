@@ -9,8 +9,8 @@ using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Xunit;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects._Commands;
-using Ubora.Web.Tests.Helper;
 using Ubora.Web._Features._Shared.Notices;
+using System.Linq;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages
 {
@@ -191,6 +191,52 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         }
 
         [Fact]
+        public void Redirects_To_ReturnUrl_With_Success_Notice_When_ProjectOverview_Was_Saved_Successfully_And_Has_ReturnUrl()
+        {
+            var projectTitle = "projectTitle";
+            UpdateProjectCommand executedCommand = null;
+            CommandProcessorMock
+                .Setup(x => x.Execute(It.IsAny<UpdateProjectCommand>()))
+                .Callback<UpdateProjectCommand>(c => executedCommand = c)
+                .Returns(CommandResult.Success);
+
+            var areaOfUsageTags = "AreaOfUsageTags";
+            var clinicalNeedTags = "ClinicalNeedTags";
+            var gmdn = "Gmdn";
+            var potentialTechnologyTags = "PotentialTechnologyTags";
+            var projectOverViewModel = new ProjectOverviewViewModel
+            {
+                AreaOfUsageTags = areaOfUsageTags,
+                ClinicalNeedTags = clinicalNeedTags,
+                Gmdn = gmdn,
+                PotentialTechnologyTags = potentialTechnologyTags,
+            };
+
+            var project = new Project().Set(x => x.Title, projectTitle);
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
+                .Returns(project);
+
+            var returnUrl = "returnUrl";
+
+            // Act
+            var result = (RedirectToActionResult)_workpackageOneController.ProjectOverview(projectOverViewModel, returnUrl);
+
+            // Assert
+            executedCommand.PotentialTechnologyTags.Should().Be(potentialTechnologyTags);
+            executedCommand.Gmdn.Should().Be(gmdn);
+            executedCommand.AreaOfUsageTags.Should().Be(areaOfUsageTags);
+            executedCommand.ClinicalNeedTags.Should().Be(clinicalNeedTags);
+            executedCommand.Title.Should().Be(projectTitle);
+
+            var successNotice = _workpackageOneController.Notices.Dequeue();
+            successNotice.Text.Should().Be("Project overview changed successfully!");
+            successNotice.Type.Should().Be(NoticeType.Success);
+
+            result.ActionName.Should().Be("Index");
+            result.ControllerName.Should().Be("Home");
+        }
+
+        [Fact]
         public void Returns_ProjectOverview_View_With_Error_Notice_When_ProjectOverview_Was_Not_Saved_Successfully()
         {
             var projectTitle = "projectTitle";
@@ -229,6 +275,74 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var successNotice = _workpackageOneController.Notices.Dequeue();
             successNotice.Text.Should().Be("Failed to change project overview!");
             successNotice.Type.Should().Be(NoticeType.Error);
+        }
+
+        [Fact]
+        public void Returns_ProjectOverview_View_With_Error_Notice_And_ReturnUrl_When_ProjectOverview_Was_Not_Saved_Successfully_And_ReturnUrl_Is_Not_Null()
+        {
+            var projectTitle = "projectTitle";
+            UpdateProjectCommand executedCommand = null;
+            CommandProcessorMock
+                .Setup(x => x.Execute(It.IsAny<UpdateProjectCommand>()))
+                .Callback<UpdateProjectCommand>(c => executedCommand = c)
+                .Returns(CommandResult.Failed("error"));
+
+            var areaOfUsageTags = "AreaOfUsageTags";
+            var clinicalNeedTags = "ClinicalNeedTags";
+            var gmdn = "Gmdn";
+            var potentialTechnologyTags = "PotentialTechnologyTags";
+            var projectOverViewModel = new ProjectOverviewViewModel
+            {
+                AreaOfUsageTags = areaOfUsageTags,
+                ClinicalNeedTags = clinicalNeedTags,
+                Gmdn = gmdn,
+                PotentialTechnologyTags = potentialTechnologyTags,
+            };
+
+            var project = new Project().Set(x => x.Title, projectTitle);
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
+                .Returns(project);
+
+            var returnUrl = "returnUrl";
+
+            // Act
+            var result = (ViewResult)_workpackageOneController.ProjectOverview(projectOverViewModel, returnUrl);
+
+            // Assert
+            executedCommand.PotentialTechnologyTags.Should().Be(potentialTechnologyTags);
+            executedCommand.Gmdn.Should().Be(gmdn);
+            executedCommand.AreaOfUsageTags.Should().Be(areaOfUsageTags);
+            executedCommand.ClinicalNeedTags.Should().Be(clinicalNeedTags);
+            executedCommand.Title.Should().Be(projectTitle);
+
+            var successNotice = _workpackageOneController.Notices.Dequeue();
+            successNotice.Text.Should().Be("Failed to change project overview!");
+            successNotice.Type.Should().Be(NoticeType.Error);
+            
+            result.ViewData.Values.Last().Should().Be(returnUrl);
+        }
+
+        [Fact]
+        public void DiscardDesignPlanningChanges_Redirects_To_ProjectOverview_When_ReturnUrl_Is_Null()
+        {
+            // Act
+            var result = (RedirectToActionResult)_workpackageOneController.DiscardDesignPlanningChanges();
+
+            // Assert
+            result.ActionName.Should().Be("ProjectOverview");
+        }
+
+        [Fact]
+        public void DiscardDesignPlanningChanges_Redirects_To_ReturnUrl_When_ReturnUrl_Is__Not_Null()
+        {
+            var returnUrl = "/Home/Index";
+
+            // Act
+            var result = (RedirectToActionResult)_workpackageOneController.DiscardDesignPlanningChanges(returnUrl);
+
+            // Assert
+            result.ActionName.Should().Be("Index");
+            result.ControllerName.Should().Be("Home");
         }
 
         [Fact]
