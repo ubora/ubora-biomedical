@@ -46,5 +46,14 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 FinishedAt = e.AnsweredAt;
             }
         }
+
+        private void Apply(DeviceClassificationStoppedEvent e)
+        {
+            if (IsFinished)
+            {
+                throw new InvalidOperationException();
+            }
+            FinishedAt = e.StoppedAt;
+        }
     }
 }

@@ -27,7 +27,10 @@
                     if (!Model.Last.IsFinished)
                     {
                         <div class="col-sm-12 text-center d-flex justify-content-center flex-wrap-reverse">
-
+                            
+                            <form asp-action="Stop" method="post">
+                                <button class="btn btn-secondary-ghost btn-lg d-sm-block d-lg-inline-block" type="submit" asp-action="Retake" asp-route-oldQuestionnaireId="@Model.Last.QuestionnaireId">Retake questionnaire</button>
+                            </form>
                             <span class="mx-1"></span>
                             <a class="btn btn-primary btn-lg d-sm-block d-lg-inline-block" asp-controller="DeviceClassifications" asp-action="Current" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Continue answering</a>
 

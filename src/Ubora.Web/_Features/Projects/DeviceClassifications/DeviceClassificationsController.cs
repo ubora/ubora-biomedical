@@ -120,5 +120,29 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
             var model = modelFactory.Create(questionnaireAggregate);
             return View("Review", model);
         }
+
+        [HttpPost]
+        public IActionResult Retake(Guid oldQuestionnaireId, [FromServices]DeviceClassificationIndexViewModel.Factory modelFactory)
+        {
+            var deviceClassification = QueryProcessor.FindById<DeviceClassificationAggregate>(oldQuestionnaireId);
+            if (deviceClassification == null)
+            {
+                return NotFound();
+            }
+
+            var newQuestionnaireId = Guid.NewGuid();
+            ExecuteUserProjectCommand(new StopAndStartDeviceClassificationCommand
+            {
+                StopQuestionnaireId = oldQuestionnaireId,
+                StartQuestionnaireId = newQuestionnaireId
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return Index(modelFactory);
+            }
+
+            return RedirectToAction(nameof(Current), new { questionnaireId = newQuestionnaireId });
+        }
     }
 }
