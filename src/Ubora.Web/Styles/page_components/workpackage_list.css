@@ -26,6 +26,7 @@
 a.muted-status {
   color: var(--tertiary-shade);
   text-decoration: none;
+  cursor: default;
 }
 
 
