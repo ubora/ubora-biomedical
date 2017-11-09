@@ -46,7 +46,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
             var questionnaire = QueryProcessor.FindById<DeviceClassificationAggregate>(questionnaireId);
             if (questionnaire == null)
             {
-                return NotFound();
+                return NotFound(questionnaireId);
             }
 
             if (questionnaire.IsFinished)

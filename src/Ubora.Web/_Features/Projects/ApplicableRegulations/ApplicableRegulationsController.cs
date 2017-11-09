@@ -80,6 +80,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 
             return RedirectToAction(nameof(Index));
         }
+
         [HttpPost]
         public IActionResult Retake(Guid questionnaireId, [FromServices]QuestionnaireIndexViewModel.Factory modelFactory)
         {

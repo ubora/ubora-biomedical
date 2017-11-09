@@ -7,8 +7,10 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
     {
         [Required]
         public string QuestionId { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Please choose an answer.")]
         public string AnswerId { get; set; }
+
         [Required]
         public Guid QuestionnaireId { get; set; }
     }

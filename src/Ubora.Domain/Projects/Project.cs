@@ -18,13 +18,14 @@ namespace Ubora.Domain.Projects
         public string ClinicalNeedTags { get; private set; }
         public string AreaOfUsageTags { get; private set; }
         public string PotentialTechnologyTags { get; private set; }
-        public string DeviceClassification { get; private set; }
         public string Description { get; private set; }
         public bool IsInDraft { get; private set; } = true;
         public BlobLocation ProjectImageBlobLocation { get; set; }
         public DateTime ProjectImageLastUpdated { get; private set; }
         [JsonIgnore]
         public bool HasImage => ProjectImageBlobLocation != null;
+
+        public string DeviceClassification { get; set; }
 
         [JsonProperty(nameof(Members))]
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
