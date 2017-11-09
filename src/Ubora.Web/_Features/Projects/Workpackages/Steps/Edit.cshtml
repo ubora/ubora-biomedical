@@ -9,17 +9,17 @@
 
 <div class="container-fluid my-4">
   <div class="row">
-    <div class="col-sm-12 col-md-4">
+    <div class="col-lg-3">
       @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
     </div>
-    <div class="col-sm-12 col-md-8">
+    <div class="col-lg-9 pr-5">
       <h2>@Model.Title</h2>
       @if (!string.IsNullOrWhiteSpace(Model.Description))
       {
         <div class="my-2">
           <a href="#" class="js-helpful-tips" role="button">
             <i class="align-middle material-icons">help</i>
-            <span class="align-middle">Helpful tips</span>
+            <span>Helpful tips</span>
           </a>
         </div>
         <p class="helpful-tips-content js-helpful-tips-content">@Model.Description</p>

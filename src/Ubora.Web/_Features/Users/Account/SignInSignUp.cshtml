@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
 	<div class="row flex-column align-items-center">
-		<div class="col-md-3 text-center">
+		<div class="col-md-4 col-lg-3 text-center">
 			<h1>Choose sign in option</h1>
 			<a class="btn btn-secondary-ghost btn-lg" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]">
 				@* <img src="~/images/icons/ubora-logo.svg" alt="UBORA logo"> *@
@@ -30,7 +30,7 @@
 	</div>
 
 	<div class="row flex-column align-items-center my-4">
-		<div class="col-md-3 text-center">
+		<div class="col-md-4 col-lg-3 text-center">
 			<h3>Don't have an account?</h3>
 			<a class="btn btn-secondary-ghost btn-lg" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Sign up</a>
 		</div>

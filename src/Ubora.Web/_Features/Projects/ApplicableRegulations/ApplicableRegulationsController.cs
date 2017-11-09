@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Ubora.Domain.Questionnaires.ApplicableRegulations.Commands;
 using Ubora.Web._Features.Projects._Shared;
+using Ubora.Web._Features.Projects.Workpackages;
 
 namespace Ubora.Web._Features.Projects.ApplicableRegulations
 {
@@ -16,6 +16,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 
             ViewData["Title"] = "Applicable regulations questionnaire";
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.RegulationCheckList;
         }
 
         public virtual IActionResult Index([FromServices]QuestionnaireIndexViewModel.Factory modelFactory)

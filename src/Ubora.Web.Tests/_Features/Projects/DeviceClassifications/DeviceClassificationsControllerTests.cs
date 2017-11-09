@@ -68,7 +68,7 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassifications
 
             CommandProcessorMock.Setup(x => x.Execute(It.IsAny<StartClassifyingDeviceCommand>()))
                 .Callback<StartClassifyingDeviceCommand>(c => executedCommand = c)
-                .Returns(CommandResult.Failed());
+                .Returns(CommandResult.Failed("error"));
 
             var modelFactory = Mock.Of<DeviceClassificationIndexViewModel.Factory>();
 
@@ -80,7 +80,7 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassifications
             var result = _controller.Index(modelFactory);
 
             // Assert
-            result.Should().Be(modelFactory);
+            result.Should().Be(expectedActionResult);
         }
     }
 }

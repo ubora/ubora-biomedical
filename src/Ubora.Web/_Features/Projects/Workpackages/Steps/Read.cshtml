@@ -9,17 +9,17 @@
 
 <div class="container-fluid my-4">
   <div class="row">
-    <div class="col-sm-12 col-md-4">
+    <div class="col-lg-3">
       @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
     </div>
-    <div class="col-xs-12 col-md-8">
+    <div class="col-lg-9 pr-5">
       <div class="row">
         <div class="col">
           <div class="d-flex justify-content-between">
             <h1>@Model.Title</h1>
             @if (Model.EditButton.IsVisible)
             {
-              <a class="btn btn-secondary-ghost" href="@Model.EditStepUrl">
+              <a class="btn btn-secondary-ghost align-self-start" href="@Model.EditStepUrl">
                 <i class="material-icons">mode_edit</i>
                 <span>Edit</span>
               </a>
@@ -27,7 +27,7 @@
           </div>
           @if (Model.EditButton.IsHiddenWithMessage)
           {
-              <h3>@Model.EditButton.HideReasonMessage</h3>
+              <p>@Model.EditButton.HideReasonMessage</p>
           }
           <div class="text-markdown">@Model.Content</div>
         </div>

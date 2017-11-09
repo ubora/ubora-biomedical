@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Commands;
+using Ubora.Web._Features.Projects.Workpackages;
 using Ubora.Web._Features.Projects._Shared;
 
 namespace Ubora.Web._Features.Projects.DeviceClassifications
@@ -15,6 +16,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
 
             ViewData["Title"] = "Device classfication";
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.DeviceClassification;
         }
 
         public virtual IActionResult Index([FromServices]DeviceClassificationIndexViewModel.Factory modelFactory)
