@@ -29,7 +29,7 @@
                     <div>
                         @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorized(User, Policies.CanJoinProject))
                         {
-                        <a class="btn btn-secondary-ghost" href="@Url.Action(" Join", "Members" )"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
+                        <a class="btn btn-secondary-ghost" href="@Url.Action("Join", "Members" )"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
                         }
 
                         @if (await AuthorizationService.IsAuthorized(User, Policies.CanChangeProjectImage))
