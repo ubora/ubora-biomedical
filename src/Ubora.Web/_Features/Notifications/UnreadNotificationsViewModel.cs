@@ -11,7 +11,7 @@ namespace Ubora.Web._Features.Notifications
 
         public class Factory
         {
-            private IQueryProcessor _queryProcessor;
+            private readonly IQueryProcessor _queryProcessor;
 
             public Factory(IQueryProcessor queryProcessor)
             {

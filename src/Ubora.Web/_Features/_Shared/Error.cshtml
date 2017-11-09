@@ -1,9 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Error";
 }
-<section class="initiative full-width">
-    <div class="initiative-option">
-        <h1>Error @ViewData["statusCode"]</h1>
-        <h3>Sorry, this page isn't available. Please try again!</h3>
+
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="danger-notice">
+      <h1 class="danger-notice-header">Error @ViewData["statusCode"]</h1>
+      <p>Sorry, this page isn't available. Please try again!</p>
     </div>
-</section>
+  </div>
+</div>

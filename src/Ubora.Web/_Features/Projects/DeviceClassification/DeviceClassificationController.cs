@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Linq;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.DeviceClassification;
+using Ubora.Domain.Projects.DeviceClassification.Commands;
 using Ubora.Web._Features.Projects.DeviceClassification.Services;
 using Ubora.Web._Features.Projects.DeviceClassification.ViewModels;
+using Ubora.Web._Features.Projects.Workpackages;
 
 namespace Ubora.Web._Features.Projects.DeviceClassification
 {
@@ -12,9 +14,16 @@ namespace Ubora.Web._Features.Projects.DeviceClassification
     {
         private readonly IDeviceClassification _deviceClassification;
 
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            ViewData["Title"] = "Device classification";
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.DeviceClassification;
+        }
+
         public DeviceClassificationController(
-            ICommandQueryProcessor processor,
-            IDeviceClassificationProvider deviceClassificationProvider) : base(processor)
+            IDeviceClassificationProvider deviceClassificationProvider)
         {
             _deviceClassification = deviceClassificationProvider.Provide();
         }

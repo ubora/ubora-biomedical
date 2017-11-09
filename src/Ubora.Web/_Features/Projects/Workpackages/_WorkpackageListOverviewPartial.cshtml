@@ -1,50 +1,33 @@
-﻿@model Ubora.Web._Features.Projects.Workpackages.WorkpackageListOverviewViewModel
-@*
-    TODO: Map a tags to work package steps
-*@
+﻿@model IEnumerable<Ubora.Web._Features.Projects.Workpackages.WorkpackageMenuViewModel>
+
 <aside class="project_sidemenu">
-    <ol>
-        <li class="project_sidemenu--workpackage">
-            <h3>WP1: @Model.WorkpackageOne.Title</h3>
-            <ol>
-                <li><a asp-controller="WorkpackageOne" asp-action="DesignPlanning">&nbsp;Design planning</a></li>
-                @foreach (var step in Model.WorkpackageOne.Steps)
-                {
-                    <li>
-                        <a asp-action="Read" asp-controller="WorkpackageOne" asp-route-stepId="@step.Id">@step.Title</a>
-                    </li>
-                }
-                <li><a asp-controller="WorkpackageOne" asp-action="DeviceClassification">&nbsp;Device classification</a></li>
-                <li><a href="#" class="project_sidemenu_link--disabled">&nbsp;Regulation checklist</a></li>
-                <li><a asp-controller="WorkpackageOneReview" asp-action="Review">&nbsp;Formal review</a></li>
-            </ol>
-        </li>
-
-        @if (Model.WorkpackageTwo != null)
-        {
-            <li class="project_sidemenu--workpackage">
-                <h3>WP2: @Model.WorkpackageTwo.Title</h3>
-                <ol>
-                    @foreach (var step in Model.WorkpackageTwo.Steps)
-                    {
-                        <li>
-                            <a asp-action="Read" asp-controller="WorkpackageTwo" asp-route-stepId="@step.Id">
-
-                                @step.Title
-                            </a>
-                        </li>
-                    }
-                    <li><a asp-controller="WorkpackageTwoReview" asp-action="Review">&nbsp;Formal review</a></li>
-                </ol>
+    <div class="">
+        <ul class="list-sidebar">
+            <li class="my-2">
+                <a asp-action="ProjectOverview" asp-controller="WorkPackageOne" class="checked-status">
+                    <img class="side-menu-icon-primary mr-1" src="/images/icons/check.svg" alt="Check icon">
+                    <span class="nav-label">Design planning</span>
+                </a>
             </li>
-        }
-
-        @if (Model.WorkpackageThree != null)
-        {
-            <li class="project_sidemenu--workpackage">
-                <h3>WP3: @Model.WorkpackageThree.Title</h3>
-                <p>Coming soon!</p>
-            </li>
-        }
-    </ol>
+            @foreach (var workPackage in Model)
+            {
+                <li class="my-2">
+                    <a href="#" class="@(workPackage.HasBeenAccepted ? "checked-status" : workPackage.IsMuted ? "muted-status" : "" ) collapsed active" data-toggle="collapse" data-target="#@workPackage.WorkPackageId">
+                        <img class="side-menu-icon-primary mr-1" src="@workPackage.WorkPackageImageSrc" alt="@workPackage.Title icon">
+                        <span class="nav-label">@workPackage.Title</span>
+                    </a>
+                    <ul class="sub-menu @(workPackage.IsAnyMenuLinkSelected ? "" : "collapse")" id="@workPackage.WorkPackageId">
+                        @foreach (var menuLink in workPackage.MenuLinks)
+                        {
+                            <li class="my-2">
+                                <a class="@(menuLink.IsSelected ? "active-status" : workPackage.HasBeenAccepted ? "checked-status" : "" )" href="@menuLink.Href">
+                                    <img class="side-menu-icon-secondary" src="@(menuLink.IsSelected ? "/images/icons/arrow.svg" : workPackage.HasBeenAccepted ? "/images/icons/check.svg" : "/images/icons/circle.svg")" alt="icon"><span class="ml-4">@menuLink.Name</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    </div>
 </aside>

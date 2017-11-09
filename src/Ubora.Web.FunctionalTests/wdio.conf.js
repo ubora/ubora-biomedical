@@ -1,3 +1,9 @@
+var rmdir = require('rmdir');
+var reporter = require('cucumber-html-reporter');
+
+var jsonReports = process.cwd() + '/reports/jsons';
+var htmlReports = process.cwd() + '/reports';
+
 exports.config = {
     // Set a base URL in order to shorten url command calls. If your url parameter starts
     // with "/", then the base url gets prepended.
@@ -44,7 +50,7 @@ exports.config = {
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
-        maxInstances: 5,
+        maxInstances: 1,
         //
         browserName: 'chrome'
     }],
@@ -132,10 +138,10 @@ exports.config = {
         profile: [],        // <string[]> (name) specify the profile to use
         strict: false,      // <boolean> fail if there are any undefined or pending steps
         tags: [],           // <string[]> (expression) only execute the features or scenarios with tags matching the expression
-        timeout: 20000000,     // <number> timeout for step definitions
+        timeout: 20000,     // <number> timeout for step definitions
         ignoreUndefinedDefinitions: false, // <boolean> Enable this config to treat undefined definitions as warnings.
     },
-    
+
     //
     // =====
     // Hooks
@@ -149,8 +155,10 @@ exports.config = {
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-    // onPrepare: function (config, capabilities) {
-    // },
+    onPrepare: function (config, capabilities) {
+        rmdir(jsonReports, function (err, dirs, files) {
+        });
+    },
     /**
      * Gets executed just before initialising the webdriver session and test framework. It allows you
      * to manipulate configurations depending on the capability or spec.
@@ -243,6 +251,15 @@ exports.config = {
      * possible to defer the end of the process using a promise.
      * @param {Object} exitCode 0 - success, 1 - fail
      */
-    // onComplete: function(exitCode) {
-    // }
+    onComplete: function (exitCode) {
+        var options = {
+            brandTitle: "Smoke Tests Report",
+            name: 'Ubora project',
+            theme: 'bootstrap',
+            jsonDir: jsonReports,
+            output: htmlReports + '/cucumber_html_reporter.html',
+            reportSuiteAsScenarios: true
+        };
+        reporter.generate(options);
+    }
 }

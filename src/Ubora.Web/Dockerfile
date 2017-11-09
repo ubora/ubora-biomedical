@@ -1,7 +1,6 @@
-FROM microsoft/aspnetcore:1.1.2
+FROM microsoft/aspnetcore:2.0
 ARG source
 WORKDIR /app
 EXPOSE 80
 COPY ${source:-obj/Docker/publish} .
-COPY ./wait-for-it.sh wait-for-it.sh
 ENTRYPOINT ["dotnet", "Ubora.Web.dll"]

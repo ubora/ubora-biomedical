@@ -1,13 +1,12 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
-using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Web._Features.Users.Manage
 {
@@ -16,23 +15,20 @@ namespace Ubora.Web._Features.Users.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly string _externalCookieScheme;
-        private readonly IEmailSender _emailSender;
+        private readonly EmailSender _emailSender;
         private readonly ILogger _logger;
 
         public ManageController(
           UserManager<ApplicationUser> userManager,
           SignInManager<ApplicationUser> signInManager,
-          IOptions<IdentityCookieOptions> identityCookieOptions,
-          IEmailSender emailSender,
-          ILoggerFactory loggerFactory,
-          ICommandQueryProcessor processor) : base(processor)
+          EmailSender emailSender,
+          ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _emailSender = emailSender;
-            _logger = loggerFactory.CreateLogger<ManageController>();
+            _logger = loggerFactory.CreateLogger(nameof(ManageController));
+
         }
 
         [HttpGet]
@@ -61,7 +57,7 @@ namespace Ubora.Web._Features.Users.Manage
                 Logins = await _userManager.GetLoginsAsync(user),
                 BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
             };
-            return View(model);
+            return View(nameof(Index), model);
         }
 
         [HttpPost]
@@ -182,6 +178,7 @@ namespace Ubora.Web._Features.Users.Manage
             {
                 return View(model);
             }
+
             var user = await GetCurrentUserAsync();
             if (user != null)
             {
@@ -190,12 +187,18 @@ namespace Ubora.Web._Features.Users.Manage
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, $"{user.Id} is the identity of the user who changed their password successfully.");
-                    return RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
+
+                    Notices.Success("Password changed successfully!");
+
+                    return RedirectToAction(nameof(Index));
                 }
                 AddErrors(result);
                 return View(model);
             }
-            return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
+
+            Notices.Error("Password could not be changed!");
+
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
@@ -242,7 +245,8 @@ namespace Ubora.Web._Features.Users.Manage
                 return View("Error");
             }
             var userLogins = await _userManager.GetLoginsAsync(user);
-            var otherLogins = _signInManager.GetExternalAuthenticationSchemes().Where(auth => userLogins.All(ul => auth.AuthenticationScheme != ul.LoginProvider)).ToList();
+            var schemes = await _signInManager.GetExternalAuthenticationSchemesAsync();
+            var otherLogins = schemes.Where(auth => userLogins.All(ul => auth.Name != ul.LoginProvider)).ToList();
             ViewData["ShowRemoveButton"] = user.PasswordHash != null || userLogins.Count > 1;
             return View(new ManageLoginsViewModel
             {
@@ -256,7 +260,7 @@ namespace Ubora.Web._Features.Users.Manage
         public async Task<IActionResult> LinkLogin(string provider)
         {
             // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.Authentication.SignOutAsync(_externalCookieScheme);
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             // Request a redirect to the external login provider to link a login for the current user
             var redirectUrl = Url.Action(nameof(LinkLoginCallback), "Manage");
@@ -283,7 +287,7 @@ namespace Ubora.Web._Features.Users.Manage
             {
                 message = ManageMessageId.AddLoginSuccess;
                 // Clear the existing external cookie to ensure a clean login process
-                await HttpContext.Authentication.SignOutAsync(_externalCookieScheme);
+                await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
             }
             return RedirectToAction(nameof(ManageLogins), new { Message = message });
         }

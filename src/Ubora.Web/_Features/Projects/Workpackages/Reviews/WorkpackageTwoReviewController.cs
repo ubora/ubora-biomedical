@@ -1,32 +1,35 @@
 ﻿using System.Linq;
-using AutoMapper;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web.Authorization;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 {
     public class WorkpackageTwoReviewController : ProjectController
     {
-        private readonly IMapper _mapper;
+        private WorkpackageTwo _workpackageTwo;
+        public WorkpackageTwo WorkpackageTwo => _workpackageTwo ?? (_workpackageTwo = QueryProcessor.FindById<WorkpackageTwo>(ProjectId));
 
-        public WorkpackageTwoReviewController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
-            {
-            _mapper = mapper;
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            ViewData["Title"] = "Workpackage two review";
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.Wp2MentorReview;
         }
 
-        protected WorkpackageTwo WorkpackageTwo => FindById<WorkpackageTwo>(ProjectId);
-
-        public IActionResult Review()
+        public async Task<IActionResult> Review()
         {
             var model = new WorkpackageReviewListViewModel
             {
-                Reviews = WorkpackageTwo.Reviews.Select(_mapper.Map<WorkpackageReviewViewModel>),
+                Reviews = WorkpackageTwo.Reviews.Select(AutoMapper.Map<WorkpackageReviewViewModel>),
                 ReviewDecisionUrl = Url.Action(nameof(Decision)),
-                SubmitForReviewUrl = Url.Action(nameof(SubmitForReview))
+                SubmitForReviewUrl = Url.Action(nameof(SubmitForReview)),
+                SubmitForReviewButton = await WorkpackageReviewListViewModel.GetSubmitButtonVisibility(WorkpackageTwo, User, AuthorizationService)
             };
 
             return View(nameof(Review), model);
@@ -34,18 +37,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 
         [HttpPost]
         [Authorize(Policies.CanSubmitWorkpackageForReview)]
-        public IActionResult SubmitForReview()
+        public async Task<IActionResult> SubmitForReview()
         {
             if (!ModelState.IsValid)
             {
-                return Review();
+                return await Review();
             }
 
             ExecuteUserProjectCommand(new SubmitWorkpackageTwoForReviewCommand());
 
             if (!ModelState.IsValid)
             {
-                return Review();
+                return await Review();
             }
 
             return RedirectToAction(nameof(Review));
@@ -64,11 +67,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 
         [HttpPost]
         [Authorize(Policies.CanReviewProjectWorkpackages)]
-        public IActionResult Accept(WorkpackageReviewDecisionPostModel model)
+        public async Task<IActionResult> Accept(WorkpackageReviewDecisionPostModel model)
         {
             if (!ModelState.IsValid)
             {
-                return Review();
+                return await Review();
             }
 
             ExecuteUserProjectCommand(new AcceptWorkpackageTwoReviewCommand
@@ -78,7 +81,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 
             if (!ModelState.IsValid)
             {
-                return Review();
+                return await Review();
             }
 
             return RedirectToAction(nameof(Review));
@@ -86,11 +89,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 
         [HttpPost]
         [Authorize(Policies.CanReviewProjectWorkpackages)]
-        public IActionResult Reject(WorkpackageReviewDecisionPostModel model)
+        public async Task<IActionResult> Reject(WorkpackageReviewDecisionPostModel model)
         {
             if (!ModelState.IsValid)
             {
-                return Review();
+                return await Review();
             }
 
             ExecuteUserProjectCommand(new RejectWorkpackageTwoReviewCommand
@@ -100,7 +103,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 
             if (!ModelState.IsValid)
             {
-                return Review();
+                return await Review();
             }
 
             return RedirectToAction(nameof(Review));

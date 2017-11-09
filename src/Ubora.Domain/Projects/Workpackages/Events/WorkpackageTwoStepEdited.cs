@@ -1,11 +1,12 @@
-﻿using Ubora.Domain.Infrastructure.Events;
+﻿using System;
+using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.Workpackages.Events
 {
-    public class WorkpackageTwoStepEdited : UboraEvent
+    public class WorkpackageTwoStepEdited : ProjectEvent
     {
-        public WorkpackageTwoStepEdited(UserInfo initiatedBy, string stepId, string title, string newValue)
-            : base(initiatedBy)
+        public WorkpackageTwoStepEdited(UserInfo initiatedBy, Guid projectId, string stepId, string title, string newValue) : base(initiatedBy, projectId)
         {
             StepId = stepId;
             Title = title;
@@ -16,6 +17,6 @@ namespace Ubora.Domain.Projects.Workpackages.Events
         public string Title { get; private set; }
         public string NewValue { get; private set; }
 
-        public override string GetDescription() => $"Edited \"{Title}\"";
+        public override string GetDescription() => $"edited workpackage 2 \"{Title}\"";
     }
 }

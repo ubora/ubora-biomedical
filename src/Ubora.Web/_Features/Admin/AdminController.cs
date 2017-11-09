@@ -5,18 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 
 namespace Ubora.Web._Features.Admin
 {
-    [Authorize(Roles = ApplicationRole.Admin)] // Important!
+    [Authorize(Roles = ApplicationRole.Admin)]
     public class AdminController : UboraController
     {
         private readonly ApplicationUserManager _userManager;
 
-        public AdminController(ICommandQueryProcessor processor, ApplicationUserManager userManager) : base(processor)
+        public AdminController(ApplicationUserManager userManager)
         {
             _userManager = userManager;
         }
@@ -43,7 +42,7 @@ namespace Ubora.Web._Features.Admin
         [Authorize(Roles = ApplicationRole.Admin)]
         public async Task<IActionResult> AddAdministratorRole(Guid userId)
         {
-            var user = await _userManager.FindByIdAsync(userId.ToString());
+            var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.AddToRoleAsync(user, ApplicationRole.Admin);
 
             if (!result.Succeeded)
@@ -60,8 +59,42 @@ namespace Ubora.Web._Features.Admin
         [Authorize(Roles = ApplicationRole.Admin)]
         public async Task<IActionResult> RemoveAdministratorRole(Guid userId)
         {
-            var user = await _userManager.FindByIdAsync(userId.ToString());
+            var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.RemoveFromRoleAsync(user, ApplicationRole.Admin);
+
+            if (!result.Succeeded)
+            {
+                AddIdentityErrorsToModelState(result);
+
+                return await Diagnostics();
+            }
+
+            return RedirectToAction(nameof(Diagnostics));
+        }
+
+        [HttpPost]
+        [Authorize(Roles = ApplicationRole.Admin)]
+        public async Task<IActionResult> AddMentorRole(Guid userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var result = await _userManager.AddToRoleAsync(user, ApplicationRole.Mentor);
+
+            if (!result.Succeeded)
+            {
+                AddIdentityErrorsToModelState(result);
+
+                return await Diagnostics();
+            }
+
+            return RedirectToAction(nameof(Diagnostics));
+        }
+
+        [HttpPost]
+        [Authorize(Roles = ApplicationRole.Admin)]
+        public async Task<IActionResult> RemoveMentorRole(Guid userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var result = await _userManager.RemoveFromRoleAsync(user, ApplicationRole.Mentor);
 
             if (!result.Succeeded)
             {

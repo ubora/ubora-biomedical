@@ -1,41 +1,37 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Domain.Projects._Commands;
 using Ubora.Web.Authorization;
+using Ubora.Web._Features._Shared;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     [ProjectRoute("WP1")]
     public class WorkpackageOneController : ProjectController
     {
-        private readonly IMapper _mapper;
+        private WorkpackageOne _workpackageOne;
+        public WorkpackageOne WorkpackageOne => _workpackageOne ?? (_workpackageOne = QueryProcessor.FindById<WorkpackageOne>(ProjectId));
 
-        public WorkpackageOneController(ICommandQueryProcessor processor, IMapper mapper) : base(processor)
+        [Route(nameof(ProjectOverview))]
+        public IActionResult ProjectOverview()
         {
-            _mapper = mapper;
-        }
-
-        protected Domain.Projects.Workpackages.WorkpackageOne WorkpackageOne => FindById<Domain.Projects.Workpackages.WorkpackageOne>(ProjectId);
-
-        [Route(nameof(DesignPlanning))]
-        public IActionResult DesignPlanning()
-        {
-            var model = _mapper.Map<DesignPlanningViewModel>(Project);
+            var model = AutoMapper.Map<ProjectOverviewViewModel>(Project);
 
             return View(model);
         }
 
-        [Route(nameof(DesignPlanning))]
         [HttpPost]
+        [Route(nameof(ProjectOverview))]
         [Authorize(Policies.CanEditWorkpackageOne)]
-        public IActionResult DesignPlanning(DesignPlanningViewModel model)
+        public IActionResult ProjectOverview(ProjectOverviewViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return DesignPlanning();
+                return ProjectOverview();
             }
 
             ExecuteUserProjectCommand(new UpdateProjectCommand
@@ -49,8 +45,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             if (!ModelState.IsValid)
             {
-                return DesignPlanning();
+                Notices.Error("Failed to change project overview!");
+
+                return ProjectOverview();
             }
+
+            Notices.Success("Project overview changed successfully!");
 
             return View();
         }
@@ -58,36 +58,49 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Route(nameof(DeviceClassification))]
         public IActionResult DeviceClassification()
         {
-            return View();
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.DeviceClassification;
+
+            var model = AutoMapper.Map<DeviceClassificationViewModel>(Project);
+
+            return View(nameof(DeviceClassification), model);
         }
 
         [Route("{stepId}")]
         public IActionResult Read(string stepId)
         {
             var step = WorkpackageOne.GetSingleStep(stepId);
-            var model = _mapper.Map<StepViewModel>(step);
+            var model = AutoMapper.Map<ReadStepViewModel>(step);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
+            model.EditButton = GetEditButtonVisibility();
+
+            UiElementVisibility GetEditButtonVisibility()
+            {
+                if (WorkpackageOne.HasReviewInProcess || WorkpackageOne.HasBeenAccepted)
+                {
+                    return UiElementVisibility.HiddenWithMessage("You can not edit work package when it's under review or has been accepted by review.");
+                }
+                return UiElementVisibility.Visible();
+            }
 
             return View(model);
         }
 
-        // TODO: Hide in UI
         [Route("{stepId}/Edit")]
         [Authorize(Policies.CanEditWorkpackageOne)]
         public IActionResult Edit(string stepId)
         {
             var step = WorkpackageOne.GetSingleStep(stepId);
 
-            var model = _mapper.Map<StepViewModel>(step);
+            var model = AutoMapper.Map<EditStepViewModel>(step);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
 
             return View(model);
         }
 
-        [Route("{stepId}/Edit")]
         [HttpPost]
+        [Route("{stepId}/Edit")]
         [Authorize(Policies.CanEditWorkpackageOne)]
         public IActionResult Edit(EditStepPostModel model)
         {

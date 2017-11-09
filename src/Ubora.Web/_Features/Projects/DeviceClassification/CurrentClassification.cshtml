@@ -5,14 +5,15 @@
     ViewData["Title"] = "Device classification results";
 }
 
-<section class="narrow-width center-element">
-        <h1>Your device classification is: @Model.Classification</h1>
-
-        <div class="questionnaire-question">
-            <a class="button secondary-button small-button full-width" asp-controller="DeviceClassification" asp-action="GetPairedMainQuestions">Retake questionnaire?</a>
-        </div>
-
-        <div class="questionnaire-question">
-            <a class="button secondary-button small-button full-width" asp-controller="Dashboard" asp-action="Dashboard">Go back to project page</a>
-        </div>
-</section>
+<div class="container-fluid my-4">
+  <div class="row flex-column align-items-center">
+    <h1>Your device classification is: @Model.Classification</h1>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+      <div class="questionnaire-question d-flex flex-column align-items-center">
+        <a class="btn btn-primary btn-lg btn-block" asp-controller="Dashboard" asp-action="Dashboard">Go back to project page</a>
+        <span class="my-1"></span>
+        <a class="btn btn-secondary-ghost btn-lg btn-block" asp-controller="DeviceClassification" asp-action="GetPairedMainQuestions">Retake questionnaire?</a>
+      </div>
+    </div>
+  </div>
+</div>

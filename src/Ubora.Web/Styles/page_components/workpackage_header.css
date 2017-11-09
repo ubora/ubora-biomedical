@@ -1,0 +1,29 @@
+.wp-header {
+  background-color: var(--blue);
+  padding: .5rem 0 0 0;
+  border: 0;
+}
+
+.wp-header .nav-link.active {
+  border-color: transparent;
+  border-bottom: 1px solid var(--white);
+  color: var(--blue);
+}
+
+.wp-header .nav-link {
+  color: var(--white);
+}
+
+.wp-header .nav-link:focus,
+.wp-header .nav-link:hover {
+  color: var(--light-blue);
+  background-color: var(--white);
+  border-color: transparent;
+}
+
+@media screen and (max-width:767px) {
+  .wp-header .nav-link {
+    border-radius: .25rem;
+    margin: .25rem .5rem;
+  }
+}

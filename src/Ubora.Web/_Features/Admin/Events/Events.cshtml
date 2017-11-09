@@ -1,0 +1,26 @@
+﻿@using Ubora.Web._Features.Admin.Events
+@model Ubora.Web._Features.Admin.Events.EventsViewModel
+
+<div class="container-fluid my-4">
+    <h1>Event metadata</h1>
+
+    Event count: @Model.Events.Count()<br/>
+    Filter by:
+    <a asp-action="Events" asp-route-filter="Namespace">namespace</a>,
+    <a asp-action="Events" asp-route-filter="Inheritance">inheritance</a>
+    <br />
+
+    Currently filtered by: <i>@Model.Filter</i>
+
+    @switch (Model.Filter)
+    {
+        case EventFilter.Namespace:
+            @Html.Partial("_NamespaceFilterPartial", Model)
+            break;
+        case EventFilter.Inheritance:
+            @Html.Partial("_InheritanceFilterPartial", Model)
+            break;
+        default:
+            throw new ArgumentOutOfRangeException();
+    }
+</div>

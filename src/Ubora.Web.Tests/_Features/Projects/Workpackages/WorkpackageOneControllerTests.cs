@@ -1,32 +1,30 @@
 ﻿using System;
-using AutoMapper;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Xunit;
+using Ubora.Domain.Projects;
+using Ubora.Domain.Projects._Commands;
+using Ubora.Web.Tests.Helper;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages
 {
     public class WorkpackageOneControllerTests : ProjectControllerTestsBase
     {
         private readonly WorkpackageOneController _workpackageOneController;
-        private readonly Mock<ICommandQueryProcessor> _processorMock;
-        private readonly Mock<IMapper> _mapperMock;
 
         public WorkpackageOneControllerTests()
         {
-            _processorMock = new Mock<ICommandQueryProcessor>();
-            _mapperMock = new Mock<IMapper>();
-            _workpackageOneController = new WorkpackageOneController(_processorMock.Object, _mapperMock.Object)
+            _workpackageOneController = new WorkpackageOneController()
             {
                 Url = Mock.Of<IUrlHelper>()
             };
-            SetProjectAndUserContext(_workpackageOneController);
+            SetUpForTest(_workpackageOneController);
         }
 
         [Fact]
@@ -36,16 +34,16 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var step = Mock.Of<WorkpackageStep>();
             var workpackageOne = Mock.Of<WorkpackageOne>(x => x.GetSingleStep(stepId) == step);
 
-            _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
+            QueryProcessorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
                 .Returns(workpackageOne);
 
-            var expectedModel = new StepViewModel();
-            _mapperMock.Setup(m => m.Map<StepViewModel>(step))
+            var expectedModel = new EditStepViewModel();
+            AutoMapperMock.Setup(m => m.Map<EditStepViewModel>(step))
                 .Returns(expectedModel);
 
             _workpackageOneController.ModelState.AddModelError("", "testError");
 
-            var postModel = new StepViewModel { StepId = stepId };
+            var postModel = new EditStepViewModel { StepId = stepId };
 
             // Act
             var result = (ViewResult)_workpackageOneController.Edit(postModel);
@@ -53,7 +51,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             // Assert
             result.Model.Should().BeSameAs(expectedModel);
 
-            _processorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
+            CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
         }
 
         [Fact]
@@ -63,16 +61,17 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var step = Mock.Of<WorkpackageStep>();
             var workpackageOne = Mock.Of<WorkpackageOne>(x => x.GetSingleStep(stepId) == step);
 
-            _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
+            QueryProcessorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
                 .Returns(workpackageOne);
 
-            var expectedModel = new StepViewModel();
-            _mapperMock.Setup(m => m.Map<StepViewModel>(step))
+            var expectedModel = new EditStepViewModel();
+            AutoMapperMock.Setup(m => m.Map<EditStepViewModel>(step))
                 .Returns(expectedModel);
 
-            _processorMock.Setup(x => x.Execute(It.IsAny<ICommand>())).Returns(new CommandResult("dummyError"));
+            CommandProcessorMock.Setup(x => x.Execute(It.IsAny<ICommand>()))
+                .Returns(CommandResult.Failed("dummyError"));
 
-            var postModel = new StepViewModel { StepId = stepId };
+            var postModel = new EditStepViewModel { StepId = stepId };
 
             // Act
             var result = (ViewResult)_workpackageOneController.Edit(postModel);
@@ -85,13 +84,13 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         public void Redirects_When_Command_Is_Executed_Successfully()
         {
             EditWorkpackageOneStepCommand executedCommand = null;
-            _processorMock
+            CommandProcessorMock
                 .Setup(x => x.Execute(It.IsAny<EditWorkpackageOneStepCommand>()))
                 .Callback<EditWorkpackageOneStepCommand>(c => executedCommand = c)
-                .Returns(new CommandResult());
+                .Returns(CommandResult.Success);
 
             var stepId = Guid.NewGuid().ToString();
-            var postModel = new StepViewModel
+            var postModel = new EditStepViewModel
             {
                 StepId = stepId,
                 Content = "expectedValue"
@@ -115,11 +114,11 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var step = Mock.Of<WorkpackageStep>();
             var workpackageOne = Mock.Of<WorkpackageOne>(x => x.GetSingleStep(stepId) == step);
 
-            _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
+            QueryProcessorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
                 .Returns(workpackageOne);
 
-            var expectedModel = new StepViewModel();
-            _mapperMock.Setup(m => m.Map<StepViewModel>(step))
+            var expectedModel = new ReadStepViewModel();
+            AutoMapperMock.Setup(m => m.Map<ReadStepViewModel>(step))
                 .Returns(expectedModel);
 
             // Act
@@ -136,11 +135,11 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var step = Mock.Of<WorkpackageStep>();
             var workpackageOne = Mock.Of<WorkpackageOne>(x => x.GetSingleStep(stepId) == step);
 
-            _processorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
+            QueryProcessorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
                 .Returns(workpackageOne);
 
-            var expectedModel = new StepViewModel();
-            _mapperMock.Setup(m => m.Map<StepViewModel>(step))
+            var expectedModel = new ReadStepViewModel();
+            AutoMapperMock.Setup(m => m.Map<ReadStepViewModel>(step))
                 .Returns(expectedModel);
 
             // Act
@@ -148,6 +147,107 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
 
             // Assert
             result.Model.Should().BeSameAs(expectedModel);
+        }
+
+        [Fact]
+        public void Returns_ProjectOverview_View_With_Success_Notice_When_ProjectOverview_Was_Saved_Successfully()
+        {
+            var projectTitle = "projectTitle";
+            UpdateProjectCommand executedCommand = null;
+            CommandProcessorMock
+                .Setup(x => x.Execute(It.IsAny<UpdateProjectCommand>()))
+                .Callback<UpdateProjectCommand>(c => executedCommand = c)
+                .Returns(CommandResult.Success);
+
+            var areaOfUsageTags = "AreaOfUsageTags";
+            var clinicalNeedTags = "ClinicalNeedTags";
+            var gmdn = "Gmdn";
+            var potentialTechnologyTags = "PotentialTechnologyTags";
+            var projectOverViewModel = new ProjectOverviewViewModel
+            {
+                AreaOfUsageTags = areaOfUsageTags,
+                ClinicalNeedTags = clinicalNeedTags,
+                Gmdn = gmdn,
+                PotentialTechnologyTags = potentialTechnologyTags,
+            };
+
+            var project = new Project().Set(x => x.Title, projectTitle);
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
+                .Returns(project);
+
+            // Act
+            var result = (ViewResult)_workpackageOneController.ProjectOverview(projectOverViewModel);
+
+            // Assert
+            executedCommand.PotentialTechnologyTags.Should().Be(potentialTechnologyTags);
+            executedCommand.Gmdn.Should().Be(gmdn);
+            executedCommand.AreaOfUsageTags.Should().Be(areaOfUsageTags);
+            executedCommand.ClinicalNeedTags.Should().Be(clinicalNeedTags);
+            executedCommand.Title.Should().Be(projectTitle);
+
+            var successNotice = _workpackageOneController.Notices.Dequeue();
+            successNotice.Text.Should().Be("Project overview changed successfully!");
+            successNotice.Type.Should().Be(NoticeType.Success);
+        }
+
+        [Fact]
+        public void Returns_ProjectOverview_View_With_Error_Notice_When_ProjectOverview_Was_Not_Saved_Successfully()
+        {
+            var projectTitle = "projectTitle";
+            UpdateProjectCommand executedCommand = null;
+            CommandProcessorMock
+                .Setup(x => x.Execute(It.IsAny<UpdateProjectCommand>()))
+                .Callback<UpdateProjectCommand>(c => executedCommand = c)
+                .Returns(CommandResult.Failed("error"));
+
+            var areaOfUsageTags = "AreaOfUsageTags";
+            var clinicalNeedTags = "ClinicalNeedTags";
+            var gmdn = "Gmdn";
+            var potentialTechnologyTags = "PotentialTechnologyTags";
+            var projectOverViewModel = new ProjectOverviewViewModel
+            {
+                AreaOfUsageTags = areaOfUsageTags,
+                ClinicalNeedTags = clinicalNeedTags,
+                Gmdn = gmdn,
+                PotentialTechnologyTags = potentialTechnologyTags,
+            };
+
+            var project = new Project().Set(x => x.Title, projectTitle);
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
+                .Returns(project);
+
+            // Act
+            var result = (ViewResult)_workpackageOneController.ProjectOverview(projectOverViewModel);
+
+            // Assert
+            executedCommand.PotentialTechnologyTags.Should().Be(potentialTechnologyTags);
+            executedCommand.Gmdn.Should().Be(gmdn);
+            executedCommand.AreaOfUsageTags.Should().Be(areaOfUsageTags);
+            executedCommand.ClinicalNeedTags.Should().Be(clinicalNeedTags);
+            executedCommand.Title.Should().Be(projectTitle);
+
+            var successNotice = _workpackageOneController.Notices.Dequeue();
+            successNotice.Text.Should().Be("Failed to change project overview!");
+            successNotice.Type.Should().Be(NoticeType.Error);
+        }
+
+        [Fact]
+        public void DeviceClassification_Returns_DeviceClassification_View_With_Expected_Model()
+        {
+            var project = new Project();
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
+                .Returns(project);
+
+            var expectedModel = new DeviceClassificationViewModel();
+            AutoMapperMock.Setup(m => m.Map<DeviceClassificationViewModel>(project))
+                .Returns(expectedModel);
+
+            // Act
+            var result = (ViewResult)_workpackageOneController.DeviceClassification();
+
+            // Assert
+            result.Model.Should().BeSameAs(expectedModel);
+            result.ViewName.Should().Be(nameof(WorkpackageOneController.DeviceClassification));
         }
     }
 }

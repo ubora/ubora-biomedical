@@ -4,15 +4,17 @@ using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.DeviceClassification;
-using System.Linq;
+using Ubora.Domain.Projects.DeviceClassification.Events;
+using Ubora.Domain.Projects.Members.Events;
 using Ubora.Domain.Projects.Workpackages.Events;
+using Ubora.Domain.Projects._Events;
+using Ubora.Domain.Projects._Specifications;
 
 namespace Ubora.Domain.Projects
 {
     public class Project : Entity<Project>
     {
-        // Virtual for testing
-        public virtual Guid Id { get; private set; }
+        public Guid Id { get; private set; }
         public string Title { get; private set; }
         public string Gmdn { get; private set; }
         public string ClinicalNeedTags { get; private set; }
@@ -21,20 +23,31 @@ namespace Ubora.Domain.Projects
         public string DeviceClassification { get; private set; }
         public string Description { get; private set; }
         public bool IsInDraft { get; private set; } = true;
+        public BlobLocation ProjectImageBlobLocation { get; set; }
+        public DateTime ProjectImageLastUpdated { get; private set; }
+        public bool HasImage => ProjectImageBlobLocation != null;
 
         [JsonProperty(nameof(Members))]
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
         [JsonIgnore]
-        public IReadOnlyCollection<ProjectMember> Members => _members;
+        // Virtual for testing.
+        public virtual IReadOnlyCollection<ProjectMember> Members
+        {
+            get
+            {
+                return _members;
+            }
+            private set { }
+        }
 
         public bool HasMember<T>(Guid userId) where T : ProjectMember
         {
-            return DoesSatisfy(new HasMember<T>(userId)); 
+            return DoesSatisfy(new HasMember<T>(userId));
         }
 
         private void Apply(ProjectCreatedEvent e)
         {
-            Id = e.Id;
+            Id = e.ProjectId;
             Title = e.Title;
             AreaOfUsageTags = e.AreaOfUsage;
             ClinicalNeedTags = e.ClinicalNeed;
@@ -90,8 +103,7 @@ namespace Ubora.Domain.Projects
                 throw new InvalidOperationException();
             }
 
-            var member = _members.Single(x => x.UserId == e.UserId);
-            _members.Remove(member);
+            _members.RemoveWhere(m => m.UserId == e.UserId);
         }
 
         private void Apply(EditProjectDescriptionEvent e)
@@ -99,19 +111,32 @@ namespace Ubora.Domain.Projects
             Description = e.Description;
         }
 
-        private void Apply(ProjectMentorAssignedEvent e)
-        {
-            var isAlreadyMentor = this.DoesSatisfy(new HasMember<ProjectMentor>(e.UserId));
-            if (isAlreadyMentor)
-            {
-                return;
-            }
-            _members.Add(new ProjectMentor(e.UserId));
-        }
-
         private void Apply(WorkpackageOneReviewAcceptedEvent e)
         {
             IsInDraft = false;
+        }
+
+        private void Apply(ProjectImageUpdatedEvent e)
+        {
+            ProjectImageBlobLocation = e.BlobLocation;
+            ProjectImageLastUpdated = e.When;
+        }
+
+        private void Apply(ProjectImageDeletedEvent e)
+        {
+            ProjectImageBlobLocation = null;
+            ProjectImageLastUpdated = e.When;
+        }
+
+        private void Apply(MentorJoinedProjectEvent e)
+        {
+            var isMentorAlready = this.DoesSatisfy(new HasMember<ProjectMentor>(e.UserId));
+            if (isMentorAlready)
+            {
+                throw new InvalidOperationException();
+            }
+
+            _members.Add(new ProjectMentor(e.UserId));
         }
 
         public override string ToString()

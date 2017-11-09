@@ -3,6 +3,7 @@ using Autofac;
 using FluentAssertions;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
+using Ubora.Domain.Users.Commands;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Users
@@ -21,10 +22,13 @@ namespace Ubora.Domain.Tests.Users
                 FirstName = "expectedFirstName",
                 LastName = "expectedLastName",
                 Biography = "expectedBiography",
+                CountryCode = "expectedCountry",
                 Degree = "expectedDegree",
                 Field = "expectedField",
-                Skills = "expectedSkills",
                 University = "expectedUniversity",
+                MedicalDevice = "expectedMedicalDevice",
+                Institution = "expectedInstitution",
+                Skills = "expectedSkills",
                 Role = "expectedRole"
             };
             var commandProcessor = Container.Resolve<ICommandProcessor>();
@@ -40,10 +44,13 @@ namespace Ubora.Domain.Tests.Users
             updatedUserProfile.FirstName.Should().Be("expectedFirstName");
             updatedUserProfile.LastName.Should().Be("expectedLastName");
             updatedUserProfile.Biography.Should().Be("expectedBiography");
+            updatedUserProfile.Country.Code.Should().Be("expectedCountry");
             updatedUserProfile.Degree.Should().Be("expectedDegree");
             updatedUserProfile.Field.Should().Be("expectedField");
-            updatedUserProfile.Skills.Should().Be("expectedSkills");
             updatedUserProfile.University.Should().Be("expectedUniversity");
+            updatedUserProfile.MedicalDevice.Should().Be("expectedMedicalDevice");
+            updatedUserProfile.Institution.Should().Be("expectedInstitution");
+            updatedUserProfile.Skills.Should().Be("expectedSkills");
             updatedUserProfile.Role.Should().Be("expectedRole");
         }
 

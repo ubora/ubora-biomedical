@@ -12,6 +12,7 @@
 [assembly: AspMvcViewLocationFormat(@"~\_Features\{1}\{0}.cshtml")]
 
 [assembly: AspMvcViewLocationFormat(@"~\_Features\Users\{1}\{0}.cshtml")]
+[assembly: AspMvcViewLocationFormat(@"~\_Features\Admin\{1}\{0}.cshtml")]
 
 [assembly: AspMvcViewLocationFormat(@"~\_Features\Projects\{1}\{0}.cshtml")]
 [assembly: AspMvcViewLocationFormat(@"~\_Features\Projects\Workpackages\{1}\{0}.cshtml")]

@@ -1,20 +1,29 @@
 ﻿@using Ubora.Web._Features.Projects._Shared
-@model Ubora.Web._Features.Projects.History.ProjectHistoryViewModel
+@model System.Collections.Generic.IEnumerable<Ubora.Web._Features.Projects.History._Base.IEventViewModel>
 
 @{
     ViewData["Title"] = "History";
     ViewData["MenuOption"] = ProjectMenuOption.History;
 }
 
-<section class="medium-width">
-    <h1 class="full-width">Project history</h1>
-    
-    <ol>
-        @foreach (var eventDescription in Model.Events)
-        {
-            <li>
-                @eventDescription
-            </li>
-        }
-    </ol>
-</section>
+<div class="container-fluid my-4">
+  <div class="row justify-content-center">
+    <div class="col-sm-12 col-md-8">
+      <h1>Project history</h1>
+      @if (Model.Any())
+      {
+        <ul class="list-group">
+          @foreach (var uboraEvent in Model)
+          {
+            @uboraEvent.GetPartialView(Html)
+          }
+        </ul>
+      }
+      else
+      {
+        <h2>No history to show.</h2>
+      }
+      </ul>
+    </div>
+  </div>
+</div>

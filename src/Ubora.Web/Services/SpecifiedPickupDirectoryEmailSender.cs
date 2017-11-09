@@ -2,10 +2,11 @@
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using MimeKit;
 
 namespace Ubora.Web.Services
 {
-    public class SpecifiedPickupDirectoryEmailSender : IEmailSender
+    public class SpecifiedPickupDirectoryEmailSender : EmailSender
     {
         private readonly IOptions<SmtpSettings> _appSettings;
 
@@ -14,27 +15,20 @@ namespace Ubora.Web.Services
             _appSettings = appSettings;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string message)
+        public override async Task SendEmailAsync(string email, string subject, string message, Action<AttachmentCollection> handleAttachments = null, Action<AttachmentCollection> handleLinkedResources = null)
         {
-            await SendEmailToPickupDirectory(email, subject, message);
-        }
+            var emailMessage = PrepareEmailMessage(email, subject, message, handleAttachments, handleLinkedResources);
 
-        private async Task SendEmailToPickupDirectory(string email, string subject, string message)
-        {
             var pickupDirectory = _appSettings.Value.EmailPickupDirectory;
-
             if (!Directory.Exists(pickupDirectory))
-                Directory.CreateDirectory(pickupDirectory);
-
-            var path = Path.GetFullPath(Path.Combine(pickupDirectory, Guid.NewGuid() + ".eml"));
-            var stream = new FileStream(path, FileMode.CreateNew);
-            using (var writer = new StreamWriter(stream))
             {
-                await writer.WriteLineAsync(DateTime.Now.ToString());
-                await writer.WriteLineAsync("Subject: " + subject);
-                await writer.WriteLineAsync("To: " + email);
-                await writer.WriteLineAsync("");
-                await writer.WriteLineAsync(message);
+                Directory.CreateDirectory(pickupDirectory);
+            }
+
+            var emailPath = Path.GetFullPath(Path.Combine(pickupDirectory, Guid.NewGuid() + ".eml"));
+            using (var stream = new FileStream(emailPath, FileMode.CreateNew))
+            {
+                emailMessage.WriteTo(stream);
             }
         }
     }

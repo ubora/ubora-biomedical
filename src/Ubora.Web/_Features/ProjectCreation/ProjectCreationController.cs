@@ -1,18 +1,14 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Projects;
+using Ubora.Domain.Projects._Commands;
+using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.ProjectCreation
 {
-    [Authorize]
+    [Authorize(Policy = nameof(Policies.CanCreateProject))]
     public class ProjectCreationController : UboraController
     {
-        public ProjectCreationController(ICommandQueryProcessor processor) : base(processor)
-        {
-        }
-
         public IActionResult Create()
         {
             return View();

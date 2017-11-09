@@ -1,42 +1,64 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.6.0" />
-    <PackageReference Include="Marten" Version="1.5.2" />
+    <None Remove="Scripts\2017-02-10 project applicable regulations questionnaire.sql" />
+    <None Remove="Scripts\Script0002 - Add ProjectId.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\2017-02-10 project applicable regulations questionnaire.sql" />
+    <EmbeddedResource Include="Scripts\Script0001 - InitialCreate.sql" />
+    <EmbeddedResource Include="Scripts\Script0002 - Add ProjectId.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.1" />
+    <PackageReference Include="dbup" Version="3.3.5" />
+    <PackageReference Include="dbup-postgresql" Version="3.3.5" />
+    <PackageReference Include="Marten" Version="2.3.0" />
     <PackageReference Include="TwentyTwenty.Storage" Version="2.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
-
   <ItemGroup>
-    <Reference Include="Microsoft.Extensions.Configuration.UserSecrets">
-      <HintPath>..\..\..\Users\Kaspar\.nuget\packages\microsoft.extensions.configuration.usersecrets\1.1.2\lib\netstandard1.5\Microsoft.Extensions.Configuration.UserSecrets.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
+    <Compile Update="ApplicableRegulations\Texts\IsoStandardTexts.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IsoStandardTexts.resx</DependentUpon>
+    </Compile>
+    <Compile Update="ApplicableRegulations\Texts\NoteTexts.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NoteTexts.resx</DependentUpon>
+    </Compile>
+    <Compile Update="ApplicableRegulations\Texts\QuestionTexts.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>QuestionTexts.resx</DependentUpon>
+    </Compile>
     <Compile Update="Projects\Workpackages\Placeholders.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Placeholders.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
+    <EmbeddedResource Update="ApplicableRegulations\Texts\IsoStandardTexts.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>IsoStandardTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ApplicableRegulations\Texts\NoteTexts.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>NoteTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ApplicableRegulations\Texts\QuestionTexts.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>QuestionTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Projects\Workpackages\Placeholders.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Placeholders.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Projects\Project.HasLeader.cs" />
-  </ItemGroup>
-
 </Project>

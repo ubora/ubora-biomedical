@@ -2,28 +2,24 @@ using System;
 using System.Linq;
 using Ubora.Domain.Projects.Workpackages.Events;
 using Ubora.Domain.Projects.Workpackages.Specifications;
+using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.Workpackages
 {
     public class WorkpackageOne : Workpackage<WorkpackageOne>
     {
         public bool IsLocked => this.DoesSatisfy(new IsWorkpackageOneLocked());
-
+        
         private void Apply(ProjectCreatedEvent e)
         {
-            ProjectId = e.Id;
+            ProjectId = e.ProjectId;
 
             Title = "Medical need and product specification";
 
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.DescriptionOfNeeds, "Description of Needs", Placeholders.DescriptionOfNeeds));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.DescriptionOfExistingSolutionsAndAnalysis, "Description of Existing Solutions and Analysis", Placeholders.DescriptionOfExistingSolutionsAndAnalysis));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductFunctionality, "Product Functionality", Placeholders.ProductFunctionality));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductPerformance, "Product Performance", Placeholders.ProductPerformance));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductUsability, "Product Usability", Placeholders.ProductUsability));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductSafety, "Product Safety", Placeholders.ProductSafety));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.PatientPopulationStudy, "Patient Population Study", Placeholders.PatientPopulationStudy));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.UserRequirementStudy, "User Requirement Study", Placeholders.UserRequirementStudy));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.AdditionalInformation, "Additional Information", Placeholders.AdditionalInformation));
+            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ClinicalNeeds, "Clinical needs", ""));
+            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ExistingSolutions, "Existing solutions", ""));
+            _steps.Add(new WorkpackageStep(WorkpackageStepIds.IntendedUsers, "Intended users", ""));
+            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductRequirements, "Product requirements", ""));
         }
 
         private void Apply(WorkpackageOneStepEditedEvent e)

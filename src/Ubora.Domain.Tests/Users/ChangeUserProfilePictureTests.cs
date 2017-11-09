@@ -1,10 +1,12 @@
 ﻿using System;
-using System.IO;
 using Autofac;
 using FluentAssertions;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users;
 using Xunit;
+using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Users.Commands;
 
 namespace Ubora.Domain.Tests.Users
 {
@@ -15,12 +17,11 @@ namespace Ubora.Domain.Tests.Users
         {
             var userId = Guid.NewGuid();
             CreateExistingUserProfile(userId);
-
+            var expectedBlobLocation = new BlobLocation("test", "test.jpg");
             var command = new ChangeUserProfilePictureCommand
             {
-                UserId = userId,
-                Stream = Stream.Null,
-                FileName = "testImage.jpg"
+                BlobLocation = expectedBlobLocation,
+                Actor = new UserInfo(userId, "testuser")
             };
 
             // Act
@@ -30,7 +31,7 @@ namespace Ubora.Domain.Tests.Users
 
             // Assert
             result.IsSuccess.Should().BeTrue();
-            changedUserProfile.ProfilePictureBlobName.Contains(command.FileName).Should().BeTrue();
+            changedUserProfile.ProfilePictureBlobLocation.Should().Be(expectedBlobLocation);
         }
 
         private void CreateExistingUserProfile(Guid userId)

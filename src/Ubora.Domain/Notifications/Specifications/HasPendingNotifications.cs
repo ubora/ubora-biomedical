@@ -3,22 +3,22 @@ using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Notifications.Specifications
 {
-    public class HasPendingNotifications<T> : WrappedSpecification<T> where T : BaseNotification
+    public class HasPendingNotifications<T> : WrappedSpecification<T> where T : INotification
     {
-        private readonly Guid _userId;
+        public Guid UserId { get; }
 
         public HasPendingNotifications(Guid userId)
         {
-            _userId = userId;
+            UserId = userId;
         }
 
         internal override Specification<T> WrapSpecifications()
         {
-            return new IsForUser<T>(_userId) && new IsPending<T>(); ;
+            return new IsForUser<T>(UserId) && new IsPending<T>(); ;
         }
     }
 
-    public class HasPendingNotifications : HasPendingNotifications<BaseNotification>
+    public class HasPendingNotifications : HasPendingNotifications<INotification>
     {
         public HasPendingNotifications(Guid userId) : base(userId)
         {

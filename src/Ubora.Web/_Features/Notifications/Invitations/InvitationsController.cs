@@ -1,42 +1,51 @@
+using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Notifications.Invitation;
+using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Web.Infrastructure;
+using System.Threading.Tasks;
+using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.Notifications.Invitations
 {
     [Authorize]
     public class InvitationsController : UboraController
     {
-        public InvitationsController(ICommandQueryProcessor processor) : base(processor)
-        {
-        }
-
         [HttpPost]
         [SaveTempDataModelState]
-        public IActionResult Accept(InvitationPartialViewModel invitationPartialViewModel)
+        public async Task<IActionResult> Accept(Guid invitationId)
         {
+            if (!await AuthorizationService.IsAuthorized(User, Policies.CanJoinProject))
+            {
+                ModelState.AddModelError("", "You must confirm your email to join the project.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Index", "Notifications");
             }
 
-            ExecuteUserCommand(new AcceptInvitationToProjectCommand { InvitationId = invitationPartialViewModel.InviteId });
+            ExecuteUserCommand(new AcceptInvitationToProjectCommand
+            {
+                InvitationId = invitationId
+            });
 
             return RedirectToAction("Index", "Notifications");
         }
 
         [HttpPost]
         [SaveTempDataModelState]
-        public IActionResult Decline(InvitationPartialViewModel invitationPartialViewModel)
+        public IActionResult Decline(Guid invitationId)
         {
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Index", "Notifications");
             }
 
-            ExecuteUserCommand(new DeclineInvitationToProjectCommand { InvitationId = invitationPartialViewModel.InviteId });
+            ExecuteUserCommand(new DeclineInvitationToProjectCommand
+            {
+                InvitationId = invitationId
+            });
 
             return RedirectToAction("Index", "Notifications");
         }

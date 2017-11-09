@@ -1,5 +1,6 @@
 ﻿using System;
 using Marten;
+using Marten.Services;
 
 namespace Ubora.Domain.Tests
 {
@@ -45,14 +46,15 @@ namespace Ubora.Domain.Tests
 
         public override void Dispose()
         {
-            var schemaName = Advanced.Options.DatabaseSchemaName;
+            var schemaName = this.Options.DatabaseSchemaName;
 
             if (schemaName != StoreOptions.DefaultDatabaseSchemaName)
             {
-                var sql = $"DROP SCHEMA {schemaName} CASCADE;";
-                using (var conn = Advanced.OpenConnection())
+                var sql = $"DROP SCHEMA IF EXISTS {schemaName} CASCADE;";
+                using (var conn = this.Tenancy.Default.OpenConnection())
                 {
-                    conn.Execute(cmd => cmd.CommandText = sql);
+                    conn.Execute(sql);
+                    conn.Commit();
                 }
             }
 

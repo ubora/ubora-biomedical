@@ -1,0 +1,58 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@model Ubora.Web._Features.Projects.ApplicableRegulations.QuestionnaireIndexViewModel
+
+<div class="container-fluid my-4">
+  <div class="row">
+    <div class="col-lg-3">
+      @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+    </div>
+    <div class="col-lg-9 pr-5">
+      <div class="row">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="col-sm-12 text-center">
+          <h1 class="mb-4">Please take the questionnaire to identify applicable regulations.</h1>
+        </div>
+
+        @if (Model.Last == null || Model.Last.IsFinished)
+        {
+          <div class="col-sm-12 text-center">
+            <form asp-action="Start" method="post">
+              <button type="submit" class="btn btn-primary btn-lg">Take questionnaire</button>
+            </form>
+          </div>
+        }
+
+        @if (Model.Last != null) {
+          @if (!Model.Last.IsFinished) {
+            <div class="col-sm-12 text-center">
+              <a class="btn btn-primary btn-lg" asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Continue answering</a>
+            </div>
+            <div class="col-sm-12 text-center my-2">
+              <p>Questionnaire started at @Model.Last.StartedAt</p>
+            </div>
+          }
+
+          @if (Model.Last.IsFinished) {
+            <div class="col my-2 text-center">
+              <h3>Last results:</h3>
+              <a asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">@Model.Last.StartedAt</a>
+            </div>
+          }
+
+          @if (Model.Previous.Any()) {
+            <div class="col my-2 text-center">
+              <h3>Previous results:</h3>
+              <ul class="px-0">
+                @foreach (var questionnaire in Model.Previous) {
+                  <li class="d-flex justify-content-center my-2">
+                    <a asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@questionnaire.QuestionnaireId">@questionnaire.StartedAt</a>
+                  </li>
+                }
+              </ul>
+            </div>
+          }
+        }
+      </div>
+    </div>
+  </div>
+</div>

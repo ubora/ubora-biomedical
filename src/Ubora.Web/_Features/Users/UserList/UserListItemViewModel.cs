@@ -10,4 +10,3 @@ namespace Ubora.Web._Features.Users.UserList
         public string ProfilePictureLink { get; set; }
     }
 }
-

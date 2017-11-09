@@ -1,7 +1,11 @@
 ﻿@using Ubora.Web
-@using Microsoft.AspNetCore.Identity
+@using Ubora.Web.Services
 @using Ubora.Web.Authorization
+@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Authorization
 
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers 
+@addTagHelper Ubora.Web.Infrastructure.TagHelpers.*, Ubora.Web
 @inject IAuthorizationService AuthorizationService
+
+@inherits Ubora.Web._Features._Shared.RazorPage.ApplicationRazorPage<TModel>

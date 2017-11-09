@@ -1,0 +1,40 @@
+﻿@model Ubora.Web._Features.Projects.InviteMentors.ProjectMentorInvitationNotificationViewModel
+
+@if (!Model.IsHistory)
+{
+    var isUnreadCss = Model.IsUnread ? "notification--unread" : "";
+
+    <div class="notification @isUnreadCss">
+        <div class="notification-container">
+            <p class="notification--message">
+                You have been asked to mentor project
+                <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>
+            </p>
+            <form class="notification--controls" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="InvitationId" />
+                <div class="form-input notification-action">
+                    <button class="btn btn-primary" type="submit" asp-controller="Notifications" asp-action="AcceptMentorInvitation">Accept</button>
+                </div>
+                <div class="form-input notification-action">
+                    <button class="btn btn-secondary-ghost" type="submit" asp-controller="Notifications" asp-action="DeclineMentorInvitation">Decline</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <p>
+        You were asked to mentor project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.
+        You
+        @if (Model.WasAccepted)
+        {
+            <b>accepted</b><span>&#46;</span>
+        }
+        else
+        {
+            <b>declined</b><span>&#46;</span>
+        }
+    </p>
+}

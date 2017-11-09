@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Threading.Tasks;
-using System.IO;
+using System.Net.Sockets;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
+using Marten;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -19,17 +20,19 @@ using Ubora.Web.Authorization;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure;
 using Ubora.Web.Services;
-using Serilog;
 using Ubora.Web.Infrastructure.DataSeeding;
 using TwentyTwenty.Storage;
 using TwentyTwenty.Storage.Azure;
-using TwentyTwenty.Storage.Local;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Npgsql;
+using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web
 {
     public class Startup
     {
+        private string ConnectionString => Configuration.GetConnectionString("ApplicationDbConnection");
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -46,19 +49,27 @@ namespace Ubora.Web
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+            IsDevelopment = env.IsDevelopment();
         }
 
         public IConfigurationRoot Configuration { get; }
+        private bool IsDevelopment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            var connectionString = Configuration["ConnectionStrings:ApplicationDbConnection"];
+            var npgSqlConnectionString = new NpgsqlConnectionStringBuilder(ConnectionString);
+
+            var isListeningPostgres = WaitForHost(npgSqlConnectionString.Host, npgSqlConnectionString.Port, TimeSpan.FromSeconds(15));
+            if (!isListeningPostgres)
+            {
+                throw new Exception("Database (Postgres) could not be connected to.");
+            }
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(connectionString));
+                options.UseNpgsql(ConnectionString));
 
             services
                 .AddMvc()
@@ -76,7 +87,7 @@ namespace Ubora.Web
                 .AddUserManager<ApplicationUserManager>()
                 .AddSignInManager<ApplicationSignInManager>()
                 .AddClaimsPrincipalFactory<ApplicationClaimsPrincipalFactory>()
-                .AddEntityFrameworkStores<ApplicationDbContext, Guid>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddRoleManager<ApplicationRoleManager>()
                 .AddDefaultTokenProviders();
 
@@ -85,31 +96,41 @@ namespace Ubora.Web
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            if (IsDevelopment)
+            {
+                services.AddSingleton<TestDataSeeder>();
+                services.AddSingleton<TestUserSeeder>();
+                services.AddSingleton<TestProjectSeeder>();
+                services.AddSingleton<TestMentorSeeder>();
+            }
+
             services.AddSingleton<ApplicationDataSeeder>();
             services.AddSingleton<AdminSeeder>();
             services.Configure<AdminSeeder.Options>(Configuration.GetSection("InitialAdminOptions"));
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
 
-            var autofacContainerBuilder = new ContainerBuilder();
 
-            IStorageProvider storageProvider;
+            var azureBlobConnectionString = Configuration.GetConnectionString("AzureBlobConnectionString");
+            var autofacContainerBuilder = new ContainerBuilder();
+            var azOptions = new AzureProviderOptions
+            {
+                ConnectionString = azureBlobConnectionString
+            };
+            var azureStorageProvider = new AzureStorageProvider(azOptions);
+            IStorageProvider storageProvider = null;
             var isLocalStorage = Configuration.GetValue<bool?>("Storage:IsLocal") ?? false;
+
             if (isLocalStorage)
             {
-                var basePath = Path.GetFullPath("wwwroot/images/storages");
-                storageProvider = new FixedLocalStorageProvider(basePath, new LocalStorageProvider(basePath));
+                storageProvider = new CustomDevelopmentAzureStorageProvider(azOptions, azureStorageProvider);
             }
             else
             {
-                var options = new AzureProviderOptions
-                {
-                    ConnectionString = Configuration.GetConnectionString("AzureBlobConnectionString")
-                };
-                storageProvider = new AzureStorageProvider(options);
+                storageProvider = new CustomAzureStorageProvider(azOptions, azureStorageProvider);
             }
 
-            var domainModule = new DomainAutofacModule(connectionString, storageProvider);
+            var domainModule = new DomainAutofacModule(ConnectionString, storageProvider);
             var webModule = new WebAutofacModule(useSpecifiedPickupDirectory);
             autofacContainerBuilder.RegisterModule(domainModule);
             autofacContainerBuilder.RegisterModule(webModule);
@@ -123,6 +144,7 @@ namespace Ubora.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            var logger = loggerFactory.CreateLogger<Startup>();
 
             if (env.IsDevelopment())
             {
@@ -139,7 +161,7 @@ namespace Ubora.Web
 
             app.UseStaticFiles();
 
-            app.UseIdentity();
+            app.UseAuthentication();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
@@ -147,7 +169,7 @@ namespace Ubora.Web
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller}/{action}/{id?}");
 
                 routes.MapRoute(
                     name: "areaRoute",
@@ -157,18 +179,53 @@ namespace Ubora.Web
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var serviceProvider = serviceScope.ServiceProvider;
-                serviceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+
+                var applicationDbContext = serviceProvider.GetService<ApplicationDbContext>();
+                applicationDbContext.Database.Migrate();
+
+                var domainMigrator = serviceProvider.GetService<DomainMigrator>();
+                domainMigrator.MigrateDomain(ConnectionString);
+
+                var documentStore = serviceProvider.GetService<IDocumentStore>();
+                documentStore.Schema.WritePatchByType("Patches");
 
                 var seeder = serviceProvider.GetService<ApplicationDataSeeder>();
                 seeder.SeedIfNecessary()
                     .GetAwaiter().GetResult();
+
+                if (env.IsDevelopment())
+                {
+                    var testDataSeeder = serviceProvider.GetService<TestDataSeeder>();
+                    testDataSeeder.SeedIfNecessary()
+                        .GetAwaiter().GetResult();
+                }
             }
 
-            var logger = loggerFactory.CreateLogger<Startup>();
             // Logging this as an error so it reaches all loggers (for tracking application restarts and testing if logging actually works)
             logger.LogError("Application started!");
         }
 
-   
+        //Wait and try to connect a remote TCP host for synchronizing. (Tcp​Client.​Connect method for synchronizing only available in CORE 2.0)
+        private bool WaitForHost(string server, int port, TimeSpan timeout)
+        {
+            using (TcpClient client = new TcpClient())
+            {
+                var connected = false;
+                var timeoutTime = DateTime.Now.AddSeconds(timeout.Seconds);
+                while (!connected && DateTime.Now < timeoutTime)
+                {
+                    try
+                    {
+                        client.ConnectAsync(server, port).Wait(timeout);
+                        connected = true;
+                    }
+                    catch
+                    {
+                        connected = false;
+                    }
+                }
+                return connected;
+            }
+        }
     }
 }

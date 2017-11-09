@@ -4,7 +4,9 @@ using System.Linq;
 using AutoMapper;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
-using Ubora.Domain.Projects.Queries;
+using Ubora.Domain.Projects._Queries;
+using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web._Features.ProjectList
 {
@@ -23,27 +25,34 @@ namespace Ubora.Web._Features.ProjectList
             public Guid Id { get; protected set; }
             public string Title { get; protected set; }
             public bool IsInDraft { get; set; }
+            public string ImagePath { get; set; }
         }
 
         public class Factory
         {
             private readonly IMapper _mapper;
             private readonly IQueryProcessor _queryProcessor;
+            private readonly ImageStorageProvider _imageStorage;
 
-            public Factory(IQueryProcessor queryProcessor, IMapper mapper)
+            public Factory(
+                IQueryProcessor queryProcessor,
+                IMapper mapper,
+                ImageStorageProvider imageStorage)
             {
                 _queryProcessor = queryProcessor;
                 _mapper = mapper;
+                _imageStorage = imageStorage;
             }
 
             public ProjectListViewModel Create(string header)
             {
-                var projects = _queryProcessor.Find<Project>();
+                var projects = _queryProcessor.Find<Project>()
+                    .OrderBy(p => p.Title);
 
                 var model = new ProjectListViewModel
                 {
                     Header = header,
-                    Projects = projects.Select(_mapper.Map<ProjectListItem>)
+                    Projects = projects.Select(GetProjectListItem)
                 };
 
                 return model;
@@ -57,7 +66,7 @@ namespace Ubora.Web._Features.ProjectList
                 var model = new ProjectListViewModel
                 {
                     Header = header,
-                    Projects = userProjects.Select(_mapper.Map<ProjectListItem>),
+                    Projects = userProjects.Select(GetProjectListItem),
                     ShowDefaultMessage = true
                 };
 
@@ -78,10 +87,22 @@ namespace Ubora.Web._Features.ProjectList
 
                 var model = new ProjectListViewModel
                 {
-                    Projects = projects.Select(_mapper.Map<ProjectListItem>)
+                    Projects = projects.Select(GetProjectListItem)
                 };
 
                 return model;
+            }
+
+            private ProjectListItem GetProjectListItem(Project project)
+            {
+                var projectListItem = _mapper.Map<ProjectListItem>(project);
+
+                if (project.HasImage)
+                {
+                    projectListItem.ImagePath = _imageStorage.GetUrl(project.ProjectImageBlobLocation, ImageSize.Thumbnail400x300);
+                }
+
+                return projectListItem;
             }
         }
     }
