@@ -18,7 +18,6 @@
                     <td>
                       @if (user.IsAdmin)
                       {
-
                         <button class="w-100 btn btn-primary" type="submit" asp-action="RemoveAdministratorRole">Remove administrator role</button>
                       }
                       else
@@ -51,8 +50,8 @@
       </table>
 
       <div class="mx-2">
-        <span class="mx-1">@Html.ActionLink("Run diagnostics tests", "RunTests", "Tests")</span>
-        <span class="mx-1">@Html.ActionLink("Look at event metadata", "Events", "Events")</span>
+        <span class="d-block">@Html.ActionLink("Run diagnostics tests", "RunTests", "Tests")</span>
+        <span class="d-block">@Html.ActionLink("Look at event metadata", "Events", "Events")</span>
       </div>
 
     </div>
