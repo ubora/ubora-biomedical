@@ -35,6 +35,11 @@
   color: var(--white);
 }
 
+.btn-highlighted {
+  color: var(--orange);
+}
+
+
 .btn-primary:focus,
 .btn-primary:hover {
   background-color: var(--light-blue);
