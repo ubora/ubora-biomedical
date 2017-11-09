@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col">
                     <div class="card w-100 h-100">
-                        <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(Model.ImagePath) ? "/images/project-default-image.png" : Model.ImagePath)" alt="Illustrative project photo">
+                        <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(Model.ImagePath)?"/images/project-default-image.png":Model.ImagePath)" alt="Illustrative project photo">
                         @if (Model.IsInDraft)
                         {
                             <p class="project-status-draft">Draft</p>
@@ -25,19 +25,19 @@
                 </div>
             </div>
             <div class="row mt-1">
-                <div class="col d-flex justify-content-end">
+                <div class="col d-flex justify-content-end flex-wrap">
                     <div>
-
-                        @if (!Model.IsProjectMember)
+                        @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorized(User, Policies.CanJoinProject))
                         {
-                            <a class="btn btn-secondary-ghost" href="@Url.Action("Join", "Members")"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
+                            <a class="btn btn-secondary-ghost" href="@Url.Action(" Join", "Members" )"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
                         }
-                        else
+
+                        @if (await AuthorizationService.IsAuthorized(User, Policies.CanChangeProjectImage))
                         {
-                            @if (Model.HasImage)
+                            if (Model.HasImage)
                             {
                                 <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span></a>
-                                <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="RemoveProjectImage"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Remove image</span></a>
+                                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="RemoveProjectImage"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Remove image</span></a>
                             }
                             else
                             {
@@ -106,7 +106,7 @@
                     <h2>Project description</h2>
                 </div>
                 <div class="col-sm-12 col-lg-2 d-flex align-items-center justify-content-end">
-                    @if (Model.IsProjectMember)
+                    @if (await AuthorizationService.IsAuthorized(User, Policies.CanEditProjectDescription))
                     {
                         <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectDescription" id="EditProjectDescription"><i class="material-icons align-middle">mode_edit</i><span class="align-middle">Edit</span></a>
                     }

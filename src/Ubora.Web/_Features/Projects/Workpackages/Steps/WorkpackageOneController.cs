@@ -58,6 +58,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Route(nameof(DeviceClassification))]
         public IActionResult DeviceClassification()
         {
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.DeviceClassification;
+
             var model = AutoMapper.Map<DeviceClassificationViewModel>(Project);
 
             return View(nameof(DeviceClassification), model);

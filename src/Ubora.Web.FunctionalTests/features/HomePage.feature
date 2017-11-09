@@ -20,9 +20,8 @@ Scenario: Click I have an idea button
     When I click on the element "a=I have an idea"
     Then I expect the title of the page "Sign in to UBORA - UBORA"
 
-Scenario: Click on View members
-    When I wait for the element "a=View members"
-    When I click on the element "a=View members"
+Scenario: Click on Community
+    When I click on the element "span=Community"
     Then I expect the title of the page "View members - UBORA"
 
 Scenario: Click on Search
