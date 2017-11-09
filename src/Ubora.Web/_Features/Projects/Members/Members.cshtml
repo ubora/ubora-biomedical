@@ -15,7 +15,7 @@
 
       <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-5">
-          <h1>Project members</h1>
+          <h1 class="display-4 mb-4">Project members</h1>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-7 d-flex justify-content-end">
           <div class="row">
@@ -70,15 +70,14 @@
                 <div class="col text-center">
                   <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@member.UserId">@member.FullName</a>
                 </div>
-                <div class="col-sm-2 d-flex justify-content-center">
+                <div class="col-sm-2 d-flex justify-content-end">
                   @{
                     var isRemoveMemberButtonVisible = Model.CanRemoveProjectMembers && !member.IsProjectLeader;
                   }
                   @if (isRemoveMemberButtonVisible)
                   {
-                  <a class="btn btn-secondary-ghost btn-highlighted btn-sm" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId">
+                  <a title="Remove member" class="btn btn-highlighted btn-sm" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId">
                     <i class="material-icons">close</i>
-                    <span>Remove user</span>
                   </a>
                   }
                 </div>
