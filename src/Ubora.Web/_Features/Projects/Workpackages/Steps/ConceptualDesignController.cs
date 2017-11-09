@@ -88,7 +88,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             var candidate = QueryProcessor.FindById<Candidate>(candidateId);
             var model = AutoMapper.Map<EditCandidateViewModel>(candidate);
 
-            return View(model);
+            return View(nameof(EditCandidate), model);
         }
 
         [HttpPost]
@@ -121,7 +121,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             var candidate = QueryProcessor.FindById<Candidate>(candidateId);
             var model = AutoMapper.Map<EditCandidateImageViewModel>(candidate);
 
-            return View(model);
+            return View(nameof(EditCandidateImage), model);
         }
 
         [HttpPost]
@@ -151,13 +151,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
         }
 
-        [Authorize(Policy = nameof(Policies.CanChangeProjectCandidateImage))]
+        [Authorize(Policy = nameof(Policies.CanRemoveProjectCandidateImage))]
         public IActionResult RemoveCandidateImage(Guid candidateId)
         {
             var candidate = QueryProcessor.FindById<Candidate>(candidateId);
             var model = AutoMapper.Map<RemoveCandidateImageViewModel>(candidate);
 
-            return View(model);
+            return View(nameof(RemoveCandidateImage), model);
         }
 
         [HttpPost]
@@ -181,7 +181,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
                 return View(nameof(EditCandidateImage));
             }
-
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
         }
