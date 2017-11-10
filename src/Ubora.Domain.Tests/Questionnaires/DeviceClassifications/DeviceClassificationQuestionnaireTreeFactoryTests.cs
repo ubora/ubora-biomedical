@@ -11,7 +11,7 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
         [Fact]
         public void Device_Classification_Questionnaire_Can_Be_Serialized_And_Deserialized_With_Marten()
         {
-            var questionnaire = new DeviceClassificationQuestionnaireTreeFactory().CreateDeviceClassification();
+            var questionnaire = new DeviceClassificationQuestionnaireTreeFactory().CreateDeviceClassificationVersionOne();
             var serializer = UboraStoreOptionsConfigurer.CreateConfiguredJsonSerializer();
 
             // Act
@@ -29,7 +29,7 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
         [Fact]
         public void Device_Classification_Questionnaire_Should_Not_Be_Too_Big_When_Serialized()
         {
-            var questionnaire = new DeviceClassificationQuestionnaireTreeFactory().CreateDeviceClassification();
+            var questionnaire = new DeviceClassificationQuestionnaireTreeFactory().CreateDeviceClassificationVersionOne();
             var serializer = UboraStoreOptionsConfigurer.CreateConfiguredJsonSerializer();
 
             // Act

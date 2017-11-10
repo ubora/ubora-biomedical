@@ -5,7 +5,7 @@ using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Commands;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
+namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications.Commands
 {
     public class StopAndStartDeviceClassficationCommandIntegrationTests : IntegrationFixture
     {
@@ -54,7 +54,7 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
             var startedQuestionnaire = Session.Events.AggregateStream<DeviceClassificationAggregate>(StartQuestionnaireId);
             startedQuestionnaire.StartedAt.Should().BeCloseTo(DateTime.UtcNow, 250);
             startedQuestionnaire.ProjectId.Should().Be(ProjectId);
-            startedQuestionnaire.QuestionnaireTree.ShouldBeEquivalentTo(new DeviceClassificationQuestionnaireTreeFactory().CreateDeviceClassification());
+            startedQuestionnaire.QuestionnaireTree.ShouldBeEquivalentTo(new DeviceClassificationQuestionnaireTreeFactory().CreateDeviceClassificationVersionOne());
             startedQuestionnaire.IsFinished.Should().BeFalse();
         }
     }

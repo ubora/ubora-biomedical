@@ -27,7 +27,12 @@
                 </td>
                 @if (questionAnswer.Answer.Equals("Yes", StringComparison.InvariantCultureIgnoreCase))
                 {
-                  @Html.Raw(questionAnswer.IsoStandardText)
+                    @Html.Raw(questionAnswer.IsoStandardText)
+                }
+                else
+                {
+                    <td></td>
+                    <td></td>
                 }
               </tr>
             }

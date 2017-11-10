@@ -5,7 +5,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
 {
     public class DeviceClassificationQuestionnaireTreeFactory
     {
-        public virtual DeviceClassificationQuestionnaireTree CreateDeviceClassification()
+        public virtual DeviceClassificationQuestionnaireTree CreateDeviceClassificationVersionOne()
         {
             var questions = new[]
             {

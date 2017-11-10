@@ -7,7 +7,7 @@ using Ubora.Domain.Questionnaires.DeviceClassifications.Commands;
 using Ubora.Domain.Questionnaires.DeviceClassifications.DeviceClasses;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
+namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications.Commands
 {
     public class AnswerDeviceClassificationCommandTests : IntegrationFixture
     {

@@ -6,7 +6,7 @@ using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Commands;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
+namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications.Commands
 {
     public class StopAndStartDeviceClassficationCommandHandlerTests
     {

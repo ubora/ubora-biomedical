@@ -6,7 +6,7 @@ using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Commands;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
+namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications.Commands
 {
     public class StartClassifyingDeviceCommandIntegrationTests : IntegrationFixture
     {
@@ -39,6 +39,7 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
             var onlyQuestionnaire = Session.Query<DeviceClassificationAggregate>().Single();
 
             onlyQuestionnaire.Id.Should().Be(_questionnaireId1);
+            onlyQuestionnaire.QuestionnaireTreeVersion.Should().Be(1);
         }
     }
 }

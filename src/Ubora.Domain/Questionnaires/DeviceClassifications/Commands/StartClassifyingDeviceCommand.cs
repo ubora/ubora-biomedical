@@ -38,7 +38,8 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Commands
                     projectId: cmd.ProjectId,
                     id: cmd.Id,
                     startedAt: DateTime.UtcNow,
-                    questionnaireTree: _questionnaireTreeFactory.CreateDeviceClassification());
+                    questionnaireTree: _questionnaireTreeFactory.CreateDeviceClassificationVersionOne(),
+                    questionnaireTreeVersion: 1);
 
                 _documentSession.Events.StartStream<DeviceClassificationAggregate>(cmd.Id, @event);
                 _documentSession.SaveChanges();

@@ -12,6 +12,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
         public DateTime StartedAt { get; private set; }
         public DateTime? FinishedAt { get; private set; }
         public DeviceClassificationQuestionnaireTree QuestionnaireTree { get; private set; }
+        public int QuestionnaireTreeVersion { get; set; }
 
         [JsonIgnore]
         public bool IsFinished => FinishedAt.HasValue;
@@ -29,6 +30,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
             ProjectId = e.ProjectId;
             StartedAt = e.StartedAt;
             QuestionnaireTree = e.QuestionnaireTree;
+            QuestionnaireTreeVersion = e.QuestionnaireTreeVersion;
         }
 
         private void Apply(DeviceClassificationAnsweredEvent e)
