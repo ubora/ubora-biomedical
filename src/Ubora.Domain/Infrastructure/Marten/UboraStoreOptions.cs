@@ -16,18 +16,26 @@ using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Users;
 using Ubora.Domain.Projects.Candidates;
+using Ubora.Domain.Projects.History;
+using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
     public class UboraStoreOptionsConfigurer
     {
         public Action<StoreOptions> CreateConfigureAction(
-            IEnumerable<Type> eventTypes, 
+            IEnumerable<Type> eventTypes,
             IEnumerable<MappedType> notificationTypes,
             AutoCreate autoCreate)
         {
-            if (eventTypes == null) { throw new ArgumentNullException(nameof(eventTypes)); }
-            if (notificationTypes == null) { throw new ArgumentNullException(nameof(notificationTypes)); }
+            if (eventTypes == null)
+            {
+                throw new ArgumentNullException(nameof(eventTypes));
+            }
+            if (notificationTypes == null)
+            {
+                throw new ArgumentNullException(nameof(notificationTypes));
+            }
 
             return options =>
             {
@@ -43,6 +51,12 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<Assignment>();
                 options.Schema.For<Project>().SoftDeleted();
                 options.Schema.For<Candidate>();
+                options.Schema.For<EventLogEntry>()
+                    .Duplicate(l => l.ProjectId)
+                    .Duplicate(l => l.UserId)
+                    .Duplicate(l => l.Timestamp);
+                options.Schema.For<IProjectEntity>()
+                    .AddSubClassHierarchy(typeof(EventLogEntry));
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
@@ -57,6 +71,14 @@ namespace Ubora.Domain.Infrastructure.Marten
 
                 options.Schema.For<INotification>()
                     .AddSubClassHierarchy(notificationTypes.ToArray());
+
+                foreach (var eventType in eventTypes.Where(e => e.IsSubclassOf(typeof(ProjectEvent))))
+                {
+                    var transformerType = typeof(EventToHistoryTransformer<>).MakeGenericType(eventType);
+                    var transformer = Activator.CreateInstance(transformerType);
+                    options.Events.InlineProjections.TransformEvents((dynamic) transformer);
+                }
+
             };
         }
 
@@ -72,3 +94,4 @@ namespace Ubora.Domain.Infrastructure.Marten
         }
     }
 }
+
