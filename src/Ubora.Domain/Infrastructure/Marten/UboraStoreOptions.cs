@@ -6,18 +6,18 @@ using Marten.Services;
 using Marten.Services.Events;
 using Newtonsoft.Json;
 using Ubora.Domain.Projects;
-using Ubora.Domain.Projects.Tasks;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Notifications;
+using Ubora.Domain.Projects.Assignments;
+using Ubora.Domain.Projects.Assignments.Events;
 using Ubora.Domain.Projects.Repository.Events;
-using Ubora.Domain.Projects.Tasks.Events;
-using Ubora.Domain.Projects._Events;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Users;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.History;
+using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
@@ -48,7 +48,7 @@ namespace Ubora.Domain.Infrastructure.Marten
 
                 options.Schema.For<UserProfile>().SoftDeleted();
                 options.Schema.For<ProjectFile>();
-                options.Schema.For<ProjectTask>();
+                options.Schema.For<Assignment>();
                 options.Schema.For<Project>().SoftDeleted();
                 options.Schema.For<Candidate>();
                 options.Schema.For<EventLogEntry>()
@@ -63,7 +63,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageThree>();
                 options.Events.InlineProjections.AggregateStreamsWith<ApplicableRegulationsQuestionnaireAggregate>();
                 options.Events.InlineProjections.AggregateStreamsWith<DeviceClassificationAggregate>();
-                options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectTask, ITaskEvent>());
+                options.Events.InlineProjections.Add(new AggregateMemberProjection<Assignment, IAssignmentEvent>());
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());
                 options.Events.InlineProjections.AggregateStreamsWith<Candidate>();
 

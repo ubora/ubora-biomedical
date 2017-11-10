@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ubora.Domain.Projects.Tasks
+namespace Ubora.Domain.Projects.Assignments
 {
     public class TaskAssignee
     {

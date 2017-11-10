@@ -1,14 +1,14 @@
 ﻿using System;
-using Marten;
-using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Projects.Tasks.Events;
 using System.Collections.Generic;
 using System.Linq;
-using Ubora.Domain.Projects.Tasks.Notifications;
+using Marten;
+using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Projects.Assignments.Events;
+using Ubora.Domain.Projects.Assignments.Notifications;
 
-namespace Ubora.Domain.Projects.Tasks.Commands
+namespace Ubora.Domain.Projects.Assignments.Commands
 {
-    public class EditTaskCommand : UserProjectCommand
+    public class EditAssignmentCommand : UserProjectCommand
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
@@ -21,20 +21,20 @@ namespace Ubora.Domain.Projects.Tasks.Commands
             set { _assigneeIds = value; }
         }
 
-        internal class Handler : CommandHandler<EditTaskCommand>
+        internal class Handler : CommandHandler<EditAssignmentCommand>
         {
             public Handler(IDocumentSession documentSession) : base(documentSession)
             {
             }
 
-            public override ICommandResult Handle(EditTaskCommand cmd)
+            public override ICommandResult Handle(EditAssignmentCommand cmd)
             {
                 var project = DocumentSession.LoadOrThrow<Project>(cmd.ProjectId);
-                var task = DocumentSession.LoadOrThrow<ProjectTask>(cmd.Id);
+                var task = DocumentSession.LoadOrThrow<Assignment>(cmd.Id);
 
                 var previousAssigneeIds = task.Assignees.Select(x => x.UserId).ToList();
 
-                var @event = new TaskEditedEvent(
+                var @event = new AssignmentEditedEvent(
                     initiatedBy: cmd.Actor,
                     description: cmd.Description,
                     projectId: cmd.ProjectId,

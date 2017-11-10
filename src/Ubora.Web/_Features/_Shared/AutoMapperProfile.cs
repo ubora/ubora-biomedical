@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Ubora.Domain.Projects;
-using Ubora.Domain.Projects.Tasks;
+using Ubora.Domain.Projects.Assignments;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Web._Features.ProjectList;
 using Ubora.Domain.Users;
@@ -21,8 +21,8 @@ namespace Ubora.Web._Features._Shared
     {
         public AutoMapperProfile()
         {
-            CreateMap<ProjectTask, AssignmentListItemViewModel>();
-            CreateMap<ProjectTask, EditAssignmentViewModel>()
+            CreateMap<Assignment, AssignmentListItemViewModel>();
+            CreateMap<Assignment, EditAssignmentViewModel>()
                 .ForMember(dest => dest.AssigneeIds, o => o.Ignore())
                 .ForMember(dest => dest.ProjectMembers, o => o.Ignore());
 

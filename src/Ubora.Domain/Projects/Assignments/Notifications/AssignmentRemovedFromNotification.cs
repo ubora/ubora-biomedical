@@ -1,7 +1,7 @@
 ﻿using System;
 using Ubora.Domain.Notifications;
 
-namespace Ubora.Domain.Projects.Tasks.Notifications
+namespace Ubora.Domain.Projects.Assignments.Notifications
 {
     public class AssignmentRemovedFromNotification : GeneralNotification
     {
