@@ -26,8 +26,6 @@ namespace Ubora.Domain.Projects
         public bool HasImage => ProjectImageBlobLocation != null;
         public bool IsDeleted { get; private set; }
 
-        public string DeviceClassification { get; set; }
-
         [JsonProperty(nameof(Members))]
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
         [JsonIgnore]

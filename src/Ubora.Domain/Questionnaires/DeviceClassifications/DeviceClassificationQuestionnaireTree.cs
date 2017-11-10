@@ -24,11 +24,18 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
 
         public DeviceClass[] DeviceClasses { get; private set; }
 
-        public DeviceClass GetHeaviestDeviceClass()
+        public virtual DeviceClass GetHeaviestDeviceClass()
         {
-            var deviceClassesWithAnyHits = DeviceClasses.Where(dc => dc.HasAnyHits(this));
-            var heaviestDeviceClass = deviceClassesWithAnyHits.Max();
-            return heaviestDeviceClass;
+            var deviceClassesWithAnyHits = DeviceClasses
+                .Where(dc => dc.HasAnyHits(this))
+                .ToList();
+
+            if (!deviceClassesWithAnyHits.Any())
+            {
+                return null;
+            }
+
+            return deviceClassesWithAnyHits.Max();
         }
 
         private void ValidateDeviceClasses(IEnumerable<DeviceClass> deviceClasses)

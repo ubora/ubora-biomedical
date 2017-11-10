@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using TestStack.BDDfy;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Commands;
 using Ubora.Domain.Questionnaires.DeviceClassifications.DeviceClasses;
