@@ -122,9 +122,9 @@
                     <h2>Project description</h2>
                 </div>
                 <div class="col-sm-12 col-lg-2 d-flex align-items-center justify-content-end">
-                    @if (await AuthorizationService.IsAuthorized(User, Policies.CanEditProjectDescription))
+                    @if (await AuthorizationService.IsAuthorized(User, Policies.CanEditProjectTitleAndDescription))
                     {
-                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectDescription" id="EditProjectDescription"><i class="material-icons align-middle">mode_edit</i><span class="align-middle">Edit</span></a>
+                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription"><i class="material-icons align-middle">mode_edit</i><span class="align-middle">Edit</span></a>
                     }
                 </div>
             </div>

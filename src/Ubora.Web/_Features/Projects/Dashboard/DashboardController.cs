@@ -1,15 +1,11 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Filters;
 using TwentyTwenty.Storage;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Web.Authorization;
-using Ubora.Web.Data;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
-using Ubora.Web._Features.Home;
 
 namespace Ubora.Web._Features.Projects.Dashboard
 {
@@ -42,37 +38,39 @@ namespace Ubora.Web._Features.Projects.Dashboard
             return View(nameof(Dashboard), model);
         }
 
-        [Route(nameof(EditProjectDescription))]
-        [Authorize(Policies.CanEditProjectDescription)]
-        public IActionResult EditProjectDescription()
+        [Route(nameof(EditProjectTitleAndDescription))]
+        [Authorize(Policies.CanEditProjectTitleAndDescription)]
+        public IActionResult EditProjectTitleAndDescription()
         {
-            var editProjectDescription = new EditProjectDescriptionViewModel
+            var editProjectDescription = new EditProjectTitleAndDescriptionViewModel
             {
-                ProjectDescription = Project.Description
+                ProjectDescription = Project.Description,
+                Title = Project.Title
             };
 
-            return View(editProjectDescription);
+            return View(nameof(EditProjectTitleAndDescription),editProjectDescription);
         }
 
         [HttpPost]
-        [Route(nameof(EditProjectDescription))]
-        [Authorize(Policies.CanEditProjectDescription)]
-        public IActionResult EditProjectDescription(EditProjectDescriptionViewModel model)
+        [Route(nameof(EditProjectTitleAndDescription))]
+        [Authorize(Policies.CanEditProjectTitleAndDescription)]
+        public IActionResult EditProjectTitleAndDescription(EditProjectTitleAndDescriptionViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return EditProjectDescription();
+                return EditProjectTitleAndDescription();
             }
 
-            ExecuteUserProjectCommand(new UpdateProjectDescriptionCommand
+            ExecuteUserProjectCommand(new UpdateProjectTitleAndDescriptionCommand
             {
                 ProjectId = ProjectId,
-                Description = model.ProjectDescription
+                Description = model.ProjectDescription,
+                Title = model.Title
             });
 
             if (!ModelState.IsValid)
             {
-                return EditProjectDescription();
+                return EditProjectTitleAndDescription();
             }
 
             return RedirectToAction(nameof(Dashboard));

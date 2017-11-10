@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Projects._Commands
 {
-    public class UpdateProjectDescriptionTests : IntegrationFixture
+    public class UpdateProjectTitleAndDescriptionTests : IntegrationFixture
     {
         [Fact]
         public void Updates_Project_Description()
@@ -16,14 +16,16 @@ namespace Ubora.Domain.Tests.Projects._Commands
             Processor.Execute(new CreateProjectCommand
             {
                 NewProjectId = projectId,
-                Actor = new UserInfo(Guid.NewGuid(), "")
+                Actor = new UserInfo(Guid.NewGuid(), ""),
+                Title = "title"
             });
 
-            var command = new UpdateProjectDescriptionCommand
+            var command = new UpdateProjectTitleAndDescriptionCommand
             {
                 ProjectId = projectId,
                 Actor = new UserInfo(Guid.NewGuid(), ""),
-                Description = "description"
+                Description = "description",
+                Title = "newTitle"
             };
 
             // Act
@@ -33,6 +35,7 @@ namespace Ubora.Domain.Tests.Projects._Commands
             var project = Session.Load<Project>(projectId);
 
             project.Description.Should().Be("description");
+            project.Title.Should().Be("newTitle");
         }
     }
 }
