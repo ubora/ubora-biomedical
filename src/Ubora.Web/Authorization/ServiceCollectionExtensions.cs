@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Ubora.Web.Data;
 
 namespace Ubora.Web.Authorization
 {
@@ -73,6 +74,36 @@ namespace Ubora.Web.Authorization
                 options.AddPolicy(nameof(Policies.CanEditProjectDescription), policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
+                });
+
+                options.AddPolicy(nameof(Policies.CanDeleteProject), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
+                    policyBuilder.RequireRole(ApplicationRole.Admin);
+                });
+
+                options.AddPolicy(nameof(Policies.CanAddProjectCandidate), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+
+                options.AddPolicy(nameof(Policies.CanEditProjectCandidate), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+
+                options.AddPolicy(nameof(Policies.CanChangeProjectCandidateImage), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+
+                options.AddPolicy(nameof(Policies.CanRemoveProjectCandidateImage), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
             });
 

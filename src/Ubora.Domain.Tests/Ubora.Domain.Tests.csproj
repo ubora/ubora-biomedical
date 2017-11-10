@@ -30,5 +30,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Projects\_Queries\" />
+    <Folder Include="Questionnaires\DeviceClassifications\Queries\" />
   </ItemGroup>
 </Project>

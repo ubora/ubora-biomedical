@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Marten;
-using Ubora.Domain.Projects.DeviceClassification;
+using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 
@@ -25,17 +25,11 @@ namespace Ubora.Web.Infrastructure.DataSeeding
             await AddRoleIfNecessary(ApplicationRole.Admin);
             await AddRoleIfNecessary(ApplicationRole.Mentor);
 
-            var isSeedNecessary = !_documentSession.Query<DeviceClassification>().Any();
+            var isSeedNecessary = !_documentSession.Query<UserProfile>().Any();
             if (!isSeedNecessary)
             {
                 return;
             }
-
-            var deviceClassification = new DeviceClassification();
-            deviceClassification.CreateNew();
-
-            _documentSession.Store(deviceClassification);
-            _documentSession.SaveChanges();
 
             await _adminSeeder.SeedAdmin();
         }

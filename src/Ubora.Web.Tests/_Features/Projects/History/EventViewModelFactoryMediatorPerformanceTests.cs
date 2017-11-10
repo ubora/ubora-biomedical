@@ -9,8 +9,6 @@ using System.Text.Encodings.Web;
 using Marten.Events;
 using Ubora.Domain;
 using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Projects.DeviceClassification;
-using Ubora.Domain.Projects.DeviceClassification.Events;
 using Ubora.Domain.Projects.Tasks.Events;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Events;
@@ -64,8 +62,6 @@ namespace Ubora.Web.Tests._Features.Projects.History
                 EditProject();
 
                 AddTask();
-
-                EditProjectDeviceClassification();
             }
 
             SubmitWorkPackageOneForReview();
@@ -146,17 +142,6 @@ namespace Ubora.Web.Tests._Features.Projects.History
                 title: "new title",
                 stepId: WorkpackageStepIds.ClinicalNeeds);
             Session.Events.Append(_projectId, editedWorkpackageOneEvent);
-            Session.SaveChanges();
-        }
-
-        private void EditProjectDeviceClassification()
-        {
-            var editedDeviceClassificationEvent = new EditedProjectDeviceClassificationEvent(
-                projectId: _projectId,
-                newClassification: new Classification("IIb", 3, new List<Guid>()),
-                currentClassification: new Classification("IIa", 3, new List<Guid>()),
-                initiatedBy: _userInfo);
-            Session.Events.Append(_projectId, editedDeviceClassificationEvent);
             Session.SaveChanges();
         }
 

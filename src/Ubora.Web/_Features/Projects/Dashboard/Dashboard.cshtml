@@ -1,3 +1,4 @@
+@using Ubora.Web.Data
 @using Ubora.Web._Features.Projects._Shared
 @model Ubora.Web._Features.Projects.Dashboard.ProjectDashboardViewModel
 
@@ -7,98 +8,113 @@
 }
 
 <div class="container-fluid col-md-8 my-4">
-
     <div class="row">
+        <div class="col-sm-12 col-lg-6">
+          <div class="row">
+            <div class="col">
+              <div class="card w-100 h-100">
+                  <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(Model.ImagePath)?"/images/project-default-image.png":Model.ImagePath)" alt="Illustrative project photo">
+                  @if (await AuthorizationService.IsAuthorized(User, Policies.CanChangeProjectImage))
+                  {
+                    <div class="card-img-overlay text-center">
+                    @if (Model.HasImage){
+                      <div class="flex-wrap">
+                        <a class="mx-1" asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span></a>
+                        <a class="mx-1" asp-controller="Dashboard" asp-action="RemoveProjectImage"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Remove image</span></a>
+                      </div>
+                    }
+                    else
+                    {
+                      <a asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Add image</span></a>
+                    }
+                    </div>
+
+                  }
+                  @if (Model.IsInDraft)
+                  {
+                      <p class="project-status-draft">Draft</p>
+                  }
+                  <div class="card-body">
+                      <h4 class="card-title mt-3">@Model.Title</h4>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col d-flex justify-content-end">
+              <div>
+                  @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorized(User, Policies.CanJoinProject))
+                  {
+                      <a class="btn btn-secondary-ghost" href="@Url.Action("Join", "Members")"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
+                  }
+                </div>
+            </div>
+          </div>
+        </div>
         <div class="col-sm-12 col-lg-6">
             <div class="row">
                 <div class="col">
-                    <div class="card w-100 h-100">
-                        <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(Model.ImagePath)?"/images/project-default-image.png":Model.ImagePath)" alt="Illustrative project photo">
-                        @if (Model.IsInDraft)
-                        {
-                            <p class="project-status-draft">Draft</p>
-                        }
-                        <div class="card-body">
-                            <h4 class="card-title mt-3">@Model.Title</h4>
-                        </div>
-                    </div>
+                    <h2>Medical tags</h2>
+                </div>
+                <div class="col d-flex justify-content-end">
+                    @if (Model.IsProjectMember)
+                    {
+                    <a class="btn btn-secondary-ghost align-self-start" asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@Url.Action("Dashboard","Dashboard")"><i class="material-icons" id="EditImage">mode_edit</i><span>Edit</span></a>
+                    }
                 </div>
             </div>
-            <div class="row mt-1">
-                <div class="col d-flex justify-content-end flex-wrap">
-                    <div>
-                        @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorized(User, Policies.CanJoinProject))
-                        {
-                            <a class="btn btn-secondary-ghost" href="@Url.Action(" Join", "Members" )"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
-                        }
-
-                        @if (await AuthorizationService.IsAuthorized(User, Policies.CanChangeProjectImage))
-                        {
-                            if (Model.HasImage)
-                            {
-                                <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span></a>
-                                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="RemoveProjectImage"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Remove image</span></a>
-                            }
-                            else
-                            {
-                                <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Add image</span></a>
-                            }
-                        }
+            <div class="row">
+                <div class="col">
+                    <div class="table-responsive">
+                        <table class="table table-medical-tags">
+                            <tbody>
+                                <tr>
+                                    <th class="w-50" scope="row">
+                                        <h3 class="display-5">Clinical need:</h3>
+                                    </th>
+                                    <td>
+                                        @Model.ClinicalNeedTags
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <h3 class="display-5">Clinical area:</h3>
+                                    </th>
+                                    <td>
+                                        @Model.AreaOfUsageTags
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <h3 class="display-5">Technology:</h3>
+                                    </th>
+                                    <td>
+                                        @Model.PotentialTechnologyTags
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <h3 class="display-5">Project keywords:</h3>
+                                    </th>
+                                    <td>
+                                        @Model.Gmdn
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <h3 class="display-5">Device classification:</h3>
+                                    </th>
+                                    <td>
+                                        @Model.DeviceClassification
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-lg-6">
-            <h2>Medical tags</h2>
-            <div class="table-responsive">
-                <table class="table table-medical-tags">
-                    <tbody>
-                        <tr>
-                            <th class="w-50" scope="row">
-                                <h3 class="display-5">Clinical need:</h3>
-                            </th>
-                            <td>
-                                @Model.ClinicalNeedTags
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <h3 class="display-5">Clinical area:</h3>
-                            </th>
-                            <td>
-                                @Model.AreaOfUsageTags
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <h3 class="display-5">Technology:</h3>
-                            </th>
-                            <td>
-                                @Model.PotentialTechnologyTags
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <h3 class="display-5">Project keywords:</h3>
-                            </th>
-                            <td>
-                                @Model.Gmdn
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <h3 class="display-5">Device classification:</h3>
-                            </th>
-                            <td>
-                                @Model.DeviceClassification
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
-
     <div class="row mt-4">
         <div class="col">
             <div class="row">
@@ -108,7 +124,7 @@
                 <div class="col-sm-12 col-lg-2 d-flex align-items-center justify-content-end">
                     @if (await AuthorizationService.IsAuthorized(User, Policies.CanEditProjectDescription))
                     {
-                        <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectDescription" id="EditProjectDescription"><i class="material-icons align-middle">mode_edit</i><span class="align-middle">Edit</span></a>
+                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectDescription" id="EditProjectDescription"><i class="material-icons align-middle">mode_edit</i><span class="align-middle">Edit</span></a>
                     }
                 </div>
             </div>
@@ -116,104 +132,116 @@
                 <div class="col">
                     @if (!string.IsNullOrWhiteSpace(Model.Description))
                     {
-                        <div class="text-markdown">@Model.Description</div>
+                    <div class="text-markdown">@Model.Description</div>
                     }
                     else
                     {
-                        <p class="text_placeholder">No project description set yet.</p>
+                    <p class="text_placeholder">No project description set yet.</p>
                     }
                 </div>
             </div>
         </div>
     </div>
-
+    <div>
+        
+        @{
+            var canDeleteProject = (await AuthorizationService.AuthorizeAsync(User, Policies.CanDeleteProject)).Succeeded;
+        }
+        @if (canDeleteProject)
+            {
+            <hr />
+            <div>
+                <a class="btn btn-secondary-ghost" asp-controller="DeleteProject" asp-action="DeleteProject"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete project</span></a>
+            </div>
+        }
+    </div>
     @*TODO: level of completion implementation*@
     @*<div class="row">
-          <div class="col px-0">
+        <div class="col px-0">
             <div class="row">
-              <div class="col px-0">
-                <h2>Level of completion</h2>
-              </div>
-              <div class="col-2 d-flex align-items-center justify-content-end">
-                <a href="#"><i class="material-icons">keyboard_arrow_down</i>&nbsp;Show less</a>
-              </div>
+                <div class="col px-0">
+                    <h2>Level of completion</h2>
+                </div>
+                <div class="col-2 d-flex align-items-center justify-content-end">
+                    <a href="#"><i class="material-icons">keyboard_arrow_down</i>&nbsp;Show less</a>
+                </div>
             </div>
             <div class="row">
-              <table class="table table-responsive table-level-of-completion">
-                <thead>
-                  <tr>
-                    <td class="w-25"></td>
-                    <td class="w-75"></td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Design planning</td>
-                    <td>
-                      <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Medical need and product specification</td>
-                    <td>
-                      <div class="progress">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Conceptual design</td>
-                    <td>
-                      <div class="progress">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Design and prototyping</td>
-                    <td>
-                      <div class="progress">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 70%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Implementation</td>
-                    <td>
-                      <div class="progress">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 5%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Operation</td>
-                    <td>
-                      <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Project closure</td>
-                    <td>
-                      <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                <table class="table table-responsive table-level-of-completion">
+                    <thead>
+                        <tr>
+                            <td class="w-25"></td>
+                            <td class="w-75"></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Design planning</td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Medical need and product specification</td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Conceptual design</td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Design and prototyping</td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 70%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Implementation</td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 5%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Operation</td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Project closure</td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-          </div>
-        </div>*@
+        </div>
+    </div>*@
 
 </div>
 
 @section Scripts {
-    <script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"
-            asp-fallback-src="~/dist/libs/marked.min.js"
-            asp-fallback-test="window.marked">
-    </script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"
+        asp-fallback-src="~/dist/libs/marked.min.js"
+        asp-fallback-test="window.marked">
+</script>
 }
