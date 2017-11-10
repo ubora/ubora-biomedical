@@ -117,96 +117,67 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AdditionalInformation" xml:space="preserve">
-    <value>Here you can provide any additional information that you think is appropriate. For example, any preliminary studies that you have already performed or reference to similar/ competitor devices.
-
-Other interesting information includes:
-
-Any cost estimation; 
-industrial process identification; 
-animal model for testing that may be representative;
-simulations on dummies or SW that may be representative;
-if the device is intended to be single use;</value>
+  <data name="ClinicalNeeds" xml:space="preserve">
+    <value>&lt;p&gt;You should describe the clinical need that is the target of your device.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Example 1: write the common or technical name of the pathology, describe the main symptoms and if it is acute/chronic. &lt;em&gt;“Down syndrome is a syndrome linked to various conditions, from lowered cognitive functions to increased risk of heart failure”.&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Example 2: write the common or technical name of the handicap, describe if it is innate or caused by incidents or a consequence of a pathology: &lt;em&gt;“Congenital club foot is a disease of newborn children that impairs the development of the lower limbs”.&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Example 3: describe what is the patient need in terms of cost / improvement of life conditions / improvement of wellbeing: &lt;em&gt;“Patients with high body temperature (fever) need to assess their body temperature every 1-4 hours in a quick and reliable manner”.&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;</value>
   </data>
-  <data name="DescriptionOfExistingSolutionsAndAnalysis" xml:space="preserve">
-    <value>Here you should describe what are the devices or therapies on the market; if possible, list some pros and cons of the existing solutions.
-
-Example: list medical, surgical or technical solutions available; define the criteria to choose amongst the have different options. Comment on residual side effects or contraindications that may be improved.
-
-Worked example: congenital club foot is usually treated by braces (mild cases) or surgery. Both solutions require long healing times and frequent specialistic follow up visits.</value>
+  <data name="ConceptDescription" xml:space="preserve">
+    <value>&lt;p&gt;You should describe the most important operating physical principle of your medical device.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Example: Contactless Infrared Thermometer “An infrared thermometer is a device that measures the infrared radiation – a type of electromagnetic radiation below the visible spectrum of light - emitted by an object. The most basic design of infrared thermometers consists of a lens to focus the infrared thermal radiation onto a detector, which converts the radiant energy into an electric signal. This configuration facilitates temperature measurement from a distance, without the need for contact with the object to be measured. &lt;/li&gt;
+&lt;/ul&gt;</value>
   </data>
-  <data name="DescriptionOfNeeds" xml:space="preserve">
-    <value>Here you should describe the clinical need that is the target of your device. 
-Example 1: write the common or technical name of the pathology, describe the main symptoms and if it is acute/chronic.
-Example 2: write the common or technical name of the handicap, describe if it is innate or caused by incidents or a consequence of a pathology
-Example 3: describe what is the patient need in terms of cost / improvement of life conditions / improvement of wellbeing
-
-Worked example 1: Down sindrome is a sindrome linked to various conditions, from lowered cognitive functions to increased risk of heart failure 
-
-Worked example 2: congenital club foot is a disease of newborn children that impairs the development of the lower limbs
-
-Worked example 3: patients with high body temperature (fever) need to assess their body temperature every 1-4 hours in a quick and reliable manner.</value>
+  <data name="ExistingSolutions" xml:space="preserve">
+    <value>&lt;p&gt;You should describe what are the devices or therapies on the market; if possible, list some pros and cons of the existing solutions.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Example: list medical, surgical or technical solutions available; define the criteria to choose amongst the have different options. Comment on residual side effects or contraindications that may be improved: &lt;em&gt;”Congenital club foot is usually treated by braces (mild cases) or surgery. Both solutions require long healing times and frequent specialistic follow up visits”.&lt;/em&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</value>
   </data>
-  <data name="PatientPopulationStudy" xml:space="preserve">
-    <value>Here you should describe how many patients you suppose would need your device, and give description of their state of health and any subgroups.
-
-Example 1: evaluate how many patients are registered for the target pathology in your country/ worldwide and comment any differences.
-
-Worked example 1: neonatal hypothermia affects xxx% of preterm children and xx% of babies at term. This means an estimate of xxx babies per year worldwide.
-
-Example 2: evaluate how the current patient population may evolve over time/ as developing countries increase their access to health services
-
-Worked example 2: Age related dementia affects xxx% population in the USA; similar numbers may be found in Europe, varying from xx% of Italy to xx% of Russia. In developing countries, as the life expectancy is lower, this pathology is found in xx% of population that is xx% of population in the age group 65 and older.</value>
+  <data name="IntendedUsers" xml:space="preserve">
+    <value>&lt;p&gt;You should describe who are the intended user of your medical device (e.g. physician, technicians, nurse, midwife, family member, self-use), and where the technology will be used (rural or urban settings, at home, hospital, …).&lt;/p&gt;
+</value>
   </data>
-  <data name="ProductFunctionality" xml:space="preserve">
-    <value>Here you should briefly describe your device and how it works. Describe how your product will meet and solve the clinical need.
-
-Example 1: describe how the device interacts with the human body and why this interaction is beneficial.
-
-Worked example 1: the syringe allows to deliver liquid substances, for example drugs, to the peripheral blood stream of the patient by piercing the vein walls without laceration
-
-Example 2: describe which clinical parameter is measures/ altered/ affected by the device
-
-Worked example 2: the oximeter allows measuring the amount of circulating haemoglobin by evaluation of light absorption.</value>
+  <data name="PhysicalPrinciples" xml:space="preserve">
+    <value>&lt;p&gt;You should describe the most important operating physical principle of your medical device.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Example: Contactless Infrared Thermometer “An infrared thermometer is a device that measures the infrared radiation – a type of electromagnetic radiation below the visible spectrum of light - emitted by an object. The most basic design of infrared thermometers consists of a lens to focus the infrared thermal radiation onto a detector, which converts the radiant energy into an electric signal. This configuration facilitates temperature measurement from a distance, without the need for contact with the object to be measured. &lt;/li&gt;
+&lt;/ul&gt;</value>
   </data>
-  <data name="ProductPerformance" xml:space="preserve">
-    <value>Here you should describe the main working parameters of your device and why they are significant to describe its interaction with the patient.
+  <data name="ProductRequirements" xml:space="preserve">
+    <value>&lt;p&gt;You should describe all the requirements to certain product. It is written to allow people to understand what a product should do. Typical components of a product requirements document are:&lt;/p&gt;
 
-example 1: describe the time of use, kind of interaction with the human body, forces involved
+&lt;ul&gt;
 
-worked example 1: the haemodialysis machine allows transferring the blood from the patient body to a filter, by plastic tubings. The blood is circulated in low pressure by a peristaltic pump for some hours and continuously recirculated to the patient.
+&lt;li&gt;Functional requirements
+&lt;ul&gt; 
+&lt;li&gt;Describe how your product will meet and solve the clinical need. Example: describe how the device interacts with the human body and why this interaction is beneficial: &lt;em&gt;”The syringe allows to deliver liquid substances, for example drugs, to the peripheral blood stream of the patient by piercing the vein walls without laceration”.&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 
-worked example 2: a dental implant is inserted by screwing it in the vital bone; after healing, the dental implant inside the bone is connected to an external abutment that sustains the mechanical forces of mastication
+&lt;li&gt;Usability requirements
+&lt;ul&gt;
+&lt;li&gt;Describe who will use the device and if they need special training. Example: define the professional profile of the end user: &lt;em&gt;“A hip implant can be implanted in the patient only by a surgery team; all components of the surgery team are medical professional and at least one specialized orthopedic surgeon shall be responsible of the surgery”.&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 
-worked example 3: a defibrillator delivers electric energy to the chest of the patient.</value>
-  </data>
-  <data name="ProductSafety" xml:space="preserve">
-    <value>Here you should describe the main risks that your device may pose to the patient, to the users and bystanders and to the general environment. Propose solutions if you are aware of them.
+&lt;li&gt;Safety requirements
+&lt;ul&gt;
+&lt;li&gt;Describe the main risks that your device may pose to the patient, to the users and bystanders and to the general environment. Propose solutions if you are aware of them. Example: evaluate electrical and mechanical safety of the device: &lt;em&gt;“Hemodialysis machine is powered by electricity, there is a risk of electrocution of the patient and operator if it is not well insulated. In the same machine, the roller pump may hurt the operator hands if it is touched while it is rotating. Possible solutions include insulating the electrical connections and protecting the moving parts with covers or lids”.&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 
-Example 1: evaluate electrical and mechanical safety of the device 
+&lt;li&gt;Interaction requirements
+&lt;ul&gt; 
+&lt;li&gt;Describe how the product should work with other systems.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 
-Worked example 1: haemodialysis machine is powered by electricity, there is a risk of electrocution of the patient and operator if it is not well insulated. In the same machine, the roller pump may hurt the operator hands if it is touched while it is rotating. Possible solutions include insulating the electrical connections and protecting the moving parts with covers or lids
-
-Example 2: evaluate biological safety of the device
-
-Worked example 2: a needle penetrates the skin of the patient; it must be sterile and made in a material that does not cause irritation or inflammation. The same needle poses a contamination and wound hazard to the nurse after its use. At the state of the art, many metals including steel are known to be compatible with the human body and sterilizable. Means of protecting the tip after use should be provided to the operator.</value>
-  </data>
-  <data name="ProductUsability" xml:space="preserve">
-    <value>Here you should describe who will use the device and if they need special training.
-
-Example 1: define the professional profile of the end user
-
-Worked example 1: a hip implant can be implanted in the patient only by a surgery team; all components of the surgery team are medical professional and at least one specialized orthopedic surgeon shall be responsible of the surgery
-
-Worked example 2: a thermometer is used by any adult or teenager with normal cognitive and bodily abilities; young children or persons with cognitive impairment may need help in reading and interpreting the results; persons with upper limp handicaps may not be able to handle the device.</value>
-  </data>
-  <data name="UserRequirementStudy" xml:space="preserve">
-    <value>Here you should describe what your end user prefers or needs; this may be the same or different than the patient need and relates more to "easy and friendly to use" that to patient state of health.
-
-Example: describe if the device should be lightweight to be portable; describe the sounds and colors that are expected; describe handling and visual requirements
-
-Worked example 1: a defibrillator for use in airports and other meeting places should be very intuitive to use and should give vocal commands in the language that is common for the end users
-
-Worked example 2: a surgery blade shall have a handle that ensures a safe grip even if it is wet.</value>
+&lt;/ul&gt;</value>
   </data>
 </root>
