@@ -1,18 +1,18 @@
 ﻿using System;
+using System.Linq;
 using Autofac;
 using FluentAssertions;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Projects.Tasks;
-using Ubora.Domain.Projects.Tasks.Commands;
+using Ubora.Domain.Projects.Assignments;
+using Ubora.Domain.Projects.Assignments.Commands;
+using Ubora.Domain.Projects.Assignments.Notifications;
 using Ubora.Domain.Projects._Commands;
 using Xunit;
-using System.Linq;
-using Ubora.Domain.Projects.Tasks.Notifications;
 
-namespace Ubora.Domain.Tests.Projects.Tasks.Commands
+namespace Ubora.Domain.Tests.Projects.Assignments.Commands
 {
-    public class EditTaskTests : IntegrationFixture
+    public class EditAssignmentTests : IntegrationFixture
     {
         [Fact]
         public void Edits_Task_Of_Project()
@@ -29,7 +29,7 @@ namespace Ubora.Domain.Tests.Projects.Tasks.Commands
             var expectedTaskId = Guid.NewGuid();
             var expectedUserInfo = new UserInfo(Guid.NewGuid(), "");
             var taskAssignee1Id = Guid.NewGuid();
-            processor.Execute(new AddTaskCommand
+            processor.Execute(new AddAssignmentCommand
             {
                 Title = "initialTitle",
                 Description = "initialDescription",
@@ -42,7 +42,7 @@ namespace Ubora.Domain.Tests.Projects.Tasks.Commands
             var taskAssignee2Id = Guid.NewGuid();
             var taskAssignee3Id = Guid.NewGuid();
             var editedTaskAssigneeIds = new[] { taskAssignee2Id, taskAssignee3Id };
-            var command2 = new EditTaskCommand
+            var command2 = new EditAssignmentCommand
             {
                 Title = "expectedTitle",
                 Description = "expectedDescription",
@@ -56,7 +56,7 @@ namespace Ubora.Domain.Tests.Projects.Tasks.Commands
             processor.Execute(command2);
 
             // Assert
-            var task = Session.Load<ProjectTask>(expectedTaskId);
+            var task = Session.Load<Assignment>(expectedTaskId);
 
             task.Id.Should().Be(expectedTaskId);
             task.Title.Should().Be("expectedTitle");

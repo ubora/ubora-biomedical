@@ -4,11 +4,11 @@ using System.Linq;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects._Events;
 
-namespace Ubora.Domain.Projects.Tasks.Events
+namespace Ubora.Domain.Projects.Assignments.Events
 {
-    public class TaskEditedEvent : ProjectEvent, ITaskEvent
+    public class AssignmentEditedEvent : ProjectEvent, IAssignmentEvent
     {
-        public TaskEditedEvent(UserInfo initiatedBy, Guid projectId, string title, string description, Guid id, IEnumerable<Guid> assigneeIds) : base(initiatedBy, projectId)
+        public AssignmentEditedEvent(UserInfo initiatedBy, Guid projectId, string title, string description, Guid id, IEnumerable<Guid> assigneeIds) : base(initiatedBy, projectId)
         {
             Title = title;
             Description = description;

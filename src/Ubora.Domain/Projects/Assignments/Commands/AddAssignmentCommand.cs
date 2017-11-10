@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Projects.Tasks.Events;
-using System.Collections.Generic;
-using Ubora.Domain.Projects.Tasks.Notifications;
-using System.Linq;
+using Ubora.Domain.Projects.Assignments.Events;
+using Ubora.Domain.Projects.Assignments.Notifications;
 
-namespace Ubora.Domain.Projects.Tasks.Commands
+namespace Ubora.Domain.Projects.Assignments.Commands
 {
-    public class AddTaskCommand : UserProjectCommand
+    public class AddAssignmentCommand : UserProjectCommand
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
@@ -21,17 +21,17 @@ namespace Ubora.Domain.Projects.Tasks.Commands
             set { _assigneeIds = value; }
         }
 
-        internal class Handler : CommandHandler<AddTaskCommand>
+        internal class Handler : CommandHandler<AddAssignmentCommand>
         {
             public Handler(IDocumentSession documentSession) : base(documentSession)
             {
             }
 
-            public override ICommandResult Handle(AddTaskCommand cmd)
+            public override ICommandResult Handle(AddAssignmentCommand cmd)
             {
                 var project = DocumentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
-                var @event = new TaskAddedEvent(
+                var @event = new AssignmentAddedEvent(
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
                     id: cmd.Id,

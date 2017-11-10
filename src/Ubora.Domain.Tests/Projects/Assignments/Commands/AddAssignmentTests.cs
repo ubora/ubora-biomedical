@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
-using Ubora.Domain.Projects.Tasks;
-using Ubora.Domain.Projects.Tasks.Commands;
+using Ubora.Domain.Projects.Assignments;
+using Ubora.Domain.Projects.Assignments.Commands;
+using Ubora.Domain.Projects.Assignments.Notifications;
 using Ubora.Domain.Projects._Commands;
 using Xunit;
-using System.Linq;
-using Ubora.Domain.Projects.Tasks.Notifications;
 
-namespace Ubora.Domain.Tests.Projects.Tasks.Commands
+namespace Ubora.Domain.Tests.Projects.Assignments.Commands
 {
-    public class AddTaskTests : IntegrationFixture
+    public class AddAssignmentTests : IntegrationFixture
     {
         [Fact]
         public void Adds_New_Task_To_Project()
@@ -25,7 +25,7 @@ namespace Ubora.Domain.Tests.Projects.Tasks.Commands
             var taskAssigneeId = Guid.NewGuid();
             var assigneeIds = new[] { taskAssigneeId };
             var actor = new DummyUserInfo();
-            var command = new AddTaskCommand
+            var command = new AddAssignmentCommand
             {
                 Title = "expectedTitle",
                 Description = "expectedDescription",
@@ -39,7 +39,7 @@ namespace Ubora.Domain.Tests.Projects.Tasks.Commands
             Processor.Execute(command);
 
             // Assert
-            var task = Session.Load<ProjectTask>(expectedTaskId);
+            var task = Session.Load<Assignment>(expectedTaskId);
 
             task.Id.Should().Be(expectedTaskId);
             task.Title.Should().Be("expectedTitle");
