@@ -1,14 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
 using Ubora.Web.Infrastructure;
 
-namespace Ubora.Web._Features.Projects.Dashboard
+namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
-    public class EditProjectImageViewModel
+    public class EditCandidateImageViewModel
     {
+        public Guid Id { get; set; }
+
         [Required(ErrorMessage = "Please select an image to upload first!")]
         [IsImage]
-        [FileSize(4000000, "Max project image size is 4 MB!")]
+        [FileSize(4000000)]
         public IFormFile Image { get; set; }
     }
 }

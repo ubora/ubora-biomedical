@@ -15,6 +15,7 @@ using Ubora.Domain.Projects.Tasks.Events;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Users;
+using Ubora.Domain.Projects.Candidates;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
@@ -41,6 +42,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<ProjectFile>();
                 options.Schema.For<ProjectTask>();
                 options.Schema.For<Project>().SoftDeleted();
+                options.Schema.For<Candidate>();
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
@@ -49,6 +51,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<DeviceClassificationAggregate>();
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectTask, ITaskEvent>());
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());
+                options.Events.InlineProjections.AggregateStreamsWith<Candidate>();
 
                 options.Events.AddEventTypes(eventTypes);
 

@@ -1,5 +1,6 @@
 .card-title {
   padding: 0 1rem;
+  word-break: break-all;
 }
 
 .card-title {
@@ -14,4 +15,7 @@
 
 .card-link {
   word-break: normal;
+.card-text {
+  padding: 0 1rem;
+  word-break: break-all;
 }
