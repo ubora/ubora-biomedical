@@ -40,7 +40,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.UseAggregatorLookup(AggregationLookupStrategy.UsePrivateApply);
                 options.Serializer(serializer);
 
-                options.Schema.For<UserProfile>();
+                options.Schema.For<UserProfile>().SoftDeleted();
                 options.Schema.For<DeviceClassification>();
                 options.Schema.For<ProjectFile>();
                 options.Schema.For<ProjectTask>();
