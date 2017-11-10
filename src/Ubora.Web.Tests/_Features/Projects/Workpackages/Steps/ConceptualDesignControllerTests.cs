@@ -426,6 +426,51 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
         }
 
         [Fact]
+        public async Task Returns_RemoveCandidateImage_View_With_ModelState_Errors_When_Invalid_Model()
+        {
+            var model = new RemoveCandidateImageViewModel();
+            var errorMessage = "errorMessage";
+            _controller.ModelState.AddModelError("", errorMessage);
+
+            // Act
+            var result = (ViewResult)await _controller.RemoveCandidateImage(model);
+
+            // Assert
+            result.ViewName.Should().Be(nameof(ConceptualDesignController.RemoveCandidateImage));
+            AssertModelStateContainsError(result, errorMessage);
+
+            _imageStorageProvider.Verify(x => x.DeleteImagesAsync(It.IsAny<BlobLocation>()), Times.Never);
+            CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task RemoveCandidateImage_Returns_RemoveCandidateImage_View_With_ModelState_Errors_When_Command_Not_Executed_Successfully()
+        {
+            var candidateId = Guid.NewGuid();
+
+            var expectedBlobLocation = BlobLocations.GetProjectCandidateBlobLocation(ProjectId, candidateId);
+            Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName
+                && b.BlobPath.Contains("fileName") && b.BlobPath.Contains(ProjectId.ToString());
+
+            var commandResult = CommandResult.Failed("testError1", "testError2");
+            CommandProcessorMock
+                .Setup(p => p.Execute(It.IsAny<DeleteCandidateImageCommand>()))
+                .Returns(commandResult);
+            
+            var model = new RemoveCandidateImageViewModel
+            {
+                Id = candidateId,
+            };
+
+            // Act
+            var result = (ViewResult)await _controller.RemoveCandidateImage(model);
+
+            // Assert
+            result.ViewName.Should().Be(nameof(ConceptualDesignController.RemoveCandidateImage));
+            AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
+        }
+
+        [Fact]
         public async Task RemoveCandidateImage_Redirects_To_Candidate_View_When_Command_Executed_Successfully()
         {
             var candidateId = Guid.NewGuid();
@@ -446,7 +491,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             };
 
             // Act
-            var result = (RedirectToActionResult) await _controller.RemoveCandidateImage(model);
+            var result = (RedirectToActionResult)await _controller.RemoveCandidateImage(model);
 
             // Assert
             result.ActionName.Should().Be(nameof(ConceptualDesignController.Candidate));

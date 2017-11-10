@@ -166,7 +166,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             if (!ModelState.IsValid)
             {
-                return View(nameof(EditCandidateImage));
+                return RemoveCandidateImage(model.Id);
             }
 
             await _imageStorageProvider.DeleteImagesAsync(BlobLocations.GetProjectCandidateBlobLocation(ProjectId, model.Id));
@@ -179,7 +179,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             if (!ModelState.IsValid)
             {
-                return View(nameof(EditCandidateImage));
+                return RemoveCandidateImage(model.Id);
             }
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
