@@ -5,6 +5,7 @@
         DeviceClassification,
         RegulationCheckList,
         Wp1MentorReview,
-        Wp2MentorReview
+        Wp2MentorReview,
+        Voting
     }
 }

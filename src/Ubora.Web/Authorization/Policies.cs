@@ -14,5 +14,9 @@
         public const string CanChangeProjectImage = nameof(CanChangeProjectImage);
         public const string CanEditProjectDescription = nameof(CanEditProjectDescription);
         public const string CanDeleteProject = nameof(CanDeleteProject);
+        public const string CanAddProjectCandidate = nameof(CanAddProjectCandidate);
+        public const string CanEditProjectCandidate = nameof(CanEditProjectCandidate);
+        public const string CanChangeProjectCandidateImage = nameof(CanChangeProjectCandidateImage);
+        public const string CanRemoveProjectCandidateImage = nameof(CanRemoveProjectCandidateImage);
     }
 }

@@ -33,5 +33,10 @@ namespace Ubora.Domain
         {
             return $"#task{{{taskId}}}";
         }
+
+        public static string Candidate(Guid candidateId)
+        {
+            return $"#candidate{{{candidateId}}}";
+        }
     }
 }

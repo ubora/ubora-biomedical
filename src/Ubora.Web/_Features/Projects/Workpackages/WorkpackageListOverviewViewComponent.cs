@@ -154,9 +154,9 @@ namespace Ubora.Web._Features.Projects.Workpackages
 
             menuLinks.Add(new MenuLink
             {
-                Name = "Mentor review",
-                Href = Url.Action("Review", "WorkpackageTwoReview"),
-                IsSelected = IsWorkpackageCustomMenuOptionSelected(WorkpackageMenuOption.Wp2MentorReview)
+                Name = "Voting",
+                Href = Url.Action("Voting", "WorkpackageTwo"),
+                IsSelected = IsWorkpackageCustomMenuOptionSelected(WorkpackageMenuOption.Voting)
             });
 
             var workPackageMenu = new WorkpackageMenuViewModel
