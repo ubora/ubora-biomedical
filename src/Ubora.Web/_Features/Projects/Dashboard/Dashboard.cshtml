@@ -1,3 +1,4 @@
+@using Ubora.Web.Data
 @using Ubora.Web._Features.Projects._Shared
 @model Ubora.Web._Features.Projects.Dashboard.ProjectDashboardViewModel
 
@@ -7,46 +8,48 @@
 }
 
 <div class="container-fluid col-md-8 my-4">
-
     <div class="row">
         <div class="col-sm-12 col-lg-6">
-            <div class="row">
-                <div class="col">
-                    <div class="card w-100 h-100">
-                        <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(Model.ImagePath)?"/images/project-default-image.png":Model.ImagePath)" alt="Illustrative project photo">
-                        @if (Model.IsInDraft)
-                        {
-                        <p class="project-status-draft">Draft</p>
-                        }
-                        <div class="card-body">
-                            <h4 class="card-title mt-3">@Model.Title</h4>
-                        </div>
+          <div class="row">
+            <div class="col">
+              <div class="card w-100 h-100">
+                  <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(Model.ImagePath)?"/images/project-default-image.png":Model.ImagePath)" alt="Illustrative project photo">
+                  @if (await AuthorizationService.IsAuthorized(User, Policies.CanChangeProjectImage))
+                  {
+                    <div class="card-img-overlay text-center">
+                    @if (Model.HasImage){
+                      <div class="flex-wrap">
+                        <a class="mx-1" asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span></a>
+                        <a class="mx-1" asp-controller="Dashboard" asp-action="RemoveProjectImage"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Remove image</span></a>
+                      </div>
+                    }
+                    else
+                    {
+                      <a asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Add image</span></a>
+                    }
                     </div>
-                </div>
-            </div>
-            <div class="row mt-1">
-                <div class="col d-flex justify-content-end flex-wrap">
-                    <div>
-                        @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorized(User, Policies.CanJoinProject))
-                        {
-                        <a class="btn btn-secondary-ghost" href="@Url.Action(" Join", "Members" )"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
-                        }
 
-                        @if (await AuthorizationService.IsAuthorized(User, Policies.CanChangeProjectImage))
-                        {
-                        if (Model.HasImage)
-                        {
-                        <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span></a>
-                        <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="RemoveProjectImage"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Remove image</span></a>
-                        }
-                        else
-                        {
-                        <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Add image</span></a>
-                        }
-                        }
-                    </div>
+                  }
+                  @if (Model.IsInDraft)
+                  {
+                      <p class="project-status-draft">Draft</p>
+                  }
+                  <div class="card-body">
+                      <h4 class="card-title mt-3">@Model.Title</h4>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col d-flex justify-content-end">
+              <div>
+                  @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorized(User, Policies.CanJoinProject))
+                  {
+                      <a class="btn btn-secondary-ghost" href="@Url.Action("Join", "Members")"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
+                  }
                 </div>
             </div>
+          </div>
         </div>
         <div class="col-sm-12 col-lg-6">
             <div class="row">
@@ -139,7 +142,19 @@
             </div>
         </div>
     </div>
-
+    <div>
+        
+        @{
+            var canDeleteProject = (await AuthorizationService.AuthorizeAsync(User, Policies.CanDeleteProject)).Succeeded;
+        }
+        @if (canDeleteProject)
+            {
+            <hr />
+            <div>
+                <a class="btn btn-secondary-ghost" asp-controller="DeleteProject" asp-action="DeleteProject"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete project</span></a>
+            </div>
+        }
+    </div>
     @*TODO: level of completion implementation*@
     @*<div class="row">
         <div class="col px-0">

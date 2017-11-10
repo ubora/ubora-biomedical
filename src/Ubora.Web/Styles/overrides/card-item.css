@@ -3,6 +3,18 @@
   word-break: break-all;
 }
 
+.card-title {
+  word-break: normal;
+}
+
+.card-img-overlay {
+  background-color: rgba(255, 255, 255, 0.9);
+  top: 0;
+  height: 5em;
+}
+
+.card-link {
+  word-break: normal;
 .card-text {
   padding: 0 1rem;
   word-break: break-all;
