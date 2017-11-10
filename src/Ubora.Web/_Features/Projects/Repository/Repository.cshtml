@@ -8,7 +8,7 @@
 
 <div class="container-fluid my-4">
     <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-3 pl-5">
             @Html.Partial("AddFilePartial", Model.AddFileViewModel)
         </div>
         <div class="col-lg-9 pr-5">
@@ -36,11 +36,11 @@
                                             <i class="file-list--item-control material-icons">file_download</i>
                                         </a>
 
-                                        <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file"  class="js-tooltip" data-placement="bottom">
+                                        <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file" class="js-tooltip" data-placement="bottom">
                                             <i class="file-list--item-control material-icons">file_upload</i>
                                         </a>
 
-                                        <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history"  class="js-tooltip" data-placement="bottom">
+                                        <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history" class="js-tooltip" data-placement="bottom">
                                             <i class="file-list--item-control material-icons">history</i>
                                         </a>
 
@@ -55,7 +55,7 @@
 
                                         @if (Model.IsProjectLeader)
                                         {
-                                            <a href="@Url.Action("HideFile", new {fileId = file.Id})" title="Delete file forever" aria-label="Delete file forever"  class="js-tooltip" data-placement="bottom">
+                                            <a href="@Url.Action("HideFile", new {fileId = file.Id})" title="Delete file forever" aria-label="Delete file forever" class="js-tooltip" data-placement="bottom">
                                                 <i class="file-list--item-control material-icons">delete_forever</i>
                                             </a>
                                         }
@@ -74,3 +74,14 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @{     await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css"
+          asp-fallback-href="~/dist/lib/dropzone.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.2.0/dropzone.js"
+            asp-fallback-src="~/dist/lib/dropzone.js">
+    </script>
+    <script src="~/dist/drag_and_drop_file_uploads.bundle.js"></script>
+}
