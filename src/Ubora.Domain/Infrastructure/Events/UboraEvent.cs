@@ -8,12 +8,12 @@ namespace Ubora.Domain.Infrastructure.Events
         protected UboraEvent(UserInfo initiatedBy)
         {
             InitiatedBy = initiatedBy ?? throw new ArgumentNullException(nameof(initiatedBy));
-            Timestamp = DateTime.UtcNow;
+            Timestamp = DateTimeOffset.UtcNow;
         }
 
         public UserInfo InitiatedBy { get; }
 
-        public DateTime Timestamp { get; private set; }
+        public DateTimeOffset Timestamp { get; private set; }
 
         public abstract string GetDescription();
 
