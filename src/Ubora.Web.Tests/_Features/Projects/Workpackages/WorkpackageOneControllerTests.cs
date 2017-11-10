@@ -344,24 +344,5 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             result.ActionName.Should().Be("Index");
             result.ControllerName.Should().Be("Home");
         }
-
-        [Fact]
-        public void DeviceClassification_Returns_DeviceClassification_View_With_Expected_Model()
-        {
-            var project = new Project();
-            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
-                .Returns(project);
-
-            var expectedModel = new DeviceClassificationViewModel();
-            AutoMapperMock.Setup(m => m.Map<DeviceClassificationViewModel>(project))
-                .Returns(expectedModel);
-
-            // Act
-            var result = (ViewResult)_workpackageOneController.DeviceClassification();
-
-            // Assert
-            result.Model.Should().BeSameAs(expectedModel);
-            result.ViewName.Should().Be(nameof(WorkpackageOneController.DeviceClassification));
-        }
     }
 }

@@ -14,6 +14,13 @@
 </PropertyGroup>
 
 <ItemGroup>
+  <Compile Remove="_Features\Projects\DeviceClassification\**" />
+  <Content Remove="_Features\Projects\DeviceClassification\**" />
+  <EmbeddedResource Remove="_Features\Projects\DeviceClassification\**" />
+  <None Remove="_Features\Projects\DeviceClassification\**" />
+</ItemGroup>
+
+<ItemGroup>
   <PackageReference Include="Autofac" Version="4.6.1" />
   <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.0" />
   <PackageReference Include="AutoMapper" Version="6.1.1" />

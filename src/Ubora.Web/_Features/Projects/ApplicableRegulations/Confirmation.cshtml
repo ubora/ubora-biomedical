@@ -1,0 +1,21 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@model Ubora.Web._Features.Projects.ApplicableRegulations.LastQuestionViewModel
+
+<section class="project-view full-width">
+    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+    <section class="medium-width">
+        <div class="center-element">
+            <h1> Are you sure you want cancel your last questtionaire and start a new one ? </h1>
+                 
+        </div>
+        <div class="center-element">
+                
+                
+             
+            <a asp-controller="" class="button primary-button small-button">Yes</a>
+            <a class="button primary-button small-button">No</a>
+        </div>
+            
+       
+    </section>
+</section>

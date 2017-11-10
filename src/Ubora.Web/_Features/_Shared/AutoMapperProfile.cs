@@ -60,11 +60,11 @@ namespace Ubora.Web._Features._Shared
             CreateMap<Project, ProjectDashboardViewModel>()
                 .ForMember(dest => dest.IsProjectMember, o => o.Ignore())
                 .ForMember(dest => dest.ImagePath, o => o.Ignore())
+                .ForMember(dest => dest.DeviceClassification, o => o.Ignore())
                 .ForMember(dest => dest.HasImage, o => o.Ignore());
 
             CreateMap<WorkpackageReview, WorkpackageReviewViewModel>();
 
-            CreateMap<Project, DeviceClassificationViewModel>();
 
             CreateMap<Candidate, CandidateItemViewModel>()
                 .ForMember(dest => dest.ImageUrl, o => o.Ignore());

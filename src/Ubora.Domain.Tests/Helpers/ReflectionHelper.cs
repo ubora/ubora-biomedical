@@ -9,6 +9,9 @@ namespace System
         private const BindingFlags AllInstanceBindingFlags =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
+        /// <summary>
+        /// Force-sets property value by reflection (magic).
+        /// </summary>
         public static T Set<T, P>(this T instance, Expression<Func<T, P>> propertySelector, P value) where T : class
         {
             if (propertySelector.Body.NodeType != ExpressionType.MemberAccess)
@@ -22,6 +25,9 @@ namespace System
             return instance;
         }
 
+        /// <summary>
+        /// Force-sets property value by reflection (magic).
+        /// </summary>
         public static T Set<T, P>(this T instance, string propertyName, P value) where T : class
         {
             if (string.IsNullOrWhiteSpace(propertyName))
