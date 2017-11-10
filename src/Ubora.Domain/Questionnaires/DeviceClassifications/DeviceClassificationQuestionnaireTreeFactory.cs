@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Ubora.Domain.Questionnaires.DeviceClassifications.DeviceClasses;
 
 namespace Ubora.Domain.Questionnaires.DeviceClassifications
 {
@@ -479,113 +480,73 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 })
             };
 
-            var conditions = new[]
+            var deviceClassOne = new DeviceClassOne(new[]
             {
-                new ChosenAnswerDeviceClassCondition("q1_1", "n", DeviceClass.One),
-                new ChosenAnswerDeviceClassCondition("q1_1_1", "y", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q1_1_2", "y", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q1_1_3", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q1_1_4_1", "y", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q1_1_4_2", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q1_1_4_3", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q1_1_5_1", "y", DeviceClass.One),
-                new ChosenAnswerDeviceClassCondition("q1_1_5_2", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q1_1_5_3", "y", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q2_1_1_1", "q2_1_1_1", DeviceClass.One),
-                new ChosenAnswerDeviceClassCondition("q2_1_1_1", "q2_1_1_2", DeviceClass.One),
-                new ChosenAnswerDeviceClassCondition("q2_1_1_1", "q2_1_1_3", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q2_1_1_1", "q2_1_1_4", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q2_1_1_1", "q2_1_1_5", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q2_1_1_1", "q2_1_1_6", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q2_1_2", "q2_1_3", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q2_1_2_1", "y", DeviceClass.One),
-                new ChosenAnswerDeviceClassCondition("q2_1_2_2", "y", DeviceClass.One),
-                new ChosenAnswerDeviceClassCondition("q2_1_2_3", "y", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q2_1_2_4", "y", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q2_1_2_5", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q2_1_2_6", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q2_2_1_1", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q2_2_1_2", "y", DeviceClass.One),
-                new ChosenAnswerDeviceClassCondition("q2_2_1_3", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q2_2_1_4", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q2_2_1_5", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q2_2_1_6", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q2_2_2_1", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q2_2_2_2", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q2_2_2_3", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q2_2_2_4", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q2_2_2_5", "q2_2_2_5_1", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q2_2_2_5", "q2_2_2_5_2", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q2_2_2_5_3", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q2_2_3_1", "y", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q2_2_3_2", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q2_2_3_3", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q2_2_3_4", "q2_2_3_4_1", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q2_2_3_4", "q2_2_3_4_2", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q2_2_3_5", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q2_2_3_6", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q2_2_3_7", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q2_2_3_8", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q2_2_3_9", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q2_2_3_10", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q2_2_3_11", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q2_2_3_12", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q2_2_3_13", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q3_1_1", "q3_1_1", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q3_1_1", "q3_1_2", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q3_1_3", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q3_1_4", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q3_1_5", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q3_2", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q3_3", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q3_4_1_1", "y", DeviceClass.One),
-                new ChosenAnswerDeviceClassCondition("q3_4_1_2", "y", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q3_4_1_3", "y", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q3_4_2_1", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q3_4_2_2", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q3_4_2_3", "y", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q3_4_3", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q3_5_1_1", "q3_5_1_1", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q3_5_1_1", "q3_5_1_2", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q3_5_1_1", "n", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q3_5_2_1", "q3_5_2_1", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q3_5_2_1", "q3_5_2_2", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q3_6_1", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q3_6_1", "n", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q4", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q5_1", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q5_1", "n", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q6", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q7_1", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q7_1", "n", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q7_3", "y", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q8", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q9_1", "q9_1", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q9_1", "q9_2", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q9_1", "q9_3", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q10_1", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q10_2", "y", DeviceClass.TwoB),
-                new ChosenAnswerDeviceClassCondition("q11_1", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q11_2", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q11_3", "y", DeviceClass.TwoA),
-                new ChosenAnswerDeviceClassCondition("q12", "y", DeviceClass.Three),
-                new ChosenAnswerDeviceClassCondition("q1_1_5_4", new Dictionary<string, string>
-                {
-                    { "q1_1_5_1", "n" },
-                    { "q1_1_5_2", "n" },
-                    { "q1_1_5_3", "n" }
-                }, DeviceClass.TwoA ),
-
-                new ChosenAnswerDeviceClassCondition("q1_1_6", new Dictionary<string, string>
+                new ChosenAnswerDeviceClassCondition("q1_1", "n"),
+                new ChosenAnswerDeviceClassCondition("q1_1_5_1", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_1_1_1", "q2_1_1_1"),
+                new ChosenAnswerDeviceClassCondition("q2_1_1_1", "q2_1_1_2"),
+                new ChosenAnswerDeviceClassCondition("q2_1_2_1", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_1_2_2", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_1_2", "y"),
+                new ChosenAnswerDeviceClassCondition("q3_4_1_1", "y"),
+                new ChosenAnswerDeviceClassCondition(new Dictionary<string, string>
                 {
                     { "q1_1_1", "n" },
                     { "q1_1_2", "n" },
                     { "q1_1_3", "n" },
                     { "q1_1_4", "n" },
                     { "q1_1_5", "n" }
-                }, DeviceClass.One ),
+                }),
+                new ChosenAnswerDeviceClassCondition(new Dictionary<string, string>
+                {
+                    { "q3_5_1", "n" },
+                    { "q3_5_2", "n" }
+                }),
 
-                new ChosenAnswerDeviceClassCondition("q2_2_1_7", new Dictionary<string, string>
+                new ChosenAnswerDeviceClassCondition(new Dictionary<string, string>
+                {
+                    { "q3_1", "n" },
+                    { "q3_2", "n" },
+                    { "q3_3", "n" },
+                    { "q3_4", "n" },
+                    { "q3_5", "n" },
+                    { "q3_6", "n" }
+                }),
+
+            });
+            var deviceClassTwoA = new DeviceClassTwoA(new[]
+            {
+                new ChosenAnswerDeviceClassCondition("q1_1_1", "y"),
+                new ChosenAnswerDeviceClassCondition("q1_1_2", "y"),
+                new ChosenAnswerDeviceClassCondition("q1_1_4_1", "y"),
+                new ChosenAnswerDeviceClassCondition("q1_1_5_3", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_1_1_1", "q2_1_1_3"),
+                new ChosenAnswerDeviceClassCondition("q2_1_1_1", "q2_1_1_4"),
+                new ChosenAnswerDeviceClassCondition("q2_1_2", "q2_1_3"),
+                new ChosenAnswerDeviceClassCondition("q2_1_2_3", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_1_2_4", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_2_5", "q2_2_2_5_1"),
+                new ChosenAnswerDeviceClassCondition("q2_2_3_1", "y"),
+                new ChosenAnswerDeviceClassCondition("q3_1_1", "q3_1_2"),
+                new ChosenAnswerDeviceClassCondition("q3_4_1_2", "y"),
+                new ChosenAnswerDeviceClassCondition("q3_4_1_3", "y"),
+                new ChosenAnswerDeviceClassCondition("q3_4_2_3", "y"),
+                new ChosenAnswerDeviceClassCondition("q3_5_1_1", "n"),
+                new ChosenAnswerDeviceClassCondition("q3_5_2_1", "q3_5_2_2"),
+                new ChosenAnswerDeviceClassCondition("q3_6_1", "n"),
+                new ChosenAnswerDeviceClassCondition("q5_1", "n"),
+                new ChosenAnswerDeviceClassCondition("q7_1", "n"),
+                new ChosenAnswerDeviceClassCondition("q7_3", "y"),
+                new ChosenAnswerDeviceClassCondition("q9_1", "q9_3"),
+                new ChosenAnswerDeviceClassCondition("q11_3", "y"),
+                new ChosenAnswerDeviceClassCondition(new Dictionary<string, string>
+                {
+                    { "q1_1_5_1", "n" },
+                    { "q1_1_5_2", "n" },
+                    { "q1_1_5_3", "n" }
+                }),
+                new ChosenAnswerDeviceClassCondition(new Dictionary<string, string>
                 {
                     { "q2_2_1_1", "n" },
                     { "q2_2_1_2", "n" },
@@ -593,18 +554,70 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                     { "q2_2_1_4", "n" },
                     { "q2_2_1_5", "n" },
                     { "q2_2_1_6", "n" }
-                }, DeviceClass.TwoA ),
-
-                new ChosenAnswerDeviceClassCondition("q2_2_2_6", new Dictionary<string, string>
+                }),
+                new ChosenAnswerDeviceClassCondition(new Dictionary<string, string>
                 {
                     { "q2_2_2_1", "n" },
                     { "q2_2_2_2", "n" },
                     { "q2_2_2_3", "n" },
                     { "q2_2_2_4", "n" },
                     { "q2_2_2_5", "n" }
-                }, DeviceClass.TwoA ),
+                }),
+                new ChosenAnswerDeviceClassCondition(new Dictionary<string, string>
+                {
+                    { "q3_4_1", "n" },
+                    { "q3_4_2", "n" },
+                    { "q3_4_3", "n" }
+                }),
+                new ChosenAnswerDeviceClassCondition(new Dictionary<string, string>
+                {
+                    { "q10_1", "n" },
+                    { "q10_2", "n" }
+                }),
 
-                new ChosenAnswerDeviceClassCondition("q2_2_3_14", new Dictionary<string, string>
+                new ChosenAnswerDeviceClassCondition(new Dictionary<string, string>
+                {
+                    { "q11_1", "n" },
+                    { "q11_2", "n" },
+                    { "q11_3", "n" }
+                })
+            });
+            var deviceClassTwoB = new DeviceClassTwoB(new[]
+            {
+                new ChosenAnswerDeviceClassCondition("q1_1_3", "y"),
+                new ChosenAnswerDeviceClassCondition("q1_1_4_2", "y"),
+                new ChosenAnswerDeviceClassCondition("q1_1_5_2", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_1_1_1", "q2_1_1_5"),
+                new ChosenAnswerDeviceClassCondition("q2_1_1_1", "q2_1_1_6"),
+                new ChosenAnswerDeviceClassCondition("q2_1_2_5", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_1_2_6", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_1_4", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_1_5", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_1_6", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_2_3", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_2_5", "q2_2_2_5_2"),
+                new ChosenAnswerDeviceClassCondition("q2_2_2_5_3", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_3_4", "q2_2_3_4_1"),
+                new ChosenAnswerDeviceClassCondition("q2_2_3_10", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_3_13", "y"),
+                new ChosenAnswerDeviceClassCondition("q3_1_1", "q3_1_1"),
+                new ChosenAnswerDeviceClassCondition("q3_1_3", "y"),
+                new ChosenAnswerDeviceClassCondition("q3_1_4", "y"),
+                new ChosenAnswerDeviceClassCondition("q3_1_5", "y"),
+                new ChosenAnswerDeviceClassCondition("q3_2", "y"),
+                new ChosenAnswerDeviceClassCondition("q3_4_2_1", "y"),
+                new ChosenAnswerDeviceClassCondition("q3_4_2_2", "y"),
+                new ChosenAnswerDeviceClassCondition("q3_4_3", "y"),
+                new ChosenAnswerDeviceClassCondition("q3_5_1_1", "q3_5_1_2"),
+                new ChosenAnswerDeviceClassCondition("q3_5_2_1", "q3_5_2_1"),
+                new ChosenAnswerDeviceClassCondition("q3_6_1", "y"),
+                new ChosenAnswerDeviceClassCondition("q5_1", "y"),
+                new ChosenAnswerDeviceClassCondition("q6", "y"),
+                new ChosenAnswerDeviceClassCondition("q7_1", "y"),
+                new ChosenAnswerDeviceClassCondition("q9_1", "q9_2"),
+                new ChosenAnswerDeviceClassCondition("q10_1", "y"),
+                new ChosenAnswerDeviceClassCondition("q10_2", "y"),
+                new ChosenAnswerDeviceClassCondition(new Dictionary<string, string>
                 {
                     { "q2_2_3_1", "n" },
                     { "q2_2_3_2", "n" },
@@ -619,46 +632,44 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                     { "q2_2_3_11", "n" },
                     { "q2_2_3_12", "n" },
                     { "q2_2_3_13", "n" }
-                }, DeviceClass.TwoB ),
-
-                new ChosenAnswerDeviceClassCondition("q3_4_4", new Dictionary<string, string>
-                {
-                    { "q3_4_1", "n" },
-                    { "q3_4_2", "n" },
-                    { "q3_4_3", "n" }
-                }, DeviceClass.TwoA ),
-
-                new ChosenAnswerDeviceClassCondition("q3_5_3", new Dictionary<string, string>
-                {
-                    { "q3_5_1", "n" },
-                    { "q3_5_2", "n" }
-                }, DeviceClass.One ),
-
-                new ChosenAnswerDeviceClassCondition("q3_7", new Dictionary<string, string>
-                {
-                    { "q3_1", "n" },
-                    { "q3_2", "n" },
-                    { "q3_3", "n" },
-                    { "q3_4", "n" },
-                    { "q3_5", "n" },
-                    { "q3_6", "n" }
-                }, DeviceClass.One ),
-
-                new ChosenAnswerDeviceClassCondition("q10_3", new Dictionary<string, string>
-                {
-                    { "q10_1", "n" },
-                    { "q10_2", "n" }
-                }, DeviceClass.TwoA ),
-
-                new ChosenAnswerDeviceClassCondition("q11_4", new Dictionary<string, string>
-                {
-                    { "q11_1", "n" },
-                    { "q11_2", "n" },
-                    { "q11_3", "n" }
-                }, DeviceClass.TwoA )
+                }),
+            });
+            var deviceClassThree = new DeviceClassThree(new[]
+            {
+                new ChosenAnswerDeviceClassCondition("q1_1_4_3", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_1_1", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_1_3", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_2_1", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_2_2", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_2_4", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_3_2", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_3_3", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_3_4", "q2_2_3_4_2"),
+                new ChosenAnswerDeviceClassCondition("q2_2_3_5", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_3_6", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_3_7", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_3_8", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_3_9", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_3_11", "y"),
+                new ChosenAnswerDeviceClassCondition("q2_2_3_12", "y"),
+                new ChosenAnswerDeviceClassCondition("q3_3", "y"),
+                new ChosenAnswerDeviceClassCondition("q3_5_1_1", "q3_5_1_1"),
+                new ChosenAnswerDeviceClassCondition("q4", "y"),
+                new ChosenAnswerDeviceClassCondition("q8", "y"),
+                new ChosenAnswerDeviceClassCondition("q9_1", "q9_1"),
+                new ChosenAnswerDeviceClassCondition("q11_1", "y"),
+                new ChosenAnswerDeviceClassCondition("q11_2", "y"),
+                new ChosenAnswerDeviceClassCondition("q12", "y"),
+            });
+            var deviceClasses = new DeviceClass[]
+            {
+                deviceClassOne, 
+                deviceClassTwoA,
+                deviceClassTwoB,
+                deviceClassThree
             };
 
-            return new DeviceClassificationQuestionnaireTree(questions, conditions);
+            return new DeviceClassificationQuestionnaireTree(questions, deviceClasses);
         }
     }
 }

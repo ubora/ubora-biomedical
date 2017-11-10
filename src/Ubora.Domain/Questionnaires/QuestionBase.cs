@@ -29,13 +29,13 @@ namespace Ubora.Domain.Questionnaires
                 throw new InvalidOperationException($"Answer not found with ID: {answerId}.");
             }
 
-            answer.SetIsChosen(isChosen: true, at: chosenAt);
+            answer.SetIsChosen(true);
             AnsweredAt = chosenAt;
 
             var otherAnswers = Answers.Where(x => x.Id != answer.Id);
             foreach (var otherAnswer in otherAnswers)
             {
-                otherAnswer.SetIsChosen(isChosen: false, at: chosenAt);
+                otherAnswer.SetIsChosen(false);
             }
         }
     }

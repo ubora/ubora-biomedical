@@ -16,6 +16,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
         {
         }
 
+        [JsonIgnore]
         public string Text => AnswerTexts.ResourceManager.GetString(this.Id);
     }
 }

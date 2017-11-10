@@ -23,13 +23,10 @@ namespace Ubora.Domain.Tests.Questionnaires
 
             // Assert
             answers[0].IsChosen.Should().BeFalse();
-            answers[0].AnsweredAt.Should().Be(at);
 
             answers[1].IsChosen.Should().BeTrue();
-            answers[1].AnsweredAt.Should().Be(at);
 
             answers[2].IsChosen.Should().BeFalse();
-            answers[2].AnsweredAt.Should().Be(at);
         }
 
         [Fact]

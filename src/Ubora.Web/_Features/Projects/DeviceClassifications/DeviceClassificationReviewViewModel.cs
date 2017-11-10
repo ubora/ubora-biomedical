@@ -12,7 +12,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
         {
             public DeviceClassificationReviewViewModel Create(DeviceClassificationAggregate aggregate)
             {
-                var deviceClass = aggregate.QuestionnaireTree.GetDeviceClassHits().Max();
+                var deviceClass = aggregate.QuestionnaireTree.GetHeaviestDeviceClass();
                 return new DeviceClassificationReviewViewModel
                 {
                     ChosenClass = deviceClass.Name,

@@ -2,34 +2,13 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
+using Ubora.Domain.Questionnaires.DeviceClassifications.DeviceClasses;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
 {
     public class ChosenAnswerDeviceClassConditionTests
     {
-        [Fact]
-        public void IsFulfilled_Throws_When_Conditon_Not_From_Questionnaire()
-        {
-            var questions = new[]
-            {
-                new Question("q1", new[]
-                {
-                    new Answer("y", null)
-                })
-            };
-
-            var questionnaireTree = new DeviceClassificationQuestionnaireTree(questions, new ChosenAnswerDeviceClassCondition[0]);
-
-            var condition = new ChosenAnswerDeviceClassCondition("q2", "a2", DeviceClass.One);
-
-            // Act
-            Action act = () => condition.IsFulfilled(questionnaireTree);
-
-            // Assert
-            act.ShouldThrow<InvalidOperationException>().And.Message.Should().Contain("not from");
-        }
-
         [Fact]
         public void IsFulfilled_Returns_True_When_Exact_Chosen_Answers_Found_For_Given_Questions()
         {
@@ -47,13 +26,14 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
                 })
             };
 
-            var condition = new ChosenAnswerDeviceClassCondition("duplicate_id", new Dictionary<string, string>
+            var condition = new ChosenAnswerDeviceClassCondition(new Dictionary<string, string>
             {
                 { "q1", "y" },
                 { "q2", "n" }
-            }, DeviceClass.One);
+            });
+            var deviceClass = new DeviceClassOne(new [] { condition });
 
-            var questionnaireTree = new DeviceClassificationQuestionnaireTree(questions, new [] { condition });
+            var questionnaireTree = new DeviceClassificationQuestionnaireTree(questions, new [] { deviceClass });
 
             questionnaireTree.FindNextUnansweredQuestion().ChooseAnswer("y", DateTime.UtcNow);
             questionnaireTree.FindNextUnansweredQuestion().ChooseAnswer("n", DateTime.UtcNow);
@@ -82,13 +62,14 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
                 })
             };
 
-            var condition = new ChosenAnswerDeviceClassCondition("duplicate_id", new Dictionary<string, string>
+            var condition = new ChosenAnswerDeviceClassCondition(new Dictionary<string, string>
             {
                 { "q1", "y" },
                 { "q2", "n" }
-            }, DeviceClass.One);
+            });
+            var deviceClass = new DeviceClassOne(new[] { condition });
 
-            var questionnaireTree = new DeviceClassificationQuestionnaireTree(questions, new[] { condition });
+            var questionnaireTree = new DeviceClassificationQuestionnaireTree(questions, new[] { deviceClass });
 
             questionnaireTree.FindNextUnansweredQuestion().ChooseAnswer("n", DateTime.UtcNow);
             questionnaireTree.FindNextUnansweredQuestion().ChooseAnswer("y", DateTime.UtcNow);

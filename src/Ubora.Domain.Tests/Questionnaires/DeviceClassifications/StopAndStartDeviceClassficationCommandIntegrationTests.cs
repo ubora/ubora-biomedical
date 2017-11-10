@@ -54,7 +54,7 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
             var startedQuestionnaire = Session.Events.AggregateStream<DeviceClassificationAggregate>(StartQuestionnaireId);
             startedQuestionnaire.StartedAt.Should().BeCloseTo(DateTime.UtcNow, 250);
             startedQuestionnaire.ProjectId.Should().Be(ProjectId);
-            startedQuestionnaire.QuestionnaireTree.ShouldBeEquivalentTo(DeviceClassificationQuestionnaireTreeFactory.CreateDeviceClassification());
+            startedQuestionnaire.QuestionnaireTree.ShouldBeEquivalentTo(new DeviceClassificationQuestionnaireTreeFactory().CreateDeviceClassification());
             startedQuestionnaire.IsFinished.Should().BeFalse();
         }
     }

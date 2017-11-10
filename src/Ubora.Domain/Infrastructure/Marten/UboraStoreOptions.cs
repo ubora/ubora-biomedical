@@ -4,6 +4,7 @@ using System.Linq;
 using Marten;
 using Marten.Services;
 using Marten.Services.Events;
+using Newtonsoft.Json;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Tasks;
 using Ubora.Domain.Projects.Repository;
@@ -59,7 +60,11 @@ namespace Ubora.Domain.Infrastructure.Marten
         public static JsonNetSerializer CreateConfiguredJsonSerializer()
         {
             var serializer = new JsonNetSerializer();
-            serializer.Customize(c => c.ContractResolver = new PrivateSetterResolver());
+            serializer.Customize(c =>
+            {
+                c.NullValueHandling = NullValueHandling.Ignore;
+                c.ContractResolver = new PrivateSetterResolver();
+            });
             return serializer;
         }
     }

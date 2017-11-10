@@ -2,32 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Ubora.Domain.Questionnaires.DeviceClassifications.DeviceClasses;
 
 namespace Ubora.Domain.Questionnaires.DeviceClassifications
 {
     public class DeviceClassificationQuestionnaireTree : QuestionnaireTreeBase<Question, Answer>
     {
-        [JsonProperty(nameof(Conditions))]
-        private ChosenAnswerDeviceClassCondition[] _conditions;
-
-        [JsonIgnore]
-        public ChosenAnswerDeviceClassCondition[] Conditions
+        public DeviceClassificationQuestionnaireTree(Question[] questions, DeviceClass[] deviceClasses)
         {
-            get { return _conditions; }
-            protected set
-            {
-                if (_conditions != null) throw new InvalidOperationException("Let's keep this immutable.");
-                ValidateConditions(value);
-                _conditions = value;
-            }
-        }
-
-        public DeviceClassificationQuestionnaireTree(Question[] questions, ChosenAnswerDeviceClassCondition[] conditions)
-        {
-            if (conditions == null) throw new ArgumentNullException(nameof(conditions));
+            if (deviceClasses == null) throw new ArgumentNullException(nameof(deviceClasses));
             Questions = questions ?? throw new ArgumentNullException(nameof(questions));
 
-            Conditions = conditions.ToArray();
+            ValidateDeviceClasses(deviceClasses);
+            DeviceClasses = deviceClasses;
         }
 
         [JsonConstructor]
@@ -35,32 +22,20 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
         {
         }
 
-        public IEnumerable<DeviceClass> GetDeviceClassHits()
+        public DeviceClass[] DeviceClasses { get; private set; }
+
+        public DeviceClass GetHeaviestDeviceClass()
         {
-            return Conditions.Where(x => x.IsFulfilled(this)).Select(x => x.DeviceClass);
+            var deviceClassesWithAnyHits = DeviceClasses.Where(dc => dc.HasAnyHits(this));
+            var heaviestDeviceClass = deviceClassesWithAnyHits.Max();
+            return heaviestDeviceClass;
         }
 
-        protected virtual void ValidateConditions(ChosenAnswerDeviceClassCondition[] conditions)
+        private void ValidateDeviceClasses(IEnumerable<DeviceClass> deviceClasses)
         {
-            if (conditions == null) throw new ArgumentNullException(nameof(conditions));
-
-            // Validate questions and answers exist
-            foreach (var entry in conditions.SelectMany(r => r.QuestionIdsWithExpectedChosenAnswerIds))
+            foreach (var deviceClass in deviceClasses)
             {
-                var question = FindQuestionOrThrow(entry.Key);
-
-                var answer = question.Answers.SingleOrDefault(a => a.Id == entry.Value);
-                if (answer == null)
-                {
-                    throw new InvalidOperationException($"Answer not found with ID: {entry.Value} from Question with ID: {entry.Key}");
-                }
-            }
-
-            // Validate no duplicate ID-s
-            var duplicateConditionIds = conditions.GroupBy(q => q.Id).Where(g => g.Count() > 1).Select(g => g.Key);
-            if (duplicateConditionIds.Any())
-            {
-                throw new InvalidOperationException($"Following conditon ID-s are duplicated: {string.Join(",", duplicateConditionIds)}");
+                deviceClass.ValidateConditions(this);
             }
         }
     }

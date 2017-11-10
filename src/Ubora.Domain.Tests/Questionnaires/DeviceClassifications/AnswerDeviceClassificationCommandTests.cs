@@ -5,6 +5,7 @@ using TestStack.BDDfy;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Commands;
+using Ubora.Domain.Questionnaires.DeviceClassifications.DeviceClasses;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
@@ -13,7 +14,7 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
     {
         public readonly Guid _projectId = Guid.NewGuid();
         public readonly Guid _questionnaireId = Guid.NewGuid();
-        private readonly DeviceClass _deviceClass = DeviceClass.TwoB;
+        private DeviceClass _deviceClass;
 
         [Fact]
         public void Last_Answer_Sets_Project_As_Finished()
@@ -42,15 +43,16 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
                 })
             };
 
-            var conditions = new[]
+            var deviceClass = new DeviceClassTwoB(new []
             {
-                new ChosenAnswerDeviceClassCondition("test", new Dictionary<string, string>
+                new ChosenAnswerDeviceClassCondition(new Dictionary<string, string>
                 {
                     { "q1", "a1" },
                     { "q2", "a2" }
-                }, _deviceClass)
-            };
-            var testQuestionnaireTree = new DeviceClassificationQuestionnaireTree(questions, conditions);
+                })
+            });
+
+            var testQuestionnaireTree = new DeviceClassificationQuestionnaireTree(questions, new[] { deviceClass });
 
             questionnaireAggregate.Set(x => x.QuestionnaireTree, testQuestionnaireTree);
             questionnaireAggregate.Set(x => x.ProjectId, _projectId);

@@ -26,7 +26,7 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
             documentSessionMock.Setup(x => x.Load<DeviceClassificationAggregate>(command.StopQuestionnaireId))
                 .Returns(deviceClassificationAggregate);
 
-            var handler = new StopAndStartDeviceClassificationCommand.Handler(documentSessionMock.Object);
+            var handler = new StopAndStartDeviceClassificationCommand.Handler(documentSessionMock.Object, Mock.Of<DeviceClassificationQuestionnaireTreeFactory>());
 
             // Act
             var result = handler.Handle(command);

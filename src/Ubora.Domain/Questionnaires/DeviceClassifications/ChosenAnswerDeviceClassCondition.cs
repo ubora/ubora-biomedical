@@ -5,25 +5,18 @@ using Newtonsoft.Json;
 
 namespace Ubora.Domain.Questionnaires.DeviceClassifications
 {
-    public class ChosenAnswerDeviceClassCondition : IDeviceClassCondition
+    public class ChosenAnswerDeviceClassCondition
     {
-        public string Id { get; private set; } // Id is for debugging and validation purpose.
-        public DeviceClass DeviceClass { get; protected set; }
+        [JsonProperty("qaIds")]
         public Dictionary<string, string> QuestionIdsWithExpectedChosenAnswerIds { get; protected set; } // Not the greatest name.
 
-        public ChosenAnswerDeviceClassCondition(string id, Dictionary<string, string> questionIdsWithExpectedChosenAnswerIds, DeviceClass deviceClass)
+        public ChosenAnswerDeviceClassCondition(Dictionary<string, string> questionIdsWithExpectedChosenAnswerIds)
         {
             QuestionIdsWithExpectedChosenAnswerIds = questionIdsWithExpectedChosenAnswerIds ?? throw new ArgumentNullException(nameof(questionIdsWithExpectedChosenAnswerIds));
-            DeviceClass = deviceClass ?? throw new ArgumentNullException(nameof(deviceClass));
-            if (string.IsNullOrWhiteSpace(id))
-            {
-                throw new ArgumentNullException(nameof(id));
-            }
-            Id = id;
         }
 
-        public ChosenAnswerDeviceClassCondition(string questionId, string answerId, DeviceClass deviceClass)
-            : this($"{questionId}+{answerId}", new Dictionary<string, string> { { questionId, answerId} }, deviceClass)
+        public ChosenAnswerDeviceClassCondition(string questionId, string answerId)
+            : this(new Dictionary<string, string> { { questionId, answerId} })
         {
         }
 
@@ -34,12 +27,6 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
 
         public bool IsFulfilled(DeviceClassificationQuestionnaireTree questionnaireTree)
         {
-            var isFromGivenQuestionnaire = questionnaireTree.Conditions.Any(x => x.Id == this.Id);
-            if (!isFromGivenQuestionnaire)
-            {
-                throw new InvalidOperationException("Condition not from questionnaire.");
-            }
-
             foreach (var entry in QuestionIdsWithExpectedChosenAnswerIds)
             {
                 var question = questionnaireTree.FindQuestionOrThrow(entry.Key);
@@ -52,6 +39,20 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
             }
 
             return true;
+        }
+
+        public void Validate(DeviceClassificationQuestionnaireTree questionnaireTree)
+        {
+            foreach (var entry in QuestionIdsWithExpectedChosenAnswerIds)
+            {
+                var question = questionnaireTree.FindQuestionOrThrow(entry.Key);
+
+                var answer = question.Answers.SingleOrDefault(a => a.Id == entry.Value);
+                if (answer == null)
+                {
+                    throw new InvalidOperationException($"Answer not found with ID: {entry.Value} from Question with ID: {entry.Key}");
+                }
+            }
         }
     }
 }

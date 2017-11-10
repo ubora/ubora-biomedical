@@ -25,5 +25,18 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
             var serializedAgain = serializer.ToJson(deserialized);
             serializedAgain.Should().Be(serialized);
         }
+
+        [Fact]
+        public void Device_Classification_Questionnaire_Should_Not_Be_Too_Big_When_Serialized()
+        {
+            var questionnaire = new DeviceClassificationQuestionnaireTreeFactory().CreateDeviceClassification();
+            var serializer = UboraStoreOptionsConfigurer.CreateConfiguredJsonSerializer();
+
+            // Act
+            var serialized = serializer.ToJson(questionnaire);
+
+            // Assert
+            serialized.Length.Should().BeLessThan(20000); // Let's keep it at less than ~20KB
+        }
     }
 }
