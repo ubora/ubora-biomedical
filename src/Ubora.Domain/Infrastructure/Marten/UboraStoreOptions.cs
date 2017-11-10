@@ -11,8 +11,10 @@ using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Projects.DeviceClassification;
+using Ubora.Domain.Projects.History;
 using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Domain.Projects.Tasks.Events;
+using Ubora.Domain.Projects._Events;
 using Ubora.Domain.Users;
 
 namespace Ubora.Domain.Infrastructure.Marten
@@ -20,12 +22,18 @@ namespace Ubora.Domain.Infrastructure.Marten
     public class UboraStoreOptionsConfigurer
     {
         public Action<StoreOptions> CreateConfigureAction(
-            IEnumerable<Type> eventTypes, 
+            IEnumerable<Type> eventTypes,
             IEnumerable<MappedType> notificationTypes,
             AutoCreate autoCreate)
         {
-            if (eventTypes == null) { throw new ArgumentNullException(nameof(eventTypes)); }
-            if (notificationTypes == null) { throw new ArgumentNullException(nameof(notificationTypes)); }
+            if (eventTypes == null)
+            {
+                throw new ArgumentNullException(nameof(eventTypes));
+            }
+            if (notificationTypes == null)
+            {
+                throw new ArgumentNullException(nameof(notificationTypes));
+            }
 
             var serializer = new JsonNetSerializer();
             serializer.Customize(c => c.ContractResolver = new PrivateSetterResolver());
@@ -43,6 +51,12 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<DeviceClassification>();
                 options.Schema.For<ProjectFile>();
                 options.Schema.For<ProjectTask>();
+                options.Schema.For<EventLogEntry>()
+                    .Duplicate(l => l.ProjectId)
+                    .Duplicate(l => l.UserId)
+                    .Duplicate(l => l.Timestamp);
+                options.Schema.For<IProjectEntity>()
+                    .AddSubClassHierarchy(typeof(EventLogEntry));
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
@@ -55,7 +69,16 @@ namespace Ubora.Domain.Infrastructure.Marten
 
                 options.Schema.For<INotification>()
                     .AddSubClassHierarchy(notificationTypes.ToArray());
+
+                foreach (var eventType in eventTypes.Where(e => e.IsSubclassOf(typeof(ProjectEvent))))
+                {
+                    var transformerType = typeof(EventToHistoryTransformer<>).MakeGenericType(eventType);
+                    var transformer = Activator.CreateInstance(transformerType);
+                    options.Events.InlineProjections.TransformEvents((dynamic) transformer);
+                }
+
             };
         }
     }
 }
+
