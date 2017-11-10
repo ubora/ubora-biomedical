@@ -3,6 +3,7 @@ using System;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.Candidates.Events;
+using Ubora.Domain.Projects.Workpackages;
 
 namespace Ubora.Domain.Projects.Candidates.Commands
 {
@@ -19,7 +20,7 @@ namespace Ubora.Domain.Projects.Candidates.Commands
 
             public override ICommandResult Handle(EditCandidateImageCommand cmd)
             {
-                var candidate = DocumentSession.LoadOrThrow<Candidate>(cmd.Id);
+                var workpackageTwo = DocumentSession.LoadOrThrow<WorkpackageTwo>(cmd.ProjectId);
 
                 var @event = new CandidateImageEditedEvent(
                     initiatedBy: cmd.Actor,

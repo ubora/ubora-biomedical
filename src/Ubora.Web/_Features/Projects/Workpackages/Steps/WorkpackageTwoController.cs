@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System.Linq;
 using Ubora.Domain.Projects.Candidates.Specifications;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web._Features._Shared;
+using Ubora.Web._Features.Projects._Shared;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -14,6 +16,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         private readonly CandidateItemViewModel.Factory _candidateItemViewModelFactory;
 
         public WorkpackageTwo WorkpackageTwo => _workpackageTwo ?? (_workpackageTwo = QueryProcessor.FindById<WorkpackageTwo>(ProjectId));
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+        }
 
         public WorkpackageTwoController(CandidateItemViewModel.Factory candidateItemViewModelFactory)
         {

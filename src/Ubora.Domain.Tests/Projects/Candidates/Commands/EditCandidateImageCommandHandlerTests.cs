@@ -22,6 +22,8 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
         public void Edits_Project_Candidate()
         {
             this.Given(_ => this.Create_Project(_projectId))
+                .And(_ => this.Submit_Workpackage_One_For_Review(_projectId))
+                .And(_ => this.Accept_Workpackage_One_Review(_projectId))
                 .And(_ => Add_Candidate_To_Project())
                 .When(_ => Update_Candidate())
                 .Then(_ => Assert_Candidate_Is_Updated())

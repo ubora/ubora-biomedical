@@ -11,6 +11,7 @@ using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Ubora.Web._Features.Projects._Shared;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -24,6 +25,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             ViewData["Title"] = "Voting";
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.Voting;
+            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
         }
 
         public ConceptualDesignController(ImageStorageProvider imageStorageProvider)
@@ -31,7 +33,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             _imageStorageProvider = imageStorageProvider;
         }
 
-        [Authorize(Policy = nameof(Policies.CanAddProjectCandidate))]
+        [Authorize(Policies.CanAddProjectCandidate)]
         public IActionResult AddCandidate()
         {
             var model = new AddCandidateViewModel();
@@ -39,7 +41,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [HttpPost]
-        [Authorize(Policy = nameof(Policies.CanAddProjectCandidate))]
+        [Authorize(Policies.CanAddProjectCandidate)]
         public async Task<IActionResult> AddCandidate(AddCandidateViewModel model)
         {
             if (!ModelState.IsValid)
@@ -82,7 +84,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View(nameof(Candidate), model);
         }
 
-        [Authorize(Policy = nameof(Policies.CanEditProjectCandidate))]
+        [Authorize(Policies.CanEditProjectCandidate)]
         public IActionResult EditCandidate(Guid candidateId)
         {
             var candidate = QueryProcessor.FindById<Candidate>(candidateId);
@@ -92,7 +94,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [HttpPost]
-        [Authorize(Policy = nameof(Policies.CanEditProjectCandidate))]
+        [Authorize(Policies.CanEditProjectCandidate)]
         public IActionResult EditCandidate(EditCandidateViewModel model)
         {
             if (!ModelState.IsValid)
@@ -115,7 +117,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
         }
 
-        [Authorize(Policy = nameof(Policies.CanChangeProjectCandidateImage))]
+        [Authorize(Policies.CanChangeProjectCandidateImage)]
         public IActionResult EditCandidateImage(Guid candidateId)
         {
             var candidate = QueryProcessor.FindById<Candidate>(candidateId);
@@ -125,7 +127,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [HttpPost]
-        [Authorize(Policy = nameof(Policies.CanChangeProjectCandidateImage))]
+        [Authorize(Policies.CanChangeProjectCandidateImage)]
         public async Task<IActionResult> EditCandidateImage(EditCandidateImageViewModel model)
         {
             if (!ModelState.IsValid)
@@ -151,7 +153,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
         }
 
-        [Authorize(Policy = nameof(Policies.CanRemoveProjectCandidateImage))]
+        [Authorize(Policies.CanRemoveProjectCandidateImage)]
         public IActionResult RemoveCandidateImage(Guid candidateId)
         {
             var candidate = QueryProcessor.FindById<Candidate>(candidateId);
@@ -161,7 +163,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [HttpPost]
-        [Authorize(Policy = nameof(Policies.CanRemoveProjectCandidateImage))]
+        [Authorize(Policies.CanRemoveProjectCandidateImage)]
         public async Task<IActionResult> RemoveCandidateImage(RemoveCandidateImageViewModel model)
         {
             if (!ModelState.IsValid)

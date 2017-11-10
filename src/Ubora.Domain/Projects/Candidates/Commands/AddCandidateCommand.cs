@@ -3,6 +3,7 @@ using System;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.Candidates.Events;
+using Ubora.Domain.Projects.Workpackages;
 
 namespace Ubora.Domain.Projects.Candidates.Commands
 {
@@ -21,6 +22,8 @@ namespace Ubora.Domain.Projects.Candidates.Commands
 
             public override ICommandResult Handle(AddCandidateCommand cmd)
             {
+                var workpackageTwo = DocumentSession.LoadOrThrow<WorkpackageTwo>(cmd.ProjectId);
+
                 var @event = new CandidateAddedEvent(
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,

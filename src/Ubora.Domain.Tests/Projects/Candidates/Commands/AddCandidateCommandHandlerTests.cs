@@ -22,6 +22,8 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
         public void Adds_New_Candidate_To_Project()
         {
             this.Given(_ => this.Create_Project(_projectId))
+                .And(_ => this.Submit_Workpackage_One_For_Review(_projectId))
+                .And(_ => this.Accept_Workpackage_One_Review(_projectId))
                 .When(_ => Add_Candidate_To_Project())
                 .Then(_ => Assert_Candidate_Is_Added_In_Project())
                 .Then(_ => Assert_CandidateAdded_Is_Added_In_Events())
