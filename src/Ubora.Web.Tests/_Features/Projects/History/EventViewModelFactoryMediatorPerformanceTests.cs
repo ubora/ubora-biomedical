@@ -9,7 +9,7 @@ using System.Text.Encodings.Web;
 using Marten.Events;
 using Ubora.Domain;
 using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Projects.Tasks.Events;
+using Ubora.Domain.Projects.Assignments.Events;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Events;
 using Ubora.Domain.Projects._Events;
@@ -147,7 +147,7 @@ namespace Ubora.Web.Tests._Features.Projects.History
 
         private void AddTask()
         {
-            var taskAddedEvent = new TaskAddedEvent(
+            var taskAddedEvent = new AssignmentAddedEvent(
                 initiatedBy: _userInfo,
                 id: Guid.NewGuid(),
                 projectId: _projectId,

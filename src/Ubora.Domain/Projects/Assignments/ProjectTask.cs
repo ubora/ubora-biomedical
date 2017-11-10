@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Ubora.Domain.Projects.Tasks.Events;
+using Newtonsoft.Json;
+using Ubora.Domain.Projects.Assignments.Events;
 
-namespace Ubora.Domain.Projects.Tasks
+namespace Ubora.Domain.Projects.Assignments
 {
-    public class ProjectTask
+    public class Assignment
     {
         public Guid Id { get; private set; }
         public Guid ProjectId { get; private set; }
@@ -23,7 +22,7 @@ namespace Ubora.Domain.Projects.Tasks
             private set { }
         }
 
-        private void Apply(TaskAddedEvent e)
+        private void Apply(AssignmentAddedEvent e)
         {
             Id = e.Id;
             ProjectId = e.ProjectId;
@@ -36,7 +35,7 @@ namespace Ubora.Domain.Projects.Tasks
             }
         }
 
-        private void Apply(TaskEditedEvent e)
+        private void Apply(AssignmentEditedEvent e)
         {
             Title = e.Title;
             Description = e.Description;
