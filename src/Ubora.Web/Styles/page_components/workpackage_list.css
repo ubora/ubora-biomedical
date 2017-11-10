@@ -1,0 +1,39 @@
+
+.list-sidebar li {
+  list-style-type: none;
+}
+
+.list-sidebar a {
+  color: var(--blue);
+}
+
+.side-menu-icon-primary {
+  width: 3em;
+}
+
+.side-menu-icon-secondary {
+  width: 1em;
+}
+
+.nav-label {
+
+}
+
+.sub-menu {
+  padding-left: 1em;
+}
+
+a.muted-status {
+  color: var(--tertiary-shade);
+  text-decoration: none;
+  cursor: default;
+}
+
+
+a.active-status {
+  color: var(--light-blue);
+}
+
+a.checked-status {
+  color: var(--green);
+}

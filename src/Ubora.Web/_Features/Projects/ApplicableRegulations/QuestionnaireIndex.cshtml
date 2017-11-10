@@ -3,21 +3,21 @@
 
 <div class="container-fluid my-4">
   <div class="row">
-    <div class="col-sm-12 col-md-4">
+    <div class="col-lg-3">
       @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
     </div>
-    <div class="col-sm-12 col-md-8">
+    <div class="col-lg-9 pr-5">
       <div class="row">
         <div asp-validation-summary="ModelOnly"></div>
         <div class="col-sm-12 text-center">
-          <h1 class="mb-4">Please take the questionnaire to identify applicable regulations.</h1>
+          <h1 class="display-4 mb-4">Please take the questionnaire to identify applicable regulations.</h1>
         </div>
 
         @if (Model.Last == null || Model.Last.IsFinished)
         {
           <div class="col-sm-12 text-center">
             <form asp-action="Start" method="post">
-              <button type="submit" class="btn btn-primary btn-lg">Take questionnaire</button>
+              <button type="submit" class="btn btn-primary">Take questionnaire</button>
             </form>
           </div>
         }

@@ -1,7 +1,7 @@
 .select2 {
   border-bottom: 2px solid var(--blue);
   box-sizing: border-box;
-  font-size: 150%;
+  font-size: 100%;
   min-height: 2em;
   vertical-align: middle;
   transition:
@@ -29,6 +29,10 @@
 
 li.select2-results__option[aria-disabled="true"] {
   display: none;
+}
+
+.select2-search__field {
+    padding-top: 1em !important;
 }
 
 .select2-search__field,

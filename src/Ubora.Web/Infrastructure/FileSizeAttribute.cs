@@ -26,7 +26,7 @@ namespace Ubora.Web.Infrastructure
         {
             if (value == null)
             {
-                return new ValidationResult("Please select a file to upload!");
+                return ValidationResult.Success;
             }
 
             if (value as IFormFile != null)

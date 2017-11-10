@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Ubora.Web.Data;
 
 namespace Ubora.Web._Features.Projects.Dashboard
 {
@@ -15,5 +16,6 @@ namespace Ubora.Web._Features.Projects.Dashboard
         public bool IsInDraft { get; set; }
         public string ImagePath { get; set; }
         public bool HasImage { get; set; }
+       
     }
 }

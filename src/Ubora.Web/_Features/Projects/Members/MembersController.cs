@@ -88,8 +88,9 @@ namespace Ubora.Web._Features.Projects.Members
             return RedirectToAction(nameof(Members));
         }
 
-        [AllowAnonymous]
         [Route(nameof(Join))]
+        [DisableProjectControllerAuthorization]
+        [Authorize(Policies.CanJoinProject)]
         public IActionResult Join(Guid projectId)
         {
             if (!_signInManager.IsSignedIn(User))
@@ -112,8 +113,9 @@ namespace Ubora.Web._Features.Projects.Members
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [Route(nameof(Join))]
+        [DisableProjectControllerAuthorization]
+        [Authorize(Policies.CanJoinProject)]
         public IActionResult Join(JoinProjectViewModel model)
         {
             if (!ModelState.IsValid)
@@ -132,7 +134,7 @@ namespace Ubora.Web._Features.Projects.Members
         }
 
         [Route(nameof(RemoveMember))]
-        [Authorize(Policy = nameof(Policies.CanRemoveProjectMember))]
+        [Authorize(Policies.CanRemoveProjectMember)]
         public IActionResult RemoveMember(Guid memberId)
         {
             var removeMemberViewModel = new RemoveMemberViewModel
@@ -146,7 +148,7 @@ namespace Ubora.Web._Features.Projects.Members
 
         [HttpPost]
         [Route(nameof(RemoveMember))]
-        [Authorize(Policy = nameof(Policies.CanRemoveProjectMember))]
+        [Authorize(Policies.CanRemoveProjectMember)]
         public IActionResult RemoveMember(RemoveMemberViewModel removeMemberViewModel)
         {
             if (!ModelState.IsValid)

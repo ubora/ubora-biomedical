@@ -26,7 +26,7 @@ namespace Ubora.Web.Tests.Infrastructure
             var result = _isImageAttribute.GetValidationResult(null, _validationContext);
 
             //Assert
-            result.ErrorMessage.Should().Be("Please select an image to upload first!");
+            Assert.Equal(ValidationResult.Success, result);
         }
 
         [Fact]
