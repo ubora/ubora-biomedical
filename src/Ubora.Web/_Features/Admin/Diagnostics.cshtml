@@ -3,7 +3,7 @@
 
 <div class="container-fluid my-4">
   <div class="row justify-content-center">
-    <div class="col-sm-12 col-md-8">
+    <div class="col-sm-12 col-lg-8">
       <div asp-validation-summary="ModelOnly" class="text-danger"></div>
       <table class="table table-responsive">
         <tbody>
@@ -13,12 +13,11 @@
               <td class="w-100">
                 <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@user.UserId">@user.UserEmail</a>
               </td>
-              <form method="post">
-                  <input type="hidden" name="userId" value="@user.UserId" />
+                <form method="post">
+                    <input type="hidden" name="userId" value="@user.UserId" />
                     <td>
                       @if (user.IsAdmin)
                       {
-
                         <button class="w-100 btn btn-primary" type="submit" asp-action="RemoveAdministratorRole">Remove administrator role</button>
                       }
                       else
@@ -27,16 +26,20 @@
                       }
                     </td>
                     <td>
-                      @if (user.IsMentor)
-                      {
-                        <button class="w-100 btn btn-primary" type="submit" asp-action="RemoveMentorRole">Remove mentor role</button>
-                      }
-                      else
-                      {
-                        <button class="w-100 btn btn-primary" type="submit" asp-action="AddMentorRole">Add mentor role</button>
-                      }
+                        @if (user.IsMentor)
+                        {
+                            <button class="w-100 btn btn-primary" type="submit" asp-action="RemoveMentorRole">Remove mentor role</button>
+                        }
+                        else
+                        {
+                            <button class="w-100 btn btn-primary" type="submit" asp-action="AddMentorRole">Add mentor role</button>
+                        }
                     </td>
-              </form>
+                   
+                </form>
+                <td>
+                    <a class="w-100 btn btn-danger" asp-route-userEmail="@user.UserEmail" asp-action="DeleteUser">Delete user</a>
+                </td>
             </tr>
               @*<div class="user-role-list">
                 <h4>Roles</h4>
@@ -50,11 +53,11 @@
         </tbody>
       </table>
 
-      <div>
-        @Html.ActionLink("Run diagnostics tests", "RunTests", "Tests")
-        <span class="mr-5"></span>
-        @Html.ActionLink("Look at event metadata", "Events", "Events")
+      <div class="mx-2">
+        <span class="d-block">@Html.ActionLink("Run diagnostics tests", "RunTests", "Tests")</span>
+        <span class="d-block">@Html.ActionLink("Look at event metadata", "Events", "Events")</span>
       </div>
+
     </div>
   </div>
 </div>

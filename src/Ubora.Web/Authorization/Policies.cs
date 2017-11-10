@@ -9,5 +9,14 @@
         public const string CanSubmitWorkpackageForReview = nameof(CanSubmitWorkpackageForReview);
         public const string CanEditWorkpackageOne = nameof(CanEditWorkpackageOne);
         public const string CanHideProjectFile = nameof(CanHideProjectFile);
+        public const string CanCreateProject = nameof(CanCreateProject);
+        public const string CanJoinProject = nameof(CanJoinProject);
+        public const string CanChangeProjectImage = nameof(CanChangeProjectImage);
+        public const string CanEditProjectDescription = nameof(CanEditProjectDescription);
+        public const string CanDeleteProject = nameof(CanDeleteProject);
+        public const string CanAddProjectCandidate = nameof(CanAddProjectCandidate);
+        public const string CanEditProjectCandidate = nameof(CanEditProjectCandidate);
+        public const string CanChangeProjectCandidateImage = nameof(CanChangeProjectCandidateImage);
+        public const string CanRemoveProjectCandidateImage = nameof(CanRemoveProjectCandidateImage);
     }
 }
