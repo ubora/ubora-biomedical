@@ -38,7 +38,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.UseAggregatorLookup(AggregationLookupStrategy.UsePrivateApply);
                 options.Serializer(serializer: CreateConfiguredJsonSerializer());
 
-                options.Schema.For<UserProfile>();
+                options.Schema.For<UserProfile>().SoftDeleted();
                 options.Schema.For<ProjectFile>();
                 options.Schema.For<ProjectTask>();
                 options.Schema.For<Project>().SoftDeleted();

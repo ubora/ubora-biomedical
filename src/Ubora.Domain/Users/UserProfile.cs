@@ -4,7 +4,7 @@ using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Domain.Users
 {
-    public class UserProfile
+    public class UserProfile : ISoftDeletable
     {
         protected UserProfile()
         {
@@ -31,6 +31,7 @@ namespace Ubora.Domain.Users
         public string Skills { get; set; }
         public string Role { get; set; }
         public BlobLocation ProfilePictureBlobLocation { get; set; }
+        public bool IsDeleted { get; set; }
 
         public string FullName => $"{FirstName} {LastName}";
     }
