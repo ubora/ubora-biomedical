@@ -63,7 +63,7 @@ namespace Ubora.Domain.Projects.Workpackages {
         /// <summary>
         ///   Looks up a localized string similar to &lt;p&gt;You should describe the clinical need that is the target of your device.&lt;/p&gt;
         ///&lt;ul&gt;
-        ///&lt;li&gt;Example 1: write the common or technical name of the pathology, describe the main symptoms and if it is acute/chronic. &lt;em&gt;“Down syndrome is a syndrome linked to various conditions, from lowered cognitive functions to increased risk of heart failure.”&lt;/em&gt;&lt;/li&gt;
+        ///&lt;li&gt;Example 1: write the common or technical name of the pathology, describe the main symptoms and if it is acute/chronic. &lt;em&gt;“Down syndrome is a syndrome linked to various conditions, from lowered cognitive functions to increased risk of heart failure”.&lt;/em&gt;&lt;/li&gt;
         ///&lt;li&gt;Example 2: write the common or technical name of the handicap, describe if it is innate or caused by incidents or a consequence of a pathology: &lt;em&gt;“Conge [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ClinicalNeeds {

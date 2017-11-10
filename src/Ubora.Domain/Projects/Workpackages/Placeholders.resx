@@ -120,7 +120,7 @@
   <data name="ClinicalNeeds" xml:space="preserve">
     <value>&lt;p&gt;You should describe the clinical need that is the target of your device.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Example 1: write the common or technical name of the pathology, describe the main symptoms and if it is acute/chronic. &lt;em&gt;“Down syndrome is a syndrome linked to various conditions, from lowered cognitive functions to increased risk of heart failure.”&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Example 1: write the common or technical name of the pathology, describe the main symptoms and if it is acute/chronic. &lt;em&gt;“Down syndrome is a syndrome linked to various conditions, from lowered cognitive functions to increased risk of heart failure”.&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;Example 2: write the common or technical name of the handicap, describe if it is innate or caused by incidents or a consequence of a pathology: &lt;em&gt;“Congenital club foot is a disease of newborn children that impairs the development of the lower limbs”.&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;Example 3: describe what is the patient need in terms of cost / improvement of life conditions / improvement of wellbeing: &lt;em&gt;“Patients with high body temperature (fever) need to assess their body temperature every 1-4 hours in a quick and reliable manner”.&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;</value>
