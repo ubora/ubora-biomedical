@@ -12,6 +12,7 @@ using Ubora.Domain.Projects.Repository.Commands;
 using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Authorization;
+using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web.Infrastructure.Extensions;
 
@@ -55,11 +56,12 @@ namespace Ubora.Web._Features.Projects.Repository
 
         [Route("AddFile")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddFile(AddFileViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return Repository();
+                return ModelState.ToJsonResult();
             }
 
             foreach (var file in model.ProjectFiles)
@@ -80,11 +82,11 @@ namespace Ubora.Web._Features.Projects.Repository
 
                 if (!ModelState.IsValid)
                 {
-                    return Repository();
+                    return ModelState.ToJsonResult();
                 }
             }
 
-            return RedirectToAction(nameof(Repository));
+            return Ok();
         }
 
 
@@ -167,7 +169,7 @@ namespace Ubora.Web._Features.Projects.Repository
         public IActionResult DownloadFile(Guid fileId)
         {
             var file = QueryProcessor.FindById<ProjectFile>(fileId);
-            if(file == null)
+            if (file == null)
             {
                 throw new InvalidOperationException();
             }

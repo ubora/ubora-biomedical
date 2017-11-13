@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Projects.Tasks;
-using Ubora.Domain.Projects.Tasks.Commands;
+using Ubora.Domain.Projects.Assignments;
+using Ubora.Domain.Projects.Assignments.Commands;
 
 namespace Ubora.Web._Features.Projects.Assignments
 {
@@ -11,7 +11,7 @@ namespace Ubora.Web._Features.Projects.Assignments
     {
         public IActionResult Assignments()
         {
-            var projectTasks = QueryProcessor.Find<ProjectTask>().Where(x => x.ProjectId == ProjectId);
+            var projectTasks = QueryProcessor.Find<Assignment>().Where(x => x.ProjectId == ProjectId);
 
             var model = new AssignmentListViewModel
             {
@@ -39,7 +39,7 @@ namespace Ubora.Web._Features.Projects.Assignments
                 return Add(modelFactory);
             }
 
-            ExecuteUserProjectCommand(new AddTaskCommand
+            ExecuteUserProjectCommand(new AddAssignmentCommand
             {
                 Id = Guid.NewGuid(),
                 Title = model.Title,
@@ -71,7 +71,7 @@ namespace Ubora.Web._Features.Projects.Assignments
                 return Edit(model.Id, modelFactory);
             }
 
-            ExecuteUserProjectCommand(new EditTaskCommand
+            ExecuteUserProjectCommand(new EditAssignmentCommand
             {
                 Id = model.Id,
                 Title = model.Title,

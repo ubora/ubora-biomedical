@@ -65,7 +65,7 @@ namespace Ubora.Web.Infrastructure
                 .AsClosedTypesOf(typeof(NotificationViewModelFactory<,>)).As<INotificationViewModelFactory>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<EventViewModelFactoryMediator>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<EventViewModelFactoryMediator>().As<IEventViewModelFactoryMediator>().InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .AsClosedTypesOf(typeof(EventViewModelFactory<,>)).As<IEventViewModelFactory>()
