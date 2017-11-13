@@ -73,5 +73,23 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
             result.IsProjectMember.Should().Be(isProjectMember);
             result.DeviceClassification.Should().Be(expectedDeviceClass.Name);
         }
+
+        [Fact]
+        public void Create_Sets_IsProjectMember_To_False_When_Unauthenticated()
+        {
+            var projectMock = new Mock<Project>();
+            var project = projectMock.Object;
+
+            _autoMapperMock.Setup(x => x.Map<ProjectDashboardViewModel>(projectMock.Object))
+                .Returns(new ProjectDashboardViewModel());
+
+            // Act
+            var result = _factoryUnderTest.Create(project, user: FakeClaimsPrincipalFactory.CreateAnonymousUser());
+
+            // Assert
+            result.IsProjectMember.Should().BeFalse();
+
+            projectMock.Verify(x => x.DoesSatisfy(It.IsAny<HasMember>()), Times.Never);
+        }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Security.Claims;
-using System.Security.Principal;
+﻿using System.Security.Principal;
 using AutoMapper;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects._Specifications;
