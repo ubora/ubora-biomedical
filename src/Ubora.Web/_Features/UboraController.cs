@@ -20,6 +20,7 @@ namespace Ubora.Web._Features
     {
         protected virtual UserInfo UserInfo => User.GetInfo();
 
+        /// <remarks> Throws when unauthenticated. </remarks>>
         protected Guid UserId => User.GetId();
 
         private UserProfile _userProfile;

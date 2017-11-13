@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Security.Claims;
+using System.Security.Principal;
 using AutoMapper;
-using Microsoft.CodeAnalysis;
-using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Queries;
 using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web.Services;
 using Project = Ubora.Domain.Projects.Project;
 
 namespace Ubora.Web._Features.Projects.Dashboard
@@ -37,11 +38,15 @@ namespace Ubora.Web._Features.Projects.Dashboard
                 _queryProcessor = queryProcessor;
             }
 
-            public ProjectDashboardViewModel Create(Project project, Guid userId)
+            public ProjectDashboardViewModel Create(Project project, IPrincipal user)
             {
                 var model = _autoMapper.Map<ProjectDashboardViewModel>(project);
 
-                model.IsProjectMember = project.DoesSatisfy(new HasMember(userId));
+                if (user.Identity.IsAuthenticated)
+                {
+                    var userId = new HasMember(user.GetId());
+                    model.IsProjectMember = project.DoesSatisfy(userId);
+                }
 
                 var deviceClassificationAggregate = _queryProcessor.ExecuteQuery(new LatestFinishedProjectDeviceClassificationQuery(project.Id));
                 if (deviceClassificationAggregate != null)
