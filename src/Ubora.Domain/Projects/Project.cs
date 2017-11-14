@@ -103,6 +103,11 @@ namespace Ubora.Domain.Projects
             Description = e.Description;
         }
 
+        private void Apply(ProjectTitleEditedEvent e)
+        {
+            Title = e.Title;
+        }
+
         private void Apply(WorkpackageOneReviewAcceptedEvent e)
         {
             IsInDraft = false;
