@@ -72,6 +72,20 @@
                         </div>
                     </div>
                 </div>
+                <div>
+                    @Html.Partial("_AddCommentPartial", Model.AddCommentViewModel)
+                </div>
+
+                <div>
+                    @foreach(var comment in Model.Comments)
+                    {
+                        <div>
+                            <p>@comment.CommentText</p>
+                            <img src="@comment.ProfilePictureUrl"/>
+                            <p>@comment.CommentatorName</p>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
 

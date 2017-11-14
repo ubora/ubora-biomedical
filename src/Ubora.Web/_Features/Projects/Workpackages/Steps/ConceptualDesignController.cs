@@ -12,6 +12,7 @@ using Ubora.Web.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Web._Features.Projects._Shared;
+using System.Linq;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -75,11 +76,16 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return RedirectToAction("Voting", "WorkpackageTwo");
         }
 
-        public IActionResult Candidate(Guid candidateId)
+        public IActionResult Candidate(Guid candidateId, [FromServices]CommentViewModel.Factory commentFactory)
         {
             var candidate = QueryProcessor.FindById<Candidate>(candidateId);
             var model = AutoMapper.Map<CandidateViewModel>(candidate);
             model.ImageUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(candidate.ImageLocation, ImageSize.Thumbnail400x300);
+            model.AddCommentViewModel = new AddCommentViewModel
+            {
+                CandidateId = candidateId
+            };
+            model.Comments = candidate.Comments.Select(comment => commentFactory.Create(comment));
 
             return View(nameof(Candidate), model);
         }
@@ -185,6 +191,28 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
+        }
+
+        [HttpPost]
+        public IActionResult AddComment(AddCommentViewModel model, [FromServices] CommentViewModel.Factory commentFactory)
+        {
+            if(!ModelState.IsValid)
+            {
+                return Candidate(model.CandidateId, commentFactory);
+            }
+
+            ExecuteUserProjectCommand(new AddCandidateCommentCommand
+            {
+                CandidateId = model.CandidateId,
+                CommentText = model.CommentText,
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return Candidate(model.CandidateId, commentFactory);
+            }
+
+            return RedirectToAction(nameof(Candidate), new { candidateId = model.CandidateId });
         }
     }
 }
