@@ -24,9 +24,9 @@ namespace Ubora.Web._Features.Projects.Dashboard
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Dashboard([FromServices]ProjectDashboardViewModel.Factory modelFactory)
+        public IActionResult Dashboard([FromServices]ProjectDashboardViewModel.Factory modelFactory)
         {
-            var model = modelFactory.Create(Project, UserId);
+            var model = modelFactory.Create(Project, User);
 
             return View(nameof(Dashboard), model);
         }
