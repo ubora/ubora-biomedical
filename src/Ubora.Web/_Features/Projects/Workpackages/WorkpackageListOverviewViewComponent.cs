@@ -112,7 +112,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
 
             menuLinks.Add(new MenuLink
             {
-                Name = "Mentor review",
+                Name = "Formal review",
                 Href = Url.Action("Review", "WorkpackageOneReview"),
                 IsSelected = IsWorkpackageCustomMenuOptionSelected(WorkpackageMenuOption.Wp1MentorReview)
             });
