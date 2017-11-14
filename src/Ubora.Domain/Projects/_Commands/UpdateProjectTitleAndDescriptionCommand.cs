@@ -19,18 +19,26 @@ namespace Ubora.Domain.Projects._Commands
             {
                 var project = DocumentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
-                var editProjectDescriptionEvent = new EditProjectDescriptionEvent(
+                if (project.Description != cmd.Description)
+                {
+                    var editProjectDescriptionEvent = new EditProjectDescriptionEvent(
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
                     description: cmd.Description);
 
-                var projectTitleEditedEvent = new ProjectTitleEditedEvent(
-                    initiatedBy: cmd.Actor,
-                    projectId: cmd.ProjectId,
-                    title: cmd.Title);
+                    DocumentSession.Events.Append(project.Id, editProjectDescriptionEvent);
+                }
 
-                DocumentSession.Events.Append(project.Id, editProjectDescriptionEvent);
-                DocumentSession.Events.Append(project.Id, projectTitleEditedEvent);
+                if (project.Title != cmd.Title)
+                {
+                    var projectTitleEditedEvent = new ProjectTitleEditedEvent(
+                        initiatedBy: cmd.Actor,
+                        projectId: cmd.ProjectId,
+                        title: cmd.Title);
+
+                    DocumentSession.Events.Append(project.Id, projectTitleEditedEvent);
+                }
+
                 DocumentSession.SaveChanges();
 
                 return CommandResult.Success;
