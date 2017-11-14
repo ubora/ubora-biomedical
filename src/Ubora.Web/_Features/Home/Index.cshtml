@@ -32,7 +32,7 @@
 
         @if(User.Identity.IsAuthenticated)
         {
-            if (await AuthorizationService.IsAuthorized(User, Policies.CanCreateProject))
+            if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
             {
                 <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
                 <a class="btn btn-primary btn-lg align-self-end" asp-controller="ProjectCreation" asp-action="Create" role="button">I have an idea</a>
