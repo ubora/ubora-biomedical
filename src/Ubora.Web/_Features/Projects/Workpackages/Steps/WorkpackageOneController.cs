@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Domain.Projects._Commands;
@@ -69,16 +68,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             return View();
-        }
-
-        [Route(nameof(DeviceClassification))]
-        public IActionResult DeviceClassification()
-        {
-            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.DeviceClassification;
-
-            var model = AutoMapper.Map<DeviceClassificationViewModel>(Project);
-
-            return View(nameof(DeviceClassification), model);
         }
 
         [Route("{stepId}")]

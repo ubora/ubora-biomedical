@@ -24,16 +24,9 @@ namespace Ubora.Web._Features.Projects.Dashboard
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Dashboard()
+        public async Task<IActionResult> Dashboard([FromServices]ProjectDashboardViewModel.Factory modelFactory)
         {
-            var model = AutoMapper.Map<ProjectDashboardViewModel>(Project);
-            model.IsProjectMember = (await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement())).Succeeded;
-
-            model.HasImage = Project.HasImage;
-            if (Project.HasImage)
-            {
-                model.ImagePath = _imageStorage.GetUrl(Project.ProjectImageBlobLocation, ImageSize.Thumbnail400x300);
-            }
+            var model = modelFactory.Create(Project, UserId);
 
             return View(nameof(Dashboard), model);
         }

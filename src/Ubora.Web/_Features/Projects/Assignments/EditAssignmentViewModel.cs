@@ -5,8 +5,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.Assignments;
 using Ubora.Domain.Projects.Members.Queries;
-using Ubora.Domain.Projects.Tasks;
 
 namespace Ubora.Web._Features.Projects.Assignments
 {
@@ -35,7 +35,7 @@ namespace Ubora.Web._Features.Projects.Assignments
 
             public EditAssignmentViewModel Create(Guid taskId)
             {
-                var task = _queryProcessor.FindById<ProjectTask>(taskId);
+                var task = _queryProcessor.FindById<Assignment>(taskId);
                 var project = _queryProcessor.FindById<Project>(task.ProjectId);
                 var projectMembers = _queryProcessor.ExecuteQuery(new FindUserProfilesQuery
                 {

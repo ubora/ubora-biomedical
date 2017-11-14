@@ -4,7 +4,12 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Web._Features.Projects.History._Base
 {
-    public class EventViewModelFactoryMediator
+    public interface IEventViewModelFactoryMediator
+    {
+        IEventViewModel Create(UboraEvent uboraEvent, DateTimeOffset timeStamp);
+    }
+
+    public class EventViewModelFactoryMediator : IEventViewModelFactoryMediator
     {
         private readonly IEnumerable<IEventViewModelFactory> _concreteFactories;
         private readonly GeneralEventViewModel.Factory _generalFactory;

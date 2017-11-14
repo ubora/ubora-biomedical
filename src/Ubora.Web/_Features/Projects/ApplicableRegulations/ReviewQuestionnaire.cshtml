@@ -23,11 +23,16 @@
               <tr>
                 <td>
                   @questionAnswer.QuestionText
-                  <p>You answered: @(questionAnswer.Answer ? "yes" : "no")</p>
+                  <p>You answered: @(questionAnswer.Answer)</p>
                 </td>
-                @if (questionAnswer.Answer == true)
+                @if (questionAnswer.Answer.Equals("Yes", StringComparison.InvariantCultureIgnoreCase))
                 {
-                  @Html.Raw(questionAnswer.IsoStandardText)
+                    @Html.Raw(questionAnswer.IsoStandardText)
+                }
+                else
+                {
+                    <td></td>
+                    <td></td>
                 }
               </tr>
             }

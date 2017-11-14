@@ -22,7 +22,7 @@
                         <span>Helpful tips</span>
                     </a>
                 </div>
-                <p class="helpful-tips-content js-helpful-tips-content">@Model.Description</p>
+            <div class="helpful-tips-content js-helpful-tips-content mb-4">@Html.Raw(Model.Description)</div>
 
             }
             <form action="@Model.EditStepUrl" method="post" asp-antiforgery="true">
