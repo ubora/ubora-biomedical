@@ -1,9 +1,8 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Candidates;
-using Ubora.Domain.Users;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
 
@@ -19,40 +18,34 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         public AddCommentViewModel AddCommentViewModel { get; set; }
         public IEnumerable<CommentViewModel> Comments { get; set; }
-    }
-
-    public class CommentViewModel
-    {
-        public Guid CommentatorId { get; set; }
-        public string CommentatorName { get; set; }
-        public string ProfilePictureUrl { get; set; }
-        public string CommentText { get; set; }
 
         public class Factory
         {
-            private readonly IQueryProcessor _queryProcessor;
+            private readonly IMapper _mapper;
             private readonly ImageStorageProvider _imageStorageProvider;
+            private readonly CommentViewModel.Factory _commentFactory;
 
-            public Factory(IQueryProcessor queryProcessor, ImageStorageProvider imageStorageProvider)
+            public Factory(IMapper mapper, ImageStorageProvider imageStorageProvider, CommentViewModel.Factory commentFactory)
             {
-                _queryProcessor = queryProcessor;
+                _mapper = mapper;
                 _imageStorageProvider = imageStorageProvider;
+                _commentFactory = commentFactory;
             }
 
             protected Factory()
             {
             }
 
-            public virtual CommentViewModel Create(Comment comment)
+            public virtual CandidateViewModel Create(Candidate candidate)
             {
-                var model = new CommentViewModel();
+                var model = _mapper.Map<CandidateViewModel>(candidate);
+                model.ImageUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(candidate.ImageLocation, ImageSize.Thumbnail400x300);
+                model.AddCommentViewModel = new AddCommentViewModel
+                {
+                    CandidateId = candidate.Id
+                };
 
-                model.CommentatorId = comment.UserId;
-                model.CommentText = comment.Text;
-
-                var userProfile = _queryProcessor.FindById<UserProfile>(comment.UserId);
-                model.CommentatorName = userProfile.FullName;
-                model.ProfilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile);
+                model.Comments = candidate.Comments.Select(comment => _commentFactory.Create(comment));
 
                 return model;
             }

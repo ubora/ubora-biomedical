@@ -12,7 +12,6 @@ using Ubora.Web.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Web._Features.Projects._Shared;
-using System.Linq;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -76,16 +75,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return RedirectToAction("Voting", "WorkpackageTwo");
         }
 
-        public IActionResult Candidate(Guid candidateId, [FromServices]CommentViewModel.Factory commentFactory)
+        public IActionResult Candidate(Guid candidateId, [FromServices]CandidateViewModel.Factory candidateViewModelFactory)
         {
             var candidate = QueryProcessor.FindById<Candidate>(candidateId);
-            var model = AutoMapper.Map<CandidateViewModel>(candidate);
-            model.ImageUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(candidate.ImageLocation, ImageSize.Thumbnail400x300);
-            model.AddCommentViewModel = new AddCommentViewModel
-            {
-                CandidateId = candidateId
-            };
-            model.Comments = candidate.Comments.Select(comment => commentFactory.Create(comment));
+            var model = candidateViewModelFactory.Create(candidate);
 
             return View(nameof(Candidate), model);
         }
@@ -194,11 +187,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [HttpPost]
-        public IActionResult AddComment(AddCommentViewModel model, [FromServices] CommentViewModel.Factory commentFactory)
+        public IActionResult AddComment(AddCommentViewModel model, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
         {
             if(!ModelState.IsValid)
             {
-                return Candidate(model.CandidateId, commentFactory);
+                return Candidate(model.CandidateId, candidateViewModelFactory);
             }
 
             ExecuteUserProjectCommand(new AddCandidateCommentCommand
@@ -209,7 +202,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             if (!ModelState.IsValid)
             {
-                return Candidate(model.CandidateId, commentFactory);
+                return Candidate(model.CandidateId, candidateViewModelFactory);
             }
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.CandidateId });

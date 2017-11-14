@@ -175,42 +175,18 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
         public void Candidate_Returns_Candidate_View_With_Expected_Model()
         {
             var candidateId = Guid.NewGuid();
-            var imageLocation = new BlobLocation("containerName", "blobPath");
             var candidate = new Candidate();
-            candidate.Set(x => x.Id, candidateId);
-            candidate.Set(x => x.ImageLocation, imageLocation);
-
-            var comment1 = new Comment(UserId, "comment1");
-            var comment2 = new Comment(Guid.NewGuid(), "comment2");
-            candidate.Set(x => x.Comments, new List<Comment> { comment1, comment2 });
 
             QueryProcessorMock.Setup(x => x.FindById<Candidate>(candidateId))
                 .Returns(candidate);
 
-            var candidateViewModel = new CandidateViewModel();
-            AutoMapperMock.Setup(x => x.Map<CandidateViewModel>(candidate))
-                .Returns(candidateViewModel);
-
-            var imageUrl = "imageUrl";
-            _imageStorageProvider.Setup(x => x.GetUrl(candidate.ImageLocation, ImageSize.Thumbnail400x300))
-                .Returns(imageUrl);
-
-            var expectedModel = candidateViewModel;
-            expectedModel.ImageUrl = imageUrl;
-
-            var commentModelFactory = new Mock<CommentViewModel.Factory>();
-            var comment1ViewModel = new CommentViewModel();
-            commentModelFactory.Setup(x => x.Create(comment1))
-                .Returns(comment1ViewModel);
-
-            var comment2ViewModel = new CommentViewModel();
-            commentModelFactory.Setup(x => x.Create(comment2))
-                .Returns(comment2ViewModel);
-
-            expectedModel.Comments = new[] { comment1ViewModel, comment2ViewModel };
+            var candidateViewModelFactory = new Mock<CandidateViewModel.Factory>();
+            var expectedModel = new CandidateViewModel();
+            candidateViewModelFactory.Setup(x => x.Create(candidate))
+                .Returns(expectedModel);
 
             // Act
-            var result = (ViewResult)_controller.Candidate(candidateId, commentModelFactory.Object);
+            var result = (ViewResult)_controller.Candidate(candidateId, candidateViewModelFactory.Object);
 
             // Assert
             result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
@@ -532,7 +508,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 .Returns(candidateViewModel);
 
             // Act
-            var result = (ViewResult)_controller.AddComment(model, Mock.Of<CommentViewModel.Factory>());
+            var result = (ViewResult)_controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
             result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
@@ -564,7 +540,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 .Returns(candidateViewModel);
 
             // Act
-            var result = (ViewResult)_controller.AddComment(model, Mock.Of<CommentViewModel.Factory>());
+            var result = (ViewResult)_controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
             result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
@@ -585,7 +561,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 .Returns(CommandResult.Success);
 
             // Act
-            var result = (RedirectToActionResult)_controller.AddComment(model, Mock.Of<CommentViewModel.Factory>());
+            var result = (RedirectToActionResult)_controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
             result.ActionName.Should().Be(nameof(ConceptualDesignController.Candidate));
