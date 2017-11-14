@@ -14,7 +14,7 @@
             <div class="col">
               <div class="card w-100 h-100">
                   <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(Model.ImagePath)?"/images/project-default-image.png":Model.ImagePath)" alt="Illustrative project photo">
-                  @if (await AuthorizationService.IsAuthorized(User, Policies.CanChangeProjectImage))
+                  @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanChangeProjectImage))
                   {
                     <div class="card-img-overlay text-center">
                     @if (Model.HasImage){
@@ -43,7 +43,7 @@
           <div class="row mt-1">
             <div class="col d-flex justify-content-end">
               <div>
-                  @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorized(User, Policies.CanJoinProject))
+                  @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanJoinProject))
                   {
                       <a class="btn btn-secondary-ghost" href="@Url.Action("Join", "Members")"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
                   }
@@ -122,7 +122,7 @@
                     <h2>Project description</h2>
                 </div>
                 <div class="col-sm-12 col-lg-2 d-flex align-items-center justify-content-end">
-                    @if (await AuthorizationService.IsAuthorized(User, Policies.CanEditProjectDescription))
+                    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectDescription))
                     {
                     <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectDescription" id="EditProjectDescription"><i class="material-icons align-middle">mode_edit</i><span class="align-middle">Edit</span></a>
                     }
