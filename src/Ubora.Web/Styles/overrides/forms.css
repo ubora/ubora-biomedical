@@ -4,6 +4,10 @@
   margin:1rem 0;
 }
 
+.form-group label[for="CommentText"] {
+  margin-top: 0;
+}
+
 .form-group .form-control {
   border: 0;
   border-bottom: 2px solid var(--blue);
