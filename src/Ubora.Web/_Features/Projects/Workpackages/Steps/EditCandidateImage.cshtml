@@ -5,11 +5,11 @@
 <div class="container-fluid my-4">
     <div class="row">
 
-        <div class="col-sm-12 col-md-4">
+        <div class="col-lg-3">
             @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
         </div>
 
-        <div class="col-sm-12 col-md-8 text-center">
+        <div class="col-lg-9 pr-5 text-center">
             <form asp-controller="ConceptualDesign" asp-action="EditCandidateImage" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 @Html.HiddenFor(m => m.Id)
@@ -22,9 +22,9 @@
                     <span asp-validation-for="Image"></span>
                 </div>
                 <div class="form-group">
-                    <a class="btn btn-secondary-ghost btn-lg" asp-controller="ConceptualDesign" asp-action="Candidate" asp-route-candidateId="@Model.Id">Discard</a>
+                    <a class="btn btn-secondary-ghost" asp-controller="ConceptualDesign" asp-action="Candidate" asp-route-candidateId="@Model.Id">Discard</a>
                     <span class="mx-1"></span>
-                    <button class="btn btn-primary btn-lg" type="submit">Upload image</button>
+                    <button class="btn btn-primary" type="submit">Upload image</button>
                 </div>
             </form>
         </div>

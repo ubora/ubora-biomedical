@@ -4,11 +4,11 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     @Html.HiddenFor(m => m.CandidateId)
     <div class="form-group">
-        <label asp-for="CommentText">Description</label>
-        <textarea class="form-control" asp-for="CommentText" placeholder="Add comment"></textarea>
+        <label asp-for="CommentText">Comment</label>
+        <textarea class="form-control" asp-for="CommentText" placeholder="Add comment" rows="4"></textarea>
         <span asp-validation-for="CommentText"></span>
     </div>
     <div class="d-flex justify-content-center">
-        <button class="btn btn-primary btn-lg" type="submit">Add comment</button>
+        <button class="btn btn-primary" type="submit">Add comment</button>
     </div>
 </form>

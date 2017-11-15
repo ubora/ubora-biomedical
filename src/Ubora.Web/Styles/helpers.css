@@ -12,8 +12,14 @@
 
 /*Avatar image look*/
 .avatar {
-	border-radius: 2em;
+	border-radius: .25em;
   object-fit: cover;
+}
+
+/*Avatar image size in comments section*/
+.avatar-comment {
+	height: 4em;
+	width: 4em;
 }
 
 /*Markdown styles*/
@@ -48,8 +54,6 @@
 	padding: 0 1rem;
 	margin-bottom: 0;
 }
-
-
 
 /*coloring text to orange*/
 .text-orange {

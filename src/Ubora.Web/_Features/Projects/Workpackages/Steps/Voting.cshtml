@@ -28,7 +28,7 @@
 
                     <div class="row">
                         @foreach (var candidate in Model.Candidates)
-            {
+                        {
                             <div class="col-sm-12 col-md-3 my-2">
                                 <div class="card w-100 h-100">
                                     <a href="@Url.Action("Candidate", "ConceptualDesign", new { candidateId = candidate.Id })" class="card-link">

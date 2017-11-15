@@ -22,6 +22,15 @@ select.form-control:not([size]):not([multiple]) {
   height: auto;
 }
 
+.form-group textarea.form-control {
+  border: 1px solid var(--blue);
+  padding-left: .65em;
+}
+
+.form-group textarea.form-control:focus {
+  border: 1px solid var(--light-blue);
+}
+
 label.custom-file {
   font-size: 1rem;
 }
