@@ -12,6 +12,7 @@
 @import url('overrides/feedback.css');
 @import url('overrides/drag_and_drop_file_uploads.css');
 
+
 @import url('page_components/header.css');
 @import url('page_components/footer.css');
 @import url('page_components/history.css');
@@ -22,6 +23,9 @@
 @import url('page_components/workpackage_header.css');
 @import url('page_components/landing_jumbotron.css');
 @import url('page_components/workpackage_list.css');
+@import url('page_components/votes.css');
+
+
 
 
 
