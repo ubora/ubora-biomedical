@@ -22,7 +22,7 @@
                         <div class="col">
                             <div class="card w-100 h-100">
                                 <img class="card-img-top img-fluid w-100" src="@Model.ImageUrl" alt="Illustrative project photo" />
-                                @if (await AuthorizationService.IsAuthorized(User, Policies.CanChangeProjectImage))
+                                @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanChangeProjectImage))
                                 {
 
                                   <div class="card-img-overlay text-center">
