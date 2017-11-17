@@ -175,27 +175,18 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
         public void Candidate_Returns_Candidate_View_With_Expected_Model()
         {
             var candidateId = Guid.NewGuid();
-            var imageLocation = new BlobLocation("containerName", "blobPath");
             var candidate = new Candidate();
-            candidate.Set(x => x.Id, candidateId);
-            candidate.Set(x => x.ImageLocation, imageLocation);
 
             QueryProcessorMock.Setup(x => x.FindById<Candidate>(candidateId))
                 .Returns(candidate);
 
-            var candidateViewModel = new CandidateViewModel();
-            AutoMapperMock.Setup(x => x.Map<CandidateViewModel>(candidate))
-                .Returns(candidateViewModel);
-
-            var imageUrl = "imageUrl";
-            _imageStorageProvider.Setup(x => x.GetUrl(candidate.ImageLocation, ImageSize.Thumbnail400x300))
-                .Returns(imageUrl);
-
-            var expectedModel = candidateViewModel;
-            expectedModel.ImageUrl = imageUrl;
+            var candidateViewModelFactory = new Mock<CandidateViewModel.Factory>();
+            var expectedModel = new CandidateViewModel();
+            candidateViewModelFactory.Setup(x => x.Create(candidate))
+                .Returns(expectedModel);
 
             // Act
-            var result = (ViewResult)_controller.Candidate(candidateId);
+            var result = (ViewResult)_controller.Candidate(candidateId, candidateViewModelFactory.Object);
 
             // Assert
             result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
@@ -456,7 +447,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<DeleteCandidateImageCommand>()))
                 .Returns(commandResult);
-            
+
             var model = new RemoveCandidateImageViewModel
             {
                 Id = candidateId,
@@ -495,6 +486,90 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
 
             // Assert
             result.ActionName.Should().Be(nameof(ConceptualDesignController.Candidate));
+        }
+
+        [Fact]
+        public void AddComment_Returns_Candidate_View_With_ModelState_Errors_When_Invalid_Model()
+        {
+            var candidateId = Guid.NewGuid();
+            var model = new AddCommentViewModel
+            {
+                CandidateId = candidateId
+            };
+            var errorMessage = "errorMessage";
+            _controller.ModelState.AddModelError("", errorMessage);
+
+            var candidate = new Candidate();
+            QueryProcessorMock.Setup(x => x.FindById<Candidate>(candidateId))
+                .Returns(candidate);
+
+            var candidateViewModel = new CandidateViewModel();
+            AutoMapperMock.Setup(x => x.Map<CandidateViewModel>(candidate))
+                .Returns(candidateViewModel);
+
+            // Act
+            var result = (ViewResult)_controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
+
+            // Assert
+            result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            AssertModelStateContainsError(result, errorMessage);
+
+            CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
+        }
+
+        [Fact]
+        public void AddComment_Returns_Candidate_View_With_ModelState_Errors_When_Command_Not_Executed_Successfully()
+        {
+            var candidateId = Guid.NewGuid();
+            var model = new AddCommentViewModel
+            {
+                CandidateId = candidateId
+            };
+
+            var commandResult = CommandResult.Failed("testError1", "testError2");
+            CommandProcessorMock
+                .Setup(p => p.Execute(It.IsAny<AddCandidateCommentCommand>()))
+                .Returns(commandResult);
+
+            var candidate = new Candidate();
+            QueryProcessorMock.Setup(x => x.FindById<Candidate>(candidateId))
+                .Returns(candidate);
+
+            var candidateViewModel = new CandidateViewModel();
+            AutoMapperMock.Setup(x => x.Map<CandidateViewModel>(candidate))
+                .Returns(candidateViewModel);
+
+            // Act
+            var result = (ViewResult)_controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
+
+            // Assert
+            result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
+        }
+
+        [Fact]
+        public void AddComment_Redirects_To_Candidate_View_When_Command_Executed_Successfully()
+        {
+            var model = new AddCommentViewModel();
+            model.CandidateId = Guid.NewGuid();
+            model.CommentText = "comment";
+
+            AddCandidateCommentCommand executedCommand = null;
+            CommandProcessorMock
+                .Setup(p => p.Execute(It.IsAny<AddCandidateCommentCommand>()))
+                .Callback<AddCandidateCommentCommand>(c => executedCommand = c)
+                .Returns(CommandResult.Success);
+
+            // Act
+            var result = (RedirectToActionResult)_controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
+
+            // Assert
+            result.ActionName.Should().Be(nameof(ConceptualDesignController.Candidate));
+
+            executedCommand.CandidateId.Should().Be(model.CandidateId);
+            executedCommand.CommentText.Should().Be(model.CommentText);
+            executedCommand.ProjectId.Should().Be(ProjectId);
+            executedCommand.Actor.UserId.Should().Be(UserId);
         }
     }
 }

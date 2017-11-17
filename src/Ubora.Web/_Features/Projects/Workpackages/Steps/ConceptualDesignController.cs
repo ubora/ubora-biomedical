@@ -75,11 +75,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return RedirectToAction("Voting", "WorkpackageTwo");
         }
 
-        public IActionResult Candidate(Guid candidateId)
+        public IActionResult Candidate(Guid candidateId, [FromServices]CandidateViewModel.Factory candidateViewModelFactory)
         {
             var candidate = QueryProcessor.FindById<Candidate>(candidateId);
-            var model = AutoMapper.Map<CandidateViewModel>(candidate);
-            model.ImageUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(candidate.ImageLocation, ImageSize.Thumbnail400x300);
+            var model = candidateViewModelFactory.Create(candidate);
 
             return View(nameof(Candidate), model);
         }
@@ -185,6 +184,28 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
+        }
+
+        [HttpPost]
+        public IActionResult AddComment(AddCommentViewModel model, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
+        {
+            if(!ModelState.IsValid)
+            {
+                return Candidate(model.CandidateId, candidateViewModelFactory);
+            }
+
+            ExecuteUserProjectCommand(new AddCandidateCommentCommand
+            {
+                CandidateId = model.CandidateId,
+                CommentText = model.CommentText,
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return Candidate(model.CandidateId, candidateViewModelFactory);
+            }
+
+            return RedirectToAction(nameof(Candidate), new { candidateId = model.CandidateId });
         }
     }
 }

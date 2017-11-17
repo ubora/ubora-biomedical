@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Candidates.Events;
 using Ubora.Domain.Projects._Events;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Ubora.Domain.Projects.Candidates
 {
@@ -17,6 +19,18 @@ namespace Ubora.Domain.Projects.Candidates
         [JsonIgnore]
         public bool HasImage => ImageLocation != null;
 
+        [JsonProperty(nameof(Comments))]
+        private readonly HashSet<Comment> _comments = new HashSet<Comment>();
+        [JsonIgnore]
+        // Virtual for testing.
+        public virtual IReadOnlyCollection<Comment> Comments
+        {
+            get
+            {
+                return _comments;
+            }
+            private set { }
+        }
 
         private void Apply(CandidateAddedEvent e)
         {
@@ -40,6 +54,12 @@ namespace Ubora.Domain.Projects.Candidates
         private void Apply(CandidateImageDeletedEvent e)
         {
             ImageLocation = null;
+        }
+
+        private void Apply(CandidateCommentAddedEvent e)
+        {
+            var comment = new Comment(e.InitiatedBy.UserId, e.CommentText);
+            _comments.Add(comment);
         }
     }
 }
