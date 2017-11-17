@@ -1,14 +1,15 @@
 .circle {
-	background: var(--blue);
-	color: var(--white);
-	border-radius: 50%;
+    background: var(--tertiary-shade);
+    color: var(--white);
+    border-radius: 50%;
 }
 
 .average-number {
-	font-size: 3em;
-	width: 3em;
-	height: 3em;
-	line-height: 3em;
+    background: var(--blue);
+    font-size: 3em;
+    width: 3em;
+    height: 3em;
+    line-height: 3em;
 }
 
 .vote-number {
@@ -19,6 +20,12 @@
 	cursor: pointer;
 }
 
-.muted-circle {
-	background: var(--tertiary-shade);
+.selected-circle {
+	background: var(--blue);
+}
+
+
+
+.table input[type='radio'] {
+    display: none;
 }

@@ -66,6 +66,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 CandidateId = candidateId
             };
 
+            expectedModel.AddVoteViewModel = new AddVoteViewModel(candidateId);
+
             // Act
             var result = _factory.Create(candidate);
 

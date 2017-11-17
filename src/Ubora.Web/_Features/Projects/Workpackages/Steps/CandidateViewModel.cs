@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Web.Infrastructure.Extensions;
@@ -19,6 +20,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         public AddCommentViewModel AddCommentViewModel { get; set; }
         public IEnumerable<CommentViewModel> Comments { get; set; }
+        public AddVoteViewModel AddVoteViewModel { get; set; }
 
         public class Factory
         {
@@ -45,11 +47,31 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 {
                     CandidateId = candidate.Id
                 };
+                model.AddVoteViewModel = new AddVoteViewModel(candidate.Id);
 
                 model.Comments = candidate.Comments.Select(comment => _commentFactory.Create(comment, candidate.ProjectId));
 
                 return model;
             }
         }
+    }
+
+    public class AddVoteViewModel
+    {
+        public AddVoteViewModel(Guid candidateId)
+        {
+            CandidateId = candidateId;
+        }
+
+        public Guid CandidateId { get; set; }
+
+        [Required]
+        public int Functionality { get; set; }
+        [Required]
+        public int Performace { get; set; }
+        [Required]
+        public int Usability { get; set; }
+        [Required]
+        public int Safety { get; set; }
     }
 }
