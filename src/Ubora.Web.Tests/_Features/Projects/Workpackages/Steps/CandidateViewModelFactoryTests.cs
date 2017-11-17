@@ -36,8 +36,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var imageLocation = new BlobLocation("containerName", "blobPath");
             candidate.Set(x => x.ImageLocation, imageLocation);
 
-            var comment1 = new Comment(Guid.NewGuid(), "comment1");
-            var comment2 = new Comment(Guid.NewGuid(), "comment2");
+            var comment1 = new Comment(Guid.NewGuid(), "comment1", Guid.NewGuid(), DateTime.UtcNow);
+            var comment2 = new Comment(Guid.NewGuid(), "comment2", Guid.NewGuid(), DateTime.UtcNow);
             candidate.Set(x => x.Comments, new [] { comment1, comment2 });
 
             var candidateViewModel = new CandidateViewModel();

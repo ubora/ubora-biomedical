@@ -32,18 +32,28 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
         {
             var userId = Guid.NewGuid();
             var commentText = "commentText";
-            var comment = new Comment(userId, commentText);
+            var commentedAt = DateTime.UtcNow;
+            var commentId = Guid.NewGuid();
+            var comment = new Comment(userId, commentText, commentId, commentedAt);
 
             var members = new List<ProjectMember>()
             {
                 new ProjectMember(userId),
                 new ProjectLeader(userId)
             };
+
             var projectId = Guid.NewGuid();
             var project = new Project();
             project.Set(x => x.Members, members);
             _queryProcessor.Setup(x => x.FindById<Project>(projectId))
                 .Returns(project);
+
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+            candidate.Set(x => x.Id, candidateId);
+            candidate.Set(x => x.ProjectId, projectId);
+            _queryProcessor.Setup(x => x.FindById<Candidate>(candidateId))
+                .Returns(candidate);
 
             var user = new UserProfile(userId);
             user.Set(x => x.FirstName, "FirstName");
@@ -57,16 +67,25 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             _imageStorageProvider.Setup(x => x.GetUrl(profilePictureBlobLocation))
                 .Returns(profilePictureUrl);
 
+            var editCommentViewModel = new EditCommentViewModel
+            {
+                CandidateId = candidateId,
+                Id = comment.Id,
+                CommentText = comment.Text
+            };
             var expectedModel = new CommentViewModel
             {
+                Id = commentId,
                 CommentatorId = userId,
                 CommentText = commentText,
                 CommentatorName = "FirstName LastName",
-                ProfilePictureUrl = profilePictureUrl
+                ProfilePictureUrl = profilePictureUrl,
+                CommentedAt = commentedAt,
+                EditCommentViewModel = editCommentViewModel
             };
 
             // Act
-            var result = _factory.Create(comment, projectId);
+            var result = _factory.Create(comment, candidateId);
 
             // Assert
             result.ShouldBeEquivalentTo(expectedModel);

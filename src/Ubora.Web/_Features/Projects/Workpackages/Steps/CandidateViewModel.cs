@@ -46,7 +46,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                     CandidateId = candidate.Id
                 };
 
-                model.Comments = candidate.Comments.Select(comment => _commentFactory.Create(comment, candidate.ProjectId));
+                model.Comments = candidate.Comments.Select(comment => _commentFactory.Create(comment, candidate.Id));
 
                 return model;
             }

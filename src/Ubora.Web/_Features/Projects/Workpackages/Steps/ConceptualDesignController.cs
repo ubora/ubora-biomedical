@@ -207,5 +207,28 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.CandidateId });
         }
+
+        [HttpPost]
+        public IActionResult EditComment(EditCommentViewModel model, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Candidate(model.CandidateId, candidateViewModelFactory);
+            }
+
+            ExecuteUserProjectCommand(new EditCandidateCommentCommand
+            {
+                CandidateId = model.CandidateId,
+                CommentText = model.CommentText,
+                CommentId = model.Id
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return Candidate(model.CandidateId, candidateViewModelFactory);
+            }
+
+            return RedirectToAction(nameof(Candidate), new { candidateId = model.CandidateId });
+        }
     }
 }
