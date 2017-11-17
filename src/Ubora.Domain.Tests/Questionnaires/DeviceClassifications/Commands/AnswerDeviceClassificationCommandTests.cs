@@ -42,7 +42,7 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications.Commands
                 })
             };
 
-            var deviceClass = new DeviceClassTwoB(new []
+            var deviceClass = new DeviceClassTwoB().WithConditions(new []
             {
                 new ChosenAnswerDeviceClassCondition(new Dictionary<string, string>
                 {

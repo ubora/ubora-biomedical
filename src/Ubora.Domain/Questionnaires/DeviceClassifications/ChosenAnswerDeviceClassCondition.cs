@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Ubora.Domain.Questionnaires.DeviceClassifications.DeviceClasses;
 
 namespace Ubora.Domain.Questionnaires.DeviceClassifications
 {
-    public class ChosenAnswerDeviceClassCondition
+    public class ChosenAnswerDeviceClassCondition : IDeviceClassCondition
     {
+        /// <summary>
+        /// Question-Answer ID pairs. If these questions are answered with the given answers then the condition will be fulfilled.
+        /// Example: { "q1", "y" }, { "q2", "n" } => Condition fulfilled when question "q1" is answered with "y" and question "q2" answered with "n".
+        /// </summary>
         [JsonProperty("qaIds")]
-        public Dictionary<string, string> QuestionIdsWithExpectedChosenAnswerIds { get; protected set; } // Not the greatest name.
+        public Dictionary<string, string> QuestionAnswerIdPairs { get; protected set; }
 
-        public ChosenAnswerDeviceClassCondition(Dictionary<string, string> questionIdsWithExpectedChosenAnswerIds)
+        public ChosenAnswerDeviceClassCondition(Dictionary<string, string> questionAnswerIdPairs)
         {
-            QuestionIdsWithExpectedChosenAnswerIds = questionIdsWithExpectedChosenAnswerIds ?? throw new ArgumentNullException(nameof(questionIdsWithExpectedChosenAnswerIds));
+            QuestionAnswerIdPairs = questionAnswerIdPairs ?? throw new ArgumentNullException(nameof(questionAnswerIdPairs));
         }
 
         public ChosenAnswerDeviceClassCondition(string questionId, string answerId)
@@ -25,9 +30,9 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
         {
         }
 
-        public bool IsFulfilled(DeviceClassificationQuestionnaireTree questionnaireTree)
+        public bool IsSatisfied(DeviceClassificationQuestionnaireTree questionnaireTree)
         {
-            foreach (var entry in QuestionIdsWithExpectedChosenAnswerIds)
+            foreach (var entry in QuestionAnswerIdPairs)
             {
                 var question = questionnaireTree.FindQuestionOrThrow(entry.Key);
                 var answer = question.Answers.First(a => a.Id == entry.Value);
@@ -43,7 +48,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
 
         public void Validate(DeviceClassificationQuestionnaireTree questionnaireTree)
         {
-            foreach (var entry in QuestionIdsWithExpectedChosenAnswerIds)
+            foreach (var entry in QuestionAnswerIdPairs)
             {
                 var question = questionnaireTree.FindQuestionOrThrow(entry.Key);
 

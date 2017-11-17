@@ -91,7 +91,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                     new Answer("q2_1_1_3","q2_1_2"),
                     new Answer("q2_1_1_4","q2_1_2"),
                     new Answer("q2_1_1_5","q2_1_2"),
-                    new Answer("q2_1_1_6","q2_1_2"),
+                    new Answer("q2_1_1_6","q2_1_2")
                 }),
                 new Question("q2_1_2", new[]
                 {
@@ -480,7 +480,9 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 })
             };
 
-            var deviceClassOne = new DeviceClassOne(new[]
+            var deviceClassOneWithConditions = new DeviceClassWithConditions(
+                deviceClass: new DeviceClassOne(), 
+                deviceClassConditions: new[]
             {
                 new ChosenAnswerDeviceClassCondition("q1_1", "n"),
                 new ChosenAnswerDeviceClassCondition("q1_1_5_1", "y"),
@@ -512,10 +514,12 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                     { "q3_4", "n" },
                     { "q3_5", "n" },
                     { "q3_6", "n" }
-                }),
-
+                })
             });
-            var deviceClassTwoA = new DeviceClassTwoA(new[]
+
+            var deviceClassTwoAWithConditions = new DeviceClassWithConditions(
+                deviceClass: new DeviceClassTwoA(), 
+                deviceClassConditions: new[]
             {
                 new ChosenAnswerDeviceClassCondition("q1_1_1", "y"),
                 new ChosenAnswerDeviceClassCondition("q1_1_2", "y"),
@@ -582,7 +586,10 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                     { "q11_3", "n" }
                 })
             });
-            var deviceClassTwoB = new DeviceClassTwoB(new[]
+
+            var deviceClassTwoBWithConditions = new DeviceClassWithConditions(
+                deviceClass: new DeviceClassTwoB(), 
+                deviceClassConditions: new[]
             {
                 new ChosenAnswerDeviceClassCondition("q1_1_3", "y"),
                 new ChosenAnswerDeviceClassCondition("q1_1_4_2", "y"),
@@ -632,9 +639,12 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                     { "q2_2_3_11", "n" },
                     { "q2_2_3_12", "n" },
                     { "q2_2_3_13", "n" }
-                }),
+                })
             });
-            var deviceClassThree = new DeviceClassThree(new[]
+
+            var deviceClassThreeWithConditions = new DeviceClassWithConditions(
+                deviceClass: new DeviceClassThree(), 
+                deviceClassConditions: new[]
             {
                 new ChosenAnswerDeviceClassCondition("q1_1_4_3", "y"),
                 new ChosenAnswerDeviceClassCondition("q2_2_1_1", "y"),
@@ -659,17 +669,18 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 new ChosenAnswerDeviceClassCondition("q9_1", "q9_1"),
                 new ChosenAnswerDeviceClassCondition("q11_1", "y"),
                 new ChosenAnswerDeviceClassCondition("q11_2", "y"),
-                new ChosenAnswerDeviceClassCondition("q12", "y"),
+                new ChosenAnswerDeviceClassCondition("q12", "y")
             });
-            var deviceClasses = new DeviceClass[]
+
+            var deviceClassesWithConditions = new[]
             {
-                deviceClassOne, 
-                deviceClassTwoA,
-                deviceClassTwoB,
-                deviceClassThree
+                deviceClassOneWithConditions, 
+                deviceClassTwoAWithConditions,
+                deviceClassTwoBWithConditions,
+                deviceClassThreeWithConditions
             };
 
-            return new DeviceClassificationQuestionnaireTree(questions, deviceClasses);
+            return new DeviceClassificationQuestionnaireTree(questions, deviceClassesWithConditions);
         }
     }
 }

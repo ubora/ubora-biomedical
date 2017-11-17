@@ -1,53 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 
 namespace Ubora.Domain.Questionnaires.DeviceClassifications.DeviceClasses
 {
-    public class DeviceClass : IComparable<DeviceClass>
+    public abstract class DeviceClass : IComparable<DeviceClass>
     {
-        // Keeping this as a concrete class to lessen the JSON-serialization cost ('$type' field for each condition would be too expensive). 
-        // If new types of conditions are introduced, add them as new properties.
-        public ChosenAnswerDeviceClassCondition[] Conditions { get; private set; }
-
-        public DeviceClass(IEnumerable<ChosenAnswerDeviceClassCondition> conditions)
-        {
-            Conditions = conditions.ToArray();
-        }
-
         [JsonIgnore]
-        public string Name { get; protected set; }
+        public abstract string Name { get; }
 
+        /// <summary>
+        /// Used to compare device classes and to find the 'riskiest' or 'highest'.
+        /// </summary>
         [JsonIgnore]
-        public int Weight { get; protected set; }
-
-        internal bool HasAnyHits(DeviceClassificationQuestionnaireTree questionnaireTree)
-        {
-            return Conditions.Any(x => x.IsFulfilled(questionnaireTree));
-        }
-
-        internal int GetHits(DeviceClassificationQuestionnaireTree questionnaireTree)
-        {
-            return Conditions.Select(x => x.IsFulfilled(questionnaireTree)).Count();
-        }
+        public abstract int Weight { get; }
 
         public int CompareTo(DeviceClass other)
         {
             return Weight.CompareTo(other.Weight);
         }
 
-        public void ValidateConditions(DeviceClassificationQuestionnaireTree questionnaireTree)
+        public static DeviceClass None => new DeviceClassNone();
+        public static DeviceClass One => new DeviceClassOne();
+        public static DeviceClass TwoA => new DeviceClassTwoA();
+        public static DeviceClass TwoB => new DeviceClassTwoB();
+        public static DeviceClass Three => new DeviceClassThree();
+
+        internal DeviceClassWithConditions WithConditions(params IDeviceClassCondition[] deviceClassConditions)
         {
-            foreach (var condition in Conditions)
-            {
-                condition.Validate(questionnaireTree);
-            }
+            return new DeviceClassWithConditions(this, deviceClassConditions);
         }
 
         public override bool Equals(object obj)
         {
-            if (obj == null || obj.GetType() != typeof(DeviceClass))
+            if (obj == null || obj.GetType() != GetType())
             {
                 return false;
             }

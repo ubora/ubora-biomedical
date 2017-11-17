@@ -8,13 +8,14 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
 {
     public class DeviceClassificationQuestionnaireTree : QuestionnaireTreeBase<Question, Answer>
     {
-        public DeviceClassificationQuestionnaireTree(Question[] questions, DeviceClass[] deviceClasses)
+        public DeviceClassificationQuestionnaireTree(Question[] questions, DeviceClassWithConditions[] deviceClassesWithConditions)
         {
-            if (deviceClasses == null) throw new ArgumentNullException(nameof(deviceClasses));
+            if (deviceClassesWithConditions == null) throw new ArgumentNullException(nameof(deviceClassesWithConditions));
             Questions = questions ?? throw new ArgumentNullException(nameof(questions));
 
-            ValidateDeviceClasses(deviceClasses);
-            DeviceClasses = deviceClasses;
+
+            ValidateDeviceClassConditions(deviceClassesWithConditions);
+            DeviceClassesWithConditions = deviceClassesWithConditions;
         }
 
         [JsonConstructor]
@@ -22,27 +23,29 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
         {
         }
 
-        public DeviceClass[] DeviceClasses { get; private set; }
+        public DeviceClassWithConditions[] DeviceClassesWithConditions { get; private set; }
 
-        public virtual DeviceClass GetHeaviestDeviceClass()
+        public virtual DeviceClass GetHighestRiskDeviceClass()
         {
-            var deviceClassesWithAnyHits = DeviceClasses
-                .Where(dc => dc.HasAnyHits(this))
+            var applicableDeviceClasses = DeviceClassesWithConditions
+                .Where(x => x.IsAnyConditionSatisfied(this))
+                .Select(x => x.DeviceClass)
                 .ToList();
 
-            if (!deviceClassesWithAnyHits.Any())
+            if (!applicableDeviceClasses.Any())
             {
-                return null;
+                return DeviceClass.None;
             }
 
-            return deviceClassesWithAnyHits.Max();
+            return applicableDeviceClasses.Max();
         }
 
-        private void ValidateDeviceClasses(IEnumerable<DeviceClass> deviceClasses)
+        private void ValidateDeviceClassConditions(IEnumerable<DeviceClassWithConditions> deviceClassesWithConditions)
         {
-            foreach (var deviceClass in deviceClasses)
+            var deviceClassConditions = deviceClassesWithConditions.SelectMany(x => x.Conditions);
+            foreach (var condition in deviceClassConditions)
             {
-                deviceClass.ValidateConditions(this);
+                condition.Validate(this);
             }
         }
     }
