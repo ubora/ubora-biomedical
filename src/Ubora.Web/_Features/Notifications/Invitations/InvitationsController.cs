@@ -15,7 +15,7 @@ namespace Ubora.Web._Features.Notifications.Invitations
         [SaveTempDataModelState]
         public async Task<IActionResult> Accept(Guid invitationId)
         {
-            if (!await AuthorizationService.IsAuthorized(User, Policies.CanJoinProject))
+            if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanJoinProject))
             {
                 ModelState.AddModelError("", "You must confirm your email to join the project.");
             }

@@ -112,7 +112,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
 
             menuLinks.Add(new MenuLink
             {
-                Name = "Mentor review",
+                Name = "Formal review",
                 Href = Url.Action("Review", "WorkpackageOneReview"),
                 IsSelected = IsWorkpackageCustomMenuOptionSelected(WorkpackageMenuOption.Wp1MentorReview)
             });
@@ -152,7 +152,9 @@ namespace Ubora.Web._Features.Projects.Workpackages
                 Href = Url.Action("Read", "WorkpackageTwo", new { projectId = ProjectId, stepId = step.Id })
             }).ToList();
 
-            menuLinks.Add(new MenuLink
+            // Hotfix
+            var indexAfterPhysicalPrinciples = (menuLinks.FindIndex(x => x.Name == "Physical principles") + 1);
+            menuLinks.Insert(indexAfterPhysicalPrinciples, new MenuLink
             {
                 Name = "Voting",
                 Href = Url.Action("Voting", "WorkpackageTwo"),
