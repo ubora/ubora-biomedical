@@ -73,3 +73,8 @@
         color: var(--light-blue);
         cursor: pointer;
     }
+
+
+.small-text {
+	font-size: 0.875em;
+}

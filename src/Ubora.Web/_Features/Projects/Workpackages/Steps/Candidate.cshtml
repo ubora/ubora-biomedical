@@ -163,15 +163,15 @@
                       <div class="row">
                       @foreach(var comment in Model.Comments)
                       {
-                        <div class="col-lg-4">
+                        <div class="col-lg-2">
                           <img class="avatar avatar-comment" src="@comment.ProfilePictureUrl"/>
-                          <p>
-                            @comment.CommentatorName
-                            <br>
-                            @*TODO: Add role here*@
-                          </p>
                         </div>
-                        <div class="col-lg-8">
+                        <div class="col-lg-10">
+                          <p>
+                            <strong>@comment.CommentatorName</strong>
+                            <br>
+                            <span class="small-text"><strong>@*TODO: Add role here*@Project leader</strong></span>
+                          </p>
                           <p>@comment.CommentText</p>
                         </div>
                       }
