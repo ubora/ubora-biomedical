@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Users;
 using Ubora.Web.Infrastructure.Extensions;
@@ -13,6 +15,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public string CommentatorName { get; set; }
         public string ProfilePictureUrl { get; set; }
         public string CommentText { get; set; }
+        public bool IsLeader { get; set; }
+        public bool IsMentor { get; set; }
 
         public class Factory
         {
@@ -29,16 +33,23 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
             }
 
-            public virtual CommentViewModel Create(Comment comment)
+            public virtual CommentViewModel Create(Comment comment, Guid projectId)
             {
-                var model = new CommentViewModel();
-
-                model.CommentatorId = comment.UserId;
-                model.CommentText = comment.Text;
+                var project = _queryProcessor.FindById<Project>(projectId);
+                var isLeader = project.Members.Any(x => x.UserId == comment.UserId && x.IsLeader);
+                var isMentor = project.Members.Any(x => x.UserId == comment.UserId && x.IsMentor);
 
                 var userProfile = _queryProcessor.FindById<UserProfile>(comment.UserId);
-                model.CommentatorName = userProfile.FullName;
-                model.ProfilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile);
+
+                var model = new CommentViewModel
+                {
+                    CommentatorId = comment.UserId,
+                    CommentText = comment.Text,
+                    CommentatorName = userProfile.FullName,
+                    ProfilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile),
+                    IsLeader = isLeader,
+                    IsMentor = isMentor
+                };
 
                 return model;
             }

@@ -31,6 +31,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var candidateId = Guid.NewGuid();
             var candidate = new Candidate();
             candidate.Set(x => x.Id, candidateId);
+            var projectId = Guid.NewGuid();
+            candidate.Set(x => x.ProjectId, projectId);
             var imageLocation = new BlobLocation("containerName", "blobPath");
             candidate.Set(x => x.ImageLocation, imageLocation);
 
@@ -50,11 +52,11 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             expectedModel.ImageUrl = imageUrl;
 
             var comment1ViewModel = new CommentViewModel();
-            _commentFactory.Setup(x => x.Create(comment1))
+            _commentFactory.Setup(x => x.Create(comment1, projectId))
                 .Returns(comment1ViewModel);
 
             var comment2ViewModel = new CommentViewModel();
-            _commentFactory.Setup(x => x.Create(comment2))
+            _commentFactory.Setup(x => x.Create(comment2, projectId))
                 .Returns(comment2ViewModel);
 
             expectedModel.Comments = new[] { comment1ViewModel, comment2ViewModel };

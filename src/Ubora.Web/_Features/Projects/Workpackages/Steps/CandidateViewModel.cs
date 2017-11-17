@@ -11,6 +11,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     public class CandidateViewModel
     {
         public Guid Id { get; set; }
+        public Guid ProjectId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
@@ -45,7 +46,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                     CandidateId = candidate.Id
                 };
 
-                model.Comments = candidate.Comments.Select(comment => _commentFactory.Create(comment));
+                model.Comments = candidate.Comments.Select(comment => _commentFactory.Create(comment, candidate.ProjectId));
 
                 return model;
             }

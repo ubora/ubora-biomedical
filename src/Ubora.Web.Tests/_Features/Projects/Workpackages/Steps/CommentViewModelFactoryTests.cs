@@ -1,9 +1,12 @@
 ﻿using FluentAssertions;
 using Moq;
 using System;
+using System.Collections.Generic;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Candidates;
+using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Ubora.Web.Infrastructure.ImageServices;
@@ -31,6 +34,17 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var commentText = "commentText";
             var comment = new Comment(userId, commentText);
 
+            var members = new List<ProjectMember>()
+            {
+                new ProjectMember(userId),
+                new ProjectLeader(userId)
+            };
+            var projectId = Guid.NewGuid();
+            var project = new Project();
+            project.Set(x => x.Members, members);
+            _queryProcessor.Setup(x => x.FindById<Project>(projectId))
+                .Returns(project);
+
             var user = new UserProfile(userId);
             user.Set(x => x.FirstName, "FirstName");
             user.Set(x => x.LastName, "LastName");
@@ -52,7 +66,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             };
 
             // Act
-            var result = _factory.Create(comment);
+            var result = _factory.Create(comment, projectId);
 
             // Assert
             result.ShouldBeEquivalentTo(expectedModel);
