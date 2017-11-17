@@ -1,0 +1,157 @@
+@using Ubora.Web._Features.Projects.Workpackages;
+
+@{
+  ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.Wp2MentorReview;
+}
+
+<div class="container-fluid my-4">
+  <div class="row">
+    <div class="col-lg-3">
+      @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+    </div>
+    <div class="col-lg-9 pr-5">
+      <div class="row flex-column align-items-center">
+        <div class="col-lg-10">
+
+          <h1 class="display-4">F-User and evironment</h1>
+          <form asp-controller="" asp-action="" method="">
+
+              <h5>1. Who is the intended user?</h5>
+              <div class="form-check-inline">
+                <div class="form-check ">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
+                    Self-use/patient
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
+                    Physician
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
+                    Technician
+                  </label>
+                </div>
+              </div>
+              <div class="form-check-inline">
+                <div class="form-check ">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
+                    Nurse
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
+                    Midwife
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
+                    Family member
+                  </label>
+                </div>
+              </div>
+              <div class="form-check-inline">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
+                    Other
+                  </label>
+                </div>
+              </div>
+
+
+              <h5>2. Is training required in addition to the expected skill level of the intended user? </h5>
+              <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
+                  Yes
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
+                  No
+                </label>
+              </div>
+
+
+              <h5>3. If training is required, please describe who will deliver the training and the materials and time required for the training.</h5>
+              <div class="form-group">
+                  <label></label>
+                  <textarea class="form-control" rows="4" placeholder="Please describe.."></textarea>
+              </div>
+
+              <h5>5. Where will the technology be used?</h5>
+              <div class="form-check-inline">
+                <div class="form-check ">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
+                    Rural settings
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
+                    Urban settings
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
+                    Outdoors
+                  </label>
+                </div>
+                <div class="form-check ">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
+                    Indoors
+                  </label>
+                </div>
+              </div>
+              <div class="form-check-inline">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
+                    At home
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
+                    Primary level (health post, health center)
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
+                    Secondary level (general hospital)
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
+                    Tertiary level (specialist hospital)
+                  </label>
+                </div>
+              </div>
+
+
+
+
+
+
+          </form>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

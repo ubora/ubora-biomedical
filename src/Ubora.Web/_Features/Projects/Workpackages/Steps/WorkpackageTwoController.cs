@@ -91,5 +91,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             return View(nameof(Voting), model);
         }
+
+        [Route(nameof(StructuredInformationOnTheDevice2))]
+        public IActionResult StructuredInformationOnTheDevice2() {
+
+          return View();
+        }
     }
 }
