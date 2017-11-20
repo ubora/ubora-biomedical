@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -172,7 +173,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
         }
 
         [Fact]
-        public void Candidate_Returns_Candidate_View_With_Expected_Model()
+        public async Task Candidate_Returns_Candidate_View_With_Expected_Model()
         {
             var candidateId = Guid.NewGuid();
             var candidate = new Candidate();
@@ -182,11 +183,11 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
 
             var candidateViewModelFactory = new Mock<CandidateViewModel.Factory>();
             var expectedModel = new CandidateViewModel();
-            candidateViewModelFactory.Setup(x => x.Create(candidate))
-                .Returns(expectedModel);
+            candidateViewModelFactory.Setup(x => x.Create(candidate, User))
+                .ReturnsAsync(expectedModel);
 
             // Act
-            var result = (ViewResult)_controller.Candidate(candidateId, candidateViewModelFactory.Object);
+            var result = (ViewResult) await _controller.Candidate(candidateId, candidateViewModelFactory.Object);
 
             // Assert
             result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
@@ -489,7 +490,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
         }
 
         [Fact]
-        public void AddComment_Returns_Candidate_View_With_ModelState_Errors_When_Invalid_Model()
+        public async Task AddComment_Returns_Candidate_View_With_ModelState_Errors_When_Invalid_Model()
         {
             var candidateId = Guid.NewGuid();
             var model = new AddCommentViewModel
@@ -508,7 +509,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 .Returns(candidateViewModel);
 
             // Act
-            var result = (ViewResult)_controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
+            var result = (ViewResult) await _controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
             result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
@@ -518,7 +519,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
         }
 
         [Fact]
-        public void AddComment_Returns_Candidate_View_With_ModelState_Errors_When_Command_Not_Executed_Successfully()
+        public async Task AddComment_Returns_Candidate_View_With_ModelState_Errors_When_Command_Not_Executed_Successfully()
         {
             var candidateId = Guid.NewGuid();
             var model = new AddCommentViewModel
@@ -540,7 +541,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 .Returns(candidateViewModel);
 
             // Act
-            var result = (ViewResult)_controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
+            var result = (ViewResult) await _controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
             result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
@@ -548,7 +549,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
         }
 
         [Fact]
-        public void AddComment_Redirects_To_Candidate_View_When_Command_Executed_Successfully()
+        public async Task AddComment_Redirects_To_Candidate_View_When_Command_Executed_Successfully()
         {
             var model = new AddCommentViewModel();
             model.CandidateId = Guid.NewGuid();
@@ -561,7 +562,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 .Returns(CommandResult.Success);
 
             // Act
-            var result = (RedirectToActionResult)_controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
+            var result = (RedirectToActionResult) await _controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
             result.ActionName.Should().Be(nameof(ConceptualDesignController.Candidate));
@@ -573,7 +574,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
         }
 
         [Fact]
-        public void EditComment_Returns_Candidate_View_With_ModelState_Errors_When_Invalid_Model()
+        public async Task EditComment_Returns_Candidate_View_With_ModelState_Errors_When_Invalid_Model()
         {
             var candidateId = Guid.NewGuid();
             var commentId = Guid.NewGuid();
@@ -595,7 +596,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 .Returns(candidateViewModel);
 
             // Act
-            var result = (ViewResult)_controller.EditComment(model, Mock.Of<CandidateViewModel.Factory>());
+            var result = (ViewResult) await _controller.EditComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
             result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
@@ -605,7 +606,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
         }
 
         [Fact]
-        public void EditComment_Returns_Candidate_View_With_ModelState_Errors_When_Command_Not_Executed_Successfully()
+        public async Task EditComment_Returns_Candidate_View_With_ModelState_Errors_When_User_Not_Allowed_To_Edit_Comment()
         {
             var candidateId = Guid.NewGuid();
             var commentId = Guid.NewGuid();
@@ -616,21 +617,64 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 Id = commentId
             };
 
-            var commandResult = CommandResult.Failed("testError1", "testError2");
-            CommandProcessorMock
-                .Setup(p => p.Execute(It.IsAny<EditCandidateCommentCommand>()))
-                .Returns(commandResult);
-
-            var candidate = new Candidate();
+            var comment = new Comment(UserId, "comment", commentId, DateTime.UtcNow);
+            var candidate = new Mock<Candidate>();
+            candidate.Setup(x => x.Comments)
+                .Returns(new[] { comment });
             QueryProcessorMock.Setup(x => x.FindById<Candidate>(candidateId))
-                .Returns(candidate);
+                .Returns(candidate.Object);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, comment, Policies.CanEditComment))
+                .ReturnsAsync(AuthorizationResult.Failed);
 
             var candidateViewModel = new CandidateViewModel();
             AutoMapperMock.Setup(x => x.Map<CandidateViewModel>(candidate))
                 .Returns(candidateViewModel);
 
             // Act
-            var result = (ViewResult)_controller.EditComment(model, Mock.Of<CandidateViewModel.Factory>());
+            var result = (ViewResult)await _controller.EditComment(model, Mock.Of<CandidateViewModel.Factory>());
+
+            // Assert
+            result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            var expectedErrorMessage = "You are not allowed to edit this comment!";
+            AssertModelStateContainsError(result, expectedErrorMessage);
+
+            CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task EditComment_Returns_Candidate_View_With_ModelState_Errors_When_Command_Not_Executed_Successfully()
+        {
+            var candidateId = Guid.NewGuid();
+            var commentId = Guid.NewGuid();
+            var model = new EditCommentViewModel
+            {
+                CandidateId = candidateId,
+                CommentText = "commentText",
+                Id = commentId
+            };
+
+            var comment = new Comment(UserId, "comment", commentId, DateTime.UtcNow);
+            var candidate = new Mock<Candidate>();
+            candidate.Setup(x => x.Comments)
+                .Returns(new[] { comment });
+            QueryProcessorMock.Setup(x => x.FindById<Candidate>(candidateId))
+                .Returns(candidate.Object);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, comment, Policies.CanEditComment))
+                .ReturnsAsync(AuthorizationResult.Success);
+
+            var commandResult = CommandResult.Failed("testError1", "testError2");
+            CommandProcessorMock
+                .Setup(p => p.Execute(It.IsAny<EditCandidateCommentCommand>()))
+                .Returns(commandResult);
+            
+            var candidateViewModel = new CandidateViewModel();
+            AutoMapperMock.Setup(x => x.Map<CandidateViewModel>(candidate))
+                .Returns(candidateViewModel);
+
+            // Act
+            var result = (ViewResult) await _controller.EditComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
             result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
@@ -638,7 +682,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
         }
 
         [Fact]
-        public void EditComment_Redirects_To_Candidate_View_When_Command_Executed_Successfully()
+        public async Task EditComment_Redirects_To_Candidate_View_When_Command_Executed_Successfully()
         {
             var candidateId = Guid.NewGuid();
             var commentId = Guid.NewGuid();
@@ -648,6 +692,16 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 CommentText = "commentText",
                 Id = commentId
             };
+
+            var comment = new Comment(UserId, "comment", commentId, DateTime.UtcNow);
+            var candidate = new Mock<Candidate>();
+            candidate.Setup(x => x.Comments)
+                .Returns(new[] { comment });
+            QueryProcessorMock.Setup(x => x.FindById<Candidate>(candidateId))
+                .Returns(candidate.Object);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, comment, Policies.CanEditComment))
+                .ReturnsAsync(AuthorizationResult.Success);
 
             EditCandidateCommentCommand executedCommand = null;
             CommandProcessorMock
@@ -656,7 +710,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 .Returns(CommandResult.Success);
 
             // Act
-            var result = (RedirectToActionResult)_controller.EditComment(model, Mock.Of<CandidateViewModel.Factory>());
+            var result = (RedirectToActionResult) await _controller.EditComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
             result.ActionName.Should().Be(nameof(ConceptualDesignController.Candidate));

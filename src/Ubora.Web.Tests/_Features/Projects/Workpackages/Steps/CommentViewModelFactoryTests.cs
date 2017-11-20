@@ -1,7 +1,9 @@
 ﻿using FluentAssertions;
+using Microsoft.AspNetCore.Authorization;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
@@ -9,7 +11,9 @@ using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
+using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web.Tests.Fakes;
 using Xunit;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
@@ -19,16 +23,18 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
         private readonly CommentViewModel.Factory _factory;
         private readonly Mock<ImageStorageProvider> _imageStorageProvider;
         private readonly Mock<IQueryProcessor> _queryProcessor;
+        private readonly Mock<IAuthorizationService> _authorizationService;
 
         public CommentViewModelFactoryTests()
         {
             _imageStorageProvider = new Mock<ImageStorageProvider>();
             _queryProcessor = new Mock<IQueryProcessor>();
-            _factory = new CommentViewModel.Factory(_queryProcessor.Object, _imageStorageProvider.Object);
+            _authorizationService = new Mock<IAuthorizationService>();
+            _factory = new CommentViewModel.Factory(_queryProcessor.Object, _imageStorageProvider.Object, _authorizationService.Object);
         }
 
         [Fact]
-        public void Create_Returns_Expected_ViewModel()
+        public async Task Create_Returns_Expected_ViewModel()
         {
             var userId = Guid.NewGuid();
             var commentText = "commentText";
@@ -67,6 +73,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             _imageStorageProvider.Setup(x => x.GetUrl(profilePictureBlobLocation))
                 .Returns(profilePictureUrl);
 
+            var claimsPrincipal = FakeClaimsPrincipalFactory.CreateAuthenticatedUser();
+            _authorizationService.Setup(x => x.AuthorizeAsync(claimsPrincipal, comment, Policies.CanEditComment))
+                .ReturnsAsync(AuthorizationResult.Success);
+
             var editCommentViewModel = new EditCommentViewModel
             {
                 CandidateId = candidateId,
@@ -81,11 +91,12 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 CommentatorName = "FirstName LastName",
                 ProfilePictureUrl = profilePictureUrl,
                 CommentedAt = commentedAt,
-                EditCommentViewModel = editCommentViewModel
+                EditCommentViewModel = editCommentViewModel,
+                CanBeEdited = true
             };
 
             // Act
-            var result = _factory.Create(comment, candidateId);
+            var result = await _factory.Create(claimsPrincipal, comment, candidateId);
 
             // Assert
             result.ShouldBeEquivalentTo(expectedModel);

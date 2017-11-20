@@ -12,6 +12,7 @@ using Ubora.Web.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Web._Features.Projects._Shared;
+using System.Linq;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -75,10 +76,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return RedirectToAction("Voting", "WorkpackageTwo");
         }
 
-        public IActionResult Candidate(Guid candidateId, [FromServices]CandidateViewModel.Factory candidateViewModelFactory)
+        public async Task<IActionResult> Candidate(Guid candidateId, [FromServices]CandidateViewModel.Factory candidateViewModelFactory)
         {
             var candidate = QueryProcessor.FindById<Candidate>(candidateId);
-            var model = candidateViewModelFactory.Create(candidate);
+            var model = await candidateViewModelFactory.Create(candidate, User);
 
             return View(nameof(Candidate), model);
         }
@@ -187,11 +188,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [HttpPost]
-        public IActionResult AddComment(AddCommentViewModel model, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
+        public async Task<IActionResult> AddComment(AddCommentViewModel model, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
         {
             if(!ModelState.IsValid)
             {
-                return Candidate(model.CandidateId, candidateViewModelFactory);
+                return await Candidate(model.CandidateId, candidateViewModelFactory);
             }
 
             ExecuteUserProjectCommand(new AddCandidateCommentCommand
@@ -202,18 +203,27 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             if (!ModelState.IsValid)
             {
-                return Candidate(model.CandidateId, candidateViewModelFactory);
+                return await Candidate(model.CandidateId, candidateViewModelFactory);
             }
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.CandidateId });
         }
 
         [HttpPost]
-        public IActionResult EditComment(EditCommentViewModel model, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
+        public async Task<IActionResult> EditComment(EditCommentViewModel model, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
         {
             if (!ModelState.IsValid)
             {
-                return Candidate(model.CandidateId, candidateViewModelFactory);
+                return await Candidate(model.CandidateId, candidateViewModelFactory);
+            }
+
+            var candidate = QueryProcessor.FindById<Candidate>(model.CandidateId);
+            var comment = candidate.Comments.Single(x => x.Id == model.Id);
+            var canEditComment = (await AuthorizationService.AuthorizeAsync(User, comment, Policies.CanEditComment)).Succeeded;
+            if(!canEditComment)
+            {
+                ModelState.AddModelError("", "You are not allowed to edit this comment!");
+                return await Candidate(model.CandidateId, candidateViewModelFactory);
             }
 
             ExecuteUserProjectCommand(new EditCandidateCommentCommand
@@ -225,7 +235,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             if (!ModelState.IsValid)
             {
-                return Candidate(model.CandidateId, candidateViewModelFactory);
+                return await Candidate(model.CandidateId, candidateViewModelFactory);
             }
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.CandidateId });

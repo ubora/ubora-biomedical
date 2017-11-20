@@ -1,9 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using System;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Projects.Candidates;
+using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
+using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
 
@@ -20,6 +26,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public DateTime LastEditedAt { get; set; }
         public bool IsLeader { get; set; }
         public bool IsMentor { get; set; }
+        public bool CanBeEdited { get; set; }
         public EditCommentViewModel EditCommentViewModel { get; set; }
 
         public DateTime CommentEditedAt
@@ -42,23 +49,26 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             private readonly IQueryProcessor _queryProcessor;
             private readonly ImageStorageProvider _imageStorageProvider;
+            private readonly IAuthorizationService _authorizationService;
 
-            public Factory(IQueryProcessor queryProcessor, ImageStorageProvider imageStorageProvider)
+            public Factory(IQueryProcessor queryProcessor, ImageStorageProvider imageStorageProvider, IAuthorizationService authorizationService)
             {
                 _queryProcessor = queryProcessor;
                 _imageStorageProvider = imageStorageProvider;
+                _authorizationService = authorizationService;
             }
 
             protected Factory()
             {
             }
 
-            public virtual CommentViewModel Create(Comment comment, Guid candidateId)
+            public virtual async Task<CommentViewModel> Create(ClaimsPrincipal user, Comment comment, Guid candidateId)
             {
                 var candidate = _queryProcessor.FindById<Candidate>(candidateId);
                 var project = _queryProcessor.FindById<Project>(candidate.ProjectId);
-                var isLeader = project.Members.Any(x => x.UserId == comment.UserId && x.IsLeader);
-                var isMentor = project.Members.Any(x => x.UserId == comment.UserId && x.IsMentor);
+                var isLeader = project.DoesSatisfy(new HasMember<ProjectLeader>(comment.UserId));
+                var isMentor = project.DoesSatisfy(new HasMember<ProjectMentor>(comment.UserId));
+                var isEditable = (await _authorizationService.AuthorizeAsync(user, comment, Policies.CanEditComment)).Succeeded;
 
                 var userProfile = _queryProcessor.FindById<UserProfile>(comment.UserId);
 
@@ -80,7 +90,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                     IsMentor = isMentor,
                     CommentedAt = comment.CommentedAt,
                     LastEditedAt = comment.LastEditedAt,
-                    EditCommentViewModel = editCommentViewModel
+                    EditCommentViewModel = editCommentViewModel,
+                    CanBeEdited = isEditable
                 };
 
                 return model;

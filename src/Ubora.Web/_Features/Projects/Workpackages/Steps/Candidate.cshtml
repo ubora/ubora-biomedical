@@ -186,7 +186,10 @@
                                             <span>*</span>
                                             <span class="timeago" title="@comment.CommentEditedAt">@comment.CommentEditedAt.ToString("dd.MM.yyyy")</span>
                                         </span>
-                                        @Html.Partial("_EditCommentPartial", comment.EditCommentViewModel)
+                                        @if (comment.CanBeEdited)
+                                        {
+                                            @Html.Partial("_EditCommentPartial", comment.EditCommentViewModel)
+                                        }
                                     </div>
                                 }
                             </div>

@@ -13,7 +13,7 @@ namespace Ubora.Domain.Projects.Candidates.Events
             CommentedAt = commentedAt;
         }
 
-        public Guid CommentId { get; set; }
+        public Guid CommentId { get; private set; }
         public string CommentText { get; private set; }
         public DateTime CommentedAt { get; private set; }
 

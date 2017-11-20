@@ -13,7 +13,7 @@ namespace Ubora.Domain.Projects.Candidates.Events
             LastEditedAt = lastEditedAt;
         }
 
-        public Guid CommentId { get; set; }
+        public Guid CommentId { get; private set; }
         public string CommentText { get; private set; }
         public DateTime LastEditedAt { get; private set; }
 
