@@ -188,6 +188,14 @@
                                         </span>
                                         @if (comment.CanBeEdited)
                                         {
+                                            <form asp-controller="ConceptualDesign" asp-action="RemoveComment" asp-route-commentId="@comment.Id" asp-route-candidateId="@Model.Id" method="post">
+                                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                <div class="form-group">
+                                                    <a class="btn btn-secondary-ghost" asp-controller="ConceptualDesign" asp-action="Candidate" asp-route-candidateId="@Model.Id">No, cancel</a>
+                                                    <span class="mx-1"></span>
+                                                    <button class="btn btn-primary" type="submit">Yes, remove</button>
+                                                </div>
+                                            </form>
                                             @Html.Partial("_EditCommentPartial", comment.EditCommentViewModel)
                                         }
                                     </div>

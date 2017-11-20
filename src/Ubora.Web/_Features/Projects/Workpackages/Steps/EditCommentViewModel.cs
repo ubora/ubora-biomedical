@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -6,6 +7,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     {
         public Guid Id { get; set; }
         public Guid CandidateId { get; set; }
+        [Required]
         public string CommentText { get; set; }
     }
 }

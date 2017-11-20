@@ -240,5 +240,27 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.CandidateId });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveComment(Guid candidateId, Guid commentId, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
+        {
+            if (!ModelState.IsValid)
+            {
+                return await Candidate(candidateId, candidateViewModelFactory);
+            }
+
+            ExecuteUserProjectCommand(new RemoveCandidateCommentCommand
+            {
+                CandidateId = candidateId,
+                CommentId = commentId
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return await Candidate(candidateId, candidateViewModelFactory);
+            }
+
+            return RedirectToAction(nameof(Candidate), new { candidateId = candidateId });
+        }
     }
 }

@@ -70,5 +70,11 @@ namespace Ubora.Domain.Projects.Candidates
             _comments.Remove(oldComment);
             _comments.Add(editedComment);
         }
+
+        private void Apply(CandidateCommentRemovedEvent e)
+        {
+            var comment = _comments.Single(x => x.Id == e.CommentId);
+            _comments.Remove(comment);
+        }
     }
 }
