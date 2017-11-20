@@ -481,9 +481,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 })
             };
 
-            var deviceClassOneWithConditions = new DeviceClassWithConditions(
-                deviceClass: new DeviceClassOne(),
-                deviceClassConditions: new[]
+            var deviceClassOneWithConditions = DeviceClass.One.WithConditions(new IDeviceClassCondition[]
             {
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q1_1), "n"),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q1_1_5_1), "y"),
@@ -518,9 +516,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 })
             });
 
-            var deviceClassTwoAWithConditions = new DeviceClassWithConditions(
-                deviceClass: new DeviceClassTwoA(),
-                deviceClassConditions: new[]
+            var deviceClassTwoAWithConditions = DeviceClass.TwoA.WithConditions(new IDeviceClassCondition[]
             {
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q1_1_1), "y"),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q1_1_2), "y"),
@@ -578,19 +574,10 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 {
                     { nameof(QuestionTexts.q10_1), "n" },
                     { nameof(QuestionTexts.q10_2), "n" }
-                }),
-
-                new ChosenAnswerDeviceClassCondition(new Dictionary<string, string>
-                {
-                    { nameof(QuestionTexts.q11_1), "n" },
-                    { nameof(QuestionTexts.q11_2), "n" },
-                    { nameof(QuestionTexts.q11_3), "n" }
                 })
             });
 
-            var deviceClassTwoBWithConditions = new DeviceClassWithConditions(
-                deviceClass: new DeviceClassTwoB(),
-                deviceClassConditions: new[]
+            var deviceClassTwoBWithConditions = DeviceClass.TwoB.WithConditions(new IDeviceClassCondition[]
             {
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q1_1_3), "y"),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q1_1_4_2), "y"),
@@ -640,12 +627,16 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                     { nameof(QuestionTexts.q2_2_3_11), "n" },
                     { nameof(QuestionTexts.q2_2_3_12), "n" },
                     { nameof(QuestionTexts.q2_2_3_13), "n" }
+                }),
+                new ChosenAnswerDeviceClassCondition(new Dictionary<string, string>
+                {
+                    { nameof(QuestionTexts.q11_1), "n" },
+                    { nameof(QuestionTexts.q11_2), "n" },
+                    { nameof(QuestionTexts.q11_3), "n" }
                 })
             });
 
-            var deviceClassThreeWithConditions = new DeviceClassWithConditions(
-                deviceClass: new DeviceClassThree(),
-                deviceClassConditions: new[]
+            var deviceClassThreeWithConditions = DeviceClass.Three.WithConditions(new IDeviceClassCondition[]
             {
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q1_1_4_3), "y"),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q2_2_1_1), "y"),
