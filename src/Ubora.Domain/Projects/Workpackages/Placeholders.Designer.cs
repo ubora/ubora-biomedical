@@ -105,9 +105,9 @@ namespace Ubora.Domain.Projects.Workpackages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;p&gt;You should describe the most important operating physical principle of your medical device.&lt;/p&gt;
+        ///   Looks up a localized string similar to &lt;p&gt;You should describe the most important operating physical principle of your medical device. Make sure to list every physical principal that you chose to comply to “Product requirements”.&lt;/p&gt;
         ///&lt;ul&gt;
-        ///&lt;li&gt;Example: Contactless Infrared Thermometer “An infrared thermometer is a device that measures the infrared radiation – a type of electromagnetic radiation below the visible spectrum of light - emitted by an object. The most basic design of infrared thermometers consists of a lens to focus the infrared thermal radiation onto a detector, which converts the radiant energy into an electric signal. This c [rest of string was truncated]&quot;;.
+        ///&lt;li&gt;Example: Contactless Infrared Thermometer is a device that measures the infrared radiation – a type of electromagnetic radiation below the visible spectrum of light - emitted by an object. The most basic design of infrared thermometers consists of a lens to focus the infrared thermal radiation onto a detec [rest of string was truncated]&quot;;.
         /// </summary>
         public static string PhysicalPrinciples {
             get {
