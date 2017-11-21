@@ -5,28 +5,26 @@ using Ubora.Domain.Projects.Candidates.Events;
 
 namespace Ubora.Domain.Projects.Candidates.Commands
 {
-    public class AddCandidateCommentCommand : UserProjectCommand
+    public class RemoveCandidateCommentCommand : UserProjectCommand
     {
+        public Guid CommentId { get; set; }
         public Guid CandidateId { get; set; }
-        public string CommentText { get; set; }
 
-        internal class Handler : CommandHandler<AddCandidateCommentCommand>
+        internal class Handler : CommandHandler<RemoveCandidateCommentCommand>
         {
 
             public Handler(IDocumentSession documentSession) : base(documentSession)
             {
             }
 
-            public override ICommandResult Handle(AddCandidateCommentCommand cmd)
+            public override ICommandResult Handle(RemoveCandidateCommentCommand cmd)
             {
                 var candidate = DocumentSession.LoadOrThrow<Candidate>(cmd.CandidateId);
 
-                var @event = new CandidateCommentAddedEvent(
+                var @event = new CandidateCommentRemovedEvent(
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
-                    commentText: cmd.CommentText,
-                    commentId: Guid.NewGuid(),
-                    commentedAt: DateTime.UtcNow
+                    commentId: cmd.CommentId
                 );
 
                 DocumentSession.Events.Append(cmd.CandidateId, @event);
@@ -35,5 +33,6 @@ namespace Ubora.Domain.Projects.Candidates.Commands
                 return CommandResult.Success;
             }
         }
+
     }
 }

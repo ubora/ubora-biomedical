@@ -7,6 +7,8 @@ using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Infrastructure;
 using FluentAssertions;
+using Ubora.Web.Tests.Fakes;
+using System.Threading.Tasks;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
 {
@@ -26,7 +28,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
         }
 
         [Fact]
-        public void Create_Returns_Expected_ViewModel()
+        public async Task Create_Returns_Expected_ViewModel()
         {
             var candidateId = Guid.NewGuid();
             var candidate = new Candidate();
@@ -36,8 +38,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var imageLocation = new BlobLocation("containerName", "blobPath");
             candidate.Set(x => x.ImageLocation, imageLocation);
 
-            var comment1 = new Comment(Guid.NewGuid(), "comment1");
-            var comment2 = new Comment(Guid.NewGuid(), "comment2");
+            var comment1 = new Comment(Guid.NewGuid(), "comment1", Guid.NewGuid(), DateTime.UtcNow);
+            var comment2 = new Comment(Guid.NewGuid(), "comment2", Guid.NewGuid(), DateTime.UtcNow);
             candidate.Set(x => x.Comments, new [] { comment1, comment2 });
 
             var candidateViewModel = new CandidateViewModel();
@@ -51,13 +53,15 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var expectedModel = candidateViewModel;
             expectedModel.ImageUrl = imageUrl;
 
+            var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser();
+
             var comment1ViewModel = new CommentViewModel();
-            _commentFactory.Setup(x => x.Create(comment1, projectId))
-                .Returns(comment1ViewModel);
+            _commentFactory.Setup(x => x.Create(user, comment1, candidateId))
+                .ReturnsAsync(comment1ViewModel);
 
             var comment2ViewModel = new CommentViewModel();
-            _commentFactory.Setup(x => x.Create(comment2, projectId))
-                .Returns(comment2ViewModel);
+            _commentFactory.Setup(x => x.Create(user, comment2, candidateId))
+                .ReturnsAsync(comment2ViewModel);
 
             expectedModel.Comments = new[] { comment1ViewModel, comment2ViewModel };
 
@@ -69,7 +73,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             expectedModel.AddVoteViewModel = new AddVoteViewModel(candidateId);
 
             // Act
-            var result = _factory.Create(candidate);
+            var result = await _factory.Create(candidate, user);
 
             // Assert
             result.Should().Be(expectedModel);

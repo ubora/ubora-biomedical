@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
@@ -39,7 +41,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
             }
 
-            public virtual CandidateViewModel Create(Candidate candidate)
+            public virtual async Task<CandidateViewModel> Create(Candidate candidate, ClaimsPrincipal user)
             {
                 var model = _mapper.Map<CandidateViewModel>(candidate);
                 model.ImageUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(candidate.ImageLocation, ImageSize.Thumbnail400x300);
@@ -49,7 +51,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 };
                 model.AddVoteViewModel = new AddVoteViewModel(candidate.Id);
 
-                model.Comments = candidate.Comments.Select(comment => _commentFactory.Create(comment, candidate.ProjectId));
+                var comments = candidate.Comments.Select(async comment => await _commentFactory.Create(user, comment, candidate.Id));
+                model.Comments = await Task.WhenAll(comments);
 
                 return model;
             }

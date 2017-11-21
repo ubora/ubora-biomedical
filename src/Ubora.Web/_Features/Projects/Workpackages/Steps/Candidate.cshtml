@@ -12,7 +12,7 @@
 
             <div class="row mb-4">
                 <div class="col">
-                    <h1 class="display-4">Conceptual Design</h1>
+                    <h1 class="display-4">Voting</h1>
                 </div>
             </div>
 
@@ -169,7 +169,7 @@
                                         <img class="avatar avatar-comment" src="@comment.ProfilePictureUrl" />
                                     </div>
                                     <div class="col-lg-10">
-                                        <p >
+                                        <p>
                                             <strong>@comment.CommentatorName</strong>
                                             @if (comment.IsLeader)
                                             {
@@ -181,6 +181,16 @@
                                             }
                                         </p>
                                         <p>@comment.CommentText</p>
+                                        <span class="small-text">
+                                            @if (comment.CanBeEdited)
+                                            {
+                                                <button class="btn-link mr-2" role="button" data-toggle="collapse" data-target="#@comment.Id">edit</button>
+                                                <button class="btn-link mr-2" role="button" data-toggle="modal" data-target="#removeCommentModal-@comment.Id">delete</button>
+                                                @Html.Partial("RemoveCommentModal", comment.EditCommentViewModel)
+                                                <div class="collapse" id="@comment.Id">@Html.Partial("_EditCommentPartial", comment.EditCommentViewModel)</div>
+                                            }
+                                            <span class="timeago text-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
+                                        </span>
                                     </div>
                                 }
                             </div>

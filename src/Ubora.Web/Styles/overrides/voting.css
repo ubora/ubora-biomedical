@@ -1,0 +1,47 @@
+.circle {
+	background: var(--blue);
+	color: var(--white);
+	border-radius: 50%;
+}
+
+.average-number {
+	font-size: 3em;
+	width: 3em;
+	height: 3em;
+	line-height: 3em;
+}
+
+.vote-number {
+	font-size: 1em;
+	width: 2.5em;
+	height: 2.5em;
+	line-height: 2.5em;
+	cursor: pointer;
+}
+
+.muted-circle {
+	background: var(--tertiary-shade);
+}
+
+.edit-comment-content {
+  display: none;
+}
+
+.edit-comment-content-visible {
+  display: block;
+}
+
+
+/*overrides*/
+.small-text .btn-link {
+	color: var(--primary-shade);
+	border: none;
+	padding: 0;
+}
+
+.small-text .btn-link:hover,
+.small-text .btn-link:active,
+.small-text .btn-link:focus {
+	cursor: pointer;
+	color: var(--light-blue);
+}

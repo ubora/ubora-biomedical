@@ -58,8 +58,23 @@ namespace Ubora.Domain.Projects.Candidates
 
         private void Apply(CandidateCommentAddedEvent e)
         {
-            var comment = new Comment(e.InitiatedBy.UserId, e.CommentText);
+            var comment = new Comment(e.InitiatedBy.UserId, e.CommentText, e.CommentId, e.CommentedAt);
             _comments.Add(comment);
+        }
+
+        private void Apply(CandidateCommentEditedEvent e)
+        {
+            var oldComment = _comments.Single(x => x.Id == e.CommentId);
+            var editedComment = oldComment.Edit(e.CommentText, e.LastEditedAt);
+
+            _comments.Remove(oldComment);
+            _comments.Add(editedComment);
+        }
+
+        private void Apply(CandidateCommentRemovedEvent e)
+        {
+            var comment = _comments.Single(x => x.Id == e.CommentId);
+            _comments.Remove(comment);
         }
     }
 }
