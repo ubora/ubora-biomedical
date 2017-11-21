@@ -185,7 +185,7 @@
                                                 <button class="btn-link mr-2" role="button" data-toggle="collapse" data-target="#@comment.Id">edit</button>
                                                 <button class="btn-link mr-2" role="button" data-toggle="modal" data-target="#removeCommentModal-@comment.Id">delete</button>
                                                 
-                                                <div class="modal fade" id="removeCommentModal-@comment.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="removeCommentModal-@comment.Id" tabindex="-1" role="dialog" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -197,7 +197,7 @@
                                                             <div class="modal-body">
                                                                 <form asp-controller="ConceptualDesign" asp-action="RemoveComment" asp-route-commentId="@comment.Id" asp-route-candidateId="@Model.Id" method="post">
                                                                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                                                    <div class="form-group">
+                                                                    <div class="form-group text-center">
                                                                         <button type="button" class="btn btn-secondary-ghost" data-dismiss="modal">No, cancel</button>
                                                                         <span class="mx-1"></span>
                                                                         <button class="btn btn-primary" type="submit">Yes, remove</button>
