@@ -60,6 +60,11 @@
 	color: var(--orange);
 }
 
+/*coloring text to grey*/
+.text-grey {
+	color: var(--primary-shade);
+}
+
 /*repository icons*/
 .file-list--item-control {
     margin: 0;

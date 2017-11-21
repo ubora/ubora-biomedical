@@ -12,7 +12,7 @@
 
             <div class="row mb-4">
                 <div class="col">
-                    <h1 class="display-4">Conceptual Design</h1>
+                    <h1 class="display-4">Voting</h1>
                 </div>
             </div>
 
@@ -180,11 +180,9 @@
                                         </p>
                                         <p>@comment.CommentText</p>
                                         <span class="small-text">
-                                            <span>edit</span>
-                                            <span>*</span>
-                                            <span>delete</span>
-                                            <span>*</span>
-                                            <span class="timeago" title="@comment.CommentEditedAt">@comment.CommentEditedAt.ToString("dd.MM.yyyy")</span>
+                                          <button class="js-edit btn-link mr-2" role="button">edit</button>
+                                          <button class="js-delete btn-link mr-2" role="button">delete</button>
+                                          <span class="timeago text-grey" title="@comment.CommentEditedAt">@comment.CommentEditedAt.ToString("dd.MM.yyyy")</span>
                                         </span>
                                         @if (comment.CanBeEdited)
                                         {
@@ -196,7 +194,7 @@
                                                     <button class="btn btn-primary" type="submit">Yes, remove</button>
                                                 </div>
                                             </form>
-                                            @Html.Partial("_EditCommentPartial", comment.EditCommentViewModel)
+                                            <div class="edit-comment-content js-edit-comment-content">@Html.Partial("_EditCommentPartial", comment.EditCommentViewModel)</div>
                                         }
                                     </div>
                                 }
@@ -215,3 +213,22 @@
 
     </div>
 </div>
+
+@section Scripts {
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.css"
+          asp-fallback-href="~/dist/libs/simplemde.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.js"
+            asp-fallback-src="~/dist/libs/simplemde.min.js"
+            asp-fallback-test="window.SimpleMDE">
+    </script>
+
+    <script>
+        const editToggleElement = document.querySelector('.js-edit');
+        const editContentElement = document.querySelector('.js-edit-comment-content');
+
+        editToggleElement.addEventListener('click', event => {
+            editContentElement.classList.toggle('edit-comment-content-visible');
+        });
+    </script>
+}
