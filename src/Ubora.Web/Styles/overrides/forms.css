@@ -8,6 +8,8 @@
   margin: 0;
 }
 
+
+.form-check .form-control,
 .form-group .form-control {
   border: 0;
   border-bottom: 2px solid var(--blue);
@@ -16,6 +18,11 @@
   font-size: 1rem;
   padding: .5rem 0;
 }
+
+.form-check .form-check-label .form-control {
+  padding: 0;
+}
+
 
 .form-group .form-control:focus {
   border: 0;

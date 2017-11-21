@@ -9,176 +9,174 @@
     <div class="col-lg-3">
       @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
     </div>
-    <div class="col-lg-9 pr-5">
+    <div class="col-lg-7">
+
       <div class="row">
-        <div class="col-lg-9">
+        <h1 class="display-4 col-lg-12 mb-4">User and evironment</h1>
+        <div class="col-lg-12">
+          <form asp-controller="" asp-action="" method="">
 
-          <div class="row">
-            <h1 class="display-4 col-lg-12 mb-4">User and evironment</h1>
-            <div class="col-lg-12">
-              <form asp-controller="" asp-action="" method="">
-
-                <div class="row mb-4">
-                  <h5 class="col-lg-12">1. Who is the intended user?</h5>
-                  <div class="col-lg-3">
-                    <div class="form-check ">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group1" id="exampleRadios1" value="option1" checked/>
-                        Self-use/patient
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group1" id="exampleRadios1" value="option1" checked/>
-                        Physician
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group1" id="exampleRadios1" value="option1" checked/>
-                        Technician
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-lg-3">
-                    <div class="form-check ">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group1" id="exampleRadios1" value="option1" checked/>
-                        Nurse
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group1" id="exampleRadios1" value="option1" checked/>
-                        Midwife
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group1" id="exampleRadios1" value="option1" checked/>
-                        Family member
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-lg-3">
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group1" id="exampleRadios1" value="option1" checked/>
-                        Other
-                      </label>
-                    </div>
-                  </div>
+            <div class="row mb-4">
+              <h5 class="col-lg-12">1. Who is the intended user?</h5>
+              <div class="col-lg-4">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group1" id="" value="" />
+                    Self-use/patient
+                  </label>
                 </div>
-
-                <div class="row mb-4">
-                  <h5 class="col-lg-12">2. Is training required in addition to the expected skill level of the intended user? </h5>
-                  <div class="col-lg-12">
-                    <div class="form-check form-check-inline">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group2" id="exampleRadios1" value="option1" checked/>
-                        Yes
-                      </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group2" id="exampleRadios1" value="option1" checked/>
-                        No
-                      </label>
-                    </div>
-                  </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group1" id="" value="" />
+                    Physician
+                  </label>
                 </div>
-
-                <div class="row mb-4 col-lg-12">
-                  <h5>3. If training is required, please describe who will deliver the training and the materials and time required for the training.</h5>
-                  <div class="form-group w-100">
-                    <textarea class="form-control" rows="4" placeholder="Please describe..."></textarea>
-                  </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group1" id="" value="" />
+                    Technician
+                  </label>
                 </div>
-
-                <div class="row mb-4">
-                  <h5 class="col-lg-12">4. Is any maintenance or calibration required by the user at the time of use?</h5>
-                  <div class="col-lg-12">
-                    <div class="form-check form-check-inline">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group3" id="exampleRadios1" value="option1" checked/>
-                        Yes
-                      </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group3" id="exampleRadios1" value="option1" checked/>
-                        No
-                      </label>
-                    </div>
-                  </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-check ">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group1" id="" value="" />
+                    Nurse
+                  </label>
                 </div>
-
-                <div class="row mb-4">
-                  <h5 class="col-lg-12">5. Where will the technology be used?</h5>
-                  <div class="col-lg-3">
-                    <div class="form-check ">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group4" id="exampleRadios1" value="option1" checked/>
-                        Rural settings
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group4" id="exampleRadios1" value="option1" checked/>
-                        Urban settings
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group4" id="" value="" checked/>
-                        Outdoors
-                      </label>
-                    </div>
-                    <div class="form-check ">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group4" id="" value="" checked/>
-                        Indoors
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-lg-4">
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group4" id="" value="" checked/>
-                        At home
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group4" id="" value="" checked/>
-                        Primary level (health post, health center)
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group4" id="" value="" checked/>
-                        Secondary level (general hospital)
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="group4" id="" value="" checked/>
-                        Tertiary level (specialist hospital)
-                      </label>
-                    </div>
-                  </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group1" id="" value="" />
+                    Midwife
+                  </label>
                 </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group1" id="" value="" />
+                    Family member
+                  </label>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group1" id="" value="" checked/>
+                    <span class="d-inline">Other:</span>
+                    <input class="form-control d-inline w-75" type="text" title="Other indended user"/>
+                  </label>
+                </div>
+              </div>
+            </div>
 
-            </form>
-          </div>
+            <div class="row mb-4">
+              <h5 class="col-lg-12">2. Is training required in addition to the expected skill level of the intended user? </h5>
+              <div class="col-lg-12">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group2" id="" value="" />
+                    Yes
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group2" id="" value="" checked/>
+                    No
+                  </label>
+                </div>
+              </div>
+            </div>
 
+            <div class="row mb-4">
+              <div class="col-lg-12">
+                <h5>3. If training is required, please describe who will deliver the training and the materials and time required for the training.</h5>
+                <div class="form-group">
+                  <textarea class="form-control" rows="4" placeholder="Please describe..."></textarea>
+                </div>
+              </div>
+            </div>
 
+            <div class="row mb-4">
+              <h5 class="col-lg-12">4. Is any maintenance or calibration required by the user at the time of use?</h5>
+              <div class="col-lg-12">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group3" id="" value="" />
+                    Yes
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group3" id="" value="" checked/>
+                    No
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-4">
+              <h5 class="col-lg-12">5. Where will the technology be used?</h5>
+              <div class="col-lg-4">
+                <div class="form-check ">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group4" id="" value="" />
+                    Rural settings
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group4" id="" value="" />
+                    Urban settings
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group4" id="" value="" />
+                    Outdoors
+                  </label>
+                </div>
+                <div class="form-check ">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group4" id="" value="" checked/>
+                    Indoors
+                  </label>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group4" id="" value="" />
+                    At home
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group4" id="" value="" />
+                    Primary level (health post, health center)
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group4" id="" value="" />
+                    Secondary level (general hospital)
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group4" id="" value="" checked/>
+                    Tertiary level (specialist hospital)
+                  </label>
+                </div>
+              </div>
+            </div>
+
+          </form>
         </div>
+      </div>
 
-        <hr>
+      <hr class="mb-4">
 
-        <div class="row my-4">
-
+      <div class="row">
         <h1 class="display-4 col-lg-12 mb-4">Health technology specifications</h1>
         <div class="col-lg-12">
           <form asp-controller="" asp-action="" method="">
@@ -187,7 +185,12 @@
               <h5 class="col-lg-12">1. Dimensions (mm<sup>3</sup>):</h5>
               <div class="col-lg-12">
                 <div class="form-group">
-                    <input class="form-control input-number text-center" type="number" min="0" title="Millimetres"/><span> mm x </span><input class="form-control input-number text-center" type="number" min="0" title="Millimetres"/><span> mm x </span><input class="form-control input-number text-center" type="number" min="0" title="Millimetres"/><span> mm</span>
+                  <input class="form-control input-number text-center" type="number" min="0" title="Millimetres"/>
+                  <span> mm x </span>
+                  <input class="form-control input-number text-center" type="number" min="0" title="Millimetres"/>
+                  <span> mm x </span>
+                  <input class="form-control input-number text-center" type="number" min="0" title="Millimetres"/>
+                  <span> mm</span>
                 </div>
               </div>
             </div>
@@ -196,7 +199,8 @@
               <h5 class="col-lg-12">2. Weight:</h5>
               <div class="col-lg-12">
                 <div class="form-group">
-                    <input class="form-control input-number text-center" type="number" min="0" title="Kilograms"/><span> kg </span>
+                  <input class="form-control input-number text-center" type="number" min="0" title="Kilograms"/>
+                  <span> kg </span>
                 </div>
               </div>
             </div>
@@ -204,26 +208,28 @@
             <div class="row mb-4">
               <h5 class="col-lg-12">3. Does it require the use of consumables? For example, disposable batteries, disposable electrodes, etc. </h5>
               <div class="col-lg-12">
-              <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="group5" id="exampleRadios1" value="option1" checked/>
-                  Yes
-                </label>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group5" id="" value="" />
+                    Yes
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group5" id="" value="" checked/>
+                    No
+                  </label>
+                </div>
               </div>
-              <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="group5" id="exampleRadios1" value="option1" checked/>
-                  No
-                </label>
-              </div>
-            </div>
             </div>
 
-            <div class="row mb-4 col-lg-12">
+            <div class="row mb-4">
+              <div class="col-lg-12">
                 <h5>4. If yes, please list the consumables:</h5>
-                <div class="form-group w-100">
+                <div class="form-group">
                   <textarea class="form-control" rows="4" placeholder=" Please list the consumables.."></textarea>
                 </div>
+              </div>
             </div>
 
 
@@ -231,7 +237,12 @@
               <h5 class="col-lg-12">5. Estimated life time:</h5>
               <div class="col-lg-12">
                 <div class="form-group">
-                    <input class="form-control input-number text-center" type="number" min="0" title="Days"/><span> Days </span><input class="form-control input-number text-center" type="number" min="0" title="Months"/><span> Months </span><input class="form-control input-number text-center" type="number" min="0" title="Years"/><span> Years</span>
+                  <input class="form-control input-number text-center" type="number" min="0" title="Days"/>
+                  <span> Days </span>
+                  <input class="form-control input-number text-center" type="number" min="0" title="Months"/>
+                  <span> Months </span>
+                  <input class="form-control input-number text-center" type="number" min="0" title="Years"/>
+                  <span> Years</span>
                 </div>
               </div>
             </div>
@@ -240,7 +251,12 @@
               <h5 class="col-lg-12">6. Estimated shelf life:</h5>
               <div class="col-lg-12">
                 <div class="form-group">
-                    <input class="form-control input-number text-center" type="number" min="0" title="Days"/><span> Days </span><input class="form-control input-number text-center" type="number" min="0" title="Months"/><span> Months </span><input class="form-control input-number text-center" type="number" min="0" title="Years"/><span> Years</span>
+                  <input class="form-control input-number text-center" type="number" min="0" title="Days"/>
+                  <span> Days </span>
+                  <input class="form-control input-number text-center" type="number" min="0" title="Months"/>
+                  <span> Months </span>
+                  <input class="form-control input-number text-center" type="number" min="0" title="Years"/>
+                  <span> Years</span>
                 </div>
               </div>
             </div>
@@ -248,50 +264,54 @@
             <div class="row mb-4">
               <h5 class="col-lg-12">7. Can it have a telemedicine or eHealth application?</h5>
               <div class="col-lg-12">
-              <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="group6" id="" value="" checked/>
-                  Yes
-                </label>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group6" id="" value="" />
+                    Yes
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group6" id="" value="" checked/>
+                    No
+                  </label>
+                </div>
               </div>
-              <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="group6" id="" value="" checked/>
-                  No
-                </label>
-              </div>
-            </div>
             </div>
 
             <div class="row mb-4">
               <h5 class="col-lg-12">8. Does it use any kind of software?</h5>
               <div class="col-lg-12">
-              <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="group7" id="" value="option1" checked/>
-                  Yes
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="group7" id="" value="option1" checked/>
-                  No
-                </label>
-              </div>
-            </div>
-            </div>
-
-            <div class="row mb-4 col-lg-12">
-              <h5>9a. If yes, please describe the software, whether it is open source or proprietary, its use and/or license fee, etc. (10-70 words).</h5>
-              <div class="form-group w-100">
-                <textarea class="form-control" rows="4" placeholder="Please describe the software..."></textarea>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group7" id="" value="option1" />
+                    Yes
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group7" id="" value="option1" checked/>
+                    No
+                  </label>
+                </div>
               </div>
             </div>
 
-            <div class="row mb-4 col-lg-12">
-              <h5>9b. If yes, can the software be customized for local use? Please explain (10-70 words). Include languages available.</h5>
-              <div class="form-group w-100">
-                <textarea class="form-control" rows="4" placeholder="Please explain..."></textarea>
+            <div class="row mb-4">
+              <div class="col-lg-12">
+                <h5>9a. If yes, please describe the software, whether it is open source or proprietary, its use and/or license fee, etc. (10-70 words).</h5>
+                <div class="form-group">
+                  <textarea class="form-control" rows="4" placeholder="Please describe the software..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-lg-12">
+                <h5>9b. If yes, can the software be customized for local use? Please explain (10-70 words). Include languages available.</h5>
+                <div class="form-group">
+                  <textarea class="form-control" rows="4" placeholder="Please explain..."></textarea>
+                </div>
               </div>
             </div>
 
@@ -301,19 +321,19 @@
               <div class="col-lg-12">
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group8" id="exampleRadios1" value="option1" checked/>
+                    <input class="form-check-input" type="radio" name="group8" id="" value="" />
                     Installed and stationary
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group8" id="exampleRadios1" value="option1" checked/>
+                    <input class="form-check-input" type="radio" name="group8" id="" value="" />
                     Mobile (e.g. between wards)
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group8" id="exampleRadios1" value="option1" checked/>
+                    <input class="form-check-input" type="radio" name="group8" id="" value="" checked/>
                     Portable (hand-held)
                   </label>
                 </div>
@@ -325,19 +345,19 @@
               <div class="col-lg-12">
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group9" id="" value="" checked/>
+                    <input class="form-check-input" type="radio" name="group9" id="" value=""/>
                     Single use
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group9" id="" value="" checked/>
+                    <input class="form-check-input" type="radio" name="group9" id="" value=""/>
                     Long term use
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group9" id="" value="" checked/>
+                    <input class="form-check-input" type="radio" name="group9" id="" value=""/>
                     Reusable
                   </label>
                 </div>
@@ -353,27 +373,27 @@
             <div class="row mb-4">
               <h5 class="col-lg-12">12. Does the technology require maintenance?</h5>
               <div class="col-lg-12">
-              <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="group10" id="" value="" checked/>
-                  Yes
-                </label>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group10" id="" value="" checked/>
+                    Yes
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="group10" id="" value="" checked/>
+                    No
+                  </label>
+                </div>
               </div>
-              <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="group10" id="" value="" checked/>
-                  No
-                </label>
-              </div>
-            </div>
             </div>
 
             <div class="row mb-4">
               <h5 class="col-lg-12">13. If yes, who should provide maintenance?</h5>
-              <div class="col-lg-3">
+              <div class="col-lg-4">
                 <div class="form-check ">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group11" id="" value="" checked/>
+                    <input class="form-check-input" type="radio" name="group11" id="" value="" />
                     Self-use/patient
                   </label>
                 </div>
@@ -384,31 +404,32 @@
                   </label>
                 </div>
               </div>
-              <div class="col-lg-3">
+              <div class="col-lg-4">
                 <div class="form-check ">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group11" id="" value="" checked/>
+                    <input class="form-check-input" type="radio" name="group11" id="" value="" />
                     Engineer
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group11" id="" value="" checked/>
+                    <input class="form-check-input" type="radio" name="group11" id="" value="" />
                     Manufacturer
                   </label>
                 </div>
               </div>
-              <div class="col-lg-3">
+              <div class="col-lg-4">
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group11" id="exampleRadios1" value="option1" checked/>
+                    <input class="form-check-input" type="radio" name="group11" id="" value="" />
                     Technician
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group11" id="exampleRadios1" value="option1" checked/>
-                    Other
+                    <input class="form-check-input" type="radio" name="group11" id="" value="" checked/>
+                    <span class="d-inline">Other:</span>
+                    <input class="form-control d-inline w-75" type="text" title="Other maintenance provider"/>
                   </label>
                 </div>
               </div>
@@ -420,13 +441,13 @@
               <div class="col-lg-12">
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group12" id="exampleRadios1" value="option1"/>
+                    <input class="form-check-input" type="checkbox" name="group12" id="" value=""/>
                     Mechanical energy (e.g. manually powered)
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group12" id="exampleRadios1" value="option1"/>
+                    <input class="form-check-input" type="checkbox" name="group12" id="" value=""/>
                     Batteries
                   </label>
                 </div>
@@ -437,9 +458,9 @@
                   </label>
                 </div>
                 <div class="form-group pl-3">
-                    <span class="d-block">If yes, voltage required: <input class="form-control input-number text-center" type="number" min="0" title="Voltage"/> V </span>
-                    <span class="d-block">Time required to recharge: <input class="form-control input-number text-center" type="number" min="0" title="Hours"/> Hours <input class="form-control input-number text-center" type="number" min="0" title="Minutes"/> Minutes</span>
-                    <span class="d-block">Battery life with full charge: <input class="form-control input-number text-center" type="number" min="0" title="Hours"/> Hours <input class="form-control input-number text-center" type="number" min="0" title="Minutes"/> Minutes</span>
+                  <span class="d-block">If yes, voltage required: <input class="form-control input-number text-center" type="number" min="0" title="Voltage"/> V </span>
+                  <span class="d-block">Time required to recharge: <input class="form-control input-number text-center" type="number" min="0" title="Hours"/> Hours <input class="form-control input-number text-center" type="number" min="0" title="Minutes"/> Minutes</span>
+                  <span class="d-block">Battery life with full charge: <input class="form-control input-number text-center" type="number" min="0" title="Hours"/> Hours <input class="form-control input-number text-center" type="number" min="0" title="Minutes"/> Minutes</span>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
@@ -466,26 +487,25 @@
                   </label>
                 </div>
                 <div class="form-group pl-3">
-                    <span class="d-block">If yes, voltage required: <input class="form-control input-number text-center" type="number" min="0" title="Voltage"/> V </span>
-                    <span class="d-block">Battery life with full charge: <input class="form-control input-number text-center" type="number" min="0" title="Voltage"/> V </span>
+                  <span class="d-block">If yes, voltage required: <input class="form-control input-number text-center" type="number" min="0" title="Voltage"/> V </span>
+                  <span class="d-block">Battery life with full charge: <input class="form-control input-number text-center" type="number" min="0" title="Voltage"/> V </span>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
                     <input class="form-check-input" type="checkbox" name="group12" id="" value=""/>
-                    Other:
+                    <span class="d-inline">Other:</span>
+                    <input class="form-control d-inline w-75" type="text" title="Other energy requirement"/>
                   </label>
                 </div>
               </div>
             </div>
-
-
 
             <div class="row mb-4">
               <h5 class="col-lg-12">15. Facility requirements:</h5>
               <div class="col-lg-12">
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group13" id="exampleRadios1" value="option1"/>
+                    <input class="form-check-input" type="checkbox" name="group13" id="" value=""/>
                     Clean water supply
                   </label>
                 </div>
@@ -495,8 +515,9 @@
                     Specific temperature and/or humidity range
                   </label>
                 </div>
-                <div class="form-group">
-                    <span>If yes, please describe: </span><textarea class="form-control w-50" rows="2" placeholder="Please describe..."></textarea>
+                <div class="form-group col-lg-6">
+                    <span>If yes, please describe: </span>
+                    <textarea class="form-control" rows="2" placeholder="Please describe..."></textarea>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
@@ -504,8 +525,9 @@
                     Clinical waste disposal facilities
                   </label>
                 </div>
-                <div class="form-group">
-                    <span>If yes, please describe: </span><textarea class="form-control w-50" rows="2" placeholder="Please describe..."></textarea>
+                <div class="form-group col-lg-6">
+                    <span>If yes, please describe: </span>
+                    <textarea class="form-control" rows="2" placeholder="Please describe..."></textarea>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
@@ -519,8 +541,9 @@
                     Gas supply
                   </label>
                 </div>
-                <div class="form-group">
-                    <span>If yes, please describe: </span><textarea class="form-control w-50" rows="2" placeholder="Please describe..."></textarea>
+                <div class="form-group col-lg-6">
+                    <span>If yes, please describe: </span>
+                    <textarea class="form-control" rows="2" placeholder="Please describe..."></textarea>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
@@ -528,8 +551,9 @@
                     Sterilization
                   </label>
                 </div>
-                <div class="form-group">
-                    <span>If yes, please describe: </span><textarea class="form-control w-50" rows="2" placeholder="Please describe..."></textarea>
+                <div class="form-group col-lg-6">
+                    <span>If yes, please describe: </span>
+                    <textarea class="form-control" rows="2" placeholder="Please describe..."></textarea>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
@@ -564,29 +588,22 @@
                 <div class="form-check">
                   <label class="form-check-label">
                     <input class="form-check-input" type="checkbox" name="group13" id="" value=""/>
-                    Other:
+                    <span class="d-inline">Other:</span>
+                    <input class="form-control d-inline w-75" type="text" title="Other facility requirement"/>
                   </label>
                 </div>
 
-                <div>
+                <div class="my-4">
                   <button class="btn btn-primary">Save</button>
                 </div>
 
-
-          </form>
-        </div>
-
-
-      </div>
-
+              </form>
+            </div>
+          </div>
 
         </div>
       </div>
+
     </div>
   </div>
-
-
-</div>
-
-</div>
 </div>
