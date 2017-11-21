@@ -33,7 +33,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             get
             {
-                return LastEditedAt == null ? CommentedAt : LastEditedAt;
+                return LastEditedAt > CommentedAt ? LastEditedAt : CommentedAt;
             }
         }
 
@@ -41,7 +41,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             get
             {
-                return LastEditedAt != null;
+                return LastEditedAt != null && LastEditedAt != DateTime.MinValue;
             }
         }
 

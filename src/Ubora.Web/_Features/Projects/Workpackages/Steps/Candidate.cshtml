@@ -182,7 +182,7 @@
                                         <span class="small-text">
                                           <button class="js-edit btn-link mr-2" role="button">edit</button>
                                           <button class="js-delete btn-link mr-2" role="button">delete</button>
-                                          <span class="timeago text-grey" title="@comment.CommentEditedAt">@comment.CommentEditedAt.ToString("dd.MM.yyyy")</span>
+                                          <span class="timeago text-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
                                         </span>
                                         @if (comment.CanBeEdited)
                                         {
