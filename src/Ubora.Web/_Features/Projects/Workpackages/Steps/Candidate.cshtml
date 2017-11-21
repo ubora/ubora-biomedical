@@ -184,29 +184,7 @@
                                             {
                                                 <button class="btn-link mr-2" role="button" data-toggle="collapse" data-target="#@comment.Id">edit</button>
                                                 <button class="btn-link mr-2" role="button" data-toggle="modal" data-target="#removeCommentModal-@comment.Id">delete</button>
-                                                
-                                                <div class="modal fade" id="removeCommentModal-@comment.Id" tabindex="-1" role="dialog" aria-hidden="true">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Remove comment?</h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <form asp-controller="ConceptualDesign" asp-action="RemoveComment" asp-route-commentId="@comment.Id" asp-route-candidateId="@Model.Id" method="post">
-                                                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                                                    <div class="form-group text-center">
-                                                                        <button type="button" class="btn btn-secondary-ghost" data-dismiss="modal">No, cancel</button>
-                                                                        <span class="mx-1"></span>
-                                                                        <button class="btn btn-primary" type="submit">Yes, remove</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                @Html.Partial("RemoveCommentModal", comment.EditCommentViewModel)
                                                 <div class="collapse" id="@comment.Id">@Html.Partial("_EditCommentPartial", comment.EditCommentViewModel)</div>
                                             }
                                             <span class="timeago text-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
