@@ -98,3 +98,9 @@ label.custom-file {
 .input-validation-error {
   border-color: var(--orange);
 }
+
+
+input.input-number {
+  display: inline;
+  width: 8%;
+}
