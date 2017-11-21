@@ -2,8 +2,8 @@
 
 <form asp-controller="ConceptualDesign" asp-action="EditComment" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    @Html.HiddenFor(m => m.Id)
-    @Html.HiddenFor(m => m.CandidateId)
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="CandidateId" />
     <div class="form-group">
         <textarea class="form-control" asp-for="CommentText" placeholder="Add comment" rows="4"></textarea>
         <span asp-validation-for="CommentText"></span>

@@ -5,12 +5,12 @@ using Ubora.Web.Services;
 
 namespace Ubora.Web.Authorization
 {
-    public class IsSameAuthorRequirement : IAuthorizationRequirement 
+    public class IsCommentAuthorRequirement : IAuthorizationRequirement 
     {
-        public class Handler : AuthorizationHandler<IsSameAuthorRequirement, Comment>
+        public class Handler : AuthorizationHandler<IsCommentAuthorRequirement, Comment>
         {
             protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-                                                           IsSameAuthorRequirement requirement,
+                                                           IsCommentAuthorRequirement requirement,
                                                            Comment comment)
             {
                 if (context.User.GetId() == comment.UserId)

@@ -222,8 +222,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             var canEditComment = (await AuthorizationService.AuthorizeAsync(User, comment, Policies.CanEditComment)).Succeeded;
             if(!canEditComment)
             {
-                ModelState.AddModelError("", "You are not allowed to edit this comment!");
-                return await Candidate(model.CandidateId, candidateViewModelFactory);
+                return Forbid();
             }
 
             ExecuteUserProjectCommand(new EditCandidateCommentCommand
@@ -247,6 +246,14 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             if (!ModelState.IsValid)
             {
                 return await Candidate(candidateId, candidateViewModelFactory);
+            }
+
+            var candidate = QueryProcessor.FindById<Candidate>(candidateId);
+            var comment = candidate.Comments.Single(x => x.Id == commentId);
+            var canEditComment = (await AuthorizationService.AuthorizeAsync(User, comment, Policies.CanEditComment)).Succeeded;
+            if (!canEditComment)
+            {
+                return Forbid();
             }
 
             ExecuteUserProjectCommand(new RemoveCandidateCommentCommand

@@ -15,7 +15,7 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsProjectMentorRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsWorkpackageOneNotLockedRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsEmailConfirmedRequirement.Handler>();
-            services.AddSingleton<IAuthorizationHandler, IsSameAuthorRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, IsCommentAuthorRequirement.Handler>();
 
             services.AddAuthorization(options =>
             {
@@ -108,7 +108,8 @@ namespace Ubora.Web.Authorization
                 });
                 options.AddPolicy(nameof(Policies.CanEditComment), policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new IsSameAuthorRequirement());
+                    policyBuilder.AddRequirements(new IsCommentAuthorRequirement());
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                 });
             });
 
