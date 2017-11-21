@@ -184,7 +184,7 @@
                                             <span>*</span>
                                             <span>delete</span>
                                             <span>*</span>
-                                            <span class="timeago" title="@comment.CommentEditedAt">@comment.CommentEditedAt.ToString("dd.MM.yyyy")</span>
+                                            <span class="timeago" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
                                         </span>
                                         @if (comment.CanBeEdited)
                                         {
