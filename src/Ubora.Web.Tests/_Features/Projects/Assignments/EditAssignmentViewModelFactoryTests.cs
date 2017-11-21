@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.Assignments;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Queries;
-using Ubora.Domain.Projects.Tasks;
 using Ubora.Domain.Users;
 using Ubora.Web._Features.Projects.Assignments;
 using Xunit;
@@ -52,7 +52,7 @@ namespace Ubora.Web.Tests._Features.Projects.Assignments
                 .Returns(project);
 
             var taskId = Guid.NewGuid();
-            var task = Mock.Of<ProjectTask>();
+            var task = Mock.Of<Assignment>();
             task.Set(t => t.Id, taskId);
             task.Set(t => t.ProjectId, projectId);
             task.Set(t => t.Title, "Title");
@@ -61,7 +61,7 @@ namespace Ubora.Web.Tests._Features.Projects.Assignments
                 .Returns(new[] { new TaskAssignee(user1Id), new TaskAssignee(user3Id) });
             //task.Set(t => t.Assignees, new[] { new TaskAssignee(user1Id), new TaskAssignee(user3Id) });
 
-            _queryProcessorMock.Setup(p => p.FindById<ProjectTask>(taskId))
+            _queryProcessorMock.Setup(p => p.FindById<Assignment>(taskId))
                 .Returns(task);
 
             var userProfiles = new[]

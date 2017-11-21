@@ -1,5 +1,3 @@
-@using Ubora.Web.Services
-@using Ubora.Web._Features.Users.Profile
 @model Ubora.Web._Features.Users.Profile.ProfileViewModel
 
 @{
@@ -7,40 +5,46 @@
 }
 
 <div class="container-fluid">
-  <div class="row flex-column align-items-center">
-    <div class="col-md-4 d-flex flex-column justify-content-center">
-      <h1>@ViewData["Title"]</h1>
-      <div class="d-flex flex-column align-items-center mb-4">
-        <img class="avatar" src="@Model.ProfilePictureLink" width="250" height="250"/>
-        <h2 class="fullname">@Model.FullName</h2>
-        <a class="email" href="mailto:@Model.Email?Subject=Message%20from%20UBORA">@Model.Email</a>
-      </div>
-      <h3>Academia</h3>
-      <div class="form-group">
-        <label>University</label>
-        <input class="form-control" asp-for="University" disabled>
-      </div>
-      <div class="form-group">
-        <label>Degree</label>
-        <input class="form-control" asp-for="Degree" disabled>
-      </div>
-      <div class="form-group">
-        <label>Field</label>
-        <input class="form-control" asp-for="Field" disabled>
-      </div>
-      <div class="form-group">
-        <label>Role</label>
-        <input class="form-control" asp-for="Role" disabled>
-      </div>
-      <h3>Personal</h3>
-      <div class="form-group">
-        <label>Bio</label>
-        <textarea class="form-control" asp-for="Biography" rows="5" disabled></textarea>
-      </div>
-      <div class="form-group">
-        <label>Skills</label>
-        <input class="form-control" asp-for="Skills" disabled>
-      </div>
+    <div class="row flex-column align-items-center">
+        <div class="col-md-4 d-flex flex-column justify-content-center">
+            <h1 class="text-center">@ViewData["Title"]</h1>
+            <div class="d-flex flex-column align-items-center mb-4">
+                <img class="avatar" src="@Model.ProfilePictureLink" width="250" height="250" />
+                <h2 class="fullname">@Model.FullName</h2>
+                <a class="email" href="mailto:@Model.Email?Subject=Message%20from%20UBORA">@Model.Email</a>
+            </div>
+            @if (Model.IsDeleted)
+            {
+                <div class="form-group text-center">
+                    <p class="text-uppercase text-danger">This user has been deleted.</p>
+                </div>
+            }
+            <h2 class="mt-5">Academia</h2>
+            <div class="form-group">
+                <label>University</label>
+                <input class="form-control" asp-for="University" disabled>
+            </div>
+            <div class="form-group">
+                <label>Degree</label>
+                <input class="form-control" asp-for="Degree" disabled>
+            </div>
+            <div class="form-group">
+                <label>Field</label>
+                <input class="form-control" asp-for="Field" disabled>
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                <input class="form-control" asp-for="Role" disabled>
+            </div>
+            <h2 class="mt-5">Personal</h2>
+            <div class="form-group">
+                <label>Bio</label>
+                <textarea class="form-control" asp-for="Biography" rows="5" disabled></textarea>
+            </div>
+            <div class="form-group">
+                <label>Skills</label>
+                <input class="form-control" asp-for="Skills" disabled>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

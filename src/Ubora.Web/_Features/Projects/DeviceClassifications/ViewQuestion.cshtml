@@ -1,0 +1,49 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
+@model IEnumerable<Ubora.Web._Features.Projects.DeviceClassifications.DeviceClassificationQuestionViewModel>
+
+@{
+    ViewData["Title"] = "Device classification";
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
+
+<div class="container-fluid my-4 main">
+    <div class="row">
+        <div class="col-lg-3">
+            @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+        </div>
+        <div class="col-lg-9 pr-5">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="device-classification-carousel" class="carousel slide d-flex " data-ride="carousel">
+                        <div class="col-lg-10">
+                          <div asp-validation-summary="All" class="text-danger"></div>
+
+                          <div class="carousel-inner" style="min-height: 500px;" role="listbox">
+                              @foreach (var question in Model)
+                              {
+                                  @Html.Partial("_QuestionPartial", question)
+                              }
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.carousel').carousel({
+        interval: false,
+        wrap: false
+    });
+
+    function carouselNext() {
+        $('#device-classification-carousel').carousel('next');
+    };
+
+    function carouselPrev() {
+        $('#device-classification-carousel').carousel('prev');
+    };
+</script>

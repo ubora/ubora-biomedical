@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Web.Infrastructure;
+using System.Threading.Tasks;
+using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.Notifications.Invitations
 {
@@ -11,8 +13,13 @@ namespace Ubora.Web._Features.Notifications.Invitations
     {
         [HttpPost]
         [SaveTempDataModelState]
-        public IActionResult Accept(Guid invitationId)
+        public async Task<IActionResult> Accept(Guid invitationId)
         {
+            if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanJoinProject))
+            {
+                ModelState.AddModelError("", "You must confirm your email to join the project.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Index", "Notifications");

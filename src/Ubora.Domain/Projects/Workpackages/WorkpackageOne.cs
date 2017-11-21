@@ -16,15 +16,10 @@ namespace Ubora.Domain.Projects.Workpackages
 
             Title = "Medical need and product specification";
 
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.DescriptionOfNeeds, "Description of Needs", Placeholders.DescriptionOfNeeds));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.DescriptionOfExistingSolutionsAndAnalysis, "Description of Existing Solutions and Analysis", Placeholders.DescriptionOfExistingSolutionsAndAnalysis));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductFunctionality, "Product Functionality", Placeholders.ProductFunctionality));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductPerformance, "Product Performance", Placeholders.ProductPerformance));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductUsability, "Product Usability", Placeholders.ProductUsability));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductSafety, "Product Safety", Placeholders.ProductSafety));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.PatientPopulationStudy, "Patient Population Study", Placeholders.PatientPopulationStudy));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.UserRequirementStudy, "User Requirement Study", Placeholders.UserRequirementStudy));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.AdditionalInformation, "Additional Information", Placeholders.AdditionalInformation));
+            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ClinicalNeeds, "Clinical needs", Placeholders.ClinicalNeeds));
+            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ExistingSolutions, "Existing solutions", Placeholders.ExistingSolutions));
+            _steps.Add(new WorkpackageStep(WorkpackageStepIds.IntendedUsers, "Intended users", Placeholders.IntendedUsers));
+            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductRequirements, "Product requirements", Placeholders.ProductRequirements));
         }
 
         private void Apply(WorkpackageOneStepEditedEvent e)

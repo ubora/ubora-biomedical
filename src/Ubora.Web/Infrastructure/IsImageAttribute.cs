@@ -20,7 +20,7 @@ namespace Ubora.Web.Infrastructure
 
             if (file == null)
             {
-                return new ValidationResult("Please select an image to upload first!");
+                return ValidationResult.Success;
             }
 
             if (file.ContentType.ToLower() != "image/jpg" &&

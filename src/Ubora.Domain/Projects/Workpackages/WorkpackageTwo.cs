@@ -13,11 +13,9 @@ namespace Ubora.Domain.Projects.Workpackages
 
             Title = "Conceptual design";
 
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.DescriptionOfFunctions, "Description of Functions", ""));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.DescriptionOfMinimalRequirementsForSafetyAndIsoCompliance, "Description of Minimal Requirements for Safety and ISO Compliance", ""));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.SketchesOfAlternateIdeasAndDesigns, "Sketches of Alternate Ideas and Designs", ""));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.SelectionOfBestIdea, "Selection of Best Idea: Reaching the Concept", ""));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.LatestConceptDescription, "Latest Concept Description", ""));
+            _steps.Add(new WorkpackageStep(WorkpackageStepIds.PhysicalPrinciples, "Physical principles", Placeholders.PhysicalPrinciples));
+            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ConceptDescription, "Concept description", Placeholders.ConceptDescription));
+            _steps.Add(new WorkpackageStep(WorkpackageStepIds.StructuredInformationOnTheDevice, "Structured information on the device", ""));
         }
 
         private void Apply(WorkpackageTwoStepEdited e)

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TwentyTwenty.Storage;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.ImageServices;
@@ -25,54 +24,53 @@ namespace Ubora.Web._Features.Projects.Dashboard
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Dashboard()
+        public IActionResult Dashboard([FromServices]ProjectDashboardViewModel.Factory modelFactory)
         {
-            var model = AutoMapper.Map<ProjectDashboardViewModel>(Project);
-            model.IsProjectMember = (await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement())).Succeeded;
-            model.HasImage = Project.HasImage;
-            if (Project.HasImage)
-            {
-                model.ImagePath = _imageStorage.GetUrl(Project.ProjectImageBlobLocation, ImageSize.Banner1500x1125);
-            }
+            var model = modelFactory.Create(Project, User);
 
             return View(nameof(Dashboard), model);
         }
 
-        [Route(nameof(EditProjectDescription))]
-        public IActionResult EditProjectDescription()
+        [Route(nameof(EditProjectTitleAndDescription))]
+        [Authorize(Policies.CanEditProjectTitleAndDescription)]
+        public IActionResult EditProjectTitleAndDescription()
         {
-            var editProjectDescription = new EditProjectDescriptionViewModel
+            var editProjectDescription = new EditProjectTitleAndDescriptionViewModel
             {
-                ProjectDescription = Project.Description
+                ProjectDescription = Project.Description,
+                Title = Project.Title
             };
 
-            return View(editProjectDescription);
+            return View(nameof(EditProjectTitleAndDescription),editProjectDescription);
         }
 
         [HttpPost]
-        [Route(nameof(EditProjectDescription))]
-        public IActionResult EditProjectDescription(EditProjectDescriptionViewModel model)
+        [Route(nameof(EditProjectTitleAndDescription))]
+        [Authorize(Policies.CanEditProjectTitleAndDescription)]
+        public IActionResult EditProjectTitleAndDescription(EditProjectTitleAndDescriptionViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return EditProjectDescription();
+                return EditProjectTitleAndDescription();
             }
 
-            ExecuteUserProjectCommand(new UpdateProjectDescriptionCommand
+            ExecuteUserProjectCommand(new UpdateProjectTitleAndDescriptionCommand
             {
                 ProjectId = ProjectId,
-                Description = model.ProjectDescription
+                Description = model.ProjectDescription,
+                Title = model.Title
             });
 
             if (!ModelState.IsValid)
             {
-                return EditProjectDescription();
+                return EditProjectTitleAndDescription();
             }
 
             return RedirectToAction(nameof(Dashboard));
         }
 
         [Route(nameof(EditProjectImage))]
+        [Authorize(Policies.CanChangeProjectImage)]
         public IActionResult EditProjectImage()
         {
             return View();
@@ -80,6 +78,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
 
         [HttpPost]
         [Route(nameof(EditProjectImage))]
+        [Authorize(Policies.CanChangeProjectImage)]
         public async Task<IActionResult> EditProjectImage(EditProjectImageViewModel model)
         {
             if (!ModelState.IsValid)
@@ -118,6 +117,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
         }
 
         [HttpPost]
+
         [Route(nameof(RemoveProjectImage))]
         public async Task<IActionResult> RemoveProjectImage(RemoveProjectImageViewModel model)
         {
