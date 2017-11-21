@@ -126,10 +126,9 @@
 &lt;/ul&gt;</value>
   </data>
   <data name="ConceptDescription" xml:space="preserve">
-    <value>&lt;p&gt;You should describe the most important operating physical principle of your medical device.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Example: Contactless Infrared Thermometer “An infrared thermometer is a device that measures the infrared radiation – a type of electromagnetic radiation below the visible spectrum of light - emitted by an object. The most basic design of infrared thermometers consists of a lens to focus the infrared thermal radiation onto a detector, which converts the radiant energy into an electric signal. This configuration facilitates temperature measurement from a distance, without the need for contact with the object to be measured. &lt;/li&gt;
-&lt;/ul&gt;</value>
+    <value>&lt;p&gt;You should describe the conceptual design selected in the Voting step.&lt;/p&gt;
+&lt;p&gt;Starting from the physics/chemistry/biology underlying the working principle, you should propose a first possible embodiment, providing sketches, diagrams, and/or other representation to communicate your idea.
+(If possible, please provide references to support your answer)&lt;/p&gt;</value>
   </data>
   <data name="ExistingSolutions" xml:space="preserve">
     <value>&lt;p&gt;You should describe what are the devices or therapies on the market; if possible, list some pros and cons of the existing solutions.&lt;/p&gt;

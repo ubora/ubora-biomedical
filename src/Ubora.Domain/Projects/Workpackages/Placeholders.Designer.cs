@@ -73,9 +73,9 @@ namespace Ubora.Domain.Projects.Workpackages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;p&gt;You should describe the most important operating physical principle of your medical device.&lt;/p&gt;
-        ///&lt;ul&gt;
-        ///&lt;li&gt;Example: Contactless Infrared Thermometer “An infrared thermometer is a device that measures the infrared radiation – a type of electromagnetic radiation below the visible spectrum of light - emitted by an object. The most basic design of infrared thermometers consists of a lens to focus the infrared thermal radiation onto a detector, which converts the radiant energy into an electric signal. This c [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;p&gt;You should describe the conceptual design selected in the Voting step.&lt;/p&gt;
+        ///&lt;p&gt;Starting from the physics/chemistry/biology underlying the working principle, you should propose a first possible embodiment, providing sketches, diagrams, and/or other representation to communicate your idea.
+        ///(If possible, please provide references to support your answer)&lt;/p&gt;.
         /// </summary>
         public static string ConceptDescription {
             get {
