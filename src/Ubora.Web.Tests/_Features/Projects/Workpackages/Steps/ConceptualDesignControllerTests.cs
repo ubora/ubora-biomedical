@@ -617,7 +617,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 Id = commentId
             };
 
-            var comment = new Comment(UserId, "comment", commentId, DateTime.UtcNow);
+            var comment = new Comment(UserId, "comment", commentId, DateTime.UtcNow, new[] { "project-member" });
             var candidate = new Mock<Candidate>();
             candidate.Setup(x => x.Comments)
                 .Returns(new[] { comment });
@@ -652,7 +652,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 Id = commentId
             };
 
-            var comment = new Comment(UserId, "comment", commentId, DateTime.UtcNow);
+            var comment = new Comment(UserId, "comment", commentId, DateTime.UtcNow, new[] { "project-member" });
             var candidate = new Mock<Candidate>();
             candidate.Setup(x => x.Comments)
                 .Returns(new[] { comment });
@@ -691,7 +691,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 Id = commentId
             };
 
-            var comment = new Comment(UserId, "comment", commentId, DateTime.UtcNow);
+            var comment = new Comment(UserId, "comment", commentId, DateTime.UtcNow, new[] { "project-member" });
             var candidate = new Mock<Candidate>();
             candidate.Setup(x => x.Comments)
                 .Returns(new[] { comment });
@@ -752,7 +752,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var candidateId = Guid.NewGuid();
             var commentId = Guid.NewGuid();
 
-            var comment = new Comment(UserId, "comment", commentId, DateTime.UtcNow);
+            var comment = new Comment(UserId, "comment", commentId, DateTime.UtcNow, new[] { "project-member" });
             var candidate = new Mock<Candidate>();
             candidate.Setup(x => x.Comments)
                 .Returns(new[] { comment });
@@ -781,7 +781,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var candidateId = Guid.NewGuid();
             var commentId = Guid.NewGuid();
 
-            var comment = new Comment(UserId, "comment", commentId, DateTime.UtcNow);
+            var comment = new Comment(UserId, "comment", commentId, DateTime.UtcNow, new[] { "project-member" });
             var candidate = new Mock<Candidate>();
             candidate.Setup(x => x.Comments)
                 .Returns(new[] { comment });
@@ -814,7 +814,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var candidateId = Guid.NewGuid();
             var commentId = Guid.NewGuid();
 
-            var comment = new Comment(UserId, "comment", commentId, DateTime.UtcNow);
+            var comment = new Comment(UserId, "comment", commentId, DateTime.UtcNow, new[] { "project-member" });
             var candidate = new Mock<Candidate>();
             candidate.Setup(x => x.Comments)
                 .Returns(new[] { comment });

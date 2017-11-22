@@ -40,20 +40,9 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var commentText = "commentText";
             var commentedAt = DateTime.UtcNow;
             var commentId = Guid.NewGuid();
-            var comment = new Comment(userId, commentText, commentId, commentedAt);
-
-            var members = new List<ProjectMember>()
-            {
-                new ProjectMember(userId),
-                new ProjectLeader(userId)
-            };
+            var comment = new Comment(userId, commentText, commentId, commentedAt, new[] { "project-mentor" });
 
             var projectId = Guid.NewGuid();
-            var project = new Project();
-            project.Set(x => x.Members, members);
-            _queryProcessor.Setup(x => x.FindById<Project>(projectId))
-                .Returns(project);
-
             var candidateId = Guid.NewGuid();
             var candidate = new Candidate();
             candidate.Set(x => x.Id, candidateId);
@@ -92,7 +81,9 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 ProfilePictureUrl = profilePictureUrl,
                 CommentedAt = commentedAt,
                 EditCommentViewModel = editCommentViewModel,
-                CanBeEdited = true
+                CanBeEdited = true,
+                IsLeader = false,
+                IsMentor = true
             };
 
             // Act

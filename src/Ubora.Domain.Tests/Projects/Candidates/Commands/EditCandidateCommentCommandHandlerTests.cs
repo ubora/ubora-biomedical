@@ -24,8 +24,11 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
         [Fact]
         public void Edits_Candidate_Comment()
         {
-            this.Given(_ => Add_Candidate_To_Project())
+            this.Given(_ => this.Create_User(_userId, "email", "firstName", "lastName"))
+                .And(_ => this.Create_Project(_projectId, _userId))
+                .And(_ => Add_Candidate_To_Project())
                 .And(_ => Add_Comment_To_Candidate())
+                .And(_ => this.Assign_Project_Mentor(_projectId, _userId))
                 .When(_ => Edit_Candidate_Comment())
                 .Then(_ => Assert_Comment_Is_Edited())
                 .Then(_ => Assert_CandidateCommentEdited_Is_Added_In_Events())
@@ -53,7 +56,8 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
                 projectId: _projectId,
                 commentId: _commentId,
                 commentText: "comment",
-                commentedAt: _commentedAt
+                commentedAt: _commentedAt,
+                roleKeys: new []{ "project-member", "project-leader" }
                 );
 
             Session.Events.Append(_candidateId, commentAddedEvent);
@@ -84,6 +88,7 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
             editedComment.Text.Should().Be(_editedComment);
             editedComment.CommentedAt.Should().Be(_commentedAt);
             editedComment.Id.Should().Be(_commentId);
+            editedComment.RoleKeys.Should().BeEquivalentTo(new[] { "project-leader", "project-mentor" });
 
             _lastCommandResult.IsSuccess.Should().BeTrue();
         }
@@ -97,6 +102,7 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
             candidateCommentEditedEvents.First().ProjectId.Should().Be(_projectId);
             candidateCommentEditedEvents.First().CommentText.Should().Be(_editedComment);
             candidateCommentEditedEvents.First().CommentId.Should().Be(_commentId);
+            candidateCommentEditedEvents.First().RoleKeys.Should().BeEquivalentTo(new[] { "project-leader", "project-mentor" });
         }
     }
 }

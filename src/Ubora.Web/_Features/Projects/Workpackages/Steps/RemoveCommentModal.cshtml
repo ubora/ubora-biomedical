@@ -9,17 +9,19 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form asp-controller="ConceptualDesign" asp-action="RemoveComment" asp-route-commentId="@Model.Id" asp-route-candidateId="@Model.CandidateId" method="post">
+            <form asp-controller="ConceptualDesign" asp-action="RemoveComment" asp-route-commentId="@Model.Id" asp-route-candidateId="@Model.CandidateId" method="post">
+                <div class="modal-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <p>@Model.CommentText</p>
-                    <div class="form-group text-center">
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <div class="form-group">
                         <button type="button" class="btn btn-secondary-ghost" data-dismiss="modal">No, cancel</button>
                         <span class="mx-1"></span>
                         <button class="btn btn-primary" type="submit">Yes, remove</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

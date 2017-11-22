@@ -52,7 +52,8 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
                 projectId: _projectId,
                 commentId: _commentId,
                 commentText: "comment",
-                commentedAt: _commentedAt
+                commentedAt: _commentedAt,
+                roleKeys: new[] { "project-member", "project-leader" }
                 );
 
             Session.Events.Append(_candidateId, commentAddedEvent);
