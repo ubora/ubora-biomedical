@@ -7,49 +7,57 @@
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
-<section class="project-view full-width">
-    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+<div class="container-fluid my-4">
+    <div class="row">
+        <div class="col-lg-3">
+            @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+        </div>
+        <div class="col-lg-9 pr-5">
+            <h2>@Model.Title</h2>
+            @if (!string.IsNullOrWhiteSpace(Model.Description))
+            {
+                <div class="my-2">
+                    <a href="#" class="js-helpful-tips" role="button">
+                        <i class="align-middle material-icons">help</i>
+                        <span>Helpful tips</span>
+                    </a>
+                </div>
+            <div class="helpful-tips-content js-helpful-tips-content mb-4">@Html.Raw(Model.Description)</div>
 
-    <section class="medium-width step-view">
+            }
+            <form action="@Model.EditStepUrl" method="post" asp-antiforgery="true">
+                <input asp-for="StepId" type="hidden" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <h1 class="full-width">@Model.Title</h1>
-
-        @if (!string.IsNullOrWhiteSpace(Model.Description))
-        {
-            <div class="step-tips">
-                <h6>Helpful tips</h6>
-                <p class="step-tips--text">@Model.Description</p>
-            </div>
-        }
-
-        <form action="@Model.EditStepUrl" method="post" asp-antiforgery="true">
-            <h6>Your input</h6>
-            <input asp-for="StepId" type="hidden" />
-
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <label>
-                <textarea class="content_editable" asp-for="Content" rows="8"></textarea>
-                <span asp-validation-for="Content"></span>
-            </label>
-
-            <div class="center-element">
-                <a class="button secondary-button small-button" href="@Model.ReadStepUrl">Discard</a>
-                <button class="button primary-button small-button" type="submit">Save changes</button>
-            </div>
-
-        </form>
-
-    </section>
-</section>
+                <div class="form-group">
+                    <textarea class="content_editable" asp-for="Content" rows="8"></textarea>
+                    <span asp-validation-for="Content"></span>
+                </div>
+                <div class="d-flex flex-wrap-reverse justify-content-center">
+                    <a class="btn btn-secondary-ghost" href="@Model.ReadStepUrl">Discard</a>
+                    <span class="mx-1"></span>
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
-  <link rel="stylesheet"
-    href="//cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.css"
-    asp-fallback-href="~/dist/libs/simplemde.min.css">
-  <script
-    src="//cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.js"
-    asp-fallback-src="~/dist/libs/simplemde.min.js"
-    asp-fallback-test="window.SimpleMDE">
-  </script>
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.css"
+          asp-fallback-href="~/dist/libs/simplemde.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.js"
+            asp-fallback-src="~/dist/libs/simplemde.min.js"
+            asp-fallback-test="window.SimpleMDE">
+    </script>
+
+    <script>
+        const helpfulTipToggleElement = document.querySelector('.js-helpful-tips');
+        const helpfulTipContentElement = document.querySelector('.js-helpful-tips-content');
+
+        helpfulTipToggleElement.addEventListener('click', event => {
+            helpfulTipContentElement.classList.toggle('helpful-tips-content-visible');
+        });
+    </script>
 }

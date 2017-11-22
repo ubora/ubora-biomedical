@@ -9,19 +9,19 @@ Scenario: Go to UBORA home page
     Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: Click Home button
-    When I click on the element ".header-logo"
+    When I click on the element "#UboraLogo"
     Then I expect the title of the page "Welcome - UBORA"
 
-Scenario: Click Sign in/sign up button
-    When I click on the element "#SignInSignUp"
+Scenario: Click Log in button
+    When I click on the element "span=Log in"
     Then I expect the title of the page "Sign in to UBORA - UBORA"
 
 Scenario: Click I have an idea button
     When I click on the element "a=I have an idea"
-    Then I expect the title of the page "Sign in to UBORA - UBORA"
+    Then I expect the element ".tooltip-inner=Your email must be confirmed to create a project!" is visible
 
-Scenario: Click on View members
-    When I click on the element "a=View members"
+Scenario: Click on Community
+    When I click on the element "span=Community"
     Then I expect the title of the page "View members - UBORA"
 
 Scenario: Click on Search

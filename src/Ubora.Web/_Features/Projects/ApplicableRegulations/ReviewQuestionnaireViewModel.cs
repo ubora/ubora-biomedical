@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ubora.Domain.ApplicableRegulations;
+using Ubora.Domain.Questionnaires.ApplicableRegulations;
 
 namespace Ubora.Web._Features.Projects.ApplicableRegulations
 {
@@ -13,25 +13,22 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
         {
             public string QuestionText { get; set; }
             public string IsoStandardText { get; set; }
-            public bool Answer { get; set; }
+            public string Answer { get; set; }
         }
 
         public class Factory
         {
-            public ReviewQuestionnaireViewModel Create(Questionnaire questionnaire)
+            public ReviewQuestionnaireViewModel Create(ApplicableRegulationsQuestionnaireTree questionnaireTree)
             {
-                if (questionnaire == null) { throw new ArgumentNullException(nameof(questionnaire)); }
-
-                var answeredQuestions = questionnaire.GetAllQuestions()
-                    .Where(x => x.Answer.HasValue);
+                if (questionnaireTree == null) { throw new ArgumentNullException(nameof(questionnaireTree)); }
 
                 return new ReviewQuestionnaireViewModel
                 {
-                    QuestionAnswerList = answeredQuestions.Select(x => new QuestionAnswerListItem
+                    QuestionAnswerList = questionnaireTree.AnsweredQuestions.Select(x => new QuestionAnswerListItem
                     {
                         QuestionText = x.QuestionText,
                         // ReSharper disable once PossibleInvalidOperationException
-                        Answer = x.Answer.Value,
+                        Answer = x.ChosenAnswerText,
                         IsoStandardText = x.IsoStandardHtmlText
                     })
                 };

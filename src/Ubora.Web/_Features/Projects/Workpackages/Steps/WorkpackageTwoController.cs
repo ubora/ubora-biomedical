@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System.Linq;
+using Ubora.Domain.Projects.Candidates.Specifications;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web._Features._Shared;
+using Ubora.Web._Features.Projects._Shared;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -9,7 +13,21 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     public class WorkpackageTwoController : ProjectController
     {
         private WorkpackageTwo _workpackageTwo;
+        private readonly CandidateItemViewModel.Factory _candidateItemViewModelFactory;
+
         public WorkpackageTwo WorkpackageTwo => _workpackageTwo ?? (_workpackageTwo = QueryProcessor.FindById<WorkpackageTwo>(ProjectId));
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+        }
+
+        public WorkpackageTwoController(CandidateItemViewModel.Factory candidateItemViewModelFactory)
+        {
+            _candidateItemViewModelFactory = candidateItemViewModelFactory;
+        }
 
         [Route("{stepId}")]
         public IActionResult Read(string stepId)
@@ -56,6 +74,22 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             return RedirectToAction(nameof(Read), new { stepId = model.StepId });
+        }
+
+        [Route(nameof(Voting))]
+        public IActionResult Voting()
+        {
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.Voting;
+
+            var candidates = QueryProcessor.Find(new IsProjectCandidateSpec(ProjectId));
+
+            var candidateViewModels = candidates.Select(candidate => _candidateItemViewModelFactory.Create(candidate));
+            var model = new VotingViewModel
+            {
+                Candidates = candidateViewModels
+            };
+
+            return View(nameof(Voting), model);
         }
     }
 }

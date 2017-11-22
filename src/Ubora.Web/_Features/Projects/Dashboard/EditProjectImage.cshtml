@@ -8,26 +8,30 @@
     ViewData["MenuOption"] = ProjectMenuOption.Overview;
 }
 
-<section class="project_view full-width">
-    <section class="medium-width">
-        <form method="post" enctype="multipart/form-data" asp-controller="Dashboard" asp-action="EditProjectImage">
-            <h2>Project image</h2>
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="container-fluid my-4">
+    <div class="row">
+        <div class="col text-center">
+            <form method="post" enctype="multipart/form-data" asp-controller="Dashboard" asp-action="EditProjectImage">
+                <h2>Project image</h2>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-input">
-                <label asp-for="Image">Upload new image</label>
-                <label class="recommendation">Recommended image size is 1920x1285 px. The given image will be cropped and resized to 1500x300 and 400x150 pixel images.</label>
-                <label class="recommendation">Image has to be less than 4 MB</label>
-                <input asp-for="Image">
-                <span asp-validation-for="Image"></span>
-            </div>
-
-            <div class="form-input">
-                <div class="center-element">
-                    <button class="button secondary-button small-button" type="submit">Upload image</button>
+                <div class="form-group">
+                    <div>
+                        <label class="text-muted">All pictures will be set to 4:3 ratio.</label>
+                        <label class="text-muted">Image has to be less than 4 MB</label>
+                    </div>
+                    <span asp-validation-for="Image"></span>
+                    <label asp-for="Image" class="custom-file">
+                        <input class="form-control" type="file" asp-for="Image">
+                    </label>
                 </div>
-            </div>
 
-        </form>
-    </section>
-</section>
+                <div class="form-group">
+                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="Dashboard">Discard</a>
+                    <span class="mx-1"></span>
+                    <button class="btn btn-primary" type="submit">Upload image</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

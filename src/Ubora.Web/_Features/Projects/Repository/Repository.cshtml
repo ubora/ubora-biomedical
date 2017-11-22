@@ -6,63 +6,82 @@
     ViewData["MenuOption"] = ProjectMenuOption.Repository;
 }
 
-<div class="layout-columns">
-    <div class="layout-sidemenu">
-        @Html.Partial("AddFilePartial", Model.AddFileViewModel)
-    </div>
-
-    <div class="layout-content">
-        <section class="medium-width">
+<div class="container-fluid my-4">
+    <div class="row">
+        <div class="col-lg-3 pl-5">
+            @Html.Partial("AddFilePartial", Model.AddFileViewModel)
+        </div>
+        <div class="col-lg-9 pr-5">
             @foreach (var files in Model.AllFiles)
             {
-                <div class="repository-folder">
-                    <h2>@files.Key</h2>
-
-                    <table class="table table-filelist full-width">
-                        <tr>
-                            <th></th>
-                            <th>File name</th>
-                            <th>Revision number</th>
-                            <th>Size (kB)</th>
-                            <th>Comment</th>
-                        </tr>
-
-                        @foreach (var file in files)
-                        {
-                            <tr class="table-row-content-center">
-                                <td>
-                                  <a href="@file.DownloadUrl" title="Download file" aria-label="Download file">
-                                    <i class="file-list--item-control material-icons">file_download</i>
-                                  </a>
-
-                                  <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file">
-                                    <i class="file-list--item-control material-icons">file_upload</i>
-                                  </a>
-
-                                  <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history">
-                                    <i class="file-list--item-control material-icons">history</i>
-                                  </a>
-
-                                  <i
-                                    class="file-list--item-control material-icons js-copy-to-clipboard"
-                                    title="Copy file path to clipboard"
-                                    aria-label="Copy file"
-                                    data-uripath="@file.DownloadUrl">content_copy</i>
-                                  @if (Model.IsProjectLeader)
-                                  {
-                                    <a href="@Url.Action("HideFile", new {fileId = file.Id})" title="Delete file forever" aria-label="Delete file forever">
-                                    <i class="file-list--item-control material-icons">delete_forever</i>
-                                    </a>
-                                  }
-                                </td>
-                                <td>@file.FileName</td>
-                                <td>@file.RevisionNumber</td>
-                                <td>@file.FileSizeInKbs</td>
-                                <td>@file.Comment</td>
+                <h2 class="mb-4">@files.Key</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">File name</th>
+                                <th scope="col">Revision number</th>
+                                <th scope="col">Size (kB)</th>
+                                <th scope="col">Comment</th>
                             </tr>
-                        }
+                        </thead>
+                        <tbody>
+
+                            @foreach (var file in files)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="@Url.Action("DownloadFile","Repository", new { fileId = file.Id })" title="Download file" aria-label="Download file" class="js-tooltip" data-placement="bottom">
+                                            <i class="file-list--item-control material-icons">file_download</i>
+                                        </a>
+
+                                        <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file" class="js-tooltip" data-placement="bottom">
+                                            <i class="file-list--item-control material-icons">file_upload</i>
+                                        </a>
+
+                                        <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history" class="js-tooltip" data-placement="bottom">
+                                            <i class="file-list--item-control material-icons">history</i>
+                                        </a>
+
+                                        <i class="file-list--item-control material-icons js-tooltip js-copy"
+                                           title="Copy file path to clipboard"
+                                           aria-label="Copy file"
+                                           data-toggle="tooltip"
+                                           data-placement="bottom"
+                                           data-copy="@Url.Action("DownloadFile","Repository", new { fileId = file.Id }, Context.Request.Scheme)">
+                                            content_copy
+                                        </i>
+
+                                        @if (Model.IsProjectLeader)
+                                        {
+                                            <a href="@Url.Action("HideFile", new {fileId = file.Id})" title="Delete file forever" aria-label="Delete file forever" class="js-tooltip" data-placement="bottom">
+                                                <i class="file-list--item-control material-icons">delete_forever</i>
+                                            </a>
+                                        }
+
+                                    </td>
+                                    <td>@file.FileName</td>
+                                    <td>@file.RevisionNumber</td>
+                                    <td>@file.FileSizeInKbs</td>
+                                    <td>@file.Comment</td>
+                                </tr>
+                            }
+                        </tbody>
                     </table>
                 </div>
             }
-        </section>
+        </div>
     </div>
+</div>
+
+@section Scripts {
+    @{     await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css"
+          asp-fallback-href="~/dist/lib/dropzone.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.2.0/dropzone.js"
+            asp-fallback-src="~/dist/lib/dropzone.js">
+    </script>
+    <script src="~/dist/drag_and_drop_file_uploads.bundle.js"></script>
+}

@@ -12,7 +12,9 @@ using Ubora.Domain.Projects.Repository.Commands;
 using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Authorization;
+using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Projects.Repository
 {
@@ -54,16 +56,17 @@ namespace Ubora.Web._Features.Projects.Repository
 
         [Route("AddFile")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddFile(AddFileViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return Repository();
+                return ModelState.ToJsonResult();
             }
 
             foreach (var file in model.ProjectFiles)
             {
-                var fileName = GetFileName(file);
+                var fileName = file.GetFileName();
                 var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
                 await SaveBlobAsync(file, blobLocation);
 
@@ -79,11 +82,11 @@ namespace Ubora.Web._Features.Projects.Repository
 
                 if (!ModelState.IsValid)
                 {
-                    return Repository();
+                    return ModelState.ToJsonResult();
                 }
             }
 
-            return RedirectToAction(nameof(Repository));
+            return Ok();
         }
 
 
@@ -115,7 +118,7 @@ namespace Ubora.Web._Features.Projects.Repository
             }
 
             var file = QueryProcessor.FindById<ProjectFile>(model.FileId);
-            var fileName = GetFileName(model.ProjectFile);
+            var fileName = model.ProjectFile.GetFileName();
 
             var blobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
             await SaveBlobAsync(model.ProjectFile, blobLocation);
@@ -144,7 +147,7 @@ namespace Ubora.Web._Features.Projects.Repository
             var allFiles = fileEvents
                 .Select(x => new FileItemHistoryViewModel
                 {
-                    DownloadUrl = _uboraStorageProvider.GetReadUrl(((UboraFileEvent)x.Data).Location, DateTime.UtcNow.AddSeconds(15)),
+                    EventId = x.Id,
                     FileSize = ((UboraFileEvent)x.Data).FileSize,
                     RevisionNumber = ((UboraFileEvent)x.Data).RevisionNumber,
                     FileAddedOn = x.Timestamp,
@@ -162,22 +165,40 @@ namespace Ubora.Web._Features.Projects.Repository
             return View(nameof(FileHistory), model);
         }
 
+        [Route("DownloadFile")]
+        public IActionResult DownloadFile(Guid fileId)
+        {
+            var file = QueryProcessor.FindById<ProjectFile>(fileId);
+            if (file == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var blobSasUrl = _uboraStorageProvider.GetReadUrl(file.Location, DateTime.UtcNow.AddSeconds(5));
+
+            return Redirect(blobSasUrl);
+        }
+
+        [Route("DownloadHistoryFile")]
+        public IActionResult DownloadHistoryFile(Guid eventId)
+        {
+            var fileEvent = _eventStreamQuery.FindFileEvent(ProjectId, eventId);
+            if (fileEvent == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var fileLocation = ((UboraFileEvent)fileEvent.Data).Location;
+
+            var blobSasUrl = _uboraStorageProvider.GetReadUrl(fileLocation, DateTime.UtcNow.AddSeconds(5));
+
+            return Redirect(blobSasUrl);
+        }
+
         private async Task SaveBlobAsync(IFormFile projectFile, BlobLocation blobLocation)
         {
             var fileStream = projectFile.OpenReadStream();
             await _uboraStorageProvider.SavePrivate(blobLocation, fileStream);
-        }
-
-        private string GetFileName(IFormFile projectFile)
-        {
-            if (projectFile != null)
-            {
-                var filePath = projectFile.FileName.Replace(@"\", "/");
-                var fileName = Path.GetFileName(filePath);
-                return fileName;
-            }
-
-            return "";
         }
     }
 }

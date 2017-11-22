@@ -1,0 +1,25 @@
+.footer {
+  background-color: var(--blue);
+}
+
+.social-item:active,
+.social-item:focus,
+.social-item:hover {
+  color: var(--white);
+  text-decoration: underline;
+}
+
+.social-item--image {
+  height: 2em;
+  width: 2em;
+}
+
+.legal-flag {
+  width:5em;
+}
+
+.legal-quote {
+  font-size: 80%;
+  font-style: italic;
+  color: var(--quartinary-shade);
+}

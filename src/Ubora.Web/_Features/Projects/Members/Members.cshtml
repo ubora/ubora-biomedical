@@ -5,71 +5,88 @@
 @{
     ViewData["Title"] = "Members";
     ViewData["MenuOption"] = ProjectMenuOption.Members;
-}
 
-<section class="medium-width">
-    <div class="project-control-options">
-        @if (Model.IsProjectMember)
-        {
-        <a class="project-control" asp-controller="Members" asp-action="Invite">
-            <i class="material-icons">person_add</i>Invite member to project
-        </a>
-        }
+    var isAdmin = User.IsInRole(ApplicationRole.Admin);
+  }
 
-        @{
-        var isAdmin = User.IsInRole(ApplicationRole.Admin);
-        }
-        @if (isAdmin)
-        {
+<div class="container-fluid my-4">
+  <div class="row justify-content-center">
+    <div class="col-sm-12 col-lg-8">
 
-        <a class="project-control" asp-controller="InviteMentors" asp-action="InviteMentors">
-            <i class="material-icons" id="MentorInviteButton">person_add</i>Add mentor to project
-        </a>
-        }
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-5">
+          <h1 class="display-4 mb-4">Project members</h1>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-7 d-flex justify-content-end">
+          <div class="row">
+            @if (Model.IsProjectMember)
+            {
+              <div class="col">
+                <a class="btn btn-secondary-ghost align-self-start d-sm-block d-lg-inline-block" asp-controller="Members" asp-action="Invite">
+                  <i class="material-icons">person_add</i>
+                  <span>Invite member</span>
+                </a>
+              </div>
+            }
 
-        @if (Model.IsProjectMember && !Model.IsProjectLeader)
-        {
-        <a class="project-control" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId">
-            <i class="material-icons">exit_to_app</i>Leave project
-        </a>
-        }
+            @if (isAdmin)
+            {
+              <div class="col">
+                <a class="btn btn-secondary-ghost align-self-start d-sm-block d-lg-inline-block" asp-controller="InviteMentors" asp-action="InviteMentors">
+                  <i class="material-icons" id="MentorInviteButton">person_add</i>
+                  <span>Add mentor</span>
+                </a>
+              </div>
+            }
+            @if (Model.IsProjectMember && !Model.IsProjectLeader)
+            {
+              <div class="col">
+                <a class="btn btn-secondary-ghost btn-highlighted align-self-start d-sm-block d-lg-inline-block" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId">
+                  <i class="material-icons">exit_to_app</i>
+                  <span>Leave project</span>
+                </a>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center d-flex flex-column my-4">
+        <div class="col-sm-12">
+          <ul class="list-group">
+            @foreach (var member in Model.Members)
+            {
+              <li class="list-group-item">
+                <div class="col-sm-2 d-flex justify-content-center">
+                  @if (member.IsProjectLeader)
+                  {
+                    <i class="material-icons" title="Project leader">supervisor_account</i>
+                  }
+                  @if (member.IsProjectMentor)
+                  {
+                    <i class="material-icons" title="Project mentor">school</i>
+                  }
+                </div>
+                <div class="col text-center">
+                  <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@member.UserId">@member.FullName</a>
+                </div>
+                <div class="col-sm-2 d-flex justify-content-end">
+                  @{
+                    var isRemoveMemberButtonVisible = Model.CanRemoveProjectMembers && !member.IsProjectLeader;
+                  }
+                  @if (isRemoveMemberButtonVisible)
+                  {
+                  <a title="Remove member" class="btn btn-highlighted btn-sm" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId">
+                    <i class="material-icons">close</i>
+                  </a>
+                  }
+                </div>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+
     </div>
-    <h1 class="full-width">Project members</h1>
-</section>
-
-<section class="narrow-width">
-    @foreach (var member in Model.Members)
-    {
-    <div class="project-member">
-        <span class="project-member--status">
-            @if (member.IsProjectLeader)
-            {
-            @* TODO: Add a 'title' attribute with correct roles in the future.*@
-            <i class="material-icons" title="Project leader">supervisor_account</i>
-            }
-            @if (member.IsProjectMentor)
-            {
-            <i class="material-icons" title="Project mentor">school</i>
-            }
-        </span>
-
-        <span class="project-member--name">
-            <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@member.UserId">
-                @member.FullName
-            </a>
-        </span>
-
-        <span class="project-member--controls">
-            @{
-            var isRemoveMemberButtonVisible = Model.CanRemoveProjectMembers && !member.IsProjectLeader;
-            }
-            @if (isRemoveMemberButtonVisible)
-            {
-            <a class="project-member--remove" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId">
-                <i class="material-icons">close</i>
-            </a>
-            }
-        </span>
-    </div>
-    }
-</section>
+  </div>
+</div>

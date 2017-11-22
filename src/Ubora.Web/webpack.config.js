@@ -12,6 +12,9 @@ module.exports = env => {
   const config = {
     stats: { modules: false },
     context: __dirname,
+    entry: {
+      drag_and_drop_file_uploads: './Scripts/modules/drag_and_drop_file_uploads.js'
+    },
     resolve: { extensions: ['.js', '.css'] },
     output: {
       filename: '[name].bundle.js',
@@ -47,7 +50,8 @@ module.exports = env => {
         { from: './node_modules/simplemde/dist/simplemde.min.js', to: './lib' },
         { from: './node_modules/simplemde/dist/simplemde.min.css', to: './lib' },
         { from: './node_modules/select2/dist/js/select2.min.js', to: './lib' },
-        { from: './node_modules/select2/dist/css/select2.min.css', to: './lib' }
+        { from: './node_modules/select2/dist/css/select2.min.css', to: './lib' },
+        { from: './node_modules/timeago/jquery.timeago.js', to: './lib' }
       ])
     ]
   };

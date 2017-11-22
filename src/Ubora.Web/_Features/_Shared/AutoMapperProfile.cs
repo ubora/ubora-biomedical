@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Ubora.Domain.Projects;
-using Ubora.Domain.Projects.Tasks;
+using Ubora.Domain.Projects.Assignments;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Web._Features.ProjectList;
 using Ubora.Domain.Users;
@@ -13,6 +13,7 @@ using Ubora.Web._Features.Projects.Repository;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Web._Features.Projects.Assignments;
+using Ubora.Domain.Projects.Candidates;
 
 namespace Ubora.Web._Features._Shared
 {
@@ -20,11 +21,12 @@ namespace Ubora.Web._Features._Shared
     {
         public AutoMapperProfile()
         {
-            CreateMap<ProjectTask, AssignmentListItemViewModel>();
-            CreateMap<ProjectTask, EditAssignmentViewModel>();
+            CreateMap<Assignment, AssignmentListItemViewModel>();
+            CreateMap<Assignment, EditAssignmentViewModel>()
+                .ForMember(dest => dest.AssigneeIds, o => o.Ignore())
+                .ForMember(dest => dest.ProjectMembers, o => o.Ignore());
 
-            CreateMap<ProjectFile, ProjectFileViewModel>()
-                .ForMember(dest => dest.DownloadUrl, o => o.Ignore());
+            CreateMap<ProjectFile, ProjectFileViewModel>();
 
             CreateMap<ProjectFile, UpdateFileViewModel>()
                 .ForMember(dest => dest.ProjectFile, o => o.Ignore())
@@ -58,11 +60,19 @@ namespace Ubora.Web._Features._Shared
             CreateMap<Project, ProjectDashboardViewModel>()
                 .ForMember(dest => dest.IsProjectMember, o => o.Ignore())
                 .ForMember(dest => dest.ImagePath, o => o.Ignore())
-                .ForMember(dest => dest.HasImage, o => o.Ignore());
+                .ForMember(dest => dest.DeviceClassification, o => o.Ignore());
 
             CreateMap<WorkpackageReview, WorkpackageReviewViewModel>();
 
-            CreateMap<Project, DeviceClassificationViewModel>();
+
+            CreateMap<Candidate, CandidateItemViewModel>()
+                .ForMember(dest => dest.ImageUrl, o => o.Ignore());
+            CreateMap<Candidate, CandidateViewModel>()
+                .ForMember(dest => dest.ImageUrl, o => o.Ignore());
+            CreateMap<Candidate, EditCandidateViewModel>();
+            CreateMap<Candidate, EditCandidateImageViewModel>()
+                .ForMember(dest => dest.Image, o => o.Ignore());
+            CreateMap<Candidate, RemoveCandidateImageViewModel>();
         }
     }
 }

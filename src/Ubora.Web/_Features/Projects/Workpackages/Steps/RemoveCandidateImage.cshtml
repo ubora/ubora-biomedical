@@ -1,0 +1,25 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Workpackages.Steps.RemoveCandidateImageViewModel
+
+<div class="container-fluid my-4">
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+            @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+        </div>
+
+        <div class="col text-center">
+
+            <h2 class="mb-4">Do you want to remove the candidate "@Model.Title" image?</h2>
+            <form asp-controller="ConceptualDesign" asp-action="RemoveCandidateImage" method="post">
+                @Html.HiddenFor(m => m.Id)
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <a class="btn btn-secondary-ghost" asp-controller="ConceptualDesign" asp-action="Candidate" asp-route-candidateId="@Model.Id">No, cancel</a>
+                    <span class="mx-1"></span>
+                    <button class="btn btn-primary" type="submit">Yes, remove</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

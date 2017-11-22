@@ -17,6 +17,7 @@ namespace Ubora.Web._Features.Projects
 
     [ProjectRoute("[controller]/[action]")]
     [Authorize(Policy = nameof(Policies.ProjectController))]
+    [RedirectIfProjectDeletedFilter]
     public abstract class ProjectController : UboraController
     {
         protected Guid ProjectId => RouteData.GetProjectId();

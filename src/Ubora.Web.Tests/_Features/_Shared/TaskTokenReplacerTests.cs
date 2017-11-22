@@ -6,7 +6,7 @@ using System;
 using System.Text.Encodings.Web;
 using Ubora.Domain;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Projects.Tasks;
+using Ubora.Domain.Projects.Assignments;
 using Ubora.Web._Features._Shared.Tokens;
 using Xunit;
 
@@ -31,25 +31,25 @@ namespace Ubora.Web.Tests._Features._Shared
         public void Replaces_Task_Tokens_With_Anchor_Tags()
         {
             var task1Title = "task1Title";
-            var task1 = new ProjectTask()
+            var task1 = new Assignment()
                 .Set(x => x.Id, Guid.NewGuid())
                 .Set(x => x.Title, task1Title);
 
             var task2Title = "task2Title";
-            var task2 = new ProjectTask()
+            var task2 = new Assignment()
                 .Set(x => x.Id, Guid.NewGuid())
                 .Set(x => x.Title, task2Title);
 
             var text = $"test1 {StringTokens.Task(task1.Id)} test2 {StringTokens.Task(task2.Id)} test3";
 
-            _queryProcessorMock.Setup(x => x.FindById<ProjectTask>(task1.Id))
+            _queryProcessorMock.Setup(x => x.FindById<Assignment>(task1.Id))
                 .Returns(task1);
 
-            _queryProcessorMock.Setup(x => x.FindById<ProjectTask>(task2.Id))
+            _queryProcessorMock.Setup(x => x.FindById<Assignment>(task2.Id))
                 .Returns(task2);
 
             _urlHelperMock.Setup(h => h.Action(It.Is<UrlActionContext>(
-                    x => x.Action == "Assignments" && x.Controller == "Assignments")))
+                    x => x.Action == "Edit" && x.Controller == "Assignments")))
                 .Returns("tasksLink");
 
             var encodedTask1Title = "encodedTask1Title";

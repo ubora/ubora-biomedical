@@ -1,0 +1,87 @@
+.form-group label {
+  color: var(--blue);
+  font-size: 1.5rem;
+  margin:1rem 0;
+}
+
+.form-group .form-control {
+  border: 0;
+  border-bottom: 2px solid var(--blue);
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: .5rem 0;
+}
+
+.form-group .form-control:focus {
+  border: 0;
+  border-bottom: 2px solid var(--light-blue);
+}
+
+select.form-control:not([size]):not([multiple]) {
+  height: auto;
+}
+
+label.custom-file {
+  font-size: 1rem;
+}
+
+.custom-file-control.selected:lang(en)::after {
+  content: "" !important;
+}
+
+.custom-file-control {
+  border:0;
+  border-radius: 0;
+  border-bottom: 2px solid var(--blue);
+}
+
+.custom-file-control::before {
+  background-color: var(--blue);
+  border: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: .25rem;
+  color: var(--white);
+  transition:
+    background-color 200ms ease-in,
+    border 200ms ease-in;
+}
+
+.custom-file:hover .custom-file-control::before {
+  background-color: var(--light-blue);
+  cursor: pointer;
+}
+
+.custom-file .custom-file-control,
+.custom-file-control::before {
+  line-height: 1;
+}
+
+.validation-summary-errors {
+  color: var(--orange);
+  font-size: 120%;
+}
+
+.validation-summary-errors > ul {
+  list-style: none;
+  margin: 1em 0;
+  padding: 0;
+}
+
+.validation-summary-errors > ul > li {
+  padding: .2em 0;
+}
+
+.field-validation-error {
+  color: var(--orange);
+  display: block;
+}
+
+.field-validation-error > span {
+  margin: .5em 0;
+  padding: 0;
+}
+
+.input-validation-error {
+  border-color: var(--orange);
+}

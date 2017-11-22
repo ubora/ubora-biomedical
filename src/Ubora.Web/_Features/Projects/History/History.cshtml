@@ -6,13 +6,24 @@
     ViewData["MenuOption"] = ProjectMenuOption.History;
 }
 
-<section class="medium-width">
-    <h1 class="full-width">Project history</h1>
-    
-    <ul class="list--none">
-        @foreach (var uboraEvent in Model)
-        {
+<div class="container-fluid my-4">
+  <div class="row justify-content-center">
+    <div class="col-sm-12 col-md-8">
+      <h1 class="display-4 mb-4">Project history</h1>
+      @if (Model.Any())
+      {
+        <ul class="list-group">
+          @foreach (var uboraEvent in Model)
+          {
             @uboraEvent.GetPartialView(Html)
-        }
-    </ul>
-</section>
+          }
+        </ul>
+      }
+      else
+      {
+        <p>No history to show.</p>
+      }
+      </ul>
+    </div>
+  </div>
+</div>

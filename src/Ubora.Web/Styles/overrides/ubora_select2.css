@@ -1,0 +1,97 @@
+.select2 {
+  border-bottom: 2px solid var(--blue);
+  box-sizing: border-box;
+  font-size: 100%;
+  min-height: 2em;
+  vertical-align: middle;
+  transition:
+    background-color .3s ease,
+    color .3s ease;
+  width: 100% !important;
+}
+
+.select2-selection--single {
+  height: auto !important;
+}
+
+.select2-selection__rendered {
+  bottom: .3em;
+  box-sizing: border-box;
+  padding: .2em !important;
+  position: absolute;
+  width: 100%;
+}
+
+.select2-results > .select2-results__options {
+    max-height: 30vh;
+    overflow-y: auto;
+}
+
+li.select2-results__option[aria-disabled="true"] {
+  display: none;
+}
+
+.select2-search__field {
+    padding-top: 1em !important;
+}
+
+.select2-search__field,
+.select2-search__field:focus {
+  border:0;
+}
+
+.select2-selection__arrow b {
+    border-color: #000 transparent transparent transparent;
+    border-style: solid;
+    border-width: 5px 4px 0 4px;
+    height: 0;
+    position: absolute;
+    right:.5em;
+    top: 50%;
+    width: 0;
+}
+
+input.select2-search__field,
+input.select2-search__field:focus {
+  border:1px solid var(--light-blue);
+}
+
+
+li.select2-results__option[role="treeitem"]:hover {
+  background-color:var(--blue);
+  color:var(--white);
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+  border: 0!important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+  margin:-10px 0 !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background-color: var(--blue) !important;
+  border: 1px solid var(--blue) !important;
+  border-radius: 5px!important;
+  color: var(--white);
+  margin-top: 15px!important;
+  padding: 5px!important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+  color: var(--white) !important;
+  padding-right: .2em;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+  color: var(--orange)!important;
+}
+
+.multiple-select-box + .select2-container--default .select2-selection--multiple {
+  border: 0;
+}
+
+.select2-selection__rendered {
+  position: relative !important;
+}

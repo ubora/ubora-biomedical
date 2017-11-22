@@ -25,6 +25,7 @@ using Ubora.Domain.Projects.Repository.Commands;
 using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Web.Tests.Helper;
 using AutoMapper;
+using Newtonsoft.Json;
 
 namespace Ubora.Web.Tests._Features.Projects.Repository
 {
@@ -169,7 +170,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 && b.BlobPath.Contains(fileName) && b.BlobPath.Contains(ProjectId.ToString());
 
             //Act
-            var result = (RedirectToActionResult)await _controller.AddFile(model);
+            var result = (OkResult)await _controller.AddFile(model);
 
             //Assert
             executedCommand.ProjectId.Should().Be(ProjectId);
@@ -181,7 +182,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             executedCommand.Comment.Should().Be(comment);
             executedCommand.FileSize.Should().Be(fileSize);
 
-            result.ActionName.Should().Be(nameof(RepositoryController.Repository));
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             _uboraStorageProviderMock.Verify(x => x.SavePrivate(It.Is(expectedBlobLocationFunc), stream));
         }
@@ -197,18 +198,17 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             _controller.ModelState.AddModelError("", errorMessage);
             fileMock.Setup(f => f.FileName)
                 .Returns("C:\\Test\\Parent\\Parent\\image.png");
-            QueryProcessorMock.Setup(p => p.Find(new IsProjectFileSpec(ProjectId) && !new IsHiddenFileSpec()))
-                .Returns(new List<ProjectFile>());
-
-            CreateTestProject();
 
             //Act
-            var result = (ViewResult)await _controller.AddFile(model);
+            var result = (JsonResult)await _controller.AddFile(model);
 
             //Assert
-            result.ViewName.Should().Be(nameof(RepositoryController.Repository));
+            var addFileResponse = JsonConvert.DeserializeObject<AddFileResponse>(JsonConvert.SerializeObject(result.Value));
 
-            AssertModelStateContainsError(result, errorMessage);
+            foreach (var error in addFileResponse.Errors)
+            {
+                errorMessage.Should().Be(error);
+            }
 
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
 
@@ -239,22 +239,18 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<AddFileCommand>()))
                 .Returns(commandResult);
-            QueryProcessorMock.Setup(p => p.Find(new IsProjectFileSpec(ProjectId) && !new IsHiddenFileSpec()))
-                .Returns(new List<ProjectFile>());
 
             var expectedBlobLocation = BlobLocations.GetRepositoryFileBlobLocation(ProjectId, fileName);
             Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName
                 && b.BlobPath.Contains(fileName) && b.BlobPath.Contains(ProjectId.ToString());
 
-            CreateTestProject();
-
             //Act
-            var result = (ViewResult)await _controller.AddFile(model);
+            var result = (JsonResult)await _controller.AddFile(model);
 
             //Assert
-            result.ViewName.Should().Be(nameof(RepositoryController.Repository));
+            var addFileResponse = JsonConvert.DeserializeObject<AddFileResponse>(JsonConvert.SerializeObject(result.Value));
 
-            AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
+            commandResult.ErrorMessages.ToArray().Should().Equal(addFileResponse.Errors);
 
             _uboraStorageProviderMock.Verify(x => x.SavePrivate(It.Is(expectedBlobLocationFunc), stream), Times.Once);
         }
@@ -468,11 +464,14 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             var fileAddedDate = DateTimeOffset.Now;
             var fileUpdatedDate = DateTimeOffset.Now.AddDays(1);
             var fileUpdated2Date = DateTimeOffset.Now.AddDays(2);
+            var fileAddedEventId = Guid.NewGuid();
+            var fileUpdatedEventId = Guid.NewGuid();
+            var fileUpdatedEvent2Id = Guid.NewGuid();
             var events = new List<IEvent>
             {
-                new TestEvent{ Timestamp = fileAddedDate, Data = fileAddedEvent },
-                new TestEvent{ Timestamp = fileUpdatedDate, Data = fileUpdatedEvent },
-                new TestEvent{ Timestamp = fileUpdated2Date, Data = fileUpdatedEvent2 },
+                new TestEvent{ Timestamp = fileAddedDate, Data = fileAddedEvent , Id = fileAddedEventId},
+                new TestEvent{ Timestamp = fileUpdatedDate, Data = fileUpdatedEvent, Id = fileUpdatedEventId },
+                new TestEvent{ Timestamp = fileUpdated2Date, Data = fileUpdatedEvent2, Id = fileUpdatedEvent2Id },
             };
 
             _eventStreamQueryMock.Setup(q => q.FindFileEvents(ProjectId, fileId))
@@ -498,24 +497,24 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             {
                 new FileItemHistoryViewModel
                 {
+                    EventId = fileAddedEventId,
                     Comment = "comment",
-                    DownloadUrl = downLoadUrl,
                     FileAddedOn = fileAddedDate,
                     FileSize = 111,
                     RevisionNumber = 1
                 },
                 new FileItemHistoryViewModel
                 {
+                    EventId = fileUpdatedEventId,
                     Comment = "comment2",
-                    DownloadUrl = downLoadUrl,
                     FileAddedOn = fileUpdatedDate,
                     FileSize = 222,
                     RevisionNumber = 2
                 },
                 new FileItemHistoryViewModel
                 {
+                    EventId = fileUpdatedEvent2Id,
                     Comment = "comment3",
-                    DownloadUrl = downLoadUrl,
                     FileAddedOn = fileUpdated2Date,
                     FileSize = 333,
                     RevisionNumber = 3
@@ -530,11 +529,69 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             };
 
             // Act
-            var result = (ViewResult) _controller.FileHistory(fileId);
+            var result = (ViewResult)_controller.FileHistory(fileId);
 
             // Assert
             result.ViewName.Should().Be(nameof(RepositoryController.FileHistory));
             result.Model.As<FileHistoryViewModel>().ShouldBeEquivalentTo(expectedViewModel);
+        }
+
+        [Fact]
+        public void DownloadFile_Returns_RedirectToUrl()
+        {
+            var projectFile = new ProjectFile();
+            var blobLocation = new BlobLocation("container", "path");
+            projectFile.Set(f => f.Location, blobLocation);
+
+            var fileId = Guid.NewGuid();
+            QueryProcessorMock.Setup(p => p.FindById<ProjectFile>(fileId))
+                .Returns(projectFile);
+
+            var expectedBlobSasUrl = "expectedBlobSasUrl";
+            _uboraStorageProviderMock.Setup(p => p.GetReadUrl(blobLocation, It.IsAny<DateTime>()))
+                .Returns(expectedBlobSasUrl);
+
+            //Act
+            var result = (RedirectResult)_controller.DownloadFile(fileId);
+
+            //Assert
+            result.Url.Should().Be(expectedBlobSasUrl);
+        }
+
+        [Fact]
+        public void DownloadHistoryFile_Returns_RedirectToUrl()
+        {
+            CreateTestProject();
+            var userInfo = new UserInfo(UserId, "user name");
+            var blobLocation = new BlobLocation("containerName", "blobPath");
+            var fileAddedEvent = new FileAddedEvent(
+                id: Guid.NewGuid(),
+                comment: "comment",
+                fileName: "fileName",
+                fileSize: 111,
+                folderName: "folderName",
+                initiatedBy: userInfo,
+                location: blobLocation,
+                projectId: ProjectId,
+                revisionNumber: 1
+                );
+
+            var fileEvent = new Mock<IEvent>();
+            var eventId = Guid.NewGuid();
+            fileEvent.Setup(x => x.Data)
+                .Returns(fileAddedEvent);
+            _eventStreamQueryMock.Setup(x => x.FindFileEvent(ProjectId, eventId))
+                .Returns(fileEvent.Object);
+
+            var expectedBlobSasUrl = "expectedBlobSasUrl";
+            _uboraStorageProviderMock.Setup(p => p.GetReadUrl(blobLocation, It.IsAny<DateTime>()))
+                .Returns(expectedBlobSasUrl);
+
+            //Act
+            var result = (RedirectResult)_controller.DownloadHistoryFile(eventId);
+
+            //Assert
+            result.Url.Should().Be(expectedBlobSasUrl);
         }
 
         private void CreateTestProject()
@@ -543,6 +600,10 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
 
             QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(expectedProject);
+        }
+        private class AddFileResponse
+        {
+            public List<string> Errors { get; set; }
         }
     }
 }

@@ -6,7 +6,7 @@ Background:
     Given I go to Home page
 
 Scenario: I sign up an account and create my profile
-    When I click on the element "#SignInSignUp"
+    When I click on the element "span=Log in"
         And I sign up as "user@profile.com"
         And I set value "Bio Bio Bio, Test Test Test" to the element "#Biography"
         And I select value "AGO" from element "#CountryCode"
@@ -21,8 +21,7 @@ Scenario: I sign up an account and create my profile
     Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: I check my created profile
-    When I click on the element "span=Menu"
-        And I click on the element "a=View profile"
+    When I click on the element "span=Profile"
         And I click on the element "a=Edit profile"
     Then I expect the title of the page "Edit profile - UBORA"
         And I expect the element "value=FirstName" is visible
@@ -41,8 +40,7 @@ Scenario: I check my created profile
     Then I expect the title of the page "Manage your account - UBORA"
 
 Scenario: I change my profile and check if my changes have been saved
-    When I click on the element "span=Menu"
-        And I click on the element "a=View profile"
+    When I click on the element "span=Profile"
         And I click on the element "a=Edit profile"
         And I set value "NameFirst" to the element "#FirstName"
         And I set value "NameLast" to the element "#LastName"
@@ -72,23 +70,19 @@ Scenario: I change my profile and check if my changes have been saved
         And I expect the element "option=Mentor" is visible
 
 Scenario: I try to add an empty profile picture
-    When I click on the element "span=Menu"
-        And I click on the element "a=View profile"
-        And I wait for the element "a=Edit profile"
+    When I click on the element "span=Profile"
         And I click on the element "a=Edit profile"
         And I click on the element "button=Upload image"
     Then I expect the title of the page "Edit profile - UBORA"
         And I expect the element "span=Please select an image to upload first!" is visible
 
 Scenario: I check terms of service
-    When I click on the element "span=Menu"
-        And I wait for the element "a=View profile"
-        And I click on the element "a=View profile"
+    When I click on the element "span=Profile"
         And I click on the element "a=Terms of Service"
     Then I expect the title of the page "Terms of Service - UBORA"
         And I expect the element "h1=UBORA e-infrastructure Terms of Service and Privacy Policy" is visible
         And I expect the element "a=http://e-infrastructure.ubora-biomedical.org" is visible
 
-Scenario: I log out
-    When I log out
+Scenario: I sign out
+    When I sign out
     Then I expect the title of the page "Welcome - UBORA"

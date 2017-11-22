@@ -9,9 +9,7 @@ using System.Text.Encodings.Web;
 using Marten.Events;
 using Ubora.Domain;
 using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Projects.DeviceClassification;
-using Ubora.Domain.Projects.DeviceClassification.Events;
-using Ubora.Domain.Projects.Tasks.Events;
+using Ubora.Domain.Projects.Assignments.Events;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Events;
 using Ubora.Domain.Projects._Events;
@@ -64,8 +62,6 @@ namespace Ubora.Web.Tests._Features.Projects.History
                 EditProject();
 
                 AddTask();
-
-                EditProjectDeviceClassification();
             }
 
             SubmitWorkPackageOneForReview();
@@ -110,7 +106,7 @@ namespace Ubora.Web.Tests._Features.Projects.History
                 initiatedBy: _userInfo,
                 newValue: "new value",
                 title: "new title",
-                stepId: WorkpackageStepIds.DescriptionOfFunctions);
+                stepId: WorkpackageStepIds.ClinicalNeeds);
             Session.Events.Append(_projectId, editedWorkpackageTwoEvent);
             Session.SaveChanges();
         }
@@ -144,30 +140,20 @@ namespace Ubora.Web.Tests._Features.Projects.History
                 initiatedBy: _userInfo,
                 newValue: "new value",
                 title: "new title",
-                stepId: WorkpackageStepIds.DescriptionOfNeeds);
+                stepId: WorkpackageStepIds.ClinicalNeeds);
             Session.Events.Append(_projectId, editedWorkpackageOneEvent);
-            Session.SaveChanges();
-        }
-
-        private void EditProjectDeviceClassification()
-        {
-            var editedDeviceClassificationEvent = new EditedProjectDeviceClassificationEvent(
-                projectId: _projectId,
-                newClassification: new Classification("IIb", 3, new List<Guid>()),
-                currentClassification: new Classification("IIa", 3, new List<Guid>()),
-                initiatedBy: _userInfo);
-            Session.Events.Append(_projectId, editedDeviceClassificationEvent);
             Session.SaveChanges();
         }
 
         private void AddTask()
         {
-            var taskAddedEvent = new TaskAddedEvent(
+            var taskAddedEvent = new AssignmentAddedEvent(
                 initiatedBy: _userInfo,
                 id: Guid.NewGuid(),
                 projectId: _projectId,
                 title: "title",
-                description: $"submitted workpackage 1 for review {StringTokens.WorkpackageOneReview()}"
+                description: $"submitted workpackage 1 for review {StringTokens.WorkpackageOneReview()}",
+                assigneeIds: null
             );
             Session.Events.Append(_projectId, taskAddedEvent);
             Session.SaveChanges();
