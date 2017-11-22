@@ -43,7 +43,7 @@ module.exports = function () {
         .deleteCookie('.AspNetCore.Identity.Application')
         .url('/')
         .click('span=Log in')
-        .click('a=Sign up now!')
+        .click('a=Sign up')
         .setValue('#FirstName', 'testFirstName')
         .setValue('#LastName', 'testLastName')
         .setValue('#Email', email)

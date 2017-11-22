@@ -5,13 +5,9 @@ Feature: Project Creation Dashboard page
 Background:
     Given I go to Home page
 
-Scenario: I sign up to create a project
-    When I click on the element "a=I have an idea"
-    Then I expect the title of the page "Sign in to UBORA - UBORA"
-    When I sign up as "project@email.com"
-    Then I expect the title of the page "Create a profile - UBORA"
-    When I click on the element "button=Continue"
-    Then I expect the title of the page "Project drafting - UBORA"
+Scenario: I sign in to create a project
+    When I sign in as user
+    Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: I try to create an empty project
     When I click on the element "a=I have an idea"
@@ -60,7 +56,7 @@ Scenario: I click Work packages
     When I click on the element "h4=TestProject"
     Then I expect the title of the page "Dashboard - UBORA"
     When I click on the element "a=Work packages"
-    Then I expect the title of the page "Work packages - UBORA"
+    Then I expect the title of the page "Design planning - UBORA"
 
 Scenario: I click Repository
     When I click on the element "h4=TestProject"
@@ -68,7 +64,7 @@ Scenario: I click Repository
     Then I expect the title of the page "Repository - UBORA"
     When I click on the element "button=Upload new file"
     Then I expect the element "span=Please select a file to upload!" is visible
-        And I expect the element "span=The FolderName field is required." is visible
+        And I expect the element "span=Please select a file to upload!" is visible
 
 Scenario: I click Assignments and add an Assignment
     When I click on the element "h4=TestProject"
@@ -97,7 +93,7 @@ Scenario: I click Assignments and click Discard changes in new assignment
     When I click on the element "h4=TestProject"
         And I click on the element "a=Assignments"
         And I click on the element "span=Add assignment"
-        And I click on the element "a=Discard changes"
+        And I click on the element "a=Discard"
     Then I expect the title of the page "Assignments - UBORA"
         And I expect the element "h1=TestProject" is visible
 
@@ -105,8 +101,8 @@ Scenario: I click Assignments and click Discard changes in Assignment
     When I click on the element "h4=TestProject"
         And I click on the element "a=Assignments"
         And I click on the element "a=Assignment Title"
-    Then I expect the element "h1=Task draft" is visible
-    When I click on the element "a=Discard changes"
+    Then I expect the element "h1=Assignment" is visible
+    When I click on the element "a=Discard"
     Then I expect the element "a=Assignment Title" is visible
         And I expect the title of the page "Assignments - UBORA"
 
@@ -134,8 +130,8 @@ Scenario: I click Members and try to add new member
 Scenario: I click Members and on project owner
     When I click on the element "h4=TestProject"
         And I click on the element "a=Members"
-        And I click on the element "a=firstName lastName"
-    Then I expect the element "h2=firstName lastName" is visible
+        And I click on the element "a=Test User"
+    Then I expect the element "h2=Test User" is visible
         And I expect the title of the page "View profile - UBORA"
 
 Scenario: I click Edit image
