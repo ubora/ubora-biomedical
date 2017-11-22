@@ -15,7 +15,7 @@ namespace Ubora.Web.Services
             _appSettings = appSettings;
         }
 
-        public override async Task SendEmailAsync(string email, string subject, string message, Action<AttachmentCollection> handleAttachments = null, Action<AttachmentCollection> handleLinkedResources = null)
+        public override Task SendEmailAsync(string email, string subject, string message, Action<AttachmentCollection> handleAttachments = null, Action<AttachmentCollection> handleLinkedResources = null)
         {
             var emailMessage = PrepareEmailMessage(email, subject, message, handleAttachments, handleLinkedResources);
 
@@ -30,6 +30,8 @@ namespace Ubora.Web.Services
             {
                 emailMessage.WriteTo(stream);
             }
+
+            return Task.CompletedTask;
         }
     }
 }
