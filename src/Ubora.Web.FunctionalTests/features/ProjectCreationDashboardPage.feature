@@ -144,7 +144,7 @@ Scenario: I click Edit image
 Scenario: I click Edit Project Description
     When I click on the element "h4=TestProject"
     Then I expect the element "h2=Medical tags" is visible
-    When I click on the element "span=Edit"
+    When I click on the element "#EditDescription"
         And I click on the element "span=Helpful tips"
     Then I expect the element "p=Describe in few words the device technology/intended use/and intended clinical benefits of the device. Describe who are the intended users. Describe if there are some limitation about the use of the device (for example need of continuous power supply) and if there are contraindications." is visible
     When I click on the key "Tab"
@@ -155,7 +155,7 @@ Scenario: I click Edit Project Description
 
 Scenario: I click Edit Project Description but Discard it
     When I click on the element "h4=TestProject"
-        And I click on the element "span=Edit"
+        And I click on the element "#EditDescription"
         And I click on the element "a=Discard"
     Then I expect the element "p=Welcome to my Project" is visible
         And I expect the title of the page "Dashboard - UBORA"

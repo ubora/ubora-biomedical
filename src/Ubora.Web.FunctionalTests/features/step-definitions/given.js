@@ -49,7 +49,7 @@ module.exports = function () {
         .setValue('#Email', email)
         .setValue('#Password', 'Test12345')
         .setValue('#ConfirmPassword', 'Test12345')
-        .click('#IsAgreedToTermsOfService')
+        .click('span=I agree to')
         .click('button=Create an account')
         .url('/')
     });
