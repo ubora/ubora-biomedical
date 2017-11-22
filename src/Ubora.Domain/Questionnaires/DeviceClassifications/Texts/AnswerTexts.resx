@@ -121,55 +121,67 @@
     <value>No</value>
   </data>
   <data name="q1" xml:space="preserve">
-    <value>NON-INVASIVE</value>
+    <value>Non-invasive</value>
   </data>
   <data name="q2" xml:space="preserve">
-    <value>INVASIVE</value>
+    <value>Invasive</value>
   </data>
   <data name="q2_1" xml:space="preserve">
-    <value>NON-SURGICALLY INVASIVE (this means that it enters in the human body but only through a body orifice and without piercing or cutting the skin or membranes)?</value>
-  </data>
-  <data name="q2_1_1_1" xml:space="preserve">
-    <value>Is it intended for transient use?</value>
+    <value>Non-surgically invasive (this means that it enters in the human body but only through a body orifice and without piercing or cutting the skin or membranes)?</value>
   </data>
   <data name="q2_1_1_2" xml:space="preserve">
-    <value>Is it intended for short-term use  only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?</value>
+    <value>Yes, only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity.</value>
   </data>
   <data name="q2_1_1_3" xml:space="preserve">
-    <value>Is it intended for short-term use in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?</value>
+    <value>Yes, in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity.</value>
   </data>
   <data name="q2_1_1_4" xml:space="preserve">
-    <value>Is it intended for long-term use only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity and it not liable to be absorbed by the mucous membrane?</value>
+    <value>Yes, only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity and it is NOT liable to be absorbed by the mucous membrane.</value>
   </data>
   <data name="q2_1_1_5" xml:space="preserve">
-    <value>Is it intended for long-term use only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity but it is liable to be absorbed by the mucous membrane?</value>
+    <value>Yes, in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity but IT IS liable to be absorbed by the mucous membrane.</value>
   </data>
   <data name="q2_1_1_6" xml:space="preserve">
-    <value>Is it intended for long-term use in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?</value>
+    <value>Yes, in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity.</value>
   </data>
   <data name="q2_1_2" xml:space="preserve">
     <value>Class I active medical device</value>
+  </data>
+  <data name="q2_1_2_2" xml:space="preserve">
+    <value>Yes, only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity.</value>
+  </data>
+  <data name="q2_1_2_3" xml:space="preserve">
+    <value>Yes, in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity.</value>
+  </data>
+  <data name="q2_1_2_4" xml:space="preserve">
+    <value>Yes, only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity but it is NOT liable to be absorbed by the mucous membrane.</value>
+  </data>
+  <data name="q2_1_2_5" xml:space="preserve">
+    <value>Yes, only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity but IT IS liable to be absorbed by the mucous membrane.</value>
+  </data>
+  <data name="q2_1_2_6" xml:space="preserve">
+    <value>Yes, in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity.</value>
   </data>
   <data name="q2_1_3" xml:space="preserve">
     <value>Class IIa or higher class active medical device</value>
   </data>
   <data name="q2_2" xml:space="preserve">
-    <value>SURGICALLY INVASIVE</value>
+    <value>Surgically invasive</value>
   </data>
   <data name="q2_2_1" xml:space="preserve">
-    <value>Is it for TRANSIENT use?</value>
+    <value>Transient (less than 60 minutes)</value>
   </data>
   <data name="q2_2_2" xml:space="preserve">
-    <value>Is it for SHORT TERM use?</value>
+    <value>Short term (from 60 minutes to 30 days)</value>
   </data>
   <data name="q2_2_2_5_1" xml:space="preserve">
-    <value>Is it in the teeth?</value>
+    <value>In the teeth</value>
   </data>
   <data name="q2_2_2_5_2" xml:space="preserve">
-    <value>Is it in any part of the body other than the teeth?</value>
+    <value>In any part of the body other than the teeth</value>
   </data>
   <data name="q2_2_3" xml:space="preserve">
-    <value>Is it implantable or LONG TERM use?</value>
+    <value>Implantable or long term (more than 30 days)</value>
   </data>
   <data name="q2_2_3_4_1" xml:space="preserve">
     <value>In the teeth</value>
@@ -178,22 +190,22 @@
     <value>In any part of the body other than the teeth</value>
   </data>
   <data name="q3_1_1" xml:space="preserve">
-    <value>Does it administer energy to or exchange energy with the human body in a potentially hazardous way (consider nature of energy, density of energy, site of the body)?</value>
+    <value>Yes, in a potentially hazardous way (consider nature of energy, density of energy, site of the body).</value>
   </data>
   <data name="q3_1_2" xml:space="preserve">
-    <value>Does it administer energy to or exchange energy with the human body in a NON-hazardous way?</value>
+    <value>Yes, in a NON-hazardous way.</value>
   </data>
   <data name="q3_5_1_1" xml:space="preserve">
-    <value>Does such decision have an impact that may cause death or an irreversible deterioration of a person's state of health?</value>
+    <value>Yes, an impact that may cause death or an irreversible deterioration of a person's state of health.</value>
   </data>
   <data name="q3_5_1_2" xml:space="preserve">
-    <value>Does such decision have an impact that may cause a serious deterioration of a person's state of health or a surgical intervention?</value>
+    <value>Yes, an impact that may cause a serious deterioration of a person's state of health or a surgical intervention.</value>
   </data>
   <data name="q3_5_2_1" xml:space="preserve">
-    <value>Does it monitor vital physiological parameters, where the nature of variations of those parameters is such that it could result in immediate danger to the patient?</value>
+    <value>Yes, it monitors vital physiological parameters, where the nature of variations of those parameters is such that it could result in immediate danger to the patient.</value>
   </data>
   <data name="q3_5_2_2" xml:space="preserve">
-    <value>Does it monitor non-vital physiological parameters, so that the nature of variations of those parameters is such that it could never and in no cases result in immediate danger to the patient?</value>
+    <value>Yes, it monitors non-vital physiological parameters, so that the nature of variations of those parameters is such that it could never and in no cases result in immediate danger to the patient.</value>
   </data>
   <data name="q9_1" xml:space="preserve">
     <value>High or medium</value>
