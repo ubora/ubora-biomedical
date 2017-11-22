@@ -168,7 +168,7 @@
                                     </div>
                                     <div class="col-lg-10">
                                         <p>
-                                            <strong>@comment.CommentatorName</strong>
+                                            <strong><a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@comment.CommentatorId">@comment.CommentatorName</a></strong>
                                             @if (comment.IsLeader)
                                             {
                                                 <i class="material-icons align-middle" title="Project leader">supervisor_account</i>
