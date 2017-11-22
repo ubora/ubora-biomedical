@@ -2,24 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using Ubora.Domain.Questionnaires.DeviceClassifications.DeviceClasses;
+using System.Collections.ObjectModel;
 
 namespace Ubora.Domain.Questionnaires.DeviceClassifications
 {
     public class ChosenAnswerDeviceClassCondition : IDeviceClassCondition
     {
-        /// <summary>
-        /// Question-Answer ID pairs. If these questions are answered with the given answers then the condition will be fulfilled.
-        /// Example: { "q1", "y" }, { "q2", "n" } => Condition fulfilled when question "q1" is answered with "y" and question "q2" answered with "n".
-        /// </summary>
-        [JsonProperty("qaIds")]
-        public Dictionary<string, string> QuestionAnswerIdPairs { get; protected set; }
-
-        public ChosenAnswerDeviceClassCondition(Dictionary<string, string> questionAnswerIdPairs)
+        public ChosenAnswerDeviceClassCondition(IDictionary<string, string> questionAnswerIdPairs)
         {
-            QuestionAnswerIdPairs = questionAnswerIdPairs ?? throw new ArgumentNullException(nameof(questionAnswerIdPairs));
+            if (questionAnswerIdPairs == null) throw new ArgumentNullException(nameof(questionAnswerIdPairs));
+
+            QuestionAnswerIdPairs = new ReadOnlyDictionary<string, string>(questionAnswerIdPairs);
         }
 
+        /// <summary>
+        /// Constructor for single question-answer condition.
+        /// </summary>
         public ChosenAnswerDeviceClassCondition(string questionId, string answerId)
             : this(new Dictionary<string, string> { { questionId, answerId} })
         {
@@ -29,6 +27,13 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
         protected ChosenAnswerDeviceClassCondition()
         {
         }
+
+        /// <summary>
+        /// Question-Answer ID pairs. If these questions are answered with the given answers then the condition will be fulfilled.
+        /// Example: { "q1", "y" }, { "q2", "n" } => Condition fulfilled when question "q1" is answered with "y" and question "q2" answered with "n".
+        /// </summary>
+        [JsonProperty("qaIds")]
+        public ReadOnlyDictionary<string, string> QuestionAnswerIdPairs { get; set; }
 
         public bool IsSatisfied(DeviceClassificationQuestionnaireTree questionnaireTree)
         {

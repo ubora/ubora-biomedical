@@ -13,7 +13,6 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
             if (deviceClassesWithConditions == null) throw new ArgumentNullException(nameof(deviceClassesWithConditions));
             Questions = questions ?? throw new ArgumentNullException(nameof(questions));
 
-
             ValidateDeviceClassConditions(deviceClassesWithConditions);
             DeviceClassesWithConditions = deviceClassesWithConditions;
         }
