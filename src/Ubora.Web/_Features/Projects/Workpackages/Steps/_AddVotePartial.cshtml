@@ -1,0 +1,110 @@
+﻿@model Ubora.Web._Features.Projects.Workpackages.Steps.AddVoteViewModel
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="display-5 mb-4">Cast your vote</h2>
+    </div>
+    <div class="col-lg-9 col-md-9">
+        @*<div class="table-responsive">
+            <table class="table table-votes">
+                <tbody>
+                    <tr>
+                        <td><input type="radio" value="1" /><label class=" circle vote-number d-flex align-items-center justify-content-center">1</label></td>
+                        <td><input type="radio" value="2" /><label class=" circle vote-number d-flex align-items-center justify-content-center">2</label></td>
+                        <td><input type="radio" value="3" /><label class=" circle vote-number d-flex align-items-center justify-content-center">3</label></td>
+                        <td><input type="radio" value="4" /><label class=" circle vote-number d-flex align-items-center justify-content-center">4</label></td>
+                        <td><input type="radio" value="5" /><label class=" circle vote-number d-flex align-items-center justify-content-center">5</label></td>
+                        <th scope="row"><div class="d-flex align-items-left">Functionality</div></th>
+                    </tr>
+                    <tr>
+                        <td><input type="radio" value="1" /><label class=" circle vote-number d-flex align-items-center justify-content-center">1</label></td>
+                        <td><input type="radio" value="2" /><label class=" circle vote-number d-flex align-items-center justify-content-center">2</label></td>
+                        <td><input type="radio" value="3" /><label class=" circle vote-number d-flex align-items-center justify-content-center">3</label></td>
+                        <td><input type="radio" value="4" /><label class=" circle vote-number d-flex align-items-center justify-content-center">4</label></td>
+                        <td><input type="radio" value="5" /><label class=" circle vote-number d-flex align-items-center justify-content-center">5</label></td>
+                        <th scope="row"><div class="d-flex align-items-left">Performace</div></th>
+                    </tr>
+                    <tr>
+                        <td><input type="radio" value="1" /><label class=" circle vote-number d-flex align-items-center justify-content-center">1</label></td>
+                        <td><input type="radio" value="2" /><label class=" circle vote-number d-flex align-items-center justify-content-center">2</label></td>
+                        <td><input type="radio" value="3" /><label class=" circle vote-number d-flex align-items-center justify-content-center">3</label></td>
+                        <td><input type="radio" value="4" /><label class=" circle vote-number d-flex align-items-center justify-content-center">4</label></td>
+                        <td><input type="radio" value="5" /><label class=" circle vote-number d-flex align-items-center justify-content-center">5</label></td>
+                        <th scope="row"><div class="d-flex align-items-left">Usability</div></th>
+                    </tr>
+                    <tr>
+                        <td><input type="radio" value="1" /><label class=" circle vote-number d-flex align-items-center justify-content-center">1</label></td>
+                        <td><input type="radio" value="2" /><label class=" circle vote-number d-flex align-items-center justify-content-center">2</label></td>
+                        <td><input type="radio" value="3" /><label class=" circle vote-number d-flex align-items-center justify-content-center">3</label></td>
+                        <td><input type="radio" value="4" /><label class=" circle vote-number d-flex align-items-center justify-content-center">4</label></td>
+                        <td><input type="radio" value="5" /><label class=" circle vote-number d-flex align-items-center justify-content-center">5</label></td>
+                        <th scope="row"><div class="d-flex align-items-left">Safety</div></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>*@
+        <form asp-action="AddVote" asp-controller="ConceptualDesign" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CandidateId" />
+            <span>
+                <span class="starRating">
+                    <input asp-for="Functionality" class="star_rate" id="rating15" type="radio" value="5"/>
+                    <label for="rating15">5</label>
+                    <input asp-for="Functionality" class="star_rate" id="rating14" type="radio" value="4"/>
+                    <label for="rating14">4</label>
+                    <input asp-for="Functionality" class="star_rate" id="rating13" type="radio" value="3"/>
+                    <label for="rating13">3</label>
+                    <input asp-for="Functionality" class="star_rate" id="rating12" type="radio" value="2"/>
+                    <label for="rating12">2</label>
+                    <input asp-for="Functionality" class="star_rate" id="rating11" type="radio" value="1"/>
+                    <label for="rating11">1</label>
+                </span>
+                <br/>
+                <span class="starRating">
+                    <input asp-for="Performace" class="star_rate" id="rating25" type="radio" value="5"/>
+                    <label for="rating25">5</label>
+                    <input asp-for="Performace" class="star_rate" id="rating24" type="radio" value="4"/>
+                    <label for="rating24">4</label>
+                    <input asp-for="Performace" class="star_rate" id="rating23" type="radio" value="3"/>
+                    <label for="rating23">3</label>
+                    <input asp-for="Performace" class="star_rate" id="rating22" type="radio" value="2"/>
+                    <label for="rating22">2</label>
+                    <input asp-for="Performace" class="star_rate" id="rating21" type="radio" value="1"/>
+                    <label for="rating21">1</label>
+                </span>
+                <br />
+                <span class="starRating">
+                    <input asp-for="Usability" class="star_rate" id="rating35" type="radio" value="5"/>
+                    <label for="rating35">5</label>
+                    <input asp-for="Usability" class="star_rate" id="rating34" type="radio" value="4"/>
+                    <label for="rating34">4</label>
+                    <input asp-for="Usability" class="star_rate" id="rating33" type="radio" value="3"/>
+                    <label for="rating33">3</label>
+                    <input asp-for="Usability" class="star_rate" id="rating32" type="radio" value="2"/>
+                    <label for="rating32">2</label>
+                    <input asp-for="Usability" class="star_rate" id="rating31" type="radio" value="1"/>
+                    <label for="rating31">1</label>
+                </span>
+                <br />
+                <span class="starRating">
+                    <input asp-for="Safety" class="star_rate" id="rating45" type="radio" value="5"/>
+                    <label for="rating45">5</label>
+                    <input asp-for="Safety" class="star_rate" id="rating44" type="radio" value="4"/>
+                    <label for="rating44">4</label>
+                    <input asp-for="Safety" class="star_rate" id="rating43" type="radio" value="3"/>
+                    <label for="rating43">3</label>
+                    <input asp-for="Safety" class="star_rate" id="rating42" type="radio" value="2"/>
+                    <label for="rating42">2</label>
+                    <input asp-for="Safety" class="star_rate" id="rating41" type="radio" value="1"/>
+                    <label for="rating41">1</label>
+                </span>
+                <span class="d-flex align-self-center">
+                    <button class="btn btn-primary" type="submit">Vote</button>
+                </span>
+            </span>
+
+        </form>
+        
+    </div>
+    
+</div>

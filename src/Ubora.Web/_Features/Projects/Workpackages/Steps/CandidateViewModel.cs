@@ -19,6 +19,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public string Description { get; set; }
         public string ImageUrl { get; set; }
         public bool HasImage { get; set; }
+        public decimal TotalScore { get; set; }
+        public decimal ScorePercentageVeryGood { get; set; }
+        public decimal ScorePercentageGood { get; set; }
+        public decimal ScorePercentageMediocre { get; set; }
+        public decimal ScorePercentagePoor { get; set; }
 
         public AddCommentViewModel AddCommentViewModel { get; set; }
         public IEnumerable<CommentViewModel> Comments { get; set; }
@@ -49,23 +54,43 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 {
                     CandidateId = candidate.Id
                 };
-                model.AddVoteViewModel = new AddVoteViewModel(candidate.Id);
+                model.AddVoteViewModel = new AddVoteViewModel
+                {
+                    CandidateId = candidate.Id
+                };
+
+                CalculateScorePercentages(model, candidate);
 
                 var comments = candidate.Comments.Select(async comment => await _commentFactory.Create(user, comment, candidate.Id));
                 model.Comments = await Task.WhenAll(comments);
 
                 return model;
             }
+
+            public void CalculateScorePercentages(CandidateViewModel model, Candidate candidate)
+            {
+                var votes = candidate.Votes;
+                if (!votes.Any())
+                {
+                    return;
+                }
+                var allVoteCount = candidate.Votes.Count;
+
+                var veryGoodVotesCount = votes.Count(x => x.Score > 15);
+                var goodVotesCount = votes.Count(x => x.Score > 10 && x.Score < 16);
+                var mediocreVotesCount = votes.Count(x => x.Score > 5 && x.Score < 11);
+                var poorVotesCount = votes.Count(x => x.Score < 6);
+
+                model.ScorePercentageVeryGood = (decimal) veryGoodVotesCount / allVoteCount * 100;
+                model.ScorePercentageGood = (decimal) goodVotesCount / allVoteCount * 100;
+                model.ScorePercentageMediocre = (decimal) mediocreVotesCount / allVoteCount * 100;
+                model.ScorePercentagePoor = (decimal) poorVotesCount / allVoteCount * 100;
+            }
         }
     }
 
     public class AddVoteViewModel
     {
-        public AddVoteViewModel(Guid candidateId)
-        {
-            CandidateId = candidateId;
-        }
-
         public Guid CandidateId { get; set; }
 
         [Required]

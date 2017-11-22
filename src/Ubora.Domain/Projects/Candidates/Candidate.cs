@@ -19,6 +19,9 @@ namespace Ubora.Domain.Projects.Candidates
         [JsonIgnore]
         public bool HasImage => ImageLocation != null;
 
+        [JsonIgnore]
+        public decimal TotalScore => Votes.Average(x => x.Score);
+
         [JsonProperty(nameof(Comments))]
         private readonly HashSet<Comment> _comments = new HashSet<Comment>();
         [JsonIgnore]
@@ -28,6 +31,19 @@ namespace Ubora.Domain.Projects.Candidates
             get
             {
                 return _comments;
+            }
+            private set { }
+        }
+
+        [JsonProperty(nameof(Votes))]
+        private readonly HashSet<Vote> _votes = new HashSet<Vote>();
+        [JsonIgnore]
+        // Virtual for testing.
+        public virtual IReadOnlyCollection<Vote> Votes
+        {
+            get
+            {
+                return _votes;
             }
             private set { }
         }
@@ -75,6 +91,17 @@ namespace Ubora.Domain.Projects.Candidates
         {
             var comment = _comments.Single(x => x.Id == e.CommentId);
             _comments.Remove(comment);
+        }
+
+        private void Apply(CandidateVoteAddedEvent e)
+        {
+            if (_votes.Any(x => x.UserId == e.InitiatedBy.UserId))
+            {
+                throw new InvalidOperationException();
+            }
+
+            var vote = new Vote(e.InitiatedBy.UserId, e.Functionality, e.Perfomance, e.Usability, e.Safety);
+            _votes.Add(vote);
         }
     }
 }

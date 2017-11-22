@@ -64,13 +64,17 @@ namespace Ubora.Web._Features._Shared
 
             CreateMap<WorkpackageReview, WorkpackageReviewViewModel>();
 
-
             CreateMap<Candidate, CandidateItemViewModel>()
                 .ForMember(dest => dest.ImageUrl, o => o.Ignore());
             CreateMap<Candidate, CandidateViewModel>()
                 .ForMember(dest => dest.ImageUrl, o => o.Ignore())
                 .ForMember(dest => dest.Comments, o => o.Ignore())
-                .ForMember(dest => dest.AddCommentViewModel, o => o.Ignore());
+                .ForMember(dest => dest.ScorePercentageVeryGood, o => o.Ignore())
+                .ForMember(dest => dest.ScorePercentageGood, o => o.Ignore())
+                .ForMember(dest => dest.ScorePercentageMediocre, o => o.Ignore())
+                .ForMember(dest => dest.ScorePercentagePoor, o => o.Ignore())
+                .ForMember(dest => dest.AddCommentViewModel, o => o.Ignore())
+                .ForMember(dest => dest.AddVoteViewModel, o => o.Ignore());
 
             CreateMap<Candidate, EditCandidateViewModel>();
             CreateMap<Candidate, EditCandidateImageViewModel>()

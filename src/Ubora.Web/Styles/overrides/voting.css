@@ -1,26 +1,26 @@
 .circle {
-	background: var(--blue);
-	color: var(--white);
-	border-radius: 50%;
+    background: var(--blue);
+    color: var(--white);
+    border-radius: 50%;
 }
 
 .average-number {
-	font-size: 3em;
-	width: 3em;
-	height: 3em;
-	line-height: 3em;
+    font-size: 3em;
+    width: 3em;
+    height: 3em;
+    line-height: 3em;
 }
 
 .vote-number {
-	font-size: 1em;
-	width: 2.5em;
-	height: 2.5em;
-	line-height: 2.5em;
-	cursor: pointer;
+    font-size: 1em;
+    width: 2.5em;
+    height: 2.5em;
+    line-height: 2.5em;
+    cursor: pointer;
 }
 
 .muted-circle {
-	background: var(--tertiary-shade);
+    background: var(--tertiary-shade);
 }
 
 .edit-comment-content {
@@ -44,4 +44,48 @@
 .small-text .btn-link:focus {
 	cursor: pointer;
 	color: var(--light-blue);
+}
+
+.star_rate > a {
+    color: #9c3;
+    text-decoration: none;
+}
+
+.starRating:not(old) {
+    display: inline-block;
+    width: 10em;
+    height: 2em;
+    overflow: hidden;
+    vertical-align: bottom;
+    font-size: 16px; /* added to enforce appearance at 16px */
+}
+
+.starRating:not(old) > input {
+    margin-right: -100%;
+    opacity: 0;
+}
+
+.starRating:not(old) > label {
+    display: block;
+    float: right;
+    position: relative;
+    background: url('../images/icons/arrow.svg');
+    background-size: contain;
+}
+
+.starRating:not(old) > label:before {
+    content: '';
+    display: block;
+    width: 2em;
+    height: 2em;
+    background: url('../images/icons/circle.svg');
+    background-size: contain;
+    opacity: 0;
+    transition: opacity 0.2s linear;
+}
+
+.starRating:not(old) > label:hover:before,
+.starRating:not(old) > label:hover ~ label:before,
+.starRating:not(:hover) > :checked ~ label:before {
+    opacity: 1;
 }

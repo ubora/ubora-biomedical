@@ -1,4 +1,5 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects.Workpackages.Steps
 @model Ubora.Web._Features.Projects.Workpackages.Steps.CandidateViewModel
 
 <div class="container-fluid my-4">
@@ -72,88 +73,41 @@
             @*TODO: Voting system implementation*@
             <div class="row mb-4">
 
-                  <div class="col-lg-6">
+                <div class="col-lg-6">
                     <div class="row">
-                      <div class="col-lg-12">
-                        <h2 class="display-5 mb-4">All votes</h2>
-                      </div>
-                      <div class="col-lg-4 d-flex align-items-center justify-content-center">
-                        <div class="circle average-number d-flex align-items-center justify-content-center">
-                          8.5
+                        <div class="col-lg-12">
+                            <h2 class="display-5 mb-4">All votes</h2>
                         </div>
-                      </div>
-                      <div class="col-lg-8">
-                        <span>Very good: 15-20</span>
-                        <div class="progress mb-1">
-                          <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="col-lg-4 d-flex align-items-center justify-content-center">
+                            <div class="circle average-number d-flex align-items-center justify-content-center">
+                                @Model.TotalScore.ToString("0.0")
+                            </div>
                         </div>
-                        <span>Good: 10-15</span>
-                        <div class="progress mb-1">
-                          <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <span>Mediocre: 5-10</span>
-                        <div class="progress mb-1">
-                          <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <span>Poor: 0-5</span>
-                        <div class="progress mb-1">
-                          <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-6">
-                    <div class="row">
-                      <div class="col-lg-12">
-                        <h2 class="display-5 mb-4">Cast your vote</h2>
-                      </div>
-                      <div class="col-lg-9 col-md-9">
-                        <div class="table-responsive">
-                          <table class="table table-votes">
-                            <tbody>
-                              <tr>
-                                <td><input type="radio" value="1"/><label class=" circle vote-number d-flex align-items-center justify-content-center">1</label></td>
-                                <td><input type="radio" value="2" /><label class=" circle vote-number d-flex align-items-center justify-content-center">2</label></td>
-                                <td><input type="radio" value="3" /><label class=" circle vote-number d-flex align-items-center justify-content-center">3</label></td>
-                                <td><input type="radio" value="4" /><label class=" circle vote-number d-flex align-items-center justify-content-center">4</label></td>
-                                <td><input type="radio" value="5" /><label class=" circle vote-number d-flex align-items-center justify-content-center">5</label></td>
-                                <th scope="row"><div class="d-flex align-items-left">Functionality</div></th>
-                              </tr>
-                              <tr>
-                                <td><input type="radio" value="1" /><label class=" circle vote-number d-flex align-items-center justify-content-center">1</label></td>
-                                <td><input type="radio" value="2" /><label class=" circle vote-number d-flex align-items-center justify-content-center">2</label></td>
-                                <td><input type="radio" value="3" /><label class=" circle vote-number d-flex align-items-center justify-content-center">3</label></td>
-                                <td><input type="radio" value="4" /><label class=" circle vote-number d-flex align-items-center justify-content-center">4</label></td>
-                                <td><input type="radio" value="5" /><label class=" circle vote-number d-flex align-items-center justify-content-center">5</label></td>
-                                <th scope="row"><div class="d-flex align-items-left">Performace</div></th>
-                              </tr>
-                              <tr>
-                                <td><input type="radio" value="1" /><label class=" circle vote-number d-flex align-items-center justify-content-center">1</label></td>
-                                <td><input type="radio" value="2" /><label class=" circle vote-number d-flex align-items-center justify-content-center">2</label></td>
-                                <td><input type="radio" value="3" /><label class=" circle vote-number d-flex align-items-center justify-content-center">3</label></td>
-                                <td><input type="radio" value="4" /><label class=" circle vote-number d-flex align-items-center justify-content-center">4</label></td>
-                                <td><input type="radio" value="5" /><label class=" circle vote-number d-flex align-items-center justify-content-center">5</label></td>
-                                <th scope="row"><div class="d-flex align-items-left">Usability</div></th>
-                              </tr>
-                              <tr>
-                                <td><input type="radio" value="1" /><label class=" circle vote-number d-flex align-items-center justify-content-center">1</label></td>
-                                <td><input type="radio" value="2" /><label class=" circle vote-number d-flex align-items-center justify-content-center">2</label></td>
-                                <td><input type="radio" value="3" /><label class=" circle vote-number d-flex align-items-center justify-content-center">3</label></td>
-                                <td><input type="radio" value="4" /><label class=" circle vote-number d-flex align-items-center justify-content-center">4</label></td>
-                                <td><input type="radio" value="5" /><label class=" circle vote-number d-flex align-items-center justify-content-center">5</label></td>
-                                <th scope="row"><div class="d-flex align-items-left">Safety</div></th>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                        <div class="d-flex align-self-center">
-                            <button class="btn btn-primary" type="submit">Vote</button>
+                        <div class="col-lg-8">
+                            <span>Very good: 15-20</span>
+                            <div class="progress mb-1">
+                                <div class="progress-bar" role="progressbar" style="width: @Model.ScorePercentageVeryGood%"></div>
+                            </div>
+                            <span>Good: 10-15</span>
+                            <div class="progress mb-1">
+                                <div class="progress-bar" role="progressbar" style="width: @Model.ScorePercentageGood%"></div>
+                            </div>
+                            <span>Mediocre: 5-10</span>
+                            <div class="progress mb-1">
+                                <div class="progress-bar" role="progressbar" style="width: @Model.ScorePercentageMediocre%"></div>
+                            </div>
+                            <span>Poor: 0-5</span>
+                            <div class="progress mb-1">
+                                <div class="progress-bar" role="progressbar" style="width: @Model.ScorePercentagePoor%"></div>
+                            </div>
                         </div>
                     </div>
-                  </div>
                 </div>
+
+                <div class="col-lg-6">
+                    @Html.Partial("_AddVotePartial", Model.AddVoteViewModel)
+                </div>
+            </div>
 
             <div class="row mb-4">
                 <div class="col-sm-12 col-lg-6">
@@ -180,26 +134,28 @@
                                                 <i class="material-icons align-middle" title="Project mentor">school</i>
                                             }
                                         </p>
-                                        <p>@comment.CommentText 
+                                        <p>
+                                            @comment.CommentText
                                         @if (comment.IsEdited)
                                         {
                                             <span class="small-text text-grey">(edited)</span>
                                         }
-                                        </p>
-                                        <span class="small-text">
-                                            @if (comment.CanBeEdited)
-                                            {
-                                                <button class="btn-link mr-2" role="button" data-toggle="collapse" data-target="#@comment.Id">edit</button>
+                                    </p>
+                                    <span class="small-text">
+                                        @if (comment.CanBeEdited)
+                                        {
+                                            <button class="btn-link mr-2" role="button" data-toggle="collapse" data-target="#@comment.Id">edit</button>
                                                 <button class="btn-link mr-2" role="button" data-toggle="modal" data-target="#removeCommentModal-@comment.Id">delete</button>
                                                 <span class="timeago text-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
                                                 @Html.Partial("RemoveCommentModal", comment.EditCommentViewModel)
                                                 <div class="collapse" id="@comment.Id">@Html.Partial("_EditCommentPartial", comment.EditCommentViewModel)</div>
-                                            }else
-                                            {
-                                                <span class="timeago text-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
-                                            }
-                                        </span>
-                                    </div>
+                                        }
+                                        else
+                                        {
+                                            <span class="timeago text-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
+                                        }
+                                    </span>
+                                </div>
                                 }
                             </div>
                         </div>

@@ -271,22 +271,25 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [HttpPost]
-        public IActionResult AddVote(AddVoteViewModel model, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
+        public async Task<IActionResult> AddVote(AddVoteViewModel model, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
         {
             if (!ModelState.IsValid)
             {
-                return Candidate(model.CandidateId, candidateViewModelFactory);
+                return await Candidate(model.CandidateId, candidateViewModelFactory);
             }
 
-            //ExecuteUserProjectCommand(new AddCandidateVoteCommand
-            //{
-            //    CandidateId = model.CandidateId,
-            //    CommentText = model.CommentText,
-            //});
+            ExecuteUserProjectCommand(new AddCandidateVoteCommand
+            {
+                CandidateId = model.CandidateId,
+                Functionality = model.Functionality,
+                Safety = model.Safety,
+                Performance = model.Performace,
+                Usability = model.Usability
+            });
 
             if (!ModelState.IsValid)
             {
-                return Candidate(model.CandidateId, candidateViewModelFactory);
+                return await Candidate(model.CandidateId, candidateViewModelFactory);
             }
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.CandidateId });
