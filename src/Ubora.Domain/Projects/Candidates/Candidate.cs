@@ -58,14 +58,14 @@ namespace Ubora.Domain.Projects.Candidates
 
         private void Apply(CandidateCommentAddedEvent e)
         {
-            var comment = new Comment(e.InitiatedBy.UserId, e.CommentText, e.CommentId, e.CommentedAt);
+            var comment = new Comment(e.InitiatedBy.UserId, e.CommentText, e.CommentId, e.CommentedAt, e.RoleKeys);
             _comments.Add(comment);
         }
 
         private void Apply(CandidateCommentEditedEvent e)
         {
             var oldComment = _comments.Single(x => x.Id == e.CommentId);
-            var editedComment = oldComment.Edit(e.CommentText, e.LastEditedAt);
+            var editedComment = oldComment.Edit(e.CommentText, e.LastEditedAt, e.RoleKeys);
 
             _comments.Remove(oldComment);
             _comments.Add(editedComment);

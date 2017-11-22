@@ -22,7 +22,10 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
         [Fact]
         public void Adds_New_Comment_To_Candidate()
         {
-            this.Given(_ => Add_Candidate_To_Project())
+            this.Given(_ => this.Create_User(_userId, "email", "firstName", "lastName"))
+                .Given(_ => this.Create_Project(_projectId, _userId))
+                .Given(_ => this.Assign_Project_Mentor(_projectId, _userId))
+                .Given(_ => Add_Candidate_To_Project())
                 .When(_ => Add_Comment_To_Candidate())
                 .Then(_ => Assert_Comment_Is_Added_To_Candidate())
                 .Then(_ => Assert_CandidateCommentAdded_Is_Added_In_Events())
@@ -64,7 +67,7 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
             var addedComment = candidate.Comments.Last();
             addedComment.UserId.Should().Be(_userId);
             addedComment.Text.Should().Be(_comment);
-
+            addedComment.RoleKeys.Should().BeEquivalentTo(new[] { "project-mentor", "project-leader"});
             _lastCommandResult.IsSuccess.Should().BeTrue();
         }
 
@@ -76,6 +79,7 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
             candidateCommentAddedEvents.First().InitiatedBy.UserId.Should().Be(_userId);
             candidateCommentAddedEvents.First().ProjectId.Should().Be(_projectId);
             candidateCommentAddedEvents.First().CommentText.Should().Be(_comment);
+            candidateCommentAddedEvents.First().RoleKeys.Should().BeEquivalentTo(new[] { "project-mentor", "project-leader" });
         }
     }
 }

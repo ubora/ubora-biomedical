@@ -7,6 +7,7 @@ using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Domain.Users;
 using Ubora.Domain.Users.Commands;
+using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Tests
 {
@@ -18,6 +19,15 @@ namespace Ubora.Domain.Tests
             {
                 NewProjectId = projectId,
                 Actor = new DummyUserInfo()
+            });
+        }
+
+        public static void Create_Project(this IntegrationFixture fixture, Guid projectId, Guid userId)
+        {
+            fixture.Processor.Execute(new CreateProjectCommand
+            {
+                NewProjectId = projectId,
+                Actor = new UserInfo(userId, "Mr. Project Leader")
             });
         }
 

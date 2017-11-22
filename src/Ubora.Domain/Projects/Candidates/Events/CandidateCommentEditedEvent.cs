@@ -6,16 +6,20 @@ namespace Ubora.Domain.Projects.Candidates.Events
 {
     public class CandidateCommentEditedEvent : ProjectEvent
     {
-        public CandidateCommentEditedEvent(UserInfo initiatedBy, Guid projectId, Guid commentId, string commentText, DateTime lastEditedAt) : base(initiatedBy, projectId)
+        public CandidateCommentEditedEvent(UserInfo initiatedBy, Guid projectId, Guid commentId, string commentText, DateTime lastEditedAt, string[] roleKeys) 
+            : base(initiatedBy, projectId)
         {
             CommentId = commentId;
             CommentText = commentText;
             LastEditedAt = lastEditedAt;
+            RoleKeys = roleKeys;
+
         }
 
         public Guid CommentId { get; private set; }
         public string CommentText { get; private set; }
         public DateTime LastEditedAt { get; private set; }
+        public string[] RoleKeys { get; private set; }
 
         public override string GetDescription()
         {

@@ -65,9 +65,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             public virtual async Task<CommentViewModel> Create(ClaimsPrincipal user, Comment comment, Guid candidateId)
             {
                 var candidate = _queryProcessor.FindById<Candidate>(candidateId);
-                var project = _queryProcessor.FindById<Project>(candidate.ProjectId);
-                var isLeader = project.DoesSatisfy(new HasMember<ProjectLeader>(comment.UserId));
-                var isMentor = project.DoesSatisfy(new HasMember<ProjectMentor>(comment.UserId));
+                var isLeader = comment.RoleKeys.Any(x => x == "project-leader");
+                var isMentor = comment.RoleKeys.Any(x => x == "project-mentor");
                 var isEditable = (await _authorizationService.AuthorizeAsync(user, comment, Policies.CanEditComment)).Succeeded;
 
                 var userProfile = _queryProcessor.FindById<UserProfile>(comment.UserId);
