@@ -20,7 +20,7 @@ namespace Ubora.Domain.Projects.Candidates
         public bool HasImage => ImageLocation != null;
 
         [JsonIgnore]
-        public decimal TotalScore => Votes.Average(x => x.Score);
+        public decimal TotalScore => Votes.Any() ? Votes.Average(x => x.Score) : 0;
 
         [JsonProperty(nameof(Comments))]
         private readonly HashSet<Comment> _comments = new HashSet<Comment>();
