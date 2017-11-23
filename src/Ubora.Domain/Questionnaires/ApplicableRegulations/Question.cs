@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using Newtonsoft.Json;
 using Ubora.Domain.Questionnaires.ApplicableRegulations.Texts;
@@ -10,7 +11,7 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations
         public Question(string id, IEnumerable<Answer> answers)
         {
             Id = id;
-            Answers = answers.ToArray();
+            Answers = answers.ToImmutableArray();
         }
 
         [JsonConstructor]

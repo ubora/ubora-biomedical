@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Immutable;
 using Newtonsoft.Json;
 
 namespace Ubora.Domain.Questionnaires.DeviceClassifications.DeviceClasses
@@ -25,7 +26,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.DeviceClasses
         public static DeviceClass TwoB => new DeviceClassTwoB();
         public static DeviceClass Three => new DeviceClassThree();
 
-        internal DeviceClassWithConditions WithConditions(params IDeviceClassCondition[] deviceClassConditions)
+        internal DeviceClassWithConditions WithConditions(params ChosenAnswerDeviceClassCondition[] deviceClassConditions)
         {
             return new DeviceClassWithConditions(this, deviceClassConditions);
         }
