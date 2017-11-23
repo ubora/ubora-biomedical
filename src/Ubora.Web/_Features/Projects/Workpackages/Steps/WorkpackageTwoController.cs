@@ -93,9 +93,28 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [Route(nameof(StructuredInformationOnTheDevice2))]
-        public IActionResult StructuredInformationOnTheDevice2() {
+        public IActionResult StructuredInformationOnTheDevice2()
+        {
+            var model = new DeviceStructuredInformationViewModel
+            {
+                IntendedUser = IntendedUser.Other,
+                IntendedUserOther = "wtf magic",
+                IsTrainingRequiredInAdditionToTheExpectedSkillLevelOfTheIntentedUser = false,
+                WhereWillTheTechnologyBeUsed = new DeviceStructuredInformationViewModel.WhereWillTheTechnologyBeUsedViewModel
+                {
+                    Indoors = true
+                }
+            };
 
-          return View();
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route(nameof(StructuredInformationOnTheDevice2))]
+        public IActionResult StructuredInformationOnTheDevice2(DeviceStructuredInformationViewModel model)
+        {
+
+            return View();
         }
 
         [Route(nameof(StructuredInformationOnTheDeviceResult))]

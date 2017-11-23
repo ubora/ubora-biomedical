@@ -1,4 +1,6 @@
 @using Ubora.Web._Features.Projects.Workpackages;
+@using Ubora.Web._Features.Projects.Workpackages.Steps
+@model Ubora.Web._Features.Projects.Workpackages.Steps.DeviceStructuredInformationViewModel
 
 @{
   ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.Wp2MentorReview;
@@ -10,63 +12,67 @@
       @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
     </div>
     <div class="col-lg-7">
-
-      <div class="row">
+        
+        
+    <form asp-controller="WorkpackageTwo" asp-action="StructuredInformationOnTheDevice2">
+    <div class="row">
         <h1 class="display-4 col-lg-12 mb-4">User and evironment</h1>
         <div class="col-lg-12">
-          <form asp-controller="" asp-action="" method="">
+            
 
             <div class="row mb-4">
-              <h5 class="col-lg-12">1. Who is the intended user?</h5>
-              <div class="col-lg-4">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group1" id="" value="" />
-                    Self-use/patient
-                  </label>
+                <h5 class="col-lg-12">1. Who is the intended user?</h5>
+                <div class="col-lg-4">
+
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input asp-for="IntendedUser" class="form-check-input" type="radio" value="@IntendedUser.SelfUseOrPatient" />
+                            Self-use/patient
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input asp-for="IntendedUser" class="form-check-input" type="radio" value="@IntendedUser.Physician" />
+                            Physician
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input asp-for="IntendedUser" class="form-check-input" type="radio" value="@IntendedUser.Technician" />
+                            Technician
+                        </label>
+                    </div>
                 </div>
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group1" id="" value="" />
-                    Physician
-                  </label>
+
+                <div class="col-lg-4">
+                    <div class="form-check ">
+                        <label class="form-check-label">
+                            <input asp-for="IntendedUser" class="form-check-input" type="radio" value="@IntendedUser.Nurse" />
+                            Nurse
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input asp-for="IntendedUser" class="form-check-input" type="radio" value="@IntendedUser.Midwife" />
+                            Midwife
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input asp-for="IntendedUser" class="form-check-input" type="radio" value="@IntendedUser.FamilyMember" />
+                            Family member
+                        </label>
+                    </div>
                 </div>
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group1" id="" value="" />
-                    Technician
-                  </label>
+                <div class="col-lg-4">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input asp-for="IntendedUser" class="form-check-input" type="radio" value="@IntendedUser.Other" />
+                            <span class="d-inline">Other:</span>
+                            <input asp-for="IntendedUserOther" class="form-control d-inline w-75" type="text" title="Other indended user" />
+                        </label>
+                    </div>
                 </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-check ">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group1" id="" value="" />
-                    Nurse
-                  </label>
-                </div>
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group1" id="" value="" />
-                    Midwife
-                  </label>
-                </div>
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group1" id="" value="" />
-                    Family member
-                  </label>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group1" id="" value=""/>
-                    <span class="d-inline">Other:</span>
-                    <input class="form-control d-inline w-75" type="text" title="Other indended user"/>
-                  </label>
-                </div>
-              </div>
             </div>
 
             <div class="row mb-4">
@@ -74,13 +80,13 @@
               <div class="col-lg-12">
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group2" id="" value="" />
+                    <input asp-for="IsTrainingRequiredInAdditionToTheExpectedSkillLevelOfTheIntentedUser" class="form-check-input" type="radio" value="@true" />
                     Yes
                   </label>
                 </div>
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group2" id="" value="" />
+                    <input asp-for="IsTrainingRequiredInAdditionToTheExpectedSkillLevelOfTheIntentedUser" class="form-check-input" type="radio" value="@false" />
                     No
                   </label>
                 </div>
@@ -91,7 +97,7 @@
               <div class="col-lg-12">
                 <h5>3. If training is required, please describe who will deliver the training and the materials and time required for the training.</h5>
                 <div class="form-group">
-                  <textarea class="form-control" rows="4" placeholder="Please describe..."></textarea>
+                  <textarea asp-for="IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTheTrainingAndTheMaterialsAndTheTimeRequiredForTheTraining" class="form-control" rows="4" placeholder="Please describe..."></textarea>
                 </div>
               </div>
             </div>
@@ -101,13 +107,13 @@
               <div class="col-lg-12">
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group3" id="" value="" />
+                    <input asp-for="IsAnyMaintenanceOrCalibrationRequiredByTheUserAtTheTimeOfUse" class="form-check-input" type="radio" value="@true" />
                     Yes
                   </label>
                 </div>
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group3" id="" value=""/>
+                    <input asp-for="IsAnyMaintenanceOrCalibrationRequiredByTheUserAtTheTimeOfUse" class="form-check-input" type="radio" value="@false" />
                     No
                   </label>
                 </div>
@@ -119,25 +125,25 @@
               <div class="col-lg-4">
                 <div class="form-check ">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group4" id="" value="" />
+                    <input asp-for="WhereWillTheTechnologyBeUsed.RuralSettings" class="form-check-input" type="checkbox"/>
                     Rural settings
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group4" id="" value="" />
+                    <input asp-for="WhereWillTheTechnologyBeUsed.UrbanSettings" class="form-check-input" type="checkbox" />
                     Urban settings
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group4" id="" value="" />
+                    <input asp-for="WhereWillTheTechnologyBeUsed.Outdoors" class="form-check-input" type="checkbox" />
                     Outdoors
                   </label>
                 </div>
                 <div class="form-check ">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group4" id="" value="" />
+                    <input asp-for="WhereWillTheTechnologyBeUsed.Indoors" class="form-check-input" type="checkbox" />
                     Indoors
                   </label>
                 </div>
@@ -145,25 +151,25 @@
               <div class="col-lg-4">
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group4" id="" value="" />
+                    <input asp-for="WhereWillTheTechnologyBeUsed.AtHome" class="form-check-input" type="checkbox"/>
                     At home
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group4" id="" value="" />
+                    <input asp-for="WhereWillTheTechnologyBeUsed.PrimaryLevel" class="form-check-input" type="checkbox" />
                     Primary level (health post, health center)
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group4" id="" value="" />
+                    <input asp-for="WhereWillTheTechnologyBeUsed.SecondaryLevel" class="form-check-input" type="checkbox" />
                     Secondary level (general hospital)
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group4" id="" value="" />
+                    <input asp-for="WhereWillTheTechnologyBeUsed.TertiaryLevel" class="form-check-input" type="checkbox" />
                     Tertiary level (specialist hospital)
                   </label>
                 </div>
@@ -183,11 +189,11 @@
               <h5 class="col-lg-12">1. Dimensions (mm<sup>3</sup>):</h5>
               <div class="col-lg-12">
                 <div class="form-group">
-                  <input class="form-control input-number text-center" type="number" min="0" title="Millimetres"/>
+                  <input asp-for="DimensionsHeight" class="form-control input-number text-center" type="number" min="0" title="Millimetres"/>
                   <span> mm x </span>
-                  <input class="form-control input-number text-center" type="number" min="0" title="Millimetres"/>
+                  <input asp-for="DimensionsLength" class="form-control input-number text-center" type="number" min="0" title="Millimetres"/>
                   <span> mm x </span>
-                  <input class="form-control input-number text-center" type="number" min="0" title="Millimetres"/>
+                  <input asp-for="DimensionsWidth" class="form-control input-number text-center" type="number" min="0" title="Millimetres"/>
                   <span> mm</span>
                 </div>
               </div>
@@ -197,7 +203,7 @@
               <h5 class="col-lg-12">2. Weight:</h5>
               <div class="col-lg-12">
                 <div class="form-group">
-                  <input class="form-control input-number text-center" type="number" min="0" title="Kilograms"/>
+                  <input asp-for="Weight" class="form-control input-number text-center" type="number" min="0" title="Kilograms"/>
                   <span> kg </span>
                 </div>
               </div>
@@ -208,13 +214,13 @@
               <div class="col-lg-12">
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group5" id="" value="" />
+                    <input asp-for="DoesItRequireTheUseOfConsumables" class="form-check-input" type="radio" value="@true" />
                     Yes
                   </label>
                 </div>
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group5" id="" value="" />
+                    <input asp-for="DoesItRequireTheUseOfConsumables" class="form-check-input" type="radio" value="@false" />
                     No
                   </label>
                 </div>
@@ -225,7 +231,7 @@
               <div class="col-lg-12">
                 <h5>4. If yes, please list the consumables:</h5>
                 <div class="form-group">
-                  <textarea class="form-control" rows="4" placeholder=" Please list the consumables.."></textarea>
+                  <textarea asp-for="IfRequiresConsumablesListTheConsumables" class="form-control" rows="4" placeholder="Please list the consumables.."></textarea>
                 </div>
               </div>
             </div>
@@ -235,11 +241,11 @@
               <h5 class="col-lg-12">5. Estimated life time:</h5>
               <div class="col-lg-12">
                 <div class="form-group">
-                  <input class="form-control input-number text-center" type="number" min="0" title="Days"/>
+                  <input asp-for="EstimatedLifeTimeInDays" class="form-control input-number text-center" type="number" min="0" title="Days"/>
                   <span> Days </span>
-                  <input class="form-control input-number text-center" type="number" min="0" title="Months"/>
+                  <input asp-for="EstimatedLifeTimeInMonths" class="form-control input-number text-center" type="number" min="0" title="Months"/>
                   <span> Months </span>
-                  <input class="form-control input-number text-center" type="number" min="0" title="Years"/>
+                  <input asp-for="EstimatedLifeTimeInYears" class="form-control input-number text-center" type="number" min="0" title="Years"/>
                   <span> Years</span>
                 </div>
               </div>
@@ -249,11 +255,11 @@
               <h5 class="col-lg-12">6. Estimated shelf life:</h5>
               <div class="col-lg-12">
                 <div class="form-group">
-                  <input class="form-control input-number text-center" type="number" min="0" title="Days"/>
+                  <input asp-for="EstimatedShelfLifeInDays" class="form-control input-number text-center" type="number" min="0" title="Days"/>
                   <span> Days </span>
-                  <input class="form-control input-number text-center" type="number" min="0" title="Months"/>
+                  <input asp-for="EstimatedShelfLifeInMonths" class="form-control input-number text-center" type="number" min="0" title="Months"/>
                   <span> Months </span>
-                  <input class="form-control input-number text-center" type="number" min="0" title="Years"/>
+                  <input asp-for="EstimatedShelfLifeInYears" class="form-control input-number text-center" type="number" min="0" title="Years"/>
                   <span> Years</span>
                 </div>
               </div>
@@ -264,13 +270,13 @@
               <div class="col-lg-12">
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group6" id="" value="" />
+                    <input asp-for="CanItHaveATelemedicineOrEHealthApplication" class="form-check-input" type="radio" value="@true" />
                     Yes
                   </label>
                 </div>
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group6" id="" value=""/>
+                    <input asp-for="CanItHaveATelemedicineOrEHealthApplication" class="form-check-input" type="radio" value="@false" />
                     No
                   </label>
                 </div>
@@ -282,13 +288,13 @@
               <div class="col-lg-12">
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group7" id="" value="option1" />
+                    <input asp-for="DoesItUseAnyKindOfSoftware" class="form-check-input" type="radio" value="@true" />
                     Yes
                   </label>
                 </div>
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group7" id="" value="option1"/>
+                    <input asp-for="DoesItUseAnyKindOfSoftware" class="form-check-input" type="radio" value="@false" />
                     No
                   </label>
                 </div>
@@ -299,7 +305,7 @@
               <div class="col-lg-12">
                 <h5>9a. If yes, please describe the software, whether it is open source or proprietary, its use and/or license fee, etc. (10-70 words).</h5>
                 <div class="form-group">
-                  <textarea class="form-control" rows="4" placeholder="Please describe the software..."></textarea>
+                  <textarea asp-for="IfUsesSoftwareDescribeTheSoftware" class="form-control" rows="4" placeholder="Please describe the software..."></textarea>
                 </div>
               </div>
             </div>
@@ -308,7 +314,7 @@
               <div class="col-lg-12">
                 <h5>9b. If yes, can the software be customized for local use? Please explain (10-70 words). Include languages available.</h5>
                 <div class="form-group">
-                  <textarea class="form-control" rows="4" placeholder="Please explain..."></textarea>
+                  <textarea asp-for="IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse" class="form-control" rows="4" placeholder="Please explain..."></textarea>
                 </div>
               </div>
             </div>
@@ -319,19 +325,19 @@
               <div class="col-lg-12">
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group8" id="" value="" />
+                    <input asp-for="IsItPortable" class="form-check-input" type="radio" value="@Portability.InstalledAndStationary" />
                     Installed and stationary
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group8" id="" value="" />
+                    <input asp-for="IsItPortable" class="form-check-input" type="radio" value="@Portability.Mobile" />
                     Mobile (e.g. between wards)
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group8" id="" value=""/>
+                    <input asp-for="IsItPortable" class="form-check-input" type="radio" value="@Portability.Portable" />
                     Portable (hand-held)
                   </label>
                 </div>
@@ -343,61 +349,101 @@
               <div class="col-lg-12">
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group9" id="" value=""/>
+                    <input asp-for="TypeOfUse" class="form-check-input" type="radio" value="@TypeOfUse.SingleUse"/>
                     Single use
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group9" id="" value=""/>
+                    <input asp-for="TypeOfUse" class="form-check-input" type="radio" value="@TypeOfUse.LongTermUse"/>
                     Long term use
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group9" id="" value=""/>
+                    <input asp-for="TypeOfUse" class="form-check-input" type="radio" value="@TypeOfUse.Reusable"/>
                     Reusable
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group9" id="" value=""/>
+                    <input asp-for="TypeOfUse" class="form-check-input" type="radio" value="@TypeOfUse.CapitalEquipment"/>
                     Capital equipment
                   </label>
                 </div>
               </div>
             </div>
 
-            <div class="row mb-4">
-              <h5 class="col-lg-12">12. Does the technology require maintenance?</h5>
-              <div class="col-lg-12">
+        <div class="row mb-4">
+            <h5 class="col-lg-12">12. Does the technology require maintenance?</h5>
+            <div class="col-lg-12">
                 <div class="form-check form-check-inline">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group10" id="" value=""/>
-                    Yes
-                  </label>
+                    <label class="form-check-label">
+                        <input asp-for="DoesTheTechnologyRequireMaintenance" class="form-check-input" type="radio" value="@true"/>
+                        Yes
+                    </label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group10" id="" value=""/>
-                    No
-                  </label>
+                    <label class="form-check-label">
+                        <input asp-for="DoesTheTechnologyRequireMaintenance" class="form-check-input" type="radio" value="@false"/>
+                        No
+                    </label>
                 </div>
-              </div>
             </div>
+        </div>
+           
+        <div class="row mb-4">
+            <h5 class="col-lg-12">12.1 If yes, please specify the type:</h5>
+            <div class="col-lg-12">
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                        <input asp-for="IfTechnologyRequiresMaintenanceSpecifyType" class="form-control d-inline w-75" type="text" title="Type" />
+                    </label>
+                </div>
+            </div>
+        </div>
+            
+        <div class="row mb-4">
+            <h5 class="col-lg-12">12.2 If yes, please specify frequency:</h5>
+            <div class="col-lg-12">
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                        <input asp-for="IfTechnologyRequiresMaintenanceSpecifyFrequency" class="form-control d-inline w-75" type="text" title="Frequency" />
+                    </label>
+                </div>
+            </div>
+        </div>
+            
+        <div class="row mb-4">
+            <h5 class="col-lg-12">12.3 If yes, can it be done on-site / home / community?</h5>
+            <div class="col-lg-12">
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                        <input asp-for="IfTechnologyRequiresMaintenanceCanItBeDoneOnSiteOrHomeOrCommunity" class="form-check-input" type="radio" value="@true"/>
+                        Yes
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                        <input asp-for="IfTechnologyRequiresMaintenanceCanItBeDoneOnSiteOrHomeOrCommunity" class="form-check-input" type="radio" value="@false"/>
+                        No
+                    </label>
+                </div>
+            </div>
+        </div>
 
-            <div class="row mb-4">
+        <div class="row mb-4">
               <h5 class="col-lg-12">13. If yes, who should provide maintenance?</h5>
               <div class="col-lg-4">
                 <div class="form-check ">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group11" id="" value="" />
+                    <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.SelfUserOrPatient" />
                     Self-use/patient
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group11" id="" value=""/>
+                    <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.NurseOrPhysician" />
                     Nurse/Physician
                   </label>
                 </div>
@@ -405,13 +451,13 @@
               <div class="col-lg-4">
                 <div class="form-check ">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group11" id="" value="" />
+                    <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.Engineer" />
                     Engineer
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group11" id="" value="" />
+                    <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.Manufacturer" />
                     Manufacturer
                   </label>
                 </div>
@@ -419,15 +465,15 @@
               <div class="col-lg-4">
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group11" id="" value="" />
+                    <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.Technician" />
                     Technician
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="group11" id="" value=""/>
+                    <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.Other" />
                     <span class="d-inline">Other:</span>
-                    <input class="form-control d-inline w-75" type="text" title="Other maintenance provider"/>
+                    <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenanceOther" class="form-control d-inline w-75" type="text" title="Other maintenance provider"/>
                   </label>
                 </div>
               </div>
@@ -439,60 +485,51 @@
               <div class="col-lg-12">
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group12" id="" value=""/>
+                    <input asp-for="EnergyRequirements.MechanicalEnergy" class="form-check-input" type="checkbox" />
                     Mechanical energy (e.g. manually powered)
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group12" id="" value=""/>
+                    <input asp-for="EnergyRequirements.Batteries" class="form-check-input" type="checkbox" />
                     Batteries
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group12" id="" value=""/>
+                    <input asp-for="EnergyRequirements.PowerSupplyForRecharging" class="form-check-input" type="checkbox" />
                     Power supply for recharging (not yet developed)
                   </label>
                 </div>
                 <div class="form-group pl-3">
-                  <span class="d-block">If yes, voltage required: <input class="form-control input-number text-center" type="number" min="0" title="Voltage"/> V </span>
-                  <span class="d-block">Time required to recharge: <input class="form-control input-number text-center" type="number" min="0" title="Hours"/> Hours <input class="form-control input-number text-center" type="number" min="0" title="Minutes"/> Minutes</span>
-                  <span class="d-block">Battery life with full charge: <input class="form-control input-number text-center" type="number" min="0" title="Hours"/> Hours <input class="form-control input-number text-center" type="number" min="0" title="Minutes"/> Minutes</span>
+                  <span class="d-block">If yes, voltage required: <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredVoltage" class="form-control input-number text-center" type="number" min="0" title="Voltage"/> V </span>
+                  <span class="d-block">Time required to recharge: <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours" class="form-control input-number text-center" type="number" min="0" title="Hours"/> Hours <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes" class="form-control input-number text-center" type="number" min="0" title="Minutes"/> Minutes</span>
+                  <span class="d-block">Battery life with full charge: <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours" class="form-control input-number text-center" type="number" min="0" title="Hours"/> Hours <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes" class="form-control input-number text-center" type="number" min="0" title="Minutes"/> Minutes</span>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group12" id="" value=""/>
+                    <input asp-for="EnergyRequirements.ContinuousPowerSupply" class="form-check-input" type="checkbox" />
                     Continuous power supply
                   </label>
                 </div>
                 <div class="form-group pl-3">
-                    <span>If yes, voltage required: </span><input class="form-control input-number text-center" type="number" min="0" title="Voltage"/><span> V </span>
+                    <span>If yes, voltage required: </span><input asp-for="EnergyRequirements.IfContinuousPowerSupplyThenRequiredVoltage" class="form-control input-number text-center" type="number" min="0" title="Voltage"/><span> V </span>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group12" id="" value=""/>
+                    <input asp-for="EnergyRequirements.SolarPower" class="form-check-input" type="checkbox" />
                     Solar power
                   </label>
                 </div>
                 <div class="form-group pl-3">
-                    <span>If yes, time in sunlight required to charge: </span><input class="form-control input-number text-center" type="number" min="0" title="Hours"/><span> Hours </span><input class="form-control input-number text-center" type="number" min="0" title="Minutes"/><span> Minutes</span>
+                    <span>If yes, time in sunlight required to charge: </span><input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours" class="form-control input-number text-center" type="number" min="0" title="Hours"/><span> Hours </span><input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes" class="form-control input-number text-center" type="number" min="0" title="Minutes"/><span> Minutes</span>
+                    <span class="d-block">Battery life with full charge: <input asp-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInHours" class="form-control input-number text-center" type="number" min="0" title="Hours" /> Hours <input asp-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInMinutes" class="form-control input-number text-center" type="number" min="0" title="Minutes" /> Minutes</span>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group12" id="" value=""/>
-                    Continuous power supply
-                  </label>
-                </div>
-                <div class="form-group pl-3">
-                  <span class="d-block">If yes, voltage required: <input class="form-control input-number text-center" type="number" min="0" title="Voltage"/> V </span>
-                  <span class="d-block">Battery life with full charge: <input class="form-control input-number text-center" type="number" min="0" title="Voltage"/> V </span>
-                </div>
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group12" id="" value=""/>
+                    <input asp-for="EnergyRequirements.Other" class="form-check-input" type="checkbox" />
                     <span class="d-inline">Other:</span>
-                    <input class="form-control d-inline w-75" type="text" title="Other energy requirement"/>
+                    <input asp-for="EnergyRequirements.OtherText" class="form-control d-inline w-75" type="text" title="Other energy requirement"/>
                   </label>
                 </div>
               </div>
@@ -503,91 +540,91 @@
               <div class="col-lg-12">
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group13" id="" value=""/>
+                    <input asp-for="FacilityRequirements.CleanWaterSupply"class="form-check-input" type="checkbox" />
                     Clean water supply
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group13" id="" value=""/>
+                    <input asp-for="FacilityRequirements.SpecificTemperatureAndOrHumidityRange" class="form-check-input" type="checkbox" />
                     Specific temperature and/or humidity range
                   </label>
                 </div>
                 <div class="form-group col-lg-6">
                     <span>If yes, please describe: </span>
-                    <textarea class="form-control" rows="2" placeholder="Please describe..."></textarea>
+                    <textarea asp-for="FacilityRequirements.IfSpecificTemperatureAndOrHumidityRangeThenDescription" class="form-control" rows="2" placeholder="Please describe..."></textarea>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group13" id="" value=""/>
+                    <input asp-for="FacilityRequirements.ClinicalWasteDisposalFacilities" class="form-check-input" type="checkbox"/>
                     Clinical waste disposal facilities
                   </label>
                 </div>
                 <div class="form-group col-lg-6">
                     <span>If yes, please describe: </span>
-                    <textarea class="form-control" rows="2" placeholder="Please describe..."></textarea>
+                    <textarea asp-for="FacilityRequirements.IfClinicalWasteDisposalFacilitiesThenDescription" class="form-control" rows="2" placeholder="Please describe..."></textarea>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group13" id="" value=""/>
+                    <input asp-for="FacilityRequirements.RadiationIsolation" class="form-check-input" type="checkbox"/>
                     Radiation isolation
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group13" id="" value=""/>
+                    <input asp-for="FacilityRequirements.GasSupply" class="form-check-input" type="checkbox"/>
                     Gas supply
                   </label>
                 </div>
                 <div class="form-group col-lg-6">
                     <span>If yes, please describe: </span>
-                    <textarea class="form-control" rows="2" placeholder="Please describe..."></textarea>
+                    <textarea asp-for="FacilityRequirements.IfGasSupplyThenDescription" class="form-control" rows="2" placeholder="Please describe..."></textarea>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group13" id="" value=""/>
+                    <input asp-for="FacilityRequirements.Sterilization" class="form-check-input" type="checkbox"/>
                     Sterilization
                   </label>
                 </div>
                 <div class="form-group col-lg-6">
                     <span>If yes, please describe: </span>
-                    <textarea class="form-control" rows="2" placeholder="Please describe..."></textarea>
+                    <textarea asp-for="FacilityRequirements.IfSterilizationThenDescription" class="form-control" rows="2" placeholder="Please describe..."></textarea>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group13" id="" value=""/>
+                    <input asp-for="FacilityRequirements.AccessToInternet" class="form-check-input" type="checkbox"/>
                     Access to the Internet
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group13" id="" value=""/>
+                    <input asp-for="FacilityRequirements.AccessToCellularPhoneNetwork" class="form-check-input" type="checkbox"/>
                     Access to a cellular phone network
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group13" id="" value=""/>
+                    <input asp-for="FacilityRequirements.ConnectionToLaptopComputer" class="form-check-input" type="checkbox"/>
                     Connection to a laptop/computer
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group13" id="" value=""/>
+                    <input asp-for="FacilityRequirements.AccessibleByCar" class="form-check-input" type="checkbox"/>
                     Accessible by car
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group13" id="" value=""/>
+                    <input asp-for="FacilityRequirements.AdditionalSoundOrLightControlFacilites" class="form-check-input" type="checkbox"/>
                     Additional sound / light control facilities
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="group13" id="" value=""/>
+                    <input asp-for="FacilityRequirements.Other" class="form-check-input" type="checkbox"/>
                     <span class="d-inline">Other:</span>
-                    <input class="form-control d-inline w-75" type="text" title="Other facility requirement"/>
+                    <input asp-for="FacilityRequirements.OtherText" class="form-control d-inline w-75" type="text" title="Other facility requirement"/>
                   </label>
                 </div>
 
@@ -595,13 +632,13 @@
                   <button class="btn btn-primary">Save</button>
                 </div>
 
-              </form>
+          
             </div>
           </div>
 
         </div>
       </div>
-
+    </form>
     </div>
   </div>
 </div>
