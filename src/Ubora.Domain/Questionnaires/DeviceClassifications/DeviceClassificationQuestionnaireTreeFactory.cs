@@ -480,7 +480,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 })
             };
 
-            var deviceClassOneWithConditions = DeviceClass.One.WithConditions(new IDeviceClassCondition[]
+            var deviceClassOneWithConditions = DeviceClass.One.WithConditions(new []
             {
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q1_1), "n"),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q1_1_5_1), "y"),
@@ -515,7 +515,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 })
             });
 
-            var deviceClassTwoAWithConditions = DeviceClass.TwoA.WithConditions(new IDeviceClassCondition[]
+            var deviceClassTwoAWithConditions = DeviceClass.TwoA.WithConditions(new []
             {
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q1_1_1), "y"),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q1_1_2), "y"),
@@ -576,7 +576,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 })
             });
 
-            var deviceClassTwoBWithConditions = DeviceClass.TwoB.WithConditions(new IDeviceClassCondition[]
+            var deviceClassTwoBWithConditions = DeviceClass.TwoB.WithConditions(new []
             {
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q1_1_3), "y"),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q1_1_4_2), "y"),
@@ -635,7 +635,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 })
             });
 
-            var deviceClassThreeWithConditions = DeviceClass.Three.WithConditions(new IDeviceClassCondition[]
+            var deviceClassThreeWithConditions = DeviceClass.Three.WithConditions(new []
             {
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q1_1_4_3), "y"),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q2_2_1_1), "y"),

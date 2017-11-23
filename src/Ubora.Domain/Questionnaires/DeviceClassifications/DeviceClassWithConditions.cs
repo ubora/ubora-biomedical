@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using Newtonsoft.Json;
 using Ubora.Domain.Questionnaires.DeviceClassifications.DeviceClasses;
@@ -8,14 +9,12 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
 {
     public class DeviceClassWithConditions
     {
-        public DeviceClassWithConditions(DeviceClass deviceClass, IEnumerable<IDeviceClassCondition> deviceClassConditions)
+        public DeviceClassWithConditions(DeviceClass deviceClass, IEnumerable<ChosenAnswerDeviceClassCondition> deviceClassConditions)
         {
             if (deviceClassConditions == null) throw new ArgumentNullException(nameof(deviceClassConditions));
 
             this.DeviceClass = deviceClass ?? throw new ArgumentNullException(nameof(deviceClass));
-
-            // Warning: weird spot because of JSON size optimization
-            this.ChosenAnswerDeviceClassConditions = deviceClassConditions.OfType<ChosenAnswerDeviceClassCondition>().ToArray();
+            this.ChosenAnswerDeviceClassConditions = deviceClassConditions.ToImmutableArray();
         }
 
         [JsonConstructor]
@@ -28,10 +27,10 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
         // Keeping this as a concrete class to lessen the JSON-serialization cost ('$type' field for each condition would be too expensive). 
         // If new types of conditions are introduced, add them as new properties.
         [JsonProperty(nameof(ChosenAnswerDeviceClassConditions))]
-        private ChosenAnswerDeviceClassCondition[] ChosenAnswerDeviceClassConditions { get; set; }
+        public ImmutableArray<ChosenAnswerDeviceClassCondition> ChosenAnswerDeviceClassConditions { get; set; }
 
         [JsonIgnore]
-        public IEnumerable<IDeviceClassCondition> Conditions => ChosenAnswerDeviceClassConditions;
+        private IEnumerable<IDeviceClassCondition> Conditions => ChosenAnswerDeviceClassConditions;
 
         public bool IsAnyConditionSatisfied(DeviceClassificationQuestionnaireTree questionnaireTree)
         {
