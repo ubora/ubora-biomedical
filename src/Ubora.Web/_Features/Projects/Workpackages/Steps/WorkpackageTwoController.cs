@@ -97,13 +97,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             var model = new DeviceStructuredInformationViewModel
             {
-                IntendedUser = IntendedUser.Other,
-                IntendedUserOther = "wtf magic",
-                IsTrainingRequiredInAdditionToTheExpectedSkillLevelOfTheIntentedUser = false,
-                WhereWillTheTechnologyBeUsed = new DeviceStructuredInformationViewModel.WhereWillTheTechnologyBeUsedViewModel
-                {
-                    Indoors = true
-                }
             };
 
             return View(model);

@@ -3,59 +3,25 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Ubora.Domain.Projects.StructuredInformations;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
-    public enum IntendedUser
-    {
-        Other = 0,
-        SelfUseOrPatient,
-        Physician,
-        Technician,
-        Nurse,
-        Midwife,
-        FamilyMember
-    }
-
-    public enum Portability
-    {
-        InstalledAndStationary,
-        Mobile,
-        Portable
-    }
-
-    public enum TypeOfUse
-    {
-        SingleUse,
-        LongTermUse,
-        Reusable,
-        CapitalEquipment
-    }
-
-    public enum ProviderOfMaintenance
-    {
-        Other = 0,
-        SelfUserOrPatient,
-        NurseOrPhysician,
-        Engineer,
-        Manufacturer,
-        Technician
-    }
 
     public class DeviceStructuredInformationViewModel
     {
         public IntendedUser IntendedUser { get; set; }
         public string IntendedUserOther { get; set; }
-        public bool IsTrainingRequiredInAdditionToTheExpectedSkillLevelOfTheIntentedUser { get; set; }
-        public string IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTheTrainingAndTheMaterialsAndTheTimeRequiredForTheTraining { get; set; }
-        public bool IsAnyMaintenanceOrCalibrationRequiredByTheUserAtTheTimeOfUse { get; set; }
-        public WhereWillTheTechnologyBeUsedViewModel WhereWillTheTechnologyBeUsed { get; set; }
+        public bool IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser { get; set; }
+        public string IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining { get; set; }
+        public bool IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse { get; set; }
+        public WhereWillTechnologyBeUsedViewModel WhereWillTechnologyBeUsed { get; set; }
         public decimal DimensionsHeight { get; set; }
         public decimal DimensionsLength { get; set; }
         public decimal DimensionsWidth { get; set; }
-        public decimal Weight { get; set; }
-        public bool DoesItRequireTheUseOfConsumables { get; set; }
-        public string IfRequiresConsumablesListTheConsumables { get; set; }
+        public decimal WeightInKilograms { get; set; }
+        public bool DoesItRequireUseOfConsumables { get; set; }
+        public string IfRequiresConsumablesListConsumables { get; set; }
         public int EstimatedLifeTimeInDays { get; set; }
         public int EstimatedLifeTimeInMonths { get; set; }
         public int EstimatedLifeTimeInYears { get; set; }
@@ -64,11 +30,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public int EstimatedShelfLifeInYears { get; set; }
         public bool CanItHaveATelemedicineOrEHealthApplication { get; set; }
         public bool DoesItUseAnyKindOfSoftware { get; set; }
-        public string IfUsesSoftwareDescribeTheSoftware { get; set; }
+        public string IfUsesSoftwareDescribeSoftware { get; set; }
         public string IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse { get; set; }
         public Portability IsItPortable { get; set; }
         public TypeOfUse TypeOfUse { get; set; }
-        public bool DoesTheTechnologyRequireMaintenance { get; set; }
+        public bool DoesTechnologyRequireMaintenance { get; set; }
         public string IfTechnologyRequiresMaintenanceSpecifyType { get; set; }
         public string IfTechnologyRequiresMaintenanceSpecifyFrequency { get; set; }
         public bool IfTechnologyRequiresMaintenanceCanItBeDoneOnSiteOrHomeOrCommunity { get; set; }
@@ -120,7 +86,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public string OtherText { get; set; }
     }
 
-    public class WhereWillTheTechnologyBeUsedViewModel
+    public class WhereWillTechnologyBeUsedViewModel
     {
         public bool RuralSettings { get; set; }
         public bool UrbanSettings { get; set; }
