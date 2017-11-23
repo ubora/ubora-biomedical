@@ -5,106 +5,159 @@
         <h2 class="display-5 mb-4">Cast your vote</h2>
     </div>
     <div class="col-lg-9 col-md-9">
-        @*<div class="table-responsive">
-            <table class="table table-votes">
-                <tbody>
-                    <tr>
-                        <td><input type="radio" value="1" /><label class=" circle vote-number d-flex align-items-center justify-content-center">1</label></td>
-                        <td><input type="radio" value="2" /><label class=" circle vote-number d-flex align-items-center justify-content-center">2</label></td>
-                        <td><input type="radio" value="3" /><label class=" circle vote-number d-flex align-items-center justify-content-center">3</label></td>
-                        <td><input type="radio" value="4" /><label class=" circle vote-number d-flex align-items-center justify-content-center">4</label></td>
-                        <td><input type="radio" value="5" /><label class=" circle vote-number d-flex align-items-center justify-content-center">5</label></td>
-                        <th scope="row"><div class="d-flex align-items-left">Functionality</div></th>
-                    </tr>
-                    <tr>
-                        <td><input type="radio" value="1" /><label class=" circle vote-number d-flex align-items-center justify-content-center">1</label></td>
-                        <td><input type="radio" value="2" /><label class=" circle vote-number d-flex align-items-center justify-content-center">2</label></td>
-                        <td><input type="radio" value="3" /><label class=" circle vote-number d-flex align-items-center justify-content-center">3</label></td>
-                        <td><input type="radio" value="4" /><label class=" circle vote-number d-flex align-items-center justify-content-center">4</label></td>
-                        <td><input type="radio" value="5" /><label class=" circle vote-number d-flex align-items-center justify-content-center">5</label></td>
-                        <th scope="row"><div class="d-flex align-items-left">Performace</div></th>
-                    </tr>
-                    <tr>
-                        <td><input type="radio" value="1" /><label class=" circle vote-number d-flex align-items-center justify-content-center">1</label></td>
-                        <td><input type="radio" value="2" /><label class=" circle vote-number d-flex align-items-center justify-content-center">2</label></td>
-                        <td><input type="radio" value="3" /><label class=" circle vote-number d-flex align-items-center justify-content-center">3</label></td>
-                        <td><input type="radio" value="4" /><label class=" circle vote-number d-flex align-items-center justify-content-center">4</label></td>
-                        <td><input type="radio" value="5" /><label class=" circle vote-number d-flex align-items-center justify-content-center">5</label></td>
-                        <th scope="row"><div class="d-flex align-items-left">Usability</div></th>
-                    </tr>
-                    <tr>
-                        <td><input type="radio" value="1" /><label class=" circle vote-number d-flex align-items-center justify-content-center">1</label></td>
-                        <td><input type="radio" value="2" /><label class=" circle vote-number d-flex align-items-center justify-content-center">2</label></td>
-                        <td><input type="radio" value="3" /><label class=" circle vote-number d-flex align-items-center justify-content-center">3</label></td>
-                        <td><input type="radio" value="4" /><label class=" circle vote-number d-flex align-items-center justify-content-center">4</label></td>
-                        <td><input type="radio" value="5" /><label class=" circle vote-number d-flex align-items-center justify-content-center">5</label></td>
-                        <th scope="row"><div class="d-flex align-items-left">Safety</div></th>
-                    </tr>
-                </tbody>
-            </table>
-        </div>*@
+
         <form asp-action="AddVote" asp-controller="ConceptualDesign" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="CandidateId" />
             <span>
-                <span class="starRating">
-                    <input asp-for="Functionality" class="star_rate" id="rating15" type="radio" value="5"/>
-                    <label for="rating15">5</label>
-                    <input asp-for="Functionality" class="star_rate" id="rating14" type="radio" value="4"/>
-                    <label for="rating14">4</label>
-                    <input asp-for="Functionality" class="star_rate" id="rating13" type="radio" value="3"/>
-                    <label for="rating13">3</label>
-                    <input asp-for="Functionality" class="star_rate" id="rating12" type="radio" value="2"/>
-                    <label for="rating12">2</label>
-                    <input asp-for="Functionality" class="star_rate" id="rating11" type="radio" value="1"/>
-                    <label for="rating11">1</label>
-                </span>
-                <br/>
-                <span class="starRating">
-                    <input asp-for="Performace" class="star_rate" id="rating25" type="radio" value="5"/>
-                    <label for="rating25">5</label>
-                    <input asp-for="Performace" class="star_rate" id="rating24" type="radio" value="4"/>
-                    <label for="rating24">4</label>
-                    <input asp-for="Performace" class="star_rate" id="rating23" type="radio" value="3"/>
-                    <label for="rating23">3</label>
-                    <input asp-for="Performace" class="star_rate" id="rating22" type="radio" value="2"/>
-                    <label for="rating22">2</label>
-                    <input asp-for="Performace" class="star_rate" id="rating21" type="radio" value="1"/>
-                    <label for="rating21">1</label>
-                </span>
-                <br />
-                <span class="starRating">
-                    <input asp-for="Usability" class="star_rate" id="rating35" type="radio" value="5"/>
-                    <label for="rating35">5</label>
-                    <input asp-for="Usability" class="star_rate" id="rating34" type="radio" value="4"/>
-                    <label for="rating34">4</label>
-                    <input asp-for="Usability" class="star_rate" id="rating33" type="radio" value="3"/>
-                    <label for="rating33">3</label>
-                    <input asp-for="Usability" class="star_rate" id="rating32" type="radio" value="2"/>
-                    <label for="rating32">2</label>
-                    <input asp-for="Usability" class="star_rate" id="rating31" type="radio" value="1"/>
-                    <label for="rating31">1</label>
-                </span>
-                <br />
-                <span class="starRating">
-                    <input asp-for="Safety" class="star_rate" id="rating45" type="radio" value="5"/>
-                    <label for="rating45">5</label>
-                    <input asp-for="Safety" class="star_rate" id="rating44" type="radio" value="4"/>
-                    <label for="rating44">4</label>
-                    <input asp-for="Safety" class="star_rate" id="rating43" type="radio" value="3"/>
-                    <label for="rating43">3</label>
-                    <input asp-for="Safety" class="star_rate" id="rating42" type="radio" value="2"/>
-                    <label for="rating42">2</label>
-                    <input asp-for="Safety" class="star_rate" id="rating41" type="radio" value="1"/>
-                    <label for="rating41">1</label>
-                </span>
+
+                <div class="table-responsive">
+                    <table class="table table-votes">
+                        <tbody>
+                            <tr class="rating">
+                                <td>
+                                  <input asp-for="Functionality" id="rating15" type="radio" value="1" name="ratingFunctionality"/>
+                                  <label for="rating15" class="circle vote-number  d-flex align-items-center justify-content-center">1</label>
+                                </td>
+                                <td>
+                                  <input  asp-for="Functionality" id="rating14" type="radio" value="2" name="ratingFunctionality"/>
+                                  <label for="rating14" class="circle vote-number  d-flex align-items-center justify-content-center">2</label>
+                                </td>
+                                <td>
+                                  <input asp-for="Functionality" id="rating13" type="radio" value="3" name="ratingFunctionality"/>
+                                  <label for="rating13" class="circle vote-number  d-flex align-items-center justify-content-center">3</label>
+                                </td>
+                                <td>
+                                  <input asp-for="Functionality" id="rating12" type="radio" value="4" name="ratingFunctionality"/>
+                                  <label for="rating12" class="circle vote-number  d-flex align-items-center justify-content-center">4</label>
+                                </td>
+                                <td>
+                                  <input asp-for="Functionality" id="rating11" type="radio" value="5" name="ratingFunctionality"/>
+                                  <label for="rating11" class="circle vote-number  d-flex align-items-center justify-content-center">5</label>
+                                </td>
+                                <th scope="row"><div class="d-flex align-items-left">Functionality</div></th>
+                            </tr>
+                            <tr class="rating">
+                                <td>
+                                  <input asp-for="Performace" id="rating25" type="radio" value="1" name="ratingPerformance"/>
+                                  <label for="rating25" class=" circle vote-number d-flex align-items-center justify-content-center">1</label>
+                                </td>
+                                <td>
+                                  <input asp-for="Performace" id="rating24" type="radio" value="2" name="ratingPerformance"/>
+                                  <label for="rating24" class=" circle vote-number d-flex align-items-center justify-content-center">2</label>
+                                </td>
+                                <td>
+                                  <input asp-for="Performace" id="rating23" type="radio" value="3" name="ratingPerformance"/>
+                                  <label for="rating23" class=" circle vote-number d-flex align-items-center justify-content-center">3</label>
+                                </td>
+                                <td>
+                                  <input asp-for="Performace" id="rating22" type="radio" value="4" name="ratingPerformance"/>
+                                  <label for="rating22" class=" circle vote-number d-flex align-items-center justify-content-center">4</label>
+                                </td>
+                                <td>
+                                  <input asp-for="Performace" id="rating21" type="radio" value="5" name="ratingPerformance"/>
+                                  <label for="rating21" class=" circle vote-number d-flex align-items-center justify-content-center">5</label>
+                                </td>
+                                <th scope="row"><div class="d-flex align-items-left">Performace</div></th>
+                            </tr>
+                            <tr class="rating">
+                                <td>
+                                  <input asp-for="Usability" id="rating35" type="radio" value="1" name="ratingUsability"/>
+                                  <label for="rating35" class=" circle vote-number d-flex align-items-center justify-content-center">1</label>
+                                </td>
+                                <td>
+                                  <input asp-for="Usability" id="rating34" type="radio" value="2" name="ratingUsability"/>
+                                  <label for="rating34" class=" circle vote-number d-flex align-items-center justify-content-center">2</label>
+                                </td>
+                                <td>
+                                  <input asp-for="Usability" id="rating33" type="radio" value="3" name="ratingUsability"/>
+                                  <label for="rating33" class=" circle vote-number d-flex align-items-center justify-content-center">3</label>
+                                </td>
+                                <td>
+                                  <input asp-for="Usability" id="rating32" type="radio" value="4" name="ratingUsability"/>
+                                  <label for="rating32" class=" circle vote-number d-flex align-items-center justify-content-center">4</label>
+                                </td>
+                                <td>
+                                  <input asp-for="Usability" id="rating31" type="radio" value="5" name="ratingUsability"/>
+                                  <label for="rating31" class=" circle vote-number d-flex align-items-center justify-content-center">5</label>
+                                </td>
+                                <th scope="row"><div class="d-flex align-items-left">Usability</div></th>
+                            </tr>
+                            <tr class="rating">
+                                <td>
+                                  <input asp-for="Safety" id="rating45" type="radio" value="1" name="ratingSafety"/>
+                                  <label for="rating45" class=" circle vote-number d-flex align-items-center justify-content-center">1</label>
+                                </td>
+                                <td>
+                                  <input asp-for="Safety" id="rating44" type="radio" value="2" name="ratingSafety"/>
+                                  <label for="rating44" class=" circle vote-number d-flex align-items-center justify-content-center">2</label>
+                                </td>
+                                <td>
+                                  <input asp-for="Safety" id="rating43" type="radio" value="3" name="ratingSafety"/>
+                                  <label for="rating43" class=" circle vote-number d-flex align-items-center justify-content-center">3</label>
+                                </td>
+                                <td>
+                                  <input asp-for="Safety" id="rating42" type="radio" value="4" name="ratingSafety"/>
+                                  <label for="rating42" class=" circle vote-number d-flex align-items-center justify-content-center">4</label>
+                                </td>
+                                <td>
+                                  <input asp-for="Safety" id="rating41" type="radio" value="5" name="ratingSafety"/>
+                                  <label for="rating41" class=" circle vote-number d-flex align-items-center justify-content-center">5</label>
+                                </td>
+                                <th scope="row"><div class="d-flex align-items-left">Safety</div></th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
                 <span class="d-flex align-self-center">
                     <button class="btn btn-primary" type="submit">Vote</button>
                 </span>
             </span>
 
         </form>
-        
+
     </div>
-    
+
 </div>
+
+
+<script>
+
+  var setVotesStyle = function(element) {
+    var children = element.children();
+    var setAsSelected = false;
+
+    for(var i = children.length - 1; i >= 0; i--) {
+      var child = $(children[i]);
+
+      if(child.find('input').is(':checked')) {
+        setAsSelected = true;
+      }
+
+      if(setAsSelected == true) {
+        child.find('label').addClass('voted');
+      } else {
+        child.find('label').removeClass('voted');
+      }
+
+    }
+
+  }
+
+  $(".rating").each(function() {
+    var voteContainer = $(this);
+
+    voteContainer.children().click(function(element) {
+      setVotesStyle(voteContainer);
+    });
+
+
+
+    setVotesStyle(voteContainer);
+  });
+
+</script>
