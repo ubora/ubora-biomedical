@@ -27,8 +27,13 @@
     background: var(--blue);
 }
 
-.table-votes input[type="radio"]{
-display : none;
+.table-add-vote input[type="radio"]{
+  display : none;
+}
+
+.table.table-votes td,
+.table.table-votes th {
+  border-top: none;
 }
 
 
