@@ -110,7 +110,7 @@
                         @Html.Partial("_AddVotePartial", Model.AddVoteViewModel)
                     }
                     else {
-                      @Html.Partial("_VotePartial")
+                      @Html.Partial("_VotePartial", Model.UserVotesViewModel)
                     }
                 </div>
             </div>

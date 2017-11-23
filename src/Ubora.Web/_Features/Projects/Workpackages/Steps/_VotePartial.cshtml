@@ -1,3 +1,4 @@
+@model Ubora.Web._Features.Projects.Workpackages.Steps.UserVotesViewModel
 
 <div class="row">
     <div class="col-lg-12">
@@ -11,25 +12,25 @@
                     <tr>
                       <th scope="row">Functionality:</th>
                       <td>
-                        1
+                        @Model.Functionality
                       </td>
                     </tr>
                     <tr>
                       <th scope="row">Performance:</th>
                       <td>
-                        1
+                        @Model.Performace
                       </td>
                     </tr>
                     <tr>
                       <th scope="row">Usability:</th>
                       <td>
-                        1
+                        @Model.Usability
                       </td>
                     </tr>
                     <tr>
                       <th scope="row">Safety:</th>
                       <td>
-                        1
+                        @Model.Safety
                       </td>
                     </tr>
                 </tbody>

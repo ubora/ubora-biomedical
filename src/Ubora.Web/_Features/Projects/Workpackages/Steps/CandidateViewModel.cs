@@ -10,6 +10,7 @@ using Ubora.Domain.Projects.Candidates;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web.Services;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -31,6 +32,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public AddCommentViewModel AddCommentViewModel { get; set; }
         public IEnumerable<CommentViewModel> Comments { get; set; }
         public AddVoteViewModel AddVoteViewModel { get; set; }
+        public UserVotesViewModel UserVotesViewModel { get; set; }
 
         public class Factory
         {
@@ -71,7 +73,24 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
                 model.IsVotingAllowed = (await _authorizationService.AuthorizeAsync(user, candidate, Policies.CanVoteCandidate)).Succeeded;
 
+                if (candidate.Votes.Any(x => x.UserId == user.GetId()))
+                {
+                    SetUserVotes(model, candidate, user.GetId());
+                }
+
                 return model;
+            }
+
+            public void SetUserVotes(CandidateViewModel model, Candidate candidate, Guid userId)
+            {
+                var userVote = candidate.Votes.Single(x => x.UserId == userId);
+                model.UserVotesViewModel = new UserVotesViewModel
+                {
+                    Functionality = userVote.Functionality,
+                    Performace = userVote.Performance,
+                    Usability = userVote.Usability,
+                    Safety = userVote.Safety
+                };
             }
 
             public void CalculateScorePercentages(CandidateViewModel model, Candidate candidate)
@@ -101,12 +120,16 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public Guid CandidateId { get; set; }
 
         [Required]
+        [Range(1, 5, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
         public int Functionality { get; set; }
         [Required]
+        [Range(1, 5, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
         public int Performace { get; set; }
         [Required]
+        [Range(1, 5, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
         public int Usability { get; set; }
         [Required]
+        [Range(1, 5, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
         public int Safety { get; set; }
     }
 }

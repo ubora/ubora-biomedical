@@ -11,6 +11,7 @@ using Ubora.Web.Tests.Fakes;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Ubora.Web.Authorization;
+using Ubora.Web.Services;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
 {
@@ -46,25 +47,28 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var comment2 = new Comment(Guid.NewGuid(), "comment2", Guid.NewGuid(), DateTime.UtcNow, new[] { "project-member" });
             candidate.Set(x => x.Comments, new [] { comment1, comment2 });
 
-            var vote1 = new Vote(Guid.NewGuid(), 2, 2, 3, 4); // score = 11 , percentage = 20
+            var userId = Guid.NewGuid();
+            var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(userId);
+
+            var userVoteFunctionality = 1;
+            var userVotePerformance = 2;
+            var userVoteUsability = 3;
+            var userVoteSafety = 5;
+            var vote1 = new Vote(userId, userVoteFunctionality, userVotePerformance, userVoteUsability, userVoteSafety); // score = 11 , percentage = 20
             var vote2 = new Vote(Guid.NewGuid(), 5, 2, 3, 5); // score = 16, percentage = 20
             var vote3 = new Vote(Guid.NewGuid(), 2, 2, 1, 1); // score = 6, percentage = 20
             var vote4 = new Vote(Guid.NewGuid(), 1, 2, 1, 1); // score = 5, percentage = 40
             var vote5 = new Vote(Guid.NewGuid(), 1, 1, 1, 1); // score = 4, percentage = 40
             candidate.Set(x => x.Votes, new[] { vote1, vote2, vote3, vote4, vote5 });
 
-            var candidateViewModel = new CandidateViewModel();
+            var model = new CandidateViewModel();
             _mapper.Setup(x => x.Map<CandidateViewModel>(candidate))
-                .Returns(candidateViewModel);
+                .Returns(model);
 
             var imageUrl = "imageUrl";
             _imageStorageProvider.Setup(x => x.GetUrl(candidate.ImageLocation, ImageSize.Thumbnail400x300))
                 .Returns(imageUrl);
 
-            var expectedModel = candidateViewModel;
-            expectedModel.ImageUrl = imageUrl;
-
-            var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser();
 
             var comment1ViewModel = new CommentViewModel();
             _commentFactory.Setup(x => x.Create(user, comment1, candidateId))
@@ -74,32 +78,38 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             _commentFactory.Setup(x => x.Create(user, comment2, candidateId))
                 .ReturnsAsync(comment2ViewModel);
 
-            expectedModel.Comments = new[] { comment1ViewModel, comment2ViewModel };
-
-            expectedModel.AddCommentViewModel = new AddCommentViewModel
-            {
-                CandidateId = candidateId
-            };
-
-            expectedModel.AddVoteViewModel = new AddVoteViewModel
-            {
-                CandidateId = candidateId
-            };
-
-            expectedModel.ScorePercentageVeryGood = 40;
-            expectedModel.ScorePercentageGood = 20;
-            expectedModel.ScorePercentageMediocre = 20;
-            expectedModel.ScorePercentagePoor = 20;
-
             _authorizationService.Setup(x => x.AuthorizeAsync(user, candidate, Policies.CanVoteCandidate))
                 .ReturnsAsync(AuthorizationResult.Success);
-
-            expectedModel.IsVotingAllowed = true;
 
             // Act
             var result = await _factory.Create(candidate, user);
 
             // Assert
+            var expectedModel = model;
+            expectedModel.ImageUrl = imageUrl;
+            expectedModel.Comments = new[] { comment1ViewModel, comment2ViewModel };
+            expectedModel.AddCommentViewModel = new AddCommentViewModel
+            {
+                CandidateId = candidateId
+            };
+            expectedModel.AddVoteViewModel = new AddVoteViewModel
+            {
+                CandidateId = candidateId
+            };
+            expectedModel.ScorePercentageVeryGood = 40;
+            expectedModel.ScorePercentageGood = 20;
+            expectedModel.ScorePercentageMediocre = 20;
+            expectedModel.ScorePercentagePoor = 20;
+            expectedModel.IsVotingAllowed = true;
+
+            expectedModel.UserVotesViewModel = new UserVotesViewModel
+            {
+                Functionality = userVoteFunctionality,
+                Performace = userVotePerformance,
+                Usability = userVotePerformance,
+                Safety = userVoteSafety
+            };
+
             result.Should().Be(expectedModel);
         }
     }
