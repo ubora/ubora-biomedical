@@ -1,4 +1,4 @@
-Feature: Project Applicable Regulations Questionnaire
+Feature: Applicable Regulations Questionnaire
     As a project member
     I want to be able to start and finish a questionnaire to find out applicable regulations for the project
 
