@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -113,23 +112,5 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 model.ScorePercentagePoor = (decimal) poorVotesCount / allVoteCount * 100;
             }
         }
-    }
-
-    public class AddVoteViewModel
-    {
-        public Guid CandidateId { get; set; }
-
-        [Required]
-        [Range(1, 5, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
-        public int Functionality { get; set; }
-        [Required]
-        [Range(1, 5, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
-        public int Performace { get; set; }
-        [Required]
-        [Range(1, 5, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
-        public int Usability { get; set; }
-        [Required]
-        [Range(1, 5, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
-        public int Safety { get; set; }
     }
 }

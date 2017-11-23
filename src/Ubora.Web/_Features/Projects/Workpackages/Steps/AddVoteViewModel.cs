@@ -1,0 +1,23 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace Ubora.Web._Features.Projects.Workpackages.Steps
+{
+    public class AddVoteViewModel
+    {
+        public Guid CandidateId { get; set; }
+
+        [Required]
+        [Range(1, 5, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
+        public int Functionality { get; set; }
+        [Required]
+        [Range(1, 5, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
+        public int Performace { get; set; }
+        [Required]
+        [Range(1, 5, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
+        public int Usability { get; set; }
+        [Required]
+        [Range(1, 5, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
+        public int Safety { get; set; }
+    }
+}

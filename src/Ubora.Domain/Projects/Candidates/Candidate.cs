@@ -95,12 +95,19 @@ namespace Ubora.Domain.Projects.Candidates
 
         private void Apply(CandidateVoteAddedEvent e)
         {
-            if (_votes.Any(x => x.UserId == e.InitiatedBy.UserId))
+            var hasUserAlreadyVoted = _votes.Any(x => x.UserId == e.InitiatedBy.UserId);
+            if (hasUserAlreadyVoted)
             {
                 throw new InvalidOperationException();
             }
 
-            var vote = new Vote(e.InitiatedBy.UserId, e.Functionality, e.Perfomance, e.Usability, e.Safety);
+            var vote = new Vote(
+                userId: e.InitiatedBy.UserId, 
+                functionality: e.Functionality, 
+                performance: e.Perfomance, 
+                usability: e.Usability, 
+                safety: e.Safety);
+
             _votes.Add(vote);
         }
     }
