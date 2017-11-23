@@ -9,6 +9,8 @@ using Ubora.Domain.Infrastructure;
 using FluentAssertions;
 using Ubora.Web.Tests.Fakes;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Ubora.Web.Authorization;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
 {
@@ -18,13 +20,15 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
         private readonly Mock<IMapper> _mapper;
         private readonly Mock<ImageStorageProvider> _imageStorageProvider;
         private readonly Mock<CommentViewModel.Factory> _commentFactory;
+        private readonly Mock<IAuthorizationService> _authorizationService;
 
         public CandidateViewModelFactoryTests()
         {
             _mapper = new Mock<IMapper>();
             _imageStorageProvider = new Mock<ImageStorageProvider>();
             _commentFactory = new Mock<CommentViewModel.Factory>();
-            _factory = new CandidateViewModel.Factory(_mapper.Object, _imageStorageProvider.Object, _commentFactory.Object);
+            _authorizationService = new Mock<IAuthorizationService>();
+            _factory = new CandidateViewModel.Factory(_mapper.Object, _imageStorageProvider.Object, _commentFactory.Object, _authorizationService.Object);
         }
 
         [Fact]
@@ -86,6 +90,11 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             expectedModel.ScorePercentageGood = 20;
             expectedModel.ScorePercentageMediocre = 20;
             expectedModel.ScorePercentagePoor = 20;
+
+            _authorizationService.Setup(x => x.AuthorizeAsync(user, candidate, Policies.CanVoteCandidate))
+                .ReturnsAsync(AuthorizationResult.Success);
+
+            expectedModel.IsVotingAllowed = true;
 
             // Act
             var result = await _factory.Create(candidate, user);

@@ -888,14 +888,17 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 Performace = 5
             };
 
+            var candidate = new Candidate();
+            QueryProcessorMock.Setup(x => x.FindById<Candidate>(candidateId))
+                .Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanVoteCandidate))
+                .ReturnsAsync(AuthorizationResult.Success);
+
             var commandResult = CommandResult.Failed("testError1", "testError2");
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<AddCandidateVoteCommand>()))
                 .Returns(commandResult);
-
-            var candidate = new Candidate();
-            QueryProcessorMock.Setup(x => x.FindById<Candidate>(candidateId))
-                .Returns(candidate);
 
             var candidateViewModel = new CandidateViewModel();
             AutoMapperMock.Setup(x => x.Map<CandidateViewModel>(candidate))
@@ -922,6 +925,13 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 Performace = 5
             };
 
+            var candidate = new Candidate();
+            QueryProcessorMock.Setup(x => x.FindById<Candidate>(candidateId))
+                .Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanVoteCandidate))
+                .ReturnsAsync(AuthorizationResult.Success);
+
             AddCandidateVoteCommand executedCommand = null;
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<AddCandidateVoteCommand>()))
@@ -941,6 +951,35 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             executedCommand.Performance.Should().Be(5);
             executedCommand.ProjectId.Should().Be(ProjectId);
             executedCommand.Actor.UserId.Should().Be(UserId);
+        }
+
+        [Fact]
+        public async Task AddVote_Returns_Forbid_When_User_Not_Allowed_To_Vote()
+        {
+            var candidateId = Guid.NewGuid();
+            var addVoteViewModel = new AddVoteViewModel
+            {
+                CandidateId = candidateId,
+                Safety = 1,
+                Usability = 2,
+                Functionality = 3,
+                Performace = 4
+            };
+
+            var candidate = new Candidate();
+            QueryProcessorMock.Setup(x => x.FindById<Candidate>(candidateId))
+                .Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanVoteCandidate))
+                .ReturnsAsync(AuthorizationResult.Failed);
+
+            // Act
+            var result = await _controller.AddVote(addVoteViewModel, Mock.Of<CandidateViewModel.Factory>());
+
+            // Assert
+            result.GetType().Should().Be(typeof(ForbidResult));
+
+            CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
         }
     }
 }
