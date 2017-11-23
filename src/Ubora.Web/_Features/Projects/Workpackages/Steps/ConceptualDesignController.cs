@@ -278,6 +278,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return await Candidate(model.CandidateId, candidateViewModelFactory);
             }
 
+            var candidate = QueryProcessor.FindById<Candidate>(model.CandidateId);
+            var canVoteForCandidate = (await AuthorizationService.AuthorizeAsync(User, candidate, Policies.CanVoteCandidate)).Succeeded;
+            if (!canVoteForCandidate)
+            {
+                return Forbid();
+            }
+
             ExecuteUserProjectCommand(new AddCandidateVoteCommand
             {
                 CandidateId = model.CandidateId,

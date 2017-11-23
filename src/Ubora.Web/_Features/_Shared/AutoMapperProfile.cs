@@ -73,6 +73,7 @@ namespace Ubora.Web._Features._Shared
                 .ForMember(dest => dest.ScorePercentageGood, o => o.Ignore())
                 .ForMember(dest => dest.ScorePercentageMediocre, o => o.Ignore())
                 .ForMember(dest => dest.ScorePercentagePoor, o => o.Ignore())
+                .ForMember(dest => dest.IsVotingAllowed, o => o.Ignore())
                 .ForMember(dest => dest.AddCommentViewModel, o => o.Ignore())
                 .ForMember(dest => dest.AddVoteViewModel, o => o.Ignore());
 

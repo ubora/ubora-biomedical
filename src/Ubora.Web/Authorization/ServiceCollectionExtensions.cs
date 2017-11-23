@@ -16,6 +16,7 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsWorkpackageOneNotLockedRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsEmailConfirmedRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsCommentAuthorRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, IsVoteNotGivenRequirement.Handler>();
 
             services.AddAuthorization(options =>
             {
@@ -109,6 +110,11 @@ namespace Ubora.Web.Authorization
                 options.AddPolicy(nameof(Policies.CanEditComment), policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsCommentAuthorRequirement());
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
+                });
+                options.AddPolicy(nameof(Policies.CanVoteCandidate), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsVoteNotGivenRequirement());
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                 });
             });
