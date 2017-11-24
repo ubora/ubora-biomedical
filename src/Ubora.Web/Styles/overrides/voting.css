@@ -1,35 +1,41 @@
+
+/*for voting*/
 .circle {
-	background: var(--blue);
-	color: var(--white);
-	border-radius: 50%;
+    background:  var(--tertiary-shade);
+    color: var(--white);
+    border-radius: 50%;
 }
 
 .average-number {
-	font-size: 3em;
-	width: 3em;
-	height: 3em;
-	line-height: 3em;
+    font-size: 3em;
+    width: 3em;
+    height: 3em;
+    line-height: 3em;
 }
 
 .vote-number {
-	font-size: 1em;
-	width: 2.5em;
-	height: 2.5em;
-	line-height: 2.5em;
-	cursor: pointer;
+    font-size: 1em;
+    width: 2.5em;
+    height: 2.5em;
+    line-height: 2.5em;
+    cursor: pointer;
+    color: #fff;
 }
 
-.muted-circle {
-	background: var(--tertiary-shade);
+
+.voted {
+    background: var(--blue);
 }
 
-.edit-comment-content {
-  display: none;
+.table-add-vote input[type="radio"]{
+  display : none;
 }
 
-.edit-comment-content-visible {
-  display: block;
+.table.table-votes td,
+.table.table-votes th {
+  border-top: none;
 }
+
 
 
 /*overrides*/

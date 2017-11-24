@@ -269,5 +269,37 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             return RedirectToAction(nameof(Candidate), new { candidateId = candidateId });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddVote(AddVoteViewModel model, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
+        {
+            if (!ModelState.IsValid)
+            {
+                return await Candidate(model.CandidateId, candidateViewModelFactory);
+            }
+
+            var candidate = QueryProcessor.FindById<Candidate>(model.CandidateId);
+            var canVoteForCandidate = (await AuthorizationService.AuthorizeAsync(User, candidate, Policies.CanVoteCandidate)).Succeeded;
+            if (!canVoteForCandidate)
+            {
+                return Forbid();
+            }
+
+            ExecuteUserProjectCommand(new AddCandidateVoteCommand
+            {
+                CandidateId = model.CandidateId,
+                Functionality = model.Functionality,
+                Safety = model.Safety,
+                Performance = model.Performace,
+                Usability = model.Usability
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return await Candidate(model.CandidateId, candidateViewModelFactory);
+            }
+
+            return RedirectToAction(nameof(Candidate), new { candidateId = model.CandidateId });
+        }
     }
 }
