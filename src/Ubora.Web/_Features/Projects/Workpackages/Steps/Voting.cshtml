@@ -28,7 +28,7 @@
 
                     <div class="row">
                         @foreach (var candidate in Model.Candidates)
-            {
+                        {
                             <div class="col-sm-12 col-md-3 my-2">
                                 <div class="card w-100 h-100">
                                     <a href="@Url.Action("Candidate", "ConceptualDesign", new { candidateId = candidate.Id })" class="card-link">
@@ -39,7 +39,7 @@
                                         <p class="card-text text-truncate mb-2">@candidate.Description</p>
                                     </div>
                                     <div class="card-footer">
-                                        <small class="text-muted">Score:</small>
+                                        <small class="text-muted">Score: @candidate.TotalScore.ToString("0.0")</small>
                                     </div>
                                 </div>
                             </div>
