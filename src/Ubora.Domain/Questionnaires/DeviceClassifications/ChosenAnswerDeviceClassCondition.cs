@@ -12,7 +12,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
         {
             if (questionAnswerIdPairs == null) throw new ArgumentNullException(nameof(questionAnswerIdPairs));
 
-            QuestionAnswerIdPairs = new ReadOnlyDictionary<string, string>(questionAnswerIdPairs);
+            QuestionAnswerMap = new ReadOnlyDictionary<string, string>(questionAnswerIdPairs);
         }
 
         /// <summary>
@@ -33,11 +33,11 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
         /// Example: { "q1", "y" }, { "q2", "n" } => Condition fulfilled when question "q1" is answered with "y" and question "q2" answered with "n".
         /// </summary>
         [JsonProperty("qaIds")]
-        public ReadOnlyDictionary<string, string> QuestionAnswerIdPairs { get; set; }
+        public ReadOnlyDictionary<string, string> QuestionAnswerMap { get; set; }
 
         public bool IsSatisfied(DeviceClassificationQuestionnaireTree questionnaireTree)
         {
-            foreach (var entry in QuestionAnswerIdPairs)
+            foreach (var entry in QuestionAnswerMap)
             {
                 var question = questionnaireTree.FindQuestionOrThrow(entry.Key);
                 var answer = question.Answers.First(a => a.Id == entry.Value);
@@ -53,7 +53,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
 
         public void Validate(DeviceClassificationQuestionnaireTree questionnaireTree)
         {
-            foreach (var entry in QuestionAnswerIdPairs)
+            foreach (var entry in QuestionAnswerMap)
             {
                 var question = questionnaireTree.FindQuestionOrThrow(entry.Key);
 
