@@ -313,12 +313,12 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 new Question(nameof(QuestionTexts.q3_4_1_1), new[]
                 {
                     new Answer("y", nameof(QuestionTexts.q3_4_1_2)),
-                    new Answer("n", nameof(QuestionTexts.q3_4_2))
+                    new Answer("n", nameof(QuestionTexts.q3_4_1_2))
                 }),
                 new Question(nameof(QuestionTexts.q3_4_1_2), new[]
                 {
                     new Answer("y", nameof(QuestionTexts.q3_4_1_3)),
-                    new Answer("n", nameof(QuestionTexts.q3_4_3))
+                    new Answer("n", nameof(QuestionTexts.q3_4_1_3))
                 }),
                 new Question(nameof(QuestionTexts.q3_4_1_3), new[]
                 {
@@ -371,7 +371,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 {
                     new Answer(nameof(AnswerTexts.q3_5_2_1), nextQuestionId: nameof(QuestionTexts.q3_6)),
                     new Answer(nameof(AnswerTexts.q3_5_2_2), nextQuestionId: nameof(QuestionTexts.q3_6)),
-                    new Answer("n", nextQuestionId: nameof(QuestionTexts.q3_6)) // TODO: class?
+                    new Answer("n", nextQuestionId: nameof(QuestionTexts.q3_6))
                 }),
                 new Question(nameof(QuestionTexts.q3_6), new[]
                 {
