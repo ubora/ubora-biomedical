@@ -180,13 +180,13 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 new Question(nameof(QuestionTexts.q2_2_2_4), new[]
                 {
                     new Answer("y", nameof(QuestionTexts.q2_2_2_5)),
-                    new Answer("n", nameof(QuestionTexts.q3))
+                    new Answer("n", nameof(QuestionTexts.q2_2_2_5))
                 }),
                 new Question(nameof(QuestionTexts.q2_2_2_5), new[]
                 {
                     new Answer(nameof(AnswerTexts.q2_2_2_5_1), nextQuestionId: nameof(QuestionTexts.q2_2_2_5_3)),
                     new Answer(nameof(AnswerTexts.q2_2_2_5_2), nextQuestionId: nameof(QuestionTexts.q2_2_2_5_3)),
-                    new Answer("n", nameof(QuestionTexts.q2_2_2_5_3))
+                    new Answer("n", nameof(QuestionTexts.q3))
                 }),
                 new Question(nameof(QuestionTexts.q2_2_2_5_3), new[]
                 {
