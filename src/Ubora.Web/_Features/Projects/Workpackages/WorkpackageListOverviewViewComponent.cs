@@ -161,6 +161,13 @@ namespace Ubora.Web._Features.Projects.Workpackages
                 IsSelected = IsWorkpackageCustomMenuOptionSelected(WorkpackageMenuOption.Voting)
             });
 
+            menuLinks.Add(new MenuLink()
+            {
+                Name = "Structured information on the device",
+                Href = Url.Action("StructuredInformationOnTheDevice", "WorkpackageTwo"),
+                IsSelected = IsWorkpackageCustomMenuOptionSelected(WorkpackageMenuOption.StructuredInformationOnTheDevice)
+            });
+
             var workPackageMenu = new WorkpackageMenuViewModel
             {
                 Title = workpackage.Title,

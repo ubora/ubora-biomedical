@@ -92,10 +92,20 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View(nameof(Voting), model);
         }
 
-        [Route(nameof(StructuredInformationOnTheDevice2))]
-        public IActionResult StructuredInformationOnTheDevice2()
+        [Route(nameof(StructuredInformationOnTheDevice))]
+        public IActionResult StructuredInformationOnTheDevice()
         {
-            var model = new DeviceStructuredInformationViewModel
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
+
+            return View();
+        }
+
+        [Route(nameof(HealthTechnologySpecifications))]
+        public IActionResult HealthTechnologySpecifications()
+        {
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
+
+            var model = new HealthTechnologySpecificationsViewModel
             {
             };
 
@@ -103,17 +113,47 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [HttpPost]
-        [Route(nameof(StructuredInformationOnTheDevice2))]
-        public IActionResult StructuredInformationOnTheDevice2(DeviceStructuredInformationViewModel model)
+        [Route(nameof(HealthTechnologySpecifications))]
+        public IActionResult HealthTechnologySpecifications(HealthTechnologySpecificationsViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return HealthTechnologySpecifications();
+            }
 
-            return View();
+            return RedirectToAction(nameof(StructuredInformationOnTheDeviceResult));
+        }
+
+        [Route(nameof(UserAndEnvironment))]
+        public IActionResult UserAndEnvironment()
+        {
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
+
+            var model = new UserAndEnvironmentInformationViewModel
+            {
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route(nameof(UserAndEnvironment))]
+        public IActionResult UserAndEnvironment(UserAndEnvironmentInformationViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return UserAndEnvironment();
+            }
+
+            return RedirectToAction(nameof(StructuredInformationOnTheDeviceResult));
         }
 
         [Route(nameof(StructuredInformationOnTheDeviceResult))]
-        public IActionResult StructuredInformationOnTheDeviceResult() {
+        public IActionResult StructuredInformationOnTheDeviceResult()
+        {
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
-          return View();
+            return View();
         }
     }
 }

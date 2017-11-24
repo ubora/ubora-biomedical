@@ -2,7 +2,7 @@
 
 
 @{
-  ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.Wp2MentorReview;
+  ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 }
 
 <div class="container-fluid my-4">
@@ -14,7 +14,7 @@
       <div class="row">
           <h1 class="display-4 mb-4 col-lg-9">User and evironment</h1>
           <div class="col-lg-3">
-            <a class="btn btn-secondary-ghost align-self-start" href="#">
+            <a class="btn btn-secondary-ghost align-self-start" asp-action="UserAndEnvironment" asp-controller="WorkpackageTwo">
               <i class="material-icons">mode_edit</i>
               <span>Edit</span>
             </a>
@@ -57,7 +57,15 @@
         </div>
       </div>
 
-      <h1 class="display-4 mb-4">Health technology specifications</h1>
+        <div class="row">
+            <h1 class="display-4 mb-4 col-lg-9">Health technology specifications</h1>
+            <div class="col-lg-3">
+                <a class="btn btn-secondary-ghost align-self-start" asp-action="HealthTechnologySpecifications" asp-controller="WorkpackageTwo">
+                    <i class="material-icons">mode_edit</i>
+                    <span>Edit</span>
+                </a>
+            </div>
+        </div>
       <div class="row">
         <div class="col-lg-10">
 
