@@ -43,7 +43,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 new Question(nameof(QuestionTexts.q1_1_4_1), new[]
                 {
                     new Answer("y", nameof(QuestionTexts.q1_1_4_2)),
-                    new Answer("n", nameof(QuestionTexts.q1_1_4_2))
+                    new Answer("n", nameof(QuestionTexts.q1_1_4_3)) // Weird spot: skip a question with "no"
                 }),
                 new Question(nameof(QuestionTexts.q1_1_4_2), new[]
                 {
