@@ -13,6 +13,6 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Events
 
         public DateTime StoppedAt { get; private set; }
 
-        public override string GetDescription() => "stopped the questionnaire.";
+        public override string GetDescription() => "stopped the device classification questionnaire.";
     }
 }
