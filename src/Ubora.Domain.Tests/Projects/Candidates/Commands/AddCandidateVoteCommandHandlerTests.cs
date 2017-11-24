@@ -16,10 +16,10 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
         private readonly Guid _projectId = Guid.NewGuid();
         private readonly Guid _candidateId = Guid.NewGuid();
         private readonly Guid _userId = Guid.NewGuid();
-        private readonly int _functionality = 4;
-        private readonly int _performance = 2;
-        private readonly int _usability = 3;
-        private readonly int _safety = 1;
+        private readonly int _functionalityScore = 4;
+        private readonly int _performanceScore = 2;
+        private readonly int _usabilityScore = 3;
+        private readonly int _safetyScore = 1;
         private ICommandResult _lastCommandResult;
 
         [Fact]
@@ -55,10 +55,10 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
                 ProjectId = _projectId,
                 CandidateId = _candidateId,
                 Actor = new UserInfo(_userId, "username"),
-                Usability = _usability,
-                Functionality = _functionality,
-                Safety = _safety,
-                Performance = _performance
+                Usability = _usabilityScore,
+                Functionality = _functionalityScore,
+                Safety = _safetyScore,
+                Performance = _performanceScore
             };
 
             // Act
@@ -71,10 +71,10 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
 
             var addedVote = candidate.Votes.Last();
             addedVote.UserId.Should().Be(_userId);
-            addedVote.Safety.Should().Be(_safety);
-            addedVote.Functionality.Should().Be(_functionality);
-            addedVote.Performance.Should().Be(_performance);
-            addedVote.Usability.Should().Be(_usability);
+            addedVote.Safety.Should().Be(_safetyScore);
+            addedVote.Functionality.Should().Be(_functionalityScore);
+            addedVote.Performance.Should().Be(_performanceScore);
+            addedVote.Usability.Should().Be(_usabilityScore);
             addedVote.Score.Should().Be(10);
             _lastCommandResult.IsSuccess.Should().BeTrue();
         }
@@ -87,10 +87,10 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
             candidateVoteAddedEvent.First().InitiatedBy.UserId.Should().Be(_userId);
             candidateVoteAddedEvent.First().ProjectId.Should().Be(_projectId);
             candidateVoteAddedEvent.First().CandidateId.Should().Be(_candidateId);
-            candidateVoteAddedEvent.First().Functionality.Should().Be(_functionality);
-            candidateVoteAddedEvent.First().Perfomance.Should().Be(_performance);
-            candidateVoteAddedEvent.First().Usability.Should().Be(_usability);
-            candidateVoteAddedEvent.First().Safety.Should().Be(_safety);
+            candidateVoteAddedEvent.First().Functionality.Should().Be(_functionalityScore);
+            candidateVoteAddedEvent.First().Perfomance.Should().Be(_performanceScore);
+            candidateVoteAddedEvent.First().Usability.Should().Be(_usabilityScore);
+            candidateVoteAddedEvent.First().Safety.Should().Be(_safetyScore);
         }
     }
 }

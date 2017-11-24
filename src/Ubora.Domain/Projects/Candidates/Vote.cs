@@ -20,7 +20,6 @@ namespace Ubora.Domain.Projects.Candidates
         public int Usability { get; private set; }
         public int Safety { get; private set; }
 
-        [JsonIgnore]
         public decimal Score => Functionality + Performance + Usability + Safety;
     }
 }

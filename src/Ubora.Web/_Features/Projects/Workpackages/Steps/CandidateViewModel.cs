@@ -35,14 +35,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         public class Factory
         {
-            private readonly IMapper _mapper;
             private readonly ImageStorageProvider _imageStorageProvider;
             private readonly CommentViewModel.Factory _commentFactory;
             private readonly IAuthorizationService _authorizationService;
 
-            public Factory(IMapper mapper, ImageStorageProvider imageStorageProvider, CommentViewModel.Factory commentFactory, IAuthorizationService authorizationService)
+            public Factory(ImageStorageProvider imageStorageProvider, CommentViewModel.Factory commentFactory, IAuthorizationService authorizationService)
             {
-                _mapper = mapper;
                 _imageStorageProvider = imageStorageProvider;
                 _commentFactory = commentFactory;
                 _authorizationService = authorizationService;
@@ -54,7 +52,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             public virtual async Task<CandidateViewModel> Create(Candidate candidate, ClaimsPrincipal user)
             {
-                var model = _mapper.Map<CandidateViewModel>(candidate);
+                var model = new CandidateViewModel();
+
+                model.Id = candidate.Id;
+                model.ProjectId = candidate.ProjectId;
+                model.Title = candidate.Title;
+                model.Description = candidate.Description;
+
                 model.ImageUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(candidate.ImageLocation, ImageSize.Thumbnail400x300);
                 model.AddCommentViewModel = new AddCommentViewModel
                 {
@@ -80,7 +84,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return model;
             }
 
-            public void SetUserVotes(CandidateViewModel model, Candidate candidate, Guid userId)
+            private void SetUserVotes(CandidateViewModel model, Candidate candidate, Guid userId)
             {
                 var userVote = candidate.Votes.Single(x => x.UserId == userId);
                 model.UserVotesViewModel = new UserVotesViewModel
@@ -92,7 +96,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 };
             }
 
-            public void CalculateScorePercentages(CandidateViewModel model, Candidate candidate)
+            private void CalculateScorePercentages(CandidateViewModel model, Candidate candidate)
             {
                 var votes = candidate.Votes;
                 if (!votes.Any())
