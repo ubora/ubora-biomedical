@@ -337,8 +337,8 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 }),
                 new Question(nameof(QuestionTexts.q3_4_2_2), new[]
                 {
-                    new Answer("y", nameof(QuestionTexts.q3_4_2_3)),
-                    new Answer("n", nameof(QuestionTexts.q3_4_3))
+                    new Answer("y", nameof(QuestionTexts.q3_4_3)),
+                    new Answer("n", nameof(QuestionTexts.q3_4_2_3))
                 }),
                 new Question(nameof(QuestionTexts.q3_4_2_3), new[]
                 {
