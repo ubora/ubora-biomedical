@@ -96,12 +96,12 @@ namespace Ubora.Web._Features.Projects.Workpackages
                 Href = Url.Action("Read", "WorkpackageOne", new { projectId = ProjectId, stepId = step.Id })
             }).ToList();
 
-            //menuLinks.Add(new MenuLink
-            //{
-            //    Name = "Device classification",
-            //    Href = Url.Action("Index", "DeviceClassifications"),
-            //    IsSelected = IsWorkpackageCustomMenuOptionSelected(WorkpackageMenuOption.DeviceClassification)
-            //});
+            menuLinks.Add(new MenuLink
+            {
+                Name = "Device classification",
+                Href = Url.Action("Index", "DeviceClassifications"),
+                IsSelected = IsWorkpackageCustomMenuOptionSelected(WorkpackageMenuOption.DeviceClassification)
+            });
 
             menuLinks.Add(new MenuLink
             {

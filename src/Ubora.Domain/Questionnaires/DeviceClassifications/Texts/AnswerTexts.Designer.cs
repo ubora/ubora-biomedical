@@ -70,7 +70,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NON-INVASIVE.
+        ///   Looks up a localized string similar to Non-invasive.
         /// </summary>
         public static string q1 {
             get {
@@ -79,7 +79,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INVASIVE.
+        ///   Looks up a localized string similar to Invasive.
         /// </summary>
         public static string q2 {
             get {
@@ -88,7 +88,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NON-SURGICALLY INVASIVE (this means that it enters in the human body but only through a body orifice and without piercing or cutting the skin or membranes)?.
+        ///   Looks up a localized string similar to Non-surgically invasive (this means that it enters in the human body but only through a body orifice and without piercing or cutting the skin or membranes)?.
         /// </summary>
         public static string q2_1 {
             get {
@@ -97,16 +97,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended for transient use?.
-        /// </summary>
-        public static string q2_1_1_1 {
-            get {
-                return ResourceManager.GetString("q2_1_1_1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Is it intended for short-term use  only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?.
+        ///   Looks up a localized string similar to Yes, only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity..
         /// </summary>
         public static string q2_1_1_2 {
             get {
@@ -115,7 +106,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended for short-term use in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?.
+        ///   Looks up a localized string similar to Yes, in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity..
         /// </summary>
         public static string q2_1_1_3 {
             get {
@@ -124,7 +115,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended for long-term use only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity and it not liable to be absorbed by the mucous membrane?.
+        ///   Looks up a localized string similar to Yes, only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity and it is NOT liable to be absorbed by the mucous membrane..
         /// </summary>
         public static string q2_1_1_4 {
             get {
@@ -133,7 +124,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended for long-term use only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity but it is liable to be absorbed by the mucous membrane?.
+        ///   Looks up a localized string similar to Yes, in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity but IT IS liable to be absorbed by the mucous membrane..
         /// </summary>
         public static string q2_1_1_5 {
             get {
@@ -142,7 +133,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended for long-term use in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?.
+        ///   Looks up a localized string similar to Yes, in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity..
         /// </summary>
         public static string q2_1_1_6 {
             get {
@@ -160,6 +151,51 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Yes, only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity..
+        /// </summary>
+        public static string q2_1_2_2 {
+            get {
+                return ResourceManager.GetString("q2_1_2_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes, in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity..
+        /// </summary>
+        public static string q2_1_2_3 {
+            get {
+                return ResourceManager.GetString("q2_1_2_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes, only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity but it is NOT liable to be absorbed by the mucous membrane..
+        /// </summary>
+        public static string q2_1_2_4 {
+            get {
+                return ResourceManager.GetString("q2_1_2_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes, only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity but IT IS liable to be absorbed by the mucous membrane..
+        /// </summary>
+        public static string q2_1_2_5 {
+            get {
+                return ResourceManager.GetString("q2_1_2_5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes, in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity..
+        /// </summary>
+        public static string q2_1_2_6 {
+            get {
+                return ResourceManager.GetString("q2_1_2_6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Class IIa or higher class active medical device.
         /// </summary>
         public static string q2_1_3 {
@@ -169,7 +205,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SURGICALLY INVASIVE.
+        ///   Looks up a localized string similar to Surgically invasive.
         /// </summary>
         public static string q2_2 {
             get {
@@ -178,7 +214,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it for TRANSIENT use?.
+        ///   Looks up a localized string similar to Transient (less than 60 minutes).
         /// </summary>
         public static string q2_2_1 {
             get {
@@ -187,7 +223,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it for SHORT TERM use?.
+        ///   Looks up a localized string similar to Short term (from 60 minutes to 30 days).
         /// </summary>
         public static string q2_2_2 {
             get {
@@ -196,7 +232,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it in the teeth?.
+        ///   Looks up a localized string similar to In the teeth.
         /// </summary>
         public static string q2_2_2_5_1 {
             get {
@@ -205,7 +241,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it in any part of the body other than the teeth?.
+        ///   Looks up a localized string similar to In any part of the body other than the teeth.
         /// </summary>
         public static string q2_2_2_5_2 {
             get {
@@ -214,7 +250,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it implantable or LONG TERM use?.
+        ///   Looks up a localized string similar to Implantable or long term (more than 30 days).
         /// </summary>
         public static string q2_2_3 {
             get {
@@ -241,7 +277,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Does it administer energy to or exchange energy with the human body in a potentially hazardous way (consider nature of energy, density of energy, site of the body)?.
+        ///   Looks up a localized string similar to Yes, in a potentially hazardous way (consider nature of energy, density of energy, site of the body)..
         /// </summary>
         public static string q3_1_1 {
             get {
@@ -250,7 +286,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Does it administer energy to or exchange energy with the human body in a NON-hazardous way?.
+        ///   Looks up a localized string similar to Yes, in a NON-hazardous way..
         /// </summary>
         public static string q3_1_2 {
             get {
@@ -259,7 +295,25 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Does such decision have an impact that may cause death or an irreversible deterioration of a person&apos;s state of health?.
+        ///   Looks up a localized string similar to Yes, and diagnosis and/or monitoring are done in a clinical situation while the patient is in immediate danger..
+        /// </summary>
+        public static string q3_4_2_2 {
+            get {
+                return ResourceManager.GetString("q3_4_2_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes, and diagnosis and/or monitoring are done in a clinical situation while the patient is NOT in immediate danger..
+        /// </summary>
+        public static string q3_4_2_3 {
+            get {
+                return ResourceManager.GetString("q3_4_2_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes, an impact that may cause death or an irreversible deterioration of a person&apos;s state of health..
         /// </summary>
         public static string q3_5_1_1 {
             get {
@@ -268,7 +322,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Does such decision have an impact that may cause a serious deterioration of a person&apos;s state of health or a surgical intervention?.
+        ///   Looks up a localized string similar to Yes, an impact that may cause a serious deterioration of a person&apos;s state of health or a surgical intervention..
         /// </summary>
         public static string q3_5_1_2 {
             get {
@@ -277,7 +331,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Does it monitor vital physiological parameters, where the nature of variations of those parameters is such that it could result in immediate danger to the patient?.
+        ///   Looks up a localized string similar to Yes, it monitors vital physiological parameters, where the nature of variations of those parameters is such that it could result in immediate danger to the patient..
         /// </summary>
         public static string q3_5_2_1 {
             get {
@@ -286,7 +340,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Does it monitor non-vital physiological parameters, so that the nature of variations of those parameters is such that it could never and in no cases result in immediate danger to the patient?.
+        ///   Looks up a localized string similar to Yes, it monitors non-vital physiological parameters, so that the nature of variations of those parameters is such that it could never and in no cases result in immediate danger to the patient..
         /// </summary>
         public static string q3_5_2_2 {
             get {

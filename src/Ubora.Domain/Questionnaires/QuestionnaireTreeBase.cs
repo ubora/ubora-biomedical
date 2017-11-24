@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using Newtonsoft.Json;
 
@@ -11,10 +12,10 @@ namespace Ubora.Domain.Questionnaires
         where TAnswer : AnswerBase
     {
         [JsonProperty(nameof(Questions))]
-        private TQuestion[] _questions;
+        private ImmutableArray<TQuestion> _questions;
 
         [JsonIgnore]
-        public TQuestion[] Questions
+        public ImmutableArray<TQuestion> Questions
         {
             get { return _questions; }
             protected set
@@ -92,7 +93,7 @@ namespace Ubora.Domain.Questionnaires
         }
 
         // I've decided to validate the whole tree of questions instead of validating questions individually inside constructors.
-        protected virtual void ValidateQuestions(TQuestion[] questions)
+        protected virtual void ValidateQuestions(ICollection<TQuestion> questions)
         {
             if (questions == null) throw new ArgumentNullException(nameof(questions));
 

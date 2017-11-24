@@ -8,6 +8,11 @@
                 <h4>@Model.QuestionText</h4>
             </div>
             <div class="my-4">
+                @if (Model.IsSelected)
+                {
+                    @*Display error message only at the selected question.*@
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                }
                 @foreach (var answerChoice in Model.Answers)
                 {
                     <div class="form-check">
