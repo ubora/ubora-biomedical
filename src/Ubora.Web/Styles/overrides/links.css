@@ -9,11 +9,6 @@ a:hover {
   color: var(--light-blue);
 }
 
-/*a .card-body h4:hover,
-a .card-body h1:hover {
-  color: var(--light-blue);
-}*/
-
 .card a .card-body h4:hover,
 .card a .card-body h1:hover {
   color: var(--light-blue);
