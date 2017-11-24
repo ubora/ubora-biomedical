@@ -232,7 +232,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it applied to the skin or is it are applied in the nasal or oral cavity as far as the pharynx, and achieve the intended purpose on those cavities?.
+        ///   Looks up a localized string similar to Is it applied to the skin or is it applied in the nasal or oral cavity as far as the pharynx, and achieve the intended purpose on those cavities?.
         /// </summary>
         public static string q11_3 {
             get {
