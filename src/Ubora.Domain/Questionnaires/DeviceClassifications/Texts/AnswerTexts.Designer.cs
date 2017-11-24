@@ -295,6 +295,24 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Yes, and diagnosis and/or monitoring are done in a clinical situation while the patient is in immediate danger..
+        /// </summary>
+        public static string q3_4_2_2 {
+            get {
+                return ResourceManager.GetString("q3_4_2_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes, and diagnosis and/or monitoring are done in a clinical situation while the patient is NOT in immediate danger..
+        /// </summary>
+        public static string q3_4_2_3 {
+            get {
+                return ResourceManager.GetString("q3_4_2_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Yes, an impact that may cause death or an irreversible deterioration of a person&apos;s state of health..
         /// </summary>
         public static string q3_5_1_1 {

@@ -337,12 +337,8 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 }),
                 new Question(nameof(QuestionTexts.q3_4_2_2), new[]
                 {
-                    new Answer("y", nameof(QuestionTexts.q3_4_3)),
-                    new Answer("n", nameof(QuestionTexts.q3_4_2_3))
-                }),
-                new Question(nameof(QuestionTexts.q3_4_2_3), new[]
-                {
-                    new Answer("y", nameof(QuestionTexts.q3_4_3)),
+                    new Answer(nameof(AnswerTexts.q3_4_2_2), nameof(QuestionTexts.q3_4_3)),
+                    new Answer(nameof(AnswerTexts.q3_4_2_3), nameof(QuestionTexts.q3_4_3)),
                     new Answer("n", nameof(QuestionTexts.q3_4_3))
                 }),
                 new Question(nameof(QuestionTexts.q3_4_3), new[]
@@ -531,7 +527,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q3_1_1), nameof(AnswerTexts.q3_1_2)),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q3_4_1_2), "y"),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q3_4_1_3), "y"),
-                new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q3_4_2_3), "y"),
+                new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q3_4_2_2), nameof(AnswerTexts.q3_4_2_3)),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q3_5_1_1), "n"),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q3_5_2_1), nameof(AnswerTexts.q3_5_2_2)),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q3_6_1), "n"),
@@ -600,7 +596,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q3_1_5), "y"),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q3_2), "y"),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q3_4_2_1), "y"),
-                new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q3_4_2_2), "y"),
+                new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q3_4_2_2), nameof(AnswerTexts.q3_4_2_2)),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q3_4_3), "y"),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q3_5_1_1), nameof(AnswerTexts.q3_5_1_2)),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q3_5_2_1), "q3_5_2_1"),

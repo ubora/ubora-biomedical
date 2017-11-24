@@ -195,6 +195,12 @@
   <data name="q3_1_2" xml:space="preserve">
     <value>Yes, in a NON-hazardous way.</value>
   </data>
+  <data name="q3_4_2_2" xml:space="preserve">
+    <value>Yes, and diagnosis and/or monitoring are done in a clinical situation while the patient is in immediate danger.</value>
+  </data>
+  <data name="q3_4_2_3" xml:space="preserve">
+    <value>Yes, and diagnosis and/or monitoring are done in a clinical situation while the patient is NOT in immediate danger.</value>
+  </data>
   <data name="q3_5_1_1" xml:space="preserve">
     <value>Yes, an impact that may cause death or an irreversible deterioration of a person's state of health.</value>
   </data>

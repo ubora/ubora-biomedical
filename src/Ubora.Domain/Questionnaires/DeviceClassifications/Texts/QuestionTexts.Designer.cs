@@ -700,20 +700,11 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is the diagnosis and monitoring done in a clinical situation while the patient is in immediate danger?.
+        ///   Looks up a localized string similar to Is the device intended for diagnosis and monitoring?.
         /// </summary>
         public static string q3_4_2_2 {
             get {
                 return ResourceManager.GetString("q3_4_2_2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Is it intended to allow direct diagnosis or monitoring of vital physiological processes, but the patient is not in immediate danger?.
-        /// </summary>
-        public static string q3_4_2_3 {
-            get {
-                return ResourceManager.GetString("q3_4_2_3", resourceCulture);
             }
         }
         
