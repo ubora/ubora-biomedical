@@ -9,9 +9,25 @@
         <div class="col-lg-3">
             @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
         </div>
-        <div class="col-lg-7">
+        <div class="col-lg-9">
+          <h1 class="display-4 mb-4 text-center">Structured information on the device:</h1>
+
+          <div class="text-center">
             <a class="btn btn-primary" asp-controller="WorkpackageTwo" asp-action="UserAndEnvironment">User and environment</a>
             <a class="btn btn-primary" asp-controller="WorkpackageTwo" asp-action="HealthTechnologySpecifications">Health Technology specifications</a>
+          </div>
+
+          @* TODO: previous results *@
+          @* <div class="text-center mt-4">
+              <h3>Previous results:</h3>
+              <ul class="px-0">
+                  <li class="d-flex justify-content-center my-2">
+                      <a asp-controller="ApplicableRegulations">kuupäev</a>
+                  </li>
+              </ul>
+          </div> *@
+
+
         </div>
     </div>
 </div>
