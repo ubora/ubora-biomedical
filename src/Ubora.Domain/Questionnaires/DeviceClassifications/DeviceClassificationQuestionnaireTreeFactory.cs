@@ -169,11 +169,6 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 }),
                 new Question(nameof(QuestionTexts.q2_2_2_2), new[]
                 {
-                    new Answer("y", nameof(QuestionTexts.q2_2_2_3)),
-                    new Answer("n", nameof(QuestionTexts.q2_2_2_3))
-                }),
-                new Question(nameof(QuestionTexts.q2_2_2_3), new[]
-                {
                     new Answer("y", nameof(QuestionTexts.q2_2_2_4)),
                     new Answer("n", nameof(QuestionTexts.q2_2_2_4))
                 }),
@@ -555,7 +550,6 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 {
                     { nameof(QuestionTexts.q2_2_2_1), "n" },
                     { nameof(QuestionTexts.q2_2_2_2), "n" },
-                    { nameof(QuestionTexts.q2_2_2_3), "n" },
                     { nameof(QuestionTexts.q2_2_2_4), "n" },
                     { nameof(QuestionTexts.q2_2_2_5), "n" }
                 }),
@@ -584,7 +578,6 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q2_2_1_4), "y"),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q2_2_1_5), "y"),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q2_2_1_6), "y"),
-                new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q2_2_2_3), "y"),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q2_2_2_5), nameof(AnswerTexts.q2_2_2_5_2)),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q2_2_2_5_3), "y"),
                 new ChosenAnswerDeviceClassCondition(nameof(QuestionTexts.q2_2_3_4), nameof(AnswerTexts.q2_2_3_4_1)),

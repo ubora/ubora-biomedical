@@ -412,15 +412,6 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended to have a biological effect or are wholly or mainly absorbed?.
-        /// </summary>
-        public static string q2_2_2_3 {
-            get {
-                return ResourceManager.GetString("q2_2_2_3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Is it intended to have a biological effect or be wholly or mainly absorbed?.
         /// </summary>
         public static string q2_2_2_4 {
