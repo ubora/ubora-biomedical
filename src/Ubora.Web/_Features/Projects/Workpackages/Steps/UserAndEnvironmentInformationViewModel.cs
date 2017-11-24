@@ -1,19 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Ubora.Domain.Projects.StructuredInformations;
+﻿using Ubora.Domain.Projects.StructuredInformations;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     public class UserAndEnvironmentInformationViewModel
     {
-        [Required(ErrorMessage = "Please answer this question!")]
         public IntendedUser IntendedUser { get; set; }
         public string IntendedUserOther { get; set; }
-        [Required(ErrorMessage = "Please answer this question!")]
         public bool IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser { get; set; }
         public string IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining { get; set; }
-        [Required(ErrorMessage = "Please answer this question!")]
         public bool IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse { get; set; }
-        [Required(ErrorMessage = "Please answer this question!")]
         public WhereWillTechnologyBeUsedViewModel WhereWillTechnologyBeUsed { get; set; }
     }
 
