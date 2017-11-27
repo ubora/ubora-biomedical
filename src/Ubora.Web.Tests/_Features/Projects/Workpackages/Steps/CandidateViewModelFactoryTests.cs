@@ -97,6 +97,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 {
                     CandidateId = candidateId
                 },
+                HasImage = true,
                 TotalScore = 8.6m,
                 ScorePercentageVeryGood = 20,
                 ScorePercentageGood = 20,
