@@ -32,6 +32,7 @@
                             </div>
                         </div>
 
+
                         <div class="row mb-4">
                             <h5 class="col-lg-12">2. Weight:</h5>
                             <div class="col-lg-12">
@@ -42,36 +43,38 @@
                             </div>
                         </div>
 
+
                         <div class="row mb-4">
                             <h5 class="col-lg-12">3. Does it require the use of consumables? For example, disposable batteries, disposable electrodes, etc. </h5>
                             <div class="col-lg-12">
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        <input asp-for="DoesItRequireUseOfConsumables" class="form-check-input" type="radio" value="@true" />
+                                        <input asp-for="DoesItRequireUseOfConsumables" class="show-extra-fields-js form-check-input" type="radio" value="@true" data-target="#consumables-usage-extra-field"/>
                                         Yes
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        <input asp-for="DoesItRequireUseOfConsumables" class="form-check-input" type="radio" value="@false" />
+                                        <input asp-for="DoesItRequireUseOfConsumables" class="hide-extra-fields-js form-check-input" type="radio" value="@false" data-target="#consumables-usage-extra-field"/>
                                         No
                                     </label>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row mb-4">
-                            <div class="col-lg-12">
-                                <h5>4. If yes, please list the consumables:</h5>
-                                <div class="form-group">
-                                    <textarea asp-for="IfRequiresConsumablesListConsumables" class="form-control mt-2" rows="4" placeholder="Please list the consumables.."></textarea>
-                                </div>
-                            </div>
+                        <div id="consumables-usage-extra-field" class="hide">
+                          <div class="row mb-4">
+                              <div class="col-lg-12">
+                                  <h5>3.1 If yes, please list the consumables:</h5>
+                                  <div class="form-group">
+                                      <textarea asp-for="IfRequiresConsumablesListConsumables" class="form-control mt-2" rows="4" placeholder="Please list the consumables.."></textarea>
+                                  </div>
+                              </div>
+                          </div>
                         </div>
 
 
                         <div class="row mb-4">
-                            <h5 class="col-lg-12">5. Estimated life time:</h5>
+                            <h5 class="col-lg-12">4. Estimated life time:</h5>
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <input asp-for="EstimatedLifeTimeInDays" class="form-control width-8 text-center" type="number" min="0" title="Days" />
@@ -84,8 +87,9 @@
                             </div>
                         </div>
 
+
                         <div class="row mb-4">
-                            <h5 class="col-lg-12">6. Estimated shelf life:</h5>
+                            <h5 class="col-lg-12">5. Estimated shelf life:</h5>
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <input asp-for="EstimatedShelfLifeInDays" class="form-control width-8 text-center" type="number" min="0" title="Days" />
@@ -98,8 +102,9 @@
                             </div>
                         </div>
 
+
                         <div class="row mb-4">
-                            <h5 class="col-lg-12">7. Can it have a telemedicine or eHealth application?</h5>
+                            <h5 class="col-lg-12">6. Can it have a telemedicine or eHealth application?</h5>
                             <div class="col-lg-12">
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
@@ -116,45 +121,46 @@
                             </div>
                         </div>
 
+
                         <div class="row mb-4">
-                            <h5 class="col-lg-12">8. Does it use any kind of software?</h5>
+                            <h5 class="col-lg-12">7. Does it use any kind of software?</h5>
                             <div class="col-lg-12">
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        <input asp-for="DoesItUseAnyKindOfSoftware" class="form-check-input" type="radio" value="@true" />
+                                        <input asp-for="DoesItUseAnyKindOfSoftware" class="show-extra-fields-js form-check-input" type="radio" value="@true" data-target="#software-usage-extra-field"/>
                                         Yes
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        <input asp-for="DoesItUseAnyKindOfSoftware" class="form-check-input" type="radio" value="@false" />
+                                        <input asp-for="DoesItUseAnyKindOfSoftware" class="hide-extra-fields-js form-check-input" type="radio" value="@false" data-target="#software-usage-extra-field"/>
                                         No
                                     </label>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row mb-4">
+                        <div id="software-usage-extra-field" class="hide">
+                          <div class="row mb-4">
                             <div class="col-lg-12">
-                                <h5>9a. If yes, please describe the software, whether it is open source or proprietary, its use and/or license fee, etc. (10-70 words).</h5>
+                                <h5>7.1 If yes, please describe the software, whether it is open source or proprietary, its use and/or license fee, etc. (10-70 words).</h5>
                                 <div class="form-group">
                                     <textarea asp-for="IfUsesSoftwareDescribeSoftware" class="form-control mt-2" rows="4" placeholder="Please describe the software..."></textarea>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row mb-4">
+                          </div>
+                          <div class="row mb-4">
                             <div class="col-lg-12">
-                                <h5>9b. If yes, can the software be customized for local use? Please explain (10-70 words). Include languages available.</h5>
+                                <h5>7.2 If yes, can the software be customized for local use? Please explain (10-70 words). Include languages available.</h5>
                                 <div class="form-group">
                                     <textarea asp-for="IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse" class="form-control mt-2" rows="4" placeholder="Please explain..."></textarea>
                                 </div>
                             </div>
+                          </div>
                         </div>
 
 
                         <div class="row mb-4">
-                            <h5 class="col-lg-12">10. Is it portable?</h5>
+                            <h5 class="col-lg-12">8. Is it portable?</h5>
                             <div class="col-lg-12">
                                 <div class="form-check">
                                     <label class="form-check-label">
@@ -177,8 +183,9 @@
                             </div>
                         </div>
 
+
                         <div class="row mb-4">
-                            <h5 class="col-lg-12">11. Type of use:</h5>
+                            <h5 class="col-lg-12">9. Type of use:</h5>
                             <div class="col-lg-12">
                                 <div class="form-check">
                                     <label class="form-check-label">
@@ -207,141 +214,148 @@
                             </div>
                         </div>
 
+
                         <div class="row mb-4">
-                            <h5 class="col-lg-12">12. Does the technology require maintenance?</h5>
+                            <h5 class="col-lg-12">10. Does the technology require maintenance?</h5>
                             <div class="col-lg-12">
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        <input asp-for="DoesTechnologyRequireMaintenance" class="form-check-input" type="radio" value="@true" />
+                                        <input asp-for="DoesTechnologyRequireMaintenance" class="show-extra-fields-js form-check-input" type="radio" value="@true" data-target="#technology-maintenance-requirement-extra-field"/>
                                         Yes
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        <input asp-for="DoesTechnologyRequireMaintenance" class="form-check-input" type="radio" value="@false" />
+                                        <input asp-for="DoesTechnologyRequireMaintenance" class="hide-extra-fields-js form-check-input" type="radio" value="@false" data-target="#technology-maintenance-requirement-extra-field"/>
                                         No
                                     </label>
                                 </div>
-                                <div class="form-group pl-3">
-                                    <span class="d-block">If yes, please specify the type: <input asp-for="IfTechnologyRequiresMaintenanceSpecifyType" class="form-control width-8" type="text" title="Type" /></span>
-                                    <span class="d-block">If yes, please specify frequency: <input asp-for="IfTechnologyRequiresMaintenanceSpecifyFrequency" class="form-control width-8" type="number" title="Frequency" /></span>
+                                <div id="technology-maintenance-requirement-extra-field" class="hide mb-0">
+                                  <div class="form-group pl-3">
+                                    <span class="d-block mb-2">If yes, please fill the following fields:</span>
+                                    <span class="d-block">Specify the type: <input asp-for="IfTechnologyRequiresMaintenanceSpecifyType" class="form-control width-8" type="text" title="Type" /></span>
+                                    <span class="d-block">Specify frequency: <input asp-for="IfTechnologyRequiresMaintenanceSpecifyFrequency" class="form-control width-8" type="number" title="Frequency" /></span>
+                                    <span class="d-block">
+                                      <span class="pr-3">Can it be done on-site / home / community? </span>
+                                      <div class="form-check form-check-inline mb-0">
+                                          <label class="form-check-label">
+                                              <input asp-for="IfTechnologyRequiresMaintenanceCanItBeDoneOnSiteOrHomeOrCommunity" class="form-check-input" type="radio" value="@true" />
+                                              Yes
+                                          </label>
+                                      </div>
+                                      <div class="form-check form-check-inline mb-0">
+                                          <label class="form-check-label">
+                                              <input asp-for="IfTechnologyRequiresMaintenanceCanItBeDoneOnSiteOrHomeOrCommunity" class="form-check-input" type="radio" value="@false" />
+                                              No
+                                          </label>
+                                      </div>
+                                    </span>
+                                  </div>
+
+                                    <div class="row">
+                                        <h5 class="col-lg-12">10.1 Who should provide maintenance?</h5>
+                                        <div class="col-lg-4">
+                                            <div class="form-check ">
+                                                <label class="form-check-label my-0">
+                                                    <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.SelfUserOrPatient" />
+                                                    Self-use/patient
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label my-0">
+                                                    <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.NurseOrPhysician" />
+                                                    Nurse/Physician
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-check ">
+                                                <label class="form-check-label my-0">
+                                                    <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.Engineer" />
+                                                    Engineer
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label my-0">
+                                                    <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.Manufacturer" />
+                                                    Manufacturer
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-check">
+                                                <label class="form-check-label my-0">
+                                                    <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.Technician" />
+                                                    Technician
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label my-0">
+                                                    <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.Other" />
+                                                    <span class="d-inline">Other:</span>
+                                                    <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenanceOther" class="form-control d-inline w-75" type="text" title="Other maintenance provider" />
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
 
-
                         <div class="row mb-4">
-                            <h5 class="col-lg-12">12.1 If yes, can it be done on-site / home / community?</h5>
+                            <h5 class="col-lg-12">11. Energy requirements:</h5>
                             <div class="col-lg-12">
-                                <div class="form-check form-check-inline">
-                                    <label class="form-check-label">
-                                        <input asp-for="IfTechnologyRequiresMaintenanceCanItBeDoneOnSiteOrHomeOrCommunity" class="form-check-input" type="radio" value="@true" />
-                                        Yes
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <label class="form-check-label">
-                                        <input asp-for="IfTechnologyRequiresMaintenanceCanItBeDoneOnSiteOrHomeOrCommunity" class="form-check-input" type="radio" value="@false" />
-                                        No
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="row mb-4">
-                            <h5 class="col-lg-12">13. If yes, who should provide maintenance?</h5>
-                            <div class="col-lg-4">
-                                <div class="form-check ">
-                                    <label class="form-check-label">
-                                        <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.SelfUserOrPatient" />
-                                        Self-use/patient
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.NurseOrPhysician" />
-                                        Nurse/Physician
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-check ">
-                                    <label class="form-check-label">
-                                        <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.Engineer" />
-                                        Engineer
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.Manufacturer" />
-                                        Manufacturer
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.Technician" />
-                                        Technician
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="@ProviderOfMaintenance.Other" />
-                                        <span class="d-inline">Other:</span>
-                                        <input asp-for="IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenanceOther" class="form-control d-inline w-75" type="text" title="Other maintenance provider" />
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="row mb-4">
-                            <h5 class="col-lg-12">14. Energy requirements:</h5>
-                            <div class="col-lg-12">
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input asp-for="EnergyRequirements.MechanicalEnergy" class="form-check-input" type="checkbox" />
                                         Mechanical energy (e.g. manually powered)
                                     </label>
                                 </div>
+
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input asp-for="EnergyRequirements.Batteries" class="form-check-input" type="checkbox" />
                                         Batteries
                                     </label>
                                 </div>
+
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input asp-for="EnergyRequirements.PowerSupplyForRecharging" class="form-check-input" type="checkbox" />
+                                        <input asp-for="EnergyRequirements.PowerSupplyForRecharging" class="toggle-extra-fields-js form-check-input" type="checkbox" data-target="#recharging-extra-field"/>
                                         Power supply for recharging (not yet developed)
                                     </label>
                                 </div>
-                                <div class="form-group pl-3">
-                                    <span class="d-block">If yes, voltage required: <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredVoltage" class="form-control width-8 text-center" type="number" min="0" title="Voltage" /> V </span>
+                                <div id="recharging-extra-field" class="hide form-group pl-3">
+                                    <span class="d-block mb-2">If yes, please fill the following fields:</span>
+                                    <span class="d-block">Voltage required: <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredVoltage" class="form-control width-8 text-center" type="number" min="0" title="Voltage" /> V </span>
                                     <span class="d-block">Time required to recharge: <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes" class="form-control width-8 text-center" type="number" min="0" title="Minutes" /> Minutes</span>
                                     <span class="d-block">Battery life with full charge: <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes" class="form-control width-8 text-center" type="number" min="0" title="Minutes" /> Minutes</span>
                                 </div>
+
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input asp-for="EnergyRequirements.ContinuousPowerSupply" class="form-check-input" type="checkbox" />
+                                        <input asp-for="EnergyRequirements.ContinuousPowerSupply" class="toggle-extra-fields-js form-check-input" type="checkbox" data-target="#power-supply-extra-field"/>
                                         Continuous power supply
                                     </label>
                                 </div>
-                                <div class="form-group pl-3">
-                                    <span>If yes, voltage required: </span><input asp-for="EnergyRequirements.IfContinuousPowerSupplyThenRequiredVoltage" class="form-control width-8 text-center" type="number" min="0" title="Voltage" /><span> V </span>
+                                <div id="power-supply-extra-field" class="hide form-group pl-3">
+                                    <span>If yes, voltage required: <input asp-for="EnergyRequirements.IfContinuousPowerSupplyThenRequiredVoltage" class="form-control width-8 text-center" type="number" min="0" title="Voltage" /> V </span>
                                 </div>
+
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input asp-for="EnergyRequirements.SolarPower" class="form-check-input" type="checkbox" />
+                                        <input asp-for="EnergyRequirements.SolarPower" class="toggle-extra-fields-js form-check-input" type="checkbox" data-target="#solar-power-extra-field"/>
                                         Solar power
                                     </label>
                                 </div>
-                                <div class="form-group pl-3">
-                                    <span>If yes, time in sunlight required to charge: </span><input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /><span> Hours </span><input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes" class="form-control width-8 text-center" type="number" min="0" title="Minutes" /><span> Minutes</span>
+                                <div id="solar-power-extra-field" class="hide form-group pl-3">
+                                    <span class="d-block mb-2">If yes, please fill the following fields:</span>
+                                    <span class="d-block">Time in sunlight required to charge: <input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours <input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes" class="form-control width-8 text-center" type="number" min="0" title="Minutes" /> Minutes</span>
                                     <span class="d-block">Battery life with full charge: <input asp-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours <input asp-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInMinutes" class="form-control width-8 text-center" type="number" min="0" title="Minutes" /> Minutes</span>
                                 </div>
+
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input asp-for="EnergyRequirements.Other" class="form-check-input" type="checkbox" />
@@ -352,91 +366,104 @@
                             </div>
                         </div>
 
+
                         <div class="row mb-4">
-                            <h5 class="col-lg-12">15. Facility requirements:</h5>
+                            <h5 class="col-lg-12">12. Facility requirements:</h5>
                             <div class="col-lg-12">
+
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input asp-for="FacilityRequirements.CleanWaterSupply" class="form-check-input" type="checkbox" />
                                         Clean water supply
                                     </label>
                                 </div>
+
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input asp-for="FacilityRequirements.SpecificTemperatureAndOrHumidityRange" class="form-check-input" type="checkbox" />
+                                        <input asp-for="FacilityRequirements.SpecificTemperatureAndOrHumidityRange" class="toggle-extra-fields-js form-check-input" type="checkbox" data-target="#specific-temperature-extra-field"/>
                                         Specific temperature and/or humidity range
                                     </label>
                                 </div>
-                                <div class="form-group col-lg-6">
+                                <div id="specific-temperature-extra-field" class="hide form-group col-lg-6">
                                     <span>If yes, please describe: </span>
                                     <textarea asp-for="FacilityRequirements.IfSpecificTemperatureAndOrHumidityRangeThenDescription" class="form-control mt-2" rows="2" placeholder="Please describe..."></textarea>
                                 </div>
+
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input asp-for="FacilityRequirements.ClinicalWasteDisposalFacilities" class="form-check-input" type="checkbox" />
+                                        <input asp-for="FacilityRequirements.ClinicalWasteDisposalFacilities" class="toggle-extra-fields-js form-check-input" type="checkbox" data-target="#clinical-waste-extra-field"/>
                                         Clinical waste disposal facilities
                                     </label>
                                 </div>
-                                <div class="form-group col-lg-6">
+                                <div id="clinical-waste-extra-field" class="hide form-group col-lg-6">
                                     <span>If yes, please describe: </span>
                                     <textarea asp-for="FacilityRequirements.IfClinicalWasteDisposalFacilitiesThenDescription" class="form-control mt-2" rows="2" placeholder="Please describe..."></textarea>
                                 </div>
+
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input asp-for="FacilityRequirements.RadiationIsolation" class="form-check-input" type="checkbox" />
                                         Radiation isolation
                                     </label>
                                 </div>
+
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input asp-for="FacilityRequirements.GasSupply" class="form-check-input" type="checkbox" />
+                                        <input asp-for="FacilityRequirements.GasSupply" class="toggle-extra-fields-js form-check-input" type="checkbox" data-target="#gas-supply-extra-field"/>
                                         Gas supply
                                     </label>
                                 </div>
-                                <div class="form-group col-lg-6">
+                                <div id="gas-supply-extra-field" class="hide form-group col-lg-6">
                                     <span>If yes, please describe: </span>
                                     <textarea asp-for="FacilityRequirements.IfGasSupplyThenDescription" class="form-control mt-2" rows="2" placeholder="Please describe..."></textarea>
                                 </div>
+
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input asp-for="FacilityRequirements.Sterilization" class="form-check-input" type="checkbox" />
+                                        <input asp-for="FacilityRequirements.Sterilization" class="toggle-extra-fields-js form-check-input" type="checkbox" data-target="#sterilization-extra-field"/>
                                         Sterilization
                                     </label>
                                 </div>
-                                <div class="form-group col-lg-6">
+                                <div id="sterilization-extra-field" class="hide form-group col-lg-6">
                                     <span>If yes, please describe: </span>
                                     <textarea asp-for="FacilityRequirements.IfSterilizationThenDescription" class="form-control mt-2" rows="2" placeholder="Please describe..."></textarea>
                                 </div>
+
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input asp-for="FacilityRequirements.AccessToInternet" class="form-check-input" type="checkbox" />
                                         Access to the Internet
                                     </label>
                                 </div>
+
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input asp-for="FacilityRequirements.AccessToCellularPhoneNetwork" class="form-check-input" type="checkbox" />
                                         Access to a cellular phone network
                                     </label>
                                 </div>
+
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input asp-for="FacilityRequirements.ConnectionToLaptopComputer" class="form-check-input" type="checkbox" />
                                         Connection to a laptop/computer
                                     </label>
                                 </div>
+
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input asp-for="FacilityRequirements.AccessibleByCar" class="form-check-input" type="checkbox" />
                                         Accessible by car
                                     </label>
                                 </div>
+
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input asp-for="FacilityRequirements.AdditionalSoundOrLightControlFacilites" class="form-check-input" type="checkbox" />
                                         Additional sound / light control facilities
                                     </label>
                                 </div>
+
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input asp-for="FacilityRequirements.Other" class="form-check-input" type="checkbox" />
@@ -461,3 +488,27 @@
         </div>
     </div>
 </div>
+
+
+<script>
+
+$('.toggle-extra-fields-js')
+.change(function () {
+    var target = $(this).data("target");
+    $(target).toggleClass('hide');
+});
+
+
+$('.show-extra-fields-js')
+.click(function () {
+    var target = $(this).data("target");
+    $(target).removeClass('hide');
+});
+
+$('.hide-extra-fields-js')
+.click(function () {
+    var target = $(this).data("target");
+    $(target).addClass('hide');
+});
+
+</script>

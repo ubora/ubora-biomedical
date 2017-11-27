@@ -19,6 +19,11 @@
   padding: .5rem 0;
 }
 
+.form-group .form-check .form-check-label {
+  color: var(--text-color);
+  font-size: inherit;
+}
+
 .form-check .form-check-label .form-control {
   padding: 0;
 }
