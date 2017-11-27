@@ -10,7 +10,7 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
     public class ChosenAnswerDeviceClassConditionTests
     {
         [Fact]
-        public void IsFulfilled_Returns_True_When_Exact_Chosen_Answers_Found_For_Given_Questions()
+        public void IsSatisfied_Returns_True_When_Exact_Chosen_Answers_Found_For_Given_Questions()
         {
             var questions = new[]
             {
@@ -31,7 +31,7 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
                 { "q1", "y" },
                 { "q2", "n" }
             });
-            var deviceClass = new DeviceClassOne(new [] { condition });
+            var deviceClass = new DeviceClassOne().WithConditions(new [] { condition });
 
             var questionnaireTree = new DeviceClassificationQuestionnaireTree(questions, new [] { deviceClass });
 
@@ -39,14 +39,14 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
             questionnaireTree.FindNextUnansweredQuestion().ChooseAnswer("n", DateTime.UtcNow);
 
             // Act
-            var result = condition.IsFulfilled(questionnaireTree);
+            var result = condition.IsSatisfied(questionnaireTree);
 
             // Assert
             result.Should().BeTrue();
         }
 
         [Fact]
-        public void IsFulfilled_Returns_False_When_Not_Exact_Chosen_Answers_Found()
+        public void IsSatisfied_Returns_False_When_Not_Exact_Chosen_Answers_Found()
         {
             var questions = new[]
             {
@@ -67,7 +67,7 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
                 { "q1", "y" },
                 { "q2", "n" }
             });
-            var deviceClass = new DeviceClassOne(new[] { condition });
+            var deviceClass = DeviceClass.One.WithConditions(new[] { condition });
 
             var questionnaireTree = new DeviceClassificationQuestionnaireTree(questions, new[] { deviceClass });
 
@@ -75,7 +75,7 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications
             questionnaireTree.FindNextUnansweredQuestion().ChooseAnswer("y", DateTime.UtcNow);
 
             // Act
-            var result = condition.IsFulfilled(questionnaireTree);
+            var result = condition.IsSatisfied(questionnaireTree);
 
             // Assert
             result.Should().BeFalse();

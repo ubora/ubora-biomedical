@@ -4,7 +4,7 @@ using Ubora.Domain.Infrastructure.Specifications;
 // ReSharper disable once CheckNamespace
 namespace System.Linq
 {
-    public static class LinqExtensions
+    public static class SpecificationLinqExtensions
     {
         public static IQueryable<T> Where<T>(this IQueryable<T> queryable, ISpecification<T> specification)
         {

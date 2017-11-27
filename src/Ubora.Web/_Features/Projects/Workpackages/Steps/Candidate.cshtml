@@ -1,4 +1,5 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects.Workpackages.Steps
 @model Ubora.Web._Features.Projects.Workpackages.Steps.CandidateViewModel
 
 <div class="container-fluid my-4">
@@ -12,7 +13,7 @@
 
             <div class="row mb-4">
                 <div class="col">
-                    <h1 class="display-4">Conceptual Design</h1>
+                    <h1 class="display-4">Voting</h1>
                 </div>
             </div>
 
@@ -70,88 +71,49 @@
             </div>
 
             @*TODO: Voting system implementation*@
-            @*<div class="row mb-4">
+            <div class="row mb-4">
 
-                  <div class="col-lg-6">
+                <div class="col-lg-6">
                     <div class="row">
-                      <div class="col-lg-12">
-                        <h2 class="display-5 mb-4">All votes</h2>
-                      </div>
-                      <div class="col-lg-4 d-flex align-items-center justify-content-center">
-                        <div class="circle average-number d-flex align-items-center justify-content-center">
-                          8.5
+                        <div class="col-lg-12">
+                            <h2 class="display-5 mb-4">All votes</h2>
                         </div>
-                      </div>
-                      <div class="col-lg-8">
-                        <span>Very good: 15-20</span>
-                        <div class="progress mb-1">
-                          <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="col-lg-4 d-flex align-items-center justify-content-center">
+                            <div class="circle voted average-number d-flex align-items-center justify-content-center">
+                                @Model.TotalScore.ToString("0.0")
+                            </div>
                         </div>
-                        <span>Good: 10-15</span>
-                        <div class="progress mb-1">
-                          <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="col-lg-8">
+                            <span>Very good: 16-20</span>
+                            <div class="progress mb-1">
+                                <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentageVeryGood)%"></div>
+                            </div>
+                            <span>Good: 11-15</span>
+                            <div class="progress mb-1">
+                                <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentageGood)%"></div>
+                            </div>
+                            <span>Mediocre: 6-10</span>
+                            <div class="progress mb-1">
+                                <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentageMediocre)%"></div>
+                            </div>
+                            <span>Poor: 1-5</span>
+                            <div class="progress mb-1">
+                                <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentagePoor)%"></div>
+                            </div>
                         </div>
-                        <span>Mediocre: 5-10</span>
-                        <div class="progress mb-1">
-                          <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <span>Poor: 0-5</span>
-                        <div class="progress mb-1">
-                          <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                      </div>
                     </div>
-                  </div>
+                </div>
 
-                  <div class="col-lg-6">
-                    <div class="row">
-                      <div class="col-lg-12">
-                        <h2 class="display-5 mb-4">Cast your vote</h2>
-                      </div>
-                      <div class="col-lg-9 col-md-9">
-                        <div class="table-responsive">
-                          <table class="table table-votes">
-                            <tbody>
-                              <tr>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">1</div></td>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">2</div></td>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">3</div></td>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">4</div></td>
-                                <td><div class="circle vote-number muted-circle d-flex align-items-center justify-content-center">5</div></td>
-                                <th scope="row"><div class="d-flex align-items-left">Functionality</div></th>
-                              </tr>
-                              <tr>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">1</div></td>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">2</div></td>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">3</div></td>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">4</div></td>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">5</div></td>
-                                <th scope="row"><div class="d-flex align-items-left">Performace</div></th>
-                              </tr>
-                              <tr>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">1</div></td>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">2</div></td>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">3</div></td>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">4</div></td>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">5</div></td>
-                                <th scope="row"><div class="d-flex align-items-left">Usability</div></th>
-                              </tr>
-                              <tr>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">1</div></td>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">2</div></td>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">3</div></td>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">4</div></td>
-                                <td><div class="circle vote-number d-flex align-items-center justify-content-center">5</div></td>
-                                <th scope="row"><div class="d-flex align-items-left">Safety</div></th>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>*@
+                <div class="col-lg-6">
+                    @if (Model.IsVotingAllowed)
+                    {
+                        @Html.Partial("_AddVotePartial", Model.AddVoteViewModel)
+                    }
+                    else {
+                      @Html.Partial("_VotePartial", Model.UserVotesViewModel)
+                    }
+                </div>
+            </div>
 
             <div class="row mb-4">
                 <div class="col-sm-12 col-lg-6">
@@ -167,8 +129,8 @@
                                         <img class="avatar avatar-comment" src="@comment.ProfilePictureUrl" />
                                     </div>
                                     <div class="col-lg-10">
-                                        <p >
-                                            <strong>@comment.CommentatorName</strong>
+                                        <p>
+                                            <strong><a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@comment.CommentatorId">@comment.CommentatorName</a></strong>
                                             @if (comment.IsLeader)
                                             {
                                                 <i class="material-icons align-middle" title="Project leader">supervisor_account</i>
@@ -178,8 +140,28 @@
                                                 <i class="material-icons align-middle" title="Project mentor">school</i>
                                             }
                                         </p>
-                                        <p>@comment.CommentText</p>
-                                    </div>
+                                        <p>
+                                            @comment.CommentText
+                                        @if (comment.IsEdited)
+                                        {
+                                            <span class="small-text text-grey">(edited)</span>
+                                        }
+                                    </p>
+                                    <span class="small-text">
+                                        @if (comment.CanBeEdited)
+                                        {
+                                            <button class="btn-link mr-2" role="button" data-toggle="collapse" data-target="#@comment.Id">edit</button>
+                                                <button class="btn-link mr-2" role="button" data-toggle="modal" data-target="#removeCommentModal-@comment.Id">delete</button>
+                                                <span class="timeago text-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
+                                                @Html.Partial("RemoveCommentModal", comment.EditCommentViewModel)
+                                                <div class="collapse" id="@comment.Id">@Html.Partial("_EditCommentPartial", comment.EditCommentViewModel)</div>
+                                        }
+                                        else
+                                        {
+                                            <span class="timeago text-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
+                                        }
+                                    </span>
+                                </div>
                                 }
                             </div>
                         </div>

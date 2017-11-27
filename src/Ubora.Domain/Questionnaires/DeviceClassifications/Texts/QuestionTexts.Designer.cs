@@ -61,7 +61,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is your device INVASIVE or NON INVASIVE?.
+        ///   Looks up a localized string similar to Is your device INVASIVE or NON-INVASIVE?.
         /// </summary>
         public static string q1 {
             get {
@@ -232,7 +232,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it applied to the skin or is it are applied in the nasal or oral cavity as far as the pharynx, and achieve the intended purpose on those cavities?.
+        ///   Looks up a localized string similar to Is it applied to the skin or is it applied in the nasal or oral cavity as far as the pharynx, and achieve the intended purpose on those cavities?.
         /// </summary>
         public static string q11_3 {
             get {
@@ -268,7 +268,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TODO.
+        ///   Looks up a localized string similar to Is it intended for transient use?.
         /// </summary>
         public static string q2_1_1_1 {
             get {
@@ -277,7 +277,25 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to It is intended for class:.
+        ///   Looks up a localized string similar to Is it intended for short-term use?.
+        /// </summary>
+        public static string q2_1_1_2 {
+            get {
+                return ResourceManager.GetString("q2_1_1_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is it indended for long-term use?.
+        /// </summary>
+        public static string q2_1_1_4 {
+            get {
+                return ResourceManager.GetString("q2_1_1_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It is intended for connection to an active medical device of class:.
         /// </summary>
         public static string q2_1_2 {
             get {
@@ -295,7 +313,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended for short-term use only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?.
+        ///   Looks up a localized string similar to Is it intended for short-term use?.
         /// </summary>
         public static string q2_1_2_2 {
             get {
@@ -304,16 +322,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended for short-term use in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?.
-        /// </summary>
-        public static string q2_1_2_3 {
-            get {
-                return ResourceManager.GetString("q2_1_2_3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Is it intended for long-term use only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity but it is liable to be absorbed by the mucous membrane?.
+        ///   Looks up a localized string similar to Is it intended for long-term use?.
         /// </summary>
         public static string q2_1_2_4 {
             get {
@@ -322,25 +331,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it intended for long-term use only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity but it is liable to be absorbed by the mucous membrane?.
-        /// </summary>
-        public static string q2_1_2_5 {
-            get {
-                return ResourceManager.GetString("q2_1_2_5", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Is it intended for long-term use in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?.
-        /// </summary>
-        public static string q2_1_2_6 {
-            get {
-                return ResourceManager.GetString("q2_1_2_6", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to TODO.
+        ///   Looks up a localized string similar to What is the time length of its use?.
         /// </summary>
         public static string q2_2_1 {
             get {
@@ -417,15 +408,6 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         public static string q2_2_2_2 {
             get {
                 return ResourceManager.GetString("q2_2_2_2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Is it intended to have a biological effect or are wholly or mainly absorbed?.
-        /// </summary>
-        public static string q2_2_2_3 {
-            get {
-                return ResourceManager.GetString("q2_2_2_3", resourceCulture);
             }
         }
         
@@ -592,7 +574,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TODO.
+        ///   Looks up a localized string similar to Does it administer energy to or exchange energy with the human body?.
         /// </summary>
         public static string q3_1_1 {
             get {
@@ -709,20 +691,11 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is the diagnosis and monitoring done in a clinical situation while the patient is in immediate danger?.
+        ///   Looks up a localized string similar to Is the device intended for diagnosis and monitoring?.
         /// </summary>
         public static string q3_4_2_2 {
             get {
                 return ResourceManager.GetString("q3_4_2_2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Is it intended to allow direct diagnosis or monitoring of vital physiological processes, but the patient is not in immediate danger?.
-        /// </summary>
-        public static string q3_4_2_3 {
-            get {
-                return ResourceManager.GetString("q3_4_2_3", resourceCulture);
             }
         }
         
@@ -754,7 +727,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TODO.
+        ///   Looks up a localized string similar to Does such a device have a significant impact?.
         /// </summary>
         public static string q3_5_1_1 {
             get {
@@ -772,7 +745,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TODO.
+        ///   Looks up a localized string similar to Does it monitor parameters?.
         /// </summary>
         public static string q3_5_2_1 {
             get {

@@ -2,7 +2,7 @@
 
 <form asp-controller="ConceptualDesign" asp-action="AddComment" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    @Html.HiddenFor(m => m.CandidateId)
+    <input type="hidden" asp-for="CandidateId" />
     <div class="form-group">
         <label class="mb-4" asp-for="CommentText">Comment</label>
         <textarea class="form-control" asp-for="CommentText" placeholder="Add comment" rows="4"></textarea>

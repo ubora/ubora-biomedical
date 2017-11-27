@@ -1,7 +1,9 @@
 ﻿using FluentAssertions;
+using Microsoft.AspNetCore.Authorization;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
@@ -9,7 +11,9 @@ using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
+using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web.Tests.Fakes;
 using Xunit;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
@@ -19,31 +23,32 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
         private readonly CommentViewModel.Factory _factory;
         private readonly Mock<ImageStorageProvider> _imageStorageProvider;
         private readonly Mock<IQueryProcessor> _queryProcessor;
+        private readonly Mock<IAuthorizationService> _authorizationService;
 
         public CommentViewModelFactoryTests()
         {
             _imageStorageProvider = new Mock<ImageStorageProvider>();
             _queryProcessor = new Mock<IQueryProcessor>();
-            _factory = new CommentViewModel.Factory(_queryProcessor.Object, _imageStorageProvider.Object);
+            _authorizationService = new Mock<IAuthorizationService>();
+            _factory = new CommentViewModel.Factory(_queryProcessor.Object, _imageStorageProvider.Object, _authorizationService.Object);
         }
 
         [Fact]
-        public void Create_Returns_Expected_ViewModel()
+        public async Task Create_Returns_Expected_ViewModel()
         {
             var userId = Guid.NewGuid();
             var commentText = "commentText";
-            var comment = new Comment(userId, commentText);
+            var commentedAt = DateTime.UtcNow;
+            var commentId = Guid.NewGuid();
+            var comment = new Comment(userId, commentText, commentId, commentedAt, new[] { "project-mentor" });
 
-            var members = new List<ProjectMember>()
-            {
-                new ProjectMember(userId),
-                new ProjectLeader(userId)
-            };
             var projectId = Guid.NewGuid();
-            var project = new Project();
-            project.Set(x => x.Members, members);
-            _queryProcessor.Setup(x => x.FindById<Project>(projectId))
-                .Returns(project);
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+            candidate.Set(x => x.Id, candidateId);
+            candidate.Set(x => x.ProjectId, projectId);
+            _queryProcessor.Setup(x => x.FindById<Candidate>(candidateId))
+                .Returns(candidate);
 
             var user = new UserProfile(userId);
             user.Set(x => x.FirstName, "FirstName");
@@ -57,16 +62,32 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             _imageStorageProvider.Setup(x => x.GetUrl(profilePictureBlobLocation))
                 .Returns(profilePictureUrl);
 
+            var claimsPrincipal = FakeClaimsPrincipalFactory.CreateAuthenticatedUser();
+            _authorizationService.Setup(x => x.AuthorizeAsync(claimsPrincipal, comment, Policies.CanEditComment))
+                .ReturnsAsync(AuthorizationResult.Success);
+
+            var editCommentViewModel = new EditCommentViewModel
+            {
+                CandidateId = candidateId,
+                Id = comment.Id,
+                CommentText = comment.Text
+            };
             var expectedModel = new CommentViewModel
             {
+                Id = commentId,
                 CommentatorId = userId,
                 CommentText = commentText,
                 CommentatorName = "FirstName LastName",
-                ProfilePictureUrl = profilePictureUrl
+                ProfilePictureUrl = profilePictureUrl,
+                CommentedAt = commentedAt,
+                EditCommentViewModel = editCommentViewModel,
+                CanBeEdited = true,
+                IsLeader = false,
+                IsMentor = true
             };
 
             // Act
-            var result = _factory.Create(comment, projectId);
+            var result = await _factory.Create(claimsPrincipal, comment, candidateId);
 
             // Assert
             result.ShouldBeEquivalentTo(expectedModel);

@@ -5,9 +5,9 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
 {
     public class Answer : AnswerBase
     {
-        public Answer(string id, string nextQuestionId)
+        public Answer(string answerId, string nextQuestionId)
         {
-            Id = id;
+            Id = answerId;
             NextQuestionId = nextQuestionId;
         }
 

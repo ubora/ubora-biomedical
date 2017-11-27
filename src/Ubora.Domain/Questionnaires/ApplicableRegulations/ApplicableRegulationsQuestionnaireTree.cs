@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
+using System.Collections.Immutable;
 
 namespace Ubora.Domain.Questionnaires.ApplicableRegulations
 {
@@ -8,7 +8,7 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations
     {
         public ApplicableRegulationsQuestionnaireTree(IEnumerable<Question> questions)
         {
-            Questions = questions.ToArray();
+            Questions = questions.ToImmutableArray();
         }
 
         [JsonConstructor]
