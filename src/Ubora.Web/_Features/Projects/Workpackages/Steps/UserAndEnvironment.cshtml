@@ -18,6 +18,8 @@
                 <div class="row">
                     <h1 class="display-4 col-lg-12 mb-4">User and evironment</h1>
                     <div class="col-lg-12">
+
+
                         <div class="row mb-4">
                             <h5 class="col-lg-12">1. Who is the intended user?</h5>
                             <div class="col-lg-4">
@@ -74,18 +76,19 @@
                             <span asp-validation-for="IntendedUserOther"></span>
                         </div>
 
+
                         <div class="row mb-4">
                             <h5 class="col-lg-12">2. Is training required in addition to the expected skill level of the intended user? </h5>
                             <div class="col-lg-12">
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        <input asp-for="IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser" class="form-check-input" type="radio" value="@true" />
+                                        <input asp-for="IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser" class="show-extra-fields-js form-check-input" type="radio" value="@true" data-target="#training-extra-field"/>
                                         Yes
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        <input asp-for="IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser" class="form-check-input" type="radio" value="@false" />
+                                        <input asp-for="IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser" class="hide-extra-fields-js form-check-input" type="radio" value="@false" data-target="#training-extra-field"/>
                                         No
                                     </label>
                                 </div>
@@ -93,9 +96,9 @@
                             </div>
                         </div>
 
-                        <div class="row mb-4">
+                        <div id="training-extra-field" class="hide row mb-4">
                             <div class="col-lg-12">
-                                <h5>3. If training is required, please describe who will deliver the training and the materials and time required for the training.</h5>
+                                <h5>2.1 If training is required, please describe who will deliver the training and the materials and time required for the training.</h5>
                                 <div class="form-group">
                                     <textarea asp-for="IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining" class="form-control" rows="4" placeholder="Please describe..."></textarea>
                                     <span asp-validation-for="IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining"></span>
@@ -103,8 +106,9 @@
                             </div>
                         </div>
 
+
                         <div class="row mb-4">
-                            <h5 class="col-lg-12">4. Is any maintenance or calibration required by the user at the time of use?</h5>
+                            <h5 class="col-lg-12">3. Is any maintenance or calibration required by the user at the time of use?</h5>
                             <div class="col-lg-12">
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
@@ -123,7 +127,7 @@
                         </div>
 
                         <div class="row mb-4">
-                            <h5 class="col-lg-12">5. Where will the technology be used?</h5>
+                            <h5 class="col-lg-12">4. Where will the technology be used?</h5>
                             <div class="col-lg-4">
                                 <div class="form-check ">
                                     <label class="form-check-label">
@@ -181,7 +185,9 @@
                     </div>
                 </div>
 
+
                 <hr class="mb-4">
+
 
                 <div class="row">
                   <div class="col-lg-12">
@@ -192,3 +198,27 @@
         </div>
     </div>
 </div>
+
+
+<script>
+
+$('.toggle-extra-fields-js')
+.change(function () {
+    var target = $(this).data("target");
+    $(target).toggleClass('hide');
+});
+
+
+$('.show-extra-fields-js')
+.click(function () {
+    var target = $(this).data("target");
+    $(target).removeClass('hide');
+});
+
+$('.hide-extra-fields-js')
+.click(function () {
+    var target = $(this).data("target");
+    $(target).addClass('hide');
+});
+
+</script>
