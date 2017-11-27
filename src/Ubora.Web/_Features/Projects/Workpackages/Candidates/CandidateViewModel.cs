@@ -58,6 +58,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
                 model.Title = candidate.Title;
                 model.Description = candidate.Description;
                 model.TotalScore = candidate.TotalScore;
+                model.HasImage = candidate.HasImage;
 
                 model.ImageUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(candidate.ImageLocation, ImageSize.Thumbnail400x300);
                 model.AddCommentViewModel = new AddCommentViewModel
