@@ -83,6 +83,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             var model = new HealthTechnologySpecificationsViewModel
             {
+                
             };
 
             return View(model);
@@ -101,7 +102,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [Route(nameof(UserAndEnvironment))]
-        public IActionResult UserAndEnvironment()
+        public virtual IActionResult UserAndEnvironment()
         {
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
@@ -114,8 +115,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         [HttpPost]
         [Route(nameof(UserAndEnvironment))]
-        public IActionResult UserAndEnvironment(UserAndEnvironmentInformationViewModel model)
+        public IActionResult EditUserAndEnvironment(
+            UserAndEnvironmentInformationViewModel model, 
+            [FromServices] UserAndEnvironmentInformationViewModel.Mapper modelMapper)
         {
+            if (!ModelState.IsValid)
+            {
+                return UserAndEnvironment();
+            }
+
+            var command = modelMapper.MapToCommand(model);
+            ExecuteUserProjectCommand(command);
+
             if (!ModelState.IsValid)
             {
                 return UserAndEnvironment();

@@ -1,17 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using Ubora.Domain.Projects.StructuredInformations.IntendedUsers;
 
 namespace Ubora.Domain.Projects.StructuredInformations
 {
-    public enum IntendedUser
-    {
-        Other = 0,
-        SelfUseOrPatient,
-        Physician,
-        Technician,
-        Nurse,
-        Midwife,
-        FamilyMember
-    }
 
     public enum Portability
     {
@@ -31,13 +27,13 @@ namespace Ubora.Domain.Projects.StructuredInformations
     public enum ProviderOfMaintenance
     {
         Other = 0,
-        SelfUserOrPatient,
+
+        SelfUseOrPatient,
         NurseOrPhysician,
         Engineer,
         Manufacturer,
         Technician
     }
-
 
     public class DeviceStructuredInformation
     {
@@ -45,7 +41,8 @@ namespace Ubora.Domain.Projects.StructuredInformations
 
         public class UserAndEnvironmentInformation
         {
-            public string IntendedUser { get; set; }
+            public IntendedUser IntendedUser { get; set; }
+
             public bool IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser { get; set; }
             public string DescriptionOfWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTrainingIntendedUser { get; set; }
             public bool IsAnyMaintenanceOrCalibrationRequiredByIntentedUserAtTimeOfUse { get; set; }

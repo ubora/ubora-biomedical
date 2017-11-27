@@ -13,6 +13,7 @@ using Ubora.Web._Features.Notifications._Base;
 using Ubora.Web._Features._Shared.Tokens;
 using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web._Features.Projects.History._Base;
+using Ubora.Web._Features.Projects.Workpackages.Steps;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -80,6 +81,7 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterType<UboraStorageProvider>().As<IUboraStorageProvider>().InstancePerLifetimeScope();
 
             builder.RegisterType<PreMailerFactory>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<UserAndEnvironmentInformationViewModel.Mapper>().AsSelf().InstancePerLifetimeScope();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)
