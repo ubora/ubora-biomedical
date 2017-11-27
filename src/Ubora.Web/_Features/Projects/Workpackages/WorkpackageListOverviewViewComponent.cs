@@ -157,7 +157,7 @@ namespace Ubora.Web._Features.Projects.Workpackages
             menuLinks.Insert(indexAfterPhysicalPrinciples, new MenuLink
             {
                 Name = "Voting",
-                Href = Url.Action("Voting", "WorkpackageTwo"),
+                Href = Url.Action("Voting", "Candidates"),
                 IsSelected = IsWorkpackageCustomMenuOptionSelected(WorkpackageMenuOption.Voting)
             });
 

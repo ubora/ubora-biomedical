@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -11,7 +10,7 @@ using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Services;
 
-namespace Ubora.Web._Features.Projects.Workpackages.Steps
+namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 {
     public class CandidateViewModel
     {
@@ -58,6 +57,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 model.ProjectId = candidate.ProjectId;
                 model.Title = candidate.Title;
                 model.Description = candidate.Description;
+                model.TotalScore = candidate.TotalScore;
+                model.HasImage = candidate.HasImage;
 
                 model.ImageUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(candidate.ImageLocation, ImageSize.Thumbnail400x300);
                 model.AddCommentViewModel = new AddCommentViewModel
@@ -74,9 +75,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 var comments = candidate.Comments.Select(async comment => await _commentFactory.Create(user, comment, candidate.Id));
                 model.Comments = await Task.WhenAll(comments);
 
-                model.IsVotingAllowed = (await _authorizationService.AuthorizeAsync(user, candidate, Policies.CanVoteCandidate)).Succeeded;
+                model.IsVotingAllowed = await _authorizationService.IsAuthorizedAsync(user, candidate, Policies.CanVoteCandidate);
 
-                if (candidate.Votes.Any(x => x.UserId == user.GetId()))
+                var hasUserVoted = candidate.Votes.Any(x => x.UserId == user.GetId());
+                if (hasUserVoted)
                 {
                     SetUserVotes(model, candidate, user.GetId());
                 }
@@ -98,17 +100,16 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             private void CalculateScorePercentages(CandidateViewModel model, Candidate candidate)
             {
-                var votes = candidate.Votes;
-                if (!votes.Any())
+                if (!candidate.Votes.Any())
                 {
                     return;
                 }
                 var allVoteCount = candidate.Votes.Count;
 
-                var veryGoodVotesCount = votes.Count(x => x.Score > 15);
-                var goodVotesCount = votes.Count(x => x.Score > 10 && x.Score < 16);
-                var mediocreVotesCount = votes.Count(x => x.Score > 5 && x.Score < 11);
-                var poorVotesCount = votes.Count(x => x.Score < 6);
+                var veryGoodVotesCount = candidate.Votes.Count(x => x.Score > 15);
+                var goodVotesCount = candidate.Votes.Count(x => x.Score > 10 && x.Score < 16);
+                var mediocreVotesCount = candidate.Votes.Count(x => x.Score > 5 && x.Score < 11);
+                var poorVotesCount = candidate.Votes.Count(x => x.Score < 6);
 
                 model.ScorePercentageVeryGood = (decimal) veryGoodVotesCount / allVoteCount * 100;
                 model.ScorePercentageGood = (decimal) goodVotesCount / allVoteCount * 100;

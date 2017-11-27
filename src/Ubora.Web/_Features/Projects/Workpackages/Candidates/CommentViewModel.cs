@@ -1,19 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using System;
+﻿using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Projects;
-using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Projects.Candidates;
-using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
 
-namespace Ubora.Web._Features.Projects.Workpackages.Steps
+namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 {
     public class CommentViewModel
     {

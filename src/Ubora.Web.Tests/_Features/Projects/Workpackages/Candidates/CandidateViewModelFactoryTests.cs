@@ -1,17 +1,17 @@
 ﻿using System;
-using Ubora.Web._Features.Projects.Workpackages.Steps;
-using Xunit;
-using Moq;
-using Ubora.Web.Infrastructure.ImageServices;
-using Ubora.Domain.Projects.Candidates;
-using Ubora.Domain.Infrastructure;
-using FluentAssertions;
-using Ubora.Web.Tests.Fakes;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
+using Moq;
+using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Projects.Candidates;
 using Ubora.Web.Authorization;
+using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web.Tests.Fakes;
+using Ubora.Web._Features.Projects.Workpackages.Candidates;
+using Xunit;
 
-namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
+namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
 {
     public class CandidateViewModelFactoryTests
     {
@@ -56,7 +56,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var userVoteUsability = 3;
             var userVoteSafety = 5;
             var vote1 = new Vote(userId, userVoteFunctionality, userVotePerformance, userVoteUsability, userVoteSafety); // score = 11 , percentage = 20
-            var vote2 = new Vote(Guid.NewGuid(), 5, 2, 5, 5); // score = 16, percentage = 20
+            var vote2 = new Vote(Guid.NewGuid(), 5, 2, 5, 5); // score = 17, percentage = 20
             var vote3 = new Vote(Guid.NewGuid(), 2, 2, 1, 1); // score = 6, percentage = 20
             var vote4 = new Vote(Guid.NewGuid(), 1, 2, 1, 1); // score = 5, percentage = 40
             var vote5 = new Vote(Guid.NewGuid(), 1, 1, 1, 1); // score = 4, percentage = 40
@@ -97,6 +97,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 {
                     CandidateId = candidateId
                 },
+                HasImage = true,
+                TotalScore = 8.6m,
                 ScorePercentageVeryGood = 20,
                 ScorePercentageGood = 20,
                 ScorePercentageMediocre = 20,

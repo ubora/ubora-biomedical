@@ -1,22 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.Candidates.Commands;
+using Ubora.Domain.Projects.Candidates.Specifications;
 using Ubora.Domain.Projects._Commands;
+using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
-using Ubora.Web.Authorization;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Web._Features.Projects._Shared;
-using System.Linq;
 
-namespace Ubora.Web._Features.Projects.Workpackages.Steps
+namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 {
-    public class ConceptualDesignController : ProjectController
+    public class CandidatesController : ProjectController
     {
         private readonly ImageStorageProvider _imageStorageProvider;
 
@@ -29,9 +30,25 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
         }
 
-        public ConceptualDesignController(ImageStorageProvider imageStorageProvider)
+        public CandidatesController(ImageStorageProvider imageStorageProvider)
         {
             _imageStorageProvider = imageStorageProvider;
+        }
+
+        [Route(nameof(Voting))]
+        public IActionResult Voting([FromServices] CandidateItemViewModel.Factory candidateItemViewModelFactory)
+        {
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.Voting;
+
+            var candidates = QueryProcessor.Find(new IsProjectCandidateSpec(ProjectId));
+
+            var candidateViewModels = candidates.Select(candidate => candidateItemViewModelFactory.Create(candidate));
+            var model = new VotingViewModel
+            {
+                Candidates = candidateViewModels
+            };
+
+            return View(nameof(Voting), model);
         }
 
         [Authorize(Policies.CanAddProjectCandidate)]
@@ -73,7 +90,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return AddCandidate();
             }
 
-            return RedirectToAction("Voting", "WorkpackageTwo");
+            return RedirectToAction(nameof(Voting), "Candidates");
         }
 
         public async Task<IActionResult> Candidate(Guid candidateId, [FromServices]CandidateViewModel.Factory candidateViewModelFactory)
@@ -279,7 +296,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             var candidate = QueryProcessor.FindById<Candidate>(model.CandidateId);
-            var canVoteForCandidate = (await AuthorizationService.AuthorizeAsync(User, candidate, Policies.CanVoteCandidate)).Succeeded;
+            var canVoteForCandidate = await AuthorizationService.IsAuthorizedAsync(User, candidate, Policies.CanVoteCandidate);
             if (!canVoteForCandidate)
             {
                 return Forbid();
