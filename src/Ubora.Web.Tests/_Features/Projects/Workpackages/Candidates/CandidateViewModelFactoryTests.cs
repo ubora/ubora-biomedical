@@ -1,17 +1,17 @@
 ﻿using System;
-using Ubora.Web._Features.Projects.Workpackages.Steps;
-using Xunit;
-using Moq;
-using Ubora.Web.Infrastructure.ImageServices;
-using Ubora.Domain.Projects.Candidates;
-using Ubora.Domain.Infrastructure;
-using FluentAssertions;
-using Ubora.Web.Tests.Fakes;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
+using Moq;
+using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Projects.Candidates;
 using Ubora.Web.Authorization;
+using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web.Tests.Fakes;
+using Ubora.Web._Features.Projects.Workpackages.Candidates;
+using Xunit;
 
-namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
+namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
 {
     public class CandidateViewModelFactoryTests
     {

@@ -1,22 +1,19 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Candidates;
-using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
-using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Tests.Fakes;
+using Ubora.Web._Features.Projects.Workpackages.Candidates;
 using Xunit;
 
-namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
+namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
 {
     public class CommentViewModelFactoryTests
     {
