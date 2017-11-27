@@ -8,7 +8,6 @@ export class ShowMoreText {
         var lesstext = "(show less)";
         $('.more').each(function() {
           var content = $(this).text().trim();
-          console.log(content, $(this))
 
           if(content.length > showChar) {
 
@@ -26,8 +25,6 @@ export class ShowMoreText {
 
           var commentElement = $(this).parent().parent();
           var hiddenComment = $(this).prev();
-
-          console.log($(this))
 
           if($(this).hasClass("less")) {
             $(this).removeClass("less");
