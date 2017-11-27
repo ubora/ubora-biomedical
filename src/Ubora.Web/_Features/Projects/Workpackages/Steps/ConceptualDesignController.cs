@@ -279,7 +279,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             var candidate = QueryProcessor.FindById<Candidate>(model.CandidateId);
-            var canVoteForCandidate = (await AuthorizationService.AuthorizeAsync(User, candidate, Policies.CanVoteCandidate)).Succeeded;
+            var canVoteForCandidate = await AuthorizationService.IsAuthorizedAsync(User, candidate, Policies.CanVoteCandidate);
             if (!canVoteForCandidate)
             {
                 return Forbid();

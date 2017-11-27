@@ -56,7 +56,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var userVoteUsability = 3;
             var userVoteSafety = 5;
             var vote1 = new Vote(userId, userVoteFunctionality, userVotePerformance, userVoteUsability, userVoteSafety); // score = 11 , percentage = 20
-            var vote2 = new Vote(Guid.NewGuid(), 5, 2, 5, 5); // score = 16, percentage = 20
+            var vote2 = new Vote(Guid.NewGuid(), 5, 2, 5, 5); // score = 17, percentage = 20
             var vote3 = new Vote(Guid.NewGuid(), 2, 2, 1, 1); // score = 6, percentage = 20
             var vote4 = new Vote(Guid.NewGuid(), 1, 2, 1, 1); // score = 5, percentage = 40
             var vote5 = new Vote(Guid.NewGuid(), 1, 1, 1, 1); // score = 4, percentage = 40
@@ -97,6 +97,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
                 {
                     CandidateId = candidateId
                 },
+                TotalScore = 8.6m,
                 ScorePercentageVeryGood = 20,
                 ScorePercentageGood = 20,
                 ScorePercentageMediocre = 20,
