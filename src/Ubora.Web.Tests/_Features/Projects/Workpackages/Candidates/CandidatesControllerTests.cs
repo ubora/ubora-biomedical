@@ -1,37 +1,39 @@
-﻿using FluentAssertions;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AutoMapper;
+using FluentAssertions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Projects._Commands;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.Candidates.Commands;
-using Ubora.Web._Features.Projects.Workpackages.Steps;
+using Ubora.Domain.Projects.Candidates.Specifications;
+using Ubora.Domain.Projects._Commands;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web.Tests.Helper;
+using Ubora.Web._Features.Projects.Workpackages.Candidates;
 using Xunit;
 
-namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
+namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
 {
-    public class ConceptualDesignControllerTests : ProjectControllerTestsBase
+    public class CandidatesControllerTests : ProjectControllerTestsBase
     {
         private readonly Mock<ImageStorageProvider> _imageStorageProvider;
-        private readonly ConceptualDesignController _controller;
+        private readonly CandidatesController _controller;
 
-        public ConceptualDesignControllerTests()
+        public CandidatesControllerTests()
         {
             _imageStorageProvider = new Mock<ImageStorageProvider>();
-            _controller = new ConceptualDesignController(_imageStorageProvider.Object);
+            _controller = new CandidatesController(_imageStorageProvider.Object);
 
             SetUpForTest(_controller);
         }
@@ -43,27 +45,60 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             {
                 new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                 {
-                    MethodName = nameof(ConceptualDesignController.AddCandidate),
+                    MethodName = nameof(CandidatesController.AddCandidate),
                     Policies = new []{ nameof(Policies.CanAddProjectCandidate) }
                 },
                 new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                 {
-                    MethodName = nameof(ConceptualDesignController.EditCandidate),
+                    MethodName = nameof(CandidatesController.EditCandidate),
                     Policies = new []{ nameof(Policies.CanEditProjectCandidate) }
                 },
                 new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                 {
-                    MethodName = nameof(ConceptualDesignController.EditCandidateImage),
+                    MethodName = nameof(CandidatesController.EditCandidateImage),
                     Policies = new []{ nameof(Policies.CanChangeProjectCandidateImage) }
                 },
                 new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                 {
-                    MethodName = nameof(ConceptualDesignController.RemoveCandidateImage),
+                    MethodName = nameof(CandidatesController.RemoveCandidateImage),
                     Policies = new []{ nameof(Policies.CanRemoveProjectCandidateImage) }
                 }
             };
 
-            AssertHasAuthorizeAttributes(typeof(ConceptualDesignController), methodPolicies);
+            AssertHasAuthorizeAttributes(typeof(CandidatesController), methodPolicies);
+        }
+
+
+        [Fact]
+        public void Voting_Returns_Voting_View_With_Candidates()
+        {
+            var candidateItemViewModelFactoryMock = new Mock<CandidateItemViewModel.Factory>(Mock.Of<ImageStorageProvider>(), Mock.Of<IMapper>());
+
+            var candidate1 = new Candidate();
+            var candidate2 = new Candidate();
+
+            QueryProcessorMock.Setup(x => x.Find(It.IsAny<IsProjectCandidateSpec>()))
+                .Returns(new[] { candidate1, candidate2 });
+
+            var candidate1ItemViewModel = new CandidateItemViewModel();
+            candidateItemViewModelFactoryMock.Setup(x => x.Create(candidate1))
+                .Returns(candidate1ItemViewModel);
+
+            var candidate2ItemViewModel = new CandidateItemViewModel();
+            candidateItemViewModelFactoryMock.Setup(x => x.Create(candidate2))
+                .Returns(candidate2ItemViewModel);
+
+            var expectedModel = new VotingViewModel
+            {
+                Candidates = new[] { candidate1ItemViewModel, candidate2ItemViewModel }.AsEnumerable()
+            };
+
+            // Act
+            var result = (ViewResult)_controller.Voting(candidateItemViewModelFactoryMock.Object);
+
+            // Assert
+            result.ViewName.Should().Be(nameof(CandidatesController.Voting));
+            result.Model.ShouldBeEquivalentTo(expectedModel);
         }
 
         [Fact]
@@ -75,7 +110,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult)_controller.AddCandidate();
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.AddCandidate));
+            result.ViewName.Should().Be(nameof(CandidatesController.AddCandidate));
             result.Model.ShouldBeEquivalentTo(expectedModel);
         }
 
@@ -90,7 +125,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult)await _controller.AddCandidate(model);
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.AddCandidate));
+            result.ViewName.Should().Be(nameof(CandidatesController.AddCandidate));
             AssertModelStateContainsError(result, errorMessage);
 
             _imageStorageProvider.Verify(x => x.SaveImageAsync(It.IsAny<Stream>(), It.IsAny<BlobLocation>(), SizeOptions.AllDefaultSizes), Times.Never);
@@ -130,7 +165,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult)await _controller.AddCandidate(model);
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.AddCandidate));
+            result.ViewName.Should().Be(nameof(CandidatesController.AddCandidate));
             AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
         }
 
@@ -168,8 +203,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (RedirectToActionResult)await _controller.AddCandidate(model);
 
             // Assert
-            result.ActionName.Should().Be(nameof(WorkpackageTwoController.Voting));
-            result.ControllerName.Should().Be("WorkpackageTwo");
+            result.ActionName.Should().Be(nameof(CandidatesController.Voting));
+            result.ControllerName.Should().Be("Candidates");
         }
 
         [Fact]
@@ -190,7 +225,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult) await _controller.Candidate(candidateId, candidateViewModelFactory.Object);
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            result.ViewName.Should().Be(nameof(CandidatesController.Candidate));
             result.Model.ShouldBeEquivalentTo(expectedModel);
         }
 
@@ -214,7 +249,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult)_controller.EditCandidate(candidateId);
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.EditCandidate));
+            result.ViewName.Should().Be(nameof(CandidatesController.EditCandidate));
             result.Model.ShouldBeEquivalentTo(expectedModel);
         }
 
@@ -229,7 +264,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult)_controller.EditCandidate(model);
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.EditCandidate));
+            result.ViewName.Should().Be(nameof(CandidatesController.EditCandidate));
             AssertModelStateContainsError(result, errorMessage);
 
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
@@ -253,7 +288,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult)_controller.EditCandidate(model);
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.EditCandidate));
+            result.ViewName.Should().Be(nameof(CandidatesController.EditCandidate));
             AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
         }
 
@@ -276,7 +311,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (RedirectToActionResult)_controller.EditCandidate(model);
 
             // Assert
-            result.ActionName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            result.ActionName.Should().Be(nameof(CandidatesController.Candidate));
         }
 
         [Fact]
@@ -299,7 +334,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult)_controller.EditCandidateImage(candidateId);
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.EditCandidateImage));
+            result.ViewName.Should().Be(nameof(CandidatesController.EditCandidateImage));
             result.Model.ShouldBeEquivalentTo(expectedModel);
         }
 
@@ -314,7 +349,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult)await _controller.EditCandidateImage(model);
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.EditCandidateImage));
+            result.ViewName.Should().Be(nameof(CandidatesController.EditCandidateImage));
             AssertModelStateContainsError(result, errorMessage);
 
             _imageStorageProvider.Verify(x => x.SaveImageAsync(It.IsAny<Stream>(), It.IsAny<BlobLocation>(), SizeOptions.AllDefaultSizes), Times.Never);
@@ -353,7 +388,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult)await _controller.EditCandidateImage(model);
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.EditCandidateImage));
+            result.ViewName.Should().Be(nameof(CandidatesController.EditCandidateImage));
             AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
         }
 
@@ -390,7 +425,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (RedirectToActionResult)await _controller.EditCandidateImage(model);
 
             // Assert
-            result.ActionName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            result.ActionName.Should().Be(nameof(CandidatesController.Candidate));
         }
 
         [Fact]
@@ -413,7 +448,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult)_controller.RemoveCandidateImage(candidateId);
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.RemoveCandidateImage));
+            result.ViewName.Should().Be(nameof(CandidatesController.RemoveCandidateImage));
             result.Model.ShouldBeEquivalentTo(expectedModel);
         }
 
@@ -428,7 +463,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult)await _controller.RemoveCandidateImage(model);
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.RemoveCandidateImage));
+            result.ViewName.Should().Be(nameof(CandidatesController.RemoveCandidateImage));
             AssertModelStateContainsError(result, errorMessage);
 
             _imageStorageProvider.Verify(x => x.DeleteImagesAsync(It.IsAny<BlobLocation>()), Times.Never);
@@ -458,7 +493,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult)await _controller.RemoveCandidateImage(model);
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.RemoveCandidateImage));
+            result.ViewName.Should().Be(nameof(CandidatesController.RemoveCandidateImage));
             AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
         }
 
@@ -486,7 +521,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (RedirectToActionResult)await _controller.RemoveCandidateImage(model);
 
             // Assert
-            result.ActionName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            result.ActionName.Should().Be(nameof(CandidatesController.Candidate));
         }
 
         [Fact]
@@ -512,7 +547,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult) await _controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            result.ViewName.Should().Be(nameof(CandidatesController.Candidate));
             AssertModelStateContainsError(result, errorMessage);
 
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
@@ -544,7 +579,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult) await _controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            result.ViewName.Should().Be(nameof(CandidatesController.Candidate));
             AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
         }
 
@@ -565,7 +600,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (RedirectToActionResult) await _controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
-            result.ActionName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            result.ActionName.Should().Be(nameof(CandidatesController.Candidate));
 
             executedCommand.CandidateId.Should().Be(model.CandidateId);
             executedCommand.CommentText.Should().Be(model.CommentText);
@@ -599,7 +634,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult) await _controller.EditComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            result.ViewName.Should().Be(nameof(CandidatesController.Candidate));
             AssertModelStateContainsError(result, errorMessage);
 
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
@@ -675,7 +710,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult) await _controller.EditComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            result.ViewName.Should().Be(nameof(CandidatesController.Candidate));
             AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
         }
 
@@ -711,7 +746,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (RedirectToActionResult) await _controller.EditComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
-            result.ActionName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            result.ActionName.Should().Be(nameof(CandidatesController.Candidate));
 
             executedCommand.CommentId.Should().Be(commentId);
             executedCommand.CandidateId.Should().Be(model.CandidateId);
@@ -740,7 +775,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult)await _controller.RemoveComment(candidateId, commentId, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            result.ViewName.Should().Be(nameof(CandidatesController.Candidate));
             AssertModelStateContainsError(result, errorMessage);
 
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
@@ -804,7 +839,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult)await _controller.RemoveComment(candidateId, commentId, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            result.ViewName.Should().Be(nameof(CandidatesController.Candidate));
             AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
         }
 
@@ -834,7 +869,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (RedirectToActionResult)await _controller.RemoveComment(candidateId, commentId, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
-            result.ActionName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            result.ActionName.Should().Be(nameof(CandidatesController.Candidate));
 
             executedCommand.CommentId.Should().Be(commentId);
             executedCommand.CandidateId.Should().Be(candidateId);
@@ -869,7 +904,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult)await _controller.AddVote(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            result.ViewName.Should().Be(nameof(CandidatesController.Candidate));
             AssertModelStateContainsError(result, errorMessage);
 
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
@@ -908,7 +943,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (ViewResult)await _controller.AddVote(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
-            result.ViewName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            result.ViewName.Should().Be(nameof(CandidatesController.Candidate));
             AssertModelStateContainsError(result, commandResult.ErrorMessages.ToArray());
         }
 
@@ -942,7 +977,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
             var result = (RedirectToActionResult)await _controller.AddVote(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
-            result.ActionName.Should().Be(nameof(ConceptualDesignController.Candidate));
+            result.ActionName.Should().Be(nameof(CandidatesController.Candidate));
 
             executedCommand.CandidateId.Should().Be(model.CandidateId);
             executedCommand.Safety.Should().Be(2);

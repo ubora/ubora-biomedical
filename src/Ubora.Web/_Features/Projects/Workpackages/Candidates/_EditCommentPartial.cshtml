@@ -1,6 +1,7 @@
-﻿@model Ubora.Web._Features.Projects.Workpackages.Steps.EditCommentViewModel 
+﻿@using Ubora.Web._Features.Projects.Workpackages.Candidates
+@model Ubora.Web._Features.Projects.Workpackages.Candidates.EditCommentViewModel 
 
-<form asp-controller="ConceptualDesign" asp-action="EditComment" method="post" enctype="multipart/form-data">
+<form asp-controller="Candidates" asp-action="EditComment" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="CandidateId" />
@@ -9,7 +10,7 @@
         <span asp-validation-for="CommentText"></span>
     </div>
     <div class="d-flex justify-content-center">
-        <a class="btn btn-secondary-ghost" asp-action="Candidate" asp-controller="ConceptualDesign" asp-route-candidateId="@Model.CandidateId">Cancel</a>
+        <a class="btn btn-secondary-ghost" asp-action="Candidate" asp-controller="Candidates" asp-route-candidateId="@Model.CandidateId">Cancel</a>
         <span class="mx-1"></span>
         <button class="btn btn-primary" type="submit">Save</button>
     </div>

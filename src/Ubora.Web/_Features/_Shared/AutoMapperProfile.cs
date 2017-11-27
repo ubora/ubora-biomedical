@@ -14,6 +14,7 @@ using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Web._Features.Projects.Assignments;
 using Ubora.Domain.Projects.Candidates;
+using Ubora.Web._Features.Projects.Workpackages.Candidates;
 
 namespace Ubora.Web._Features._Shared
 {

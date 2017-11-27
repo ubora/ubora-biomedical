@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Ubora.Web._Features.Projects.Workpackages.Steps
+namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 {
     public class EditCommentViewModel
     {

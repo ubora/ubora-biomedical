@@ -1,4 +1,5 @@
-﻿@model Ubora.Web._Features.Projects.Workpackages.Steps.EditCommentViewModel
+﻿@using Ubora.Web._Features.Projects.Workpackages.Candidates
+@model Ubora.Web._Features.Projects.Workpackages.Candidates.EditCommentViewModel
 
 <div class="modal fade" id="removeCommentModal-@Model.Id" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -9,7 +10,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form asp-controller="ConceptualDesign" asp-action="RemoveComment" asp-route-commentId="@Model.Id" asp-route-candidateId="@Model.CandidateId" method="post">
+            <form asp-controller="Candidates" asp-action="RemoveComment" asp-route-commentId="@Model.Id" asp-route-candidateId="@Model.CandidateId" method="post">
                 <div class="modal-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <p>@Model.CommentText</p>
