@@ -60,12 +60,12 @@
 	color: var(--orange);
 }
 
-/*coloring text to grey*/
+/*Coloring text to grey*/
 .text-grey {
 	color: var(--primary-shade);
 }
 
-/*repository icons*/
+/*Repository icons*/
 .file-list--item-control {
     margin: 0;
     padding: 0;
@@ -79,7 +79,29 @@
         cursor: pointer;
     }
 
-
+/*For small text*/
 .small-text {
 	font-size: 0.875em;
+}
+
+/*Different widths*/
+.width-12 {
+  width: 12%;
+}
+
+.width-36 {
+  width: 36%;
+}
+
+.width-8 {
+  width: 8%;
+}
+
+.width-32 {
+  width: 32%;
+}
+
+/*Breaks word at any character*/
+.break-word-all {
+	word-break: break-all;
 }
