@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="row flex-column align-items-center">
         <div class="col-md-4 d-flex flex-column justify-content-center">
-            <h1>@ViewData["Title"]</h1>
+            <h1 class="text-center">@ViewData["Title"]</h1>
             <div class="d-flex flex-column align-items-center mb-4">
                 <img class="avatar" src="@Model.ProfilePictureLink" width="250" height="250" />
                 <h2 class="fullname">@Model.FullName</h2>
@@ -19,7 +19,7 @@
                     <p class="text-uppercase text-danger">This user has been deleted.</p>
                 </div>
             }
-            <h3>Academia</h3>
+            <h2 class="mt-5">Academia</h2>
             <div class="form-group">
                 <label>University</label>
                 <input class="form-control" asp-for="University" disabled>
@@ -36,7 +36,7 @@
                 <label>Role</label>
                 <input class="form-control" asp-for="Role" disabled>
             </div>
-            <h3>Personal</h3>
+            <h2 class="mt-5">Personal</h2>
             <div class="form-group">
                 <label>Bio</label>
                 <textarea class="form-control" asp-for="Biography" rows="5" disabled></textarea>

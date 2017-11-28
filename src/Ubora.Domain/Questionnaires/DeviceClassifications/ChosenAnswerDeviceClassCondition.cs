@@ -2,19 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 
 namespace Ubora.Domain.Questionnaires.DeviceClassifications
 {
-    public class ChosenAnswerDeviceClassCondition
+    public class ChosenAnswerDeviceClassCondition : IDeviceClassCondition
     {
-        [JsonProperty("qaIds")]
-        public Dictionary<string, string> QuestionIdsWithExpectedChosenAnswerIds { get; protected set; } // Not the greatest name.
-
-        public ChosenAnswerDeviceClassCondition(Dictionary<string, string> questionIdsWithExpectedChosenAnswerIds)
+        public ChosenAnswerDeviceClassCondition(IDictionary<string, string> questionAnswerIdPairs)
         {
-            QuestionIdsWithExpectedChosenAnswerIds = questionIdsWithExpectedChosenAnswerIds ?? throw new ArgumentNullException(nameof(questionIdsWithExpectedChosenAnswerIds));
+            if (questionAnswerIdPairs == null) throw new ArgumentNullException(nameof(questionAnswerIdPairs));
+
+            QuestionAnswerMap = new ReadOnlyDictionary<string, string>(questionAnswerIdPairs);
         }
 
+        /// <summary>
+        /// Constructor for single question-answer condition.
+        /// </summary>
         public ChosenAnswerDeviceClassCondition(string questionId, string answerId)
             : this(new Dictionary<string, string> { { questionId, answerId} })
         {
@@ -25,9 +28,16 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
         {
         }
 
-        public bool IsFulfilled(DeviceClassificationQuestionnaireTree questionnaireTree)
+        /// <summary>
+        /// Question-Answer ID pairs. If these questions are answered with the given answers then the condition will be fulfilled.
+        /// Example: { "q1", "y" }, { "q2", "n" } => Condition fulfilled when question "q1" is answered with "y" and question "q2" answered with "n".
+        /// </summary>
+        [JsonProperty("qaIds")]
+        public ReadOnlyDictionary<string, string> QuestionAnswerMap { get; set; }
+
+        public bool IsSatisfied(DeviceClassificationQuestionnaireTree questionnaireTree)
         {
-            foreach (var entry in QuestionIdsWithExpectedChosenAnswerIds)
+            foreach (var entry in QuestionAnswerMap)
             {
                 var question = questionnaireTree.FindQuestionOrThrow(entry.Key);
                 var answer = question.Answers.First(a => a.Id == entry.Value);
@@ -43,7 +53,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
 
         public void Validate(DeviceClassificationQuestionnaireTree questionnaireTree)
         {
-            foreach (var entry in QuestionIdsWithExpectedChosenAnswerIds)
+            foreach (var entry in QuestionAnswerMap)
             {
                 var question = questionnaireTree.FindQuestionOrThrow(entry.Key);
 

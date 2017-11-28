@@ -26,27 +26,13 @@ namespace Ubora.Domain.Projects.Candidates
         private readonly HashSet<Comment> _comments = new HashSet<Comment>();
         [JsonIgnore]
         // Virtual for testing.
-        public virtual IReadOnlyCollection<Comment> Comments
-        {
-            get
-            {
-                return _comments;
-            }
-            private set { }
-        }
+        public virtual IReadOnlyCollection<Comment> Comments => _comments;
 
         [JsonProperty(nameof(Votes))]
         private readonly HashSet<Vote> _votes = new HashSet<Vote>();
         [JsonIgnore]
         // Virtual for testing.
-        public virtual IReadOnlyCollection<Vote> Votes
-        {
-            get
-            {
-                return _votes;
-            }
-            private set { }
-        }
+        public virtual IReadOnlyCollection<Vote> Votes => _votes;
 
         private void Apply(CandidateAddedEvent e)
         {

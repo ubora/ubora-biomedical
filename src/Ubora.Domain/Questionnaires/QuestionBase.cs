@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Immutable;
 using System.Linq;
 using Newtonsoft.Json;
 
@@ -7,7 +8,7 @@ namespace Ubora.Domain.Questionnaires
     public abstract class QuestionBase<TAnswer> where TAnswer : AnswerBase
     {
         public string Id { get; protected set; }
-        public TAnswer[] Answers { get; protected set; }
+        public ImmutableArray<TAnswer> Answers { get; protected set; }
         public DateTime? AnsweredAt { get; protected set; }
 
         [JsonIgnore]
