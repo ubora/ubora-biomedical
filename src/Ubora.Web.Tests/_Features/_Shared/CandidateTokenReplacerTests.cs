@@ -53,14 +53,14 @@ namespace Ubora.Web.Tests._Features._Shared
 
             var candidate1Link = "candidate1Link";
             _urlHelperMock.Setup(h => h.Action(It.Is<UrlActionContext>(
-                    x => x.Action == "Candidate" && x.Controller == "ConceptualDesign"
+                    x => x.Action == "Candidate" && x.Controller == "Candidates"
                     && x.Values.GetPropertyValue<Guid>("projectId") == projectId
                     && x.Values.GetPropertyValue<Guid>("candidateId") == candidate1.Id)))
                 .Returns(candidate1Link);
 
             var candidate2Link = "candidate2Link";
             _urlHelperMock.Setup(h => h.Action(It.Is<UrlActionContext>(
-                    x => x.Action == "Candidate" && x.Controller == "ConceptualDesign"
+                    x => x.Action == "Candidate" && x.Controller == "Candidates"
                      && x.Values.GetPropertyValue<Guid>("projectId") == projectId
                     && x.Values.GetPropertyValue<Guid>("candidateId") == candidate2.Id)))
                 .Returns(candidate2Link);

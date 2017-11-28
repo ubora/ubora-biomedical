@@ -5,6 +5,7 @@ import CopyingToClipboard from './modules/clipboard';
 import Feedback from './modules/feedback';
 import Sidemenu from './modules/sidemenu';
 import Notices from './modules/notices';
+import Voting from './modules/voting'; 
 import ShowMoreText from './modules/show_more';
 
 window.addEventListener('load', () => {

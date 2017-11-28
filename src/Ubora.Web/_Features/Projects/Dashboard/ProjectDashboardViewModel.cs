@@ -49,7 +49,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
                 var deviceClassificationAggregate = _queryProcessor.ExecuteQuery(new LatestFinishedProjectDeviceClassificationQuery(project.Id));
                 if (deviceClassificationAggregate != null)
                 {
-                    model.DeviceClassification = deviceClassificationAggregate.QuestionnaireTree.GetHeaviestDeviceClass()?.Name;
+                    model.DeviceClassification = deviceClassificationAggregate.QuestionnaireTree.GetHighestRiskDeviceClass().Name;
                 }
 
                 if (project.HasImage)

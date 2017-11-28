@@ -13,7 +13,9 @@ namespace Ubora.Web._Features.Notifications
             _modelFactory = modelFactory;
         }
 
+#pragma warning disable 1998
         public async Task<IViewComponentResult> InvokeAsync()
+#pragma warning restore 1998
         {
             var model = _modelFactory.Create(User.GetId());
 
