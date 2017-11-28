@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="q1" xml:space="preserve">
-    <value>Is your device INVASIVE or NON INVASIVE?</value>
+    <value>Is your device INVASIVE or NON-INVASIVE?</value>
   </data>
   <data name="q1_1" xml:space="preserve">
     <value>Is it intended for channelling or storing blood, body liquids, cells or tissues, liquids or gases for the purpose of eventual infusion, administration or introduction into the body?</value>
@@ -163,31 +163,22 @@
     <value>Is it NOT intended for connection to any active medical device?</value>
   </data>
   <data name="q2_1_1_1" xml:space="preserve">
-    <value>TODO</value>
+    <value>Is it intended for transient use?</value>
   </data>
   <data name="q2_1_2" xml:space="preserve">
-    <value>It is intended for class:</value>
+    <value>It is intended for connection to an active medical device of class:</value>
   </data>
   <data name="q2_1_2_1" xml:space="preserve">
     <value>Is it intended for transient use?</value>
   </data>
   <data name="q2_1_2_2" xml:space="preserve">
-    <value>Is it intended for short-term use only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?</value>
-  </data>
-  <data name="q2_1_2_3" xml:space="preserve">
-    <value>Is it intended for short-term use in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?</value>
+    <value>Is it intended for short-term use?</value>
   </data>
   <data name="q2_1_2_4" xml:space="preserve">
-    <value>Is it intended for long-term use only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity but it is liable to be absorbed by the mucous membrane?</value>
-  </data>
-  <data name="q2_1_2_5" xml:space="preserve">
-    <value>Is it intended for long-term use only in the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity but it is liable to be absorbed by the mucous membrane?</value>
-  </data>
-  <data name="q2_1_2_6" xml:space="preserve">
-    <value>Is it intended for long-term use in any other site than the oral cavity as far as the pharynx, in an ear canal up to the ear drum or in the nasal cavity?</value>
+    <value>Is it intended for long-term use?</value>
   </data>
   <data name="q2_2_1" xml:space="preserve">
-    <value>TODO</value>
+    <value>What is the time length of its use?</value>
   </data>
   <data name="q2_2_1_1" xml:space="preserve">
     <value>Is it intended specifically to control, diagnose, monitor or correct a defect of the heart or of the central circulatory system through direct contact with those parts of the body?</value>
@@ -212,9 +203,6 @@
   </data>
   <data name="q2_2_2_2" xml:space="preserve">
     <value>Is it intended specifically for use in direct contact with the heart or central circulatory system or the central nervous system?</value>
-  </data>
-  <data name="q2_2_2_3" xml:space="preserve">
-    <value>Is it intended to have a biological effect or are wholly or mainly absorbed?</value>
   </data>
   <data name="q2_2_2_4" xml:space="preserve">
     <value>Is it intended to have a biological effect or be wholly or mainly absorbed?</value>
@@ -271,7 +259,7 @@
     <value>Is it therapeutic?</value>
   </data>
   <data name="q3_1_1" xml:space="preserve">
-    <value>TODO</value>
+    <value>Does it administer energy to or exchange energy with the human body?</value>
   </data>
   <data name="q3_1_3" xml:space="preserve">
     <value>Is it intended to emit ionizing radiation?</value>
@@ -310,10 +298,7 @@
     <value>Are the vital physiological processes such as the patient may be in immediate danger if the vary (example: variations in cardiac performance, respiration, activity of the central nervous system)?</value>
   </data>
   <data name="q3_4_2_2" xml:space="preserve">
-    <value>Is the diagnosis and monitoring done in a clinical situation while the patient is in immediate danger?</value>
-  </data>
-  <data name="q3_4_2_3" xml:space="preserve">
-    <value>Is it intended to allow direct diagnosis or monitoring of vital physiological processes, but the patient is not in immediate danger?</value>
+    <value>Is the device intended for diagnosis and monitoring?</value>
   </data>
   <data name="q3_4_3" xml:space="preserve">
     <value>Is it intended to emit ionizing radiation for diagnostics?</value>
@@ -325,13 +310,13 @@
     <value>Is it intended to provide information which is used to take decisions with diagnosis or therapeutic purposes?</value>
   </data>
   <data name="q3_5_1_1" xml:space="preserve">
-    <value>TODO</value>
+    <value>Does such a device have a significant impact?</value>
   </data>
   <data name="q3_5_2" xml:space="preserve">
     <value>Is it intended to monitor physiological processes?</value>
   </data>
   <data name="q3_5_2_1" xml:space="preserve">
-    <value>TODO</value>
+    <value>Does it monitor parameters?</value>
   </data>
   <data name="q3_6" xml:space="preserve">
     <value>Is it intended to administer and/or remove medicinal products, body liquids or other substances to or from the body?</value>
@@ -388,9 +373,15 @@
     <value>Does it achieve its intended purpose in the stomach or lower gastrointestinal tract and it, or its products of metabolism, is systemically absorbed by the human body?</value>
   </data>
   <data name="q11_3" xml:space="preserve">
-    <value>Is it applied to the skin or is it are applied in the nasal or oral cavity as far as the pharynx, and achieve the intended purpose on those cavities?</value>
+    <value>Is it applied to the skin or is it applied in the nasal or oral cavity as far as the pharynx, and achieve the intended purpose on those cavities?</value>
   </data>
   <data name="q12" xml:space="preserve">
     <value>Is it an active therapeutic device with an integrated or incorporated diagnostic function that includes an integrated or incorporated diagnostic function which significantly determines the patient management by the device (example: closed loop systems or automated external defibrillators)?</value>
+  </data>
+  <data name="q2_1_1_2" xml:space="preserve">
+    <value>Is it intended for short-term use?</value>
+  </data>
+  <data name="q2_1_1_4" xml:space="preserve">
+    <value>Is it indended for long-term use?</value>
   </data>
 </root>

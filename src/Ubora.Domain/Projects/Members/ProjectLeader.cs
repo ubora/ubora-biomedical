@@ -7,5 +7,7 @@ namespace Ubora.Domain.Projects.Members
         public ProjectLeader(Guid userId) : base(userId)
         {
         }
+
+        public override string RoleKey => "project-leader";
     }
 }

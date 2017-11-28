@@ -1,11 +1,11 @@
-﻿using AutoMapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using AutoMapper;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
 
-namespace Ubora.Web._Features.Projects.Workpackages.Steps
+namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 {
     public class VotingViewModel
     {
@@ -18,6 +18,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public string Title { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
+        public decimal TotalScore { get; set; }
 
         public class Factory
         {

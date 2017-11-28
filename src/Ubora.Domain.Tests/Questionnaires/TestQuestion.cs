@@ -1,13 +1,15 @@
-﻿using Ubora.Domain.Questionnaires;
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
+using Ubora.Domain.Questionnaires;
 
 namespace Ubora.Domain.Tests.Questionnaires
 {
     public class TestQuestion : QuestionBase<TestAnswer>
     {
-        public TestQuestion(string id, TestAnswer[] answers)
+        public TestQuestion(string id, IEnumerable<TestAnswer> answers)
         {
             Id = id;
-            Answers = answers;
+            Answers = answers.ToImmutableArray();
         }
     }
 }

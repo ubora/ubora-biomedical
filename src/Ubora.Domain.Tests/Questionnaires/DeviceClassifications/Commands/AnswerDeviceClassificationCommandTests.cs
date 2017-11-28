@@ -13,7 +13,6 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications.Commands
     {
         public readonly Guid _projectId = Guid.NewGuid();
         public readonly Guid _questionnaireId = Guid.NewGuid();
-        private DeviceClass _deviceClass;
 
         [Fact]
         public void Last_Answer_Sets_Project_As_Finished()
@@ -42,7 +41,7 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications.Commands
                 })
             };
 
-            var deviceClass = new DeviceClassTwoB(new []
+            var deviceClass = new DeviceClassTwoB().WithConditions(new []
             {
                 new ChosenAnswerDeviceClassCondition(new Dictionary<string, string>
                 {

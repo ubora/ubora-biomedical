@@ -1,14 +1,14 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using FluentAssertions;
 using Moq;
-using System;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Candidates;
-using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web._Features.Projects.Workpackages.Candidates;
 using Xunit;
 
-namespace Ubora.Web.Tests._Features.Projects.Workpackages.Steps
+namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
 {
     public class CandidateItemViewModelFactoryTests
     {

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure;
@@ -14,7 +13,6 @@ using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.Storage;
-using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Projects.Repository
 {

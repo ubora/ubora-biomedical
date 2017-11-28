@@ -62,7 +62,8 @@ namespace Ubora.Web
 
             var npgSqlConnectionString = new NpgsqlConnectionStringBuilder(ConnectionString);
 
-            var isListeningPostgres = WaitForHost(npgSqlConnectionString.Host, npgSqlConnectionString.Port, TimeSpan.FromSeconds(15));
+            var isListeningPostgres = WaitForHost(npgSqlConnectionString.Host, npgSqlConnectionString.Port,
+                TimeSpan.FromSeconds(15));
             if (!isListeningPostgres)
             {
                 throw new Exception("Database (Postgres) could not be connected to.");
@@ -73,17 +74,15 @@ namespace Ubora.Web
 
             services
                 .AddMvc()
-                .AddUboraFeatureFolders(new FeatureFolderOptions { FeatureFolderName = "_Features" });
+                .AddUboraFeatureFolders(new FeatureFolderOptions {FeatureFolderName = "_Features"});
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
 
-            var useSpecifiedPickupDirectory = Convert.ToBoolean(Configuration["SmtpSettings:UseSpecifiedPickupDirectory"]);
+            var useSpecifiedPickupDirectory =
+                Convert.ToBoolean(Configuration["SmtpSettings:UseSpecifiedPickupDirectory"]);
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
-                {
-                    o.Password.RequireNonAlphanumeric = false;
-                })
+            services.AddIdentity<ApplicationUser, ApplicationRole>(o => { o.Password.RequireNonAlphanumeric = false; })
                 .AddUserManager<ApplicationUserManager>()
                 .AddSignInManager<ApplicationSignInManager>()
                 .AddClaimsPrincipalFactory<ApplicationClaimsPrincipalFactory>()
@@ -210,21 +209,20 @@ namespace Ubora.Web
         {
             using (TcpClient client = new TcpClient())
             {
-                var connected = false;
                 var timeoutTime = DateTime.Now.AddSeconds(timeout.Seconds);
-                while (!connected && DateTime.Now < timeoutTime)
+                while (DateTime.Now < timeoutTime)
                 {
                     try
                     {
-                        client.ConnectAsync(server, port).Wait(timeout);
-                        connected = true;
+                        return client.ConnectAsync(server, port).Wait(timeout);
                     }
                     catch
                     {
-                        connected = false;
+                        if (DateTime.Now > timeoutTime)
+                            throw;
                     }
                 }
-                return connected;
+                return false;
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages
-@model Ubora.Web._Features.Projects.Workpackages.Steps.VotingViewModel
+@using Ubora.Web._Features.Projects.Workpackages.Candidates
+@model Ubora.Web._Features.Projects.Workpackages.Candidates.VotingViewModel
 
 <div class="container-fluid my-4">
     <div class="row">
@@ -18,7 +19,7 @@
                         <div class="col-lg-3 d-flex justify-content-end">
                             @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanAddProjectCandidate)).Succeeded)
                             {
-                                <a class="btn btn-secondary-ghost align-self-start" asp-controller="ConceptualDesign" asp-action="AddCandidate">
+                                <a class="btn btn-secondary-ghost align-self-start" asp-controller="Candidates" asp-action="AddCandidate">
                                     <i class="material-icons">add</i>
                                     <span>Add candidate</span>
                                 </a>
@@ -28,18 +29,18 @@
 
                     <div class="row">
                         @foreach (var candidate in Model.Candidates)
-            {
+                        {
                             <div class="col-sm-12 col-md-3 my-2">
                                 <div class="card w-100 h-100">
-                                    <a href="@Url.Action("Candidate", "ConceptualDesign", new { candidateId = candidate.Id })" class="card-link">
+                                    <a href="@Url.Action("Candidate", "Candidates", new { candidateId = candidate.Id })" class="card-link">
                                         <img class="card-img-top img-fluid" src="@candidate.ImageUrl" alt="Card image cap">
                                     </a>
                                     <div class="card-body h-100">
-                                        <h4 class="card-title mt-2"><a href="@Url.Action("Candidate", "ConceptualDesign", new { candidateId = candidate.Id })"><p>@candidate.Title</p></a></h4>
+                                        <h4 class="card-title mt-2"><a href="@Url.Action("Candidate", "Candidates", new { candidateId = candidate.Id })"><p>@candidate.Title</p></a></h4>
                                         <p class="card-text text-truncate mb-2">@candidate.Description</p>
                                     </div>
                                     <div class="card-footer">
-                                        <small class="text-muted">Score:</small>
+                                        <small class="text-muted">Score: @candidate.TotalScore.ToString("0.0")</small>
                                     </div>
                                 </div>
                             </div>
