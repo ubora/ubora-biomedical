@@ -10,7 +10,7 @@ namespace Ubora.Domain.Projects.StructuredInformations.IntendedUsers
 
         public static IReadOnlyDictionary<string, Type> IntendedUserKeyTypeMap = new Dictionary<string, Type>
         {
-            {"self-use_or_patient", typeof(SelfUseOrPatient)},
+            {"self-user_or_patient", typeof(SelfUserOrPatient)},
             {"physician", typeof(Physician)},
             {"technician", typeof(Technician)},
             {"nurse", typeof(Nurse)},

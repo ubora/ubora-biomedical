@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web._Features._Shared;
@@ -102,13 +103,17 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [Route(nameof(UserAndEnvironment))]
-        public virtual IActionResult UserAndEnvironment()
+        public virtual IActionResult UserAndEnvironment([FromServices] UserAndEnvironmentInformationViewModel.Factory modelFactory)
         {
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
-            var model = new UserAndEnvironmentInformationViewModel
+            var deviceStructuredInformation = QueryProcessor.FindById<DeviceStructuredInformation>(ProjectId);
+            if (deviceStructuredInformation == null)
             {
-            };
+                return View();
+            }
+
+            var model = modelFactory.Create(deviceStructuredInformation.UserAndEnvironment);
 
             return View(model);
         }
@@ -117,11 +122,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Route(nameof(UserAndEnvironment))]
         public IActionResult EditUserAndEnvironment(
             UserAndEnvironmentInformationViewModel model, 
-            [FromServices] UserAndEnvironmentInformationViewModel.Mapper modelMapper)
+            [FromServices] UserAndEnvironmentInformationViewModel.Mapper modelMapper,
+            [FromServices] UserAndEnvironmentInformationViewModel.Factory modelFactory)
         {
             if (!ModelState.IsValid)
             {
-                return UserAndEnvironment();
+                return UserAndEnvironment(modelFactory);
             }
 
             var command = modelMapper.MapToCommand(model);
@@ -129,18 +135,22 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             if (!ModelState.IsValid)
             {
-                return UserAndEnvironment();
+                return UserAndEnvironment(modelFactory);
             }
 
             return RedirectToAction(nameof(StructuredInformationOnTheDeviceResult));
         }
 
         [Route(nameof(StructuredInformationOnTheDeviceResult))]
-        public IActionResult StructuredInformationOnTheDeviceResult()
+        public IActionResult StructuredInformationOnTheDeviceResult([FromServices] StructuredInformationResultViewModel.Factory modelFactory)
         {
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
-            return View();
+            var deviceStructuredInformation = QueryProcessor.FindById<DeviceStructuredInformation>(ProjectId);
+
+            var model = modelFactory.Create(deviceStructuredInformation);
+
+            return View(model);
         }
     }
 }

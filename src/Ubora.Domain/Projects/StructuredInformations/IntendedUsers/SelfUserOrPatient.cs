@@ -1,12 +1,12 @@
 ﻿namespace Ubora.Domain.Projects.StructuredInformations.IntendedUsers
 {
-    public class SelfUseOrPatient : IntendedUser
+    public class SelfUserOrPatient : IntendedUser
     {
-        public override string Key => "self-use_or_patient";
+        public override string Key => "self-user_or_patient";
 
         public override string ToDisplayName()
         {
-            return "Self-use/patient";
+            return "Self-user/patient";
         }
     }
 }

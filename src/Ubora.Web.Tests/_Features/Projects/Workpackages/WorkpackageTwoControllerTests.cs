@@ -33,7 +33,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         {
             var postModel = new UserAndEnvironmentInformationViewModel();
             var modelMapperMock = new Mock<UserAndEnvironmentInformationViewModel.Mapper>();
-            var expectedExecutedCommand = new EditDeviceStructuredInformationOnUserAndEnvironmentCommand();
+            var expectedExecutedCommand = new EditUserAndEnvironmentInformationCommand();
 
             modelMapperMock.Setup(m => m.MapToCommand(postModel))
                 .Returns(expectedExecutedCommand);
@@ -43,11 +43,11 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Returns(CommandResult.Success);
 
             // Act
-            var result = (RedirectToActionResult)_controller.EditUserAndEnvironment(postModel, modelMapperMock.Object);
+            var result = (RedirectToActionResult)_controller.EditUserAndEnvironment(postModel, modelMapperMock.Object, Mock.Of<UserAndEnvironmentInformationViewModel.Factory>());
 
             // Assert
             CommandProcessorMock
-                .Verify(x => x.Execute(It.IsAny<EditDeviceStructuredInformationOnUserAndEnvironmentCommand>()), Times.Once);
+                .Verify(x => x.Execute(It.IsAny<EditUserAndEnvironmentInformationCommand>()), Times.Once);
 
             result.ActionName.Should().Be(nameof(WorkpackageTwoController.StructuredInformationOnTheDeviceResult));
         }
@@ -56,8 +56,9 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         public void EditUserAndEnvironment_Does_Not_Execute_Command_When_Invalid_Model()
         {
             var expectedResult = Mock.Of<IActionResult>();
+            var modelFactory = Mock.Of<UserAndEnvironmentInformationViewModel.Factory>();
 
-            _controllerMock.Setup(c => c.UserAndEnvironment())
+            _controllerMock.Setup(c => c.UserAndEnvironment(modelFactory))
                 .Returns(expectedResult);
 
             var model = new UserAndEnvironmentInformationViewModel();
@@ -66,11 +67,11 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             _controller.ViewData.ModelState.AddModelError("", "error");
 
             // Act
-            var result = _controller.EditUserAndEnvironment(model, modelMapper);
+            var result = _controller.EditUserAndEnvironment(model, modelMapper, modelFactory);
 
             // Assert
             CommandProcessorMock
-                .Verify(x => x.Execute(It.IsAny<EditDeviceStructuredInformationOnUserAndEnvironmentCommand>()), Times.Never);
+                .Verify(x => x.Execute(It.IsAny<EditUserAndEnvironmentInformationCommand>()), Times.Never);
 
             result.Should().BeSameAs(expectedResult);
         }

@@ -5,7 +5,7 @@ using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.Projects.StructuredInformations.Commands
 {
-    public class EditDeviceStructuredInformationOnHealthTechnologySpecificationsCommand : UserProjectCommand
+    public class EditHealthTechnologySpecificationInformationCommand : UserProjectCommand
     {
     }
 }

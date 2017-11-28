@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.IntendedUsers;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
@@ -21,18 +22,14 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var model = new UserAndEnvironmentInformationViewModel
             {
                 IntendedUserTypeKey = "nurse",
-                WhereWillTechnologyBeUsed = new WhereWillTechnologyBeUsedViewModel()
             };
 
             // Act
             var mappedCommand = _mapper.MapToCommand(model);
 
             // Assert
-            var expected = new DeviceStructuredInformation.UserAndEnvironmentInformation
-            {
-                IntendedUser = new Nurse(),
-                WhereWillTechnologyBeUsed = new DeviceStructuredInformation.UserAndEnvironmentInformation.WhereWillTechnologyBeUsedInformation()
-            };
+            var expected = UserAndEnvironmentInformation.CreateEmpty()
+                .Set(x => x.IntendedUser, new Nurse());
 
             mappedCommand.UserAndEnvironmentInformation.ShouldBeEquivalentTo(expected);
         }
@@ -51,11 +48,9 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var mappedCommand = _mapper.MapToCommand(model);
 
             // Assert
-            var expected = new DeviceStructuredInformation.UserAndEnvironmentInformation
-            {
-                IntendedUser = new Other("testOther"),
-                WhereWillTechnologyBeUsed = new DeviceStructuredInformation.UserAndEnvironmentInformation.WhereWillTechnologyBeUsedInformation()
-            };
+            var expected = UserAndEnvironmentInformation.CreateEmpty()
+                .Set(x => x.IntendedUser, new Other("testOther"));
+
             mappedCommand.UserAndEnvironmentInformation.ShouldBeEquivalentTo(expected);
         }
 
@@ -64,7 +59,6 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         {
             var model = new UserAndEnvironmentInformationViewModel
             {
-                IntendedUserTypeKey = "nurse",
                 WhereWillTechnologyBeUsed = new WhereWillTechnologyBeUsedViewModel
                 {
                     AtHome = true,
@@ -82,21 +76,20 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var mappedCommand = _mapper.MapToCommand(model);
 
             // Assert
-            var expected = new DeviceStructuredInformation.UserAndEnvironmentInformation
-            {
-                IntendedUser = new Nurse(),
-                WhereWillTechnologyBeUsed = new DeviceStructuredInformation.UserAndEnvironmentInformation.WhereWillTechnologyBeUsedInformation
-                {
-                    AtHome = true,
-                    Indoors = true,
-                    Outdoors = true,
-                    TertiaryLevel = true,
-                    PrimaryLevel = true,
-                    RuralSettings = true,
-                    SecondaryLevel = true,
-                    UrbanSettings = true
-                }
-            };
+            var whereWillTechnologyBeUsedInformation = new WhereWillTechnologyBeUsed
+            (
+                atHome: true,
+                indoors: true,
+                outdoors: true,
+                tertiaryLevel: true,
+                primaryLevel: true,
+                ruralSettings: true,
+                secondaryLevel: true,
+                urbanSettings: true
+            );
+
+            var expected = UserAndEnvironmentInformation.CreateEmpty()
+                .Set(x => x.WhereWillTechnologyBeUsed, whereWillTechnologyBeUsedInformation);
 
             mappedCommand.UserAndEnvironmentInformation.ShouldBeEquivalentTo(expected);
         }
@@ -106,8 +99,6 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         {
             var model = new UserAndEnvironmentInformationViewModel
             {
-                IntendedUserTypeKey = "nurse",
-                WhereWillTechnologyBeUsed = new WhereWillTechnologyBeUsedViewModel(),
                 IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser = true,
                 IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining = "test"
             };
@@ -116,13 +107,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var mappedCommand = _mapper.MapToCommand(model);
 
             // Assert
-            var expected = new DeviceStructuredInformation.UserAndEnvironmentInformation
-            {
-                IntendedUser = new Nurse(),
-                WhereWillTechnologyBeUsed = new DeviceStructuredInformation.UserAndEnvironmentInformation.WhereWillTechnologyBeUsedInformation(),
-                IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser = true,
-                DescriptionOfWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTrainingIntendedUser = "test"
-            };
+            var expected = UserAndEnvironmentInformation.CreateEmpty()
+                .Set(x => x.IntendedUserTraining, IntendedUserTraining.CreateTrainingRequired("test"));
 
             mappedCommand.UserAndEnvironmentInformation.ShouldBeEquivalentTo(expected);
         }
@@ -132,8 +118,6 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         {
             var model = new UserAndEnvironmentInformationViewModel
             {
-                IntendedUserTypeKey = "nurse",
-                WhereWillTechnologyBeUsed = new WhereWillTechnologyBeUsedViewModel(),
                 IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser = false,
                 IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining = "test"
             };
@@ -142,12 +126,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var mappedCommand = _mapper.MapToCommand(model);
 
             // Assert
-            var expected = new DeviceStructuredInformation.UserAndEnvironmentInformation
-            {
-                IntendedUser = new Nurse(),
-                WhereWillTechnologyBeUsed = new DeviceStructuredInformation.UserAndEnvironmentInformation.WhereWillTechnologyBeUsedInformation(),
-                IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser = false,
-            };
+            var expected = UserAndEnvironmentInformation.CreateEmpty();
 
             mappedCommand.UserAndEnvironmentInformation.ShouldBeEquivalentTo(expected);
         }
@@ -157,8 +136,6 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         {
             var model = new UserAndEnvironmentInformationViewModel
             {
-                IntendedUserTypeKey = "nurse",
-                WhereWillTechnologyBeUsed = new WhereWillTechnologyBeUsedViewModel(),
                 IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse = true
             };
 
@@ -166,12 +143,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var mappedCommand = _mapper.MapToCommand(model);
 
             // Assert
-            var expected = new DeviceStructuredInformation.UserAndEnvironmentInformation
-            {
-                IntendedUser = new Nurse(),
-                WhereWillTechnologyBeUsed = new DeviceStructuredInformation.UserAndEnvironmentInformation.WhereWillTechnologyBeUsedInformation(),
-                IsAnyMaintenanceOrCalibrationRequiredByIntentedUserAtTimeOfUse = true
-            };
+            var expected = UserAndEnvironmentInformation.CreateEmpty()
+                .Set(x => x.IsAnyMaintenanceOrCalibrationRequiredByIntentedUserAtTimeOfUse, true);
 
             mappedCommand.UserAndEnvironmentInformation.ShouldBeEquivalentTo(expected);
         }
