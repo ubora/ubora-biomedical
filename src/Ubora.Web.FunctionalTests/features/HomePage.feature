@@ -18,7 +18,7 @@ Scenario: Click Log in button
 
 Scenario: Click I have an idea button
     When I click on the element "a=I have an idea"
-    Then I expect the element "div=Your email must be confirmed to create a project!" is visible
+    Then I expect the element ".tooltip-inner=You have to log in to create a project!" is visible
 
 Scenario: Click on Community
     When I click on the element "span=Community"
