@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using Ubora.Domain.Projects.StructuredInformations.IntendedUsers;
 
 namespace Ubora.Domain.Projects.StructuredInformations
 {
-
     public enum Portability
     {
         InstalledAndStationary,

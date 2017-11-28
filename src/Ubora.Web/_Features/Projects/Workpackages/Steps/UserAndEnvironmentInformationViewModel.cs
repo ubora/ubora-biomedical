@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.Commands;
 using Ubora.Domain.Projects.StructuredInformations.IntendedUsers;
@@ -11,7 +9,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     {
         public string IntendedUserTypeKey { get; set; }
         public string IntendedUserIfOther { get; set; }
-
         public bool IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser { get; set; }
         public string IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining { get; set; }
         public bool IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse { get; set; }
@@ -25,7 +22,26 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
                 userAndEnvironmentInformation.IntendedUser = MapIntendedUser(model);
 
+                userAndEnvironmentInformation.IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser = model.IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser;
+                if (model.IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser)
+                {
+                    userAndEnvironmentInformation.DescriptionOfWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTrainingIntendedUser = model.IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining;
+                }
 
+                userAndEnvironmentInformation.IsAnyMaintenanceOrCalibrationRequiredByIntentedUserAtTimeOfUse = model.IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse;
+
+                var whereWillTechnologyBeUsedModel = model.WhereWillTechnologyBeUsed;
+                userAndEnvironmentInformation.WhereWillTechnologyBeUsed = new DeviceStructuredInformation.UserAndEnvironmentInformation.WhereWillTechnologyBeUsedInformation
+                {
+                    TertiaryLevel = whereWillTechnologyBeUsedModel.TertiaryLevel,
+                    SecondaryLevel = whereWillTechnologyBeUsedModel.SecondaryLevel,
+                    UrbanSettings = whereWillTechnologyBeUsedModel.UrbanSettings,
+                    Indoors = whereWillTechnologyBeUsedModel.Indoors,
+                    RuralSettings = whereWillTechnologyBeUsedModel.RuralSettings,
+                    Outdoors = whereWillTechnologyBeUsedModel.Outdoors,
+                    PrimaryLevel = whereWillTechnologyBeUsedModel.PrimaryLevel,
+                    AtHome = whereWillTechnologyBeUsedModel.AtHome
+                };
 
                 var command = new EditDeviceStructuredInformationOnUserAndEnvironmentCommand
                 {
