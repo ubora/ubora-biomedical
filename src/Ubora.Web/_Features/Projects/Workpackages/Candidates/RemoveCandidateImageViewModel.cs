@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ubora.Web._Features.Projects.Workpackages.Steps
+namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 {
     public class RemoveCandidateImageViewModel
     {

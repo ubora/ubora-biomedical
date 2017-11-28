@@ -4,6 +4,10 @@
   margin:1rem 0;
 }
 
+.form-group label[for="CommentText"] {
+  margin: 0;
+}
+
 .form-group .form-control {
   border: 0;
   border-bottom: 2px solid var(--blue);
@@ -20,6 +24,15 @@
 
 select.form-control:not([size]):not([multiple]) {
   height: auto;
+}
+
+.form-group textarea.form-control {
+  border: 1px solid var(--blue);
+  padding-left: .65em;
+}
+
+.form-group textarea.form-control:focus {
+  border: 1px solid var(--light-blue);
 }
 
 label.custom-file {
@@ -84,14 +97,4 @@ label.custom-file {
 
 .input-validation-error {
   border-color: var(--orange);
-}
-
-/*for View profile*/
-.disabled-select[disabled] {
-    cursor: text;
-    border-bottom: none;
-    background: none;
-    -webkit-appearance: none;
-    padding: 0;
-    margin-bottom: 1rem;
 }

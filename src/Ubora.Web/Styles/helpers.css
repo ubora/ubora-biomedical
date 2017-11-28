@@ -16,6 +16,12 @@
   object-fit: cover;
 }
 
+/*Avatar image size in comments section*/
+.avatar-comment {
+	height: 4em;
+	width: 4em;
+}
+
 /*Markdown styles*/
 .text-markdown {
   font-family: inherit;
@@ -49,11 +55,14 @@
 	margin-bottom: 0;
 }
 
-
-
 /*coloring text to orange*/
-.text-orange {
+.color-orange {
 	color: var(--orange);
+}
+
+/*coloring text to grey*/
+.color-grey {
+	color: var(--primary-shade);
 }
 
 /*repository icons*/
@@ -70,6 +79,7 @@
         cursor: pointer;
     }
 
-.border-bottom {
-	border-bottom: 1px solid rgba(0,0,0,.125);
+
+.small-text {
+	font-size: 0.875em;
 }

@@ -19,8 +19,13 @@
                     <div class="card-img-overlay text-center">
                     @if (Model.HasImage){
                       <div class="flex-wrap">
-                        <a class="mx-1" asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span></a>
-                        <a class="mx-1" asp-controller="Dashboard" asp-action="RemoveProjectImage"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Remove image</span></a>
+                        <a class="mx-1" asp-controller="Dashboard" asp-action="EditProjectImage">
+                          <i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span>
+                        </a>
+                        <a class="mx-1" asp-controller="Dashboard" asp-action="RemoveProjectImage">
+                          <i class="material-icons align-middle">delete_forever</i>
+                          <span class="align-middle">Remove image</span>
+                        </a>
                       </div>
                     }
                     else
@@ -115,7 +120,7 @@
             </div>
         </div>
     </div>
-    <div class="row mt-4">
+    <div class="row">
         <div class="col">
             <div class="row">
                 <div class="col">

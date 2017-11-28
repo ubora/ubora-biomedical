@@ -1,3 +1,11 @@
+.progress {
+  background-color: var(--tertiary-shade);
+}
+
+.progress-bar {
+  background-color: var(--blue);
+}
+
 .table-level-of-completion .progress-bar.bg-success {
   background-color: var(--green) !important;
 }

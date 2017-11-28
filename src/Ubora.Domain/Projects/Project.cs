@@ -39,7 +39,6 @@ namespace Ubora.Domain.Projects
             private set { }
         }
 
-
         public bool HasMember<T>(Guid userId) where T : ProjectMember
         {
             return DoesSatisfy(new HasMember<T>(userId));

@@ -51,9 +51,9 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
 
             var questinnaireTreeMock = new Mock<DeviceClassificationQuestionnaireTree>();
 
-            var expectedDeviceClass = new DeviceClassTwoA(new ChosenAnswerDeviceClassCondition[0]);
+            var expectedDeviceClass = DeviceClass.TwoA;
 
-            questinnaireTreeMock.Setup(x => x.GetHeaviestDeviceClass())
+            questinnaireTreeMock.Setup(x => x.GetHighestRiskDeviceClass())
                 .Returns(expectedDeviceClass);
 
             var latestDeviceClassification = new DeviceClassificationAggregate()
