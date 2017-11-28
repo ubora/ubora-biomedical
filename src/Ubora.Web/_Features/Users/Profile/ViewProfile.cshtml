@@ -5,7 +5,47 @@
 }
 
 <div class="container-fluid my-4">
-    <div class="row flex-column align-items-center">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+
+      <div class="row">
+        <div class="col-lg-6">
+          <img class="avatar" src="@Model.ProfilePictureLink" width="450" height="450" />
+        </div>
+        <div class="col-lg-6">
+          @if (Model.IsDeleted)
+          {
+              <div class="form-group text-center">
+                  <p class="text-uppercase text-danger">This user has been deleted.</p>
+              </div>
+          }
+          <h2 class="fullname">@Model.FullName</h2>
+          <a class="email" href="mailto:@Model.Email?Subject=Message%20from%20UBORA">@Model.Email</a>
+
+        </div>
+      </div>
+
+      <hr class="my-4">
+
+      <div class="row">
+        <div class="col-lg-6" style="border-right: 1px solid red;">
+          <div class="row col-lg-12">
+            <h2>Academia</h2>
+          </div>
+          <div class="row col-lg-12">
+            <h2>Skills</h2>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <h2>Bio</h2>
+          <p>@Model.Biography</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+    @* <div class="row flex-column align-items-center">
         <div class="col-md-4 d-flex flex-column justify-content-center">
             <h1 class="text-center display-4">@ViewData["Title"]</h1>
             <div class="d-flex flex-column align-items-center mb-4">
@@ -317,5 +357,5 @@
             </div>
 
         </div>
-    </div>
+    </div> *@
 </div>

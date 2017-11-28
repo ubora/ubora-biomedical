@@ -12,7 +12,7 @@
 
 /*Avatar image look*/
 .avatar {
-	border-radius: 2em;
+	border-radius: .25em;
   object-fit: cover;
 }
 
