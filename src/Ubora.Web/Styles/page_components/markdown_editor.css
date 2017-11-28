@@ -2,3 +2,17 @@
 .CodeMirror-scroll {
     max-height: 24em;
 }
+
+.text-markdown {
+  font-family: inherit;
+	margin:1em 0;
+	text-align: justify;
+}
+
+.image-markdown {
+    max-height: 844px;
+    height: 100%;
+    max-width: 1500px;
+    width: 100%;
+    object-fit: contain;
+}

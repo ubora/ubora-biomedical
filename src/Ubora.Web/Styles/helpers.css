@@ -16,21 +16,7 @@
   object-fit: cover;
 }
 
-/*Markdown styles*/
-.text-markdown {
-  font-family: inherit;
-	margin:1em 0;
-	text-align: justify;
-}
-
-.image-markdown {
-    max-height: 844px;
-    height: 100%;
-    max-width: 1500px;
-    width: 100%;
-    object-fit: contain;
-}
-
+/*Material icons size*/
 .material-icons.icon-size-lg {
 	font-size: 5rem !important;
 }
@@ -48,8 +34,6 @@
 	padding: 0 1rem;
 	margin-bottom: 0;
 }
-
-
 
 /*coloring text to orange*/
 .text-orange {
