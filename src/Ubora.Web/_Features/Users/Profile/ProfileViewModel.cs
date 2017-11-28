@@ -14,5 +14,8 @@
         public string ProfilePictureLink { get; set; }
         public string FullName { get; set; }
         public bool IsDeleted { get; set; }
+        public string CountryCode { get {
+          return "KEN";
+          }}
     }
 }

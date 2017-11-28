@@ -85,3 +85,13 @@ label.custom-file {
 .input-validation-error {
   border-color: var(--orange);
 }
+
+/*for View profile*/
+.disabled-select[disabled] {
+    cursor: text;
+    border-bottom: none;
+    background: none;
+    -webkit-appearance: none;
+    padding: 0;
+    margin-bottom: 1rem;
+}
