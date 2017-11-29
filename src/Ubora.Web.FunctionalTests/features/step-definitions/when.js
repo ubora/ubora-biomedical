@@ -80,13 +80,34 @@ module.exports = function () {
         });
 
     this.When(/^I answer ([^\s]+) to question "([^"]*)?"$/, (answer, question) => {
-        expect(browser.isVisibleWithinViewport("h1=" + question))
+        expect(browser.isVisible("h1=" + question));
         if (answer.toLowerCase() === "yes") {
-            browser.click("button=Yes")  
+            browser.click("button=Yes");
         } else if (answer.toLowerCase() === "no") {
-            browser.click("button=No")  
+            browser.click("button=No");
         } else {
             throw "Answer could not be parsed: " + answer
         }
+    });
+
+    this.When(/^I answer "([^"]*)?" to the question "([^"]*)?"$/, (answer, question) => {
+        expect(browser.isVisible("h4=" + question));
+
+        // browser.selectByAttribute("input", "name", "value").;
+
+        const answerElements = browser.elements("label=" + answer);
+        throw answerElements;
+        
+        if (answerElements.length > 1) {
+            answerElements.forEach(element => {
+                if(!element.hasAttribute("disabled")) {
+                    element.click();
+                }
+            });
+        } else {
+            browser.element("label=" + answer).click();
+        }
+
+        browser.click("button=Answer")
     });
 }

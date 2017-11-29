@@ -14,7 +14,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
         {
             base.OnActionExecuting(context);
 
-            ViewData["Title"] = "Device classfication";
+            ViewData["Title"] = "Device classification";
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.DeviceClassification;
         }

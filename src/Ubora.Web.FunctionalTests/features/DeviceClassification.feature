@@ -10,11 +10,13 @@ Background:
         And I click on the element "span=Device classification"
 
 Scenario: I go through Device classification
-    When I click on the element "a=Device classification"
     Then I expect the title of the page "Device classification - UBORA"
-    When I click on the element "a=Go to device classification"
-    Then I expect the title of the page "Device classification - UBORA"
-    When I click on the element "button=Is your device NON INVASIVE?"
+    When I click on the element "button=Take questionnaire"
+    When I answer "Non-invasive" to the question "Is your device INVASIVE or NON-INVASIVE?"
+        And I answer "Yes" to the question "Is it intended for channelling or storing blood, body liquids, cells or tissues, liquids or gases for the purpose of eventual infusion, administration or introduction into the body?"
+        And I answer "Yes" to the question "May it be connected to an active medical device in class IIa or a higher class?"
+        And I answer "Yes" to the question "Is it intended for use for storing or channelling blood or other body liquids or for storing organs, parts of organs or body cells and tissues, but it is not a blood bag?"
+        And I answer "Yes" to the question "Is it a blood bag?"
         And I click on the element "button=Is it intended for channelling or storing blood, body liquids, cells or tissues, liquids or gases for the purpose of eventual infusion, administration or introduction into the body?"
         And I click on the element "button=May it be connected to an active medical device in class IIa or a higher class?"
         And I click on the element "button=Is your device ACTIVE?"
