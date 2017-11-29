@@ -3,8 +3,6 @@ export default class ShowMoreText {
 
         $(document).ready(function () {
 
-            console.log("asdf");
-
             const showChar = 300;
             const ellipsestext = "...";
             const moretext = "(show more)";
