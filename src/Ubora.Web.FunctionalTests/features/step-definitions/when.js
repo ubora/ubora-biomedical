@@ -96,10 +96,9 @@ module.exports = function () {
         // browser.selectByAttribute("input", "name", "value").;
 
         const answerElements = browser.elements("label=" + answer);
-        throw answerElements;
-        
-        if (answerElements.length > 1) {
-            answerElements.forEach(element => {
+
+        if (answerElements.value.length > 1) {
+            answerElements.value.forEach(element => {
                 if(!element.hasAttribute("disabled")) {
                     element.click();
                 }
