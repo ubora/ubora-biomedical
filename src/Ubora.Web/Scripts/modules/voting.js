@@ -1,12 +1,13 @@
-﻿export class Voting {
-    constructor() {
+﻿export default class Voting {
+    static initialize() {
 
-        var setVotesStyle = function(element) {
-            var children = element.children();
+        const setVotesStyle = function(element) {
+            const children = element.children();
+
             var setAsSelected = false;
 
-            for (var i = children.length - 1; i >= 0; i--) {
-                var child = $(children[i]);
+            for (let i = children.length - 1; i >= 0; i--) {
+                const child = $(children[i]);
 
                 if (child.find('input').is(':checked')) {
                     setAsSelected = true;
@@ -35,4 +36,4 @@
     }
 }
 
-new Voting();
+Voting.initialize();
