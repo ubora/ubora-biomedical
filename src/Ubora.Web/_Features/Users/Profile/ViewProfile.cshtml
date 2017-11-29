@@ -26,7 +26,7 @@
             <dt class="col-sm-2">E-mail:</dt>
             <dd class="col-sm-10"><a class="email" href="mailto:@Model.Email?Subject=Message%20from%20UBORA">@Model.Email</a></dd>
             <dt class="col-sm-2">Country:</dt>
-            <dd class="col-sm-10">Kenya</dd>
+            <dd class="col-sm-10">@Model.CountryCode</dd>
           </dl>
         </div>
       </div>
@@ -46,9 +46,9 @@
           <h4>Working experience</h4>
           <dl class="row mb-4">
             <dt class="col-sm-4">Institution:</dt>
-            <dd class="col-sm-8">AgileWorks</dd>
+            <dd class="col-sm-8">@Model.Institution</dd>
           </dl>
-          <p>I am involved in development and use of medical devices as...</p>
+          <p>I am involved in development and use of medical devices as @Model.MedicalDevice</p>
         </div>
 
         <div class="col-lg-8">
