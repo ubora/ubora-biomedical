@@ -17,6 +17,7 @@ namespace Ubora.Domain.Projects.StructuredInformations.IntendedUsers
             {"midwife", typeof(Midwife)},
             {"family_member", typeof(FamilyMember)},
             {"other", typeof(Other)},
+            {"empty", typeof(EmptyIntendedUser)}
         };
 
         public override bool Equals(object obj)

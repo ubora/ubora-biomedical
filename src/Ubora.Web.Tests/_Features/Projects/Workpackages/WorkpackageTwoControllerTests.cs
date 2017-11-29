@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.Commands;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Xunit;
@@ -23,9 +24,21 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         [Fact]
         public void UserAndEnvironment_Returns_Form_View_With_Mapped_Values_From_Domain()
         {
+            var deviceStructuredInformation = new DeviceStructuredInformation();
+            QueryProcessorMock.Setup(x => x.FindById<DeviceStructuredInformation>(ProjectId))
+                .Returns(deviceStructuredInformation);
+
+            var expectedModel = new UserAndEnvironmentInformationViewModel();
+
+            var modelFactoryMock = new Mock<UserAndEnvironmentInformationViewModel.Factory>();
+            modelFactoryMock.Setup(x => x.Create(deviceStructuredInformation.UserAndEnvironment))
+                .Returns(expectedModel);
+
             // Act
+            var result = (ViewResult) _controller.UserAndEnvironment(modelFactoryMock.Object);
 
             // Assert
+            result.Model.ShouldBeEquivalentTo(expectedModel);
         }
 
         [Fact]

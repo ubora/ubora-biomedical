@@ -83,7 +83,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
             }
 
-            public UserAndEnvironmentInformationViewModel Create(UserAndEnvironmentInformation domainAggregate)
+            public virtual UserAndEnvironmentInformationViewModel Create(UserAndEnvironmentInformation domainAggregate)
             {
                 var model = new UserAndEnvironmentInformationViewModel();
 
@@ -156,7 +156,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
                 if (model.IntendedUserTypeKey == null)
                 {
-                    return null;
+                    return new EmptyIntendedUser();
                 }
 
                 var isIntendedUserSpecified = IntendedUser.IntendedUserKeyTypeMap

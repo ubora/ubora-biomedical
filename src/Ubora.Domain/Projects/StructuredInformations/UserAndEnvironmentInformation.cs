@@ -12,7 +12,7 @@ namespace Ubora.Domain.Projects.StructuredInformations
             bool isAnyMaintenanceOrCalibrationRequiredByIntentedUserAtTimeOfUse,
             WhereWillTechnologyBeUsed whereWillTechnologyBeUsed)
         {
-            IntendedUser = intendedUser;
+            IntendedUser = intendedUser ?? throw new ArgumentNullException(nameof(intendedUser));
             IntendedUserTraining = intendedUserTraining ?? throw new ArgumentNullException(nameof(intendedUserTraining));
             IsAnyMaintenanceOrCalibrationRequiredByIntentedUserAtTimeOfUse = isAnyMaintenanceOrCalibrationRequiredByIntentedUserAtTimeOfUse;
             WhereWillTechnologyBeUsed = whereWillTechnologyBeUsed ?? throw new ArgumentNullException(nameof(whereWillTechnologyBeUsed));
@@ -23,7 +23,7 @@ namespace Ubora.Domain.Projects.StructuredInformations
         {
         }
 
-        public IntendedUser IntendedUser { get; private set; }
+        public IntendedUser IntendedUser { get; private set; } = new EmptyIntendedUser();
         public IntendedUserTraining IntendedUserTraining { get; private set; } = IntendedUserTraining.CreateEmpty();
         public bool IsAnyMaintenanceOrCalibrationRequiredByIntentedUserAtTimeOfUse { get; private set; }
         public WhereWillTechnologyBeUsed WhereWillTechnologyBeUsed { get; private set; } = WhereWillTechnologyBeUsed.CreateEmpty();

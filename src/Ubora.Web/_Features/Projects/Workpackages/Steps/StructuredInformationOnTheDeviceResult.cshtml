@@ -33,7 +33,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (Model.UserAndEnvironment.IntendedUser != null)
+                            @if (!string.IsNullOrEmpty(Model.UserAndEnvironment.IntendedUser))
                             {
                                 <tr>
                                     <td>Who is the intended user?</td>

@@ -4,7 +4,13 @@ using System.Text;
 
 namespace Ubora.Domain.Projects.StructuredInformations.IntendedUsers
 {
-    class EmptyIntendedUser
+    public class EmptyIntendedUser : IntendedUser
     {
+        public override string Key => "empty";
+
+        public override string ToDisplayName()
+        {
+            return "";
+        }
     }
 }
