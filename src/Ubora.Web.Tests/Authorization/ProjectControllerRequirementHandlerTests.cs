@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Moq;
@@ -25,7 +23,7 @@ namespace Ubora.Web.Tests.Authorization
         }
 
         [Fact]
-        public async Task Handler_Allows_Everyone_Pass_When_Disabling_Filter_Is_Present_On_Controller_Action()
+        public async Task Handler_Allows_Anonymous_Pass_When_Disabling_Filter_Is_Present_On_Controller_Action()
         {
             var filters = new IFilterMetadata[]
             {
@@ -52,7 +50,7 @@ namespace Ubora.Web.Tests.Authorization
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async Task Handler_Denies_Pass_When_User_Does_Not_Pass_Requirements(
+        public async Task Handler_Authorizes_Whether_User_Can_View_Private_Content_Of_Given_Project(
             bool isAuthorized)
         {
             var httpContextMock = new Mock<HttpContext>();
@@ -77,12 +75,8 @@ namespace Ubora.Web.Tests.Authorization
                 .Setup(ctx => ctx.RequestServices.GetService(typeof(IAuthorizationService)))
                 .Returns(authorizationServiceMock.Object);
 
-            IAuthorizationRequirement[] authorizedRequirements = null;
-
             authorizationServiceMock
-                .Setup(x => x.AuthorizeAsync(currentUser, null, It.IsAny<IEnumerable<IAuthorizationRequirement>>()))
-                .Callback<ClaimsPrincipal, object, IEnumerable<IAuthorizationRequirement>>(
-                    (user, resource, requirements) => authorizedRequirements = requirements.ToArray())
+                .Setup(x => x.AuthorizeAsync(currentUser, null, Policies.CanViewProjectPrivateContent))
                 .ReturnsAsync(isAuthorized ? AuthorizationResult.Success() : AuthorizationResult.Failed());
 
             // Act
@@ -91,13 +85,6 @@ namespace Ubora.Web.Tests.Authorization
             // Assert
             handlerContext.HasSucceeded
                 .Should().Be(isAuthorized);
-
-            authorizedRequirements.Length
-                .Should().Be(2);
-
-            authorizedRequirements
-                .Should().Contain(x => x.GetType() == typeof(DenyAnonymousAuthorizationRequirement))
-                .And.Contain(x => x.GetType() == typeof(IsProjectMemberRequirement));
         }
     }
 }
