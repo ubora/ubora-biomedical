@@ -19,7 +19,7 @@ namespace Ubora.Domain.Projects.StructuredInformations
             ProjectId = e.ProjectId;
 
             UserAndEnvironment = UserAndEnvironmentInformation.CreateEmpty();
-            HealthTechnologySpecification = new HealthTechnologySpecificationsInformation();
+            HealthTechnologySpecification = HealthTechnologySpecificationsInformation.CreateEmpty();
         }
 
         private void Apply(UserAndEnvironmentInformationWasEditedEvent e)

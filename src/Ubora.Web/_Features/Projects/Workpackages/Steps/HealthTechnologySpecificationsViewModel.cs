@@ -1,14 +1,9 @@
-﻿using Ubora.Domain.Projects.StructuredInformations;
-
-namespace Ubora.Web._Features.Projects.Workpackages.Steps
+﻿namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
 
     public class HealthTechnologySpecificationsViewModel
     {
-        public decimal DimensionsHeight { get; set; }
-        public decimal DimensionsLength { get; set; }
-        public decimal DimensionsWidth { get; set; }
-        public decimal WeightInKilograms { get; set; }
+        public DeviceMeasurementsViewModel DeviceMeasurementsViewModel { get; set; }
         public bool DoesItRequireUseOfConsumables { get; set; }
         public string IfRequiresConsumablesListConsumables { get; set; }
         public int EstimatedLifeTimeInDays { get; set; }
@@ -18,19 +13,37 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public int EstimatedShelfLifeInMonths { get; set; }
         public int EstimatedShelfLifeInYears { get; set; }
         public bool CanItHaveATelemedicineOrEHealthApplication { get; set; }
-        public bool DoesItUseAnyKindOfSoftware { get; set; }
-        public string IfUsesSoftwareDescribeSoftware { get; set; }
-        public string IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse { get; set; }
-        public Portability IsItPortable { get; set; }
-        public TypeOfUse TypeOfUse { get; set; }
+        public DeviceSoftwareUsageViewModel DeviceSoftwareUsageViewModel { get; set; }
+        public string IsItPortable { get; set; }
+        public string TypeOfUse { get; set; }
+        public TechnologyMaintenanceViewModel TechnologyMaintenanceViewModel { get; set; }
+        public EnergyRequirementsViewModel EnergyRequirements { get; set; }
+        public FacilityRequirementsViewModel FacilityRequirements { get; set; }
+    }
+
+    public class TechnologyMaintenanceViewModel
+    {
         public bool DoesTechnologyRequireMaintenance { get; set; }
         public string IfTechnologyRequiresMaintenanceSpecifyType { get; set; }
         public string IfTechnologyRequiresMaintenanceSpecifyFrequency { get; set; }
         public bool IfTechnologyRequiresMaintenanceCanItBeDoneOnSiteOrHomeOrCommunity { get; set; }
-        public ProviderOfMaintenance IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance { get; set; }
+        public string IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance { get; set; }
         public string IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenanceOther { get; set; }
-        public EnergyRequirementsViewModel EnergyRequirements { get; set; }
-        public FacilityRequirementsViewModel FacilityRequirements { get; set; }
+    }
+
+    public class DeviceSoftwareUsageViewModel
+    {
+        public bool DoesItUseAnyKindOfSoftware { get; set; }
+        public string IfUsesSoftwareDescribeSoftware { get; set; }
+        public string IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse { get; set; }
+    }
+
+    public class DeviceMeasurementsViewModel
+    {
+        public decimal DimensionsHeight { get; set; }
+        public decimal DimensionsLength { get; set; }
+        public decimal DimensionsWidth { get; set; }
+        public decimal WeightInKilograms { get; set; }
     }
 
     public class EnergyRequirementsViewModel

@@ -88,5 +88,35 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
 
             result.Should().BeSameAs(expectedResult);
         }
+
+        [Fact]
+        public void EditHealthTechnologySpecifications_Executes_Command_When_Valid_Model()
+        {
+            
+        }
+
+        //[Fact]
+        //public void EditUserAndEnvironment_Does_Not_Execute_Command_When_Invalid_Model()
+        //{
+        //    var expectedResult = Mock.Of<IActionResult>();
+        //    var modelFactory = Mock.Of<UserAndEnvironmentInformationViewModel.Factory>();
+
+        //    _controllerMock.Setup(c => c.UserAndEnvironment(modelFactory))
+        //        .Returns(expectedResult);
+
+        //    var model = new UserAndEnvironmentInformationViewModel();
+        //    var modelMapper = Mock.Of<UserAndEnvironmentInformationViewModel.Mapper>();
+
+        //    _controller.ViewData.ModelState.AddModelError("", "error");
+
+        //    // Act
+        //    var result = _controller.EditUserAndEnvironment(model, modelMapper, modelFactory);
+
+        //    // Assert
+        //    CommandProcessorMock
+        //        .Verify(x => x.Execute(It.IsAny<EditUserAndEnvironmentInformationCommand>()), Times.Never);
+
+        //    result.Should().BeSameAs(expectedResult);
+        //}
     }
 }
