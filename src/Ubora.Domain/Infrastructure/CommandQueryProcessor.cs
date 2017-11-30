@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using Autofac;
 using Marten;
 using Marten.Linq;
@@ -81,38 +80,5 @@ namespace Ubora.Domain.Infrastructure
         {
             return _querySession.Load<T>(id);
         }
-    }
-
-    public abstract class SortSpecification<TEntity, TKey> : ISortSpecification<TEntity>
-    {
-        public IQueryable<TEntity> Sort(IQueryable<TEntity> query)
-        {
-            return query.OrderBy(KeySelector);
-        }
-
-        internal abstract Expression<Func<TEntity, TKey>> KeySelector { get; }
-    }
-
-    /// <summary>
-    /// Do not use this interface directly for implementing specifications, use abstract SortSpecification<TEntity, Tkey> class for that.
-    /// </summary>
-    public interface ISortSpecification<TEntity>
-    {
-        IQueryable<TEntity> Sort(IQueryable<TEntity> query);
-    }
-
-    public interface IProjection<TDocument, TDocumentProjection>
-    {
-        IQueryable<TDocumentProjection> Apply(IQueryable<TDocument> query);
-    }
-
-    public abstract class Projection<TDocument, TDocumentProjection> : IProjection<TDocument, TDocumentProjection>
-    {
-        public IQueryable<TDocumentProjection> Apply(IQueryable<TDocument> query)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected abstract Expression<Func<TDocument, TDocumentProjection>> Select { get; }
     }
 }
