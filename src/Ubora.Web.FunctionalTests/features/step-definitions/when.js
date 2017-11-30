@@ -92,21 +92,13 @@ module.exports = function () {
 
     this.When(/^I answer "([^"]*)?" to the question "([^"]*)?"$/, (answer, question) => {
         expect(browser.isVisible("h4=" + question));
-
-        // browser.selectByAttribute("input", "name", "value").;
-
         const answerElements = browser.elements("label=" + answer);
-
         if (answerElements.value.length > 1) {
-            answerElements.value.forEach(element => {
-                if(!element.hasAttribute("disabled")) {
-                    element.click();
-                }
-            });
+            var lastElement = answerElements.value.slice(-1)[0];
+            lastElement.click();
         } else {
             browser.element("label=" + answer).click();
         }
-
         browser.click("button=Answer")
     });
 }
