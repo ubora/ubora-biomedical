@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Commands;
@@ -43,7 +44,7 @@ namespace Ubora.Domain.Tests
                 Actor = new DummyUserInfo()
             });
 
-            var invitation = fixture.Processor.Find<ProjectMentorInvitation>()
+            var invitation = fixture.Processor.Find<ProjectMentorInvitation>(new MatchAll<ProjectMentorInvitation>())
                 .Last(x => x.InviteeUserId == userId);
 
             fixture.Processor.Execute(new AcceptProjectMentorInvitationCommand

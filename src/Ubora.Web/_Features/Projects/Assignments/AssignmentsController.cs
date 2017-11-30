@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.Assignments;
 using Ubora.Domain.Projects.Assignments.Commands;
 
@@ -11,7 +12,7 @@ namespace Ubora.Web._Features.Projects.Assignments
     {
         public IActionResult Assignments()
         {
-            var projectTasks = QueryProcessor.Find<Assignment>().Where(x => x.ProjectId == ProjectId);
+            var projectTasks = QueryProcessor.Find<Assignment>(new MatchAll<Assignment>()).Where(x => x.ProjectId == ProjectId);
 
             var model = new AssignmentListViewModel
             {

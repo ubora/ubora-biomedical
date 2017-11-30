@@ -30,7 +30,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var candidate2 = new Candidate();
 
             QueryProcessorMock.Setup(x => x.Find(It.IsAny<IsProjectCandidateSpec>()))
-                .Returns(new[] { candidate1, candidate2 });
+                .Returns(new PagedListStub<Candidate> { candidate1, candidate2 });
 
             var candidate1ItemViewModel = new CandidateItemViewModel();
             _candidateItemViewModelFactory.Setup(x => x.Create(candidate1))
