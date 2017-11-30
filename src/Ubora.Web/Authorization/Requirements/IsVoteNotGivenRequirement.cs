@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.Authorization;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Web.Services;
 
-namespace Ubora.Web.Authorization
+namespace Ubora.Web.Authorization.Requirements
 {
     public class IsVoteNotGivenRequirement : IAuthorizationRequirement
     {
         public class Handler : AuthorizationHandler<IsVoteNotGivenRequirement, Candidate>
         {
-            protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
+            protected override Task HandleRequirementAsync(
+                AuthorizationHandlerContext context,
                 IsVoteNotGivenRequirement requirement,
                 Candidate candidate)
             {

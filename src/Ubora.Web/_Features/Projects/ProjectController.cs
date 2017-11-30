@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
 using Ubora.Web.Authorization;
+using Ubora.Web.Authorization.Requirements;
 using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Projects

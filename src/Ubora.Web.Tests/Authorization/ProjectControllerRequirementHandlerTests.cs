@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Moq;
 using Ubora.Web.Authorization;
+using Ubora.Web.Authorization.Requirements;
 using Ubora.Web.Tests.Fakes;
 using Xunit;
 
