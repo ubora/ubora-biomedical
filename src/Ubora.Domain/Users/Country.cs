@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Ubora.Domain.Users
 {
@@ -16,6 +17,7 @@ namespace Ubora.Domain.Users
             Code = code;
         }
 
+        [JsonIgnore]
         public string EnglishName
         {
             get
@@ -36,13 +38,19 @@ namespace Ubora.Domain.Users
 
         public static IEnumerable<Country> GetAllCountries()
         {
-            var cultureInfos = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-            var regionInfos = cultureInfos.Select(cultureInfo => new RegionInfo(cultureInfo.Name)).Distinct();
+            var regionInfos = GetRegionInfos();
 
             var countries = regionInfos.Where(regionInfo => !string.IsNullOrEmpty(regionInfo.ThreeLetterISORegionName))
                 .Select(regionInfo => new Country(regionInfo.ThreeLetterISORegionName));
 
             return countries;
+        }
+
+        private static IEnumerable<RegionInfo> GetRegionInfos()
+        {
+            var cultureInfos = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+            var regionInfos = cultureInfos.Select(cultureInfo => new RegionInfo(cultureInfo.Name)).Distinct();
+            return regionInfos;
         }
     }
 }
