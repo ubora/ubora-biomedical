@@ -18,20 +18,20 @@ namespace Ubora.Domain.Users
         [Identity]
         public Guid UserId { get; private set; }
 
-        public string Email { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Biography { get; set; }
-        public Country Country { get; set; }
-        public string Degree { get; set; }
-        public string Field { get; set; }
-        public string University { get; set; }
-        public string MedicalDevice { get; set; }
-        public string Institution { get; set; }
-        public string Skills { get; set; }
-        public string Role { get; set; }
-        public BlobLocation ProfilePictureBlobLocation { get; set; }
-        public bool IsDeleted { get; set; }
+        public string Email { get; internal set; }
+        public string FirstName { get; internal set; }
+        public string LastName { get; internal set; }
+        public string Biography { get; internal set; }
+        public Country Country { get; internal set; }
+        public string Degree { get; internal set; }
+        public string Field { get; internal set; }
+        public string University { get; internal set; }
+        public string MedicalDevice { get; internal set; }
+        public string Institution { get; internal set; }
+        public string Skills { get; internal set; }
+        public string Role { get; internal set; }
+        public BlobLocation ProfilePictureBlobLocation { get; internal set; }
+        public bool IsDeleted { get; internal set; }
 
         public string FullName => $"{FirstName} {LastName}";
     }
