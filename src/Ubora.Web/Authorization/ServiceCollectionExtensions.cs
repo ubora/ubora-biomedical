@@ -21,7 +21,6 @@ namespace Ubora.Web.Authorization
         {
             // NOTE: For logical OR evaluation implement multiple handlers for a requirement.
             services.AddSingleton<IAuthorizationHandler, ProjectControllerRequirement.Handler>();
-            services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<ProjectControllerRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<ProjectNonPublicContentViewingRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<IsProjectMemberRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<ProjectNonPublicContentViewingRequirement>>();
@@ -45,6 +44,10 @@ namespace Ubora.Web.Authorization
                 options.AddPolicy(Policies.CanViewProjectNonPublicContent, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new ProjectNonPublicContentViewingRequirement());
+                });
+                options.AddPolicy(Policies.CanWorkOnProjectContent, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                 });
                 options.AddPolicy(Policies.ProjectController, policyBuilder =>
                 {

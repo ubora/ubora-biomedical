@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
@@ -50,10 +51,15 @@ namespace Ubora.Web.Tests.Authorization
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async Task Handler_Authorizes_Whether_User_Can_View_Non_Public_Content_Of_Given_Project(
+        public async Task Handler_Authorizes_For_Get_HTTP_Requests_Whether_User_Can_View_Non_Public_Content_Of_Given_Project(
             bool isAuthorized)
         {
             var httpContextMock = new Mock<HttpContext>();
+
+            httpContextMock
+                .Setup(x => x.Request.Method)
+                .Returns(HttpMethod.Get.ToString);
+
             var actionContext = new EmptyInitializedActionContext
             {
                 HttpContext = httpContextMock.Object,
@@ -77,6 +83,51 @@ namespace Ubora.Web.Tests.Authorization
 
             authorizationServiceMock
                 .Setup(x => x.AuthorizeAsync(currentUser, null, Policies.CanViewProjectNonPublicContent))
+                .ReturnsAsync(isAuthorized ? AuthorizationResult.Success() : AuthorizationResult.Failed());
+
+            // Act
+            await _handlerUnderTest.HandleAsync(handlerContext);
+
+            // Assert
+            handlerContext.HasSucceeded
+                .Should().Be(isAuthorized);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task Handler_Authorizes_For_Post_HTTP_Requests_Whether_User_Can_Work_On_Project_Content(
+            bool isAuthorized)
+        {
+            var httpContextMock = new Mock<HttpContext>();
+
+            httpContextMock
+                .Setup(x => x.Request.Method)
+                .Returns(HttpMethod.Post.ToString);
+
+            var actionContext = new EmptyInitializedActionContext
+            {
+                HttpContext = httpContextMock.Object,
+            };
+
+            var filterContext = new AuthorizationFilterContext(
+                actionContext: actionContext,
+                filters: new List<IFilterMetadata>());
+
+            var currentUser = FakeClaimsPrincipalFactory.CreateAnonymousUser();
+            var handlerContext = new AuthorizationHandlerContext(
+                requirements: new[] { new ProjectControllerRequirement() },
+                user: currentUser,
+                resource: filterContext);
+
+            var authorizationServiceMock = new Mock<IAuthorizationService>();
+
+            httpContextMock
+                .Setup(ctx => ctx.RequestServices.GetService(typeof(IAuthorizationService)))
+                .Returns(authorizationServiceMock.Object);
+
+            authorizationServiceMock
+                .Setup(x => x.AuthorizeAsync(currentUser, null, Policies.CanWorkOnProjectContent))
                 .ReturnsAsync(isAuthorized ? AuthorizationResult.Success() : AuthorizationResult.Failed());
 
             // Act

@@ -3,6 +3,7 @@
     public class Policies
     {
         public const string CanViewProjectNonPublicContent = nameof(CanViewProjectNonPublicContent);
+        public const string CanWorkOnProjectContent = nameof(CanWorkOnProjectContent);
         public const string ProjectController = nameof(ProjectController);
         public const string IsAuthenticatedUser = nameof(IsAuthenticatedUser);
         public const string CanRemoveProjectMember = nameof(CanRemoveProjectMember);

@@ -1,5 +1,5 @@
-using System;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -16,8 +16,6 @@ namespace Ubora.Web.Authorization.Requirements
             {
                 var filterContext = (AuthorizationFilterContext)context.Resource; // Assumes that resource is passed by controller action.
 
-                //throw new InvalidOperationException(filterContext.HttpContext.Request.Method);
-
                 // Always succeed requirement when disabling filter is present. 
                 // (It probably means that there is another less restrictive policy specified on derived action/controller.)
                 var filters = filterContext.Filters;
@@ -31,7 +29,24 @@ namespace Ubora.Web.Authorization.Requirements
                 var serviceProvider = filterContext.HttpContext.RequestServices;
                 var authorizationService = serviceProvider.GetService<IAuthorizationService>();
 
-                var isAuthorized = await authorizationService.IsAuthorizedAsync(context.User, Policies.CanViewProjectNonPublicContent);
+                // Authorize differently based on HTTP method.
+                var httpMethod = new HttpMethod(filterContext.HttpContext.Request.Method);
+                bool isAuthorized;
+
+                if (httpMethod == HttpMethod.Get)
+                {
+                    isAuthorized = await authorizationService.IsAuthorizedAsync(context.User, Policies.CanViewProjectNonPublicContent);
+                }
+                else if (httpMethod == HttpMethod.Put)
+                {
+                    isAuthorized = await authorizationService.IsAuthorizedAsync(context.User, Policies.CanWorkOnProjectContent);
+                }
+                // Other HTTP methods not yet accounted for.
+                else
+                {
+                    isAuthorized = false;
+                }
+
                 if (isAuthorized)
                 {
                     context.Succeed(requirement);
