@@ -27,18 +27,19 @@ namespace Ubora.Domain.Users
                     return "";
                 }
 
-                var cultureInfos = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+                var regionInfos = GetRegionInfos();
+                var countryNames = regionInfos.Where(regionInfo => regionInfo.ThreeLetterISORegionName == Code.ToUpper())
+                    .ToList();
 
-                var regionInfos = cultureInfos.Select(cultureInfo => new RegionInfo(cultureInfo.Name));
-                var countryNames = regionInfos.Where(regionInfo => regionInfo.ThreeLetterISORegionName == Code.ToUpper());
-
-                return countryNames.FirstOrDefault()?.EnglishName;
+                return countryNames.FirstOrDefault() != null
+                    ? countryNames.First().EnglishName
+                    : Code;
             }
         }
 
         public static IEnumerable<Country> GetAllCountries()
         {
-            var regionInfos = GetRegionInfos();
+            var regionInfos = GetRegionInfos().Distinct();
 
             var countries = regionInfos.Where(regionInfo => !string.IsNullOrEmpty(regionInfo.ThreeLetterISORegionName))
                 .Select(regionInfo => new Country(regionInfo.ThreeLetterISORegionName));
@@ -49,7 +50,7 @@ namespace Ubora.Domain.Users
         private static IEnumerable<RegionInfo> GetRegionInfos()
         {
             var cultureInfos = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-            var regionInfos = cultureInfos.Select(cultureInfo => new RegionInfo(cultureInfo.Name)).Distinct();
+            var regionInfos = cultureInfos.Select(cultureInfo => new RegionInfo(cultureInfo.Name));
             return regionInfos;
         }
     }

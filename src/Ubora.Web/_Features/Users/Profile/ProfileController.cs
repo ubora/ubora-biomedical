@@ -108,6 +108,7 @@ namespace Ubora.Web._Features.Users.Profile
             ViewData["ReturnUrl"] = returnUrl;
             var firstTimeEditProfileModel = new FirstTimeEditProfileModel
             {
+                FirstTimeUserProfileViewModel = new FirstTimeUserProfileViewModel(),
                 ProfilePictureViewModel = new ProfilePictureViewModel
                 {
                     IsFirstTimeEditProfile = true

@@ -13,6 +13,7 @@ namespace Ubora.Domain.Tests.Users
         [InlineData("KEN", "Kenya")]
         [InlineData("EST", "Estonia")]
         [InlineData("", "")]
+        [InlineData("falseCode", "falseCode")]
         public void EnglishName_Returns_Correct_Country_Name_Based_On_Three_Letter_Code(
             string countryCode, string expectedCountry)
         {
