@@ -82,10 +82,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
-            var model = new HealthTechnologySpecificationsViewModel
+            var deviceStructuredInformation = QueryProcessor.FindById<DeviceStructuredInformation>(ProjectId);
+            if (deviceStructuredInformation == null)
             {
-                
-            };
+                return View();
+            }
+
+            var model = modelFactory.Create(deviceStructuredInformation.HealthTechnologySpecification);
 
             return View(model);
         }

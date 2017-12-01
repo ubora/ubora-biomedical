@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.Commands;
 using Ubora.Domain.Projects.StructuredInformations.Portabilities;
@@ -29,6 +30,110 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         public class Factory
         {
+            private readonly IMapper _autoMapper;
+
+            public Factory(IMapper autoMapper)
+            {
+                _autoMapper = autoMapper;
+            }
+
+            protected Factory()
+            {
+            }
+
+            public virtual HealthTechnologySpecificationsViewModel Create(HealthTechnologySpecificationsInformation domainAggregate)
+            {
+                var model = new HealthTechnologySpecificationsViewModel();
+
+                model.DeviceMeasurementsViewModel = new DeviceMeasurementsViewModel
+                {
+                    DimensionsWidth = domainAggregate.DeviceMeasurements.DimensionsWidth,
+                    DimensionsHeight = domainAggregate.DeviceMeasurements.DimensionsHeight,
+                    DimensionsLength = domainAggregate.DeviceMeasurements.DimensionsLength,
+                    WeightInKilograms = domainAggregate.DeviceMeasurements.WeightInKilograms
+                };
+
+                model.DoesItRequireUseOfConsumables = domainAggregate.UseOfConsumables.IsRequired;
+                model.IfRequiresConsumablesListConsumables = domainAggregate.UseOfConsumables.IfRequiresConsumablesListConsumables;
+
+                model.EstimatedLifeTimeInDays = domainAggregate.EstimatedLifeTime.Days;
+                model.EstimatedLifeTimeInMonths = domainAggregate.EstimatedLifeTime.Months;
+                model.EstimatedLifeTimeInMonths = domainAggregate.EstimatedLifeTime.Years;
+
+                model.EstimatedShelfLifeInDays = domainAggregate.EstimatedShelfTime.Days;
+                model.EstimatedShelfLifeInMonths = domainAggregate.EstimatedShelfTime.Months;
+                model.EstimatedLifeTimeInYears = domainAggregate.EstimatedShelfTime.Years;
+
+                model.CanItHaveATelemedicineOrEHealthApplication = domainAggregate.CanItHaveATelemedicineOrEHealthApplication;
+
+                model.DeviceSoftwareUsageViewModel = new DeviceSoftwareUsageViewModel
+                {
+                    DoesItUseAnyKindOfSoftware = domainAggregate.DeviceSoftwareUsage.DoesItUseAnyKindOfSoftware,
+                    IfUsesSoftwareDescribeSoftware = domainAggregate.DeviceSoftwareUsage.IfUsesSoftwareDescribeSoftware,
+                    IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse = domainAggregate.DeviceSoftwareUsage.IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse
+                };
+
+                model.PortabilityKey = domainAggregate.Portability.Key;
+
+                model.TypeOfUseKey = domainAggregate.TypeOfUse.Key;
+
+                model.TechnologyMaintenanceViewModel = new TechnologyMaintenanceViewModel
+                {
+                    DoesTechnologyRequireMaintenance = domainAggregate.Maintenance.DoesTechnologyRequireMaintenance,
+                    IfTechnologyRequiresMaintenanceSpecifyType = domainAggregate.Maintenance.MaintenanceType,
+                    IfTechnologyRequiresMaintenanceSpecifyFrequency = domainAggregate.Maintenance.MaintenanceFrequency,
+                    IfTechnologyRequiresMaintenanceCanItBeDoneOnSiteOrHomeOrCommunity = domainAggregate.Maintenance.CanMaintenanceBeDoneOnSiteOrHomeOrCommunity,
+                    IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance = domainAggregate.Maintenance.ProviderOfMaintenance.Key,
+                };
+                if (domainAggregate.Maintenance.ProviderOfMaintenance.GetType() == typeof(OtherProviderOfMaintenance))
+                {
+                    model.TechnologyMaintenanceViewModel.IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenanceOther = domainAggregate.Maintenance.ProviderOfMaintenance.ToDisplayName();
+                }
+
+                model.EnergyRequirements = new EnergyRequirementsViewModel
+                {
+                    Batteries = domainAggregate.EnergyRequirements.Batteries,
+                    ContinuousPowerSupply = domainAggregate.EnergyRequirements.ContinuousPowerSupply.IsRequired,
+                    IfContinuousPowerSupplyThenRequiredVoltage = domainAggregate.EnergyRequirements.ContinuousPowerSupply.IfContinuousPowerSupplyThenRequiredVoltage,
+                    PowerSupplyForRecharging = domainAggregate.EnergyRequirements.PowerSupplyForRecharging.IsRequired,
+                    IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours = domainAggregate.EnergyRequirements.PowerSupplyForRecharging.PowerSupplyForRechargingRequiredBatteryLife.Hours,
+                    IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes = domainAggregate.EnergyRequirements.PowerSupplyForRecharging.PowerSupplyForRechargingRequiredBatteryLife.Minutes,
+                    IfPowerSupplyForRechargingThenRequiredVoltage = domainAggregate.EnergyRequirements.PowerSupplyForRecharging.IfPowerSupplyForRechargingThenRequiredVoltage,
+                    IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours = domainAggregate.EnergyRequirements.PowerSupplyForRecharging.PowerSupplyForRechargingRequiredTimeToRecharge.Hours,
+                    IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes = domainAggregate.EnergyRequirements.PowerSupplyForRecharging.PowerSupplyForRechargingRequiredTimeToRecharge.Minutes,
+                    SolarPower = domainAggregate.EnergyRequirements.SolarPower.IsRequired,
+                    IfSolarPowerThenBatteryLifeInHours = domainAggregate.EnergyRequirements.SolarPower.SolarPowerBatteryLife.Hours,
+                    IfSolarPowerThenBatteryLifeInMinutes = domainAggregate.EnergyRequirements.SolarPower.SolarPowerBatteryLife.Minutes,
+                    IfSolarPowerThenTimeInSunlightRequiredToChargeInHours = domainAggregate.EnergyRequirements.SolarPower.SolarPowerTimeInSunlightRequiredToCharge.Hours,
+                    IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes = domainAggregate.EnergyRequirements.SolarPower.SolarPowerTimeInSunlightRequiredToCharge.Minutes,
+                    MechanicalEnergy = domainAggregate.EnergyRequirements.MechanicalEnergy,
+                    Other = domainAggregate.EnergyRequirements.Other,
+                    OtherText = domainAggregate.EnergyRequirements.OtherText
+                };
+
+                model.FacilityRequirements = new FacilityRequirementsViewModel
+                {
+                    SpecificTemperatureAndOrHumidityRange = domainAggregate.FacilityRequirements.SpecificTemperatureAndOrHumidityRange,
+                    IfSpecificTemperatureAndOrHumidityRangeThenDescription = domainAggregate.FacilityRequirements.IfSpecificTemperatureAndOrHumidityRangeThenDescription,
+                    ClinicalWasteDisposalFacilities = domainAggregate.FacilityRequirements.ClinicalWasteDisposalFacilities,
+                    IfClinicalWasteDisposalFacilitiesThenDescription = domainAggregate.FacilityRequirements.IfClinicalWasteDisposalFacilitiesThenDescription,
+                    GasSupply = domainAggregate.FacilityRequirements.GasSupply,
+                    IfGasSupplyThenDescription = domainAggregate.FacilityRequirements.IfGasSupplyThenDescription,
+                    Sterilization = domainAggregate.FacilityRequirements.Sterilization,
+                    IfSterilizationThenDescription = domainAggregate.FacilityRequirements.IfSterilizationThenDescription,
+                    RadiationIsolation = domainAggregate.FacilityRequirements.RadiationIsolation,
+                    CleanWaterSupply = domainAggregate.FacilityRequirements.CleanWaterSupply,
+                    AccessToInternet = domainAggregate.FacilityRequirements.AccessToInternet,
+                    AccessToCellularPhoneNetwork = domainAggregate.FacilityRequirements.AccessToCellularPhoneNetwork,
+                    ConnectionToLaptopComputer = domainAggregate.FacilityRequirements.ConnectionToLaptopComputer,
+                    AccessibleByCar = domainAggregate.FacilityRequirements.AccessibleByCar,
+                    AdditionalSoundOrLightControlFacilites = domainAggregate.FacilityRequirements.AdditionalSoundOrLightControlFacilites,
+                    Other = domainAggregate.FacilityRequirements.Other,
+                    OtherText = domainAggregate.FacilityRequirements.OtherText
+                };
+
+                return model;
+            }
         }
 
         public class Mapper

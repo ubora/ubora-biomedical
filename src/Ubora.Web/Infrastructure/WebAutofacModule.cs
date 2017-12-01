@@ -82,6 +82,7 @@ namespace Ubora.Web.Infrastructure
 
             builder.RegisterType<PreMailerFactory>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<UserAndEnvironmentInformationViewModel.Mapper>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<HealthTechnologySpecificationsViewModel.Mapper>().AsSelf().InstancePerLifetimeScope();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)
