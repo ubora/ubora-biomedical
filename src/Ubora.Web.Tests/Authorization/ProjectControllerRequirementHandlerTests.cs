@@ -50,7 +50,7 @@ namespace Ubora.Web.Tests.Authorization
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async Task Handler_Authorizes_Whether_User_Can_View_Private_Content_Of_Given_Project(
+        public async Task Handler_Authorizes_Whether_User_Can_View_Non_Public_Content_Of_Given_Project(
             bool isAuthorized)
         {
             var httpContextMock = new Mock<HttpContext>();
@@ -76,7 +76,7 @@ namespace Ubora.Web.Tests.Authorization
                 .Returns(authorizationServiceMock.Object);
 
             authorizationServiceMock
-                .Setup(x => x.AuthorizeAsync(currentUser, null, Policies.CanViewProjectPrivateContent))
+                .Setup(x => x.AuthorizeAsync(currentUser, null, Policies.CanViewProjectNonPublicContent))
                 .ReturnsAsync(isAuthorized ? AuthorizationResult.Success() : AuthorizationResult.Failed());
 
             // Act

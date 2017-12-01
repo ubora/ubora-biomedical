@@ -3,19 +3,19 @@
 @model Ubora.Web._Features.Projects._Shared.ProjectMenuViewModel
 
 @{
-    var canViewProjectPrivateContent = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanViewProjectPrivateContent);
+    var canViewProjectNonPublicContent = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanViewProjectNonPublicContent);
 }
 
 <nav class="wp-header nav nav-tabs flex-column flex-md-row justify-content-around">
   <a class="nav-item nav-link @Model.OverviewActivityCssClass" asp-controller="Dashboard" asp-action="Dashboard">Project overview</a>
-  @if (canViewProjectPrivateContent)
+  @if (canViewProjectNonPublicContent)
   {
     <a class="nav-item nav-link @Model.WorkpackagesActivityCssClass" asp-controller="WorkpackageOne" asp-action="ProjectOverview">Work packages</a>
     <a class="nav-item nav-link @Model.RepositoryActivityCssClass" asp-controller="Repository" asp-action="Repository">Repository</a>
     <a class="nav-item nav-link @Model.TasksActivityCssClass" asp-controller="Assignments" asp-action="Assignments">Assignments</a>
   }
   <a class="nav-item nav-link @Model.MembersActivityCssClass" asp-controller="Members" asp-action="Members">Members</a>
-  @if (canViewProjectPrivateContent)
+  @if (canViewProjectNonPublicContent)
   {
       <a class="nav-item nav-link @Model.HistoryActivityCssClass" asp-controller="History" asp-action="History">History</a>
   }

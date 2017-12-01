@@ -22,9 +22,9 @@ namespace Ubora.Web.Authorization
             // NOTE: For logical OR evaluation implement multiple handlers for a requirement.
             services.AddSingleton<IAuthorizationHandler, ProjectControllerRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<ProjectControllerRequirement>>();
-            services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<ProjectPrivateContentViewingRequirement>>();
+            services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<ProjectNonPublicContentViewingRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<IsProjectMemberRequirement>>();
-            services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<ProjectPrivateContentViewingRequirement>>();
+            services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<ProjectNonPublicContentViewingRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsProjectLeaderRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMentorRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsWorkpackageOneNotLockedRequirement.Handler>();
@@ -42,10 +42,10 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                 });
-                options.AddPolicy(Policies.CanViewProjectPrivateContent, policyBuilder =>
+                options.AddPolicy(Policies.CanViewProjectNonPublicContent, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
-                    policyBuilder.AddRequirements(new ProjectPrivateContentViewingRequirement());
+                    policyBuilder.AddRequirements(new ProjectNonPublicContentViewingRequirement());
                 });
                 options.AddPolicy(Policies.ProjectController, policyBuilder =>
                 {
