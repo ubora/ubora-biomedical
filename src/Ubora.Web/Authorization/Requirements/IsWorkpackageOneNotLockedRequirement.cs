@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Ubora.Domain.Projects.Workpackages;
 
-namespace Ubora.Web.Authorization
+namespace Ubora.Web.Authorization.Requirements
 {
     public class IsWorkpackageOneNotLockedRequirement : IAuthorizationRequirement
     {

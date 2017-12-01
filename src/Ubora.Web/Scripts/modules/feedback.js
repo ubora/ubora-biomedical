@@ -1,5 +1,5 @@
 export class Feedback {
-    constructor(triggerElement) {
+    static initialize(triggerElement) {
         const modal = document.querySelector('.js-feedback-modal');
         const modalSendButton = document.querySelector('.js-feedback-send');
         const modalCloseButton = document.querySelector('.js-feedback-close');
@@ -92,5 +92,5 @@ export class Feedback {
 
 const feedbackButtonElement = document.querySelector('.js-feedback-trigger');
 if (feedbackButtonElement) {
-    new Feedback(feedbackButtonElement);
+    Feedback.initialize(feedbackButtonElement);
 }

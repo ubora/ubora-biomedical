@@ -7,13 +7,13 @@
             @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
         </div>
         <div class="col-lg-9 pr-5">
-            <p>Chosen class: @Model.ChosenClass</p>
+            <h1 class="display-4 mb-4">Chosen class: @Model.ChosenClass</h1>
             <ul class="list-group">
                 @foreach (var question in Model.Questions)
                 {
                   <li class="list-group-item">
                     <div class="flex-column">
-                      <h5>@question.QuestionText</h5>
+                      <p class="font-weight-bold">@question.QuestionText</p>
                       <p>@question.AnswerText</p>
                     </div>
                   </li>
