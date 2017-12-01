@@ -44,7 +44,6 @@ namespace Ubora.Web.Authorization
                 });
                 options.AddPolicy(Policies.CanViewProjectNonPublicContent, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new ProjectNonPublicContentViewingRequirement());
                 });
                 options.AddPolicy(Policies.ProjectController, policyBuilder =>
@@ -74,12 +73,10 @@ namespace Ubora.Web.Authorization
                 });
                 options.AddPolicy(Policies.CanCreateProject, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsEmailConfirmedRequirement());
                 });
                 options.AddPolicy(Policies.CanJoinProject, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsEmailConfirmedRequirement());
                 });
                 options.AddPolicy(Policies.CanChangeProjectImage, policyBuilder =>
@@ -92,27 +89,22 @@ namespace Ubora.Web.Authorization
                 });
                 options.AddPolicy(Policies.CanDeleteProject, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.RequireRole(ApplicationRole.Admin);
                 });
                 options.AddPolicy(Policies.CanAddProjectCandidate, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
                 options.AddPolicy(Policies.CanEditProjectCandidate, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
                 options.AddPolicy(Policies.CanChangeProjectCandidateImage, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
                 options.AddPolicy(Policies.CanRemoveProjectCandidateImage, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
                 options.AddPolicy(Policies.CanEditComment, policyBuilder =>
