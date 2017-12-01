@@ -3,7 +3,7 @@ using Ubora.Domain.Notifications;
 
 namespace Ubora.Domain.Projects.Members
 {
-    public class ProjectMentorInvitation : UserBinaryAction
+    public class ProjectMentorInvitation : UserBinaryAction, IProjectEntity
     {
         public ProjectMentorInvitation(Guid inviteeUserId, Guid projectId, Guid invitedBy) : base(inviteeUserId)
         {

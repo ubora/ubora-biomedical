@@ -2,9 +2,11 @@
 using Moq;
 using System;
 using System.Collections.Generic;
+using Marten.Pagination;
 using Ubora.Web._Features.Notifications;
 using Xunit;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Notifications;
 using Ubora.Domain.Notifications.Commands;
 using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects.Members;
@@ -28,7 +30,7 @@ namespace Ubora.Web.Tests._Features.Notifications
         public void Index_Marks_Invitations_As_Viewed()
         {
             var invitation = new InvitationToProject(UserId, Guid.NewGuid());
-            var invitations = new List<InvitationToProject> { invitation };
+            var invitations = new Domain.Tests.PagedListStub<INotification> { invitation };
 
             QueryProcessorMock
                 .Setup(x => x.Find(new HasPendingNotifications(UserId)))
