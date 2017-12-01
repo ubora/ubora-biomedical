@@ -14,8 +14,7 @@ namespace Ubora.Domain.Tests.Projects.StructuredInformations
         public void Edits_User_And_Environment_Information_Of_Device()
         {
             var projectId = Guid.NewGuid();
-            var userAndEnvironmentInformation = UserAndEnvironmentInformation.CreateEmpty()
-                .Set(x => x.IntendedUser, new Nurse());
+            var userAndEnvironmentInformation = UserAndEnvironmentInformation.CreateEmpty();
 
             this.Given(_ => this.Create_Project(projectId))
                     .And(_ => this.Submit_Workpackage_One_For_Review(projectId))

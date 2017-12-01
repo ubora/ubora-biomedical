@@ -78,7 +78,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [Route(nameof(HealthTechnologySpecifications))]
-        public IActionResult HealthTechnologySpecifications()
+        public virtual IActionResult HealthTechnologySpecifications([FromServices] HealthTechnologySpecificationsViewModel.Factory modelFactory)
         {
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
@@ -92,11 +92,22 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         [HttpPost]
         [Route(nameof(HealthTechnologySpecifications))]
-        public IActionResult HealthTechnologySpecifications(HealthTechnologySpecificationsViewModel model)
+        public IActionResult EditHealthTechnologySpecifications(
+            HealthTechnologySpecificationsViewModel model,
+            [FromServices] HealthTechnologySpecificationsViewModel.Mapper modelMapper,
+            [FromServices] HealthTechnologySpecificationsViewModel.Factory modelFactory)
         {
             if (!ModelState.IsValid)
             {
-                return HealthTechnologySpecifications();
+                return HealthTechnologySpecifications(modelFactory);
+            }
+
+            var command = modelMapper.MapToCommand(model);
+            ExecuteUserProjectCommand(command);
+
+            if (!ModelState.IsValid)
+            {
+                return HealthTechnologySpecifications(modelFactory);
             }
 
             return RedirectToAction(nameof(StructuredInformationOnTheDeviceResult));

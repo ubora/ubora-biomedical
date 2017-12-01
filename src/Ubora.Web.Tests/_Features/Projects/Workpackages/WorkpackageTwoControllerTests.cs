@@ -92,31 +92,49 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         [Fact]
         public void EditHealthTechnologySpecifications_Executes_Command_When_Valid_Model()
         {
-            
+            var postModel = new HealthTechnologySpecificationsViewModel();
+            var modelMapperMock = new Mock<HealthTechnologySpecificationsViewModel.Mapper>();
+            var expectedExecutedCommand = new EditHealthTechnologySpecificationInformationCommand();
+
+            modelMapperMock.Setup(m => m.MapToCommand(postModel))
+                .Returns(expectedExecutedCommand);
+
+            CommandProcessorMock
+                .Setup(x => x.Execute(expectedExecutedCommand))
+                .Returns(CommandResult.Success);
+
+            // Act
+            var result = (RedirectToActionResult)_controller.EditHealthTechnologySpecifications(postModel, modelMapperMock.Object, Mock.Of<HealthTechnologySpecificationsViewModel.Factory>());
+
+            // Assert
+            CommandProcessorMock
+                .Verify(x => x.Execute(It.IsAny<EditHealthTechnologySpecificationInformationCommand>()), Times.Once);
+
+            result.ActionName.Should().Be(nameof(WorkpackageTwoController.StructuredInformationOnTheDeviceResult));
         }
 
-        //[Fact]
-        //public void EditUserAndEnvironment_Does_Not_Execute_Command_When_Invalid_Model()
-        //{
-        //    var expectedResult = Mock.Of<IActionResult>();
-        //    var modelFactory = Mock.Of<UserAndEnvironmentInformationViewModel.Factory>();
+        [Fact]
+        public void EditHealthTechnologySpecifications_Does_Not_Execute_Command_When_Invalid_Model()
+        {
+            var expectedResult = Mock.Of<IActionResult>();
+            var modelFactory = Mock.Of<HealthTechnologySpecificationsViewModel.Factory>();
 
-        //    _controllerMock.Setup(c => c.UserAndEnvironment(modelFactory))
-        //        .Returns(expectedResult);
+            _controllerMock.Setup(c => c.HealthTechnologySpecifications(modelFactory))
+                .Returns(expectedResult);
 
-        //    var model = new UserAndEnvironmentInformationViewModel();
-        //    var modelMapper = Mock.Of<UserAndEnvironmentInformationViewModel.Mapper>();
+            var model = new HealthTechnologySpecificationsViewModel();
+            var modelMapper = Mock.Of<HealthTechnologySpecificationsViewModel.Mapper>();
 
-        //    _controller.ViewData.ModelState.AddModelError("", "error");
+            _controller.ViewData.ModelState.AddModelError("", "error");
 
-        //    // Act
-        //    var result = _controller.EditUserAndEnvironment(model, modelMapper, modelFactory);
+            // Act
+            var result = _controller.EditHealthTechnologySpecifications(model, modelMapper, modelFactory);
 
-        //    // Assert
-        //    CommandProcessorMock
-        //        .Verify(x => x.Execute(It.IsAny<EditUserAndEnvironmentInformationCommand>()), Times.Never);
+            // Assert
+            CommandProcessorMock
+                .Verify(x => x.Execute(It.IsAny<EditHealthTechnologySpecificationInformationCommand>()), Times.Never);
 
-        //    result.Should().BeSameAs(expectedResult);
-        //}
+            result.Should().BeSameAs(expectedResult);
+        }
     }
 }

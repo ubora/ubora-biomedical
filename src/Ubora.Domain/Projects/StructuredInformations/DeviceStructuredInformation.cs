@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.StructuredInformations.Events;
 using Ubora.Domain.Projects.Workpackages.Events;
@@ -34,6 +35,8 @@ namespace Ubora.Domain.Projects.StructuredInformations
         {
             if (Id == default(Guid)) throw new InvalidOperationException();
             if (ProjectId == default(Guid)) throw new InvalidOperationException();
+
+            HealthTechnologySpecification = e.HealthTechnologySpecificationsInformation ?? throw new InvalidOperationException();
         }
     }
 }

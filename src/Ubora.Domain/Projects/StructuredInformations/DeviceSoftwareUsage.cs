@@ -16,9 +16,27 @@ namespace Ubora.Domain.Projects.StructuredInformations
         {
         }
 
-        public bool DoesItUseAnyKindOfSoftware { get; set; }
-        public string IfUsesSoftwareDescribeSoftware { get; set; }
-        public string IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse { get; set; }
+        public bool DoesItUseAnyKindOfSoftware { get; private set; }
+        public string IfUsesSoftwareDescribeSoftware { get; private set; }
+        public string IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse { get; private set; }
+
+        public static DeviceSoftwareUsage CreateSoftwareIsUsed(string description, string localUseDescription)
+        {
+            return new DeviceSoftwareUsage
+            {
+                DoesItUseAnyKindOfSoftware = true,
+                IfUsesSoftwareDescribeSoftware = description,
+                IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse = localUseDescription
+            };
+        }
+
+        public static DeviceSoftwareUsage CreateSoftwareIsNotUsed()
+        {
+            return new DeviceSoftwareUsage
+            {
+                DoesItUseAnyKindOfSoftware = false
+            };
+        }
 
         public static DeviceSoftwareUsage CreateEmpty()
         {

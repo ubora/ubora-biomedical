@@ -1,31 +1,46 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace Ubora.Domain.Projects.StructuredInformations
 {
     public class EnergyRequirementsInformation
     {
-        public bool MechanicalEnergy { get; set; }
-        public bool Batteries { get; set; }
+        public EnergyRequirementsInformation(
+            bool mechanicalEnergy, 
+            bool batteries, 
+            PowerSupplyForRecharging powerSupplyForRecharging, 
+            ContinuousPowerSupply continuousPowerSupply, 
+            SolarPower solarPower, 
+            bool other, 
+            string otherText)
+        {
+            MechanicalEnergy = mechanicalEnergy;
+            Batteries = batteries;
+            PowerSupplyForRecharging = powerSupplyForRecharging ?? throw new ArgumentNullException(nameof(powerSupplyForRecharging));
+            ContinuousPowerSupply = continuousPowerSupply ?? throw new ArgumentNullException(nameof(continuousPowerSupply));
+            SolarPower = solarPower ?? throw new ArgumentNullException(nameof(solarPower));
+            Other = other;
+            OtherText = otherText;
+        }
 
-        public PowerSupplyForRecharging PowerSupplyForRecharging { get; set; }
+        [JsonConstructor]
+        public EnergyRequirementsInformation()
+        {
+        }
 
-        public bool ContinuousPowerSupply { get; set; }
-        public decimal IfContinuousPowerSupplyThenRequiredVoltage { get; set; }
+        public bool MechanicalEnergy { get; private set; }
+        public bool Batteries { get; private set; }
 
-        public bool SolarPower { get; set; }
-        public TimeSpan? SolarPowerTimeInSunlightRequiredToCharge { get; set; }
-        public TimeSpan? SolarPowerBatteryLife { get; set; }
+        public PowerSupplyForRecharging PowerSupplyForRecharging { get; private set; } = PowerSupplyForRecharging.CreateEmpty();
+        public ContinuousPowerSupply ContinuousPowerSupply { get; private set; } = ContinuousPowerSupply.CreateEmpty();
+        public SolarPower SolarPower { get; private set; } = SolarPower.CreateEmpty();
 
-        public bool Other { get; set; }
-        public string OtherText { get; set; }
+        public bool Other { get; private set; }
+        public string OtherText { get; private set; }
+
+        public static EnergyRequirementsInformation CreateEmpty()
+        {
+            return new EnergyRequirementsInformation();
+        }
     }
-
-    public class PowerSupplyForRecharging
-    {
-        public bool IsRequired { get; set; }
-        public decimal IfPowerSupplyForRechargingThenRequiredVoltage { get; set; }
-        public TimeSpan PowerSupplyForRechargingRequiredTimeToRecharge { get; set; }
-        public TimeSpan PowerSupplyForRechargingRequiredBatteryLife { get; set; }
-    }
-
 }

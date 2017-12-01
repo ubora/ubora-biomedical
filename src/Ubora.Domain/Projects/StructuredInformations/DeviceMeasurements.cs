@@ -13,14 +13,14 @@ namespace Ubora.Domain.Projects.StructuredInformations
         }
 
         [JsonConstructor]
-        private DeviceMeasurements()
+        public DeviceMeasurements()
         {
         }
 
-        public decimal DimensionsHeight { get; set; }
-        public decimal DimensionsLength { get; set; }
-        public decimal DimensionsWidth { get; set; }
-        public decimal WeightInKilograms { get; set; }
+        public decimal DimensionsHeight { get; private set; }
+        public decimal DimensionsLength { get; private set; }
+        public decimal DimensionsWidth { get; private set; }
+        public decimal WeightInKilograms { get; private set; }
 
         public static DeviceMeasurements CreateEmpty()
         {

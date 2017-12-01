@@ -20,11 +20,31 @@ namespace Ubora.Domain.Projects.StructuredInformations
         {
         }
 
-        public bool DoesTechnologyRequireMaintenance { get; set; }
-        public string MaintenanceType { get; set; }
-        public string MaintenanceFrequency { get; set; }
-        public bool CanMaintenanceBeDoneOnSiteOrHomeOrCommunity { get; set; }
-        public ProviderOfMaintenance ProviderOfMaintenance { get; set; } = new EmptyProviderOfMaintenance();
+        public bool DoesTechnologyRequireMaintenance { get; private set; }
+        public string MaintenanceType { get; private set; }
+        public string MaintenanceFrequency { get; private set; }
+        public bool CanMaintenanceBeDoneOnSiteOrHomeOrCommunity { get; private set; }
+        public ProviderOfMaintenance ProviderOfMaintenance { get; private set; } = new EmptyProviderOfMaintenance();
+
+        public static MaintenanceInformation CreateMaintenanceRequired(string type, string frequency, bool canBeDoneOnSitrOrHomeOrCommunity, ProviderOfMaintenance provider)
+        {
+            return new MaintenanceInformation
+            {
+                DoesTechnologyRequireMaintenance = true,
+                MaintenanceType = type,
+                MaintenanceFrequency = frequency,
+                CanMaintenanceBeDoneOnSiteOrHomeOrCommunity = true,
+                ProviderOfMaintenance = provider
+            };
+        }
+
+        public static MaintenanceInformation CreateMaintenanceNotRequired()
+        {
+            return new MaintenanceInformation
+            {
+                DoesTechnologyRequireMaintenance = false
+            };
+        }
 
         public static MaintenanceInformation CreateEmpty()
         {

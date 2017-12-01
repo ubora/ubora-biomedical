@@ -47,28 +47,28 @@ namespace Ubora.Domain.Projects.StructuredInformations
         {
         }
 
-        public bool SpecificTemperatureAndOrHumidityRange { get; set; }
-        public string IfSpecificTemperatureAndOrHumidityRangeThenDescription { get; set; }
+        public bool SpecificTemperatureAndOrHumidityRange { get; private set; }
+        public string IfSpecificTemperatureAndOrHumidityRangeThenDescription { get; private set; }
 
-        public bool ClinicalWasteDisposalFacilities { get; set; }
-        public string IfClinicalWasteDisposalFacilitiesThenDescription { get; set; }
+        public bool ClinicalWasteDisposalFacilities { get; private set; }
+        public string IfClinicalWasteDisposalFacilitiesThenDescription { get; private set; }
 
-        public bool GasSupply { get; set; }
-        public string IfGasSupplyThenDescription { get; set; }
+        public bool GasSupply { get; private set; }
+        public string IfGasSupplyThenDescription { get; private set; }
 
-        public bool Sterilization { get; set; }
-        public string IfSterilizationThenDescription { get; set; }
+        public bool Sterilization { get; private set; }
+        public string IfSterilizationThenDescription { get; private set; }
 
-        public bool RadiationIsolation { get; set; }
-        public bool CleanWaterSupply { get; set; }
-        public bool AccessToInternet { get; set; }
-        public bool AccessToCellularPhoneNetwork { get; set; }
-        public bool ConnectionToLaptopComputer { get; set; }
-        public bool AccessibleByCar { get; set; }
-        public bool AdditionalSoundOrLightControlFacilites { get; set; }
+        public bool RadiationIsolation { get; private set; }
+        public bool CleanWaterSupply { get; private set; }
+        public bool AccessToInternet { get; private set; }
+        public bool AccessToCellularPhoneNetwork { get; private set; }
+        public bool ConnectionToLaptopComputer { get; private set; }
+        public bool AccessibleByCar { get; private set; }
+        public bool AdditionalSoundOrLightControlFacilites { get; private set; }
 
-        public bool Other { get; set; }
-        public string OtherText { get; set; }
+        public bool Other { get; private set; }
+        public string OtherText { get; private set; }
 
         public static FacilityRequirementsInformation CreateEmpty()
         {
