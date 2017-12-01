@@ -1,82 +1,46 @@
 @model Ubora.Web._Features.ProjectList.ProjectListViewModel
 
-@if (Model.Projects.Any())
-{
-    <div class="row">
-        <div class="col">
+<div class="row">
+    <div class="col">
+        @if (Model.Projects.Any())
+        {
             <h2 class="display-4">@Model.Header</h2>
             <div class="row">
 
                 <div class="col-md-4 col-lg-3 my-2">
-                    <div class="card w-100 h-100">
-                        <a class="card-link h-100 d-flex justify-content-center align-items-center" asp-controller="ProjectCreation" asp-action="Create">
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <i class="material-icons icon-size-lg">add</i>
-                                    <p class="display-4 px-2">Create new project</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                    @await Html.PartialAsync("_CreateProjectCardPartial.cshtml")
                 </div>
 
                 @foreach (var project in Model.Projects)
                 {
                     <div class="col-md-4 col-lg-3 my-2">
-                        <div class="card w-100 h-100">
-                            <a href="@Url.Action("Dashboard", "Dashboard", new { projectId = project.Id })" class="card-link">
-
-                                <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(project.ImagePath)?"/images/project-default-image.png":project.ImagePath)">
-                                @if (project.IsInDraft)
-                                {
-                                    <p class="project-status-draft">Draft</p>
-                                }
-                                <div class="card-body">
-                                    <p class="display-5 card-title mt-3">@project.Title</p>
-                                </div>
-                            </a>
-                        </div>
+                        @await Html.PartialAsync("_ProjectCardPartial.cshtml", model: project)
                     </div>
                 }
             </div>
-        </div>
-    </div>
-}
-
-else if (Model.ShowDefaultMessage)
-{
-
-    <div class="row">
-        <div class="col">
+        }
+        else if (Model.ShowDefaultMessage)
+        {
             <div class="text-center">
                 <h2 class="display-4">You have no projects.</h2>
                 @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
                 {
-                    <p>Either <a asp-controller="ProjectCreation" asp-action="Create">create a new one</a> or find projects to <a asp-controller="Home" asp-action="Index" asp-area="">join</a>.</p>
+                    <p>Either <a asp-controller="ProjectCreation" asp-action="Create">create a new one</a> or find projects to join.</p>
                 }
                 else
                 {
                     <p>Your email must be confirmed to create a project!</p>
                 }
             </div>
-        </div>
-    </div>
 
-    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
-    {
-        <div class="row justify-content-center">
-            <div class="col-md-4 col-lg-3 my-2">
-                <div class="card w-100 h-100 py-5">
-                    <a class="card-link h-100 d-flex justify-content-center align-items-center" asp-controller="ProjectCreation" asp-action="Create">
-                        <div class="card-body">
-                            <div class="text-center">
-                                <i class="material-icons icon-size-lg">add</i>
-                                <p class="display-4 px-2">Create new project</p>
-                            </div>
-                        </div>
-                    </a>
+            if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
+            {
+                <div class="row justify-content-center">
+                    <div class="col-md-4 col-lg-3 my-2">
+                        @await Html.PartialAsync("_CreateProjectCardPartial.cshtml")
+                    </div>
                 </div>
-            </div>
-        </div>
-    }
-}
+            }
+        }
+    </div>
+</div>
