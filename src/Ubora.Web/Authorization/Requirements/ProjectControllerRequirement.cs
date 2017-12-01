@@ -37,7 +37,7 @@ namespace Ubora.Web.Authorization.Requirements
                 {
                     isAuthorized = await authorizationService.IsAuthorizedAsync(context.User, Policies.CanViewProjectNonPublicContent);
                 }
-                else if (httpMethod == HttpMethod.Put)
+                else if (httpMethod == HttpMethod.Post)
                 {
                     isAuthorized = await authorizationService.IsAuthorizedAsync(context.User, Policies.CanWorkOnProjectContent);
                 }
