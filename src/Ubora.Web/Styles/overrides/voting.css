@@ -51,3 +51,10 @@
 	cursor: pointer;
 	color: var(--light-blue);
 }
+
+
+/*for comments*/
+a.more-link {
+	text-decoration:none;
+	outline: none;
+}

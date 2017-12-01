@@ -1,18 +1,18 @@
 export class CopyingToClipboard {
-    constructor() {
+    static initialize() {
 
         function copyToClipboard(text, copyElement) {
-            var copyTest = document.queryCommandSupported('copy');
-            var elOriginalText = copyElement.attr('data-original-title');
+            const copyTest = document.queryCommandSupported('copy');
+            const elOriginalText = copyElement.attr('data-original-title');
 
             if (copyTest === true) {
-                var copyTextArea = document.createElement("textarea");
+                const copyTextArea = document.createElement("textarea");
                 copyTextArea.value = text;
                 document.body.appendChild(copyTextArea);
                 copyTextArea.select();
                 try {
-                    var successful = document.execCommand('copy');
-                    var msg = successful ? 'Copied!' : 'Whoops, not copied!';
+                    const successful = document.execCommand('copy');
+                    const msg = successful ? 'Copied!' : 'Whoops, not copied!';
                     copyElement.attr('data-original-title', msg).tooltip('show');
                 } catch (err) {
                     console.log('Oops, unable to copy');
@@ -32,12 +32,14 @@ export class CopyingToClipboard {
 
             // Copy to clipboard
             $('.js-copy').click(function () {
-                var text = $(this).attr('data-copy');
-                var copyElement = $(this);
+                const $this = $(this);
+
+                const text = $this.attr('data-copy');
+                const copyElement = $this;
                 copyToClipboard(text, copyElement);
             });
         });
     }
 }
 
-new CopyingToClipboard();
+CopyingToClipboard.initialize();
