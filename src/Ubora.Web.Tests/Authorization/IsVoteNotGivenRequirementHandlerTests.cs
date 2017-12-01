@@ -4,7 +4,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
 using Moq;
 using Ubora.Domain.Projects.Candidates;
-using Ubora.Web.Authorization;
+using Ubora.Web.Authorization.Requirements;
 using Ubora.Web.Tests.Fakes;
 using Xunit;
 

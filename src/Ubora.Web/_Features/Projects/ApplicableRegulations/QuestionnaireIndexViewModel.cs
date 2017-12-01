@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
 
 namespace Ubora.Web._Features.Projects.ApplicableRegulations
@@ -33,7 +34,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 
             public virtual QuestionnaireIndexViewModel Create(Guid projectId)
             {
-                var questionnaires = _queryProcessor.Find<ApplicableRegulationsQuestionnaireAggregate>()
+                var questionnaires = _queryProcessor.Find<ApplicableRegulationsQuestionnaireAggregate>(new MatchAll<ApplicableRegulationsQuestionnaireAggregate>())
                     .Where(x => x.ProjectId == projectId)
                     .Where(x => !x.IsStopped)
                     .OrderByDescending(x => x.StartedAt)

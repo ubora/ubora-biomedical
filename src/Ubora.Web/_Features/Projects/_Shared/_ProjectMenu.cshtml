@@ -1,11 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Authorization
+@using Ubora.Web.Authorization.Requirements
 
 @model Ubora.Web._Features.Projects._Shared.ProjectMenuViewModel
 
 @{
     var isProjectMember = (await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement())).Succeeded;
 }
-
 
 <nav class="wp-header nav nav-tabs flex-column flex-md-row justify-content-around">
   <a class="nav-item nav-link @Model.OverviewActivityCssClass" asp-controller="Dashboard" asp-action="Dashboard">Project overview</a>

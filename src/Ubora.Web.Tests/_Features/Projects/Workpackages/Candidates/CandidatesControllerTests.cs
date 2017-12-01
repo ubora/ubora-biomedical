@@ -77,8 +77,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
             var candidate1 = new Candidate();
             var candidate2 = new Candidate();
 
-            QueryProcessorMock.Setup(x => x.Find(It.IsAny<IsProjectCandidateSpec>()))
-                .Returns(new[] { candidate1, candidate2 });
+            QueryProcessorMock.Setup(x => x.Find(new IsProjectCandidateSpec(ProjectId)))
+                .Returns(new PagedListStub<Candidate>() { candidate1, candidate2 });
 
             var candidate1ItemViewModel = new CandidateItemViewModel();
             candidateItemViewModelFactoryMock.Setup(x => x.Create(candidate1))

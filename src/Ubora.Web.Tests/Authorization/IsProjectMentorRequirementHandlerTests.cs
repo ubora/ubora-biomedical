@@ -7,7 +7,7 @@ using Moq;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects._Specifications;
-using Ubora.Web.Authorization;
+using Ubora.Web.Authorization.Requirements;
 using Ubora.Web.Tests.Fakes;
 using Xunit;
 

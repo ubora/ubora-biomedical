@@ -78,7 +78,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .Set(x => x.Location, new BlobLocation("", ""))
                 .Set(x => x.FolderName, "folder2");
 
-            var expectedProjectFiles = new List<ProjectFile>()
+            var expectedProjectFiles = new PagedListStub<ProjectFile>()
             {
                 projectFile1,
                 projectFile2,

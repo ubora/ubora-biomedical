@@ -70,58 +70,31 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <div class="table-responsive">
-                        <table class="table table-medical-tags">
-                            <tbody>
-                                <tr>
-                                    <th class="w-50" scope="row">
-                                        <h3 class="display-5">Clinical need:</h3>
-                                    </th>
-                                    <td>
-                                        @Model.ClinicalNeedTags
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        <h3 class="display-5">Clinical area:</h3>
-                                    </th>
-                                    <td>
-                                        @Model.AreaOfUsageTags
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        <h3 class="display-5">Technology:</h3>
-                                    </th>
-                                    <td>
-                                        @Model.PotentialTechnologyTags
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        <h3 class="display-5">Project keywords:</h3>
-                                    </th>
-                                    <td>
-                                        @Model.Gmdn
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        <h3 class="display-5">Device classification:</h3>
-                                    </th>
-                                    <td>
-                                        @Model.DeviceClassification
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+
+                  <dl class="row">
+                    <dt class="col-sm-5 mb-4"><h3 class="display-5">Clinical need:</h3></dt>
+                    <dd class="col-sm-7 mb-4">@Model.ClinicalNeedTags</dd>
+
+                    <dt class="col-sm-5 mb-4"><h3 class="display-5">Clinical area:</h3></dt>
+                    <dd class="col-sm-7 mb-4">@Model.AreaOfUsageTags</dd>
+
+                    <dt class="col-sm-5 mb-4"><h3 class="display-5">Technology:</h3></dt>
+                    <dd class="col-sm-7 mb-4">@Model.PotentialTechnologyTags</dd>
+
+                    <dt class="col-sm-5 mb-4"><h3 class="display-5">Project keywords:</h3></dt>
+                    <dd class="col-sm-7 mb-4">@Model.Gmdn</dd>
+
+                    <dt class="col-sm-5 mb-4"><h3 class="display-5">Device classification:</h3></dt>
+                    <dd class="col-sm-7 mb-4">@Model.DeviceClassification</dd>
+                  </dl>
+
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col">
+
             <div class="row">
                 <div class="col">
                     <h2>Project description</h2>
@@ -133,6 +106,7 @@
                     }
                 </div>
             </div>
+
             <div class="row">
                 <div class="col">
                     @if (!string.IsNullOrWhiteSpace(Model.Description))
@@ -145,6 +119,7 @@
                     }
                 </div>
             </div>
+
         </div>
     </div>
     <div>
