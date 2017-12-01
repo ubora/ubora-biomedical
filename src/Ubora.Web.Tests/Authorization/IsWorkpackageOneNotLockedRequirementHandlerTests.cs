@@ -8,7 +8,7 @@ using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Specifications;
-using Ubora.Web.Authorization;
+using Ubora.Web.Authorization.Requirements;
 using Ubora.Web.Tests.Fakes;
 using Xunit;
 

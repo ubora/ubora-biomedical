@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Ubora.Web.Authorization.Requirements;
 using Ubora.Web.Data;
 
 namespace Ubora.Web.Authorization
@@ -15,6 +16,8 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsProjectMentorRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsWorkpackageOneNotLockedRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsEmailConfirmedRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, IsCommentAuthorRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, IsVoteNotGivenRequirement.Handler>();
 
             services.AddAuthorization(options =>
             {
@@ -104,6 +107,16 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+                options.AddPolicy(nameof(Policies.CanEditComment), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsCommentAuthorRequirement());
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
+                });
+                options.AddPolicy(nameof(Policies.CanVoteCandidate), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsVoteNotGivenRequirement());
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                 });
             });
 

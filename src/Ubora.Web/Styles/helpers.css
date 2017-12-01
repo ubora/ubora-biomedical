@@ -12,8 +12,14 @@
 
 /*Avatar image look*/
 .avatar {
-	border-radius: 2em;
+	border-radius: .25em;
   object-fit: cover;
+}
+
+/*Avatar image size in comments section*/
+.avatar-comment {
+	height: 4em;
+	width: 4em;
 }
 
 /*Markdown styles*/
@@ -49,11 +55,14 @@
 	margin-bottom: 0;
 }
 
-
-
 /*coloring text to orange*/
 .text-orange {
 	color: var(--orange);
+}
+
+/*coloring text to grey*/
+.text-grey {
+	color: var(--primary-shade);
 }
 
 /*repository icons*/
@@ -69,3 +78,8 @@
         color: var(--light-blue);
         cursor: pointer;
     }
+
+
+.small-text {
+	font-size: 0.875em;
+}

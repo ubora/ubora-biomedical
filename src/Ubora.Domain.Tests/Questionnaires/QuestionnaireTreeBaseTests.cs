@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Xunit;
 
@@ -49,7 +50,7 @@ namespace Ubora.Domain.Tests.Questionnaires
         {
             var questions = new[]
             {
-                new TestQuestion("q", null)
+                new TestQuestion("q", Enumerable.Empty<TestAnswer>())
             };
 
             // Act
