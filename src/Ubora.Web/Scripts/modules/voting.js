@@ -6,9 +6,7 @@
 
             var setAsSelected = false;
 
-            for (let i = children.length - 1; i >= 0; i--) {
-                const child = $(children[i]);
-
+            children.forEach(child => {
                 if (child.find('input').is(':checked')) {
                     setAsSelected = true;
                 }
@@ -18,9 +16,7 @@
                 } else {
                     child.find('label').removeClass('voted');
                 }
-
-            }
-
+            });
         }
 
         $(".rating").each(function() {
