@@ -16,9 +16,9 @@
 
     <div class="form-group">
       <label>Email</label>
-      <input class="form-control" id="Email" type="text" disabled value="@User.GetEmail()" />
+      <input class="form-control" asp-for="Email" disabled />
     </div>
-
+     
     <h2 class="mt-5">Personal - Education</h2>
     <div class="form-group">
         <label asp-for="Biography">Bio</label>
