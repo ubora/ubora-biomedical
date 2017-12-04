@@ -15,13 +15,21 @@
   width: 1em;
 }
 
-.nav-label {
-
+.side-menu-icon-tertiary {
+  width: .75em;
 }
 
 .sub-menu {
   padding-left: 1em;
 }
+
+.list-sidebar li,
+.sub-menu li{
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+}
+
+
 
 a.muted-status {
   color: var(--tertiary-shade);
