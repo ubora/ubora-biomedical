@@ -25,40 +25,35 @@
 
             <div class="row">
                 <div class="col-lg-10">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="w-50">Question</th>
-                                <th class="w-50">Answer</th>
-                            </tr>
-                        </thead>
+                    <table class="table table-bordered table-structured-information">
                         <tbody>
+
                             @if (!string.IsNullOrEmpty(Model.UserAndEnvironment.IntendedUser))
                             {
                                 <tr>
-                                    <td>Who is the intended user?</td>
+                                    <th scope="row">Who is the intended user?</th>
                                     <td>@Model.UserAndEnvironment.IntendedUser</td>
                                 </tr>
                             }
                             <tr>
-                                <td>Is training required in addition to the expected skill level of the intended user?</td>
+                                <th scope="row">Is training required in addition to the expected skill level of the intended user?</th>
                                 <td>@Model.UserAndEnvironment.IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser</td>
                             </tr>
                             @if (Model.UserAndEnvironment.IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser)
                             {
                                 <tr>
-                                    <td>If training is required, please describe who will deliver the training and the materials and time required for the training.</td>
+                                    <th scope="row">If training is required, please describe who will deliver the training and the materials and time required for the training.</th>
                                     <td>@Model.UserAndEnvironment.IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining</td>
                                 </tr>
                             }
                             <tr>
-                                <td>Is any maintenance or calibration required by the user at the time of use?</td>
+                                <th scope="row">Is any maintenance or calibration required by the user at the time of use?</th>
                                 <td>@Model.UserAndEnvironment.IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse</td>
                             </tr>
                             @if (Model.UserAndEnvironment.WhereWillTechnologyBeUsed.GetResult().Any())
                             {
                                 <tr>
-                                    <td>Where will the technology be used?</td>
+                                    <th scope="row">Where will the technology be used?</th>
                                     <td>@string.Join(", ", Model.UserAndEnvironment.WhereWillTechnologyBeUsed.GetResult())</td>
                                 </tr>
                             }
@@ -79,70 +74,64 @@
             <div class="row">
                 <div class="col-lg-10">
 
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="w-50">Question</th>
-                                <th class="w-50">Answer</th>
-                            </tr>
-                        </thead>
+                    <table class="table table-bordered table-structured-information">
                         <tbody>
                             <tr>
-                                <td>Dimensions (mm3)</td>
+                                <th scope="row">Dimensions (mm3)</th>
                                 <td>@Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsLength mm x @Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsWidth mm x @Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsHeight mm</td>
                             </tr>
                             <tr>
-                                <td>Weight (kg)</td>
+                                <th scope="row">Weight (kg)</th>
                                 <td>@Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.WeightInKilograms kg</td>
                             </tr>
                             <tr>
-                                <td>Does it require the use of consumables? For example, disposable batteries, disposable electrodes, etc.</td>
+                                <th scope="row">Does it require the use of consumables? For example, disposable batteries, disposable electrodes, etc.</th>
                                 <td>@Model.HealthTechnologySpecifications.DoesItRequireUseOfConsumables</td>
                             </tr>
                             @if (Model.HealthTechnologySpecifications.DoesItRequireUseOfConsumables && !string.IsNullOrEmpty(Model.HealthTechnologySpecifications.IfRequiresConsumablesListConsumables))
                             {
                                 <tr>
-                                    <td>If yes, please list the consumables</td>
+                                    <th scope="row">If yes, please list the consumables</th>
                                     <td>@Model.HealthTechnologySpecifications.IfRequiresConsumablesListConsumables</td>
                                 </tr>
                             }
                             <tr>
-                                <td>Estimated life time</td>
+                                <th scope="row">Estimated life time</th>
                                 <td>@Model.HealthTechnologySpecifications.EstimatedLifeTimeInDays Days @Model.HealthTechnologySpecifications.EstimatedLifeTimeInMonths Months @Model.HealthTechnologySpecifications.EstimatedLifeTimeInYears Years</td>
                             </tr>
                             <tr>
-                                <td>Estimated shelf life</td>
+                                <th scope="row">Estimated shelf life</th>
                                 <td>@Model.HealthTechnologySpecifications.EstimatedShelfLifeInDays Days @Model.HealthTechnologySpecifications.EstimatedShelfLifeInMonths Months @Model.HealthTechnologySpecifications.EstimatedShelfLifeInYears Years</td>
                             </tr>
                             <tr>
-                                <td>Can it have a telemedicine or eHealth application?</td>
+                                <th scope="row">Can it have a telemedicine or eHealth application?</th>
                                 <td>@Model.HealthTechnologySpecifications.CanItHaveATelemedicineOrEHealthApplication</td>
                             </tr>
                             <tr>
-                                <td>Does it use any kind of software?</td>
+                                <th scope="row">Does it use any kind of software?</th>
                                 <td>@Model.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.DoesItUseAnyKindOfSoftware</td>
                             </tr>
                             @if (Model.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.DoesItUseAnyKindOfSoftware)
                             {
                                 <tr>
-                                    <td>If yes, please describe the software, whether it is open source or proprietary, its use and/or license fee, etc. (10-70 words).</td>
+                                    <th scope="row">If yes, please describe the software, whether it is open source or proprietary, its use and/or license fee, etc. (10-70 words).</th>
                                     <td>@Model.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.IfUsesSoftwareDescribeSoftware</td>
                                 </tr>
                                 <tr>
-                                    <td>If yes, can the software be customized for local use? Please explain (10-70 words). Include languages available.</td>
+                                    <th scope="row">If yes, can the software be customized for local use? Please explain (10-70 words). Include languages available.</th>
                                     <td>@Model.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse</td>
                                 </tr>
                             }
                             <tr>
-                                <td>Is it portable?</td>
+                                <th scope="row"">Is it portable?</th>
                                 <td>@Model.HealthTechnologySpecifications.Portability</td>
                             </tr>
                             <tr>
-                                <td>Type of use</td>
+                                <th scope="row">Type of use</th>
                                 <td>@Model.HealthTechnologySpecifications.TypeOfUse</td>
                             </tr>
                             <tr>
-                                <td>Does the technology require maintenance?</td>
+                                <th scope="row">Does the technology require maintenance?</th>
                                 <td>
                                     <p>@Model.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance</p>
                                     @if (Model.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance)
@@ -156,12 +145,12 @@
                             @if (Model.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance)
                             {
                                 <tr>
-                                    <td>If yes, who should provide maintenance?</td>
+                                    <th scope="row">If yes, who should provide maintenance?</th>
                                     <td>@Model.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance</td>
                                 </tr>
                             }
                             <tr>
-                                <td>Energy requirements</td>
+                                <th scope="row">Energy requirements</th>
                                 <td>
                                     @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.MechanicalEnergy)
                                     {
@@ -202,7 +191,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Facility requirements</td>
+                                <th scope="row">Facility requirements</th>
                                 <td>
                                     @foreach (var item in Model.HealthTechnologySpecifications.FacilityRequirementsViewModel.GetResult())
                                     {
