@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
@@ -49,16 +48,23 @@ namespace Ubora.Web.Tests.Authorization
         }
 
         [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public async Task Handler_Authorizes_For_Get_HTTP_Requests_Whether_User_Can_View_Non_Public_Content_Of_Given_Project(
+        [InlineData("GET", true)]
+        [InlineData("GET", false)]
+        [InlineData("HEAD", true)]
+        [InlineData("HEAD", false)]
+        [InlineData("OPTIONS", true)]
+        [InlineData("OPTIONS", false)]
+        [InlineData("TRACE", true)]
+        [InlineData("TRACE", false)]
+        public async Task Handler_Authorizes_Safe_HTTP_Method_Requests_Whether_User_Can_View_Non_Public_Content_Of_Given_Project(
+            string safeHttpMethod,
             bool isAuthorized)
         {
             var httpContextMock = new Mock<HttpContext>();
 
             httpContextMock
                 .Setup(x => x.Request.Method)
-                .Returns(HttpMethod.Get.ToString);
+                .Returns(safeHttpMethod);
 
             var actionContext = new EmptyInitializedActionContext
             {
@@ -94,16 +100,25 @@ namespace Ubora.Web.Tests.Authorization
         }
 
         [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public async Task Handler_Authorizes_For_Post_HTTP_Requests_Whether_User_Can_Work_On_Project_Content(
+        [InlineData("POST", true)]
+        [InlineData("POST", false)]
+        [InlineData("PUT", true)]
+        [InlineData("PUT", false)]
+        [InlineData("DELETE", true)]
+        [InlineData("DELETE", false)]
+        [InlineData("CONNECT", true)]
+        [InlineData("CONNECT", false)]
+        [InlineData("PATCH", true)]
+        [InlineData("PATCH", false)]
+        public async Task Handler_Authorizes_Usafe_HTTP_Method_Requests_Whether_User_Can_Work_On_Project_Content(
+            string unsafeHttpMethod,
             bool isAuthorized)
         {
             var httpContextMock = new Mock<HttpContext>();
 
             httpContextMock
                 .Setup(x => x.Request.Method)
-                .Returns(HttpMethod.Post.ToString);
+                .Returns(unsafeHttpMethod);
 
             var actionContext = new EmptyInitializedActionContext
             {

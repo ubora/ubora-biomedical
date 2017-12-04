@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -31,20 +32,16 @@ namespace Ubora.Web.Authorization.Requirements
 
                 // Authorize differently based on HTTP method.
                 var httpMethod = new HttpMethod(filterContext.HttpContext.Request.Method);
-                bool isAuthorized;
+                var isSafeHttpMethod = DefinedAsSafeHttpMethods.Contains(httpMethod);
 
-                if (httpMethod == HttpMethod.Get)
+                bool isAuthorized;
+                if (isSafeHttpMethod)
                 {
                     isAuthorized = await authorizationService.IsAuthorizedAsync(context.User, Policies.CanViewProjectNonPublicContent);
                 }
-                else if (httpMethod == HttpMethod.Put)
-                {
-                    isAuthorized = await authorizationService.IsAuthorizedAsync(context.User, Policies.CanWorkOnProjectContent);
-                }
-                // Other HTTP methods not yet accounted for.
                 else
                 {
-                    isAuthorized = false;
+                    isAuthorized = await authorizationService.IsAuthorizedAsync(context.User, Policies.CanWorkOnProjectContent);
                 }
 
                 if (isAuthorized)
@@ -53,5 +50,14 @@ namespace Ubora.Web.Authorization.Requirements
                 }
             }
         }
+
+        /// <remarks> 'Safe' HTTP methods: https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Safe_methods </remarks>>
+        private static readonly IReadOnlyCollection<HttpMethod> DefinedAsSafeHttpMethods = new[]
+        {
+            HttpMethod.Get,
+            HttpMethod.Head,
+            HttpMethod.Options,
+            HttpMethod.Trace
+        };
     }
 }
