@@ -15,7 +15,7 @@ Scenario: I click My projects
     Then I expect the title of the page "View projects - UBORA"
 
 Scenario: I click New projects
-    When I click on the element "h1=Create new project"
+    When I click on the element "p=Create new project"
     Then I expect the title of the page "Project drafting - UBORA"
 
 Scenario: I click Notifications
