@@ -67,10 +67,10 @@ Scenario: I go through Device classification and pick always first option
         And I answer "Yes" to the question "Does it achieve its intended purpose in the stomach or lower gastrointestinal tract and it, or its products of metabolism, is systemically absorbed by the human body?"
         And I answer "Yes" to the question "Is it applied to the skin or is it applied in the nasal or oral cavity as far as the pharynx, and achieve the intended purpose on those cavities?"
         And I answer "Yes" to the question "Is it an active therapeutic device with an integrated or incorporated diagnostic function that includes an integrated or incorporated diagnostic function which significantly determines the patient management by the device (example: closed loop systems or automated external defibrillators)?"
-    Then I expect the element "p=Chosen class: III" is visible
+    Then I expect the element "h1=Chosen class: III" is visible
         And I expect the title of the page "Device classification - UBORA"
     When I click on the element "a=Project overview"
-    Then I expect the element "td=III" is visible
+    Then I expect the element "dd=III" is visible
 
 Scenario: I go through Device classification and always answer NO
     Then I expect the element "h3=Last results:" is visible
@@ -87,6 +87,6 @@ Scenario: I go through Device classification and always answer NO
         And I answer "No" to the question "Is it intended to administer medicinal products by inhalation, being an invasive device with respect to body orifices, other than surgically invasive devices?"
         And I answer "No" to the question "Is it composed of substances or of combinations of substances that are intended to be introduced into the human body via a body orifice or applied to the skin and that are absorbed by or locally dispersed in the human body?"
         And I answer "No" to the question "Is it an active therapeutic device with an integrated or incorporated diagnostic function that includes an integrated or incorporated diagnostic function which significantly determines the patient management by the device (example: closed loop systems or automated external defibrillators)?"
-    Then I expect the element "p=Chosen class: I" is visible
+    Then I expect the element "h1=Chosen class: I" is visible
     When I click on the element "a=Project overview"
-    Then I expect the element "td=I" is visible
+    Then I expect the element "dd=I" is visible
