@@ -21,19 +21,27 @@
             {
                 <div class="text-center">
                     <h1 class="display-4 mb-4">You can submit your project for review</h1>
-                    <p>
-                      The medical need and product specification can not be modified if:
-                      <span class="d-block">1) the project is under review</span>
-                      <span class="d-block">2) it passed the review</span>
-                    </p>
+                   
 
                     <button class="btn btn-primary" data-toggle="modal" data-target="#submitProjectModal">Submit project for review</button>
+                </div>
+                <!-- <div class="justify-content-start my-5"> 
+                    <h3>Notes</h3>
+
+                    <p>
+                    The medical need and product specification can not be modified if:
+                    <br>
+                    1) the project is under review
+                    <br>
+                    2) it passed the review
+                    </p>
+                </div> -->
 
                     <div class="modal fade" id="submitProjectModal" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Submit review</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Submit project for review</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -41,7 +49,11 @@
                                 <form action="@Model.SubmitForReviewUrl" method="post" asp-antiforgery="true">
                                     <div class="modal-body">
                                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                        <p>Are you sure you want to submit your project for review? It cannot be changed.</p>
+                                        <p>
+                                            Work package 1 can not be edited while it is under review or after it has passed the review.
+                                        </p>
+
+                                       
                                     </div>
                                     <div class="modal-footer d-flex justify-content-center">
                                         <div class="form-group">
@@ -55,7 +67,7 @@
                         </div>
                     </div>
 
-                </div>
+               
             }
             else if (Model.SubmitForReviewButton.IsHiddenWithMessage)
             {
