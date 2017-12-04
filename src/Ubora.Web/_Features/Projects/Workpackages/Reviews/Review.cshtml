@@ -17,18 +17,23 @@
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <p>The medical need and product specification can not be modified if 1) the project is under review 2) it passed the review</p>
             @if (Model.SubmitForReviewButton.IsVisible)
             {
                 <div class="text-center">
-                    <h1 class="display-4 mb-4">You can submit your project for review.</h1>
+                    <h1 class="display-4 mb-4">You can submit your project for review</h1>
+                    <p>
+                      The medical need and product specification can not be modified if:
+                      <span class="d-block">1) the project is under review</span>
+                      <span class="d-block">2) it passed the review</span>
+                    </p>
+
                     <button class="btn btn-primary" data-toggle="modal" data-target="#submitProjectModal">Submit project for review</button>
 
                     <div class="modal fade" id="submitProjectModal" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Submit review?</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Submit review</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -42,7 +47,7 @@
                                         <div class="form-group">
                                             <button type="button" class="btn btn-secondary-ghost" data-dismiss="modal">No, cancel</button>
                                             <span class="mx-1"></span>
-                                            <button class="btn btn-primary" type="submit">Submit</button>
+                                            <button class="btn btn-primary" type="submit">Yes, submit</button>
                                         </div>
                                     </div>
                                 </form>
@@ -84,6 +89,11 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <p>
+                          The medical need and product specification can not be modified if:
+                          <span class="d-block">1) the project is under review</span>
+                          <span class="d-block">2) it passed the review</span>
+                        </p>
                         <br>
                     }
 
