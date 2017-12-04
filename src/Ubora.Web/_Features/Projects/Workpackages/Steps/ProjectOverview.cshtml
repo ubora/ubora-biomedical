@@ -5,7 +5,6 @@
 @{
     ViewData["Title"] = "Design planning";
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
-    var isWp1Locked = !(await AuthorizationService.AuthorizeAsync(this.User, Policies.CanEditWorkpackageOne)).Succeeded;
 }
 
 <div class="container-fluid my-4">
