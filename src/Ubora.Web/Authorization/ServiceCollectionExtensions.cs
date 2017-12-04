@@ -47,6 +47,7 @@ namespace Ubora.Web.Authorization
                 });
                 options.AddPolicy(Policies.CanWorkOnProjectContent, policyBuilder =>
                 {
+                    policyBuilder.AddRequirements(new ProjectNonPublicContentViewingRequirement());
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                 });
                 options.AddPolicy(Policies.ProjectController, policyBuilder =>
