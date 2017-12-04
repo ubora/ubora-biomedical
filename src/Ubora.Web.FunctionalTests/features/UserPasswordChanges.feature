@@ -13,8 +13,8 @@ Scenario: I try to change my password to empty password
     When I click on the element "a=Change password"
     Then I expect the title of the page "Change Password - UBORA"
     When I click on the element "button=Change password"
-    Then I expect the element "span=The Old password field is required." is visible
-        And I expect the element "span=The New password field is required." is visible
+    Then I expect the element "#OldPassword-error=The Old password field is required." is visible
+        And I expect the element "#NewPassword-error=The New password field is required." is visible
         And I expect the title of the page "Change Password - UBORA"
 
 Scenario: I change my password
@@ -35,4 +35,4 @@ Scenario: I sign in with my changed password
     When I sign in as "change@password.eu" with password "Test1234"
     Then I expect the title of the page "Welcome - UBORA"
     When I click on the element "span=Profile"
-    Then I expect the element "p=Change Password" is visible
+    Then I expect the element "a=Change password" is visible

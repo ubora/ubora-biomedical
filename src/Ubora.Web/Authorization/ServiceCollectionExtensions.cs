@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Ubora.Web.Authorization.Requirements;
 using Ubora.Web.Data;
 
 namespace Ubora.Web.Authorization

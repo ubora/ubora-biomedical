@@ -8,7 +8,7 @@ Background:
 Scenario: I sign in and send feedback
     When I sign in as user
         And I click on the element "button.feedback-trigger"
-    Then I expect the element "h1=Leave feedback" is visible
+    Then I expect the element "h3=Leave feedback" is visible
     When I click on the element "textarea.feedback-input"
         And I click on keys "Is this the feedback you are looking for?"
         And I click on the element "button=Send"

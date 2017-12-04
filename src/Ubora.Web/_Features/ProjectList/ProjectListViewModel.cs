@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects;
-using Ubora.Domain.Projects._Queries;
+using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
 
@@ -46,7 +47,7 @@ namespace Ubora.Web._Features.ProjectList
 
             public ProjectListViewModel Create(string header)
             {
-                var projects = _queryProcessor.Find<Project>()
+                var projects = _queryProcessor.Find<Project>(new MatchAll<Project>())
                     .OrderBy(p => p.Title);
 
                 var model = new ProjectListViewModel
@@ -60,8 +61,7 @@ namespace Ubora.Web._Features.ProjectList
 
             public ProjectListViewModel Create(string header, Guid userId)
             {
-                var userProjects = _queryProcessor.Find<Project>()
-                    .Where(x => x.Members.Any(m => m.UserId == userId));
+                var userProjects = _queryProcessor.Find<Project>(new HasMember(userId));
 
                 var model = new ProjectListViewModel
                 {
@@ -83,7 +83,7 @@ namespace Ubora.Web._Features.ProjectList
                     };
                 }
 
-                var projects = _queryProcessor.ExecuteQuery(new SearchProjectsQuery(title));
+                var projects = _queryProcessor.Find(new BySearchPhrase(title));
 
                 var model = new ProjectListViewModel
                 {
