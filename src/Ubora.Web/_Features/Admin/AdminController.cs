@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Ubora.Domain.Users;
 using Ubora.Domain.Users.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
@@ -35,6 +36,7 @@ namespace Ubora.Web._Features.Admin
                 {
                     UserId = user.Id,
                     UserEmail = user.Email,
+                    FullName = QueryProcessor.FindById<UserProfile>(user.Id).FullName,
                     Roles = await _userManager.GetRolesAsync(user)
                 });
             }
