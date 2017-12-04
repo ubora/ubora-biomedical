@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Assignments;
 using Ubora.Domain.Projects.Workpackages;
@@ -75,6 +76,8 @@ namespace Ubora.Web._Features._Shared
             CreateMap<Candidate, RemoveCandidateImageViewModel>();
 
             CreateMap<WhereWillTechnologyBeUsed, WhereWillTechnologyBeUsedViewModel>();
+
+            CreateMap<FacilityRequirementsInformation, FacilityRequirementsViewModel>();
         }
     }
 }

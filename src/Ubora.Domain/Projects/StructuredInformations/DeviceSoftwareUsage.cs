@@ -4,13 +4,6 @@ namespace Ubora.Domain.Projects.StructuredInformations
 {
     public class DeviceSoftwareUsage
     {
-        public DeviceSoftwareUsage(bool doesItUseAnyKindOfSoftware, string ifUsesSoftwareDescribeSoftware, string ifUsesSoftwareCanSoftwareBeCustomizedForLocalUse)
-        {
-            DoesItUseAnyKindOfSoftware = doesItUseAnyKindOfSoftware;
-            IfUsesSoftwareDescribeSoftware = ifUsesSoftwareDescribeSoftware;
-            IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse = ifUsesSoftwareCanSoftwareBeCustomizedForLocalUse;
-        }
-
         [JsonConstructor]
         public DeviceSoftwareUsage()
         {

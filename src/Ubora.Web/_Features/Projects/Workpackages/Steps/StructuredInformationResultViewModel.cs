@@ -5,21 +5,25 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     public class StructuredInformationResultViewModel
     {
         public UserAndEnvironmentResult UserAndEnvironment { get; set; }
+        public HealthTechnologySpecificationsResult HealthTechnologySpecifications { get; set; }
 
         public class Factory
         {
             private readonly UserAndEnvironmentResult.Factory _userAndEnvironmentFactory;
+            private readonly HealthTechnologySpecificationsResult.Factory _healthTechnologySpecifications;
 
-            public Factory(UserAndEnvironmentResult.Factory userAndEnvironmentFactory)
+            public Factory(UserAndEnvironmentResult.Factory userAndEnvironmentFactory, HealthTechnologySpecificationsResult.Factory healthTechnologySpecifications)
             {
                 _userAndEnvironmentFactory = userAndEnvironmentFactory;
+                _healthTechnologySpecifications = healthTechnologySpecifications;
             }
 
             public StructuredInformationResultViewModel Create(DeviceStructuredInformation deviceStructuredInformation)
             {
                 return new StructuredInformationResultViewModel
                 {
-                    UserAndEnvironment = _userAndEnvironmentFactory.Create(deviceStructuredInformation.UserAndEnvironment)
+                    UserAndEnvironment = _userAndEnvironmentFactory.Create(deviceStructuredInformation.UserAndEnvironment),
+                    HealthTechnologySpecifications = _healthTechnologySpecifications.Create(deviceStructuredInformation.HealthTechnologySpecification)
                 };
             }
         }

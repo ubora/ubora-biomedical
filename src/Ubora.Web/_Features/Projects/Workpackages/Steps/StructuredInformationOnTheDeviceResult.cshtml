@@ -28,8 +28,8 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th class="w-75">Question</th>
-                                <th class="w-25">Answer</th>
+                                <th class="w-50">Question</th>
+                                <th class="w-50">Answer</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -82,81 +82,138 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th class="w-75">Question</th>
-                                <th class="w-25">Answer</th>
+                                <th class="w-50">Question</th>
+                                <th class="w-50">Answer</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>1. Dimensions (mm3)</td>
-                                <td>vastus</td>
+                                <td>Dimensions (mm3)</td>
+                                <td>@Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsLength mm x @Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsWidth mm x @Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsHeight mm</td>
                             </tr>
                             <tr>
-                                <td>2. Weight (kg)</td>
-                                <td>vastus</td>
+                                <td>Weight (kg)</td>
+                                <td>@Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.WeightInKilograms kg</td>
                             </tr>
                             <tr>
-                                <td>3. Does it require the use of consumables? For example, disposable batteries, disposable electrodes, etc.</td>
-                                <td>vastus</td>
+                                <td>Does it require the use of consumables? For example, disposable batteries, disposable electrodes, etc.</td>
+                                <td>@Model.HealthTechnologySpecifications.DoesItRequireUseOfConsumables</td>
+                            </tr>
+                            @if (Model.HealthTechnologySpecifications.DoesItRequireUseOfConsumables && !string.IsNullOrEmpty(Model.HealthTechnologySpecifications.IfRequiresConsumablesListConsumables))
+                            {
+                                <tr>
+                                    <td>If yes, please list the consumables</td>
+                                    <td>@Model.HealthTechnologySpecifications.IfRequiresConsumablesListConsumables</td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>Estimated life time</td>
+                                <td>@Model.HealthTechnologySpecifications.EstimatedLifeTimeInDays Days @Model.HealthTechnologySpecifications.EstimatedLifeTimeInMonths Months @Model.HealthTechnologySpecifications.EstimatedLifeTimeInYears Years</td>
                             </tr>
                             <tr>
-                                <td>4. If yes, please list the consumables</td>
-                                <td>vastus</td>
+                                <td>Estimated shelf life</td>
+                                <td>@Model.HealthTechnologySpecifications.EstimatedShelfLifeInDays Days @Model.HealthTechnologySpecifications.EstimatedShelfLifeInMonths Months @Model.HealthTechnologySpecifications.EstimatedShelfLifeInYears Years</td>
                             </tr>
                             <tr>
-                                <td>5. Estimated life time</td>
-                                <td>vastus</td>
+                                <td>Can it have a telemedicine or eHealth application?</td>
+                                <td>@Model.HealthTechnologySpecifications.CanItHaveATelemedicineOrEHealthApplication</td>
                             </tr>
                             <tr>
-                                <td>6. Estimated shelf life</td>
-                                <td>vastus</td>
+                                <td>Does it use any kind of software?</td>
+                                <td>@Model.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.DoesItUseAnyKindOfSoftware</td>
+                            </tr>
+                            @if (Model.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.DoesItUseAnyKindOfSoftware)
+                            {
+                                <tr>
+                                    <td>If yes, please describe the software, whether it is open source or proprietary, its use and/or license fee, etc. (10-70 words).</td>
+                                    <td>@Model.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.IfUsesSoftwareDescribeSoftware</td>
+                                </tr>
+                                <tr>
+                                    <td>If yes, can the software be customized for local use? Please explain (10-70 words). Include languages available.</td>
+                                    <td>@Model.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse</td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>Is it portable?</td>
+                                <td>@Model.HealthTechnologySpecifications.Portability</td>
                             </tr>
                             <tr>
-                                <td>7. Can it have a telemedicine or eHealth application?</td>
-                                <td>vastus</td>
+                                <td>Type of use</td>
+                                <td>@Model.HealthTechnologySpecifications.TypeOfUse</td>
                             </tr>
                             <tr>
-                                <td>8. Does it use any kind of software?</td>
-                                <td>vastus</td>
+                                <td>Does the technology require maintenance?</td>
+                                <td>
+                                    <p>@Model.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance</p>
+                                    @if (Model.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance)
+                                    {
+                                        <p>Type: @Model.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceSpecifyType</p>
+                                        <p>Frequency: @Model.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceSpecifyFrequency</p>
+                                        <p>Can it be done on-site / home / community?: @Model.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceCanItBeDoneOnSiteOrHomeOrCommunity</p>
+                                    }
+                                </td>
+                            </tr>
+                            @if (Model.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance)
+                            {
+                                <tr>
+                                    <td>If yes, who should provide maintenance?</td>
+                                    <td>@Model.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance</td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>Energy requirements</td>
+                                <td>
+                                    @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.MechanicalEnergy)
+                                    {
+                                        <p>Mechanical energy (e.g. manually powered)</p>
+                                    }
+                                    @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.Batteries)
+                                    {
+                                        <p>Batteries</p>
+                                    }
+                                    @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.PowerSupplyForRecharging)
+                                    {
+                                        <p>
+                                            <span class="d-block">Power supply for recharging</span>
+                                            <span class="d-block pl-3">Voltage required: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredVoltage V</span>
+                                            <span class="d-block pl-3">Time required to recharge: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours hours @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes minutes</span>
+                                            <span class="d-block pl-3">Battery life with full charge: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours hours @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes minutes</span>
+                                        </p>
+                                    }
+                                    @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.ContinuousPowerSupply)
+                                    {
+                                        <p>
+                                            <span class="d-block">Continuous power supply</span>
+                                            <span class="d-block pl-3">Voltage required: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfContinuousPowerSupplyThenRequiredVoltage V</span>
+                                        </p>
+                                    }
+                                    @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.SolarPower)
+                                    {
+                                        <p>
+                                            <span class="d-block">Solar power</span>
+                                            <span class="d-block pl-3">Time in sunlight required to charge: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours hours @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes minutes</span>
+                                            <span class="d-block pl-3">Battery life with full charge: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenBatteryLifeInHours hours @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenBatteryLifeInMinutes minutes</span>
+                                        </p>
+                                    }
+                                    @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.Other)
+                                    {
+                                        <p>@Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.OtherText</p>
+                                    }
+                                </td>
                             </tr>
                             <tr>
-                                <td>9a. If yes, please describe the software, whether it is open source or proprietary, its use and/or license fee, etc. (10-70 words).</td>
-                                <td>vastus</td>
-                            </tr>
-                            <tr>
-                                <td>9b. If yes, can the software be customized for local use? Please explain (10-70 words). Include languages available.</td>
-                                <td>vastus</td>
-                            </tr>
-                            <tr>
-                                <td>10. Is it portable?</td>
-                                <td>vastus</td>
-                            </tr>
-                            <tr>
-                                <td>11. Type of use</td>
-                                <td>vastus</td>
-                            </tr>
-                            <tr>
-                                <td>12. Does the technology require maintenance?</td>
-                                <td>vastus</td>
-                            </tr>
-                            <tr>
-                                <td>13. If yes, who should provide maintenance?</td>
-                                <td>vastus</td>
-                            </tr>
-                            <tr>
-                                <td>14. Energy requirements</td>
-                                <td>vastus</td>
-                            </tr>
-                            <tr>
-                                <td>15. Facility requirements</td>
-                                <td>vastus</td>
+                                <td>Facility requirements</td>
+                                <td>
+                                    @foreach (var item in Model.HealthTechnologySpecifications.FacilityRequirementsViewModel.GetResult())
+                                    {
+                                        <p>@item</p>
+                                    }
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>

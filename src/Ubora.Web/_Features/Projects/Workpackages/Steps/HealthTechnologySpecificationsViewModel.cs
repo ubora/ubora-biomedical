@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.Commands;
@@ -58,11 +59,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
                 model.EstimatedLifeTimeInDays = domainAggregate.EstimatedLifeTime.Days;
                 model.EstimatedLifeTimeInMonths = domainAggregate.EstimatedLifeTime.Months;
-                model.EstimatedLifeTimeInMonths = domainAggregate.EstimatedLifeTime.Years;
+                model.EstimatedLifeTimeInYears = domainAggregate.EstimatedLifeTime.Years;
 
                 model.EstimatedShelfLifeInDays = domainAggregate.EstimatedShelfTime.Days;
                 model.EstimatedShelfLifeInMonths = domainAggregate.EstimatedShelfTime.Months;
-                model.EstimatedLifeTimeInYears = domainAggregate.EstimatedShelfTime.Years;
+                model.EstimatedShelfLifeInYears = domainAggregate.EstimatedShelfTime.Years;
 
                 model.CanItHaveATelemedicineOrEHealthApplication = domainAggregate.CanItHaveATelemedicineOrEHealthApplication;
 
@@ -111,26 +112,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                     OtherText = domainAggregate.EnergyRequirements.OtherText
                 };
 
-                model.FacilityRequirements = new FacilityRequirementsViewModel
-                {
-                    SpecificTemperatureAndOrHumidityRange = domainAggregate.FacilityRequirements.SpecificTemperatureAndOrHumidityRange,
-                    IfSpecificTemperatureAndOrHumidityRangeThenDescription = domainAggregate.FacilityRequirements.IfSpecificTemperatureAndOrHumidityRangeThenDescription,
-                    ClinicalWasteDisposalFacilities = domainAggregate.FacilityRequirements.ClinicalWasteDisposalFacilities,
-                    IfClinicalWasteDisposalFacilitiesThenDescription = domainAggregate.FacilityRequirements.IfClinicalWasteDisposalFacilitiesThenDescription,
-                    GasSupply = domainAggregate.FacilityRequirements.GasSupply,
-                    IfGasSupplyThenDescription = domainAggregate.FacilityRequirements.IfGasSupplyThenDescription,
-                    Sterilization = domainAggregate.FacilityRequirements.Sterilization,
-                    IfSterilizationThenDescription = domainAggregate.FacilityRequirements.IfSterilizationThenDescription,
-                    RadiationIsolation = domainAggregate.FacilityRequirements.RadiationIsolation,
-                    CleanWaterSupply = domainAggregate.FacilityRequirements.CleanWaterSupply,
-                    AccessToInternet = domainAggregate.FacilityRequirements.AccessToInternet,
-                    AccessToCellularPhoneNetwork = domainAggregate.FacilityRequirements.AccessToCellularPhoneNetwork,
-                    ConnectionToLaptopComputer = domainAggregate.FacilityRequirements.ConnectionToLaptopComputer,
-                    AccessibleByCar = domainAggregate.FacilityRequirements.AccessibleByCar,
-                    AdditionalSoundOrLightControlFacilites = domainAggregate.FacilityRequirements.AdditionalSoundOrLightControlFacilites,
-                    Other = domainAggregate.FacilityRequirements.Other,
-                    OtherText = domainAggregate.FacilityRequirements.OtherText
-                };
+                model.FacilityRequirements = _autoMapper.Map<FacilityRequirementsViewModel>(domainAggregate.FacilityRequirements);
 
                 return model;
             }
@@ -265,7 +247,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                     }
                     else
                     {
-                        return (OtherProviderOfMaintenance)Activator.CreateInstance(type: providerOfMaintenanceType);
+                        return (ProviderOfMaintenance)Activator.CreateInstance(type: providerOfMaintenanceType);
                     }
                 }
                 else
@@ -438,5 +420,88 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public bool AdditionalSoundOrLightControlFacilites { get; set; }
         public bool Other { get; set; }
         public string OtherText { get; set; }
+
+        public IEnumerable<string> GetResult()
+        {
+            if (CleanWaterSupply)
+            {
+                yield return "Clean water supply";
+            }
+
+            if (SpecificTemperatureAndOrHumidityRange)
+            {
+                var result = "Specific temperature/humidity range";
+                if (!string.IsNullOrEmpty(IfSpecificTemperatureAndOrHumidityRangeThenDescription))
+                {
+                    result += $" (description: {IfSpecificTemperatureAndOrHumidityRangeThenDescription})";
+                }
+                yield return result;
+            }
+
+            if (ClinicalWasteDisposalFacilities)
+            {
+                var result = "Clinical waste disposal facilities";
+                if (!string.IsNullOrEmpty(IfClinicalWasteDisposalFacilitiesThenDescription))
+                {
+                    result += $" (description: {IfClinicalWasteDisposalFacilitiesThenDescription})";
+                }
+                yield return result;
+            }
+
+            if (GasSupply)
+            {
+                var result = "Gas supply";
+                if (!string.IsNullOrEmpty(IfGasSupplyThenDescription))
+                {
+                    result += $" (description: {IfGasSupplyThenDescription})";
+                }
+                yield return result;
+            }
+
+            if (Sterilization)
+            {
+                var result = "Sterilization";
+                if (!string.IsNullOrEmpty(IfSterilizationThenDescription))
+                {
+                    result += $" (description: {IfSterilizationThenDescription})";
+                }
+                yield return result;
+            }
+
+            if (RadiationIsolation)
+            {
+                yield return "Radiation isolation";
+            }
+
+            if (AccessToInternet)
+            {
+                yield return "Access to the Internet";
+            }
+
+            if (AccessToCellularPhoneNetwork)
+            {
+                yield return "Access to a cellular phone network";
+            }
+
+            if (ConnectionToLaptopComputer)
+            {
+                yield return "Connection to a laptop/computer";
+            }
+
+            if (AccessibleByCar)
+            {
+                yield return "Accessible by car";
+            }
+
+            if (AdditionalSoundOrLightControlFacilites)
+            {
+                yield return "Additional sound / light control facilities";
+            }
+
+            if (Other)
+            {
+                yield return OtherText;
+            }
+        }
     }
 }
