@@ -12,8 +12,8 @@
 
 /*Avatar image look*/
 .avatar {
-	border-radius: .25em;
-  object-fit: cover;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 /*Avatar image size in comments section*/
@@ -26,6 +26,7 @@
 .material-icons.icon-size-lg {
 	font-size: 5rem !important;
 }
+
 
 /*Override icon default values*/
 .material-icons {
@@ -42,13 +43,17 @@
 }
 
 /*coloring text to orange*/
-.text-orange {
+.color-orange {
 	color: var(--orange);
 }
 
-/*Coloring text to grey*/
-.text-grey {
+/*coloring text to grey*/
+.color-grey {
 	color: var(--primary-shade);
+}
+
+.bg-color-grey {
+	background-color: var(--primary-shade);
 }
 
 /*Repository icons*/
@@ -90,4 +95,9 @@
 /*Breaks word at any character*/
 .break-word-all {
 	word-break: break-all;
+}
+
+/*Looses text underline from link*/
+a.no-underline {
+	text-decoration: none;
 }

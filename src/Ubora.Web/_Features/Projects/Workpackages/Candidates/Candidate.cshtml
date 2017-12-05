@@ -146,20 +146,20 @@
                                       </span>
                                       @if (comment.IsEdited)
                                       {
-                                          <span class="text-grey">(edited)</span>
+                                          <span class="color-grey">(edited)</span>
                                       }
                                       <span class="d-block mt-2 small-text">
                                           @if (comment.CanBeEdited)
                                           {
                                               <button class="btn-link mr-2" role="button" data-toggle="collapse" data-target="#@comment.Id">edit</button>
                                                   <button class="btn-link mr-2" role="button" data-toggle="modal" data-target="#removeCommentModal-@comment.Id">delete</button>
-                                                  <span class="timeago text-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
+                                                  <span class="timeago color-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
                                                   @Html.Partial("RemoveCommentModal", comment.EditCommentViewModel)
                                                   <div class="collapse" id="@comment.Id">@Html.Partial("_EditCommentPartial", comment.EditCommentViewModel)</div>
                                           }
                                           else
                                           {
-                                              <span class="timeago text-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
+                                              <span class="timeago color-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
                                           }
                                       </span>
                                     </div>
