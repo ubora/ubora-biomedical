@@ -178,6 +178,8 @@ namespace Ubora.Web._Features.Users.Profile
             var user = await _userManager.FindByIdAsync(UserId.ToString());
             await _signInManager.RefreshSignInAsync(user);
 
+            Notices.Success("Profile image uploaded successfully!"); 
+
             return RedirectToAction(model.IsFirstTimeEditProfile ? nameof(FirstTimeEditProfile) : nameof(EditProfile));
         }
     }
