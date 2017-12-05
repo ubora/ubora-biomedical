@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Ubora.Domain.Users;
 using Ubora.Domain.Users.Commands;
+using Ubora.Domain.Users.Queries;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 
@@ -29,6 +29,7 @@ namespace Ubora.Web._Features.Admin
         {
 
             var userViewModels = new List<UserViewModel>();
+            var userFullnames = QueryProcessor.ExecuteQuery(new FindFullNamesQuery(_userManager.Users.Select(x => x.Id)));
 
             foreach (var user in _userManager.Users.ToList())
             {
@@ -36,12 +37,14 @@ namespace Ubora.Web._Features.Admin
                 {
                     UserId = user.Id,
                     UserEmail = user.Email,
-                    FullName = QueryProcessor.FindById<UserProfile>(user.Id).FullName,
+                    FullName = userFullnames[user.Id],
                     Roles = await _userManager.GetRolesAsync(user)
                 });
             }
 
-            return View(nameof(Diagnostics), userViewModels);
+            var orderedViewModel = userViewModels.OrderBy(x => x.FullName).ToList();
+
+            return View(nameof(Diagnostics), orderedViewModel);
         }
 
 
