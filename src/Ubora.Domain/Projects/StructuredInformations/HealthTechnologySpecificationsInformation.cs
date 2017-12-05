@@ -21,7 +21,7 @@ namespace Ubora.Domain.Projects.StructuredInformations
             FacilityRequirementsInformation facilityRequirements)
         {
             DeviceMeasurements = deviceMeasurements ?? throw new ArgumentNullException(nameof(deviceMeasurements));
-            UseOfConsumables = useOfConsumables ?? throw new ArgumentNullException(nameof(useOfConsumables));
+            UseOfConsumables = useOfConsumables;
             EstimatedLifeTime = estimatedLifeTime ?? throw new ArgumentNullException(nameof(estimatedLifeTime));
             EstimatedShelfTime = estimatedShelfTime ?? throw new ArgumentNullException(nameof(estimatedShelfTime));
             CanItHaveATelemedicineOrEHealthApplication = canItHaveATelemedicineOrEHealthApplication;
@@ -39,7 +39,7 @@ namespace Ubora.Domain.Projects.StructuredInformations
         }
 
         public DeviceMeasurements DeviceMeasurements { get; private set; } = DeviceMeasurements.CreateEmpty();
-        public UseOfConsumables UseOfConsumables { get; private set; } = UseOfConsumables.CreateEmpty();
+        public UseOfConsumables UseOfConsumables { get; private set; }
         public Duration EstimatedLifeTime { get; private set; } = Duration.CreateEmpty();
         public Duration EstimatedShelfTime { get; private set; } = Duration.CreateEmpty();
         public bool CanItHaveATelemedicineOrEHealthApplication { get; private set; }

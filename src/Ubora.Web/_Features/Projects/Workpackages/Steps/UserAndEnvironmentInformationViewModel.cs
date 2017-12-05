@@ -1,18 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.Commands;
 using Ubora.Domain.Projects.StructuredInformations.IntendedUsers;
+using ValidationContext = System.ComponentModel.DataAnnotations.ValidationContext;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
+    public class RequiredIfAttribute : ValidationAttribute
+    {
+        private string PropertyName { get; set; }
+        private object DesiredValue { get; set; }
+
+        public RequiredIfAttribute(string propertyName, object desiredvalue)
+        {
+            PropertyName = propertyName;
+            DesiredValue = desiredvalue;
+        }
+
+        protected override ValidationResult IsValid(object value, ValidationContext context)
+        {
+            Object instance = context.ObjectInstance;
+            Type type = instance.GetType();
+            Object proprtyvalue = type.GetProperty(PropertyName).GetValue(instance, null);
+            if (proprtyvalue.ToString() == DesiredValue.ToString())
+            {
+                ValidationResult result = base.IsValid(value, context);
+                return result;
+            }
+            return ValidationResult.Success;
+        }
+    }
+
     public class UserAndEnvironmentInformationViewModel
     {
         public string IntendedUserTypeKey { get; set; }
         public string IntendedUserIfOther { get; set; }
+
+        [Required]
         public bool IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser { get; set; }
+        [RequiredIf(nameof(IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser), true)]
         public string IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining { get; set; }
+
         public bool IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse { get; set; }
         public WhereWillTechnologyBeUsedViewModel WhereWillTechnologyBeUsed { get; set; } = new WhereWillTechnologyBeUsedViewModel();
 

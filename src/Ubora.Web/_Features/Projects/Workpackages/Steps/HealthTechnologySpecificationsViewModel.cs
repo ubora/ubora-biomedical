@@ -13,7 +13,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     public class HealthTechnologySpecificationsViewModel
     {
         public DeviceMeasurementsViewModel DeviceMeasurementsViewModel { get; set; } = new DeviceMeasurementsViewModel();
-        public bool DoesItRequireUseOfConsumables { get; set; }
+        public bool? DoesItRequireUseOfConsumables { get; set; }
         public string IfRequiresConsumablesListConsumables { get; set; }
         public int EstimatedLifeTimeInDays { get; set; }
         public int EstimatedLifeTimeInMonths { get; set; }
@@ -54,8 +54,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                     WeightInKilograms = domainAggregate.DeviceMeasurements.WeightInKilograms
                 };
 
-                model.DoesItRequireUseOfConsumables = domainAggregate.UseOfConsumables.IsRequired;
-                model.IfRequiresConsumablesListConsumables = domainAggregate.UseOfConsumables.IfRequiresConsumablesListConsumables;
+                model.DoesItRequireUseOfConsumables = domainAggregate.UseOfConsumables?.IsRequired;
+                model.IfRequiresConsumablesListConsumables = domainAggregate.UseOfConsumables?.IfRequiresConsumablesListConsumables;
 
                 model.EstimatedLifeTimeInDays = domainAggregate.EstimatedLifeTime.Days;
                 model.EstimatedLifeTimeInMonths = domainAggregate.EstimatedLifeTime.Months;
@@ -154,14 +154,17 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             public UseOfConsumables MapUseOfConsumables(HealthTechnologySpecificationsViewModel model)
             {
-                if (model.DoesItRequireUseOfConsumables)
+                if (model.DoesItRequireUseOfConsumables == true)
                 {
                     return UseOfConsumables.CreateUseOfConsumablesIfRequired(model.IfRequiresConsumablesListConsumables);
                 }
-                else
+
+                if (model.DoesItRequireUseOfConsumables == false)
                 {
                     return UseOfConsumables.CreateUseOfConsumablesIfNotRequired();
                 }
+
+                return null;
             }
 
             public Duration MapEstimatedLifeTime(HealthTechnologySpecificationsViewModel model)

@@ -6,9 +6,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     public class UserAndEnvironmentResult
     {
         public string IntendedUser { get; set; }
-        public bool IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser { get; set; }
+        public bool? IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser { get; set; }
         public string IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining { get; set; }
-        public bool IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse { get; set; }
+        public bool? IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse { get; set; }
         public WhereWillTechnologyBeUsedViewModel WhereWillTechnologyBeUsed { get; set; }
 
         public class Factory

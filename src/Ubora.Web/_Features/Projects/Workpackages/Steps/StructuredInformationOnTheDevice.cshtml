@@ -106,15 +106,15 @@
                             </tr>
                             <tr>
                                 <th scope="row">Does it require the use of consumables? For example, disposable batteries, disposable electrodes, etc.</th>
-                                <td>@Model.HealthTechnologySpecifications.DoesItRequireUseOfConsumables.ToYesNo()</td>
+                                @if (Model.HealthTechnologySpecifications.DoesItRequireUseOfConsumables == true)
+                                {
+                                    <td>Yes. @Model.HealthTechnologySpecifications.IfRequiresConsumablesListConsumables</td>
+                                }
+                                else
+                                {
+                                    <td>@Model.HealthTechnologySpecifications.DoesItRequireUseOfConsumables?.ToYesNo()</td>
+                                }
                             </tr>
-                            @if (Model.HealthTechnologySpecifications.DoesItRequireUseOfConsumables)
-                            {
-                                <tr>
-                                    <th scope="row">If yes, please list the consumables</th>
-                                    <td>@Model.HealthTechnologySpecifications.IfRequiresConsumablesListConsumables</td>
-                                </tr>
-                            }
                             <tr>
                                 <th scope="row">Estimated life time</th>
                                 <td>

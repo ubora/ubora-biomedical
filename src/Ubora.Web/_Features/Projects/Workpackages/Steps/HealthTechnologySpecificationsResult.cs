@@ -6,7 +6,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     public class HealthTechnologySpecificationsResult
     {
         public DeviceMeasurementsViewModel DeviceMeasurementsViewModel { get; set; }
-        public bool DoesItRequireUseOfConsumables { get; set; }
+        public bool? DoesItRequireUseOfConsumables { get; set; }
         public string IfRequiresConsumablesListConsumables { get; set; }
         public int EstimatedLifeTimeInDays { get; set; }
         public int EstimatedLifeTimeInMonths { get; set; }
@@ -46,8 +46,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                         DimensionsLength = healthTechnologySpecifications.DeviceMeasurements.DimensionsLength,
                         WeightInKilograms = healthTechnologySpecifications.DeviceMeasurements.WeightInKilograms
                     },
-                    DoesItRequireUseOfConsumables = healthTechnologySpecifications.UseOfConsumables.IsRequired,
-                    IfRequiresConsumablesListConsumables = healthTechnologySpecifications.UseOfConsumables.IfRequiresConsumablesListConsumables,
+                    DoesItRequireUseOfConsumables = healthTechnologySpecifications.UseOfConsumables?.IsRequired,
+                    IfRequiresConsumablesListConsumables = healthTechnologySpecifications.UseOfConsumables?.IfRequiresConsumablesListConsumables,
 
                     EstimatedLifeTimeInDays = healthTechnologySpecifications.EstimatedLifeTime.Days,
                     EstimatedLifeTimeInMonths = healthTechnologySpecifications.EstimatedLifeTime.Months,
