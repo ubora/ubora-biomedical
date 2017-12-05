@@ -35,8 +35,8 @@ namespace Ubora.Domain.Projects.Members.Commands
                     return CommandResult.Failed("User is already a mentor of this project.");
                 }
 
-                var isAlreadyInvited = _queryProcessor.Find(new HasPendingNotifications<ProjectMentorInvitation>(userProfile.UserId))
-                    .Any(x => x.ProjectId == project.Id);
+                var isAlreadyInvited = _queryProcessor.Find(new IsFromProjectSpec<ProjectMentorInvitation> { ProjectId = project.Id }
+                                                            && new HasPendingNotifications<ProjectMentorInvitation>(userProfile.UserId)).Any();
                 if (isAlreadyInvited)
                 {
                     return CommandResult.Failed($"{userProfile.FullName} already has a pending mentor invitation to this project.");

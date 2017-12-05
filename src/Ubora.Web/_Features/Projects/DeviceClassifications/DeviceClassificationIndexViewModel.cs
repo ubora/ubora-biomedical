@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Web._Features.Projects.ApplicableRegulations;
@@ -35,7 +36,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
 
             public virtual DeviceClassificationIndexViewModel Create(Guid projectId)
             {
-                var questionnaires = _queryProcessor.Find<DeviceClassificationAggregate>()
+                var questionnaires = _queryProcessor.Find<DeviceClassificationAggregate>(new MatchAll<DeviceClassificationAggregate>())
                     .Where(x => x.ProjectId == projectId)
                     .Where(x => !x.IsStopped)
                     .OrderByDescending(x => x.StartedAt)

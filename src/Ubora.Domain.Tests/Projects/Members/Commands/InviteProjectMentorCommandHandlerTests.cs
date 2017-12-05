@@ -68,11 +68,11 @@ namespace Ubora.Domain.Tests.Projects.Members.Commands
             _documentSessionStrictMock.Setup(x => x.Load<UserProfile>(UserId))
                 .Returns(userProfile);
 
-            var expectedSpec = new HasPendingNotifications<ProjectMentorInvitation>(UserId);
-            var invitationsBySpec = new[]
+            var expectedSpec = new IsFromProjectSpec<ProjectMentorInvitation>{ProjectId = ProjectId} &&
+                new HasPendingNotifications<ProjectMentorInvitation>(UserId);
+            var invitationsBySpec = new PagedListStub<ProjectMentorInvitation>
             {
-                new ProjectMentorInvitation(inviteeUserId: userProfile.UserId, projectId: Guid.NewGuid(), invitedBy: Guid.NewGuid()),
-                new ProjectMentorInvitation(inviteeUserId: userProfile.UserId, projectId: ProjectId, invitedBy: Guid.NewGuid()),
+                new ProjectMentorInvitation(inviteeUserId: Guid.NewGuid(), projectId: Guid.NewGuid(), invitedBy: Guid.NewGuid()),
             };
 
             _queryProcessorMock.Setup(x => x.Find(expectedSpec))
@@ -104,10 +104,11 @@ namespace Ubora.Domain.Tests.Projects.Members.Commands
             _documentSessionStrictMock.Setup(x => x.Load<UserProfile>(UserId))
                 .Returns(userProfile);
 
-            var expectedSpec = new HasPendingNotifications<ProjectMentorInvitation>(UserId);
+            var expectedSpec = new IsFromProjectSpec<ProjectMentorInvitation> { ProjectId = ProjectId } 
+                && new HasPendingNotifications<ProjectMentorInvitation>(UserId);
 
             _queryProcessorMock.Setup(x => x.Find(expectedSpec))
-                .Returns(Enumerable.Empty<ProjectMentorInvitation>);
+                .Returns(new PagedListStub<ProjectMentorInvitation>());
 
             ProjectMentorInvitation storedInvitation = null;
             _documentSessionStrictMock.Setup(x => x.Store(It.IsAny<ProjectMentorInvitation[]>()))

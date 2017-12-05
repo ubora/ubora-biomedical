@@ -29,7 +29,7 @@ namespace Ubora.Web.Tests._Features.Projects.History
 
             QueryProcessorMock.Setup(
                 q => q.Find<EventLogEntry>(new IsFromProjectSpec<EventLogEntry> {ProjectId = projectId}))
-                .Returns(new [] {log1, log2});
+                .Returns(new PagedListStub<EventLogEntry> { log1, log2});
 
             var eventViewModelFactoryMediatorMock = new Mock<IEventViewModelFactoryMediator>();
             var log1ViewModel = Mock.Of<IEventViewModel>();

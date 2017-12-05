@@ -1,5 +1,5 @@
 export class Feedback {
-    constructor(triggerElement) {
+    static initialize(triggerElement) {
         const modal = document.querySelector('.js-feedback-modal');
         const modalSendButton = document.querySelector('.js-feedback-send');
         const modalCloseButton = document.querySelector('.js-feedback-close');
@@ -39,17 +39,17 @@ export class Feedback {
         });
     }
 
-    _closeModal() {
+    static _closeModal() {
         const textarea = document.querySelector('.js-feedback-input');
         textarea.value = '';
         $('#feedbackModal').modal('hide');
     }
 
-    _openModal() {
+    static _openModal() {
         $('#feedbackModal').modal('toggle');
     }
 
-    _sendFeedback(data) {
+    static _sendFeedback(data) {
         function createNotice(noticeTypeClass, stringMessage) {
             const noticeContainerElement = document.createElement('div');
             noticeContainerElement.classList.add('alert', noticeTypeClass, 'alert-dismissible', 'fade', 'show');
@@ -92,5 +92,5 @@ export class Feedback {
 
 const feedbackButtonElement = document.querySelector('.js-feedback-trigger');
 if (feedbackButtonElement) {
-    new Feedback(feedbackButtonElement);
+    Feedback.initialize(feedbackButtonElement);
 }

@@ -90,7 +90,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async Task ChangeProfilePicture_Redirects_EditProfile_When_Command_Is_Executed_Successfully(bool isFirstTimeEditProfile)
+        public async Task ChangeProfilePicture_Redirects_EditProfile_And_Shows_Success_Notice_When_Command_Is_Executed_Successfully(bool isFirstTimeEditProfile)
         {
             var fileMock = new Mock<IFormFile>();
 
@@ -117,6 +117,10 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             //Assert
             result.ActionName.Should().Be(isFirstTimeEditProfile == false ? "EditProfile" : "FirstTimeEditProfile");
             _signInManagerMock.Verify(m => m.RefreshSignInAsync(applicationUser), Times.Once);
+
+            var notice = _controller.Notices.Dequeue();
+            notice.Text.Should().Be("Profile image uploaded successfully!");
+            notice.Type.Should().Be(NoticeType.Success);
         }
 
         [Fact]

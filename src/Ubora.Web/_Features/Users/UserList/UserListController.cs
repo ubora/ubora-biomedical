@@ -1,5 +1,6 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Users;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
@@ -18,7 +19,7 @@ namespace Ubora.Web._Features.Users.UserList
 
         public IActionResult Index()
         {
-            var userProfiles = QueryProcessor.Find<UserProfile>()
+            var userProfiles = QueryProcessor.Find<UserProfile>(new MatchAll<UserProfile>())
                 .OrderBy(u => u.FullName);
 
             var viewmodel = userProfiles.Select(userProfile => new UserListItemViewModel

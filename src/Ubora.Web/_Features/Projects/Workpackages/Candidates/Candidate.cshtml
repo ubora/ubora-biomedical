@@ -122,40 +122,41 @@
                                     <div class="col-lg-2">
                                         <img class="avatar avatar-comment" src="@comment.ProfilePictureUrl" />
                                     </div>
-                                    <div class="col-lg-10">
-                                        <p>
-                                            <strong><a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@comment.CommentatorId">@comment.CommentatorName</a></strong>
-                                            @if (comment.IsLeader)
-                                            {
-                                                <i class="material-icons align-middle" title="Project leader">supervisor_account</i>
-                                            }
-                                            @if (comment.IsMentor)
-                                            {
-                                                <i class="material-icons align-middle" title="Project mentor">school</i>
-                                            }
-                                        </p>
-                                        <p>
-                                            @comment.CommentText
-                                        @if (comment.IsEdited)
-                                        {
-                                            <span class="small-text text-grey">(edited)</span>
-                                        }
-                                    </p>
-                                    <span class="small-text">
-                                        @if (comment.CanBeEdited)
-                                        {
-                                            <button class="btn-link mr-2" role="button" data-toggle="collapse" data-target="#@comment.Id">edit</button>
-                                                <button class="btn-link mr-2" role="button" data-toggle="modal" data-target="#removeCommentModal-@comment.Id">delete</button>
-                                                <span class="timeago text-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
-                                                @Html.Partial("RemoveCommentModal", comment.EditCommentViewModel)
-                                                <div class="collapse" id="@comment.Id">@Html.Partial("_EditCommentPartial", comment.EditCommentViewModel)</div>
-                                        }
-                                        else
-                                        {
-                                            <span class="timeago text-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
-                                        }
-                                    </span>
-                                </div>
+                                    <div class="col-lg-10 mb-4">
+                                      <span class="d-block">
+                                          <strong><a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@comment.CommentatorId">@comment.CommentatorName</a></strong>
+                                          @if (comment.IsLeader)
+                                          {
+                                              <i class="material-icons align-middle" title="Project leader">supervisor_account</i>
+                                          }
+                                          @if (comment.IsMentor)
+                                          {
+                                              <i class="material-icons align-middle" title="Project mentor">school</i>
+                                          }
+                                      </span>
+                                      <span class="comment more">
+                                        @comment.CommentText
+
+                                      </span>
+                                      @if (comment.IsEdited)
+                                      {
+                                          <span class="text-grey">(edited)</span>
+                                      }
+                                      <span class="d-block mt-2 small-text">
+                                          @if (comment.CanBeEdited)
+                                          {
+                                              <button class="btn-link mr-2" role="button" data-toggle="collapse" data-target="#@comment.Id">edit</button>
+                                                  <button class="btn-link mr-2" role="button" data-toggle="modal" data-target="#removeCommentModal-@comment.Id">delete</button>
+                                                  <span class="timeago text-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
+                                                  @Html.Partial("RemoveCommentModal", comment.EditCommentViewModel)
+                                                  <div class="collapse" id="@comment.Id">@Html.Partial("_EditCommentPartial", comment.EditCommentViewModel)</div>
+                                          }
+                                          else
+                                          {
+                                              <span class="timeago text-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
+                                          }
+                                      </span>
+                                    </div>
                                 }
                             </div>
                         </div>
@@ -172,3 +173,9 @@
 
     </div>
 </div>
+
+
+@section Scripts {
+    <script src="~/dist/voting.bundle.js"></script>
+    <script src="~/dist/show_more.bundle.js"></script>
+}
