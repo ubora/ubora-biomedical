@@ -16,20 +16,20 @@ namespace Ubora.Web._Features.Users.Profile
         public string Skills { get; set; }
         public string Role { get; set; }
         public string CountryCode { get; set; }
+
         public IEnumerable<SelectListItem> Countries
         {
             get
             {
-                var allCountries = Country.GetAllCountries()
-                    .OrderBy(x => x.EnglishName);
+                var countrySelectListItems = Country.GetAllCountries()
+                    .Select(country => new SelectListItem
+                    {
+                        Value = country.Code,
+                        Text = country.DisplayName
+                    })
+                    .OrderBy(x => x.Text);
 
-                var countries =  allCountries.Select(country => new SelectListItem
-                {
-                    Value = country.Code,
-                    Text = country.EnglishName
-                });
-
-                return countries;
+                return countrySelectListItems;
             }
         }
     }

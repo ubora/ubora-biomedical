@@ -54,7 +54,7 @@ namespace Ubora.Web._Features._Shared
 
             CreateMap<UserProfile, ProfileViewModel>()
                 .ForMember(dest => dest.ProfilePictureLink, o => o.Ignore())
-                .ForMember(dest => dest.CountryEnglishName, o => o.MapFrom(src => src.Country.EnglishName));
+                .ForMember(dest => dest.CountryEnglishName, o => o.MapFrom(src => src.Country.DisplayName));
 
             CreateMap<UserProfile, UserProfileViewModel>()
                 .ForMember(dest => dest.CountryCode, o => o.MapFrom(src => src.Country.Code));
