@@ -17,3 +17,13 @@
   color: var(--orange);
   text-align: center;
 }
+
+.alert-dismissible .close {
+  top: 0;
+  right: 0;
+  padding: 0;
+}
+
+.alert p {
+  margin: 0;
+}

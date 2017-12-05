@@ -24,18 +24,18 @@ Scenario: I check my created profile
     When I click on the element "span=Profile"
         And I click on the element "a=Edit profile"
     Then I expect the title of the page "Edit profile - UBORA"
-        And I expect the element "value=FirstName" is visible
-        And I expect the element "value=LastName" is visible
-        And I expect the element "value=test@agileworks.eu" is visible
-        And I expect the element "textarea=Bio Bio Bio, Test Test Test" is visible
-        And I expect the element "option=Angola" is visible
-        And I expect the element "value=DegreeTest" is visible
-        And I expect the element "value=FieldTest" is visible
-        And I expect the element "value=UniversityTest" is visible
-        And I expect the element "option=Researcher" is visible
-        And I expect the element "value=InstitutionTest" is visible
-        And I expect the element "value=SkillsTest" is visible
-        And I expect the element "option=Developer" is visible
+        And I expect the element "#FirstName" to contain text "firstName"
+        And I expect the element "#LastName" to contain text "lastName"
+        And I expect the element "#Email" to contain text "user@profile.com"
+        And I expect the element "#Biography" to contain text "Bio Bio Bio, Test Test Test"
+        And I expect the element "#CountryCode" to contain text "AGO"
+        And I expect the element "#Degree" to contain text "DegreeTest"
+        And I expect the element "#Field" to contain text "FieldTest"
+        And I expect the element "#University" to contain text "UniversityTest"
+        And I expect the element "#MedicalDevice" to contain text "Researcher"
+        And I expect the element "#Institution" to contain text "InstitutionTest"
+        And I expect the element "#Skills" to contain text "SkillsTest"
+        And I expect the element "#Role" to contain text "Developer"
     When I click on the element "button=Edit profile"
     Then I expect the title of the page "Manage your account - UBORA"
 
@@ -56,18 +56,18 @@ Scenario: I change my profile and check if my changes have been saved
         And I click on the element "button=Edit profile"
         And I click on the element "a=Edit profile"
     Then I expect the title of the page "Edit profile - UBORA"
-        And I expect the element "value=NameFirst" is visible
-        And I expect the element "value=NameLast" is visible
-        And I expect the element "value=test@agileworks.eu" is visible
-        And I expect the element "textarea=Test Test Test, Bio Bio Bio" is visible
-        And I expect the element "option=Bulgaria" is visible
-        And I expect the element "value=TestDegree" is visible
-        And I expect the element "value=TestField" is visible
-        And I expect the element "value=TestUniversity" is visible
-        And I expect the element "option=Healthcare provider" is visible
-        And I expect the element "value=TestInstitution" is visible
-        And I expect the element "value=TestSkills" is visible
-        And I expect the element "option=Mentor" is visible
+        And I expect the element "#FirstName" to contain text "NameFirst"
+        And I expect the element "#LastName" to contain text "NameLast"
+        And I expect the element "#Email" to contain text "user@profile.com"
+        And I expect the element "#Biography" to contain text "Test Test Test, Bio Bio Bio"
+        And I expect the element "#CountryCode" to contain text "BGR"
+        And I expect the element "#Degree" to contain text "TestDegree"
+        And I expect the element "#Field" to contain text "TestField"
+        And I expect the element "#University" to contain text "TestUniversity"
+        And I expect the element "#MedicalDevice" to contain text "Healthcare provider"
+        And I expect the element "#Institution" to contain text "TestInstitution"
+        And I expect the element "#Skills" to contain text "TestSkills"
+        And I expect the element "#Role" to contain text "Mentor"
 
 Scenario: I try to add an empty profile picture
     When I click on the element "span=Profile"
