@@ -8,5 +8,6 @@ namespace Ubora.Web._Features.Users.UserList
         public string FullName { get; set; }
         public string Email { get; set; }
         public string ProfilePictureLink { get; set; }
+        public string Role { get; set; }
     }
 }
