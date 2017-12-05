@@ -70,11 +70,15 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [Route(nameof(StructuredInformationOnTheDevice))]
-        public IActionResult StructuredInformationOnTheDevice()
+        public IActionResult StructuredInformationOnTheDevice([FromServices] StructuredInformationResultViewModel.Factory modelFactory)
         {
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
-            return View();
+            var deviceStructuredInformation = QueryProcessor.FindById<DeviceStructuredInformation>(ProjectId);
+
+            var model = modelFactory.Create(deviceStructuredInformation);
+
+            return View(model);
         }
 
         [Route(nameof(HealthTechnologySpecifications))]
@@ -113,7 +117,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return HealthTechnologySpecifications(modelFactory);
             }
 
-            return RedirectToAction(nameof(StructuredInformationOnTheDeviceResult));
+            return RedirectToAction(nameof(StructuredInformationOnTheDevice));
         }
 
         [Route(nameof(UserAndEnvironment))]
@@ -152,19 +156,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return UserAndEnvironment(modelFactory);
             }
 
-            return RedirectToAction(nameof(StructuredInformationOnTheDeviceResult));
-        }
-
-        [Route(nameof(StructuredInformationOnTheDeviceResult))]
-        public IActionResult StructuredInformationOnTheDeviceResult([FromServices] StructuredInformationResultViewModel.Factory modelFactory)
-        {
-            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
-
-            var deviceStructuredInformation = QueryProcessor.FindById<DeviceStructuredInformation>(ProjectId);
-
-            var model = modelFactory.Create(deviceStructuredInformation);
-
-            return View(model);
+            return RedirectToAction(nameof(StructuredInformationOnTheDevice));
         }
     }
 }

@@ -378,6 +378,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public decimal DimensionsLength { get; set; }
         public decimal DimensionsWidth { get; set; }
         public decimal WeightInKilograms { get; set; }
+
+        public bool IsAllDimensionsSet => DimensionsLength != 0 || DimensionsHeight != 0 || DimensionsWidth != 0;
     }
 
     public class EnergyRequirementsViewModel

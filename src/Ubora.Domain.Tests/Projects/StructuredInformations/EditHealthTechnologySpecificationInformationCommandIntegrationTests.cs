@@ -40,6 +40,7 @@ namespace Ubora.Domain.Tests.Projects.StructuredInformations
             var aggregate = Processor.FindById<DeviceStructuredInformation>(projectId);
 
             aggregate.HealthTechnologySpecification.ShouldBeEquivalentTo(healthTechnologySpecificationsInformation);
+            aggregate.IsHealthTechnologySpecificationEdited.Should().BeTrue();
         }
     }
 }

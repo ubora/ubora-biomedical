@@ -3,7 +3,6 @@ using FluentAssertions;
 using TestStack.BDDfy;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.Commands;
-using Ubora.Domain.Projects.StructuredInformations.IntendedUsers;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Projects.StructuredInformations
@@ -41,6 +40,7 @@ namespace Ubora.Domain.Tests.Projects.StructuredInformations
             var aggregate = Processor.FindById<DeviceStructuredInformation>(projectId);
 
             aggregate.UserAndEnvironment.ShouldBeEquivalentTo(userAndEnvironmentInformation);
+            aggregate.IsUserAndEnvironmentEdited.Should().BeTrue();
         }
     }
 }

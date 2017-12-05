@@ -62,7 +62,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             CommandProcessorMock
                 .Verify(x => x.Execute(It.IsAny<EditUserAndEnvironmentInformationCommand>()), Times.Once);
 
-            result.ActionName.Should().Be(nameof(WorkpackageTwoController.StructuredInformationOnTheDeviceResult));
+            result.ActionName.Should().Be(nameof(WorkpackageTwoController.StructuredInformationOnTheDevice));
         }
 
         [Fact]
@@ -110,7 +110,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             CommandProcessorMock
                 .Verify(x => x.Execute(It.IsAny<EditHealthTechnologySpecificationInformationCommand>()), Times.Once);
 
-            result.ActionName.Should().Be(nameof(WorkpackageTwoController.StructuredInformationOnTheDeviceResult));
+            result.ActionName.Should().Be(nameof(WorkpackageTwoController.StructuredInformationOnTheDevice));
         }
 
         [Fact]

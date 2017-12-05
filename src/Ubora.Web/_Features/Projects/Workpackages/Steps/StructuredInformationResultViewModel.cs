@@ -6,6 +6,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     {
         public UserAndEnvironmentResult UserAndEnvironment { get; set; }
         public HealthTechnologySpecificationsResult HealthTechnologySpecifications { get; set; }
+        public bool IsUserAndEnvironmentEdited { get; set; }
+        public bool IsHealthTechnologySpecificationEdited { get; set; }
 
         public class Factory
         {
@@ -23,7 +25,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return new StructuredInformationResultViewModel
                 {
                     UserAndEnvironment = _userAndEnvironmentFactory.Create(deviceStructuredInformation.UserAndEnvironment),
-                    HealthTechnologySpecifications = _healthTechnologySpecifications.Create(deviceStructuredInformation.HealthTechnologySpecification)
+                    HealthTechnologySpecifications = _healthTechnologySpecifications.Create(deviceStructuredInformation.HealthTechnologySpecification),
+                    IsUserAndEnvironmentEdited = deviceStructuredInformation.IsUserAndEnvironmentEdited,
+                    IsHealthTechnologySpecificationEdited = deviceStructuredInformation.IsHealthTechnologySpecificationEdited
                 };
             }
         }
