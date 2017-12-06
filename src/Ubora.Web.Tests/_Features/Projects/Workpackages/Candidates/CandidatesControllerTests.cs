@@ -15,12 +15,14 @@ using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.Candidates.Commands;
 using Ubora.Domain.Projects.Candidates.Specifications;
+using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web.Tests.Helper;
 using Ubora.Web._Features.Projects.Workpackages.Candidates;
+using Ubora.Web._Features._Shared.Notices;
 using Xunit;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
@@ -62,6 +64,11 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 {
                     MethodName = nameof(CandidatesController.RemoveCandidateImage),
                     Policies = new []{ nameof(Policies.CanRemoveProjectCandidateImage) }
+                },
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                {
+                    MethodName = nameof(CandidatesController.OpenWorkpackageThree),
+                    Policies = new []{ nameof(Policies.CanOpenWorkpackageThree) }
                 }
             };
 
@@ -70,7 +77,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
 
 
         [Fact]
-        public void Voting_Returns_Voting_View_With_Candidates()
+        public async Task Voting_Returns_Voting_View_With_Candidates()
         {
             var candidateItemViewModelFactoryMock = new Mock<CandidateItemViewModel.Factory>(Mock.Of<ImageStorageProvider>(), Mock.Of<IMapper>());
 
@@ -88,13 +95,17 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
             candidateItemViewModelFactoryMock.Setup(x => x.Create(candidate2))
                 .Returns(candidate2ItemViewModel);
 
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, Policies.CanOpenWorkpackageThree))
+                .ReturnsAsync(AuthorizationResult.Success());
+
             var expectedModel = new VotingViewModel
             {
-                Candidates = new[] { candidate1ItemViewModel, candidate2ItemViewModel }.AsEnumerable()
+                Candidates = new[] { candidate1ItemViewModel, candidate2ItemViewModel }.AsEnumerable(),
+                CanOpenWorkpackageThree = true
             };
 
             // Act
-            var result = (ViewResult)_controller.Voting(candidateItemViewModelFactoryMock.Object);
+            var result = (ViewResult) await _controller.Voting(candidateItemViewModelFactoryMock.Object);
 
             // Assert
             result.ViewName.Should().Be(nameof(CandidatesController.Voting));
@@ -1015,6 +1026,30 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
             result.GetType().Should().Be(typeof(ForbidResult));
 
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task OpenWorkpackageThree_Executes_Command_And_Redirects_To_Voting_With_Success_Notice()
+        {
+            OpenWorkpackageThreeCommand executedCommand = null;
+            CommandProcessorMock
+                .Setup(p => p.Execute(It.IsAny<OpenWorkpackageThreeCommand>()))
+                .Callback<OpenWorkpackageThreeCommand>(c => executedCommand = c)
+                .Returns(CommandResult.Success);
+
+            var candidateItemViewModelFactoryMock = new Mock<CandidateItemViewModel.Factory>(Mock.Of<ImageStorageProvider>(), Mock.Of<IMapper>());
+
+            // Act
+            var result = (RedirectToActionResult) await _controller.OpenWorkpackageThree(candidateItemViewModelFactoryMock.Object);
+
+            // Assert
+            result.ActionName.Should().Be(nameof(CandidatesController.Voting));
+            executedCommand.ProjectId.Should().Be(ProjectId);
+            executedCommand.Actor.UserId.Should().Be(UserId);
+
+            var successNotice = _controller.Notices.Dequeue();
+            successNotice.Text.Should().Be("Work package three opened successfully!");
+            successNotice.Type.Should().Be(NoticeType.Success);
         }
     }
 }

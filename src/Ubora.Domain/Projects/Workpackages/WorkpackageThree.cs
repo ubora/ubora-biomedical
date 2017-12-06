@@ -1,11 +1,18 @@
-﻿using Ubora.Domain.Projects.Workpackages.Events;
+﻿using System;
+using System.Linq;
+using Ubora.Domain.Projects.Workpackages.Events;
 
 namespace Ubora.Domain.Projects.Workpackages
 {
     public class WorkpackageThree : Workpackage<WorkpackageThree>
     {
-        private void Apply(WorkpackageOneReviewAcceptedEvent e)
+        private void Apply(WorkpackageThreeOpenedEvent e)
         {
+            if (_steps.Any())
+            {
+                throw new InvalidOperationException("Already opened.");
+            }
+
             ProjectId = e.ProjectId;
 
             Title = "Design and prototyping";

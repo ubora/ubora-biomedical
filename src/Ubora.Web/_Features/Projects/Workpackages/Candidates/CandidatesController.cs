@@ -8,6 +8,7 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.Candidates.Commands;
 using Ubora.Domain.Projects.Candidates.Specifications;
+using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Extensions;
@@ -36,16 +37,20 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
         }
 
         [Route(nameof(Voting))]
-        public IActionResult Voting([FromServices] CandidateItemViewModel.Factory candidateItemViewModelFactory)
+        public async Task<IActionResult> Voting([FromServices] CandidateItemViewModel.Factory candidateItemViewModelFactory)
         {
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.Voting;
 
             var candidates = QueryProcessor.Find(new IsProjectCandidateSpec(ProjectId));
 
-            var candidateViewModels = candidates.Select(candidate => candidateItemViewModelFactory.Create(candidate));
+            var canOpenWp3 = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanOpenWorkpackageThree);
+            var isWp3AlreadyOpened = true;
+
+            var candidateViewModels = candidates.Select(candidateItemViewModelFactory.Create);
             var model = new VotingViewModel
             {
-                Candidates = candidateViewModels
+                Candidates = candidateViewModels,
+                CanOpenWorkpackageThree = canOpenWp3 && !isWp3AlreadyOpened
             };
 
             return View(nameof(Voting), model);
@@ -317,6 +322,23 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             }
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.CandidateId });
+        }
+
+        [HttpPost]
+        [Authorize(Policies.CanOpenWorkpackageThree)]
+        public async Task<IActionResult> OpenWorkpackageThree([FromServices] CandidateItemViewModel.Factory candidateItemViewModelFactory)
+        {
+            ExecuteUserProjectCommand(new OpenWorkpackageThreeCommand());
+
+            if (!ModelState.IsValid)
+            {
+                Notices.Error("Failed to open work package three!");
+                return await Voting(candidateItemViewModelFactory);
+            }
+
+            Notices.Success("Work package three opened successfully!");
+
+            return RedirectToAction(nameof(Voting));
         }
     }
 }

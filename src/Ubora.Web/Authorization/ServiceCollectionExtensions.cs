@@ -118,6 +118,10 @@ namespace Ubora.Web.Authorization
                     policyBuilder.AddRequirements(new IsVoteNotGivenRequirement());
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                 });
+                options.AddPolicy(nameof(Policies.CanOpenWorkpackageThree), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
             });
 
             return services;

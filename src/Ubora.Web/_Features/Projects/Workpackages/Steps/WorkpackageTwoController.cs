@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Web._Features.Projects.Workpackages.Candidates;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features.Projects._Shared;
 
@@ -67,6 +68,5 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             return RedirectToAction(nameof(Read), new { stepId = model.StepId });
         }
-
     }
 }

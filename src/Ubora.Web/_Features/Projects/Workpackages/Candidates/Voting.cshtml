@@ -1,5 +1,4 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages
-@using Ubora.Web._Features.Projects.Workpackages.Candidates
 @model Ubora.Web._Features.Projects.Workpackages.Candidates.VotingViewModel
 
 <div class="container-fluid my-4">
@@ -23,6 +22,9 @@
                                     <i class="material-icons">add</i>
                                     <span>Add candidate</span>
                                 </a>
+                                <form asp-controller="Candidates" asp-action="OpenWorkpackageThree" method="post">
+                                    <button class="btn btn-secondary-ghost align-self-start">Open WP3</button>
+                                </form>
                             }
                         </div>
                     </div>
