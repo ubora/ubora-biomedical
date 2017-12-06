@@ -39,7 +39,7 @@ namespace Ubora.Domain.Projects.StructuredInformations
         }
 
         public DeviceMeasurements DeviceMeasurements { get; private set; } = DeviceMeasurements.CreateEmpty();
-        public UseOfConsumables UseOfConsumables { get; private set; }
+        public UseOfConsumables UseOfConsumables { get; private set; } = UseOfConsumables.CreateEmpty();
         public Duration EstimatedLifeTime { get; private set; } = Duration.CreateEmpty();
         public Duration EstimatedShelfTime { get; private set; } = Duration.CreateEmpty();
         public bool CanItHaveATelemedicineOrEHealthApplication { get; private set; }

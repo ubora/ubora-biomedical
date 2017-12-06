@@ -15,7 +15,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     {
         public DeviceMeasurementsViewModel DeviceMeasurementsViewModel { get; set; } = new DeviceMeasurementsViewModel();
         [Required(ErrorMessage = "The field is required.")]
-        public bool? DoesItRequireUseOfConsumables { get; set; }
+        public bool DoesItRequireUseOfConsumables { get; set; }
         [RequiredIf(nameof(DoesItRequireUseOfConsumables), true)]
         public string IfRequiresConsumablesListConsumables { get; set; }
         [Required(ErrorMessage = "Estimated life time in days is required.")]
@@ -66,8 +66,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                     WeightInKilograms = domainAggregate.DeviceMeasurements.WeightInKilograms
                 };
 
-                model.DoesItRequireUseOfConsumables = domainAggregate.UseOfConsumables?.IsRequired;
-                model.IfRequiresConsumablesListConsumables = domainAggregate.UseOfConsumables?.IfRequiresConsumablesListConsumables;
+                model.DoesItRequireUseOfConsumables = domainAggregate.UseOfConsumables.IsRequired;
+                model.IfRequiresConsumablesListConsumables = domainAggregate.UseOfConsumables.IfRequiresConsumablesListConsumables;
 
                 model.EstimatedLifeTimeInDays = domainAggregate.EstimatedLifeTime.Days;
                 model.EstimatedLifeTimeInMonths = domainAggregate.EstimatedLifeTime.Months;
