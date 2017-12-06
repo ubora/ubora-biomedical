@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using System.Dynamic;
 using System.Threading.Tasks;
 using Ubora.Web.Authorization.Requirements;
 using Ubora.Web.Tests.Fakes;
@@ -45,6 +46,23 @@ namespace Ubora.Web.Tests.Authorization
             var handlerContext = new AuthorizationHandlerContext(
                 requirements: new[] { new IsEmailConfirmedRequirement() },
                 user: user,
+                resource: null);
+
+            // Act
+            await _handlerUnderTest.HandleAsync(handlerContext);
+
+            // Assert
+            handlerContext.HasSucceeded
+                .Should().BeFalse();
+        }
+
+
+        [Fact]
+        public async Task Does_Not_Succeed_For_Anonymous_User()
+        {
+            var handlerContext = new AuthorizationHandlerContext(
+                requirements: new[] { new IsEmailConfirmedRequirement() },
+                user: FakeClaimsPrincipalFactory.CreateAnonymousUser(),
                 resource: null);
 
             // Act

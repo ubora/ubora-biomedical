@@ -1,13 +1,14 @@
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ubora.Web.Authorization.Requirements
 {
-    /// <see cref="_Features.Projects.ProjectController"/>
+    /// <summary> 'Special' requirement meant only for use on <see cref="_Features.Projects.ProjectController"/>. </summary>
     public class ProjectControllerRequirement : IAuthorizationRequirement
     {
         public class Handler : AuthorizationHandler<ProjectControllerRequirement>
@@ -29,19 +30,34 @@ namespace Ubora.Web.Authorization.Requirements
                 var serviceProvider = filterContext.HttpContext.RequestServices;
                 var authorizationService = serviceProvider.GetService<IAuthorizationService>();
 
-                var authorizationResult = await authorizationService.AuthorizeAsync(context.User,
-                    resource: null,
-                    requirements: new IAuthorizationRequirement[]
-                    {
-                        new DenyAnonymousAuthorizationRequirement(),
-                        new IsProjectMemberRequirement()
-                    });
+                // Authorize differently based on HTTP method.
+                var httpMethod = new HttpMethod(filterContext.HttpContext.Request.Method);
+                var isSafeHttpMethod = DefinedAsSafeHttpMethods.Contains(httpMethod);
 
-                if (authorizationResult.Succeeded)
+                bool isAuthorized;
+                if (isSafeHttpMethod)
+                {
+                    isAuthorized = await authorizationService.IsAuthorizedAsync(context.User, Policies.CanViewProjectNonPublicContent);
+                }
+                else
+                {
+                    isAuthorized = await authorizationService.IsAuthorizedAsync(context.User, Policies.CanWorkOnProjectContent);
+                }
+
+                if (isAuthorized)
                 {
                     context.Succeed(requirement);
                 }
             }
         }
+
+        /// <remarks> 'Safe' HTTP methods: https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Safe_methods </remarks>>
+        private static readonly IReadOnlyCollection<HttpMethod> DefinedAsSafeHttpMethods = new[]
+        {
+            HttpMethod.Get,
+            HttpMethod.Head,
+            HttpMethod.Options,
+            HttpMethod.Trace
+        };
     }
 }
