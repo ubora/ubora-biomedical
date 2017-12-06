@@ -1,11 +1,35 @@
 ﻿using System;
+using System.Linq;
 using Marten;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.Repository.Events;
+using Ubora.Domain.Questionnaires.DeviceClassifications;
 
 namespace Ubora.Domain.Projects.Repository.Commands
 {
+    public class Test
+    {
+        private readonly IDocumentSession _documentSession;
+
+        public Test(IDocumentSession _documentSession)
+        {
+            this._documentSession = _documentSession;
+        }
+
+        public void DoYourThing()
+        {
+            var ids = _documentSession.Query<DeviceClassificationAggregate>().Select(x => x.Id);
+
+            foreach (var id in ids)
+            {
+                var aggregate = _documentSession.Load<DeviceClassificationAggregate>(id);
+                var aggregateMetaData = _documentSession.Tenant.MetadataFor(aggregate);
+                _documentSession.Store(aggregate, aggregateMetaData.CurrentVersion);
+            }
+        }
+    }
+
     public class UpdateFileCommand : UserProjectCommand
     {
         public Guid Id { get; set; }
@@ -25,6 +49,7 @@ namespace Ubora.Domain.Projects.Repository.Commands
             public ICommandResult Handle(UpdateFileCommand cmd)
             {
                 var projectFile = _documentSession.LoadOrThrow<ProjectFile>(cmd.Id);
+
 
                 var revisionNumber = projectFile.RevisionNumber + 1;
                 var @event = new FileUpdatedEvent(

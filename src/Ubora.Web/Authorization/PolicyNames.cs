@@ -22,5 +22,6 @@
         public const string CanRemoveProjectCandidateImage = nameof(CanRemoveProjectCandidateImage);
         public const string CanEditComment = nameof(CanEditComment);
         public const string CanVoteCandidate = nameof(CanVoteCandidate);
+        public const string CanEditDesignPlanning = nameof(CanEditDesignPlanning);
     }
 }
