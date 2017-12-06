@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Ubora.Domain.Projects.StructuredInformations;
@@ -7,6 +6,7 @@ using Ubora.Domain.Projects.StructuredInformations.Commands;
 using Ubora.Domain.Projects.StructuredInformations.Portabilities;
 using Ubora.Domain.Projects.StructuredInformations.ProvidersOfMaintenance;
 using Ubora.Domain.Projects.StructuredInformations.TypesOfUse;
+using Ubora.Web.Infrastructure;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -14,17 +14,28 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     public class HealthTechnologySpecificationsViewModel
     {
         public DeviceMeasurementsViewModel DeviceMeasurementsViewModel { get; set; } = new DeviceMeasurementsViewModel();
-        public bool? DoesItRequireUseOfConsumables { get; set; }
+        [Required]
+        public bool DoesItRequireUseOfConsumables { get; set; }
+        [RequiredIf(nameof(DoesItRequireUseOfConsumables), true)]
         public string IfRequiresConsumablesListConsumables { get; set; }
+        [Required]
         public int EstimatedLifeTimeInDays { get; set; }
+        [Required]
         public int EstimatedLifeTimeInMonths { get; set; }
+        [Required]
         public int EstimatedLifeTimeInYears { get; set; }
+        [Required]
         public int EstimatedShelfLifeInDays { get; set; }
+        [Required]
         public int EstimatedShelfLifeInMonths { get; set; }
+        [Required]
         public int EstimatedShelfLifeInYears { get; set; }
+        [Required]
         public bool CanItHaveATelemedicineOrEHealthApplication { get; set; }
         public DeviceSoftwareUsageViewModel DeviceSoftwareUsageViewModel { get; set; } = new DeviceSoftwareUsageViewModel();
+        [Required]
         public string PortabilityKey { get; set; }
+        [Required]
         public string TypeOfUseKey { get; set; }
         public TechnologyMaintenanceViewModel TechnologyMaintenanceViewModel { get; set; } = new TechnologyMaintenanceViewModel();
         public EnergyRequirementsViewModel EnergyRequirements { get; set; } = new EnergyRequirementsViewModel();
@@ -55,8 +66,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                     WeightInKilograms = domainAggregate.DeviceMeasurements.WeightInKilograms
                 };
 
-                model.DoesItRequireUseOfConsumables = domainAggregate.UseOfConsumables?.IsRequired;
-                model.IfRequiresConsumablesListConsumables = domainAggregate.UseOfConsumables?.IfRequiresConsumablesListConsumables;
+                model.DoesItRequireUseOfConsumables = domainAggregate.UseOfConsumables.IsRequired;
+                model.IfRequiresConsumablesListConsumables = domainAggregate.UseOfConsumables.IfRequiresConsumablesListConsumables;
 
                 model.EstimatedLifeTimeInDays = domainAggregate.EstimatedLifeTime.Days;
                 model.EstimatedLifeTimeInMonths = domainAggregate.EstimatedLifeTime.Months;
@@ -356,158 +367,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                     );
             }
 
-        }
-    }
-
-    public class TechnologyMaintenanceViewModel
-    {
-        public bool DoesTechnologyRequireMaintenance { get; set; }
-        public string IfTechnologyRequiresMaintenanceSpecifyType { get; set; }
-        public string IfTechnologyRequiresMaintenanceSpecifyFrequency { get; set; }
-        public bool IfTechnologyRequiresMaintenanceCanItBeDoneOnSiteOrHomeOrCommunity { get; set; }
-        public string IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance { get; set; }
-        public string IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenanceOther { get; set; }
-    }
-
-    public class DeviceSoftwareUsageViewModel
-    {
-        public bool DoesItUseAnyKindOfSoftware { get; set; }
-        public string IfUsesSoftwareDescribeSoftware { get; set; }
-        public string IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse { get; set; }
-    }
-
-    public class DeviceMeasurementsViewModel
-    {
-        public decimal DimensionsHeight { get; set; }
-        public decimal DimensionsLength { get; set; }
-        public decimal DimensionsWidth { get; set; }
-        public decimal WeightInKilograms { get; set; }
-
-        public bool IsAllDimensionsSet => DimensionsLength != 0 || DimensionsHeight != 0 || DimensionsWidth != 0;
-    }
-
-    public class EnergyRequirementsViewModel
-    {
-        public bool MechanicalEnergy { get; set; }
-        public bool Batteries { get; set; }
-        public bool PowerSupplyForRecharging { get; set; }
-        public decimal IfPowerSupplyForRechargingThenRequiredVoltage { get; set; }
-        public int IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours { get; set; }
-        public int IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes { get; set; }
-        public int IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours { get; set; }
-        public int IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes { get; set; }
-        public bool ContinuousPowerSupply { get; set; }
-        public decimal IfContinuousPowerSupplyThenRequiredVoltage { get; set; }
-        public bool SolarPower { get; set; }
-        public int IfSolarPowerThenTimeInSunlightRequiredToChargeInHours { get; set; }
-        public int IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes { get; set; }
-        public int IfSolarPowerThenBatteryLifeInHours { get; set; }
-        public int IfSolarPowerThenBatteryLifeInMinutes { get; set; }
-        public bool Other { get; set; }
-        public string OtherText { get; set; }
-    }
-
-    public class FacilityRequirementsViewModel
-    {
-        public bool CleanWaterSupply { get; set; }
-        public bool SpecificTemperatureAndOrHumidityRange { get; set; }
-        public string IfSpecificTemperatureAndOrHumidityRangeThenDescription { get; set; }
-        public bool ClinicalWasteDisposalFacilities { get; set; }
-        public string IfClinicalWasteDisposalFacilitiesThenDescription { get; set; }
-        public bool RadiationIsolation { get; set; }
-        public bool GasSupply { get; set; }
-        public string IfGasSupplyThenDescription { get; set; }
-        public bool Sterilization { get; set; }
-        public string IfSterilizationThenDescription { get; set; }
-        public bool AccessToInternet { get; set; }
-        public bool AccessToCellularPhoneNetwork { get; set; }
-        public bool ConnectionToLaptopComputer { get; set; }
-        public bool AccessibleByCar { get; set; }
-        public bool AdditionalSoundOrLightControlFacilites { get; set; }
-        public bool Other { get; set; }
-        public string OtherText { get; set; }
-
-        public IEnumerable<string> GetResult()
-        {
-            if (CleanWaterSupply)
-            {
-                yield return "Clean water supply";
-            }
-
-            if (SpecificTemperatureAndOrHumidityRange)
-            {
-                var result = "Specific temperature/humidity range";
-                if (!string.IsNullOrEmpty(IfSpecificTemperatureAndOrHumidityRangeThenDescription))
-                {
-                    result += $" (description: {IfSpecificTemperatureAndOrHumidityRangeThenDescription})";
-                }
-                yield return result;
-            }
-
-            if (ClinicalWasteDisposalFacilities)
-            {
-                var result = "Clinical waste disposal facilities";
-                if (!string.IsNullOrEmpty(IfClinicalWasteDisposalFacilitiesThenDescription))
-                {
-                    result += $" (description: {IfClinicalWasteDisposalFacilitiesThenDescription})";
-                }
-                yield return result;
-            }
-
-            if (GasSupply)
-            {
-                var result = "Gas supply";
-                if (!string.IsNullOrEmpty(IfGasSupplyThenDescription))
-                {
-                    result += $" (description: {IfGasSupplyThenDescription})";
-                }
-                yield return result;
-            }
-
-            if (Sterilization)
-            {
-                var result = "Sterilization";
-                if (!string.IsNullOrEmpty(IfSterilizationThenDescription))
-                {
-                    result += $" (description: {IfSterilizationThenDescription})";
-                }
-                yield return result;
-            }
-
-            if (RadiationIsolation)
-            {
-                yield return "Radiation isolation";
-            }
-
-            if (AccessToInternet)
-            {
-                yield return "Access to the Internet";
-            }
-
-            if (AccessToCellularPhoneNetwork)
-            {
-                yield return "Access to a cellular phone network";
-            }
-
-            if (ConnectionToLaptopComputer)
-            {
-                yield return "Connection to a laptop/computer";
-            }
-
-            if (AccessibleByCar)
-            {
-                yield return "Accessible by car";
-            }
-
-            if (AdditionalSoundOrLightControlFacilites)
-            {
-                yield return "Additional sound / light control facilities";
-            }
-
-            if (Other)
-            {
-                yield return OtherText;
-            }
         }
     }
 }
