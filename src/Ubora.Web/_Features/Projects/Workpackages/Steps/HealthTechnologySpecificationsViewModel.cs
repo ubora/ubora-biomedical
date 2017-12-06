@@ -14,28 +14,28 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     public class HealthTechnologySpecificationsViewModel
     {
         public DeviceMeasurementsViewModel DeviceMeasurementsViewModel { get; set; } = new DeviceMeasurementsViewModel();
-        [Required]
-        public bool DoesItRequireUseOfConsumables { get; set; }
+        [Required(ErrorMessage = "The field is required.")]
+        public bool? DoesItRequireUseOfConsumables { get; set; }
         [RequiredIf(nameof(DoesItRequireUseOfConsumables), true)]
         public string IfRequiresConsumablesListConsumables { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Estimated life time in days is required.")]
         public int EstimatedLifeTimeInDays { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Estimated life time in months is required.")]
         public int EstimatedLifeTimeInMonths { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Estimated life time in years is required.")]
         public int EstimatedLifeTimeInYears { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Estimated shelf life in days is required.")]
         public int EstimatedShelfLifeInDays { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Estimated shelf life in months is required.")]
         public int EstimatedShelfLifeInMonths { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Estimated shelf life in years is required.")]
         public int EstimatedShelfLifeInYears { get; set; }
-        [Required]
+        [Required(ErrorMessage = "The field is required.")]
         public bool CanItHaveATelemedicineOrEHealthApplication { get; set; }
         public DeviceSoftwareUsageViewModel DeviceSoftwareUsageViewModel { get; set; } = new DeviceSoftwareUsageViewModel();
-        [Required]
+        [Required(ErrorMessage = "The portability field is required.")]
         public string PortabilityKey { get; set; }
-        [Required]
+        [Required(ErrorMessage = "The type of use field is required.")]
         public string TypeOfUseKey { get; set; }
         public TechnologyMaintenanceViewModel TechnologyMaintenanceViewModel { get; set; } = new TechnologyMaintenanceViewModel();
         public EnergyRequirementsViewModel EnergyRequirements { get; set; } = new EnergyRequirementsViewModel();
@@ -66,8 +66,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                     WeightInKilograms = domainAggregate.DeviceMeasurements.WeightInKilograms
                 };
 
-                model.DoesItRequireUseOfConsumables = domainAggregate.UseOfConsumables.IsRequired;
-                model.IfRequiresConsumablesListConsumables = domainAggregate.UseOfConsumables.IfRequiresConsumablesListConsumables;
+                model.DoesItRequireUseOfConsumables = domainAggregate.UseOfConsumables?.IsRequired;
+                model.IfRequiresConsumablesListConsumables = domainAggregate.UseOfConsumables?.IfRequiresConsumablesListConsumables;
 
                 model.EstimatedLifeTimeInDays = domainAggregate.EstimatedLifeTime.Days;
                 model.EstimatedLifeTimeInMonths = domainAggregate.EstimatedLifeTime.Months;

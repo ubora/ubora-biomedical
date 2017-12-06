@@ -12,6 +12,7 @@
         </div>
         <div class="col-lg-7">
             <form asp-controller="WorkpackageTwo" asp-action="HealthTechnologySpecifications">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="row">
                     <h1 class="display-4 col-lg-12 mb-4">Health technology specifications</h1>
@@ -23,10 +24,13 @@
                                 <div class="form-group">
                                     <input asp-for="DeviceMeasurementsViewModel.DimensionsHeight" class="form-control width-8 text-center" type="number" min="0" title="Millimetres" />
                                     <span> mm x </span>
+                                    <span asp-validation-for="DeviceMeasurementsViewModel.DimensionsHeight"></span>
                                     <input asp-for="DeviceMeasurementsViewModel.DimensionsLength" class="form-control width-8 text-center" type="number" min="0" title="Millimetres" />
                                     <span> mm x </span>
+                                    <span asp-validation-for="DeviceMeasurementsViewModel.DimensionsLength"></span>
                                     <input asp-for="DeviceMeasurementsViewModel.DimensionsWidth" class="form-control width-8 text-center" type="number" min="0" title="Millimetres" />
                                     <span> mm</span>
+                                    <span asp-validation-for="DeviceMeasurementsViewModel.DimensionsWidth"></span>
                                 </div>
                             </div>
                         </div>
@@ -38,6 +42,7 @@
                                 <div class="form-group">
                                     <input asp-for="DeviceMeasurementsViewModel.WeightInKilograms" class="form-control width-8 text-center" type="number" min="0" step="0.001" title="Kilograms" />
                                     <span> kg </span>
+                                    <span asp-validation-for="DeviceMeasurementsViewModel.WeightInKilograms"></span>
                                 </div>
                             </div>
                         </div>
@@ -58,6 +63,7 @@
                                         No
                                     </label>
                                 </div>
+                                <span asp-validation-for="DoesItRequireUseOfConsumables"></span>
                             </div>
                         </div>
                         <div id="consumables-usage-extra-field" class="hide">
@@ -66,6 +72,7 @@
                                     <h5>3.1 If yes, please list the consumables:</h5>
                                     <div class="form-group">
                                         <textarea asp-for="IfRequiresConsumablesListConsumables" class="form-control mt-2" rows="4" placeholder="Please list the consumables.."></textarea>
+                                        <span asp-validation-for="IfRequiresConsumablesListConsumables"></span>
                                     </div>
                                 </div>
                             </div>
@@ -78,10 +85,13 @@
                                 <div class="form-group">
                                     <input asp-for="EstimatedLifeTimeInDays" class="form-control width-8 text-center" type="number" min="0" title="Days" />
                                     <span> Days </span>
+                                    <span asp-validation-for="EstimatedLifeTimeInDays"></span>
                                     <input asp-for="EstimatedLifeTimeInMonths" class="form-control width-8 text-center" type="number" min="0" title="Months" />
                                     <span> Months </span>
+                                    <span asp-validation-for="EstimatedLifeTimeInMonths"></span>
                                     <input asp-for="EstimatedLifeTimeInYears" class="form-control width-8 text-center" type="number" min="0" title="Years" />
                                     <span> Years</span>
+                                    <span asp-validation-for="EstimatedLifeTimeInYears"></span>
                                 </div>
                             </div>
                         </div>
@@ -93,10 +103,13 @@
                                 <div class="form-group">
                                     <input asp-for="EstimatedShelfLifeInDays" class="form-control width-8 text-center" type="number" min="0" title="Days" />
                                     <span> Days </span>
+                                    <span asp-validation-for="EstimatedShelfLifeInDays"></span>
                                     <input asp-for="EstimatedShelfLifeInMonths" class="form-control width-8 text-center" type="number" min="0" title="Months" />
                                     <span> Months </span>
+                                    <span asp-validation-for="EstimatedShelfLifeInMonths"></span>
                                     <input asp-for="EstimatedShelfLifeInYears" class="form-control width-8 text-center" type="number" min="0" title="Years" />
                                     <span> Years</span>
+                                    <span asp-validation-for="EstimatedShelfLifeInYears"></span>
                                 </div>
                             </div>
                         </div>
@@ -117,6 +130,7 @@
                                         No
                                     </label>
                                 </div>
+                                <span asp-validation-for="CanItHaveATelemedicineOrEHealthApplication"></span>
                             </div>
                         </div>
 
@@ -136,6 +150,7 @@
                                         No
                                     </label>
                                 </div>
+                                <span asp-validation-for="DeviceSoftwareUsageViewModel.DoesItUseAnyKindOfSoftware"></span>
                             </div>
                         </div>
                         <div id="software-usage-extra-field" class="hide">
@@ -144,6 +159,7 @@
                                     <h5>7.1 If yes, please describe the software, whether it is open source or proprietary, its use and/or license fee, etc. (10-70 words).</h5>
                                     <div class="form-group">
                                         <textarea asp-for="DeviceSoftwareUsageViewModel.IfUsesSoftwareDescribeSoftware" class="form-control mt-2" rows="4" placeholder="Please describe the software..."></textarea>
+                                        <span asp-validation-for="DeviceSoftwareUsageViewModel.IfUsesSoftwareDescribeSoftware"></span>
                                     </div>
                                 </div>
                             </div>
@@ -152,6 +168,7 @@
                                     <h5>7.2 If yes, can the software be customized for local use? Please explain (10-70 words). Include languages available.</h5>
                                     <div class="form-group">
                                         <textarea asp-for="DeviceSoftwareUsageViewModel.IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse" class="form-control mt-2" rows="4" placeholder="Please explain..."></textarea>
+                                        <span asp-validation-for="DeviceSoftwareUsageViewModel.IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse"></span>
                                     </div>
                                 </div>
                             </div>
@@ -179,6 +196,8 @@
                                         Portable (hand-held)
                                     </label>
                                 </div>
+                                <span asp-validation-for="PortabilityKey"></span>
+
                             </div>
                         </div>
 
@@ -210,6 +229,7 @@
                                         Capital equipment
                                     </label>
                                 </div>
+                                <span asp-validation-for="TypeOfUseKey"></span>
                             </div>
                         </div>
 
@@ -229,11 +249,14 @@
                                         No
                                     </label>
                                 </div>
+                                <span asp-validation-for="TechnologyMaintenanceViewModel.DoesTechnologyRequireMaintenance"></span>
                                 <div id="technology-maintenance-requirement-extra-field" class="hide mb-0">
                                     <div class="form-group pl-3">
                                         <p>If yes, please fill the following fields:</p>
                                         <p>Specify the type: <input asp-for="TechnologyMaintenanceViewModel.IfTechnologyRequiresMaintenanceSpecifyType" class="form-control width-8" type="text" title="Type" /></p>
+                                        <span asp-validation-for="TechnologyMaintenanceViewModel.IfTechnologyRequiresMaintenanceSpecifyType"></span>
                                         <p>Specify frequency: <input asp-for="TechnologyMaintenanceViewModel.IfTechnologyRequiresMaintenanceSpecifyFrequency" class="form-control width-8" type="text" title="Frequency" /></p>
+                                        <span asp-validation-for="TechnologyMaintenanceViewModel.IfTechnologyRequiresMaintenanceSpecifyFrequency"></span>
                                         <span class="d-block">
                                             <span class="pr-3">Can it be done on-site / home / community? </span>
                                             <div class="form-check form-check-inline mb-0">
@@ -248,6 +271,7 @@
                                                     No
                                                 </label>
                                             </div>
+                                            <span asp-validation-for="TechnologyMaintenanceViewModel.IfTechnologyRequiresMaintenanceCanItBeDoneOnSiteOrHomeOrCommunity"></span>
                                         </span>
                                     </div>
 
@@ -296,6 +320,8 @@
                                                 </label>
                                             </div>
                                         </div>
+                                        <span asp-validation-for="TechnologyMaintenanceViewModel.IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenanceOther"></span>
+
                                     </div>
                                 </div>
                             </div>
@@ -329,8 +355,11 @@
                                 <div id="recharging-extra-field" class="hide form-group pl-3">
                                     <p>If yes, please fill the following fields:</p>
                                     <p>Voltage required: <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredVoltage" class="form-control width-8 text-center" type="number" min="0" step="0.01" title="Voltage" /> V </p>
+                                    <span asp-validation-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredVoltage"></span>
                                     <p>Time required to recharge: <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes" class="form-control width-8 text-center" type="number" min="0" title="Minutes" /> Minutes</p>
+                                    <span asp-validation-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours"></span>
                                     <p>Battery life with full charge: <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes" class="form-control width-8 text-center" type="number" min="0" title="Minutes" /> Minutes</p>
+                                    <span asp-validation-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours"></span>
                                 </div>
 
                                 <div class="form-check">
@@ -341,6 +370,7 @@
                                 </div>
                                 <div id="power-supply-extra-field" class="hide form-group pl-3">
                                     <p>If yes, voltage required: <input asp-for="EnergyRequirements.IfContinuousPowerSupplyThenRequiredVoltage" class="form-control width-8 text-center" type="number" min="0" step="0.01" title="Voltage" /> V </p>
+                                    <span asp-validation-for="EnergyRequirements.IfContinuousPowerSupplyThenRequiredVoltage"></span>
                                 </div>
 
                                 <div class="form-check">
@@ -352,7 +382,9 @@
                                 <div id="solar-power-extra-field" class="hide form-group pl-3">
                                     <p>If yes, please fill the following fields:</p>
                                     <p>Time in sunlight required to charge: <input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours <input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes" class="form-control width-8 text-center" type="number" min="0" title="Minutes" /> Minutes</p>
+                                    <span asp-validation-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours"></span>
                                     <p>Battery life with full charge: <input asp-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours <input asp-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInMinutes" class="form-control width-8 text-center" type="number" min="0" title="Minutes" /> Minutes</p>
+                                    <span asp-validation-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInHours"></span>
                                 </div>
 
                                 <div class="form-check">
@@ -360,6 +392,7 @@
                                         <input asp-for="EnergyRequirements.Other" class="form-check-input" type="checkbox" />
                                         <span class="d-inline">Other:</span>
                                         <input asp-for="EnergyRequirements.OtherText" class="form-control d-inline w-75" type="text" title="Other energy requirement" />
+                                        <span asp-validation-for="EnergyRequirements.OtherText"></span>
                                     </label>
                                 </div>
                             </div>
@@ -386,6 +419,7 @@
                                 <div id="specific-temperature-extra-field" class="hide form-group col-lg-6">
                                     <span>If yes, please describe: </span>
                                     <textarea asp-for="FacilityRequirements.IfSpecificTemperatureAndOrHumidityRangeThenDescription" class="form-control mt-2" rows="2" placeholder="Please describe..."></textarea>
+                                    <span asp-validation-for="FacilityRequirements.IfSpecificTemperatureAndOrHumidityRangeThenDescription"></span>
                                 </div>
 
                                 <div class="form-check">
@@ -397,6 +431,7 @@
                                 <div id="clinical-waste-extra-field" class="hide form-group col-lg-6">
                                     <span>If yes, please describe: </span>
                                     <textarea asp-for="FacilityRequirements.IfClinicalWasteDisposalFacilitiesThenDescription" class="form-control mt-2" rows="2" placeholder="Please describe..."></textarea>
+                                    <span asp-validation-for="FacilityRequirements.IfClinicalWasteDisposalFacilitiesThenDescription"></span>
                                 </div>
 
                                 <div class="form-check">
@@ -415,6 +450,7 @@
                                 <div id="gas-supply-extra-field" class="hide form-group col-lg-6">
                                     <span>If yes, please describe: </span>
                                     <textarea asp-for="FacilityRequirements.IfGasSupplyThenDescription" class="form-control mt-2" rows="2" placeholder="Please describe..."></textarea>
+                                    <span asp-validation-for="FacilityRequirements.IfGasSupplyThenDescription"></span>
                                 </div>
 
                                 <div class="form-check">
@@ -426,6 +462,7 @@
                                 <div id="sterilization-extra-field" class="hide form-group col-lg-6">
                                     <span>If yes, please describe: </span>
                                     <textarea asp-for="FacilityRequirements.IfSterilizationThenDescription" class="form-control mt-2" rows="2" placeholder="Please describe..."></textarea>
+                                    <span asp-validation-for="FacilityRequirements.IfSterilizationThenDescription"></span>
                                 </div>
 
                                 <div class="form-check">
@@ -468,6 +505,7 @@
                                         <input asp-for="FacilityRequirements.Other" class="form-check-input" type="checkbox" />
                                         <span class="d-inline">Other:</span>
                                         <input asp-for="FacilityRequirements.OtherText" class="form-control d-inline w-75" type="text" title="Other facility requirement" />
+                                        <span asp-validation-for="FacilityRequirements.OtherText"></span>
                                     </label>
                                 </div>
 
