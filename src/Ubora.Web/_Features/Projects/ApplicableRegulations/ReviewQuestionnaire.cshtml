@@ -22,7 +22,7 @@
             {
               <tr>
                 <td>
-                  @questionAnswer.QuestionText
+                  <span class="font-weight-bold">@questionAnswer.QuestionText</span>
                   <p>You answered: @(questionAnswer.Answer)</p>
                 </td>
                 @if (questionAnswer.Answer.Equals("Yes", StringComparison.InvariantCultureIgnoreCase))
