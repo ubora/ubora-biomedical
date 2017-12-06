@@ -5,38 +5,15 @@ using AutoMapper;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.Commands;
 using Ubora.Domain.Projects.StructuredInformations.IntendedUsers;
-using ValidationContext = System.ComponentModel.DataAnnotations.ValidationContext;
+using Ubora.Web.Infrastructure;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
-    public class RequiredIfAttribute : ValidationAttribute
-    {
-        private string PropertyName { get; set; }
-        private object DesiredValue { get; set; }
-
-        public RequiredIfAttribute(string propertyName, object desiredvalue)
-        {
-            PropertyName = propertyName;
-            DesiredValue = desiredvalue;
-        }
-
-        protected override ValidationResult IsValid(object value, ValidationContext context)
-        {
-            Object instance = context.ObjectInstance;
-            Type type = instance.GetType();
-            Object proprtyvalue = type.GetProperty(PropertyName).GetValue(instance, null);
-            if (proprtyvalue.ToString() == DesiredValue.ToString())
-            {
-                ValidationResult result = base.IsValid(value, context);
-                return result;
-            }
-            return ValidationResult.Success;
-        }
-    }
-
     public class UserAndEnvironmentInformationViewModel
     {
+        [Required(ErrorMessage = "The intended user field is required.")]
         public string IntendedUserTypeKey { get; set; }
+        [RequiredIf(nameof(IntendedUserTypeKey), "other")]
         public string IntendedUserIfOther { get; set; }
 
         [Required]
@@ -44,6 +21,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [RequiredIf(nameof(IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser), true)]
         public string IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining { get; set; }
 
+        [Required]
         public bool IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse { get; set; }
         public WhereWillTechnologyBeUsedViewModel WhereWillTechnologyBeUsed { get; set; } = new WhereWillTechnologyBeUsedViewModel();
 

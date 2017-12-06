@@ -128,12 +128,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             var deviceStructuredInformation = QueryProcessor.FindById<DeviceStructuredInformation>(ProjectId);
             if (deviceStructuredInformation == null)
             {
-                return View();
+                return View(nameof(UserAndEnvironment));
             }
 
             var model = modelFactory.Create(deviceStructuredInformation.UserAndEnvironment);
 
-            return View(model);
+            return View(nameof(UserAndEnvironment),model);
         }
 
         [HttpPost]

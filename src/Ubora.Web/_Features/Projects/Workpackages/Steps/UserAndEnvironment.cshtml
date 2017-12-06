@@ -69,10 +69,12 @@
                                         <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="other" />
                                         <span class="d-inline">Other:</span>
                                         <input asp-for="IntendedUserIfOther" class="form-control d-inline w-75" type="text" title="Other indended user" />
+                                        <span asp-validation-for="IntendedUserIfOther"></span>
                                     </label>
                                 </div>
                             </div>
-                            <span asp-validation-for="IntendedUserIfOther"></span>
+                            <span asp-validation-for="IntendedUserTypeKey"></span>
+                            
                         </div>
 
 
