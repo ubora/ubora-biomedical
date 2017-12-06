@@ -16,7 +16,7 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassifications
     public class DeviceClassificationIndexViewModelTests
     {
         [Fact]
-        public void Factorr_Should_Return_All_Non_Stopped_Project_Classifications()
+        public void Factory_Should_Return_All_Non_Stopped_Project_Classifications()
         {
             var queryProcessorMock = new Mock<IQueryProcessor>();
             var projectId = Guid.NewGuid();
@@ -65,7 +65,7 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassifications
             // Assert
             projectedModel.ShouldBeEquivalentTo(new QuestionnaireListItem
             {
-                IsStopped  =  stopped,
+                IsStopped  = stopped,
                 StartedAt = classification.StartedAt,
                 IsFinished = finished,
                 QuestionnaireId = classification.Id
