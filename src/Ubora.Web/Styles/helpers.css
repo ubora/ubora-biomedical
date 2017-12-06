@@ -52,10 +52,6 @@
 	color: var(--primary-shade);
 }
 
-.bg-color-grey {
-	background-color: var(--primary-shade);
-}
-
 /*Repository icons*/
 .file-list--item-control {
     margin: 0;
