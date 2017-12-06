@@ -139,7 +139,7 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
         ///    &lt;td&gt;This standard specifies how the devices shall be packaged to allow sterilization and ensure that they remain sterile.
         ///    You may also be interested in &lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030152866&quot; target=&quot;_blank&quot;&gt;ISO 14644-1&lt;/a&gt;
         ///    This standard specifies requirements for the manufacturing environments.&lt;br&gt;
-        ///    NOTE: this standards has mult [rest of string was truncated]&quot;;.
+        ///    NOTE: this standards has [rest of string was truncated]&quot;;.
         /// </summary>
         public static string q4_1 {
             get {
