@@ -74,7 +74,7 @@
                                 </div>
                             </div>
                             <span asp-validation-for="IntendedUserTypeKey"></span>
-                            
+
                         </div>
 
 
@@ -203,29 +203,30 @@
 
 <script>
 
+$(function () {
+    $(".show-extra-fields-js:checked, .toggle-extra-fields-js:checked").each(function() {
+      toggleExtraFields(this, true);
+    });
+
     $('.toggle-extra-fields-js')
         .change(function () {
-            var target = $(this).data("target");
-            $(target).toggleClass('hide');
+            toggleExtraFields(this, $(this).is(':checked'));
         });
-
 
     $('.show-extra-fields-js')
         .click(function () {
-            var target = $(this).data("target");
-            $(target).removeClass('hide');
+          toggleExtraFields(this, true);
         });
 
     $('.hide-extra-fields-js')
         .click(function () {
-            var target = $(this).data("target");
-            $(target).addClass('hide');
+            toggleExtraFields(this, false);
         });
 
-    $(function () {
-        if ($(".show-extra-fields-js").is(":checked")) {
-            var target = $(".show-extra-fields-js").data("target");
-            $(target).removeClass('hide');
-        }
-    });
+    function toggleExtraFields(element, shouldShow) {
+      var target = $(element).data('target');
+      $(target).toggleClass('hide', !shouldShow);
+    }
+});
+
 </script>

@@ -491,39 +491,30 @@
 
 <script>
 
-    $('.toggle-extra-fields-js')
-        .change(function () {
-            var target = $(this).data("target");
-            $(target).toggleClass('hide');
-        });
-
-
-    $('.show-extra-fields-js')
-        .click(function () {
-            var target = $(this).data("target");
-            $(target).removeClass('hide');
-        });
-
-    $('.hide-extra-fields-js')
-        .click(function () {
-            var target = $(this).data("target");
-            $(target).addClass('hide');
-        });
-
     $(function () {
-        if ($(".show-extra-fields-js").is(":checked")) {
-            var target = $(".show-extra-fields-js").data("target");
-            $(target).removeClass('hide');
+        $(".show-extra-fields-js:checked, .toggle-extra-fields-js:checked").each(function() {
+          toggleExtraFields(this, true);
+        });
+
+        $('.toggle-extra-fields-js')
+            .change(function () {
+                toggleExtraFields(this, $(this).is(':checked'));
+            });
+
+        $('.show-extra-fields-js')
+            .click(function () {
+              toggleExtraFields(this, true);
+            });
+
+        $('.hide-extra-fields-js')
+            .click(function () {
+                toggleExtraFields(this, false);
+            });
+
+        function toggleExtraFields(element, shouldShow) {
+          var target = $(element).data('target');
+          $(target).toggleClass('hide', !shouldShow);
         }
-    });
-
-    $(function () {
-        var formChecks = $(".form-check");
-        $.each(formChecks, function (index, formCheck) {
-            if ($(formCheck).find(".toggle-extra-fields-js").is(":checked")) {
-                $(formCheck).next().removeClass('hide');
-            }
-        });
     });
 
 </script>
