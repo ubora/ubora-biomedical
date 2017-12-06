@@ -46,6 +46,11 @@ namespace Ubora.Web.Authorization
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
 
+                options.AddPolicy(nameof(Policies.CanEditDesignPlanning), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
+                });
+
                 options.AddPolicy(nameof(Policies.CanEditWorkpackageOne), policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());

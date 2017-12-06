@@ -9,8 +9,8 @@ Background:
 Scenario: I seach for existing project
     When I set value "Test" to the element "#Title"
         And I click on the element "button=Search"
-    Then I expect the element "h4=Test title" is visible
-        And I expect the element "h4=TestProject" is visible
+    Then I expect the element "p=Test title" is visible
+        And I expect the element "p=TestProject" is visible
         And I expect the title of the page "Search - UBORA"
 
 Scenario: I search for non-existing project
@@ -34,8 +34,9 @@ Scenario: Signed in user searches for existing project
     When I sign in as user
         And I click on the element "span=Search"
         And I set value "Est" to the element "#Title"
-    Then I expect the element "h4=Test title" is visible
-        And I expect the element "h4=TestProject" is visible
+        And I click on the element "button=Search"
+    Then I expect the element "p=Test title" is visible
+        And I expect the element "p=TestProject" is visible
         And I expect the title of the page "Search - UBORA"
 
 

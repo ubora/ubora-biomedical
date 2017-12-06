@@ -1,4 +1,4 @@
-Feature: User list page
+Feature: Community page
     As a user
     I want to click on all buttons on Members page
 
@@ -7,7 +7,7 @@ Background:
         And I clicked on the element "span=Community"
 
 Scenario: I am on View members page 
-    Then I expect the title of the page "View members - UBORA"
+    Then I expect the title of the page "Community - UBORA"
 
 Scenario: I click Ubora logo
     When I click on the element "#UboraLogo"
@@ -27,4 +27,4 @@ Scenario: I sign in and check my profile on Members page
 
 Scenario: As a signed in user I click on my email on Members page
     When I click on the element "a=test@agileworks.eu"
-    Then I expect the title of the page "View members - UBORA"
+    Then I expect the title of the page "Community - UBORA"
