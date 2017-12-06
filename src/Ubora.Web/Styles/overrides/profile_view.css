@@ -9,8 +9,3 @@ a.email .material-icons {
 .nav-tabs .nav-link {
 	color: var(--text-color);
 }
-
-.badge-grey {
-	border: 1px solid var(--primary-shade);
-  color: var(--text-color);
-}
