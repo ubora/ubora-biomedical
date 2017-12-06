@@ -80,7 +80,8 @@ module.exports = function () {
         });
 
     this.When(/^I answer ([^\s]+) to question "([^"]*)?"$/, (answer, question) => {
-        expect(browser.isVisible("h1=" + question));
+        var isVisible = browser.isVisible("h2=" + question);
+        expect(isVisible).to.equal(true, `Expected "${"h2=" + question}" to be visible.`);
         if (answer.toLowerCase() === "yes") {
             browser.click("button=Yes");
         } else if (answer.toLowerCase() === "no") {
@@ -91,7 +92,8 @@ module.exports = function () {
     });
 
     this.When(/^I answer "([^"]*)?" to the question "([^"]*)?"$/, (answer, question) => {
-        expect(browser.isVisible("h4=" + question));
+        var isVisible = browser.isVisible("h4=" + question);
+        expect(isVisible).to.equal(true, `Expected "${"h4=" + question}" to be visible.`);
         const answerElements = browser.elements("label=" + answer);
         if (answerElements.value.length > 1) {
             var lastElement = answerElements.value.slice(-1)[0];

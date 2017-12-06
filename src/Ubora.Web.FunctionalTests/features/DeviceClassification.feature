@@ -12,7 +12,7 @@ Background:
 Scenario: I go through Device classification and pick always first option
     Then I expect the title of the page "Device classification - UBORA"
     When I click on the element "button=Take questionnaire"
-    When I answer "Non-invasive" to the question "Is your device INVASIVE or NON-INVASIVE?"
+        And I answer "Non-invasive" to the question "Is your device INVASIVE or NON-INVASIVE?"
         And I answer "Yes" to the question "Is it intended for channelling or storing blood, body liquids, cells or tissues, liquids or gases for the purpose of eventual infusion, administration or introduction into the body?"
         And I answer "Yes" to the question "May it be connected to an active medical device in class IIa or a higher class?"
         And I answer "Yes" to the question "Is it intended for use for storing or channelling blood or other body liquids or for storing organs, parts of organs or body cells and tissues, but it is not a blood bag?"

@@ -16,6 +16,10 @@ Scenario: Click Log in button
     When I click on the element "span=Log in"
     Then I expect the title of the page "Sign in to UBORA - UBORA"
 
+Scenario: Click I have a need button
+    When I click on the element "a=I have a need"
+    Then I expect the element ".tooltip-inner=Coming soon!" is visible
+
 Scenario: Click I have an idea button
     When I click on the element "a=I have an idea"
     Then I expect the element ".tooltip-inner=You have to log in to create a project!" is visible
@@ -27,3 +31,7 @@ Scenario: Click on Community
 Scenario: Click on Search
     When I click on the element "span=Search"
     Then I expect the title of the page "Search - UBORA"
+
+Scenario: Click on public project
+    When I click on the element "p=Test title"
+    Then I expect the title of the page "Dashboard - UBORA"
