@@ -3,13 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Ubora.Web.Infrastructure
 {
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = true)]
     public class RequiredIfAttribute : ValidationAttribute
     {
         private string PropertyName { get; set; }
         private object DesiredValue { get; set; }
         private readonly RequiredAttribute _innerAttribute;
-
 
         public RequiredIfAttribute(string propertyName, object desiredvalue) : base((string) (string)"The field is required.")
         {

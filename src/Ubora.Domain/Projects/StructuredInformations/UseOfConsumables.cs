@@ -28,5 +28,10 @@ namespace Ubora.Domain.Projects.StructuredInformations
 
         public bool IsRequired { get; private set; }
         public string IfRequiresConsumablesListConsumables { get; private set; }
+
+        public static UseOfConsumables CreateEmpty()
+        {
+            return new UseOfConsumables();
+        }
     }
 }
