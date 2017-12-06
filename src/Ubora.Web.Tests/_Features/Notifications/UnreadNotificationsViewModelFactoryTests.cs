@@ -3,6 +3,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Notifications;
 using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects.Members;
 using Ubora.Web._Features.Notifications;
@@ -30,7 +31,7 @@ namespace Ubora.Web.Tests._Features.Notifications
             var invitation2 = new InvitationToProject(userId, Guid.NewGuid());
             var invitation3 = new InvitationToProject(userId, Guid.NewGuid());
 
-            var invitations = new List<InvitationToProject>
+            var invitations = new PagedListStub<InvitationToProject>
             {
                 invitation1,
                 invitation2,

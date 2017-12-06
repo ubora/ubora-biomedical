@@ -22,20 +22,6 @@
 	width: 4em;
 }
 
-/*Markdown styles*/
-.text-markdown {
-  font-family: inherit;
-	margin:1em 0;
-	text-align: justify;
-}
-
-.image-markdown {
-    max-height: 844px;
-    height: 100%;
-    max-width: 1500px;
-    width: 100%;
-    object-fit: contain;
-}
 
 .material-icons.icon-size-lg {
 	font-size: 5rem !important;
@@ -60,12 +46,12 @@
 	color: var(--orange);
 }
 
-/*coloring text to grey*/
+/*Coloring text to grey*/
 .text-grey {
 	color: var(--primary-shade);
 }
 
-/*repository icons*/
+/*Repository icons*/
 .file-list--item-control {
     margin: 0;
     padding: 0;
@@ -79,11 +65,33 @@
         cursor: pointer;
     }
 
-
+/*For small text*/
 .small-text {
 	font-size: 0.875em;
 }
 
 .hide {
 	display: none;
+}
+
+/*Different widths*/
+.width-12 {
+  width: 12%;
+}
+
+.width-36 {
+  width: 36%;
+}
+
+.width-8 {
+  width: 8%;
+}
+
+.width-32 {
+  width: 32%;
+}
+
+/*Breaks word at any character*/
+.break-word-all {
+	word-break: break-all;
 }

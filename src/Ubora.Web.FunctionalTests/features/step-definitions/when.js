@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 
 module.exports = function () {
     this.When(/^I click on the element "([^"]*)?"$/, (element) => {
-            browser.waitForEnabled(element, 1500);
+            browser.waitForVisible(element, 1500);
             browser.click(element);
         });
 
@@ -27,7 +27,7 @@ module.exports = function () {
         });
 
     this.When(/^I wait for the element "([^"]*)?"$/, (value) => {
-            browser.waitForEnabled(value)
+            browser.waitForVisible(value)
         });
 
     this.When(/^I sign out$/, () => {
@@ -80,13 +80,25 @@ module.exports = function () {
         });
 
     this.When(/^I answer ([^\s]+) to question "([^"]*)?"$/, (answer, question) => {
-        expect(browser.isVisible("h1=" + question))
+        expect(browser.isVisible("h1=" + question));
         if (answer.toLowerCase() === "yes") {
-            browser.click("button=Yes")  
+            browser.click("button=Yes");
         } else if (answer.toLowerCase() === "no") {
-            browser.click("button=No")  
+            browser.click("button=No");
         } else {
             throw "Answer could not be parsed: " + answer
         }
+    });
+
+    this.When(/^I answer "([^"]*)?" to the question "([^"]*)?"$/, (answer, question) => {
+        expect(browser.isVisible("h4=" + question));
+        const answerElements = browser.elements("label=" + answer);
+        if (answerElements.value.length > 1) {
+            var lastElement = answerElements.value.slice(-1)[0];
+            lastElement.click();
+        } else {
+            browser.element("label=" + answer).click();
+        }
+        browser.click("button=Answer")
     });
 }

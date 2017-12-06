@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Threading.Tasks;
-using Ubora.Web.Authorization;
-using Ubora.Web.Services;
+using Ubora.Web.Authorization.Requirements;
 using Ubora.Web.Tests.Fakes;
 using Xunit;
 

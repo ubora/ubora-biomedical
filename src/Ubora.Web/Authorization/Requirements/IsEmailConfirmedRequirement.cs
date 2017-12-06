@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Ubora.Web.Services;
 
-namespace Ubora.Web.Authorization
+namespace Ubora.Web.Authorization.Requirements
 {
     public class IsEmailConfirmedRequirement : IAuthorizationRequirement
     {

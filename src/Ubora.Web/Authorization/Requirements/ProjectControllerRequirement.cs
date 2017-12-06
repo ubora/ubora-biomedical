@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Ubora.Web.Authorization
+namespace Ubora.Web.Authorization.Requirements
 {
     /// <see cref="_Features.Projects.ProjectController"/>
     public class ProjectControllerRequirement : IAuthorizationRequirement
