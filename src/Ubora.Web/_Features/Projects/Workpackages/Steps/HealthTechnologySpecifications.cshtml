@@ -81,9 +81,9 @@
                             <h5 class="col-lg-12">4. Estimated life time:</h5>
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <input asp-for="EstimatedLifeTimeInDays" class="form-control width-8 text-center" type="number" min="0" title="Days" />
+                                    <input asp-for="EstimatedLifeTimeInDays" class="form-control width-8 text-center" type="number" min="0" max="366" title="Days" />
                                     <span> Days </span>
-                                    <input asp-for="EstimatedLifeTimeInMonths" class="form-control width-8 text-center" type="number" min="0" title="Months" />
+                                    <input asp-for="EstimatedLifeTimeInMonths" class="form-control width-8 text-center" type="number" min="0" max="11" title="Months" />
                                     <span> Months </span>
                                     <input asp-for="EstimatedLifeTimeInYears" class="form-control width-8 text-center" type="number" min="0" title="Years" />
                                     <span> Years</span>
@@ -99,9 +99,9 @@
                             <h5 class="col-lg-12">5. Estimated shelf life:</h5>
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <input asp-for="EstimatedShelfLifeInDays" class="form-control width-8 text-center" type="number" min="0" title="Days" />
+                                    <input asp-for="EstimatedShelfLifeInDays" class="form-control width-8 text-center" type="number" min="0" max="366" title="Days" />
                                     <span> Days </span>
-                                    <input asp-for="EstimatedShelfLifeInMonths" class="form-control width-8 text-center" type="number" min="0" title="Months" />
+                                    <input asp-for="EstimatedShelfLifeInMonths" class="form-control width-8 text-center" type="number" min="0" max="11" title="Months" />
                                     <span> Months </span>
                                     <input asp-for="EstimatedShelfLifeInYears" class="form-control width-8 text-center" type="number" title="Years" />
                                     <span> Years</span>
@@ -354,9 +354,15 @@
                                     <p>If yes, please fill the following fields:</p>
                                     <p>Voltage required: <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredVoltage" class="form-control width-8 text-center" type="number" min="0" step="0.01" title="Voltage" /> V </p>
                                     <span asp-validation-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredVoltage"></span>
-                                    <p>Time required to recharge: <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes" class="form-control width-8 text-center" type="number" min="0" title="Minutes" /> Minutes</p>
+                                    <p>Time required to recharge:
+                                      <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours
+                                      <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes" class="form-control width-8 text-center" type="number" min="0" max="59" title="Minutes" /> Minutes
+                                    </p>
                                     <span asp-validation-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours"></span>
-                                    <p>Battery life with full charge: <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes" class="form-control width-8 text-center" type="number" min="0" title="Minutes" /> Minutes</p>
+                                    <p>Battery life with full charge:
+                                      <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours
+                                      <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes" class="form-control width-8 text-center" type="number" min="0" max="59" title="Minutes" /> Minutes
+                                    </p>
                                     <span asp-validation-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours"></span>
                                 </div>
 
@@ -379,9 +385,13 @@
                                 </div>
                                 <div id="solar-power-extra-field" class="hide form-group pl-3">
                                     <p>If yes, please fill the following fields:</p>
-                                    <p>Time in sunlight required to charge: <input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours <input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes" class="form-control width-8 text-center" type="number" min="0" title="Minutes" /> Minutes</p>
+                                    <p>Time in sunlight required to charge:
+                                      <input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours
+                                      <input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes" class="form-control width-8 text-center" type="number" min="0" max="59" title="Minutes" /> Minutes</p>
                                     <span asp-validation-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours"></span>
-                                    <p>Battery life with full charge: <input asp-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours <input asp-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInMinutes" class="form-control width-8 text-center" type="number" min="0" title="Minutes" /> Minutes</p>
+                                    <p>Battery life with full charge:
+                                      <input asp-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours
+                                      <input asp-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInMinutes" class="form-control width-8 text-center" type="number" min="0" max="59" title="Minutes" /> Minutes</p>
                                     <span asp-validation-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInHours"></span>
                                 </div>
 
