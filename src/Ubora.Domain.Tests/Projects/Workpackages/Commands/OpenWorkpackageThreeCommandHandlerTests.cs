@@ -25,7 +25,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
         {
             var workpackageThree = Processor.FindById<WorkpackageThree>(_projectId);
             workpackageThree.Should().NotBeNull();
-            workpackageThree.Steps.Count.Should().Be(13);
+            workpackageThree.Steps.Count.Should().Be(12);
         }
     }
 }
