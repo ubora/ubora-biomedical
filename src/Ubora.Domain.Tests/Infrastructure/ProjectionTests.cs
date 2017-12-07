@@ -5,12 +5,14 @@ using System.Linq.Expressions;
 using System.Text;
 using FluentAssertions;
 using Ubora.Domain.Infrastructure;
+using Xunit;
 
 namespace Ubora.Domain.Tests.Infrastructure
 {
     public class ProjectionTests
     {
-        public void Apply_Should_Project_With_Select_Expression()
+        [Fact]
+        public void Apply_Should_Project_IQueryable_With_Select_Expression()
         {
             var input = new[] {new Doc1 {Val = "one"}, new Doc1 { Val = "two" } }.AsQueryable();
             // Act
@@ -18,6 +20,17 @@ namespace Ubora.Domain.Tests.Infrastructure
             // Assert
             output.Select(o => o.Val).Should().ContainInOrder(input.Select(i => i.Val));
         }
+
+        [Fact]
+        public void Apply_Should_Project_IEnumerable_With_Select_Expression()
+        {
+            var input = new[] { new Doc1 { Val = "one" }, new Doc1 { Val = "two" } };
+            // Act
+            var output = new TestProjection().Apply(input);
+            // Assert
+            output.Select(o => o.Val).Should().ContainInOrder(input.Select(i => i.Val));
+        }
+
 
         public class TestProjection : Projection<Doc1, Doc2>
         {

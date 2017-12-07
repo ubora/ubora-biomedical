@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FluentAssertions;
 using Moq;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
@@ -30,14 +31,17 @@ namespace Ubora.Web.Tests._Features.Projects.DeviceClassifications
                 lastNonStoppedClassification,
                 firstPreviousClassification
             };
+            var questionnaires = new PagedListStub<DeviceClassificationAggregate>();
             queryProcessorMock
                 .Setup(q => q.Find(
                     new IsFromProjectSpec<DeviceClassificationAggregate> {ProjectId = projectId}, 
-                    It.IsAny<DeviceClassificationIndexViewModel.QuestionnaireListItemProjection>(),
                     null,
                     int.MaxValue, 1))
+                .Returns(questionnaires);
+            var projectionMock = new Mock<IProjection<DeviceClassificationAggregate, QuestionnaireListItem>>();
+            projectionMock.Setup(p => p.Apply(questionnaires))
                 .Returns(classifications);
-            var viewModelFactory = new DeviceClassificationIndexViewModel.Factory(queryProcessorMock.Object);
+            var viewModelFactory = new DeviceClassificationIndexViewModel.Factory(queryProcessorMock.Object, projectionMock.Object);
 
             // Act
             var model = viewModelFactory.Create(projectId);

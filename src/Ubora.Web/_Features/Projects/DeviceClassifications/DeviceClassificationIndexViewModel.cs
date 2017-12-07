@@ -28,10 +28,12 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
         public class Factory
         {
             private readonly IQueryProcessor _queryProcessor;
+            private readonly IProjection<DeviceClassificationAggregate, QuestionnaireListItem> _questionnaireListItemProjection;
 
-            public Factory(IQueryProcessor queryProcessor)
+            public Factory(IQueryProcessor queryProcessor, IProjection<DeviceClassificationAggregate, QuestionnaireListItem> questionnaireListItemProjection)
             {
                 _queryProcessor = queryProcessor;
+                _questionnaireListItemProjection = questionnaireListItemProjection;
             }
 
             protected Factory()
@@ -41,7 +43,9 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
             public virtual DeviceClassificationIndexViewModel Create(Guid projectId)
             {
                 var isFromProject = new IsFromProjectSpec<DeviceClassificationAggregate> {ProjectId = projectId};
-                var questionnaires = _queryProcessor.Find(isFromProject, new QuestionnaireListItemProjection(), null, Int32.MaxValue, 1)
+                // Can't apply this projection in db now, because of computed fields (can be refactored later, if needed)
+                var questionnaires = _questionnaireListItemProjection.Apply(
+                                            _queryProcessor.Find(isFromProject, null, Int32.MaxValue, 1))
                     .Where(x => !x.IsStopped)
                     .OrderByDescending(x => x.StartedAt)
                     .ToList();
