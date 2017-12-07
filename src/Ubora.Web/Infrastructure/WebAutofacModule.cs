@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Web.Infrastructure.PreMailers;
 using Ubora.Web.Services;
@@ -14,6 +15,7 @@ using Ubora.Web._Features.Users.Account;
 using Ubora.Web._Features.Notifications._Base;
 using Ubora.Web._Features._Shared.Tokens;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web._Features.Projects.ApplicableRegulations;
 using Ubora.Web._Features.Projects.DeviceClassifications;
 using Ubora.Web._Features.Projects.History._Base;
 
@@ -86,6 +88,9 @@ namespace Ubora.Web.Infrastructure
 
             builder.RegisterType<DeviceClassificationIndexViewModel.QuestionnaireListItemProjection>()
                 .As<IProjection<DeviceClassificationAggregate, DeviceClassificationIndexViewModel.QuestionnaireListItem>>()
+                .SingleInstance();
+            builder.RegisterType<QuestionnaireIndexViewModel.QuestionnaireListItemProjection>()
+                .As<IProjection<ApplicableRegulationsQuestionnaireAggregate, QuestionnaireIndexViewModel.QuestionnaireListItem>>()
                 .SingleInstance();
         }
 
