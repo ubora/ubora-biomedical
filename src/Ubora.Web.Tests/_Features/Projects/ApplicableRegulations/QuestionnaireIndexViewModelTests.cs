@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using Moq;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
@@ -28,14 +29,17 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
                 lastNonStoppedClassification,
                 firstPreviousClassification
             };
+            var questionnaires = new PagedListStub<ApplicableRegulationsQuestionnaireAggregate>();
             queryProcessorMock
                 .Setup(q => q.Find(
-                    new IsFromProjectSpec<ApplicableRegulationsQuestionnaireAggregate> {ProjectId = projectId}, 
-                    It.IsAny<QuestionnaireIndexViewModel.QuestionnaireListItemProjection>(),
+                    new IsFromProjectSpec<ApplicableRegulationsQuestionnaireAggregate> {ProjectId = projectId},
                     null,
                     int.MaxValue, 1))
+                .Returns(questionnaires);
+            var projectionMock = new Mock<IProjection<ApplicableRegulationsQuestionnaireAggregate, QuestionnaireListItem>>();
+            projectionMock.Setup(p => p.Apply(questionnaires))
                 .Returns(classifications);
-            var viewModelFactory = new QuestionnaireIndexViewModel.Factory(queryProcessorMock.Object);
+            var viewModelFactory = new QuestionnaireIndexViewModel.Factory(queryProcessorMock.Object, projectionMock.Object);
 
             // Act
             var model = viewModelFactory.Create(projectId);
