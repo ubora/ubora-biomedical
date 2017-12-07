@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Marten;
 using Ubora.Domain.Infrastructure.Queries;
 
@@ -6,7 +7,12 @@ namespace Ubora.Domain.Projects.Workpackages.Queries
 {
     public class IsWorkpackageThreeOpenedQuery : IQuery<bool>
     {
-        public Guid ProjectId { get; set; }
+        public Guid ProjectId { get; }
+
+        public IsWorkpackageThreeOpenedQuery(Guid projectId)
+        {
+            ProjectId = projectId;
+        }
 
         internal class Handler : IQueryHandler<IsWorkpackageThreeOpenedQuery, bool>
         {
@@ -19,7 +25,10 @@ namespace Ubora.Domain.Projects.Workpackages.Queries
 
             public bool Handle(IsWorkpackageThreeOpenedQuery query)
             {
-                return false;
+                var workPackagesThreeCount = _querySession.Query<WorkpackageThree>()
+                    .Count(x => x.ProjectId == query.ProjectId);
+
+                return workPackagesThreeCount == 1;
             }
         }
     }

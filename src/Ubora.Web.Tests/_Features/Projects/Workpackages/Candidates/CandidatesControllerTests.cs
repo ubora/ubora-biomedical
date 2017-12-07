@@ -16,6 +16,7 @@ using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.Candidates.Commands;
 using Ubora.Domain.Projects.Candidates.Specifications;
 using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Domain.Projects.Workpackages.Queries;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.ImageServices;
@@ -95,8 +96,11 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
             candidateItemViewModelFactoryMock.Setup(x => x.Create(candidate2))
                 .Returns(candidate2ItemViewModel);
 
-            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, Policies.CanOpenWorkpackageThree))
-                .ReturnsAsync(AuthorizationResult.Success());
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, null, Policies.CanOpenWorkpackageThree))
+                .ReturnsAsync(AuthorizationResult.Success);
+
+            QueryProcessorMock.Setup(x => x.ExecuteQuery(It.Is<IsWorkpackageThreeOpenedQuery>(q => q.ProjectId == ProjectId)))
+                .Returns(false);
 
             var expectedModel = new VotingViewModel
             {
