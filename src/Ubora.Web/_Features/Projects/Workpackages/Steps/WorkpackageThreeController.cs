@@ -6,6 +6,7 @@ using Ubora.Web._Features._Shared;
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     [ProjectRoute("WP3")]
+    [WorkpackageStepIdFromRouteToViewData]
     public class WorkpackageThreeController : ProjectController
     {
         private WorkpackageThree _workpackageThree;

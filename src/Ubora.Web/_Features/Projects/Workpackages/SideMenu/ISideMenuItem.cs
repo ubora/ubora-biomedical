@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Ubora.Domain.Projects.Workpackages.Queries;
 
 namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
 {
@@ -11,6 +12,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
         NestingLevel Nesting { get; set; }
         string ATagClass { get;  }
 
+        /// <remarks>Return object itself for fluent-API.</remarks>>
         ISideMenuItem SetStatus(WorkpackageStatus status);
         WorkpackageStatus Status { get; set; }
 

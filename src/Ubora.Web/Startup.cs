@@ -77,8 +77,8 @@ namespace Ubora.Web
             services
                 .AddMvc(options =>
                 {
-                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                    options.Filters.Add(new WorkpackageStepIdFromRouteToViewDataActionFilter());
+                    // TODO: Kaspar: Should definitely add but not right before Design School (might break some functionality)
+                    //options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 })
                 .AddUboraFeatureFolders(new FeatureFolderOptions {FeatureFolderName = "_Features"});
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();

@@ -1,9 +1,8 @@
 ﻿using System;
 using Marten;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Projects.Workpackages;
 
-namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
+namespace Ubora.Domain.Projects.Workpackages.Queries
 {
     public class GetStatusesOfProjectWorkpackagesQuery : IQuery<GetStatusesOfProjectWorkpackagesQuery.Result>
     {

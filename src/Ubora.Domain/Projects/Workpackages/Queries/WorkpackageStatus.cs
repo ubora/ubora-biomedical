@@ -1,4 +1,4 @@
-﻿namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
+﻿namespace Ubora.Domain.Projects.Workpackages.Queries
 {
     public enum WorkpackageStatus
     {

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Ubora.Domain.Projects.Workpackages.Queries;
+using Ubora.Web._Features.Projects.Workpackages.SideMenu.IconProviders;
 
 namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
 {
@@ -22,21 +24,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
         public string Href { get; }
         public NestingLevel Nesting { get; set; }
         public WorkpackageStatus Status { get; set; }
-
-        public ImgIcon Icon => _iconProvider.Generate(this);
-
-        public IHtmlContent GenerateHtmlMarkup(IHtmlHelper htmlHelper)
-        {
-            return htmlHelper.Partial("~/_Features/Projects/Workpackages/SideMenu/_LinkMenuItemPartial.cshtml", model: this);
-        }
-
-        public ISideMenuItem SetStatus(WorkpackageStatus status)
-        {
-            Status = status;
-
-            return this;
-        }
-
+        public ImgIcon Icon => _iconProvider.ProvideIcon(this);
         public string ATagClass
         {
             get
@@ -55,6 +43,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         return "";
                 }
             }
+        }
+
+        public IHtmlContent GenerateHtmlMarkup(IHtmlHelper htmlHelper)
+        {
+            return htmlHelper.Partial("~/_Features/Projects/Workpackages/SideMenu/_LinkMenuItemPartial.cshtml", model: this);
+        }
+
+        public ISideMenuItem SetStatus(WorkpackageStatus status)
+        {
+            Status = status;
+
+            return this;
         }
     }
 }

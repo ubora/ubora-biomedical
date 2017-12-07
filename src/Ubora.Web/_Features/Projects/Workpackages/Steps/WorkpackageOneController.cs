@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Domain.Projects._Commands;
@@ -9,26 +8,8 @@ using Ubora.Web._Features._Shared;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
-    public class WorkpackageStepIdFromRouteToViewDataActionFilter : IActionFilter
-    {
-        public void OnActionExecuting(ActionExecutingContext context)
-        {
-            if (context.RouteData.Values.ContainsKey("stepId"))
-            {
-                var controller = context.Controller as Controller;
-                if (controller != null)
-                {
-                    controller.ViewData["WorkpackageMenuOption"] = context.RouteData.Values["stepId"];
-                }
-            }
-        }
-
-        public void OnActionExecuted(ActionExecutedContext context)
-        {
-        }
-    }
-
     [ProjectRoute("WP1")]
+    [WorkpackageStepIdFromRouteToViewData]
     public class WorkpackageOneController : ProjectController
     {
         private WorkpackageOne _workpackageOne;
