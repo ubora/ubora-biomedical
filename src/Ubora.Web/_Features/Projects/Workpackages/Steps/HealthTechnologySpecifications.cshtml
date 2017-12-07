@@ -355,12 +355,12 @@
                                     <p>Voltage required: <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredVoltage" class="form-control width-8 text-center" type="number" min="0" step="0.01" title="Voltage" /> V </p>
                                     <span asp-validation-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredVoltage"></span>
                                     <p>Time required to recharge:
-                                      <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours
+                                      <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours" class="form-control width-8 text-center" type="number" min="0"  max="10000" title="Hours" /> Hours
                                       <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes" class="form-control width-8 text-center" type="number" min="0" max="59" title="Minutes" /> Minutes
                                     </p>
                                     <span asp-validation-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours"></span>
                                     <p>Battery life with full charge:
-                                      <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours
+                                      <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours" class="form-control width-8 text-center" type="number" min="0" max="10000" title="Hours" /> Hours
                                       <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes" class="form-control width-8 text-center" type="number" min="0" max="59" title="Minutes" /> Minutes
                                     </p>
                                     <span asp-validation-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours"></span>
@@ -386,11 +386,11 @@
                                 <div id="solar-power-extra-field" class="hide form-group pl-3">
                                     <p>If yes, please fill the following fields:</p>
                                     <p>Time in sunlight required to charge:
-                                      <input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours
+                                      <input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours" class="form-control width-8 text-center" type="number" min="0" max="10000" title="Hours" /> Hours
                                       <input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes" class="form-control width-8 text-center" type="number" min="0" max="59" title="Minutes" /> Minutes</p>
                                     <span asp-validation-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours"></span>
                                     <p>Battery life with full charge:
-                                      <input asp-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInHours" class="form-control width-8 text-center" type="number" min="0" title="Hours" /> Hours
+                                      <input asp-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInHours" class="form-control width-8 text-center" type="number" min="0" max="10000" title="Hours" /> Hours
                                       <input asp-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInMinutes" class="form-control width-8 text-center" type="number" min="0" max="59" title="Minutes" /> Minutes</p>
                                     <span asp-validation-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInHours"></span>
                                 </div>
