@@ -91,7 +91,7 @@ namespace Ubora.Web
                 .AddDefaultTokenProviders();
 
             services.AddAutoMapper();
-            services.AddUboraAuthorization();
+            services.AddUboraPolicyBasedAuthorization();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

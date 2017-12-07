@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using Marten;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.Repository.Events;
+using Ubora.Domain.Questionnaires.DeviceClassifications;
 
 namespace Ubora.Domain.Projects.Repository.Commands
 {
@@ -25,6 +27,7 @@ namespace Ubora.Domain.Projects.Repository.Commands
             public ICommandResult Handle(UpdateFileCommand cmd)
             {
                 var projectFile = _documentSession.LoadOrThrow<ProjectFile>(cmd.Id);
+
 
                 var revisionNumber = projectFile.RevisionNumber + 1;
                 var @event = new FileUpdatedEvent(

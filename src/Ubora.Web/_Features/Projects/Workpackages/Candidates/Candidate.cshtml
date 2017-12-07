@@ -94,16 +94,10 @@
             </div>
         </div>
 
-        <div class="col-lg-6">
-            @if (Model.IsVotingAllowed)
-            {
-                @Html.Partial("_AddVotePartial", Model.AddVoteViewModel)
-            }
-            else {
-                @Html.Partial("_VotePartial", Model.UserVotesViewModel)
-            }
-        </div>
-    </div>
+                <div class="col-lg-6">
+                    @(Model.HasUserVoted ? Html.Partial("_VotePartial", Model.UserVotesViewModel) : Html.Partial("_AddVotePartial", Model.AddVoteViewModel))
+                </div>
+            </div>
 
     <div class="row mb-4">
         <div class="col-sm-12 col-lg-6">
