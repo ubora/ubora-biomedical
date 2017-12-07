@@ -15,7 +15,7 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations
         public DateTime? FinishedAt { get; private set; }
         public bool IsFinished => FinishedAt.HasValue;
         [JsonIgnore]
-        public bool IsStopped => FinishedAt.HasValue && Questionnaire.FindNextUnansweredQuestion() != null;
+        public virtual bool IsStopped => FinishedAt.HasValue && Questionnaire.FindNextUnansweredQuestion() != null;
 
         private void Apply(ApplicableRegulationsQuestionnaireStartedEvent e)
         {
