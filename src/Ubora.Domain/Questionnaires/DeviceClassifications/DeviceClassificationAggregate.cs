@@ -1,11 +1,12 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Projects;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Events;
 
 namespace Ubora.Domain.Questionnaires.DeviceClassifications
 {
-    public class DeviceClassificationAggregate : Entity<DeviceClassificationAggregate>
+    public class DeviceClassificationAggregate : Entity<DeviceClassificationAggregate>, IProjectEntity
     {
         public Guid Id { get; private set; }
         public Guid ProjectId { get; private set; }
@@ -16,9 +17,9 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
 
         [JsonIgnore]
         public bool IsFinished => FinishedAt.HasValue;
-
+        
         [JsonIgnore]
-        public bool IsStopped => FinishedAt.HasValue && QuestionnaireTree.FindNextUnansweredQuestion() != null;
+        public virtual bool IsStopped => FinishedAt.HasValue && QuestionnaireTree.FindNextUnansweredQuestion() != null;
 
         private void Apply(DeviceClassificationStartedEvent e)
         {

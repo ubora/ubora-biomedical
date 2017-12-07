@@ -35,7 +35,7 @@ namespace Ubora.Domain.Users.Commands
                 userProfile.FirstName = cmd.FirstName;
                 userProfile.LastName = cmd.LastName;
                 userProfile.Biography = cmd.Biography;
-                userProfile.Country = new Country(cmd.CountryCode);
+                userProfile.Country = GetCountryValueObject(cmd.CountryCode);
                 userProfile.Degree = cmd.Degree;
                 userProfile.Field = cmd.Field;
                 userProfile.University = cmd.University;
@@ -48,6 +48,18 @@ namespace Ubora.Domain.Users.Commands
                 _documentSession.SaveChanges();
 
                 return CommandResult.Success;
+            }
+
+            private static Country GetCountryValueObject(string countryCode)
+            {
+                if (string.IsNullOrWhiteSpace(countryCode))
+                {
+                    return Country.CreateEmpty();
+                }
+                else
+                {
+                    return new Country(countryCode);
+                }
             }
         }
     }
