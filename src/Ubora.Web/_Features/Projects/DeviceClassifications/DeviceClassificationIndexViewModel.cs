@@ -43,7 +43,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
             public virtual DeviceClassificationIndexViewModel Create(Guid projectId)
             {
                 var isFromProject = new IsFromProjectSpec<DeviceClassificationAggregate> {ProjectId = projectId};
-                // Can't apply this projection in db now, because of computed fields (can be refactored later)
+                // Can't apply this projection in db now, because of computed fields (can be refactored later, if needed)
                 var questionnaires = _questionnaireListItemProjection.Apply(
                                             _queryProcessor.Find(isFromProject, null, Int32.MaxValue, 1))
                     .Where(x => !x.IsStopped)

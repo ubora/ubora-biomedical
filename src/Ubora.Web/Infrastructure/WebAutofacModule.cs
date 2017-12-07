@@ -4,7 +4,9 @@ using Ubora.Domain.Infrastructure.Commands;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Web.Infrastructure.PreMailers;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Feedback;
@@ -12,6 +14,7 @@ using Ubora.Web._Features.Users.Account;
 using Ubora.Web._Features.Notifications._Base;
 using Ubora.Web._Features._Shared.Tokens;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web._Features.Projects.DeviceClassifications;
 using Ubora.Web._Features.Projects.History._Base;
 
 namespace Ubora.Web.Infrastructure
@@ -80,6 +83,10 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterType<UboraStorageProvider>().As<IUboraStorageProvider>().InstancePerLifetimeScope();
 
             builder.RegisterType<PreMailerFactory>().AsSelf().InstancePerLifetimeScope();
+
+            builder.RegisterType<DeviceClassificationIndexViewModel.QuestionnaireListItemProjection>()
+                .As<IProjection<DeviceClassificationAggregate, DeviceClassificationIndexViewModel.QuestionnaireListItem>>()
+                .SingleInstance();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)
