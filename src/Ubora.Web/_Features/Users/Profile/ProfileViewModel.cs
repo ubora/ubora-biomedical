@@ -3,6 +3,7 @@ using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Users;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web._Features.UboraMentors.Queries;
+using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Users.Profile
 {
@@ -47,11 +48,11 @@ namespace Ubora.Web._Features.Users.Profile
             {
                 var viewModel = _autoMapper.Map<ProfileViewModel>(userProfile);
 
-                viewModel.ProfilePictureLink = _imageStorageProvider.GetUrl(userProfile.ProfilePictureBlobLocation);
+                viewModel.ProfilePictureLink = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile);
 
                 viewModel.IsVerifiedMentor = _queryProcessor.ExecuteQuery(new IsVerifiedUboraMentorQuery(userProfile.UserId));
 
-                if (userProfile.Role == "mentor" && !viewModel.IsVerifiedMentor)
+                if (userProfile.Role == "Mentor" && !viewModel.IsVerifiedMentor)
                 {
                     viewModel.IsUnverifedMentor = true;
                 }

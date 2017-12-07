@@ -52,14 +52,14 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         }
 
         [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
+        [InlineData(true, false)]
+        [InlineData(false, true)]
         public void Create_Finds_Out_Whether_User_With_Role_Mentor_Is_Verified_Ubora_Mentor(
-            bool isUboraMentor)
+            bool isVerifiedUboraMentor, bool isUnverifiedUboraMentor)
         {
             var userId = Guid.NewGuid();
             var userProfile = new UserProfile(userId)
-                .Set(x => x.Role, "mentor");
+                .Set(x => x.Role, "Mentor");
 
             // Stub mapping
             _autoMapperMock.Setup(m => m.Map<ProfileViewModel>(userProfile))
@@ -67,13 +67,14 @@ namespace Ubora.Web.Tests._Features.Users.Profile
 
             _queryProcessorMock
                 .Setup(x => x.ExecuteQuery(It.Is<IsVerifiedUboraMentorQuery>(q => q.UserId == userId)))
-                .Returns(isUboraMentor);
+                .Returns(isVerifiedUboraMentor);
 
             // Act
             var result = _factoryUnderTest.Create(userProfile);
 
             // Assert
-            result.IsVerifiedMentor.Should().Be(isUboraMentor);
+            result.IsVerifiedMentor.Should().Be(isVerifiedUboraMentor);
+            result.IsUnverifedMentor.Should().Be(isUnverifiedUboraMentor);
         }
     }
 }

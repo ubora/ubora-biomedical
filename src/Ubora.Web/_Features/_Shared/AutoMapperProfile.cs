@@ -54,6 +54,8 @@ namespace Ubora.Web._Features._Shared
 
             CreateMap<UserProfile, ProfileViewModel>()
                 .ForMember(dest => dest.ProfilePictureLink, o => o.Ignore())
+                .ForMember(dest => dest.IsVerifiedMentor, o => o.Ignore())
+                .ForMember(dest => dest.IsUnverifedMentor, o => o.Ignore())
                 .ForMember(dest => dest.CountryEnglishName, o => o.MapFrom(src => src.Country.DisplayName));
 
             CreateMap<UserProfile, UserProfileViewModel>()
