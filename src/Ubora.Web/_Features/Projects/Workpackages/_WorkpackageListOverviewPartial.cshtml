@@ -4,65 +4,57 @@
   <ul class="list-sidebar">
       <li>
           <a asp-action="ProjectOverview" asp-controller="WorkPackageOne" class="checked-status">
-              <img class="side-menu-icon-primary mr-1" src="/images/icons/check.svg" alt="Check icon">
-              <span>Design planning</span>
+              <img src="/images/icons/check.svg" alt="Check icon"><span>Design planning</span>
           </a>
       </li>
       @foreach (var workPackage in Model)
       {
       <li>
           <a href="#" class="@(workPackage.HasBeenAccepted ? "checked-status" : workPackage.IsMuted ? "muted-status" : "" ) collapsed active" data-toggle="collapse" data-target="#@workPackage.WorkPackageId">
-              <img class="side-menu-icon-primary mr-1" src="@workPackage.WorkPackageImageSrc" alt="@workPackage.Title icon">
-              <span>@workPackage.Title</span>
+              <img src="@workPackage.WorkPackageImageSrc" alt="@workPackage.Title icon"><span>@workPackage.Title</span>
           </a>
-          <ul class="sub-menu @(workPackage.IsAnyMenuLinkSelected ? "" : "collapse")" id="@workPackage.WorkPackageId">
+          <ul class="side-menu-secondary @(workPackage.IsAnyMenuLinkSelected ? "" : "collapse")" id="@workPackage.WorkPackageId">
               @foreach (var menuLink in workPackage.MenuLinks)
               {
                 <li>
                     <a class="@(menuLink.IsSelected ? "active-status" : workPackage.HasBeenAccepted ? "checked-status" : "" )" href="@menuLink.Href">
-                        <img class="side-menu-icon-secondary" src="@(menuLink.IsSelected ? "/images/icons/arrow.svg" : workPackage.HasBeenAccepted ? "/images/icons/check.svg" : "/images/icons/circle.svg")" alt="icon"><span class="ml-4">@menuLink.Name</span>
+                        <img src="@(menuLink.IsSelected ? "/images/icons/arrow.svg" : workPackage.HasBeenAccepted ? "/images/icons/check.svg" : "/images/icons/circle.svg")" alt="icon"><span>@menuLink.Name</span>
                     </a>
                 </li>
               }
 
             @*TODO: submenu implementation*@
-            <ul class="">
-              <li class="">
-                <a class="" href="#">
-                    <img class="side-menu-icon-tertiary" src="/images/icons/circle.svg" alt="icon">
-                    <span class="ml-4">Hardware</span>
+            <ul class="side-menu-tertiary">
+              <li>
+                <a href="#">
+                    <img src="/images/icons/circle.svg" alt="icon"><span>Hardware</span>
                 </a>
               </li>
               <li>
-                <a class="" href="#">
-                    <img class="side-menu-icon-tertiary" src="/images/icons/circle.svg" alt="icon">
-                    <span class="ml-4">Electronic & firmware</span>
+                <a href="#">
+                    <img src="/images/icons/circle.svg" alt="icon"><span>Electronic & firmware</span>
                 </a>
-                <ul class="">
+                <ul class="side-menu-quaternary">
                   <li>
-                    <a class="" href="#">
-                        <img class="side-menu-icon-tertiary" src="/images/icons/circle-empty.svg" alt="icon">
-                        <span class="ml-4">Hardware</span>
+                    <a href="#">
+                        <img src="/images/icons/circle-empty.svg" alt="icon"><span>Hardware</span>
                     </a>
                   </li>
                   <li>
-                    <a class="" href="#">
-                        <img class="side-menu-icon-tertiary" src="/images/icons/circle-empty.svg" alt="icon">
-                        <span class="ml-4">Hardware</span>
+                    <a href="#">
+                        <img src="/images/icons/circle-empty.svg" alt="icon"><span>Hardware</span>
                     </a>
                   </li>
                   <li>
-                    <a class="" href="#">
-                        <img class="side-menu-icon-tertiary" src="/images/icons/circle-empty.svg" alt="icon">
-                        <span class="ml-4">Hardware</span>
+                    <a href="#">
+                        <img src="/images/icons/circle-empty.svg" alt="icon"><span>Hardware</span>
                     </a>
                   </li>
                 </ul>
               </li>
               <li>
-                <a class="" href="#">
-                    <img class="side-menu-icon-tertiary" src="/images/icons/circle.svg" alt="icon">
-                    <span class="ml-4">Software</span>
+                <a href="#">
+                    <img src="/images/icons/circle.svg" alt="icon"><span>Software</span>
                 </a>
               </li>
             </ul>
