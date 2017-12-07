@@ -108,6 +108,7 @@ namespace Ubora.Web._Features.Users.Profile
             ViewData["ReturnUrl"] = returnUrl;
             var firstTimeEditProfileModel = new FirstTimeEditProfileModel
             {
+                FirstTimeUserProfileViewModel = new FirstTimeUserProfileViewModel(),
                 ProfilePictureViewModel = new ProfilePictureViewModel
                 {
                     IsFirstTimeEditProfile = true
@@ -176,6 +177,8 @@ namespace Ubora.Web._Features.Users.Profile
 
             var user = await _userManager.FindByIdAsync(UserId.ToString());
             await _signInManager.RefreshSignInAsync(user);
+
+            Notices.Success("Profile image uploaded successfully!"); 
 
             return RedirectToAction(model.IsFirstTimeEditProfile ? nameof(FirstTimeEditProfile) : nameof(EditProfile));
         }

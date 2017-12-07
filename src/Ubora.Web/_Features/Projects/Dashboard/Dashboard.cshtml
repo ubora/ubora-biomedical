@@ -7,8 +7,8 @@
     ViewData["MenuOption"] = ProjectMenuOption.Overview;
 }
 
-<div class="container-fluid col-md-8 my-4">
-    <div class="row mb-4">
+<div class="container-fluid col-lg-8 my-4">
+    <div class="row">
         <div class="col-sm-12 col-lg-6">
           <div class="row">
             <div class="col">
@@ -102,7 +102,7 @@
                 <div class="col-sm-12 col-lg-2 d-flex align-items-center justify-content-end">
                     @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectTitleAndDescription))
                     {
-                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription"><i class="material-icons align-middle">mode_edit</i><span class="align-middle">Edit</span></a>
+                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription"><i class="material-icons align-middle">mode_edit</i><span class="align-middle" id="EditDescription">Edit</span></a>
                     }
                 </div>
             </div>
