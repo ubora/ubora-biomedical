@@ -9,6 +9,7 @@ using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.Candidates.Commands;
 using Ubora.Domain.Projects.Candidates.Specifications;
 using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Domain.Projects.Workpackages.Queries;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Extensions;
@@ -43,14 +44,14 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 
             var candidates = QueryProcessor.Find(new IsProjectCandidateSpec(ProjectId));
 
-            var canOpenWp3 = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanOpenWorkpackageThree);
-            var isWp3AlreadyOpened = true;
+            var isAuthorizedToOpenWp3 = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanOpenWorkpackageThree);
+            var isWp3Opened = QueryProcessor.ExecuteQuery(new IsWorkpackageThreeOpenedQuery(ProjectId));
 
             var candidateViewModels = candidates.Select(candidateItemViewModelFactory.Create);
             var model = new VotingViewModel
             {
                 Candidates = candidateViewModels,
-                CanOpenWorkpackageThree = canOpenWp3 && !isWp3AlreadyOpened
+                CanOpenWorkpackageThree = isAuthorizedToOpenWp3 && !isWp3Opened
             };
 
             return View(nameof(Voting), model);
