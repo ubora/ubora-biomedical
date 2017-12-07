@@ -6,6 +6,7 @@
         RegulationCheckList,
         Wp1MentorReview,
         Wp2MentorReview,
-        Voting
+        Voting,
+        DesignPlanning
     }
 }

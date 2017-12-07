@@ -16,6 +16,11 @@ namespace Ubora.Domain.Infrastructure.Queries
 
         IPagedList<T> Find<T>(ISpecification<T> specification, ISortSpecification<T> sortSpecification,
             int pageSize, int pageNumber);
+
+        IPagedList<TDocumentProjection> Find<TDocument, TDocumentProjection>(
+            ISpecification<TDocument> specification,
+            IProjection<TDocument, TDocumentProjection> projection,
+            ISortSpecification<TDocumentProjection> sortSpecification, int pageSize, int pageNumber);
         T FindById<T>(Guid id); // Replace calls with specification?
     }
 }

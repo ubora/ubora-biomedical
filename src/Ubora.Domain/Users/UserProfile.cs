@@ -1,5 +1,6 @@
 ﻿using System;
 using Marten.Schema;
+using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Domain.Users
@@ -33,6 +34,7 @@ namespace Ubora.Domain.Users
         public BlobLocation ProfilePictureBlobLocation { get; set; }
         public bool IsDeleted { get; set; }
 
+        // Don't JsonIgnore
         public string FullName => $"{FirstName} {LastName}";
     }
 }
