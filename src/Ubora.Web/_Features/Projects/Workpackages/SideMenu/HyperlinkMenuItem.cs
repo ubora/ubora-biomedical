@@ -49,6 +49,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                 {
                     case WorkpackageStatus.Accepted:
                         return "checked-status";
+                    case WorkpackageStatus.Closed:
+                        return "muted-status";
                     default:
                         return "";
                 }

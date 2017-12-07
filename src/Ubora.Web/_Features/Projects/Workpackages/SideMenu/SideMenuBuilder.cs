@@ -92,7 +92,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                     }),
                     new CollapseMenuItem(NestingLevel.Two, "general-product-description-for-system-integration", "System integration", new ISideMenuItem[]
                     {
-                        new HyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_SystemIntegration_Optimization", "Design for ISO testing compliance", href: Wp3StepLink("GeneralProductDescription_SystemIntegration_Optimization")),
                         new HyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_SystemIntegration_PrototypesAndFunctionalTrials", "Instructions for fabrication of prototypes", href: Wp3StepLink("GeneralProductDescription_SystemIntegration_PrototypesAndFunctionalTrials")),
                     })
                 }),

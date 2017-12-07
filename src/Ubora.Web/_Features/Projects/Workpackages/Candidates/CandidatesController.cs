@@ -331,11 +331,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 
             if (!ModelState.IsValid)
             {
-                Notices.Error("Failed to open work package three!");
+                Notices.Error("Failed to open work package 3!");
                 return await Voting(candidateItemViewModelFactory);
             }
 
-            Notices.Success("Work package three opened successfully!");
+            Notices.Success("Work package 3 opened successfully!");
 
             return RedirectToAction(nameof(Voting));
         }

@@ -10,6 +10,6 @@ namespace Ubora.Domain.Projects.Workpackages.Events
         {
         }
 
-        public override string GetDescription() => $"opened workpackage three.";
+        public override string GetDescription() => $"opened work package 3: Design and prototyping.";
     }
 }

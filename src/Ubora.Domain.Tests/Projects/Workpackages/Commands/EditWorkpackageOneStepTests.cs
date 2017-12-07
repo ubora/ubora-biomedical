@@ -25,6 +25,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
             this.Given(_ => this.Create_Project(projectId))
                     .And(_ => this.Submit_Workpackage_One_For_Review(projectId))
                     .And(_ => this.Accept_Workpackage_One_Review(projectId))
+                    .And(_ => this.Open_Workpackage_Three(projectId))
                 .When(_ => Processor.Execute(editCommand))
                 .Then(_ => Assert_WP3_Step_Has_Value(projectId, editCommand.StepId, editCommand.NewValue))
                 .BDDfy();
