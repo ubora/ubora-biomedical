@@ -55,6 +55,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                 {
                     case WorkpackageStatus.Accepted:
                         return "checked-status";
+                    case WorkpackageStatus.Closed:
+                        return "muted-status";
                     default:
                         return "";
                 }
@@ -63,7 +65,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
 
         public IHtmlContent GenerateHtmlMarkup(IHtmlHelper htmlHelper)
         {
-            return htmlHelper.Partial("~/_Features/Projects/Workpackages/SideMenu/_CategoryMenuItemPartial.cshtml", model: this);
+            return htmlHelper.Partial("~/_Features/Projects/Workpackages/SideMenu/_CollapseMenuItemPartial.cshtml", model: this);
         }
 
         public ISideMenuItem SetStatus(WorkpackageStatus status)
