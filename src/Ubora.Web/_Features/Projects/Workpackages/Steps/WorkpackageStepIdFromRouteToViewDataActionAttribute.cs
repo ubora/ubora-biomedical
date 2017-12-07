@@ -13,7 +13,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 if (controller != null)
                 {
                     var stepIdAsString = context.RouteData.Values["stepId"] as string;
-                    controller.ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.Step(stepIdAsString);
+                    controller.ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.Step(stepIdAsString);
                 }
             }
         }

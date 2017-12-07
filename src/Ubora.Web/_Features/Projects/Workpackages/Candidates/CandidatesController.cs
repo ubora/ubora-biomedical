@@ -28,8 +28,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             base.OnActionExecuting(context);
 
             ViewData["Title"] = "Voting";
-            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.Voting;
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.Voting;
         }
 
         public CandidatesController(ImageStorageProvider imageStorageProvider)

@@ -67,7 +67,7 @@
     }
 
     @{
-        var workpackageMenuOption = ViewData["WorkpackageMenuOption"];
+        var workpackageMenuOption = ViewData[nameof(WorkpackageMenuOption)];
         if (workpackageMenuOption != null)
         {
             <main>

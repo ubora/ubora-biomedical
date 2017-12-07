@@ -19,7 +19,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
         {
             var viewModel = _sideMenuFactory.Create(
                 projectId: ProjectId,
-                selectedId: ViewData["WorkpackageMenuOption"] as string);
+                selectedId: ViewData[nameof(WorkpackageMenuOption)] as string);
 
             return View("~/_Features/Projects/Workpackages/SideMenu/Main.cshtml", viewModel);
         }
