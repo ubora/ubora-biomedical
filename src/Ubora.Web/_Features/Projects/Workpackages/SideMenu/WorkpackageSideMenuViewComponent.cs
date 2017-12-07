@@ -21,7 +21,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                 projectId: ProjectId,
                 selectedId: ViewData[nameof(WorkpackageMenuOption)] as string);
 
-            return View("~/_Features/Projects/Workpackages/SideMenu/Main.cshtml", viewModel);
+            return View("~/_Features/Projects/Workpackages/SideMenu/_WorkpackageSideMenuPartial.cshtml", viewModel);
         }
     }
 }

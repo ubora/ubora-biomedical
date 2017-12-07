@@ -43,40 +43,40 @@
 
             @if (Model.CanOpenWorkpackageThree)
             {
-            <hr>
-            <div class="mt-4">
+                <hr>
+                <div class="mt-4">
 
-              <button class="btn btn-secondary-ghost align-self-start" role="button" data-toggle="modal" data-target="#openWorkpackageModal" style="">
-                <i class="material-icons align-middle">arrow_forward</i>
-                <span>Open "WP3: Design and prototyping"</span>
-              </button>
+                  <button class="btn btn-secondary-ghost align-self-start" role="button" data-toggle="modal" data-target="#openWorkpackageModal" style="">
+                    <i class="material-icons align-middle">arrow_forward</i>
+                    <span>Open "WP3: Design and prototyping"</span>
+                  </button>
 
-              <div class="modal fade" id="openWorkpackageModal" tabindex="-1" role="dialog" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                          <div class="modal-header">
-                              <h5 class="modal-title">Open "Work package 3: design and prototyping"</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                              </button>
-                          </div>
-                          <form asp-controller="Candidates" asp-action="OpenWorkpackageThree" method="post">
-                              <div class="modal-body">
-                                  <p>Please be sure you have reached consensus on the conceptual design of your medical device. Are you sure you want to open "WP3: Design and prototyping"?</p>
+                  <div class="modal fade" id="openWorkpackageModal" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="modal-title">Open "Work package 3: design and prototyping"</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
                               </div>
-                              <div class="modal-footer d-flex justify-content-center">
-                                  <div class="form-group">
-                                      <button type="button" class="btn btn-secondary-ghost" data-dismiss="modal">No, cancel</button>
-                                      <span class="mx-1"></span>
-                                      <button class="btn btn-primary" type="submit">Yes, open</button>
+                              <form asp-controller="Candidates" asp-action="OpenWorkpackageThree" method="post">
+                                  <div class="modal-body">
+                                      <p>Please be sure you have reached consensus on the conceptual design of your medical device. Are you sure you want to open "WP3: Design and prototyping"?</p>
                                   </div>
-                              </div>
-                          </form>
+                                  <div class="modal-footer d-flex justify-content-center">
+                                      <div class="form-group">
+                                          <button type="button" class="btn btn-secondary-ghost" data-dismiss="modal">No, cancel</button>
+                                          <span class="mx-1"></span>
+                                          <button class="btn btn-primary" type="submit">Yes, open</button>
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
                       </div>
                   </div>
-              </div>
               
-            </div>
+                </div>
             }
         </div>
     </div>
