@@ -6,6 +6,7 @@ using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects.Members;
+using Ubora.Domain.Queries;
 using Ubora.Web._Features.Notifications;
 using Xunit;
 
@@ -26,20 +27,9 @@ namespace Ubora.Web.Tests._Features.Notifications
         public void Create_Creates_ViewModel()
         {
             var userId = Guid.NewGuid();
-
-            var invitation1 = new InvitationToProject(userId, Guid.NewGuid());
-            var invitation2 = new InvitationToProject(userId, Guid.NewGuid());
-            var invitation3 = new InvitationToProject(userId, Guid.NewGuid());
-
-            var invitations = new PagedListStub<InvitationToProject>
-            {
-                invitation1,
-                invitation2,
-                invitation3
-            };
-
-            _queryProcessorMock.Setup(x => x.Find(It.IsAny<HasUnViewedNotifications>()))
-                .Returns(invitations);
+      
+            _queryProcessorMock.Setup(x => x.ExecuteQuery(It.Is<CountQuery<INotification>>(c => c.Specification == new HasUnViewedNotifications(userId))))
+                .Returns(3);
 
             // Act
             var result = _unreadNotificationsViewModelFactory.Create(userId);
