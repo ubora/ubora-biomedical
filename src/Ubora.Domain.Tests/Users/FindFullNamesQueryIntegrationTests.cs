@@ -6,20 +6,17 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Users
 {
-    public class FindFullNamesQueryIntegrationTests : IntegrationFixture
+    public class FindFullNamesOfAllUboraUsersQueryIntegrationTests : IntegrationFixture
     {
         [Fact]
-        public void Foo123()
+        public void Query_Returns_Full_Names_Of_Ubora_Users()
         {
             var user1Id = Guid.NewGuid();
             var user2Id = Guid.NewGuid();
-            var user3Id = Guid.NewGuid();
             this.Create_User(user1Id, firstName: "John", lastName: "Doe");
             this.Create_User(user2Id, firstName: "Jane", lastName: "Doe");
-            this.Create_User(user3Id, firstName: "John", lastName: "Smith");
 
-
-            var query = new FindFullNamesQuery(new [] {user1Id, user2Id});
+            var query = new FindFullNamesOfAllUboraUsersQuery();
 
             // Act
             var result = Processor.ExecuteQuery(query);
@@ -27,10 +24,10 @@ namespace Ubora.Domain.Tests.Users
             // Assert
             var expectedResult = new Dictionary<Guid, string>
             {
-                {user1Id, "John Doe" },
-                {user2Id, "Jane Doe" },
+                { user1Id, "John Doe" },
+                { user2Id, "Jane Doe" },
             };
-            
+
             result.ShouldBeEquivalentTo(expectedResult);
         }
     }
