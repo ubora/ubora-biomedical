@@ -1,0 +1,10 @@
+﻿@model Ubora.Web._Features.Projects.Workpackages.SideMenu.SideMenuViewModel
+
+<aside class="project_sidemenu">
+    <ul class="list-sidebar">
+        @foreach (var topLevelMenuItem in Model.TopLevelMenuItems)
+        {
+            @topLevelMenuItem.GenerateHtmlMarkup(this.Html)
+        }
+    </ul>
+</aside>

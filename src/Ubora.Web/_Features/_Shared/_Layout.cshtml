@@ -1,5 +1,6 @@
 ﻿@using Ubora.Web._Features.Projects._Shared
 @using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects.Workpackages.SideMenu
 
 @inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 <!DOCTYPE html>
@@ -67,14 +68,13 @@
 
     @{
         var workpackageMenuOption = ViewData["WorkpackageMenuOption"];
-        var workpackageStep = ViewContext.RouteData.Values["stepId"] as string;
-        if (workpackageMenuOption != null || workpackageStep != null)
+        if (workpackageMenuOption != null)
         {
             <main>
                 <div class="container-fluid my-4">
                     <div class="row">
                         <div class="col-lg-3">
-                            @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+                            @await Component.InvokeAsync(typeof(SideMenuBuilder))
                         </div>
                             @RenderBody()
                     </div>

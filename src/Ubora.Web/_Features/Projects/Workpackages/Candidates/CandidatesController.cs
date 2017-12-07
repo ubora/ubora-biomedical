@@ -28,7 +28,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             base.OnActionExecuting(context);
 
             ViewData["Title"] = "Voting";
-            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.Voting;
+            ViewData["WorkpackageMenuOption"] = "Voting";
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
         }
 
@@ -40,8 +40,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
         [Route(nameof(Voting))]
         public async Task<IActionResult> Voting([FromServices] CandidateItemViewModel.Factory candidateItemViewModelFactory)
         {
-            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.Voting;
-
             var candidates = QueryProcessor.Find(new IsProjectCandidateSpec(ProjectId));
 
             var isAuthorizedToOpenWp3 = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanOpenWorkpackageThree);
