@@ -17,7 +17,11 @@ namespace Ubora.Domain.Queries
 {
     public class CountQuery<T> : IQuery<int>
     {
-        public ISpecification<T> Specification { get; set; }
+        public CountQuery(ISpecification<T> specification)
+        {
+            Specification = specification;
+        }
+        public ISpecification<T> Specification { get; private set; }
 
         internal class Handler : IQueryHandler<CountQuery<T>, int> 
         {

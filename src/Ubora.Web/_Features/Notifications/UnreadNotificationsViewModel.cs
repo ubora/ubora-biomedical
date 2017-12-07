@@ -23,10 +23,8 @@ namespace Ubora.Web._Features.Notifications
             public UnreadNotificationsViewModel Create(Guid currentUserId)
             {
                 var unreadMessagesCount = _queryProcessor
-                    .ExecuteQuery(new CountQuery<INotification>
-                    {
-                        Specification = new HasUnViewedNotifications(currentUserId)
-                    });
+                    .ExecuteQuery(new CountQuery<INotification>(
+                      new HasUnViewedNotifications(currentUserId)));
 
                 return new UnreadNotificationsViewModel { UnreadMessagesCount = unreadMessagesCount };
             }

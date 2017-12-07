@@ -18,10 +18,7 @@ namespace Ubora.Domain.Tests.Queries
         public void Should_Return_Count_Of_Satisfied_Items()
         {
             var specificationMock = new Mock<ISpecification<object>>();
-            var query = new CountQuery<object>
-            {
-                Specification = specificationMock.Object
-            };
+            var query = new CountQuery<object>(specificationMock.Object);
 
             var querySessionMock = new Mock<IQuerySession>();
             var queryResult = Mock.Of<IMartenQueryable<object>>();

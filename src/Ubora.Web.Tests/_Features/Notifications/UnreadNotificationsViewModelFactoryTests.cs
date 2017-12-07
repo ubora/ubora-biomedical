@@ -3,6 +3,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects.Members;
@@ -28,7 +29,7 @@ namespace Ubora.Web.Tests._Features.Notifications
         {
             var userId = Guid.NewGuid();
       
-            _queryProcessorMock.Setup(x => x.ExecuteQuery(It.Is<CountQuery<INotification>>(c => c.Specification == new HasUnViewedNotifications(userId))))
+            _queryProcessorMock.Setup(x => x.ExecuteQuery(It.Is<CountQuery<INotification>>(c => (Specification<INotification>)c.Specification == new HasUnViewedNotifications(userId))))
                 .Returns(3);
 
             // Act
