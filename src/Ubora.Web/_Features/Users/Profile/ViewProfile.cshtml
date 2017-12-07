@@ -4,47 +4,90 @@
     ViewData["Title"] = "View profile";
 }
 
-<div class="container-fluid">
-    <div class="row flex-column align-items-center">
-        <div class="col-md-4 d-flex flex-column justify-content-center">
-            <h1 class="text-center">@ViewData["Title"]</h1>
-            <div class="d-flex flex-column align-items-center mb-4">
-                <img class="avatar" src="@Model.ProfilePictureLink" width="250" height="250" />
-                <h2 class="fullname">@Model.FullName</h2>
-                <a class="email" href="mailto:@Model.Email?Subject=Message%20from%20UBORA">@Model.Email</a>
+<div class="container-fluid my-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-5">
+
+      <div class="text-center">
+        <img class="avatar mb-2" src="@Model.ProfilePictureLink" width="250" height="250" />
+        <h2 class="mb-4">@Model.FullName</h2>
+        @* TODO: Show if mentor is verified or not *@
+        <p>@Model.Role @*<span class="badge badge-pill badge-green">verified</span>*@</p>
+      </div>
+
+      <hr>
+
+      <div class="my-4">
+        <dl class="row">
+          <dt class="col-sm-2">E-mail:</dt>
+          <dd class="col-sm-6"><a class="email" href="mailto:@Model.Email?Subject=Message%20from%20UBORA">@Model.Email</a></dd>
+          <dd class="col-sm-4"><a class="email d-flex align-items-start no-underline" href="" ><i class="material-icons mr-1">mail</i><span>Send message</span></a></dd>
+          <dt class="col-sm-2">Country:</dt>
+          <dd class="col-sm-10">@Model.CountryEnglishName</dd>
+        </dl>
+      </div>
+
+      <div class="my-5">
+        <ul class="nav nav-tabs " id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active d-flex align-items-center" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="home" aria-selected="true"><i class="material-icons">person</i><span class="mx-1">About</span></a>
+          </li>
+          @* TODO: show which projects user is involved (and how many projects?)*@
+          @* <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" id="projects-tab" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="false"><i class="material-icons">work</i><span class="mx-1">Projects</span><span class="badge badge-pill badge-grey-ghost">4</span></a>
+          </li> *@
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab">
+
+            <div class="my-4">
+              <h4>Academia</h4>
+              <dl class="row mb-4">
+                <dt class="col-sm-2">University:</dt>
+                <dd class="col-sm-10">@Model.University</dd>
+                <dt class="col-sm-2">Degree:</dt>
+                <dd class="col-sm-10">@Model.Degree</dd>
+                <dt class="col-sm-2">Field:</dt>
+                <dd class="col-sm-10">@Model.Field</dd>
+              </dl>
             </div>
-            @if (Model.IsDeleted)
-            {
-                <div class="form-group text-center">
-                    <p class="text-uppercase text-danger">This user has been deleted.</p>
-                </div>
-            }
-            <h2 class="mt-5">Academia</h2>
-            <div class="form-group">
-                <label>University</label>
-                <input class="form-control" asp-for="University" disabled>
+
+            <div class="my-4">
+              <h4>Working experience</h4>
+              <dl class="row mb-4">
+                <dt class="col-sm-2">Institution:</dt>
+                <dd class="col-sm-10">@Model.Institution</dd>
+              </dl>
+              <p>I am involved in development and use of medical devices as @Model.MedicalDevice</p>
             </div>
-            <div class="form-group">
-                <label>Degree</label>
-                <input class="form-control" asp-for="Degree" disabled>
+
+            <div class="my-4">
+              <h4>Bio</h4>
+              <p>@Model.Biography</p>
             </div>
-            <div class="form-group">
-                <label>Field</label>
-                <input class="form-control" asp-for="Field" disabled>
+
+            <div class="mt-4">
+              <h4>Skills</h4>
+              <p>@Model.Skills</p>
             </div>
-            <div class="form-group">
-                <label>Role</label>
-                <input class="form-control" asp-for="Role" disabled>
-            </div>
-            <h2 class="mt-5">Personal</h2>
-            <div class="form-group">
-                <label>Bio</label>
-                <textarea class="form-control" asp-for="Biography" rows="5" disabled></textarea>
-            </div>
-            <div class="form-group">
-                <label>Skills</label>
-                <input class="form-control" asp-for="Skills" disabled>
-            </div>
+
+          </div>
+
+          @* TODO: User projects list *@
+          @* <div class="tab-pane fade" id="projects" role="tabpanel" aria-labelledby="projects-tab">
+            <ul class="my-4">
+              <li>
+                <a href="">Projekt 1</a>
+              </li>
+            </ul>
+          </div> *@
+
         </div>
+      </div>
+
+
+
     </div>
+  </div>
 </div>
