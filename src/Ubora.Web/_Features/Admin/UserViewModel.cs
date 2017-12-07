@@ -9,6 +9,7 @@ namespace Ubora.Web._Features.Admin
     {
         public Guid UserId { get; set; }
 
+        public string FullName { get; set; }
         public string UserEmail { get; set; }
 
         public IEnumerable<string> Roles { get; set; }
