@@ -20,6 +20,7 @@ namespace Ubora.Domain.Projects.StructuredInformations
             return new PowerSupplyForRecharging
             {
                 IsRequired = true,
+                IfPowerSupplyForRechargingThenRequiredVoltage = voltage,
                 PowerSupplyForRechargingRequiredTimeToRecharge = timeToRecharge,
                 PowerSupplyForRechargingRequiredBatteryLife = batteryLife
             };
