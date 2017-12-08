@@ -2,51 +2,50 @@
 
 <div class="col-lg-9 pr-5">
 
-  <h1 class="display-4 mb-4">Regulation checklist</h1>
-  <div asp-validation-summary="ModelOnly"></div>
+    <h1 class="display-4 mb-4">Regulation checklist</h1>
+    <div asp-validation-summary="ModelOnly"></div>
+    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditWorkpackageOne))
+    {
+        <p>Please take the questionnaire to identify applicable regulations:</p>
 
-  <p>Please take the questionnaire to identify applicable regulations:</p>
+        if (Model.Last == null || Model.Last.IsFinished)
+        {
+            <form asp-action="Start" method="post">
+                <button type="submit" class="btn btn-primary">Take questionnaire</button>
+            </form>
+        }
 
-  @if (Model.Last == null || Model.Last.IsFinished)
-  {
-        <form asp-action="Start" method="post">
-            <button type="submit" class="btn btn-primary">Take questionnaire</button>
-        </form>
-  }
+        if (Model.Last != null)
+        {
+            if (!Model.Last.IsFinished)
+            {
 
-  @if (Model.Last != null)
-  {
-      if (!Model.Last.IsFinished)
-      {
+                <form class="d-inline" asp-action="Stop" method="post">
+                    <button class="btn btn-secondary-ghost d-sm-block d-lg-inline-block" type="submit" asp-action="Retake" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Retake questionnaire</button>
+                </form>
+                <span class="mx-1"></span>
+                <a class="btn btn-primary d-sm-block d-lg-inline-block" asp-controller="ApplicableRegulations" asp-action="CurrentUnansweredQuestion" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Continue answering</a>
 
-        <form class="d-inline" asp-action="Stop" method="post">
-            <button class="btn btn-secondary-ghost d-sm-block d-lg-inline-block" type="submit" asp-action="Retake" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Retake questionnaire</button>
-        </form>
-        <span class="mx-1"></span>
-        <a class="btn btn-primary d-sm-block d-lg-inline-block" asp-controller="ApplicableRegulations" asp-action="CurrentUnansweredQuestion" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Continue answering</a>
+                <p class="mt-2 color-grey">Questionnaire started at @Model.Last.StartedAt</p>
+            }
+        }
+    }
+    else
+    {
+        <p>You can not edit work package when it's under review or has been accepted by review.</p>
+    }
 
-        <p class="mt-2 color-grey">Questionnaire started at @Model.Last.StartedAt</p>
-      }
-
-    
-      if (Model.Previous.Any())
-      {
-        <p class="mt-5">Previous results:</p>
+    @if (Model.Previous.Any())
+    {
+        <p class="mt-5">Results:</p>
         <ul>
-          @if (Model.Last.IsFinished)
-          {
-            <li>
-              <a asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">@Model.Last.StartedAt</a>
-            </li>
-          }
-          @foreach (var questionnaire in Model.Previous)
-          {
-            <li>
-                <a asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@questionnaire.QuestionnaireId">@questionnaire.StartedAt</a>
-            </li>
-          }
+            @foreach (var questionnaire in Model.Previous)
+            {
+                <li>
+                    <a asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@questionnaire.QuestionnaireId">@questionnaire.StartedAt</a>
+                </li>
+            }
         </ul>
-      }
-  }
+    }
 
 </div>

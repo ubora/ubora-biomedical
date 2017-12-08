@@ -51,10 +51,6 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
                     .ToList();
 
                 var latestStartedQuestionnaire = questionnaires.FirstOrDefault();
-                if (latestStartedQuestionnaire != null)
-                {
-                    questionnaires.Remove(latestStartedQuestionnaire);
-                }
 
                 return new QuestionnaireIndexViewModel
                 {

@@ -51,10 +51,6 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
                     .ToList();
 
                 var latestStartedQuestionnaire = questionnaires.FirstOrDefault();
-                if (latestStartedQuestionnaire != null)
-                {
-                    questionnaires.Remove(latestStartedQuestionnaire);
-                }
 
                 return new DeviceClassificationIndexViewModel
                 {
