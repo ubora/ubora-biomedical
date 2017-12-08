@@ -124,3 +124,12 @@ a.no-underline {
 .min-height {
 	min-height: 37rem;
 }
+
+.page-item.active .page-link {
+    background-color: var(--light-blue);
+    border-color: var(--light-blue);
+}
+
+.page-link {
+    color: inherit;
+}
