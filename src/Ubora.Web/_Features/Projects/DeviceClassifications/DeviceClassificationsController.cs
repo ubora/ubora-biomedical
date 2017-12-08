@@ -18,7 +18,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
 
             ViewData["Title"] = "Device classification";
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
-            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.DeviceClassification;
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.DeviceClassification;
         }
 
         public virtual IActionResult Index([FromServices]DeviceClassificationIndexViewModel.Factory modelFactory)
