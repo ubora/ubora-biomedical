@@ -5,7 +5,7 @@
         DeviceClassification,
         RegulationCheckList,
         Wp1MentorReview,
-        Wp2MentorReview,
+        StructuredInformationOnTheDevice,
         Voting,
         DesignPlanning
     }

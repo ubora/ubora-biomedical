@@ -11,7 +11,7 @@
   <div class="row">
     <div class="col text-center">
 
-      <h2 class="mb-4">Are you sure you want to remove "@Model.MemberName" from project?</h2>
+      <h2>Are you sure you want to remove "@Model.MemberName" from project?</h2>
       <form asp-controller="Members" asp-action="RemoveMember" method="post">
           <input asp-for="MemberId" type="hidden" />
           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
