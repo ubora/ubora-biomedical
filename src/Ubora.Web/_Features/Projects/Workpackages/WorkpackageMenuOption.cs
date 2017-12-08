@@ -6,6 +6,7 @@
         RegulationCheckList,
         Wp1MentorReview,
         StructuredInformationOnTheDevice,
-        Voting
+        Voting,
+        DesignPlanning
     }
 }
