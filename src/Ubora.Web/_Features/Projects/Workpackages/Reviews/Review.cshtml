@@ -13,10 +13,8 @@
 
     @if (Model.SubmitForReviewButton.IsVisible)
     {
-    <form action="@Model.SubmitForReviewUrl" method="post" asp-antiforgery="true">
         <p>You can submit your project for review:</p>
-        <button type="submit" class="btn btn-primary">Submit project for review</button>
-    </form>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#submitProjectModal">Submit project for review</button>
 
     <div class="modal fade" id="submitProjectModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -82,10 +80,10 @@
         </p>
         <ol>
             <li>
-                the project is under review;
+                The project is under review;
             </li>
             <li>
-                it passed the review;
+                It passed the review;
             </li>
         </ol>
         }
