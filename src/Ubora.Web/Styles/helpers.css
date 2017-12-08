@@ -12,8 +12,8 @@
 
 /*Avatar image look*/
 .avatar {
-	border-radius: .25em;
-  object-fit: cover;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 /*Avatar image size in comments section*/
@@ -25,6 +25,26 @@
 
 .material-icons.icon-size-lg {
 	font-size: 5rem !important;
+}
+
+/*Override bootstrap badge component*/
+.badge {
+    font-weight: normal;
+}
+
+.badge-grey-ghost {
+    border: 1px solid var(--primary-shade);
+    color: var(--text-color);
+}
+
+.badge-green {
+    background-color: var(--green);
+    color: var(--white);
+}
+
+.badge-orange {
+	background-color: var(--orange);
+    color:  var(--white);
 }
 
 /*Override icon default values*/
@@ -42,12 +62,12 @@
 }
 
 /*coloring text to orange*/
-.text-orange {
+.color-orange {
 	color: var(--orange);
 }
 
-/*Coloring text to grey*/
-.text-grey {
+/*coloring text to grey*/
+.color-grey {
 	color: var(--primary-shade);
 }
 
@@ -94,4 +114,9 @@
 /*Breaks word at any character*/
 .break-word-all {
 	word-break: break-all;
+}
+
+/*Looses text underline from link*/
+a.no-underline {
+	text-decoration: none;
 }

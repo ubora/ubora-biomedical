@@ -1,69 +1,61 @@
-﻿@using Ubora.Web._Features.Projects.Workpackages
-@model Ubora.Web._Features.Projects.DeviceClassifications.DeviceClassificationIndexViewModel
+﻿@model Ubora.Web._Features.Projects.DeviceClassifications.DeviceClassificationIndexViewModel
 
-<div class="container-fluid my-4">
+<div class="col-lg-9 pr-5">
     <div class="row">
-        <div class="col-lg-3">
-            @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="col-sm-12 text-center">
+            <h1 class="display-4 mb-4">Please answer to the following questionnaire to identify your device classification:</h1>
         </div>
-        <div class="col-lg-9 pr-5">
-            <div class="row">
-                <div asp-validation-summary="ModelOnly"></div>
-                <div class="col-sm-12 text-center">
-                    <h1 class="display-4">Please answer to the following questionnaire to identify your device classification:</h1>
+
+        @if (Model.Last == null || Model.Last.IsFinished)
+        {
+            <div class="col-sm-12 text-center">
+                <form asp-action="Start" method="post">
+                    <button type="submit" class="btn btn-primary">Take questionnaire</button>
+                </form>
+            </div>
+        }
+
+        @if (Model.Last != null)
+        {
+            if (!Model.Last.IsFinished)
+            {
+                <div class="col-sm-12 text-center d-flex justify-content-center flex-wrap-reverse">
+
+                    <form asp-action="Stop" method="post">
+                        <button class="btn btn-secondary-ghost btn-lg d-sm-block d-lg-inline-block" type="submit" asp-action="Retake" asp-route-oldQuestionnaireId="@Model.Last.QuestionnaireId">Retake questionnaire</button>
+                    </form>
+                    <span class="mx-1"></span>
+                    <a class="btn btn-primary btn-lg d-sm-block d-lg-inline-block" asp-controller="DeviceClassifications" asp-action="Current" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Continue answering</a>
+
                 </div>
-
-                @if (Model.Last == null || Model.Last.IsFinished)
-                {
-                    <div class="col-sm-12 text-center">
-                        <form asp-action="Start" method="post">
-                            <button type="submit" class="btn btn-primary">Take questionnaire</button>
-                        </form>
-                    </div>
-                }
-
-                @if (Model.Last != null)
-                {
-                    if (!Model.Last.IsFinished)
-                    {
-                        <div class="col-sm-12 text-center d-flex justify-content-center flex-wrap-reverse">
-
-                            <form asp-action="Stop" method="post">
-                                <button class="btn btn-secondary-ghost btn-lg d-sm-block d-lg-inline-block" type="submit" asp-action="Retake" asp-route-oldQuestionnaireId="@Model.Last.QuestionnaireId">Retake questionnaire</button>
-                            </form>
-                            <span class="mx-1"></span>
-                            <a class="btn btn-primary btn-lg d-sm-block d-lg-inline-block" asp-controller="DeviceClassifications" asp-action="Current" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Continue answering</a>
-
-                        </div>
                         <div class="col-sm-12 text-center my-2">
                             <p>Questionnaire started at @Model.Last.StartedAt</p>
                         </div>
-                    }
+            }
 
-                    if (Model.Last.IsFinished)
-                    {
-                        <div class="col my-2 text-center">
-                            <h3>Last results:</h3>
-                            <a asp-controller="DeviceClassifications" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">@Model.Last.StartedAt</a>
-                        </div>
-                    }
+            if (Model.Last.IsFinished)
+            {
+                <div class="col my-2 text-center">
+                    <h3>Last results:</h3>
+                    <a asp-controller="DeviceClassifications" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">@Model.Last.StartedAt</a>
+                </div>
+            }
 
-                    if (Model.Previous.Any())
-                    {
-                        <div class="col my-2 text-center">
-                            <h3>Previous results:</h3>
-                            <ul class="px-0">
-                                @foreach (var questionnaire in Model.Previous)
-                                {
-                                    <li class="d-flex justify-content-center my-2">
-                                        <a asp-controller="DeviceClassifications" asp-action="Review" asp-route-questionnaireId="@questionnaire.QuestionnaireId">@questionnaire.StartedAt</a>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    }
-                }
-            </div>
-        </div>
+            if (Model.Previous.Any())
+            {
+                <div class="col my-2 text-center">
+                    <h3>Previous results:</h3>
+                    <ul class="px-0">
+                        @foreach (var questionnaire in Model.Previous)
+                        {
+                            <li class="d-flex justify-content-center my-2">
+                                <a asp-controller="DeviceClassifications" asp-action="Review" asp-route-questionnaireId="@questionnaire.QuestionnaireId">@questionnaire.StartedAt</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        }
     </div>
 </div>

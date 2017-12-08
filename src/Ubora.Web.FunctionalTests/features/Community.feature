@@ -17,14 +17,10 @@ Scenario: I click Log in
     When I click on the element "span=Log in"
     Then I expect the title of the page "Sign in to UBORA - UBORA"
 
-Scenario: I sign in and check my profile on Members page
+Scenario: I sign in and check my profile on Community page
     When I sign in as user
         And I click on the element "span=Community"
         And I click on the element "a=Test User"
     Then I expect the title of the page "View profile - UBORA"
         And I expect the element "a=test@agileworks.eu" is visible
         And I expect the element "h2=Test User" is visible
-
-Scenario: As a signed in user I click on my email on Members page
-    When I click on the element "a=test@agileworks.eu"
-    Then I expect the title of the page "Community - UBORA"

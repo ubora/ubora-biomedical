@@ -110,7 +110,8 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                     Performace = userVotePerformance,
                     Usability = userVoteUsability,
                     Safety = userVoteSafety
-                }
+                },
+                HasUserVoted = true
             };
 
             result.ShouldBeEquivalentTo(expectedModel);
