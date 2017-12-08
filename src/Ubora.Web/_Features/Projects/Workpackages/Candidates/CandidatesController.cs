@@ -49,7 +49,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             var model = new VotingViewModel
             {
                 Candidates = candidateViewModels,
-                CanOpenWorkpackageThree = isAuthorizedToOpenWp3 && !isWp3Opened
+                CanOpenWorkpackageThree = isAuthorizedToOpenWp3 && !isWp3Opened && candidates.Any() // Untested
             };
 
             return View(nameof(Voting), model);
