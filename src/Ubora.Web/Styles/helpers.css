@@ -126,10 +126,11 @@ a.no-underline {
 }
 
 .page-item.active .page-link {
-    background-color: var(--light-blue);
-    border-color: var(--light-blue);
+    background-color: var(--primary-shade);
+    border-color: var(--primary-shade);
 }
 
-.page-link {
+.page-link,
+.page-link:focus, .page-link:hover {
     color: inherit;
 }
