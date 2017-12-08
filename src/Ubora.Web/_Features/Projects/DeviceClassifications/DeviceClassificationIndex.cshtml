@@ -4,35 +4,16 @@
 
   <h1 class="display-4 mb-4">Device classification</h1>
   <div asp-validation-summary="ModelOnly"></div>
-  <p>
-    The classification of medical devices in the European Union is outlined in Article IX of the Council Directive 93/42/EEC. There are basically four classes, ranging from low risk to high risk.
-  </p>
-  <ul>
-    <li>Class I (including Is & Im)</li>
-    <li>Class IIa</li>
-    <li>Class IIb</li>
-    <li>Class III</li>
-  </ul>
-  <p>
-    The authorization of medical devices is guaranteed by a Declaration of Conformity. This declaration is issued by the manufacturer itself, but for products in Class Is, Im, IIa, IIb or III, it must be verified by a Certificate of Conformity issued by a Notified Body. A Notified Body is a public or private organisation that has been accredited to validate the compliance of the device to the European Directive. Medical devices that pertain to class I (on condition they do not require sterilization or do not measure a function) can be marketed purely by self-certification.
-  </p>
-  <p>
-    The European classification depends on rules that involve the medical device's duration of body contact, invasive character, use of an energy source, effect on the central circulation or nervous system, diagnostic impact, or incorporation of a medicinal product. Certified medical devices should have the CE mark on the packaging, insert leaflets, etc.. These packagings should also show harmonised pictograms and EN standardised logos to indicate essential features such as instructions for use, expiry date, manufacturer, sterile, don't reuse, etc.
-  </p>
-  <p>
-    Aim of this decision tree is do offer a simple means of determining the class of amedical device according to Proposal for a Regulation. Reference is made to methods set in MEDDEV 2. 4/1 Rev. 9 June 2010 MEDICAL DEVICES: Guidancedocument - Classification of medical devices. Of course, since the rules aredifferent in the Proposal for a Regulation the MEDDEV guidance can not be applied, on the other hand the general structure of the document will berespected.
-  </p>
-  <p>
-    Please answer to the following questionnaire to identify your device classification:
+    <p>
+    Aim of this questionnaire is do offer a simple means of determining the class of a medical device according to Proposal for a Regulation of the European Parliament and of the Council on medical devices.
   </p>
 
   @if (Model.Last == null || Model.Last.IsFinished)
   {
     <form class="mb-2" asp-action="Start" method="post">
-        <button type="submit" class="btn btn-primary">Take questionnaire</button>
+        <button type="submit" class="btn btn-primary">Start classifying your device</button>
     </form>
   }
-
 
   @if (Model.Last != null)
   {
