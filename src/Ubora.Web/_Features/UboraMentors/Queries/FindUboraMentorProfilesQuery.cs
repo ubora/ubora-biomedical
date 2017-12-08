@@ -6,7 +6,7 @@ using Ubora.Domain.Users;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 
-namespace Ubora.Web._Features.Projects.InviteMentors
+namespace Ubora.Web._Features.UboraMentors.Queries
 {
     public class FindUboraMentorProfilesQuery : IQuery<IReadOnlyCollection<UserProfile>>
     {

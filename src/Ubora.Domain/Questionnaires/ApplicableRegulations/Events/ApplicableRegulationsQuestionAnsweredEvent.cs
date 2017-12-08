@@ -19,6 +19,6 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Events
         public string AnswerId { get; private set; }
         public DateTime AnsweredAt { get; private set; }
 
-        public override string GetDescription() => "answered a question.";
+        public override string GetDescription() => "answered a regulation checklist's question.";
     }
 }
