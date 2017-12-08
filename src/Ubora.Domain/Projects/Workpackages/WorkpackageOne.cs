@@ -16,10 +16,10 @@ namespace Ubora.Domain.Projects.Workpackages
 
             Title = "Medical need and product specification";
 
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ClinicalNeeds, "Clinical needs", Placeholders.ClinicalNeeds));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ExistingSolutions, "Existing solutions", Placeholders.ExistingSolutions));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.IntendedUsers, "Intended users", Placeholders.IntendedUsers));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductRequirements, "Product requirements", Placeholders.ProductRequirements));
+            _steps.Add(new WorkpackageStep("ClinicalNeeds", "Clinical needs"));
+            _steps.Add(new WorkpackageStep("ExistingSolutions", "Existing solutions"));
+            _steps.Add(new WorkpackageStep("IntendedUsers", "Intended users"));
+            _steps.Add(new WorkpackageStep("ProductRequirements", "Product requirements"));
         }
 
         private void Apply(WorkpackageOneStepEditedEvent e)

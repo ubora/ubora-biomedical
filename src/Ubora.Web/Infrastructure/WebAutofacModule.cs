@@ -18,6 +18,7 @@ using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web._Features.Projects.ApplicableRegulations;
 using Ubora.Web._Features.Projects.DeviceClassifications;
 using Ubora.Web._Features.Projects.History._Base;
+using Ubora.Web._Features.Projects.Workpackages.Steps;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -85,6 +86,8 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterType<UboraStorageProvider>().As<IUboraStorageProvider>().InstancePerLifetimeScope();
 
             builder.RegisterType<PreMailerFactory>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<UserAndEnvironmentInformationViewModel.Mapper>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<HealthTechnologySpecificationsViewModel.Mapper>().AsSelf().InstancePerLifetimeScope();
 
             builder.RegisterType<DeviceClassificationIndexViewModel.QuestionnaireListItemProjection>()
                 .As<IProjection<DeviceClassificationAggregate, DeviceClassificationIndexViewModel.QuestionnaireListItem>>()

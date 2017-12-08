@@ -16,7 +16,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
 
             ViewData["Title"] = "Applicable regulations questionnaire";
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
-            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.RegulationCheckList;
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.RegulationChecklist;
         }
 
         public virtual IActionResult Index([FromServices]QuestionnaireIndexViewModel.Factory modelFactory)

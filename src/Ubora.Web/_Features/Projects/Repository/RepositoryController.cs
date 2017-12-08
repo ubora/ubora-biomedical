@@ -37,7 +37,7 @@ namespace Ubora.Web._Features.Projects.Repository
             var projectFiles = QueryProcessor.Find(new IsProjectFileSpec(ProjectId)
                     && !new IsHiddenFileSpec());
 
-            var isProjectLeader = Project.Members.Any(x => x.UserId == UserId && x.IsLeader);
+            var isProjectLeader = new HasLeader(UserId).IsSatisfiedBy(Project);
 
             var model = new ProjectRepositoryViewModel
             {

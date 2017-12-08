@@ -10,6 +10,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
     public class VotingViewModel
     {
         public IEnumerable<CandidateItemViewModel> Candidates { get; set; }
+        public bool CanOpenWorkpackageThree { get; set; }
     }
 
     public class CandidateItemViewModel

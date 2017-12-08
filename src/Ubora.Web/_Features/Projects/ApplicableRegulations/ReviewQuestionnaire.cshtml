@@ -14,12 +14,12 @@
             <tbody>
                 @foreach (var questionAnswer in Model.QuestionAnswerList)
             {
-                    <tr>
-                        <td>
-                            @questionAnswer.QuestionText
-                            <p>You answered: @(questionAnswer.Answer)</p>
-                        </td>
-                        @if (questionAnswer.Answer.Equals("Yes", StringComparison.InvariantCultureIgnoreCase))
+              <tr>
+                <td>
+                  <span class="font-weight-bold">@questionAnswer.QuestionText</span>
+                  <p>You answered: @(questionAnswer.Answer)</p>
+                </td>
+                @if (questionAnswer.Answer.Equals("Yes", StringComparison.InvariantCultureIgnoreCase))
                 {
                             @Html.Raw(questionAnswer.IsoStandardText)
                         }
