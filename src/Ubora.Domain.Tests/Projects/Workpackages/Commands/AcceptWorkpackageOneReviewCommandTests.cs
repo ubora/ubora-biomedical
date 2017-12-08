@@ -3,6 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using TestStack.BDDfy;
 using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.Workpackages;
 using Xunit;
 
@@ -21,6 +22,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
                 .Then(_ => this.Workpackage_One_Should_Have_Accepted_Review())
                     .And(_ => this.Workpackage_Two_Should_Be_Available())
                     .And(_ => this.Project_Should_Not_Be_In_Draft_Anymore())
+                    .And(_ => this.Assert_Project_Device_Structured_Information_Aggregate_Was_Created())
                 .BDDfy();
         }
 
@@ -46,6 +48,20 @@ namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
             var project = Processor.FindById<Project>(_projectId);
 
             project.IsInDraft.Should().BeFalse();
+        }
+
+        private void Assert_Project_Device_Structured_Information_Aggregate_Was_Created()
+        {
+            var aggregate = Processor.FindById<DeviceStructuredInformation>(_projectId);
+
+            var expectedAggregate = new DeviceStructuredInformation()
+                .Set(x => x.Id, _projectId)
+                .Set(x => x.ProjectId, _projectId)
+                .Set(x => x.UserAndEnvironment, UserAndEnvironmentInformation.CreateEmpty())
+                .Set(x => x.HealthTechnologySpecification, new HealthTechnologySpecificationsInformation());
+
+            aggregate.Should().NotBeNull();
+            aggregate.ShouldBeEquivalentTo(expectedAggregate);
         }
     }
 }

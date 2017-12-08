@@ -90,6 +90,10 @@
 	font-size: 0.875em;
 }
 
+.hide {
+	display: none;
+}
+
 /*Different widths*/
 .width-12 {
   width: 12%;

@@ -15,7 +15,6 @@ namespace Ubora.Domain.Projects.Workpackages
 
         public const string PhysicalPrinciples = nameof(PhysicalPrinciples);
         public const string ConceptDescription = nameof(ConceptDescription);
-        public const string StructuredInformationOnTheDevice = nameof(StructuredInformationOnTheDevice);
 
         #endregion
     }
