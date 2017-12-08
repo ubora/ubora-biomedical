@@ -15,8 +15,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public bool IfTechnologyRequiresMaintenanceCanItBeDoneOnSiteOrHomeOrCommunity { get; set; }
         [RequiredIf(nameof(DoesTechnologyRequireMaintenance), true)]
         public string IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance { get; set; }
-        [RequiredIf(nameof(DoesTechnologyRequireMaintenance), true)]
-        [RequiredIf(nameof(IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance), "other")]
-        public string IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenanceOther { get; set; }
+        public string IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenanceOther { get; set; } // should be required
     }
 }
