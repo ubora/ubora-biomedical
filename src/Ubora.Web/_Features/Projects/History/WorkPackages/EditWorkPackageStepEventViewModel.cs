@@ -1,5 +1,4 @@
 ﻿using System;
-using Ubora.Domain.Infrastructure.Events;
 using Ubora.Web._Features.Users;
 
 namespace Ubora.Web._Features.Projects.History.WorkPackages

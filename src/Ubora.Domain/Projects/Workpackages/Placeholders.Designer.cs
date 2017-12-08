@@ -84,6 +84,15 @@ namespace Ubora.Domain.Projects.Workpackages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;With the help of your mentors, identify and design the necessary tests to demonstrate the compliance of your design with relevant ISO standards.&lt;/p&gt;.
+        /// </summary>
+        public static string DesignForIsoTestingCompliance {
+            get {
+                return ResourceManager.GetString("DesignForIsoTestingCompliance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;p&gt;You should describe what are the devices or therapies on the market; if possible, list some pros and cons of the existing solutions.&lt;/p&gt;
         ///&lt;ul&gt;
         ///&lt;li&gt;Example: list medical, surgical or technical solutions available; define the criteria to choose amongst the have different options. Comment on residual side effects or contraindications that may be improved: &lt;em&gt;”Congenital club foot is usually treated by braces (mild cases) or surgery. Both solutions require long healing times and frequent specialistic follo [rest of string was truncated]&quot;;.
@@ -91,6 +100,109 @@ namespace Ubora.Domain.Projects.Workpackages {
         public static string ExistingSolutions {
             get {
                 return ResourceManager.GetString("ExistingSolutions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Please insert here design and description of electronic parts of your device which you can buy from suppliers (e.g. microcontrollers, sensors, I/O boards, …). Describe all the libraries you use in your firmware.&lt;/p&gt;.
+        /// </summary>
+        public static string GeneralProductDescription_ElectronicAndFirmware_CommercialParts {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_ElectronicAndFirmware_CommercialParts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Please insert here how to assemble step-by step  the electronic part of your device, including instruction on how to upload the firmware.&lt;/p&gt;
+        ///&lt;p&gt;Describe, also with videos and pictures how to verify your prototype.&lt;/p&gt;.
+        /// </summary>
+        public static string GeneralProductDescription_ElectronicAndFirmware_PrototypesAndFunctionalTrials {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_ElectronicAndFirmware_PrototypesAndFunctionalTrials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Please insert here design and description of electronic parts of your device which you  created from scratch (e.g. circuits, filters, routing ). You should include also CAD data as schematics and gerber files.&lt;/p&gt;
+        ///&lt;p&gt;Describe your firmware using flow chart and comment your code.&lt;/p&gt;.
+        /// </summary>
+        public static string GeneralProductDescription_ElectronicAndFirmware_PurposelyDesignedParts {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_ElectronicAndFirmware_PurposelyDesignedParts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Please insert here design and description of mechanical parts of your device which you can buy from suppliers (e.g. box, valves, …)&lt;/p&gt;.
+        /// </summary>
+        public static string GeneralProductDescription_Hardware_CommercialParts {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_Hardware_CommercialParts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Please insert here how to fabricate the purposely designed parts (e.g. gcode for 3D printers, CNC fabrication cycle with nc code) and describe step-by-step how to assemble all the components.&lt;/p&gt;
+        ///&lt;p&gt;Describe, also with videos and pictures how to verify your prototype.&lt;/p&gt;.
+        /// </summary>
+        public static string GeneralProductDescription_Hardware_PrototypesAndFunctionalTrials {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_Hardware_PrototypesAndFunctionalTrials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Please insert here design and description of mechanical parts of your device which you  created from scratch (e.g. customized gears, purposely designed frames)&lt;/p&gt;.
+        /// </summary>
+        public static string GeneralProductDescription_Hardware_PurposelyDesignedParts {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_Hardware_PurposelyDesignedParts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Please insert here free and open source libraries and programs you use in your device developed by other authors, without forgetting  due credits.&lt;/p&gt;.
+        /// </summary>
+        public static string GeneralProductDescription_Software_ExistingSolutions {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_Software_ExistingSolutions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Please describe here how to install you software (including specific requirements in terms of operating system, RAM, CPU, library dependencies.&lt;/p&gt;.
+        /// </summary>
+        public static string GeneralProductDescription_Software_PrototypesAndFunctionalTrials {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_Software_PrototypesAndFunctionalTrials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Please describe here your code  using  flowcharts and maps. If your code implements specific algorithms, please include comments in each key point.&lt;/p&gt;
+        ///&lt;p&gt;You don’t have to cut and paste here your code, but save it in the proper folder in the repository.&lt;/p&gt;.
+        /// </summary>
+        public static string GeneralProductDescription_Software_PurposelyDesignedParts {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_Software_PurposelyDesignedParts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Describe here how to integrate all the parts of your device, including wiring and connections.&lt;/p&gt;.
+        /// </summary>
+        public static string GeneralProductDescription_SystemIntegration_PrototypesAndFunctionalTrials {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_SystemIntegration_PrototypesAndFunctionalTrials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Use this last section of WP3 to describe step by step how to fabricate and assemble the last version of your prototype: fill it once the part 1 and part 2 of WP3 can be considered stable.&lt;/p&gt;.
+        /// </summary>
+        public static string InstructionsForFabricationOfPrototypes {
+            get {
+                return ResourceManager.GetString("InstructionsForFabricationOfPrototypes", resourceCulture);
             }
         }
         

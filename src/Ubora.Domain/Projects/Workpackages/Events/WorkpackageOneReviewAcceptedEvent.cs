@@ -15,6 +15,6 @@ namespace Ubora.Domain.Projects.Workpackages.Events
         public string ConcludingComment { get; private set; }
         public DateTimeOffset AcceptedAt { get; private set; }
 
-        public override string GetDescription() => $"accepted workpackage 1 by {StringTokens.WorkpackageOneReview()}.";
+        public override string GetDescription() => $"accepted work package 1 by {StringTokens.WorkpackageOneReview()}.";
     }
 }

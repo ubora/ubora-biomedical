@@ -130,6 +130,9 @@
 &lt;p&gt;Starting from the physics/chemistry/biology underlying the working principle, you should propose a first possible embodiment, providing sketches, diagrams, and/or other representation to communicate your idea.
 (If possible, please provide references to support your answer)&lt;/p&gt;</value>
   </data>
+  <data name="DesignForIsoTestingCompliance" xml:space="preserve">
+    <value>&lt;p&gt;With the help of your mentors, identify and design the necessary tests to demonstrate the compliance of your design with relevant ISO standards.&lt;/p&gt;</value>
+  </data>
   <data name="ExistingSolutions" xml:space="preserve">
     <value>&lt;p&gt;You should describe what are the devices or therapies on the market; if possible, list some pros and cons of the existing solutions.&lt;/p&gt;
 &lt;ul&gt;
@@ -137,6 +140,43 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 </value>
+  </data>
+  <data name="GeneralProductDescription_ElectronicAndFirmware_CommercialParts" xml:space="preserve">
+    <value>&lt;p&gt;Please insert here design and description of electronic parts of your device which you can buy from suppliers (e.g. microcontrollers, sensors, I/O boards, …). Describe all the libraries you use in your firmware.&lt;/p&gt;</value>
+  </data>
+  <data name="GeneralProductDescription_ElectronicAndFirmware_PrototypesAndFunctionalTrials" xml:space="preserve">
+    <value>&lt;p&gt;Please insert here how to assemble step-by step  the electronic part of your device, including instruction on how to upload the firmware.&lt;/p&gt;
+&lt;p&gt;Describe, also with videos and pictures how to verify your prototype.&lt;/p&gt;</value>
+  </data>
+  <data name="GeneralProductDescription_ElectronicAndFirmware_PurposelyDesignedParts" xml:space="preserve">
+    <value>&lt;p&gt;Please insert here design and description of electronic parts of your device which you  created from scratch (e.g. circuits, filters, routing ). You should include also CAD data as schematics and gerber files.&lt;/p&gt;
+&lt;p&gt;Describe your firmware using flow chart and comment your code.&lt;/p&gt;</value>
+  </data>
+  <data name="GeneralProductDescription_Hardware_CommercialParts" xml:space="preserve">
+    <value>&lt;p&gt;Please insert here design and description of mechanical parts of your device which you can buy from suppliers (e.g. box, valves, …)&lt;/p&gt;</value>
+  </data>
+  <data name="GeneralProductDescription_Hardware_PrototypesAndFunctionalTrials" xml:space="preserve">
+    <value>&lt;p&gt;Please insert here how to fabricate the purposely designed parts (e.g. gcode for 3D printers, CNC fabrication cycle with nc code) and describe step-by-step how to assemble all the components.&lt;/p&gt;
+&lt;p&gt;Describe, also with videos and pictures how to verify your prototype.&lt;/p&gt;</value>
+  </data>
+  <data name="GeneralProductDescription_Hardware_PurposelyDesignedParts" xml:space="preserve">
+    <value>&lt;p&gt;Please insert here design and description of mechanical parts of your device which you  created from scratch (e.g. customized gears, purposely designed frames)&lt;/p&gt;</value>
+  </data>
+  <data name="GeneralProductDescription_Software_ExistingSolutions" xml:space="preserve">
+    <value>&lt;p&gt;Please insert here free and open source libraries and programs you use in your device developed by other authors, without forgetting  due credits.&lt;/p&gt;</value>
+  </data>
+  <data name="GeneralProductDescription_Software_PrototypesAndFunctionalTrials" xml:space="preserve">
+    <value>&lt;p&gt;Please describe here how to install you software (including specific requirements in terms of operating system, RAM, CPU, library dependencies.&lt;/p&gt;</value>
+  </data>
+  <data name="GeneralProductDescription_Software_PurposelyDesignedParts" xml:space="preserve">
+    <value>&lt;p&gt;Please describe here your code  using  flowcharts and maps. If your code implements specific algorithms, please include comments in each key point.&lt;/p&gt;
+&lt;p&gt;You don’t have to cut and paste here your code, but save it in the proper folder in the repository.&lt;/p&gt;</value>
+  </data>
+  <data name="GeneralProductDescription_SystemIntegration_PrototypesAndFunctionalTrials" xml:space="preserve">
+    <value>&lt;p&gt;Describe here how to integrate all the parts of your device, including wiring and connections.&lt;/p&gt;</value>
+  </data>
+  <data name="InstructionsForFabricationOfPrototypes" xml:space="preserve">
+    <value>&lt;p&gt;Use this last section of WP3 to describe step by step how to fabricate and assemble the last version of your prototype: fill it once the part 1 and part 2 of WP3 can be considered stable.&lt;/p&gt;</value>
   </data>
   <data name="IntendedUsers" xml:space="preserve">
     <value>&lt;p&gt;You should describe who are the intended user of your medical device (e.g. physician, technicians, nurse, midwife, family member, self-use), and where the technology will be used (rural or urban settings, at home, hospital, …).&lt;/p&gt;

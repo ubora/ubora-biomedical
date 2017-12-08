@@ -17,6 +17,6 @@ namespace Ubora.Domain.Projects.Workpackages.Events
         public string Title { get; private set; }
         public string NewValue { get; private set; }
 
-        public override string GetDescription() => $"edited workpackage 2 \"{Title}\"";
+        public override string GetDescription() => $"edited WP2 \"{Title}\".";
     }
 }

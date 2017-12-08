@@ -9,7 +9,8 @@ namespace Ubora.Domain.Projects.Workpackages
 
         public string Title { get; set; }
 
-        public string Description { get; set; }
+        [JsonIgnore]
+        public string Description => Placeholders.ResourceManager.GetString(Id);
 
         public string Content { get; set; }
 
@@ -18,11 +19,10 @@ namespace Ubora.Domain.Projects.Workpackages
         {
         }
 
-        public WorkpackageStep(string id, string title, string description)
+        public WorkpackageStep(string id, string title)
         {
             Id = id;
             Title = title;
-            Description = description;
         }
     }
 }

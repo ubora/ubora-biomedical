@@ -1,0 +1,7 @@
+﻿@model Ubora.Web._Features.Projects.Workpackages.SideMenu.HyperlinkMenuItem
+
+<li>
+    <a href="@Model.Href" class="@(Model.ATagClass)">
+        <img src="@(Model.Icon.Src)" alt="icon for @Model.DisplayName"><span>@Model.DisplayName</span>
+    </a>
+</li>
