@@ -116,3 +116,7 @@
 a.no-underline {
 	text-decoration: none;
 }
+
+.min-height {
+	min-height: 37rem;
+}

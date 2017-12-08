@@ -1,29 +1,40 @@
 ﻿@using Ubora.Web._Features.Projects._Shared
-@model System.Collections.Generic.IEnumerable<Ubora.Web._Features.Projects.History._Base.IEventViewModel>
+@model Ubora.Web._Features.Projects.History.HistoryViewModel
 
 @{
     ViewData["Title"] = "History";
     ViewData["MenuOption"] = ProjectMenuOption.History;
 }
 
-<div class="container-fluid my-4">
-  <div class="row justify-content-center">
-    <div class="col-sm-12 col-md-8">
-      <h1 class="display-4 mb-4">Project history</h1>
-      @if (Model.Any())
-      {
-        <ul class="list-group">
-          @foreach (var uboraEvent in Model)
-          {
-            @uboraEvent.GetPartialView(Html)
-          }
-        </ul>
-      }
-      else
-      {
-        <p>No history to show.</p>
-      }
-      </ul>
+<<div class="container-fluid my-4">
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+            <div class="row min-height">
+                <div class="col">
+                    <h1 class="display-4 mb-4">Project history</h1>
+                    @if (Model.Pager.TotalItemCount > 0)
+                    {
+                        <ul class="list-group">
+                            @foreach (var uboraEvent in Model.Logs)
+                            {
+                                @uboraEvent.GetPartialView(Html)
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>No history to show.</p>
+                    }
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col d-flex justify-content-center">
+                    @Html.Partial("~/_Features/_Shared/Paging/Pager.cshtml", Model.Pager)
+          
+                </div>
+            </div>
+        </div>
+
     </div>
-  </div>
 </div>
