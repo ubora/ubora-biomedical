@@ -72,7 +72,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         new HyperlinkMenuItem(NestingLevel.Two, "PhysicalPrinciples", "Physical principles", href: Wp2StepLink("PhysicalPrinciples")),
                         new HyperlinkMenuItem(NestingLevel.Two, "Voting", "Voting", href: _urlHelper.Action("Voting", "Candidates")),
                         new HyperlinkMenuItem(NestingLevel.Two, "ConceptDescription", "Concept description", href: Wp2StepLink("ConceptDescription")),
-                        new HyperlinkMenuItem(NestingLevel.Two, "StructuredInformationOnTheDevice", "Structured information on the device", href: Wp2StepLink("StructuredInformationOnTheDevice")),
+                        new HyperlinkMenuItem(NestingLevel.Two, "StructuredInformationOnTheDevice", "Structured information on the device", href: _urlHelper.Action("StructuredInformationOnTheDevice", "WorkpackageTwo")),
                     }, new WorkpackageTwoIconProvider());
                 }
 

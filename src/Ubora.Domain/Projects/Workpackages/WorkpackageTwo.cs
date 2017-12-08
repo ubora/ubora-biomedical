@@ -15,7 +15,6 @@ namespace Ubora.Domain.Projects.Workpackages
 
             _steps.Add(new WorkpackageStep("PhysicalPrinciples", "Physical principles"));
             _steps.Add(new WorkpackageStep("ConceptDescription", "Concept description"));
-            _steps.Add(new WorkpackageStep("StructuredInformationOnTheDevice", "Structured information on the device"));
         }
 
         private void Apply(WorkpackageTwoStepEdited e)

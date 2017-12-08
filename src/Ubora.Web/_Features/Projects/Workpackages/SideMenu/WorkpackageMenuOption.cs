@@ -7,6 +7,7 @@
         public static string Wp1MentorReview => "WorkpackageOneReview";
         public static string Voting => "Voting";
         public static string DesignPlanning => "DesignPlanning";
+        public static string StructuredInformationOnTheDevice => "StructuredInformationOnTheDevice";
         public static string Step(string stepId) => stepId;
     }
 }
