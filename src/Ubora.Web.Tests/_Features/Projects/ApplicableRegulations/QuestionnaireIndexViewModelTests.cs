@@ -45,7 +45,7 @@ namespace Ubora.Web.Tests._Features.Projects.ApplicableRegulations
             var model = viewModelFactory.Create(projectId);
 
             // Assert
-            model.Previous.Should().Equal(lastNonStoppedClassification, firstPreviousClassification, secondPreviousClassification);
+            model.Previous.Should().Equal(firstPreviousClassification, secondPreviousClassification);
             model.Last.Should().BeSameAs(lastNonStoppedClassification);
         }
 
