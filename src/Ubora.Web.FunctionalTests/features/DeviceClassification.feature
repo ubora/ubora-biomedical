@@ -11,7 +11,7 @@ Background:
 
 Scenario: I go through Device classification and pick always first option
     Then I expect the title of the page "Device classification - UBORA"
-    When I click on the element "button=Take questionnaire"
+    When I click on the element "button=Start classifying your device"
     When I answer "Non-invasive" to the question "Is your device INVASIVE or NON-INVASIVE?"
         And I answer "Yes" to the question "Is it intended for channelling or storing blood, body liquids, cells or tissues, liquids or gases for the purpose of eventual infusion, administration or introduction into the body?"
         And I answer "Yes" to the question "May it be connected to an active medical device in class IIa or a higher class?"
@@ -73,8 +73,8 @@ Scenario: I go through Device classification and pick always first option
     Then I expect the element "dd=III" is visible
 
 Scenario: I go through Device classification and always answer NO
-    Then I expect the element "h3=Last results:" is visible
-    When I click on the element "button=Take questionnaire"
+    Then I expect the element "p=Results:" is visible
+    When I click on the element "button=Start classifying your device"
         And I answer "Non-invasive" to the question "Is your device INVASIVE or NON-INVASIVE?"
         And I answer "No" to the question "Is it intended for channelling or storing blood, body liquids, cells or tissues, liquids or gases for the purpose of eventual infusion, administration or introduction into the body?"
         And I answer "No" to the question "Is your device ACTIVE?"

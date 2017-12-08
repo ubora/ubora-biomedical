@@ -1,8 +1,10 @@
 ﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Ubora.Domain.Questionnaires.ApplicableRegulations.Commands;
+using Ubora.Web.Authorization;
 using Ubora.Web._Features.Projects._Shared;
 using Ubora.Web._Features.Projects.Workpackages;
 
@@ -42,6 +44,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
         }
 
         [HttpPost]
+        [Authorize(Policies.CanEditWorkpackageOne)]
         public IActionResult Start([FromServices]QuestionnaireIndexViewModel.Factory modelFactory)
         {
             var id = Guid.NewGuid();
@@ -83,6 +86,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
         }
 
         [HttpPost]
+        [Authorize(Policies.CanEditWorkpackageOne)]
         public IActionResult Retake(Guid questionnaireId, [FromServices]QuestionnaireIndexViewModel.Factory modelFactory)
         {
             var id = Guid.NewGuid();
