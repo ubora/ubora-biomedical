@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ubora.Web", "Ubora.Web\Ubora.Web.csproj", "{5A686F3D-2BA3-4064-B936-DC7956D1CD95}"
 EndProject
@@ -15,8 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		RunCIBuild.sh = RunCIBuild.sh
 		RunDockerizedCIBuild.sh = RunDockerizedCIBuild.sh
-		RunTests.sh = RunTests.sh
 		RunDockerizedCIFunctionaltests.sh = RunDockerizedCIFunctionaltests.sh
+		RunTests.sh = RunTests.sh
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ubora.Web.Tests", "Ubora.Web.Tests\Ubora.Web.Tests.csproj", "{0E03B767-8A24-4205-89D9-E247116BEE90}"

@@ -115,5 +115,14 @@ namespace Ubora.Domain.Tests
                 Actor = new DummyUserInfo()
             });
         }
+
+        public static void Open_Workpackage_Three(this IntegrationFixture fixture, Guid projectId)
+        {
+            fixture.Processor.Execute(new OpenWorkpackageThreeCommand
+            {
+                ProjectId = projectId,
+                Actor = new DummyUserInfo()
+            });
+        }
     }
 }

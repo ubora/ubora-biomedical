@@ -1,5 +1,4 @@
 ﻿using ImageSharp;
-using SixLabors.Primitives;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -100,7 +99,7 @@ namespace Ubora.Web.Infrastructure.ImageServices
             {
                 using (var image = Image.Load(stream))
                 {
-                    
+
 
                     image.Resize(width, height)
                          .SaveAsJpeg(outputStream);
@@ -130,8 +129,6 @@ namespace Ubora.Web.Infrastructure.ImageServices
                 await _uboraStorageProvider.SavePublic(blobLocation, outputStream);
             }
         }
-      
-
 
         private async Task SaveStreamToBlobAsync(BlobLocation blobLocation, Stream stream)
         {

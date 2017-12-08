@@ -9,6 +9,7 @@ using Ubora.Web._Features.Projects._Shared;
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     [ProjectRoute("WP2")]
+    [WorkpackageStepIdFromRouteToViewData]
     public class WorkpackageTwoController : ProjectController
     {
         private WorkpackageTwo _workpackageTwo;
