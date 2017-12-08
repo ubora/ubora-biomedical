@@ -17,6 +17,7 @@ using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Users;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.History;
+using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Infrastructure.Marten
@@ -63,6 +64,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageThree>();
                 options.Events.InlineProjections.AggregateStreamsWith<ApplicableRegulationsQuestionnaireAggregate>();
                 options.Events.InlineProjections.AggregateStreamsWith<DeviceClassificationAggregate>();
+                options.Events.InlineProjections.AggregateStreamsWith<DeviceStructuredInformation>();
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<Assignment, IAssignmentEvent>());
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());
                 options.Events.InlineProjections.AggregateStreamsWith<Candidate>();

@@ -15,6 +15,7 @@ module.exports = env => {
         entry: {
             drag_and_drop_file_uploads: './Scripts/modules/drag_and_drop_file_uploads.js',
             show_more: './Scripts/modules/show_more.js',
+            toggle_formcheck_extra_fields: './Scripts/modules/toggle_formcheck_extra_fields.js',
             voting: './Scripts/modules/voting.js'
         },
         resolve: { extensions: ['.js', '.css'] },
