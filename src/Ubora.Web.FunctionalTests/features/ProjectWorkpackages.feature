@@ -76,7 +76,7 @@ Scenario: System administrator adds Mentor to the project
         And I click on the element "p=Test title"
         And I click on the element "a=Members"
     Then I expect the title of the page "Members - UBORA"
-    When I click on the element "span=Invite member"
+    When I click on the element "span=Add mentor"
     Then I expect the title of the page "Mentors - UBORA"
     When I click on the element "button=Invite mentor"
     Then I expect the element "p=Mentor successfully invited." is visible
@@ -153,3 +153,41 @@ Scenario: I click on WP2 work packages and try to edit them
         And I expect the title of the page "Concept description - UBORA"
     When I click on the element "span=Structured information on the device"
     Then I expect the title of the page "Structured information on the device - UBORA"
+
+Scenario: I add candidate for Voting
+    When I click on the element "span=Design planning"
+        And I click on the element "span=Conceptual design"
+        And I click on the element "span=Voting"
+        And I click on the element "span=Add candidate"
+        And I click on the element "button=Save changes"
+    Then I expect the element "span=The Name field is required." is visible
+        And I expect the element "span=The Description field is required." is visible
+    When I set value "TestCandidate" to the element "#Name"
+        And I set value "TestDescription" to the element "#Description"
+        And I click on the element "button=Save changes"
+    Then I expect the title of the page "Voting - UBORA"
+
+Scenario: I change candidates details in Voting
+    When I click on the element "span=Design planning"
+        And I click on the element "span=Conceptual design"
+        And I click on the element "span=Voting"
+    When I click on the element "p=TestCandidate"
+    Then I expect the element "h2=TestCandidate" is visible
+        And I expect the element "p=TestDescription" is visible
+        And I expect the title of the page "Voting - UBORA"        
+    When I click on the element "span=Change image"
+        And I click on the element "button=Upload image"
+    Then I expect the element "span=Please select an image to upload first!" is visible
+    When I click on the element "a=Discard"
+        And I click on the element "button=Vote"
+    Then I expect the element "span=Value for functionality must be between 1 and 5." is visible
+        And I expect the element "span=Value for performance must be between 1 and 5." is visible
+        And I expect the element "span=Value for usability must be between 1 and 5." is visible
+        And I expect the element "span=Value for safety must be between 1 and 5." is visible
+        And I expect the element ".voted=0.0" is visible
+    When I click on the element "#Functionality1"
+        And I click on the element "#Performace2"
+        And I click on the element "#Usability3"
+        And I click on the element "#Safety4"
+        And I click on the element "button=Vote"
+    Then I expect the element ".voted=10.0" is visible
