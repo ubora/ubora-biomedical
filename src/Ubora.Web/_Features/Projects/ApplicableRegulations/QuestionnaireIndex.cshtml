@@ -29,6 +29,15 @@
                 <p class="mt-2 color-grey">Questionnaire started at @Model.Last.StartedAt</p>
             }
         }
+
+        <p class="mt-4 color-grey">Quick notes:</p>
+        <ol class="color-grey">
+          <li>An unfinished questionnaire is visible to all project members and everyone can answer.</li>
+          <li>You can resume answering questions later if you close the page.</li>
+          <li>The questionnaire can be retaken until work package 1 is open.</li>
+          <li>Unfortunately, if you answer a question incorrectly then you have to take the questionnaire again.</li>
+          <li>Contact your UBORA mentor if you have any questions about the questionnaire.</li>
+        </ol>
     }
     else
     {
@@ -37,7 +46,7 @@
 
     @if (Model.Previous.Any())
     {
-        <p class="mt-5">Results:</p>
+        <p class="mt-4">Results:</p>
         <ul>
             @foreach (var questionnaire in Model.Previous)
             {
