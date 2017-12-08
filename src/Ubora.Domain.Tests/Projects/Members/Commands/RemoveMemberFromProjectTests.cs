@@ -41,7 +41,7 @@ namespace Ubora.Domain.Tests.Projects.Members.Commands
         private void There_Is_Project_And_User()
         {
             this.Create_Project(_projectId);
-            this.Create_User(_userId);
+            this.Create_User(_userId, "email", "firstName", "lastName");
         }
 
         private void Project_Leader_Removes_Member_User_From_Project()

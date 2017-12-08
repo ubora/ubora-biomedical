@@ -11,16 +11,14 @@
       <div class="row">
         @foreach (var user in Model)
         {
-          <div class="col-sm-12 col-md-4 col-lg-4 my-2">
-            <div class="card w-100 h-100 text-center">
-              <div class="d-flex justify-content-center h-100">
-                <img class="card-img-top mt-4 mb-2" src="@user.ProfilePictureLink" alt="@user.FullName profile picture" width="150" height="150">
+          <div class="col-sm-12 col-md-4 col-lg-3 my-2">
+            <div class="card text-center">
+              <div class="justify-content-center">
+                <img class="card-img-top my-4 avatar" src="@user.ProfilePictureLink" alt="@user.FullName profile picture" width="150" height="150">
               </div>
               <div class="card-body">
                 <h4 class="card-title">@Html.ActionLink(user.FullName, "ViewProfile", "Profile", new { userId = user.UserId }, new {@class = "user-card--name"})</h4>
-              </div>
-              <div class="card-footer">
-                <a class="card-link" href="mailto:@user.Email?Subject=Message%20from%20UBORA">@user.Email</a>
+                <p>@(user.Role)&nbsp;</p>
               </div>
             </div>
           </div>
