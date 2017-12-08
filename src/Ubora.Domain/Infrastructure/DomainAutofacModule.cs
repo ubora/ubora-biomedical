@@ -11,6 +11,7 @@ using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Notifications;
+using Ubora.Domain.Queries;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 
 namespace Ubora.Domain.Infrastructure
@@ -60,7 +61,8 @@ namespace Ubora.Domain.Infrastructure
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(ICommandHandler<>)).InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();
-
+            builder.RegisterType<CountQuery<INotification>.Handler>().As<IQueryHandler<CountQuery<INotification>,int>>()
+                .InstancePerLifetimeScope();
             builder.RegisterType<DeviceClassificationQuestionnaireTreeFactory>().AsSelf().SingleInstance();
         }
 
