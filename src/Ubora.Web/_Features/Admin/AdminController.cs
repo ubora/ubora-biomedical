@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Ubora.Domain.Users.Commands;
+using Ubora.Domain.Users.Queries;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 
@@ -26,8 +26,9 @@ namespace Ubora.Web._Features.Admin
         [Authorize(Roles = ApplicationRole.Admin)]
         public async Task<IActionResult> Diagnostics()
         {
-
             var userViewModels = new List<UserViewModel>();
+
+            IReadOnlyDictionary<Guid, string> userFullNames = QueryProcessor.ExecuteQuery(new FindFullNamesOfAllUboraUsersQuery());
 
             foreach (var user in _userManager.Users.ToList())
             {
@@ -35,11 +36,14 @@ namespace Ubora.Web._Features.Admin
                 {
                     UserId = user.Id,
                     UserEmail = user.Email,
+                    FullName = userFullNames[user.Id],
                     Roles = await _userManager.GetRolesAsync(user)
                 });
             }
 
-            return View(nameof(Diagnostics), userViewModels);
+            var orderedViewModel = userViewModels.OrderBy(x => x.FullName).ToList();
+
+            return View(nameof(Diagnostics), orderedViewModel);
         }
 
 

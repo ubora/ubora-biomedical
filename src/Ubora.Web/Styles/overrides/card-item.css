@@ -12,3 +12,7 @@
 .card-link {
   word-break: normal;
 }
+
+.card img.card-img-top {
+  object-fit: cover;
+}

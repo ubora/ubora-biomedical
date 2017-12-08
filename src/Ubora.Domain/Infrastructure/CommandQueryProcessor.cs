@@ -1,14 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using Marten;
-using Marten.Linq;
 using Marten.Pagination;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Infrastructure.Specifications;
-using Ubora.Domain.Projects;
 
 namespace Ubora.Domain.Infrastructure
 {
@@ -37,8 +34,9 @@ namespace Ubora.Domain.Infrastructure
         public T ExecuteQuery<T>(IQuery<T> query)
         {
             var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(T));
-            dynamic handler = _handlerResolver.Resolve(handlerType);
-            var queryResult = handler.Handle((dynamic)query);
+            var handler = _handlerResolver.Resolve(handlerType);
+            var methodInfo = handlerType.GetMethod("Handle");
+            dynamic queryResult = methodInfo.Invoke(handler, new object[]{query });
             return queryResult;
         }
 

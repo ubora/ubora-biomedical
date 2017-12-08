@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Notifications;
 using Ubora.Domain.Notifications.Specifications;
+using Ubora.Domain.Queries;
 
 namespace Ubora.Web._Features.Notifications
 {
@@ -20,8 +22,9 @@ namespace Ubora.Web._Features.Notifications
 
             public UnreadNotificationsViewModel Create(Guid currentUserId)
             {
-                var unreadMessagesCount = _queryProcessor.Find(new HasUnViewedNotifications(currentUserId))
-                    .Count();
+                var unreadMessagesCount = _queryProcessor
+                    .ExecuteQuery(new CountQuery<INotification>(
+                      new HasUnViewedNotifications(currentUserId)));
 
                 return new UnreadNotificationsViewModel { UnreadMessagesCount = unreadMessagesCount };
             }

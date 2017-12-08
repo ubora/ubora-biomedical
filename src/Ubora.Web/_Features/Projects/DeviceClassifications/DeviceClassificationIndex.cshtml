@@ -1,69 +1,70 @@
-﻿@using Ubora.Web._Features.Projects.Workpackages
-@model Ubora.Web._Features.Projects.DeviceClassifications.DeviceClassificationIndexViewModel
+﻿@model Ubora.Web._Features.Projects.DeviceClassifications.DeviceClassificationIndexViewModel
 
-<div class="container-fluid my-4">
-    <div class="row">
-        <div class="col-lg-3">
-            @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
-        </div>
-        <div class="col-lg-9 pr-5">
-            <div class="row">
-                <div asp-validation-summary="ModelOnly"></div>
-                <div class="col-sm-12 text-center">
-                    <h1 class="display-4 mb-4">Please answer to the following questionnaire to identify your device classification:</h1>
-                </div>
+<div class="col-lg-9 pr-5">
 
-                @if (Model.Last == null || Model.Last.IsFinished)
-                {
-                    <div class="col-sm-12 text-center">
-                        <form asp-action="Start" method="post">
-                            <button type="submit" class="btn btn-primary">Take questionnaire</button>
-                        </form>
-                    </div>
-                }
+  <h1 class="display-4 mb-4">Device classification</h1>
+  <div asp-validation-summary="ModelOnly"></div>
+  <p>
+    The classification of medical devices in the European Union is outlined in Article IX of the Council Directive 93/42/EEC. There are basically four classes, ranging from low risk to high risk.
+  </p>
+  <ul>
+    <li>Class I (including Is & Im)</li>
+    <li>Class IIa</li>
+    <li>Class IIb</li>
+    <li>Class III</li>
+  </ul>
+  <p>
+    The authorization of medical devices is guaranteed by a Declaration of Conformity. This declaration is issued by the manufacturer itself, but for products in Class Is, Im, IIa, IIb or III, it must be verified by a Certificate of Conformity issued by a Notified Body. A Notified Body is a public or private organisation that has been accredited to validate the compliance of the device to the European Directive. Medical devices that pertain to class I (on condition they do not require sterilization or do not measure a function) can be marketed purely by self-certification.
+  </p>
+  <p>
+    The European classification depends on rules that involve the medical device's duration of body contact, invasive character, use of an energy source, effect on the central circulation or nervous system, diagnostic impact, or incorporation of a medicinal product. Certified medical devices should have the CE mark on the packaging, insert leaflets, etc.. These packagings should also show harmonised pictograms and EN standardised logos to indicate essential features such as instructions for use, expiry date, manufacturer, sterile, don't reuse, etc.
+  </p>
+  <p>
+    Aim of this decision tree is do offer a simple means of determining the class of amedical device according to Proposal for a Regulation. Reference is made to methods set in MEDDEV 2. 4/1 Rev. 9 June 2010 MEDICAL DEVICES: Guidancedocument - Classification of medical devices. Of course, since the rules aredifferent in the Proposal for a Regulation the MEDDEV guidance can not be applied, on the other hand the general structure of the document will berespected.
+  </p>
+  <p>
+    Please answer to the following questionnaire to identify your device classification:
+  </p>
 
-                @if (Model.Last != null)
-                {
-                    if (!Model.Last.IsFinished)
-                    {
-                        <div class="col-sm-12 text-center d-flex justify-content-center flex-wrap-reverse">
+  @if (Model.Last == null || Model.Last.IsFinished)
+  {
+    <form class="mb-2" asp-action="Start" method="post">
+        <button type="submit" class="btn btn-primary">Take questionnaire</button>
+    </form>
+  }
 
-                            <form asp-action="Stop" method="post">
-                                <button class="btn btn-secondary-ghost btn-lg d-sm-block d-lg-inline-block" type="submit" asp-action="Retake" asp-route-oldQuestionnaireId="@Model.Last.QuestionnaireId">Retake questionnaire</button>
-                            </form>
-                            <span class="mx-1"></span>
-                            <a class="btn btn-primary btn-lg d-sm-block d-lg-inline-block" asp-controller="DeviceClassifications" asp-action="Current" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Continue answering</a>
 
-                        </div>
-                        <div class="col-sm-12 text-center my-2">
-                            <p>Questionnaire started at @Model.Last.StartedAt</p>
-                        </div>
-                    }
+  @if (Model.Last != null)
+  {
+      if (!Model.Last.IsFinished)
+      {
+        <form class="d-inline" asp-action="Stop" method="post">
+            <button class="btn btn-secondary-ghost d-sm-block d-lg-inline-block" type="submit" asp-action="Retake" asp-route-oldQuestionnaireId="@Model.Last.QuestionnaireId">Retake questionnaire</button>
+        </form>
+        <span class="mx-1"></span>
+        <a class="btn btn-primary d-sm-block d-lg-inline-block" asp-controller="DeviceClassifications" asp-action="Current" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Continue answering</a>
 
-                    if (Model.Last.IsFinished)
-                    {
-                        <div class="col my-2 text-center">
-                            <h3>Last results:</h3>
-                            <a asp-controller="DeviceClassifications" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">@Model.Last.StartedAt</a>
-                        </div>
-                    }
+        <p class="mt-2 color-grey">Questionnaire started at @Model.Last.StartedAt</p>
+      }
 
-                    if (Model.Previous.Any())
-                    {
-                        <div class="col my-2 text-center">
-                            <h3>Previous results:</h3>
-                            <ul class="px-0">
-                                @foreach (var questionnaire in Model.Previous)
-                                {
-                                    <li class="d-flex justify-content-center my-2">
-                                        <a asp-controller="DeviceClassifications" asp-action="Review" asp-route-questionnaireId="@questionnaire.QuestionnaireId">@questionnaire.StartedAt</a>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    }
-                }
-            </div>
-        </div>
-    </div>
+      if (Model.Previous.Any())
+      {
+        <p class="mt-5">Previous results:</p>
+        <ul>
+          @if (Model.Last.IsFinished)
+          {
+            <li>
+              <a asp-controller="DeviceClassifications" asp-action="Review" asp-route-questionnaireId="@Model.Last.QuestionnaireId">@Model.Last.StartedAt </a><span class="color-grey">(Current classification)</span>
+            </li>
+          }
+          @foreach (var questionnaire in Model.Previous)
+          {
+            <li>
+                <a asp-controller="DeviceClassifications" asp-action="Review" asp-route-questionnaireId="@questionnaire.QuestionnaireId">@questionnaire.StartedAt</a>
+            </li>
+          }
+          </ul>
+        }
+    }
+
 </div>
