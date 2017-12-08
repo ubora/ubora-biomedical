@@ -74,26 +74,5 @@ namespace Ubora.Domain.Projects.StructuredInformations
         {
             return new FacilityRequirementsInformation();
         }
-
-        //public IEnumerable<FacilityRequirement> FacilityRequirements { get; set; 
     }
-
-    //public abstract class FacilityRequirement
-    //{
-    //    public abstract string Name { get; }
-    //    public abstract string Key { get;  }
-    //}
-
-    //public class FacilityRequirementWithoutDescription : FacilityRequirement
-    //{
-    //    public override string Name { get; }
-    //    public override string Key { get; }
-    //}
-
-    //public class FacilityRequirementWithDescription : FacilityRequirement
-    //{
-    //    public override string Name { get; }
-    //    public override string Key { get; }
-    //    public string Description { get; set; }
-    //}
 }

@@ -10,7 +10,7 @@ namespace Ubora.Domain.Projects.StructuredInformations
         {
         }
 
-        public bool IsRequired { get; set; }
+        public bool IsRequired { get; private set; }
         public decimal IfPowerSupplyForRechargingThenRequiredVoltage { get; private set; }
         public TimeSpan PowerSupplyForRechargingRequiredTimeToRecharge { get; private set; }
         public TimeSpan PowerSupplyForRechargingRequiredBatteryLife { get; private set; }

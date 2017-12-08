@@ -12,8 +12,8 @@ namespace Ubora.Domain.Projects.StructuredInformations
 
         public UserAndEnvironmentInformation UserAndEnvironment { get; private set; }
         public HealthTechnologySpecificationsInformation HealthTechnologySpecification { get; private set; }
-        public bool IsUserAndEnvironmentEdited { get; set; }
-        public bool IsHealthTechnologySpecificationEdited { get; set; }
+        public bool IsUserAndEnvironmentEdited { get; private set; }
+        public bool IsHealthTechnologySpecificationEdited { get; private set; }
 
 
         private void Apply(WorkpackageOneReviewAcceptedEvent e)
