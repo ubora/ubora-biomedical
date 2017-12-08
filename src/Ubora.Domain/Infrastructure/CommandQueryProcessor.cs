@@ -1,14 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using Marten;
-using Marten.Linq;
 using Marten.Pagination;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Infrastructure.Specifications;
-using Ubora.Domain.Projects;
 
 namespace Ubora.Domain.Infrastructure
 {

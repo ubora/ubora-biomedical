@@ -26,6 +26,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
         public decimal ScorePercentageMediocre { get; set; }
         public decimal ScorePercentagePoor { get; set; }
         public bool IsVotingAllowed { get; set; }
+        public bool HasUserVoted { get; set; }
 
         public AddCommentViewModel AddCommentViewModel { get; set; }
         public IEnumerable<CommentViewModel> Comments { get; set; }
@@ -77,8 +78,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 
                 model.IsVotingAllowed = await _authorizationService.IsAuthorizedAsync(user, candidate, Policies.CanVoteCandidate);
 
-                var hasUserVoted = candidate.Votes.Any(x => x.UserId == user.GetId());
-                if (hasUserVoted)
+                model.HasUserVoted = candidate.Votes.Any(x => x.UserId == user.GetId());
+                if (model.HasUserVoted)
                 {
                     SetUserVotes(model, candidate, user.GetId());
                 }

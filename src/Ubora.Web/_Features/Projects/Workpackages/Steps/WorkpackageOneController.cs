@@ -36,7 +36,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         [HttpPost]
         [Route(nameof(ProjectOverview))]
-        [Authorize(Policies.CanEditWorkpackageOne)]
+        [Authorize(Policies.CanEditDesignPlanning)]
         public IActionResult ProjectOverview(ProjectOverviewViewModel model, string returnUrl = null)
         {
             if (!ModelState.IsValid)
