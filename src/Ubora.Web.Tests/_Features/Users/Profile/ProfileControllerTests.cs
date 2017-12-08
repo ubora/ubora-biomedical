@@ -277,18 +277,19 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         public void View_Returns_View_And_ProfileViewModel_When_User_Exists()
         {
             var userId = Guid.NewGuid();
-
             var userprofile = new UserProfile(userId);
-            var expectedProfileViewModel = new ProfileViewModel();
 
             QueryProcessorMock.Setup(p => p.FindById<UserProfile>(userId))
                 .Returns(userprofile);
 
-            AutoMapperMock.Setup(m => m.Map<ProfileViewModel>(userprofile))
+            var expectedProfileViewModel = new ProfileViewModel();
+            var modelFactoryMock = new Mock<ProfileViewModel.Factory>();
+
+            modelFactoryMock.Setup(m => m.Create(userprofile))
                 .Returns(expectedProfileViewModel);
 
             //Act
-            var result = (ViewResult)_controller.ViewProfile(userId);
+            var result = (ViewResult)_controller.ViewProfile(userId, modelFactoryMock.Object);
 
             //Act
             result.Model.As<ProfileViewModel>()
@@ -302,8 +303,10 @@ namespace Ubora.Web.Tests._Features.Users.Profile
 
             QueryProcessorMock.Setup(p => p.FindById<UserProfile>(userId)).Returns((UserProfile)null);
 
+            var dummyModelFactory = Mock.Of<ProfileViewModel.Factory>();
+
             //Act
-            var result = _controller.ViewProfile(userId);
+            var result = _controller.ViewProfile(userId, dummyModelFactory);
 
             //Act
             result.Should().BeOfType<NotFoundResult>();

@@ -1,6 +1,4 @@
-﻿using System;
-using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Projects.Candidates;
+﻿using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Users;
 using Ubora.Web.Infrastructure.ImageServices;
 

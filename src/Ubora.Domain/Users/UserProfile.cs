@@ -7,10 +7,6 @@ namespace Ubora.Domain.Users
 {
     public class UserProfile : ISoftDeletable
     {
-        protected UserProfile()
-        {
-        }
-
         public UserProfile(Guid userId)
         {
             UserId = userId;
@@ -36,5 +32,10 @@ namespace Ubora.Domain.Users
 
         // Don't JsonIgnore
         public string FullName => $"{FirstName} {LastName}";
+
+        public bool HasChosenMentorRole()
+        {
+            return Role == "mentor";
+        }
     }
 }

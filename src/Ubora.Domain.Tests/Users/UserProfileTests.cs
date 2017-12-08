@@ -18,5 +18,21 @@ namespace Ubora.Domain.Tests.Users
             //Assert
             userProfile.UserId.Should().Be(userId);
         }
+
+        [Theory]
+        [InlineData("mentor", true)]
+        [InlineData("not_mentor", false)]
+        public void HasChosenMentorRole_Returns_Whether_Role_Is_Set_As_Mentor(
+            string role, bool expected)
+        {
+            var userProfile = new UserProfile(userId: Guid.NewGuid())
+                .Set(profile => profile.Role, role);
+
+            // Act
+            var result = userProfile.HasChosenMentorRole();
+
+            // Assert
+            result.Should().Be(expected);
+        }
     }
 }
