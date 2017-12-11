@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Projects._Queries;
 using Ubora.Domain.Users.Commands;
 using Ubora.Domain.Users.Queries;
 using Ubora.Web.Data;
@@ -24,7 +25,13 @@ namespace Ubora.Web._Features.Admin
         }
 
         [Authorize(Roles = ApplicationRole.Admin)]
-        public async Task<IActionResult> Diagnostics()
+        public IActionResult Diagnostics()
+        {
+            return View(nameof(Diagnostics));
+        }
+
+        [Authorize(Roles = ApplicationRole.Admin)]
+        public async Task<IActionResult> ManageUsers()
         {
             var userViewModels = new List<UserViewModel>();
 
@@ -43,7 +50,21 @@ namespace Ubora.Web._Features.Admin
 
             var orderedViewModel = userViewModels.OrderBy(x => x.FullName).ToList();
 
-            return View(nameof(Diagnostics), orderedViewModel);
+            return View(nameof(ManageUsers), orderedViewModel);
+        }
+
+        [Authorize(Roles = ApplicationRole.Admin)]
+        public IActionResult ProjectsUnderReview([FromServices] ProjectUnderReviewViewModel.Factory projectFactory)
+        {
+            var projectsUnderReview = QueryProcessor.ExecuteQuery(new GetProjectsUnderReviewQuery());
+            var projectModel = projectsUnderReview.Select(projectFactory.Create);
+
+            var projectsViewModel = new ProjectsUnderReviewViewModel
+            {
+                ProjectsUnderReview = projectModel
+            };
+
+            return View(nameof(ProjectsUnderReview), projectsViewModel);
         }
 
 
@@ -58,7 +79,7 @@ namespace Ubora.Web._Features.Admin
             {
                 AddIdentityErrorsToModelState(result);
 
-                return await Diagnostics();
+                return Diagnostics();
             }
 
             return RedirectToAction(nameof(Diagnostics));
@@ -75,7 +96,7 @@ namespace Ubora.Web._Features.Admin
             {
                 AddIdentityErrorsToModelState(result);
 
-                return await Diagnostics();
+                return Diagnostics();
             }
 
             return RedirectToAction(nameof(Diagnostics));
@@ -92,7 +113,7 @@ namespace Ubora.Web._Features.Admin
             {
                 AddIdentityErrorsToModelState(result);
 
-                return await Diagnostics();
+                return Diagnostics();
             }
 
             return RedirectToAction(nameof(Diagnostics));
@@ -109,7 +130,7 @@ namespace Ubora.Web._Features.Admin
             {
                 AddIdentityErrorsToModelState(result);
 
-                return await Diagnostics();
+                return Diagnostics();
             }
 
             return RedirectToAction(nameof(Diagnostics));
@@ -133,14 +154,14 @@ namespace Ubora.Web._Features.Admin
         {
             if (!ModelState.IsValid)
             {
-                return await Diagnostics();
+                return Diagnostics();
             }
 
             var user = await _userManager.FindByEmailAsync(model.UserEmail);
             if (user == null)
             {
                 ModelState.AddModelError("", $"User not found by e-mail: {model.UserEmail}");
-                return await Diagnostics();
+                return Diagnostics();
             }
 
             var result = await _userManager.DeleteAsync(user);
@@ -158,7 +179,7 @@ namespace Ubora.Web._Features.Admin
 
             if (!ModelState.IsValid)
             {
-                return await Diagnostics();
+                return Diagnostics();
             }
 
             Notices.Success($"User {user.Email} successfully deleted");

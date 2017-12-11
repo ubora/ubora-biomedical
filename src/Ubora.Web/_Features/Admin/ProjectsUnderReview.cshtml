@@ -1,0 +1,27 @@
+﻿@model Ubora.Web._Features.Admin.ProjectsUnderReviewViewModel
+
+<div class="container-fluid my-4">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-lg-8">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <table class="table table-responsive">
+                <tbody>
+                    @foreach (var project in Model.ProjectsUnderReview)
+                    {
+                        <tr>
+                            <td class="w-100">
+                                <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@project.Id">@project.Title</a>
+                            </td>
+                            <td>
+                                @foreach (var mentor in project.ProjectMentors)
+                                {
+                                    <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@mentor.Key">@mentor.Value</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -16,6 +16,7 @@ using Ubora.Domain.Projects._Commands;
 using Ubora.Web._Features.Projects.Assignments;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.StructuredInformations;
+using Ubora.Web._Features.Admin;
 using Ubora.Web._Features.Projects.Workpackages.Candidates;
 
 namespace Ubora.Web._Features._Shared
