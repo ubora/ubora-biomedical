@@ -24,14 +24,16 @@
 
       <div class="row my-4">
         <div class="col">
-          <ol>
+
             @foreach (var assignment in Model.Assignments)
             {
-              <li>
-                  <a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a>
-              </li>
+                <label class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input"/>
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description"><a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a></span>
+                </label>
             }
-          </ol>
+
         </div>
       </div>
 
