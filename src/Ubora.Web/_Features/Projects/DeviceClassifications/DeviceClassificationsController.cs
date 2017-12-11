@@ -1,8 +1,10 @@
 ﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Commands;
+using Ubora.Web.Authorization;
 using Ubora.Web._Features.Projects.Workpackages;
 using Ubora.Web._Features.Projects._Shared;
 
@@ -16,7 +18,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
 
             ViewData["Title"] = "Device classification";
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
-            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.DeviceClassification;
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.DeviceClassification;
         }
 
         public virtual IActionResult Index([FromServices]DeviceClassificationIndexViewModel.Factory modelFactory)
@@ -27,6 +29,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
         }
 
         [HttpPost]
+        [Authorize(Policies.CanEditWorkpackageOne)]
         public IActionResult Start([FromServices]DeviceClassificationIndexViewModel.Factory modelFactory)
         {
             var id = Guid.NewGuid();
@@ -60,6 +63,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
 
             return RedirectToAction(nameof(ViewQuestion), new { questionnaireId, questionId = nextQuestion.Id });
         }
+
 
         public virtual IActionResult ViewQuestion(Guid questionnaireId, string questionId, [FromServices]DeviceClassificationQuestionViewModel.Factory modelFactory)
         {
@@ -122,6 +126,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
         }
 
         [HttpPost]
+        [Authorize(Policies.CanEditWorkpackageOne)]
         public IActionResult Retake(Guid oldQuestionnaireId, [FromServices]DeviceClassificationIndexViewModel.Factory modelFactory)
         {
             var deviceClassification = QueryProcessor.FindById<DeviceClassificationAggregate>(oldQuestionnaireId);

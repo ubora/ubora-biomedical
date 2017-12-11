@@ -13,9 +13,8 @@ namespace Ubora.Domain.Projects.Workpackages
 
             Title = "Conceptual design";
 
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.PhysicalPrinciples, "Physical principles", Placeholders.PhysicalPrinciples));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ConceptDescription, "Concept description", Placeholders.ConceptDescription));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.StructuredInformationOnTheDevice, "Structured information on the device", ""));
+            _steps.Add(new WorkpackageStep("PhysicalPrinciples", "Physical principles"));
+            _steps.Add(new WorkpackageStep("ConceptDescription", "Concept description"));
         }
 
         private void Apply(WorkpackageTwoStepEdited e)

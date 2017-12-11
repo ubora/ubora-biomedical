@@ -23,7 +23,7 @@ Scenario: I click Notifications
     Then I expect the title of the page "Notifications - UBORA"
     When I click on the element "span=Notification history"
     Then I expect the title of the page "Notification history - UBORA"
-    When I click on the element "span=Pending invitations"
+    When I click on the element "span=Notifications"
     Then I expect the title of the page "Notifications - UBORA"
 
 Scenario: I click Sign out

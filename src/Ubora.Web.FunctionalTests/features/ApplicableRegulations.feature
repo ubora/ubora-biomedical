@@ -47,7 +47,7 @@ Scenario: Take questionnaire and answer all questions YES
         And I expect the element "a=EN ISO 15223-1:2016" is visible
 
 Scenario: Take questionnaire and answer all questions NO
-    Then I expect the element "h3=Last results:" is visible
+    Then I expect the element "p=Results:" is visible
     When I click on the element "button=Take questionnaire"
         And I answer NO to question "Is your device “implantable” and “not active”?"
         And I answer NO to question "Is your device “active” and its source of energy is electrical?"
@@ -63,7 +63,7 @@ Scenario: Take questionnaire and answer all questions NO
         And I expect the element "p=There may be product specific standards that apply, talk to your mentor." is visible
 
 Scenario: Take questionnaire but stop it
-    Then I expect the element "h3=Previous results:" is visible
+    Then I expect the element "p=Results:" is visible
     When I click on the element "button=Take questionnaire"
         And I go back to last page
     Then I expect the element "a=Continue answering" is visible

@@ -60,7 +60,6 @@
         </div>
     </div>
 
-    @*TODO: Voting system implementation*@
     <div class="row mb-4">
 
         <div class="col-lg-6">
@@ -94,10 +93,11 @@
             </div>
         </div>
 
-                <div class="col-lg-6">
-                    @(Model.HasUserVoted ? Html.Partial("_VotePartial", Model.UserVotesViewModel) : Html.Partial("_AddVotePartial", Model.AddVoteViewModel))
-                </div>
-            </div>
+        <div class="col-lg-6">
+            @(Model.HasUserVoted ? Html.Partial("_VotePartial", Model.UserVotesViewModel) : Html.Partial("_AddVotePartial", Model.AddVoteViewModel))
+        </div>
+        
+    </div>
 
     <div class="row mb-4">
         <div class="col-sm-12 col-lg-6">

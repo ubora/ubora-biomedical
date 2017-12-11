@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web._Features._Shared;
@@ -8,6 +9,7 @@ using Ubora.Web._Features.Projects._Shared;
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     [ProjectRoute("WP2")]
+    [WorkpackageStepIdFromRouteToViewData]
     public class WorkpackageTwoController : ProjectController
     {
         private WorkpackageTwo _workpackageTwo;
@@ -68,5 +70,94 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return RedirectToAction(nameof(Read), new { stepId = model.StepId });
         }
 
+        [Route(nameof(StructuredInformationOnTheDevice))]
+        public IActionResult StructuredInformationOnTheDevice([FromServices] StructuredInformationResultViewModel.Factory modelFactory)
+        {
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
+
+            var deviceStructuredInformation = QueryProcessor.FindById<DeviceStructuredInformation>(ProjectId);
+
+            var model = modelFactory.Create(deviceStructuredInformation);
+
+            return View(model);
+        }
+
+        [Route(nameof(HealthTechnologySpecifications))]
+        public virtual IActionResult HealthTechnologySpecifications([FromServices] HealthTechnologySpecificationsViewModel.Factory modelFactory)
+        {
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
+
+            var deviceStructuredInformation = QueryProcessor.FindById<DeviceStructuredInformation>(ProjectId);
+            if (deviceStructuredInformation == null)
+            {
+                return View(nameof(HealthTechnologySpecifications));
+            }
+
+            var model = modelFactory.Create(deviceStructuredInformation.HealthTechnologySpecification);
+
+            return View(nameof(HealthTechnologySpecifications),model);
+        }
+
+        [HttpPost]
+        [Route(nameof(HealthTechnologySpecifications))]
+        public IActionResult EditHealthTechnologySpecifications(
+            HealthTechnologySpecificationsViewModel model,
+            [FromServices] HealthTechnologySpecificationsViewModel.Mapper modelMapper,
+            [FromServices] HealthTechnologySpecificationsViewModel.Factory modelFactory)
+        {
+            if (!ModelState.IsValid)
+            {
+                return HealthTechnologySpecifications(modelFactory);
+            }
+
+            var command = modelMapper.MapToCommand(model);
+            ExecuteUserProjectCommand(command);
+
+            if (!ModelState.IsValid)
+            {
+                return HealthTechnologySpecifications(modelFactory);
+            }
+
+            return RedirectToAction(nameof(StructuredInformationOnTheDevice));
+        }
+
+        [Route(nameof(UserAndEnvironment))]
+        public virtual IActionResult UserAndEnvironment([FromServices] UserAndEnvironmentInformationViewModel.Factory modelFactory)
+        {
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
+
+            var deviceStructuredInformation = QueryProcessor.FindById<DeviceStructuredInformation>(ProjectId);
+            if (deviceStructuredInformation == null)
+            {
+                return View(nameof(UserAndEnvironment));
+            }
+
+            var model = modelFactory.Create(deviceStructuredInformation.UserAndEnvironment);
+
+            return View(nameof(UserAndEnvironment),model);
+        }
+
+        [HttpPost]
+        [Route(nameof(UserAndEnvironment))]
+        public IActionResult EditUserAndEnvironment(
+            UserAndEnvironmentInformationViewModel model, 
+            [FromServices] UserAndEnvironmentInformationViewModel.Mapper modelMapper,
+            [FromServices] UserAndEnvironmentInformationViewModel.Factory modelFactory)
+        {
+            if (!ModelState.IsValid)
+            {
+                return UserAndEnvironment(modelFactory);
+            }
+
+            var command = modelMapper.MapToCommand(model);
+            ExecuteUserProjectCommand(command);
+
+            if (!ModelState.IsValid)
+            {
+                return UserAndEnvironment(modelFactory);
+            }
+
+            return RedirectToAction(nameof(StructuredInformationOnTheDevice));
+        }
     }
 }
