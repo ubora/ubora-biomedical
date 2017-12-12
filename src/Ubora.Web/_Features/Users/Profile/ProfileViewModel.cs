@@ -1,5 +1,11 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Projects.Members;
+using Ubora.Domain.Projects.Members.Queries;
+using Ubora.Domain.Projects._Queries;
 using Ubora.Domain.Users;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web._Features.UboraMentors.Queries;
@@ -26,6 +32,7 @@ namespace Ubora.Web._Features.Users.Profile
         public string CountryEnglishName { get; set; }
         public string Institution { get; set; }
         public string MedicalDevice { get; set; }
+        public IEnumerable<UserProject> UserProjects { get; set; }
 
         public class Factory
         {
@@ -52,6 +59,15 @@ namespace Ubora.Web._Features.Users.Profile
 
                 viewModel.IsVerifiedMentor = _queryProcessor.ExecuteQuery(new IsVerifiedUboraMentorQuery(userProfile.UserId));
 
+                var userProjects = _queryProcessor.ExecuteQuery(new FindUserProjectsQuery {UserId = userProfile.UserId});
+                viewModel.UserProjects = userProjects.Select(project => new UserProject
+                {
+                    ProjectId = project.Id,
+                    Title = project.Title,
+                    IsLeader = project.HasMember<ProjectMentor>(userProfile.UserId),
+                    IsMentor = project.HasMember<ProjectLeader>(userProfile.UserId)
+                });
+
                 if (userProfile.Role == "Mentor" && !viewModel.IsVerifiedMentor)
                 {
                     viewModel.IsUnverifedMentor = true;
@@ -60,5 +76,13 @@ namespace Ubora.Web._Features.Users.Profile
                 return viewModel;
             }
         }
+    }
+
+    public class UserProject
+    {
+        public Guid ProjectId { get; set; }
+        public string Title { get; set; }
+        public bool IsLeader { get; set; }
+        public bool IsMentor { get; set; }
     }
 }

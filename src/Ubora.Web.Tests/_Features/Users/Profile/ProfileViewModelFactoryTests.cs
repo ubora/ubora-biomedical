@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using FluentAssertions;
 using Moq;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.Members;
+using Ubora.Domain.Projects._Queries;
 using Ubora.Domain.Users;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web._Features.UboraMentors.Queries;
@@ -31,7 +36,8 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         [Fact]
         public void Create_Creates_ViewModel_For_UserProfile()
         {
-            var userProfile = new UserProfile(userId: Guid.NewGuid())
+            var userId = Guid.NewGuid();
+            var userProfile = new UserProfile(userId: userId)
                 .Set(x => x.ProfilePictureBlobLocation, new BlobLocation("blobContainer", "blobPath"));
 
             var expectedModel = new ProfileViewModel();
@@ -41,6 +47,22 @@ namespace Ubora.Web.Tests._Features.Users.Profile
 
             _imageStorageProviderMock.Setup(x => x.GetUrl(userProfile.ProfilePictureBlobLocation))
                 .Returns("expectedProfilePictureBlobUrl");
+
+            var project = new Mock<Project>();
+            var projectId = Guid.NewGuid();
+            project.Object.Set(x => x.Id, projectId);
+            var projectTitle = "title";
+            project.Object.Set(x => x.Title, projectTitle);
+            var members = new ProjectMember[]
+            {
+                new ProjectMentor(userId),
+                new ProjectLeader(userId)
+            };
+            project.Setup(x => x.Members)
+                .Returns(members);
+
+            _queryProcessorMock.Setup(x => x.ExecuteQuery(It.Is<FindUserProjectsQuery>(q => q.UserId == userId)))
+                .Returns(new[] { project.Object });
 
             // Act
             var result = _factoryUnderTest.Create(userProfile);
@@ -68,6 +90,9 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             _queryProcessorMock
                 .Setup(x => x.ExecuteQuery(It.Is<IsVerifiedUboraMentorQuery>(q => q.UserId == userId)))
                 .Returns(isVerifiedUboraMentor);
+
+            _queryProcessorMock.Setup(x => x.ExecuteQuery(It.Is<FindUserProjectsQuery>(q => q.UserId == userId)))
+                .Returns(new[] { Mock.Of<Project>() });
 
             // Act
             var result = _factoryUnderTest.Create(userProfile);
