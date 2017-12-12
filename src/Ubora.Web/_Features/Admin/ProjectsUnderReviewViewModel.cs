@@ -27,7 +27,7 @@ namespace Ubora.Web._Features.Admin
                 _queryProcessor = queryProcessor;
             }
 
-            public ProjectUnderReviewViewModel Create(Project project)
+            public virtual ProjectUnderReviewViewModel Create(Project project)
             {
                 var mentorIds = project.Members.Where(x => x.IsMentor).Select(x => x.UserId);
                 var mentors = _queryProcessor.ExecuteQuery(new FindFullNamesQuery(mentorIds));

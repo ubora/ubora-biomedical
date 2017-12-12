@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Projects;
+using Ubora.Domain.Projects._Queries;
 using Ubora.Domain.Users.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
@@ -144,6 +147,40 @@ namespace Ubora.Web.Tests._Features.Admin
             result.ViewName.Should().Be("Diagnostics");
 
             result.ViewData.ModelState.IsValid.Should().BeFalse();
+        }
+
+        [Fact]
+        public void ProjectsUnderReview_Returns_View_With_Expected_Model()
+        {
+            var queryProcessorMock = new Mock<IQueryProcessor>();
+            var projectUnderReviewModelFactoryMock = new Mock<ProjectUnderReviewViewModel.Factory>(queryProcessorMock.Object);
+
+            var project1 = new Project();
+            var project2 = new Project();
+
+            QueryProcessorMock.Setup(x => x.ExecuteQuery(It.Is<GetProjectsUnderReviewQuery>(q => q == q)))
+                .Returns(new[] { project1, project2 });
+
+            var project1Model = new ProjectUnderReviewViewModel();
+            projectUnderReviewModelFactoryMock.Setup(x => x.Create(project1))
+                .Returns(project1Model);
+
+            var project2Model = new ProjectUnderReviewViewModel();
+            projectUnderReviewModelFactoryMock.Setup(x => x.Create(project2))
+                .Returns(project2Model);
+
+            // Act
+            var result = (ViewResult)_controller.ProjectsUnderReview(projectUnderReviewModelFactoryMock.Object);
+
+            // Assert
+            result.ViewName.Should().Be(nameof(AdminController.ProjectsUnderReview));
+
+            var expectedModel = new ProjectsUnderReviewViewModel
+            {
+                ProjectsUnderReview = new[] { project1Model, project2Model }
+            };
+
+            result.Model.ShouldBeEquivalentTo(expectedModel);
         }
     }
 }

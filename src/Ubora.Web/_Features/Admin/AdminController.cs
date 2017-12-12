@@ -57,11 +57,10 @@ namespace Ubora.Web._Features.Admin
         public IActionResult ProjectsUnderReview([FromServices] ProjectUnderReviewViewModel.Factory projectFactory)
         {
             var projectsUnderReview = QueryProcessor.ExecuteQuery(new GetProjectsUnderReviewQuery());
-            var projectModel = projectsUnderReview.Select(projectFactory.Create);
 
             var projectsViewModel = new ProjectsUnderReviewViewModel
             {
-                ProjectsUnderReview = projectModel
+                ProjectsUnderReview = projectsUnderReview.Select(projectFactory.Create)
             };
 
             return View(nameof(ProjectsUnderReview), projectsViewModel);
