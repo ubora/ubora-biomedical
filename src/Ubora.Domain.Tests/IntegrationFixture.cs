@@ -38,7 +38,7 @@ namespace Ubora.Domain.Tests
 
             // Register Marten DocumentStore/Session
             builder.Register(_ => (TestingDocumentStore)theStore).As<DocumentStore>().As<IDocumentStore>().SingleInstance();
-            builder.Register(_ => Session).As<IDocumentSession>();
+            builder.Register(_ => Session).As<IDocumentSession>().As<IQuerySession>();
 
             var storageProviderMock = new Mock<IStorageProvider>().Object;
             builder.RegisterInstance(storageProviderMock).As<IStorageProvider>();

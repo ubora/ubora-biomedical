@@ -22,15 +22,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.Wp1MentorReview;
         }
 
-        public async Task<IActionResult> Review()
+        public virtual async Task<IActionResult> Review()
         {
+            var latestReview = WorkpackageOne.GetLatestReviewOrNull();
+
             var model = new WorkpackageReviewListViewModel
-            {
-                Reviews = WorkpackageOne.Reviews.Select(AutoMapper.Map<WorkpackageReviewViewModel>),
-                ReviewDecisionUrl = Url.Action(nameof(Decision)),
-                SubmitForReviewUrl = Url.Action(nameof(SubmitForReview)),
-                SubmitForReviewButton = await WorkpackageReviewListViewModel.GetSubmitButtonVisibility(WorkpackageOne, User, AuthorizationService)
-            };
+            (
+                reviews: WorkpackageOne.Reviews.OrderBy(r => r.SubmittedAt).Select(AutoMapper.Map<WorkpackageReviewViewModel>),
+                latestReview: latestReview == null ? null : AutoMapper.Map<WorkpackageReviewViewModel>(latestReview),
+                reviewDecisionUrl: Url.Action(nameof(Decision)),
+                submitForReviewUrl: Url.Action(nameof(SubmitForReview)),
+                submitForReviewButton: await WorkpackageReviewListViewModel.GetSubmitButtonVisibility(WorkpackageOne, User, AuthorizationService)
+            );
 
             return View(nameof(Review), model);
         }
@@ -99,6 +102,28 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
             ExecuteUserProjectCommand(new RejectWorkpackageOneReviewCommand
             {
                 ConcludingComment = model.ConcludingComment
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return await Review();
+            }
+
+            return RedirectToAction(nameof(Review));
+        }
+
+        [HttpPost]
+        [Authorize(Policies.CanReviewProjectWorkpackages)]
+        public async Task<IActionResult> ReopenWorkpackageAfterAcceptance(ReopenWorkpackageAfterAcceptanceByReviewPostModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return await Review();
+            }
+
+            ExecuteUserProjectCommand(new ReopenWorkpackageAfterAcceptanceByReviewCommand
+            {
+                LatestReviewId = model.LatestReviewId 
             });
 
             if (!ModelState.IsValid)
