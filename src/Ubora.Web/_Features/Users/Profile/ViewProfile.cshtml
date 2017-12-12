@@ -38,12 +38,12 @@
 
             <div class="my-5">
                 <ul class="nav nav-tabs " id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active d-flex align-items-center" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="home" aria-selected="true"><i class="material-icons">person</i><span class="mx-1">About</span></a>
+                  <li class="nav-item">
+                      <a class="nav-link active d-flex align-items-center" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="home" aria-selected="true"><i class="material-icons">person</i><span class="mx-1">About</span></a>
+                  </li>
+                   <li class="nav-item">
+                      <a class="nav-link d-flex align-items-center" id="projects-tab" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="false"><i class="material-icons">work</i><span class="mx-1">Projects</span><span class="badge badge-pill badge-grey-ghost">@Model.UserProjects.Count()</span></a>
                     </li>
-                     <li class="nav-item">
-                          <a class="nav-link d-flex align-items-center" id="projects-tab" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="false"><i class="material-icons">work</i><span class="mx-1">Projects</span><span class="badge badge-pill badge-grey-ghost">@Model.UserProjects.Count()</span></a>
-                        </li> 
                 </ul>
 
                 <div class="tab-content" id="myTabContent">
@@ -83,28 +83,40 @@
                     </div>
 
                     <div class="tab-pane fade" id="projects" role="tabpanel" aria-labelledby="projects-tab">
-                        <ul class="my-4">
-                            @foreach (var project in Model.UserProjects)
-                            {
-                                <li>
-                                    <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@project.ProjectId">@project.Title</a>
-                                    @if (project.IsMentor)
-                                    {
-                                        <p>Mentor</p>
-                                    }
-                                    @if (project.IsLeader)
-                                    {
-                                        <p>Leader</p>
-                                    }
-                                </li>
-                            }
-                        </ul>
-                    </div>
+                      <table class="table my-4 table-projects">
+                        <thead>
+                          <tr>
+                            <th>Project</th>
+                            <th>Role</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach (var project in Model.UserProjects)
+                          {
+                            <tr>
+                              <td><a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@project.ProjectId">@project.Title</a></td>
+                              <td>
+                                @if (project.IsMentor)
+                                {
+                                    <span class="d-block">Mentor</span>
+                                }
+                                @if (project.IsLeader)
+                                {
+                                    <span class="d-block">Leader</span>
+                                }
+                                @if (!project.IsMentor && !project.IsLeader) {
+                                    <span class="d-block">Member</span>
+                                }
+                              </td>
+                            </tr>
 
+                          }
+                          </tbody>
+                        </table>
+                      </div>
+
+                  </div>
                 </div>
-            </div>
-
-
 
         </div>
     </div>

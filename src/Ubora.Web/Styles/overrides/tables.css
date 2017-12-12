@@ -20,3 +20,8 @@
 .table-structured-information th {
   width: 50%;
 }
+
+
+.table-projects th{
+  border-top: none;
+}
