@@ -28,7 +28,7 @@
             @foreach (var assignment in Model.Assignments)
             {
                 <label class="custom-control custom-checkbox d-block">
-                  <input type="checkbox" class="custom-control-input"/>
+                  <input id="@assignment.Id" type="checkbox" class="js-assignment-checkbox custom-control-input"/>
                   <span class="custom-control-indicator"></span>
                   <span class="custom-control-description"><a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a></span>
                 </label>
@@ -40,3 +40,21 @@
     </div>
   </div>
 </div>
+
+
+<script>
+
+$('.js-assignment-checkbox').click(function(e) {
+  var assignmentStates = JSON.parse(window.localStorage.assignmentStates || "{}");
+  assignmentStates[this.id] = this.checked;
+  window.localStorage.assignmentStates = JSON.stringify(assignmentStates);
+});
+
+$( document ).ready(function() {
+  var assignmentStates = JSON.parse(window.localStorage.assignmentStates || "{}");
+  $('.js-assignment-checkbox').each(function() {
+    this.checked = assignmentStates[this.id];
+  })
+});
+
+</script>
