@@ -6,6 +6,11 @@ module.exports = function () {
             browser.click(element);
         });
 
+    this.When(/^I click on the href element "([^"]*)?"$/, (partialHref) => {
+            browser.click('[href*="' + partialHref + '"]');
+        });
+        
+
     this.When(/^I set value "([^"]*)?" to the element "([^"]*)?"$/, (value, element) => {
             browser.setValue(element, value)
         });

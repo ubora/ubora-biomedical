@@ -15,10 +15,10 @@
   <div class="row">
     <div class="col">
       <div class="d-flex justify-content-between">
-        <h1 class="display-4 mb-4">User and evironment</h1>
+        <h1 class="display-4 mb-4">User and environment</h1>
         <a class="btn btn-secondary-ghost align-self-start" asp-action="UserAndEnvironment" asp-controller="WorkpackageTwo">
           <i class="material-icons">mode_edit</i>
-          <span>Edit</span>
+          <span id="EditUserEnvironment">Edit</span>
         </a>
       </div>
       @if (Model.IsUserAndEnvironmentEdited)
@@ -75,7 +75,7 @@
         <h1 class="display-4 mb-4">Health technology specifications</h1>
         <a class="btn btn-secondary-ghost align-self-start" asp-action="HealthTechnologySpecifications" asp-controller="WorkpackageTwo">
           <i class="material-icons">mode_edit</i>
-          <span>Edit</span>
+          <span id="EditHealthTechnology">Edit</span>
         </a>
       </div>
 
