@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -11,11 +12,39 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 {
     public class WorkpackageReviewListViewModel
     {
-        public IEnumerable<WorkpackageReviewViewModel> Reviews { get; set; }
-        public string SubmitForReviewUrl { get; set; }
-        public string ReviewDecisionUrl { get; set; }
-        public UiElementVisibility SubmitForReviewButton { get; set; }
+        public WorkpackageReviewListViewModel(
+            IEnumerable<WorkpackageReviewViewModel> reviews,
+            string submitForReviewUrl,
+            string reviewDecisionUrl,
+            UiElementVisibility submitForReviewButton,
+            WorkpackageReviewViewModel latestReview)
+        {
+            Reviews = reviews;
+            SubmitForReviewUrl = submitForReviewUrl;
+            ReviewDecisionUrl = reviewDecisionUrl;
+            SubmitForReviewButton = submitForReviewButton;
+            LatestReview = latestReview;
+        }
+
+        public IEnumerable<WorkpackageReviewViewModel> Reviews { get; }
+        public string SubmitForReviewUrl { get; }
+        public string ReviewDecisionUrl { get; }
+        public UiElementVisibility SubmitForReviewButton { get; }
+        public WorkpackageReviewViewModel LatestReview { get; }
+
         public bool IsAnyReviewInProcess => Reviews.Any(x => x.Status == WorkpackageReviewStatus.InProcess);
+
+        public async Task<bool> IsWriteReviewButtonVisible(ClaimsPrincipal user, IAuthorizationService authorizationService)
+        {
+            var isAuthorizedToWriteReview = await authorizationService.IsAuthorizedAsync(user, Policies.CanReviewProjectWorkpackages);
+            return isAuthorizedToWriteReview && IsAnyReviewInProcess;
+        }
+
+        public async Task<bool> IsReopenWp1ButtonVisible(ClaimsPrincipal user, IAuthorizationService authorizationService)
+        {
+            var isAuthorizedToWriteReview = await authorizationService.IsAuthorizedAsync(user, Policies.CanReviewProjectWorkpackages);
+            return isAuthorizedToWriteReview && LatestReview?.Status == WorkpackageReviewStatus.Accepted;
+        }
 
         /// <remarks>
         /// Logic moved here to reduce duplication by making the method generic.

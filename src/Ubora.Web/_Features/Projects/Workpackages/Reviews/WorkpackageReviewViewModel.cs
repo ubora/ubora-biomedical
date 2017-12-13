@@ -5,6 +5,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 {
     public class WorkpackageReviewViewModel
     {
+        public Guid Id { get; set; }
         public WorkpackageReviewStatus Status { get; set; }
         public string ConcludingComment { get; set; }
         public DateTimeOffset SubmittedAt { get; set; }

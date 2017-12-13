@@ -24,24 +24,25 @@ namespace Ubora.Domain.Projects.Workpackages
         protected readonly HashSet<WorkpackageReview> _reviews = new HashSet<WorkpackageReview>();
 
         [JsonIgnore]
-        // Virtual for testing
         public virtual IReadOnlyCollection<WorkpackageReview> Reviews => _reviews;
 
-        // Virtual for testing
         public virtual bool HasReviewInProcess => this.DoesSatisfy(new HasReviewInStatus<TDerived>(WorkpackageReviewStatus.InProcess));
 
-        // Virtual for testing
         public virtual bool HasBeenAccepted => this.DoesSatisfy(new HasReviewInStatus<TDerived>(WorkpackageReviewStatus.Accepted));
 
-        // Virtual for testing
         public virtual WorkpackageStep GetSingleStep(string stepKey)
         {
             return _steps.Single(step => step.Id == stepKey);
         }
 
-        public virtual WorkpackageReview GetSingleActiveReview()
+        public virtual WorkpackageReview GetSingleInProcessReview()
         {
             return _reviews.Single(x => x.Status == WorkpackageReviewStatus.InProcess);
+        }
+
+        public virtual WorkpackageReview GetLatestReviewOrNull()
+        {
+            return _reviews.OrderByDescending(r => r.SubmittedAt).FirstOrDefault();
         }
     }
 }
