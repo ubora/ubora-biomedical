@@ -131,6 +131,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
                 return await Review();
             }
 
+            Notices.Success("Successfully reopened!");
+
             return RedirectToAction(nameof(Review));
         }
     }
