@@ -21,6 +21,8 @@ namespace Ubora.Web._Features.Feedback
         [Authorize(Roles = ApplicationRole.Admin)]
         public IActionResult All()
         {
+            ViewData["Title"] = "Feedback";
+
             var all = QueryProcessor.Find<Feedback>(new MatchAll<Feedback>());
             return View(all);
         }

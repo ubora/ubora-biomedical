@@ -119,7 +119,7 @@ namespace Ubora.Web.Tests._Features.Admin
             // Assert
             executedCommand.UserId.Should().Be(user.Id);
 
-            result.ActionName.Should().Be("Diagnostics");
+            result.ActionName.Should().Be("ManageUsers");
         }
 
         [Fact]
@@ -144,7 +144,7 @@ namespace Ubora.Web.Tests._Features.Admin
             var result = (ViewResult)await _controller.DeleteUser(model);
 
             // Assert
-            result.ViewName.Should().Be("Diagnostics");
+            result.ViewName.Should().Be("ManageUsers");
 
             result.ViewData.ModelState.IsValid.Should().BeFalse();
         }
