@@ -58,4 +58,9 @@
 .header .nav-link:focus,
 .header .nav-link:hover {
   color: var(--light-blue);
+  cursor: pointer;
+}
+
+.header .btn-link {
+  outline: none;
 }
