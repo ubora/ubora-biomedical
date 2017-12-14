@@ -59,7 +59,9 @@ namespace Ubora.Web._Features.Users.Profile
 
                 viewModel.IsVerifiedMentor = _queryProcessor.ExecuteQuery(new IsVerifiedUboraMentorQuery(userProfile.UserId));
 
-                var userProjects = _queryProcessor.ExecuteQuery(new FindUserProjectsQuery {UserId = userProfile.UserId});
+                var userProjects = _queryProcessor.ExecuteQuery(new FindUserProjectsQuery {UserId = userProfile.UserId})
+                    .OrderBy(x => x.Title);
+
                 viewModel.UserProjects = userProjects.Select(project => new UserProject
                 {
                     ProjectId = project.Id,
