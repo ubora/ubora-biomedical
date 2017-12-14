@@ -59,12 +59,20 @@
         </a>
       </li>
       }
+
       <li class="nav-item">
         <a class="nav-link d-flex align-items-center" asp-controller="Manage" asp-action="Index">
           <i class="material-icons">account_circle</i>
           <span class="nav-link-description ml-1">Profile</span>
         </a>
       </li>
+
+      <li class="nav-item">
+        <form asp-action="Logout" asp-controller="Account" method="post">
+          <button class="btn btn-secondary-ghost btn-block" type="submit">Sign out</button>
+        </form>
+      </li>
+
 
     </ul>
   </div>
