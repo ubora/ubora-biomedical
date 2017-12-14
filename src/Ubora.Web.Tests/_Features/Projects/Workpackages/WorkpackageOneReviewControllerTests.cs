@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.Workpackages;
+using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web.Authorization;
 using Ubora.Web.Tests.Helper;
 using Ubora.Web._Features.Projects.Workpackages.Reviews;
@@ -14,17 +17,18 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
 {
     public class WorkpackageOneReviewControllerTests : ProjectControllerTestsBase
     {
+        private readonly Mock<WorkpackageOneReviewController> _workpackageOneReviewControllerMock;
         private readonly WorkpackageOneReviewController _workpackageOneReviewController;
 
         public WorkpackageOneReviewControllerTests()
         {
-            _workpackageOneReviewController = new WorkpackageOneReviewController()
-            {
-                Url = Mock.Of<IUrlHelper>()
-            };
+            _workpackageOneReviewControllerMock = new Mock<WorkpackageOneReviewController> { CallBase = true };
+            _workpackageOneReviewController = _workpackageOneReviewControllerMock.Object;
+            _workpackageOneReviewController.Url = Mock.Of<IUrlHelper>();
+
             SetUpForTest(_workpackageOneReviewController);
 
-            var dummyWorkpackage = Mock.Of<WorkpackageOne>(x => x.Reviews == new List<WorkpackageReview>());
+            var dummyWorkpackage = new WorkpackageOne();
             QueryProcessorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
                 .Returns(dummyWorkpackage);
         }
@@ -52,6 +56,11 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                     new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(WorkpackageOneReviewController.Reject),
+                        Policies = new []{ nameof(Policies.CanReviewProjectWorkpackages) }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(WorkpackageOneReviewController.ReopenWorkpackageAfterAcceptance),
                         Policies = new []{ nameof(Policies.CanReviewProjectWorkpackages) }
                     }
                 };
@@ -116,6 +125,82 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             viewModel
                 .SubmitForReviewButton.IsVisible
                 .Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Review_Maps_Latest_Review_To_ViewModel()
+        {
+            DisableAuthorization();
+
+            var expectedReview = Mock.Of<WorkpackageReview>();
+            var workpackageMock = new Mock<WorkpackageOne> { CallBase = true };
+
+            workpackageMock.Setup(wp => wp.GetLatestReviewOrNull())
+                .Returns(expectedReview);
+
+            var expectedReviewViewModel = new WorkpackageReviewViewModel();
+            AutoMapperMock.Setup(m => m.Map<WorkpackageReviewViewModel>(expectedReview))
+                .Returns(expectedReviewViewModel);
+
+            QueryProcessorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
+                .Returns(workpackageMock.Object);
+
+            // Act
+            var result = (ViewResult)await _workpackageOneReviewController.Review();
+
+            // Assert
+            var viewModel = (WorkpackageReviewListViewModel)result.Model;
+
+            viewModel.LatestReview.Should().BeSameAs(expectedReviewViewModel);
+        }
+
+        [Fact]
+        public async Task ReopenWorkpackageAfterAcceptance_Opens_Workpackage_For_Edits_After_It_Was_Accepted_By_Review()
+        {
+            var model = new ReopenWorkpackageAfterAcceptanceByReviewPostModel
+            {
+                LatestReviewId = Guid.NewGuid()
+            };
+
+            ReopenWorkpackageAfterAcceptanceByReviewCommand executedCommand = null;
+
+            CommandProcessorMock.Setup(x => x.Execute(It.IsAny<ReopenWorkpackageAfterAcceptanceByReviewCommand>()))
+                .Callback<ReopenWorkpackageAfterAcceptanceByReviewCommand>(c => executedCommand = c)
+                .Returns(CommandResult.Success);
+
+            // Act
+            var result = (RedirectToActionResult) await _workpackageOneReviewController.ReopenWorkpackageAfterAcceptance(model);
+
+            // Assert
+            executedCommand.LatestReviewId.Should().Be(model.LatestReviewId);
+
+            result.ActionName.Should().Be(nameof(WorkpackageOneReviewController.Review));
+        }
+
+        [Fact]
+        public async Task ReopenWorkpackageAfterAcceptance_Does_Not_Execute_Command_When_ModelState_Failure()
+        {
+            var model = new ReopenWorkpackageAfterAcceptanceByReviewPostModel();
+            _workpackageOneReviewController.ViewData.ModelState.AddModelError("", "test_error");
+
+            var expectedResult = Mock.Of<IActionResult>();
+            _workpackageOneReviewControllerMock.Setup(c => c.Review())
+                .ReturnsAsync(expectedResult);
+
+            // Act
+            var result = await _workpackageOneReviewController.ReopenWorkpackageAfterAcceptance(model);
+
+            // Assert
+            CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ReopenWorkpackageAfterAcceptanceByReviewCommand>()), Times.Never());
+
+            result.Should().Be(expectedResult);
+        }
+
+        private void DisableAuthorization()
+        {
+            AuthorizationServiceMock
+                .Setup(x => x.AuthorizeAsync(this.User, It.IsAny<object>(), It.IsAny<string>()))
+                .ReturnsAsync(AuthorizationResult.Success);
         }
     }
 }
