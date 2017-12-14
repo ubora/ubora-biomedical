@@ -77,7 +77,7 @@ Scenario: I Submit project for WP1 review
     When I click on the element "span=Formal review"
         And I click on the element "button=Submit project for review"
         And I click on the element "button=Yes, submit"
-    Then I expect the element "p=The medical need and product specification can not be modified if:" is visible
+    Then I expect the element "p=WP1: Medical need and product specification can not be edited if:" is visible
         And I expect the element "li=The project is under review;" is visible
         And I expect the element "li=It passed the review;" is visible
         And I expect the element "b=Status:" is visible
