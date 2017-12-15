@@ -95,20 +95,20 @@
 }
 
 /*Different widths*/
-.width-12 {
-  width: 12%;
-}
-
-.width-36 {
-  width: 36%;
-}
-
 .width-8 {
   width: 8%;
 }
 
+.width-12 {
+  width: 12%;
+}
+
 .width-32 {
   width: 32%;
+}
+
+.width-36 {
+  width: 36%;
 }
 
 /*Breaks word at any character*/
