@@ -1,3 +1,7 @@
+.card {
+  height: 100%;
+}
+
 .card-title, .card-text {
   padding: 0 1rem;
   word-break: normal;
