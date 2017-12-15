@@ -38,6 +38,8 @@ namespace Ubora.Web._Features.ProjectCreation
                 return View(model);
             }
 
+            Notices.Success("Project created successfully!");
+
             return RedirectToAction("Dashboard", "Dashboard", new { projectId = projectId });
         }
     }
