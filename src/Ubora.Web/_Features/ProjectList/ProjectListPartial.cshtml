@@ -6,7 +6,7 @@
     <div class="row">
         @foreach (var project in Model.Projects)
         {
-            <div class="col-sm-12 col-md-4 col-lg-3 my-2">
+            <div class="col-md-4 col-lg-3 my-2">
                 @await Html.PartialAsync("_ProjectCardPartial.cshtml", model: project)
             </div>
         }

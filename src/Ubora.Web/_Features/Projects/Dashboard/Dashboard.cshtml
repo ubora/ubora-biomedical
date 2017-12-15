@@ -9,7 +9,7 @@
 
 <div class="container-fluid col-lg-8 my-4">
     <div class="row">
-        <div class="col-sm-12 col-lg-6">
+        <div class="col-lg-6">
           <div class="row">
             <div class="col">
               <div class="card">
@@ -56,7 +56,7 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-12 col-lg-6">
+        <div class="col-lg-6">
             <div class="row">
                 <div class="col">
                     <h2>Medical tags</h2>
@@ -99,7 +99,7 @@
                 <div class="col">
                     <h2>Project description</h2>
                 </div>
-                <div class="col-sm-12 col-lg-2 d-flex align-items-center justify-content-end">
+                <div class="col-lg-2 d-flex align-items-center justify-content-end">
                     @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectTitleAndDescription))
                     {
                     <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription"><i class="material-icons align-middle">mode_edit</i><span class="align-middle" id="EditDescription">Edit</span></a>
