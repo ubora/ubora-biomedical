@@ -1,11 +1,10 @@
 using System;
 using System.Linq;
-using Ubora.Domain.Projects;
+using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Domain.Projects._Commands;
-using Ubora.Domain.Users;
 using Ubora.Domain.Users.Commands;
 using Ubora.Domain.Infrastructure.Events;
 
@@ -53,7 +52,7 @@ namespace Ubora.Domain.Tests
                 Actor = new DummyUserInfo()
             });
 
-            var invitation = fixture.Processor.Find<ProjectMentorInvitation>()
+            var invitation = fixture.Processor.Find<ProjectMentorInvitation>(new MatchAll<ProjectMentorInvitation>())
                 .Last(x => x.InviteeUserId == userId);
 
             fixture.Processor.Execute(new AcceptProjectMentorInvitationCommand
@@ -111,6 +110,15 @@ namespace Ubora.Domain.Tests
         public static void Accept_Workpackage_Two_Review(this IntegrationFixture fixture, Guid projectId)
         {
             fixture.Processor.Execute(new AcceptWorkpackageTwoReviewCommand
+            {
+                ProjectId = projectId,
+                Actor = new DummyUserInfo()
+            });
+        }
+
+        public static void Open_Workpackage_Three(this IntegrationFixture fixture, Guid projectId)
+        {
+            fixture.Processor.Execute(new OpenWorkpackageThreeCommand
             {
                 ProjectId = projectId,
                 Actor = new DummyUserInfo()

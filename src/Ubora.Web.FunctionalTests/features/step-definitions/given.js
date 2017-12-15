@@ -23,8 +23,9 @@ module.exports = function () {
         browser
         .deleteCookie(".AspNetCore.Identity.Application")
         .url('/')
-        .click('span=Log in')
-        .setValue('#Email', 'test@agileworks.eu')
+        .click('span=Log in');
+        browser.waitForEnabled('#Email');
+        browser.setValue('#Email', 'test@agileworks.eu')
         .setValue('#Password', 'ChangeMe123!')
         .click('button=Sign in')
     });
@@ -42,13 +43,13 @@ module.exports = function () {
         .deleteCookie('.AspNetCore.Identity.Application')
         .url('/')
         .click('span=Log in')
-        .click('a=Sign up now!')
+        .click('a=Sign up')
         .setValue('#FirstName', 'testFirstName')
         .setValue('#LastName', 'testLastName')
         .setValue('#Email', email)
         .setValue('#Password', 'Test12345')
         .setValue('#ConfirmPassword', 'Test12345')
-        .click('#IsAgreedToTermsOfService')
+        .click('span=I agree to')
         .click('button=Create an account')
         .url('/')
     });

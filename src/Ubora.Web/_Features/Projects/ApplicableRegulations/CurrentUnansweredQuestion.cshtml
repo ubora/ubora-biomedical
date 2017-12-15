@@ -1,56 +1,49 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages
 @model Ubora.Web._Features.Projects.ApplicableRegulations.NextQuestionViewModel
 
-<div class="container-fluid my-4">
-    <div class="row">
-        <div class="col-lg-3">
-            @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
-        </div>
-        <div class="col-lg-9 pr-5 d-flex flex-column align-items-center">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="col-lg-9 pr-5 d-flex flex-column align-items-center">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            @if (Model.IsAnswered)
+    @if (Model.IsAnswered)
             {
-                <div class="form-group text-center">
-                    <h2>@Model.Text</h2>
-                </div>
+        <div class="form-group text-center">
+            <h2>@Model.Text</h2>
+        </div>
                 <div class="form-group text-center">
                     <p>You answered: @Model.Answer</p>
                 </div>
-            }
-            else
-            {
-                <form method="post">
-                    <div class="form-group">
-                        <h2>@Model.Text</h2>
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" asp-for="Id" />
-                        <input type="hidden" asp-for="QuestionnaireId" />
-                    </div>
-                    <div class="form-group text-center">
-                        <button class="btn btn-secondary-ghost btn-lg" type="submit" asp-action="AnswerYes">Yes</button>
-                        <button class="btn btn-secondary-ghost btn-lg" type="submit" asp-action="AnswerNo">No</button>
-                    </div>
-                </form>
-            }
+    }
+    else
+    {
+        <form method="post">
+            <div class="form-group">
+                <h2>@Model.Text</h2>
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="QuestionnaireId" />
+            </div>
             <div class="form-group text-center">
-                @if (Model.PreviousAnsweredQuestionId != null)
-                {
-                    <a class="mx-1" asp-action="ReviewQuestion" asp-route-questionId="@Model.PreviousAnsweredQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId"><i class="material-icons align-middle">keyboard_arrow_left</i><span class="align-middle">Previous</span></a>
-                }
-                @if (Model.NextQuestionId != null)
-                {
-                    <a class="mx-1" asp-action="ReviewQuestion" asp-route-questionId="@Model.NextQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId"><span class="align-middle">Next</span><i class="material-icons align-middle">keyboard_arrow_right</i></a>
-                }
+                <button class="btn btn-secondary-ghost btn-lg" type="submit" asp-action="AnswerYes">Yes</button>
+                <button class="btn btn-secondary-ghost btn-lg" type="submit" asp-action="AnswerNo">No</button>
             </div>
+        </form>
+    }
+    <div class="form-group text-center">
+        @if (Model.PreviousAnsweredQuestionId != null)
+        {
+            <a class="mx-1" asp-action="ReviewQuestion" asp-route-questionId="@Model.PreviousAnsweredQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId"><i class="material-icons align-middle">keyboard_arrow_left</i><span class="align-middle">Previous</span></a>
+        }
+        @if (Model.NextQuestionId != null)
+        {
+            <a class="mx-1" asp-action="ReviewQuestion" asp-route-questionId="@Model.NextQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId"><span class="align-middle">Next</span><i class="material-icons align-middle">keyboard_arrow_right</i></a>
+        }
+    </div>
 
-            <div class="justify-content-start my-4">
-                @if (!string.IsNullOrEmpty(Model.Note))
-                {
-                    <h3>Notes</h3>
+    <div class="justify-content-start my-4">
+        @if (!string.IsNullOrEmpty(Model.Note))
+        {
+            <h3>Notes</h3>
                     <p>@Model.Note</p>
-                }
-            </div>
-        </div>
+        }
     </div>
 </div>

@@ -90,7 +90,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async Task ChangeProfilePicture_Redirects_EditProfile_When_Command_Is_Executed_Successfully(bool isFirstTimeEditProfile)
+        public async Task ChangeProfilePicture_Redirects_EditProfile_And_Shows_Success_Notice_When_Command_Is_Executed_Successfully(bool isFirstTimeEditProfile)
         {
             var fileMock = new Mock<IFormFile>();
 
@@ -117,6 +117,10 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             //Assert
             result.ActionName.Should().Be(isFirstTimeEditProfile == false ? "EditProfile" : "FirstTimeEditProfile");
             _signInManagerMock.Verify(m => m.RefreshSignInAsync(applicationUser), Times.Once);
+
+            var notice = _controller.Notices.Dequeue();
+            notice.Text.Should().Be("Profile image uploaded successfully!");
+            notice.Type.Should().Be(NoticeType.Success);
         }
 
         [Fact]
@@ -273,18 +277,19 @@ namespace Ubora.Web.Tests._Features.Users.Profile
         public void View_Returns_View_And_ProfileViewModel_When_User_Exists()
         {
             var userId = Guid.NewGuid();
-
             var userprofile = new UserProfile(userId);
-            var expectedProfileViewModel = new ProfileViewModel();
 
             QueryProcessorMock.Setup(p => p.FindById<UserProfile>(userId))
                 .Returns(userprofile);
 
-            AutoMapperMock.Setup(m => m.Map<ProfileViewModel>(userprofile))
+            var expectedProfileViewModel = new ProfileViewModel();
+            var modelFactoryMock = new Mock<ProfileViewModel.Factory>();
+
+            modelFactoryMock.Setup(m => m.Create(userprofile))
                 .Returns(expectedProfileViewModel);
 
             //Act
-            var result = (ViewResult)_controller.ViewProfile(userId);
+            var result = (ViewResult)_controller.ViewProfile(userId, modelFactoryMock.Object);
 
             //Act
             result.Model.As<ProfileViewModel>()
@@ -298,8 +303,10 @@ namespace Ubora.Web.Tests._Features.Users.Profile
 
             QueryProcessorMock.Setup(p => p.FindById<UserProfile>(userId)).Returns((UserProfile)null);
 
+            var dummyModelFactory = Mock.Of<ProfileViewModel.Factory>();
+
             //Act
-            var result = _controller.ViewProfile(userId);
+            var result = _controller.ViewProfile(userId, dummyModelFactory);
 
             //Act
             result.Should().BeOfType<NotFoundResult>();

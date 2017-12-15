@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Assignments.Events;
 
 namespace Ubora.Domain.Projects.Assignments
 {
-    public class Assignment
+    public class Assignment : IProjectEntity
     {
         public Guid Id { get; private set; }
         public Guid ProjectId { get; private set; }

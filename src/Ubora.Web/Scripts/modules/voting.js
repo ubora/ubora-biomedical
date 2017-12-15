@@ -1,12 +1,13 @@
-﻿export class Voting {
-    constructor() {
+﻿export default class Voting {
+    static initialize() {
 
-        var setVotesStyle = function(element) {
-            var children = element.children();
+        const setVotesStyle = function (element) {
+            const children = element.children();
             var setAsSelected = false;
 
-            for (var i = children.length - 1; i >= 0; i--) {
-                var child = $(children[i]);
+            // Iterate the children in reverse to addd 'voted' class in order from 1 to 5.
+            for (let i = children.length - 1; i >= 0; i--) {
+                const child = $(children[i]);
 
                 if (child.find('input').is(':checked')) {
                     setAsSelected = true;
@@ -19,13 +20,12 @@
                 }
 
             }
-
         }
 
-        $(".rating").each(function() {
+        $(".rating").each(function () {
             var voteContainer = $(this);
 
-            voteContainer.children().click(function(element) {
+            voteContainer.children().click(function (element) {
                 setVotesStyle(voteContainer);
             });
 
@@ -35,4 +35,4 @@
     }
 }
 
-new Voting();
+Voting.initialize();

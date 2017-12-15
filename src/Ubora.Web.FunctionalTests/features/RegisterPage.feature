@@ -23,16 +23,16 @@ Scenario: I submit valid registration form then user is logged in and full name 
     When I click on the element "span=Log in"
         And I sign up as "email@email.com"
         And I click on the element "span=Profile"
-    Then I expect the element "h2=TestFirstName TestLastName" is visible
+    Then I expect the element "h2=firstName lastName" is visible
     When I click on the element "button=Sign out"
     Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: I sumbit empty registration form and try to create an account
     When I click on the element "button=Create an account"
-    Then I expect the element "span=The FirstName field is required." is visible
-        And I expect the element "span=The LastName field is required." is visible
-        And I expect the element "span=The Email field is required." is visible
-        And I expect the element "span=The Password field is required." is visible
-        And I expect the element "span=The Confirm password field is required." is visible
-        And I expect the element "span=This field is required." is visible
+    Then I expect the element "#FirstName-error=The FirstName field is required." is visible
+        And I expect the element "#LastName-error=The LastName field is required." is visible
+        And I expect the element "#Email-error=The Email field is required." is visible
+        And I expect the element "#Password-error=The Password field is required." is visible
+        And I expect the element "#ConfirmPassword-error=The Confirm password field is required." is visible
+        And I expect the element "#IsAgreedToTermsOfService-error=This field is required." is visible
         And I expect the title of the page "Sign up - UBORA"

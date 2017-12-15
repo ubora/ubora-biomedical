@@ -1,8 +1,9 @@
 export class Autocomplete {
-  constructor() {
+  static initialize() {
     window.addEventListener('DOMContentLoaded', event => {
         const endpoint = this._getApiEndpoint('input[name="searchUsersUrl"]');
         const targetElement = '.js-search-user';
+
         this._createAutoComplete(endpoint, targetElement);
     });
   }
@@ -53,6 +54,6 @@ export class Autocomplete {
 }
 
 const autocompleteElement = document.querySelector('.js-search-user');
-if (autocompleteElement && window.AutoComplete) {
-  new Autocomplete();
+if (autocompleteElement) {
+    Autocomplete.initialize();
 }

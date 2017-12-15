@@ -16,3 +16,7 @@
   font-weight: normal;
   border-top: none;
 }
+
+.table-structured-information th {
+  width: 50%;
+}

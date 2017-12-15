@@ -2,14 +2,14 @@
 @model Ubora.Web._Features.Users.Profile.FirstTimeUserProfileViewModel
 
 <form class="mt-4" asp-controller="Profile" asp-action="FirstTimeEditProfile" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-  <h3>Personal - Education</h3>
+  <h2 class="mt-5">Personal - Education</h2>
     <div class="form-group">
       <label asp-for="Biography">Bio</label>
-      <textarea class="form-control" asp-for="Biography" rows="1" placeholder="Write a few words about yourself!"></textarea>
+      <textarea class="form-control" asp-for="Biography" rows="4" placeholder="Write a few words about yourself!"></textarea>
       <span asp-validation-for="Biography"></span>
     </div>
 
-    @Html.Partial("CountrySelectionPartial", @Model)
+    @Html.Partial("CountrySelectionPartial", Model)
 
     <div class="form-group">
       <label asp-for="Degree">Degree</label>
@@ -29,7 +29,7 @@
         <span asp-validation-for="University"></span>
     </div>
 
-    <h3>Working experience in medical device field</h3>
+    <h2 class="mt-5">Working experience in medical device field</h2>
     <div class="form-group">
         <label asp-for="MedicalDevice">I am involved in development and use of medical devices as...</label>
         <select class="form-control" asp-for="MedicalDevice" asp-items="@SelectLists.UserMedicalDevices"></select>
@@ -48,7 +48,7 @@
         <span asp-validation-for="Skills"></span>
     </div>
 
-    <h3>UBORA e-infrastructure</h3>
+    <h2 class="mt-5">UBORA e-infrastructure</h2>
     <div class="form-group">
         <label asp-for="Role">Role</label>
         <select class="form-control" asp-for="Role" asp-items="@SelectLists.UserRoles"></select>
@@ -56,7 +56,7 @@
     </div>
 
     <div class="text-center">
-      <button class="btn btn-primary btn-lg" type="submit">Continue</button>
+      <button class="btn btn-primary" type="submit">Continue</button>
     </div>
 
 </form>

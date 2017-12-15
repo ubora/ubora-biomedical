@@ -1,15 +1,12 @@
 ﻿using System;
 using Marten.Schema;
+using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Domain.Users
 {
     public class UserProfile : ISoftDeletable
     {
-        protected UserProfile()
-        {
-        }
-
         public UserProfile(Guid userId)
         {
             UserId = userId;
@@ -22,7 +19,7 @@ namespace Ubora.Domain.Users
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Biography { get; set; }
-        public Country Country { get; set; }
+        public Country Country { get; set; } = Country.CreateEmpty();
         public string Degree { get; set; }
         public string Field { get; set; }
         public string University { get; set; }
@@ -33,6 +30,12 @@ namespace Ubora.Domain.Users
         public BlobLocation ProfilePictureBlobLocation { get; set; }
         public bool IsDeleted { get; set; }
 
+        // Don't JsonIgnore
         public string FullName => $"{FirstName} {LastName}";
+
+        public bool HasChosenMentorRole()
+        {
+            return Role == "mentor";
+        }
     }
 }

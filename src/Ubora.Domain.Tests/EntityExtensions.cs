@@ -19,9 +19,7 @@ namespace Ubora.Domain.Tests
                 entityType = entityType.GetTypeInfo().BaseType;
             }
 
-            var applyMethod = entityType
-                .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
-                .Single(method => IsApplyMethodForType(method, typeof(TEvent)));
+            var applyMethod = FindApplyMethod<TAggregate, TEvent>(entityType);
 
             try
             {
@@ -37,6 +35,23 @@ namespace Ubora.Domain.Tests
             }
         }
 
+        private static MethodInfo FindApplyMethod<TAggregate, TEvent>(Type entityType) where TAggregate : Entity<TAggregate>
+        {
+            var applyMethod = entityType
+                .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
+                .SingleOrDefault(method => IsApplyMethodForType(method, typeof(TEvent)));
+
+            if (applyMethod != null)
+            {
+                return applyMethod;
+            }
+
+            if (entityType.BaseType == typeof(object))
+            {
+                throw new InvalidOperationException($"Apply method could not be found for aggregate type: {nameof(TAggregate)} and event type: {nameof(TEvent)}");
+            }
+            return FindApplyMethod<TAggregate, TEvent>(entityType.BaseType);
+        }
         private static bool IsApplyMethodForType(MethodInfo methodInfo, Type type)
         {
             var methodParameters = methodInfo.GetParameters();

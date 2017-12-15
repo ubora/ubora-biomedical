@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Web.Data;
 
 namespace Ubora.Web._Features.Feedback
@@ -20,7 +21,7 @@ namespace Ubora.Web._Features.Feedback
         [Authorize(Roles = ApplicationRole.Admin)]
         public IActionResult All()
         {
-            var all = QueryProcessor.Find<Feedback>();
+            var all = QueryProcessor.Find<Feedback>(new MatchAll<Feedback>());
             return View(all);
         }
     }

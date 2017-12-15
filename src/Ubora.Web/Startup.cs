@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ using TwentyTwenty.Storage.Azure;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Npgsql;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web._Features.Projects.Workpackages.Steps;
 
 namespace Ubora.Web
 {
@@ -73,7 +75,11 @@ namespace Ubora.Web
                 options.UseNpgsql(ConnectionString));
 
             services
-                .AddMvc()
+                .AddMvc(options =>
+                {
+                    // TODO: Kaspar: Should definitely add but not right before Design School (might break some functionality)
+                    //options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                })
                 .AddUboraFeatureFolders(new FeatureFolderOptions {FeatureFolderName = "_Features"});
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
@@ -91,7 +97,7 @@ namespace Ubora.Web
                 .AddDefaultTokenProviders();
 
             services.AddAutoMapper();
-            services.AddUboraAuthorization();
+            services.AddUboraPolicyBasedAuthorization();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

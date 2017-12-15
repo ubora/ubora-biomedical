@@ -8,14 +8,14 @@ using Ubora.Web._Features.Users;
 
 namespace Ubora.Web._Features.Projects.History.WorkPackages
 {
-    public class EditWorkpackageOneEventViewModel : EditWorkpackageStepEventViewModel, IEventViewModel<WorkpackageOneStepEditedEvent>
+    public class EditWorkpackageThreeEventViewModel : EditWorkpackageStepEventViewModel, IEventViewModel<WorkpackageThreeStepEdited>
     {
         public IHtmlContent GetPartialView(IHtmlHelper htmlHelper)
         {
-            return htmlHelper.Partial("~/_Features/Projects/History/WorkPackages/_EditWorkpackageOneEventPartial.cshtml", this);
+            return htmlHelper.Partial("~/_Features/Projects/History/WorkPackages/_EditWorkpackageThreeEventPartial.cshtml", this);
         }
 
-        public class Factory : EventViewModelFactory<WorkpackageOneStepEditedEvent, EditWorkpackageOneEventViewModel>
+        public class Factory : EventViewModelFactory<WorkpackageThreeStepEdited, EditWorkpackageThreeEventViewModel>
         {
             private readonly IQueryProcessor _queryProcessor;
 
@@ -24,9 +24,9 @@ namespace Ubora.Web._Features.Projects.History.WorkPackages
                 _queryProcessor = queryProcessor;
             }
 
-            public override EditWorkpackageOneEventViewModel Create(WorkpackageOneStepEditedEvent editEvent, DateTimeOffset timestamp)
+            public override EditWorkpackageThreeEventViewModel Create(WorkpackageThreeStepEdited editEvent, DateTimeOffset timestamp)
             {
-                var viewModel = new EditWorkpackageOneEventViewModel
+                var viewModel = new EditWorkpackageThreeEventViewModel
                 {
                     EventInitiatedBy = new UserInfoViewModel(editEvent.InitiatedBy),
                     StepId = editEvent.StepId,

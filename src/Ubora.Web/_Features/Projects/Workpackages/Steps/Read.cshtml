@@ -7,39 +7,32 @@
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
-<div class="container-fluid my-4">
-  <div class="row">
-    <div class="col-lg-3">
-      @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
-    </div>
-    <div class="col-lg-9 pr-5">
-      <div class="row">
+<div class="col-lg-9 pr-5">
+    <div class="row">
         <div class="col">
-          <div class="d-flex justify-content-between">
-            <h1 class="display-4">@Model.Title</h1>
-            @if (Model.EditButton.IsVisible)
+            <div class="d-flex justify-content-between">
+                <h1 class="display-4">@Model.Title</h1>
+                @if (Model.EditButton.IsVisible)
             {
-              <a class="btn btn-secondary-ghost align-self-start" href="@Model.EditStepUrl">
-                <i class="material-icons">mode_edit</i>
-                <span>Edit</span>
-              </a>
+                    <a class="btn btn-secondary-ghost align-self-start" href="@Model.EditStepUrl">
+                        <i class="material-icons">mode_edit</i>
+                        <span>Edit</span>
+                    </a>
+                }
+            </div>
+            @if (Model.EditButton.IsHiddenWithMessage)
+            {
+                <p>@Model.EditButton.HideReasonMessage</p>
             }
-          </div>
-          @if (Model.EditButton.IsHiddenWithMessage)
-          {
-              <p>@Model.EditButton.HideReasonMessage</p>
-          }
-          <div class="text-markdown">@Model.Content</div>
+            <div class="text-markdown">@Model.Content</div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 
+
 @section Scripts {
-  <script
-    src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"
-    asp-fallback-src="~/dist/libs/marked.min.js"
-    asp-fallback-test="window.marked">
-  </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"
+            asp-fallback-src="~/dist/libs/marked.min.js"
+            asp-fallback-test="window.marked">
+    </script>
 }

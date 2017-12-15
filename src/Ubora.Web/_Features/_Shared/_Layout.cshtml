@@ -1,4 +1,7 @@
 ﻿@using Ubora.Web._Features.Projects._Shared
+@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects.Workpackages.SideMenu
+
 @inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 <!DOCTYPE html>
 <html lang="en">
@@ -63,9 +66,27 @@
         }
     }
 
-    <main>
-      @RenderBody()
-    </main>
+    @{
+        var workpackageMenuOption = ViewData[nameof(WorkpackageMenuOption)];
+        if (workpackageMenuOption != null)
+        {
+            <main>
+                <div class="container-fluid my-4">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            @await Component.InvokeAsync(typeof(WorkpackageSideMenuViewComponent))
+                        </div>
+                            @RenderBody()
+                    </div>
+                </div>
+            </main>
+        } else
+        {
+            <main>
+                @RenderBody()
+            </main>
+        }
+    }
 
     @if (User.Identity.IsAuthenticated)
     {

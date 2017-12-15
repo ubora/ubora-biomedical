@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Users;
 using Ubora.Domain.Users.Commands;
 using Ubora.Web.Data;
-using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
 
@@ -30,19 +29,16 @@ namespace Ubora.Web._Features.Users.Profile
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ViewProfile(Guid userId)
+        public IActionResult ViewProfile(Guid userId, [FromServices]ProfileViewModel.Factory modelFactory)
         {
             var userProfile = QueryProcessor.FindById<UserProfile>(userId);
-
             if (userProfile == null)
             {
-                return new NotFoundResult();
+                return NotFound();
             }
 
-            var profileViewModel = AutoMapper.Map<ProfileViewModel>(userProfile);
-            profileViewModel.ProfilePictureLink = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile);
-
-            return View(profileViewModel);
+            var model = modelFactory.Create(userProfile);
+            return View(model);
         }
 
         [Authorize]
@@ -108,6 +104,7 @@ namespace Ubora.Web._Features.Users.Profile
             ViewData["ReturnUrl"] = returnUrl;
             var firstTimeEditProfileModel = new FirstTimeEditProfileModel
             {
+                FirstTimeUserProfileViewModel = new FirstTimeUserProfileViewModel(),
                 ProfilePictureViewModel = new ProfilePictureViewModel
                 {
                     IsFirstTimeEditProfile = true
@@ -176,6 +173,8 @@ namespace Ubora.Web._Features.Users.Profile
 
             var user = await _userManager.FindByIdAsync(UserId.ToString());
             await _signInManager.RefreshSignInAsync(user);
+
+            Notices.Success("Profile image uploaded successfully!"); 
 
             return RedirectToAction(model.IsFirstTimeEditProfile ? nameof(FirstTimeEditProfile) : nameof(EditProfile));
         }

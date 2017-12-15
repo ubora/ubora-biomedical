@@ -14,7 +14,6 @@
                 <h1>UBORA</h1>
                 <p class="lead display-5">The Biomedical engineering open design platform</p>
             </div>
-            @*<hr class="my-4">*@
             <div class="text-center mt-5">
                 <p class="lead display-5">Create or collaborate open-sourced biomedical solutions.</p>
                 <a class="btn btn-primary btn-lg p-3 btn-cta" role="button" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Sign up now!</a>
@@ -37,7 +36,7 @@
                 <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
                 <a class="btn btn-primary btn-lg align-self-end" asp-controller="ProjectCreation" asp-action="Create" role="button">I have an idea</a>
             }
-            else 
+            else
             {
                 <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
                 <a class="btn btn-primary btn-disabled btn-lg align-self-end js-tooltip" role="button" disabled title="Your email must be confirmed to create a project!" data-placement="bottom">I have an idea</a>
@@ -53,7 +52,7 @@
 </div>
 
 <div class="container-fluid my-4">
-    @if (SignInManager.IsSignedIn(User))
+  @if (SignInManager.IsSignedIn(User))
   {
     @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
   }

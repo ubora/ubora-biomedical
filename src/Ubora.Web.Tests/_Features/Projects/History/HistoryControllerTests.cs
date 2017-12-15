@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects.History;
+using Ubora.Domain.Projects.History.SortSpecifications;
 using Ubora.Domain.Projects._Events;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Web._Features.Projects.History;
@@ -26,10 +27,10 @@ namespace Ubora.Web.Tests._Features.Projects.History
             var log1 = EventLogEntry.FromEvent(new Event<ProjectEventStub>(new ProjectEventStub()));
             Thread.Sleep(3); // to guarantee that log2 has Timestamp with a later time
             var log2 = EventLogEntry.FromEvent(new Event<ProjectEventStub>(new ProjectEventStub()));
-
+            var logsFindResult = new PagedListStub<EventLogEntry> {log1, log2};
             QueryProcessorMock.Setup(
-                q => q.Find<EventLogEntry>(new IsFromProjectSpec<EventLogEntry> {ProjectId = projectId}))
-                .Returns(new [] {log1, log2});
+                q => q.Find<EventLogEntry>(new IsFromProjectSpec<EventLogEntry> {ProjectId = projectId}, It.IsAny<SortByTimestampDescendingSpecification>(), 10, 3))
+                .Returns(logsFindResult);
 
             var eventViewModelFactoryMediatorMock = new Mock<IEventViewModelFactoryMediator>();
             var log1ViewModel = Mock.Of<IEventViewModel>();
@@ -42,13 +43,14 @@ namespace Ubora.Web.Tests._Features.Projects.History
             SetUpForTest(controller);
 
             // Act
-            var result = controller.History() as ViewResult;
+            var result = controller.History(3) as ViewResult;
             
             // Assert
-            var viewModel = result.Model as IEventViewModel[];
-            viewModel.Length.Should().Be(2);
-            viewModel[0].Should().Be(log2ViewModel);
-            viewModel[1].Should().Be(log1ViewModel);
+            var viewModel = result.Model as HistoryViewModel;
+            viewModel.Logs.Length.Should().Be(2);
+            viewModel.Logs[1].Should().Be(log2ViewModel);
+            viewModel.Logs[0].Should().Be(log1ViewModel);
+            viewModel.Pager.ShouldBeEquivalentTo(logsFindResult, p => p.ExcludingMissingMembers());
         }
     }
 
