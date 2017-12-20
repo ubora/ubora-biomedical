@@ -62,3 +62,9 @@
 .header .nav-link:hover {
   color: var(--light-blue);
 }
+
+.header.navbar {
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
