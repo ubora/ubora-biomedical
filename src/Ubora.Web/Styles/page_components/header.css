@@ -2,6 +2,12 @@
   background-color: var(--white);
 }
 
+.header.sticky-top {
+  -webkit-box-shadow: 0 0 24px 0 rgba(0,0,0,0.1);
+  -moz-box-shadow: 0 0 24px 0 rgba(0,0,0,0.1);
+  box-shadow: 0 0 24px 0 rgba(0,0,0,0.1);
+}
+
 .header .navbar-nav,
 .header .material-icons {
   font-size: 150%;
