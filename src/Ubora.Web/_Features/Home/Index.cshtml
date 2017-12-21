@@ -16,7 +16,7 @@
             </div>
             <div class="text-center mt-5">
                 <p class="lead display-5">Create or collaborate open-sourced biomedical solutions.</p>
-                <a class="btn btn-primary btn-lg p-3 btn-cta" role="button" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Sign up now!</a>
+                <a class="btn btn-primary p-3 btn-cta" role="button" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Sign up now!</a>
             </div>
         </div>
     </div>
@@ -25,7 +25,7 @@
     <div class="row">
         <div class="col flex-column text-center mr-1 p-5 landing-image-discussion">
             <p class="lead display-5">Have a need for medical solution? Find it through open discussion.</p>
-            <a class="btn btn-primary btn-disabled btn-lg align-self-end js-tooltip" role="button" disabled title="Coming soon!" data-placement="bottom">I have a need</a>
+            <a class="btn btn-primary btn-disabled align-self-end js-tooltip" role="button" disabled title="Coming soon!" data-placement="bottom">I have a need</a>
         </div>
         <div class="col flex-column text-center ml-1 p-5 landing-image-solution">
 
@@ -34,12 +34,12 @@
             if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
             {
                 <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
-                <a class="btn btn-primary btn-lg align-self-end" asp-controller="ProjectCreation" asp-action="Create" role="button">I have an idea</a>
+                <a class="btn btn-primary align-self-end" asp-controller="ProjectCreation" asp-action="Create" role="button">I have an idea</a>
             }
             else
             {
                 <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
-                <a class="btn btn-primary btn-disabled btn-lg align-self-end js-tooltip" role="button" disabled title="Your email must be confirmed to create a project!" data-placement="bottom">I have an idea</a>
+                <a class="btn btn-primary btn-disabled align-self-end js-tooltip" role="button" disabled title="Your email must be confirmed to create a project!" data-placement="bottom">I have an idea</a>
             }
         }
         else
