@@ -12,10 +12,26 @@
     <h1 class="display-4 mb-4">Formal review</h1>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+    <div class="my-4">
+      <p>WP1: Medical need and product specification can <em>not</em> be edited if:</p>
+      <ol>
+        <li>The project is under review;</li>
+        <li>It passed the review;</li>
+      </ol>
+      @if (await Model.IsWriteReviewButtonVisible(User, AuthorizationService))
+      {
+          <a href="@Model.ReviewDecisionUrl" class="btn btn-primary">Write a review</a>
+      }
+    </div>
+
+
+
     @if (Model.SubmitForReviewButton.IsVisible)
     {
-        <p>You can submit your project for review:</p>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#submitProjectModal">Submit project for review</button>
+        <div class="my-4">
+          <p>You can submit your project for review:</p>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#submitProjectModal">Submit project for review</button>
+        </div>
 
         <div class="modal fade" id="submitProjectModal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -55,6 +71,8 @@
     @if (Model.Reviews.Any())
     {
         <section>
+          <h2 class="display-5 mb-4">Reviews:</h2>
+
             @foreach (var review in Model.Reviews)
                 {
                 <table class="table">
@@ -77,25 +95,10 @@
                         </tr>
                     </tbody>
                 </table>
-                <br />
+                <br/>
             }
 
-            <p>
-                WP1: Medical need and product specification can <em>not</em> be edited if:
-            </p>
-            <ol>
-                <li>
-                    The project is under review;
-                </li>
-                <li>
-                    It passed the review;
-                </li>
-            </ol>
 
-            @if (await Model.IsWriteReviewButtonVisible(User, AuthorizationService))
-            {
-                <a href="@Model.ReviewDecisionUrl" class="btn btn-primary">Write a review</a>
-            }
 
             @if (await Model.IsReopenWp1ButtonVisible(User, AuthorizationService))
             {
