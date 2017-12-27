@@ -8,3 +8,8 @@ a:focus,
 a:hover {
   color: var(--light-blue);
 }
+
+
+.card a {
+  text-decoration: none;
+}

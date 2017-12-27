@@ -9,6 +9,17 @@
 
 <div class="container-fluid col-lg-8 my-4">
     <div class="row">
+      <div class="col">
+        <h1 class="display-4">
+          @Model.Title
+          @if (Model.IsInDraft)
+          {
+            <span class="badge badge-pill badge-orange normal-text">Draft</span>
+          }
+        </h1>
+      </div>
+    </div>
+    <div class="row my-4">
         <div class="col-lg-6">
           <div class="row">
             <div class="col">
@@ -35,13 +46,7 @@
                     </div>
 
                   }
-                  @if (Model.IsInDraft)
-                  {
-                      <p class="project-status-draft">Draft</p>
-                  }
-                  <div class="card-body">
-                      <h4 class="card-title mt-3">@Model.Title</h4>
-                  </div>
+
               </div>
             </div>
           </div>
@@ -59,32 +64,32 @@
         <div class="col-lg-6">
             <div class="row">
                 <div class="col">
-                    <h2>Medical tags</h2>
+                  <h3>Medical tags</h3>
                 </div>
                 <div class="col d-flex justify-content-end">
-                    @if (Model.IsProjectMember)
-                    {
-                    <a class="btn btn-secondary-ghost align-self-start" asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@Url.Action("Dashboard","Dashboard")"><i class="material-icons" id="EditImage">mode_edit</i><span>Edit</span></a>
-                    }
+                  @if (Model.IsProjectMember)
+                  {
+                  <a class="btn btn-secondary-ghost align-self-start" asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@Url.Action("Dashboard","Dashboard")"><i class="material-icons" id="EditImage">mode_edit</i><span>Edit</span></a>
+                  }
                 </div>
             </div>
             <div class="row">
                 <div class="col">
 
                   <dl class="row">
-                    <dt class="col-sm-5 mb-4"><h3 class="display-5">Clinical need:</h3></dt>
+                    <dt class="col-sm-5 mb-4"><h6>Clinical need:</h6></dt>
                     <dd class="col-sm-7 mb-4">@Model.ClinicalNeedTags</dd>
 
-                    <dt class="col-sm-5 mb-4"><h3 class="display-5">Clinical area:</h3></dt>
+                    <dt class="col-sm-5 mb-4"><h6>Clinical area:</h6></dt>
                     <dd class="col-sm-7 mb-4">@Model.AreaOfUsageTags</dd>
 
-                    <dt class="col-sm-5 mb-4"><h3 class="display-5">Technology:</h3></dt>
+                    <dt class="col-sm-5 mb-4"><h6>Technology:</h6></dt>
                     <dd class="col-sm-7 mb-4">@Model.PotentialTechnologyTags</dd>
 
-                    <dt class="col-sm-5 mb-4"><h3 class="display-5">Project keywords:</h3></dt>
+                    <dt class="col-sm-5 mb-4"><h6>Project keywords:</h6></dt>
                     <dd class="col-sm-7 mb-4">@Model.Gmdn</dd>
 
-                    <dt class="col-sm-5 mb-4"><h3 class="display-5">Device classification:</h3></dt>
+                    <dt class="col-sm-5 mb-4"><h6>Device classification:</h6></dt>
                     <dd class="col-sm-7 mb-4">@Model.DeviceClassification</dd>
                   </dl>
 
@@ -97,7 +102,7 @@
 
             <div class="row">
                 <div class="col">
-                    <h2>Project description</h2>
+                    <h3>Project description</h3>
                 </div>
                 <div class="col-lg-2 d-flex align-items-center justify-content-end">
                     @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectTitleAndDescription))
