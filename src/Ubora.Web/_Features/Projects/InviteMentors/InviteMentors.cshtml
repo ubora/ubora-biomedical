@@ -24,9 +24,9 @@
             <div class="card text-center">
               <div class="card-body">
                 <div class="justify-content-center">
-                  <img class="card-img-top my-4" src="@mentor.ProfilePictureLink" alt="@mentor.FullName profile picture" width="100" height="100">
+                  <img class="card-img-top mt-4 avatar" src="@mentor.ProfilePictureLink" alt="@mentor.FullName profile picture" width="100" height="100">
                 </div>
-                <h4 class="card-title my-3"><a asp-action="View" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h4>
+                <h4 class="card-title my-4"><a asp-action="View" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h4>
                 <form class="form-group" asp-action="InviteMentor">
                     <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId" />
                 </form>
