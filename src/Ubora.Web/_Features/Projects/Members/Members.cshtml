@@ -67,12 +67,14 @@
                     </a>
                   }
 
-                  @if (Model.IsProjectMember && !Model.IsProjectLeader)
+
+
+                  @if (member.IsCurrentUser && !Model.IsProjectLeader)
                   {
-                    <a title="Leave project" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId">
-                      <i class="material-icons">exit_to_app</i>
-                    </a>
-                  }
+                  <a title="Leave project" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId">
+                  	<i class="material-icons">exit_to_app</i>
+                  		</a>
+                  	}
 
                 </div>
               </li>
