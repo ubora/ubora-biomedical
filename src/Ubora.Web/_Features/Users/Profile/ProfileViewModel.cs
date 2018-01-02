@@ -4,8 +4,7 @@ using System.Linq;
 using AutoMapper;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Members;
-using Ubora.Domain.Projects.Members.Queries;
-using Ubora.Domain.Projects._Queries;
+using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Users;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web._Features.UboraMentors.Queries;
@@ -59,7 +58,7 @@ namespace Ubora.Web._Features.Users.Profile
 
                 viewModel.IsVerifiedMentor = _queryProcessor.ExecuteQuery(new IsVerifiedUboraMentorQuery(userProfile.UserId));
 
-                var userProjects = _queryProcessor.ExecuteQuery(new FindUserProjectsQuery {UserId = userProfile.UserId})
+                var userProjects = _queryProcessor.Find(new HasMember(userProfile.UserId))
                     .OrderBy(x => x.Title);
 
                 viewModel.UserProjects = userProjects.Select(project => new UserProject

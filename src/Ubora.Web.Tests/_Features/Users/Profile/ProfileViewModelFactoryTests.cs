@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using AutoMapper;
 using FluentAssertions;
 using Moq;
@@ -8,7 +6,7 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
-using Ubora.Domain.Projects._Queries;
+using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Users;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web._Features.UboraMentors.Queries;
@@ -53,16 +51,16 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             project.Object.Set(x => x.Id, projectId);
             var projectTitle = "title";
             project.Object.Set(x => x.Title, projectTitle);
-            var members = new ProjectMember[]
-            {
-                new ProjectMentor(userId),
-                new ProjectLeader(userId)
-            };
-            project.Setup(x => x.Members)
-                .Returns(members);
+            //var members = new ProjectMember[]
+            //{
+            //    new ProjectMentor(userId),
+            //    new ProjectLeader(userId)
+            //};
+            //project.Setup(x => x.Members)
+            //    .Returns(members);
 
-            _queryProcessorMock.Setup(x => x.ExecuteQuery(It.Is<FindUserProjectsQuery>(q => q.UserId == userId)))
-                .Returns(new[] { project.Object });
+            _queryProcessorMock.Setup(x => x.Find(new HasMember(userId)))
+                .Returns(new PagedListStub<Project> { project.Object });
 
             // Act
             var result = _factoryUnderTest.Create(userProfile);
@@ -91,8 +89,8 @@ namespace Ubora.Web.Tests._Features.Users.Profile
                 .Setup(x => x.ExecuteQuery(It.Is<IsVerifiedUboraMentorQuery>(q => q.UserId == userId)))
                 .Returns(isVerifiedUboraMentor);
 
-            _queryProcessorMock.Setup(x => x.ExecuteQuery(It.Is<FindUserProjectsQuery>(q => q.UserId == userId)))
-                .Returns(new[] { Mock.Of<Project>() });
+            _queryProcessorMock.Setup(x => x.Find(new HasMember(userId)))
+                .Returns(new PagedListStub<Project>());
 
             // Act
             var result = _factoryUnderTest.Create(userProfile);
