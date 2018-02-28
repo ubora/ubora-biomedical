@@ -90,6 +90,11 @@
 	font-size: 0.875em;
 }
 
+.text-informative {
+    font-style: italic;
+    color: var(--primary-shade);
+}
+
 .hide {
 	display: none;
 }
