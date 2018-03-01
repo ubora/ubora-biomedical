@@ -20,6 +20,7 @@ namespace Ubora.Web._Features.ProjectList
         public string Header { get; protected set; }
         public IEnumerable<ProjectListItem> Projects { get; protected set; }
         public bool ShowDefaultMessage { get; protected set; }
+        public bool ShowProjectsNotFoundMessage { get; protected set; }
 
         public class ProjectListItem
         {
@@ -77,18 +78,18 @@ namespace Ubora.Web._Features.ProjectList
             {
                 if (String.IsNullOrEmpty(title))
                 {
-                    return new ProjectListViewModel
-                    {
-                        Projects = new ProjectListItem[] { }
-                    };
+                    return Create(header: "All projects");
                 }
 
                 var projects = _queryProcessor.Find(new BySearchPhrase(title));
 
-                var model = new ProjectListViewModel
+                var model = new ProjectListViewModel();
+                if (!projects.Any())
                 {
-                    Projects = projects.Select(GetProjectListItem)
-                };
+                    model.ShowProjectsNotFoundMessage = true;
+                }
+
+                model.Projects = projects.Select(GetProjectListItem);
 
                 return model;
             }
