@@ -51,13 +51,6 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             project.Object.Set(x => x.Id, projectId);
             var projectTitle = "title";
             project.Object.Set(x => x.Title, projectTitle);
-            //var members = new ProjectMember[]
-            //{
-            //    new ProjectMentor(userId),
-            //    new ProjectLeader(userId)
-            //};
-            //project.Setup(x => x.Members)
-            //    .Returns(members);
 
             _queryProcessorMock.Setup(x => x.Find(new HasMember(userId)))
                 .Returns(new PagedListStub<Project> { project.Object });
