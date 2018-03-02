@@ -62,7 +62,8 @@ namespace Ubora.Web._Features.ProjectList
 
             public ProjectListViewModel Create(string header, Guid userId)
             {
-                var userProjects = _queryProcessor.Find<Project>(new HasMember(userId));
+                var userProjects = _queryProcessor.Find<Project>(new HasMember(userId))
+                    .OrderBy(p => p.Title);
 
                 var model = new ProjectListViewModel
                 {
