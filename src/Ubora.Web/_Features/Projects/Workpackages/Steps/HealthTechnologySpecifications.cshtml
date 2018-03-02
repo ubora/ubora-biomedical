@@ -19,16 +19,16 @@
                     <h5 class="col-lg-12">1. Dimensions (mm<sup>3</sup>):</h5>
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <input asp-for="DeviceMeasurementsViewModel.DimensionsHeight" class="form-control width-8 text-center" type="number" min="0" title="Millimetres" />
-                            <span> mm x </span>
                             <input asp-for="DeviceMeasurementsViewModel.DimensionsLength" class="form-control width-8 text-center" type="number" min="0" title="Millimetres" />
                             <span> mm x </span>
                             <input asp-for="DeviceMeasurementsViewModel.DimensionsWidth" class="form-control width-8 text-center" type="number" min="0" title="Millimetres" />
+                            <span> mm x </span>
+                            <input asp-for="DeviceMeasurementsViewModel.DimensionsHeight" class="form-control width-8 text-center" type="number" min="0" title="Millimetres" />
                             <span> mm</span>
                         </div>
-                        <span asp-validation-for="DeviceMeasurementsViewModel.DimensionsHeight"></span>
                         <span asp-validation-for="DeviceMeasurementsViewModel.DimensionsLength"></span>
                         <span asp-validation-for="DeviceMeasurementsViewModel.DimensionsWidth"></span>
+                        <span asp-validation-for="DeviceMeasurementsViewModel.DimensionsHeight"></span>
                     </div>
                 </div>
 
