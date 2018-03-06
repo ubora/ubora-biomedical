@@ -21,8 +21,3 @@
 .table-structured-information th {
   width: 50%;
 }
-
-
-.table-admin .dropdown-toggle::after {
-    display:none;
-}

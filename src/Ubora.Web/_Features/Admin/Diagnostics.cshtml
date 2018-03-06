@@ -10,7 +10,7 @@
                     <tr>
                         <th scope="col">User name</th>
                         <th scope="col">Email</th>
-                        <th scope="col" class="width-5"></th>
+                        <th scope="col" class="width-8"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,8 +27,8 @@
                                 <input type="hidden" name="userId" value="@user.UserId" />
                                 <td>
                                     <div class="dropdown">
-                                        <button class="dropdown-toggle btn-icon" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="material-icons">more_vert</i>
+                                        <button class="dropdown-toggle btn btn-primary btn-sm" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Actions
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
                                             @if (user.IsAdmin)
