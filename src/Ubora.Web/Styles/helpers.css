@@ -16,6 +16,11 @@
     object-fit: cover;
 }
 
+.card .avatar {
+    height: 150px;
+    width: 150px;
+}
+
 /*Avatar image size in comments section*/
 .avatar-comment {
 	height: 4em;
