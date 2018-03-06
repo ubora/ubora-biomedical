@@ -9,52 +9,50 @@
 
 
 <div class="container-fluid my-4">
-    <div class="row justify-content-center">
-        <div class="col-sm-12 col-md-8">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
 
       <h1>@Model.ProjectName</h1>
 
-      <div>
-        <h2 class="my-4">History of @Model.FileName</h2>
-        <div class="table-responsive">
-          <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">Download</th>
-                    <th scope="col">Date added</th>
-                    <th scope="col">Revision number</th>
-                    <th scope="col">Size (kB)</th>
-                    <th scope="col">Comment</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var file in Model.Files)
-                {
-                    <tr>
-                        <td>
-                            <a href="@Url.Action("DownloadHistoryFile","Repository", new { eventId = file.EventId })" title="Download file" aria-label="Download file" class="js-tooltip" data-placement="bottom">
-                                <i class="file-list--item-control material-icons">file_download</i>
-                            </a>
-                            <i class="file-list--item-control material-icons js-tooltip js-copy"
-                               title="Copy file path to clipboard"
-                               aria-label="Copy file"
-                               data-toggle="tooltip"
-                               data-placement="bottom"
-                               data-copy="@Url.Action("DownloadHistoryFile","Repository", new { eventId = file.EventId },  Context.Request.Scheme)">
-                                content_copy
-                            </i>
-                        </td>
-                        <td class="timeago" title="@file.FileAddedOn">@file.FileAddedOn.ToString("dd.MM.yyyy")</td>
-                        <td>@file.RevisionNumber</td>
-                        <td>@file.FileSizeInKbs</td>
-                        <td>@file.Comment</td>
-                    </tr>
-                }
-            </tbody>
-          </table>
-        </div>
+      <h2 class="my-4">History of @Model.FileName</h2>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+              <tr>
+                  <th scope="col">Download</th>
+                  <th scope="col">Date added</th>
+                  <th scope="col">Revision number</th>
+                  <th scope="col">Size (kB)</th>
+                  <th scope="col">Comment</th>
+              </tr>
+          </thead>
+          <tbody>
+              @foreach (var file in Model.Files)
+              {
+                  <tr>
+                      <td>
+                          <a href="@Url.Action("DownloadHistoryFile","Repository", new { eventId = file.EventId })" title="Download file" aria-label="Download file" class="js-tooltip" data-placement="bottom">
+                              <i class="file-list--item-control material-icons">file_download</i>
+                          </a>
+                          <i class="file-list--item-control material-icons js-tooltip js-copy"
+                             title="Copy file path to clipboard"
+                             aria-label="Copy file"
+                             data-toggle="tooltip"
+                             data-placement="bottom"
+                             data-copy="@Url.Action("DownloadHistoryFile","Repository", new { eventId = file.EventId },  Context.Request.Scheme)">
+                              content_copy
+                          </i>
+                      </td>
+                      <td class="timeago" title="@file.FileAddedOn">@file.FileAddedOn.ToString("dd.MM.yyyy")</td>
+                      <td>@file.RevisionNumber</td>
+                      <td>@file.FileSizeInKbs</td>
+                      <td>@file.Comment</td>
+                  </tr>
+              }
+          </tbody>
+        </table>
       </div>
 
-        </div>
     </div>
+  </div>
 </div>

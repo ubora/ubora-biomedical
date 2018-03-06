@@ -1,10 +1,8 @@
 .header {
   background-color: var(--white);
-}
-
-.header .navbar-nav,
-.header .material-icons {
-  font-size: 150%;
+  -webkit-box-shadow: 0 0 24px 0 rgba(0,0,0,0.1);
+  -moz-box-shadow: 0 0 24px 0 rgba(0,0,0,0.1);
+  box-shadow: 0 0 24px 0 rgba(0,0,0,0.1);
 }
 
 .header .material-icons {
@@ -39,15 +37,15 @@
 .header .nav-link-notification-count {
   background-color: var(--orange);
   border-radius: 50%;
-  top: -.2rem;
+  top: -.6rem;
   color: var(--white);
-  font-size: 1rem;
-  height: 1.3rem;
-  line-height: 1.3;
+  font-size: .8rem;
+  height: 1.2rem;
+  line-height: 1.4;
   position: absolute;
-  right: -.4rem;
+  right: -.6rem;
   text-align: center;
-  width: 1.3rem;
+  width: 1.2rem;
 }
 
 .header .nav-link {
@@ -63,4 +61,11 @@
 
 .header .btn-link {
   outline: none;
+}
+
+.header.navbar {
+  padding: .2rem 1rem;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
 }

@@ -9,40 +9,36 @@
     </div>
 
     <div class="row mb-4">
-        <div class="col-sm-12 col-lg-6">
-            <div class="row">
-                <div class="col">
-                    <div class="card w-100 h-100">
-                        <img class="card-img-top img-fluid w-100" src="@Model.ImageUrl" alt="Illustrative project photo" />
-                        @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanChangeProjectImage))
-                        {
-                            <div class="card-img-overlay text-center">
-                                @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanChangeProjectCandidateImage)).Succeeded)
-                                {
-                                    <a class="mx-1" href="@Url.Action("EditCandidateImage", "Candidates", new { candidateId = Model.Id })">
-                                        <i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span>
-                                    </a>
-                                }
+        <div class="col-lg-6">
+          <div class="card">
+              <img class="card-img-top img-fluid w-100" src="@Model.ImageUrl" alt="Illustrative project photo" />
+              @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanChangeProjectCandidateImage))
+              {
+                  <div class="card-img-overlay text-center">
+                      @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanChangeProjectCandidateImage)).Succeeded)
+                      {
+                          <a class="mx-1" href="@Url.Action("EditCandidateImage", "Candidates", new { candidateId = Model.Id })">
+                              <i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span>
+                          </a>
+                      }
 
-                                @if (Model.HasImage && (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanRemoveProjectCandidateImage)).Succeeded)
-                                {
-                                    <a class="mx-1" href="@Url.Action("RemoveCandidateImage", "Candidates", new { candidateId = Model.Id })">
-                                        <i class="material-icons align-middle">delete_forever</i><span class="align-middle">Remove image</span>
-                                    </a>
-                                }
-                            </div>
+                      @if (Model.HasImage && (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanRemoveProjectCandidateImage)).Succeeded)
+                      {
+                          <a class="mx-1" href="@Url.Action("RemoveCandidateImage", "Candidates", new { candidateId = Model.Id })">
+                              <i class="material-icons align-middle">delete_forever</i><span class="align-middle">Remove image</span>
+                          </a>
+                      }
+                  </div>
 
-                        }
-                    </div>
-                </div>
-            </div>
+              }
+          </div>
         </div>
-        <div class="col-sm-12 col-lg-6">
+        <div class="col-lg-6">
             <div class="row">
-                <div class="col-sm-12 col-lg-9">
+                <div class="col-lg-9">
                     <h2 class="mb-4">@Model.Title</h2>
                 </div>
-                <div class="col-sm-12 col-lg-3 d-flex justify-content-end">
+                <div class="col-lg-3 d-flex justify-content-end">
                     @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanEditProjectCandidate)).Succeeded)
                     {
                         <a class="btn btn-secondary-ghost align-self-start" href="@Url.Action("EditCandidate", "Candidates", new { candidateId = Model.Id })">
@@ -96,7 +92,7 @@
         <div class="col-lg-6">
             @(Model.HasUserVoted ? Html.Partial("_VotePartial", Model.UserVotesViewModel) : Html.Partial("_AddVotePartial", Model.AddVoteViewModel))
         </div>
-        
+
     </div>
 
     <div class="row mb-4">
