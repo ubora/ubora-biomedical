@@ -15,7 +15,7 @@
     @if (Model.SubmitForReviewButton.IsVisible)
     {
         <p>You can submit your project for review:</p>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#submitProjectModal">Submit project for review</button>
+        <button class="btn btn-primary mb-4" data-toggle="modal" data-target="#submitProjectModal">Submit project for review</button>
 
         <div class="modal fade" id="submitProjectModal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -57,27 +57,25 @@
         <section>
             @foreach (var review in Model.Reviews)
                 {
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <th class="w-25" cope="row"><b>Status:</b></th>
-                            <td>@review.Status.ToString()</td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><b>Concluding comment:</b></th>
-                            <td>@review.ConcludingComment</td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><b>Created at:</b></th>
-                            <td class="timeago" title="@review.SubmittedAt">@review.SubmittedAt</td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><b>Concluded at:</b></th>
-                            <td class="timeago" title="@review.ConcludedAt">@review.ConcludedAt</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br />
+
+               <div class="card px-3 py-3 box-shadow">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-3">Status:</dt>
+                        <dd class="col-sm-9">@review.Status.ToString()</dd>
+
+                        <dt class="col-sm-3">Created at:</dt>
+                        <dd class="col-sm-9 timeago" title="@review.SubmittedAt">@review.SubmittedAt</dd>
+
+                        <dt class="col-sm-3">Concluded at:</dt>
+                        <dd class="col-sm-9 timeago"  title="@review.ConcludedAt">@review.ConcludedAt</dd>
+
+                        <dt class="col-sm-3">Concluding comment:</dt>
+                        <dd class="col-sm-9">@review.ConcludingComment</dd>
+                    </dl>
+
+            </div>
+             <br />
+            
             }
 
             <p>

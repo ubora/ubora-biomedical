@@ -16,6 +16,11 @@
     object-fit: cover;
 }
 
+.card .avatar {
+    height: 150px;
+    width: 150px;
+}
+
 /*Avatar image size in comments section*/
 .avatar-comment {
 	height: 4em;
@@ -139,3 +144,11 @@ a.no-underline {
 .page-link:focus, .page-link:hover {
     color: inherit;
 }
+
+
+.box-shadow {
+    -webkit-box-shadow: 2px 2px 12px -5px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px 2px 12px -5px rgba(0,0,0,0.75);
+    box-shadow: 2px 2px 12px -5px rgba(0,0,0,0.75);
+}
+
