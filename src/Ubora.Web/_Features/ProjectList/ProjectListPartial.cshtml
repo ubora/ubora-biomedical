@@ -2,13 +2,17 @@
 
 @if (Model.Projects.Any())
 {
-    <h2 class="display-4">@Model.Header</h2>
-    <div class="row">
-        @foreach (var project in Model.Projects)
-        {
-            <div class="col-md-4 col-lg-3 my-2">
-                @await Html.PartialAsync("_ProjectCardPartial.cshtml", model: project)
+    <div class="row d-flex justify-content-center">
+        <div class="col-lg-8">
+            <h2 class="display-4">@Model.Header</h2>
+            <div class="row ">
+                @foreach (var project in Model.Projects)
+                {
+                    <div class="col-md-4 col-lg-3 my-2">
+                        @await Html.PartialAsync("_ProjectCardPartial.cshtml", model: project)
+                    </div>
+                }
             </div>
-        }
+          </div>
     </div>
 }
