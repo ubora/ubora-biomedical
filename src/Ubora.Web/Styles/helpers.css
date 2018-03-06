@@ -100,6 +100,10 @@
 }
 
 /*Different widths*/
+.width-5 {
+    width: 5%;
+}
+
 .width-8 {
   width: 8%;
 }
