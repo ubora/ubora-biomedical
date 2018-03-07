@@ -7,7 +7,7 @@
     ViewData["MenuOption"] = ProjectMenuOption.Overview;
 }
 
-<div class="container-fluid col-lg-8 my-4">
+<div class="container my-4">
     <div class="row">
       <div class="col">
         <h1 class="display-4">
@@ -99,7 +99,6 @@
     </div>
     <div class="row">
         <div class="col">
-
             <div class="row">
                 <div class="col">
                     <h3>Project description</h3>
@@ -124,7 +123,6 @@
                     }
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -194,9 +192,7 @@
             </div>
         </div>
     </div>*@
-
     <div class="my-4">
-
         @{
             var canDeleteProject = (await AuthorizationService.AuthorizeAsync(User, Policies.CanDeleteProject)).Succeeded;
         }
@@ -208,7 +204,6 @@
             </div>
         }
     </div>
-
 </div>
 
 @section Scripts {
