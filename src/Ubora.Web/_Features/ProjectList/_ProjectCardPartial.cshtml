@@ -1,8 +1,8 @@
 ﻿@model Ubora.Web._Features.ProjectList.ProjectListViewModel.ProjectListItem
 
-<div class="card w-100 h-100">
+<div class="card w-100 box-shadow">
     <a href="@Url.Action("Dashboard", "Dashboard", new { projectId = Model.Id })" class="card-link">
-        <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(Model.ImagePath)?"/images/project-default-image.png":Model.ImagePath)">
+        <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(Model.ImagePath)?"/images/project-default-image.png":Model.ImagePath)" alt="Illustrative project image">
         @if (Model.IsInDraft)
         {
             <p class="project-status-draft">Draft</p>

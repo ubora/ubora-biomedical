@@ -1,8 +1,9 @@
-.table-medical-tags,  .table-level-of-completion {
+.table-medical-tags {
   border: none;
 }
 
-.table-medical-tags td, .table-level-of-completion td, .table-medical-tags th  {
+.table-medical-tags td,
+.table-medical-tags th  {
   background-color: #fff;
   border-top: none;
 }
@@ -19,4 +20,9 @@
 
 .table-structured-information th {
   width: 50%;
+}
+
+
+.table-projects th{
+  border-top: none;
 }
