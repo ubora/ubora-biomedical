@@ -51,12 +51,12 @@
     </div>
 </div>
 
-<div class="container-fluid my-4">
+<div class="container my-4">
   @if (SignInManager.IsSignedIn(User))
   {
     @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
   }
 </div>
-<div class="container-fluid my-4">
+<div class="container my-4">
     @await Component.InvokeAsync(typeof(PublicProjectListViewComponent))
 </div>
