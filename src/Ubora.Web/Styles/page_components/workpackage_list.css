@@ -1,9 +1,12 @@
+.list-sidebar {
+    font-size: 90%;
+}
 
 /*First level menu style*/
 .list-sidebar li {
-  list-style-type: none;
-  margin-top: .5rem;
-  margin-bottom: .5rem;
+    list-style-type: none;
+    margin-top: .4rem;
+    margin-bottom: .4rem;
 }
 
 .list-sidebar a {
@@ -11,7 +14,7 @@
 }
 
 .list-sidebar img{
-  width: 3rem;
+  width: 2rem;
 }
 
 .list-sidebar span{
@@ -39,12 +42,16 @@
   width: .75rem;
 }
 
+.side-menu-tertiary li {
+    margin-top: .1rem;
+    margin-bottom: .1rem;
+}
 
 /*Statuses styles*/
 a.muted-status {
-  color: var(--tertiary-shade);
-  text-decoration: none;
-  cursor: default;
+    color: var(--tertiary-shade);
+    text-decoration: none;
+    cursor: default;
 }
 
 a.active-status {

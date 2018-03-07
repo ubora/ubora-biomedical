@@ -3,17 +3,8 @@
 
     @if (Model.Projects.Any())
     {
-        <div class="row">
-            <div class="col-lg-9">
-                <h2 class="display-4">@Model.Header</h2>
-            </div>
-            <div class="col-lg-3 d-flex justify-content-end">
-                <a class="btn btn-secondary-ghost align-self-start" asp-controller="ProjectCreation" asp-action="Create">
-                    <i class="material-icons">add</i>
-                    <span>Create project</span>
-                </a>
-            </div>
-        </div>
+       
+        <h2 class="display-4">@Model.Header</h2>
         <div class="row">
             @foreach (var project in Model.Projects)
             {
