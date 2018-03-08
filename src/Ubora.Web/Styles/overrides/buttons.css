@@ -69,3 +69,12 @@
   border-color: var(--orange);
   color: var(--white);
 }
+
+.btn-icon {
+    background-color: transparent;
+    border: none;
+}
+    .btn-icon:focus,
+    .btn-icon:hover {
+       cursor:pointer;
+    }

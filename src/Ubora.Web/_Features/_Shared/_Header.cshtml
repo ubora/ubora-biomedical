@@ -16,9 +16,9 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-<nav class="header navbar navbar-toggleable-md sticky-top">
+<nav class="header navbar navbar-toggleable-md sticky-top box-shadow">
   <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-    <img id="UboraLogo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" height="64">
+    <img id="UboraLogo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" height="48">
   </a>
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
     <i class="material-icons">menu</i>
@@ -40,7 +40,7 @@
       <li class="nav-item">
         <a class="nav-link d-flex align-items-center" asp-controller="ProjectList" asp-action="MyProjects">
           <i class="material-icons">folder</i>
-          <span class="nav-link-description ml-1">Projects</span>
+          <span class="nav-link-description ml-1">My projects</span>
         </a>
       </li>
       <li class="nav-item">
@@ -59,12 +59,23 @@
         </a>
       </li>
       }
+
       <li class="nav-item">
         <a class="nav-link d-flex align-items-center" asp-controller="Manage" asp-action="Index">
           <i class="material-icons">account_circle</i>
           <span class="nav-link-description ml-1">Profile</span>
         </a>
       </li>
+
+      <li class="nav-item">
+        <form asp-action="Logout" asp-controller="Account" method="post">
+          <button class="btn-link nav-link d-flex align-items-center" type="submit">
+            <i class="material-icons">exit_to_app</i>
+            <span class="ml-1">Sign out</span>
+          </button>
+        </form>
+      </li>
+
 
     </ul>
   </div>
@@ -76,7 +87,7 @@ else
 {
 <nav class="header navbar navbar-toggleable-md sticky-top">
   <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-    <img id="UboraLogo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" height="64">
+    <img id="UboraLogo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" height="48">
   </a>
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
     <i class="material-icons">menu</i>
