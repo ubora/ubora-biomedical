@@ -4,7 +4,6 @@ import Autocomplete from './modules/autocomplete';
 import CopyingToClipboard from './modules/clipboard';
 import Feedback from './modules/feedback';
 
-import "~bootstrap/scss/bootstrap";
 import '../Styles/styles';
 
 $(function () {

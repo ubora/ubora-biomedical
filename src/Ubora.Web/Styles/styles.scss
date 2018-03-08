@@ -1,30 +1,32 @@
-@import url('helpers.css');
+@import "~bootstrap/scss/bootstrap";
 
-@import url('overrides/alerts.css');
-@import url('overrides/forms.css');
-@import url('overrides/links.css');
-@import url('overrides/tables.css');
-@import url('overrides/buttons.css');
-@import url('overrides/typography.css');
-@import url('overrides/progressbars.css');
-@import url('overrides/ubora_select2.css');
-@import url('overrides/card-item.css');
-@import url('overrides/feedback.css');
-@import url('overrides/drag_and_drop_file_uploads.css');
-@import url('overrides/voting.css');
-@import url('overrides/profile_view.css');
+@import 'helpers.scss';
 
-@import url('page_components/header.css');
-@import url('page_components/footer.css');
-@import url('page_components/history.css');
-@import url('page_components/notices.css');
-@import url('page_components/messages.css');
-@import url('page_components/autocomplete.css');
-@import url('page_components/helpful_tips.css');
-@import url('page_components/workpackage_header.css');
-@import url('page_components/landing_jumbotron.css');
-@import url('page_components/workpackage_list.css');
-@import url('page_components/markdown_editor.css');
+@import 'overrides/alerts.scss';
+@import 'overrides/forms.scss';
+@import 'overrides/links.scss';
+@import 'overrides/tables.scss';
+@import 'overrides/buttons.scss';
+@import 'overrides/typography.scss';
+@import 'overrides/progressbars.scss';
+@import 'overrides/ubora_select2.scss';
+@import 'overrides/card-item.scss';
+@import 'overrides/feedback.scss';
+@import 'overrides/drag_and_drop_file_uploads.scss';
+@import 'overrides/voting.scss';
+@import 'overrides/profile_view.scss';
+
+@import 'page_components/header.scss';
+@import 'page_components/footer.scss';
+@import 'page_components/history.scss';
+@import 'page_components/notices.scss';
+@import 'page_components/messages.scss';
+@import 'page_components/autocomplete.scss';
+@import 'page_components/helpful_tips.scss';
+@import 'page_components/workpackage_header.scss';
+@import 'page_components/landing_jumbotron.scss';
+@import 'page_components/workpackage_list.scss';
+@import 'page_components/markdown_editor.scss';
 
 :root {
 	--blue: #4777BB;
