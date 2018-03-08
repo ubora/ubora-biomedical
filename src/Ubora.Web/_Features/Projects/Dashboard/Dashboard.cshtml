@@ -87,7 +87,7 @@
         <div class="col-lg-7">
             <div class="row">
                 <div class="col d-flex justify-content-between">
-                    <h2 class="display-5 mb-0">Project description</h2>
+                    <h2 class="display-5">Project description</h2>
                     @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectTitleAndDescription))
                     {
                         <a class="btn-icon btn-sm d-flex align-content-center" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription">

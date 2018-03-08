@@ -24,28 +24,26 @@
 
 /*Second level menu style*/
 .side-menu-secondary {
-  padding-left: 1rem;
+  padding-left: .6rem;
 }
 
-.side-menu-secondary img {
-  width: 1rem;
-}
+    .side-menu-secondary li {
+        margin-top: .1rem;
+        margin-bottom: .1rem;
+    }
 
-.side-menu-secondary span {
-  margin-left: 1.5rem;
-}
+    .side-menu-secondary span {
+      margin-left: 1.2rem;
+    }
 
 
-/*Third and fourth level menu style*/
+/*Secondary, third and fourth level menu images style*/
+.side-menu-secondary img ,
 .side-menu-tertiary img,
 .side-menu-quaternary img {
-  width: .75rem;
+    width: .75rem;
 }
 
-.side-menu-tertiary li {
-    margin-top: .1rem;
-    margin-bottom: .1rem;
-}
 
 /*Statuses styles*/
 a.muted-status {
