@@ -54,8 +54,8 @@
 
 /*Override icon default values*/
 .material-icons {
-  font-size: 1.3rem !important;
-  line-height: 1.3 !important;
+  font-size: 1.3rem;
+  line-height: 1.3;
 }
 
 /*Project status indicator*/
