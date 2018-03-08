@@ -5,10 +5,6 @@
 </PropertyGroup>
 
 <PropertyGroup>
-  <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
-</PropertyGroup>
-
-<PropertyGroup>
   <UserSecretsId>aspnet-Ubora.Web-d1f6fc32-3f07-4ac3-bdfa-0102a5b76a9d</UserSecretsId>
   <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
 </PropertyGroup>
@@ -55,7 +51,6 @@
 
 <ItemGroup>
   <Folder Include="Properties\" />
-  <Folder Include="wwwroot\dist\" />
 </ItemGroup>
 
 <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">

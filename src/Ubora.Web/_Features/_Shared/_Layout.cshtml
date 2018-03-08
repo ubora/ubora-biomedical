@@ -15,25 +15,26 @@
     <link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    @* TODO: Add fallbacks, distribute between environments *@
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 
     <environment names="Staging,Production">
-      <link rel="stylesheet" href="~/dist/styles.bundle.css" asp-append-version="true">
+      <link rel="stylesheet" href="~/dist/app.bundle.css" asp-append-version="true">
       <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
               asp-fallback-src="~/dist/lib/jquery.min.js"
-              asp-fallback-test="window.jQuery">
-      </script>
+              asp-fallback-test="window.jQuery"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.js"
+              asp-fallback-src="~/dist/lib/umd/popper.min.js"
+              asp-fallback-test="window.Popper"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"
+              asp-fallback-src="~/dist/lib/bootstrap.min.js"
+              asp-fallback-test="window.jQuery"></script>
     </environment>
 
     <environment names="Development">
-        <link rel="stylesheet" href="~/dist/styles.bundle.css">
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
-                asp-fallback-src="~/dist/libs/jquery.min.js"
-                asp-fallback-test="window.jQuery">
-        </script>
+        <link rel="stylesheet" href="~/dist/app.bundle.css">
+        <script src="~/dist/lib/jquery.min.js"></script>
+        <script src="~/dist/lib/umd/popper.min.js"></script>
+        <script src="~/dist/lib/bootstrap.min.js"></script>
     </environment>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
@@ -100,11 +101,11 @@
     @RenderSection("Scripts", required: false)
 
     <environment names="Development">
-      <script src="~/dist/scripts.bundle.js"></script>
+      <script src="~/dist/app.bundle.js"></script>
     </environment>
 
     <environment names="Staging,Production">
-      <script src="~/dist/scripts.bundle.js" asp-append-version="true"></script>
+      <script src="~/dist/app.bundle.js" asp-append-version="true"></script>
     </environment>
 </body>
 </html>
