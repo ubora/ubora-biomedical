@@ -7,11 +7,11 @@
 }
 
 <div class="container-fluid my-4">
-    <div class="row">
-        <div class="col-lg-3 pl-5">
+    <div class="row px-lg-5">
+        <div class="col-lg-3">
             @Html.Partial("AddFilePartial", Model.AddFileViewModel)
         </div>
-        <div class="col-lg-9 pr-5">
+        <div class="col-lg-9">
             @foreach (var files in Model.AllFiles)
             {
                 <h2>@files.Key</h2>

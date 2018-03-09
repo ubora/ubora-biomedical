@@ -5,26 +5,23 @@
     ViewData["Title"] = "Community";
 }
 
-<div class="container-fluid my-4">
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div class="row">
-        @foreach (var user in Model)
-        {
-          <div class="col-sm-12 col-md-4 col-lg-3 my-2">
-            <div class="card text-center box-shadow">
-              <div class="justify-content-center">
-                <img class="card-img-top my-4 avatar" src="@user.ProfilePictureLink" alt="@user.FullName profile picture">
-              </div>
-              <div class="card-body">
-                <h4 class="card-title">@Html.ActionLink(user.FullName, "ViewProfile", "Profile", new { userId = user.UserId }, new {@class = "user-card--name"})</h4>
-                <p>@(user.Role)&nbsp;</p>
-              </div>
+<div class="container my-4">
+    <h1 class="display-4">Community</h1>
+    <div class="row">
+    @foreach (var user in Model)
+    {
+        <div class="col-sm-12 col-md-4 col-lg-3 my-2">
+        <div class="card text-center box-shadow">
+            <div class="justify-content-center">
+            <img class="card-img-top my-4 avatar" src="@user.ProfilePictureLink" alt="@user.FullName profile picture">
             </div>
-          </div>
-
-        }
-      </div>
+            <div class="card-body">
+            <h4 class="card-title">@Html.ActionLink(user.FullName, "ViewProfile", "Profile", new { userId = user.UserId }, new {@class = "user-card--name"})</h4>
+            <p>@(user.Role)&nbsp;</p>
+            </div>
+        </div>
+        </div>
+    }
     </div>
-  </div>
 </div>
+

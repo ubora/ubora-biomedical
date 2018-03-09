@@ -23,40 +23,40 @@
 }
 <div class="container-fluid mb-4">
     <div class="row">
-        <div class="col flex-column text-center mr-1 p-5 landing-image-discussion">
+        <div class="col flex-column text-center p-5 landing-image-discussion">
             <p class="lead display-5">Have a need for medical solution? Find it through open discussion.</p>
-            <a class="btn btn-primary btn-disabled align-self-end js-tooltip" role="button" disabled title="Coming soon!" data-placement="bottom">I have a need</a>
+            <a class="btn btn-primary btn-disabled align-self-end js-tooltip box-shadow" role="button" disabled title="Coming soon!" data-placement="bottom">I have a need</a>
         </div>
-        <div class="col flex-column text-center ml-1 p-5 landing-image-solution">
+        <div class="col flex-column text-center p-5 landing-image-solution">
 
         @if(User.Identity.IsAuthenticated)
         {
             if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
             {
                 <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
-                <a class="btn btn-primary align-self-end" asp-controller="ProjectCreation" asp-action="Create" role="button">I have an idea</a>
+                <a class="btn btn-cta align-self-end box-shadow" asp-controller="ProjectCreation" asp-action="Create" role="button">Create project</a>
             }
             else
             {
                 <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
-                <a class="btn btn-primary btn-disabled align-self-end js-tooltip" role="button" disabled title="Your email must be confirmed to create a project!" data-placement="bottom">I have an idea</a>
+                <a class="btn btn-cta btn-disabled align-self-end js-tooltip box-shadow" role="button" disabled title="Your email must be confirmed to create a project!" data-placement="bottom">Create project</a>
             }
         }
         else
         {
             <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
-            <a class="btn btn-primary btn-disabled align-self-end js-tooltip" role="button" disabled title="You have to log in to create a project!" data-placement="bottom">I have an idea</a>
+            <a class="btn btn-cta btn-disabled align-self-end js-tooltip box-shadow" role="button" disabled title="You have to log in to create a project!" data-placement="bottom">Create project</a>
         }
         </div>
     </div>
 </div>
+<div class="container my-4">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
+    }
 
-<div class="container-fluid my-4">
-  @if (SignInManager.IsSignedIn(User))
-  {
-    @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
-  }
 </div>
-<div class="container-fluid my-4">
+<div class="container my-4">
     @await Component.InvokeAsync(typeof(PublicProjectListViewComponent))
 </div>

@@ -646,7 +646,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it only intended to intended to illuminate the patient&apos;s body, in the visible spectrum?.
+        ///   Looks up a localized string similar to Is it only intended to illuminate the patient&apos;s body, in the visible spectrum?.
         /// </summary>
         public static string q3_4_1_1 {
             get {
