@@ -5,11 +5,11 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject ApplicationUserManager UserManager
 
-<p class="notice-indev">In-development preview</p>
 @if (SignInManager.IsSignedIn(User))
 {
-  if (!User.IsEmailConfirmed())
-  {
+    <p class="notice-indev">In-development preview</p>
+    if (!User.IsEmailConfirmed())
+    {
       <p class="notice-account-confirmation">We have sent an email confirmation link to @User.GetEmail()<br><a class="notice-account-confirmation-link" href="@Url.Action("ResendEmailConfirmation", "Account")">Resend confirmation email?</a></p>
   }
 }
