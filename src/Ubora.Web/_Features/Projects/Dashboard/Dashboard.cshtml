@@ -7,126 +7,111 @@
     ViewData["MenuOption"] = ProjectMenuOption.Overview;
 }
 
-<div class="container-fluid col-lg-8 my-4">
+<div class="container my-4">
+    <h1 class="display-4">
+        @Model.Title
+        @if (Model.IsInDraft)
+        {
+        <span class="badge badge-pill badge-orange normal-text">Draft</span>
+        }
+    </h1>
     <div class="row">
-      <div class="col">
-        <h1 class="display-4">
-          @Model.Title
-          @if (Model.IsInDraft)
-          {
-            <span class="badge badge-pill badge-orange normal-text">Draft</span>
-          }
-        </h1>
-      </div>
-    </div>
-    <div class="row my-4">
-        <div class="col-lg-6">
-          <div class="row">
-            <div class="col">
-              <div class="card">
-                  <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(Model.ImagePath)?"/images/project-default-image.png":Model.ImagePath)" alt="Illustrative project image">
-                  @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanChangeProjectImage))
-                  {
-                    <div class="card-img-overlay text-center">
-                    @if (Model.HasImage){
-                      <div class="flex-wrap">
-                        <a class="mx-1" asp-controller="Dashboard" asp-action="EditProjectImage">
-                          <i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span>
-                        </a>
-                        <a class="mx-1" asp-controller="Dashboard" asp-action="RemoveProjectImage">
-                          <i class="material-icons align-middle">delete_forever</i>
-                          <span class="align-middle">Remove image</span>
-                        </a>
-                      </div>
-                    }
-                    else
-                    {
-                      <a asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Add image</span></a>
-                    }
+        <div class="col-lg-5">
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(Model.ImagePath)?"/images/project-default-image.png":Model.ImagePath)" alt="Illustrative project image">
+                        @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanChangeProjectImage))
+                        {
+                            <div class="card-img-overlay text-center">
+                                @if (Model.HasImage)
+                                {
+                                    <div class="flex-wrap">
+                                        <a class="mx-1" asp-controller="Dashboard" asp-action="EditProjectImage">
+                                            <i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span>
+                                        </a>
+                                        <a class="mx-1" asp-controller="Dashboard" asp-action="RemoveProjectImage">
+                                            <i class="material-icons align-middle">delete_forever</i>
+                                            <span class="align-middle">Remove image</span>
+                                        </a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Dashboard" asp-action="EditProjectImage"><i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Add image</span></a>
+                                }
+                            </div>
+                        }
                     </div>
-
-                  }
-
-              </div>
-            </div>
-          </div>
-          <div class="row mt-1">
-            <div class="col d-flex justify-content-end">
-              <div>
-                  @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanJoinProject))
-                  {
-                      <a class="btn btn-secondary-ghost" href="@Url.Action("Join", "Members")"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
-                  }
                 </div>
             </div>
-          </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="row">
-                <div class="col">
-                  <h3>Medical tags</h3>
+
+            @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanJoinProject))
+            {
+                <div class="row mt-1">
+                    <div class="col d-flex justify-content-end">
+                        <a class="btn btn-secondary-ghost btn-sm" href="@Url.Action("Join", "Members")"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
+                    </div>
                 </div>
-                <div class="col d-flex justify-content-end">
-                  @if (Model.IsProjectMember)
-                  {
-                  <a class="btn btn-secondary-ghost align-self-start" asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@Url.Action("Dashboard","Dashboard")"><i class="material-icons" id="EditImage">mode_edit</i><span>Edit</span></a>
-                  }
+            }
+
+            <div class="row mt-4">
+                <div class="col d-flex justify-content-between">
+                    <h2 class="display-5">Medical tags</h2>
+                    @if (Model.IsProjectMember)
+                    {
+                        <a class="btn-icon btn-sm d-flex align-content-center" asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@Url.Action("Dashboard","Dashboard")">
+                            <i class="material-icons mx-1" id="EditImage">mode_edit</i>
+                            <span>Edit</span>
+                        </a>
+                    }
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-
-                  <dl class="row">
-                    <dt class="col-sm-5 mb-4"><h6>Clinical need:</h6></dt>
-                    <dd class="col-sm-7 mb-4">@Model.ClinicalNeedTags</dd>
-
-                    <dt class="col-sm-5 mb-4"><h6>Clinical area:</h6></dt>
-                    <dd class="col-sm-7 mb-4">@Model.AreaOfUsageTags</dd>
-
-                    <dt class="col-sm-5 mb-4"><h6>Technology:</h6></dt>
-                    <dd class="col-sm-7 mb-4">@Model.PotentialTechnologyTags</dd>
-
-                    <dt class="col-sm-5 mb-4"><h6>Project keywords:</h6></dt>
-                    <dd class="col-sm-7 mb-4">@Model.Gmdn</dd>
-
-                    <dt class="col-sm-5 mb-4"><h6>Device classification:</h6></dt>
-                    <dd class="col-sm-7 mb-4">@Model.DeviceClassification</dd>
-                  </dl>
-
+                    <dl class="row">
+                        <dt class="col-sm-5 mb-lg-4">Clinical need:</dt>
+                        <dd class="col-sm-7">@Model.ClinicalNeedTags</dd>
+                        <dt class="col-sm-5 mb-lg-4">Clinical area:</dt>
+                        <dd class="col-sm-7">@Model.AreaOfUsageTags</dd>
+                        <dt class="col-sm-5 mb-lg-4">Technology:</dt>
+                        <dd class="col-sm-7">@Model.PotentialTechnologyTags</dd>
+                        <dt class="col-sm-5 mb-lg-4">Project keywords:</dt>
+                        <dd class="col-sm-7">@Model.Gmdn</dd>
+                        <dt class="col-sm-5 mb-lg-4">Device classification:</dt>
+                        <dd class="col-sm-7">@Model.DeviceClassification</dd>
+                    </dl>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col">
-
+        <div class="col-lg-7">
             <div class="row">
-                <div class="col">
-                    <h3>Project description</h3>
-                </div>
-                <div class="col-lg-2 d-flex align-items-center justify-content-end">
+                <div class="col d-flex justify-content-between">
+                    <h2 class="display-5">Project description</h2>
                     @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectTitleAndDescription))
                     {
-                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription"><i class="material-icons align-middle">mode_edit</i><span class="align-middle" id="EditDescription">Edit</span></a>
+                        <a class="btn-icon btn-sm d-flex align-content-center" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription">
+                            <i class="material-icons mx-1">mode_edit</i>
+                            <span id="EditDescription">Edit</span>
+                        </a>
                     }
                 </div>
             </div>
-
             <div class="row">
                 <div class="col">
                     @if (!string.IsNullOrWhiteSpace(Model.Description))
                     {
-                    <div class="text-markdown">@Model.Description</div>
+                        <div class="text-markdown">@Model.Description</div>
                     }
                     else
                     {
-                    <p class="text_placeholder">No project description set yet.</p>
+                        <p class="text_placeholder">No project description set yet.</p>
                     }
                 </div>
             </div>
-
         </div>
     </div>
+ 
 
     @*TODO: level of completion*@
     @*<div class="row my-4">
@@ -194,9 +179,7 @@
             </div>
         </div>
     </div>*@
-
     <div class="my-4">
-
         @{
             var canDeleteProject = (await AuthorizationService.AuthorizeAsync(User, Policies.CanDeleteProject)).Succeeded;
         }
@@ -208,7 +191,6 @@
             </div>
         }
     </div>
-
 </div>
 
 @section Scripts {

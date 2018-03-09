@@ -1,9 +1,12 @@
+.list-sidebar {
+    font-size: 90%;
+}
 
 /*First level menu style*/
 .list-sidebar li {
-  list-style-type: none;
-  margin-top: .5rem;
-  margin-bottom: .5rem;
+    list-style-type: none;
+    margin-top: .4rem;
+    margin-bottom: .4rem;
 }
 
 .list-sidebar a {
@@ -11,7 +14,7 @@
 }
 
 .list-sidebar img{
-  width: 3rem;
+  width: 2rem;
 }
 
 .list-sidebar span{
@@ -21,30 +24,32 @@
 
 /*Second level menu style*/
 .side-menu-secondary {
-  padding-left: 1rem;
+  padding-left: .6rem;
 }
 
-.side-menu-secondary img {
-  width: 1rem;
-}
+    .side-menu-secondary li {
+        margin-top: .1rem;
+        margin-bottom: .1rem;
+    }
 
-.side-menu-secondary span {
-  margin-left: 1.5rem;
-}
+    .side-menu-secondary span {
+      margin-left: 1.2rem;
+    }
 
 
-/*Third and fourth level menu style*/
+/*Secondary, third and fourth level menu images style*/
+.side-menu-secondary img ,
 .side-menu-tertiary img,
 .side-menu-quaternary img {
-  width: .75rem;
+    width: .75rem;
 }
 
 
 /*Statuses styles*/
 a.muted-status {
-  color: var(--tertiary-shade);
-  text-decoration: none;
-  cursor: default;
+    color: var(--tertiary-shade);
+    text-decoration: none;
+    cursor: default;
 }
 
 a.active-status {
