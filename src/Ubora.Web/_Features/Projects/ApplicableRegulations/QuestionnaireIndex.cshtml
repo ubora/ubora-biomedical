@@ -26,12 +26,12 @@
                 <span class="mx-1"></span>
                 <a class="btn btn-primary d-sm-block d-lg-inline-block" asp-controller="ApplicableRegulations" asp-action="CurrentUnansweredQuestion" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Continue answering</a>
 
-                <p class="mt-2 color-grey">Questionnaire started at @Model.Last.StartedAt</p>
+                <p class="mt-2 text-informative">Questionnaire started at @Model.Last.StartedAt</p>
             }
         }
 
-        <p class="mt-4 color-grey">Quick notes:</p>
-        <ol class="color-grey">
+        <p class="mt-4 text-informative">Quick notes:</p>
+        <ol class="text-informative">
           <li>An unfinished questionnaire is visible to all project members and everyone can answer.</li>
           <li>You can resume answering questions later if you close the page.</li>
           <li>The questionnaire can be retaken until work package 1 is open.</li>
@@ -41,7 +41,7 @@
     }
     else
     {
-        <p>You can not edit work package when it's under review or has been accepted by review.</p>
+        <p class="text-informative">You can not edit work package when it's under review or has been accepted by review.</p>
     }
 
     @if (Model.Previous.Any())
