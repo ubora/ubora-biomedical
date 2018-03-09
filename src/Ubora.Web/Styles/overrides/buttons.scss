@@ -1,8 +1,8 @@
 .btn-primary {
-  background-color: var(--blue);
-  border-color: var(--blue);
-  color: var(--white);
-  font-family: inherit;
+    background-color: var(--blue);
+    border-color: var(--blue);
+    color: var(--white);
+    font-family: inherit;
 }
 
 .btn-secondary-ghost {
@@ -77,4 +77,14 @@
     .btn-icon:focus,
     .btn-icon:hover {
        cursor:pointer;
+    }
+
+.btn-link {
+    border: none;
+}
+
+    .btn-link:focus,
+    .btn-link:focus, 
+    .btn-link:active{
+        outline: none;
     }
