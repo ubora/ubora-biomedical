@@ -6,10 +6,10 @@
 }
 
 .btn-secondary-ghost {
-  background-color: transparent;
-  border-color: var(--blue);
-  color: var(--blue);
-  font-family: inherit;
+    background-color: transparent;
+    border-color: var(--blue);
+    color: var(--blue);
+    font-family: inherit;
 }
 
 .btn-secondary-ghost:focus,
@@ -77,4 +77,12 @@
     .btn-icon:focus,
     .btn-icon:hover {
        cursor:pointer;
+    }
+
+    a.btn-icon {
+        text-decoration: none;
+    }
+
+    .btn-icon .material-icons {
+        font-size: 1.1rem;
     }
