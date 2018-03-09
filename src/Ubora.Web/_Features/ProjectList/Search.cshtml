@@ -6,20 +6,18 @@
 }
 
 <div class="container my-4">
-  <div class="row d-flex flex-column align-items-center">
-    <div class="col-md-6 mb-4">
-      <form asp-controller="ProjectList" asp-action="Search" method="post">
-          <div class="form-group">
-              <input class="form-control" asp-for="Title" placeholder="Search UBORA for..." autofocus>
-              <span asp-validation-for="Title"></span>
-          </div>
-          <div class="text-center">
-            <button class="btn btn-primary" type="submit">Search</button>
-          </div>
-      </form>
+    <div class="row d-flex flex-column align-items-center">
+        <div class="col-md-6 mb-4">
+            <form asp-controller="ProjectList" asp-action="Search" method="post">
+                <div class="form-group">
+                    <input class="form-control" asp-for="Title" placeholder="Search UBORA for..." autofocus>
+                    <span asp-validation-for="Title"></span>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
-  <div class="row">
-      @await Component.InvokeAsync(typeof(SearchingProjectListViewComponent), new { title = @Model.Title })
-  </div>
+    @await Component.InvokeAsync(typeof(SearchingProjectListViewComponent), new { title = @Model.Title })
 </div>
