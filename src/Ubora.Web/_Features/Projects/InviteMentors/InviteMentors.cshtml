@@ -46,7 +46,7 @@
               <h4 class="card-title"><a asp-action="View" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h4>
               <form class="form-group" asp-action="InviteMentor">
                   <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId" />
-                  <button class="btn btn-secondary-ghost" type="submit">Invite mentor</button>
+                  <button class="btn btn-outline-primary" type="submit">Invite mentor</button>
               </form>
             </div>
           </div>

@@ -2,32 +2,28 @@
     font-family: inherit;
 }
 
-.btn-secondary-ghost {
-    background-color: transparent;
-    border-color: var(--blue);
-    color: var(--blue);
+.btn-outline-primary {
     font-family: inherit;
 }
 
-.btn-secondary-ghost:focus,
-.btn-secondary-ghost:hover {
+.btn-outline-primary:focus,
+.btn-outline-primary:hover {
   background-color: transparent;
   border-color: var(--light-blue);
   color: var(--light-blue);
-  cursor: pointer;
 }
 
-.btn-secondary-ghost .material-icons,
-.btn-secondary-ghost span {
+.btn-outline-primary .material-icons,
+.btn-outline-primary span {
   vertical-align: middle;
 }
 
-.btn-secondary-ghost.btn-highlighted {
+.btn-outline-primary.btn-highlighted {
   border-color: var(--orange);
   color: var(--orange);
 }
 
-.btn-secondary-ghost.btn-highlighted:hover {
+.btn-outline-primary.btn-highlighted:hover {
   background-color: var(--orange);
   color: var(--white);
 }
