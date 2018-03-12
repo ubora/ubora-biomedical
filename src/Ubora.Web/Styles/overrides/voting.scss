@@ -39,19 +39,23 @@
 
 
 /*overrides*/
-.small-text .btn-link {
-	color: var(--primary-shade);
-	border: none;
-	padding: 0;
-}
+.comment-section {
+    @extend .small-text;
+    @extend .color-grey;
 
-.small-text .btn-link:hover,
-.small-text .btn-link:active,
-.small-text .btn-link:focus {
-	cursor: pointer;
-	color: var(--light-blue);
-}
+    .btn-link {
+        font-size: inherit;
+        color: var(--primary-shade);
+        border: none;
+        padding: 0;
 
+        &:hover,
+        &:active,
+        &:focus {
+            color: var(--light-blue);
+        }
+    }
+}
 
 /*for comments*/
 a.more-link {

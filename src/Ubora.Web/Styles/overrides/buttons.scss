@@ -1,51 +1,25 @@
-.btn-primary {
-    font-family: inherit;
-}
-
+.btn-primary,
 .btn-outline-primary {
     font-family: inherit;
-}
 
-.btn-outline-primary:focus,
-.btn-outline-primary:hover {
-  background-color: transparent;
-  border-color: var(--light-blue);
-  color: var(--light-blue);
+    &:focus,
+    &:hover {
+        background-color: var(--light-blue);
+        border-color: var(--light-blue);
+        color: var(--white);
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+        background-color: var(--light-blue);
+        border-color: var(--light-blue);
+    }
 }
 
 .btn-outline-primary .material-icons,
 .btn-outline-primary span {
   vertical-align: middle;
 }
-
-.btn-outline-primary.btn-highlighted {
-  border-color: var(--orange);
-  color: var(--orange);
-}
-
-.btn-outline-primary.btn-highlighted:hover {
-  background-color: var(--orange);
-  color: var(--white);
-}
-
-.btn-highlighted {
-  color: var(--orange);
-}
-
-
-.btn-primary:focus,
-.btn-primary:hover {
-    background-color: var(--light-blue);
-    border-color: var(--light-blue);
-    color: var(--white);
-}
-
-.btn-primary:not(:disabled):not(.disabled):active,
-.btn-primary:not(:disabled):not(.disabled).active {
-    background-color: var(--light-blue);
-    border-color: var(--light-blue);
-}
-
 
 .btn-disabled[disabled] {
   background-color: var(--primary-shade);
@@ -77,15 +51,6 @@
        cursor:pointer;
     }
 
-.btn-link {
-    border: none;
-}
-
-    .btn-link:focus,
-    .btn-link:focus, 
-    .btn-link:active{
-        outline: none;
-    }
 
     a.btn-icon {
         text-decoration: none;
