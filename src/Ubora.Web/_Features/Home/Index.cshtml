@@ -34,7 +34,7 @@
             if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
             {
                 <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
-                <a class="btn btn-cta align-self-end box-shadow" asp-controller="ProjectCreation" asp-action="Create" role="button">Create project</a>
+                <a class="btn btn-primary btn-cta align-self-end box-shadow" asp-controller="ProjectCreation" asp-action="Create" role="button">Create project</a>
             }
             else
             {

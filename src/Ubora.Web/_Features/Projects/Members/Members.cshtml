@@ -32,12 +32,33 @@
             }
         </div>
     </div>
-    <div class="row my-4">
-        <div class="col-sm-12">
-            <ul class="list-group">
+    <div class="row">
+        
                 @foreach (var member in Model.Members)
-                    {
-                    <li class="list-group-item">
+                {
+                    <div class="col-sm-12 col-md-4 col-lg-3 my-2">
+                        <div class="card text-center box-shadow">
+                            <div class="justify-content-center">
+                                <img class="card-img-top mt-4 avatar" alt="@member.FullName profile picture">
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">@Html.ActionLink(member.FullName, "ViewProfile", "Profile", new { userId = member.UserId }, new { @class = "user-card--name" })</h4>
+                                @if (member.IsProjectLeader)
+                                {
+                                    <p>Project leader&nbsp;</p>
+                                }
+                                @if (member.IsProjectMentor)
+                                {
+                                    <p>Project mentor&nbsp;</p>
+                                }
+                                
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    @*<li class="list-group-item">
                         <div class="col-sm-1 d-flex justify-content-center">
                             @if (member.IsProjectLeader)
                             {
@@ -68,10 +89,12 @@
                                 </a>
                             }
                         </div>
-                    </li>
+                    </li>*@
+
+
+
                     }
-            </ul>
-        </div>
+          
     </div>
 </div>
    

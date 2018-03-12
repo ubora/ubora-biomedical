@@ -12,20 +12,15 @@
 
 .header .navbar-toggler {
   color: var(--blue);
-  border-color: var(--blue);
-  padding: .5rem;
-  font-size: 150%;
-  margin: .5rem 1rem;
 }
 
 .header .navbar-toggler:focus,
 .header .navbar-toggler:hover {
   color: var(--light-blue);
-  border-color: var(--light-blue);
 }
 
 .header .navbar-toggler .material-icons {
-  font-size: 150%;
+  font-size: 180%;
   margin: 0;
   vertical-align: middle;
 }
