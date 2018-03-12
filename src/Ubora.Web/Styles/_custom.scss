@@ -1,0 +1,41 @@
+﻿@import 'helpers.scss';
+
+@import 'overrides/alerts.scss';
+@import 'overrides/forms.scss';
+@import 'overrides/links.scss';
+@import 'overrides/tables.scss';
+@import 'overrides/buttons.scss';
+@import 'overrides/typography.scss';
+@import 'overrides/progressbars.scss';
+@import 'overrides/ubora_select2.scss';
+@import 'overrides/card-item.scss';
+@import 'overrides/feedback.scss';
+@import 'overrides/drag_and_drop_file_uploads.scss';
+@import 'overrides/voting.scss';
+@import 'overrides/profile_view.scss';
+
+@import 'page_components/header.scss';
+@import 'page_components/footer.scss';
+@import 'page_components/history.scss';
+@import 'page_components/notices.scss';
+@import 'page_components/messages.scss';
+@import 'page_components/autocomplete.scss';
+@import 'page_components/helpful_tips.scss';
+@import 'page_components/workpackage_header.scss';
+@import 'page_components/landing_jumbotron.scss';
+@import 'page_components/workpackage_list.scss';
+@import 'page_components/markdown_editor.scss';
+
+
+body {
+    color: $text-color;
+    font: normal 16px/1.5em 'Open Sans', Helvetica, Arial, sans-serif;
+    font-display: swap;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex-grow: 1;
+}
