@@ -1,15 +1,10 @@
 a {
-  color: var(--blue);
-  transition: background-color 100ms ease-in, color 100ms ease-in;
-}
+    color: var(--blue);
+    transition: background-color 100ms ease-in, color 100ms ease-in;
 
-a:active,
-a:focus,
-a:hover {
-  color: $light-blue;
-}
-
-
-.card a {
-  text-decoration: none;
+    &:active,
+    &:focus,
+    &:hover {
+        color: $light-blue;
+    }
 }
