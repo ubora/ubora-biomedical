@@ -42,6 +42,7 @@ $theme-colors: (
     --text-color: #3D3D3D;
     --black: #000;
     --white: #FFF;
+    --dark: #3a3a3a;
     --dark-grey: #797979;
     --primary-shade: #9E9E9E;
     --secondary-shade: #BDBDBD;
@@ -51,7 +52,7 @@ $theme-colors: (
 
 body {
     color: var(--text-color);
-    font: normal 16px/1.5em 'Open Sans', Helvetica, Arial, sans-serif;
+    font: normal 16px/1.5em;
     font-display: swap;
     display: flex;
     flex-direction: column;

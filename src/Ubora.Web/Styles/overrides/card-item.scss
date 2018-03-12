@@ -1,9 +1,14 @@
 .card {
   height: 100%;
+
+  a h5{
+      color: var(--blue);
+  }
 }
 
 .card-title, .card-text {
   word-break: normal;
+  font-weight: normal;
 }
 
 .card-img-overlay {
