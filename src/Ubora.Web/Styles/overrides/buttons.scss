@@ -1,7 +1,4 @@
 .btn-primary {
-    background-color: var(--blue);
-    border-color: var(--blue);
-    color: var(--white);
     font-family: inherit;
 }
 
@@ -42,10 +39,15 @@
 
 .btn-primary:focus,
 .btn-primary:hover {
-  background-color: var(--light-blue);
-  border-color: var(--light-blue);
-  color: var(--white);
-  cursor: pointer;
+    background-color: var(--light-blue);
+    border-color: var(--light-blue);
+    color: var(--white);
+}
+
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active {
+    background-color: var(--light-blue);
+    border-color: var(--light-blue);
 }
 
 
