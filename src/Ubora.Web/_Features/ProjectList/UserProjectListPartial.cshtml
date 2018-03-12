@@ -27,14 +27,5 @@
                 <p>Your email must be confirmed to create a project!</p>
             }
         </div>
-
-        if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
-        {
-            <div class="row justify-content-center">
-                <div class="col-md-4 col-lg-3 my-2">
-                    @await Html.PartialAsync("_CreateProjectCardPartial.cshtml")
-                </div>
-            </div>
-        }
     }
   

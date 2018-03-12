@@ -7,7 +7,6 @@ using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Infrastructure.ImageServices;
-using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web._Features.ProjectList
 {
@@ -62,8 +61,7 @@ namespace Ubora.Web._Features.ProjectList
 
             public ProjectListViewModel Create(string header, Guid userId)
             {
-                var userProjects = _queryProcessor.Find<Project>(new HasMember(userId))
-                    .OrderBy(p => p.Title);
+                var userProjects = _queryProcessor.Find<Project>(new HasMember(userId));
 
                 var model = new ProjectListViewModel
                 {
@@ -75,9 +73,9 @@ namespace Ubora.Web._Features.ProjectList
                 return model;
             }
 
-            public ProjectListViewModel CreateByTitle(string title)
+            public ProjectListViewModel CreateForSearch(string title)
             {
-                if (String.IsNullOrEmpty(title))
+                if (string.IsNullOrEmpty(title))
                 {
                     return Create(header: "All projects");
                 }
