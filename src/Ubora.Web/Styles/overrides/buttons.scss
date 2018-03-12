@@ -25,19 +25,6 @@
   vertical-align: middle;
 }
 
-.btn-secondary-ghost.btn-highlighted {
-  border-color: var(--orange);
-  color: var(--orange);
-}
-
-.btn-secondary-ghost.btn-highlighted:hover {
-  background-color: var(--orange);
-  color: var(--white);
-}
-
-.btn-highlighted {
-  color: var(--orange);
-}
 
 
 .btn-primary:focus,
@@ -68,6 +55,13 @@
   background-color: var(--orange);
   border-color: var(--orange);
   color: var(--white);
+}
+
+.btn-cta:focus,
+.btn-cta:hover {
+    background-color: var(--dark-orange);
+    border-color: var(--dark-orange);
+    color: var(--white);
 }
 
 .btn-icon {
