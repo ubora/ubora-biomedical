@@ -9,11 +9,11 @@
 
 #my-dropzone .dropzone {
   border: none;
-  background-color: var(--quartinary-shade);
+  background-color: $quartinary-shade;
 }
 
 .dropzone-previews .dz-message .material-icons {
-  color: var(--primary-shade);
+  color: $primary-shade;
   font-size: 5rem!important;
 }
 
@@ -27,5 +27,5 @@
 }
 
 .dropzone .dz-preview .dz-remove {
-  background-color: var(--quartinary-shade);
+  background-color: $quartinary-shade;
 }

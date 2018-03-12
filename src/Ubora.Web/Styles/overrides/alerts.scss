@@ -10,11 +10,11 @@
 }
 
 .danger-notice {
-  color: var(--text-color);
+  color: $text-color;
 }
 
 .danger-notice-header {
-  color: var(--orange);
+  color: $orange;
   text-align: center;
 }
 
