@@ -71,6 +71,13 @@
                     </a>
                 </div>
             </div>
+            <div class="row justify-content-center mt-3">
+                <div class="your-class h-100 w-100">
+                    <div style="background-color:forestgreen; height:50px; color: white; padding: .5rem;">Content</div>
+                    <div style="background-color:steelblue; height:50px; color: white; padding: .5rem;">Content</div>
+                    <div style="background-color:blue; height:50px; color: white; padding: .5rem;">Content</div>
+                </div>
+            </div>
 
             @await Component.InvokeAsync(typeof(PublicProjectListViewComponent))
 
@@ -114,3 +121,16 @@
         </div>
     </section>
 </div>
+
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="/slick-1.8.0/slick/slick.min.js"></script>
+
+<script type="text/javascript">
+     $(document).ready(function () {
+         $('.your-class').slick({
+
+         });
+     });
+</script>
