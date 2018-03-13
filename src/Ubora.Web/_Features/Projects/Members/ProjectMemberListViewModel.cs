@@ -20,7 +20,7 @@ namespace Ubora.Web._Features.Projects.Members
             public bool IsProjectMentor { get; set; }
             public string ProfilePictureUrl { get; set; } 
 
-            public string DescriptionForRoles
+            public string Roles
             {
                 get
                 {

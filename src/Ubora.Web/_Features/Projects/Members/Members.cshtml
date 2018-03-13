@@ -43,13 +43,25 @@
         }
         @foreach (var member in Model.Members)
         {
-            Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
-                userId: member.UserId,
-                name: member.FullName,
-                roles: member.DescriptionForRoles,
-                profilePictureUrl: member.ProfilePictureUrl,
-                footerHtml: createRemoveMemberFooter(member.UserId))
-            );
+            if (Model.CanRemoveProjectMembers && !member.IsCurrentUser)
+            {
+                Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
+                    userId: member.UserId,
+                    name: member.FullName,
+                    roles: member.Roles,
+                    profilePictureUrl: member.ProfilePictureUrl,
+                    footerHtml: createRemoveMemberFooter(member.UserId))
+                );
+            }
+            else
+            {
+                Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
+                    userId: member.UserId,
+                    name: member.FullName,
+                    roles: member.Roles,
+                    profilePictureUrl: member.ProfilePictureUrl)
+                );
+            }
         }
     </div>
 </div>
