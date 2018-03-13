@@ -26,3 +26,12 @@ h1, h2, h3, h4, h5, h6 {
 .display-6 {
   font-size: 1rem;
 }
+
+
+h1 {
+    @extend .display-3;
+}
+
+h2 {
+    @extend .display-4;
+} 

@@ -5,7 +5,7 @@
         <div class="col">
             <div class="row">
                 <div class="col-lg-9">
-                    <h1 class="display-4">Voting</h1>
+                    <h1>Voting</h1>
                 </div>
                 <div class="col-lg-3 d-flex justify-content-end">
                     @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanAddProjectCandidate)).Succeeded)

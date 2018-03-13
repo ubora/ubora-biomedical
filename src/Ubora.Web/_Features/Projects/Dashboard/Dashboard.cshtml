@@ -10,7 +10,7 @@
 <div class="container my-4">
     <div class="row">
         <div class="col-lg-9">
-            <h1 class="display-4">
+            <h1>
                 @Model.Title
                 @if (Model.IsInDraft)
                 {
@@ -66,7 +66,7 @@
 
             <div class="row mt-4">
                 <div class="col d-flex justify-content-between">
-                    <h2 class="display-5">Medical tags</h2>
+                    <h2>Medical tags</h2>
                     @if (Model.IsProjectMember)
                     {
                         <a class="btn-icon btn-sm d-flex align-content-center" asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@Url.Action("Dashboard","Dashboard")">
@@ -96,7 +96,7 @@
         <div class="col-lg-7">
             <div class="row">
                 <div class="col d-flex justify-content-between">
-                    <h2 class="display-5">Project description</h2>
+                    <h2>Project description</h2>
                     @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectTitleAndDescription))
                     {
                         <a class="btn-icon btn-sm d-flex align-content-center" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription">
