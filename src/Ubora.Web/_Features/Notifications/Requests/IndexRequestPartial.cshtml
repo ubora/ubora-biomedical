@@ -14,7 +14,7 @@
             @Html.AntiForgeryToken()
             <input type="hidden" asp-for="RequestId" />
             <div class="form-input notification-action">
-                <button class="btn btn-secondary-ghost" type="submit" asp-controller="Requests" asp-action="Decline">Decline</button>
+                <button class="btn btn-outline-primary" type="submit" asp-controller="Requests" asp-action="Decline">Decline</button>
             </div>
             <div class="form-input notification-action">
                 <button class="btn btn-primary" type="submit" asp-controller="Requests" asp-action="Accept">Accept</button>

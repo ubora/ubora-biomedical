@@ -5,7 +5,7 @@
 .social-item:active,
 .social-item:focus,
 .social-item:hover {
-  color: var(--white);
+  color: $white;
   text-decoration: underline;
 }
 
@@ -21,5 +21,5 @@
 .legal-quote {
   font-size: 80%;
   font-style: italic;
-  color: var(--quartinary-shade);
+  color: $quartinary-shade;
 }

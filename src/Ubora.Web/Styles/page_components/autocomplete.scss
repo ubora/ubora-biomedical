@@ -15,7 +15,7 @@
 }
 
 .autocomplete-result:nth-child(odd) {
-  background-color: var(--quartinary-shade);
+  background-color: $quartinary-shade;
 }
 
 .autocomplete-result:hover {
