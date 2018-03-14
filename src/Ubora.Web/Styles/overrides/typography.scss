@@ -1,6 +1,9 @@
 h1, h2, h3, h4, h5, h6 {
     color: var(--dark);
     margin-bottom: 1.5rem;
+}
+
+h2, h3, h4, h5, h6 {
     font-weight: 400;
 }
 
@@ -38,4 +41,8 @@ dt {
 
 .display-6 {
   font-size: 1rem;
+}
+
+h1 {
+    @extend .display-3;
 }
