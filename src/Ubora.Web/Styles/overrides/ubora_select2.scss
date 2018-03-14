@@ -1,13 +1,11 @@
 .select2 {
-  border-bottom: 2px solid var(--blue);
-  box-sizing: border-box;
-  font-size: 100%;
-  min-height: 2em;
-  vertical-align: middle;
-  transition:
-    background-color .3s ease,
-    color .3s ease;
-  width: 100% !important;
+    border-bottom: 1px solid var(--secondary-shade);
+    box-sizing: border-box;
+    font-size: 100%;
+    min-height: 2em;
+    vertical-align: middle;
+    transition: background-color .3s ease, color .3s ease;
+    width: 100% !important;
 }
 
 .select2-selection--single {

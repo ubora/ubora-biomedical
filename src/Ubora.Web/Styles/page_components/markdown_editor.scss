@@ -4,33 +4,38 @@
 }
 
 .text-markdown {
-  font-family: inherit;
-  text-align: justify;
+    font-family: inherit;
+    text-align: justify;
+
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 500;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    h4 {
+        font-size: 1rem;
+    }
+
+    h5 {
+        font-size: .75rem;
+    }
+
+    h6 {
+        font-size: .75rem;
+    }
 }
 
-.text-markdown h1{
-  font-size: 2rem;
-}
-
-.text-markdown h2{
-  font-size: 1.5rem;
-}
-
-.text-markdown h3{
-  font-size: 1.25rem;
-}
-
-.text-markdown h4{
-  font-size: 1rem;
-}
-
-.text-markdown h5{
-  font-size: .75rem;
-}
-
-.text-markdown h6{
-  font-size: .75rem;
-}
 
 .image-markdown {
   max-height: 844px;
