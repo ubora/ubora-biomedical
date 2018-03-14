@@ -1,100 +1,62 @@
-.btn-primary {
+.btn-primary,
+.btn-outline-primary {
     font-family: inherit;
+
+    &:focus,
+    &:hover {
+        background-color: $light-blue;
+        border-color: $light-blue;
+        color: $white;
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+        background-color: $light-blue;
+        border-color: $light-blue;
+    }
 }
 
-.btn-secondary-ghost {
-    background-color: transparent;
-    border-color: var(--blue);
-    color: var(--blue);
-    font-family: inherit;
-}
-
-.btn-secondary-ghost:focus,
-.btn-secondary-ghost:hover {
-  background-color: transparent;
-  border-color: var(--light-blue);
-  color: var(--light-blue);
-  cursor: pointer;
-}
-
-.btn-secondary-ghost .material-icons,
-.btn-secondary-ghost span {
+.btn-outline-primary .material-icons,
+.btn-outline-primary span {
   vertical-align: middle;
 }
 
-.btn-secondary-ghost.btn-highlighted {
-  border-color: var(--orange);
-  color: var(--orange);
-}
-
-.btn-secondary-ghost.btn-highlighted:hover {
-  background-color: var(--orange);
-  color: var(--white);
-}
-
-.btn-highlighted {
-  color: var(--orange);
-}
-
-
-.btn-primary:focus,
-.btn-primary:hover {
-    background-color: var(--light-blue);
-    border-color: var(--light-blue);
-    color: var(--white);
-}
-
-.btn-primary:not(:disabled):not(.disabled):active,
-.btn-primary:not(:disabled):not(.disabled).active {
-    background-color: var(--light-blue);
-    border-color: var(--light-blue);
-}
-
-
 .btn-disabled[disabled] {
-  background-color: var(--primary-shade);
-  border-color: var(--primary-shade);
-  color: var(--white);
+  background-color: $primary-shade;
+  border-color: $primary-shade;
+  color: $white;
   font-family: inherit;
 }
 
 .btn-primary[disabled]:focus,
 .btn-primary[disabled]:hover {
-  background-color: var(--primary-shade);
-  border-color: var(--primary-shade);
-  color: var(--white);
+  background-color: $primary-shade;
+  border-color: $primary-shade;
+  color: $white;
   cursor: not-allowed;
 }
 
 .btn-cta {
-  background-color: var(--orange);
-  border-color: var(--orange);
-  color: var(--white);
+  background-color: $orange;
+  border-color: $orange;
+  color: $white;
 }
 
 .btn-icon {
     background-color: transparent;
     border: none;
-}
-    .btn-icon:focus,
-    .btn-icon:hover {
-       cursor:pointer;
+
+    &:focus,
+    &:hover {
+        cursor: pointer;
     }
 
-.btn-link {
-    border: none;
-}
-
-    .btn-link:focus,
-    .btn-link:focus, 
-    .btn-link:active{
-        outline: none;
-    }
-
-    a.btn-icon {
+    a& {
         text-decoration: none;
     }
 
-    .btn-icon .material-icons {
+    .material-icons {
         font-size: 1.1rem;
     }
+}
+ 

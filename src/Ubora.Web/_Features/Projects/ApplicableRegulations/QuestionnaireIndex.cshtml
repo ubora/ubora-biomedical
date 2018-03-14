@@ -21,7 +21,7 @@
             {
 
                 <form class="d-inline" asp-action="Stop" method="post">
-                    <button class="btn btn-secondary-ghost d-sm-block d-lg-inline-block" type="submit" asp-action="Retake" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Retake questionnaire</button>
+                    <button class="btn btn-outline-primary d-sm-block d-lg-inline-block" type="submit" asp-action="Retake" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Retake questionnaire</button>
                 </form>
                 <span class="mx-1"></span>
                 <a class="btn btn-primary d-sm-block d-lg-inline-block" asp-controller="ApplicableRegulations" asp-action="CurrentUnansweredQuestion" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Continue answering</a>

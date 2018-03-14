@@ -9,7 +9,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input asp-for="UserEmail" type="hidden"/>
                 <div class="form-group">
-                    <a class="btn btn-secondary-ghost"  asp-action="Diagnostics">No, cancel</a>
+                    <a class="btn btn-outline-primary"  asp-action="Diagnostics">No, cancel</a>
                     <span class="mx-1"></span>
                     <button class="btn btn-primary" asp-controller="Admin" asp-action="DeleteUser" type="submit">Yes, remove</button>
                 </div>

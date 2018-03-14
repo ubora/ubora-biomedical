@@ -47,15 +47,15 @@
 
 /*Statuses styles*/
 a.muted-status {
-    color: var(--tertiary-shade);
+    color: $tertiary-shade;
     text-decoration: none;
     cursor: default;
 }
 
 a.active-status {
-  color: var(--light-blue);
+  color: $light-blue;
 }
 
 a.checked-status {
-  color: var(--green);
+  color: $green;
 }
