@@ -5,6 +5,7 @@ using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Web.Infrastructure;
 using System.Threading.Tasks;
 using Ubora.Web.Authorization;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Notifications.Invitations
 {
@@ -28,7 +29,7 @@ namespace Ubora.Web._Features.Notifications.Invitations
             ExecuteUserCommand(new AcceptInvitationToProjectCommand
             {
                 InvitationId = invitationId
-            });
+            }, Notice.Success(SuccessTexts.ProjectInvitationAccepted));
 
             return RedirectToAction("Index", "Notifications");
         }
@@ -45,7 +46,7 @@ namespace Ubora.Web._Features.Notifications.Invitations
             ExecuteUserCommand(new DeclineInvitationToProjectCommand
             {
                 InvitationId = invitationId
-            });
+            }, Notice.Success(SuccessTexts.ProjectInvitationDeclined));
 
             return RedirectToAction("Index", "Notifications");
         }

@@ -6,6 +6,7 @@ using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 {
@@ -47,7 +48,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
                 return await Review();
             }
 
-            ExecuteUserProjectCommand(new SubmitWorkpackageOneForReviewCommand());
+            ExecuteUserProjectCommand(new SubmitWorkpackageOneForReviewCommand(), Notice.Success(SuccessTexts.WP1SubmittedForReview));
 
             if (!ModelState.IsValid)
             {
@@ -80,7 +81,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
             ExecuteUserProjectCommand(new AcceptWorkpackageOneReviewCommand
             {
                 ConcludingComment = model.ConcludingComment
-            });
+            }, Notice.Success(SuccessTexts.WP1ReviewAccepted));
 
             if (!ModelState.IsValid)
             {
@@ -102,7 +103,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
             ExecuteUserProjectCommand(new RejectWorkpackageOneReviewCommand
             {
                 ConcludingComment = model.ConcludingComment
-            });
+            }, Notice.Success(SuccessTexts.WP1ReviewRejected));
 
             if (!ModelState.IsValid)
             {
@@ -124,14 +125,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
             ExecuteUserProjectCommand(new ReopenWorkpackageAfterAcceptanceByReviewCommand
             {
                 LatestReviewId = model.LatestReviewId 
-            });
+            }, Notice.Success(SuccessTexts.WP1Reopened));
 
             if (!ModelState.IsValid)
             {
                 return await Review();
             }
-
-            Notices.Success("Successfully reopened!");
 
             return RedirectToAction(nameof(Review));
         }

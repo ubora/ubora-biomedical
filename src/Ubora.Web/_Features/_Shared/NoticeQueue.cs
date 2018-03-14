@@ -19,17 +19,17 @@ namespace Ubora.Web._Features._Shared
             _innerQueue = GetExistingOrCreateNew();
         }
 
-        public void Success(string text)
+        public void NotifyOfSuccess(string text)
         {
             this.Enqueue(new Notice(text, NoticeType.Success));
         }
 
-        public void Error(string text)
+        public void NotifyOfError(string text)
         {
             this.Enqueue(new Notice(text, NoticeType.Error));
         }
 
-        public void Info(string text)
+        public void NotifyOfInfo(string text)
         {
             this.Enqueue(new Notice(text, NoticeType.Info));
         }

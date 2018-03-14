@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Web.Authorization;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.ProjectCreation
 {
@@ -31,14 +32,12 @@ namespace Ubora.Web._Features.ProjectCreation
                 AreaOfUsage = model.AreaOfUsageTags,
                 PotentialTechnology = model.PotentialTechnologyTags,
                 Gmdn = model.Gmdn
-            });
+            }, Notice.Success(SuccessTexts.ProjectCreated));
 
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
-            Notices.Success("Project created successfully!");
 
             return RedirectToAction("Dashboard", "Dashboard", new { projectId = projectId });
         }
