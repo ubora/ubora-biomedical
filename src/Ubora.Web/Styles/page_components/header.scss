@@ -11,7 +11,7 @@
 }
 
 .header .navbar-toggler {
-  color: var(--blue);
+  color: $blue;
 }
 
 .header .navbar-toggler:focus,
@@ -41,7 +41,7 @@
 }
 
 .header .nav-link {
-  color: var(--blue);
+  color: $blue;
   transition: color 100ms ease-in;
 }
 

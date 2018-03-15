@@ -1,5 +1,5 @@
 .wp-header {
-  background-color: var(--blue);
+  background-color: $blue;
   padding: .5rem 0 0 0;
   border: 0;
 }
@@ -7,7 +7,7 @@
 .wp-header .nav-link.active {
   border-color: transparent;
   border-bottom: 1px solid $white;
-  color: var(--blue);
+  color: $blue;
 }
 
 .wp-header .nav-link {

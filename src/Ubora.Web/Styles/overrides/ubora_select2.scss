@@ -1,13 +1,11 @@
 .select2 {
-  border-bottom: 2px solid var(--blue);
-  box-sizing: border-box;
-  font-size: 100%;
-  min-height: 2em;
-  vertical-align: middle;
-  transition:
-    background-color .3s ease,
-    color .3s ease;
-  width: 100% !important;
+    @include form-field-border;
+    box-sizing: border-box;
+    font-size: 100%;
+    min-height: 2em;
+    vertical-align: middle;
+    transition: background-color .3s ease, color .3s ease;
+    width: 100% !important;
 }
 
 .select2-selection--single {
@@ -17,7 +15,7 @@
 .select2-selection__rendered {
   bottom: .3em;
   box-sizing: border-box;
-  padding: .2em !important;
+  padding: .5em 0!important;
   position: absolute;
   width: 100%;
 }
@@ -58,7 +56,7 @@ input.select2-search__field:focus {
 
 
 li.select2-results__option[role="treeitem"]:hover {
-  background-color:var(--blue);
+  background-color:$blue;
   color:$white;
 }
 
@@ -71,8 +69,8 @@ li.select2-results__option[role="treeitem"]:hover {
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
-  background-color: var(--blue) !important;
-  border: 1px solid var(--blue) !important;
+  background-color: $blue !important;
+  border: 1px solid $blue !important;
   border-radius: 5px!important;
   color: $white;
   margin-top: 15px!important;
@@ -94,4 +92,9 @@ li.select2-results__option[role="treeitem"]:hover {
 
 .select2-selection__rendered {
   position: relative !important;
+}
+
+
+.select2-hidden-accessible.input-validation-error + .select2.select2-container.select2-container--ubora {
+    border-bottom: 1px solid $orange;
 }

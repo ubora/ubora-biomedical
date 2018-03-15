@@ -1,7 +1,10 @@
 .card {
     height: 100%;
 
- 
+    a h5 {
+        color: $blue;
+    }
+
     .card-link {
         word-break: normal;
     }

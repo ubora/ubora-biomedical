@@ -1,5 +1,5 @@
 a {
-    color: var(--blue);
+    color: $blue;
     transition: background-color 100ms ease-in, color 100ms ease-in;
 
     &:active,

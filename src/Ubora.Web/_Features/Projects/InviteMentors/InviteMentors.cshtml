@@ -10,7 +10,7 @@
   <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
       @if(Model.ProjectMentors.Any()) {
-        <h1 class="display-4">Project mentors</h1>
+        <h1>Project mentors</h1>
         <div class="row my-4">
         @foreach (var mentor in Model.ProjectMentors)
         {
@@ -33,7 +33,7 @@
         </div>
       }
     
-      <h1 class="display-4">All UBORA mentors</h1>
+      <h1>All UBORA mentors</h1>
       <div class="row my-4">
       @foreach (var mentor in Model.UboraMentors)
       {
