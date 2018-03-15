@@ -36,7 +36,7 @@ namespace Ubora.Web._Features.Projects.Members
                         roles.Add("mentor");
                     }
 
-                    return string.Join(",", roles);
+                    return string.Join(", ", roles);
                 }
             }
         }
