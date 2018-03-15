@@ -74,11 +74,12 @@
                         <div class="col-lg-3">
                             @await Component.InvokeAsync(typeof(WorkpackageSideMenuViewComponent))
                         </div>
-                            @RenderBody()
+                        @RenderBody()
                     </div>
                 </div>
             </main>
-        } else
+        }
+        else
         {
             <main>
                 @RenderBody()
@@ -93,16 +94,23 @@
 
     @Html.Partial("_Notices")
 
-    @await Html.PartialAsync("_Footer")
+
+    @{
+        // Don't show footer when in project's view
+        if (projectMenuOption == null)
+        {
+            @await Html.PartialAsync("_Footer")
+        }
+    }
 
     @RenderSection("Scripts", required: false)
 
     <environment names="Development">
-      <script src="~/dist/app.bundle.js"></script>
+        <script src="~/dist/app.bundle.js"></script>
     </environment>
 
     <environment names="Staging,Production">
-      <script src="~/dist/app.bundle.js" asp-append-version="true"></script>
+        <script src="~/dist/app.bundle.js" asp-append-version="true"></script>
     </environment>
 </body>
 </html>
