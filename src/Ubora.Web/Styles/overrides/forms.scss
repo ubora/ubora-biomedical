@@ -38,12 +38,12 @@ select.form-control:not([size]):not([multiple]) {
 }
 
 .form-group textarea.form-control {
-  border: 1px solid var(--blue);
+  border: 1px solid var(--secondary-shade);
   padding-left: .65em;
 }
 
 .form-group textarea.form-control:focus {
-  border: 1px solid var(--light-blue);
+  border: 2px solid var(--light-blue);
 }
 
 label.custom-file {
