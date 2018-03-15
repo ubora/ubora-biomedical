@@ -1,5 +1,5 @@
 .header {
-  background-color: var(--white);
+  background-color: $white;
 }
 
 .header .material-icons {
@@ -11,12 +11,12 @@
 }
 
 .header .navbar-toggler {
-  color: var(--blue);
+  color: $blue;
 }
 
 .header .navbar-toggler:focus,
 .header .navbar-toggler:hover {
-  color: var(--light-blue);
+  color: $light-blue;
 }
 
 .header .navbar-toggler .material-icons {
@@ -27,10 +27,10 @@
 
 
 .header .nav-link-notification-count {
-  background-color: var(--orange);
+  background-color: $orange;
   border-radius: 50%;
   top: -.6rem;
-  color: var(--white);
+  color: $white;
   font-size: .8rem;
   height: 1.2rem;
   line-height: 1.4;
@@ -41,13 +41,13 @@
 }
 
 .header .nav-link {
-  color: var(--blue);
+  color: $blue;
   transition: color 100ms ease-in;
 }
 
 .header .nav-link:focus,
 .header .nav-link:hover {
-  color: var(--light-blue);
+  color: $light-blue;
   cursor: pointer;
 }
 

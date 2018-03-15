@@ -1,5 +1,5 @@
 .helpful-tips {
-  color: var(--blue);
+  color: $blue;
   transition: color 200ms ease-in;
 }
 
@@ -10,7 +10,7 @@
 
 .helpful-tips:hover {
   cursor: pointer;
-  color: var(--light-blue);
+  color: $light-blue;
 }
 
 .helpful-tips-content {
@@ -18,6 +18,6 @@
 }
 
 .helpful-tips-content-visible {
-  color: var(--text-color);
+  color: $text-color;
   display: block;
 }

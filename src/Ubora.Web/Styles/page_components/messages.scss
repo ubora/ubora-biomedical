@@ -6,7 +6,7 @@
 }
 
 .message-unread {
-    background-color: var(--quartinary-shade);
+    background-color: $quartinary-shade;
 }
 
 .message-container {
@@ -21,7 +21,7 @@
 }
 
 .message-author-preview {
-    color: var(--primary-shade);
+    color: $primary-shade;
     padding: 0;
     margin: 0;
 }
@@ -33,7 +33,7 @@
 }
 
 .notification::before {
-    background-color: var(--tertiary-shade);
+    background-color: $tertiary-shade;
     content:'';
     display: inline-block;
     height: 100%;
@@ -42,7 +42,7 @@
 }
 
 .notification--unread:before {
-    background-color: var(--blue);
+    background-color: $blue;
 }
 
 .notification-container {
@@ -72,7 +72,7 @@
 }
 
 .notice {
-    color: var(--white);
+    color: $white;
     display: flex;
     flex-direction: row-reverse;
     font-size: 100%;
@@ -104,15 +104,15 @@
 }
 
 .notice-info {
-    background-color: var(--light-blue);
+    background-color: $light-blue;
 }
 
 .notice-success {
-    background-color: var(--green);
+    background-color: $green;
 }
 
 .notice-error {
-    background-color: var(--orange);
+    background-color: $orange;
 }
 
 @media screen and (max-width: 50em) {

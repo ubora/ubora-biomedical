@@ -22,7 +22,7 @@
             @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanJoinProject))
             {
                 <div class="d-flex justify-content-end">
-                    <a class="btn btn-secondary-ghost" href="@Url.Action("Join", "Members")">
+                    <a class="btn btn-outline-primary" href="@Url.Action("Join", "Members")">
                         <i class="material-icons align-middle">add</i>
                         <span>Join project</span>
                     </a>
@@ -197,7 +197,7 @@
             <div class="my-4">
                 <hr />
                 <div>
-                    <a class="btn btn-secondary-ghost" asp-controller="DeleteProject" asp-action="DeleteProject"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete project</span></a>
+                    <a class="btn btn-outline-primary" asp-controller="DeleteProject" asp-action="DeleteProject"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete project</span></a>
                 </div>
             </div>
 

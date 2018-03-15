@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Ubora.Domain.Infrastructure.Specifications;
 using Xunit;
 
@@ -19,6 +16,5 @@ namespace Ubora.Domain.Tests.Infrastructure.Specifications
             // Assert
             result.Should().BeTrue();
         }
-
     }
 }

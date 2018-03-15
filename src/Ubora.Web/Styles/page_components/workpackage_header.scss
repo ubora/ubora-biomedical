@@ -1,23 +1,23 @@
 .wp-header {
-  background-color: var(--blue);
+  background-color: $blue;
   padding: .5rem 0 0 0;
   border: 0;
 }
 
 .wp-header .nav-link.active {
   border-color: transparent;
-  border-bottom: 1px solid var(--white);
-  color: var(--blue);
+  border-bottom: 1px solid $white;
+  color: $blue;
 }
 
 .wp-header .nav-link {
-  color: var(--white);
+  color: $white;
 }
 
 .wp-header .nav-link:focus,
 .wp-header .nav-link:hover {
-  color: var(--light-blue);
-  background-color: var(--white);
+  color: $light-blue;
+  background-color: $white;
   border-color: transparent;
 }
 

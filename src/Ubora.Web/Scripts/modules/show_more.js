@@ -17,13 +17,13 @@ export default class ShowMoreText {
                     const textToShow = content.substr(0, showChar);
                     const textToHide = content.substr(showChar, content.length - showChar);
 
-                    const html = textToShow + '<span class="more-ellipses">' + ellipsestext + '&nbsp;</span><span class="more-content"><span class="hidden-comment d-none">' + textToHide + '</span>&nbsp;&nbsp;<a href="" class="more-link">' + moretext + '</a></span>';
+                    const html = textToShow + '<span class="more-ellipses">' + ellipsestext + '&nbsp;</span><span class="more-content"><span class="hidden-comment d-none">' + textToHide + '</span>&nbsp;&nbsp;<a href="" class="show-more-link">' + moretext + '</a></span>';
 
                     $this.html(html);
                 }
             });
 
-            $(".more-link").click(function () {
+            $(".show-more-link").click(function () {
                 const $this = $(this);
 
                 const commentElement = $this.parent().parent();

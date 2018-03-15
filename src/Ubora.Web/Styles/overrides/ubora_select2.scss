@@ -51,13 +51,13 @@ li.select2-results__option[aria-disabled="true"] {
 
 input.select2-search__field,
 input.select2-search__field:focus {
-  border:1px solid var(--light-blue);
+  border:1px solid $light-blue;
 }
 
 
 li.select2-results__option[role="treeitem"]:hover {
-  background-color:var(--blue);
-  color:var(--white);
+  background-color:$blue;
+  color:$white;
 }
 
 .select2-container--default.select2-container--focus .select2-selection--multiple {
@@ -69,21 +69,21 @@ li.select2-results__option[role="treeitem"]:hover {
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
-  background-color: var(--blue) !important;
-  border: 1px solid var(--blue) !important;
+  background-color: $blue !important;
+  border: 1px solid $blue !important;
   border-radius: 5px!important;
-  color: var(--white);
+  color: $white;
   margin-top: 15px!important;
   padding: 5px!important;
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-  color: var(--white) !important;
+  color: $white !important;
   padding-right: .2em;
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
-  color: var(--orange)!important;
+  color: $orange!important;
 }
 
 .multiple-select-box + .select2-container--default .select2-selection--multiple {
@@ -96,5 +96,5 @@ li.select2-results__option[role="treeitem"]:hover {
 
 
 .select2-hidden-accessible.input-validation-error + .select2.select2-container.select2-container--ubora {
-    border-bottom: 1px solid var(--orange);
+    border-bottom: 1px solid $orange;
 }
