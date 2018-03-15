@@ -17,7 +17,7 @@
     else if (Model.ShowDefaultMessage)
     {
         <div class="text-center">
-            <h2>You have no projects.</h2>
+            <h2 class="display-4">You have no projects.</h2>
             @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
             {
                 <p>Either <a asp-controller="ProjectCreation" asp-action="Create">create a new one</a> or find projects to join.</p>
