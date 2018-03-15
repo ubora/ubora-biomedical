@@ -3,7 +3,14 @@ $theme-colors: (
     "primary": #4777BB 
 );
 
+
+@mixin form-field-border {
+    border-bottom: 1px solid var(--secondary-shade);
+}
+
+
 @import "~bootstrap/scss/bootstrap";
+
 
 @import 'helpers.scss';
 
@@ -62,5 +69,4 @@ body {
 main {
     flex-grow: 1;
 }
-
 
