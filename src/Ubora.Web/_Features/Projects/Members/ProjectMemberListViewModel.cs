@@ -18,6 +18,27 @@ namespace Ubora.Web._Features.Projects.Members
             public bool IsProjectLeader { get; set; }
             public bool IsCurrentUser { get; set; }
             public bool IsProjectMentor { get; set; }
+            public string ProfilePictureUrl { get; set; } 
+
+            public string Roles
+            {
+                get
+                {
+                    var roles = new List<string>();
+                    
+                    if (IsProjectLeader)
+                    {
+                        roles.Add("leader");
+                    }
+                    
+                    if (IsProjectMentor)
+                    {
+                        roles.Add("mentor");
+                    }
+
+                    return string.Join(",", roles);
+                }
+            }
         }
     }
 }

@@ -4,6 +4,9 @@ import Autocomplete from './modules/autocomplete';
 import CopyingToClipboard from './modules/clipboard';
 import Feedback from './modules/feedback';
 
-window.addEventListener('load', () => {
-  console.info(`UBORA: page loaded in ${Math.ceil(window.performance.now())}ms / target <500ms`);
-});
+import '../Styles/styles';
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="popover"]').popover();
+})

@@ -1,0 +1,15 @@
+.progress {
+  background-color: $tertiary-shade;
+}
+
+.progress-bar {
+  background-color: var(--blue);
+}
+
+.progress-bar.bg-success {
+  background-color: $green !important;
+}
+
+.progress-bar.bg-warning {
+  background-color: $orange !important;
+}
