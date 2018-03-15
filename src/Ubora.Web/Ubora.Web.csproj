@@ -53,6 +53,30 @@
   <Folder Include="Properties\" />
 </ItemGroup>
 
+<ItemGroup>
+  <None Include="wwwroot\slick-1.8.0\.gitignore" />
+  <None Include="wwwroot\slick-1.8.0\CONTRIBUTING.markdown" />
+  <None Include="wwwroot\slick-1.8.0\index.html" />
+  <None Include="wwwroot\slick-1.8.0\ISSUE_TEMPLATE.md" />
+  <None Include="wwwroot\slick-1.8.0\LICENSE" />
+  <None Include="wwwroot\slick-1.8.0\Makefile" />
+  <None Include="wwwroot\slick-1.8.0\README.markdown" />
+  <None Include="wwwroot\slick-1.8.0\slick\ajax-loader.gif" />
+  <None Include="wwwroot\slick-1.8.0\slick\config.rb" />
+  <None Include="wwwroot\slick-1.8.0\slick\fonts\slick.eot" />
+  <None Include="wwwroot\slick-1.8.0\slick\fonts\slick.svg" />
+  <None Include="wwwroot\slick-1.8.0\slick\fonts\slick.ttf" />
+  <None Include="wwwroot\slick-1.8.0\slick\fonts\slick.woff" />
+  <None Include="wwwroot\slick-1.8.0\slick\slick-theme.css" />
+  <None Include="wwwroot\slick-1.8.0\slick\slick-theme.less" />
+  <None Include="wwwroot\slick-1.8.0\slick\slick-theme.scss" />
+  <None Include="wwwroot\slick-1.8.0\slick\slick.css" />
+  <None Include="wwwroot\slick-1.8.0\slick\slick.js" />
+  <None Include="wwwroot\slick-1.8.0\slick\slick.less" />
+  <None Include="wwwroot\slick-1.8.0\slick\slick.min.js" />
+  <None Include="wwwroot\slick-1.8.0\slick\slick.scss" />
+</ItemGroup>
+
 <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
   <Exec Command="npm install" />
   <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />

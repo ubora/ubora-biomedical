@@ -11,7 +11,6 @@ h1.section-heading {
 }
 
 
-
 hr.light {
     border-color: #fff;
 }
@@ -86,7 +85,7 @@ header {
 
     header .pull-down {
         position: absolute;
-        bottom: 0;
+        bottom: 2%;
         z-index: 1;
         /* Firefox */
         left: -moz-calc(50% - 32px);
@@ -104,9 +103,8 @@ header {
 
 
 header.masthead {
-    
-    padding-top: 10rem;
-    padding-bottom: calc(10rem - 56px);
+    padding-top: 8rem;
+    padding-bottom: 8rem;
     background-image: url("../images/landing.jpg");
     /*background-image: url("../img/landing-light.jpg");*/
     /* background-image: url("../img/microscope-385364_1920.jpg"); */
@@ -118,8 +116,8 @@ header.masthead {
     position: relative;
 
     h1 {
-           color: white;
-       }
+        color: white;
+    }
 }
 
 
@@ -131,7 +129,7 @@ header.masthead {
 
 @media (min-width: 992px) {
     header.masthead {
-        height: 100vh;
+        height: 95vh;
         min-height: 650px;
         padding-top: 0;
         padding-bottom: 0;
