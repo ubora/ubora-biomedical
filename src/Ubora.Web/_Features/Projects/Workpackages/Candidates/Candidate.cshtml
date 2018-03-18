@@ -18,14 +18,16 @@
                       @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanChangeProjectCandidateImage)).Succeeded)
                       {
                           <a class="mx-1" href="@Url.Action("EditCandidateImage", "Candidates", new { candidateId = Model.Id })">
-                              <i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span>
+                              <i class="material-icons align-middle" id="EditImage">mode_edit</i>
+                              <span class="align-middle">Change image</span>
                           </a>
                       }
 
                       @if (Model.HasImage && (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanRemoveProjectCandidateImage)).Succeeded)
                       {
                           <a class="mx-1" href="@Url.Action("RemoveCandidateImage", "Candidates", new { candidateId = Model.Id })">
-                              <i class="material-icons align-middle">delete_forever</i><span class="align-middle">Remove image</span>
+                              <i class="material-icons align-middle">delete_forever</i>
+                              <span class="align-middle">Remove image</span>
                           </a>
                       }
                   </div>
