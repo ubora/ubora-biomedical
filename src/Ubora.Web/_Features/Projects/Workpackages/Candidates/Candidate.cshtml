@@ -41,8 +41,8 @@
                 <div class="col-lg-3 d-flex justify-content-end">
                     @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanEditProjectCandidate)).Succeeded)
                     {
-                        <a class="btn btn-outline-primary align-self-start" href="@Url.Action("EditCandidate", "Candidates", new { candidateId = Model.Id })">
-                            <i class="material-icons" id="EditImage">mode_edit</i>
+                        <a class="btn-icon btn-sm d-flex align-content-center" href="@Url.Action("EditCandidate", "Candidates", new { candidateId = Model.Id })">
+                            <i class="material-icons mx-1" id="EditImage">mode_edit</i>
                             <span>Edit</span>
                         </a>
                     }
