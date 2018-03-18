@@ -4,6 +4,15 @@
         border-width: 3px;
         border-color: #fff;
     }
+
+    .carousel .carousel-caption {
+        right: 0;
+        bottom: 0;
+        left: auto;
+        padding-left: 2rem;
+        padding-right:2rem;
+        height: 100%;
+    }
 }
 
 h1.section-heading {
@@ -57,14 +66,8 @@ hr.dark {
 .btn-white-ghost {
     border: 1px solid var(--white);
     color: var(--white);
+    background-color: transparent;
 }
-
-    .btn-white-ghost:focus,
-    .btn-white-ghost:hover {
-        background-color: #e64812;
-        border-color: #e64812;
-        color: var(--white);
-    }
 
 /* header */
 header {
@@ -245,7 +248,7 @@ section.getstarted-section .container {
 
 
 
-.carousel-indicators li {
+/*.carousel-indicators li {
     background-color: rgba(0,0,0,.2);
 }
 
@@ -272,4 +275,4 @@ section.getstarted-section .container {
    h4  {
     color: white;
     }   
-}
+}*/
