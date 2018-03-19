@@ -5,7 +5,7 @@
 }
 
 <div class="container my-4 text-center">
-  <h1 class="display-4">@ViewData["Title"]</h1>
+  <h1>@ViewData["Title"]</h1>
   <div class="row flex-column align-items-center my-2">
     <div class="col-sm-4">
       <img class="avatar mb-4" src="@User.GetProfilePictureUrl()" alt="Profile picture" height="250" width="250">
@@ -14,17 +14,17 @@
   </div>
   <div class="row justify-content-center my-2">
     <div class="col-lg-4 col-md-6">
-      <a class="btn btn-secondary-ghost btn-block" asp-controller="Profile" asp-action="EditProfile" role="button">Edit profile</a>
+      <a class="btn btn-outline-primary btn-block" asp-controller="Profile" asp-action="EditProfile" role="button">Edit profile</a>
     </div>
   </div>
   <div class="row justify-content-center my-2">
     <div class="col-lg-4 col-md-6">
-      <a class="btn btn-secondary-ghost btn-block" asp-controller="Manage" asp-action="ChangePassword" role="button">Change password</a>
+      <a class="btn btn-outline-primary btn-block" asp-controller="Manage" asp-action="ChangePassword" role="button">Change password</a>
     </div>
   </div>
   <div class="row justify-content-center my-2">
     <div class="col-lg-4 col-md-6">
-      <a class="btn btn-secondary-ghost btn-block" asp-controller="Account" asp-action="TermsOfService" role="button">Terms of Service</a>
+      <a class="btn btn-outline-primary btn-block" asp-controller="Account" asp-action="TermsOfService" role="button">Terms of Service</a>
     </div>
   </div>
 </div>

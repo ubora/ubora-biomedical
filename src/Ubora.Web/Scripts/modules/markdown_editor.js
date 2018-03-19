@@ -8,6 +8,7 @@ export class MarkdownEditor {
       element: element, previewRender: plainText => {
         return marked(plainText, { renderer: renderer });
       },
+      spellChecker: false,
       toolbar: [
         { name: "bold", action: SimpleMDE.toggleBold, className: "fa fa-bold", title: "Bold" },
         { name: "italic", action: SimpleMDE.toggleItalic, className: "fa fa-italic", title: "Italic", default: true },

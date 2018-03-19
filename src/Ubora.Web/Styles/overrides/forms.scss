@@ -1,26 +1,28 @@
 .form-group label {
-  color: var(--blue);
-  font-size: 1.5rem;
-  margin:1rem 0;
+    color: $blue;
+    margin: 1rem 0 .5rem 0;
+    font-size: 120%;
+
+    &[for="CommentText"] {
+        margin: 0;
+    }
 }
 
-.form-group label[for="CommentText"] {
-  margin: 0;
-}
+.form-check,
+.form-group {
 
-
-.form-check .form-control,
-.form-group .form-control {
-  border: 0;
-  border-bottom: 2px solid var(--blue);
-  border-radius: 0;
-  font-family: inherit;
-  font-size: 1rem;
-  padding: .5rem 0;
+    .form-control {
+        border: 0;
+        @include form-field-border;
+        border-radius: 0;
+        font-family: inherit;
+        font-size: 1rem;
+        padding: .5rem 0;
+    }
 }
 
 .form-group .form-check .form-check-label {
-  color: var(--text-color);
+  color: $text-color;
   font-size: inherit;
 }
 
@@ -28,10 +30,11 @@
   padding: 0;
 }
 
-
-.form-group .form-control:focus {
-  border: 0;
-  border-bottom: 2px solid var(--light-blue);
+.form-check .form-control:focus,
+.form-group .form-control:focus,
+.form-group .form-control.input-validation-error:focus {
+    border: 0;
+    border-bottom: 2px solid $light-blue;
 }
 
 select.form-control:not([size]):not([multiple]) {
@@ -39,51 +42,20 @@ select.form-control:not([size]):not([multiple]) {
 }
 
 .form-group textarea.form-control {
-  border: 1px solid var(--blue);
-  padding-left: .65em;
+    border: 1px solid $secondary-shade;
+    padding-left: .65em;
 }
 
 .form-group textarea.form-control:focus {
-  border: 1px solid var(--light-blue);
+  border: 2px solid $light-blue;
 }
 
 label.custom-file {
   font-size: 1rem;
 }
 
-.custom-file-control.selected:lang(en)::after {
-  content: "" !important;
-}
-
-.custom-file-control {
-  border:0;
-  border-radius: 0;
-  border-bottom: 2px solid var(--blue);
-}
-
-.custom-file-control::before {
-  background-color: var(--blue);
-  border: 0;
-  border-bottom-right-radius: 0;
-  border-top-left-radius: .25rem;
-  color: var(--white);
-  transition:
-    background-color 200ms ease-in,
-    border 200ms ease-in;
-}
-
-.custom-file:hover .custom-file-control::before {
-  background-color: var(--light-blue);
-  cursor: pointer;
-}
-
-.custom-file .custom-file-control,
-.custom-file-control::before {
-  line-height: 1;
-}
-
 .validation-summary-errors {
-  color: var(--orange);
+  color: $orange;
   font-size: 120%;
 }
 
@@ -98,7 +70,7 @@ label.custom-file {
 }
 
 .field-validation-error {
-  color: var(--orange);
+  color: $orange;
   display: block;
 }
 
@@ -107,12 +79,11 @@ label.custom-file {
   padding: 0;
 }
 
-.input-validation-error {
-  border-color: var(--orange);
+.form-group .form-control.input-validation-error {
+    border-bottom: 1px solid $orange;
 }
 
 
 input.width-8 {
   display: inline;
-  width: 8%;
 }

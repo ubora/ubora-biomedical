@@ -38,18 +38,18 @@
 }
 
 .badge-grey-ghost {
-    border: 1px solid var(--primary-shade);
-    color: var(--text-color);
+    border: 1px solid $primary-shade;
+    color: $text-color;
 }
 
 .badge-green {
-    background-color: var(--green);
-    color: var(--white);
+    background-color: $green;
+    color: $white;
 }
 
 .badge-orange {
-	background-color: var(--orange);
-    color:  var(--white);
+	background-color: $orange;
+    color:  $white;
 }
 
 /*Override icon default values*/
@@ -60,20 +60,20 @@
 
 /*Project status indicator*/
 .project-status-draft {
-	color: var(--white);
-	background-color: var(--orange);
+	color: $white;
+	background-color: $orange;
 	padding: 0 1rem;
 	margin-bottom: 0;
 }
 
 /*coloring text to orange*/
 .color-orange {
-	color: var(--orange);
+	color: $orange;
 }
 
 /*coloring text to grey*/
 .color-grey {
-	color: var(--primary-shade);
+	color: $primary-shade;
 }
 
 /*Repository icons*/
@@ -82,11 +82,11 @@
     padding: 0;
     text-align: center;
     transition: color .3s ease;
-    color: var(--blue)
+    color: $blue
 }
 
     .file-list--item-control:hover {
-        color: var(--light-blue);
+        color: $light-blue;
         cursor: pointer;
     }
 
@@ -102,7 +102,7 @@
 
 .text-informative {
     font-style: italic;
-    color: var(--dark-grey);
+    color: $dark-grey;
 }
 
 .hide {
@@ -141,8 +141,8 @@ a.no-underline {
 }
 
 .page-item.active .page-link {
-    background-color: var(--primary-shade);
-    border-color: var(--primary-shade);
+    background-color: $primary-shade;
+    border-color: $primary-shade;
 }
 
 .page-link,

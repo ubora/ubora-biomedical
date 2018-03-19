@@ -3,17 +3,15 @@
 <div class="container-fluid my-4">
     <div class="row">
         <div class="col text-center">
-
             <h2>Do you want to remove the project with title "@Model.Title"?</h2>
             <form asp-controller="DeleteProject" asp-action="DeleteProject" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="Dashboard">No, cancel</a>
+                    <a class="btn btn-outline-primary" asp-controller="Dashboard" asp-action="Dashboard">No, cancel</a>
                     <span class="mx-1"></span>
                     <button class="btn btn-primary" type="submit">Yes, remove</button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>

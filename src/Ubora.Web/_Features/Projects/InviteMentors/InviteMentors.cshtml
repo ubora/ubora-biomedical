@@ -10,14 +10,14 @@
   <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
       @if(Model.ProjectMentors.Any()) {
-        <h1 class="display-4">Project mentors</h1>
+        <h1>Project mentors</h1>
         <div class="row my-4">
         @foreach (var mentor in Model.ProjectMentors)
         {
           <div class="col-sm-12 col-md-4 col-lg-3 my-2">
             <div class="card text-center box-shadow">
                 <div class="justify-content-center">
-                    <img class="card-img-top my-4 avatar" src="@mentor.ProfilePictureLink" alt="@mentor.FullName profile picture">
+                    <img class="card-img-top mt-4 avatar" src="@mentor.ProfilePictureLink" alt="@mentor.FullName profile picture">
                 </div>
                 <div class="card-body">
                     <h4 class="card-title"><a asp-action="View" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h4>
@@ -33,20 +33,20 @@
         </div>
       }
     
-      <h1 class="display-4">All UBORA mentors</h1>
+      <h1>All UBORA mentors</h1>
       <div class="row my-4">
       @foreach (var mentor in Model.UboraMentors)
       {
         <div class="col-sm-12 col-md-4 col-lg-3 my-2">
           <div class="card text-center box-shadow">
             <div class="justify-content-center">
-                <img class="avatar my-4" src="@mentor.ProfilePictureLink" alt="@mentor.FullName profile picture">
+                <img class="avatar mt-4" src="@mentor.ProfilePictureLink" alt="@mentor.FullName profile picture">
             </div>
             <div class="card-body">
               <h4 class="card-title"><a asp-action="View" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h4>
               <form class="form-group" asp-action="InviteMentor">
                   <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId" />
-                  <button class="btn btn-secondary-ghost" type="submit">Invite mentor</button>
+                  <button class="btn btn-outline-primary" type="submit">Invite mentor</button>
               </form>
             </div>
           </div>

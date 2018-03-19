@@ -3,18 +3,34 @@
 @model Ubora.Web._Features.Projects.Dashboard.ProjectDashboardViewModel
 
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Overview";
     ViewData["MenuOption"] = ProjectMenuOption.Overview;
 }
 
 <div class="container my-4">
-    <h1 class="display-4">
-        @Model.Title
-        @if (Model.IsInDraft)
-        {
-        <span class="badge badge-pill badge-orange normal-text">Draft</span>
-        }
-    </h1>
+    <div class="row">
+        <div class="col-lg-9">
+            <h1>
+                @Model.Title
+                @if (Model.IsInDraft)
+                {
+                    <span class="badge badge-pill badge-orange normal-text">Draft</span>
+                }
+            </h1>
+        </div>
+        <div class="col-lg-3">
+            @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanJoinProject))
+            {
+                <div class="d-flex justify-content-end">
+                    <a class="btn btn-outline-primary" href="@Url.Action("Join", "Members")">
+                        <i class="material-icons align-middle">add</i>
+                        <span>Join project</span>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+   
     <div class="row">
         <div class="col-lg-5">
             <div class="row">
@@ -46,18 +62,11 @@
                 </div>
             </div>
 
-            @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanJoinProject))
-            {
-                <div class="row mt-1">
-                    <div class="col d-flex justify-content-end">
-                        <a class="btn btn-secondary-ghost btn-sm" href="@Url.Action("Join", "Members")"><i class="material-icons align-middle">add</i><span class="align-middle">Join project</span></a>
-                    </div>
-                </div>
-            }
+          
 
             <div class="row mt-4">
                 <div class="col d-flex justify-content-between">
-                    <h2 class="display-5">Medical tags</h2>
+                    <h2>Medical tags</h2>
                     @if (Model.IsProjectMember)
                     {
                         <a class="btn-icon btn-sm d-flex align-content-center" asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@Url.Action("Dashboard","Dashboard")">
@@ -87,7 +96,7 @@
         <div class="col-lg-7">
             <div class="row">
                 <div class="col d-flex justify-content-between">
-                    <h2 class="display-5">Project description</h2>
+                    <h2>Project description</h2>
                     @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectTitleAndDescription))
                     {
                         <a class="btn-icon btn-sm d-flex align-content-center" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription">
@@ -179,18 +188,20 @@
             </div>
         </div>
     </div>*@
-    <div class="my-4">
+   
         @{
             var canDeleteProject = (await AuthorizationService.AuthorizeAsync(User, Policies.CanDeleteProject)).Succeeded;
         }
         @if (canDeleteProject)
             {
-            <hr />
-            <div>
-                <a class="btn btn-secondary-ghost" asp-controller="DeleteProject" asp-action="DeleteProject"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete project</span></a>
+            <div class="my-4">
+                <hr />
+                <div>
+                    <a class="btn btn-outline-primary" asp-controller="DeleteProject" asp-action="DeleteProject"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete project</span></a>
+                </div>
             </div>
+
         }
-    </div>
 </div>
 
 @section Scripts {

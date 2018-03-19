@@ -1,93 +1,59 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
-<PropertyGroup>
-  <TargetFramework>netcoreapp2.0</TargetFramework>
-</PropertyGroup>
-
-<PropertyGroup>
-  <UserSecretsId>aspnet-Ubora.Web-d1f6fc32-3f07-4ac3-bdfa-0102a5b76a9d</UserSecretsId>
-  <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
-</PropertyGroup>
-
-<ItemGroup>
-  <Compile Remove="_Features\Projects\DeviceClassification\**" />
-  <Content Remove="_Features\Projects\DeviceClassification\**" />
-  <EmbeddedResource Remove="_Features\Projects\DeviceClassification\**" />
-  <None Remove="_Features\Projects\DeviceClassification\**" />
-</ItemGroup>
-
-<ItemGroup>
-  <PackageReference Include="Autofac" Version="4.6.2" />
-  <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.0" />
-  <PackageReference Include="AutoMapper" Version="6.1.1" />
-  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.0.1" />
-  <PackageReference Include="ImageSharp" Version="1.0.0-alpha9-00169" />
-  <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
-  <PackageReference Include="MailKit" Version="1.18.1.1" />
-  <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-  <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
-  <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0" />
-  <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.1" />
-  <PackageReference Include="PreMailer.Net" Version="2.0.0-beta2" />
-  <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
-  <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
-  <PackageReference Include="OdeToCode.AddFeatureFolders" Version="1.0.8" />
-  <PackageReference Include="TwentyTwenty.Storage" Version="2.0.0" />
-  <PackageReference Include="TwentyTwenty.Storage.Azure" Version="2.0.0" />
-  <PackageReference Include="TwentyTwenty.Storage.Local" Version="2.0.0" />
-  <PackageReference Include="WindowsAzure.Storage" Version="8.4.0" />
-</ItemGroup>
-
-<ItemGroup>
-  <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
-  <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
-  <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-  <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
-</ItemGroup>
-
-<ItemGroup>
-  <ProjectReference Include="..\Ubora.Domain\Ubora.Domain.csproj" />
-</ItemGroup>
-
-<ItemGroup>
-  <Folder Include="Properties\" />
-</ItemGroup>
-
-<ItemGroup>
-  <None Include="wwwroot\slick-1.8.0\.gitignore" />
-  <None Include="wwwroot\slick-1.8.0\CONTRIBUTING.markdown" />
-  <None Include="wwwroot\slick-1.8.0\index.html" />
-  <None Include="wwwroot\slick-1.8.0\ISSUE_TEMPLATE.md" />
-  <None Include="wwwroot\slick-1.8.0\LICENSE" />
-  <None Include="wwwroot\slick-1.8.0\Makefile" />
-  <None Include="wwwroot\slick-1.8.0\README.markdown" />
-  <None Include="wwwroot\slick-1.8.0\slick\ajax-loader.gif" />
-  <None Include="wwwroot\slick-1.8.0\slick\config.rb" />
-  <None Include="wwwroot\slick-1.8.0\slick\fonts\slick.eot" />
-  <None Include="wwwroot\slick-1.8.0\slick\fonts\slick.svg" />
-  <None Include="wwwroot\slick-1.8.0\slick\fonts\slick.ttf" />
-  <None Include="wwwroot\slick-1.8.0\slick\fonts\slick.woff" />
-  <None Include="wwwroot\slick-1.8.0\slick\slick-theme.css" />
-  <None Include="wwwroot\slick-1.8.0\slick\slick-theme.less" />
-  <None Include="wwwroot\slick-1.8.0\slick\slick-theme.scss" />
-  <None Include="wwwroot\slick-1.8.0\slick\slick.css" />
-  <None Include="wwwroot\slick-1.8.0\slick\slick.js" />
-  <None Include="wwwroot\slick-1.8.0\slick\slick.less" />
-  <None Include="wwwroot\slick-1.8.0\slick\slick.min.js" />
-  <None Include="wwwroot\slick-1.8.0\slick\slick.scss" />
-</ItemGroup>
-
-<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-  <Exec Command="npm install" />
-  <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
-
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <UserSecretsId>aspnet-Ubora.Web-d1f6fc32-3f07-4ac3-bdfa-0102a5b76a9d</UserSecretsId>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+  </PropertyGroup>
   <ItemGroup>
-    <DistFiles Include="wwwroot\dist\**" />
-    <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
-      <RelativePath>%(DistFiles.Identity)</RelativePath>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </ResolvedFileToPublish>
+    <Compile Remove="_Features\Projects\DeviceClassification\**" />
+    <Content Remove="_Features\Projects\DeviceClassification\**" />
+    <EmbeddedResource Remove="_Features\Projects\DeviceClassification\**" />
+    <None Remove="_Features\Projects\DeviceClassification\**" />
   </ItemGroup>
-</Target>
-
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.2" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.0" />
+    <PackageReference Include="AutoMapper" Version="6.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.0.1" />
+    <PackageReference Include="ImageSharp" Version="1.0.0-alpha9-00169" />
+    <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
+    <PackageReference Include="MailKit" Version="1.18.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.1" />
+    <PackageReference Include="PreMailer.Net" Version="2.0.0-beta2" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
+    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
+    <PackageReference Include="OdeToCode.AddFeatureFolders" Version="1.0.8" />
+    <PackageReference Include="TwentyTwenty.Storage" Version="2.0.0" />
+    <PackageReference Include="TwentyTwenty.Storage.Azure" Version="2.0.0" />
+    <PackageReference Include="TwentyTwenty.Storage.Local" Version="2.0.0" />
+    <PackageReference Include="WindowsAzure.Storage" Version="8.4.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ubora.Domain\Ubora.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <Exec Command="npm install" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
+    <ItemGroup>
+      <DistFiles Include="wwwroot\dist\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
 </Project>

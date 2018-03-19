@@ -9,7 +9,7 @@
 }
 
 <div class="col-lg-9 pr-5">
-    <h1 class="display-4">Design planning</h1>
+    <h1>Design planning</h1>
 
     <form asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -135,7 +135,7 @@
         </div>
 
         <div class="d-flex justify-content-center flex-wrap-reverse">
-            <a class="btn btn-secondary-ghost" asp-controller="WorkpackageOne" asp-action="DiscardDesignPlanningChanges" asp-route-returnUrl="@ViewData["ReturnUrl"]" role="button">Discard</a>
+            <a class="btn btn-outline-primary" asp-controller="WorkpackageOne" asp-action="DiscardDesignPlanningChanges" asp-route-returnUrl="@ViewData["ReturnUrl"]" role="button">Discard</a>
             <span class="mx-1"></span>
             <button class="btn btn-primary" type="submit">Save changes</button>
         </div>

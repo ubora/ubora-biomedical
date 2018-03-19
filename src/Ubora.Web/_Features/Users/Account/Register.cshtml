@@ -1,63 +1,60 @@
 ﻿@model Ubora.Web._Features.Users.Account.RegisterViewModel
 @{
-    ViewData["Title"] = "Sign up";
+    ViewData["Title"] = "Sign up to UBORA";
 }
 
 <div class="container-fluid my-4">
-  <div class="row flex-column align-items-center">
-    <h1 class="display-4">@ViewData["Title"]</h1>
-    <div class="col-md-4 col-lg-3">
-      <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row flex-column align-items-center">
+        <h1>@ViewData["Title"]</h1>
+        <div class="col-md-4 col-lg-3">
+            <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-          <div class="form-group">
-              <label asp-for="FirstName">First name</label>
-              <input class="form-control" asp-for="FirstName" placeholder="First name" autofocus>
-              <span asp-validation-for="FirstName"></span>
-          </div>
+                <div class="form-group">
+                    <label asp-for="FirstName">First name</label>
+                    <input class="form-control" asp-for="FirstName" placeholder="First name" autofocus>
+                    <span asp-validation-for="FirstName"></span>
+                </div>
 
-          <div class="form-group">
-              <label asp-for="LastName">Last name</label>
-              <input class="form-control" asp-for="LastName" placeholder="Last name">
-              <span asp-validation-for="LastName"></span>
-          </div>
+                <div class="form-group">
+                    <label asp-for="LastName">Last name</label>
+                    <input class="form-control" asp-for="LastName" placeholder="Last name">
+                    <span asp-validation-for="LastName"></span>
+                </div>
 
-          <div class="form-group">
-              <label asp-for="Email">Email address</label>
-              <input class="form-control" asp-for="Email" placeholder="email@example.com">
-              <span asp-validation-for="Email"></span>
-          </div>
+                <div class="form-group">
+                    <label asp-for="Email">Email address</label>
+                    <input class="form-control" asp-for="Email" placeholder="email@example.com">
+                    <span asp-validation-for="Email"></span>
+                </div>
 
-          <div class="form-group">
-              <label asp-for="Password">Secret password</label>
-              <input class="form-control" asp-for="Password" placeholder="Secret password">
-              <span asp-validation-for="Password"></span>
-          </div>
+                <div class="form-group">
+                    <label asp-for="Password">Secret password</label>
+                    <input class="form-control" asp-for="Password" placeholder="Secret password">
+                    <span asp-validation-for="Password"></span>
+                </div>
 
-          <div class="form-group">
-              <label asp-for="ConfirmPassword">Secret password again</label>
-              <input class="form-control" asp-for="ConfirmPassword" placeholder="Secret password again">
-              <span asp-validation-for="ConfirmPassword"></span>
-          </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword">Secret password again</label>
+                    <input class="form-control" asp-for="ConfirmPassword" placeholder="Secret password again">
+                    <span asp-validation-for="ConfirmPassword"></span>
+                </div>
 
-          <div class="form-group">
-              <label class="custom-control custom-checkbox" asp-for="IsAgreedToTermsOfService">
-                  <input class="custom-control-input" asp-for="IsAgreedToTermsOfService" required>
-                  <span class="custom-control-indicator"></span>
-                  <p>
-                    <span class="custom-control-description">I agree to </span>
-                    <a asp-controller="Account" asp-action="TermsOfService" target="_blank">Terms of Service</a>
-                  </p>
-              </label>
-              <span asp-validation-for="IsAgreedToTermsOfService"></span>
-          </div>
+                <div class="custom-control custom-checkbox my-4" style="font-size: 120%"> @*TODO(Kärolin): inline style quick-fix *@
+                    <input type="checkbox" class="custom-control-input" asp-for="IsAgreedToTermsOfService" required>
+                    <label class="custom-control-label" asp-for="IsAgreedToTermsOfService">
+                        <span class="custom-control-description">I agree to </span>
+                        <a asp-controller="Account" asp-action="TermsOfService" target="_blank">Terms of Service</a>
+                    </label>
+                    <span asp-validation-for="IsAgreedToTermsOfService"></span>
+                </div>
 
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary">Create an account</button>
-          </div>
-      </form>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Create an account</button>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
 </div>
 
 @section Scripts {

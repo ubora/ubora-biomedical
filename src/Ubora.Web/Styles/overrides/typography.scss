@@ -1,6 +1,23 @@
 h1, h2, h3, h4, h5, h6 {
-	color: var(--blue);
-	margin-bottom: 1.5rem;
+    color: $dark;
+    margin-bottom: 1.5rem;
+}
+
+h2, h3, h4, h5, h6 {
+    font-weight: 400;
+}
+
+dt,
+table thead th{
+    font-weight: 600;
+}
+
+.display-3 {
+    font-size: 2.5rem;
+}
+
+.display-4 {
+    font-size: 2rem;
 }
 
 .display-1 {
@@ -25,4 +42,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .display-6 {
   font-size: 1rem;
+}
+
+h1 {
+    @extend .display-3;
 }
