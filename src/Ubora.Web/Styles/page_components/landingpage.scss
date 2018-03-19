@@ -7,13 +7,12 @@
     hr {
         max-width: 50px;
         border-width: 3px;
-        border-color: #fff;
 
-        .light {
+        &.light {
             border-color: #fff;
         }
 
-        .dark {
+        &.dark {
             border-color: #000;
         }
     }
@@ -25,8 +24,6 @@
             padding-top: 8rem;
             padding-bottom: 8rem;
             background-image: url("../images/landing.jpg");
-            /*background-image: url("../img/landing-light.jpg");*/
-             /*background-image: url("../images/microscope-385364_1920.jpg");*/ 
             background-position: center center;
             -webkit-background-size: cover;
             -moz-background-size: cover;
@@ -60,7 +57,7 @@
             bottom: 0;
             left: auto;
             padding: 4rem;
-            text-align:start;
+            text-align: start;
             height: 100%;
         }
     }
@@ -118,6 +115,13 @@
     }
 }
 
+/*hr.light {
+    border-color: #fff;
+}
+
+hr.dark {
+    border-color: #000;
+}*/
 
 /* background colors */
 .bg-blue {
