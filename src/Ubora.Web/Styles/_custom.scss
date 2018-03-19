@@ -26,6 +26,10 @@
 @import 'page_components/workpackage_list.scss';
 @import 'page_components/markdown_editor.scss';
 
+html, body {
+    height: 100%;
+    margin:0;
+}
 
 body {
     color: $text-color;
@@ -33,7 +37,7 @@ body {
     font-display: swap;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    /*min-height: 100vh;*/
 }
 
 main {
