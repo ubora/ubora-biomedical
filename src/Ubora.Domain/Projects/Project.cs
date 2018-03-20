@@ -112,6 +112,11 @@ namespace Ubora.Domain.Projects
             IsInDraft = false;
         }
 
+        private void Apply(WorkpackageOneReopenedAfterAcceptanceByReviewEvent e)
+        {
+            IsInDraft = true;
+        }
+
         private void Apply(ProjectImageUpdatedEvent e)
         {
             ProjectImageBlobLocation = e.BlobLocation;

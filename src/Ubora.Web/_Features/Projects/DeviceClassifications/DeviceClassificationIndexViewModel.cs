@@ -4,11 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects._Specifications;
-using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
-using Ubora.Web._Features.Projects.ApplicableRegulations;
 
 namespace Ubora.Web._Features.Projects.DeviceClassifications
 {
@@ -16,7 +13,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
     {
         public QuestionnaireListItem Last { get; set; }
         public IEnumerable<QuestionnaireListItem> Previous { get; set; }
-        
+
         public class QuestionnaireListItem
         {
             public Guid QuestionnaireId { get; set; }
@@ -42,7 +39,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
 
             public virtual DeviceClassificationIndexViewModel Create(Guid projectId)
             {
-                var isFromProject = new IsFromProjectSpec<DeviceClassificationAggregate> {ProjectId = projectId};
+                var isFromProject = new IsFromProjectSpec<DeviceClassificationAggregate> { ProjectId = projectId };
                 // Can't apply this projection in db now, because of computed fields (can be refactored later, if needed)
                 var questionnaires = _questionnaireListItemProjection.Apply(
                                             _queryProcessor.Find(isFromProject, null, Int32.MaxValue, 1))
@@ -66,15 +63,16 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
 
         public class QuestionnaireListItemProjection : Projection<DeviceClassificationAggregate, QuestionnaireListItem>
         {
-            protected override Expression<Func<DeviceClassificationAggregate, QuestionnaireListItem>>
-                SelectExpression
-                => x => new QuestionnaireListItem
+            protected override Expression<Func<DeviceClassificationAggregate, QuestionnaireListItem>> ToSelector()
+            {
+                return x => new QuestionnaireListItem
                 {
                     QuestionnaireId = x.Id,
                     StartedAt = x.StartedAt,
                     IsFinished = x.IsFinished,
                     IsStopped = x.IsStopped
                 };
+            }
         }
     }
 }

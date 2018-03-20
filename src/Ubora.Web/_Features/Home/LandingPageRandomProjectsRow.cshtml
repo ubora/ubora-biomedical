@@ -1,0 +1,11 @@
+﻿@using Ubora.Web._Components
+@model IEnumerable<ProjectCardViewModel>
+
+<div class="row">
+    @foreach (var project in Model)
+    {
+    <div class="col-md-4 col-lg-3 my-2">
+        @Html.Partial("~/_Components/ProjectCard.cshtml", model: project)
+    </div>
+    }
+</div>

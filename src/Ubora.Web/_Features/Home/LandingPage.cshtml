@@ -1,4 +1,4 @@
-﻿@using Ubora.Web._Features.ProjectList
+﻿@using Ubora.Web._Features.Home
 
 <div class="landing-page">
     <header class="masthead text-center d-flex ">
@@ -73,8 +73,9 @@
                 </div>
             </div>
 
-                @await Component.InvokeAsync(typeof(PublicProjectListViewComponent))
-
+            <cache expires-after="@TimeSpan.FromMinutes(15)">
+                @(await Component.InvokeAsync<LandingPageRandomProjectsRow>())
+            </cache>
 
         </div>
     </section>

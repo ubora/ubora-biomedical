@@ -7,6 +7,7 @@ using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web._Components;
 
 namespace Ubora.Web._Features.ProjectList
 {
@@ -17,32 +18,27 @@ namespace Ubora.Web._Features.ProjectList
         }
 
         public string Header { get; protected set; }
-        public IEnumerable<ProjectListItem> Projects { get; protected set; }
+        public IEnumerable<ProjectCardViewModel> Projects { get; protected set; }
         public bool ShowDefaultMessage { get; protected set; }
         public bool ShowProjectsNotFoundMessage { get; protected set; }
-
-        public class ProjectListItem
-        {
-            public Guid Id { get; protected set; }
-            public string Title { get; protected set; }
-            public bool IsInDraft { get; set; }
-            public string ImagePath { get; set; }
-        }
 
         public class Factory
         {
             private readonly IMapper _mapper;
             private readonly IQueryProcessor _queryProcessor;
             private readonly ImageStorageProvider _imageStorage;
+            private readonly ProjectCardViewModel.Factory _projectCardViewModelFactory;
 
             public Factory(
                 IQueryProcessor queryProcessor,
                 IMapper mapper,
-                ImageStorageProvider imageStorage)
+                ImageStorageProvider imageStorage,
+                ProjectCardViewModel.Factory projectCardViewModelFactory)
             {
                 _queryProcessor = queryProcessor;
                 _mapper = mapper;
                 _imageStorage = imageStorage;
+                _projectCardViewModelFactory = projectCardViewModelFactory;
             }
 
             public ProjectListViewModel Create(string header)
@@ -53,7 +49,7 @@ namespace Ubora.Web._Features.ProjectList
                 var model = new ProjectListViewModel
                 {
                     Header = header,
-                    Projects = projects.Select(GetProjectListItem)
+                    Projects = projects.Select(project => _projectCardViewModelFactory.Create(project))
                 };
 
                 return model;
@@ -66,7 +62,7 @@ namespace Ubora.Web._Features.ProjectList
                 var model = new ProjectListViewModel
                 {
                     Header = header,
-                    Projects = userProjects.Select(GetProjectListItem),
+                    Projects = userProjects.Select(project => _projectCardViewModelFactory.Create(project)),
                     ShowDefaultMessage = true
                 };
 
@@ -88,21 +84,9 @@ namespace Ubora.Web._Features.ProjectList
                     model.ShowProjectsNotFoundMessage = true;
                 }
 
-                model.Projects = projects.Select(GetProjectListItem);
+                model.Projects = projects.Select(project => _projectCardViewModelFactory.Create(project));
 
                 return model;
-            }
-
-            private ProjectListItem GetProjectListItem(Project project)
-            {
-                var projectListItem = _mapper.Map<ProjectListItem>(project);
-
-                if (project.HasImage)
-                {
-                    projectListItem.ImagePath = _imageStorage.GetUrl(project.ProjectImageBlobLocation, ImageSize.Thumbnail400x300);
-                }
-
-                return projectListItem;
             }
         }
     }
