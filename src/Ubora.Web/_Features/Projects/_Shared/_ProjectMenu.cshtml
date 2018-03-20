@@ -6,17 +6,17 @@
     var canViewProjectNonPublicContent = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanViewProjectNonPublicContent);
 }
 
-<nav class="wp-header nav nav-tabs flex-column flex-md-row justify-content-around">
-  <a class="nav-item nav-link @Model.OverviewActivityCssClass" asp-controller="Dashboard" asp-action="Dashboard">Overview</a>
+<nav class="wp-header nav nav-tabs flex-column flex-md-row justify-content-center">
+  <a class="nav-item nav-link mx-7 @Model.OverviewActivityCssClass" asp-controller="Dashboard" asp-action="Dashboard">Overview</a>
   @if (canViewProjectNonPublicContent)
   {
-    <a class="nav-item nav-link @Model.WorkpackagesActivityCssClass" asp-controller="WorkpackageOne" asp-action="ProjectOverview">Work packages</a>
-    <a class="nav-item nav-link @Model.RepositoryActivityCssClass" asp-controller="Repository" asp-action="Repository">Repository</a>
-    <a class="nav-item nav-link @Model.TasksActivityCssClass" asp-controller="Assignments" asp-action="Assignments">Assignments</a>
+    <a class="nav-item nav-link mx-7 @Model.WorkpackagesActivityCssClass" asp-controller="WorkpackageOne" asp-action="ProjectOverview">Work packages</a>
+    <a class="nav-item nav-link mx-7 @Model.RepositoryActivityCssClass" asp-controller="Repository" asp-action="Repository">Repository</a>
+    <a class="nav-item nav-link mx-7 @Model.TasksActivityCssClass" asp-controller="Assignments" asp-action="Assignments">Assignments</a>
   }
-  <a class="nav-item nav-link @Model.MembersActivityCssClass" asp-controller="Members" asp-action="Members">Members</a>
+  <a class="nav-item nav-link mx-7 @Model.MembersActivityCssClass" asp-controller="Members" asp-action="Members">Members</a>
   @if (canViewProjectNonPublicContent)
   {
-      <a class="nav-item nav-link @Model.HistoryActivityCssClass" asp-controller="History" asp-action="History">History</a>
+      <a class="nav-item nav-link mx-7 @Model.HistoryActivityCssClass" asp-controller="History" asp-action="History">History</a>
   }
 </nav>
