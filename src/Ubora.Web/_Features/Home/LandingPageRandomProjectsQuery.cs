@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Marten;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Projects;
 using Ubora.Domain.Projects._Projections;
 using Ubora.Domain.Projects._Specifications;
 
-namespace Ubora.Domain.Projects._Queries
+namespace Ubora.Web._Features.Home
 {
-    public class FindNotDraftProjectsInRandomizedOrderQuery : IQuery<IReadOnlyCollection<Project>>
+    /// <summary>
+    /// Finds projects to display for the landing page. Projects should not be in draft and should have an image.
+    /// </summary>
+    public class LandingPageRandomProjectsQuery : IQuery<IReadOnlyCollection<Project>>
     {
-        public class Handler : IQueryHandler<FindNotDraftProjectsInRandomizedOrderQuery, IReadOnlyCollection<Project>>
+        public class Handler : IQueryHandler<LandingPageRandomProjectsQuery, IReadOnlyCollection<Project>>
         {
             private readonly IQueryProcessor _queryProcessor;
             private readonly IQuerySession _querySession;
@@ -21,10 +26,10 @@ namespace Ubora.Domain.Projects._Queries
                 _querySession = querySession;
             }
 
-            public IReadOnlyCollection<Project> Handle(FindNotDraftProjectsInRandomizedOrderQuery query)
+            public IReadOnlyCollection<Project> Handle(LandingPageRandomProjectsQuery query)
             {
                 var randomizedNotDraftProjectIds = _queryProcessor.Find(
-                        specification: !new IsDraftSpec(),
+                        specification: !new IsDraftSpec() && new HasImageSpec(),
                         sortSpecification: null,
                         projection: new IdProjection(),
                         pageSize: int.MaxValue,

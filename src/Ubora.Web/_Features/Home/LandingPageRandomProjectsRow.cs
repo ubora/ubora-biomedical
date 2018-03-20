@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Projects._Queries;
 using Ubora.Web._Components;
 
 namespace Ubora.Web._Features.Home
@@ -21,7 +20,7 @@ namespace Ubora.Web._Features.Home
         public Task<IViewComponentResult> InvokeAsync()
         {
             var viewModels = _queryProcessor
-                .ExecuteQuery(new FindNotDraftProjectsInRandomizedOrderQuery())
+                .ExecuteQuery(new LandingPageRandomProjectsQuery())
                 .Take(5)
                 .Select(project => _viewModelFactory.Create(project, showCardShadow: false));
 
