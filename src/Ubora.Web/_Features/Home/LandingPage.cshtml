@@ -18,11 +18,13 @@
             </div>
         </div>
         <div class="pull-down">
-            <i class="material-icons text-faded">keyboard_arrow_down</i>
+            <a class="ct-js-btn-scroll" href="#section2">
+                <i class="material-icons text-faded">keyboard_arrow_down</i>
+            </a>
         </div>
     </header>
 
-    <section>
+    <section id="section2"">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -173,3 +175,19 @@
         </div>
     </section>
 </div>
+
+@*<script>
+    $(document).ready(function () {
+        $("ct-btn-scroll").on('click', function (event) {
+            if (this.hash !== "") {
+                event.preventDefault();
+                var hash = this.hash;
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 800, function () {
+                    window.location.hash = hash;
+                });
+            }
+        });
+    });
+</script>*@
