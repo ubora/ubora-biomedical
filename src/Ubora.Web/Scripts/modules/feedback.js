@@ -1,28 +1,7 @@
 export class Feedback {
-    static initialize(triggerElement) {
-        const modal = document.querySelector('.js-feedback-modal');
-        const modalSendButton = document.querySelector('.js-feedback-send');
-        const modalCloseButton = document.querySelector('.js-feedback-close');
-        const modalCancelButton = document.querySelector('.js-feedback-cancel');
+    static initialize() {
         const userFeedback = document.querySelector('.js-feedback-input');
-
-        triggerElement.addEventListener('click', event => {
-            return this._openModal();
-        });
-
-        modalCloseButton.addEventListener('click', event => {
-            return this._closeModal();
-        });
-
-        modalCancelButton.addEventListener('click', event => {
-            return this._closeModal();
-        });
-
-        window.addEventListener('keyup', event => {
-            if (event.key === 'Escape') {
-                return this._closeModal();
-            }
-        });
+        const modalSendButton = document.querySelector('.js-feedback-send');
 
         modalSendButton.addEventListener('click', event => {
             const data = {
@@ -30,12 +9,6 @@ export class Feedback {
                 fromPath: window.top.location.pathname
             };
             return this._sendFeedback(data);
-        });
-
-        window.addEventListener('click', event => {
-            if (event.path[0] === modal) {
-                this._closeModal();
-            }
         });
     }
 
@@ -90,7 +63,4 @@ export class Feedback {
     }
 }
 
-const feedbackButtonElement = document.querySelector('.js-feedback-trigger');
-if (feedbackButtonElement) {
-    Feedback.initialize(feedbackButtonElement);
-}
+Feedback.initialize()

@@ -1,11 +1,10 @@
-.table-medical-tags {
-  border: none;
-}
+.table-admin,
+.table-projects,
+.table-add-vote {
 
-.table-medical-tags td,
-.table-medical-tags th  {
-  background-color: #fff;
-  border-top: none;
+    th {
+        border-top: none;
+    }
 }
 
 .table-add-vote td{
@@ -15,14 +14,8 @@
 
 .table-add-vote th{
   font-weight: normal;
-  border-top: none;
 }
 
 .table-structured-information th {
   width: 50%;
-}
-
-
-.table-projects th{
-  border-top: none;
 }

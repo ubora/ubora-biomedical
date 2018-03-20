@@ -1,27 +1,21 @@
 ﻿@using Ubora.Web._Features.Users.UserList
-@model System.Collections.Generic.IEnumerable<UserListItemViewModel>
+@model IEnumerable<UserListItemViewModel>
 
 @{
     ViewData["Title"] = "Community";
 }
 
-<div class="container my-4">
-    <h1 class="display-4">Community</h1>
+<div class="container my-5">
+    <h1>Community</h1>
     <div class="row">
-    @foreach (var user in Model)
-    {
-        <div class="col-sm-12 col-md-4 col-lg-3 my-2">
-        <div class="card text-center box-shadow">
-            <div class="justify-content-center">
-            <img class="card-img-top my-4 avatar" src="@user.ProfilePictureLink" alt="@user.FullName profile picture">
-            </div>
-            <div class="card-body">
-            <h4 class="card-title">@Html.ActionLink(user.FullName, "ViewProfile", "Profile", new { userId = user.UserId }, new {@class = "user-card--name"})</h4>
-            <p>@(user.Role)&nbsp;</p>
-            </div>
-        </div>
-        </div>
-    }
+        @foreach (var user in Model)
+        {
+            Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
+                userId: user.UserId,
+                name: user.FullName,
+                roles: user.Role,
+                profilePictureUrl: user.ProfilePictureLink)
+            );
+        }
     </div>
 </div>
-

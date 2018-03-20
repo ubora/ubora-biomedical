@@ -1,5 +1,7 @@
-﻿@using Ubora.Web.Data
+﻿@using Microsoft.AspNetCore.Html
+@using Ubora.Web.Data
 @using Ubora.Web._Features.Projects._Shared
+@using Ubora.Web._Features.Users.UserList
 @model Ubora.Web._Features.Projects.Members.ProjectMemberListViewModel
 
 @{
@@ -7,17 +9,17 @@
     ViewData["MenuOption"] = ProjectMenuOption.Members;
 
     var isAdmin = User.IsInRole(ApplicationRole.Admin);
-  }
+}
 
 <div class="container my-4">
     <div class="row">
         <div class="col-lg-5">
-            <h1 class="display-4">Project members</h1>
+            <h1>@ViewData["Title"]</h1>
         </div>
         <div class="col-lg-7 d-flex justify-content-end">
             @if (Model.IsProjectMember)
             {
-                <a class="btn btn-secondary-ghost align-self-start d-sm-block d-lg-inline-block" asp-controller="Members" asp-action="Invite">
+                <a class="btn btn-outline-primary align-self-start d-sm-block d-lg-inline-block" asp-controller="Members" asp-action="Invite">
                     <i class="material-icons">person_add</i>
                     <span>Invite member</span>
                 </a>
@@ -25,53 +27,42 @@
 
             @if (isAdmin)
             {
-                <a class="btn btn-secondary-ghost align-self-start d-sm-block d-lg-inline-block ml-1" asp-controller="InviteMentors" asp-action="InviteMentors">
+                <a class="btn btn-outline-primary align-self-start d-sm-block d-lg-inline-block ml-1" asp-controller="InviteMentors" asp-action="InviteMentors">
                     <i class="material-icons" id="MentorInviteButton">person_add</i>
                     <span>Add mentor</span>
                 </a>
             }
         </div>
     </div>
-    <div class="row my-4">
-        <div class="col-sm-12">
-            <ul class="list-group">
-                @foreach (var member in Model.Members)
-                    {
-                    <li class="list-group-item">
-                        <div class="col-sm-1 d-flex justify-content-center">
-                            @if (member.IsProjectLeader)
-                            {
-                                <i class="material-icons" title="Project leader">supervisor_account</i>
-                            }
-                            @if (member.IsProjectMentor)
-                            {
-                                <i class="material-icons" title="Project mentor">school</i>
-                            }
-                        </div>
-                        <div class="col text-center">
-                            <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@member.UserId">@member.FullName</a>
-                        </div>
-                        <div class="col-sm-1 d-flex justify-content-center">
-                            @{
-                                var isRemoveMemberButtonVisible = Model.CanRemoveProjectMembers && !member.IsProjectLeader;
-                            }
-                            @if (isRemoveMemberButtonVisible)
-                            {
-                                <a title="Remove member" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId">
-                                    <i class="material-icons">close</i>
-                                </a>
-                            }
-                            @if (member.IsCurrentUser && !Model.IsProjectLeader)
-                            {
-                                <a title="Leave project" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId">
-                                    <i class="material-icons">exit_to_app</i>
-                                </a>
-                            }
-                        </div>
-                    </li>
-                    }
-            </ul>
-        </div>
+    <div class="row">
+        @{
+            Func<Guid, IHtmlContent> createRemoveMemberFooter =
+                @<a title="Remove member" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@item">
+                    Remove member
+                    <i class="material-icons align-middle">close</i>
+                </a>;
+        }
+        @foreach (var member in Model.Members)
+        {
+            if (Model.CanRemoveProjectMembers && !member.IsCurrentUser)
+            {
+                Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
+                    userId: member.UserId,
+                    name: member.FullName,
+                    roles: member.Roles,
+                    profilePictureUrl: member.ProfilePictureUrl,
+                    footerHtml: createRemoveMemberFooter(member.UserId))
+                );
+            }
+            else
+            {
+                Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
+                    userId: member.UserId,
+                    name: member.FullName,
+                    roles: member.Roles,
+                    profilePictureUrl: member.ProfilePictureUrl)
+                );
+            }
+        }
     </div>
 </div>
-   

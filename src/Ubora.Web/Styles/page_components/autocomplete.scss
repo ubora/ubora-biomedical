@@ -15,10 +15,10 @@
 }
 
 .autocomplete-result:nth-child(odd) {
-  background-color: var(--quartinary-shade);
+  background-color: $quartinary-shade;
 }
 
 .autocomplete-result:hover {
   cursor: pointer;
-  border-left: 3px solid var(--blue);
+  border-left: 3px solid $blue;
 }

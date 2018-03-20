@@ -9,7 +9,7 @@
 
 <div class="container-fluid my-4">
   <div class="row flex-column align-items-center">
-    <h1 class="display-4">@ViewData["Title"]</h1>
+    <h1>@ViewData["Title"]</h1>
     <div class="col-md-4 col-lg-3">
       <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="POST">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -38,8 +38,8 @@
 
     </div>
 	<div class="col-md-4 col-lg-3 text-center">
-		<h1 class="display-4">Don't have an account?</h1>
-		<a class="btn btn-secondary-ghost" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Sign up</a>
+		<h1>Don't have an account?</h1>
+		<a class="btn btn-outline-primary" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Sign up</a>
 	</div>
   </div>
 
