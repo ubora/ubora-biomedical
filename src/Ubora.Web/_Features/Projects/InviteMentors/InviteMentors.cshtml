@@ -42,13 +42,13 @@
             <div class="justify-content-center">
                 <img class="avatar mt-4" src="@mentor.ProfilePictureLink" alt="@mentor.FullName profile picture">
             </div>
-            <div class="card-body">
+            <div class="card-body pb-0">
               <h4 class="card-title"><a asp-action="View" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h4>
-              <form class="form-group" asp-action="InviteMentor">
-                  <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId" />
-                  <button class="btn btn-outline-primary" type="submit">Invite mentor</button>
-              </form>
             </div>
+            <form class="form-group py-2" asp-action="InviteMentor">
+                <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId" />
+                <button class="btn btn-outline-primary" type="submit">Invite mentor</button>
+            </form>
           </div>
         </div>
       }
