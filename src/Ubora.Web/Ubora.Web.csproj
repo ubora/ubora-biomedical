@@ -46,7 +46,7 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-    <Exec Command="npm install" />
+    <Exec Command="npm install --force" />
     <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
     <ItemGroup>
       <DistFiles Include="wwwroot\dist\**" />
