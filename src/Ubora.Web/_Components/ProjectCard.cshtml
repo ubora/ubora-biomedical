@@ -8,7 +8,7 @@
 
 <div class="@(cardClass)">
     <a href="@(projectHref)" class="card-link">
-        <img class="card-img-top img-fluid w-100" src="@(projectImageSrc)" alt="Image for project called @Model.ProjectTitle">
+        <img class="card-img-top" src="@(projectImageSrc)" alt="Image for project called @Model.ProjectTitle">
         @if (Model.IsDraftProject)
         {
             <p class="project-status-draft">Draft</p>
