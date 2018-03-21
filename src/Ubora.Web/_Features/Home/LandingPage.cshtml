@@ -112,7 +112,7 @@
                     <h2 class="section-heading text-white">Have a need for medical solution?</h2>
                     <hr class="light my-4">
                     <p class="text-faded mb-4">Find suitable medical solution through open discussion.</p>
-                    <a class="btn btn-light btn-primary btn-lg " href="#forum">Some Text</a>
+                    <a tabindex="0" class="btn btn-outline-light btn-primary btn-lg popover-dismiss" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="Coming soon">Forum</a>
                 </div>
             </div>
             <div class="col-lg-6 mx-auto text-center resources-section bg-dark">
@@ -120,7 +120,7 @@
                     <h2 class="section-heading text-white">Looking for medical resources?</h2>
                     <hr class="light my-4">
                     <p class="text-faded mb-4">Find materials which are uploaded by UBORA's administrators and mentors.</p>
-                    <a class="btn btn-light btn-primary btn-lg " href="#resources">Some Text</a>
+                    <a tabindex="0" class="btn btn-outline-light btn-primary btn-lg popover-dismiss" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="Coming soon">Medical resources</a>
                 </div>
             </div>
         </div>
@@ -142,3 +142,9 @@
         </div>
     </section>
 </div>
+
+<script>
+    $('.popover-dismiss').popover({
+        trigger: 'focus'
+    })
+</script>
