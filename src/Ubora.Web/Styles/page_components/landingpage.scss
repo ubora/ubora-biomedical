@@ -53,12 +53,12 @@
     .carousel {
 
         .carousel-item {
-            border: 1px solid $quartinary-shade;
+            border: 1px solid rgba(0, 0, 0, 0.125);
 
             .carousel-image-1,
             .carousel-image-2,
             .carousel-image-3 {
-                width: 1140px;
+                width: 1108px;
                 height: 400px;
             }
 
@@ -76,7 +76,7 @@
         }
 
         .carousel-caption {
-            background-color: $quartinary-shade;
+            background-color: $white;
             color: $text-color;
             right: 0;
             bottom: 0;
@@ -99,6 +99,10 @@
 
         .carousel-indicators .active {
             background-color: $text-color;
+        }
+
+        .carousel-control-prev, .carousel-control-next {
+            width: 5%;
         }
     }
     /* sections */
@@ -156,16 +160,18 @@
 }
     /* background colors */
     .bg-blue {
-        background-color: var(--blue);
+        background-color: $blue;
     }
 
     .bg-dark {
-        background-color: var(--dark);
+        background-color: $dark;
     }
 
-    .bg-light {
-        background-color: var(--light);
-    }
+.bg-light {
+    background-color: $quartinary-shade;
+}
+
+
     /* text colors */
     .text-faded-dark {
         color: rgba(0, 0, 0, 0.7);
@@ -174,12 +180,14 @@
     .text-faded {
         color: rgba(255, 255, 255, 0.7);
     }
+
     /* Buttons */
     .btn-light {
         background: var(--white);
         border: 1px solid var(--blue);
         color: var(--blue);
     }
+
     /*media queries*/
     @media (min-width: 1200px) {
         header.masthead h1 {
