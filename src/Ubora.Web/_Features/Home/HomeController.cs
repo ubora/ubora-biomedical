@@ -9,7 +9,7 @@ namespace Ubora.Web._Features.Home
 		{
 		    if (!User.Identity.IsAuthenticated)
 		    {
-		        return LandingPage();
+		        return View("LandingPage");
             }
 
             if (returnUrl != null)
@@ -17,12 +17,7 @@ namespace Ubora.Web._Features.Home
 		        return RedirectToLocal(returnUrl);
 		    }
 
-            return View();
-        }
-
-        public IActionResult LandingPage()
-        {
-            return View(nameof(LandingPage));
+            return View("Index");
         }
 
         public IActionResult Error()

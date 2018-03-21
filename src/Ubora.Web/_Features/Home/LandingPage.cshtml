@@ -1,4 +1,4 @@
-﻿@using Ubora.Web._Features.ProjectList
+﻿@using Ubora.Web._Features.Home
 
 <div class="landing-page">
     <header class="masthead text-center d-flex ">
@@ -83,60 +83,10 @@
                     </a>
                 </div>
             </div>
-            @*TODO: get information about projects from backend*@
-            <div class="row justify-content-center mt-4">
-                <div class="row">
-                    <div class="col-md-4 col-lg-3 pb-md-3 pb-sm-3">
-                        <div class="card">
-                            <a href="">
-                                <img class="card-img-top w-100" src="/images/project-default-image.png" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">Warm Hug</h5>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-3 pb-md-3">
-                        <div class="card">
-                            <a href="">
-                                <img class="card-img-top" src="/images/project-default-image.png" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">Resuscitation device for neonates</h5>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-3 pb-md-3">
-                        <div class="card">
-                            <a href="">
-                                <img class="card-img-top" src="/images/project-default-image.png" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">Organ-on-a-chip for modeling metastasis</h5>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-lg-3 pb-md-3">
-                        <div class="card">
-                            <a href="">
-                                <img class="card-img-top" src="/images/project-default-image.png" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">Multipurpose radiant warmer</h5>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col d-flex justify-content-end mt-3">
-                        <a href="#" class="d-flex align-items-center btn-icon">
-                            <span class="mr-1">View all</span>
-                            <i class="material-icons">arrow_forward</i>
-                        </a>
-                    </div>
-                </div>
-            </div>
 
-                @*@await Component.InvokeAsync(typeof(PublicProjectListViewComponent))*@
-
+            <cache expires-after="@TimeSpan.FromMinutes(1)">
+                @(await Component.InvokeAsync<LandingPageRandomProjectsRow>())
+            </cache>
 
         </div>
     </section>

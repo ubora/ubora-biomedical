@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using TestStack.BDDfy;
+using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Domain.Projects.Workpackages.Events;
@@ -23,6 +24,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
                 .Then(_ => Assert_Event_Is_Persisted(projectId))
                     .And(_ => Previously_Accepted_Review_Status_Should_Be_Changed(projectId))
                     .And(_ => WP1_Should_Be_Opened_Again(projectId))
+                    .And(_ => Project_Should_Be_Draft_Again(projectId))
                 .BDDfy();
         }
 
@@ -64,6 +66,12 @@ namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
             expectedEvent.Should().NotBeNull();
             expectedEvent.AcceptedReviewId.Should().Be(previouslyAcceptedReview.Id);
             expectedEvent.ProjectId.Should().Be(projectId);
+        }
+
+        private void Project_Should_Be_Draft_Again(Guid projectId)
+        {
+            var project = Processor.FindById<Project>(projectId);
+            project.IsInDraft.Should().BeTrue();
         }
     }
 }

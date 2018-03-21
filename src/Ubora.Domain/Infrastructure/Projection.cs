@@ -15,14 +15,14 @@ namespace Ubora.Domain.Infrastructure
     {
         public IQueryable<TDocumentProjection> Apply(IQueryable<TDocument> query)
         {
-            return query.Select(SelectExpression);
+            return query.Select(ToSelector());
         }
 
         public IEnumerable<TDocumentProjection> Apply(IEnumerable<TDocument> query)
         {
-            return query.Select(SelectExpression.Compile());
+            return query.Select(ToSelector().Compile());
         }
 
-        protected abstract Expression<Func<TDocument, TDocumentProjection>> SelectExpression { get; }
+        protected abstract Expression<Func<TDocument, TDocumentProjection>> ToSelector();
     }
 }
