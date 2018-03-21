@@ -51,12 +51,12 @@
         cursor: pointer;
     }
 
-    a & {
-        text-decoration: none;
-    }
-
     .material-icons {
         font-size: 1.1rem;
     }
+}
+
+a.btn-icon {
+    text-decoration: none;
 }
  

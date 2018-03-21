@@ -76,6 +76,8 @@
         }
 
         .carousel-caption {
+            background-color: $quartinary-shade;
+            color: $text-color;
             right: 0;
             bottom: 0;
             left: auto;
@@ -83,6 +85,12 @@
             text-align: start;
             height: 100%;
             width: 65%;
+
+            .btn-icon {
+                position: absolute;
+                bottom: 72px;
+                right: 82px;
+            }
         }
 
         .carousel-indicators li {
@@ -93,8 +101,6 @@
             background-color: $text-color;
         }
     }
-
-
     /* sections */
     section {
         padding: 8rem 0;
