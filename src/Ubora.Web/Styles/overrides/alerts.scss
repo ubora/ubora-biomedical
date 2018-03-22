@@ -29,3 +29,9 @@
 .alert-success {
     border-color: $green;
 }
+
+@media (max-width: 768px) {
+    .alert {
+        width: 90%;
+    }
+}
