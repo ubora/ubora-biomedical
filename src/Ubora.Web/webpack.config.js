@@ -88,7 +88,7 @@ module.exports = env => {
             new CopyWebpackPlugin([
                 { from: './node_modules/jquery/dist/jquery.min.js', to: './lib' },
                 { from: './node_modules/jquery-validation/dist/jquery.validate.min.js', to: './lib' },
-                { from: './node_modules/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js', to: './lib' },
+                { from: './node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js', to: './lib' },
                 { from: './node_modules/autocomplete-js/dist/autocomplete.min.js', to: './lib' },
                 { from: './node_modules/autocomplete-js/dist/autocomplete.min.css', to: './lib' },
                 { from: './node_modules/marked/marked.min.js', to: './lib' },
