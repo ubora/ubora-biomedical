@@ -2,12 +2,13 @@
 @model Ubora.Web._Features.Projects.ApplicableRegulations.NextQuestionViewModel
 
 <div class="col-lg-7 d-flex flex-column">
+    <h1>Regulation checklist</h1>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     @if (Model.IsAnswered)
             {
         <div class="form-group">
-            <h4>@Model.Text</h4>
+            <h5>@Model.Text</h5>
         </div>
         <div class="form-group">
             <p>You answered: @Model.Answer</p>
@@ -17,7 +18,7 @@
     {
         <form method="post">
             <div class="form-group">
-                <h4>@Model.Text</h4>
+                <h5>@Model.Text</h5>
                 @Html.AntiForgeryToken()
                 <input type="hidden" asp-for="Id" />
                 <input type="hidden" asp-for="QuestionnaireId" />

@@ -9,13 +9,11 @@
 <div class="col-lg-7">
     <h1>@ViewData["Title"]</h1>
     <div id="device-classification-carousel" class="carousel slide d-flex " data-ride="carousel">
-        <div class="col-lg-10">
-            <div class="carousel-inner" style="min-height: 500px;" role="listbox">
-                @foreach (var question in Model)
-                {
-                    @Html.Partial("_QuestionPartial", question)
-                }
-            </div>
+        <div class="carousel-inner" style="min-height: 500px;" role="listbox">
+            @foreach (var question in Model)
+            {
+                @Html.Partial("_QuestionPartial", question)
+            }
         </div>
     </div>
 </div>
