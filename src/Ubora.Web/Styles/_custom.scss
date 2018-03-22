@@ -26,7 +26,6 @@
 @import 'page_components/workpackage_list.scss';
 @import 'page_components/markdown_editor.scss';
 
-
 body {
     color: $text-color;
     font: normal 16px/1.5em;
@@ -38,4 +37,5 @@ body {
 
 main {
     flex-grow: 1;
+    min-height: 70vh;
 }
