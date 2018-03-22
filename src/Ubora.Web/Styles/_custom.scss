@@ -33,11 +33,9 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: $blue;
 }
 
 main {
     flex-grow: 1;
     min-height: 70vh;
-    background-color: $white;
 }
