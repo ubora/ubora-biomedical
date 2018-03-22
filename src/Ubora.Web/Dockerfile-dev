@@ -1,4 +1,4 @@
-FROM microsoft/aspnetcore:2.0.0
+FROM microsoft/aspnetcore:2.0.6
 
 ENV NODE_VERSION 6.10.3
 # set up node
