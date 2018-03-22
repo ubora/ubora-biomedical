@@ -12,9 +12,9 @@ namespace Ubora.Web._Features._Shared.Emails
         public static void AddLayoutAttachments(AttachmentCollection linkedResources)
         {
             linkedResources.Add("./wwwroot/images/icon.png").ContentId = HeadingUboraLogoId;
-            linkedResources.Add("./wwwroot/images/icons/email_icon.png").ContentId = FooterEmailIconId;
-            linkedResources.Add("./wwwroot/images/icons/facebook_icon.png").ContentId = FooterFacebookLogoId;
-            linkedResources.Add("./wwwroot/images/icons/twitter_icon.png").ContentId = FooterTwitterLogoId;
+            linkedResources.Add("./wwwroot/images/icons/email_icon_white.png").ContentId = FooterEmailIconId;
+            linkedResources.Add("./wwwroot/images/icons/facebook_icon_white.png").ContentId = FooterFacebookLogoId;
+            linkedResources.Add("./wwwroot/images/icons/twitter_icon_white.png").ContentId = FooterTwitterLogoId;
         }
     }
 }

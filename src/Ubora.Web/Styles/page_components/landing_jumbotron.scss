@@ -1,18 +1,20 @@
-.jumbotron-landing {
-  background: url('../images/landing.jpg') no-repeat center center;
-  background-size: cover;
-}
 
-.landing-image-discussion p.lead,
-.landing-image-solution p.lead,
-.landing-image-main p.lead,
-.landing-image-main h1 {
-  color: $white;
+.landing-image-discussion,
+.landing-image-solution {
+    padding: 5rem 4rem;
+
+    p.lead {
+        color: $white;
+    }
 }
 
 .landing-image-discussion {
   background: url('../images/discussion.jpg') no-repeat center center;
   background-size: cover;
+
+  .btn-primary {
+      min-width: 7rem;
+  }
 }
 
 .landing-image-solution {
