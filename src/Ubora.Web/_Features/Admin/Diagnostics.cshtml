@@ -8,7 +8,7 @@
                 <tr>
                     <th scope="col">User name</th>
                     <th scope="col">Email</th>
-                    <th scope="col" class="w-25">Role</th>
+                    <th scope="col" class="w-25">Role(s)</th>
                     <th scope="col" class="w-8"></th>
                 </tr>
             </thead>
@@ -23,8 +23,7 @@
                             <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@user.UserId">@user.UserEmail</a>
                         </td>
                         <td>
-                            @*TODO:*@
-                            Role, Role
+                            @user.RolesJoined
                         </td>
                         <form method="post">
                             <input type="hidden" name="userId" value="@user.UserId" />
@@ -56,14 +55,6 @@
                             </td>
                         </form>
                     </tr>
-                    @*<div class="user-role-list">
-                    <h4>Roles</h4>
-                    @if (user.Roles.Any())
-                    {
-                        @*TODO: Can be replaced with icons? Each role on new line?*@
-                    @*@string.Join(", ", user.Roles)*@
-                    @*  }
-                    </div>*@
                 }
             </tbody>
         </table>
