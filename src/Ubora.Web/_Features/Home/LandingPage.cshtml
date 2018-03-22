@@ -1,0 +1,166 @@
+﻿@using Ubora.Web._Features.Home
+
+<div class="landing-page">
+    <header class="masthead text-center d-flex ">
+        <div class="container-fluid my-auto">
+            <div class="row">
+                <div class="col-lg-7 mx-auto">
+                    <h1 class="section-heading">
+                        <strong>UBORA: Euro-African Open Biomedical Engineering e-platform for Innovation through Education</strong>
+                    </h1>
+                    <hr class="light">
+                </div>
+                <div class="col-lg-7 mx-auto">
+                    <p class="text-faded mb-5">The EU funded UBORA project aims at creating an  e-Infrastructure, UBORA, for open source co-design of new solutions to face the current and future healthcare challenges of Europe and Africa, by exploiting networking, knowledge on rapid prototyping of new ideas and sharing of safety criteria and performance data.</p>
+                    <a class="btn btn-outline-light btn-primary btn-lg mx-1" href="http://ubora-biomedical.org/" target="_blank">Find Out More</a>
+                    <a class="btn btn-cta btn-primary btn-lg mx-1"  role="button" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Sign Up</a>
+                </div>
+            </div>
+        </div>
+        <div class="pull-down">
+            <a class="ct-js-btn-scroll" href="#section2">
+                <i class="material-icons text-faded">keyboard_arrow_down</i>
+            </a>
+        </div>
+    </header>
+
+    <section id="section2" class="bg-light-grey">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading text-dark">Public projects</h2>
+                    <hr class="dark my-4">
+                    <p class="text-faded-dark mb-4">All projects are open-source and free to use.</p>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col">
+                    <div id="carouselExampleIndicators" class="carousel slide w-100" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="carousel-image-1"></div>
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h3>Breast Pump</h3>
+                                    <p>Economic and Ecological Breast Pump with Cooling and Preservation System of the Breastmilk. The project consists in a manual breast pump with an air-water cooling system.</p>
+                                    <dl>
+                                        <dt>Clinical area:</dt>
+                                        <dd>Pediatrics</dd>
+                                        <dt>Technology:</dt>
+                                        <dd>Other supporting equipment</dd>
+                                    </dl>
+                                    <a href="http://ubora-kahawa.azurewebsites.net/Projects/695b13f0-266b-44a5-9e11-4a4ff509a779/Dashboard" class="btn-icon d-flex align-items-center">
+                                        <span class="mr-1">View project</span>
+                                        <i class="material-icons">arrow_forward</i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="carousel-image-2"></div>
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h3>Protective Mask</h3>
+                                    <p>Different masks designed to help patients with broken nose. In addition, the mask will cover faces with burns and landmine injury from solar radiation and exterior agents. It's apparel is aesthetically pleasing in order to give children more confidence to play with their friends.</p>
+                                    <dl>
+                                        <dt>Clinical area:</dt>
+                                        <dd>Rehabilitation</dd>
+                                        <dt>Technology:</dt>
+                                        <dd>Ergonomic support</dd>
+                                    </dl>
+                                    <a href="http://ubora-kahawa.azurewebsites.net/Projects/d6534063-e380-48f8-a50e-f38c3aaddcb5/Dashboard" class="btn-icon d-flex align-items-center">
+                                        <span class="mr-1">View project</span>
+                                        <i class="material-icons">arrow_forward</i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="carousel-image-3"></div>
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h3>Portable neonatal warmer</h3>
+                                    <p>Portable Neonate Warmer (PNW) provides the appropriate thermal protection and temperature monitoring for neonates with hypothermia that are being transported to a health facility from home.</p>
+                                    <dl>
+                                        <dt>Clinical area:</dt>
+                                        <dd>pediatrics</dd>
+                                        <dt>Technology:</dt>
+                                        <dd>other supporting equipment</dd>
+                                    </dl>
+                                    <a href="http://ubora-kahawa.azurewebsites.net/Projects/753b19aa-266f-4e63-bc8b-9488d220a36f/Dashboard" class="btn-icon d-flex align-items-center">
+                                        <span class="mr-1">View project</span>
+                                        <i class="material-icons">arrow_forward</i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <cache expires-after="@TimeSpan.FromMinutes(1)">
+                    @(await Component.InvokeAsync<LandingPageRandomProjectsRow>())
+            </cache>
+
+            <div class="row">
+                <div class="col d-flex justify-content-end mt-3">
+                    <a class="btn-icon d-flex align-items-center" asp-controller="ProjectList" asp-action="Search">
+                        <span class="nav-link-description mr-1">View all</span>
+                        <i class="material-icons">arrow_forward</i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 mx-auto text-center discussion-section">
+                <div class="text-center">
+                    <h2 class="section-heading text-white">Have a need for a Bioengineering Solution?</h2>
+                    <hr class="light my-4">
+                    <p class="text-faded mb-4">Find a suitable Bioengineering solution to healthcare problems through open discussion</p>
+                    <a tabindex="0" class="btn btn-outline-light btn-primary btn-lg popover-dismiss" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="Coming soon">Forum</a>
+                </div>
+            </div>
+            <div class="col-lg-6 mx-auto text-center resources-section bg-dark">
+                <div class="text-center">
+                    <h2 class="section-heading text-white">Looking for design resources?</h2>
+                    <hr class="light my-4">
+                    <p class="text-faded mb-4">Find materials on Regulations, Standards, Design selected by UBORA mentors.</p>
+                    <a tabindex="0" class="btn btn-outline-light btn-primary btn-lg popover-dismiss" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="Coming soon">Medical resources</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="bg-blue">
+        <div class="container text-center">
+            <h2 class="section-heading text-white">Support UBORA</h2>
+            <hr class="light my-4">
+            <p class="text-faded mb-4">Support UBORA project throught the methods you prefer.</p>
+            <a tabindex="0" class="btn btn-light btn-primary btn-lg popover-dismiss" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="Coming soon">
+                <span class="d-flex align-items-center">
+                    <i class="material-icons align-middle mr-1">favorite_border</i>
+                    <span>Donate</span>
+                </span>
+            </a>
+        </div>
+    </section>
+</div>
+
+<script>
+    $('.popover-dismiss').popover({
+        trigger: 'focus'
+    })
+</script>

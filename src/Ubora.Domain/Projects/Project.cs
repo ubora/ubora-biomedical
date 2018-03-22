@@ -22,9 +22,10 @@ namespace Ubora.Domain.Projects
         public bool IsInDraft { get; private set; } = true;
         public BlobLocation ProjectImageBlobLocation { get; private set; }
         public DateTime ProjectImageLastUpdated { get; private set; }
-        [JsonIgnore]
-        public bool HasImage => ProjectImageBlobLocation != null;
         public bool IsDeleted { get; private set; }
+
+        [JsonIgnore]
+        public bool HasImage => new HasImageSpec().IsSatisfiedBy(this);
 
         [JsonProperty(nameof(Members))]
         private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
@@ -110,6 +111,11 @@ namespace Ubora.Domain.Projects
         private void Apply(WorkpackageOneReviewAcceptedEvent e)
         {
             IsInDraft = false;
+        }
+
+        private void Apply(WorkpackageOneReopenedAfterAcceptanceByReviewEvent e)
+        {
+            IsInDraft = true;
         }
 
         private void Apply(ProjectImageUpdatedEvent e)

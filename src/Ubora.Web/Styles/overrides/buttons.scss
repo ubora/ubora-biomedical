@@ -51,7 +51,6 @@
         cursor: pointer;
     }
 
-
     .material-icons {
         font-size: 1.1rem;
     }
@@ -60,3 +59,10 @@
 a.btn-icon:hover {
     text-decoration: none;
 }
+
+.modal-footer {
+    button {
+        min-width: 4.5rem;
+    }
+}
+

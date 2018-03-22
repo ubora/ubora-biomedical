@@ -6,7 +6,7 @@
     var canViewProjectNonPublicContent = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanViewProjectNonPublicContent);
 }
 
-<nav class="wp-header nav nav-tabs flex-column flex-md-row justify-content-around">
+<nav class="project-header nav nav-tabs flex-column flex-md-row justify-content-center">
   <a class="nav-item nav-link @Model.OverviewActivityCssClass" asp-controller="Dashboard" asp-action="Dashboard">Overview</a>
   @if (canViewProjectNonPublicContent)
   {

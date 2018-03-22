@@ -8,22 +8,26 @@
     ViewData["MenuOption"] = ProjectMenuOption.Overview;
 }
 
-<div class="container my-4 text-center">
-    <form method="post" enctype="multipart/form-data" asp-controller="Dashboard" asp-action="EditProjectImage">
-        <h1>Project image</h1>
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-        <div class="form-group ">
-            <label class="text-muted">All pictures will be set to 4:3 ratio. Image has to be less than 4 MB</label>
-            <span asp-validation-for="Image"></span>
-            <label asp-for="Image" class="custom-file">
-                <input class="form-control col-md-6 mx-auto" type="file" asp-for="Image">
-            </label>
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-8">
+            <h1 class="text-center">Project image</h1>
+            <form method="post" enctype="multipart/form-data" asp-controller="Dashboard" asp-action="EditProjectImage">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group ">
+                    <label asp-for="Image" class="custom-file">
+                        <input class="form-control" type="file" asp-for="Image">
+                    </label>
+                    <small class="text-muted">All pictures will be set to 4:3 ratio. Image has to be less than 4 MB</small>
+                    <span asp-validation-for="Image"></span>
+                </div>
+                <div class="form-group text-center">
+                    <a class="btn btn-outline-primary" asp-controller="Dashboard" asp-action="Dashboard">Discard</a>
+                    <span class="mx-1"></span>
+                    <button class="btn btn-primary" type="submit">Upload image</button>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <a class="btn btn-outline-primary" asp-controller="Dashboard" asp-action="Dashboard">Discard</a>
-            <span class="mx-1"></span>
-            <button class="btn btn-primary" type="submit">Upload image</button>
-        </div>
-    </form>
+    </div>
+   
 </div>

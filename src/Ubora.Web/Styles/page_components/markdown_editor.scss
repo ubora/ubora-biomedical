@@ -3,6 +3,10 @@
     max-height: 24em;
 }
 
+.CodeMirror-lines {
+    padding: 4px 0 20px 0 !important;
+}
+
 .text-markdown {
     font-family: inherit;
     text-align: justify;

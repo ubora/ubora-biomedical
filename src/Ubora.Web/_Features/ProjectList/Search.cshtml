@@ -5,12 +5,12 @@
     ViewData["Title"] = "Search";
 }
 
-<div class="container my-4">
+<div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-md-6 mb-4">
             <form asp-controller="ProjectList" asp-action="Search" method="post">
                 <div class="form-group">
-                    <input class="form-control" asp-for="Title" placeholder="Search UBORA for..." autofocus>
+                    <input class="form-control" asp-for="Title" placeholder="Search UBORA for...">
                     <span asp-validation-for="Title"></span>
                 </div>
                 <div class="text-center">
