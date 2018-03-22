@@ -7,6 +7,7 @@ using Ubora.Domain.Projects._Commands;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Dashboard
 {
@@ -60,7 +61,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
                 ProjectId = ProjectId,
                 Description = model.ProjectDescription,
                 Title = model.Title
-            });
+            }, Notice.Success(SuccessTexts.ProjectTitleAndDescriptionUpdated));
 
             if (!ModelState.IsValid)
             {
@@ -96,7 +97,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
                 ProjectId = ProjectId,
                 BlobLocation = blobLocation,
                 Actor = UserInfo
-            });
+            }, Notice.Success(SuccessTexts.ProjectImageUploaded));
 
             if (!ModelState.IsValid)
             {
@@ -133,7 +134,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
             {
                 ProjectId = ProjectId,
                 Actor = UserInfo
-            });
+            }, Notice.Success(SuccessTexts.ProjectImageDeleted));
 
             if (!ModelState.IsValid)
             {

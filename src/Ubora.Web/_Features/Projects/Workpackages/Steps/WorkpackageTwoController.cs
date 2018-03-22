@@ -5,6 +5,7 @@ using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features.Projects._Shared;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -60,7 +61,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
                 StepId = model.StepId,
                 NewValue = model.Content
-            });
+            }, Notice.Success(SuccessTexts.WP2StepEdited));
 
             if (!ModelState.IsValid)
             {
@@ -111,7 +112,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             var command = modelMapper.MapToCommand(model);
-            ExecuteUserProjectCommand(command);
+            ExecuteUserProjectCommand(command, Notice.Success(SuccessTexts.WP3HealthTechnologySpecificationsEdited));
 
             if (!ModelState.IsValid)
             {
@@ -150,7 +151,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             var command = modelMapper.MapToCommand(model);
-            ExecuteUserProjectCommand(command);
+            ExecuteUserProjectCommand(command, Notice.Success(SuccessTexts.WP3UserAndEnvironmentEdited));
 
             if (!ModelState.IsValid)
             {
