@@ -32,7 +32,7 @@ namespace Ubora.Web._Features.ProjectCreation
                 AreaOfUsage = model.AreaOfUsageTags,
                 PotentialTechnology = model.PotentialTechnologyTags,
                 Gmdn = model.Gmdn
-            }, Notice.Success(SuccessTexts.ProjectCreated));
+            }, Notice.None("Visual feedback obvious enough."));
 
             if (!ModelState.IsValid)
             {

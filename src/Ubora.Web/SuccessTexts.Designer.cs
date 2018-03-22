@@ -61,7 +61,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Questionnaire was retaken..
+        ///   Looks up a localized string similar to Questionnaire retaken.
         /// </summary>
         public static string ApplicableRegulationsQuestionnaireRetaken {
             get {
@@ -70,7 +70,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Questionnaire started.
         /// </summary>
         public static string ApplicableRegulationsQuestionnaireStarted {
             get {
@@ -79,7 +79,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Questionnaire was stopped..
+        ///   Looks up a localized string similar to Questionnaire stopped.
         /// </summary>
         public static string ApplicableRegulationsQuestionnaireStopped {
             get {
@@ -88,7 +88,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Assignment added successfully!.
+        ///   Looks up a localized string similar to Assignment added.
         /// </summary>
         public static string AssignmentAdded {
             get {
@@ -97,7 +97,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Assignment edited..
+        ///   Looks up a localized string similar to Assignment edited.
         /// </summary>
         public static string AssignmentEdited {
             get {
@@ -106,7 +106,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Candidate added successfully!.
+        ///   Looks up a localized string similar to Candidate added.
         /// </summary>
         public static string CandidateAdded {
             get {
@@ -115,7 +115,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Comment added successfully!.
+        ///   Looks up a localized string similar to Comment added.
         /// </summary>
         public static string CandidateCommentAdded {
             get {
@@ -124,7 +124,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Comment edited..
+        ///   Looks up a localized string similar to Comment edited.
         /// </summary>
         public static string CandidateCommentEdited {
             get {
@@ -133,7 +133,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Comment removed successfully!.
+        ///   Looks up a localized string similar to Comment removed.
         /// </summary>
         public static string CandidateCommentRemoved {
             get {
@@ -142,7 +142,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Candidate edited..
+        ///   Looks up a localized string similar to Candidate edited.
         /// </summary>
         public static string CandidateEdited {
             get {
@@ -151,7 +151,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Image deleted successfully!.
+        ///   Looks up a localized string similar to Image deleted.
         /// </summary>
         public static string CandidateImageDeleted {
             get {
@@ -160,7 +160,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Image uploaded successfully!.
+        ///   Looks up a localized string similar to Image uploaded.
         /// </summary>
         public static string CandidateImageUploaded {
             get {
@@ -169,7 +169,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Vote added successfully!.
+        ///   Looks up a localized string similar to Vote added.
         /// </summary>
         public static string CandidateVoteAdded {
             get {
@@ -178,7 +178,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Questionnaire was retaken..
+        ///   Looks up a localized string similar to Questionnaire retaken.
         /// </summary>
         public static string DeviceClassificationRetaken {
             get {
@@ -187,7 +187,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Questionnaire started.
         /// </summary>
         public static string DeviceClassificationStarted {
             get {
@@ -196,7 +196,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your email has been confirmed successfully!.
+        ///   Looks up a localized string similar to Email confirmed successfully.
         /// </summary>
         public static string EmailConfirmed {
             get {
@@ -205,7 +205,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Left project successfully.
         /// </summary>
         public static string LeftFromProject {
             get {
@@ -214,7 +214,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Password changed successfully!.
+        ///   Looks up a localized string similar to Password changed.
         /// </summary>
         public static string PasswordChanged {
             get {
@@ -223,7 +223,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Profile changed successfully!.
+        ///   Looks up a localized string similar to Profile changed.
         /// </summary>
         public static string ProfileEdited {
             get {
@@ -232,7 +232,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Profile image uploaded successfully!.
+        ///   Looks up a localized string similar to Image uploaded.
         /// </summary>
         public static string ProfilePictureUploaded {
             get {
@@ -241,7 +241,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project created successfully!.
+        ///   Looks up a localized string similar to Project created.
         /// </summary>
         public static string ProjectCreated {
             get {
@@ -250,7 +250,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project deleted successfully!.
+        ///   Looks up a localized string similar to Project deleted.
         /// </summary>
         public static string ProjectDeleted {
             get {
@@ -259,7 +259,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project image deleted successfully!.
+        ///   Looks up a localized string similar to Image deleted.
         /// </summary>
         public static string ProjectImageDeleted {
             get {
@@ -268,7 +268,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project image uploaded successfully!.
+        ///   Looks up a localized string similar to Image uploaded.
         /// </summary>
         public static string ProjectImageUploaded {
             get {
@@ -277,7 +277,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project invitation was accepted..
+        ///   Looks up a localized string similar to Invitation accepted.
         /// </summary>
         public static string ProjectInvitationAccepted {
             get {
@@ -286,7 +286,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project invitation was declined..
+        ///   Looks up a localized string similar to Invitation declined.
         /// </summary>
         public static string ProjectInvitationDeclined {
             get {
@@ -295,7 +295,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project member invited..
+        ///   Looks up a localized string similar to Invitation sent.
         /// </summary>
         public static string ProjectMemberInvited {
             get {
@@ -304,7 +304,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project member removed successfully!.
+        ///   Looks up a localized string similar to Member removed.
         /// </summary>
         public static string ProjectMemberRemoved {
             get {
@@ -313,7 +313,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project mentor invitation was accepted..
+        ///   Looks up a localized string similar to Invitation accepted.
         /// </summary>
         public static string ProjectMentorInvitationAccepted {
             get {
@@ -322,7 +322,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project mentor invitation was declined..
+        ///   Looks up a localized string similar to Invitation declined.
         /// </summary>
         public static string ProjectMentorInvitationDeclined {
             get {
@@ -331,7 +331,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mentor successfully invited..
+        ///   Looks up a localized string similar to Invitation sent.
         /// </summary>
         public static string ProjectMentorInvited {
             get {
@@ -340,7 +340,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project title and description updated..
+        ///   Looks up a localized string similar to Project edited.
         /// </summary>
         public static string ProjectTitleAndDescriptionUpdated {
             get {
@@ -349,7 +349,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project overview changed successfully!.
+        ///   Looks up a localized string similar to Changes saved.
         /// </summary>
         public static string ProjectUpdated {
             get {
@@ -358,7 +358,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File added successfully!.
+        ///   Looks up a localized string similar to File added.
         /// </summary>
         public static string RepositoryFileAdded {
             get {
@@ -367,7 +367,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to File hidden.
         /// </summary>
         public static string RepositoryFileHidden {
             get {
@@ -376,7 +376,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File updated..
+        ///   Looks up a localized string similar to File updated.
         /// </summary>
         public static string RepositoryFileUpdated {
             get {
@@ -385,7 +385,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Request to join project accepted..
+        ///   Looks up a localized string similar to Request accepted.
         /// </summary>
         public static string RequestToJoinProjectAccepted {
             get {
@@ -394,7 +394,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Request to join project declined..
+        ///   Looks up a localized string similar to Request declined.
         /// </summary>
         public static string RequestToJoinProjectDeclined {
             get {
@@ -403,7 +403,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Request sent successfully!.
+        ///   Looks up a localized string similar to Request sent.
         /// </summary>
         public static string RequestToJoinProjectSent {
             get {
@@ -412,7 +412,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User deleted successfully!.
+        ///   Looks up a localized string similar to User deleted.
         /// </summary>
         public static string UserDeleted {
             get {
@@ -421,7 +421,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Successfully reopened!.
+        ///   Looks up a localized string similar to WP1 reopened.
         /// </summary>
         public static string WP1Reopened {
             get {
@@ -430,7 +430,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Work package 1 step accepted..
+        ///   Looks up a localized string similar to WP1 reviewed.
         /// </summary>
         public static string WP1ReviewAccepted {
             get {
@@ -439,7 +439,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Work package 1 step rejected.
+        ///   Looks up a localized string similar to WP1 reviewed.
         /// </summary>
         public static string WP1ReviewRejected {
             get {
@@ -448,7 +448,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Work package 1 step edited..
+        ///   Looks up a localized string similar to Changes saved.
         /// </summary>
         public static string WP1StepEdited {
             get {
@@ -457,7 +457,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Work package 1 submitted successfully!.
+        ///   Looks up a localized string similar to WP1 submitted for review.
         /// </summary>
         public static string WP1SubmittedForReview {
             get {
@@ -466,7 +466,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Work package 2 step edited..
+        ///   Looks up a localized string similar to Changes saved.
         /// </summary>
         public static string WP2StepEdited {
             get {
@@ -475,7 +475,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Health technology specifications edited..
+        ///   Looks up a localized string similar to Changes saved.
         /// </summary>
         public static string WP3HealthTechnologySpecificationsEdited {
             get {
@@ -484,7 +484,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Work package 3 opened successfully!.
+        ///   Looks up a localized string similar to WP3 opened successfully.
         /// </summary>
         public static string WP3Opened {
             get {
@@ -493,7 +493,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Work package 3 step edited..
+        ///   Looks up a localized string similar to Changes saved.
         /// </summary>
         public static string WP3StepEdited {
             get {
@@ -502,7 +502,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User and environment edited..
+        ///   Looks up a localized string similar to Changes saved.
         /// </summary>
         public static string WP3UserAndEnvironmentEdited {
             get {

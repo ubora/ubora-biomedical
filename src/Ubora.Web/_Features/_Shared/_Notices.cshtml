@@ -8,20 +8,17 @@
     {
         case NoticeType.Info:
             <div class="row justify-content-center">
-               <div class="alert alert-info alert-dismissible fade show" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-                <p>@notice.Text</p>
-              </div>
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p>@notice.Text</p>
+                </div>
             </div>
             break;
         case NoticeType.Success:
             <div class="row justify-content-center">
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                     <p>@notice.Text</p>
                 </div>
             </div>
@@ -39,9 +36,10 @@
     }
 }
 
-
 <script>
-    $(".alert-success").fadeTo(4000, 500).slideUp(500, function () {
-        $(".alert-success").slideUp(500);
+    $(document).ready(function () {
+        setTimeout(function () {
+            $(".alert-success").fadeOut('slow');
+        }, 3000);
     });
 </script>
