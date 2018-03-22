@@ -1,39 +1,53 @@
 ﻿.landing-page {
 
-    h1.section-heading {
-        font-weight: 400;
-    }
-
     hr {
         max-width: 50px;
         border-width: 3px;
 
         &.light {
-            border-color: #fff;
+            border-color: $white;
         }
 
         &.dark {
-            border-color: #000;
+            border-color: $black;
         }
     }
     /* header */
     header {
 
         &.masthead {
+            @include bg-size-cover;
             padding-top: 8rem;
             padding-bottom: 8rem;
             background-image: url("../images/landing.jpg");
             background-position: center center;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
             position: relative;
 
             h1 {
-                color: white;
+                color: $white;
+                font-weight: 400;
             }
         }
+
+        &.overlay {
+            position: relative;
+
+            &:after {
+                position: absolute;
+                content: "";
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                opacity: .5;
+                background-color: black;
+            }
+        }
+
+        .container-fluid {
+            z-index: 1;
+        }
+
 
         .pull-down {
             position: absolute;
@@ -53,11 +67,13 @@
     .carousel {
 
         .carousel-item {
+            border: 1px solid $light;
+
 
             .carousel-image-1,
             .carousel-image-2,
             .carousel-image-3 {
-                width: 1110px;
+                width: 1108px;
                 height: 400px;
             }
 
@@ -72,38 +88,46 @@
             .carousel-image-3 {
                 background-image: url("/images/slide_3.png");
             }
-        }
 
-        .carousel-caption {
-            background-color: $white;
-            color: $text-color;
-            right: 0;
-            bottom: 0;
-            left: auto;
-            padding: 4rem;
-            text-align: start;
-            height: 100%;
-            width: 65%;
+            .carousel-caption {
+                background-color: $white;
+                color: $text-color;
+                right: 0;
+                bottom: 0;
+                left: auto;
+                padding: 4rem;
+                text-align: start;
+                height: 100%;
+                width: 65%;
 
-            .btn-icon {
-                position: absolute;
-                bottom: 72px;
-                right: 82px;
+                .btn-icon {
+                    position: absolute;
+                    bottom: 72px;
+                    right: 82px;
+                }
             }
         }
 
+
         .carousel-indicators li {
             background-color: rgba(0, 0, 0, 0.2);
-        }
 
-        .carousel-indicators .active {
-            background-color: $text-color;
+            &.active {
+                background-color: $text-color;
+            }
         }
 
         .carousel-control-prev, .carousel-control-next {
             width: 5%;
         }
     }
+
+
+    .card {
+        border: 1px solid $light;
+    }
+
+
     /* sections */
     section {
         padding: 8rem 0;
@@ -113,13 +137,12 @@
         margin-top: 0;
     }
 
+
+
     .discussion-section {
+        @include bg-size-cover;
         background-image: url("../images/discussion.jpg");
         background-position: center center;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
         position: relative;
     }
 
@@ -134,86 +157,66 @@
         font-size: 80%;
         font-style: italic;
     }
-    /* overlay */
-    header.overlay,
-    section.getstarted-section.overlay {
-        position: relative;
-    }
-
-    header.overlay:after,
-    section.getstarted-section.overlay:after {
-        position: absolute;
-        content: "";
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: .5;
-        background-color: black;
-    }
-
-    header .container-fluid,
-    section.getstarted-section .container {
-        z-index: 1;
-    }
 }
-    /* background colors */
-    .bg-blue {
-        background-color: $blue;
-    }
 
-    .bg-dark {
-        background-color: $dark;
-    }
 
-.bg-light {
+
+/* background colors */
+.bg-blue {
+    background-color: $blue;
+}
+
+.bg-dark {
+    background-color: $dark;
+}
+
+.bg-light-grey {
     background-color: $quartinary-shade;
 }
 
 
-    /* text colors */
-    .text-faded-dark {
-        color: rgba(0, 0, 0, 0.7);
+/* text colors */
+.text-faded-dark {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.text-faded {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Buttons */
+.btn-light {
+    border: 1px solid $blue;
+    color: $blue;
+}
+
+/*media queries*/
+@media (min-width: 1200px) {
+    header.masthead h1 {
+        font-size: 4rem;
+    }
+}
+
+@media (min-width: 992px) {
+    header.masthead {
+        height: 95vh;
+        min-height: 650px;
+        padding-top: 0;
+        padding-bottom: 0;
     }
 
-    .text-faded {
-        color: rgba(255, 255, 255, 0.7);
+    header.masthead h1 {
+        font-size: 3rem;
     }
 
-    /* Buttons */
-    .btn-light {
-        background: var(--white);
-        border: 1px solid var(--blue);
-        color: var(--blue);
+    header.masthead p {
+        font-size: 1.15rem;
     }
+}
 
-    /*media queries*/
-    @media (min-width: 1200px) {
-        header.masthead h1 {
-            font-size: 4rem;
-        }
+@media (max-width: 992px) {
+    header.masthead h1 {
+        font-size: 2rem;
     }
-
-    @media (min-width: 992px) {
-        header.masthead {
-            height: 95vh;
-            min-height: 650px;
-            padding-top: 0;
-            padding-bottom: 0;
-        }
-
-        header.masthead h1 {
-            font-size: 3rem;
-        }
-
-        header.masthead p {
-            font-size: 1.15rem;
-        }
-    }
-
-    @media (max-width: 992px) {
-        header.masthead h1 {
-            font-size: 2rem;
-        }
-    }
+}
 

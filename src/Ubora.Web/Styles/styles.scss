@@ -5,6 +5,7 @@ $green: #95CD7C;
 $text-color: #3D3D3D;
 $black: #000;
 $white: #FFF;
+$light: #EEE;
 $dark-grey: #797979;
 $primary-shade: #9E9E9E;
 $secondary-shade: #BDBDBD;
@@ -21,6 +22,12 @@ $theme-colors: (
     border-bottom: 1px solid $secondary-shade;
 }
 
+@mixin bg-size-cover {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
 
 @import "~bootstrap/scss/bootstrap";
 @import "custom";
