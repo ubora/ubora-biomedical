@@ -1,6 +1,6 @@
 ﻿@model Ubora.Web._Features.Projects.Workpackages.Candidates.CandidateViewModel
 
-<div class="col-lg-9 pr-5">
+<div class="col-lg-7">
 
     <div class="row mb-4">
         <div class="col">
@@ -18,14 +18,16 @@
                       @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanChangeProjectCandidateImage)).Succeeded)
                       {
                           <a class="mx-1" href="@Url.Action("EditCandidateImage", "Candidates", new { candidateId = Model.Id })">
-                              <i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span>
+                              <i class="material-icons align-middle" id="EditImage">mode_edit</i>
+                              <span class="align-middle">Change image</span>
                           </a>
                       }
 
                       @if (Model.HasImage && (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanRemoveProjectCandidateImage)).Succeeded)
                       {
                           <a class="mx-1" href="@Url.Action("RemoveCandidateImage", "Candidates", new { candidateId = Model.Id })">
-                              <i class="material-icons align-middle">delete_forever</i><span class="align-middle">Remove image</span>
+                              <i class="material-icons align-middle">delete_forever</i>
+                              <span class="align-middle">Remove image</span>
                           </a>
                       }
                   </div>
@@ -41,8 +43,8 @@
                 <div class="col-lg-3 d-flex justify-content-end">
                     @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanEditProjectCandidate)).Succeeded)
                     {
-                        <a class="btn btn-outline-primary align-self-start" href="@Url.Action("EditCandidate", "Candidates", new { candidateId = Model.Id })">
-                            <i class="material-icons" id="EditImage">mode_edit</i>
+                        <a class="btn-icon btn-sm d-flex align-content-center" href="@Url.Action("EditCandidate", "Candidates", new { candidateId = Model.Id })">
+                            <i class="material-icons mx-1" id="EditImage">mode_edit</i>
                             <span>Edit</span>
                         </a>
                     }
