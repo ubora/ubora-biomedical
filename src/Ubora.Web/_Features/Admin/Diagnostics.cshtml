@@ -8,7 +8,8 @@
                 <tr>
                     <th scope="col">User name</th>
                     <th scope="col">Email</th>
-                    <th scope="col" class="width-8"></th>
+                    <th scope="col" class="w-25">Role</th>
+                    <th scope="col" class="w-8"></th>
                 </tr>
             </thead>
             <tbody>
@@ -20,6 +21,10 @@
                         </td>
                         <td>
                             <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@user.UserId">@user.UserEmail</a>
+                        </td>
+                        <td>
+                            @*TODO:*@
+                            Role, Role
                         </td>
                         <form method="post">
                             <input type="hidden" name="userId" value="@user.UserId" />

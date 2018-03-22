@@ -21,7 +21,7 @@ namespace Ubora.Web._Features.Home
         {
             var viewModels = _queryProcessor
                 .ExecuteQuery(new LandingPageRandomProjectsQuery())
-                .Take(5)
+                .Take(4)
                 .Select(project => _viewModelFactory.Create(project, showCardShadow: false));
 
             var result = (IViewComponentResult) View("~/_Features/Home/LandingPageRandomProjectsRow.cshtml", viewModels);
