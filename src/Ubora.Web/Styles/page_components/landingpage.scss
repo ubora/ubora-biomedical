@@ -15,6 +15,10 @@
     /* header */
     header {
 
+        .btn-cta {
+            min-width: 8rem;
+        }
+
         &.masthead {
             @include bg-size-cover;
             padding-top: 8rem;
@@ -147,6 +151,10 @@
         background-image: url("../images/discussion.jpg");
         background-position: center center;
         position: relative;
+
+        .btn-primary {
+            min-width: 7rem;
+        }
     }
 
     .discussion-section,
