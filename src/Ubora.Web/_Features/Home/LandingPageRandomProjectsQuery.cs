@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Marten;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
@@ -34,7 +33,8 @@ namespace Ubora.Web._Features.Home
                         projection: new IdProjection(),
                         pageSize: int.MaxValue,
                         pageNumber: 1)
-                    .OrderBy(x => Guid.NewGuid())
+                    .OrderBy(x => Guid.NewGuid()) // randomize order
+                    .Take(4)
                     .ToArray();
 
                 var projects = _querySession.Query<Project>().Where(project => project.Id.IsOneOf(randomizedNotDraftProjectIds));

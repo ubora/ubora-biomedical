@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Commands;
@@ -121,6 +122,16 @@ namespace Ubora.Domain.Tests
             fixture.Processor.Execute(new OpenWorkpackageThreeCommand
             {
                 ProjectId = projectId,
+                Actor = new DummyUserInfo()
+            });
+        }
+
+        public static void Upload_Dummy_Project_Image(this IntegrationFixture fixture, Guid projectId)
+        {
+            fixture.Processor.Execute(new UpdateProjectImageCommand
+            {
+                ProjectId = projectId,
+                BlobLocation = new BlobLocation("testContainerName", "testBlobPath"),
                 Actor = new DummyUserInfo()
             });
         }

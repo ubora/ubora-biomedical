@@ -9,20 +9,19 @@ namespace Ubora.Web._Features.Home
     public class LandingPageRandomProjectsRow : ViewComponent
     {
         private readonly IQueryProcessor _queryProcessor;
-        private readonly ProjectCardViewModel.Factory _viewModelFactory;
+        private readonly ProjectCardViewModel.Factory _projectCardViewModelFactory;
 
-        public LandingPageRandomProjectsRow(IQueryProcessor queryProcessor, ProjectCardViewModel.Factory viewModelFactory)
+        public LandingPageRandomProjectsRow(IQueryProcessor queryProcessor, ProjectCardViewModel.Factory projectCardViewModelFactory)
         {
             _queryProcessor = queryProcessor;
-            _viewModelFactory = viewModelFactory;
+            _projectCardViewModelFactory = projectCardViewModelFactory;
         }
 
         public Task<IViewComponentResult> InvokeAsync()
         {
             var viewModels = _queryProcessor
                 .ExecuteQuery(new LandingPageRandomProjectsQuery())
-                .Take(4)
-                .Select(project => _viewModelFactory.Create(project, showCardShadow: false));
+                .Select(project => _projectCardViewModelFactory.Create(project, showCardShadow: false));
 
             var result = (IViewComponentResult) View("~/_Features/Home/LandingPageRandomProjectsRow.cshtml", viewModels);
             return Task.FromResult(result);
