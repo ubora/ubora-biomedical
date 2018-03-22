@@ -125,8 +125,11 @@
 
     .card {
         border: 1px solid $light;
-    }
 
+        a h5 {
+            color: $text-color;
+        }
+    }
 
     /* sections */
     section {
