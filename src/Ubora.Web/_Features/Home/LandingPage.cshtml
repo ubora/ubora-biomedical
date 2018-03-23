@@ -218,20 +218,14 @@
                 </div>
 
                 <div class="row justify-content-center">
-                    <div class="col-lg-4">
+                    <div class="col-lg-8">
                         <div class="custom-control custom-checkbox my-4">
                             <input type="checkbox" class="custom-control-input" asp-for="IsAgreedToTermsOfService" required>
-                            <label class="custom-control-label font-size-1-2 " asp-for="IsAgreedToTermsOfService">
+                            <label class="custom-control-label" asp-for="IsAgreedToTermsOfService">
                                 <span class="custom-control-description">I agree to </span>
                                 <a asp-controller="Account" asp-action="TermsOfService" target="_blank">Terms of Service</a>
                             </label>
                             <span asp-validation-for="IsAgreedToTermsOfService"></span>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="my-4 font-size-1-2 ">
-                            <span>Already have an account?</span>
-                            <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Log in</a>
                         </div>
                     </div>
                 </div>
@@ -239,6 +233,10 @@
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary btn-lg">Create an account</button>
                 </div>
+                    <div class="mt-4 text-center">
+                        <span>Already have an account?</span>
+                        <a asp-controller="Account" asp-action="Login">Log in</a>
+                    </div>
             </form>
         </div>
     </section>

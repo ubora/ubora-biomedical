@@ -87,14 +87,3 @@ label.custom-file {
 input.w-8 {
   display: inline;
 }
-
-
-.form-register {
-    .custom-checkbox {
-        .custom-control-label::before,
-        .custom-control-label::after {
-            margin-top: 3px;
-        }
-
-    }
-}
