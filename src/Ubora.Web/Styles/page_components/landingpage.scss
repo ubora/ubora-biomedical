@@ -109,6 +109,21 @@
                     bottom: 72px;
                     right: 82px;
                 }
+
+                dl {
+                    width: 100%;
+                    overflow: hidden;
+
+                    dt {
+                        float: left;
+                        width: 28%;
+                    }
+
+                    dd {
+                        float: left;
+                        width: 72%;
+                    }
+                }
             }
         }
 
@@ -134,7 +149,6 @@
             color: $text-color;
         }
     }
-
     /* sections */
     section {
         padding: 8rem 0;
