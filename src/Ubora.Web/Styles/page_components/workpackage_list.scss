@@ -75,13 +75,17 @@ a.checked-status {
         }
     }
 
-    .modal {
 
-        &.fade .modal-dialog {
-            -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
-            -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
-            -o-transition: opacity 0.3s linear, left 0.3s ease-out;
-            transition: opacity 0.3s linear, left 0.3s ease-out;
+
+    .modal {
+        &.modal-left-pane {
+            &.show .modal-dialog {
+                transform: translate(0, 0);
+            }
+
+            .modal-dialog {
+                transform: translate(-100%, 0);
+            }
         }
 
         &.fade.in .modal-dialog {
@@ -114,7 +118,6 @@ a.checked-status {
                         li {
                             margin-top: 1rem;
                             margin-bottom: 1rem;
-                            font-weight: 600;
                         }
 
                         img {
