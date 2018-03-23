@@ -30,6 +30,7 @@ module.exports = env => {
         // https://webpack.js.org/configuration/externals/
         externals: {
             jquery: 'jquery',
+            marked: 'marked',
             // bootstrap: 'bootstrap',
             'popper.js': {
                 root: 'PopperJS',
