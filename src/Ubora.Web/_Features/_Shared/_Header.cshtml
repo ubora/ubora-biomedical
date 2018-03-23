@@ -37,6 +37,12 @@
           <span class="nav-link-description ml-1">Community</span>
         </a>
       </li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="http://ubora-biomedical.org/" target="_blank">
+                <i class="material-icons">description</i>
+                <span class="nav-link-description ml-1">Blog</span>
+            </a>
+        </li>
       <li class="nav-item">
         <a class="nav-link d-flex align-items-center" asp-controller="ProjectList" asp-action="MyProjects">
           <i class="material-icons">folder</i>
@@ -94,24 +100,30 @@ else
   </button>
   <div id="headerNavbar" class="collapse navbar-collapse justify-content-end">
     <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link d-flex align-items-center" asp-controller="ProjectList" asp-action="Search">
-          <i class="material-icons">search</i>
-          <span class="nav-link-description ml-1">Search</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link d-flex align-items-center" asp-controller="UserList" asp-action="Index">
-          <i class="material-icons">people</i>
-          <span class="nav-link-description ml-1">Community</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link d-flex align-items-center" id="SignInSignUp" class="nav-link" asp-controller="Account" asp-action="Login">
-          <i class="material-icons">account_circle</i>
-          <span class="nav-link-description ml-1">Log in</span>
-        </a>
-      </li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" asp-controller="ProjectList" asp-action="Search">
+                <i class="material-icons">search</i>
+                <span class="nav-link-description ml-1">Search</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" asp-controller="UserList" asp-action="Index">
+                <i class="material-icons">people</i>
+                <span class="nav-link-description ml-1">Community</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="http://ubora-biomedical.org/" target="_blank">
+                <i class="material-icons">description</i>
+                <span class="nav-link-description ml-1">Blog</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" id="SignInSignUp" class="nav-link" asp-controller="Account" asp-action="Login">
+                <i class="material-icons">account_circle</i>
+                <span class="nav-link-description ml-1">Log in</span>
+            </a>
+        </li>
     </ul>
   </div>
 </nav>
