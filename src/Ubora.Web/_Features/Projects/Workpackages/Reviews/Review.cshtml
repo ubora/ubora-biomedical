@@ -7,7 +7,7 @@
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
-<div class="col-lg-9 pr-5">
+<div class="col-lg-7">
 
     <h1 class="mb-4">Formal review</h1>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -47,11 +47,11 @@
                                 Work package 1 can not be edited while it is under review or after it has passed the review.
                             </p>
                         </div>
-                        <div class="modal-footer d-flex justify-content-center">
+                        <div class="modal-footer">
                             <div class="form-group">
-                                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">No, cancel</button>
+                                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
                                 <span class="mx-1"></span>
-                                <button class="btn btn-primary" type="submit">Yes, submit</button>
+                                <button class="btn btn-primary" type="submit">Submit</button>
                             </div>
                         </div>
                     </form>

@@ -7,6 +7,7 @@ using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Web.Infrastructure;
 using Ubora.Web._Features.Notifications._Base;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Notifications
 {
@@ -45,7 +46,7 @@ namespace Ubora.Web._Features.Notifications
 
         private void MarkNotificationsAsViewed()
         {
-            ExecuteUserCommand(new MarkNotificationsAsViewedCommand());
+            ExecuteUserCommand(new MarkNotificationsAsViewedCommand(), Notice.None("Background operation."));
         }
 
         [HttpPost]
@@ -60,14 +61,12 @@ namespace Ubora.Web._Features.Notifications
             ExecuteUserCommand(new AcceptProjectMentorInvitationCommand
             {
                 InvitationId = invitationId
-            });
+            }, Notice.Success(SuccessTexts.ProjectMentorInvitationAccepted));
 
             if (!ModelState.IsValid)
             {
                 return Index();
             }
-
-            // TODO: Notice
 
             return RedirectToAction("Index", "Notifications");
         }
@@ -84,14 +83,12 @@ namespace Ubora.Web._Features.Notifications
             ExecuteUserCommand(new DeclineProjectMentorInvitationCommand
             {
                 InvitationId = invitationId
-            });
+            }, Notice.Success(SuccessTexts.ProjectMentorInvitationDeclined));
 
             if (!ModelState.IsValid)
             {
                 return Index();
             }
-
-            // TODO: Notice
 
             return RedirectToAction("Index", "Notifications");
         }

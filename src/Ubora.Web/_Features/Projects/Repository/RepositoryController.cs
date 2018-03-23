@@ -13,6 +13,7 @@ using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Repository
 {
@@ -76,7 +77,7 @@ namespace Ubora.Web._Features.Projects.Repository
                     FileSize = file.Length,
                     Comment = model.Comment,
                     FolderName = model.FolderName
-                });
+                }, Notice.Success(SuccessTexts.RepositoryFileAdded));
 
                 if (!ModelState.IsValid)
                 {
@@ -92,7 +93,7 @@ namespace Ubora.Web._Features.Projects.Repository
         [Authorize(Policy = nameof(Policies.CanHideProjectFile))]
         public IActionResult HideFile(Guid fileid)
         {
-            ExecuteUserProjectCommand(new HideFileCommand { Id = fileid });
+            ExecuteUserProjectCommand(new HideFileCommand { Id = fileid }, Notice.Success(SuccessTexts.RepositoryFileHidden));
 
             return RedirectToAction(nameof(Repository));
         }
@@ -127,7 +128,7 @@ namespace Ubora.Web._Features.Projects.Repository
                 BlobLocation = blobLocation,
                 FileSize = model.ProjectFile.Length,
                 Comment = model.Comment
-            });
+            }, Notice.Success(SuccessTexts.RepositoryFileUpdated));
 
             if (!ModelState.IsValid)
             {

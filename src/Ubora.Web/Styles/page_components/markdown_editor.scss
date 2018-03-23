@@ -3,6 +3,10 @@
     max-height: 24em;
 }
 
+.CodeMirror-lines {
+    padding: 4px 0 20px 0 !important;
+}
+
 .text-markdown {
     font-family: inherit;
     text-align: justify;
@@ -34,13 +38,10 @@
     h6 {
         font-size: .75rem;
     }
-}
 
-
-.image-markdown {
-  max-height: 844px;
-  height: 100%;
-  max-width: 1500px;
-  width: 100%;
-  object-fit: contain;
+    img {
+        max-height: 844px;
+        max-width: 1000px;
+        object-fit: contain;
+    }
 }

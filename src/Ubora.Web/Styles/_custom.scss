@@ -27,7 +27,6 @@
 @import 'page_components/landingpage.scss';
 @import 'page_components/project_header.scss';
 
-
 body {
     color: $text-color;
     font: normal 16px/1.5em;
@@ -39,4 +38,5 @@ body {
 
 main {
     flex-grow: 1;
+    min-height: 70vh;
 }

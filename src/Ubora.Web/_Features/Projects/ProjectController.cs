@@ -6,6 +6,7 @@ using Ubora.Domain.Projects;
 using Ubora.Web.Authorization;
 using Ubora.Web.Authorization.Requirements;
 using Ubora.Web.Infrastructure.Extensions;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects
 {
@@ -26,10 +27,10 @@ namespace Ubora.Web._Features.Projects
         private Project _project;
         protected Project Project => _project ?? (_project = QueryProcessor.FindById<Project>(ProjectId));
 
-        protected void ExecuteUserProjectCommand<T>(T command) where T : UserProjectCommand
+        protected void ExecuteUserProjectCommand<T>(T command, Notice successNotice) where T : UserProjectCommand
         {
             command.ProjectId = ProjectId;
-            base.ExecuteUserCommand(command);
+            base.ExecuteUserCommand(command, successNotice);
         }
 
         [Obsolete]

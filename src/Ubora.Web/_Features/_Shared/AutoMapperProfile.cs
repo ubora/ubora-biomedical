@@ -16,6 +16,7 @@ using Ubora.Domain.Projects._Commands;
 using Ubora.Web._Features.Projects.Assignments;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.StructuredInformations;
+using Ubora.Web._Components;
 using Ubora.Web._Features.Projects.Workpackages.Candidates;
 
 namespace Ubora.Web._Features._Shared
@@ -35,8 +36,6 @@ namespace Ubora.Web._Features._Shared
                 .ForMember(dest => dest.ProjectFile, o => o.Ignore())
                 .ForMember(dest => dest.FileId, o => o.MapFrom(src => src.Id));
 
-            CreateMap<Project, ProjectListViewModel.ProjectListItem>()
-                .ForMember(dest => dest.ImagePath, o => o.Ignore());
 
             CreateMap<Project, UpdateProjectCommand>()
                 .ForMember(dest => dest.ProjectId, o => o.MapFrom(src => src.Id))

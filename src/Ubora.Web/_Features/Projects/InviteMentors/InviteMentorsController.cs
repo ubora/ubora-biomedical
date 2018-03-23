@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.Members.Commands;
-using Ubora.Web.Authorization;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.InviteMentors
 {
@@ -51,14 +51,12 @@ namespace Ubora.Web._Features.Projects.InviteMentors
             ExecuteUserProjectCommand(new InviteProjectMentorCommand
             {
                 UserId = userId
-            });
+            }, Notice.Success(SuccessTexts.ProjectMentorInvited));
 
             if (!ModelState.IsValid)
             {
                 return InviteMentors(modelFactory);
             }
-
-            Notices.Success("Mentor successfully invited.");
 
             return RedirectToAction(nameof(InviteMentors));
         }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Web.Data;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Feedback
 {
@@ -12,7 +13,7 @@ namespace Ubora.Web._Features.Feedback
         {
             if (!string.IsNullOrWhiteSpace(command.Feedback))
             {
-                ExecuteUserCommand(command);
+                ExecuteUserCommand(command, Notice.None(reason: ".js notice"));
             }
 
             return Ok();

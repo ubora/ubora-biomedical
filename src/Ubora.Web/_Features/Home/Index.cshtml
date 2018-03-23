@@ -6,33 +6,19 @@
     ViewData["Title"] = "Welcome";
 }
 
-@if (!SignInManager.IsSignedIn(User))
-{
-    <div class="jumbotron jumbotron-fluid mb-2 jumbotron-landing">
-        <div class="container landing-image-main">
-            <div class="text-center">
-                <h1>UBORA</h1>
-                <p class="lead display-5">The Biomedical engineering open design platform</p>
-            </div>
-            <div class="text-center">
-                <p class="lead display-5">Create or collaborate open-sourced biomedical solutions.</p>
-                <a class="btn btn-primary btn-lg btn-cta" role="button" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Sign up now!</a>
-            </div>
-        </div>
-    </div>
-}
 <div class="container-fluid mb-4">
     <div class="row">
-        <div class="col flex-column text-center p-5 landing-image-discussion">
-            <p class="lead display-5">Have a need for medical solution? Find it through open discussion.</p>
-            <a class="btn btn-primary btn-disabled align-self-end js-tooltip box-shadow" role="button" disabled title="Coming soon!" data-placement="bottom">I have a need</a>
+        <div class="col-lg-6 text-center landing-image-discussion">
+            <p class="lead display-5">Have a need for a Bioengineering Solution?</p>
+            <a tabindex="0" class="btn btn-outline-light btn-primary popover-dismiss" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="Coming soon">Forum</a>
         </div>
-        <div class="col flex-column text-center p-5 landing-image-solution">
+        <div class="col-lg-6 text-center landing-image-solution">
 
         @if(User.Identity.IsAuthenticated)
         {
             if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
             {
+
                 <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
                 <a class="btn btn-primary btn-cta align-self-end box-shadow" asp-controller="ProjectCreation" asp-action="Create" role="button">Create project</a>
             }
