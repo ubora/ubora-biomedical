@@ -5,8 +5,6 @@
         Overview,
         Workpackages,
         Assignments,
-        News,
-        Documentation,
         Repository,
         History,
         Members
