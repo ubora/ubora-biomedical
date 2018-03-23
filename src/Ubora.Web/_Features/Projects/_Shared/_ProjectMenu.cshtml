@@ -27,7 +27,7 @@
 <div class="project-header-md dropdown">
     <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     </button>
-    <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton" id="projectNav">
+    <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton" id="projectNavMobile">
         <a class="dropdown-item nav-item nav-link @Model.OverviewActivityCssClass" asp-controller="Dashboard" asp-action="Dashboard">Overview</a>
         @if (canViewProjectNonPublicContent)
         {
@@ -45,6 +45,6 @@
 
 
 <script>
-    var activeLink = $("#projectNav .active").text();
+    var activeLink = $("#projectNavMobile .active").text();
     $("#dropdownMenuButton").html(activeLink);
 </script>
