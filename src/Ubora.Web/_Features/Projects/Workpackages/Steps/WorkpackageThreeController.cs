@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web._Features._Shared;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -49,7 +50,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
                 StepId = model.StepId,
                 NewValue = model.Content
-            });
+            }, Notice.Success(SuccessTexts.WP3StepEdited));
 
             if (!ModelState.IsValid)
             {

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Web.Authorization;
 using Ubora.Web._Features.Home;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.DeleteProject
 {
@@ -30,11 +27,10 @@ namespace Ubora.Web._Features.Projects.DeleteProject
         [Authorize(Policies.CanDeleteProject)]
         public IActionResult DeleteProject(DeleteProjectViewModel model)
         {
-
             ExecuteUserProjectCommand(new DeleteProjectCommand
             {
                 ProjectId = Project.Id
-            });
+            }, Notice.Success(SuccessTexts.ProjectDeleted));
 
             return RedirectToAction(nameof(HomeController.Index), nameof(Home));
         }

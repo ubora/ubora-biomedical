@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.Assignments;
 using Ubora.Domain.Projects.Assignments.Commands;
 using Ubora.Domain.Projects._Specifications;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Assignments
 {
@@ -47,7 +47,7 @@ namespace Ubora.Web._Features.Projects.Assignments
                 Title = model.Title,
                 Description = model.Description,
                 AssigneeIds = model.AssigneeIds
-            });
+            }, Notice.Success(SuccessTexts.AssignmentAdded));
 
             if (!ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace Ubora.Web._Features.Projects.Assignments
                 Title = model.Title,
                 Description = model.Description,
                 AssigneeIds = model.AssigneeIds
-            });
+            }, Notice.Success(SuccessTexts.AssignmentEdited));
 
             if (!ModelState.IsValid)
             {

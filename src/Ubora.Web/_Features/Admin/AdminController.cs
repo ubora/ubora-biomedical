@@ -9,6 +9,7 @@ using Ubora.Domain.Users.Commands;
 using Ubora.Domain.Users.Queries;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Admin
 {
@@ -149,7 +150,7 @@ namespace Ubora.Web._Features.Admin
                 ExecuteUserCommand(new DeleteUserCommand
                 {
                     UserId = user.Id
-                });
+                }, Notice.Success(SuccessTexts.UserDeleted));
             }
             else
             {
@@ -161,7 +162,6 @@ namespace Ubora.Web._Features.Admin
                 return await Diagnostics();
             }
 
-            Notices.Success($"User {user.Email} successfully deleted");
             return RedirectToAction(nameof(Diagnostics));
         }
 

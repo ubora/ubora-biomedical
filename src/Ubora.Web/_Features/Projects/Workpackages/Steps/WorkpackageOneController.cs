@@ -5,6 +5,7 @@ using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Web.Authorization;
 using Ubora.Web._Features._Shared;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -52,16 +53,14 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 PotentialTechnologyTags = model.PotentialTechnologyTags,
                 Gmdn = model.Gmdn,
                 Title = Project.Title
-            });
+            }, Notice.Success(SuccessTexts.ProjectUpdated));
 
             if (!ModelState.IsValid)
             {
-                Notices.Error("Failed to change project overview!");
+                Notices.NotifyOfError("Failed to change project overview!");
 
                 return ProjectOverview(returnUrl);
             }
-
-            Notices.Success("Project overview changed successfully!");
 
             if(returnUrl != null)
             {
@@ -119,7 +118,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
                 StepId = model.StepId,
                 NewValue = model.Content
-            });
+            }, Notice.Success(SuccessTexts.WP1StepEdited));
 
             if (!ModelState.IsValid)
             {

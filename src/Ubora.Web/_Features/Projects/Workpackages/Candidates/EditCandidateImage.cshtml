@@ -2,16 +2,16 @@
 
 <div class="col-lg-7">
     <div class="row justify-content-center">
-        <div class="col-lg-6">
+        <div class="col-lg-5 col-md-8">
+            <h1 class="text-center">Candidate image</h1>
             <form asp-controller="Candidates" asp-action="EditCandidateImage" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 @Html.HiddenFor(m => m.Id)
-
                 <div class="form-group">
-                    <label class="text-muted">Recommended image size is 1920x1285 px. The given image will be cropped and resized to 1500x1125 and 400x300 pixel images. Image has to be less than 4 MB</label>
                     <label asp-for="Image" class="custom-file">
                         <input class="form-control" type="file" asp-for="Image">
                     </label>
+                    <small class="text-muted">Recommended image size is 1920x1285 px. The given image will be cropped and resized to 1500x1125 and 400x300 pixel images. Image has to be less than 4 MB</small>
                     <span asp-validation-for="Image"></span>
                 </div>
                 <div class="form-group text-center">

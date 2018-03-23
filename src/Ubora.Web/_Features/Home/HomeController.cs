@@ -7,12 +7,17 @@ namespace Ubora.Web._Features.Home
 	    [Route("")]
         public IActionResult Index(string returnUrl = null)
 		{
-		    if (returnUrl != null)
+		    if (!User.Identity.IsAuthenticated)
+		    {
+		        return View("LandingPage");
+            }
+
+            if (returnUrl != null)
 		    {
 		        return RedirectToLocal(returnUrl);
 		    }
 
-            return View();
+            return View("Index");
         }
 
         public IActionResult Error()

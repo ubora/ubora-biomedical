@@ -1,19 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>    
+  <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="_Features\Projects\DeviceClassification\**" />
     <EmbeddedResource Remove="_Features\Projects\DeviceClassification\**" />
     <None Remove="_Features\Projects\DeviceClassification\**" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Remove="_Features\Projects\ApplicableRegulations\NextQuestionViewModelFactoryTests.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="4.19.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.1" />
@@ -23,15 +19,12 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Ubora.Domain.Tests\Ubora.Domain.Tests.csproj" />
     <ProjectReference Include="..\Ubora.Domain\Ubora.Domain.csproj" />
     <ProjectReference Include="..\Ubora.Web\Ubora.Web.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
-
 </Project>
