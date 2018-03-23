@@ -1,7 +1,7 @@
 .form-group label {
     color: $text-color;
     margin: 1rem 0 .5rem 0;
-    font-size: 120%;
+    font-size: 1.2rem;
 
     &[for="CommentText"] {
         margin: 0;
@@ -96,8 +96,5 @@ input.w-8 {
             margin-top: 3px;
         }
 
-        .custom-control-label {
-            font-size:120%;
-        }
     }
 }
