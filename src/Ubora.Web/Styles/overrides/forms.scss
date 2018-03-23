@@ -1,5 +1,5 @@
 .form-group label {
-    color: $blue;
+    color: $text-color;
     margin: 1rem 0 .5rem 0;
     font-size: 120%;
 
@@ -86,4 +86,18 @@ label.custom-file {
 
 input.w-8 {
   display: inline;
+}
+
+
+.form-register {
+    .custom-checkbox {
+        .custom-control-label::before,
+        .custom-control-label::after {
+            margin-top: 3px;
+        }
+
+        .custom-control-label {
+            font-size:120%;
+        }
+    }
 }

@@ -1,4 +1,6 @@
 ﻿@using Ubora.Web._Features.Home
+@model Ubora.Web._Features.Users.Account.RegisterViewModel
+
 
 <div class="landing-page">
     <header class="masthead text-center d-flex ">
@@ -23,15 +25,6 @@
             </a>
         </div>
     </header>
-
-    <section class="bg-dark">
-        <div class="container text-center">
-            <h2 class="section-heading text-white">About UBORA</h2>
-            <hr class="light my-4">
-            <p class="text-faded mb-4">.</p>
-           
-        </div>
-    </section>
 
     <section id="PublicProjects" class="bg-light-grey">
         <div class="container">
@@ -170,6 +163,77 @@
                     <span>Donate</span>
                 </span>
             </a>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-dark">Become a member</h2>
+                <hr class="dark my-4">
+             </div>
+            <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]"  class="form-register" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="form-group">
+                            <label asp-for="Email">Email address</label>
+                            <input class="form-control" asp-for="Email" placeholder="email@example.com">
+                            <span asp-validation-for="Email"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label asp-for="FirstName">First name</label>
+                            <input class="form-control" asp-for="FirstName" placeholder="First name">
+                            <span asp-validation-for="FirstName"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label asp-for="LastName">Last name</label>
+                            <input class="form-control" asp-for="LastName" placeholder="Last name">
+                            <span asp-validation-for="LastName"></span>
+                        </div>
+                    </div>
+                </div>
+              
+                <div class="row justify-content-center">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label asp-for="Password">Secret password</label>
+                            <input class="form-control" asp-for="Password" placeholder="Secret password">
+                            <span asp-validation-for="Password"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label asp-for="ConfirmPassword">Secret password again</label>
+                            <input class="form-control" asp-for="ConfirmPassword" placeholder="Secret password again">
+                            <span asp-validation-for="ConfirmPassword"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="custom-control custom-checkbox my-4">
+                            <input type="checkbox" class="custom-control-input" asp-for="IsAgreedToTermsOfService" required>
+                            <label class="custom-control-label" asp-for="IsAgreedToTermsOfService">
+                                <span class="custom-control-description">I agree to </span>
+                                <a asp-controller="Account" asp-action="TermsOfService" target="_blank">Terms of Service</a>
+                            </label>
+                            <span asp-validation-for="IsAgreedToTermsOfService"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">Create an account</button>
+                </div>
+            </form>
         </div>
     </section>
 </div>
