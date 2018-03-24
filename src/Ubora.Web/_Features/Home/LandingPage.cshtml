@@ -20,13 +20,14 @@
             </div>
         </div>
         <div class="pull-down">
-            <a class="ct-js-btn-scroll" href="#PublicProjects">
+            <a id="pullDown" class="ct-js-btn-scroll" href="#publicProjects">
                 <i class="material-icons text-faded">keyboard_arrow_down</i>
             </a>
         </div>
     </header>
 
-    <section id="PublicProjects" class="bg-light-grey">
+    @*id="PublicProjects"*@ 
+    <section id="publicProjects" class="bg-light-grey">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -246,4 +247,14 @@
     $('.popover-dismiss').popover({
         trigger: 'focus'
     })
+</script>
+
+<script>
+    $('#pullDown').on('click', function (e) {
+        e.preventDefault();
+        var target = $(this).id == 'pullDown' ? $('#publicProjects') : $('#pullDown');
+        $('html, body').stop().animate({
+            scrollTop: target.offset().top
+        }, 1000);
+    });
 </script>
