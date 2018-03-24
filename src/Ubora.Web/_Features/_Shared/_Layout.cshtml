@@ -28,7 +28,7 @@
               asp-fallback-src="~/dist/lib/bootstrap.min.js"
               asp-fallback-test="window.jQuery"></script>
     </environment>
-
+    
     <environment names="Development">
         <link rel="stylesheet" href="~/dist/app.bundle.css">
         <script src="~/dist/lib/jquery.min.js"></script>
@@ -69,9 +69,28 @@
         if (workpackageMenuOption != null)
         {
             <main>
+                <div class="wp-sidemenu-md">
+                    <button type="button" class="btn btn-icon d-flex align-items-center" data-toggle="modal" data-target="#wpSidemenuModal">
+                        <i class="material-icons mr-2">format_list_numbered</i>
+                        <span>WP menu</span>
+                    </button>
+                    <div class="modal fade modal-left-pane" id="wpSidemenuModal" tabindex="-1" role="dialog" aria-labelledby="wpModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    @await Component.InvokeAsync(typeof(WorkpackageSideMenuViewComponent))
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="container-fluid my-4">
                     <div class="row">
-                        <div class="col-lg-3">
+                       <div class="col-lg-3 wp-sidemenu">
                             @await Component.InvokeAsync(typeof(WorkpackageSideMenuViewComponent))
                         </div>
                         @RenderBody()

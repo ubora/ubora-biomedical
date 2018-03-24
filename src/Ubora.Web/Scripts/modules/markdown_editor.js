@@ -1,3 +1,5 @@
+import {renderer} from './markdown_renderer';
+
 export class MarkdownEditor {
   constructor (selector) {
     this._loadSimpleMDE(selector);

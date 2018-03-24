@@ -41,6 +41,10 @@
 </div>
 
 @section Scripts {
+    <script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"
+            asp-fallback-src="~/dist/libs/marked.min.js"
+            asp-fallback-test="window.marked">
+    </script>
     <link rel="stylesheet"
           href="//cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.css"
           asp-fallback-href="~/dist/libs/simplemde.min.css">
@@ -49,8 +53,8 @@
             asp-fallback-test="window.SimpleMDE">
     </script>
     <script>
-        const helpfulTipToggleElement = document.querySelector('.js-helpful-tips');
-        const helpfulTipContentElement = document.querySelector('.js-helpful-tips-content');
+        var helpfulTipToggleElement = document.querySelector('.js-helpful-tips');
+        var helpfulTipContentElement = document.querySelector('.js-helpful-tips-content');
 
         helpfulTipToggleElement.addEventListener('click', event => {
             helpfulTipContentElement.classList.toggle('helpful-tips-content-visible');
