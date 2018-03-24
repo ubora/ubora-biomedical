@@ -20,7 +20,7 @@
                     <img class="card-img-top mt-4 avatar" src="@mentor.ProfilePictureLink" alt="@mentor.FullName profile picture">
                 </div>
                 <div class="card-body">
-                    <h4 class="card-title"><a asp-action="View" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h4>
+                    <h4 class="card-title"><a asp-action="ViewProfile" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h4>
                     @*TODO: add role*@
                     <p>Mentor&nbsp;</p>
                     <form class="form-group" asp-action="InviteMentor">
@@ -43,7 +43,7 @@
                 <img class="avatar mt-4" src="@mentor.ProfilePictureLink" alt="@mentor.FullName profile picture">
             </div>
             <div class="card-body pb-0">
-              <h4 class="card-title"><a asp-action="View" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h4>
+              <h4 class="card-title"><a asp-action="ViewProfile" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h4>
             </div>
             <form class="form-group py-2" asp-action="InviteMentor">
                 <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId" />
