@@ -13,7 +13,7 @@
                     <hr class="light">
                 </div>
                 <div class="col-lg-7 mx-auto">
-                    <p class="text-faded mb-5">The EU funded project aims at creating an e-Infrastructure – UBORA – for open source co-design of new solutions to face the current and future healthcare challenges of Europe and Africa, by exploiting networking, knowledge on rapid prototyping of new ideas and sharing of safety criteria and performance data.</p>
+                    <p class="text-faded mb-5">The EU funded project aims at creating an e-infrastructure – UBORA – for open source co-design of new solutions to face the current and future healthcare challenges of Europe and Africa, by exploiting networking, knowledge on rapid prototyping of new ideas and sharing of safety criteria and performance data.</p>
                     <a class="btn btn-outline-light btn-primary btn-lg mx-1" href="http://ubora-biomedical.org/" target="_blank">Find out more on our Blog</a>
                     <a class="btn btn-cta btn-primary btn-lg mx-1" role="button" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Sign up to UBORA</a>
                 </div>
@@ -26,7 +26,6 @@
         </div>
     </header>
 
-    @*id="PublicProjects"*@ 
     <section id="publicProjects" class="bg-light-grey">
         <div class="container">
             <div class="row">
@@ -116,8 +115,8 @@
                 </div>
             </div>
 
-            <cache expires-after="@TimeSpan.FromMinutes(1)">
-                    @(await Component.InvokeAsync<LandingPageRandomProjectsRow>())
+            <cache expires-after="@TimeSpan.FromMinutes(15)">
+                @(await Component.InvokeAsync<LandingPageRandomProjectsRow>())
             </cache>
 
             <div class="row">

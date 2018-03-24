@@ -2,13 +2,13 @@
 @model Ubora.Web._Features.Projects.Workpackages.SideMenu.CollapseMenuItem
 
 <li id="@Model.Id">
-    <a href="#@Model.InnerMenuItemsId" data-toggle="collapse" data-target="#@Model.InnerMenuItemsId" class="@(Model.ATagClass)">
+    <a href="javascript:void(0)" data-toggle="collapse" data-target=".@Model.InnerMenuItemsId" class="@(Model.ATagClass)">
         <img src="@(Model.Icon.Src)" alt="icon for @Model.DisplayName"><span>@Model.DisplayName</span>
     </a>
 
     @if (Model.Status != WorkpackageStatus.Closed)
     {
-        <ul id="@Model.InnerMenuItemsId" class="@(Model.IsSelected ? "" : "collapse") @(Model.CssClassForItemsBelow)">
+        <ul class="collapse @(Model.IsSelected ? "show" : "") @(Model.CssClassForItemsBelow) @Model.InnerMenuItemsId">
             @foreach (var innerMenuItem in Model.InnerMenuItems)
             {
                 @innerMenuItem.GenerateHtmlMarkup(this.Html)
