@@ -27,3 +27,11 @@
         height:180px;
     }
 }
+
+@media (max-width: 574px) {
+    .card {
+        img.project-img {
+            height: 274px;
+        }
+    }
+}
