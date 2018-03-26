@@ -3,17 +3,16 @@
     font-family: inherit;
 
     &:focus,
-    &:hover {
+    &:hover,
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active,
+    &:not(:disabled):not(.disabled):active:focus {
         background-color: $light-blue;
         border-color: $light-blue;
         color: $white;
+        box-shadow: none;
     }
 
-    &:not(:disabled):not(.disabled):active,
-    &:not(:disabled):not(.disabled).active {
-        background-color: $light-blue;
-        border-color: $light-blue;
-    }
 }
 
 .btn-outline-primary .material-icons,
@@ -22,10 +21,18 @@
 }
 
 .btn-disabled[disabled] {
-  background-color: $primary-shade;
-  border-color: $primary-shade;
-  color: $white;
-  font-family: inherit;
+    background-color: $primary-shade;
+    border-color: $primary-shade;
+    color: $white;
+    font-family: inherit;
+
+    &:focus,
+    &:hover {
+        background-color: $primary-shade;
+        border-color: $primary-shade;
+        color: $white;
+        cursor: not-allowed;
+    }
 }
 
 .btn-primary[disabled]:focus,

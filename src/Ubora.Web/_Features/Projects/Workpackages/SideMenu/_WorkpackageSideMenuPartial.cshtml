@@ -4,7 +4,7 @@
     <ul class="list-sidebar">
         @foreach (var topLevelMenuItem in Model.TopLevelMenuItems)
         {
-        @topLevelMenuItem.GenerateHtmlMarkup(this.Html)
+            @topLevelMenuItem.GenerateHtmlMarkup(this.Html)
         }
     </ul>
 </aside>

@@ -1,59 +1,89 @@
 .header {
-  background-color: $white;
+    background-color: $white;
+
+    .nav-link {
+        color: $blue;
+        transition: color 100ms ease-in;
+
+        &:focus,
+        &:hover {
+            color: $light-blue;
+            cursor: pointer;
+        }
+    }
+
+    img {
+        height: 48px;
+    }
+
+    .material-icons {
+        margin: 0 0 0 .5rem;
+    }
+
+    .nav-link-notification {
+        position: relative;
+
+        .nav-link-notification-count {
+            background-color: $orange;
+            border-radius: 50%;
+            top: -.6rem;
+            color: $white;
+            font-size: .8rem;
+            height: 1.2rem;
+            line-height: 1.4;
+            position: absolute;
+            right: -.6rem;
+            text-align: center;
+            width: 1.2rem;
+        }
+    }
+
+    &.navbar {
+        padding: .2rem 1rem;
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+    }
+
+    .navbar-toggler {
+        padding: 0 0.75rem;
+        color: $blue;
+
+        &:focus,
+        &:hover {
+            color: $light-blue;
+        }
+
+        .material-icons {
+            font-size: 120%;
+            margin: 0;
+            vertical-align: middle;
+        }
+    }
+
+    button.navbar-toggler {
+        .material-icons {
+            font-size: 2rem;
+        }
+    }
 }
 
-.header .material-icons {
-  margin: 0 0 0 .5rem;
-}
 
-.header .nav-link-notification {
-  position: relative;
-}
+@media (max-width: 991px) {
+    .header .nav-link-notification .nav-link-notification-count {
+        top: -.1rem;
+        font-size: .6rem;
+        height: 1rem;
+        line-height: 1.8;
+        right: -.4rem;
+        width: 1rem;
+    }
 
-.header .navbar-toggler {
-  color: $blue;
-}
+    .header .navbar-nav .nav-item.notification-item {
+        display:none;
+    }
 
-.header .navbar-toggler:focus,
-.header .navbar-toggler:hover {
-  color: $light-blue;
-}
-
-.header .navbar-toggler .material-icons {
-  font-size: 180%;
-  margin: 0;
-  vertical-align: middle;
-}
-
-
-.header .nav-link-notification-count {
-  background-color: $orange;
-  border-radius: 50%;
-  top: -.6rem;
-  color: $white;
-  font-size: .8rem;
-  height: 1.2rem;
-  line-height: 1.4;
-  position: absolute;
-  right: -.6rem;
-  text-align: center;
-  width: 1.2rem;
-}
-
-.header .nav-link {
-  color: $blue;
-  transition: color 100ms ease-in;
-}
-
-.header .nav-link:focus,
-.header .nav-link:hover {
-  color: $light-blue;
-  cursor: pointer;
-}
-
-.header.navbar {
-  padding: .2rem 1rem;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
+    .header img {
+        height: 38px;
+    }
 }
