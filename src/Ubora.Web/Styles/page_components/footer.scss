@@ -1,5 +1,7 @@
 .footer {
-  background-color: $blue;
+    background-color: $quartinary-shade;
+    color: $text-color;
+    border-top: 1px solid $light;
 }
 
 .social-item:active,
@@ -15,11 +17,10 @@
 }
 
 .legal-flag {
-  width:5em;
+  width:4em;
 }
 
 .legal-quote {
   font-size: 80%;
   font-style: italic;
-  color: $quartinary-shade;
 }

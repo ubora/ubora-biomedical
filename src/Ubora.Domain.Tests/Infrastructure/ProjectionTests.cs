@@ -34,7 +34,10 @@ namespace Ubora.Domain.Tests.Infrastructure
 
         public class TestProjection : Projection<Doc1, Doc2>
         {
-            protected override Expression<Func<Doc1, Doc2>> SelectExpression => s => new Doc2 { Val = s.Val };
+            protected override Expression<Func<Doc1, Doc2>> ToSelector()
+            {
+                return s => new Doc2 { Val = s.Val };
+            }
         }
 
         public class Doc1

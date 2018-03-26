@@ -1,0 +1,20 @@
+﻿@model ProjectCardViewModel
+
+@{
+    var cardClass = "card" + (Model.ShowCardShadow ? " box-shadow-2" : "");
+    var projectHref = Url.Action("Dashboard", "Dashboard", new { projectId = Model.ProjectId });
+    var projectImageSrc = string.IsNullOrEmpty(Model.ProjectImageUrl) ? "/images/project-default-image.png" : Model.ProjectImageUrl;
+}
+
+<div class="@(cardClass)">
+    <a href="@(projectHref)" class="card-link">
+        <img class="card-img-top project-img" src="@(projectImageSrc)" alt="Image for project called @Model.ProjectTitle">
+        @if (Model.IsDraftProject)
+        {
+            <p class="project-status-draft">Draft</p>
+        }
+        <div class="card-body">
+            <h5 class="card-title">@Model.ProjectTitle</h5>
+        </div>
+    </a>
+</div>

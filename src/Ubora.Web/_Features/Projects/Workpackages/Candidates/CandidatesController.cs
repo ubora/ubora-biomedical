@@ -16,6 +16,7 @@ using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web._Features.Projects._Shared;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 {
@@ -87,7 +88,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
                 Title = model.Name,
                 Description = model.Description,
                 ImageLocation = blobLocation
-            });
+            }, Notice.Success(SuccessTexts.CandidateAdded));
 
             if (!ModelState.IsValid)
             {
@@ -128,7 +129,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
                 Description = model.Description,
                 Title = model.Title,
                 Id = model.Id
-            });
+            }, Notice.Success(SuccessTexts.CandidateEdited));
 
             if (!ModelState.IsValid)
             {
@@ -164,7 +165,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             {
                 Id = model.Id,
                 ImageLocation = imageLocation
-            });
+            }, Notice.Success(SuccessTexts.CandidateImageUploaded));
 
             if (!ModelState.IsValid)
             {
@@ -198,7 +199,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             {
                 CandidateId = model.Id,
                 Actor = UserInfo
-            });
+            }, Notice.Success(SuccessTexts.CandidateImageDeleted));
 
             if (!ModelState.IsValid)
             {
@@ -220,7 +221,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             {
                 CandidateId = model.CandidateId,
                 CommentText = model.CommentText,
-            });
+            }, Notice.Success(SuccessTexts.CandidateCommentAdded));
 
             if (!ModelState.IsValid)
             {
@@ -251,7 +252,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
                 CandidateId = model.CandidateId,
                 CommentText = model.CommentText,
                 CommentId = model.Id
-            });
+            }, Notice.Success(SuccessTexts.CandidateCommentEdited));
 
             if (!ModelState.IsValid)
             {
@@ -281,7 +282,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             {
                 CandidateId = candidateId,
                 CommentId = commentId
-            });
+            }, Notice.Success(SuccessTexts.CandidateCommentRemoved));
 
             if (!ModelState.IsValid)
             {
@@ -313,7 +314,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
                 Safety = model.Safety,
                 Performance = model.Performace,
                 Usability = model.Usability
-            });
+            }, Notice.Success(SuccessTexts.CandidateVoteAdded));
 
             if (!ModelState.IsValid)
             {
@@ -327,15 +328,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
         [Authorize(Policies.CanOpenWorkpackageThree)]
         public async Task<IActionResult> OpenWorkpackageThree([FromServices] CandidateItemViewModel.Factory candidateItemViewModelFactory)
         {
-            ExecuteUserProjectCommand(new OpenWorkpackageThreeCommand());
+            ExecuteUserProjectCommand(new OpenWorkpackageThreeCommand(), Notice.Success(SuccessTexts.WP3Opened));
 
             if (!ModelState.IsValid)
             {
-                Notices.Error("Failed to open work package 3!");
+                Notices.NotifyOfError("Failed to open work package 3!");
                 return await Voting(candidateItemViewModelFactory);
             }
-
-            Notices.Success("Work package 3 opened successfully!");
 
             return RedirectToAction(nameof(Voting));
         }

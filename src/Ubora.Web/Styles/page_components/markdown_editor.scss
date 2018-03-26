@@ -1,12 +1,16 @@
+
+/*Markdown editor preview style*/
 .CodeMirror,
 .CodeMirror-scroll {
     max-height: 24em;
 }
 
-.text-markdown {
-    font-family: inherit;
-    text-align: justify;
+.CodeMirror-lines {
+    padding: 4px 0 20px 0 !important;
+}
 
+.CodeMirror,
+.text-markdown {
     h1, h2, h3, h4, h5, h6 {
         font-weight: 500;
     }
@@ -34,6 +38,12 @@
     h6 {
         font-size: .75rem;
     }
+}
+
+
+.text-markdown {
+    font-family: inherit;
+    text-align: justify;
 
     img {
         max-height: 844px;

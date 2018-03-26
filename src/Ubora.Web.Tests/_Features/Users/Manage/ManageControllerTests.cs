@@ -71,7 +71,7 @@ namespace Ubora.Web.Tests._Features.Users.Manage
                 .Verify(x => x.ChangePasswordAsync(applicationUser, currentPassword, newPassword), Times.Once);
 
             var successNotice = _controller.Notices.Dequeue();
-            successNotice.Text.Should().Be("Password changed successfully!");
+            successNotice.Text.Should().Be(SuccessTexts.PasswordChanged);
             successNotice.Type.Should().Be(NoticeType.Success);
 
             _signInManagerMock

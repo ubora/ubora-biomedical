@@ -1,0 +1,337 @@
+﻿.landing-page {
+
+    hr {
+        max-width: 50px;
+        border-width: 3px;
+
+        &.light {
+            border-color: $white;
+        }
+
+        &.dark {
+            border-color: $black;
+        }
+    }
+    /* header */
+    header {
+
+        .btn-cta {
+            min-width: 8rem;
+        }
+
+        &.masthead {
+            @include bg-size-cover;
+            padding-top: 8rem;
+            padding-bottom: 8rem;
+            background-color: #323d4c;
+            background-image: url("../images/icons/ubora-logo.svg");
+            background-position: center center;
+            box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.6);
+            position: relative;
+
+            h1 {
+                color: $white;
+                font-weight: 400;
+            }
+        }
+
+     
+        .container-fluid {
+            z-index: 1;
+        }
+
+
+        .pull-down {
+            position: absolute;
+            bottom: 2%;
+            z-index: 1;
+            left: -moz-calc(50% - 32px);
+            left: -webkit-calc(50% - 32px);
+            left: -o-calc(50% - 32px);
+            left: calc(50% - 32px);
+
+            .material-icons {
+                font-size: 4rem;
+            }
+        }
+    }
+
+    .carousel {
+
+        .carousel-item {
+            border: 1px solid $light;
+
+
+            .carousel-image-1,
+            .carousel-image-2,
+            .carousel-image-3 {
+                width: 1108px;
+                height: 400px;
+                background-repeat: no-repeat;
+                background-color: white;
+                background-position: left center;
+                background-size: contain;
+            }
+
+            .carousel-image-1 {
+                background-image: url("/images/slide1.png");
+            }
+
+            .carousel-image-2 {
+                background-image: url("/images/slide2.png");
+            }
+
+            .carousel-image-3 {
+                background-image: url("/images/slide3.png");
+            }
+
+            .carousel-caption {
+                background-color: $white;
+                color: $text-color;
+                right: 0;
+                bottom: 0;
+                left: auto;
+                padding: 4rem;
+                text-align: left;
+                height: 100%;
+                width: 65%;
+
+                .btn-icon {
+                    position: absolute;
+                    bottom: 72px;
+                    right: 82px;
+                }
+
+                dl {
+                    width: 100%;
+                    overflow: hidden;
+
+                    dt {
+                        float: left;
+                        width: 28%;
+                    }
+
+                    dd {
+                        float: left;
+                        width: 72%;
+                    }
+                }
+            }
+        }
+
+
+        .carousel-indicators li {
+            background-color: rgba(0, 0, 0, 0.2);
+
+            &.active {
+                background-color: $text-color;
+            }
+        }
+
+        .carousel-control-prev, .carousel-control-next {
+            width: 5%;
+        }
+    }
+
+
+    .card {
+        border: 1px solid $light;
+
+        a h5 {
+            color: $text-color;
+        }
+    }
+    /* sections */
+    section {
+        padding: 8rem 0;
+    }
+
+    .section-heading {
+        margin-top: 0;
+    }
+
+
+
+    .discussion-section {
+        @include bg-size-cover;
+        background-image: url("../images/discussion.jpg");
+        background-position: center center;
+        position: relative;
+
+        .btn-primary {
+            min-width: 7rem;
+        }
+    }
+
+    .discussion-section,
+    .resources-section {
+        padding: 8rem 0;
+    }
+
+
+    section.footer {
+        padding: 2.5rem 0;
+        font-size: 80%;
+        font-style: italic;
+    }
+}
+
+
+
+/* background colors */
+.bg-blue {
+    background-color: $blue;
+}
+
+.bg-dark {
+    background-color: $dark;
+}
+
+.bg-light-grey {
+    background-color: $quartinary-shade;
+}
+
+
+/* text colors */
+.text-faded-dark {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.text-faded {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Buttons */
+.btn-light {
+    border: 1px solid $blue;
+    color: $blue;
+}
+
+/*media queries*/
+@media (min-width: 1200px) {
+    header.masthead h1 {
+        font-size: 4rem;
+    }
+}
+
+
+
+@media (min-width: 992px) {
+    header.masthead {
+        height: 95vh;
+        min-height: 650px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    header.masthead h1 {
+        font-size: 3rem;
+    }
+
+    header.masthead p {
+        font-size: 1.15rem;
+    }
+}
+
+@media (max-width: 992px) {
+    header.masthead h1 {
+        font-size: 2rem;
+    }
+
+    .landing-page {
+        .carousel {
+            .carousel-item {
+                .carousel-image-1,
+                .carousel-image-2,
+                .carousel-image-3 {
+                    background-image: none;
+                    height: 750px;
+                }
+
+                .carousel-caption {
+                    padding: 2rem;
+                    width: 100%;
+
+                    .carousel-image-1-mobile,
+                    .carousel-image-2-mobile,
+                    .carousel-image-3-mobile {
+                        height: 300px;
+                        margin-bottom: 1rem;
+                        background-repeat: no-repeat;
+                        background-position: center;
+                    }
+
+                    .carousel-image-1-mobile {
+                        background-image: url("/images/slide1.png");
+                    }
+
+                    .carousel-image-2-mobile {
+                        background-image: url("/images/slide2.png");
+                    }
+
+                    .carousel-image-3-mobile {
+                        background-image: url("/images/slide3.png");
+                    }
+
+                    .btn-icon {
+                        position: absolute;
+                        right: 0;
+                        bottom: 72px;
+                        left: 0;
+                        justify-content: center;
+                        margin-right: 15%;
+                        margin-left: 15%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+@media (max-width: 576px) {
+    .landing-page {
+        section, .discussion-section, .resources-section {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
+
+
+        header.masthead {
+            padding-top: 5rem;
+            padding-bottom: 7rem;
+
+            .btn-primary {
+                min-width: 17rem;
+                margin-bottom: .5rem;
+            }
+        }
+
+        .carousel {
+            .carousel-item {
+                .carousel-image-1,
+                .carousel-image-2,
+                .carousel-image-3 {
+                    height: 690px;
+                }
+
+                .carousel-caption {
+                    padding: 1rem;
+
+                    dl {
+
+                        dt {
+                            width: 100%;
+                        }
+
+                        dd {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

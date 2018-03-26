@@ -1052,7 +1052,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
             executedCommand.Actor.UserId.Should().Be(UserId);
 
             var successNotice = _controller.Notices.Dequeue();
-            successNotice.Text.Should().Be("Work package 3 opened successfully!");
+            successNotice.Text.Should().Be(SuccessTexts.WP3Opened);
             successNotice.Type.Should().Be(NoticeType.Success);
         }
     }
