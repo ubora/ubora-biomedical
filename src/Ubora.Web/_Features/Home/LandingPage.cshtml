@@ -16,12 +16,12 @@
                 <div class="col-xl-6 col-lg-8 mx-auto">
                     <p class="text-faded mb-5">The EU funded project aims at creating an e-platform – UBORA – for open-source co-design of new solutions to face the current and future healthcare challenges of Europe and Africa; by exploiting networking, knowledge on rapid prototyping of new ideas and sharing of safety criteria and performance data.</p>
                     <a class="btn btn-outline-light btn-primary btn-lg mx-1" href="http://ubora-biomedical.org/" target="_blank">Read latest news on our blog</a>
-                    <a class="btn btn-cta btn-primary btn-lg mx-1" role="button" href="#signUpToUbora">Sign up to UBORA e-platform</a>
+                    <a class="btn btn-cta btn-primary btn-lg mx-1 js-animate-scroll" role="button" href="#signUpToUbora">Sign up to UBORA e-platform</a>
                 </div>
             </div>
         </div>
         <div class="pull-down">
-            <a class="ct-js-btn-scroll" href="#publicProjects">
+            <a class="ct-js-btn-scroll js-animate-scroll" href="#publicProjects">
                 <i class="material-icons text-faded">keyboard_arrow_down</i>
             </a>
         </div>
@@ -31,7 +31,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2 class="section-heading text-dark">Projects collaborated on UBORA</h2>
+                    <h2 class="section-heading text-dark">Projects collaborated on UBORA e-platform</h2>
                     <hr class="dark my-4">
                     <p class="text-faded-dark mb-4">UBORA features a project collaboration tool to guide the process of developing a biomedical device in an open-source manner that is in accordance with the international safety standards. All projects are overlooked by the UBORA certified mentors. You can freely create a new project or join existing ones to start collaborating with the community.</p>
                 </div>
@@ -256,7 +256,7 @@
 </script>
 
 <script>
-    $(document).on('click', 'a[href^="#"]', function(e) {
+    $(document).on('click', 'a[class*="js-animate-scroll"]', function(e) {
         // target element id
         var id = $(this).attr('href');
 
@@ -274,5 +274,5 @@
 
         // animated top scrolling
         $('body, html').animate({scrollTop: pos});
-    });
+    }); 
 </script>
