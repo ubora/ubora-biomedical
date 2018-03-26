@@ -23,9 +23,10 @@
             @include bg-size-cover;
             padding-top: 8rem;
             padding-bottom: 8rem;
-            background-image: url("../images/landing.jpg");
+            background-color: #323d4c;
+            background-image: url("../images/icons/ubora-logo.svg");
             background-position: center center;
-            box-shadow: inset 0 0 0 2000px rgba(3, 6, 10, 0.7);
+            box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.5);
             position: relative;
 
             h1 {
@@ -34,21 +35,7 @@
             }
         }
 
-        &.overlay {
-            position: relative;
-
-            &:after {
-                position: absolute;
-                content: "";
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                opacity: .5;
-                background-color: black;
-            }
-        }
-
+     
         .container-fluid {
             z-index: 1;
         }
