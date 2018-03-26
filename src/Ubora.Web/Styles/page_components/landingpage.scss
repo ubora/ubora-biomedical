@@ -26,7 +26,7 @@
             background-color: #323d4c;
             background-image: url("../images/icons/ubora-logo.svg");
             background-position: center center;
-            box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.5);
+            box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.6);
             position: relative;
 
             h1 {
@@ -293,8 +293,16 @@
 
 @media (max-width: 576px) {
     .landing-page {
+        section, .discussion-section, .resources-section {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
 
-        .masthead {
+
+        header.masthead {
+            padding-top: 5rem;
+            padding-bottom: 7rem;
+
             .btn-primary {
                 min-width: 17rem;
                 margin-bottom: .5rem;
