@@ -80,18 +80,21 @@
             .carousel-image-3 {
                 width: 1108px;
                 height: 400px;
+                background-repeat: no-repeat;
+                background-color: white;
+                background-position: left center;
             }
 
             .carousel-image-1 {
-                background-image: url("/images/slide_1.png");
+                background-image: url("/images/slide1.png");
             }
 
             .carousel-image-2 {
-                background-image: url("/images/slide_2.png");
+                background-image: url("/images/slide2.png");
             }
 
             .carousel-image-3 {
-                background-image: url("/images/slide_3.png");
+                background-image: url("/images/slide3.png");
             }
 
             .carousel-caption {
@@ -244,5 +247,93 @@
     header.masthead h1 {
         font-size: 2rem;
     }
+    .landing-page {
+        .carousel {
+            .carousel-item {
+                .carousel-image-1,
+                .carousel-image-2,
+                .carousel-image-3 {
+                    background-image: none;
+                    height: 750px;
+                }
+
+                .carousel-caption {
+                    padding: 2rem;
+                    width: 100%;
+
+                    .carousel-image-1-mobile,
+                    .carousel-image-2-mobile,
+                    .carousel-image-3-mobile {
+                        height: 300px;
+                        margin-bottom: 1rem;
+                        background-repeat: no-repeat;
+                        background-position: center;
+                    }
+
+                    .carousel-image-1-mobile {
+                        background-image: url("/images/slide1.png");
+                    }
+
+                    .carousel-image-2-mobile {
+                        background-image: url("/images/slide2.png");
+                    }
+
+                    .carousel-image-3-mobile {
+                        background-image: url("/images/slide3.png");
+                    }
+
+                    .btn-icon {
+                        position: absolute;
+                        right: 0;
+                        bottom: 72px;
+                        left: 0;
+                        justify-content: center;
+                        margin-right: 15%;
+                        margin-left: 15%;
+                    }
+
+                  
+                }
+            }
+        }
+    }
 }
+
+@media (max-width: 576px) {
+    .landing-page {
+
+        .masthead {
+            .btn-primary {
+                min-width: 17rem;
+                margin-bottom: .5rem;
+            }
+        }
+
+        .carousel {
+            .carousel-item {
+                .carousel-image-1,
+                .carousel-image-2,
+                .carousel-image-3 {
+                    background-image: none;
+                    height: 870px;
+                }
+
+                .carousel-caption {
+                    padding: 1rem;
+                    dl {
+
+                        dt {
+                            width: 100%;
+                        }
+
+                        dd {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 
