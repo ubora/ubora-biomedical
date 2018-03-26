@@ -227,6 +227,8 @@
     }
 }
 
+
+
 @media (min-width: 992px) {
     header.masthead {
         height: 95vh;
@@ -248,6 +250,7 @@
     header.masthead h1 {
         font-size: 2rem;
     }
+
     .landing-page {
         .carousel {
             .carousel-item {
@@ -292,13 +295,14 @@
                         margin-right: 15%;
                         margin-left: 15%;
                     }
-
-                  
                 }
             }
         }
     }
 }
+
+
+
 
 @media (max-width: 576px) {
     .landing-page {
@@ -315,12 +319,12 @@
                 .carousel-image-1,
                 .carousel-image-2,
                 .carousel-image-3 {
-                    background-image: none;
-                    height: 870px;
+                    height: 690px;
                 }
 
                 .carousel-caption {
                     padding: 1rem;
+
                     dl {
 
                         dt {
@@ -336,5 +340,3 @@
         }
     }
 }
-
-
