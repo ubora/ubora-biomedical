@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +26,6 @@ using TwentyTwenty.Storage.Azure;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Npgsql;
 using Ubora.Web.Infrastructure.Storage;
-using Ubora.Web._Features.Projects.Workpackages.Steps;
 
 namespace Ubora.Web
 {
@@ -114,7 +112,6 @@ namespace Ubora.Web
             services.Configure<AdminSeeder.Options>(Configuration.GetSection("InitialAdminOptions"));
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
-
 
             var azureBlobConnectionString = Configuration.GetConnectionString("AzureBlobConnectionString");
             var autofacContainerBuilder = new ContainerBuilder();

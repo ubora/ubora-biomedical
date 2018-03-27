@@ -28,6 +28,7 @@ namespace Ubora.Domain.Tests
             var eventTypes = DomainAutofacModule.FindDomainEventConcreteTypes();
             var notificationTypes = DomainAutofacModule.FindDomainNotificationConcreteTypes();
             StoreOptions(new UboraStoreOptionsConfigurer().CreateConfigureAction(eventTypes, notificationTypes, AutoCreate.CreateOnly));
+            InitializeContainer();
         }
 
         private IContainer InitializeContainer()

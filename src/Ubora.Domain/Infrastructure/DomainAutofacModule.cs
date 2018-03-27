@@ -11,6 +11,7 @@ using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Notifications;
+using Ubora.Domain.Projects.Workpackages.Events;
 using Ubora.Domain.Queries;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 
@@ -45,25 +46,52 @@ namespace Ubora.Domain.Infrastructure
 
                 builder.RegisterInstance(store).As<IDocumentStore>().SingleInstance();
             }
+
             builder.RegisterType<DomainMigrator>().AsSelf().SingleInstance();
 
-            builder.Register(x => x.Resolve<IDocumentStore>().OpenSession()).As<IDocumentSession>().As<IQuerySession>().InstancePerLifetimeScope();
-            builder.Register(x => x.Resolve<IDocumentSession>().Events).As<IEventStore>().InstancePerLifetimeScope();
+            builder.Register(x => x.Resolve<IDocumentStore>().OpenSession())
+                .As<IDocumentSession>().As<IQuerySession>()
+                .InstancePerLifetimeScope();
+
+            builder.Register(x => x.Resolve<IDocumentSession>().Events)
+                .As<IEventStore>()
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<EventStreamQuery>().As<IEventStreamQuery>().InstancePerLifetimeScope();
-            builder.RegisterType<CommandQueryProcessor>().As<ICommandProcessor>().As<IQueryProcessor>().As<ICommandQueryProcessor>().InstancePerLifetimeScope();
 
-            // Storage abstraction
+            builder.RegisterType<CommandQueryProcessor>()
+                .As<ICommandProcessor>().As<IQueryProcessor>().As<ICommandQueryProcessor>()
+                .InstancePerLifetimeScope();
+
             builder.Register(x => _storageProvider)
                 .As<IStorageProvider>()
                 .SingleInstance();
 
-            builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(ICommandHandler<>)).InstancePerLifetimeScope();
-
-            builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();
-            builder.RegisterType<CountQuery<INotification>.Handler>().As<IQueryHandler<CountQuery<INotification>,int>>()
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .AsClosedTypesOf(typeof(ICommandHandler<>))
                 .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .AsClosedTypesOf(typeof(IQueryHandler<,>))
+                .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .AsClosedTypesOf(typeof(IEventHandler<>))
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<CountQuery<INotification>.Handler>()
+                .As<IQueryHandler<CountQuery<INotification>, int>>()
+                .InstancePerLifetimeScope();
+
             builder.RegisterType<DeviceClassificationQuestionnaireTreeFactory>().AsSelf().SingleInstance();
+
+            builder.RegisterBuildCallback(container =>
+            {
+                var documentStore = (DocumentStore)container.Resolve<IDocumentStore>();
+                var serviceLocator = container.Resolve<IComponentContext>();
+                var uboraEventHandlerInvoker = new UboraEventHandlerInvoker(serviceLocator);
+                documentStore.Options.Listeners.Add(uboraEventHandlerInvoker);
+            });
         }
 
         public static IEnumerable<Type> FindDomainEventConcreteTypes()
@@ -88,7 +116,9 @@ namespace Ubora.Domain.Infrastructure
             return eventTypes.Select(x => new MappedType(x));
         }
 
-        // Static helper for tests
+        /// <summary>
+        /// Static helper for tests
+        /// </summary>
         internal static bool ShouldInitializeAndRegisterDocumentStoreOnLoad { get; set; } = true;
     }
 }

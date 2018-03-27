@@ -7,7 +7,6 @@
     <EmbeddedResource Remove="Projects\DeviceClassification\**" />
     <None Remove="Projects\DeviceClassification\**" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="dbup-core" Version="4.0.0-beta0004" />

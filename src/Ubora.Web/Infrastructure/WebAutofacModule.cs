@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Projects.Workpackages.Events;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Web.Infrastructure.PreMailers;
@@ -57,11 +58,20 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterType<ApplicationUserManager>().As<IApplicationUserManager>().InstancePerLifetimeScope();
             builder.RegisterType<ApplicationSignInManager>().As<IApplicationSignInManager>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ApplicationUserEmailMessageSender>().As<IPasswordRecoveryMessageSender>().As<IEmailConfirmationMessageSender>().InstancePerLifetimeScope();
+            builder.RegisterType<ApplicationUserEmailMessageSender>()
+                .As<IPasswordRecoveryMessageSender>().As<IEmailConfirmationMessageSender>()
+                .InstancePerLifetimeScope();
+
             builder.RegisterType<ViewRender>().InstancePerLifetimeScope();
             builder.RegisterType<ImageServices.ImageStorageProvider>().AsSelf().InstancePerLifetimeScope();
-            builder.RegisterAssemblyTypes(ThisAssembly).Where(t => t.IsNested && t.Name.EndsWith("Factory")).InstancePerLifetimeScope();
-            builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .Where(t => t.IsNested && t.Name.EndsWith("Factory"))
+                .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .AsClosedTypesOf(typeof(IQueryHandler<,>))
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<SendFeedbackCommand.Handler>().As<ICommandHandler<SendFeedbackCommand>>().InstancePerLifetimeScope();
 
@@ -69,6 +79,9 @@ namespace Ubora.Web.Infrastructure
 
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .AsClosedTypesOf(typeof(NotificationViewModelFactory<,>)).As<INotificationViewModelFactory>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<EventNotificationViewModel.Factory>().As<INotificationViewModelFactory>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<EventViewModelFactoryMediator>().As<IEventViewModelFactoryMediator>().InstancePerLifetimeScope();
@@ -92,9 +105,12 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterType<DeviceClassificationIndexViewModel.QuestionnaireListItemProjection>()
                 .As<IProjection<DeviceClassificationAggregate, DeviceClassificationIndexViewModel.QuestionnaireListItem>>()
                 .SingleInstance();
+
             builder.RegisterType<QuestionnaireIndexViewModel.QuestionnaireListItemProjection>()
                 .As<IProjection<ApplicableRegulationsQuestionnaireAggregate, QuestionnaireIndexViewModel.QuestionnaireListItem>>()
                 .SingleInstance();
+
+            builder.RegisterType<UboraEventHandlerInvoker>().AsSelf().SingleInstance();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)
