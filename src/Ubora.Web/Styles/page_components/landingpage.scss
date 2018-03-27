@@ -35,7 +35,7 @@
             }
         }
 
-     
+
         .container-fluid {
             z-index: 1;
         }
@@ -214,8 +214,6 @@
     }
 }
 
-
-
 @media (min-width: 992px) {
     header.masthead {
         height: 95vh;
@@ -289,6 +287,16 @@
 }
 
 
+@media (max-width: 768px) {
+    .landing-page {
+        header.masthead {
+            .btn-primary {
+                min-width: 17rem;
+                margin-bottom: .5rem;
+            }
+        }
+    }
+}
 
 
 @media (max-width: 576px) {
@@ -302,11 +310,6 @@
         header.masthead {
             padding-top: 5rem;
             padding-bottom: 7rem;
-
-            .btn-primary {
-                min-width: 17rem;
-                margin-bottom: .5rem;
-            }
         }
 
         .carousel {
