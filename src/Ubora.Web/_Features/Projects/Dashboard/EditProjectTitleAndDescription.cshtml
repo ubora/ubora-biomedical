@@ -17,13 +17,13 @@
             <span asp-validation-for="Title"></span>
         </div>
         <h2>Project description</h2>
-        <div class="my-2">
-            <a href="#" class="js-helpful-tips" role="button">
-                <i class="align-middle material-icons">help</i>
-                <span>Helpful tips</span>
-            </a>
+        <a class="btn-icon my-3 d-flex align-items-center" data-toggle="collapse" href="#collapseHelpfulTips" role="button" aria-expanded="false" aria-controls="collapseHelpfulTips">
+            <i class="material-icons mr-1">help</i>
+            <span>Helpful tips</span>
+        </a>
+        <div id="collapseHelpfulTips" class="collapse">
+            <p>Describe in few words the device technology/intended use/and intended clinical benefits of the device. Describe who are the intended users. Describe if there are some limitation about the use of the device (for example need of continuous power supply) and if there are contraindications.</p>
         </div>
-        <p class="helpful-tips-content js-helpful-tips-content">Describe in few words the device technology/intended use/and intended clinical benefits of the device. Describe who are the intended users. Describe if there are some limitation about the use of the device (for example need of continuous power supply) and if there are contraindications.</p>
         <div class="form-group">
             <textarea class="content_editable" asp-for="ProjectDescription" rows="8"></textarea>
         </div>
@@ -47,12 +47,5 @@
             asp-fallback-src="~/dist/libs/simplemde.min.js"
             asp-fallback-test="window.SimpleMDE">
     </script>
-    <script>
-        var helpfulTipToggleElement = document.querySelector('.js-helpful-tips');
-        var helpfulTipContentElement = document.querySelector('.js-helpful-tips-content');
-
-        helpfulTipToggleElement.addEventListener('click', event => {
-            helpfulTipContentElement.classList.toggle('helpful-tips-content-visible');
-        });
-    </script>
+  
 }
