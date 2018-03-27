@@ -66,6 +66,47 @@
             font-size: 2rem;
         }
     }
+
+    .dropdown-menu {
+        width: 20rem;
+        padding: 0;
+
+        li {
+            padding: 15px 20px;
+            border-bottom: 1px solid $tertiary-shade;
+
+            &:first-child {
+                padding: 8px 20px;
+                
+            }
+
+            &:last-of-type {
+                border-bottom: none;
+                background: rgba(0, 0, 0, 0.03);
+
+                a {
+                    text-decoration: none;
+                }
+            }
+        }
+
+      .dropdown-item {
+            font-size: 90%;
+
+            p {
+               white-space: normal;
+            }
+
+            &:active {
+                color: $text-color;
+                background-color: transparent;
+            }
+
+            &:hover {
+                background-color: transparent;
+            }
+        }
+    }
 }
 
 
