@@ -66,15 +66,6 @@
 	margin-bottom: 0;
 }
 
-/*coloring text to orange*/
-.color-orange {
-	color: $orange;
-}
-
-/*coloring text to grey*/
-.color-grey {
-	color: $primary-shade;
-}
 
 /*Repository icons*/
 .file-list--item-control {
@@ -90,19 +81,26 @@
         cursor: pointer;
     }
 
-/*For small text*/
-.small-text {
-	font-size: 0.875em;
+/*Text style*/
+.font-size-0-8{
+	font-size: 0.8rem;
 }
 
-/*For 16px text*/
-.normal-text {
-	font-size: 1rem;
+.font-size-1{
+    font-size: 1rem;
 }
 
 .text-informative {
     font-style: italic;
     color: $dark-grey;
+}
+
+.color-orange {
+    color: $orange;
+}
+
+.color-grey {
+    color: $primary-shade;
 }
 
 .hide {
