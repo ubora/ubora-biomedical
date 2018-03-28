@@ -67,43 +67,49 @@
         }
     }
 
-    .dropdown-menu {
-        width: 20rem;
-        padding: 0;
+    .dropdown {
 
-        li {
-            padding: 15px 20px;
-            border-bottom: 1px solid $tertiary-shade;
-
-            &:first-child {
-                padding: 8px 20px;
-                
-            }
-
-            &:last-of-type {
-                border-bottom: none;
-                background: rgba(0, 0, 0, 0.03);
-
-                a {
-                    text-decoration: none;
-                }
-            }
+        .dropdown-toggle::after {
+            display: none;
         }
 
-      .dropdown-item {
-            font-size: 90%;
+        .dropdown-menu {
+            width: 20rem;
+            padding: 0;
 
-            p {
-               white-space: normal;
+            li {
+                padding: 15px 20px;
+                border-bottom: 1px solid $tertiary-shade;
+
+                &:first-child {
+                    padding: 8px 20px;
+                }
+
+                &:last-of-type {
+                    border-bottom: none;
+                    background: rgba(0, 0, 0, 0.03);
+
+                    a {
+                        text-decoration: none;
+                    }
+                }
             }
 
-            &:active {
-                color: $text-color;
-                background-color: transparent;
-            }
+            .dropdown-item {
+                font-size: 90%;
 
-            &:hover {
-                background-color: transparent;
+                p {
+                    white-space: normal;
+                }
+
+                &:active {
+                    color: $text-color;
+                    background-color: transparent;
+                }
+
+                &:hover {
+                    background-color: transparent;
+                }
             }
         }
     }
@@ -121,10 +127,29 @@
     }
 
     .header .navbar-nav .nav-item.notification-item {
-        display:none;
+        display: none;
     }
 
     .header img {
         height: 38px;
+    }
+
+
+    .dropdown {
+        .dropdown-menu {
+            left: -270px;
+        }
+    }
+}
+
+
+@media (max-width: 400px) {
+    .header {
+        .dropdown {
+
+            .dropdown-menu {
+                left: -200px;
+            }
+        }
     }
 }
