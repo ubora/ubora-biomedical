@@ -53,32 +53,16 @@
 }
 
 
-@media (max-width:767px) {
-    .project-header {
-        display: none;
-    }
 
-    .project-header-md {
-        display: block;
-    }
-}
-
-@media (min-width:768px) {
-
-    .project-header-md {
-        display: none;
+@media (min-width: 1200px) {
+    .project-header .nav-item {
+        margin-right: 3rem;
     }
 }
 
 @media (max-width: 1199px) {
     .project-header .nav-item {
         margin-right: .5rem;
-    }
-}
-
-@media (min-width: 1200px) {
-    .project-header .nav-item {
-        margin-right: 3rem;
     }
 }
 

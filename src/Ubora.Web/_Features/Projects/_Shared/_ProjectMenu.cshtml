@@ -19,7 +19,7 @@
     var canViewProjectNonPublicContent = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanViewProjectNonPublicContent);
 }
 
-<div class="project-header-container">
+<div class="project-header-container d-none d-lg-block">
     <div class="container">
         <nav class="project-header nav nav-tabs flex-column flex-md-row justify-content-start">
             <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Overview)" asp-controller="Dashboard" asp-action="Dashboard">@Model.MenuOptionNames[ProjectMenuOption.Overview]</a>
@@ -39,7 +39,7 @@
 </div>
 
 
-<div class="project-header-md dropdown">
+<div class="project-header-md dropdown d-md-block d-lg-none">
     <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         @Model.MenuOptionNames[Model.ActiveMenuOption]
     </button>
