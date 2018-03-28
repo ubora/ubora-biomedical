@@ -1,14 +1,19 @@
 ﻿@model Ubora.Web._Features.Notifications.Requests.RequestToJoinProjectNotifiationViewModel
 
-<p>
-    <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@Model.UserId">@Model.UserFullName asked to join project</a> <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.&nbsp;
-    You
-    @if (Model.WasAccepted)
-    {
-        <b>accepted</b><span>&#46;</span>
-    }
-    else
-    {
-        <b>declined</b><span>&#46;</span>
-    }
-</p>
+
+<div class="notification">
+    <div class="notification-container">
+        <p class="mb-0 py-1">
+            <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@Model.UserId">@Model.UserFullName asked to join project</a> <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.&nbsp;
+            You
+            @if (Model.WasAccepted)
+            {
+                <b>accepted</b><span>&#46;</span>
+            }
+            else
+            {
+                <b>declined</b><span>&#46;</span>
+            }
+        </p>
+    </div>
+</div>
