@@ -12,7 +12,7 @@
 
 .notification {
     display: block;
-    margin: 1em 0;
+    margin: .25rem 0;
     position: relative;
 
     &::before {
@@ -29,10 +29,8 @@
     }
 
     .notification-container {
-        align-self: center;
-        display: flex;
-        justify-content: space-between;
-        padding: 0 0 0 1em;
+        border-top: 1px solid $quartinary-shade;
+        padding: .5rem 1rem;
     }
 
     .notification-controls {
@@ -86,10 +84,4 @@
 
 .notice-error {
     background-color: $orange;
-}
-
-@media screen and (max-width: 50em) {
-  .notification-container {
-    flex-direction: column;
-  }
 }

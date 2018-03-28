@@ -87,10 +87,15 @@
 
                 &:last-of-type {
                     border-bottom: none;
-                    background: rgba(0, 0, 0, 0.03);
+                    background: $quartinary-shade;
 
                     a {
                         text-decoration: none;
+                        display: block;
+                    }
+
+                    &:hover {
+                        background: $quartinary-shade;
                     }
                 }
             }

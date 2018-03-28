@@ -6,24 +6,28 @@
 
     @*TODO: add 'notification-unread' only for unread notifications*@
     <div class="notification notification-unread @isUnreadCss">
-        <div class="notification-container">
-            <p class="mb-0 py-1">
-                You have been asked to mentor project
-                <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>
-            </p>
-            <form class="notification-controls" method="post">
-                @Html.AntiForgeryToken()
-                <input type="hidden" asp-for="InvitationId" />
-                <button class="btn btn-outline-primary btn-sm align-self-start" type="submit" asp-controller="Notifications" asp-action="DeclineMentorInvitation">Decline</button>
-                <button class="btn btn-primary btn-sm ml-2 align-self-start" type="submit" asp-controller="Notifications" asp-action="AcceptMentorInvitation">Accept</button>
-            </form>
+        <div class="notification-container box-shadow-2">
+            <div class="d-flex justify-content-between">
+                <p class="mb-0 py-1">
+                    You have been asked to mentor project
+                    <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>
+                </p>
+                <form class="notification-controls" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="InvitationId" />
+                    <button class="btn btn-outline-primary btn-sm align-self-start" type="submit" asp-controller="Notifications" asp-action="DeclineMentorInvitation">Decline</button>
+                    <button class="btn btn-primary btn-sm ml-2 align-self-start" type="submit" asp-controller="Notifications" asp-action="AcceptMentorInvitation">Accept</button>
+                </form>
+            </div>
+            @*TODO: add timeago*@
+            <span class="history-timestamp timeago">2 minutes ago</span>
         </div>
     </div>
 }
 else
 {
     <div class="notification">
-        <div class="notification-container">
+        <div class="notification-container box-shadow-2">
             <p class="mb-0 py-1">
                 You were asked to mentor project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.
                 You
@@ -36,6 +40,8 @@ else
                     <b>declined</b><span>&#46;</span>
                 }
             </p>
+            @*TODO: add timeago*@
+            <span class="history-timestamp timeago">2 minutes ago</span>
         </div>
     </div>
 }
