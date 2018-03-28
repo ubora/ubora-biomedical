@@ -338,3 +338,17 @@
         }
     }
 }
+
+/*IE style*/
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+
+    .landing-page .masthead .container-fluid {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .landing-page header.masthead {
+        background-size: 4000px;
+    }
+}
