@@ -1,55 +1,28 @@
+
+.project-header-container {
+    background-color: $blue;
+}
+
+
 .project-header {
-  background-color: $blue;
-  padding: .5rem 0 0 0;
-  border: 0;
-}
+    padding: .5rem 0 0 0;
+    border: 0;
 
-.project-header .nav-link.active {
-  border-color: transparent;
-  border-bottom: 1px solid $white;
-  color: $blue;
-}
+    .nav-link {
+        color: $white;
 
-.project-header .nav-link {
-  color: $white;
-}
+        &.active {
+            border-color: transparent;
+            border-bottom: 1px solid $white;
+            color: $blue;
+        }
 
-.project-header .nav-link:focus,
-.project-header .nav-link:hover {
-  color: $light-blue;
-  background-color: $white;
-  border-color: transparent;
-}
-
-@media (max-width:767px) {
-  .project-header {
-    display:none;
-  }
-
-    .project-header-md  {
-        display:block;
-    }
-
-}
-
-@media (min-width:768px) {
- 
-    .project-header-md {
-        display: none;
-    }
-}
-
-@media (max-width: 1024px) {
-    .project-header .nav-item {
-        margin-left: .25rem;
-        margin-right: .25rem;
-    }
-}
-
-@media (min-width: 1025px) {
-    .project-header .nav-item {
-        margin-left: 3rem;
-        margin-right: 3rem;
+        &:focus,
+        &:hover {
+            color: $light-blue;
+            background-color: $white;
+            border-color: transparent;
+        }
     }
 }
 
@@ -75,6 +48,42 @@
         font-size: 24px;
         margin-right: 2.8rem;
         margin-top: -4px;
-        position:absolute;
+        position: absolute;
+    }
+}
+
+
+@media (max-width:767px) {
+    .project-header {
+        display: none;
+    }
+
+    .project-header-md {
+        display: block;
+    }
+}
+
+@media (min-width:768px) {
+
+    .project-header-md {
+        display: none;
+    }
+}
+
+@media (max-width: 1199px) {
+    .project-header .nav-item {
+        margin-right: .5rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .project-header .nav-item {
+        margin-right: 3rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .project-header .nav-item {
+        margin-right: .25rem;
     }
 }
