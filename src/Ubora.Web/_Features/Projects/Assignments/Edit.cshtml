@@ -22,7 +22,7 @@
 
           <div class="form-group">
             <label asp-for="AssigneeIds">Assignee</label>
-            <select asp-for="AssigneeIds" class="js-project-member-selection multiple-select-box select2" multiple="multiple">
+            <select asp-for="AssigneeIds" class="form-control js-project-member-selection multiple-select-box select2" multiple="multiple">
                 @foreach (var member in Model.ProjectMembers)
                 {
                     <option value="@member.AssigneeId">@member.FullName</option>
@@ -47,10 +47,13 @@
   </div>
 </div>
 
+@section Head {
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"
+          asp-fallback-href="~/dist/lib/select2.min.css">
+}
+
 @section Scripts {
-<link rel="stylesheet"
-  href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"
-  asp-fallback-href="~/dist/lib/select2.min.css">
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"
     asp-fallback-src="~/dist/lib/select2.min.js"
     asp-fallback-test="window.select2">
