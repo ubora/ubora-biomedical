@@ -32,15 +32,15 @@
                             {
                                 <tr>
                                     <td>
-                                        <a href="@Url.Action("DownloadFile","Repository", new { fileId = file.Id })" title="Download file" aria-label="Download file" class="js-tooltip" data-placement="bottom">
+                                        <a href="@Url.Action("DownloadFile","Repository", new { fileId = file.Id })" title="Download file" aria-label="Download file" class="js-tooltip no-underline" data-placement="bottom">
                                             <i class="file-list--item-control material-icons">file_download</i>
                                         </a>
 
-                                        <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file" class="js-tooltip" data-placement="bottom">
+                                        <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file" class="js-tooltip no-underline" data-placement="bottom">
                                             <i class="file-list--item-control material-icons">file_upload</i>
                                         </a>
 
-                                        <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history" class="js-tooltip" data-placement="bottom">
+                                        <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history" class="js-tooltip no-underline" data-placement="bottom">
                                             <i class="file-list--item-control material-icons">history</i>
                                         </a>
 
@@ -55,7 +55,7 @@
 
                                         @if (Model.IsProjectLeader)
                                         {
-                                            <a href="@Url.Action("HideFile", new {fileId = file.Id})" title="Delete file forever" aria-label="Delete file forever" class="js-tooltip" data-placement="bottom">
+                                            <a href="@Url.Action("HideFile", new {fileId = file.Id})" title="Delete file forever" aria-label="Delete file forever" class="js-tooltip no-underline" data-placement="bottom">
                                                 <i class="file-list--item-control material-icons">delete_forever</i>
                                             </a>
                                         }

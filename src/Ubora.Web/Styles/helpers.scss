@@ -10,26 +10,16 @@
 	width: 1px;
 }
 
-/*Avatar image look*/
+/*User avatar*/
 .avatar {
     border-radius: 50%;
     object-fit: cover;
 }
 
-.card .avatar {
-    height: 150px;
-    width: 150px;
-}
-
-/*Avatar image size in comments section*/
+/*Avatar in comments section*/
 .avatar-comment {
 	height: 4em;
 	width: 4em;
-}
-
-
-.material-icons.icon-size-lg {
-	font-size: 5rem !important;
 }
 
 /*Override bootstrap badge component*/
@@ -65,21 +55,6 @@
 	margin-bottom: 0;
 }
 
-
-/*Repository icons*/
-.file-list--item-control {
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    transition: color .3s ease;
-    color: $blue
-}
-
-    .file-list--item-control:hover {
-        color: $light-blue;
-        cursor: pointer;
-    }
-
 /*Text style*/
 .font-size-0-8{
 	font-size: 0.8rem;
@@ -106,6 +81,7 @@
     color: $primary-shade;
 }
 
+/*hide content*/
 .hide {
 	display: none;
 }
@@ -137,20 +113,9 @@ a.no-underline {
 	text-decoration: none;
 }
 
-.min-height {
-	min-height: 37rem;
+.min-height-50 {
+	min-height: 50rem;
 }
-
-.page-item.active .page-link {
-    background-color: $primary-shade;
-    border-color: $primary-shade;
-}
-
-.page-link,
-.page-link:focus, .page-link:hover {
-    color: inherit;
-}
-
 
 .box-shadow {
     -webkit-box-shadow: 2px 2px 8px 0 rgba(0,0,0,0.1);
