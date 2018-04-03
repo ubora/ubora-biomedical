@@ -22,6 +22,8 @@
         height: 100%;
         position: absolute;
         width: 5px;
+        border-top-left-radius: .25rem;
+        border-bottom-left-radius: .25rem;
     }
 
     &.notification-unread:before {
@@ -29,7 +31,7 @@
     }
 
     .notification-container {
-        border-top: 1px solid $quartinary-shade;
+        border: 1px solid $light;
         padding: .5rem 1rem;
     }
 
