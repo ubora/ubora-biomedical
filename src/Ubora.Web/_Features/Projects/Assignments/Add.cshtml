@@ -14,16 +14,6 @@
           <input asp-for="ProjectId" type="hidden">
 
           <div class="form-group">
-            <label asp-for="AssigneeIds">Assignee</label>
-            <select asp-for="AssigneeIds" class="form-control js-project-member-selection multiple-select-box select2" multiple="multiple">
-                @foreach (var member in Model.ProjectMembers)
-                {
-                    <option value="@member.AssigneeId">@member.FullName</option>
-                }
-            </select>
-          </div>
-
-          <div class="form-group">
               <label asp-for="Title">Title</label>
               <input class="form-control" asp-for="Title" placeholder="Assignment title" autofocus>
               <span asp-validation-for="Title"></span>
@@ -33,6 +23,16 @@
               <label asp-for="Description">Description</label>
               <textarea class="form-control" asp-for="Description" placeholder="Assignment description" rows="3"></textarea>
               <span asp-validation-for="Description"></span>
+          </div>
+
+          <div class="form-group">
+              <label asp-for="AssigneeIds">Assignee</label>
+              <select asp-for="AssigneeIds" class="form-control js-project-member-selection multiple-select-box select2" multiple="multiple">
+                  @foreach (var member in Model.ProjectMembers)
+                  {
+                      <option value="@member.AssigneeId">@member.FullName</option>
+                  }
+              </select>
           </div>
 
           <div class="d-flex justify-content-center flex-wrap-reverse">

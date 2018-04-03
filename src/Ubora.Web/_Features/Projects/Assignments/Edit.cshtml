@@ -21,20 +21,20 @@
           </div>
 
           <div class="form-group">
-            <label asp-for="AssigneeIds">Assignee</label>
-            <select asp-for="AssigneeIds" class="form-control js-project-member-selection multiple-select-box select2" multiple="multiple">
-                @foreach (var member in Model.ProjectMembers)
-                {
-                    <option value="@member.AssigneeId">@member.FullName</option>
-                }
-            </select>
-            <span asp-validation-for="AssigneeIds"></span>
-          </div>
-
-          <div class="form-group">
               <label asp-for="Description">Description</label>
               <textarea class="form-control" asp-for="Description" placeholder="Assignment description" rows="3"></textarea>
               <span asp-validation-for="Description"></span>
+          </div>
+
+          <div class="form-group">
+              <label asp-for="AssigneeIds">Assignee</label>
+              <select asp-for="AssigneeIds" class="form-control js-project-member-selection multiple-select-box select2" multiple="multiple">
+                  @foreach (var member in Model.ProjectMembers)
+                  {
+                      <option value="@member.AssigneeId">@member.FullName</option>
+                  }
+              </select>
+              <span asp-validation-for="AssigneeIds"></span>
           </div>
 
           <div class="text-center">

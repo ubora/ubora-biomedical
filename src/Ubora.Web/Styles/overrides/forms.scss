@@ -44,14 +44,25 @@ select.form-control:not([size]):not([multiple]) {
     height: auto;
 }
 
-.form-group textarea.form-control {
-    border: 1px solid $secondary-shade;
-    padding: 5px;
-}
+.form-group textarea {
+    &.form-control {
+        border: 1px solid $secondary-shade;
+        padding: 5px;
 
-.form-group textarea.form-control:focus {
-    border: 2px solid $light-blue;
-    padding: 4px;
+        &:focus {
+            border: 2px solid $light-blue;
+            padding: 4px;
+        }
+
+        &.input-validation-error {
+            border: 1px solid $orange;
+
+            &:focus {
+                border: 2px solid $light-blue;
+                padding: 4px;
+            }
+        }
+    }
 }
 
 label.custom-file {
