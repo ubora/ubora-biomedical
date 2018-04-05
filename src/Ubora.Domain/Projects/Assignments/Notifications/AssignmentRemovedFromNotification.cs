@@ -18,7 +18,7 @@ namespace Ubora.Domain.Projects.Assignments.Notifications
 
         public override string GetDescription()
         {
-            return $"Assignment {StringTokens.Task(TaskId)} was removed from you!";
+            return $"Assignment {StringTokens.Task(TaskId)} was removed from you.";
         }
     }
 }

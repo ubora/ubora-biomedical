@@ -1,21 +1,23 @@
 ﻿@model Ubora.Web._Features.Notifications.Invitations.InvitationToJoinProjectNotificationViewModel
 
 @{
-    var isUnreadCss = Model.IsUnread ? "notification--unread" : "";
+    var isUnreadCss = Model.IsUnread ? "notification-unread" : "";
 }
 
-<div class="notification @isUnreadCss">
-    <div class="notification-container">
-        <p class="notification--message">You have been asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a></p>
-        <form class="notification--controls" method="post">
-            @Html.AntiForgeryToken()
-            <input type="hidden" asp-for="InvitationId" />
-            <div class="form-input notification-action">
-                <button class="btn btn-outline-primary" type="submit" asp-controller="Invitations" asp-action="Decline">Decline</button>
-            </div>
-            <div class="form-input notification-action">
-              <button class="btn btn-primary" type="submit" asp-controller="Invitations" asp-action="Accept">Accept</button>
-            </div>
-        </form>
+@*TODO: add 'notification-unread' only for unread notifications*@
+<div class="notification notification-unread @isUnreadCss">
+    <div class="notification-container box-shadow-2">
+        <div class="d-flex justify-content-between">
+            <p class="mb-0 py-1">You have been asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a></p>
+            <form class="notification-controls" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="InvitationId" />
+                <button class="btn btn-outline-primary btn-sm align-self-start" type="submit" asp-controller="Invitations" asp-action="Decline">Decline</button>
+                <button class="btn btn-primary btn-sm ml-2 align-self-start" type="submit" asp-controller="Invitations" asp-action="Accept">Accept</button>
+            </form>
+        </div>
+        @*TODO: add timeago*@
+        <span class="history-timestamp timeago">2 minutes ago</span>
     </div>
 </div>
+

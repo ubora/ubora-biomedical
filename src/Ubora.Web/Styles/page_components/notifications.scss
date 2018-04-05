@@ -1,0 +1,89 @@
+﻿.message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+}
+
+.message-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.notification {
+    display: block;
+    margin: .25rem 0;
+    position: relative;
+
+    &::before {
+        background-color: $tertiary-shade;
+        content: '';
+        display: inline-block;
+        height: 100%;
+        position: absolute;
+        width: 5px;
+        border-top-left-radius: .25rem;
+        border-bottom-left-radius: .25rem;
+    }
+
+    &.notification-unread:before {
+        background-color: $light-blue;
+    }
+
+    .notification-container {
+        border: 1px solid $light;
+        padding: .5rem 1rem;
+    }
+
+    .notification-controls {
+        display: flex;
+        flex-direction: row;
+        margin: 0;
+    }
+}
+
+
+
+.notice {
+    color: $white;
+    display: flex;
+    flex-direction: row-reverse;
+    font-size: 100%;
+    left:0;
+    position: absolute;
+    top:0;
+    width: 100%;
+    z-index: 9999;
+}
+
+.notice-text {
+    align-self: center;
+    flex-grow: 2;
+    text-align: center;
+}
+
+.notice-close {
+    align-items: center;
+    display: flex;
+    font-size: 150%;
+    justify-content: center;
+    margin: 1em;
+    min-height: 48px;
+    min-width: 48px;
+}
+
+.notice-close:hover {
+    cursor: pointer;
+}
+
+.notice-info {
+    background-color: $light-blue;
+}
+
+.notice-success {
+    background-color: $green;
+}
+
+.notice-error {
+    background-color: $orange;
+}
