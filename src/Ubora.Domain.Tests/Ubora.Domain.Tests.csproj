@@ -27,4 +27,7 @@
   <ItemGroup>
     <Folder Include="Questionnaires\DeviceClassifications\Queries\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Projects\Workpackages\Notifiers.cs" />
+  </ItemGroup>
 </Project>

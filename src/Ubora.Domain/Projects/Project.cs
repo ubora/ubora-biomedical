@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Events;
 using Ubora.Domain.Projects.Workpackages.Events;
@@ -27,19 +30,23 @@ namespace Ubora.Domain.Projects
         [JsonIgnore]
         public bool HasImage => new HasImageSpec().IsSatisfiedBy(this);
 
-        [JsonProperty(nameof(Members))]
-        private readonly HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
+        [JsonProperty(nameof(Projects.Members))]
+        private HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
+
         [JsonIgnore]
         // Virtual for testing.
         public virtual IReadOnlyCollection<ProjectMember> Members
         {
-            get
-            {
-                return _members;
-            }
-            private set { }
+            get { return _members.ToList().AsReadOnly(); }
+            private set { _members = value.ToHashSet(); }
         }
 
+        public virtual IReadOnlyCollection<ProjectMember> GetMembers(ISpecification<ProjectMember> spec = null)
+        {
+            spec = spec ?? new MatchAll<ProjectMember>();
+            return spec.SatisfyEntitiesFrom(Members).ToList().AsReadOnly();
+        }
+        
         public bool HasMember<T>(Guid userId) where T : ProjectMember
         {
             return DoesSatisfy(new HasMember<T>(userId));

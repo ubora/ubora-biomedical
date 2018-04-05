@@ -3,7 +3,6 @@ using Autofac;
 using Marten;
 using Marten.Events;
 using Marten.Services;
-using Ubora.Domain.Projects.Workpackages.Events;
 
 namespace Ubora.Domain.Infrastructure
 {

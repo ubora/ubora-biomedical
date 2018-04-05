@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Projects.Workpackages.Events;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Web.Infrastructure.PreMailers;
@@ -109,8 +108,6 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterType<QuestionnaireIndexViewModel.QuestionnaireListItemProjection>()
                 .As<IProjection<ApplicableRegulationsQuestionnaireAggregate, QuestionnaireIndexViewModel.QuestionnaireListItem>>()
                 .SingleInstance();
-
-            builder.RegisterType<UboraEventHandlerInvoker>().AsSelf().SingleInstance();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)

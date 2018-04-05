@@ -87,10 +87,7 @@ namespace Ubora.Domain.Infrastructure
 
             builder.RegisterBuildCallback(container =>
             {
-                var documentStore = (DocumentStore)container.Resolve<IDocumentStore>();
-                var serviceLocator = container.Resolve<IComponentContext>();
-                var uboraEventHandlerInvoker = new UboraEventHandlerInvoker(serviceLocator);
-                documentStore.Options.Listeners.Add(uboraEventHandlerInvoker);
+                AddUboraEventHandlerInvokerToDocumentStoreListenersIfNecessary(container);
             });
         }
 
@@ -114,6 +111,23 @@ namespace Ubora.Domain.Infrastructure
                 .Where(type => notificationBaseType.IsAssignableFrom(type) && !type.GetTypeInfo().IsAbstract);
 
             return eventTypes.Select(x => new MappedType(x));
+        }
+
+        private static void AddUboraEventHandlerInvokerToDocumentStoreListenersIfNecessary(IContainer container)
+        {
+            var documentStore = (DocumentStore) container.Resolve<IDocumentStore>();
+
+            var isAlreadyRegistered = documentStore.Options.Listeners.OfType<UboraEventHandlerInvoker>().Any();
+            if (isAlreadyRegistered)
+            {
+                // It is possible to build Autofac's Container multiple times but we should definitely not add the listener multiple times.
+                return;
+            }
+
+            var serviceLocator = container.Resolve<IComponentContext>();
+            var uboraEventHandlerInvoker = new UboraEventHandlerInvoker(serviceLocator);
+
+            documentStore.Options.Listeners.Add(uboraEventHandlerInvoker);
         }
 
         /// <summary>

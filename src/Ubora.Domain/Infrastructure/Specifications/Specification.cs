@@ -13,6 +13,11 @@ namespace Ubora.Domain.Infrastructure.Specifications
             return query.Where(ToExpression());
         }
 
+        public IEnumerable<TEntity> SatisfyEntitiesFrom(IEnumerable<TEntity> enumerable)
+        {
+            return enumerable.Where(ToExpression().Compile());
+        }
+
         public bool IsSatisfiedBy(TEntity entity)
         {
             return ToExpression().Compile().Invoke(entity);
