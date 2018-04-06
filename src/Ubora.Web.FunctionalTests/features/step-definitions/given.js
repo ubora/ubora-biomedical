@@ -15,7 +15,7 @@ module.exports = function () {
         .click('span=Log in')
         .setValue('#Email', 'test@agileworks.eu')
         .setValue('#Password', 'ChangeMe123!')
-        .click('button=Sign in')
+        .click('button=Log in')
     });
 
 
@@ -27,7 +27,7 @@ module.exports = function () {
         browser.waitForEnabled('#Email');
         browser.setValue('#Email', 'test@agileworks.eu')
         .setValue('#Password', 'ChangeMe123!')
-        .click('button=Sign in')
+        .click('button=Log in')
     });
 
     this.Given(/^I expected the element "([^"]*)?" is visible$/, (element) => {

@@ -9,23 +9,23 @@ Background:
 
 Scenario: I click Logo
     When I click on the element "#UboraLogo"
-    Then I expect the title of the page "Welcome - UBORA"
+    Then I expect the title of the page "UBORA"
 
 Scenario: I click Log in
     When I click on the element "span=Log in"
-    Then I expect the title of the page "Sign in to UBORA - UBORA"
+    Then I expect the title of the page "Log in to UBORA - UBORA"
 
 Scenario: I click Terms of Service
     When I click on the element "a=Terms of Service"
-    Then I expect the title of the page "Sign up - UBORA"
+    Then I expect the title of the page "Sign up to UBORA - UBORA"
 
 Scenario: I submit valid registration form then user is logged in and full name displayed
     When I click on the element "span=Log in"
         And I sign up as "email@email.com"
         And I click on the element "span=Profile"
     Then I expect the element "h2=firstName lastName" is visible
-    When I click on the element "button=Sign out"
-    Then I expect the title of the page "Welcome - UBORA"
+    When I click on the element "span=Log out"
+    Then I expect the title of the page "UBORA"
 
 Scenario: I sumbit empty registration form and try to create an account
     When I click on the element "button=Create an account"
@@ -35,4 +35,4 @@ Scenario: I sumbit empty registration form and try to create an account
         And I expect the element "#Password-error=The Password field is required." is visible
         And I expect the element "#ConfirmPassword-error=The Confirm password field is required." is visible
         And I expect the element "#IsAgreedToTermsOfService-error=This field is required." is visible
-        And I expect the title of the page "Sign up - UBORA"
+        And I expect the title of the page "Sign up to UBORA - UBORA"

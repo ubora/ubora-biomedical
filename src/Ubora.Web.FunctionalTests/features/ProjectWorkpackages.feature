@@ -22,7 +22,7 @@ Scenario: I make changes in Project overview and check them
         And I expect the element "dd=Clinical microbiology" is visible
         And I expect the element "dd=Mobile-based technology" is visible
         And I expect the element "dd=Magnificent other!" is visible
-        And I expect the title of the page "Dashboard - UBORA"
+        And I expect the title of the page "Overview - UBORA"
 
 Scenario: I click different Workpackages and try to edit them
     When I click on the element "span=Design planning"

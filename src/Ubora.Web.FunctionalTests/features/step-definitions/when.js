@@ -36,8 +36,7 @@ module.exports = function () {
         });
 
     this.When(/^I sign out$/, () => {
-            browser.click('span=Profile');
-            browser.click('button=Sign out');
+            browser.click('span=Log out');
         });
 
     this.When(/^I sign up as "([^"]*)?"$/, (email) => {
@@ -57,7 +56,7 @@ module.exports = function () {
             .click('span=Log in')
             .setValue('#Email', email)
             .setValue('#Password', password)
-            .click('button=Sign in')
+            .click('button=Log in')
         });
 
     this.When(/^I sign in as user$/, () => {
@@ -65,7 +64,7 @@ module.exports = function () {
             .click('span=Log in')
             .setValue('#Email', 'test@agileworks.eu')
             .setValue('#Password', 'ChangeMe123!')
-            .click('button=Sign in')
+            .click('button=Log in')
         });
 
     this.When(/^I sign in as mentor$/, () => {
@@ -73,7 +72,7 @@ module.exports = function () {
             .click('span=Log in')
             .setValue('#Email', 'mentor@agileworks.eu')
             .setValue('#Password', 'ChangeMe123!')
-            .click('button=Sign in')
+            .click('button=Log in')
         });
 
     this.When(/^I sign in as administrator$/, () => {
@@ -81,7 +80,7 @@ module.exports = function () {
             .click('span=Log in')
             .setValue('#Email', 'admin@agileworks.eu')
             .setValue('#Password', 'ChangeMe123!')
-            .click('button=Sign in')
+            .click('button=Log in')
         });
 
     this.When(/^I answer ([^\s]+) to question "([^"]*)?"$/, (answer, question) => {

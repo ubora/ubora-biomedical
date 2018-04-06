@@ -8,15 +8,15 @@ Background:
 
 Scenario: Click Logo
     When I click on the element "#UboraLogo"
-    Then I expect the title of the page "Welcome - UBORA"
+    Then I expect the title of the page "UBORA"
 
 Scenario: Click Log in
     When I click on the element "span=Log in"
-    Then I expect the title of the page "Sign in to UBORA - UBORA"
+    Then I expect the title of the page "Log in to UBORA - UBORA"
 
 Scenario: Click Sign up
     When I click on the element "a=Sign up"
-    Then I expect the title of the page "Sign up - UBORA"
+    Then I expect the title of the page "Sign up to UBORA - UBORA"
 
 Scenario: Click Forgot password?
     When I click on the element "a=Forgot password?"
@@ -28,7 +28,7 @@ Scenario: Click Forgot password?
     Then I expect the title of the page "Reset Password - UBORA"
 
 Scenario: I click sign in without credentials
-    When I click on the element "button=Sign in"
+    When I click on the element "button=Log in"
     Then I expect the element "#Email-error=The Email field is required." is visible
         And I expect the element "#Password-error=The Password field is required." is visible
         And I expect the title of the page "Sign in to UBORA - UBORA"
