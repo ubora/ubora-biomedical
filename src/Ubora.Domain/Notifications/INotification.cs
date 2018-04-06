@@ -12,5 +12,6 @@ namespace Ubora.Domain.Notifications
         // Todo: internal
         bool HasBeenViewed { get; set; }
         bool IsArchived { get; }
+        DateTime CreatedAt { get; }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Notifications;
 using Ubora.Domain.Notifications.Commands;
 using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects.Members.Commands;
@@ -24,7 +25,8 @@ namespace Ubora.Web._Features.Notifications
         [RestoreModelStateFromTempData]
         public IActionResult Index()
         {
-            var notifications = QueryProcessor.Find(new HasPendingNotifications(UserId))
+            var notifications = QueryProcessor.Find<INotification>(new IsForUser(UserId))
+                .OrderByDescending(x => x.CreatedAt)
                 .ToList();
 
             MarkNotificationsAsViewed();

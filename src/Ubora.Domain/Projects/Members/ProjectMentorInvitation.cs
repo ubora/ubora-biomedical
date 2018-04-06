@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 using Ubora.Domain.Notifications;
 
 namespace Ubora.Domain.Projects.Members
@@ -12,8 +13,17 @@ namespace Ubora.Domain.Projects.Members
             InvitedBy = invitedBy;
         }
 
-        public Guid InviteeUserId { get; private set; }
-        public Guid InvitedBy { get; private set; }
-        public Guid ProjectId { get; private set; }
+        [JsonConstructor]
+        private ProjectMentorInvitation(Guid id, Guid notificationTo, DateTime createdAt, Guid inviteeUserId, Guid projectId, Guid invitedBy) 
+            : base(id, notificationTo, createdAt)
+        {
+            InviteeUserId = inviteeUserId;
+            ProjectId = projectId;
+            InvitedBy = invitedBy;
+        }
+
+        public Guid InviteeUserId { get; }
+        public Guid InvitedBy { get; }
+        public Guid ProjectId { get; }
     }
 }

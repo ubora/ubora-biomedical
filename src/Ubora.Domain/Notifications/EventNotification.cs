@@ -7,25 +7,27 @@ namespace Ubora.Domain.Notifications
     public class EventNotification : INotification
     {
         [JsonConstructor]
-        protected EventNotification(Guid id, Type eventType, Guid eventId, Guid notificationTo)
+        private EventNotification(Guid id, Type eventType, Guid eventId, Guid notificationTo, DateTime createdAt)
         {
             Id = id;
             EventType = eventType;
             EventId = eventId;
             NotificationTo = notificationTo;
+            CreatedAt = createdAt;
         }
 
         public static EventNotification Create(IEvent eventWithMetadata, Guid toUserId)
         {
-            return new EventNotification(id: Guid.NewGuid(), eventType: eventWithMetadata.Data.GetType(), eventId: eventWithMetadata.Id, notificationTo: toUserId);
+            return new EventNotification(id: Guid.NewGuid(), eventType: eventWithMetadata.Data.GetType(), eventId: eventWithMetadata.Id, notificationTo: toUserId, createdAt: DateTime.UtcNow);
         }
         
-        public Guid Id { get; private set; }
-        public Guid NotificationTo { get; private set; }
+        public Guid Id { get; }
+        public Guid NotificationTo { get; }
+        public Guid EventId { get; }
+        public Type EventType { get; }
+        public DateTime CreatedAt { get; }
+
         public bool HasBeenViewed { get; set; }
         public bool IsArchived { get; set; }
-
-        public Guid EventId { get; private set; }
-        public Type EventType { get; private set; }
     }
 }
