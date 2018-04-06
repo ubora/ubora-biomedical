@@ -27,7 +27,7 @@ Scenario: Click Forgot password?
         And I click on the element "button=Submit"
     Then I expect the title of the page "Reset Password - UBORA"
 
-Scenario: I sign in without credentials
+Scenario: I click sign in without credentials
     When I click on the element "button=Sign in"
     Then I expect the element "#Email-error=The Email field is required." is visible
         And I expect the element "#Password-error=The Password field is required." is visible
