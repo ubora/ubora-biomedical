@@ -14,7 +14,7 @@
                 @Model.Title
                 @if (Model.IsInDraft)
                 {
-                    <span class="badge badge-pill badge-orange normal-text">Draft</span>
+                    <span class="badge badge-pill badge-orange font-size-1">Draft</span>
                 }
             </h1>
         </div>
@@ -44,10 +44,10 @@
                                 {
                                     <div class="flex-wrap">
                                         <a class="mx-1" asp-controller="Dashboard" asp-action="EditProjectImage">
-                                            <i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span>
+                                            <i class="material-icons align-middle font-size-1-1" id="EditImage">mode_edit</i><span class="align-middle">Change image</span>
                                         </a>
                                         <a class="mx-1" asp-controller="Dashboard" asp-action="RemoveProjectImage">
-                                            <i class="material-icons align-middle">delete_forever</i>
+                                            <i class="material-icons align-middle font-size-1-1 ">delete_forever</i>
                                             <span class="align-middle">Remove image</span>
                                         </a>
                                     </div>
@@ -69,8 +69,8 @@
                     <h2>Medical tags</h2>
                     @if (Model.IsProjectMember)
                     {
-                        <a class="btn-icon btn-sm d-flex align-content-center" asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@Url.Action("Dashboard","Dashboard")">
-                            <i class="material-icons mx-1" id="EditImage">mode_edit</i>
+                        <a class="btn-icon d-flex align-content-center" asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@Url.Action("Dashboard","Dashboard")">
+                            <i class="material-icons font-size-1-1 mx-1" id="EditImage">mode_edit</i>
                             <span>Edit</span>
                         </a>
                     }
@@ -81,7 +81,7 @@
                     <dl class="row">
                         <dt class="col-sm-5 mb-lg-4">Clinical need:</dt>
                         <dd class="col-sm-7">@Model.ClinicalNeedTags</dd>
-                        <dt class="col-sm-5 mb-lg-4">Clinical area:</dt>
+                        <dt class="col-sm-5 mb-lg-4">Area:</dt>
                         <dd class="col-sm-7">@Model.AreaOfUsageTags</dd>
                         <dt class="col-sm-5 mb-lg-4">Technology:</dt>
                         <dd class="col-sm-7">@Model.PotentialTechnologyTags</dd>
@@ -99,8 +99,8 @@
                     <h2>Project description</h2>
                     @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectTitleAndDescription))
                     {
-                        <a class="btn-icon btn-sm d-flex align-content-center" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription">
-                            <i class="material-icons mx-1">mode_edit</i>
+                        <a class="btn-icon d-flex align-content-center" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription">
+                            <i class="material-icons font-size-1-1 mx-1">mode_edit</i>
                             <span id="EditDescription">Edit</span>
                         </a>
                     }

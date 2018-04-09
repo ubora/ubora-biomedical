@@ -20,33 +20,10 @@
         <a class="navbar-brand" asp-controller="Home" asp-action="Index">
             <img id="UboraLogo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
         </a>
-
-
         <div class="d-flex align-items-center">
-
-            <div class="dropdown show">
-                <a class="nav-link nav-link-notification navbar-toggler dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
-                </a>
-                <ul class="dropdown-menu box-shadow" aria-labelledby="dropdownMenuLink">
-                    <li>
-                        <span class="small">
-                            You have <strong>3</strong> new notifications.
-                        </span>
-                    </li>
-                    <li class="dropdown-item">
-                        <p>You have been asked to join project <a href="#">Administrator's project</a></p>
-                        <form method="post">
-                            <button class="btn btn-outline-primary btn-sm">Decline</button>
-                            <button class="btn btn-primary btn-sm" type="submit">Accept</button>
-                        </form>
-                    </li>
-                    <li class="dropdown-item">
-                        <a asp-controller="Notifications" asp-action="Index">View all</a>
-                    </li>
-                </ul>
-            </div>
-
+            <a class="nav-link nav-link-notification navbar-toggler" asp-controller="Notifications" asp-action="Index">
+                @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
                 <i class="material-icons">menu</i>
             </button>
@@ -72,31 +49,11 @@
                         <span class="nav-link-description ml-1">My projects</span>
                     </a>
                 </li>
-
                 <li class="nav-item notification-item">
-                    <div class="dropdown show">
-                        <a class="nav-link nav-link-notification d-flex align-items-center dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
-                            <span class="nav-link-description ml-1">Notifications</span>
-                        </a>
-                        <ul class="dropdown-menu box-shadow" aria-labelledby="dropdownMenuLink">
-                            <li>
-                                <span class="small">
-                                    You have <strong>3</strong> new notifications.
-                                </span>
-                            </li>
-                            <li class="dropdown-item">
-                                <p>You have been asked to join project <a href="#">Administrator's project</a></p>
-                                <form method="post">
-                                    <button class="btn btn-outline-primary btn-sm">Decline</button>
-                                    <button class="btn btn-primary btn-sm" type="submit">Accept</button>
-                                </form>
-                            </li>
-                            <li class="dropdown-item">
-                                <a asp-controller="Notifications" asp-action="Index">View all</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <a class="nav-link nav-link-notification d-flex align-items-center" asp-controller="Notifications" asp-action="Index">
+                        @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
+                        <span class="nav-link-description ml-1">Notifications</span>
+                    </a>
                 </li>
 
                 @if (User.IsInRole(ApplicationRole.Admin))
@@ -118,20 +75,17 @@
 
                 <li class="nav-item">
                     <form asp-action="Logout" asp-controller="Account" method="post">
-                        <button class="btn btn-link nav-link d-flex align-items-center" type="submit">
+                        <button class="btn btn-link btn-block nav-link d-flex align-items-center" type="submit">
                             <i class="material-icons">exit_to_app</i>
                             <span class="ml-1">Log out</span>
                         </button>
                     </form>
                 </li>
 
-
             </ul>
         </div>
     </nav>
 }
-
-
 else
 {
     <nav class="header navbar navbar-expand-lg box-shadow sticky-top">

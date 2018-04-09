@@ -19,22 +19,28 @@
     var canViewProjectNonPublicContent = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanViewProjectNonPublicContent);
 }
 
-<nav class="project-header nav nav-tabs flex-column flex-md-row justify-content-center">
-  <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Overview)" asp-controller="Dashboard" asp-action="Dashboard">@Model.MenuOptionNames[ProjectMenuOption.Overview]</a>
-  @if (canViewProjectNonPublicContent)
-  {
-    <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Workpackages)" asp-controller="WorkpackageOne" asp-action="ProjectOverview">@Model.MenuOptionNames[ProjectMenuOption.Workpackages]</a>
-    <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Repository)" asp-controller="Repository" asp-action="Repository">@Model.MenuOptionNames[ProjectMenuOption.Repository]</a>
-    <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Assignments)" asp-controller="Assignments" asp-action="Assignments">@Model.MenuOptionNames[ProjectMenuOption.Assignments]</a>
-  }
-  <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Members)" asp-controller="Members" asp-action="Members">@Model.MenuOptionNames[ProjectMenuOption.Members]</a>
-  @if (canViewProjectNonPublicContent)
-  {
-      <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.History)" asp-controller="History" asp-action="History">@Model.MenuOptionNames[ProjectMenuOption.History]</a>
-  }
-</nav>
+<div class="project-header-container d-none d-lg-block">
+    <div class="container pl-0">
+        <h1 class="my-4 pl-3">@ViewData["ProjectTitle"]</h1>
+        <nav class="project-header nav nav-tabs flex-column flex-md-row justify-content-start">
+            <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Overview)" asp-controller="Dashboard" asp-action="Dashboard">@Model.MenuOptionNames[ProjectMenuOption.Overview]</a>
+            @if (canViewProjectNonPublicContent)
+            {
+                <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Workpackages)" asp-controller="WorkpackageOne" asp-action="ProjectOverview">@Model.MenuOptionNames[ProjectMenuOption.Workpackages]</a>
+                <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Repository)" asp-controller="Repository" asp-action="Repository">@Model.MenuOptionNames[ProjectMenuOption.Repository]</a>
+                <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Assignments)" asp-controller="Assignments" asp-action="Assignments">@Model.MenuOptionNames[ProjectMenuOption.Assignments]</a>
+            }
+            <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Members)" asp-controller="Members" asp-action="Members">@Model.MenuOptionNames[ProjectMenuOption.Members]</a>
+            @if (canViewProjectNonPublicContent)
+            {
+                <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.History)" asp-controller="History" asp-action="History">@Model.MenuOptionNames[ProjectMenuOption.History]</a>
+            }
+        </nav>
+    </div>
+</div>
 
-<div class="project-header-md dropdown">
+
+<div class="project-header-md dropdown d-md-block d-lg-none">
     <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         @Model.MenuOptionNames[Model.ActiveMenuOption]
     </button>

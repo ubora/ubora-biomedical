@@ -1,17 +1,13 @@
 ﻿@model Ubora.Web._Features.Projects.DeleteProject.DeleteProjectViewModel
 
-<div class="container-fluid my-4">
-    <div class="row">
-        <div class="col text-center">
-            <h2>Do you want to delete the project with title "@Model.Title"?</h2>
-            <form asp-controller="DeleteProject" asp-action="DeleteProject" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <a class="btn btn-outline-primary" asp-controller="Dashboard" asp-action="Dashboard">Cancel</a>
-                    <span class="mx-1"></span>
-                    <button class="btn btn-primary" type="submit">Delete</button>
-                </div>
-            </form>
+<div class="container my-5 text-center">
+    <h3>Do you want to delete the project with title "@Model.Title"?</h3>
+    <form asp-controller="DeleteProject" asp-action="DeleteProject" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <a class="btn btn-outline-primary" asp-controller="Dashboard" asp-action="Dashboard">Cancel</a>
+            <span class="mx-1"></span>
+            <button class="btn btn-primary" type="submit">Delete</button>
         </div>
-    </div>
+    </form>
 </div>
