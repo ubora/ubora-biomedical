@@ -36,16 +36,6 @@ namespace Ubora.Web._Features.Notifications
             return View(viewModels);
         }
 
-        public IActionResult History()
-        {
-            var notifications = QueryProcessor.Find(new HasArchivedNotifications(UserId))
-                .ToList();
-
-            var viewModels = notifications.Select(_notificationViewModelFactoryMediator.Create);
-
-            return View(viewModels);
-        }
-
         private void MarkNotificationsAsViewed()
         {
             ExecuteUserCommand(new MarkNotificationsAsViewedCommand(), Notice.None("Background operation."));
