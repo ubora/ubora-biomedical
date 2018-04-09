@@ -21,8 +21,7 @@
 
 <div class="project-header-container d-none d-lg-block">
     <div class="container pl-0">
-        @*TODO:get project title*@
-        <h1 class="my-4 pl-3">Project title</h1>
+        <h1 class="my-4 pl-3">@ViewData["ProjectTitle"]</h1>
         <nav class="project-header nav nav-tabs flex-column flex-md-row justify-content-start">
             <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Overview)" asp-controller="Dashboard" asp-action="Dashboard">@Model.MenuOptionNames[ProjectMenuOption.Overview]</a>
             @if (canViewProjectNonPublicContent)
