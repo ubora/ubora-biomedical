@@ -2,7 +2,6 @@
 using Marten;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects._Events;
@@ -16,9 +15,9 @@ namespace Ubora.Web._Features.Notifications._Base
         public Guid ProjectId { get; set; }
         public IHtmlContent Message { get; set; }
         public bool IsUnread { get; set; }
-        public DateTimeOffset Timestamp { get; set; }
+        public DateTime CreatedAt { get; set; }
 
-        public IHtmlContent GetPartialView(IHtmlHelper htmlHelper, bool isHistory)
+        public IHtmlContent GetPartialView(IHtmlHelper htmlHelper)
         {
             return htmlHelper.Partial("~/_Features/Notifications/_EventNotificationPartial.cshtml", this);
         }
@@ -50,7 +49,7 @@ namespace Ubora.Web._Features.Notifications._Base
                     Message = _tokenReplacerMediator.EncodeAndReplaceAllTokens(@event.ToString()),
                     ProjectTitle = project.Title,
                     ProjectId = project.Id,
-                    Timestamp = @event.Timestamp
+                    CreatedAt = notification.CreatedAt
                 };
             }
         }

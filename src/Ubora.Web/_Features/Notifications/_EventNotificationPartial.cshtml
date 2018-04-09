@@ -1,4 +1,9 @@
 ﻿@using Ubora.Web._Features.Notifications._Base
 @model Ubora.Web._Features.Notifications._Base.EventNotificationViewModel
 
-<p>@Model.Message</p> (project: <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>)
+<div class="notification">
+    <div class="notification-container box-shadow-2">
+        <p class="mb-0 py-1">In project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>, @Model.Message</p>
+        <span class="history-timestamp timeago" title="@(Model.CreatedAt.ToString("o"))">&nbsp;</span>
+    </div>
+</div>

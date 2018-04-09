@@ -93,24 +93,17 @@ namespace Ubora.Domain.Infrastructure
 
         public static IEnumerable<Type> FindDomainEventConcreteTypes()
         {
-            var eventBaseType = typeof(UboraEvent);
-
-            var eventTypes = typeof(DomainAutofacModule).Assembly
+            return typeof(UboraEvent).Assembly
                 .GetTypes()
-                .Where(type => eventBaseType.IsAssignableFrom(type) && !type.GetTypeInfo().IsAbstract);
-
-            return eventTypes;
+                .Where(type => typeof(UboraEvent).IsAssignableFrom(type) && !type.IsAbstract);
         }
 
-        public static IEnumerable<MappedType> FindDomainNotificationConcreteTypes()
+        public static IEnumerable<MappedType> FindDomainNotificationConcreteTypes() 
         {
-            var notificationBaseType = typeof(INotification);
-
-            var eventTypes = typeof(DomainAutofacModule).Assembly
+            return typeof(INotification).Assembly
                 .GetTypes()
-                .Where(type => notificationBaseType.IsAssignableFrom(type) && !type.GetTypeInfo().IsAbstract);
-
-            return eventTypes.Select(x => new MappedType(x));
+                .Where(type => typeof(INotification).IsAssignableFrom(type) && !type.IsAbstract)
+                .Select(type => new MappedType(type));
         }
 
         private static void AddUboraEventHandlerInvokerToDocumentStoreListenersIfNecessary(IContainer container)

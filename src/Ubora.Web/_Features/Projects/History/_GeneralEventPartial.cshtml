@@ -3,7 +3,7 @@
   <div class="notification">
     <div class="notification-container box-shadow-2" style="border-top: 1px solid whitesmoke;">
         <p class="mb-0 py-1">@Model.Message</p>
-        <span class="history-timestamp timeago" title="@Model.Timestamp">@Model.Timestamp.ToString("dd.MM.yyyy")</span>
+        <span class="history-timestamp timeago" title="@(Model.Timestamp.ToString("o"))">&nbsp;</span>
     </div>
 </div>
 

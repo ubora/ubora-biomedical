@@ -5,19 +5,40 @@
 }
 
 @*TODO: add 'notification-unread' only for unread notifications*@
-<div class="notification notification-unread @isUnreadCss">
-    <div class="notification-container box-shadow-2">
-        <div class="d-flex justify-content-between">
-            <p class="mb-0 py-1">You have been asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a></p>
-            <form class="notification-controls" method="post">
-                @Html.AntiForgeryToken()
-                <input type="hidden" asp-for="InvitationId" />
-                <button class="btn btn-outline-primary btn-sm align-self-start" type="submit" asp-controller="Invitations" asp-action="Decline">Decline</button>
-                <button class="btn btn-primary btn-sm ml-2 align-self-start" type="submit" asp-controller="Invitations" asp-action="Accept">Accept</button>
-            </form>
+@if (Model.IsPending)
+{
+    <div class="notification notification-unread @isUnreadCss">
+        <div class="notification-container box-shadow-2">
+            <div class="d-flex justify-content-between">
+                <p class="mb-0 py-1">You have been asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a></p>
+                <form class="notification-controls" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="InvitationId" />
+                    <button class="btn btn-outline-primary btn-sm align-self-start" type="submit" asp-controller="Invitations" asp-action="Decline">Decline</button>
+                    <button class="btn btn-primary btn-sm ml-2 align-self-start" type="submit" asp-controller="Invitations" asp-action="Accept">Accept</button>
+                </form>
+            </div>
+            <span class="history-timestamp timeago" title="@(Model.CreatedAt.ToString("o"))">&nbsp;</span>
         </div>
-        @*TODO: add timeago*@
-        <span class="history-timestamp timeago">2 minutes ago</span>
     </div>
-</div>
-
+}
+else
+{
+    <div class="notification">
+        <div class="notification-container box-shadow-2">
+            <p class="mb-0 py-1">
+                You were asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.
+                You
+                @if (Model.WasAccepted)
+                {
+                    <b>accepted</b><span>&#46;</span>
+                }
+                else
+                {
+                    <b>declined</b><span>&#46;</span>
+                }
+            </p>
+            <span class="history-timestamp timeago" title="@(Model.CreatedAt.ToString("o"))">&nbsp;</span>
+        </div>
+    </div>
+}

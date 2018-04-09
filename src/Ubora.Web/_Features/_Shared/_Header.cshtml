@@ -23,12 +23,12 @@
 
 
         <div class="d-flex align-items-center">
+
             <div class="dropdown show">
                 <a class="nav-link nav-link-notification navbar-toggler dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
                 </a>
                 <ul class="dropdown-menu box-shadow" aria-labelledby="dropdownMenuLink">
-
                     <li>
                         <span class="small">
                             You have <strong>3</strong> new notifications.
@@ -46,7 +46,6 @@
                     </li>
                 </ul>
             </div>
-
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
                 <i class="material-icons">menu</i>
@@ -73,6 +72,7 @@
                         <span class="nav-link-description ml-1">My projects</span>
                     </a>
                 </li>
+
                 <li class="nav-item notification-item">
                     <div class="dropdown show">
                         <a class="nav-link nav-link-notification d-flex align-items-center dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -80,7 +80,6 @@
                             <span class="nav-link-description ml-1">Notifications</span>
                         </a>
                         <ul class="dropdown-menu box-shadow" aria-labelledby="dropdownMenuLink">
-
                             <li>
                                 <span class="small">
                                     You have <strong>3</strong> new notifications.
@@ -99,9 +98,6 @@
                         </ul>
                     </div>
                 </li>
-
-
-
 
                 @if (User.IsInRole(ApplicationRole.Admin))
                 {

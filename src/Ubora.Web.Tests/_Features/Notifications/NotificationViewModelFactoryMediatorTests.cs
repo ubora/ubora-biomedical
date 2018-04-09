@@ -97,12 +97,14 @@ namespace Ubora.Web.Tests._Features.Notifications
 
         public class TestNotificationViewModel : INotificationViewModel<TestNotification>
         {
-            public IHtmlContent GetPartialView(IHtmlHelper htmlHelper, bool isHistory)
+            public IHtmlContent GetPartialView(IHtmlHelper htmlHelper)
             {
                 throw new NotImplementedException();
             }
 
             public bool IsUnread { get; }
+
+            public DateTime CreatedAt => DateTime.UtcNow;
         }
 
         public class TestGeneralNotification : GeneralNotification

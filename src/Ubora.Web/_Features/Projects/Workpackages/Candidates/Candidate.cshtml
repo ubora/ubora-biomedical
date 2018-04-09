@@ -136,7 +136,7 @@
                                         <div class="d-flex align-items-center">
                                             <button class="btn btn-link mr-2" role="button" data-toggle="collapse" data-target="#@comment.Id">Edit</button>
                                             <button class="btn btn-link mr-2" role="button" data-toggle="modal" data-target="#removeCommentModal-@comment.Id">Delete</button>
-                                            <span class="timeago" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
+                                            <span class="timeago" title="@(comment.CommentEditedAt.ToString("o"))">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
                                         </div>
                                         @Html.Partial("RemoveCommentModal", comment.EditCommentViewModel)
                                         <div class="collapse mt-2" id="@comment.Id">@Html.Partial("_EditCommentPartial", comment.EditCommentViewModel)</div>
@@ -144,7 +144,7 @@
                                     }
                                     else
                                     {
-                                        <span class="timeago" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
+                                        <span class="timeago" title="@(comment.CommentEditedAt.ToString("o"))">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
                                     }
                                 </span>
                             </div>

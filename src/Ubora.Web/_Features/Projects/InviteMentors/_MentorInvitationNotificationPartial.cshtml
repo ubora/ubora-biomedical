@@ -19,8 +19,7 @@
                     <button class="btn btn-primary btn-sm ml-2 align-self-start" type="submit" asp-controller="Notifications" asp-action="AcceptMentorInvitation">Accept</button>
                 </form>
             </div>
-            @*TODO: add timeago*@
-            <span class="history-timestamp timeago">2 minutes ago</span>
+            <span class="history-timestamp timeago" title="@(Model.CreatedAt.ToString("o"))">&nbsp;</span>
         </div>
     </div>
 }
@@ -40,8 +39,7 @@ else
                     <b>declined</b><span>&#46;</span>
                 }
             </p>
-            @*TODO: add timeago*@
-            <span class="history-timestamp timeago">2 minutes ago</span>
+            <span class="history-timestamp timeago" title="@(Model.CreatedAt.ToString("o"))">&nbsp;</span>
         </div>
     </div>
 }
