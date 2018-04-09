@@ -4,10 +4,10 @@ Feature: Device classification
 
 Background:
     Given I am signed in as user and on first page
-        And I click on the element "p=Test title"
+        And I click on the element "h5=Test title"
         And I click on the element "a=Work packages"
-        And I click on the element "span=Medical need and product specification"
-        And I click on the element "span=Device classification"
+        And I click on the element "*=Medical need and product specification"
+        And I click on the element "*=Device classification"
 
 Scenario: I go through Device classification and pick always first option
     Then I expect the title of the page "Device classification - UBORA"
@@ -35,7 +35,7 @@ Scenario: I go through Device classification and pick always first option
         And I answer "Yes" to the question "Is it intended for controlling, monitoring or directly influencing the performance of active implantable devices?"
         And I answer "Yes" to the question "Is it intended for diagnosis and monitoring?"
         And I answer "Yes" to the question "Is it intended to supply energy which will be absorbed by the human body?"
-        And I answer "Yes" to the question "Is it only intended to intended to illuminate the patient's body, in the visible spectrum?"
+        And I answer "Yes" to the test question "//*[@id='device-classification-carousel']/div/div[24]/form/div[1]/div[1]/h5"
         And I answer "Yes" to the question "Does it supply energy different than light in the visible spectrum?"
         And I answer "Yes" to the question "Is it intended to image in vivo distribution of radiopharmaceuticals?"
         And I answer "Yes" to the question "Is it intended to allow direct diagnosis or monitoring of vital physiological processes?"
@@ -69,7 +69,7 @@ Scenario: I go through Device classification and pick always first option
         And I answer "Yes" to the question "Is it an active therapeutic device with an integrated or incorporated diagnostic function that includes an integrated or incorporated diagnostic function which significantly determines the patient management by the device (example: closed loop systems or automated external defibrillators)?"
     Then I expect the element "h1=Chosen class: III" is visible
         And I expect the title of the page "Device classification - UBORA"
-    When I click on the element "a=Project overview"
+    When I click on the element "a=Overview"
     Then I expect the element "dd=III" is visible
 
 Scenario: I go through Device classification and always answer NO
@@ -88,5 +88,5 @@ Scenario: I go through Device classification and always answer NO
         And I answer "No" to the question "Is it composed of substances or of combinations of substances that are intended to be introduced into the human body via a body orifice or applied to the skin and that are absorbed by or locally dispersed in the human body?"
         And I answer "No" to the question "Is it an active therapeutic device with an integrated or incorporated diagnostic function that includes an integrated or incorporated diagnostic function which significantly determines the patient management by the device (example: closed loop systems or automated external defibrillators)?"
     Then I expect the element "h1=Chosen class: I" is visible
-    When I click on the element "a=Project overview"
+    When I click on the element "a=Overview"
     Then I expect the element "dd=I" is visible

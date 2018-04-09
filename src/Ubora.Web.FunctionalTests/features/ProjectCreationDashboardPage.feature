@@ -95,7 +95,7 @@ Scenario: I click Assignments and click Discard changes in new assignment
         And I click on the element "span=Add assignment"
         And I click on the element "a=Discard"
     Then I expect the title of the page "Assignments - UBORA"
-        And I expect the element "h1=TestProject" is visible
+        And I expect the element "h1=Assignments" is visible
 
 Scenario: I click Assignments and click Discard changes in Assignment
     When I click on the element "h5=TestProject"

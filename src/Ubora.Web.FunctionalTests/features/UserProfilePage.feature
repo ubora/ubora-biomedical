@@ -17,8 +17,8 @@ Scenario: I sign up an account and create my profile
         And I set value "InstitutionTest" to the element "#Institution"
         And I set value "SkillsTest" to the element "#Skills"
         And I select value "Developer" from element "#Role"
-        And I click on the element "button=Create project"
-    Then I expect the title of the page "Manage your account - UBORA"
+        And I click on the element "button=Continue"
+    Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: I check my created profile
     When I click on the element "span=Profile"
@@ -54,7 +54,7 @@ Scenario: I change my profile
         And I set value "TestSkills" to the element "#Skills"
         And I select value "Mentor" from element "#Role"
         And I click on the element "button=Edit profile"
-    Then I expect the title of the page "Edit profile - UBORA"
+    Then I expect the title of the page "Manage your account - UBORA"
 
 Scenario: I check my profile if my changes have been saved
     When I click on the element "span=Profile"

@@ -84,8 +84,8 @@ module.exports = function () {
         });
 
     this.When(/^I answer ([^\s]+) to question "([^"]*)?"$/, (answer, question) => {
-        var isVisible = browser.isVisible("h2=" + question);
-        expect(isVisible).to.equal(true, `Expected "${"h2=" + question}" to be visible.`);
+        var isVisible = browser.isVisible("h5*=" + question);
+        expect(isVisible).to.equal(true, `Expected "${"h5=" + question}" to be visible.`);
         if (answer.toLowerCase() === "yes") {
             browser.click("button=Yes");
         } else if (answer.toLowerCase() === "no") {
@@ -96,8 +96,8 @@ module.exports = function () {
     });
 
     this.When(/^I answer "([^"]*)?" to the question "([^"]*)?"$/, (answer, question) => {
-        var isVisible = browser.isVisible("h4=" + question);
-        expect(isVisible).to.equal(true, `Expected "${"h4=" + question}" to be visible.`);
+        var isVisible = browser.isVisible("h5*=" + question);
+        expect(isVisible).to.equal(true, `Expected "${"h5=" + question}" to be visible.`);
         const answerElements = browser.elements("label=" + answer);
         if (answerElements.value.length > 1) {
             var lastElement = answerElements.value.slice(-1)[0];
@@ -107,4 +107,31 @@ module.exports = function () {
         }
         browser.click("button=Answer")
     });
+
+    this.When(/^I answer ([^\s]+) to test question "([^"]*)?"$/, (answer, question) => {
+        var isVisible = browser.isVisible(question);
+        expect(isVisible).to.equal(true, `Expected "${"test=" + question}" to be visible.`);
+        if (answer.toLowerCase() === "yes") {
+            browser.click("button=Yes");
+        } else if (answer.toLowerCase() === "no") {
+            browser.click("button=No");
+        } else {
+            throw "Answer could not be parsed: " + answer
+        }
+    });
+
+    this.When(/^I answer "([^"]*)?" to the test question "([^"]*)?"$/, (answer, question) => {
+
+        var isVisible = browser.isVisible(question);
+        expect(isVisible).to.equal(true, `Expected "${"test=" + question}" to be visible.`);
+        const answerElements = browser.elements("label=" + answer);
+        if (answerElements.value.length > 1) {
+            var lastElement = answerElements.value.slice(-1)[0];
+            lastElement.click();
+        } else {
+            browser.element("label=" + answer).click();
+        }
+        browser.click("button=Answer")
+    });
+
 }

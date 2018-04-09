@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 
 module.exports = function () {
     this.Given(/^I clicked on the element "([^"]*)?"$/, (element) => {
-        browser.waitForEnabled(element, 1500);
+        browser.waitForVisible(element, 1500);
         browser.click(element);
     });
 

@@ -31,4 +31,4 @@ Scenario: I click sign in without credentials
     When I click on the element "button=Log in"
     Then I expect the element "#Email-error=The Email field is required." is visible
         And I expect the element "#Password-error=The Password field is required." is visible
-        And I expect the title of the page "Sign in to UBORA - UBORA"
+        And I expect the title of the page "Log in to UBORA - UBORA"

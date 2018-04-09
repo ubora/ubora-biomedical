@@ -4,20 +4,20 @@ Feature: WP Functionality tests
 
 Background:
     Given I am signed in as user and on first page
-        And I click on the element "p=Test title"
+        And I click on the element "h5=Test title"
         And I click on the element "a=Work packages"
-        And I click on the element "span=Medical need and product specification"
+        And I click on the element "*=Medical need and product specification"
 
 Scenario: I make changes in Project overview and check them
     Then I expect the title of the page "Design planning - UBORA"
-    When I click on the element "span=Design planning"
+    When I click on the element "*=Design planning"
         And I select value "Point-of-care diagnosis" from element "#ClinicalNeedTags"
         And I select value "Clinical microbiology" from element "#AreaOfUsageTags"
         And I select value "Mobile-based technology" from element "#PotentialTechnologyTags"
         And I set value "Magnificent other!" to the element "#Gmdn"
         And I click on the element "button=Save changes"
     Then I expect the title of the page "Design planning - UBORA"
-    When I click on the element "a=Project overview"
+    When I click on the element "a=Overview"
     Then I expect the element "dd=Point-of-care diagnosis" is visible
         And I expect the element "dd=Clinical microbiology" is visible
         And I expect the element "dd=Mobile-based technology" is visible
@@ -25,88 +25,88 @@ Scenario: I make changes in Project overview and check them
         And I expect the title of the page "Overview - UBORA"
 
 Scenario: I click different Workpackages and try to edit them
-    When I click on the element "span=Design planning"
+    When I click on the element "*=Design planning"
     Then I expect the element "h1=Design planning" is visible
-    When I click on the element "span=Medical need and product specification"
-        And I click on the element "span=Clinical needs"
+    When I click on the element "*=Medical need and product specification"
+        And I click on the element "*=Clinical needs"
     Then I expect the element "h1=Clinical needs" is visible
-    When I click on the element "span=Edit"
-        And I click on the element "span=Helpful tips"
+    When I click on the element "*=Edit"
+        And I click on the element "*=Helpful tips"
     Then I expect the element "p=You should describe the clinical need that is the target of your device." is visible
         And I expect the title of the page "Clinical needs - UBORA"
-    When I click on the element "span=Existing solutions"
+    When I click on the element "*=Existing solutions"
     Then I expect the element "h1=Existing solutions" is visible
-    When I click on the element "span=Edit"
-        And I click on the element "span=Helpful tips"
+    When I click on the element "*=Edit"
+        And I click on the element "*=Helpful tips"
     Then I expect the element "p=You should describe what are the devices or therapies on the market; if possible, list some pros and cons of the existing solutions." is visible
         And I expect the title of the page "Existing solutions - UBORA"
-    When I click on the element "span=Intended users"
+    When I click on the element "*=Intended users"
     Then I expect the element "h1=Intended users" is visible
-    When I click on the element "span=Edit"
-        And I click on the element "span=Helpful tips"
+    When I click on the element "*=Edit"
+        And I click on the element "*=Helpful tips"
     Then I expect the element "p=You should describe who are the intended user of your medical device (e.g. physician, technicians, nurse, midwife, family member, self-use), and where the technology will be used (rural or urban settings, at home, hospital, …)." is visible
         And I expect the title of the page "Intended users - UBORA"
-    When I click on the element "span=Product requirements"
+    When I click on the element "*=Product requirements"
     Then I expect the element "h1=Product requirements" is visible
-    When I click on the element "span=Edit"
-        And I click on the element "span=Helpful tips"
+    When I click on the element "*=Edit"
+        And I click on the element "*=Helpful tips"
     Then I expect the element "p=You should describe all the requirements to certain product. It is written to allow people to understand what a product should do. Typical components of a product requirements document are:" is visible
         And I expect the title of the page "Product requirements - UBORA"
-    When I click on the element "span=Device classification"
+    When I click on the element "*=Device classification"
     Then I expect the element "h1=Device classification" is visible
         And I expect the element "p=Aim of this questionnaire is do offer a simple means of determining the class of a medical device according to Proposal for a Regulation of the European Parliament and of the Council on medical devices." is visible
         And I expect the title of the page "Device classification - UBORA"
-    When I click on the element "span=Regulation checklist"
+    When I click on the element "*=Regulation checklist"
     Then I expect the element "h1=Regulation checklist" is visible
         And I expect the element "p=Please take the questionnaire to identify applicable regulations:" is visible
         And I expect the title of the page "Applicable regulations questionnaire - UBORA"
-    When I click on the element "span=Formal review"
+    When I click on the element "*=Formal review"
     Then I expect the element "h1=Formal review" is visible
         And I expect the title of the page "Formal review - UBORA"
 
 Scenario: I Submit project for WP1 review but cancel it
-    When I click on the element "span=Formal review"
+    When I click on the element "*=Formal review"
         And I click on the element "button=Submit project for review"
     Then I expect the element "h5=Submit project for review" is visible
         And I expect the element "p=Work package 1 can not be edited while it is under review or after it has passed the review." is visible
-    When I click on the element "button=No, cancel"
+    When I click on the element "button=Cancel"
     Then I expect the title of the page "Formal review - UBORA"
         And I expect the element "p=You can submit your project for review:" is visible
 
 Scenario: I Submit project for WP1 review
-    When I click on the element "span=Formal review"
+    When I click on the element "*=Formal review"
         And I click on the element "button=Submit project for review"
-        And I click on the element "button=Yes, submit"
+        And I click on the element "button=Submit"
     Then I expect the element "p=WP1: Medical need and product specification can not be edited if:" is visible
         And I expect the element "li=The project is under review;" is visible
         And I expect the element "li=It passed the review;" is visible
-        And I expect the element "b=Status:" is visible
-        And I expect the element "td=InProcess" is visible
+        And I expect the element "dt=Status:" is visible
+        And I expect the element "dd=InProcess" is visible
 
 Scenario: System administrator adds Mentor to the project
     When I sign out
-    Then I expect the title of the page "Welcome - UBORA"
+    Then I expect the title of the page "UBORA"
     When I sign in as administrator
-        And I click on the element "p=Test title"
+        And I click on the element "h5=Test title"
         And I click on the element "a=Members"
     Then I expect the title of the page "Members - UBORA"
-    When I click on the element "span=Add mentor"
+    When I click on the element "*=Add mentor"
     Then I expect the title of the page "Mentors - UBORA"
     When I click on the element "button=Invite mentor"
-    Then I expect the element "p=Mentor successfully invited." is visible
+    Then I expect the element "p=Invitation sent" is visible
     When I sign out
     Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: Mentor accepts the mentor invitation
     When I sign out
         And I sign in as mentor
-        And I click on the element "span=Notifications"
+        And I click on the element "*=Notifications"
         And I click on the element "button=Accept"
     Then I expect the title of the page "Notifications - UBORA"
-    When I click on the element "span=Projects"
-    Then I expect the element "p=Test title" is visible
+    When I click on the element "*=Projects"
+    Then I expect the element "h5=Test title" is visible
         And I expect the title of the page "View projects - UBORA"
-    When I click on the element "p=Test title"
+    When I click on the element "h5=Test title"
     Then I expect the element "a=Repository" is visible
     When I click on the element "a=Members"
     Then I expect the element "a=Test Mentor" is visible
@@ -115,10 +115,10 @@ Scenario: Mentor accepts the mentor invitation
 Scenario: Project mentor rejects WP1 formal review
     When I sign out
         And I sign in as mentor
-        And I click on the element "p=Test title"
+        And I click on the element "h5=Test title"
         And I click on the element "a=Work packages"
-        And I click on the element "span=Medical need and product specification"
-        And I click on the element "span=Formal review"
+        And I click on the element "*=Medical need and product specification"
+        And I click on the element "*=Formal review"
         And I click on the element "a=Write a review"
     Then I expect the title of the page "Write a review - UBORA"
     When I set value "Ok project man!" to the element "#ConcludingComment"
@@ -127,7 +127,7 @@ Scenario: Project mentor rejects WP1 formal review
     When I sign out
 
 Scenario: I submit my rejected WP1 again for formal review
-    When I click on the element "span=Formal review"
+    When I click on the element "*=Formal review"
         And I click on the element "button=Submit project for review"
         And I click on the element "button=Yes, submit"
     Then I expect the element "td=Rejected" is visible
@@ -136,10 +136,10 @@ Scenario: I submit my rejected WP1 again for formal review
 Scenario: Project mentor accepts WP1 formal review
     When I sign out
         And I sign in as mentor
-        And I click on the element "p=Test title"
+        And I click on the element "h5=Test title"
         And I click on the element "a=Work packages"
-        And I click on the element "span=Medical need and product specification"
-        And I click on the element "span=Formal review"
+        And I click on the element "*=Medical need and product specification"
+        And I click on the element "*=Formal review"
         And I click on the element "a=Write a review"
         And I set value "Good project man!" to the element "#ConcludingComment"
         And I click on the element "button=Accept"
