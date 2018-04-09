@@ -21,7 +21,7 @@
 
 <div class="project-header-container d-none d-lg-block">
     <div class="container pl-0">
-        <h1 class="my-4 pl-3">@ViewData["ProjectTitle"]</h1>
+        <h1 class="my-3 pl-3">@ViewData["ProjectTitle"]</h1>
         <nav class="project-header nav nav-tabs flex-column flex-md-row justify-content-start">
             <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Overview)" asp-controller="Dashboard" asp-action="Dashboard">@Model.MenuOptionNames[ProjectMenuOption.Overview]</a>
             @if (canViewProjectNonPublicContent)
@@ -41,6 +41,8 @@
 
 
 <div class="project-header-md dropdown d-md-block d-lg-none">
+    <h1 class="pl-3 mb-0 text-center" style="color: white; background-color: #4777BB">@ViewData["ProjectTitle"]</h1>
+
     <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         @Model.MenuOptionNames[Model.ActiveMenuOption]
     </button>
