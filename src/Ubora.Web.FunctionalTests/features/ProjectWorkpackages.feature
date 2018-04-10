@@ -4,20 +4,20 @@ Feature: WP Functionality tests
 
 Background:
     Given I am signed in as user and on first page
-        And I click on the element "h5=Test title"
-        And I click on the element "a=Work packages"
-        And I click on the element "*=Medical need and product specification"
+        And I click on the element "*=Test title"
+        And I click on the element "=Work packages"
+        And I click on the element "=Medical need and product specification"
 
 Scenario: I make changes in Project overview and check them
     Then I expect the title of the page "Design planning - UBORA"
-    When I click on the element "*=Design planning"
+    When I click on the element "=Design planning"
         And I select value "Point-of-care diagnosis" from element "#ClinicalNeedTags"
         And I select value "Clinical microbiology" from element "#AreaOfUsageTags"
         And I select value "Mobile-based technology" from element "#PotentialTechnologyTags"
         And I set value "Magnificent other!" to the element "#Gmdn"
         And I click on the element "button=Save changes"
     Then I expect the title of the page "Design planning - UBORA"
-    When I click on the element "a=Overview"
+    When I click on the element "=Overview"
     Then I expect the element "dd=Point-of-care diagnosis" is visible
         And I expect the element "dd=Clinical microbiology" is visible
         And I expect the element "dd=Mobile-based technology" is visible
@@ -25,43 +25,43 @@ Scenario: I make changes in Project overview and check them
         And I expect the title of the page "Overview - UBORA"
 
 Scenario: I click different Workpackages and try to edit them
-    When I click on the element "*=Design planning"
-    Then I expect the element "h1=Design planning" is visible
-    When I click on the element "*=Medical need and product specification"
-        And I click on the element "*=Clinical needs"
-    Then I expect the element "h1=Clinical needs" is visible
+    When I click on the element "=Design planning"
+    Then I expect the element "=Design planning" is visible
+    When I click on the element "=Medical need and product specification"
+        And I click on the element "=Clinical needs"
+    Then I expect the element "=Clinical needs" is visible
     When I click on the element "*=Edit"
         And I click on the element "*=Helpful tips"
-    Then I expect the element "p=You should describe the clinical need that is the target of your device." is visible
+    Then I expect the element "p*=You should describe the clinical need that is the target of your device." is visible
         And I expect the title of the page "Clinical needs - UBORA"
     When I click on the element "*=Existing solutions"
-    Then I expect the element "h1=Existing solutions" is visible
+    Then I expect the element "=Existing solutions" is visible
     When I click on the element "*=Edit"
         And I click on the element "*=Helpful tips"
     Then I expect the element "p=You should describe what are the devices or therapies on the market; if possible, list some pros and cons of the existing solutions." is visible
         And I expect the title of the page "Existing solutions - UBORA"
     When I click on the element "*=Intended users"
-    Then I expect the element "h1=Intended users" is visible
+    Then I expect the element "=Intended users" is visible
     When I click on the element "*=Edit"
         And I click on the element "*=Helpful tips"
     Then I expect the element "p=You should describe who are the intended user of your medical device (e.g. physician, technicians, nurse, midwife, family member, self-use), and where the technology will be used (rural or urban settings, at home, hospital, …)." is visible
         And I expect the title of the page "Intended users - UBORA"
     When I click on the element "*=Product requirements"
-    Then I expect the element "h1=Product requirements" is visible
+    Then I expect the element "=Product requirements" is visible
     When I click on the element "*=Edit"
         And I click on the element "*=Helpful tips"
     Then I expect the element "p=You should describe all the requirements to certain product. It is written to allow people to understand what a product should do. Typical components of a product requirements document are:" is visible
         And I expect the title of the page "Product requirements - UBORA"
     When I click on the element "*=Device classification"
-    Then I expect the element "h1=Device classification" is visible
+    Then I expect the element "=Device classification" is visible
         And I expect the element "p=Aim of this questionnaire is do offer a simple means of determining the class of a medical device according to Proposal for a Regulation of the European Parliament and of the Council on medical devices." is visible
         And I expect the title of the page "Device classification - UBORA"
     When I click on the element "*=Regulation checklist"
-    Then I expect the element "h1=Regulation checklist" is visible
+    Then I expect the element "=Regulation checklist" is visible
         And I expect the element "p=Please take the questionnaire to identify applicable regulations:" is visible
         And I expect the title of the page "Applicable regulations questionnaire - UBORA"
     When I click on the element "*=Formal review"
-    Then I expect the element "h1=Formal review" is visible
+    Then I expect the element "=Formal review" is visible
         And I expect the title of the page "Formal review - UBORA"
 
 Scenario: I Submit project for WP1 review but cancel it
@@ -87,8 +87,8 @@ Scenario: System administrator adds Mentor to the project
     When I sign out
     Then I expect the title of the page "UBORA"
     When I sign in as administrator
-        And I click on the element "h5=Test title"
-        And I click on the element "a=Members"
+        And I click on the element "*=Test title"
+        And I click on the element "=Members"
     Then I expect the title of the page "Members - UBORA"
     When I click on the element "*=Add mentor"
     Then I expect the title of the page "Mentors - UBORA"
@@ -104,17 +104,17 @@ Scenario: Mentor accepts the mentor invitation
         And I click on the element "button=Accept"
     Then I expect the title of the page "Notifications - UBORA"
     When I click on the element "*=My projects"
-    Then I expect the element "h5=Test title" is visible
+    Then I expect the element "*=Test title" is visible
         And I expect the title of the page "View projects - UBORA"
 
 Scenario: Project mentor rejects WP1 formal review
     When I sign out
         And I sign in as mentor
-        And I click on the element "h5=Test title"
-        And I click on the element "a=Work packages"
+        And I click on the element "*=Test title"
+        And I click on the element "=Work packages"
         And I click on the element "*=Medical need and product specification"
         And I click on the element "*=Formal review"
-        And I click on the element "a=Write a review"
+        And I click on the element "=Write a review"
     Then I expect the title of the page "Write a review - UBORA"
     When I set value "Ok project man!" to the element "#ConcludingComment"
         And I click on the element "button=Reject"
@@ -131,11 +131,11 @@ Scenario: I submit my rejected WP1 again for formal review
 Scenario: Project mentor accepts WP1 formal review
     When I sign out
         And I sign in as mentor
-        And I click on the element "h5=Test title"
-        And I click on the element "a=Work packages"
+        And I click on the element "*=Test title"
+        And I click on the element "=Work packages"
         And I click on the element "*=Medical need and product specification"
         And I click on the element "*=Formal review"
-        And I click on the element "a=Write a review"
+        And I click on the element "=Write a review"
         And I set value "Good project man!" to the element "#ConcludingComment"
         And I click on the element "button=Accept"
     Then I expect the element "dd=Accepted" is visible
@@ -143,19 +143,19 @@ Scenario: Project mentor accepts WP1 formal review
     When I sign out
 
 Scenario: I click on WP2 work packages and try to edit them
-    When I click on the element "*=Design planning"
-        And I click on the element "*=Conceptual design"
-        And I click on the element "*=Physical principles"
+    When I click on the element "=Design planning"
+        And I click on the element "=Conceptual design"
+        And I click on the element "=Physical principles"
     Then I expect the element "h1=Physical principles" is visible
     When I click on the element "*=Edit"
         And I click on the element "*=Helpful tips"
     Then I expect the element "p=You should describe the most important operating physical principle of your medical device. Make sure to list every physical principal that you chose to comply to “Product requirements”." is visible
         And I expect the title of the page "Physical principles - UBORA"
     When I click on the element "*=Voting"
-    Then I expect the element "h1=Voting" is visible
+    Then I expect the element "=Voting" is visible
         And I expect the title of the page "Voting - UBORA"
     When I click on the element "*=Concept description"
-    Then I expect the element "h1=Concept description" is visible
+    Then I expect the element "=Concept description" is visible
     When I click on the element "*=Edit"
         And I click on the element "*=Helpful tips"
     Then I expect the element "p=You should describe the conceptual design selected in the Voting step." is visible
@@ -164,9 +164,9 @@ Scenario: I click on WP2 work packages and try to edit them
     Then I expect the title of the page "Structured information on the device - UBORA"
 
 Scenario: I add candidate for Voting
-    When I click on the element "*=Design planning"
-        And I click on the element "*=Conceptual design"
-        And I click on the element "*=Voting"
+    When I click on the element "=Design planning"
+        And I click on the element "=Conceptual design"
+        And I click on the element "=Voting"
         And I click on the element "*=Add candidate"
     When I set value "TestCandidate" to the element "#Name"
         And I set value "TestDescription" to the element "#Description"
@@ -174,46 +174,46 @@ Scenario: I add candidate for Voting
     Then I expect the title of the page "Voting - UBORA"
 
 Scenario: I change candidates details in Voting
-    When I click on the element "*=Design planning"
-        And I click on the element "*=Conceptual design"
-        And I click on the element "*=Voting"
+    When I click on the element "=Design planning"
+        And I click on the element "=Conceptual design"
+        And I click on the element "=Voting"
         And I click on the element "p=TestCandidate"
     Then I expect the element "h2=TestCandidate" is visible
         And I expect the element "p=TestDescription" is visible
         And I expect the title of the page "Voting - UBORA"        
     When I click on the element "*=Change image"
         And I click on the element "button=Upload image"
-    Then I expect the element "span*=Please select an image to upload first!" is visible
-    When I click on the element "a=Discard"
+    Then I expect the element "span=Please select an image to upload first!" is visible
+    When I click on the element "=Discard"
         And I click on the element "button=Vote"
-    Then I expect the element "span*=Value for functionality must be between 1 and 5." is visible
-        And I expect the element "span*=Value for performance must be between 1 and 5." is visible
-        And I expect the element "span*=Value for usability must be between 1 and 5." is visible
-        And I expect the element "span*=Value for safety must be between 1 and 5." is visible
+    Then I expect the element "span=Value for functionality must be between 1 and 5." is visible
+        And I expect the element "span=Value for performance must be between 1 and 5." is visible
+        And I expect the element "span=Value for usability must be between 1 and 5." is visible
+        And I expect the element "span=Value for safety must be between 1 and 5." is visible
         And I expect the element ".voted=0.0" is visible
 
 Scenario: I add/edit a comment in Voting
-    When I click on the element "*=Design planning"
-        And I click on the element "*=Conceptual design"
-        And I click on the element "*=Voting"
+    When I click on the element "=Design planning"
+        And I click on the element "=Conceptual design"
+        And I click on the element "=Voting"
         And I click on the element "p=TestCandidate"
         And I click on the element "button=Add comment"
-    Then I expect the element "span*=The CommentText field is required." is visible
+    Then I expect the element "span=The CommentText field is required." is visible
     When I set value "This is an awesome candidate!" to the element "#CommentText"
         And I click on the element "button=Add comment"
     Then I expect the element "span=This is an awesome candidate!" is visible
-    When I click on the element "a=Test User"
+    When I click on the element "=Test User"
     Then I expect the element "h2=Test User" is visible
 
 Scenario: I edit candidate's details in Voting
-    When I click on the element "*=Design planning"
-        And I click on the element "*=Conceptual design"
-        And I click on the element "*=Voting"
+    When I click on the element "=Design planning"
+        And I click on the element "=Conceptual design"
+        And I click on the element "=Voting"
         And I click on the element "p=TestCandidate"
-        And I click on the element "span=Edit"
+        And I click on the element "*=Edit"
     Then I expect the element "h2=Candidate description" is visible
         And I expect the title of the page "Voting - UBORA"
-    When I click on the element "a=Discard"
+    When I click on the element "=Discard"
     Then I expect the element "h2=TestCandidate" is visible
         And I expect the element "p=TestDescription" is visible
     When I click on the element "*=Edit"
@@ -222,14 +222,14 @@ Scenario: I edit candidate's details in Voting
         And I click on the element "button=Save changes"
     Then I expect the element "h2=Candidate123" is visible
         And I expect the element "p=Description123" is visible
-    When I click on the element "*=Voting"
+    When I click on the element "=Voting"
     Then I expect the element "p=Candidate123" is visible
         And I expect the element "p=Description123" is visible
 
 Scenario: I edit Health technology specifications form
-    When I click on the element "*=Design planning"
-        And I click on the element "*=Conceptual design"
-        And I click on the element "*=Structured information on the device"
+    When I click on the element "=Design planning"
+        And I click on the element "=Conceptual design"
+        And I click on the element "=Structured information on the device"
         And I click on the element "/html/body/main/div[2]/div/div[2]/div[2]/div/div/a/span"
     Then I expect the title of the page "Health technology specifications - UBORA"
     When I set value "111" to the element "#DeviceMeasurementsViewModel_DimensionsHeight"
@@ -330,28 +330,28 @@ Scenario: I edit Health technology specifications form
         And I expect the title of the page "Structured information on the device - UBORA"
 
 Scenario: I open WP3
-    When I click on the element "*=Design planning"
-        And I click on the element "*=Conceptual design"
-        And I click on the element "*=Voting"
-        And I click on the element "span*=Open “WP3: Design and prototyping”"
+    When I click on the element "=Design planning"
+        And I click on the element "=Conceptual design"
+        And I click on the element "=Voting"
+        And I click on the element "span=Open “WP3: Design and prototyping”"
     Then I expect the element "h5=Open “Work package 3: design and prototyping”" is visible
         And I expect the element "p=Please be sure you have reached consensus on the conceptual design of your medical device. Are you sure you want to open “WP3: Design and prototyping”?" is visible
     When I click on the element "button=Open"
     Then I expect the element "p=WP3 opened successfully" is visible
     
 Scenario: I click and edit two last WP3 work packages
-    When I click on the element "*=Design planning"
-        And I click on the element "*=Design and prototyping"
-        And I click on the element "*=Design for ISO testing compliance"
+    When I click on the element "=Design planning"
+        And I click on the element "=Design and prototyping"
+        And I click on the element "=Design for ISO testing compliance"
     Then I expect the title of the page "Design for ISO testing compliance - UBORA"
-        And I expect the element "h1=Design for ISO testing compliance" is visible
+        And I expect the element "=Design for ISO testing compliance" is visible
     When I click on the element "*=Edit"
         And I click on the element "*=Helpful tips"
     Then I expect the element "p=With the help of your mentors, identify and design the necessary tests to demonstrate the compliance of your design with relevant ISO standards." is visible
         And I expect the title of the page "Design for ISO testing compliance - UBORA"
     When I click on the element "*=Instructions for fabrication of prototypes"
     Then I expect the title of the page "Instructions for fabrication of prototypes - UBORA"
-        And I expect the element "h1=Instructions for fabrication of prototypes" is visible
+        And I expect the element "=Instructions for fabrication of prototypes" is visible
     When I click on the element "*=Edit"
         And I click on the element "*=Helpful tips"
     Then I expect the element "p=Use this last section of WP3 to describe step by step how to fabricate and assemble the last version of your prototype: fill it once the part 1 and part 2 of WP3 can be considered stable." is visible
