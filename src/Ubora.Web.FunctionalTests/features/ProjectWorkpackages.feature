@@ -106,11 +106,6 @@ Scenario: Mentor accepts the mentor invitation
     When I click on the element "*=My projects"
     Then I expect the element "h5=Test title" is visible
         And I expect the title of the page "View projects - UBORA"
-    When I click on the element "h5=Test title"
-    Then I expect the element "a=Repository" is visible
-    When I click on the element "a=Members"
-    Then I expect the element "a=Test Mentor" is visible
-        And I expect the element "i=school" is visible
 
 Scenario: Project mentor rejects WP1 formal review
     When I sign out
@@ -131,7 +126,7 @@ Scenario: I submit my rejected WP1 again for formal review
         And I click on the element "button=Submit project for review"
         And I click on the element "button=Submit"
     Then I expect the element "dd=Rejected" is visible
-        And I expect the element "dt=InProcess" is visible
+        And I expect the element "dd=InProcess" is visible
 
 Scenario: Project mentor accepts WP1 formal review
     When I sign out
@@ -144,7 +139,7 @@ Scenario: Project mentor accepts WP1 formal review
         And I set value "Good project man!" to the element "#ConcludingComment"
         And I click on the element "button=Accept"
     Then I expect the element "dd=Accepted" is visible
-        And I expect the element "dt=Good project man!" is visible
+        And I expect the element "dd=Good project man!" is visible
     When I sign out
 
 Scenario: I click on WP2 work packages and try to edit them
@@ -173,9 +168,6 @@ Scenario: I add candidate for Voting
         And I click on the element "*=Conceptual design"
         And I click on the element "*=Voting"
         And I click on the element "*=Add candidate"
-        And I click on the element "button=Save changes"
-    Then I expect the element "*=The Name field is required." is visible
-        And I expect the element "*=The Description field is required." is visible
     When I set value "TestCandidate" to the element "#Name"
         And I set value "TestDescription" to the element "#Description"
         And I click on the element "button=Save changes"
@@ -191,20 +183,14 @@ Scenario: I change candidates details in Voting
         And I expect the title of the page "Voting - UBORA"        
     When I click on the element "*=Change image"
         And I click on the element "button=Upload image"
-    Then I expect the element "*=Please select an image to upload first!" is visible
+    Then I expect the element "span*=Please select an image to upload first!" is visible
     When I click on the element "a=Discard"
         And I click on the element "button=Vote"
-    Then I expect the element "*=Value for functionality must be between 1 and 5." is visible
-        And I expect the element "*=Value for performance must be between 1 and 5." is visible
-        And I expect the element "*=Value for usability must be between 1 and 5." is visible
-        And I expect the element "*=Value for safety must be between 1 and 5." is visible
+    Then I expect the element "span*=Value for functionality must be between 1 and 5." is visible
+        And I expect the element "span*=Value for performance must be between 1 and 5." is visible
+        And I expect the element "span*=Value for usability must be between 1 and 5." is visible
+        And I expect the element "span*=Value for safety must be between 1 and 5." is visible
         And I expect the element ".voted=0.0" is visible
-    When I click on the element "#Functionality1"
-        And I click on the element "#Performace2"
-        And I click on the element "#Usability3"
-        And I click on the element "#Safety4"
-        And I click on the element "button=Vote"
-    Then I expect the element ".voted=10.0" is visible
 
 Scenario: I add/edit a comment in Voting
     When I click on the element "*=Design planning"
@@ -212,40 +198,17 @@ Scenario: I add/edit a comment in Voting
         And I click on the element "*=Voting"
         And I click on the element "p=TestCandidate"
         And I click on the element "button=Add comment"
-    Then I expect the element "*=The CommentText field is required." is visible
+    Then I expect the element "span*=The CommentText field is required." is visible
     When I set value "This is an awesome candidate!" to the element "#CommentText"
         And I click on the element "button=Add comment"
     Then I expect the element "span=This is an awesome candidate!" is visible
     When I click on the element "a=Test User"
     Then I expect the element "h2=Test User" is visible
-    When I go back to last page
-        And I click on the element "button=edit"
-        And I click on the element "a=Cancel"
-        And I click on the element "button=edit"
-        And I set value "Still is an awesome candidate!" to the element "#CommentText"
-        And I click on the element "button=Save"
-    Then I expect the element "span=Still is an awesome candidate!" is visible
-        And I expect the element "span=(edited)" is visible
-    When I click on the element "button=delete"
-    Then I expect the element "h5=Remove comment?" is visible
-        And I expect the element "p=Still is an awesome candidate!" is visible
-    When I click on the element "button=No, cancel"
-    Then I expect the element "span=Still is an awesome candidate!" is visible
-    
-Scenario: I remove a comment in Voting
-    When I click on the element "span=Design planning"
-        And I click on the element "span=Conceptual design"
-        And I click on the element "span=Voting"
-        And I click on the element "p=TestCandidate"
-    Then I expect the element "span=Still is an awesome candidate!" is visible
-    When I click on the element "button=delete"
-        And I click on the element "button=Yes, remove"
-    Then I expect the element "span=Still is an awesome candidate!" is not visible
 
 Scenario: I edit candidate's details in Voting
     When I click on the element "*=Design planning"
         And I click on the element "*=Conceptual design"
-        And I click on the element "span=Voting"
+        And I click on the element "*=Voting"
         And I click on the element "p=TestCandidate"
         And I click on the element "span=Edit"
     Then I expect the element "h2=Candidate description" is visible
@@ -253,47 +216,21 @@ Scenario: I edit candidate's details in Voting
     When I click on the element "a=Discard"
     Then I expect the element "h2=TestCandidate" is visible
         And I expect the element "p=TestDescription" is visible
-    When I click on the element "span=Edit"
+    When I click on the element "*=Edit"
         And I set value "Candidate123" to the element "#Title"
         And I set value "Description123" to the element "#Description"
         And I click on the element "button=Save changes"
     Then I expect the element "h2=Candidate123" is visible
         And I expect the element "p=Description123" is visible
-    When I click on the element "span=Voting"
+    When I click on the element "*=Voting"
     Then I expect the element "p=Candidate123" is visible
         And I expect the element "p=Description123" is visible
 
-Scenario: I edit User and environment form
-    When I click on the element "span=Design planning"
-        And I click on the element "span=Conceptual design"
-        And I click on the element "span=Structured information on the device"
-    Then I expect the title of the page "Structured information on the device - UBORA"
-    When I click on the element "#EditUserEnvironment"
-    Then I expect the title of the page "User and environment - UBORA"
-    When I click on the element "span=Other:"
-        And I set value "Master User" to the element "#IntendedUserIfOther"
-        And I click on the element "#IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser"
-        And I set value "Training is required!" to the element "#IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining"
-        And I click on the element "#IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse"
-        And I click on the element "label=Rural settings"
-        And I click on the element "label=Urban settings"
-        And I click on the element "label=Outdoors"
-        And I click on the element "label=Indoors"
-        And I click on the element "label=At home"
-        And I click on the element "label=Primary level (health post, health center)"
-        And I click on the element "label=Secondary level (general hospital)"
-        And I click on the element "label=Tertiary level (specialist hospital)"
-        And I click on the element "button=Save"
-    Then I expect the element "td=Master User" is visible
-        And I expect the element "td=Training is required!" is visible
-        And I expect the element "td=rural settings, urban settings, outdoors, indoors, at home, primary level (health post, health center), secondary level (general hospital), tertiary level (specialist hospital)" is visible
-        And I expect the title of the page "Structured information on the device - UBORA"
-
 Scenario: I edit Health technology specifications form
-    When I click on the element "span=Design planning"
-        And I click on the element "span=Conceptual design"
-        And I click on the element "span=Structured information on the device"
-        And I click on the element "#EditHealthTechnology"
+    When I click on the element "*=Design planning"
+        And I click on the element "*=Conceptual design"
+        And I click on the element "*=Structured information on the device"
+        And I click on the element "/html/body/main/div[2]/div/div[2]/div[2]/div/div/a/span"
     Then I expect the title of the page "Health technology specifications - UBORA"
     When I set value "111" to the element "#DeviceMeasurementsViewModel_DimensionsHeight"
         And I set value "222" to the element "#DeviceMeasurementsViewModel_DimensionsLength"
@@ -393,96 +330,14 @@ Scenario: I edit Health technology specifications form
         And I expect the title of the page "Structured information on the device - UBORA"
 
 Scenario: I open WP3
-    When I click on the element "span=Design planning"
-        And I click on the element "span=Conceptual design"
-        And I click on the element "span=Voting"
-        And I click on the element "span=Open “WP3: Design and prototyping”"
+    When I click on the element "*=Design planning"
+        And I click on the element "*=Conceptual design"
+        And I click on the element "*=Voting"
+        And I click on the element "span*=Open “WP3: Design and prototyping”"
     Then I expect the element "h5=Open “Work package 3: design and prototyping”" is visible
         And I expect the element "p=Please be sure you have reached consensus on the conceptual design of your medical device. Are you sure you want to open “WP3: Design and prototyping”?" is visible
-    When I click on the element "button=No, cancel"
-        And I click on the element ".legal-flag"
-        And I click on the element "span=Open “WP3: Design and prototyping”"
-        And I click on the element "button=Yes, open"
-    Then I expect the element "p=Work package 3 opened successfully!" is visible
-
-Scenario: I click on General product description work packages and try to edit them
-    When I click on the element "span=Design planning"
-        And I click on the element "span=Design and prototyping"
-        And I click on the element "span=General product description"
-        And I click on the element "span=Hardware"
-        And I click on the element "span=Commercial parts"
-    Then I expect the title of the page "Commercial parts - UBORA"
-        And I expect the element "h1=Commercial parts" is visible
-    When I click on the element "span=Edit"
-        And I click on the element "span=Helpful tips"
-    Then I expect the element "p=Please insert here design and description of mechanical parts of your device which you can buy from suppliers (e.g. box, valves, …)" is visible
-        And I expect the title of the page "Commercial parts - UBORA"
-    When I click on the element "span=Purposely designed parts"
-    Then I expect the title of the page "Purposely designed parts - UBORA"
-        And I expect the element "h1=Purposely designed parts" is visible
-    When I click on the element "span=Edit"
-        And I click on the element "span=Helpful tips"
-    Then I expect the element "p=Please insert here design and description of mechanical parts of your device which you created from scratch (e.g. customized gears, purposely designed frames)" is visible
-        And I expect the title of the page "Purposely designed parts - UBORA"
-    When I click on the element "span=Prototypes and functional trials"
-    Then I expect the title of the page "Prototypes and functional trials - UBORA"
-        And I expect the element "h1=Prototypes and functional trials" is visible
-    When I click on the element "span=Edit"
-        And I click on the element "span=Helpful tips"
-    Then I expect the element "p=Please insert here how to fabricate the purposely designed parts (e.g. gcode for 3D printers, CNC fabrication cycle with nc code) and describe step-by-step how to assemble all the components." is visible
-        And I expect the title of the page "Prototypes and functional trials - UBORA"
-    When I click on the element "span=Electronic & firmware"
-        And I click on the href element "/WP3/GeneralProductDescription_ElectronicAndFirmware_CommercialParts"
-    Then I expect the title of the page "Commercial parts - UBORA"
-        And I expect the element "h1=Commercial parts" is visible
-    When I click on the element "span=Edit"
-        And I click on the element "span=Helpful tips"
-    Then I expect the element "p=Please insert here design and description of electronic parts of your device which you can buy from suppliers (e.g. microcontrollers, sensors, I/O boards, …). Describe all the libraries you use in your firmware." is visible
-        And I expect the title of the page "Commercial parts - UBORA"
-    When I click on the href element "/WP3/GeneralProductDescription_ElectronicAndFirmware_PurposelyDesignedParts"
-    Then I expect the title of the page "Purposely designed parts - UBORA"
-        And I expect the element "h1=Purposely designed parts" is visible
-    When I click on the element "span=Edit"
-        And I click on the element "span=Helpful tips"
-    Then I expect the element "p=Please insert here design and description of electronic parts of your device which you created from scratch (e.g. circuits, filters, routing ). You should include also CAD data as schematics and gerber files." is visible
-        And I expect the title of the page "Purposely designed parts - UBORA"
-    When I click on the href element "/WP3/GeneralProductDescription_ElectronicAndFirmware_PrototypesAndFunctionalTrials"
-    Then I expect the title of the page "Prototypes and functional trials - UBORA"
-        And I expect the element "h1=Prototypes and functional trials" is visible
-    When I click on the element "span=Edit"
-        And I click on the element "span=Helpful tips"
-    Then I expect the element "p=Please insert here how to assemble step-by step the electronic part of your device, including instruction on how to upload the firmware." is visible
-        And I expect the title of the page "Prototypes and functional trials - UBORA"
-    When I click on the element "span=Software"
-        And I click on the element "span=Existing solutions (open source)"
-    Then I expect the title of the page "Existing solutions (open source) - UBORA"
-        And I expect the element "h1=Existing solutions (open source)" is visible
-    When I click on the element "span=Edit"
-        And I click on the element "span=Helpful tips"
-    Then I expect the element "p=Please insert here free and open source libraries and programs you use in your device developed by other authors, without forgetting due credits." is visible
-        And I expect the title of the page "Existing solutions (open source) - UBORA"
-    When I click on the href element "/WP3/GeneralProductDescription_Software_PurposelyDesignedParts"
-    Then I expect the title of the page "Purposely designed parts - UBORA"
-        And I expect the element "h1=Purposely designed parts" is visible
-    When I click on the element "span=Edit"
-        And I click on the element "span=Helpful tips"
-    Then I expect the element "p=Please describe here your code using flowcharts and maps. If your code implements specific algorithms, please include comments in each key point." is visible
-        And I expect the title of the page "Purposely designed parts - UBORA"
-    When I click on the href element "/WP3/GeneralProductDescription_Software_PrototypesAndFunctionalTrials"
-    Then I expect the title of the page "Prototypes and functional trials - UBORA"
-        And I expect the element "h1=Prototypes and functional trials" is visible
-    When I click on the element "span=Edit"
-        And I click on the element "span=Helpful tips"
-    Then I expect the element "p=Please describe here how to install you software (including specific requirements in terms of operating system, RAM, CPU, library dependencies." is visible
-        And I expect the title of the page "Prototypes and functional trials - UBORA"
-    When I click on the element "span=System integration"
-        And I click on the href element "/WP3/GeneralProductDescription_SystemIntegration_PrototypesAndFunctionalTrials"    
-    Then I expect the title of the page "Prototypes and functional trials - UBORA"
-        And I expect the element "h1=Prototypes and functional trials" is visible
-    When I click on the element "span=Edit"
-        And I click on the element "span=Helpful tips"
-    Then I expect the element "p=Describe here how to integrate all the parts of your device, including wiring and connections." is visible
-        And I expect the title of the page "Prototypes and functional trials - UBORA"
+    When I click on the element "button=Open"
+    Then I expect the element "p=WP3 opened successfully" is visible
     
 Scenario: I click and edit two last WP3 work packages
     When I click on the element "*=Design planning"
