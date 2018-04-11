@@ -7,7 +7,7 @@ var htmlReports = process.cwd() + '/reports';
 exports.config = {
     // Set a base URL in order to shorten url command calls. If your url parameter starts
     // with "/", then the base url gets prepended.
-    baseUrl: 'http://localhost:5000/',
+    baseUrl: 'http://ubora.web:80',
     //
     // ==================
     // Specify Test Files

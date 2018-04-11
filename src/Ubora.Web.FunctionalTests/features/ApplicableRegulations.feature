@@ -6,8 +6,8 @@ Background:
     Given I am signed in as user and on first page
         And I click on the element "h5=Test title"
         And I click on the element "a=Work packages"
-        And I click on the element "*=Medical need and product specification"
-        And I click on the element "*=Regulation checklist"
+        And I click on the element "*=Medical need and product specification" inside "main"
+        And I click on the element "*=Regulation checklist" inside "main"
 
 Scenario: Take questionnaire and answer all questions YES
     When I click on the element "button=Take questionnaire"

@@ -6,6 +6,11 @@ module.exports = function () {
             browser.click(element);
         });
 
+    this.When(/^I click on the element "([^"]*)?" inside "([^"]*)?"$/, (element, insideElement) => {
+            browser.element(insideElement).waitForVisible(element, 1500);
+            browser.element(insideElement).click(element);
+        });
+
     this.When(/^I click on the href element "([^"]*)?"$/, (partialHref) => {
             browser.click('[href*="' + partialHref + '"]');
         });

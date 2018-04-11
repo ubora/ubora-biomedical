@@ -6,6 +6,11 @@ module.exports = function () {
         browser.click(element);
     });
 
+    this.Given(/^I clicked on the element "([^"]*)?" inside "([^"]*)?"$/, (element, insideElement) => {
+        browser.element(insideElement).waitForVisible(element, 1500);
+        browser.element(insideElement).click(element);
+    });
+
     this.Given(/^I go to Home page$/, () => {
         browser.url('/')
     });

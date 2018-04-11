@@ -6,8 +6,8 @@ Background:
     Given I am signed in as user and on first page
         And I click on the element "h5=Test title"
         And I click on the element "a=Work packages"
-        And I click on the element "*=Medical need and product specification"
-        And I click on the element "*=Device classification"
+        And I click on the element "*=Medical need and product specification" inside "main"
+        And I click on the element "*=Device classification" inside "main"
 
 Scenario: I go through Device classification and pick always first option
     Then I expect the title of the page "Device classification - UBORA"
