@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Npgsql;
 using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace Ubora.Web
 {
@@ -164,7 +165,11 @@ namespace Ubora.Web
 
             app.UseStatusCodePagesWithReExecute("/Home/Error/");
 
-            app.UseStaticFiles();
+            var provider = new FileExtensionContentTypeProvider();
+            provider.Mappings[".amf"] = "application/octet-stream";
+            provider.Mappings[".stl"] = "application/octet-stream";
+
+            app.UseStaticFiles(new StaticFileOptions { ContentTypeProvider = provider });
 
             app.UseAuthentication();
 

@@ -101,7 +101,11 @@ module.exports = env => {
                 { from: './node_modules/popper.js/dist/umd/popper.min.js', to: './lib/umd' },
                 { from: './node_modules/popper.js/dist/umd/popper.min.js.map', to: './lib/umd' },
                 { from: './node_modules/bootstrap/dist/js/bootstrap.min.js', to: './lib' },
-                { from: './node_modules/bootstrap/dist/js/bootstrap.min.js.map', to: './lib' }
+                { from: './node_modules/bootstrap/dist/js/bootstrap.min.js.map', to: './lib' },
+                { from: './node_modules/three/build/three.min.js', to: './lib' },
+                { from: './node_modules/three/examples/js/loaders/AMFLoader.js', to: './lib' },
+                { from: './node_modules/three/examples/js/controls/OrbitControls.js', to: './lib' },
+                { from: './node_modules/three/examples/js/loaders/STLLoader.js', to: './lib' }
             ])
         ].concat(isDevBuild ? [
             // Develop plugins:
