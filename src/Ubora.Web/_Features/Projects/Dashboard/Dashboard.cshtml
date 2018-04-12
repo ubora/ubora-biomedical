@@ -9,29 +9,6 @@
 
 <div class="container my-4">
     <div class="row">
-        <div class="col-lg-9">
-            <h1>
-                @Model.Title
-                @if (Model.IsInDraft)
-                {
-                    <span class="badge badge-pill badge-orange font-size-1">Draft</span>
-                }
-            </h1>
-        </div>
-        <div class="col-lg-3">
-            @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanJoinProject))
-            {
-                <div class="d-flex justify-content-end">
-                    <a class="btn btn-outline-primary" href="@Url.Action("Join", "Members")">
-                        <i class="material-icons align-middle">add</i>
-                        <span>Join project</span>
-                    </a>
-                </div>
-            }
-        </div>
-    </div>
-   
-    <div class="row">
         <div class="col-lg-5">
             <div class="row">
                 <div class="col">
@@ -61,8 +38,16 @@
                     </div>
                 </div>
             </div>
+            
 
-          
+            <div class="row mt-4   d-md-block d-lg-none">
+                <div class="col">
+                    @if (Model.IsInDraft)
+                    {
+                        <span class="badge badge-pill badge-orange font-size-1">Draft</span>
+                    }
+                </div>
+            </div>
 
             <div class="row mt-4">
                 <div class="col d-flex justify-content-between">
@@ -78,17 +63,17 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <dl class="row">
-                        <dt class="col-sm-5 mb-lg-4">Clinical need:</dt>
-                        <dd class="col-sm-7">@Model.ClinicalNeedTags</dd>
-                        <dt class="col-sm-5 mb-lg-4">Area:</dt>
-                        <dd class="col-sm-7">@Model.AreaOfUsageTags</dd>
-                        <dt class="col-sm-5 mb-lg-4">Technology:</dt>
-                        <dd class="col-sm-7">@Model.PotentialTechnologyTags</dd>
-                        <dt class="col-sm-5 mb-lg-4">Project keywords:</dt>
-                        <dd class="col-sm-7">@Model.Gmdn</dd>
-                        <dt class="col-sm-5 mb-lg-4">Device classification:</dt>
-                        <dd class="col-sm-7">@Model.DeviceClassification</dd>
+                    <dl>
+                        <dt>Clinical need</dt>
+                        <dd class="mb-3">@Model.ClinicalNeedTags</dd>
+                        <dt>Area</dt>
+                        <dd class="mb-3">@Model.AreaOfUsageTags</dd>
+                        <dt>Technology</dt>
+                        <dd class="mb-3">@Model.PotentialTechnologyTags</dd>
+                        <dt>Project keywords</dt>
+                        <dd class="mb-3">@Model.Gmdn</dd>
+                        <dt>Device classification</dt>
+                        <dd>@Model.DeviceClassification</dd>
                     </dl>
                 </div>
             </div>
@@ -103,6 +88,15 @@
                             <i class="material-icons font-size-1-1 mx-1">mode_edit</i>
                             <span id="EditDescription">Edit</span>
                         </a>
+                    }
+                    @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanJoinProject))
+                    {
+                        <div class="d-flex justify-content-end align-self-start">
+                            <a class="btn btn-outline-primary" href="@Url.Action("Join", "Members")">
+                                <i class="material-icons align-middle">add</i>
+                                <span>Join project</span>
+                            </a>
+                        </div>
                     }
                 </div>
             </div>
@@ -120,88 +114,88 @@
             </div>
         </div>
     </div>
- 
+
 
     @*TODO: level of completion*@
     @*<div class="row my-4">
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    <h3>Level of completion</h3>
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <h3>Level of completion</h3>
+                    </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-lg-3">Design Planning</div>
+                  <div class="col-lg-9">
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-lg-3">Medical need and product specification</div>
+                  <div class="col-lg-9">
+                    <div class="progress">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-lg-3">Conceptual design</div>
+                  <div class="col-lg-9">
+                    <div class="progress">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-lg-3">Design and prototyping</div>
+                  <div class="col-lg-9">
+                    <div class="progress">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 70%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-lg-3">Implementation</div>
+                  <div class="col-lg-9">
+                    <div class="progress">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 5%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-lg-3">Operation</div>
+                  <div class="col-lg-9">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-lg-3">Project closure</div>
+                  <div class="col-lg-9">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
                 </div>
             </div>
-            <div class="row my-3">
-              <div class="col-lg-3">Design Planning</div>
-              <div class="col-lg-9">
-                <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-            </div>
-            <div class="row my-3">
-              <div class="col-lg-3">Medical need and product specification</div>
-              <div class="col-lg-9">
-                <div class="progress">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-            </div>
-            <div class="row my-3">
-              <div class="col-lg-3">Conceptual design</div>
-              <div class="col-lg-9">
-                <div class="progress">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-            </div>
-            <div class="row my-3">
-              <div class="col-lg-3">Design and prototyping</div>
-              <div class="col-lg-9">
-                <div class="progress">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 70%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-            </div>
-            <div class="row my-3">
-              <div class="col-lg-3">Implementation</div>
-              <div class="col-lg-9">
-                <div class="progress">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 5%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-            </div>
-            <div class="row my-3">
-              <div class="col-lg-3">Operation</div>
-              <div class="col-lg-9">
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-            </div>
-            <div class="row my-3">
-              <div class="col-lg-3">Project closure</div>
-              <div class="col-lg-9">
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
+        </div>*@
+
+    @{
+        var canDeleteProject = (await AuthorizationService.AuthorizeAsync(User, Policies.CanDeleteProject)).Succeeded;
+    }
+    @if (canDeleteProject)
+            {
+        <div class="my-4">
+            <hr />
+            <div>
+                <a class="btn btn-outline-primary" asp-controller="DeleteProject" asp-action="DeleteProject"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete project</span></a>
             </div>
         </div>
-    </div>*@
-   
-        @{
-            var canDeleteProject = (await AuthorizationService.AuthorizeAsync(User, Policies.CanDeleteProject)).Succeeded;
-        }
-        @if (canDeleteProject)
-            {
-            <div class="my-4">
-                <hr />
-                <div>
-                    <a class="btn btn-outline-primary" asp-controller="DeleteProject" asp-action="DeleteProject"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete project</span></a>
-                </div>
-            </div>
 
-        }
+    }
 </div>
 
 @section Scripts {
