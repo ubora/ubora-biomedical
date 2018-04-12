@@ -15,19 +15,19 @@ namespace Ubora.Domain.Tests.Infrastructure
     /// </summary>
     public class UboraEventHandlerInvokerIntegrationTests : IntegrationFixture
     {
-        private TestEventHandler<ProjectCreatedEvent> _testEventHandler1;
-        private TestEventHandler<ProjectCreatedEvent> _testEventHandler2;
-        private TestEventHandler<WorkpackageOneStepEditedEvent> _testEventHandlerForOtherEventType;
+        private TestUboraEventHandler<ProjectCreatedEvent> _testEventHandler1;
+        private TestUboraEventHandler<ProjectCreatedEvent> _testEventHandler2;
+        private TestUboraEventHandler<WorkpackageOneStepEditedEvent> _testEventHandlerForOtherEventType;
 
         protected override void RegisterAdditional(ContainerBuilder builder)
         {
-            _testEventHandler1 = new TestEventHandler<ProjectCreatedEvent>();
-            _testEventHandler2 = new TestEventHandler<ProjectCreatedEvent>();
-            _testEventHandlerForOtherEventType = new TestEventHandler<WorkpackageOneStepEditedEvent>();
+            _testEventHandler1 = new TestUboraEventHandler<ProjectCreatedEvent>();
+            _testEventHandler2 = new TestUboraEventHandler<ProjectCreatedEvent>();
+            _testEventHandlerForOtherEventType = new TestUboraEventHandler<WorkpackageOneStepEditedEvent>();
 
-            builder.RegisterInstance(_testEventHandler1).As<IEventHandler<ProjectCreatedEvent>>().SingleInstance();
-            builder.RegisterInstance(_testEventHandler2).As<IEventHandler<ProjectCreatedEvent>>().SingleInstance();
-            builder.RegisterInstance(_testEventHandlerForOtherEventType).As<IEventHandler<WorkpackageOneStepEditedEvent>>().SingleInstance();
+            builder.RegisterInstance(_testEventHandler1).As<Domain.Infrastructure.UboraEventHandler<ProjectCreatedEvent>>().SingleInstance();
+            builder.RegisterInstance(_testEventHandler2).As<Domain.Infrastructure.UboraEventHandler<ProjectCreatedEvent>>().SingleInstance();
+            builder.RegisterInstance(_testEventHandlerForOtherEventType).As<Domain.Infrastructure.UboraEventHandler<WorkpackageOneStepEditedEvent>>().SingleInstance();
         }
 
         [Fact]
@@ -56,12 +56,12 @@ namespace Ubora.Domain.Tests.Infrastructure
         }
     }
 
-    public class TestEventHandler<TEvent> : IEventHandler<TEvent> where TEvent : UboraEvent
+    public class TestUboraEventHandler<TEvent> : UboraEventHandler<TEvent> where TEvent : UboraEvent
     {
         public IEvent HandleArgument { get; set; }
         public bool HasHandleBeenCalled => (HandleArgument != null);
 
-        public void Handle(IEvent eventWithMetadata)
+        protected override void HandleCore(TEvent @event, IEvent eventWithMetadata)
         {
             if (HasHandleBeenCalled) { throw new Exception(); }
             HandleArgument = eventWithMetadata;

@@ -1,8 +1,8 @@
 using System;
-using System.Collections.Immutable;
 using System.Linq;
 using Marten;
 using Marten.Events;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Projects.Members.Specifications;
@@ -23,7 +23,7 @@ namespace Ubora.Domain.Projects.Workpackages.Events
 
         public override string GetDescription() => $"rejected workpackage 1 by {StringTokens.WorkpackageOneReview()}.";
         
-        public class Notifier : EventNotifier<WorkpackageOneReviewRejectedEvent>
+        public class Notifier : UboraEventHandler<WorkpackageOneReviewRejectedEvent>
         {
             private readonly IDocumentSession _documentSession;
 
@@ -40,7 +40,7 @@ namespace Ubora.Domain.Projects.Workpackages.Events
                     project
                         .GetMembers(!new HasUserIdSpec(@event.InitiatedBy.UserId))
                         .GroupBy(member => member.UserId)
-                        .Select(memberGrouping => EventNotification.Create(eventWithMetadata, memberGrouping.Key));
+                        .Select(memberGrouping => EventNotification.Create(eventWithMetadata.Data, eventWithMetadata.Id, memberGrouping.Key));
                 
                 _documentSession.StoreUboraNotificationsIfAny(notifications);
                 _documentSession.SaveChanges();

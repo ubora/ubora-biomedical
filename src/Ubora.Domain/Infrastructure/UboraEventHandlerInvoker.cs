@@ -41,7 +41,7 @@ namespace Ubora.Domain.Infrastructure
 
             dynamic ResolveEventHandlers(IEvent @event)
             {
-                var handlerType = typeof(IEventHandler<>).MakeGenericType(@event.Data.GetType());
+                var handlerType = typeof(UboraEventHandler<>).MakeGenericType(@event.Data.GetType());
                 var enumerableHandlerType = typeof(IEnumerable<>).MakeGenericType(handlerType);
 
                 var eventHandlers = (dynamic)_serviceLocator.Resolve(enumerableHandlerType);

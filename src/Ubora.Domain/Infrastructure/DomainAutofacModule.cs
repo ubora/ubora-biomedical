@@ -76,7 +76,7 @@ namespace Ubora.Domain.Infrastructure
                 .InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(ThisAssembly)
-                .AsClosedTypesOf(typeof(IEventHandler<>))
+                .AsClosedTypesOf(typeof(UboraEventHandler<>))
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<CountQuery<INotification>.Handler>()

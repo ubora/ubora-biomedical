@@ -2,6 +2,7 @@
 using System.Linq;
 using Marten;
 using Marten.Events;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Notifications;
@@ -32,7 +33,7 @@ namespace Ubora.Domain.Projects._Events
             return $"created project \"{StringTokens.Project(ProjectId)}\".";
         }
 
-        public class Notifier : EventNotifier<ProjectCreatedEvent>
+        public class Notifier : UboraEventHandler<ProjectCreatedEvent>
         {
             private readonly IDocumentSession _documentSession;
             private readonly IQueryProcessor _queryProcessor;
@@ -47,7 +48,7 @@ namespace Ubora.Domain.Projects._Events
             {
                 var notifications = _queryProcessor
                     .ExecuteQuery(new FindUboraMentorProfilesQuery())
-                    .Select(mentorUserProfile => EventNotification.Create(eventWithMetadata, mentorUserProfile.UserId));
+                    .Select(mentorUserProfile => EventNotification.Create(@event, eventWithMetadata.Id, mentorUserProfile.UserId));
                 
                 _documentSession.StoreUboraNotificationsIfAny(notifications);
                 _documentSession.SaveChanges();

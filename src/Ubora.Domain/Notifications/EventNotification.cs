@@ -1,6 +1,7 @@
 ﻿using System;
 using Marten.Events;
 using Newtonsoft.Json;
+using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Notifications
 {
@@ -16,9 +17,9 @@ namespace Ubora.Domain.Notifications
             CreatedAt = createdAt;
         }
 
-        public static EventNotification Create(IEvent eventWithMetadata, Guid toUserId)
+        public static EventNotification Create(object @event, Guid eventId, Guid toUserId)
         {
-            return new EventNotification(id: Guid.NewGuid(), eventType: eventWithMetadata.Data.GetType(), eventId: eventWithMetadata.Id, notificationTo: toUserId, createdAt: DateTime.UtcNow);
+            return new EventNotification(id: Guid.NewGuid(), eventType: @event.GetType(), eventId: eventId, notificationTo: toUserId, createdAt: DateTime.UtcNow);
         }
         
         public Guid Id { get; }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Immutable;
 using System.Linq;
 using Marten;
 using Marten.Events;
@@ -31,7 +30,7 @@ namespace Ubora.Domain.Projects.Candidates.Events
             return $"added project candidate \"{StringTokens.Candidate(Id)}\"";
         }
 
-        public class Notifier : EventNotifier<CandidateAddedEvent>
+        public class Notifier : UboraEventHandler<CandidateAddedEvent>
         {
             private readonly IDocumentSession _documentSession;
 
@@ -48,7 +47,7 @@ namespace Ubora.Domain.Projects.Candidates.Events
                     project
                         .GetMembers(!new HasUserIdSpec(@event.InitiatedBy.UserId))
                         .GroupBy(member => member.UserId)
-                        .Select(memberGrouping => EventNotification.Create(eventWithMetadata, memberGrouping.Key));
+                        .Select(memberGrouping => EventNotification.Create(@event, eventWithMetadata.Id, memberGrouping.Key));
 
                 _documentSession.StoreUboraNotificationsIfAny(notifications);
                 _documentSession.SaveChanges();
