@@ -21,7 +21,12 @@
 
 <div class="project-header-container d-none d-lg-block">
     <div class="container pl-0">
-        <h1 class="my-3 pl-3">@ViewData["ProjectTitle"] <span class="badge badge-pill badge-orange font-size-1 ml-2">Draft</span></h1>
+        <h1 class="my-3 pl-3">@ViewData["ProjectTitle"]
+            @if ((bool)ViewData["ProjectIsDraft"])
+            {
+                <span class="badge badge-pill badge-orange font-size-1 ml-2">Draft</span>
+            }
+        </h1>
         <nav class="project-header nav nav-tabs flex-column flex-md-row justify-content-start">
             <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Overview)" asp-controller="Dashboard" asp-action="Dashboard">@Model.MenuOptionNames[ProjectMenuOption.Overview]</a>
             @if (canViewProjectNonPublicContent)
