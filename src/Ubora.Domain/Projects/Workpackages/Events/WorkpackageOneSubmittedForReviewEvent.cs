@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Immutable;
 using System.Linq;
 using Marten;
 using Marten.Events;
@@ -38,9 +39,10 @@ namespace Ubora.Domain.Projects.Workpackages.Events
                 var notifications = 
                     project
                         .GetMembers(new IsMentorSpec())
-                        .Select(projectMember => EventNotification.Create(eventWithMetadata, projectMember.UserId));
+                        .GroupBy(member => member.UserId)
+                        .Select(memberGrouping => EventNotification.Create(eventWithMetadata, memberGrouping.Key));
                 
-                _documentSession.StoreObjects(notifications);
+                _documentSession.StoreUboraNotificationsIfAny(notifications);
                 _documentSession.SaveChanges();
             }
         }

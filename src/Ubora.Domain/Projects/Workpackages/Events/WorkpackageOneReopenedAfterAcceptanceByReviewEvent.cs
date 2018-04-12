@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Immutable;
 using System.Linq;
 using Marten;
 using Marten.Events;
 using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Notifications;
+using Ubora.Domain.Projects.Members.Specifications;
 using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.Workpackages.Events
@@ -24,12 +25,10 @@ namespace Ubora.Domain.Projects.Workpackages.Events
         public class Notifier : EventNotifier<WorkpackageOneReopenedAfterAcceptanceByReviewEvent>
         {
             private readonly IDocumentSession _documentSession;
-            private readonly IQueryProcessor _queryProcessor;
 
-            public Notifier(IDocumentSession documentSession, IQueryProcessor queryProcessor)
+            public Notifier(IDocumentSession documentSession)
             {
                 _documentSession = documentSession;
-                _queryProcessor = queryProcessor;
             }
             
             protected override void HandleCore(WorkpackageOneReopenedAfterAcceptanceByReviewEvent @event, IEvent eventWithMetadata)
@@ -37,11 +36,12 @@ namespace Ubora.Domain.Projects.Workpackages.Events
                 var project = _documentSession.Load<Project>(@event.ProjectId);
 
                 var notifications =
-                    project.Members
-                        .Where(x => x.UserId != @event.InitiatedBy.UserId)
-                        .Select(projectMember => EventNotification.Create(eventWithMetadata, projectMember.UserId));
+                    project
+                        .GetMembers(!new HasUserIdSpec(@event.InitiatedBy.UserId))
+                        .GroupBy(member => member.UserId)
+                        .Select(memberGrouping => EventNotification.Create(eventWithMetadata, memberGrouping.Key));
                 
-                _documentSession.StoreObjects(notifications);
+                _documentSession.StoreUboraNotificationsIfAny(notifications);
                 _documentSession.SaveChanges();
             }
         }

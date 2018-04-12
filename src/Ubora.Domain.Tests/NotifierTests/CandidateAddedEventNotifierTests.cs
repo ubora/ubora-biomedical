@@ -3,20 +3,21 @@ using System.Linq;
 using Autofac;
 using FluentAssertions;
 using Marten.Events;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications;
-using Ubora.Domain.Projects.Workpackages.Events;
+using Ubora.Domain.Projects.Candidates.Events;
 using Xunit;
 
 namespace Ubora.Domain.Tests.NotifierTests
 {
-    public class WorkpackageThreeOpenedEventNotifierTests : IntegrationFixture
+    public class CandidateAddedEventNotifierTests : IntegrationFixture
     {
-        private readonly WorkpackageThreeOpenedEvent.Notifier _notifierUnderTest;
+        private readonly CandidateAddedEvent.Notifier _notifierUnderTest;
 
-        public WorkpackageThreeOpenedEventNotifierTests()
+        public CandidateAddedEventNotifierTests()
         {
-            _notifierUnderTest = Container.Resolve<WorkpackageThreeOpenedEvent.Notifier>();
+            _notifierUnderTest = Container.Resolve<CandidateAddedEvent.Notifier>();
         }
 
         [Fact]
@@ -27,7 +28,7 @@ namespace Ubora.Domain.Tests.NotifierTests
             {
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                Guid.NewGuid(),
+                Guid.NewGuid()
             };
 
             var project = new ProjectBuilder()
@@ -38,10 +39,14 @@ namespace Ubora.Domain.Tests.NotifierTests
                 .Build(this);
 
             var eventId = Guid.NewGuid();
-            var martenEvent = new Event<WorkpackageThreeOpenedEvent>(
-                data: new WorkpackageThreeOpenedEvent(
+            var martenEvent = new Event<CandidateAddedEvent>(
+                data: new CandidateAddedEvent(
                     initiatedBy: new UserInfo(eventInvokerUserId, ""),
-                    projectId: project.Id))
+                    projectId: project.Id,
+                    id: Guid.NewGuid(),
+                    title: "testTitle",
+                    description: "testDescription",
+                    imageLocation: new BlobLocation("testContainerName", "testBlobPath")))
             {
                 Id = eventId
             };
@@ -54,7 +59,7 @@ namespace Ubora.Domain.Tests.NotifierTests
             // Assert
             var notifications = Session.Query<INotification>().ToList();
             notifications.Cast<EventNotification>()
-                .All(x => x.EventId == eventId && x.EventType == typeof(WorkpackageThreeOpenedEvent))
+                .All(x => x.EventId == eventId && x.EventType == typeof(CandidateAddedEvent))
                 .Should().BeTrue();
 
             notifications.Count.Should().Be(expectedProjectMemberUserIds.Count());

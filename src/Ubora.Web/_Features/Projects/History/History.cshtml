@@ -12,7 +12,7 @@
             <h1>@ViewData["Title"]</h1>
             @if (Model.Pager.TotalItemCount > 0)
             {
-                @foreach (var uboraEvent in Model.Logs)
+                foreach (var uboraEvent in Model.Logs)
                 {
                     @uboraEvent.GetPartialView(Html)
                 }

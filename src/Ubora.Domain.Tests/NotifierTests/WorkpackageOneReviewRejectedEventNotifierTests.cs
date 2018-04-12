@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Autofac;
 using FluentAssertions;
 using Marten.Events;
 using Ubora.Domain.Infrastructure.Events;
@@ -15,7 +16,7 @@ namespace Ubora.Domain.Tests.NotifierTests
 
         public WorkpackageOneReviewRejectedEventNotifierTests()
         {
-            _notifierUnderTest = new WorkpackageOneReviewRejectedEvent.Notifier(Session);
+            _notifierUnderTest = Container.Resolve<WorkpackageOneReviewRejectedEvent.Notifier>();
         }
 
         [Fact]
@@ -33,6 +34,7 @@ namespace Ubora.Domain.Tests.NotifierTests
                 .WithCreator(expectedProjectMemberUserIds[0])
                 .AddMentors(expectedProjectMemberUserIds[1], eventInvokerUserId)
                 .AddRegularMembers(expectedProjectMemberUserIds[2])
+                .AddRegularMembers(expectedProjectMemberUserIds[2]) // duplicates should not be notified
                 .Build(this);
 
             var eventId = Guid.NewGuid();
@@ -46,7 +48,7 @@ namespace Ubora.Domain.Tests.NotifierTests
                 Id = eventId
             };
 
-            Session.DeleteWhere<INotification>(x => true);
+            Session.DeleteWhere<INotification>(_ => true);
 
             // Act
             _notifierUnderTest.Handle(martenEvent);

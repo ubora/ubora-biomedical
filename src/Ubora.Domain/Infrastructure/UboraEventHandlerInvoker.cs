@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using Autofac;
 using Marten;
 using Marten.Events;
 using Marten.Services;
+using Newtonsoft.Json;
 
 namespace Ubora.Domain.Infrastructure
 {
@@ -23,13 +27,14 @@ namespace Ubora.Domain.Infrastructure
         private void InvokeUboraEventHandlers(IDocumentSession session, IChangeSet commit)
         {
             var commitedEvents = commit.GetEvents();
-
+            
             foreach (var @event in commitedEvents)
             {
                 dynamic eventHandlers = ResolveEventHandlers(@event);
 
                 foreach (var eventHandler in eventHandlers)
                 {
+
                     eventHandler.Handle(@event);
                 }
             }

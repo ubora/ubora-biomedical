@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Users.Queries;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web._Features.UboraMentors.Queries;

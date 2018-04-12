@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Autofac;
 using FluentAssertions;
 using Marten.Events;
 using Ubora.Domain.Infrastructure.Events;
@@ -15,7 +16,7 @@ namespace Ubora.Domain.Tests.NotifierTests
 
         public WorkpackageOneReopenedAfterAcceptanceByReviewEventNotifierTests()
         {
-            _notifierUnderTest = new WorkpackageOneReopenedAfterAcceptanceByReviewEvent.Notifier(Session, Processor);
+            _notifierUnderTest = Container.Resolve<WorkpackageOneReopenedAfterAcceptanceByReviewEvent.Notifier>();
         }
 
         [Fact]
@@ -45,7 +46,7 @@ namespace Ubora.Domain.Tests.NotifierTests
                 Id = eventId
             };
 
-            Session.DeleteWhere<INotification>(x => true);
+            Session.DeleteWhere<INotification>(_ => true);
 
             // Act
             _notifierUnderTest.Handle(martenEvent);

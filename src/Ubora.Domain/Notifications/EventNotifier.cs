@@ -1,5 +1,4 @@
-﻿using System;
-using Marten.Events;
+﻿using Marten.Events;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
 
@@ -10,8 +9,6 @@ namespace Ubora.Domain.Notifications
     /// </summary>
     public abstract class EventNotifier<TEvent> : IEventHandler<TEvent> where TEvent : UboraEvent
     {
-        public Type EventType => typeof(TEvent);
-        
         public void Handle(IEvent eventWithMetadata)
         {
             HandleCore(@event: (TEvent)eventWithMetadata.Data, eventWithMetadata: eventWithMetadata);
