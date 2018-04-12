@@ -132,14 +132,14 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
                 return ResourceManager.GetString("q4", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 
         ///    &lt;td&gt;&lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030255136&quot; target=&quot;_blank&quot;&gt;EN ISO 11607-1:2009+A1:2014&lt;/a&gt;&lt;/td&gt;
         ///    &lt;td&gt;This standard specifies how the devices shall be packaged to allow sterilization and ensure that they remain sterile.
         ///    You may also be interested in &lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030152866&quot; target=&quot;_blank&quot;&gt;ISO 14644-1&lt;/a&gt;
         ///    This standard specifies requirements for the manufacturing environments.&lt;br&gt;
-        ///    NOTE: this standards has [rest of string was truncated]&quot;;.
+        ///    NOTE: this standards has mult [rest of string was truncated]&quot;;.
         /// </summary>
         public static string q4_1 {
             get {

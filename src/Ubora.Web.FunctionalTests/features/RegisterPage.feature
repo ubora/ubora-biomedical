@@ -7,16 +7,7 @@ Background:
         And I clicked on the element "span=Log in"
         And I clicked on the element "a=Sign up"
 
-Scenario: I click Logo
-    When I click on the element "#UboraLogo"
-    Then I expect the title of the page "UBORA"
-
-Scenario: I click Log in
-    When I click on the element "span=Log in"
-    Then I expect the title of the page "Log in to UBORA - UBORA"
-
-Scenario: I click Terms of Service
-    When I click on the element "a=Terms of Service"
+Scenario: I am on Register page
     Then I expect the title of the page "Sign up to UBORA - UBORA"
 
 Scenario: I submit valid registration form then user is logged in and full name displayed

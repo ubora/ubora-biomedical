@@ -6,12 +6,7 @@ Background:
     Given I go to Home page
         And I clicked on the element "span=Log in"
 
-Scenario: Click Logo
-    When I click on the element "#UboraLogo"
-    Then I expect the title of the page "UBORA"
-
-Scenario: Click Log in
-    When I click on the element "span=Log in"
+Scenario: I am on Sign in Sign up page
     Then I expect the title of the page "Log in to UBORA - UBORA"
 
 Scenario: Click Sign up
