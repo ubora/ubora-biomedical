@@ -21,9 +21,28 @@
             <img id="UboraLogo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
         </a>
         <div class="d-flex align-items-center">
-            <a class="nav-link nav-link-notification navbar-toggler" asp-controller="Notifications" asp-action="Index">
-                @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
-            </a>
+            <div class="dropdown show">
+                <a class="nav-link nav-link-notification navbar-toggler dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
+                </a>
+                <ul class="dropdown-menu box-shadow" aria-labelledby="dropdownMenuLink">
+                    <li>
+                        <span class="small">
+                            You have <strong>3</strong> new notifications.
+                        </span>
+                    </li>
+                    <li class="dropdown-item">
+                        <p>You have been asked to join project <a href="#">Administrator's project</a></p>
+                        <form method="post">
+                            <button class="btn btn-outline-primary btn-sm">Decline</button>
+                            <button class="btn btn-primary btn-sm" type="submit">Accept</button>
+                        </form>
+                    </li>
+                    <li class="dropdown-item">
+                        <a asp-controller="Notifications" asp-action="Index">View all</a>
+                    </li>
+                </ul>
+            </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
                 <i class="material-icons">menu</i>
             </button>
@@ -50,10 +69,29 @@
                     </a>
                 </li>
                 <li class="nav-item notification-item">
-                    <a class="nav-link nav-link-notification d-flex align-items-center" asp-controller="Notifications" asp-action="Index">
-                        @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
-                        <span class="nav-link-description ml-1">Notifications</span>
-                    </a>
+                    <div class="dropdown show">
+                        <a class="nav-link nav-link-notification d-flex align-items-center dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
+                            <span class="nav-link-description ml-1">Notifications</span>
+                        </a>
+                        <ul class="dropdown-menu box-shadow" aria-labelledby="dropdownMenuLink">
+                            <li>
+                                <span class="small">
+                                    You have <strong>3</strong> new notifications.
+                                </span>
+                            </li>
+                            <li class="dropdown-item">
+                                <p>You have been asked to join project <a href="#">Administrator's project</a></p>
+                                <form method="post">
+                                    <button class="btn btn-outline-primary btn-sm">Decline</button>
+                                    <button class="btn btn-primary btn-sm" type="submit">Accept</button>
+                                </form>
+                            </li>
+                            <li class="dropdown-item">
+                                <a asp-controller="Notifications" asp-action="Index">View all</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
 
                 @if (User.IsInRole(ApplicationRole.Admin))

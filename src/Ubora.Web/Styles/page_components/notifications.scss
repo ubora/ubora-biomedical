@@ -11,37 +11,30 @@
 }
 
 .notification {
+    border-bottom: 1px solid $light;
     display: block;
-    margin: .25rem 0;
     position: relative;
+    padding: .5rem;
 
-    &::before {
-        background-color: $tertiary-shade;
-        content: '';
-        display: inline-block;
-        height: 100%;
-        position: absolute;
-        width: 5px;
-        border-top-left-radius: .25rem;
-        border-bottom-left-radius: .25rem;
-    }
-
-    &.notification-unread:before {
-        background-color: $light-blue;
-    }
-
-    .notification-container {
-        border: 1px solid $light;
-        padding: .5rem 1rem;
+    &.notification-unread {
+        background-color: $blue-shade;
+        border-bottom: 1px solid $white;
     }
 
     .notification-controls {
         display: flex;
         flex-direction: row;
         margin: 0;
+
+        .btn-outline-primary {
+            background-color: $white;
+
+            &:hover {
+                background-color: $light-blue;
+            }
+        }
     }
 }
-
 
 
 .notice {
@@ -49,9 +42,9 @@
     display: flex;
     flex-direction: row-reverse;
     font-size: 100%;
-    left:0;
+    left: 0;
     position: absolute;
-    top:0;
+    top: 0;
     width: 100%;
     z-index: 9999;
 }
