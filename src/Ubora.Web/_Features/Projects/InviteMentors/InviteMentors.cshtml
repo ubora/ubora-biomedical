@@ -21,7 +21,7 @@
                 </div>
                 <div class="card-body">
                     <h4 class="card-title"><a asp-action="ViewProfile" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h4>
-                    @*TODO: add role*@
+                    @*TODO: show all roles*@
                     <p>Mentor&nbsp;</p>
                     <form class="form-group" asp-action="InviteMentor">
                         <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId" />

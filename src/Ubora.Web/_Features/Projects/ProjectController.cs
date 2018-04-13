@@ -19,7 +19,7 @@ namespace Ubora.Web._Features.Projects
     [ProjectRoute("[controller]/[action]")]
     [Authorize(Policy = nameof(Policies.ProjectController))]
     [RedirectIfProjectDeletedOrNotFound]
-    [ProjectTitleToViewData]
+    [ProjectQuickInfoToViewData]
     public abstract class ProjectController : UboraController
     {
         public Guid ProjectId => RouteData.GetProjectId();

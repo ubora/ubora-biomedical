@@ -11,3 +11,14 @@
         cursor: pointer;
     }
 }
+
+.dropzone  {
+    margin-top: 3.9rem;
+}
+
+
+@media (max-width: 992px) {
+    .dropzone {
+        margin-top: 0rem;
+    }
+}

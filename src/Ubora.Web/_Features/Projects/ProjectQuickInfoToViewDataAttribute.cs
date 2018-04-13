@@ -2,12 +2,13 @@
 
 namespace Ubora.Web._Features.Projects
 {
-    public class ProjectTitleToViewDataAttribute : ActionFilterAttribute
+    public class ProjectQuickInfoToViewDataAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             var projectController = (ProjectController)context.Controller;
             projectController.ViewData["ProjectTitle"] = projectController.Project.Title;
+            projectController.ViewData["ProjectIsDraft"] = projectController.Project.IsInDraft;
         }
     }
 }

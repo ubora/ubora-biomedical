@@ -7,7 +7,6 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <p class="notice-indev">In-development preview</p>
     if (!User.IsEmailConfirmed())
     {
         <p class="notice-account-confirmation">We have sent an email confirmation link to @User.GetEmail()<br><a class="notice-account-confirmation-link" href="@Url.Action("ResendEmailConfirmation", "Account")">Resend confirmation email?</a></p>
@@ -17,9 +16,15 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <nav class="header navbar navbar-expand-lg box-shadow">
-        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-            <img id="UboraLogo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
-        </a>
+        <div class="d-flex align-items-center">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                <img id="UboraLogo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
+            </a>
+            <div class="d-none d-md-block" style="color: #4777BB">
+                <a class="no-underline" asp-controller="Home" asp-action="Index">UBORA</a>
+                (in-development preview)
+            </div>
+        </div>
         <div class="d-flex align-items-center">
             <div class="dropdown show">
                 <a class="nav-link nav-link-notification navbar-toggler dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

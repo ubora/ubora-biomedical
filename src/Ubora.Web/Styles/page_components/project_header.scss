@@ -36,6 +36,12 @@
 
 
 .project-header-md {
+    background-color: $blue;
+
+    h1 {
+        color: $white;
+        font-size: 1rem;
+    }
 
     .btn-primary {
         border-radius: 0;
