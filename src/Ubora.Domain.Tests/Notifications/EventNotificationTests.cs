@@ -17,7 +17,7 @@ namespace Ubora.Domain.Tests.Notifications
             var userId = Guid.NewGuid();
 
             // Act
-            var result = EventNotification.Create(eventWithMetadata, eventWithMetadata.Id, userId);
+            var result = EventNotification.Create(@event, eventWithMetadata.Id, userId);
 
             // Assert
             result.Id.Should().NotBe(default(Guid));
