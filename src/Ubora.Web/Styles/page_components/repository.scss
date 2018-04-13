@@ -1,0 +1,24 @@
+﻿/*Repository icons*/
+.file-list--item-control {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    transition: color .3s ease;
+    color: $blue;
+
+    &:hover {
+        color: $light-blue;
+        cursor: pointer;
+    }
+}
+
+.dropzone  {
+    margin-top: 3.9rem;
+}
+
+
+@media (max-width: 992px) {
+    .dropzone {
+        margin-top: 0rem;
+    }
+}

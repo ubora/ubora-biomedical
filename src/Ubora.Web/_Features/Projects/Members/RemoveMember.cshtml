@@ -7,23 +7,17 @@
 }
 
 
-<div class="container-fluid my-4">
-  <div class="row">
-    <div class="col text-center">
+<div class="container my-5">
+    <div class="text-center">
+        <h3>Are you sure you want to remove "@Model.MemberName" from project?</h3>
+        <form asp-controller="Members" asp-action="RemoveMember" method="post">
+            <input asp-for="MemberId" type="hidden" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-      <h2>Are you sure you want to remove "@Model.MemberName" from project?</h2>
-      <form asp-controller="Members" asp-action="RemoveMember" method="post">
-          <input asp-for="MemberId" type="hidden" />
-          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="MemberId" type="hidden" />
 
-          <input asp-for="MemberId" type="hidden" />
-
-          <div class="center-element">
-              <a class="btn btn-outline-primary" asp-controller="Members" asp-action="Members">Cancel</a>
-              <button class="btn btn-primary" type="submit">Remove</button>
-          </div>
-      </form>
-
+            <a class="btn btn-outline-primary" asp-controller="Members" asp-action="Members">Cancel</a>
+            <button class="btn btn-primary" type="submit">Remove</button>
+        </form>
     </div>
-  </div>
 </div>

@@ -32,11 +32,11 @@
     <div class="form-group">
         @if (Model.PreviousAnsweredQuestionId != null)
         {
-            <a class="btn-icon" asp-action="ReviewQuestion" asp-route-questionId="@Model.PreviousAnsweredQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId"><i class="material-icons align-middle">keyboard_arrow_left</i><span>Previous</span></a>
+            <a class="btn-icon" asp-action="ReviewQuestion" asp-route-questionId="@Model.PreviousAnsweredQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId"><i class="material-icons align-middle font-size-1-1">keyboard_arrow_left</i><span>Previous</span></a>
         }
         @if (Model.NextQuestionId != null)
         {
-            <a class="btn-icon" asp-action="ReviewQuestion" asp-route-questionId="@Model.NextQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId"><span>Next</span><i class="material-icons align-middle">keyboard_arrow_right</i></a>
+            <a class="btn-icon" asp-action="ReviewQuestion" asp-route-questionId="@Model.NextQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId"><span>Next</span><i class="material-icons align-middle font-size-1-1">keyboard_arrow_right</i></a>
         }
     </div>
 
