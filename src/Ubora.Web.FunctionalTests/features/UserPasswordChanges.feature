@@ -28,7 +28,7 @@ Scenario: I change my password
 
 Scenario: I sign out
     When I sign out
-    Then I expect the title of the page "Welcome - UBORA"
+    Then I expect the title of the page "UBORA"
         And I expect the element "span=Log in" is visible
 
 Scenario: I sign in with my changed password
