@@ -175,7 +175,8 @@ exports.config = {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
     before: function (capabilities, specs) {
-        browser.windowHandleSize({width: 1600, height: 768})
+        browser.windowHandleSize({width: 1600, height: 768});
+        browser.windowHandleFullscreen();
     },
     //
     /**

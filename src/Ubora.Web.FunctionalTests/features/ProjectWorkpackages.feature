@@ -202,8 +202,6 @@ Scenario: I add/edit a comment in Voting
     When I set value "This is an awesome candidate!" to the element "#CommentText"
         And I click on the element "button=Add comment"
     Then I expect the element "span=This is an awesome candidate!" is visible
-    When I click on the element "=Test User"
-    Then I expect the element "h2=Test User" is visible
 
 Scenario: I edit candidate's details in Voting
     When I click on the element "=Design planning"

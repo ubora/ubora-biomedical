@@ -35,7 +35,8 @@ Scenario: I go through Device classification and pick always first option
         And I answer "Yes" to the question "Is it intended for controlling, monitoring or directly influencing the performance of active implantable devices?"
         And I answer "Yes" to the question "Is it intended for diagnosis and monitoring?"
         And I answer "Yes" to the question "Is it intended to supply energy which will be absorbed by the human body?"
-        And I answer "Yes" to the test question "//*[@id='device-classification-carousel']/div/div[24]/form/div[1]/div[1]/h5"
+        # the question has been cut short because of WebdriverIO anomaly
+        And I answer "Yes" to the question "illuminate" 
         And I answer "Yes" to the question "Does it supply energy different than light in the visible spectrum?"
         And I answer "Yes" to the question "Is it intended to image in vivo distribution of radiopharmaceuticals?"
         And I answer "Yes" to the question "Is it intended to allow direct diagnosis or monitoring of vital physiological processes?"
