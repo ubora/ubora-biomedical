@@ -105,7 +105,10 @@ module.exports = env => {
                 { from: './node_modules/three/build/three.min.js', to: './lib' },
                 { from: './node_modules/three/examples/js/loaders/AMFLoader.js', to: './lib' },
                 { from: './node_modules/three/examples/js/controls/OrbitControls.js', to: './lib' },
-                { from: './node_modules/three/examples/js/loaders/STLLoader.js', to: './lib' }
+                { from: './node_modules/three/examples/js/loaders/STLLoader.js', to: './lib' },
+                { from: './Scripts/lib/nexus/nexus.js', to: './lib/nexus' },
+                { from: './Scripts/lib/nexus/nexus_three.js', to: './lib/nexus' },
+                { from: './Scripts/lib/nexus/meco.js', to: './lib/nexus' }
             ])
         ].concat(isDevBuild ? [
             // Develop plugins:
