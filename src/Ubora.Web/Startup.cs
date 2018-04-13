@@ -165,12 +165,7 @@ namespace Ubora.Web
 
             app.UseStatusCodePagesWithReExecute("/Home/Error/");
 
-            var provider = new FileExtensionContentTypeProvider();
-            provider.Mappings[".amf"] = "application/octet-stream";
-            provider.Mappings[".stl"] = "application/octet-stream";
-            provider.Mappings[".nxz"] = "application/octet-stream";
-
-            app.UseStaticFiles(new StaticFileOptions { ContentTypeProvider = provider });
+            app.UseStaticFiles();
 
             app.UseAuthentication();
 

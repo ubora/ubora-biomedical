@@ -178,6 +178,27 @@ namespace Ubora.Web._Features.Projects.Repository
             return Redirect(blobSasUrl);
         }
 
+        [Route("View3DFile")]
+        public IActionResult View3DFile(Guid fileId)
+        {
+            var file = QueryProcessor.FindById<ProjectFile>(fileId);
+            if (file == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var blobSasUrl = _uboraStorageProvider.GetReadUrl(file.Location, DateTime.UtcNow.AddSeconds(5));
+
+            var model = new View3DFileViewModel
+            {
+                FileName = file.FileName,
+                ProjectName = Project.Title,
+                FileBlobSasUrl = blobSasUrl
+            };
+
+            return View(nameof(View3DFile), model);
+        }
+
         [Route("DownloadHistoryFile")]
         public IActionResult DownloadHistoryFile(Guid eventId)
         {
