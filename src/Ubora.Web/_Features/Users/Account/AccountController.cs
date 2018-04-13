@@ -45,11 +45,6 @@ namespace Ubora.Web._Features.Users.Account
             _logger = logger;
         }
 
-        public IActionResult ProfileCreation()
-        {
-            return View();
-        }
-
         [HttpGet]
         [AllowAnonymous]
         public IActionResult TermsOfService()
