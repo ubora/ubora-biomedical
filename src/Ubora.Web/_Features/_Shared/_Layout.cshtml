@@ -131,32 +131,6 @@
     }
 
     @RenderSection("Scripts", required: false)
-<script>
-    var viewport = (function() {
-        var viewPorts = ['xs', 'sm', 'md', 'lg'];
-
-        var viewPortSize = function() {
-            return window.getComputedStyle(document.body, ':before').content.replace(/"/g, '');
-        }
-
-        var is = function(size) {
-            if ( viewPorts.indexOf(size) == -1 ) throw "no valid viewport name given";
-            return viewPortSize() == size;
-        }
-
-        var isEqualOrGreaterThan = function(size) {
-            if ( viewPorts.indexOf(size) == -1 ) throw "no valid viewport name given";
-            return viewPorts.indexOf(viewPortSize()) >= viewPorts.indexOf(size);
-        }
-
-        // Public API
-        return {
-            is: is,
-            isEqualOrGreaterThan: isEqualOrGreaterThan
-        }
-
-    })();
-</script>
 
     <environment names="Development">
         <script src="~/dist/app.bundle.js"></script>
