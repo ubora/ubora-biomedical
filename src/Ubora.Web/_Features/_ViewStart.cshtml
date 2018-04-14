@@ -1,3 +1,13 @@
-﻿@{
-    Layout = "_Layout";
+﻿@*// TODO*@
+@if (ViewData["ProjectIsDraft"] as bool? == true)
+{
+    {
+        Layout = "_ProjectLayout";
+    }
+}
+else
+{
+    {
+        Layout = "_Layout";
+    }
 }
