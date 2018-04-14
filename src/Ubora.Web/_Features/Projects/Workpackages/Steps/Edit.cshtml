@@ -11,14 +11,12 @@
 <div class="col-lg-7">
     <h1>@Model.Title</h1>
     @if (!string.IsNullOrWhiteSpace(Model.Description))
-            {
-        <div class="my-2">
-            <a href="#" class="js-helpful-tips" role="button">
-                <i class="align-middle material-icons">help</i>
-                <span>Helpful tips</span>
-            </a>
-        </div>
-        <div class="helpful-tips-content js-helpful-tips-content mb-4">@Html.Raw(Model.Description)</div>
+    {
+        <a class="btn-icon my-3 d-flex align-items-center" data-toggle="collapse" href="#collapseHelpfulTips" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <i class="material-icons mr-1">help</i>
+            <span>Helpful tips</span>
+        </a>
+        <div id="collapseHelpfulTips" class="collapse">@Html.Raw(Model.Description)</div>
     }
     <form action="@Model.EditStepUrl" method="post" asp-antiforgery="true">
         <input asp-for="StepId" type="hidden" />
@@ -47,14 +45,5 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.js"
             asp-fallback-src="~/dist/libs/simplemde.min.js"
             asp-fallback-test="window.SimpleMDE">
-    </script>
-
-    <script>
-        var helpfulTipToggleElement = document.querySelector('.js-helpful-tips');
-        var helpfulTipContentElement = document.querySelector('.js-helpful-tips-content');
-
-        helpfulTipToggleElement.addEventListener('click', event => {
-            helpfulTipContentElement.classList.toggle('helpful-tips-content-visible');
-        });
     </script>
 }

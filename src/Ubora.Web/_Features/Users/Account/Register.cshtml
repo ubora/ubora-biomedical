@@ -29,14 +29,19 @@
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="Password">Secret password</label>
-                    <input class="form-control" asp-for="Password" placeholder="Secret password">
+                    <label asp-for="Password">Password</label>
+                    <ul class="pl-4 text-muted hide" id="passwordHelper">
+                        <li><small>Password must have at least one digit ('0'-'9')</small></li>
+                        <li><small>Must contain one uppercase character ('A'-'Z')</small></li>
+                        <li><small>Must be at least 6 and at max 100 characters long</small></li>
+                    </ul>
+                    <input class="form-control password-input" asp-for="Password" placeholder="Password" onfocus="show()" >
                     <span asp-validation-for="Password"></span>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="ConfirmPassword">Secret password again</label>
-                    <input class="form-control" asp-for="ConfirmPassword" placeholder="Secret password again">
+                    <label asp-for="ConfirmPassword">Confirm password</label>
+                    <input class="form-control" asp-for="ConfirmPassword" placeholder="Confirm password">
                     <span asp-validation-for="ConfirmPassword"></span>
                 </div>
 
@@ -56,6 +61,16 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    function show() {
+        $("#passwordHelper").show();
+    }
+</script>
+
+
+
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

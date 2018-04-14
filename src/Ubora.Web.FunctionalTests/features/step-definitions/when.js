@@ -6,6 +6,16 @@ module.exports = function () {
             browser.click(element);
         });
 
+    this.When(/^I click on the element "([^"]*)?" inside "([^"]*)?"$/, (element, insideElement) => {
+            browser.element(insideElement).waitForVisible(element, 1500);
+            browser.element(insideElement).click(element);
+        });
+
+    this.When(/^I click on the href element "([^"]*)?"$/, (partialHref) => {
+            browser.click('[href*="' + partialHref + '"]');
+        });
+        
+
     this.When(/^I set value "([^"]*)?" to the element "([^"]*)?"$/, (value, element) => {
             browser.setValue(element, value)
         });
@@ -31,8 +41,7 @@ module.exports = function () {
         });
 
     this.When(/^I sign out$/, () => {
-            browser.click('span=Profile');
-            browser.click('button=Sign out');
+            browser.click('span=Log out');
         });
 
     this.When(/^I sign up as "([^"]*)?"$/, (email) => {
@@ -52,7 +61,7 @@ module.exports = function () {
             .click('span=Log in')
             .setValue('#Email', email)
             .setValue('#Password', password)
-            .click('button=Sign in')
+            .click('button=Log in')
         });
 
     this.When(/^I sign in as user$/, () => {
@@ -60,7 +69,7 @@ module.exports = function () {
             .click('span=Log in')
             .setValue('#Email', 'test@agileworks.eu')
             .setValue('#Password', 'ChangeMe123!')
-            .click('button=Sign in')
+            .click('button=Log in')
         });
 
     this.When(/^I sign in as mentor$/, () => {
@@ -68,7 +77,7 @@ module.exports = function () {
             .click('span=Log in')
             .setValue('#Email', 'mentor@agileworks.eu')
             .setValue('#Password', 'ChangeMe123!')
-            .click('button=Sign in')
+            .click('button=Log in')
         });
 
     this.When(/^I sign in as administrator$/, () => {
@@ -76,11 +85,12 @@ module.exports = function () {
             .click('span=Log in')
             .setValue('#Email', 'admin@agileworks.eu')
             .setValue('#Password', 'ChangeMe123!')
-            .click('button=Sign in')
+            .click('button=Log in')
         });
 
     this.When(/^I answer ([^\s]+) to question "([^"]*)?"$/, (answer, question) => {
-        expect(browser.isVisible("h1=" + question));
+        var isVisible = browser.isVisible("h5*=" + question);
+        expect(isVisible).to.equal(true, `Expected "${"h5*=" + question}" to be visible.`);
         if (answer.toLowerCase() === "yes") {
             browser.click("button=Yes");
         } else if (answer.toLowerCase() === "no") {
@@ -91,7 +101,8 @@ module.exports = function () {
     });
 
     this.When(/^I answer "([^"]*)?" to the question "([^"]*)?"$/, (answer, question) => {
-        expect(browser.isVisible("h4=" + question));
+        var isVisible = browser.isVisible("h5*=" + question);
+        expect(isVisible).to.equal(true, `Expected "${"h5*=" + question}" to be visible.`);
         const answerElements = browser.elements("label=" + answer);
         if (answerElements.value.length > 1) {
             var lastElement = answerElements.value.slice(-1)[0];
