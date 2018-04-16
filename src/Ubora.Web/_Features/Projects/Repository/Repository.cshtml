@@ -1,4 +1,5 @@
 ﻿@using Ubora.Web._Features.Projects._Shared
+@using Ubora.Web._Features.Projects.Repository
 @model Ubora.Web._Features.Projects.Repository.ProjectRepositoryViewModel
 
 @{
@@ -32,7 +33,7 @@
                             {
                                 <tr>
                                     <td>
-                                        @if (is3DfileExtension(System.IO.Path.GetExtension(file.FileName)))
+                                        @if (file.Has3DFileExtension())
                                         {
                                             <a href="@Url.Action("View3DFile", "Repository", new { fileId = file.Id })" title="View 3D file" aria-label="View 3D file" class="js-tooltip" data-placement="bottom">
                                                 <i class="file-list--item-control material-icons">3d_rotation</i>
@@ -81,23 +82,6 @@
         </div>
     </div>
 </div>
-
-@functions {
-    public bool is3DfileExtension(string extension)
-    {
-        switch (extension)
-        {
-            case ".stl":
-                return true;
-            case ".amf":
-                return true;
-            case ".nxz":
-                return true;
-            default:
-                return false;
-        }
-    }
-}
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

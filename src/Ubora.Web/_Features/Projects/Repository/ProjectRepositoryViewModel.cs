@@ -48,5 +48,13 @@ namespace Ubora.Web._Features.Projects.Repository
                 return projectFileViewModel;
             }
         }
+
+        public bool Has3DFileExtension()
+        {
+            var extension = System.IO.Path.GetExtension(FileName);
+
+            var supported3dFileExtensions = new[] { ".stl", ".amf", ".nxz" };
+            return supported3dFileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
+        }
     }
 }
