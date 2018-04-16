@@ -98,8 +98,8 @@
 
                 <div class="container-fluid my-4">
                     <div class="row">
-                       <div class="col-lg-3 wp-sidemenu">
-                           @{ wpSideMenuComponent.WriteTo(Output, HtmlEncoder); }
+                        <div class="col-lg-3 wp-sidemenu">
+                            @{ wpSideMenuComponent.WriteTo(Output, HtmlEncoder); }
                         </div>
                         @RenderBody()
                     </div>
@@ -130,7 +130,6 @@
         }
     }
 
-    @RenderSection("Scripts", required: false)
 <script>
     var viewport = (function() {
         var viewPorts = ['xs', 'sm', 'md', 'lg'];
@@ -165,5 +164,7 @@
     <environment names="Staging,Production">
         <script src="~/dist/app.bundle.js" asp-append-version="true"></script>
     </environment>
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -16,7 +16,8 @@ module.exports = env => {
             drag_and_drop_file_uploads: './Scripts/modules/drag_and_drop_file_uploads.js',
             show_more: './Scripts/modules/show_more.js',
             toggle_formcheck_extra_fields: './Scripts/modules/toggle_formcheck_extra_fields.js',
-            voting: './Scripts/modules/voting.js'
+            voting: './Scripts/modules/voting.js',
+            threeDimensional_file_viewer: './Scripts/modules/3D_file_viewer.js'
         },
         // https://webpack.js.org/configuration/output/
         output: {
