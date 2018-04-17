@@ -16,7 +16,7 @@ namespace Ubora.Domain.Projects._Events
 
         public override string GetDescription() => "deleted project";
         
-        public class Notifier : UboraEventHandler<ProjectDeletedEvent>
+        public class Notifier : UboraEventNotifier<ProjectDeletedEvent>
         {
             private readonly IDocumentSession _documentSession;
 

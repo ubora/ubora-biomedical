@@ -9,7 +9,7 @@
 {
     <div class="notification @isUnreadCss">
         <div class="d-flex justify-content-between">
-            <p class="mb-0 py-1"><a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@Model.UserId">@Model.UserFullName</a> asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.</p>
+            <p><a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@Model.UserId">@Model.UserFullName</a> asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.</p>
             <form class="notification-controls" method="post">
                 @Html.AntiForgeryToken()
                 <input type="hidden" asp-for="RequestId"/>
@@ -17,13 +17,13 @@
                 <button class="btn btn-primary btn-sm ml-2 align-self-start" type="submit" asp-controller="Requests" asp-action="Accept">Accept</button>
             </form>
         </div>
-        <span class="history-timestamp timeago" title="@(Model.CreatedAt.ToString("o"))">&nbsp;</span>
+        @Html.TimeAgoHistorySpan(Model.CreatedAt)
     </div>
 }
 else
 {
     <div class="notification">
-        <p class="mb-0 py-1">
+        <p>
             <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@Model.UserId">@Model.UserFullName asked to join project</a> <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.&nbsp;
             You
             @if (Model.WasAccepted)
@@ -37,6 +37,6 @@ else
                 <span>&#46;</span>
             }
         </p>
-        <span class="history-timestamp timeago" title="@(Model.CreatedAt.ToString("o"))">&nbsp;</span>
+        @Html.TimeAgoHistorySpan(Model.CreatedAt)
     </div>
 }

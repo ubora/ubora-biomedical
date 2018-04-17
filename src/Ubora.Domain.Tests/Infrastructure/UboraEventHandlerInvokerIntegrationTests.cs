@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Autofac;
 using FluentAssertions;
 using Marten.Events;
@@ -25,9 +26,9 @@ namespace Ubora.Domain.Tests.Infrastructure
             _testEventHandler2 = new TestUboraEventHandler<ProjectCreatedEvent>();
             _testEventHandlerForOtherEventType = new TestUboraEventHandler<WorkpackageOneStepEditedEvent>();
 
-            builder.RegisterInstance(_testEventHandler1).As<Domain.Infrastructure.UboraEventHandler<ProjectCreatedEvent>>().SingleInstance();
-            builder.RegisterInstance(_testEventHandler2).As<Domain.Infrastructure.UboraEventHandler<ProjectCreatedEvent>>().SingleInstance();
-            builder.RegisterInstance(_testEventHandlerForOtherEventType).As<Domain.Infrastructure.UboraEventHandler<WorkpackageOneStepEditedEvent>>().SingleInstance();
+            builder.RegisterInstance(_testEventHandler1).As<IUboraEventHandler<ProjectCreatedEvent>>().SingleInstance();
+            builder.RegisterInstance(_testEventHandler2).As<IUboraEventHandler<ProjectCreatedEvent>>().SingleInstance();
+            builder.RegisterInstance(_testEventHandlerForOtherEventType).As<IUboraEventHandler<WorkpackageOneStepEditedEvent>>().SingleInstance();
         }
 
         [Fact]
@@ -44,7 +45,7 @@ namespace Ubora.Domain.Tests.Infrastructure
 
             // Act (2/2)
             Session.SaveChanges();
-
+            
             // Assert (2/2)
             _testEventHandler1.HasHandleBeenCalled.Should().BeTrue();
             _testEventHandler1.HandleArgument.Data.ShouldBeEquivalentTo(expectedEvent);
@@ -56,12 +57,12 @@ namespace Ubora.Domain.Tests.Infrastructure
         }
     }
 
-    public class TestUboraEventHandler<TEvent> : UboraEventHandler<TEvent> where TEvent : UboraEvent
+    public class TestUboraEventHandler<TEvent> : IUboraEventHandler<TEvent> where TEvent : UboraEvent
     {
         public IEvent HandleArgument { get; set; }
         public bool HasHandleBeenCalled => (HandleArgument != null);
 
-        protected override void HandleCore(TEvent @event, IEvent eventWithMetadata)
+        public void Handle(IEvent eventWithMetadata)
         {
             if (HasHandleBeenCalled) { throw new Exception(); }
             HandleArgument = eventWithMetadata;

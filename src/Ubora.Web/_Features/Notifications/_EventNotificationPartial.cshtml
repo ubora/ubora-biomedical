@@ -1,6 +1,6 @@
 ﻿@model Ubora.Web._Features.Notifications._Base.EventNotificationViewModel
 
 <div class="notification">
-    <p class="mb-0 py-1">In project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>, @Model.Message</p>
-    <span class="history-timestamp timeago" title="@(Model.CreatedAt.ToString("o"))">&nbsp;</span>
+    <p>In project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>, @Model.Message</p>
+    @Html.TimeAgoHistorySpan(Model.CreatedAt)
 </div>

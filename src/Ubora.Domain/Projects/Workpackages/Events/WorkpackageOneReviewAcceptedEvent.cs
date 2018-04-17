@@ -24,7 +24,7 @@ namespace Ubora.Domain.Projects.Workpackages.Events
 
         public override string GetDescription() => $"accepted work package 1 by {StringTokens.WorkpackageOneReview()}.";
 
-        public class Notifier : UboraEventHandler<WorkpackageOneReviewAcceptedEvent>
+        public class Notifier : UboraEventNotifier<WorkpackageOneReviewAcceptedEvent>
         {
             private readonly IDocumentSession _documentSession;
 

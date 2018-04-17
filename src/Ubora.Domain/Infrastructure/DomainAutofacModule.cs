@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Autofac;
 using Marten;
 using Marten.Events;
@@ -11,7 +10,6 @@ using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Notifications;
-using Ubora.Domain.Projects.Workpackages.Events;
 using Ubora.Domain.Queries;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 
@@ -76,7 +74,7 @@ namespace Ubora.Domain.Infrastructure
                 .InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(ThisAssembly)
-                .AsClosedTypesOf(typeof(UboraEventHandler<>))
+                .AsClosedTypesOf(typeof(IUboraEventHandler<>))
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<CountQuery<INotification>.Handler>()

@@ -62,11 +62,6 @@ namespace Ubora.Domain.Tests
         protected virtual void RegisterAdditional(ContainerBuilder builder)
         {
         }
-
-        protected void UnregisterEventHandlers()
-        {
-            
-        }
         
         public override void Dispose()
         {

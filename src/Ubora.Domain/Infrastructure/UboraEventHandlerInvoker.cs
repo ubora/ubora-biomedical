@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Autofac;
 using Marten;
 using Marten.Events;
 using Marten.Services;
-using Newtonsoft.Json;
 
 namespace Ubora.Domain.Infrastructure
 {
@@ -34,14 +32,13 @@ namespace Ubora.Domain.Infrastructure
 
                 foreach (var eventHandler in eventHandlers)
                 {
-
                     eventHandler.Handle(@event);
                 }
             }
 
             dynamic ResolveEventHandlers(IEvent @event)
             {
-                var handlerType = typeof(UboraEventHandler<>).MakeGenericType(@event.Data.GetType());
+                var handlerType = typeof(IUboraEventHandler<>).MakeGenericType(@event.Data.GetType());
                 var enumerableHandlerType = typeof(IEnumerable<>).MakeGenericType(handlerType);
 
                 var eventHandlers = (dynamic)_serviceLocator.Resolve(enumerableHandlerType);

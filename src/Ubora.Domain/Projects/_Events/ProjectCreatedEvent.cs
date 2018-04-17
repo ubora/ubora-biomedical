@@ -33,7 +33,7 @@ namespace Ubora.Domain.Projects._Events
             return $"created project \"{StringTokens.Project(ProjectId)}\".";
         }
 
-        public class Notifier : UboraEventHandler<ProjectCreatedEvent>
+        public class Notifier : UboraEventNotifier<ProjectCreatedEvent>
         {
             private readonly IDocumentSession _documentSession;
             private readonly IQueryProcessor _queryProcessor;

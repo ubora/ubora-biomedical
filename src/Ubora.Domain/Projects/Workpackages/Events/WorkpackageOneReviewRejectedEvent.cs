@@ -23,7 +23,7 @@ namespace Ubora.Domain.Projects.Workpackages.Events
 
         public override string GetDescription() => $"rejected workpackage 1 by {StringTokens.WorkpackageOneReview()}.";
         
-        public class Notifier : UboraEventHandler<WorkpackageOneReviewRejectedEvent>
+        public class Notifier : UboraEventNotifier<WorkpackageOneReviewRejectedEvent>
         {
             private readonly IDocumentSession _documentSession;
 

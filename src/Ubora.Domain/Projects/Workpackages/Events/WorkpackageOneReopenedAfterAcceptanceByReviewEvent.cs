@@ -22,7 +22,7 @@ namespace Ubora.Domain.Projects.Workpackages.Events
 
         public override string GetDescription() => "reopened WP1 for edits.";
         
-        public class Notifier : UboraEventHandler<WorkpackageOneReopenedAfterAcceptanceByReviewEvent>
+        public class Notifier : UboraEventNotifier<WorkpackageOneReopenedAfterAcceptanceByReviewEvent>
         {
             private readonly IDocumentSession _documentSession;
 

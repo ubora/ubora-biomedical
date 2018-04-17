@@ -3,7 +3,10 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Infrastructure
 {
-    public abstract class UboraEventHandler<TEvent> where TEvent : UboraEvent
+    /// <summary>
+    /// Notifies interested parties of commited <see cref="UboraEvent"/> through persisting <see cref="INotification"/> instances. 
+    /// </summary>
+    public abstract class UboraEventNotifier<TEvent> : IUboraEventHandler<TEvent> where TEvent : UboraEvent
     {
         public void Handle(IEvent eventWithMetadata)
         {

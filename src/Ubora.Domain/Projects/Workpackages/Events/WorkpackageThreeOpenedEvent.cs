@@ -18,7 +18,7 @@ namespace Ubora.Domain.Projects.Workpackages.Events
 
         public override string GetDescription() => $"opened work package 3: Design and prototyping.";
         
-        public class Notifier : UboraEventHandler<WorkpackageThreeOpenedEvent>
+        public class Notifier : UboraEventNotifier<WorkpackageThreeOpenedEvent>
         {
             private readonly IDocumentSession _documentSession;
 

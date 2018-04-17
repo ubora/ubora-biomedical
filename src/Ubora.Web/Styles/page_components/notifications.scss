@@ -34,8 +34,19 @@
             }
         }
     }
+    
+    p
+    {
+        @extend .mb-0;
+        @extend .py-0;
+    }
 }
 
+
+.history-timestamp {
+    color: $primary-shade;
+    margin: 0;
+}
 
 .notice {
     color: $white;

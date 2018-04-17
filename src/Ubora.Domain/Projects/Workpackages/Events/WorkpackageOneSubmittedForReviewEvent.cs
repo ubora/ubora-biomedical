@@ -23,7 +23,7 @@ namespace Ubora.Domain.Projects.Workpackages.Events
 
         public override string GetDescription() => $"submitted workpackage 1 for {StringTokens.WorkpackageOneReview()}.";
         
-        public class Notifier : UboraEventHandler<WorkpackageOneSubmittedForReviewEvent>
+        public class Notifier : UboraEventNotifier<WorkpackageOneSubmittedForReviewEvent>
         {
             private readonly IDocumentSession _documentSession;
 

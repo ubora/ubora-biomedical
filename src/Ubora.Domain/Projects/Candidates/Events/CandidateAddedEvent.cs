@@ -30,7 +30,7 @@ namespace Ubora.Domain.Projects.Candidates.Events
             return $"added project candidate \"{StringTokens.Candidate(Id)}\"";
         }
 
-        public class Notifier : UboraEventHandler<CandidateAddedEvent>
+        public class Notifier : UboraEventNotifier<CandidateAddedEvent>
         {
             private readonly IDocumentSession _documentSession;
 
