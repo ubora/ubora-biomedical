@@ -16,13 +16,10 @@ namespace Ubora.Web._Features.Projects.Repository
         public IEnumerable<IGrouping<string, ProjectFileViewModel>> AllFiles { get; set; }
     }
 
-    public class ProjectFileViewModel
+    public class ProjectFileViewModel : FileViewModelBase
     {
         public Guid Id { get; set; }
-        public string FileName { get; set; }
-        public string Comment { get; set; }
         public long FileSize { get; set; }
-        public int RevisionNumber { get; set; }
         public long FileSizeInKbs
         {
             get
@@ -47,14 +44,6 @@ namespace Ubora.Web._Features.Projects.Repository
                 var projectFileViewModel = _mapper.Map<ProjectFileViewModel>(projectFile);
                 return projectFileViewModel;
             }
-        }
-
-        public bool Has3DFileExtension()
-        {
-            var extension = System.IO.Path.GetExtension(FileName);
-
-            var supported3dFileExtensions = new[] { ".stl", ".amf", ".nxz" };
-            return supported3dFileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
         }
     }
 }

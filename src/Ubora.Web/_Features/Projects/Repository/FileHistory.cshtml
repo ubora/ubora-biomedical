@@ -16,7 +16,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col">Download</th>
+                            <th scope="col"></th>
                             <th scope="col">Date added</th>
                             <th scope="col">Revision number</th>
                             <th scope="col">Size (kB)</th>
@@ -28,17 +28,23 @@
                         {
                             <tr>
                                 <td>
-                                    <a href="@Url.Action("DownloadHistoryFile","Repository", new { eventId = file.EventId })" title="Download file" aria-label="Download file" class="js-tooltip" data-placement="bottom">
-                                        <i class="file-list--item-control material-icons">file_download</i>
-                                    </a>
-                                    <i class="file-list--item-control material-icons js-tooltip js-copy"
-                                       title="Copy file path to clipboard"
-                                       aria-label="Copy file"
-                                       data-toggle="tooltip"
-                                       data-placement="bottom"
-                                       data-copy="@Url.Action("DownloadHistoryFile","Repository", new { eventId = file.EventId },  Context.Request.Scheme)">
-                                        content_copy
-                                    </i>
+                                @if (file.Has3DFileExtension())
+                                {
+                                <a href="@Url.Action("View3DHistoryFile", "Repository", new { eventId = file.EventId })" title="View 3D file" aria-label="View 3D file" class="js-tooltip" data-placement="bottom">
+                                    <i class="file-list--item-control material-icons">3d_rotation</i>
+                                </a>
+                                }
+                                <a href="@Url.Action("DownloadHistoryFile","Repository", new { eventId = file.EventId })" title="Download file" aria-label="Download file" class="js-tooltip" data-placement="bottom">
+                                    <i class="file-list--item-control material-icons">file_download</i>
+                                </a>
+                                <i class="file-list--item-control material-icons js-tooltip js-copy"
+                                   title="Copy file path to clipboard"
+                                   aria-label="Copy file"
+                                   data-toggle="tooltip"
+                                   data-placement="bottom"
+                                   data-copy="@Url.Action("DownloadHistoryFile","Repository", new { eventId = file.EventId },  Context.Request.Scheme)">
+                                    content_copy
+                                </i>
                                 </td>
                                 <td class="timeago" title="@file.FileAddedOn">@file.FileAddedOn.ToString("dd.MM.yyyy")</td>
                                 <td>@file.RevisionNumber</td>
