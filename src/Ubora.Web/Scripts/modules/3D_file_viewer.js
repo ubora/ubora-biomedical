@@ -106,7 +106,9 @@ global.UBORA.init3dViewer = function (fileUrl) {
     }
 
     function getExtension(filename) {
-        var parts = filename.split('.');
+        var parts = filename
+            .split('?')[0] // split query string
+            .split('.');
         return parts[parts.length - 1];
     }
 };
