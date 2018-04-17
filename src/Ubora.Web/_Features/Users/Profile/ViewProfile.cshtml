@@ -26,13 +26,8 @@
             <div class="my-4">
                 <dl class="row">
                     <dt class="col-sm-2">E-mail:</dt>
-                    <dd class="col-sm-6">
+                    <dd class="col-sm-10">
                         <a class="email" href="mailto:@Model.Email?Subject=Message%20from%20UBORA">@Model.Email</a>
-                    </dd>
-                    <dd class="col-sm-4">
-                        <a class="email d-flex align-items-start no-underline" href="mailto:@Model.Email?Subject=Message%20from%20UBORA">
-                            <i class="material-icons mr-1">mail</i><span>Send message</span>
-                        </a>
                     </dd>
                     <dt class="col-sm-2">Country:</dt>
                     <dd class="col-sm-10">@Model.CountryEnglishName</dd>
@@ -47,7 +42,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link d-flex align-items-center" id="projects-tab" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="false">
-                            <i class="material-icons">work</i><span class="mx-1">Projects</span><span class="badge badge-pill badge-grey-ghost">@Model.UserProjects.Count()</span>
+                            <i class="material-icons">work</i><span class="mx-1">Projects</span><span class="badge badge-pill badge-dark-outline">@Model.UserProjects.Count()</span>
                         </a>
                     </li>
                 </ul>

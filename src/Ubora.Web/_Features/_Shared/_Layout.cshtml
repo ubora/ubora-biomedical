@@ -20,6 +20,7 @@
     }
     <link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    @RenderSection("Head", required: false)
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 
@@ -57,7 +58,6 @@
 
     @Html.Raw(JavaScriptSnippet.FullScript)
 
-    @RenderSection("Head", required: false)
 </head>
 
 <body>
@@ -130,32 +130,6 @@
         }
     }
 
-<script>
-    var viewport = (function() {
-        var viewPorts = ['xs', 'sm', 'md', 'lg'];
-
-        var viewPortSize = function() {
-            return window.getComputedStyle(document.body, ':before').content.replace(/"/g, '');
-        }
-
-        var is = function(size) {
-            if ( viewPorts.indexOf(size) == -1 ) throw "no valid viewport name given";
-            return viewPortSize() == size;
-        }
-
-        var isEqualOrGreaterThan = function(size) {
-            if ( viewPorts.indexOf(size) == -1 ) throw "no valid viewport name given";
-            return viewPorts.indexOf(viewPortSize()) >= viewPorts.indexOf(size);
-        }
-
-        // Public API
-        return {
-            is: is,
-            isEqualOrGreaterThan: isEqualOrGreaterThan
-        }
-
-    })();
-</script>
 
     <environment names="Development">
         <script src="~/dist/app.bundle.js"></script>

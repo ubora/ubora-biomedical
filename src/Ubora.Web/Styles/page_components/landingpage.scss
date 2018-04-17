@@ -23,10 +23,10 @@
             @include bg-size-cover;
             padding-top: 8rem;
             padding-bottom: 8rem;
-            background-color: #323d4c;
+            background-color: $dark-blue;
             background-image: url("../images/icons/ubora-logo.svg");
             background-position: center center;
-            box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.6);
+            box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.5);
             position: relative;
 
             h1 {
@@ -35,7 +35,7 @@
             }
         }
 
-     
+
         .container-fluid {
             z-index: 1;
         }
@@ -214,8 +214,6 @@
     }
 }
 
-
-
 @media (min-width: 992px) {
     header.masthead {
         height: 95vh;
@@ -289,6 +287,16 @@
 }
 
 
+@media (max-width: 768px) {
+    .landing-page {
+        header.masthead {
+            .btn-primary {
+                min-width: 17rem;
+                margin-bottom: .5rem;
+            }
+        }
+    }
+}
 
 
 @media (max-width: 576px) {
@@ -302,11 +310,6 @@
         header.masthead {
             padding-top: 5rem;
             padding-bottom: 7rem;
-
-            .btn-primary {
-                min-width: 17rem;
-                margin-bottom: .5rem;
-            }
         }
 
         .carousel {
@@ -333,5 +336,19 @@
                 }
             }
         }
+    }
+}
+
+/*IE style*/
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+
+    .landing-page .masthead .container-fluid {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .landing-page header.masthead {
+        background-size: 4000px;
     }
 }
