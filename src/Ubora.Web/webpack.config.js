@@ -50,7 +50,7 @@ module.exports = env => {
                         loader: 'babel-loader',
                         options: {
                             presets: [
-                                ['env']
+                                ['env', {"modules": false}]
                             ]
                         }
                     }]
@@ -61,9 +61,9 @@ module.exports = env => {
                         use: [
                             {
                                 loader: 'css-loader',
-                                options: { importLoaders: 1, url: false } // "importLoader: 1" looks from postcss.config.js
+                                options: {importLoaders: 1, url: false} // "importLoader: 1" looks from postcss.config.js
                             },
-                            { loader: 'postcss-loader' }
+                            {loader: 'postcss-loader'}
                         ]
                     })
                 },
@@ -73,7 +73,7 @@ module.exports = env => {
                         //resolve-url-loader may be chained before sass-loader if necessary
                         use: [{
                             loader: "css-loader", // translates CSS into CommonJS
-                            options: { importLoaders: 1, url: false }                
+                            options: {importLoaders: 1, url: false}
                         }, {
                             loader: "sass-loader" // compiles Sass to CSS
                         }]
@@ -88,28 +88,25 @@ module.exports = env => {
                 allChunks: true
             }),
             new CopyWebpackPlugin([
-                { from: './node_modules/jquery/dist/jquery.min.js', to: './lib' },
-                { from: './node_modules/jquery-validation/dist/jquery.validate.min.js', to: './lib' },
-                { from: './node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js', to: './lib' },
-                { from: './node_modules/autocomplete-js/dist/autocomplete.min.js', to: './lib' },
-                { from: './node_modules/autocomplete-js/dist/autocomplete.min.css', to: './lib' },
-                { from: './node_modules/marked/marked.min.js', to: './lib' },
-                { from: './node_modules/simplemde/dist/simplemde.min.js', to: './lib' },
-                { from: './node_modules/simplemde/dist/simplemde.min.css', to: './lib' },
-                { from: './node_modules/select2/dist/js/select2.min.js', to: './lib' },
-                { from: './node_modules/select2/dist/css/select2.min.css', to: './lib' },
-                { from: './node_modules/timeago/jquery.timeago.js', to: './lib' },
-                { from: './node_modules/popper.js/dist/umd/popper.min.js', to: './lib/umd' },
-                { from: './node_modules/popper.js/dist/umd/popper.min.js.map', to: './lib/umd' },
-                { from: './node_modules/bootstrap/dist/js/bootstrap.min.js', to: './lib' },
-                { from: './node_modules/bootstrap/dist/js/bootstrap.min.js.map', to: './lib' },
-                { from: './node_modules/three/build/three.min.js', to: './lib' },
-                { from: './node_modules/three/examples/js/loaders/AMFLoader.js', to: './lib' },
-                { from: './node_modules/three/examples/js/controls/OrbitControls.js', to: './lib' },
-                { from: './node_modules/three/examples/js/loaders/STLLoader.js', to: './lib' },
-                { from: './Scripts/lib/nexus/nexus.js', to: './lib/nexus' },
-                { from: './Scripts/lib/nexus/nexus_three.js', to: './lib/nexus' },
-                { from: './Scripts/lib/nexus/meco.js', to: './lib/nexus' }
+                {from: './node_modules/jquery/dist/jquery.min.js', to: './lib'},
+                {from: './node_modules/jquery-validation/dist/jquery.validate.min.js', to: './lib'},
+                {from: './node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js', to: './lib'},
+                {from: './node_modules/autocomplete-js/dist/autocomplete.min.js', to: './lib'},
+                {from: './node_modules/autocomplete-js/dist/autocomplete.min.css', to: './lib'},
+                {from: './node_modules/marked/marked.min.js', to: './lib'},
+                {from: './node_modules/simplemde/dist/simplemde.min.js', to: './lib'},
+                {from: './node_modules/simplemde/dist/simplemde.min.css', to: './lib'},
+                {from: './node_modules/select2/dist/js/select2.min.js', to: './lib'},
+                {from: './node_modules/select2/dist/css/select2.min.css', to: './lib'},
+                {from: './node_modules/timeago/jquery.timeago.js', to: './lib'},
+                {from: './node_modules/popper.js/dist/umd/popper.min.js', to: './lib/umd'},
+                {from: './node_modules/popper.js/dist/umd/popper.min.js.map', to: './lib/umd'},
+                {from: './node_modules/bootstrap/dist/js/bootstrap.min.js', to: './lib'},
+                {from: './node_modules/bootstrap/dist/js/bootstrap.min.js.map', to: './lib'},
+                {from: './node_modules/three/build/three.min.js', to: './lib'},
+                {from: './Scripts/lib/nexus/nexus.js', to: './lib/nexus'},
+                {from: './Scripts/lib/nexus/nexus_three.js', to: './lib/nexus'},
+                {from: './Scripts/lib/nexus/meco.js', to: './lib/nexus'}
             ])
         ].concat(isDevBuild ? [
             // Develop plugins:
@@ -122,15 +119,15 @@ module.exports = env => {
                 filename: '[file].map'
             })
         ] : [
-                // Production plugins:
-                new UglifyJsPlugin({
-                    parallel: true,
-                    uglifyOptions: {
-                        ecma: 8,
-                        compress: true
-                    },
-                    extractComments: true
-                })
-            ])
+            // Production plugins:
+            new UglifyJsPlugin({
+                parallel: true,
+                uglifyOptions: {
+                    ecma: 8,
+                    compress: true
+                },
+                extractComments: true
+            })
+        ])
     };
 };

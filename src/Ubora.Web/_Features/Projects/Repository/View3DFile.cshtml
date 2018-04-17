@@ -20,17 +20,13 @@
     </div>
 </div>
 
-<script>
-    window.init3Dviewer = '@Html.Raw(Model.FileBlobSasUrl)'
-</script>
-
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <script src="~/dist/lib/three.min.js"></script>
-    <script src="~/dist/lib/AMFLoader.js"></script>
-    <script src="~/dist/lib/OrbitControls.js"></script>
-    <script src="~/dist/lib/STLLoader.js"></script>
     <script src="~/dist/lib/nexus/nexus.js"></script>
     <script src="~/dist/lib/nexus/nexus_three.js"></script>
     <script src="~/dist/threeDimensional_file_viewer.bundle.js"></script>
+    <script>
+        UBORA.init3dViewer('@Html.Raw(Model.FileBlobSasUrl)');
+    </script>
 }
