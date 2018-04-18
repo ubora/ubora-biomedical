@@ -7,7 +7,7 @@
 }
 
 <div class="container-fluid my-4">
-    <div class="row px-lg-5">
+    <div class="row px-xl-5">
         <div class="col-lg-3">
             @Html.Partial("AddFilePartial", Model.AddFileViewModel)
         </div>
@@ -32,30 +32,30 @@
                             {
                                 <tr>
                                     <td>
-                                        <a href="@Url.Action("DownloadFile","Repository", new { fileId = file.Id })" title="Download file" aria-label="Download file" class="js-tooltip" data-placement="bottom">
+                                        <a href="@Url.Action("DownloadFile", "Repository", new { fileId = file.Id })" title="Download file" aria-label="Download file" class="no-underline" data-toggle="tooltip" data-placement="bottom">
                                             <i class="file-list--item-control material-icons">file_download</i>
                                         </a>
 
-                                        <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file" class="js-tooltip" data-placement="bottom">
+                                        <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file" class="no-underline" data-toggle="tooltip" data-placement="bottom">
                                             <i class="file-list--item-control material-icons">file_upload</i>
                                         </a>
 
-                                        <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history" class="js-tooltip" data-placement="bottom">
+                                        <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history" class="no-underline" data-toggle="tooltip" data-placement="bottom">
                                             <i class="file-list--item-control material-icons">history</i>
                                         </a>
 
-                                        <i class="file-list--item-control material-icons js-tooltip js-copy"
+                                        <i class="file-list--item-control material-icons js-clipboard"
                                            title="Copy file path to clipboard"
                                            aria-label="Copy file"
                                            data-toggle="tooltip"
                                            data-placement="bottom"
-                                           data-copy="@Url.Action("DownloadFile","Repository", new { fileId = file.Id }, Context.Request.Scheme)">
+                                           data-clipboard-text="@Url.Action("DownloadFile", "Repository", new { fileId = file.Id }, Context.Request.Scheme)">
                                             content_copy
                                         </i>
 
                                         @if (Model.IsProjectLeader)
                                         {
-                                            <a href="@Url.Action("HideFile", new {fileId = file.Id})" title="Delete file forever" aria-label="Delete file forever" class="js-tooltip" data-placement="bottom">
+                                            <a href="@Url.Action("HideFile", new {fileId = file.Id})" title="Delete file forever" aria-label="Delete file forever" class="no-underline" data-toggle="tooltip" data-placement="bottom">
                                                 <i class="file-list--item-control material-icons">delete_forever</i>
                                             </a>
                                         }
@@ -76,7 +76,7 @@
 </div>
 
 @section Scripts {
-    @{     await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <link rel="stylesheet"
           href="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css"
           asp-fallback-href="~/dist/lib/dropzone.min.css">

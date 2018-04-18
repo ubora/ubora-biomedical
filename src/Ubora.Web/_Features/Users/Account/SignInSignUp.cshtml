@@ -2,11 +2,11 @@
 	ViewData["Title"] = "Sign in";
 }
 
-<div class="container-fluid my-4">
-	<div class="row flex-column align-items-center">
-		<div class="col-md-4 col-lg-3 text-center">
+<div class="container my-5">
+	<div class="row justify-content-center">
+		<div class="col-lg-5 col-md-8">
 			<h1>Choose sign in option</h1>
-			<a class="btn btn-outline-primary btn-lg" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]">
+			<a class="btn btn-outline-primary" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]">
 				@* <img src="~/images/icons/ubora-logo.svg" alt="UBORA logo"> *@
 				Continue with UBORA
 			</a>
@@ -29,10 +29,10 @@
 		</div>
 	</div>
 
-	<div class="row flex-column align-items-center my-4">
-		<div class="col-md-4 col-lg-3 text-center">
+	<div class="row justify-content-center">
+		<div class="col-lg-5 col-md-8">
 			<h3>Don't have an account?</h3>
-			<a class="btn btn-outline-primary btn-lg" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Sign up</a>
+			<a class="btn btn-outline-primary" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Sign up</a>
 		</div>
 	</div>
 </div>

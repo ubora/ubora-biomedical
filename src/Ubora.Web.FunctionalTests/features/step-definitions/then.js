@@ -11,8 +11,15 @@ module.exports = function () {
         expect(isVisible).to.equal(true, `Expected "${element}" to be visible.`);
     });
 
-    this.Then(/^I expect the question "([^"]*)?" is visible$/, (question) => {
-        expect(browser.isVisibleWithinViewport("h1=" + question))
+    this.Then(/^I expect the element "([^"]*)?" inside "([^"]*)?" is visible$/, (element, insideElement) => {
+        browser.element(insideElement).waitForVisible(element, 1500);
+        var isVisible = browser.element(insideElement).isVisible(element);
+        expect(isVisible).to.equal(true, `Expected "${element}" to be visible.`);
+    });
+
+    this.Then(/^I expect the element "([^"]*)?" is not visible$/, (element) => {
+        var isVisible = browser.isVisible(element);
+        expect(isVisible).to.equal(false, `Expected "${element}" to be not visible.`);
     });
 
     this.Then(/^I expect the element "([^"]*)?" to contain text "([^"]*)?"$/, (element, expectedText) => {

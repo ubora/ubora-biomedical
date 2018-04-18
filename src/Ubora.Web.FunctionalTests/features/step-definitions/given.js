@@ -2,8 +2,13 @@ const expect = require('chai').expect;
 
 module.exports = function () {
     this.Given(/^I clicked on the element "([^"]*)?"$/, (element) => {
-        browser.waitForEnabled(element, 1500);
+        browser.waitForVisible(element, 1500);
         browser.click(element);
+    });
+
+    this.Given(/^I clicked on the element "([^"]*)?" inside "([^"]*)?"$/, (element, insideElement) => {
+        browser.element(insideElement).waitForVisible(element, 1500);
+        browser.element(insideElement).click(element);
     });
 
     this.Given(/^I go to Home page$/, () => {
@@ -15,7 +20,7 @@ module.exports = function () {
         .click('span=Log in')
         .setValue('#Email', 'test@agileworks.eu')
         .setValue('#Password', 'ChangeMe123!')
-        .click('button=Sign in')
+        .click('button=Log in')
     });
 
 
@@ -27,7 +32,7 @@ module.exports = function () {
         browser.waitForEnabled('#Email');
         browser.setValue('#Email', 'test@agileworks.eu')
         .setValue('#Password', 'ChangeMe123!')
-        .click('button=Sign in')
+        .click('button=Log in')
     });
 
     this.Given(/^I expected the element "([^"]*)?" is visible$/, (element) => {
