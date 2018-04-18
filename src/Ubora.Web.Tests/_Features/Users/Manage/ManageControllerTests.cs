@@ -120,53 +120,6 @@ namespace Ubora.Web.Tests._Features.Users.Manage
         }
 
         [Fact]
-        public async Task ChangeEmail_Shows_Success_Notice_When_Sended_Email_Change_Confirmation_Message()
-        {
-            var password = "password";
-            var newEmail = "newEmail@gmail.com";
-            var model = new ChangeEmailViewModel
-            {
-                NewEmail = newEmail,
-                Password = password
-            };
-
-            var applicationUser = new ApplicationUser
-            {
-                UserName = "email@gmail.com"
-            };
-
-            _userManagerMock.Setup(x => x.GetUserAsync(_controller.HttpContext.User))
-                .ReturnsAsync(applicationUser);
-
-            _userManagerMock.Setup(x => x.CheckPasswordAsync(applicationUser, password))
-                .ReturnsAsync(true);
-
-            applicationUser.Email = newEmail;
-            applicationUser.UserName = newEmail;
-            applicationUser.EmailConfirmed = false;
-
-            var identitySuccessResult = IdentityResult.Success;
-            _userManagerMock.Setup(x => x.UpdateAsync(applicationUser))
-                .ReturnsAsync(identitySuccessResult);
-
-            CommandProcessorMock
-                .Setup(p => p.Execute(It.IsAny<ChangeUserEmailCommand>()))
-                .Returns(CommandResult.Success);
-
-            // Act
-            var result = (RedirectToActionResult)await _controller.ChangeEmail(model);
-
-            // Assert
-            _emailChangeMessageSenderMock.Verify(x => x.SendEmailChangeConfirmationMessage(applicationUser, model.NewEmail), Times.Once);
-
-            var successNotice = _controller.Notices.Dequeue();
-            successNotice.Text.Should().Be("We'll send you an email asking you to confirm the change.");
-            successNotice.Type.Should().Be(NoticeType.Success);
-
-            AssertRedirectToIndex(result);
-        }
-
-        [Fact]
         public async Task ChangeEmail_Returns_ChangeEmail_View_When_ModelState_Is_Invalid()
         {
             var model = new ChangeEmailViewModel();
@@ -235,47 +188,6 @@ namespace Ubora.Web.Tests._Features.Users.Manage
 
             var errorNotice = _controller.Notices.Dequeue();
             errorNotice.Text.Should().Be("Password is not correct!");
-            errorNotice.Type.Should().Be(NoticeType.Error);
-        }
-
-        [Fact]
-        public async Task ChangeEmail_Returns_View_With_Error_Notice_When_Command_Was_Not_Executed_Successfulyy()
-        {
-            var password = "password";
-            var newEmail = "newEmail@gmail.com";
-            var model = new ChangeEmailViewModel
-            {
-                NewEmail = newEmail,
-                Password = password
-            };
-
-            var applicationUser = new ApplicationUser
-            {
-                UserName = "email@gmail.com"
-            };
-
-            _userManagerMock.Setup(x => x.GetUserAsync(_controller.HttpContext.User))
-                .ReturnsAsync(applicationUser);
-
-            _userManagerMock.Setup(x => x.CheckPasswordAsync(applicationUser, password))
-                .ReturnsAsync(true);
-
-            var identitySuccessResult = IdentityResult.Success;
-            _userManagerMock.Setup(x => x.UpdateAsync(applicationUser))
-                .ReturnsAsync(identitySuccessResult);
-
-            CommandProcessorMock
-                .Setup(p => p.Execute(It.IsAny<ChangeUserEmailCommand>()))
-                .Returns(CommandResult.Failed(""));
-
-            // Act
-            var result = (RedirectToActionResult)await _controller.ChangeEmail(model);
-
-            // Assert
-            result.ActionName.Should().Be("Index");
-
-            var errorNotice = _controller.Notices.Dequeue();
-            errorNotice.Text.Should().Be("Failed to change email!");
             errorNotice.Type.Should().Be(NoticeType.Error);
         }
 
@@ -350,9 +262,11 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             _userManagerMock.Setup(x => x.UpdateAsync(applicationUser))
                 .ReturnsAsync(identitySuccessResult);
 
+            var errorMessage = "NullPointerException";
+
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<ChangeUserEmailCommand>()))
-                .Returns(CommandResult.Failed(""));
+                .Returns(CommandResult.Failed(errorMessage));
 
             //Act
             var result = (RedirectToActionResult)await _controller.ConfirmChangeEmail(userId, code, newEmail);
@@ -362,7 +276,7 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             result.ControllerName.Should().Be("Home");
 
             var errorNotice = _controller.Notices.Dequeue();
-            errorNotice.Text.Should().Be("Failed to change email!");
+            errorNotice.Text.Should().Be(errorMessage);
             errorNotice.Type.Should().Be(NoticeType.Error);
 
             _emailChangeMessageSenderMock.Verify(x => x.SendEmailChangeConfirmationMessage(It.IsAny<ApplicationUser>(), It.IsAny<string>()), Times.Never);

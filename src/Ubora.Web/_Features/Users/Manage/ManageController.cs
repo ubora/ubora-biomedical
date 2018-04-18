@@ -224,7 +224,7 @@ namespace Ubora.Web._Features.Users.Manage
             var user = await GetCurrentUserAsync();
 
             var isCorrectPassword = await _userManager.CheckPasswordAsync(user, model.Password);
-            if(!isCorrectPassword)
+            if (!isCorrectPassword)
             {
                 Notices.NotifyOfError("Password is not correct!");
                 return View(model);
@@ -235,7 +235,8 @@ namespace Ubora.Web._Features.Users.Manage
             return RedirectToAction(nameof(ChangeEmailConfirmation));
         }
 
-        public IActionResult ChangeEmailConfirmation() {
+        public IActionResult ChangeEmailConfirmation()
+        {
             return View();
         }
 
@@ -285,7 +286,11 @@ namespace Ubora.Web._Features.Users.Manage
 
             if (!ModelState.IsValid)
             {
-                Notices.NotifyOfError("Failed to change email!");
+                var message = string.Join(" | ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+
+                Notices.NotifyOfError(message);
 
                 return RedirectToAction("Index", "Home");
             }
