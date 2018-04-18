@@ -222,10 +222,6 @@ namespace Ubora.Web._Features.Users.Manage
             }
 
             var user = await GetCurrentUserAsync();
-            if (user == null)
-            {
-                return View(model);
-            }
 
             var isCorrectPassword = await _userManager.CheckPasswordAsync(user, model.Password);
             if(!isCorrectPassword)
@@ -289,7 +285,7 @@ namespace Ubora.Web._Features.Users.Manage
             {
                 Notices.NotifyOfError("Failed to change email!");
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
 
             await _emailChangeSender.SendChangedEmailMessage(user, oldEmail);
