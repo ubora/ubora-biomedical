@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
-using Ubora.Web._Features.Users.Account;
 using Ubora.Domain.Users.Commands;
 using Ubora.Web._Features._Shared.Notices;
 
@@ -20,20 +19,20 @@ namespace Ubora.Web._Features.Users.Manage
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly EmailSender _emailSender;
         private readonly ILogger _logger;
-        private readonly IEmailConfirmationMessageSender _confirmationMessageSender;
+        private readonly IEmailChangeMessageSender _emailChangeSender;
 
         public ManageController(
           UserManager<ApplicationUser> userManager,
           SignInManager<ApplicationUser> signInManager,
           EmailSender emailSender,
           ILoggerFactory loggerFactory,
-          IEmailConfirmationMessageSender confirmationMessageSender)
+          IEmailChangeMessageSender emailChangeSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = loggerFactory.CreateLogger(nameof(ManageController));
-            _confirmationMessageSender = confirmationMessageSender;
+            _emailChangeSender = emailChangeSender;
         }
 
         [HttpGet]
@@ -257,21 +256,17 @@ namespace Ubora.Web._Features.Users.Manage
                 return RedirectToAction(nameof(Index));
             }
 
-            await _signInManager.RefreshSignInAsync(user);
-
-            await _confirmationMessageSender.SendEmailConfirmationMessage(user);
+            await _emailChangeSender.SendChangedEmailMessage(user);
 
             Notices.NotifyOfSuccess("Email was changed successfully!");
 
             return RedirectToAction(nameof(Index));
-
         }
 
         private async Task<IdentityResult> ChangeEmailAsync(string newEmail, ApplicationUser user)
         {
             user.Email = newEmail;
             user.UserName = newEmail;
-            user.EmailConfirmed = false;
 
             var result = await _userManager.UpdateAsync(user);
             return result;

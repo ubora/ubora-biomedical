@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using Ubora.Web._Features._Shared.Notices;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Web._Features.Users.Account;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users.Commands;
 
@@ -23,7 +22,7 @@ namespace Ubora.Web.Tests._Features.Users.Manage
         private readonly Mock<EmailSender> _emailSenderMock;
         private readonly Mock<ILoggerFactory> _loggerFactoryMock;
         private readonly Mock<ILogger<ManageController>> _logger;
-        private readonly Mock<IEmailConfirmationMessageSender> _confirmationMessageSenderMock;
+        private readonly Mock<IEmailChangeMessageSender> _emailChangeMessageSenderMock;
         private readonly ManageController _controller;
 
         public ManageControllerTests()
@@ -33,12 +32,12 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             _emailSenderMock = new Mock<EmailSender>();
             _loggerFactoryMock = new Mock<ILoggerFactory>();
             _logger = new Mock<ILogger<ManageController>>();
-            _confirmationMessageSenderMock = new Mock<IEmailConfirmationMessageSender>();
+            _emailChangeMessageSenderMock = new Mock<IEmailChangeMessageSender>();
 
             _loggerFactoryMock.Setup(x => x.CreateLogger("ManageController"))
                 .Returns(_logger.Object);
 
-            _controller = new ManageController(_userManagerMock.Object, _signInManagerMock.Object, _emailSenderMock.Object, _loggerFactoryMock.Object, _confirmationMessageSenderMock.Object);
+            _controller = new ManageController(_userManagerMock.Object, _signInManagerMock.Object, _emailSenderMock.Object, _loggerFactoryMock.Object, _emailChangeMessageSenderMock.Object);
             SetUpForTest(_controller);
         }
 
@@ -157,8 +156,7 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             var result = (RedirectToActionResult)await _controller.ChangeEmail(model);
 
             // Assert
-            _signInManagerMock.Verify(x => x.RefreshSignInAsync(applicationUser), Times.Once);
-            _confirmationMessageSenderMock.Verify(x => x.SendEmailConfirmationMessage(applicationUser), Times.Once);
+            _emailChangeMessageSenderMock.Verify(x => x.SendChangedEmailMessage(applicationUser), Times.Once);
 
             var successNotice = _controller.Notices.Dequeue();
             successNotice.Text.Should().Be("Email was changed successfully!");

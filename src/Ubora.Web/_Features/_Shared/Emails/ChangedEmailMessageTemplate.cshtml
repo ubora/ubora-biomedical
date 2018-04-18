@@ -1,0 +1,31 @@
+﻿@model Ubora.Web._Features._Shared.Emails.ChangedEmailMessageTemplateViewModel
+
+@{
+    Layout = "_EmailLayout";
+}
+
+<table width="100%">
+
+    <tr>
+        <td class="heading-secondary">
+            Welcome to UBORA!
+        </td>
+    </tr>
+
+    <tr>
+        <td class="heading-tertiary">
+            Changed email! Your new email is @Model.Email
+        </td>
+    </tr>
+
+    <tr>
+        <td class="paragraph">
+            If you did not make this request, please contact us.
+        </td>
+    </tr>
+    <tr>
+        <td class="paragraph">
+            Ubora team
+        </td>
+    </tr>
+</table>

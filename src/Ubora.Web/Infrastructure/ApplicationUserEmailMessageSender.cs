@@ -5,10 +5,11 @@ using Ubora.Web.Infrastructure.PreMailers;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Users.Account;
 using Ubora.Web._Features._Shared.Emails;
+using Ubora.Web._Features.Users.Manage;
 
 namespace Ubora.Web.Infrastructure
 {
-    public class ApplicationUserEmailMessageSender : IPasswordRecoveryMessageSender, IEmailConfirmationMessageSender
+    public class ApplicationUserEmailMessageSender : IEmailChangeMessageSender, IPasswordRecoveryMessageSender, IEmailConfirmationMessageSender
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly EmailSender _emailSender;
@@ -59,6 +60,22 @@ namespace Ubora.Web.Infrastructure
                 .Html;
 
             await _emailSender.SendEmailAsync(user.Email, "UBORA: Password reset", messageFinalHtml, handleLinkedResources: EmailLayoutViewModel.AddLayoutAttachments);
+        }
+
+        public async Task SendChangedEmailMessage(ApplicationUser user)
+        {
+            var viewModel = new ChangedEmailMessageTemplateViewModel
+            {
+                Email = user.Email
+            };
+
+            var view = _viewRender.Render("/_Features/_Shared/Emails/", "ChangedEmailMessageTemplate.cshtml", viewModel);
+
+            var messageFinalHtml = _preMailerFactory.Create(view)
+                .MoveCssInline(removeStyleElements: true, ignoreElements: ".ignore-premailer")
+                .Html;
+
+            await _emailSender.SendEmailAsync(user.Email, "UBORA: Changed email", messageFinalHtml, handleLinkedResources: EmailLayoutViewModel.AddLayoutAttachments);
         }
     }
 }
