@@ -232,9 +232,11 @@ namespace Ubora.Web._Features.Users.Manage
 
             await _emailChangeSender.SendEmailChangeConfirmationMessage(user, model.NewEmail);
 
-            Notices.NotifyOfSuccess("We'll send you an email asking you to confirm the change.");
+            return RedirectToAction(nameof(ChangeEmailConfirmation));
+        }
 
-            return RedirectToAction(nameof(Index));
+        public IActionResult ChangeEmailConfirmation() {
+            return View();
         }
 
         private async Task<IdentityResult> ChangeEmailAsync(string newEmail, ApplicationUser user)
