@@ -62,7 +62,7 @@ namespace Ubora.Web.Infrastructure
             await _emailSender.SendEmailAsync(user.Email, "UBORA: Password reset", messageFinalHtml, handleLinkedResources: EmailLayoutViewModel.AddLayoutAttachments);
         }
 
-        public async Task SendChangedEmailMessage(ApplicationUser user)
+        public async Task SendChangedEmailMessage(ApplicationUser user, string oldEmail)
         {
             var viewModel = new ChangedEmailMessageTemplateViewModel
             {
@@ -75,7 +75,27 @@ namespace Ubora.Web.Infrastructure
                 .MoveCssInline(removeStyleElements: true, ignoreElements: ".ignore-premailer")
                 .Html;
 
-            await _emailSender.SendEmailAsync(user.Email, "UBORA: Changed email", messageFinalHtml, handleLinkedResources: EmailLayoutViewModel.AddLayoutAttachments);
+            await _emailSender.SendEmailAsync(oldEmail, "UBORA: Changed email", messageFinalHtml, handleLinkedResources: EmailLayoutViewModel.AddLayoutAttachments);
+        }
+
+        public async Task SendEmailChangeConfirmationMessage(ApplicationUser user, string newEmail)
+        {
+            var code = await _userManager.GenerateUserTokenAsync(user, "Default", "ChangeEmail");
+
+            var viewModel = new ChangeEmailConfirmationViewModel
+            {
+                UserId = user.Id,
+                Code = code,
+                NewEmail = newEmail
+            };
+
+            var view = _viewRender.Render("/_Features/_Shared/Emails/", "ChangeEmailConfirmationMessageTemplate.cshtml", viewModel);
+
+            var messageFinalHtml = _preMailerFactory.Create(view)
+                .MoveCssInline(removeStyleElements: true, ignoreElements: ".ignore-premailer")
+                .Html;
+
+            await _emailSender.SendEmailAsync(user.Email, "UBORA: Confirm the change email", messageFinalHtml, handleLinkedResources: EmailLayoutViewModel.AddLayoutAttachments);
         }
     }
 }

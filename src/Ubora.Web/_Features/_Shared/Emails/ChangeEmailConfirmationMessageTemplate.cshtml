@@ -1,0 +1,34 @@
+﻿@model Ubora.Web._Features._Shared.Emails.ChangeEmailConfirmationViewModel
+@{
+        var confirmationUrl = Html.Raw(Url.Action("ConfirmChangeEmail", "Manage", new { userId = Model.UserId, code = Model.Code, newEmail = Model.NewEmail }, Context.Request.Scheme));
+}
+
+@{
+    Layout = "_EmailLayout";
+}
+
+<table width="100%">
+    <tr>
+        <td class="heading-tertiary">
+            Confirm the change email
+        </td>
+    </tr>
+    <tr>
+        <td class="paragraph">
+            Please confirm the change email by clicking the button below:
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <table>
+                <tr>
+                    <td class="button">
+                        <a href="@confirmationUrl" class="button-text" target="_blank">
+                            <strong style="text-decoration:none; color:#FFFFFF;">Confirm the change email</strong>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

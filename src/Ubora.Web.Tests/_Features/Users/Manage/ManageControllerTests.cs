@@ -12,6 +12,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Users.Commands;
+using System;
 
 namespace Ubora.Web.Tests._Features.Users.Manage
 {
@@ -119,7 +120,7 @@ namespace Ubora.Web.Tests._Features.Users.Manage
         }
 
         [Fact]
-        public async Task ChangeEmail_Shows_Success_Notice_When_Email_Changed_Successfully()
+        public async Task ChangeEmail_Shows_Success_Notice_When_Sended_Email_Change_Confirmation_Message()
         {
             var password = "password";
             var newEmail = "newEmail@gmail.com";
@@ -156,10 +157,10 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             var result = (RedirectToActionResult)await _controller.ChangeEmail(model);
 
             // Assert
-            _emailChangeMessageSenderMock.Verify(x => x.SendChangedEmailMessage(applicationUser), Times.Once);
+            _emailChangeMessageSenderMock.Verify(x => x.SendEmailChangeConfirmationMessage(applicationUser, model.NewEmail), Times.Once);
 
             var successNotice = _controller.Notices.Dequeue();
-            successNotice.Text.Should().Be("Email was changed successfully!");
+            successNotice.Text.Should().Be("We'll send you an email asking you to confirm the change.");
             successNotice.Type.Should().Be(NoticeType.Success);
 
             AssertRedirectToIndex(result);
@@ -177,7 +178,6 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             // Assert
             result.Model.Should().Be(model);
 
-            _signInManagerMock.Verify(x => x.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never);
             _userManagerMock.Verify(x => x.UpdateAsync(It.IsAny<ApplicationUser>()), Times.Never);
             AssertZeroCommandsExecuted();
         }
@@ -316,6 +316,48 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             var errorNotice = _controller.Notices.Dequeue();
             errorNotice.Text.Should().Be("Failed to change email!");
             errorNotice.Type.Should().Be(NoticeType.Error);
+        }
+
+        [Fact]
+        public async Task ConfirmChangeEmail_Throws_InvalidOperationException_When_User_Is_Not_Found()
+        {
+            var userId = Guid.NewGuid().ToString();
+            var code = "testCode";
+            var newEmail = "new@test.com";
+
+            _userManagerMock.Setup(x => x.FindByIdAsync(userId)).Returns(Task.FromResult<ApplicationUser>(null));
+
+            //Act
+            Func<Task> act = async () => await _controller.ConfirmChangeEmail(userId, code, newEmail);
+
+            //Assert
+            await Assert.ThrowsAsync<InvalidOperationException>(act);
+            _userManagerMock.Verify(x => x.VerifyUserTokenAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()),
+                Times.Never);
+            AssertZeroCommandsExecuted();
+        }
+
+        [Fact]
+        public async Task ConfirmChangeEmail_Redirects_To_Home_Index_With_Error_Notice_When_When_Token_Isnt_valid()
+        {
+            var userId = Guid.NewGuid().ToString();
+            var code = "testCode";
+            var newEmail = "new@test.com";
+
+            _userManagerMock.Setup(x => x.FindByIdAsync(userId)).ReturnsAsync(new ApplicationUser());
+
+            //Act
+            var result = (RedirectToActionResult)await _controller.ConfirmChangeEmail(userId, code, newEmail);
+
+            //Assert
+            result.ActionName.Should().Be("Index");
+            result.ControllerName.Should().Be("Home");
+
+            var errorNotice = _controller.Notices.Dequeue();
+            errorNotice.Text.Should().Be("Confirmation code is wrong or expired!");
+            errorNotice.Type.Should().Be(NoticeType.Error);
+
+            AssertZeroCommandsExecuted();
         }
 
         private static void AssertRedirectToIndex(RedirectToActionResult result)

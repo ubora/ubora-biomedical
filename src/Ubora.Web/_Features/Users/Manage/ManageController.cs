@@ -9,6 +9,7 @@ using Ubora.Web.Data;
 using Ubora.Web.Services;
 using Ubora.Domain.Users.Commands;
 using Ubora.Web._Features._Shared.Notices;
+using System;
 
 namespace Ubora.Web._Features.Users.Manage
 {
@@ -233,32 +234,9 @@ namespace Ubora.Web._Features.Users.Manage
                 return View(model);
             }
 
-            var changeEmailResult = await ChangeEmailAsync(model.NewEmail, user);
+            await _emailChangeSender.SendEmailChangeConfirmationMessage(user, model.NewEmail);
 
-            if (!changeEmailResult.Succeeded)
-            {
-                AddErrors(changeEmailResult);
-
-                return View(model);
-            }
-
-            var command = new ChangeUserEmailCommand
-            {
-                UserId = UserId,
-                Email = model.NewEmail
-            };
-            ExecuteUserCommand(command, Notice.Success("Email was changed successfully!"));
-
-            if (!ModelState.IsValid)
-            {
-                Notices.NotifyOfError("Failed to change email!");
-
-                return RedirectToAction(nameof(Index));
-            }
-
-            await _emailChangeSender.SendChangedEmailMessage(user);
-
-            Notices.NotifyOfSuccess("Email was changed successfully!");
+            Notices.NotifyOfSuccess("We'll send you an email asking you to confirm the change.");
 
             return RedirectToAction(nameof(Index));
         }
@@ -270,6 +248,53 @@ namespace Ubora.Web._Features.Users.Manage
 
             var result = await _userManager.UpdateAsync(user);
             return result;
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmChangeEmail(string userId, string code, string newEmail)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var isValid = await _userManager.VerifyUserTokenAsync(user, "Default", "ChangeEmail", code);
+            if (!isValid)
+            {
+                Notices.NotifyOfError("Confirmation code is wrong or expired!");
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            var oldEmail = user.Email;
+            var changeEmailResult = await ChangeEmailAsync(newEmail, user);
+
+            if (!changeEmailResult.Succeeded)
+            {
+                Notices.NotifyOfError("Email cant be updated!");
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            var command = new ChangeUserEmailCommand
+            {
+                UserId = UserId,
+                Email = newEmail
+            };
+            ExecuteUserCommand(command, Notice.Success("Email was changed successfully!"));
+
+            if (!ModelState.IsValid)
+            {
+                Notices.NotifyOfError("Failed to change email!");
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            await _emailChangeSender.SendChangedEmailMessage(user, oldEmail);
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
