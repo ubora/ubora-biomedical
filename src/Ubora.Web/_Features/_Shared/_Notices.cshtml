@@ -7,22 +7,39 @@
     switch (notice.Type)
     {
         case NoticeType.Info:
-            <div class="notice notice-info">
-                <span class="notice-close js-notice-close">Close</span>
-                <p class="notice-text">@notice.Text</p>
+            <div class="row justify-content-center">
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p>@notice.Text</p>
+                </div>
             </div>
             break;
         case NoticeType.Success:
-            <div class="notice notice-success">
-                <span class="notice-close js-notice-close">Close</span>
-                <p class="notice-text">@notice.Text</p>
+            <div class="row justify-content-center">
+                <div class="alert alert-success fade show" role="alert">
+                    <p>@notice.Text</p>
+                </div>
             </div>
             break;
         case NoticeType.Error:
-            <div class="notice notice-error">
-                <span class="notice-close js-notice-close">Close</span>
-                <p class="notice-text">@notice.Text</p>
+            <div class="row justify-content-center">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p>@notice.Text</p>
+                </div>
             </div>
             break;
     }
 }
+
+<script>
+    $(document).ready(function () {
+        setTimeout(function () {
+            $(".alert-success").fadeOut('slow');
+        }, 3000);
+    });
+</script>

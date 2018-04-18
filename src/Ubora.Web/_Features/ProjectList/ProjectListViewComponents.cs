@@ -13,7 +13,9 @@ namespace Ubora.Web._Features.ProjectList
             _modelFactory = modelFactory;
         }
 
+#pragma warning disable 1998
         public async Task<IViewComponentResult> InvokeAsync()
+#pragma warning restore 1998
         {
             var model = _modelFactory.Create(header: "Public projects");
 
@@ -30,11 +32,13 @@ namespace Ubora.Web._Features.ProjectList
             _modelFactory = modelFactory;
         }
 
+#pragma warning disable 1998
         public async Task<IViewComponentResult> InvokeAsync()
+#pragma warning restore 1998
         {
             var model = _modelFactory.Create(header: "My projects", userId: User.GetId());
 
-            return View("~/_Features/ProjectList/ProjectListPartial.cshtml", model);
+            return View("~/_Features/ProjectList/UserProjectListPartial.cshtml", model);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Ubora.Web._Features.Users.Account
     {
         private readonly IApplicationUserManager _userManager;
         private readonly IApplicationSignInManager _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly EmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly ICommandProcessor _commandProcessor;
         private readonly IEmailConfirmationMessageSender _confirmationMessageSender;
@@ -32,7 +32,7 @@ namespace Ubora.Web._Features.Users.Account
         public AccountController(
             IApplicationUserManager userManager,
             IApplicationSignInManager signInManager,
-            IEmailSender emailSender,
+            EmailSender emailSender,
             ILogger<AccountController> logger,
             ICommandProcessor commandProcessor, IEmailConfirmationMessageSender confirmationMessageSender, IPasswordRecoveryMessageSender passwordRecoveryMessageSender)
         {
@@ -259,7 +259,7 @@ namespace Ubora.Web._Features.Users.Account
                 throw new InvalidOperationException();
             }
 
-            if(user.EmailConfirmed)
+            if (user.EmailConfirmed)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -267,7 +267,7 @@ namespace Ubora.Web._Features.Users.Account
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (!result.Succeeded)
             {
-                Notices.Error("Confirmation code is wrong or expired!");
+                Notices.NotifyOfError("Confirmation code is wrong or expired!");
 
                 return RedirectToAction("Index", "Home");
             }
@@ -285,7 +285,7 @@ namespace Ubora.Web._Features.Users.Account
                 }
             }
 
-            Notices.Success("Your email has been confirmed successfully!");
+            Notices.NotifyOfSuccess(SuccessTexts.EmailConfirmed);
 
             return RedirectToAction("Index", "Home");
         }
@@ -306,7 +306,11 @@ namespace Ubora.Web._Features.Users.Account
             {
                 var user = await _userManager.FindByNameAsync(model.Email);
                 if (user == null)
-                    return View("ForgotPasswordConfirmation");
+                {
+                    ModelState.AddModelError(string.Empty, "Can not find that email address, sorry.");
+                    return View("ForgotPassword");
+                }
+
                 await _passwordRecoveryMessageSender.SendForgotPasswordMessage(user);
                 return View("ForgotPasswordConfirmation");
             }

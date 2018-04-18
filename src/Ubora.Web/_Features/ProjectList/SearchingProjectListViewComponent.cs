@@ -12,9 +12,11 @@ namespace Ubora.Web._Features.ProjectList
             _modelFactory = modelFactory;
         }
 
+#pragma warning disable 1998
         public async Task<IViewComponentResult> InvokeAsync(string title)
+#pragma warning restore 1998
         {
-            var model = _modelFactory.CreateByTitle(title);
+            var model = _modelFactory.CreateForSearch(title);
 
             return View("~/_Features/ProjectList/ProjectListPartial.cshtml", model);
         }

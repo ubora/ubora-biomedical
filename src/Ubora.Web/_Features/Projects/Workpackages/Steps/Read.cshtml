@@ -7,36 +7,32 @@
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
-<section class="project-view full-width">
-    @await Component.InvokeAsync(typeof(WorkpackageListOverviewViewComponent))
-
-    <section class="medium-width step-view">
-        <div class="step_header">
-            <h1 class="step_title">@Model.Title</h1>
-            @if (Model.EditButton.IsVisible)
+<div class="col-lg-7">
+    <div class="row">
+        <div class="col">
+            <div class="d-flex justify-content-between">
+                <h1>@Model.Title</h1>
+                @if (Model.EditButton.IsVisible)
             {
-                <a class="step_edit" href="@Model.EditStepUrl">
-                    <i class="material-icons">mode_edit</i>Edit
-                </a>
+                    <a class="btn btn-outline-primary align-self-start" href="@Model.EditStepUrl">
+                        <i class="material-icons">mode_edit</i>
+                        <span>Edit</span>
+                    </a>
+                }
+            </div>
+            @if (Model.EditButton.IsHiddenWithMessage)
+            {
+                <p class="text-informative">@Model.EditButton.HideReasonMessage</p>
             }
+            <div class="text-markdown">@Model.Content</div>
         </div>
+    </div>
+</div>
 
-        @* TODO(from Kaspar Kallas to Risto Kitsing) *@
-        @if (Model.EditButton.IsHiddenWithMessage)
-        {
-            <br />
-            <p><i>@Model.EditButton.HideReasonMessage</i></p>
-        }
-
-        <div class="text-markdown">@Model.Content</div>
-
-    </section>
-</section>
 
 @section Scripts {
-  <script
-    src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"
-    asp-fallback-src="~/dist/libs/marked.min.js"
-    asp-fallback-test="window.marked">
-  </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"
+            asp-fallback-src="~/dist/libs/marked.min.js"
+            asp-fallback-test="window.marked">
+    </script>
 }

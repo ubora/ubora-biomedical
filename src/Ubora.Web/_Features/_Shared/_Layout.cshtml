@@ -1,4 +1,6 @@
 ﻿@using Ubora.Web._Features.Projects._Shared
+@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects.Workpackages.SideMenu
 @inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 <!DOCTYPE html>
 <html lang="en">
@@ -8,62 +10,134 @@
     <meta name="author" content="AgileWorks Ltd.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="~/images/favicon.png" rel="icon" type="image/png">
-    <title>@ViewData["Title"] - UBORA</title>
+    @if (!string.IsNullOrWhiteSpace(ViewData["Title"] as string))
+    {
+        <title>@ViewData["Title"] - UBORA</title>
+    }
+    else
+    {
+        <title>UBORA</title>
+    }
     <link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    @RenderSection("Head", required: false)
 
-    <environment names="Development">
-      <script
-        src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
-        asp-fallback-src="~/dist/libs/jquery.min.js"
-        asp-fallback-test="window.jQuery">
-      </script>
-    </environment>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 
     <environment names="Staging,Production">
-      <script
-        src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
-        asp-fallback-src="~/dist/libs/jquery.min.js"
-        asp-fallback-test="window.jQuery">
-      </script>
+      <link rel="stylesheet" href="~/dist/app.bundle.css" asp-append-version="true">
+      <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+              asp-fallback-src="~/dist/lib/jquery.min.js"
+              asp-fallback-test="window.jQuery"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.js"
+              asp-fallback-src="~/dist/lib/umd/popper.min.js"
+              asp-fallback-test="window.Popper"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"
+              asp-fallback-src="~/dist/lib/bootstrap.min.js"
+              asp-fallback-test="window.jQuery"></script>
+    </environment>
+    
+    <environment names="Development">
+        <link rel="stylesheet" href="~/dist/app.bundle.css">
+        <script src="~/dist/lib/jquery.min.js"></script>
+        <script src="~/dist/lib/umd/popper.min.js"></script>
+        <script src="~/dist/lib/bootstrap.min.js"></script>
     </environment>
 
+    <script src="~/dist/lib/jquery.timeago.js" 
+            asp-fallback-src="//cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.6.1/jquery.timeago.min.js"
+            asp-fallback-test="window.jQuery">
+    </script>
+
+    <script>
+        jQuery(document).ready(function () {
+            jQuery.timeago.settings.cutoff = 1000 * 60 * 60 * 24 * 7; // cutoff when older than 7 days
+            jQuery(".timeago").timeago();
+        });
+    </script>
+
     @Html.Raw(JavaScriptSnippet.FullScript)
+
 </head>
 
 <body>
     @await Html.PartialAsync("_Header")
 
-    <main>
-        @{
-            var projectMenuOption = ViewData["MenuOption"];
-            if (projectMenuOption != null)
-            {
-                @await Html.PartialAsync("~/_Features/Projects/_Shared/_ProjectMenu.cshtml", new ProjectMenuViewModel((ProjectMenuOption)projectMenuOption))
-            }
-        }
-
-        @RenderBody()
-
-        @if (User.Identity.IsAuthenticated)
+    @{
+        var projectMenuOption = ViewData["MenuOption"];
+        if (projectMenuOption != null)
         {
-            @Html.Partial("_FeedbackModal")
+            @await Html.PartialAsync("~/_Features/Projects/_Shared/_ProjectMenu.cshtml", new ProjectMenuViewModel((ProjectMenuOption)projectMenuOption))
         }
+    }
 
-        @Html.Partial("_Notices")
-    </main>
+    @{
+        var workpackageMenuOption = ViewData[nameof(WorkpackageMenuOption)];
+        if (workpackageMenuOption != null)
+        {
+            var wpSideMenuComponent = await Component.InvokeAsync<WorkpackageSideMenuViewComponent>();
+            <main>
+                <div class="wp-sidemenu-md">
+                    <button type="button" class="btn btn-icon d-flex align-items-center" data-toggle="modal" data-target="#wpSidemenuModal">
+                        <i class="material-icons mr-2">format_list_numbered</i>
+                        <span>WP menu</span>
+                    </button>
+                    <div class="modal fade modal-left-pane" id="wpSidemenuModal" tabindex="-1" role="dialog" aria-labelledby="wpModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    @{ wpSideMenuComponent.WriteTo(Output, HtmlEncoder); }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    @await Html.PartialAsync("_Footer")
+                <div class="container-fluid my-4">
+                    <div class="row">
+                       <div class="col-lg-3 wp-sidemenu">
+                           @{ wpSideMenuComponent.WriteTo(Output, HtmlEncoder); }
+                        </div>
+                        @RenderBody()
+                    </div>
+                </div>
+            </main>
+        }
+        else
+        {
+            <main>
+                @RenderBody()
+            </main>
+        }
+    }
 
+    @if (User.Identity.IsAuthenticated)
+    {
+        @Html.Partial("_FeedbackModal")
+    }
+
+    @Html.Partial("_Notices")
+
+
+    @{
+        // Don't show footer when in project's view
+        if (projectMenuOption == null)
+        {
+            @await Html.PartialAsync("_Footer")
+        }
+    }
 
     @RenderSection("Scripts", required: false)
 
     <environment names="Development">
-      <script src="~/dist/scripts.bundle.js"></script>
+        <script src="~/dist/app.bundle.js"></script>
     </environment>
 
     <environment names="Staging,Production">
-      <script src="~/dist/scripts.bundle.js" asp-append-version="true"></script>
+        <script src="~/dist/app.bundle.js" asp-append-version="true"></script>
     </environment>
 </body>
 </html>

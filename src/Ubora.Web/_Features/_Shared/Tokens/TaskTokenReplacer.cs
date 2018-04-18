@@ -3,7 +3,7 @@ using System;
 using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Projects.Tasks;
+using Ubora.Domain.Projects.Assignments;
 
 namespace Ubora.Web._Features._Shared.Tokens
 {
@@ -28,8 +28,8 @@ namespace Ubora.Web._Features._Shared.Tokens
             {
                 var taskId = new Guid(match.Groups[1].Value);
 
-                var task = _queryProcessor.FindById<ProjectTask>(taskId);
-                var tasksLink = _urlHelper.Action("Assignments", "Assignments");
+                var task = _queryProcessor.FindById<Assignment>(taskId);
+                var tasksLink = _urlHelper.Action("Edit", "Assignments", new { projectId = task.ProjectId, id = task.Id });
 
                 var encodedTaskTitle = _htmlEncoder.Encode(task.Title);
 

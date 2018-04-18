@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Web.Data;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Feedback
 {
@@ -11,7 +13,7 @@ namespace Ubora.Web._Features.Feedback
         {
             if (!string.IsNullOrWhiteSpace(command.Feedback))
             {
-                ExecuteUserCommand(command);
+                ExecuteUserCommand(command, Notice.None(reason: ".js notice"));
             }
 
             return Ok();
@@ -20,7 +22,7 @@ namespace Ubora.Web._Features.Feedback
         [Authorize(Roles = ApplicationRole.Admin)]
         public IActionResult All()
         {
-            var all = QueryProcessor.Find<Feedback>();
+            var all = QueryProcessor.Find<Feedback>(new MatchAll<Feedback>());
             return View(all);
         }
     }

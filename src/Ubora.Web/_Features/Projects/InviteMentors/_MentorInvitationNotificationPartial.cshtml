@@ -14,10 +14,10 @@
                 @Html.AntiForgeryToken()
                 <input type="hidden" asp-for="InvitationId" />
                 <div class="form-input notification-action">
-                    <button class="button secondary-button small-button" type="submit" asp-controller="Notifications" asp-action="DeclineMentorInvitation">Decline</button>
+                    <button class="btn btn-outline-primary" type="submit" asp-controller="Notifications" asp-action="DeclineMentorInvitation">Decline</button>
                 </div>
                 <div class="form-input notification-action">
-                    <button class="button secondary-button small-button" type="submit" asp-controller="Notifications" asp-action="AcceptMentorInvitation">Accept</button>
+                    <button class="btn btn-primary" type="submit" asp-controller="Notifications" asp-action="AcceptMentorInvitation">Accept</button>
                 </div>
             </form>
         </div>

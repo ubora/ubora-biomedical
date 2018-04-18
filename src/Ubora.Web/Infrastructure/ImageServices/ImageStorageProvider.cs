@@ -1,5 +1,4 @@
-﻿using ImageSharp;
-using SixLabors.Primitives;
+﻿using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -100,11 +99,8 @@ namespace Ubora.Web.Infrastructure.ImageServices
             {
                 using (var image = Image.Load(stream))
                 {
-                    var cropRectangle = GetRectangle(width, height, image.Width, image.Height);
-
-                    image.Crop(cropRectangle)
-                         .Resize(width, height)
-                         .SaveAsJpeg(outputStream);
+                    image.Mutate(i => i.Resize(width, height));
+                    image.SaveAsJpeg(outputStream);
                 }
                 outputStream.Seek(0, SeekOrigin.Begin);
 
@@ -130,30 +126,6 @@ namespace Ubora.Web.Infrastructure.ImageServices
 
                 await _uboraStorageProvider.SavePublic(blobLocation, outputStream);
             }
-        }
-
-        private Rectangle GetRectangle(int width, int height, int imageWidth, int imageHeight)
-        {
-            var ratio = width / height;
-            var imageRatio = imageWidth / imageHeight;
-
-            if (imageRatio < ratio)
-            {
-                var newHeight = (imageWidth * height) / width;
-                var yPosition = (imageHeight / 2) - (newHeight / 2);
-
-                return new Rectangle(0, yPosition, imageWidth, newHeight);
-            }
-            else if (imageRatio > ratio)
-            {
-
-                var newWidth = (imageHeight * width) / height;
-                var xPosition = (imageWidth / 2) - (newWidth / 2);
-
-                return new Rectangle(xPosition, 0, newWidth, imageHeight);
-            }
-
-            return new Rectangle(0, 0, width, height);
         }
 
         private async Task SaveStreamToBlobAsync(BlobLocation blobLocation, Stream stream)

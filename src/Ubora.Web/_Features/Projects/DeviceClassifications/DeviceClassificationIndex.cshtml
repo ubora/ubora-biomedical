@@ -1,0 +1,61 @@
+﻿@model Ubora.Web._Features.Projects.DeviceClassifications.DeviceClassificationIndexViewModel
+
+<div class="col-lg-7">
+
+    <h1>Device classification</h1>
+    <div asp-validation-summary="ModelOnly"></div>
+    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditWorkpackageOne))
+    {
+        <p>
+            Aim of this questionnaire is do offer a simple means of determining the class of a medical device according to Proposal for a Regulation of the European Parliament and of the Council on medical devices.
+        </p>
+
+
+        if (Model.Last == null || Model.Last.IsFinished)
+        {
+            <form class="mb-2" asp-action="Start" method="post">
+                <button type="submit" class="btn btn-primary">Start classifying your device</button>
+            </form>
+        }
+
+        if (Model.Last != null)
+        {
+            if (!Model.Last.IsFinished)
+            {
+                <form class="d-inline" method="post">
+                    <button class="btn btn-outline-primary d-sm-block d-lg-inline-block" type="submit" asp-action="Retake" asp-route-oldQuestionnaireId="@Model.Last.QuestionnaireId">Retake questionnaire</button>
+                </form>
+                <span class="mx-1"></span>
+                <a class="btn btn-primary d-sm-block d-lg-inline-block" asp-controller="DeviceClassifications" asp-action="Current" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Continue answering</a>
+
+                <p class="mt-2 text-informative">Questionnaire started at @Model.Last.StartedAt</p>
+            }
+        }
+
+        <p class="mt-4 text-informative">Quick notes:</p>
+        <ol class="text-informative">
+          <li>An unfinished questionnaire is visible to all project members and everyone can answer.</li>
+          <li>You can resume answering questions later if you close the page.</li>
+          <li>The questionnaire can be retaken until work package 1 is open.</li>
+          <li>Unfortunately, if you answer a question incorrectly then you have to take the questionnaire again.</li>
+          <li>Contact your UBORA mentor if you have any questions about the questionnaire.</li>
+        </ol>
+    }
+    else
+    {
+        <p class="text-informative">You can not edit work package when it's under review or has been accepted by review.</p>
+    }
+
+    @if (Model.Previous.Any())
+    {
+        <p class="mt-4">Results:</p>
+        <ul>
+            @foreach (var questionnaire in Model.Previous)
+            {
+                <li>
+                    <a asp-controller="DeviceClassifications" asp-action="Review" asp-route-questionnaireId="@questionnaire.QuestionnaireId">@questionnaire.StartedAt</a>
+                </li>
+            }
+        </ul>
+    }
+</div>

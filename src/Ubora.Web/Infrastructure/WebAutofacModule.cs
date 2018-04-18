@@ -4,14 +4,21 @@ using Ubora.Domain.Infrastructure.Commands;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Questionnaires.ApplicableRegulations;
+using Ubora.Domain.Questionnaires.DeviceClassifications;
+using Ubora.Web.Infrastructure.PreMailers;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Feedback;
 using Ubora.Web._Features.Users.Account;
 using Ubora.Web._Features.Notifications._Base;
 using Ubora.Web._Features._Shared.Tokens;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web._Features.Projects.ApplicableRegulations;
+using Ubora.Web._Features.Projects.DeviceClassifications;
 using Ubora.Web._Features.Projects.History._Base;
+using Ubora.Web._Features.Projects.Workpackages.Steps;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -28,12 +35,12 @@ namespace Ubora.Web.Infrastructure
         {
             if (!_useSpecifiedPickupDirectory)
             {
-                builder.RegisterType<SmtpEmailSender>().As<IEmailSender>()
+                builder.RegisterType<SmtpEmailSender>().As<EmailSender>()
                     .InstancePerLifetimeScope();
             }
             else
             {
-                builder.RegisterType<SpecifiedPickupDirectoryEmailSender>().As<IEmailSender>()
+                builder.RegisterType<SpecifiedPickupDirectoryEmailSender>().As<EmailSender>()
                     .InstancePerLifetimeScope();
             }
 
@@ -50,7 +57,7 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterType<ApplicationUserManager>().As<IApplicationUserManager>().InstancePerLifetimeScope();
             builder.RegisterType<ApplicationSignInManager>().As<IApplicationSignInManager>().InstancePerLifetimeScope();
 
-            builder.RegisterType<AuthMessageSender>().As<IPasswordRecoveryMessageSender>().As<IEmailConfirmationMessageSender>().InstancePerLifetimeScope();
+            builder.RegisterType<ApplicationUserEmailMessageSender>().As<IPasswordRecoveryMessageSender>().As<IEmailConfirmationMessageSender>().InstancePerLifetimeScope();
             builder.RegisterType<ViewRender>().InstancePerLifetimeScope();
             builder.RegisterType<ImageServices.ImageStorageProvider>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterAssemblyTypes(ThisAssembly).Where(t => t.IsNested && t.Name.EndsWith("Factory")).InstancePerLifetimeScope();
@@ -64,7 +71,7 @@ namespace Ubora.Web.Infrastructure
                 .AsClosedTypesOf(typeof(NotificationViewModelFactory<,>)).As<INotificationViewModelFactory>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<EventViewModelFactoryMediator>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<EventViewModelFactoryMediator>().As<IEventViewModelFactoryMediator>().InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .AsClosedTypesOf(typeof(EventViewModelFactory<,>)).As<IEventViewModelFactory>()
@@ -75,7 +82,19 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .AssignableTo<ITokenReplacer>().As<ITokenReplacer>()
                 .InstancePerLifetimeScope();
+
             builder.RegisterType<UboraStorageProvider>().As<IUboraStorageProvider>().InstancePerLifetimeScope();
+
+            builder.RegisterType<PreMailerFactory>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<UserAndEnvironmentInformationViewModel.Mapper>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<HealthTechnologySpecificationsViewModel.Mapper>().AsSelf().InstancePerLifetimeScope();
+
+            builder.RegisterType<DeviceClassificationIndexViewModel.QuestionnaireListItemProjection>()
+                .As<IProjection<DeviceClassificationAggregate, DeviceClassificationIndexViewModel.QuestionnaireListItem>>()
+                .SingleInstance();
+            builder.RegisterType<QuestionnaireIndexViewModel.QuestionnaireListItemProjection>()
+                .As<IProjection<ApplicableRegulationsQuestionnaireAggregate, QuestionnaireIndexViewModel.QuestionnaireListItem>>()
+                .SingleInstance();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)

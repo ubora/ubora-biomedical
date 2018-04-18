@@ -30,6 +30,16 @@ services:
     networks:
       - ubora-network
 
+  webpack:
+    container_name: 'webpack'
+    image: node:8.9.4
+    working_dir: /Ubora.Web
+    command: /bin/bash -c "npm install && node ./node_modules/webpack/bin/webpack.js --watch --watch-poll --config webpack.config.js"
+    volumes:
+      - ./Ubora.Web:/Ubora.Web
+    ports:
+      - "3000:3000"
+
   azurite:
     container_name: 'azurite'
     image: mpahk/azurite

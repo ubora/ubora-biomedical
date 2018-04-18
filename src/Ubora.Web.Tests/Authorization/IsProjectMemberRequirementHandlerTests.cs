@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Moq;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects._Specifications;
-using Ubora.Web.Authorization;
+using Ubora.Web.Authorization.Requirements;
 using Ubora.Web.Tests.Fakes;
 using Xunit;
 
@@ -28,7 +28,7 @@ namespace Ubora.Web.Tests.Authorization
             var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(userId);
 
             var handlerContext = new AuthorizationHandlerContext(
-                requirements: new[] { new IsProjectMemberRequirement() },
+                requirements: new[] { new DummyAuthorizationRequirement() },
                 user: user,
                 resource: null);
 
@@ -53,7 +53,7 @@ namespace Ubora.Web.Tests.Authorization
             var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(userId: Guid.NewGuid());
 
             var handlerContext = new AuthorizationHandlerContext(
-                requirements: new[] { new IsProjectMemberRequirement() },
+                requirements: new[] { new DummyAuthorizationRequirement() },
                 user: user,
                 resource: null);
 
@@ -65,7 +65,7 @@ namespace Ubora.Web.Tests.Authorization
                 .Should().BeFalse();
         }
 
-        private class HandlerUnderTest : IsProjectMemberRequirement.Handler
+        private class HandlerUnderTest : IsProjectMemberGenericRequirementHandler<DummyAuthorizationRequirement>
         {
             private Project _project = Mock.Of<Project>();
 

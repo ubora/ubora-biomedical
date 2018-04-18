@@ -1,9 +1,9 @@
 ﻿@using Ubora.Web._Features.Admin.Events
 @model Ubora.Web._Features.Admin.Events.EventsViewModel
 
-<section class="full-width">
+<div class="container my-5">
     <h1>Event metadata</h1>
-    
+
     Event count: @Model.Events.Count()<br/>
     Filter by:
     <a asp-action="Events" asp-route-filter="Namespace">namespace</a>,
@@ -23,4 +23,4 @@
         default:
             throw new ArgumentOutOfRangeException();
     }
-</section>
+</div>

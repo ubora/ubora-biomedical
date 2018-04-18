@@ -9,6 +9,7 @@ using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Web.Authorization;
+using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web._Features.Projects.Members;
 using Ubora.Web._Features.Users.Account;
 using Ubora.Web.Tests.Fakes;
@@ -27,7 +28,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         public MembersControllerTests()
         {
             _signInManagerMock = new Mock<FakeSignInManager>();
-            _membersController = new MembersController(_signInManagerMock.Object)
+            _membersController = new MembersController(_signInManagerMock.Object, Mock.Of<ImageStorageProvider>())
             {
                 Url = Mock.Of<IUrlHelper>()
             };
@@ -44,6 +45,11 @@ namespace Ubora.Web.Tests._Features.Projects.Members
                 {
                     MethodName = nameof(MembersController.RemoveMember),
                     Policies = new []{ nameof(Policies.CanRemoveProjectMember) }
+                },
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                {
+                    MethodName = nameof(MembersController.Join),
+                    Policies = new []{ nameof(Policies.CanJoinProject) }
                 }
             };
 

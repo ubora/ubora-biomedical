@@ -4,8 +4,9 @@ Feature: Email confirmation
 
 Background:
     Given I go to Home page
-        And I signed in as user
+        And I sign up as "email@agileworks.eu" and on first page
         And I expected the element "p=We have sent an email confirmation link to test@agileworks.eu" is visible
+        And I click on the element "#UboraLogo"
         And I expected the title of the page "Welcome - UBORA"
 
 Scenario: I click Resend confirmation link

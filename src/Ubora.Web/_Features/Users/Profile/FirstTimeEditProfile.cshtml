@@ -5,14 +5,12 @@
     ViewData["Title"] = "Create a profile";
 }
 
-@{
-    ViewData["Title"] = "Create a profile";
-}
-
-<section class="narrow-width">
-    <h1>Create a profile</h1>
-    
-    @Html.Partial("ChangeProfilePicturePartial", @Model.ProfilePictureViewModel)
-    @Html.Partial("FirstTimeEditProfilePartial", @Model.FirstTimeUserProfileViewModel)
-
-</section>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <h1 class="text-center">Create a profile</h1>
+            @Html.Partial("ChangeProfilePicturePartial", @Model.ProfilePictureViewModel)
+            @Html.Partial("FirstTimeEditProfilePartial", @Model.FirstTimeUserProfileViewModel)
+        </div>
+    </div>
+</div>

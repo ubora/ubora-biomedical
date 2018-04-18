@@ -6,7 +6,7 @@ Background:
     Given I go to Home page
 
 Scenario: I sign up an account and create my profile
-    When I click on the element "#SignInSignUp"
+    When I click on the element "span=Log in"
         And I sign up as "user@profile.com"
         And I set value "Bio Bio Bio, Test Test Test" to the element "#Biography"
         And I select value "AGO" from element "#CountryCode"
@@ -21,28 +21,26 @@ Scenario: I sign up an account and create my profile
     Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: I check my created profile
-    When I click on the element "span=Menu"
-        And I click on the element "a=View profile"
+    When I click on the element "span=Profile"
         And I click on the element "a=Edit profile"
     Then I expect the title of the page "Edit profile - UBORA"
-        And I expect the element "value=FirstName" is visible
-        And I expect the element "value=LastName" is visible
-        And I expect the element "value=test@agileworks.eu" is visible
-        And I expect the element "textarea=Bio Bio Bio, Test Test Test" is visible
-        And I expect the element "option=Angola" is visible
-        And I expect the element "value=DegreeTest" is visible
-        And I expect the element "value=FieldTest" is visible
-        And I expect the element "value=UniversityTest" is visible
-        And I expect the element "option=Researcher" is visible
-        And I expect the element "value=InstitutionTest" is visible
-        And I expect the element "value=SkillsTest" is visible
-        And I expect the element "option=Developer" is visible
+        And I expect the element "#FirstName" to contain text "firstName"
+        And I expect the element "#LastName" to contain text "lastName"
+        And I expect the element "#Email" to contain text "user@profile.com"
+        And I expect the element "#Biography" to contain text "Bio Bio Bio, Test Test Test"
+        And I expect the element "#CountryCode" to contain text "AGO"
+        And I expect the element "#Degree" to contain text "DegreeTest"
+        And I expect the element "#Field" to contain text "FieldTest"
+        And I expect the element "#University" to contain text "UniversityTest"
+        And I expect the element "#MedicalDevice" to contain text "Researcher"
+        And I expect the element "#Institution" to contain text "InstitutionTest"
+        And I expect the element "#Skills" to contain text "SkillsTest"
+        And I expect the element "#Role" to contain text "Developer"
     When I click on the element "button=Edit profile"
     Then I expect the title of the page "Manage your account - UBORA"
 
-Scenario: I change my profile and check if my changes have been saved
-    When I click on the element "span=Menu"
-        And I click on the element "a=View profile"
+Scenario: I change my profile
+    When I click on the element "span=Profile"
         And I click on the element "a=Edit profile"
         And I set value "NameFirst" to the element "#FirstName"
         And I set value "NameLast" to the element "#LastName"
@@ -56,39 +54,41 @@ Scenario: I change my profile and check if my changes have been saved
         And I set value "TestSkills" to the element "#Skills"
         And I select value "Mentor" from element "#Role"
         And I click on the element "button=Edit profile"
+    Then I expect the title of the page "Manage your account - UBORA"
+
+Scenario: I check my profile if my changes have been saved
+    When I click on the element "span=Profile"
         And I click on the element "a=Edit profile"
     Then I expect the title of the page "Edit profile - UBORA"
-        And I expect the element "value=NameFirst" is visible
-        And I expect the element "value=NameLast" is visible
-        And I expect the element "value=test@agileworks.eu" is visible
-        And I expect the element "textarea=Test Test Test, Bio Bio Bio" is visible
-        And I expect the element "option=Bulgaria" is visible
-        And I expect the element "value=TestDegree" is visible
-        And I expect the element "value=TestField" is visible
-        And I expect the element "value=TestUniversity" is visible
-        And I expect the element "option=Healthcare provider" is visible
-        And I expect the element "value=TestInstitution" is visible
-        And I expect the element "value=TestSkills" is visible
-        And I expect the element "option=Mentor" is visible
+        And I expect the element "#FirstName" to contain text "NameFirst"
+        And I expect the element "#LastName" to contain text "NameLast"
+        And I expect the element "#Email" to contain text "user@profile.com"
+        And I expect the element "#Biography" to contain text "Test Test Test, Bio Bio Bio"
+        And I expect the element "#CountryCode" to contain text "BGR"
+        And I expect the element "#Degree" to contain text "TestDegree"
+        And I expect the element "#Field" to contain text "TestField"
+        And I expect the element "#University" to contain text "TestUniversity"
+        And I expect the element "#MedicalDevice" to contain text "Healthcare provider"
+        And I expect the element "#Institution" to contain text "TestInstitution"
+        And I expect the element "#Skills" to contain text "TestSkills"
+        And I expect the element "#Role" to contain text "Mentor"  
 
 Scenario: I try to add an empty profile picture
     When I click on the element "span=Menu"
-        And I wait for the element "a=View profile"
         And I click on the element "a=View profile"
+        And I wait for the element "a=Edit profile"
         And I click on the element "a=Edit profile"
         And I click on the element "button=Upload image"
     Then I expect the title of the page "Edit profile - UBORA"
         And I expect the element "span=Please select an image to upload first!" is visible
 
 Scenario: I check terms of service
-    When I click on the element "span=Menu"
-        And I wait for the element "a=View profile"
-        And I click on the element "a=View profile"
+    When I click on the element "span=Profile"
         And I click on the element "a=Terms of Service"
     Then I expect the title of the page "Terms of Service - UBORA"
         And I expect the element "h1=UBORA e-infrastructure Terms of Service and Privacy Policy" is visible
         And I expect the element "a=http://e-infrastructure.ubora-biomedical.org" is visible
 
-Scenario: I log out
-    When I log out
-    Then I expect the title of the page "Welcome - UBORA"
+Scenario: I sign out
+    When I sign out
+    Then I expect the title of the page "UBORA"

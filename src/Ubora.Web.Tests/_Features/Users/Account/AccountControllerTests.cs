@@ -27,7 +27,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
     {
         private readonly Mock<IApplicationUserManager> _userManagerMock;
         private readonly Mock<IApplicationSignInManager> _signInManagerMock;
-        private readonly Mock<IEmailSender> _emailSenderMock;
+        private readonly Mock<EmailSender> _emailSenderMock;
         private readonly Mock<ILogger<AccountController>> _loggerMock;
         private readonly Mock<IEmailConfirmationMessageSender> _confirmationMessageSenderMock;
         private readonly Mock<IPasswordRecoveryMessageSender> _passwordRecoveryMessageSenderMock;
@@ -38,7 +38,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         {
             _userManagerMock = new Mock<IApplicationUserManager>(MockBehavior.Strict);
             _signInManagerMock = new Mock<IApplicationSignInManager>(MockBehavior.Strict);
-            _emailSenderMock = new Mock<IEmailSender>();
+            _emailSenderMock = new Mock<EmailSender>();
             _loggerMock = new Mock<ILogger<AccountController>>();
             _confirmationMessageSenderMock = new Mock<IEmailConfirmationMessageSender>(MockBehavior.Strict);
             _passwordRecoveryMessageSenderMock = new Mock<IPasswordRecoveryMessageSender>(MockBehavior.Strict);
@@ -377,7 +377,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _signInManagerMock.Verify(m => m.SignOutAsync(), Times.Never);
 
             var successNotice = _controller.Notices.Dequeue();
-            successNotice.Text.Should().Be("Your email has been confirmed successfully!");
+            successNotice.Text.Should().Be(SuccessTexts.EmailConfirmed);
             successNotice.Type.Should().Be(NoticeType.Success);
         }
 
@@ -403,7 +403,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             result.ActionName.Should().Be("Index");
 
             var successNotice = _controller.Notices.Dequeue();
-            successNotice.Text.Should().Be("Your email has been confirmed successfully!");
+            successNotice.Text.Should().Be(SuccessTexts.EmailConfirmed);
             successNotice.Type.Should().Be(NoticeType.Success);
 
             _signInManagerMock.Verify(m => m.SignOutAsync(), Times.Once);
@@ -446,7 +446,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
         }
 
         [Fact]
-        public async Task ForgotPassword_Returns_ForgotPasswordConfirmation_View_If_User_Is_Not_Found()
+        public async Task ForgotPassword_Returns_Explaining_Error_User_Is_Not_Found()
         {
             var forgotpasswordviewmodel = new ForgotPasswordViewModel
             {
@@ -462,7 +462,8 @@ namespace Ubora.Web.Tests._Features.Users.Account
             var result = (ViewResult)await _controller.ForgotPassword(forgotpasswordviewmodel);
 
             //Assert
-            result.ViewName.Should().Be("ForgotPasswordConfirmation");
+            result.ViewName.Should().Be("ForgotPassword");
+            result.ViewData.ModelState.IsValid.Should().BeFalse();
             _userManagerMock.Verify(x => x.IsEmailConfirmedAsync(identity), Times.Never);
         }
 

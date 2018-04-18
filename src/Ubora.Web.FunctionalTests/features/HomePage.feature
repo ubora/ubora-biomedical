@@ -6,23 +6,19 @@ Background:
     Given I go to Home page
 
 Scenario: Go to UBORA home page 
-    Then I expect the title of the page "Welcome - UBORA"
+    Then I expect the title of the page "UBORA"
 
 Scenario: Click Home button
-    When I click on the element ".header-logo"
-    Then I expect the title of the page "Welcome - UBORA"
+    When I click on the element "#UboraLogo"
+    Then I expect the title of the page "UBORA"
 
-Scenario: Click Sign in/sign up button
-    When I click on the element "#SignInSignUp"
-    Then I expect the title of the page "Sign in to UBORA - UBORA"
+Scenario: Click Log in button
+    When I click on the element "span=Log in"
+    Then I expect the title of the page "Log in to UBORA - UBORA"
 
-Scenario: Click I have an idea button
-    When I click on the element "a=I have an idea"
-    Then I expect the title of the page "Sign in to UBORA - UBORA"
-
-Scenario: Click on View members
-    When I click on the element "a=View members"
-    Then I expect the title of the page "View members - UBORA"
+Scenario: Click on Community
+    When I click on the element "span=Community"
+    Then I expect the title of the page "Community - UBORA"
 
 Scenario: Click on Search
     When I click on the element "span=Search"

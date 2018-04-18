@@ -27,7 +27,7 @@ namespace Ubora.Domain.Tests
             _domainAutofacModule = new DomainAutofacModule(ConnectionSource.ConnectionString, Mock.Of<IStorageProvider>());
             var eventTypes = DomainAutofacModule.FindDomainEventConcreteTypes();
             var notificationTypes = DomainAutofacModule.FindDomainNotificationConcreteTypes();
-            StoreOptions(new UboraStoreOptionsConfigurer().CreateConfigureAction(eventTypes, notificationTypes, AutoCreate.All));
+            StoreOptions(new UboraStoreOptionsConfigurer().CreateConfigureAction(eventTypes, notificationTypes, AutoCreate.CreateOnly));
         }
 
         private IContainer InitializeContainer()
@@ -38,7 +38,7 @@ namespace Ubora.Domain.Tests
 
             // Register Marten DocumentStore/Session
             builder.Register(_ => (TestingDocumentStore)theStore).As<DocumentStore>().As<IDocumentStore>().SingleInstance();
-            builder.Register(_ => Session).As<IDocumentSession>();
+            builder.Register(_ => Session).As<IDocumentSession>().As<IQuerySession>();
 
             var storageProviderMock = new Mock<IStorageProvider>().Object;
             builder.RegisterInstance(storageProviderMock).As<IStorageProvider>();

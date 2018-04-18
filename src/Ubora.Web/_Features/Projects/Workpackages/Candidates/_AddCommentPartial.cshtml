@@ -1,0 +1,13 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages.Candidates
+@model Ubora.Web._Features.Projects.Workpackages.Candidates.AddCommentViewModel
+
+<form asp-controller="Candidates" asp-action="AddComment" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="CandidateId" />
+    <div class="form-group">
+        <label class="mb-4" asp-for="CommentText">Comment</label>
+        <textarea class="form-control" asp-for="CommentText" placeholder="Add comment" rows="4"></textarea>
+        <span asp-validation-for="CommentText"></span>
+    </div>
+    <button class="btn btn-primary" type="submit">Add comment</button>
+</form>

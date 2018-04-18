@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
@@ -9,11 +10,12 @@ using Ubora.Web._Features.Users.UserList;
 using Xunit;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Users.Specifications;
 
 namespace Ubora.Web.Tests._Features.Users.UserList
 {
-    public class UserListControllerTests : UboraControllerTestsBase
+    public partial class UserListControllerTests : UboraControllerTestsBase
     {
         private readonly Mock<ImageStorageProvider> _imageStorageProviderMock;
         private readonly UserListController _controller;
@@ -37,7 +39,7 @@ namespace Ubora.Web.Tests._Features.Users.UserList
                 userProfile.ProfilePictureBlobLocation = new BlobLocation("test", blobname);
             }
 
-            var userProfiles = new List<UserProfile>
+            var userProfiles = new PagedListStub<UserProfile>
             {
                 userProfile
             };
@@ -51,7 +53,7 @@ namespace Ubora.Web.Tests._Features.Users.UserList
                     .Returns(url);
             }
 
-            QueryProcessorMock.Setup(p => p.Find<UserProfile>(null)).Returns(userProfiles);
+            QueryProcessorMock.Setup(p => p.Find<UserProfile>(new MatchAll<UserProfile>())).Returns(userProfiles);
 
             //Act
             var result = (ViewResult)_controller.Index();
@@ -79,7 +81,7 @@ namespace Ubora.Web.Tests._Features.Users.UserList
             userProfile2.Set(x => x.FirstName, "FirstName2");
             userProfile2.Set(x => x.LastName, "LastName2");
 
-            var searchResults = new[]
+            var searchResults = new PagedListStub<UserProfile>
             {
                 userProfile1,
                 userProfile2

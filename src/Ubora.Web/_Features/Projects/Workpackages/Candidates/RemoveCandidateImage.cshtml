@@ -1,0 +1,16 @@
+﻿@model Ubora.Web._Features.Projects.Workpackages.Candidates.RemoveCandidateImageViewModel
+
+
+<div class="col text-center">
+
+    <h2 class="mb-4">Do you want to remove the candidate "@Model.Title" image?</h2>
+    <form asp-controller="Candidates" asp-action="RemoveCandidateImage" method="post">
+        @Html.HiddenFor(m => m.Id)
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <a class="btn btn-outline-primary" asp-controller="Candidates" asp-action="Candidate" asp-route-candidateId="@Model.Id">Cancel</a>
+            <span class="mx-1"></span>
+            <button class="btn btn-primary" type="submit">Remove</button>
+        </div>
+    </form>
+</div>

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -24,9 +25,9 @@ using Ubora.Web.Infrastructure.DataSeeding;
 using TwentyTwenty.Storage;
 using TwentyTwenty.Storage.Azure;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.SpaServices.Webpack;
 using Npgsql;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web._Features.Projects.Workpackages.Steps;
 
 namespace Ubora.Web
 {
@@ -63,7 +64,8 @@ namespace Ubora.Web
 
             var npgSqlConnectionString = new NpgsqlConnectionStringBuilder(ConnectionString);
 
-            var isListeningPostgres = WaitForHost(npgSqlConnectionString.Host, npgSqlConnectionString.Port, TimeSpan.FromSeconds(15));
+            var isListeningPostgres = WaitForHost(npgSqlConnectionString.Host, npgSqlConnectionString.Port,
+                TimeSpan.FromSeconds(15));
             if (!isListeningPostgres)
             {
                 throw new Exception("Database (Postgres) could not be connected to.");
@@ -73,18 +75,20 @@ namespace Ubora.Web
                 options.UseNpgsql(ConnectionString));
 
             services
-                .AddMvc()
-                .AddUboraFeatureFolders(new FeatureFolderOptions { FeatureFolderName = "_Features" });
+                .AddMvc(options =>
+                {
+                    // TODO: Kaspar: Should definitely add but not right before Design School (might break some functionality)
+                    //options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                })
+                .AddUboraFeatureFolders(new FeatureFolderOptions {FeatureFolderName = "_Features"});
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
 
-            var useSpecifiedPickupDirectory = Convert.ToBoolean(Configuration["SmtpSettings:UseSpecifiedPickupDirectory"]);
+            var useSpecifiedPickupDirectory =
+                Convert.ToBoolean(Configuration["SmtpSettings:UseSpecifiedPickupDirectory"]);
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>(o =>
-                {
-                    o.Password.RequireNonAlphanumeric = false;
-                })
+            services.AddIdentity<ApplicationUser, ApplicationRole>(o => { o.Password.RequireNonAlphanumeric = false; })
                 .AddUserManager<ApplicationUserManager>()
                 .AddSignInManager<ApplicationSignInManager>()
                 .AddClaimsPrincipalFactory<ApplicationClaimsPrincipalFactory>()
@@ -93,7 +97,7 @@ namespace Ubora.Web
                 .AddDefaultTokenProviders();
 
             services.AddAutoMapper();
-            services.AddUboraAuthorization();
+            services.AddUboraPolicyBasedAuthorization();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -151,14 +155,7 @@ namespace Ubora.Web
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                if (Configuration["FunctionalTesting"] == null)
-                {
-                    app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                    {
-                        HotModuleReplacement = true
-                    });
-                    app.UseBrowserLink();
-                }
+                app.UseBrowserLink();
             }
             else
             {
@@ -218,21 +215,20 @@ namespace Ubora.Web
         {
             using (TcpClient client = new TcpClient())
             {
-                var connected = false;
                 var timeoutTime = DateTime.Now.AddSeconds(timeout.Seconds);
-                while (!connected && DateTime.Now < timeoutTime)
+                while (DateTime.Now < timeoutTime)
                 {
                     try
                     {
-                        client.ConnectAsync(server, port).Wait(timeout);
-                        connected = true;
+                        return client.ConnectAsync(server, port).Wait(timeout);
                     }
                     catch
                     {
-                        connected = false;
+                        if (DateTime.Now > timeoutTime)
+                            throw;
                     }
                 }
-                return connected;
+                return false;
             }
         }
     }

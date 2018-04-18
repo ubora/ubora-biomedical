@@ -5,17 +5,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Users.Commands;
+using Ubora.Domain.Users.Queries;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Admin
 {
     [Authorize(Roles = ApplicationRole.Admin)]
     public class AdminController : UboraController
     {
-        private readonly ApplicationUserManager _userManager;
+        private readonly IApplicationUserManager _userManager;
 
-        public AdminController(ApplicationUserManager userManager)
+
+        public AdminController(IApplicationUserManager userManager)
         {
             _userManager = userManager;
         }
@@ -25,18 +29,24 @@ namespace Ubora.Web._Features.Admin
         {
             var userViewModels = new List<UserViewModel>();
 
+            IReadOnlyDictionary<Guid, string> userFullNames = QueryProcessor.ExecuteQuery(new FindFullNamesOfAllUboraUsersQuery());
+
             foreach (var user in _userManager.Users.ToList())
             {
                 userViewModels.Add(new UserViewModel
                 {
                     UserId = user.Id,
                     UserEmail = user.Email,
+                    FullName = userFullNames[user.Id],
                     Roles = await _userManager.GetRolesAsync(user)
                 });
             }
 
-            return View(nameof(Diagnostics), userViewModels);
+            var orderedViewModel = userViewModels.OrderBy(x => x.FullName).ToList();
+
+            return View(nameof(Diagnostics), orderedViewModel);
         }
+
 
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]
@@ -100,6 +110,55 @@ namespace Ubora.Web._Features.Admin
             {
                 AddIdentityErrorsToModelState(result);
 
+                return await Diagnostics();
+            }
+
+            return RedirectToAction(nameof(Diagnostics));
+        }
+
+        [Route(nameof(DeleteUser))]
+        public IActionResult DeleteUser(string userEmail)
+        {
+            var model = new DeleteUserViewModel
+            {
+                UserEmail = userEmail
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = ApplicationRole.Admin)]
+        [Route(nameof(DeleteUser))]
+        public async Task<IActionResult> DeleteUser(DeleteUserViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return await Diagnostics();
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.UserEmail);
+            if (user == null)
+            {
+                ModelState.AddModelError("", $"User not found by e-mail: {model.UserEmail}");
+                return await Diagnostics();
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                ExecuteUserCommand(new DeleteUserCommand
+                {
+                    UserId = user.Id
+                }, Notice.Success(SuccessTexts.UserDeleted));
+            }
+            else
+            {
+                AddIdentityErrorsToModelState(result);
+            }
+
+            if (!ModelState.IsValid)
+            {
                 return await Diagnostics();
             }
 

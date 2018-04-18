@@ -5,20 +5,19 @@
     ViewData["Title"] = "Search";
 }
 
-<section class="narrow-width">
-    <form asp-controller="ProjectList" asp-action="Search" method="post">
-        <div class="form-input">
-            <input asp-for="Title" placeholder="Search UBORA for..." autofocus>
-            <span asp-validation-for="Title"></span>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 mb-4">
+            <form asp-controller="ProjectList" asp-action="Search" method="post">
+                <div class="form-group">
+                    <input class="form-control" asp-for="Title" placeholder="Search UBORA for...">
+                    <span asp-validation-for="Title"></span>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
         </div>
-        <div class="form-input">
-            <div class="center-element">
-                <button class="button primary-button small-button" type="submit">Search</button>
-            </div>
-        </div>
-    </form>
-</section>
-
-<section class="full-width">
+    </div>
     @await Component.InvokeAsync(typeof(SearchingProjectListViewComponent), new { title = @Model.Title })
-</section>
+</div>

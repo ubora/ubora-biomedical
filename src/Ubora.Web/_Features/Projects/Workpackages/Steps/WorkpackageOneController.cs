@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Domain.Projects._Commands;
@@ -11,27 +10,40 @@ using Ubora.Web._Features._Shared.Notices;
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     [ProjectRoute("WP1")]
+    [WorkpackageStepIdFromRouteToViewData]
     public class WorkpackageOneController : ProjectController
     {
         private WorkpackageOne _workpackageOne;
         public WorkpackageOne WorkpackageOne => _workpackageOne ?? (_workpackageOne = QueryProcessor.FindById<WorkpackageOne>(ProjectId));
 
         [Route(nameof(ProjectOverview))]
-        public IActionResult ProjectOverview()
+        public IActionResult ProjectOverview(string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
+
             var model = AutoMapper.Map<ProjectOverviewViewModel>(Project);
 
             return View(model);
         }
 
+        public IActionResult DiscardDesignPlanningChanges(string returnUrl = null)
+        {
+            if(returnUrl != null)
+            {
+                return RedirectToLocal(returnUrl);
+            }
+
+            return RedirectToAction(nameof(ProjectOverview));
+        }
+
         [HttpPost]
         [Route(nameof(ProjectOverview))]
-        [Authorize(Policies.CanEditWorkpackageOne)]
-        public IActionResult ProjectOverview(ProjectOverviewViewModel model)
+        [Authorize(Policies.CanEditDesignPlanning)]
+        public IActionResult ProjectOverview(ProjectOverviewViewModel model, string returnUrl = null)
         {
             if (!ModelState.IsValid)
             {
-                return ProjectOverview();
+                return ProjectOverview(returnUrl);
             }
 
             ExecuteUserProjectCommand(new UpdateProjectCommand
@@ -41,26 +53,21 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 PotentialTechnologyTags = model.PotentialTechnologyTags,
                 Gmdn = model.Gmdn,
                 Title = Project.Title
-            });
+            }, Notice.Success(SuccessTexts.ProjectUpdated));
 
             if (!ModelState.IsValid)
             {
-                Notices.Error("Failed to change project overview!");
+                Notices.NotifyOfError("Failed to change project overview!");
 
-                return ProjectOverview();
+                return ProjectOverview(returnUrl);
             }
 
-            Notices.Success("Project overview changed successfully!");
+            if(returnUrl != null)
+            {
+                return RedirectToLocal(returnUrl);
+            }
 
             return View();
-        }
-
-        [Route(nameof(DeviceClassification))]
-        public IActionResult DeviceClassification()
-        {
-            var model = AutoMapper.Map<DeviceClassificationViewModel>(Project);
-
-            return View(nameof(DeviceClassification), model);
         }
 
         [Route("{stepId}")]
@@ -111,7 +118,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
                 StepId = model.StepId,
                 NewValue = model.Content
-            });
+            }, Notice.Success(SuccessTexts.WP1StepEdited));
 
             if (!ModelState.IsValid)
             {

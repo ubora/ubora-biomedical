@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Projects._Commands;
+using Ubora.Web.Authorization;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.ProjectCreation
 {
-    [Authorize]
+    [Authorize(Policy = nameof(Policies.CanCreateProject))]
     public class ProjectCreationController : UboraController
     {
         public IActionResult Create()
@@ -31,7 +32,7 @@ namespace Ubora.Web._Features.ProjectCreation
                 AreaOfUsage = model.AreaOfUsageTags,
                 PotentialTechnology = model.PotentialTechnologyTags,
                 Gmdn = model.Gmdn
-            });
+            }, Notice.None("Visual feedback obvious enough."));
 
             if (!ModelState.IsValid)
             {

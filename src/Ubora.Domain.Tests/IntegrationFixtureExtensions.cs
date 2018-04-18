@@ -1,12 +1,13 @@
 using System;
 using System.Linq;
-using Ubora.Domain.Projects;
+using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Domain.Projects._Commands;
-using Ubora.Domain.Users;
 using Ubora.Domain.Users.Commands;
+using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Tests
 {
@@ -18,6 +19,15 @@ namespace Ubora.Domain.Tests
             {
                 NewProjectId = projectId,
                 Actor = new DummyUserInfo()
+            });
+        }
+
+        public static void Create_Project(this IntegrationFixture fixture, Guid projectId, Guid userId)
+        {
+            fixture.Processor.Execute(new CreateProjectCommand
+            {
+                NewProjectId = projectId,
+                Actor = new UserInfo(userId, "Mr. Project Leader")
             });
         }
 
@@ -43,7 +53,7 @@ namespace Ubora.Domain.Tests
                 Actor = new DummyUserInfo()
             });
 
-            var invitation = fixture.Processor.Find<ProjectMentorInvitation>()
+            var invitation = fixture.Processor.Find<ProjectMentorInvitation>(new MatchAll<ProjectMentorInvitation>())
                 .Last(x => x.InviteeUserId == userId);
 
             fixture.Processor.Execute(new AcceptProjectMentorInvitationCommand
@@ -103,6 +113,25 @@ namespace Ubora.Domain.Tests
             fixture.Processor.Execute(new AcceptWorkpackageTwoReviewCommand
             {
                 ProjectId = projectId,
+                Actor = new DummyUserInfo()
+            });
+        }
+
+        public static void Open_Workpackage_Three(this IntegrationFixture fixture, Guid projectId)
+        {
+            fixture.Processor.Execute(new OpenWorkpackageThreeCommand
+            {
+                ProjectId = projectId,
+                Actor = new DummyUserInfo()
+            });
+        }
+
+        public static void Upload_Dummy_Project_Image(this IntegrationFixture fixture, Guid projectId)
+        {
+            fixture.Processor.Execute(new UpdateProjectImageCommand
+            {
+                ProjectId = projectId,
+                BlobLocation = new BlobLocation("testContainerName", "testBlobPath"),
                 Actor = new DummyUserInfo()
             });
         }

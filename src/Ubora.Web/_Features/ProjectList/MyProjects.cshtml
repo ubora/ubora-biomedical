@@ -4,6 +4,6 @@
     ViewData["Title"] = "View projects";
 }
 
-<section class="projects">
-    @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
-</section>
+<div class="container my-5 my-projects">
+      @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
+</div>

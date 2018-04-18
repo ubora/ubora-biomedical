@@ -1,9 +1,7 @@
-﻿using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Users;
 using Ubora.Domain.Users.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
@@ -29,7 +27,8 @@ namespace Ubora.Web.Infrastructure.DataSeeding
             var user = new ApplicationUser
             {
                 UserName = email,
-                Email = email
+                Email = email,
+                EmailConfirmed = true
             };
 
             var identityResult = await _userManager.CreateAsync(user, password);

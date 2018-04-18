@@ -16,15 +16,10 @@ namespace Ubora.Domain.Projects.Workpackages
 
             Title = "Medical need and product specification";
 
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.DescriptionOfNeeds, "Description of Needs", Placeholders.DescriptionOfNeeds));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.DescriptionOfExistingSolutionsAndAnalysis, "Description of Existing Solutions and Analysis", Placeholders.DescriptionOfExistingSolutionsAndAnalysis));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductFunctionality, "Product Functionality", Placeholders.ProductFunctionality));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductPerformance, "Product Performance", Placeholders.ProductPerformance));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductUsability, "Product Usability", Placeholders.ProductUsability));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.ProductSafety, "Product Safety", Placeholders.ProductSafety));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.PatientPopulationStudy, "Patient Population Study", Placeholders.PatientPopulationStudy));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.UserRequirementStudy, "User Requirement Study", Placeholders.UserRequirementStudy));
-            _steps.Add(new WorkpackageStep(WorkpackageStepIds.AdditionalInformation, "Additional Information", Placeholders.AdditionalInformation));
+            _steps.Add(new WorkpackageStep("ClinicalNeeds", "Clinical needs"));
+            _steps.Add(new WorkpackageStep("ExistingSolutions", "Existing solutions"));
+            _steps.Add(new WorkpackageStep("IntendedUsers", "Intended users"));
+            _steps.Add(new WorkpackageStep("ProductRequirements", "Product requirements"));
         }
 
         private void Apply(WorkpackageOneStepEditedEvent e)
@@ -55,7 +50,7 @@ namespace Ubora.Domain.Projects.Workpackages
                 throw new InvalidOperationException();
             }
 
-            var oldReview = GetSingleActiveReview();
+            var oldReview = GetSingleInProcessReview();
             var acceptedReview = oldReview.ToAccepted(e.ConcludingComment, e.AcceptedAt);
 
             _reviews.Remove(oldReview);
@@ -70,11 +65,25 @@ namespace Ubora.Domain.Projects.Workpackages
                 throw new InvalidOperationException();
             }
 
-            var oldReview = GetSingleActiveReview();
+            var oldReview = GetSingleInProcessReview();
             var acceptedReview = oldReview.ToRejected(e.ConcludingComment, e.RejectedAt);
 
             _reviews.Remove(oldReview);
             _reviews.Add(acceptedReview);
+        }
+
+        private void Apply(WorkpackageOneReopenedAfterAcceptanceByReviewEvent e)
+        {
+            var oldReview = GetLatestReviewOrNull();
+            if (oldReview.Id != e.AcceptedReviewId)
+            {
+                throw new InvalidOperationException($"Given {nameof(e.AcceptedReviewId)} is not for latest review.");
+            }
+
+            var reopenedReview = oldReview.ToWorkpackageReopened();
+
+            _reviews.Remove(oldReview);
+            _reviews.Add(reopenedReview);
         }
     }
 }

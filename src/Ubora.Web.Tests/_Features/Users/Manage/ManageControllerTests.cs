@@ -20,7 +20,7 @@ namespace Ubora.Web.Tests._Features.Users.Manage
     {
         private readonly Mock<FakeUserManager> _userManagerMock;
         private readonly Mock<FakeSignInManager> _signInManagerMock;
-        private readonly Mock<IEmailSender> _emailSenderMock;
+        private readonly Mock<EmailSender> _emailSenderMock;
         private readonly Mock<ILoggerFactory> _loggerFactoryMock;
         private readonly Mock<ILogger<ManageController>> _logger;
         private readonly Mock<IEmailConfirmationMessageSender> _confirmationMessageSenderMock;
@@ -30,7 +30,7 @@ namespace Ubora.Web.Tests._Features.Users.Manage
         {
             _userManagerMock = new Mock<FakeUserManager>();
             _signInManagerMock = new Mock<FakeSignInManager>();
-            _emailSenderMock = new Mock<IEmailSender>();
+            _emailSenderMock = new Mock<EmailSender>();
             _loggerFactoryMock = new Mock<ILoggerFactory>();
             _logger = new Mock<ILogger<ManageController>>();
             _confirmationMessageSenderMock = new Mock<IEmailConfirmationMessageSender>();
@@ -76,7 +76,7 @@ namespace Ubora.Web.Tests._Features.Users.Manage
                 .Verify(x => x.ChangePasswordAsync(applicationUser, currentPassword, newPassword), Times.Once);
 
             var successNotice = _controller.Notices.Dequeue();
-            successNotice.Text.Should().Be("Password changed successfully!");
+            successNotice.Text.Should().Be(SuccessTexts.PasswordChanged);
             successNotice.Type.Should().Be(NoticeType.Success);
 
             _signInManagerMock

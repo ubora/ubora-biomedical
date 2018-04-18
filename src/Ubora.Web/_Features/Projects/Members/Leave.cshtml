@@ -2,14 +2,16 @@
     ViewData["Title"] = "Leave project";
 }
 
-<section class="medium-width">
-    <h3 class="text-center">Are you sure you want to leave the project?</h3>
-    <form asp-controller="Members" asp-action="LeaveProject" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-        <div class="center-element">
-            <a class="button secondary-button small-button" asp-controller="Members" asp-action="Members">No, stay</a>
-            <button class="button secondary-button small-button" type="submit">Yes, leave</button>
-        </div>
-    </form>
-</section>
+<div class="container my-5">
+    <div class="text-center">
+      <h3>Are you sure you want to leave the project?</h3>
+      <form asp-controller="Members" asp-action="LeaveProject" method="post">
+          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          <div class="form-group">
+            <a class="btn btn-outline-primary" asp-controller="Members" asp-action="Members">Cancel</a>
+            <span class="mx-1"></span>
+            <button class="btn btn-primary" type="submit">Leave</button>
+          </div>
+      </form>
+    </div>
+</div>

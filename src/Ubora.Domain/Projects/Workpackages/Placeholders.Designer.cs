@@ -8,12 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ubora.Domain.Projects.Workpackages
-{
+namespace Ubora.Domain.Projects.Workpackages {
     using System;
-    using System.Reflection;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -21,200 +19,226 @@ namespace Ubora.Domain.Projects.Workpackages
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Placeholders
-    {
-
+    public class Placeholders {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Placeholders()
-        {
+        internal Placeholders() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if (object.ReferenceEquals(resourceMan, null))
-                {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ubora.Domain.Projects.Workpackages.Placeholders", typeof(Placeholders).GetTypeInfo().Assembly);
+        public static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ubora.Domain.Projects.Workpackages.Placeholders", typeof(Placeholders).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        public static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Here you can provide any additional information that you think is appropriate. For example, any preliminary studies that you have already performed or reference to similar/ competitor devices.
-        ///
-        ///Other interesting information includes:
-        ///
-        ///Any cost estimation; 
-        ///industrial process identification; 
-        ///animal model for testing that may be representative;
-        ///simulations on dummies or SW that may be representative;
-        ///if the device is intended to be single use;.
+        ///   Looks up a localized string similar to &lt;p&gt;You should describe the clinical need that is the target of your device.&lt;/p&gt;
+        ///&lt;ul&gt;
+        ///&lt;li&gt;Example 1: write the common or technical name of the pathology, describe the main symptoms and if it is acute/chronic. &lt;em&gt;“Down syndrome is a syndrome linked to various conditions, from lowered cognitive functions to increased risk of heart failure”.&lt;/em&gt;&lt;/li&gt;
+        ///&lt;li&gt;Example 2: write the common or technical name of the handicap, describe if it is innate or caused by incidents or a consequence of a pathology: &lt;em&gt;“Conge [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string AdditionalInformation
-        {
-            get
-            {
-                return ResourceManager.GetString("AdditionalInformation", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Here you should describe what are the devices or therapies on the market; if possible, list some pros and cons of the existing solutions.
-        ///
-        ///Example: list medical, surgical or technical solutions available; define the criteria to choose amongst the have different options. Comment on residual side effects or contraindications that may be improved.
-        ///
-        ///Worked example: congenital club foot is usually treated by braces (mild cases) or surgery. Both solutions require long healing times and frequent specialistic f [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string DescriptionOfExistingSolutionsAndAnalysis
-        {
-            get
-            {
-                return ResourceManager.GetString("DescriptionOfExistingSolutionsAndAnalysis", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Here you should describe the clinical need that is the target of your device. 
-        ///Example 1: write the common or technical name of the pathology, describe the main symptoms and if it is acute/chronic.
-        ///Example 2: write the common or technical name of the handicap, describe if it is innate or caused by incidents or a consequence of a pathology
-        ///Example 3: describe what is the patient need in terms of cost / improvement of life conditions / improvement of wellbeing
-        ///
-        ///Worked example 1: Down sindrome is a sindro [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string DescriptionOfNeeds {
+        public static string ClinicalNeeds {
             get {
-                return ResourceManager.GetString("DescriptionOfNeeds", resourceCulture);
+                return ResourceManager.GetString("ClinicalNeeds", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Here you should describe how many patients you suppose would need your device, and give description of their state of health and any subgroups.
-        ///
-        ///Example 1: evaluate how many patients are registered for the target pathology in your country/ worldwide and comment any differences.
-        ///
-        ///Worked example 1: neonatal hypothermia affects xxx% of preterm children and xx% of babies at term. This means an estimate of xxx babies per year worldwide.
-        ///
-        ///Example 2: evaluate how the current patient population may evolve ove [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;p&gt;You should describe the conceptual design selected in the Voting step.&lt;/p&gt;
+        ///&lt;p&gt;Starting from the physics/chemistry/biology underlying the working principle, you should propose a first possible embodiment, providing sketches, diagrams, and/or other representation to communicate your idea.
+        ///(If possible, please provide references to support your answer)&lt;/p&gt;.
         /// </summary>
-        public static string PatientPopulationStudy
-        {
-            get
-            {
-                return ResourceManager.GetString("PatientPopulationStudy", resourceCulture);
+        public static string ConceptDescription {
+            get {
+                return ResourceManager.GetString("ConceptDescription", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Here you should briefly describe your device and how it works. Describe how your product will meet and solve the clinical need.
-        ///
-        ///Example 1: describe how the device interacts with the human body and why this interaction is beneficial.
-        ///
-        ///Worked example 1: the syringe allows to deliver liquid substances, for example drugs, to the peripheral blood stream of the patient by piercing the vein walls without laceration
-        ///
-        ///Example 2: describe which clinical parameter is measures/ altered/ affected by the device
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;p&gt;With the help of your mentors, identify and design the necessary tests to demonstrate the compliance of your design with relevant ISO standards.&lt;/p&gt;.
         /// </summary>
-        public static string ProductFunctionality
-        {
-            get
-            {
-                return ResourceManager.GetString("ProductFunctionality", resourceCulture);
+        public static string DesignForIsoTestingCompliance {
+            get {
+                return ResourceManager.GetString("DesignForIsoTestingCompliance", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Here you should describe the main working parameters of your device and why they are significant to describe its interaction with the patient.
-        ///
-        ///example 1: describe the time of use, kind of interaction with the human body, forces involved
-        ///
-        ///worked example 1: the haemodialysis machine allows transferring the blood from the patient body to a filter, by plastic tubings. The blood is circulated in low pressure by a peristaltic pump for some hours and continuously recirculated to the patient.
-        ///
-        ///worked example [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;p&gt;You should describe what are the devices or therapies on the market; if possible, list some pros and cons of the existing solutions.&lt;/p&gt;
+        ///&lt;ul&gt;
+        ///&lt;li&gt;Example: list medical, surgical or technical solutions available; define the criteria to choose amongst the have different options. Comment on residual side effects or contraindications that may be improved: &lt;em&gt;”Congenital club foot is usually treated by braces (mild cases) or surgery. Both solutions require long healing times and frequent specialistic follo [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string ProductPerformance
-        {
-            get
-            {
-                return ResourceManager.GetString("ProductPerformance", resourceCulture);
+        public static string ExistingSolutions {
+            get {
+                return ResourceManager.GetString("ExistingSolutions", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Here you should describe the main risks that your device may pose to the patient, to the users and bystanders and to the general environment. Propose solutions if you are aware of them.
-        ///
-        ///Example 1: evaluate electrical and mechanical safety of the device 
-        ///
-        ///Worked example 1: haemodialysis machine is powered by electricity, there is a risk of electrocution of the patient and operator if it is not well insulated. In the same machine, the roller pump may hurt the operator hands if it is touched while it is r [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;p&gt;Please insert here design and description of electronic parts of your device which you can buy from suppliers (e.g. microcontrollers, sensors, I/O boards, …). Describe all the libraries you use in your firmware.&lt;/p&gt;.
         /// </summary>
-        public static string ProductSafety
-        {
-            get
-            {
-                return ResourceManager.GetString("ProductSafety", resourceCulture);
+        public static string GeneralProductDescription_ElectronicAndFirmware_CommercialParts {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_ElectronicAndFirmware_CommercialParts", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Here you should describe who will use the device and if they need special training.
-        ///
-        ///Example 1: define the professional profile of the end user
-        ///
-        ///Worked example 1: a hip implant can be implanted in the patient only by a surgery team; all components of the surgery team are medical professional and at least one specialized orthopedic surgeon shall be responsible of the surgery
-        ///
-        ///Worked example 2: a thermometer is used by any adult or teenager with normal cognitive and bodily abilities; young children or p [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;p&gt;Please insert here how to assemble step-by step  the electronic part of your device, including instruction on how to upload the firmware.&lt;/p&gt;
+        ///&lt;p&gt;Describe, also with videos and pictures how to verify your prototype.&lt;/p&gt;.
         /// </summary>
-        public static string ProductUsability
-        {
-            get
-            {
-                return ResourceManager.GetString("ProductUsability", resourceCulture);
+        public static string GeneralProductDescription_ElectronicAndFirmware_PrototypesAndFunctionalTrials {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_ElectronicAndFirmware_PrototypesAndFunctionalTrials", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Here you should describe what your end user prefers or needs; this may be the same or different than the patient need and relates more to &quot;easy and friendly to use&quot; that to patient state of health.
-        ///
-        ///Example: describe if the device should be lightweight to be portable; describe the sounds and colors that are expected; describe handling and visual requirements
-        ///
-        ///Worked example 1: a defibrillator for use in airports and other meeting places should be very intuitive to use and should give vocal commands in t [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;p&gt;Please insert here design and description of electronic parts of your device which you  created from scratch (e.g. circuits, filters, routing ). You should include also CAD data as schematics and gerber files.&lt;/p&gt;
+        ///&lt;p&gt;Describe your firmware using flow chart and comment your code.&lt;/p&gt;.
         /// </summary>
-        public static string UserRequirementStudy
-        {
-            get
-            {
-                return ResourceManager.GetString("UserRequirementStudy", resourceCulture);
+        public static string GeneralProductDescription_ElectronicAndFirmware_PurposelyDesignedParts {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_ElectronicAndFirmware_PurposelyDesignedParts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Please insert here design and description of mechanical parts of your device which you can buy from suppliers (e.g. box, valves, …)&lt;/p&gt;.
+        /// </summary>
+        public static string GeneralProductDescription_Hardware_CommercialParts {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_Hardware_CommercialParts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Please insert here how to fabricate the purposely designed parts (e.g. gcode for 3D printers, CNC fabrication cycle with nc code) and describe step-by-step how to assemble all the components.&lt;/p&gt;
+        ///&lt;p&gt;Describe, also with videos and pictures how to verify your prototype.&lt;/p&gt;.
+        /// </summary>
+        public static string GeneralProductDescription_Hardware_PrototypesAndFunctionalTrials {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_Hardware_PrototypesAndFunctionalTrials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Please insert here design and description of mechanical parts of your device which you  created from scratch (e.g. customized gears, purposely designed frames)&lt;/p&gt;.
+        /// </summary>
+        public static string GeneralProductDescription_Hardware_PurposelyDesignedParts {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_Hardware_PurposelyDesignedParts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Please insert here free and open source libraries and programs you use in your device developed by other authors, without forgetting  due credits.&lt;/p&gt;.
+        /// </summary>
+        public static string GeneralProductDescription_Software_ExistingSolutions {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_Software_ExistingSolutions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Please describe here how to install you software (including specific requirements in terms of operating system, RAM, CPU, library dependencies.&lt;/p&gt;.
+        /// </summary>
+        public static string GeneralProductDescription_Software_PrototypesAndFunctionalTrials {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_Software_PrototypesAndFunctionalTrials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Please describe here your code  using  flowcharts and maps. If your code implements specific algorithms, please include comments in each key point.&lt;/p&gt;
+        ///&lt;p&gt;You don’t have to cut and paste here your code, but save it in the proper folder in the repository.&lt;/p&gt;.
+        /// </summary>
+        public static string GeneralProductDescription_Software_PurposelyDesignedParts {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_Software_PurposelyDesignedParts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Describe here how to integrate all the parts of your device, including wiring and connections.&lt;/p&gt;.
+        /// </summary>
+        public static string GeneralProductDescription_SystemIntegration_PrototypesAndFunctionalTrials {
+            get {
+                return ResourceManager.GetString("GeneralProductDescription_SystemIntegration_PrototypesAndFunctionalTrials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Use this last section of WP3 to describe step by step how to fabricate and assemble the last version of your prototype: fill it once the part 1 and part 2 of WP3 can be considered stable.&lt;/p&gt;.
+        /// </summary>
+        public static string InstructionsForFabricationOfPrototypes {
+            get {
+                return ResourceManager.GetString("InstructionsForFabricationOfPrototypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;You should describe who are the intended user of your medical device (e.g. physician, technicians, nurse, midwife, family member, self-use), and where the technology will be used (rural or urban settings, at home, hospital, …).&lt;/p&gt;
+        ///.
+        /// </summary>
+        public static string IntendedUsers {
+            get {
+                return ResourceManager.GetString("IntendedUsers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;You should describe the most important operating physical principle of your medical device. Make sure to list every physical principal that you chose to comply to “Product requirements”.&lt;/p&gt;
+        ///&lt;ul&gt;
+        ///&lt;li&gt;Example: Contactless Infrared Thermometer is a device that measures the infrared radiation – a type of electromagnetic radiation below the visible spectrum of light - emitted by an object. The most basic design of infrared thermometers consists of a lens to focus the infrared thermal radiation onto a detec [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string PhysicalPrinciples {
+            get {
+                return ResourceManager.GetString("PhysicalPrinciples", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;You should describe all the requirements to certain product. It is written to allow people to understand what a product should do. Typical components of a product requirements document are:&lt;/p&gt;
+        ///
+        ///&lt;ul&gt;
+        ///
+        ///&lt;li&gt;Functional requirements
+        ///&lt;ul&gt; 
+        ///&lt;li&gt;Describe how your product will meet and solve the clinical need. Example: describe how the device interacts with the human body and why this interaction is beneficial: &lt;em&gt;”The syringe allows to deliver liquid substances, for example drugs, to the peripheral blood [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string ProductRequirements {
+            get {
+                return ResourceManager.GetString("ProductRequirements", resourceCulture);
             }
         }
     }

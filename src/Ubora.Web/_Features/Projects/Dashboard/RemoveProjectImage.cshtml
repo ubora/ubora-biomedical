@@ -6,15 +6,14 @@
     ViewData["Title"] = "Remove project image";
 }
 
-<section class="medium-width center-element">
-    <h2>Do you want to remove the project "@Model.Title" image?</h2>
-
+<div class="container my-5 text-center">
+    <h3>Do you want to remove the project "@Model.Title" image?</h3>
     <form asp-controller="Dashboard" asp-action="RemoveProjectImage" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-        <div class="input-form">
-            <a class="button secondary-button small-button" asp-controller="Home" asp-action="Index">No, cancel</a>
-            <button class="button secondary-button small-button" type="submit">Yes, remove</button>
+        <div class="form-group">
+            <a class="btn btn-outline-primary" asp-controller="Dashboard" asp-action="Dashboard">Cancel</a>
+            <span class="mx-1"></span>
+            <button class="btn btn-primary" type="submit">Remove</button>
         </div>
     </form>
-</section>
+</div>

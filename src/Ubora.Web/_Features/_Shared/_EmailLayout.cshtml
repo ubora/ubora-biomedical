@@ -1,0 +1,179 @@
+﻿@using Ubora.Web._Features._Shared.Emails
+@model Ubora.Web._Features._Shared.Emails.EmailLayoutViewModel
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Email Design</title>
+    <style type="text/css" class="ignore-premailer">
+        @@media only screen and(min-device-width:601px) {
+            .content {
+                width: 600px !important;
+            }
+        }
+    </style>
+    <style type="text/css">
+
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 600px;
+            -premailer-align: center;
+        }
+
+        .content {
+            background-color: #ffffff;
+            color: #4777BB;
+            padding: 20px 30px;
+        }
+
+        .logo {
+            -premailer-align: center;
+        }
+
+            .logo > img {
+                -premailer-width: 100px;
+                -premailer-height: 100px;
+                display: block;
+            }
+
+        .header {
+          text-align: center;
+        }
+
+        .heading-primary {
+            width: 50%;
+            color: #4777BB;
+            padding: 5px;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        .heading-secondary {
+            width: 50%;
+            color: #4777BB;
+            padding: 10px;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        .heading-tertiary {
+            text-align: center;
+            padding: 10px;
+            font-size: 25px;
+        }
+
+        .paragraph, .link {
+            padding: 20px 10px;
+            text-align: center;
+        }
+
+        .button {
+            line-height: 150%;
+            padding: 7px 30px;
+            -premailer-align: center;
+            -premailer-valign: middle;
+        }
+
+        .button-text {
+            font-weight: bold;
+            font-size: 16px;
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 3px;
+            background-color: #4777BB;
+            border: 12px solid #4777BB;
+            display: inline-block;
+        }
+
+        .footer {
+            background-color: #4777BB;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            -premailer-align: center;
+            -premailer-valign: middle;
+        }
+
+        .footer-logo {
+            -premailer-width: 20px;
+            -premailer-height: 20px;
+            display: block;
+        }
+
+        table {
+            -premailer-cellpadding: 0;
+            -premailer-cellspacing: 0;
+            -premailer-border: 0;
+        }
+
+    </style>
+</head>
+<body>
+    <table class="container">
+
+        <tr>
+            <td class="header">
+                <table align="center">
+                    <tr>
+                      <td width="600">
+                        <table>
+                            <tr>
+                              <td width="150" align="right" class="logo">
+                                <img src="cid:@EmailLayoutViewModel.HeadingUboraLogoId" alt="Ubora logo" />
+                              </td>
+                              <td width="300" class="heading-primary" align="center">
+                                  UBORA e-Platform
+                              </td>
+                              <td width="150" align="left">
+                              </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="content">
+                @RenderBody()
+            </td>
+        </tr>
+
+        <tr>
+            <td class="footer">
+                <table width="260" align="center">
+                    <tr>
+                      <td width="260" align="right">
+                          <a href="//www.facebook.com/UBORA-261898414244796">
+                              <img src="cid:@EmailLayoutViewModel.FooterFacebookLogoId" class="footer-logo" alt="facebook logo" />
+                          </a>
+                      </td>
+                      <td width="260" align="center">
+                          <a href="//twitter.com/uborabiomedical">
+                              <img src="cid:@EmailLayoutViewModel.FooterTwitterLogoId" class="footer-logo" alt="twitter logo" />
+                          </a>
+                      </td>
+                      <td width="260" align="left">
+                          <a href="mailto:info@uborabiomedical.org">
+                              <img src="cid:@EmailLayoutViewModel.FooterEmailIconId" class="footer-logo" alt="email logo" />
+                          </a>
+                      </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+    </table>
+</body>
+</html>

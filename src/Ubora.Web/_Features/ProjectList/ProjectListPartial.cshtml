@@ -2,26 +2,20 @@
 
 @if (Model.Projects.Any())
 {
-    <h2 class="full-width">@Model.Header</h2>
-
-    foreach (var project in Model.Projects)
-    {
-        <a href="@Url.Action("Dashboard", "Dashboard", new { projectId = project.Id })" class="card project_card">
-            <img class="project_card_banner" src="@(string.IsNullOrEmpty(project.ImagePath)?"/images/projectlogodefault_thumbnail.png":project.ImagePath)">
-            @if (project.IsInDraft)
-            {
-                <span class="project_status">Draft</span>
-            }
-            <div class="project_card_container">
-                <h4>@project.Title</h4>
+    <h2 class="display-4">@Model.Header</h2>
+    <div class="row ">
+        @foreach (var project in Model.Projects)
+        {
+            <div class="col-sm-6 col-md-4 col-lg-3 my-2">
+                @await Html.PartialAsync("~/_Components/ProjectCard.cshtml", model: project)
             </div>
-        </a>
-    }
-}
-else if (Model.ShowDefaultMessage)
-{
-    <div class="center-element">
-        <h3>You have no projects.</h3>
-        <p>Either <a asp-controller="ProjectCreation" asp-action="Create">create a new one</a> or find projects to <a asp-controller="Home" asp-action="Index" asp-area="">join</a>.</p>
+        }
     </div>
+}
+else
+{
+    if (Model.ShowProjectsNotFoundMessage)
+    {
+        <p class="text-center">No projects found with the given search term(s).</p>
+    }
 }

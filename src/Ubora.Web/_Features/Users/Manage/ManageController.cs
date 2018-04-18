@@ -9,6 +9,7 @@ using Ubora.Web.Data;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Users.Account;
 using Ubora.Domain.Users.Commands;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Users.Manage
 {
@@ -17,14 +18,14 @@ namespace Ubora.Web._Features.Users.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly EmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly IEmailConfirmationMessageSender _confirmationMessageSender;
 
         public ManageController(
           UserManager<ApplicationUser> userManager,
           SignInManager<ApplicationUser> signInManager,
-          IEmailSender emailSender,
+          EmailSender emailSender,
           ILoggerFactory loggerFactory,
           IEmailConfirmationMessageSender confirmationMessageSender)
         {
@@ -192,7 +193,7 @@ namespace Ubora.Web._Features.Users.Manage
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, $"{user.Id} is the identity of the user who changed their password successfully.");
 
-                    Notices.Success("Password changed successfully!");
+                    Notices.NotifyOfSuccess(SuccessTexts.PasswordChanged);
 
                     return RedirectToAction(nameof(Index));
                 }
@@ -200,7 +201,7 @@ namespace Ubora.Web._Features.Users.Manage
                 return View(model);
             }
 
-            Notices.Error("Password could not be changed!");
+            Notices.NotifyOfError("Password could not be changed!");
 
             return RedirectToAction(nameof(Index));
         }
@@ -229,7 +230,7 @@ namespace Ubora.Web._Features.Users.Manage
             var isCorrectPassword = await _userManager.CheckPasswordAsync(user, model.Password);
             if(!isCorrectPassword)
             {
-                Notices.Error("Password is not correct!");
+                Notices.NotifyOfError("Password is not correct!");
                 return View(model);
             }
 
@@ -247,11 +248,11 @@ namespace Ubora.Web._Features.Users.Manage
                 UserId = UserId,
                 Email = model.NewEmail
             };
-            ExecuteUserCommand(command);
+            ExecuteUserCommand(command, Notice.Success("Email was changed successfully!"));
 
             if (!ModelState.IsValid)
             {
-                Notices.Error("Failed to change email!");
+                Notices.NotifyOfError("Failed to change email!");
 
                 return RedirectToAction(nameof(Index));
             }
@@ -260,7 +261,7 @@ namespace Ubora.Web._Features.Users.Manage
 
             await _confirmationMessageSender.SendEmailConfirmationMessage(user);
 
-            Notices.Success("Email was changed successfully!");
+            Notices.NotifyOfSuccess("Email was changed successfully!");
 
             return RedirectToAction(nameof(Index));
 

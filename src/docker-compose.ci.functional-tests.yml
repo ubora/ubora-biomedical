@@ -5,10 +5,7 @@ services:
     build: ./Ubora.Web/
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
-      FunctionalTesting: "DisabledWebPack"
       ConnectionStrings__ApplicationDbConnection: "server=postgres;Port=5432;userid=postgres;password=ubora;database=ubora"
-    ports:
-      - "5000:80"
     depends_on:
       - "postgres"
     networks:
@@ -31,14 +28,12 @@ services:
     depends_on:
       - "ubora.web"
       - "selenium"
-    command: /bin/bash -c "./wait-for-it.sh ubora.web:80 -t 30 && npm test -- --host selenium"
+    command: /bin/bash -c "npm i --silent && ./wait-for-it.sh ubora.web:80 -t 30 && npm test -- --host selenium"
     networks:
       - ubora-testnetwork
 
   selenium:
     image: selenium/standalone-chrome
-    ports:
-      - "4444:4444"  
     networks:
       - ubora-testnetwork
 

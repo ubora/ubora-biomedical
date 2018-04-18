@@ -1,0 +1,34 @@
+﻿@using Ubora.Web._Features.Projects._Shared
+@model IEnumerable<Ubora.Web._Features.Projects.DeviceClassifications.DeviceClassificationQuestionViewModel>
+
+@{
+    ViewData["Title"] = "Device classification";
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
+
+<div class="col-lg-7">
+    <h1>@ViewData["Title"]</h1>
+    <div id="device-classification-carousel" class="carousel slide d-flex " data-ride="carousel">
+        <div class="carousel-inner" style="min-height: 500px;" role="listbox">
+            @foreach (var question in Model)
+            {
+                @Html.Partial("_QuestionPartial", question)
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.carousel').carousel({
+        interval: false,
+        wrap: false
+    });
+
+    function carouselNext() {
+        $('#device-classification-carousel').carousel('next');
+    };
+
+    function carouselPrev() {
+        $('#device-classification-carousel').carousel('prev');
+    };
+</script>

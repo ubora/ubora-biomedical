@@ -7,6 +7,8 @@ module.exports = {
         attributeCaseInsensitive: false
       }
     },
-    'cssnano': {}
+    cssnano: {},
+    precss: {},
+    autoprefixer: {}
   }
 };

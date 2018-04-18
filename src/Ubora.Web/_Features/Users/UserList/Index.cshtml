@@ -1,17 +1,21 @@
 ﻿@using Ubora.Web._Features.Users.UserList
-@model System.Collections.Generic.IEnumerable<UserListItemViewModel>
+@model IEnumerable<UserListItemViewModel>
 
 @{
-    ViewData["Title"] = "View members";
+    ViewData["Title"] = "Community";
 }
 
-<section class="full-width user-list">
-    @foreach (var user in Model)
-    {
-        <div class="card user-card center-element">
-            <img class="avatar" src="@user.ProfilePictureLink" alt="@user.FullName profile picture" width="100" height="100">
-            <h2>@Html.ActionLink(user.FullName, "ViewProfile", "Profile", new { userId = user.UserId }, new {@class = "user-card--name"})</h2>
-            <a class="user-card--email" href="mailto:@user.Email?Subject=Message%20from%20UBORA">@user.Email</a>
-        </div>
-    }
-</section>
+<div class="container my-5">
+    <h1>Community</h1>
+    <div class="row">
+        @foreach (var user in Model)
+        {
+            Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
+                userId: user.UserId,
+                name: user.FullName,
+                roles: user.Role,
+                profilePictureUrl: user.ProfilePictureLink)
+            );
+        }
+    </div>
+</div>

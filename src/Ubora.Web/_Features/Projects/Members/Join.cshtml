@@ -6,21 +6,23 @@
     ViewData["Title"] = "Join project";
 }
 
-<section class="medium-width center-element">
-    <h2>Do you want to join @Model.ProjectName?</h2>
+<div class="container my-5">
+    <div class="text-center">
+        <h3>Do you want to join @Model.ProjectName?</h3>
 
-    <form asp-controller="Members" asp-action="Join" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-controller="Members" asp-action="Join" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="input-form">
-            <input asp-for="ProjectId" type="hidden" />
-            <input asp-for="UserId" type="hidden" />
-            <input asp-for="ProjectName" type="hidden" />
-        </div>
+            <div class="form-group">
+                <input asp-for="ProjectId" type="hidden" />
+                <input asp-for="UserId" type="hidden" />
+                <input asp-for="ProjectName" type="hidden" />
+            </div>
 
-        <div class="input-form">
-            <a class="button secondary-button small-button" asp-controller="Home" asp-action="Index">No, cancel</a>
-            <button class="button secondary-button small-button" type="submit">Yes, join</button>
-        </div>
-    </form>
-</section>
+            <div class="form-group">
+                <a class="btn btn-outline-primary" asp-controller="Home" asp-action="Index">Cancel</a>
+                <button class="btn btn-primary" type="submit">Join</button>
+            </div>
+        </form>
+    </div>
+</div>

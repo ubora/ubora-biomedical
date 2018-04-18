@@ -1,6 +1,6 @@
-﻿using Ubora.Domain.Users;
+﻿using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Users;
 using Ubora.Web.Infrastructure.ImageServices;
-using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web.Infrastructure.Extensions
 {
@@ -15,6 +15,16 @@ namespace Ubora.Web.Infrastructure.Extensions
 
             var blobLocation = userProfile.ProfilePictureBlobLocation;
             return storageProvider.GetUrl(blobLocation);
+        }
+
+        public static string GetDefaultOrBlobImageUrl(this ImageStorageProvider storageProvider, BlobLocation blobLocation, ImageSize imageSize)
+        {
+            if (blobLocation == null)
+            {
+                return "/images/project-default-image.png";
+            }
+
+            return storageProvider.GetUrl(blobLocation, imageSize);
         }
     }
 }

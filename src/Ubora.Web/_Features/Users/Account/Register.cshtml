@@ -1,58 +1,76 @@
 ﻿@model Ubora.Web._Features.Users.Account.RegisterViewModel
 @{
-    ViewData["Title"] = "Sign up";
+    ViewData["Title"] = "Sign up to UBORA";
 }
 
-<section class="narrow-width">
-    <h2>@ViewData["Title"]</h2>
+<div class="container my-5">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-8">
+            <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="form-register" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                <div class="form-group">
+                    <label asp-for="FirstName">First name</label>
+                    <input class="form-control" asp-for="FirstName" placeholder="First name" autofocus>
+                    <span asp-validation-for="FirstName"></span>
+                </div>
 
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="LastName">Last name</label>
+                    <input class="form-control" asp-for="LastName" placeholder="Last name">
+                    <span asp-validation-for="LastName"></span>
+                </div>
 
-        <div class="form-input">
-            <label asp-for="FirstName">First name</label>
-            <input asp-for="FirstName" placeholder="First name" autofocus>
-            <span asp-validation-for="FirstName"></span>
+                <div class="form-group">
+                    <label asp-for="Email">Email address</label>
+                    <input class="form-control" asp-for="Email" placeholder="email@example.com">
+                    <span asp-validation-for="Email"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password">Password</label>
+                    <ul class="pl-4 text-muted hide" id="passwordHelper">
+                        <li><small>Password must have at least one digit ('0'-'9')</small></li>
+                        <li><small>Must contain one uppercase character ('A'-'Z')</small></li>
+                        <li><small>Must be at least 6 and at max 100 characters long</small></li>
+                    </ul>
+                    <input class="form-control password-input" asp-for="Password" placeholder="Password" onfocus="show()" >
+                    <span asp-validation-for="Password"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword">Confirm password</label>
+                    <input class="form-control" asp-for="ConfirmPassword" placeholder="Confirm password">
+                    <span asp-validation-for="ConfirmPassword"></span>
+                </div>
+
+                <div class="custom-control custom-checkbox my-4">
+                    <input type="checkbox" class="custom-control-input" asp-for="IsAgreedToTermsOfService" required>
+                    <label class="custom-control-label" asp-for="IsAgreedToTermsOfService">
+                        <span class="custom-control-description">I agree to </span>
+                        <a asp-controller="Account" asp-action="TermsOfService" target="_blank">Terms of Service</a>
+                    </label>
+                    <span asp-validation-for="IsAgreedToTermsOfService"></span>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Create an account</button>
+                </div>
+            </form>
         </div>
+    </div>
+</div>
 
-        <div class="form-input">
-            <label asp-for="LastName">Last name</label>
-            <input asp-for="LastName" placeholder="Last name">
-            <span asp-validation-for="LastName"></span>
-        </div>
 
-        <div class="form-input">
-            <label asp-for="Email">Email address</label>
-            <input asp-for="Email" placeholder="email@example.com">
-            <span asp-validation-for="Email"></span>
-        </div>
+<script>
+    function show() {
+        $("#passwordHelper").show();
+    }
+</script>
 
-        <div class="form-input">
-            <label asp-for="Password">Secret password</label>
-            <input asp-for="Password" placeholder="Secret password">
-            <span asp-validation-for="Password"></span>
-        </div>
 
-        <div class="form-input">
-            <label asp-for="ConfirmPassword">Secret password again</label>
-            <input asp-for="ConfirmPassword" placeholder="Secret password again">
-            <span asp-validation-for="ConfirmPassword"></span>
-        </div>
 
-        <div class="form-input">
-            <label asp-for="IsAgreedToTermsOfService">
-                <input asp-for="IsAgreedToTermsOfService" required>
-                <span class="textbox-label">I agree to</span>
-                <a asp-controller="Account" asp-action="TermsOfService" target="_blank">Terms of Service</a>
-            </label>
-            <span asp-validation-for="IsAgreedToTermsOfService"></span>
-        </div>
-
-        <button type="submit" class="button primary-button">Create an account</button>
-
-    </form>
-</section>
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
