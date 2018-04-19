@@ -19,6 +19,7 @@ using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.History;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects._Events;
+using Ubora.Domain.Resources;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
@@ -58,6 +59,8 @@ namespace Ubora.Domain.Infrastructure.Marten
                     .Duplicate(l => l.Timestamp);
                 options.Schema.For<IProjectEntity>()
                     .AddSubClassHierarchy(typeof(EventLogEntry));
+                options.Schema.For<Resource>().SoftDeleted().UseOptimisticConcurrency(true);
+                
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
@@ -65,6 +68,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<ApplicableRegulationsQuestionnaireAggregate>();
                 options.Events.InlineProjections.AggregateStreamsWith<DeviceClassificationAggregate>();
                 options.Events.InlineProjections.AggregateStreamsWith<DeviceStructuredInformation>();
+                options.Events.InlineProjections.AggregateStreamsWith<Resource>();
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<Assignment, IAssignmentEvent>());
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());
                 options.Events.InlineProjections.AggregateStreamsWith<Candidate>();
@@ -80,7 +84,6 @@ namespace Ubora.Domain.Infrastructure.Marten
                     var transformer = Activator.CreateInstance(transformerType);
                     options.Events.InlineProjections.TransformEvents((dynamic) transformer);
                 }
-
             };
         }
 
