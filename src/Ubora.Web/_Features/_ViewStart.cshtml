@@ -1,5 +1,7 @@
-﻿@*// TODO*@
-@if (ViewData["ProjectIsDraft"] as bool? == true)
+﻿@{
+    var isProjectArea = ViewData["ProjectTitle"] != null;
+}
+@if (isProjectArea)
 {
     {
         Layout = "_ProjectLayout";
