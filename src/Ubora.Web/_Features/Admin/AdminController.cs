@@ -6,10 +6,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Users.Commands;
-using Ubora.Domain.Users.Queries;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
 using Ubora.Web._Features._Shared.Notices;
+using Ubora.Domain.Infrastructure.Specifications;
+using Ubora.Domain.Users.SortSpecifications;
+using Ubora.Domain.Users;
+using Ubora.Web._Features._Shared.Paging;
 
 namespace Ubora.Web._Features.Admin
 {
@@ -25,28 +28,43 @@ namespace Ubora.Web._Features.Admin
         }
 
         [Authorize(Roles = ApplicationRole.Admin)]
-        public async Task<IActionResult> Diagnostics()
+        public async Task<IActionResult> Diagnostics(int page = 1)
         {
-            var userViewModels = new List<UserViewModel>();
+            var userProfiles = QueryProcessor.Find(new MatchAll<UserProfile>(), new SortByFullNameAscendingSpecification(), 10, page);
 
-            IReadOnlyDictionary<Guid, string> userFullNames = QueryProcessor.ExecuteQuery(new FindFullNamesOfAllUboraUsersQuery());
+            IReadOnlyDictionary<Guid, string> userFullNames = userProfiles.Select(userProfile => new
+            {
+                UserId = userProfile.UserId,
+                FullName = userProfile.FullName
+            })
+            .ToDictionary(x => x.UserId, x => x.FullName);
+
+            var userViewModels = new List<UserViewModel>();
 
             foreach (var user in _userManager.Users.ToList())
             {
-                userViewModels.Add(new UserViewModel
+                if (userFullNames.ContainsKey(user.Id))
                 {
-                    UserId = user.Id,
-                    UserEmail = user.Email,
-                    FullName = userFullNames[user.Id],
-                    Roles = await _userManager.GetRolesAsync(user)
-                });
+                    userViewModels.Add(new UserViewModel
+                    {
+                        UserId = user.Id,
+                        UserEmail = user.Email,
+                        FullName = userFullNames[user.Id],
+                        Roles = await _userManager.GetRolesAsync(user)
+                    });
+                }
             }
 
             var orderedViewModel = userViewModels.OrderBy(x => x.FullName).ToList();
 
-            return View(nameof(Diagnostics), orderedViewModel);
-        }
+            var diagnosticsViewModel = new DiagnosticsViewModel
+            {
+                Pager = Pager.From(userProfiles),
+                UserListItems = orderedViewModel
+            };
 
+            return View(nameof(Diagnostics), diagnosticsViewModel);
+        }
 
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]
@@ -171,6 +189,12 @@ namespace Ubora.Web._Features.Admin
             {
                 ModelState.AddModelError("", error.Description);
             }
+        }
+
+        public class DiagnosticsViewModel
+        {
+            public Pager Pager { get; set; }
+            public List<UserViewModel> UserListItems { get; set; }
         }
     }
 }

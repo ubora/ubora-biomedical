@@ -1,4 +1,4 @@
-﻿@model List<Ubora.Web._Features.Admin.UserViewModel>
+﻿@model Ubora.Web._Features.Admin.AdminController.DiagnosticsViewModel
 
 <div class="container my-5">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -13,7 +13,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var user in Model)
+                @foreach (var user in Model.UserListItems)
                 {
                     <tr>
                         <td>
@@ -58,6 +58,11 @@
                 }
             </tbody>
         </table>
+    </div>
+    <div class="row mt-4">
+        <div class="col d-flex justify-content-center">
+            @Html.Partial("~/_Features/_Shared/Paging/Pager.cshtml", Model.Pager)
+        </div>
     </div>
     <div class="mx-2">
         <span class="d-block">@Html.ActionLink("Run diagnostics tests", "RunTests", "Tests")</span>
