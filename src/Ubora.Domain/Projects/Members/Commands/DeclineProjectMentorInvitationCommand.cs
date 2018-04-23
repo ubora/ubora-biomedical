@@ -1,5 +1,6 @@
 using System;
 using Marten;
+using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Notifications;
 
@@ -42,8 +43,16 @@ namespace Ubora.Domain.Projects.Members.Commands
                 ProjectId = projectId;
             }
 
-            public Guid DeclinerUserId { get; set; }
-            public Guid ProjectId { get; set; }
+            [JsonConstructor]
+            private NotificationToInviter(Guid id, Guid notificationTo, DateTime createdAt, Guid declinerUserId, Guid projectId) 
+                : base(id, notificationTo, createdAt)
+            {
+                DeclinerUserId = declinerUserId;
+                ProjectId = projectId;
+            }
+
+            public Guid DeclinerUserId { get; }
+            public Guid ProjectId { get; }
 
             public override string GetDescription()
             {

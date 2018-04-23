@@ -9,14 +9,6 @@ Background:
 Scenario: I am on View members page 
     Then I expect the title of the page "Community - UBORA"
 
-Scenario: I click Ubora logo
-    When I click on the element "#UboraLogo"
-    Then I expect the title of the page "Welcome - UBORA"
-
-Scenario: I click Log in
-    When I click on the element "span=Log in"
-    Then I expect the title of the page "Sign in to UBORA - UBORA"
-
 Scenario: I sign in and check my profile on Community page
     When I sign in as user
         And I click on the element "span=Community"

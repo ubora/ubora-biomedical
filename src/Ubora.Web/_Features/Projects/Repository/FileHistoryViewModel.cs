@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ubora.Web._Features.Projects.Repository
 {
@@ -10,13 +11,11 @@ namespace Ubora.Web._Features.Projects.Repository
         public string FileName { get; set; }
     }
 
-    public class FileItemHistoryViewModel
+    public class FileItemHistoryViewModel : FileViewModelBase
     {
         public Guid EventId { get; set; }
-        public string Comment { get; set; }
         public DateTimeOffset FileAddedOn { get; set; }
         public long FileSize { get; set; }
-        public int RevisionNumber { get; set; }
         public long FileSizeInKbs
         {
             get

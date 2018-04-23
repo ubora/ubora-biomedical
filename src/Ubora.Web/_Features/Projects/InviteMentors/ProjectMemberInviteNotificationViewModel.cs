@@ -11,13 +11,14 @@ namespace Ubora.Web._Features.Projects.InviteMentors
     public class ProjectMentorInvitationNotificationViewModel : INotificationViewModel<ProjectMentorInvitation>
     {
         public bool IsUnread { get; set; }
+        public DateTime CreatedAt { get; set; }
         public bool WasAccepted { get; set; }
         public Guid ProjectId { get; set; }
         public string ProjectTitle { get; set; }
         public Guid InvitationId { get; set; }
         public bool IsHistory { get; set; }
 
-        public IHtmlContent GetPartialView(IHtmlHelper htmlHelper, bool isHistory)
+        public IHtmlContent GetPartialView(IHtmlHelper htmlHelper)
         {
             return htmlHelper.Partial("~/_Features/Projects/InviteMentors/_MentorInvitationNotificationPartial.cshtml", this);
         }
@@ -42,7 +43,8 @@ namespace Ubora.Web._Features.Projects.InviteMentors
                     ProjectId = notification.ProjectId,
                     ProjectTitle = project.Title,
                     InvitationId = notification.Id,
-                    IsHistory = notification.IsArchived
+                    IsHistory = notification.IsArchived,
+                    CreatedAt = notification.CreatedAt
                 };
 
                 return viewModel;

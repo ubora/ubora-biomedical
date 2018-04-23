@@ -5,7 +5,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Remove comment?</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Delete comment?</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -15,11 +15,11 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <p>@Model.CommentText</p>
                 </div>
-                <div class="modal-footer d-flex justify-content-center">
+                <div class="modal-footer">
                     <div class="form-group">
-                        <button type="button" class="btn btn-secondary-ghost" data-dismiss="modal">No, cancel</button>
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
                         <span class="mx-1"></span>
-                        <button class="btn btn-primary" type="submit">Yes, remove</button>
+                        <button class="btn btn-primary" type="submit">Delete</button>
                     </div>
                 </div>
             </form>

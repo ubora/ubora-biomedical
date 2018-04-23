@@ -1,7 +1,7 @@
 ﻿@model Ubora.Web._Features.Projects.Workpackages.Candidates.AddCandidateViewModel
 
-<div class="col-lg-9 pr-5">
-    <h2>Add candidate</h2>
+<div class="col-lg-7">
+    <h1>Add candidate</h1>
 
     <form asp-controller="Candidates" asp-action="AddCandidate" method="post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -18,12 +18,12 @@
         </div>
         <div class="form-group">
             <label asp-for="Image">Image</label>
-            <label class="text-muted">Recommended image size is 1920x1285 px. The given image will be cropped and resized to 1500x1125 and 400x300 pixel images. Image has to be less than 4 MB</label>
             <input class="form-control" type="file" asp-for="Image">
+            <small class="text-muted">Recommended image size is 1920x1285 px. The given image will be cropped and resized to 1500x1125 and 400x300 pixel images. Image has to be less than 4 MB</small>
             <span asp-validation-for="Image"></span>
         </div>
         <div class="d-flex justify-content-center">
-            <a class="btn btn-secondary-ghost" asp-controller="Candidates" asp-action="Voting">Discard</a>
+            <a class="btn btn-outline-primary" asp-controller="Candidates" asp-action="Voting">Discard</a>
             <span class="mx-1"></span>
             <button class="btn btn-primary" type="submit">Save changes</button>
         </div>

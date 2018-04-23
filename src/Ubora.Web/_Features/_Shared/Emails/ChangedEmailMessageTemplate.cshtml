@@ -1,0 +1,26 @@
+﻿@model Ubora.Web._Features._Shared.Emails.ChangedEmailMessageTemplateViewModel
+
+@{
+    Layout = "_EmailLayout";
+}
+
+<table width="100%">
+    <tr>
+        <td class="heading-tertiary">
+            Email address has been changed
+        </td>
+    </tr>
+
+    <tr>
+        <td class="paragraph">
+            Your account email address has been changed to "@Model.Email". From now on you need to use the new email address to log into UBORA.
+        </td>
+    </tr>
+
+    <tr>
+        <td class="paragraph">
+            If you did not make this request, please contact us.
+        </td>
+    </tr>
+   
+</table>

@@ -12,23 +12,23 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="row">
-            <h1 class="display-4 col-lg-12 mb-4">Health technology specifications</h1>
+            <h1 class="col-lg-12 mb-4">Health technology specifications</h1>
             <div class="col-lg-12">
 
                 <div class="row mb-4">
                     <h5 class="col-lg-12">1. Dimensions (mm<sup>3</sup>):</h5>
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <input asp-for="DeviceMeasurementsViewModel.DimensionsHeight" class="form-control width-8 text-center" type="number" min="0" title="Millimetres" />
+                            <input asp-for="DeviceMeasurementsViewModel.DimensionsLength" class="form-control w-8 text-center d-inline" type="number" min="0" title="Millimetres" />
                             <span> mm x </span>
-                            <input asp-for="DeviceMeasurementsViewModel.DimensionsLength" class="form-control width-8 text-center" type="number" min="0" title="Millimetres" />
+                            <input asp-for="DeviceMeasurementsViewModel.DimensionsWidth" class="form-control w-8 text-center d-inline" type="number" min="0" title="Millimetres" />
                             <span> mm x </span>
-                            <input asp-for="DeviceMeasurementsViewModel.DimensionsWidth" class="form-control width-8 text-center" type="number" min="0" title="Millimetres" />
+                            <input asp-for="DeviceMeasurementsViewModel.DimensionsHeight" class="form-control w-8 text-center d-inline" type="number" min="0" title="Millimetres" />
                             <span> mm</span>
                         </div>
-                        <span asp-validation-for="DeviceMeasurementsViewModel.DimensionsHeight"></span>
                         <span asp-validation-for="DeviceMeasurementsViewModel.DimensionsLength"></span>
                         <span asp-validation-for="DeviceMeasurementsViewModel.DimensionsWidth"></span>
+                        <span asp-validation-for="DeviceMeasurementsViewModel.DimensionsHeight"></span>
                     </div>
                 </div>
 
@@ -36,7 +36,7 @@
                     <h5 class="col-lg-12">2. Weight:</h5>
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <input asp-for="DeviceMeasurementsViewModel.WeightInKilograms" class="form-control width-8 text-center" type="number" min="0" step="0.001" title="Kilograms" />
+                            <input asp-for="DeviceMeasurementsViewModel.WeightInKilograms" class="form-control w-8 text-center d-inline" type="number" min="0" step="0.001" title="Kilograms" />
                             <span> kg </span>
                             <span asp-validation-for="DeviceMeasurementsViewModel.WeightInKilograms"></span>
                         </div>
@@ -78,11 +78,11 @@
                     <h5 class="col-lg-12">4. Estimated life time:</h5>
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <input asp-for="EstimatedLifeTimeInDays" class="form-control width-8 text-center" type="number" min="0" max="366" title="Days" />
+                            <input asp-for="EstimatedLifeTimeInDays" class="form-control w-8 text-center d-inline" type="number" min="0" max="366" title="Days" />
                             <span> Days </span>
-                            <input asp-for="EstimatedLifeTimeInMonths" class="form-control width-8 text-center" type="number" min="0" max="11" title="Months" />
+                            <input asp-for="EstimatedLifeTimeInMonths" class="form-control w-8 text-center d-inline" type="number" min="0" max="11" title="Months" />
                             <span> Months </span>
-                            <input asp-for="EstimatedLifeTimeInYears" class="form-control width-8 text-center" type="number" min="0" title="Years" />
+                            <input asp-for="EstimatedLifeTimeInYears" class="form-control w-8 text-center d-inline" type="number" min="0" title="Years" />
                             <span> Years</span>
                             <span asp-validation-for="EstimatedLifeTimeInDays"></span>
                             <span asp-validation-for="EstimatedLifeTimeInMonths"></span>
@@ -96,11 +96,11 @@
                     <h5 class="col-lg-12">5. Estimated shelf life:</h5>
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <input asp-for="EstimatedShelfLifeInDays" class="form-control width-8 text-center" type="number" min="0" max="366" title="Days" />
+                            <input asp-for="EstimatedShelfLifeInDays" class="form-control w-8 text-center d-inline" type="number" min="0" max="366" title="Days" />
                             <span> Days </span>
-                            <input asp-for="EstimatedShelfLifeInMonths" class="form-control width-8 text-center" type="number" min="0" max="11" title="Months" />
+                            <input asp-for="EstimatedShelfLifeInMonths" class="form-control w-8 text-center d-inline" type="number" min="0" max="11" title="Months" />
                             <span> Months </span>
-                            <input asp-for="EstimatedShelfLifeInYears" class="form-control width-8 text-center" type="number" title="Years" />
+                            <input asp-for="EstimatedShelfLifeInYears" class="form-control w-8 text-center d-inline" type="number" title="Years" />
                             <span> Years</span>
                             <span asp-validation-for="EstimatedShelfLifeInDays"></span>
                             <span asp-validation-for="EstimatedShelfLifeInMonths"></span>
@@ -248,9 +248,9 @@
                         <div id="technology-maintenance-requirement-extra-field" class="hide mb-0">
                             <div class="form-group pl-3">
                                 <p>If yes, please fill the following fields:</p>
-                                <p>Specify the type: <input asp-for="TechnologyMaintenanceViewModel.IfTechnologyRequiresMaintenanceSpecifyType" class="form-control width-8" type="text" title="Type" /></p>
+                                <p>Specify the type: <input asp-for="TechnologyMaintenanceViewModel.IfTechnologyRequiresMaintenanceSpecifyType" class="form-control w-25 d-inline" type="text" title="Type" /></p>
                                 <span asp-validation-for="TechnologyMaintenanceViewModel.IfTechnologyRequiresMaintenanceSpecifyType"></span>
-                                <p>Specify frequency: <input asp-for="TechnologyMaintenanceViewModel.IfTechnologyRequiresMaintenanceSpecifyFrequency" class="form-control width-8" type="text" title="Frequency" /></p>
+                                <p>Specify frequency: <input asp-for="TechnologyMaintenanceViewModel.IfTechnologyRequiresMaintenanceSpecifyFrequency" class="form-control w-25 d-inline" type="text" title="Frequency" /></p>
                                 <span asp-validation-for="TechnologyMaintenanceViewModel.IfTechnologyRequiresMaintenanceSpecifyFrequency"></span>
                                 <span class="d-block">
                                     <span class="pr-3">Can it be done on-site / home / community? </span>
@@ -308,10 +308,10 @@
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <label class="form-check-label my-0">
+                                        <label class="form-check-label my-0 w-100">
                                             <input asp-for="TechnologyMaintenanceViewModel.IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance" class="form-check-input" type="radio" value="other" />
                                             <span class="d-inline">Other:</span>
-                                            <input asp-for="TechnologyMaintenanceViewModel.IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenanceOther" class="form-control d-inline w-75" type="text" title="Other maintenance provider" />
+                                            <input asp-for="TechnologyMaintenanceViewModel.IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenanceOther" class="form-control w-75 d-inline" type="text" title="Other maintenance provider" />
                                             <span asp-validation-for="TechnologyMaintenanceViewModel.IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenanceOther"></span>
                                         </label>
                                     </div>
@@ -349,19 +349,19 @@
                         </div>
                         <div id="recharging-extra-field" class="hide form-group pl-3">
                             <p>If yes, please fill the following fields:</p>
-                            <p>Voltage required: <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredVoltage" class="form-control width-8 text-center" type="number" min="0" step="0.01" title="Voltage" /> V </p>
+                            <p>Voltage required: <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredVoltage" class="form-control w-8 text-center d-inline" type="number" min="0" step="0.01" title="Voltage" /> V </p>
                             <span asp-validation-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredVoltage"></span>
                             <p>
                                 Time required to recharge:
-                                <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours" class="form-control width-8 text-center" type="number" min="0" max="10000" title="Hours" /> Hours
-                                <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes" class="form-control width-8 text-center" type="number" min="0" max="59" title="Minutes" /> Minutes
+                                <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours" class="form-control w-8 text-center d-inline" type="number" min="0" max="10000" title="Hours" /> Hours
+                                <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes" class="form-control w-8 text-center d-inline" type="number" min="0" max="59" title="Minutes" /> Minutes
                             </p>
                             <span asp-validation-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours"></span>
                             <span asp-validation-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes"></span>
                             <p>
                                 Battery life with full charge:
-                                <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours" class="form-control width-8 text-center" type="number" min="0" max="10000" title="Hours" /> Hours
-                                <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes" class="form-control width-8 text-center" type="number" min="0" max="59" title="Minutes" /> Minutes
+                                <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours" class="form-control w-8 text-center d-inline" type="number" min="0" max="10000" title="Hours" /> Hours
+                                <input asp-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes" class="form-control w-8 text-center d-inline" type="number" min="0" max="59" title="Minutes" /> Minutes
                             </p>
                             <span asp-validation-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours"></span>
                             <span asp-validation-for="EnergyRequirements.IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes"></span>
@@ -374,7 +374,7 @@
                             </label>
                         </div>
                         <div id="power-supply-extra-field" class="hide form-group pl-3">
-                            <p>If yes, voltage required: <input asp-for="EnergyRequirements.IfContinuousPowerSupplyThenRequiredVoltage" class="form-control width-8 text-center" type="number" min="0" step="0.01" title="Voltage" /> V </p>
+                            <p>If yes, voltage required: <input asp-for="EnergyRequirements.IfContinuousPowerSupplyThenRequiredVoltage" class="form-control w-8 text-center d-inline" type="number" min="0" step="0.01" title="Voltage" /> V </p>
                             <span asp-validation-for="EnergyRequirements.IfContinuousPowerSupplyThenRequiredVoltage"></span>
                         </div>
 
@@ -388,25 +388,25 @@
                             <p>If yes, please fill the following fields:</p>
                             <p>
                                 Time in sunlight required to charge:
-                                <input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours" class="form-control width-8 text-center" type="number" min="0" max="10000" title="Hours" /> Hours
-                                <input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes" class="form-control width-8 text-center" type="number" min="0" max="59" title="Minutes" /> Minutes
+                                <input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours" class="form-control w-8 text-center d-inline" type="number" min="0" max="10000" title="Hours" /> Hours
+                                <input asp-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes" class="form-control w-8 text-center d-inline" type="number" min="0" max="59" title="Minutes" /> Minutes
                             </p>
                             <span asp-validation-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours"></span>
                             <span asp-validation-for="EnergyRequirements.IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes"></span>
                             <p>
                                 Battery life with full charge:
-                                <input asp-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInHours" class="form-control width-8 text-center" type="number" min="0" max="10000" title="Hours" /> Hours
-                                <input asp-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInMinutes" class="form-control width-8 text-center" type="number" min="0" max="59" title="Minutes" /> Minutes
+                                <input asp-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInHours" class="form-control w-8 text-center d-inline" type="number" min="0" max="10000" title="Hours" /> Hours
+                                <input asp-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInMinutes" class="form-control w-8 text-center d-inline" type="number" min="0" max="59" title="Minutes" /> Minutes
                             </p>
                             <span asp-validation-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInHours"></span>
                             <span asp-validation-for="EnergyRequirements.IfSolarPowerThenBatteryLifeInMinutes"></span>
                         </div>
 
                         <div class="form-check">
-                            <label class="form-check-label">
+                            <label class="form-check-label w-100">
                                 <input asp-for="EnergyRequirements.Other" class="form-check-input" type="checkbox" />
                                 <span class="d-inline">Other:</span>
-                                <input asp-for="EnergyRequirements.OtherText" class="form-control d-inline w-75" type="text" title="Other energy requirement" />
+                                <input asp-for="EnergyRequirements.OtherText" class="form-control d-inline w-25" type="text" title="Other energy requirement" />
                                 <span asp-validation-for="EnergyRequirements.OtherText"></span>
                             </label>
                         </div>
@@ -516,10 +516,10 @@
                         </div>
 
                         <div class="form-check">
-                            <label class="form-check-label">
+                            <label class="form-check-label w-100">
                                 <input asp-for="FacilityRequirements.Other" class="form-check-input" type="checkbox" />
                                 <span class="d-inline">Other:</span>
-                                <input asp-for="FacilityRequirements.OtherText" class="form-control d-inline w-75" type="text" title="Other facility requirement" />
+                                <input asp-for="FacilityRequirements.OtherText" class="form-control d-inline w-25" type="text" title="Other facility requirement" />
                                 <span asp-validation-for="FacilityRequirements.OtherText"></span>
                             </label>
                         </div>

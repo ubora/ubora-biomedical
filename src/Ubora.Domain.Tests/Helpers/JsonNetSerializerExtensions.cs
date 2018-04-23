@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using Marten.Services;
 
@@ -11,6 +12,15 @@ namespace Ubora.Domain.Tests.Helpers
             using (var jsonAsStream = ToStream(jsonSerializedObject))
             {
                 return serializer.FromJson<T>(jsonAsStream);
+            }
+        }
+
+        public static object FromJson(this JsonNetSerializer serializer, Type type, string jsonSerializedObject)
+        {
+            using (var jsonAsStream = ToStream(jsonSerializedObject))
+            using (var streamReader = new StreamReader(jsonAsStream))
+            {
+                return serializer.FromJson(type, streamReader);
             }
         }
 

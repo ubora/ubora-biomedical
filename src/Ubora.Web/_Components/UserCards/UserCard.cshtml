@@ -1,0 +1,23 @@
+﻿@model Ubora.Web._Features.Users.UserList.UserCardViewModel
+
+<div class="col-sm-6 col-md-4 col-lg-3 my-2">
+    <div class="card text-center box-shadow-2">
+        <div class="justify-content-center">
+            <img src="@Model.ProfilePictureUrl" class="card-img-top mt-4 avatar" alt="@Model.Name profile picture">
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">
+                <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@Model.UserId" class="user-card--name">
+                    @Model.Name
+                </a>
+            </h4>
+            <p style="text-transform: capitalize">@(Model.Roles)&nbsp;</p>
+        </div>
+        @if (Model.FooterHtml != null)
+        {
+            <div class="card-footer text-muted">
+                @Model.FooterHtml
+            </div>
+        }
+    </div>
+</div>

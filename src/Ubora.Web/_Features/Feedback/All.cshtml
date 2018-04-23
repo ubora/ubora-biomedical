@@ -1,15 +1,11 @@
 ﻿@model IEnumerable<Ubora.Web._Features.Feedback.Feedback>
 
-<section class="container-fluid my-4">
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <h1>All feedback</h1>
-      <ul>
-          @foreach (var feedback in Model)
-          {
-              <li><p><q>@feedback.Value</q> @feedback.By.Name (@feedback.FromPath)</p></li>
-          }
-      </ul>
-    </div>
-  </div>
+<section class="container my-5">
+    <h1>All feedback</h1>
+    <ul>
+        @foreach (var feedback in Model)
+        {
+            <li><p><q>@feedback.Value</q> @feedback.By.Name (@feedback.FromPath)</p></li>
+        }
+    </ul>
 </section>

@@ -1,0 +1,31 @@
+
+.dz-progress {
+  display: none;
+}
+
+.dropzone .dz-preview .dz-error-message {
+  top: 150px!important;
+}
+
+#my-dropzone .dropzone {
+  border: none;
+  background-color: $quartinary-shade;
+}
+
+.dropzone-previews .dz-message .material-icons {
+  color: $primary-shade;
+  font-size: 5rem!important;
+}
+
+.dropzone .dz-preview .dz-image {
+  border-radius: 0!important;
+}
+
+.dropzone .dz-preview.dz-file-preview .dz-image {
+  border-radius: 0!important;
+
+}
+
+.dropzone .dz-preview .dz-remove {
+  background-color: $quartinary-shade;
+}

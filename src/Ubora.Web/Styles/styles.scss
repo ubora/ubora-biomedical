@@ -1,0 +1,35 @@
+$blue: #4777BB;
+$orange: #EF7B52;
+$light-blue: #44AAE0;
+$green: #95CD7C;
+$text-color: #3D3D3D;
+$black: #000;
+$white: #FFF;
+$light: #EEE;
+$dark-grey: #797979;
+$dark-blue: #354F73;
+$primary-shade: #9E9E9E;
+$secondary-shade: #BDBDBD;
+$tertiary-shade: #E0E0E0;
+$quartinary-shade: #F5F5F5;
+$blue-shade: #eaf0f9; 
+    
+$theme-colors: ( 
+    "primary": #4777BB,
+    "secondary": #44AAE0 
+);
+
+
+@mixin form-field-border {
+    border-bottom: 1px solid $secondary-shade;
+}
+
+@mixin bg-size-cover {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+@import "~bootstrap/scss/bootstrap";
+@import "custom";

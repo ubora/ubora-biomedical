@@ -18,17 +18,12 @@ namespace Ubora.Web._Features.Notifications.Requests
         public Guid RequestId { get; set; }
         public string UserFullName { get; set; }
         public bool IsUnread { get; set; }
+        public bool IsPending { get; set; }
+        public DateTime CreatedAt { get; set; }
 
-        public IHtmlContent GetPartialView(IHtmlHelper htmlHelper, bool isHistory)
+        public IHtmlContent GetPartialView(IHtmlHelper htmlHelper)
         {
-            if (isHistory)
-            {
-                return htmlHelper.Partial("~/_Features/Notifications/Requests/HistoryRequestPartial.cshtml", this);
-            }
-            else
-            {
-                return htmlHelper.Partial("~/_Features/Notifications/Requests/IndexRequestPartial.cshtml", this);
-            }
+            return htmlHelper.Partial("~/_Features/Notifications/Requests/IndexRequestPartial.cshtml", this);
         }
 
         public class Factory : NotificationViewModelFactory<RequestToJoinProject, RequestToJoinProjectNotifiationViewModel>
@@ -53,7 +48,9 @@ namespace Ubora.Web._Features.Notifications.Requests
                     UserFullName = invitedMemberUserProfile.FullName,
                     UserId = invitedMemberUserProfile.UserId,
                     RequestId = notification.Id,
-                    IsUnread = !notification.HasBeenViewed
+                    IsUnread = !notification.HasBeenViewed,
+                    IsPending = notification.IsPending,
+                    CreatedAt = notification.CreatedAt
                 };
 
                 return viewModel;

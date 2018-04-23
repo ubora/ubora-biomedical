@@ -8,8 +8,8 @@
     ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.DesignPlanning;
 }
 
-<div class="col-lg-9 pr-5">
-    <h1 class="display-4">Design planning</h1>
+<div class="col-lg-7">
+    <h1>Design planning</h1>
 
     <form asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -135,7 +135,7 @@
         </div>
 
         <div class="d-flex justify-content-center flex-wrap-reverse">
-            <a class="btn btn-secondary-ghost" asp-controller="WorkpackageOne" asp-action="DiscardDesignPlanningChanges" asp-route-returnUrl="@ViewData["ReturnUrl"]" role="button">Discard</a>
+            <a class="btn btn-outline-primary" asp-controller="WorkpackageOne" asp-action="DiscardDesignPlanningChanges" asp-route-returnUrl="@ViewData["ReturnUrl"]" role="button">Discard</a>
             <span class="mx-1"></span>
             <button class="btn btn-primary" type="submit">Save changes</button>
         </div>
@@ -143,10 +143,13 @@
     </form>
 </div>
 
-@section Scripts {
+@section Head {
     <link rel="stylesheet"
           href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"
           asp-fallback-href="~/dist/lib/select2.min.css">
+}
+
+@section Scripts {
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"
             asp-fallback-src="~/dist/lib/select2.min.js"
             asp-fallback-test="window.select2">

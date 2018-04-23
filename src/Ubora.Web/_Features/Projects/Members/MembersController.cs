@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Identity;
 using Ubora.Web.Data;
 using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Web.Authorization.Requirements;
+using Ubora.Web.Infrastructure.Extensions;
+using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Members
 {
@@ -19,10 +22,12 @@ namespace Ubora.Web._Features.Projects.Members
     public class MembersController : ProjectController
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ImageStorageProvider _imageStorageProvider;
 
-        public MembersController(SignInManager<ApplicationUser> signInManager)
+        public MembersController(SignInManager<ApplicationUser> signInManager, ImageStorageProvider imageStorageProvider)
         {
             _signInManager = signInManager;
+            _imageStorageProvider = imageStorageProvider;
         }
 
         [AllowAnonymous]
@@ -36,13 +41,15 @@ namespace Ubora.Web._Features.Projects.Members
             foreach (var userMembers in Project.Members.GroupBy(m => m.UserId))
             {
                 var memberUserId = userMembers.Key;
+                var userProfile = QueryProcessor.FindById<UserProfile>(memberUserId);
                 var itemModel = new ProjectMemberListViewModel.Item
                 {
                     UserId = memberUserId,
                     IsProjectLeader = userMembers.Any(x => x.IsLeader),
                     IsProjectMentor = userMembers.Any(x => x.IsMentor),
                     IsCurrentUser = (isAuthenticated && this.UserId == memberUserId),
-                    FullName = QueryProcessor.FindById<UserProfile>(memberUserId).FullName
+                    FullName = userProfile.FullName,
+                    ProfilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile)
                 };
                 memberListItemViewModels.Add(itemModel);
             }
@@ -79,7 +86,7 @@ namespace Ubora.Web._Features.Projects.Members
             ExecuteUserProjectCommand(new InviteMemberToProjectCommand
             {
                 InvitedMemberEmail = model.Email
-            });
+            }, Notice.Success(SuccessTexts.ProjectMemberInvited));
 
             if (!ModelState.IsValid)
             {
@@ -124,7 +131,7 @@ namespace Ubora.Web._Features.Projects.Members
                 return View(model);
             }
 
-            ExecuteUserProjectCommand(new JoinProjectCommand());
+            ExecuteUserProjectCommand(new JoinProjectCommand(), Notice.Success(SuccessTexts.RequestToJoinProjectSent));
 
             if (!ModelState.IsValid)
             {
@@ -160,7 +167,7 @@ namespace Ubora.Web._Features.Projects.Members
             ExecuteUserProjectCommand(new RemoveMemberFromProjectCommand
             {
                 UserId = removeMemberViewModel.MemberId
-            });
+            }, Notice.Success(SuccessTexts.ProjectMemberRemoved));
 
             if (!ModelState.IsValid)
             {
@@ -188,7 +195,7 @@ namespace Ubora.Web._Features.Projects.Members
             ExecuteUserProjectCommand(new RemoveMemberFromProjectCommand
             {
                 UserId = UserId
-            });
+            }, Notice.Success(SuccessTexts.LeftFromProject));
 
             if (!ModelState.IsValid)
             {

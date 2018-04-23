@@ -39,7 +39,7 @@ Scenario: I check my created profile
     When I click on the element "button=Edit profile"
     Then I expect the title of the page "Manage your account - UBORA"
 
-Scenario: I change my profile and check if my changes have been saved
+Scenario: I change my profile
     When I click on the element "span=Profile"
         And I click on the element "a=Edit profile"
         And I set value "NameFirst" to the element "#FirstName"
@@ -54,6 +54,10 @@ Scenario: I change my profile and check if my changes have been saved
         And I set value "TestSkills" to the element "#Skills"
         And I select value "Mentor" from element "#Role"
         And I click on the element "button=Edit profile"
+    Then I expect the title of the page "Manage your account - UBORA"
+
+Scenario: I check my profile if my changes have been saved
+    When I click on the element "span=Profile"
         And I click on the element "a=Edit profile"
     Then I expect the title of the page "Edit profile - UBORA"
         And I expect the element "#FirstName" to contain text "NameFirst"
@@ -67,14 +71,7 @@ Scenario: I change my profile and check if my changes have been saved
         And I expect the element "#MedicalDevice" to contain text "Healthcare provider"
         And I expect the element "#Institution" to contain text "TestInstitution"
         And I expect the element "#Skills" to contain text "TestSkills"
-        And I expect the element "#Role" to contain text "Mentor"
-
-Scenario: I try to add an empty profile picture
-    When I click on the element "span=Profile"
-        And I click on the element "a=Edit profile"
-        And I click on the element "button=Upload image"
-    Then I expect the title of the page "Edit profile - UBORA"
-        And I expect the element "span=Please select an image to upload first!" is visible
+        And I expect the element "#Role" to contain text "Mentor"  
 
 Scenario: I check terms of service
     When I click on the element "span=Profile"
@@ -85,4 +82,4 @@ Scenario: I check terms of service
 
 Scenario: I sign out
     When I sign out
-    Then I expect the title of the page "Welcome - UBORA"
+    Then I expect the title of the page "UBORA"

@@ -78,8 +78,7 @@ namespace Ubora.Web._Features.Admin.Tests
                     var viewModel = (INotificationViewModel)Activator.CreateInstance(type);
                     try
                     {
-                        viewModel.GetPartialView(htmlHelper, true);
-                        viewModel.GetPartialView(htmlHelper, false);
+                        viewModel.GetPartialView(htmlHelper);
                     }
                     catch (InvalidOperationException)
                     {

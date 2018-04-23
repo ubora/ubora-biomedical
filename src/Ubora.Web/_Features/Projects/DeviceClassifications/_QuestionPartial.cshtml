@@ -5,7 +5,7 @@
     {
         <div class="align-left w-100">
             <div class="text-left w-100">
-                <h4>@Model.QuestionText</h4>
+                <h5>@Model.QuestionText</h5>
             </div>
             <div class="my-4">
                 @if (Model.IsSelected)
@@ -24,9 +24,9 @@
             </div>
             @if (!Model.IsFirstQuestion)
             {
-                <button id="previous-btn" onclick="carouselPrev()" type="submit" class="btn btn-secondary-ghost">< Previous</button>
+                <button id="previous-btn" onclick="carouselPrev()" type="submit" class="btn btn-outline-primary">< Previous</button>
             }
-            <button onclick="carouselNext()" type="submit" class="btn btn-secondary-ghost">Next ></button>
+            <button onclick="carouselNext()" type="submit" class="btn btn-outline-primary">Next ></button>
         </div>
     }
     else
@@ -36,7 +36,7 @@
             <input type="hidden" asp-for="QuestionnaireId" />
             <div class="align-left">
                 <div class="text-left">
-                    <h4>@Model.QuestionText</h4>
+                    <h5>@Model.QuestionText</h5>
                 </div>
                 <div class="my-4">
                     @if (Model.IsSelected)

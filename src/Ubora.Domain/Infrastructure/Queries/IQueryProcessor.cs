@@ -21,6 +21,7 @@ namespace Ubora.Domain.Infrastructure.Queries
             ISpecification<TDocument> specification,
             IProjection<TDocument, TDocumentProjection> projection,
             ISortSpecification<TDocumentProjection> sortSpecification, int pageSize, int pageNumber);
+
         T FindById<T>(Guid id); // Replace calls with specification?
     }
 }

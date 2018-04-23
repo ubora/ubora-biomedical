@@ -1,11 +1,13 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace Ubora.Domain.Notifications
 {
     public abstract class UserBinaryAction : INotification
     {
-        public Guid Id { get; private set; }
-        public Guid NotificationTo { get; private set; }
+        public Guid Id { get; }
+        public Guid NotificationTo { get; }
+        public DateTime CreatedAt { get; }
         public bool HasBeenViewed { get; set; }
         public DateTime? DecidedAt { get; private set; }
         public bool? IsAccepted { get; private set; }
@@ -16,6 +18,15 @@ namespace Ubora.Domain.Notifications
         {
             Id = Guid.NewGuid();
             NotificationTo = userId;
+            CreatedAt = DateTime.UtcNow;
+        }
+
+        [JsonConstructor]
+        protected UserBinaryAction(Guid id, Guid notificationTo, DateTime createdAt)
+        {
+            Id = id;
+            NotificationTo = notificationTo;
+            CreatedAt = createdAt;
         }
 
         internal void Accept()

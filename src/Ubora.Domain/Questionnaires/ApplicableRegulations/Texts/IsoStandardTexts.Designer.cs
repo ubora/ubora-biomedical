@@ -132,7 +132,7 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Texts {
                 return ResourceManager.GetString("q4", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 
         ///    &lt;td&gt;&lt;a href=&quot;http://shop.bsigroup.com/ProductDetail?pid=000000000030255136&quot; target=&quot;_blank&quot;&gt;EN ISO 11607-1:2009+A1:2014&lt;/a&gt;&lt;/td&gt;

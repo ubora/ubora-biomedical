@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Moq;
+using Ubora.Domain.Users.Queries;
 using Ubora.Web.Data;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features.UboraMentors.Queries;
@@ -30,7 +31,7 @@ namespace Ubora.Web.Tests._Features.UboraMentors.Queries
                 .ReturnsAsync(isMentor);
 
             var query = new IsVerifiedUboraMentorQuery(userId);
-            var handlerUnderTest = new IsVerifiedUboraMentorQuery.Handler(userManagerMock.Object);
+            var handlerUnderTest = new IsVerifiedUboraMentorQueryHandler(userManagerMock.Object);
 
             // Act
             var result = handlerUnderTest.Handle(query);

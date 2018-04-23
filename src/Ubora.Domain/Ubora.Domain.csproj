@@ -7,18 +7,16 @@
     <EmbeddedResource Remove="Projects\DeviceClassification\**" />
     <None Remove="Projects\DeviceClassification\**" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
-    <PackageReference Include="dbup" Version="3.3.5" />
-    <PackageReference Include="dbup-postgresql" Version="3.3.5" />
-    <PackageReference Include="Marten" Version="2.3.0" />
+    <PackageReference Include="dbup-core" Version="4.0.0-beta0004" />
+    <PackageReference Include="dbup-postgresql" Version="4.0.0-beta0004" />
+    <PackageReference Include="Marten" Version="2.7.1" />
     <PackageReference Include="TwentyTwenty.Storage" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Projects\History\Specifications\" />
     <Folder Include="Properties\" />
-    <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Projects\Workpackages\Placeholders.Designer.cs">

@@ -6,6 +6,7 @@ using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 {
@@ -22,15 +23,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.Wp1MentorReview;
         }
 
-        public async Task<IActionResult> Review()
+        public virtual async Task<IActionResult> Review()
         {
+            var latestReview = WorkpackageOne.GetLatestReviewOrNull();
+
             var model = new WorkpackageReviewListViewModel
-            {
-                Reviews = WorkpackageOne.Reviews.Select(AutoMapper.Map<WorkpackageReviewViewModel>),
-                ReviewDecisionUrl = Url.Action(nameof(Decision)),
-                SubmitForReviewUrl = Url.Action(nameof(SubmitForReview)),
-                SubmitForReviewButton = await WorkpackageReviewListViewModel.GetSubmitButtonVisibility(WorkpackageOne, User, AuthorizationService)
-            };
+            (
+                reviews: WorkpackageOne.Reviews.OrderBy(r => r.SubmittedAt).Select(AutoMapper.Map<WorkpackageReviewViewModel>),
+                latestReview: latestReview == null ? null : AutoMapper.Map<WorkpackageReviewViewModel>(latestReview),
+                reviewDecisionUrl: Url.Action(nameof(Decision)),
+                submitForReviewUrl: Url.Action(nameof(SubmitForReview)),
+                submitForReviewButton: await WorkpackageReviewListViewModel.GetSubmitButtonVisibility(WorkpackageOne, User, AuthorizationService)
+            );
 
             return View(nameof(Review), model);
         }
@@ -44,7 +48,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
                 return await Review();
             }
 
-            ExecuteUserProjectCommand(new SubmitWorkpackageOneForReviewCommand());
+            ExecuteUserProjectCommand(new SubmitWorkpackageOneForReviewCommand(), Notice.Success(SuccessTexts.WP1SubmittedForReview));
 
             if (!ModelState.IsValid)
             {
@@ -77,7 +81,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
             ExecuteUserProjectCommand(new AcceptWorkpackageOneReviewCommand
             {
                 ConcludingComment = model.ConcludingComment
-            });
+            }, Notice.Success(SuccessTexts.WP1ReviewAccepted));
 
             if (!ModelState.IsValid)
             {
@@ -99,7 +103,29 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
             ExecuteUserProjectCommand(new RejectWorkpackageOneReviewCommand
             {
                 ConcludingComment = model.ConcludingComment
-            });
+            }, Notice.Success(SuccessTexts.WP1ReviewRejected));
+
+            if (!ModelState.IsValid)
+            {
+                return await Review();
+            }
+
+            return RedirectToAction(nameof(Review));
+        }
+
+        [HttpPost]
+        [Authorize(Policies.CanReviewProjectWorkpackages)]
+        public async Task<IActionResult> ReopenWorkpackageAfterAcceptance(ReopenWorkpackageAfterAcceptanceByReviewPostModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return await Review();
+            }
+
+            ExecuteUserProjectCommand(new ReopenWorkpackageAfterAcceptanceByReviewCommand
+            {
+                LatestReviewId = model.LatestReviewId 
+            }, Notice.Success(SuccessTexts.WP1Reopened));
 
             if (!ModelState.IsValid)
             {

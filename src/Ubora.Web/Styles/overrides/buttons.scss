@@ -1,0 +1,71 @@
+.btn-primary,
+.btn-outline-primary {
+    font-family: inherit;
+
+    &:focus,
+    &:hover,
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active,
+    &:not(:disabled):not(.disabled):active:focus {
+        background-color: $light-blue;
+        border-color: $light-blue;
+        color: $white;
+        box-shadow: none;
+    }
+
+}
+
+.btn-outline-primary .material-icons,
+.btn-outline-primary span {
+  vertical-align: middle;
+}
+
+.btn-disabled[disabled] {
+    background-color: $primary-shade;
+    border-color: $primary-shade;
+    color: $white;
+    font-family: inherit;
+
+    &:focus,
+    &:hover {
+        background-color: $primary-shade;
+        border-color: $primary-shade;
+        color: $white;
+        cursor: not-allowed;
+    }
+}
+
+.btn-primary[disabled]:focus,
+.btn-primary[disabled]:hover {
+  background-color: $primary-shade;
+  border-color: $primary-shade;
+  color: $white;
+  cursor: not-allowed;
+}
+
+.btn-cta {
+  background-color: $orange;
+  border-color: $orange;
+  color: $white;
+}
+
+.btn-icon {
+    background-color: transparent;
+    border: none;
+
+    &:focus,
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+a.btn-icon:hover {
+    text-decoration: none;
+}
+
+.modal-footer {
+    button {
+        min-width: 4.5rem;
+    }
+}
+

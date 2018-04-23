@@ -55,7 +55,7 @@ namespace Ubora.Domain.Projects.Members.Queries
                     .Select(userProfile => new
                     {
                         UserId = userProfile.UserId,
-                        FullName = userProfile.FirstName + " " + userProfile.LastName
+                        FullName = userProfile.FullName
                     })
                     .ToDictionary(x => x.UserId, x => x.FullName);
 

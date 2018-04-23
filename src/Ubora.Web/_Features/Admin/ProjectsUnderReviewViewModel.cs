@@ -4,6 +4,7 @@ using System.Linq;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members.Queries;
+using Ubora.Domain.Projects.Members.Specifications;
 
 namespace Ubora.Web._Features.Admin
 {
@@ -29,7 +30,7 @@ namespace Ubora.Web._Features.Admin
 
             public virtual ProjectUnderReviewViewModel Create(Project project)
             {
-                var mentorIds = project.Members.Where(x => x.IsMentor).Select(x => x.UserId);
+                var mentorIds = project.GetMembers(new IsMentorSpec()).Select(x => x.UserId);
                 var mentors = _queryProcessor.ExecuteQuery(new FindFullNamesQuery(mentorIds));
 
                 var model = new ProjectUnderReviewViewModel

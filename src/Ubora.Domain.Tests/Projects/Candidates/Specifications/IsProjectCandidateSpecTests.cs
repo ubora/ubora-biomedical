@@ -15,6 +15,7 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Specifications
         public void Specification_Returns_Candidates_Which_Are_From_Project()
         {
             var expectedProjectId = Guid.NewGuid();
+            new ProjectBuilder().WithId(expectedProjectId).Build(this);
             var expectedCandidateId = Guid.NewGuid();
             var userInfo = new DummyUserInfo();
             var candidateAddedEvent = new CandidateAddedEvent(
@@ -29,6 +30,7 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Specifications
             Session.SaveChanges();
 
             var otherProjectId = Guid.NewGuid();
+            new ProjectBuilder().WithId(otherProjectId).Build(this);
             var otherCandidateAddedEvent = new CandidateAddedEvent(
                 initiatedBy: userInfo,
                 projectId: otherProjectId,

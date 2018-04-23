@@ -13,6 +13,7 @@ using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Repository
 {
@@ -76,7 +77,7 @@ namespace Ubora.Web._Features.Projects.Repository
                     FileSize = file.Length,
                     Comment = model.Comment,
                     FolderName = model.FolderName
-                });
+                }, Notice.Success(SuccessTexts.RepositoryFileAdded));
 
                 if (!ModelState.IsValid)
                 {
@@ -92,7 +93,7 @@ namespace Ubora.Web._Features.Projects.Repository
         [Authorize(Policy = nameof(Policies.CanHideProjectFile))]
         public IActionResult HideFile(Guid fileid)
         {
-            ExecuteUserProjectCommand(new HideFileCommand { Id = fileid });
+            ExecuteUserProjectCommand(new HideFileCommand { Id = fileid }, Notice.Success(SuccessTexts.RepositoryFileHidden));
 
             return RedirectToAction(nameof(Repository));
         }
@@ -124,10 +125,11 @@ namespace Ubora.Web._Features.Projects.Repository
             ExecuteUserProjectCommand(new UpdateFileCommand
             {
                 Id = file.Id,
+                FileName = model.ProjectFile.FileName,
                 BlobLocation = blobLocation,
                 FileSize = model.ProjectFile.Length,
                 Comment = model.Comment
-            });
+            }, Notice.Success(SuccessTexts.RepositoryFileUpdated));
 
             if (!ModelState.IsValid)
             {
@@ -146,6 +148,7 @@ namespace Ubora.Web._Features.Projects.Repository
                 .Select(x => new FileItemHistoryViewModel
                 {
                     EventId = x.Id,
+                    FileName = ((UboraFileEvent)x.Data).FileName,
                     FileSize = ((UboraFileEvent)x.Data).FileSize,
                     RevisionNumber = ((UboraFileEvent)x.Data).RevisionNumber,
                     FileAddedOn = x.Timestamp,
@@ -177,6 +180,27 @@ namespace Ubora.Web._Features.Projects.Repository
             return Redirect(blobSasUrl);
         }
 
+        [Route("View3DFile")]
+        public IActionResult View3DFile(Guid fileId)
+        {
+            var file = QueryProcessor.FindById<ProjectFile>(fileId);
+            if (file == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var blobSasUrl = _uboraStorageProvider.GetReadUrl(file.Location, DateTime.UtcNow.AddSeconds(5));
+
+            var model = new View3DFileViewModel
+            {
+                FileName = file.FileName,
+                ProjectName = Project.Title,
+                FileBlobSasUrl = blobSasUrl
+            };
+
+            return View(nameof(View3DFile), model);
+        }
+
         [Route("DownloadHistoryFile")]
         public IActionResult DownloadHistoryFile(Guid eventId)
         {
@@ -191,6 +215,31 @@ namespace Ubora.Web._Features.Projects.Repository
             var blobSasUrl = _uboraStorageProvider.GetReadUrl(fileLocation, DateTime.UtcNow.AddSeconds(5));
 
             return Redirect(blobSasUrl);
+        }
+
+        [Route("View3DHistoryFile")]
+        public IActionResult View3DHistoryFile(Guid eventId)
+        {
+            var fileEvent = _eventStreamQuery.FindFileEvent(ProjectId, eventId);
+            if (fileEvent == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var fileLocation = ((UboraFileEvent)fileEvent.Data).Location;
+
+            var blobSasUrl = _uboraStorageProvider.GetReadUrl(fileLocation, DateTime.UtcNow.AddSeconds(5));
+
+            var file = QueryProcessor.FindById<ProjectFile>(((UboraFileEvent)fileEvent.Data).Id);
+
+            var model = new View3DFileViewModel
+            {
+                FileName = file.FileName,
+                ProjectName = Project.Title,
+                FileBlobSasUrl = blobSasUrl
+            };
+
+            return View(nameof(View3DFile), model);
         }
 
         private async Task SaveBlobAsync(IFormFile projectFile, BlobLocation blobLocation)

@@ -67,5 +67,22 @@ namespace Ubora.Domain.Projects.Workpackages
                 ConcludedAt = concludedAt
             };
         }
+
+        public WorkpackageReview ToWorkpackageReopened()
+        {
+            if (Status != WorkpackageReviewStatus.Accepted)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return new WorkpackageReview
+            {
+                Id = this.Id,
+                SubmittedAt = this.SubmittedAt,
+                Status = WorkpackageReviewStatus.AcceptedButWorkpackageReopened,
+                ConcludingComment = this.ConcludingComment,
+                ConcludedAt = this.ConcludedAt
+            };
+        }
     }
 }

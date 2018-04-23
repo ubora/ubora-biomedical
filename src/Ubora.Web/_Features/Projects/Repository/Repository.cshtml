@@ -1,4 +1,5 @@
 ﻿@using Ubora.Web._Features.Projects._Shared
+@using Ubora.Web._Features.Projects.Repository
 @model Ubora.Web._Features.Projects.Repository.ProjectRepositoryViewModel
 
 @{
@@ -7,11 +8,11 @@
 }
 
 <div class="container-fluid my-4">
-    <div class="row">
-        <div class="col-lg-3 pl-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-3">
             @Html.Partial("AddFilePartial", Model.AddFileViewModel)
         </div>
-        <div class="col-lg-9 pr-5">
+        <div class="col-lg-9">
             @foreach (var files in Model.AllFiles)
             {
                 <h2>@files.Key</h2>
@@ -19,43 +20,43 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th class="width-12"></th>
-                                <th class="width-36">File name</th>
-                                <th class="width-12">Revision number</th>
-                                <th class="width-8">Size (kB)</th>
-                                <th class="width-32">Comment</th>
+                                <th class="w-12"></th>
+                                <th class="w-36">File name</th>
+                                <th class="w-12">Revision number</th>
+                                <th class="w-8">Size (kB)</th>
+                                <th class="w-32">Comment</th>
                             </tr>
                         </thead>
                         <tbody>
 
                             @foreach (var file in files)
                             {
+                                // Note: Please keep the a-element and i-element on same line because otherwise a strange "little line" appears next to the icon when link is hovered. 
                                 <tr>
                                     <td>
-                                        <a href="@Url.Action("DownloadFile","Repository", new { fileId = file.Id })" title="Download file" aria-label="Download file" class="js-tooltip" data-placement="bottom">
-                                            <i class="file-list--item-control material-icons">file_download</i>
-                                        </a>
+                                        @if (file.Has3DFileExtension())
+                                        {
+                                            <a href="@Url.Action("View3DFile", "Repository", new { fileId = file.Id })" title="View 3D file" aria-label="View 3D file" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">3d_rotation</i></a>
+                                        }
 
-                                        <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file" class="js-tooltip" data-placement="bottom">
-                                            <i class="file-list--item-control material-icons">file_upload</i>
-                                        </a>
+                                        <a href="@Url.Action("DownloadFile", "Repository", new { fileId = file.Id })" title="Download file" aria-label="Download file" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">file_download</i></a>
 
-                                        <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history" class="js-tooltip" data-placement="bottom">
-                                            <i class="file-list--item-control material-icons">history</i>
-                                        </a>
+                                        <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file" class="no-underline" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">file_upload</i></a>
 
-                                        <i class="file-list--item-control material-icons js-tooltip js-copy"
+                                        <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history" class="no-underline" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">history</i></a>
+
+                                        <i class="file-list--item-control material-icons js-clipboard"
                                            title="Copy file path to clipboard"
                                            aria-label="Copy file"
                                            data-toggle="tooltip"
                                            data-placement="bottom"
-                                           data-copy="@Url.Action("DownloadFile","Repository", new { fileId = file.Id }, Context.Request.Scheme)">
+                                           data-clipboard-text="@Url.Action("DownloadFile", "Repository", new { fileId = file.Id }, Context.Request.Scheme)">
                                             content_copy
                                         </i>
 
                                         @if (Model.IsProjectLeader)
                                         {
-                                            <a href="@Url.Action("HideFile", new {fileId = file.Id})" title="Delete file forever" aria-label="Delete file forever" class="js-tooltip" data-placement="bottom">
+                                            <a href="@Url.Action("HideFile", new {fileId = file.Id})" title="Delete file forever" aria-label="Delete file forever" class="no-underline" data-toggle="tooltip" data-placement="bottom">
                                                 <i class="file-list--item-control material-icons">delete_forever</i>
                                             </a>
                                         }
@@ -76,7 +77,7 @@
 </div>
 
 @section Scripts {
-    @{     await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <link rel="stylesheet"
           href="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css"
           asp-fallback-href="~/dist/lib/dropzone.min.css">
