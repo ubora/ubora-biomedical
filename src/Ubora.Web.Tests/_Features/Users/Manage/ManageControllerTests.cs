@@ -131,17 +131,18 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             // Assert
             result.Model.Should().Be(model);
 
+            _userManagerMock.Verify(x => x.FindByEmailAsync(It.IsAny<string>()), Times.Never);
             _userManagerMock.Verify(x => x.UpdateAsync(It.IsAny<ApplicationUser>()), Times.Never);
             AssertZeroCommandsExecuted();
         }
 
         [Fact]
-        public async Task ChangeEmail_Returns_ChangeEmail_View_When_User_Does_Not_Exist()
+        public async Task ChangeEmail_Returns_ChangeEmail_ViewWith_Error_Notice_When_Email_Is_Already_Taken()
         {
             var model = new ChangeEmailViewModel();
 
-            _userManagerMock.Setup(x => x.GetUserAsync(_controller.HttpContext.User))
-                .ReturnsAsync((ApplicationUser)null);
+            _userManagerMock.Setup(x => x.FindByEmailAsync(It.IsAny<string>()))
+                .ReturnsAsync(new ApplicationUser());
 
             // Act
             var result = (ViewResult)await _controller.ChangeEmail(model);
@@ -152,6 +153,10 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             _signInManagerMock.Verify(x => x.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never);
             _userManagerMock.Verify(x => x.UpdateAsync(It.IsAny<ApplicationUser>()), Times.Never);
             AssertZeroCommandsExecuted();
+
+            var errorNotice = _controller.Notices.Dequeue();
+            errorNotice.Text.Should().Be("Email is already taken!");
+            errorNotice.Type.Should().Be(NoticeType.Error);
         }
 
         [Fact]
@@ -239,7 +244,7 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             result.ControllerName.Should().Be("Home");
 
             var errorNotice = _controller.Notices.Dequeue();
-            errorNotice.Text.Should().Be("Email cant be updated!");
+            errorNotice.Text.Should().Be($"Email could not be changed. Reason: {errorDescription}");
             errorNotice.Type.Should().Be(NoticeType.Error);
 
             AssertZeroCommandsExecuted();

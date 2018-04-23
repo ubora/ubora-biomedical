@@ -221,6 +221,13 @@ namespace Ubora.Web._Features.Users.Manage
                 return View(model);
             }
 
+            var userByEmail = await _userManager.FindByEmailAsync(model.NewEmail);
+            if (userByEmail != null)
+            {
+                Notices.NotifyOfError("Email is already taken!");
+                return View(model);
+            }
+
             var user = await GetCurrentUserAsync();
 
             var isCorrectPassword = await _userManager.CheckPasswordAsync(user, model.Password);
@@ -272,7 +279,10 @@ namespace Ubora.Web._Features.Users.Manage
 
             if (!changeEmailResult.Succeeded)
             {
-                Notices.NotifyOfError("Email cant be updated!");
+                var message = string.Join(" | ", changeEmailResult.Errors
+                    .Select(e => e.Description));
+
+                Notices.NotifyOfError($"Email could not be changed. Reason: {message}");
 
                 return RedirectToAction("Index", "Home");
             }
