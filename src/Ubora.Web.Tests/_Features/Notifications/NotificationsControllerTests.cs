@@ -33,7 +33,7 @@ namespace Ubora.Web.Tests._Features.Notifications
             var invitations = new Domain.Tests.PagedListStub<INotification> { invitation };
 
             QueryProcessorMock
-                .Setup(x => x.Find(new HasPendingNotifications(UserId)))
+                .Setup(x => x.Find(new IsForUser(UserId)))
                 .Returns(invitations);
 
             CommandProcessorMock.Setup(x => x.Execute(It.IsAny<MarkNotificationsAsViewedCommand>()))

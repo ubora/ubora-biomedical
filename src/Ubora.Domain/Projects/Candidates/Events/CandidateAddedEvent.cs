@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Linq;
+using Marten;
+using Marten.Events;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Notifications;
+using Ubora.Domain.Projects.Members.Specifications;
 using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.Candidates.Events
@@ -23,6 +28,30 @@ namespace Ubora.Domain.Projects.Candidates.Events
         public override string GetDescription()
         {
             return $"added project candidate \"{StringTokens.Candidate(Id)}\"";
+        }
+
+        public class Notifier : UboraEventNotifier<CandidateAddedEvent>
+        {
+            private readonly IDocumentSession _documentSession;
+
+            public Notifier(IDocumentSession documentSession)
+            {
+                _documentSession = documentSession;
+            }
+
+            protected override void HandleCore(CandidateAddedEvent @event, IEvent eventWithMetadata)
+            {
+                var project = _documentSession.Load<Project>(@event.ProjectId);
+
+                var notifications =
+                    project
+                        .GetMembers(!new HasUserIdSpec(@event.InitiatedBy.UserId))
+                        .GroupBy(member => member.UserId)
+                        .Select(memberGrouping => EventNotification.Create(@event, eventWithMetadata.Id, memberGrouping.Key));
+
+                _documentSession.StoreUboraNotificationsIfAny(notifications);
+                _documentSession.SaveChanges();
+            }
         }
     }
 }

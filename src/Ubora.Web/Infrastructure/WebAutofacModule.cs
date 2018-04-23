@@ -65,8 +65,14 @@ namespace Ubora.Web.Infrastructure
                 .InstancePerLifetimeScope();
             builder.RegisterType<ViewRender>().InstancePerLifetimeScope();
             builder.RegisterType<ImageServices.ImageStorageProvider>().AsSelf().InstancePerLifetimeScope();
-            builder.RegisterAssemblyTypes(ThisAssembly).Where(t => t.IsNested && t.Name.EndsWith("Factory")).InstancePerLifetimeScope();
-            builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .Where(t => t.IsNested && t.Name.EndsWith("Factory"))
+                .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .AsClosedTypesOf(typeof(IQueryHandler<,>))
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<SendFeedbackCommand.Handler>().As<ICommandHandler<SendFeedbackCommand>>().InstancePerLifetimeScope();
 
@@ -74,6 +80,9 @@ namespace Ubora.Web.Infrastructure
 
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .AsClosedTypesOf(typeof(NotificationViewModelFactory<,>)).As<INotificationViewModelFactory>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<EventNotificationViewModel.Factory>().As<INotificationViewModelFactory>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<EventViewModelFactoryMediator>().As<IEventViewModelFactoryMediator>().InstancePerLifetimeScope();
@@ -97,6 +106,7 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterType<DeviceClassificationIndexViewModel.QuestionnaireListItemProjection>()
                 .As<IProjection<DeviceClassificationAggregate, DeviceClassificationIndexViewModel.QuestionnaireListItem>>()
                 .SingleInstance();
+
             builder.RegisterType<QuestionnaireIndexViewModel.QuestionnaireListItemProjection>()
                 .As<IProjection<ApplicableRegulationsQuestionnaireAggregate, QuestionnaireIndexViewModel.QuestionnaireListItem>>()
                 .SingleInstance();

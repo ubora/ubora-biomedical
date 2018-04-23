@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using Ubora.Domain.Notifications;
 
 namespace Ubora.Domain.Projects.Assignments.Notifications
@@ -12,13 +13,22 @@ namespace Ubora.Domain.Projects.Assignments.Notifications
             TaskId = taskId;
         }
 
-        public Guid RequesterId { get; private set; }
-        public Guid ProjectId { get; private set; }
-        public Guid TaskId { get; private set; }
+        [JsonConstructor]
+        private AssignmentRemovedFromNotification(Guid id, Guid notificationTo, DateTime createdAt, Guid requesterId, Guid projectId, Guid taskId) 
+            : base(id, notificationTo, createdAt)
+        {
+            RequesterId = requesterId;
+            ProjectId = projectId;
+            TaskId = taskId;
+        }
+
+        public Guid RequesterId { get; }
+        public Guid ProjectId { get; }
+        public Guid TaskId { get; }
 
         public override string GetDescription()
         {
-            return $"Assignment {StringTokens.Task(TaskId)} was removed from you!";
+            return $"Assignment {StringTokens.Task(TaskId)} was removed from you.";
         }
     }
 }

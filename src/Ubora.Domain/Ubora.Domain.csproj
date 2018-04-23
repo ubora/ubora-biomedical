@@ -7,7 +7,12 @@
     <EmbeddedResource Remove="Projects\DeviceClassification\**" />
     <None Remove="Projects\DeviceClassification\**" />
   </ItemGroup>
-
+  <ItemGroup>
+    <None Remove="Scripts\4-6-2018 add CreatedAt to INotification.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\4-6-2018 add CreatedAt to INotification.sql" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="dbup-core" Version="4.0.0-beta0004" />
@@ -19,7 +24,6 @@
     <Folder Include="Projects\History\Specifications\" />
     <Folder Include="Projects\_Queries\" />
     <Folder Include="Properties\" />
-    <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Projects\Workpackages\Placeholders.Designer.cs">

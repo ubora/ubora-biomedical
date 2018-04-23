@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 
 namespace Ubora.Domain.Notifications
 {
@@ -8,10 +9,20 @@ namespace Ubora.Domain.Notifications
         {
             Id = Guid.NewGuid();
             NotificationTo = notificationTo;
+            CreatedAt = DateTime.UtcNow;
         }
 
-        public Guid Id { get; private set; }
-        public Guid NotificationTo { get; private set; }
+        [JsonConstructor]
+        protected GeneralNotification(Guid id, Guid notificationTo, DateTime createdAt)
+        {
+            Id = id;
+            NotificationTo = notificationTo;
+            CreatedAt = createdAt;
+        }
+
+        public Guid Id { get; }
+        public Guid NotificationTo { get; }
+        public DateTime CreatedAt { get; }
         public bool HasBeenViewed { get; set; }
         public bool IsArchived => HasBeenViewed;
 

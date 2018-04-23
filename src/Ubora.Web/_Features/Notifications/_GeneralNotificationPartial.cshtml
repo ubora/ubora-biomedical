@@ -1,3 +1,6 @@
 ﻿@model Ubora.Web._Features.Notifications.GeneralNotificationViewModel
 
-<p>@Model.Message</p>
+<div class="notification">
+    <p>@Model.Message</p>
+    @Html.TimeAgoHistorySpan(Model.CreatedAt)
+</div>
