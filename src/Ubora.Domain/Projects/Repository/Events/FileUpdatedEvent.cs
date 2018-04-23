@@ -6,8 +6,8 @@ namespace Ubora.Domain.Projects.Repository.Events
 {
     public class FileUpdatedEvent : UboraFileEvent, IFileEvent
     {
-        public FileUpdatedEvent(UserInfo initiatedBy, Guid projectId, Guid id, BlobLocation location, string comment, long fileSize, int revisionNumber) 
-            : base(initiatedBy, projectId, id, location, comment, fileSize, revisionNumber)
+        public FileUpdatedEvent(UserInfo initiatedBy, Guid projectId, Guid id, string fileName, BlobLocation location, string comment, long fileSize, int revisionNumber) 
+            : base(initiatedBy, projectId, id, fileName, location, comment, fileSize, revisionNumber)
         {
         }
 

@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Npgsql;
 using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace Ubora.Web
 {
