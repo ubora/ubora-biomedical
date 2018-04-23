@@ -71,7 +71,7 @@ Scenario: I click Assignments and add an Assignment
         And I click on the element "a=Assignments"
     Then I expect the title of the page "Assignments - UBORA"
     When I click on the element "span=Add assignment"
-    Then I expect the title of the page "Assignments - UBORA"
+    Then I expect the title of the page "Add assignment - UBORA"
     When I set value "Assignment Title" to the element "#Title"
         And I set value "Assignment Description" to the element "#Description"
         And I click on the element "button=Add assignment"
@@ -80,14 +80,13 @@ Scenario: I click Assignments and add an Assignment
     Then I expect the title of the page "Assignments - UBORA"
         And I expect the element "textarea=Assignment Description" is visible
 
-Scenario: I click Assingments and try to add an empty Assignment
+Scenario: I click Assignments and try to add an empty Assignment
     When I click on the element "h5=TestProject"
         And I click on the element "a=Assignments"
         And I click on the element "span=Add assignment"
         And I click on the element "button=Add assignment"
     Then I expect the element "span=The Title field is required." is visible
         And I expect the element "span=The Description field is required." is visible
-        And I expect the title of the page "Assignments - UBORA"
 
 Scenario: I click Assignments and click Discard changes in new assignment
     When I click on the element "h5=TestProject"
