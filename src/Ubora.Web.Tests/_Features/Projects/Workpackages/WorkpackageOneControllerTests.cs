@@ -186,7 +186,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             executedCommand.Title.Should().Be(projectTitle);
 
             var successNotice = _workpackageOneController.Notices.Dequeue();
-            successNotice.Text.Should().Be("Project overview changed successfully!");
+            successNotice.Text.Should().Be(SuccessTexts.ProjectUpdated);
             successNotice.Type.Should().Be(NoticeType.Success);
         }
 
@@ -229,7 +229,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             executedCommand.Title.Should().Be(projectTitle);
 
             var successNotice = _workpackageOneController.Notices.Dequeue();
-            successNotice.Text.Should().Be("Project overview changed successfully!");
+            successNotice.Text.Should().Be(SuccessTexts.ProjectUpdated);
             successNotice.Type.Should().Be(NoticeType.Success);
 
             result.ActionName.Should().Be("Index");

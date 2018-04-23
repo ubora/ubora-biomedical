@@ -2,11 +2,13 @@ using System;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Notifications;
 using Ubora.Domain.Notifications.Commands;
 using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Web.Infrastructure;
 using Ubora.Web._Features.Notifications._Base;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Notifications
 {
@@ -23,7 +25,8 @@ namespace Ubora.Web._Features.Notifications
         [RestoreModelStateFromTempData]
         public IActionResult Index()
         {
-            var notifications = QueryProcessor.Find(new HasPendingNotifications(UserId))
+            var notifications = QueryProcessor.Find<INotification>(new IsForUser(UserId))
+                .OrderByDescending(x => x.CreatedAt)
                 .ToList();
 
             MarkNotificationsAsViewed();
@@ -33,19 +36,9 @@ namespace Ubora.Web._Features.Notifications
             return View(viewModels);
         }
 
-        public IActionResult History()
-        {
-            var notifications = QueryProcessor.Find(new HasArchivedNotifications(UserId))
-                .ToList();
-
-            var viewModels = notifications.Select(_notificationViewModelFactoryMediator.Create);
-
-            return View(viewModels);
-        }
-
         private void MarkNotificationsAsViewed()
         {
-            ExecuteUserCommand(new MarkNotificationsAsViewedCommand());
+            ExecuteUserCommand(new MarkNotificationsAsViewedCommand(), Notice.None("Background operation."));
         }
 
         [HttpPost]
@@ -60,14 +53,12 @@ namespace Ubora.Web._Features.Notifications
             ExecuteUserCommand(new AcceptProjectMentorInvitationCommand
             {
                 InvitationId = invitationId
-            });
+            }, Notice.Success(SuccessTexts.ProjectMentorInvitationAccepted));
 
             if (!ModelState.IsValid)
             {
                 return Index();
             }
-
-            // TODO: Notice
 
             return RedirectToAction("Index", "Notifications");
         }
@@ -84,14 +75,12 @@ namespace Ubora.Web._Features.Notifications
             ExecuteUserCommand(new DeclineProjectMentorInvitationCommand
             {
                 InvitationId = invitationId
-            });
+            }, Notice.Success(SuccessTexts.ProjectMentorInvitationDeclined));
 
             if (!ModelState.IsValid)
             {
                 return Index();
             }
-
-            // TODO: Notice
 
             return RedirectToAction("Index", "Notifications");
         }

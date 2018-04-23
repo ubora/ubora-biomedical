@@ -84,3 +84,15 @@ WARNING: Don't commit this! This would break the build in TeamCity.
 4. To run a single test: `./node_modules/.bin/wdio --port 4444 --spec ./features/YOURSPECNAME.feature`
 
 NOTE: If you have problems, you might need to update Node. (Find out your version by entering `node -v`.) Or you have wrong port specified under the _wdio.conf.js_ --- the application has to be running and hosted on exactly that URL.
+
+
+## Information
+### 1. Nexus
+ 
+ Nexus is not available on npm.
+ Used nexus 4.1.6 in 3D file viewer from https://github.com/cnr-isti-vclab/nexus
+
+Nexus is a c++/javascript library for creation and visualization. Because 3DHOP uses the NEXUS multi-resolution format.
+
+http://vcg.isti.cnr.it/nexus/#overview
+

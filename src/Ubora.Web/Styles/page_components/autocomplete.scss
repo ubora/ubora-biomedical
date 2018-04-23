@@ -1,0 +1,24 @@
+.autocomplete-result-wrapper {
+  margin:1em auto;
+}
+
+.autocomplete-result-list {
+  list-style: none;
+  padding: 0;
+}
+
+.autocomplete-result {
+  border-left: 3px solid transparent;
+  box-sizing: border-box;
+  margin: .5em 0;
+  padding:1em .5em;
+}
+
+.autocomplete-result:nth-child(odd) {
+  background-color: $quartinary-shade;
+}
+
+.autocomplete-result:hover {
+  cursor: pointer;
+  border-left: 3px solid $blue;
+}

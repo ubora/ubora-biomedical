@@ -1,0 +1,130 @@
+/*Technically hide elements from page rendering flow*/
+.pseudo-hidden {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	position: absolute;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	width: 1px;
+}
+
+/*User avatar*/
+.avatar {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/*Avatar in comments section*/
+.avatar-comment {
+	height: 4em;
+	width: 4em;
+}
+
+/*Override bootstrap badge component*/
+.badge {
+    font-weight: normal;
+}
+
+.badge-dark-outline {
+    border: 1px solid $text-color;
+}
+
+.badge-green {
+    background-color: $green;
+    color: $white;
+}
+
+.badge-orange {
+	background-color: $orange;
+    color:  $white;
+}
+
+/*Override icon default values*/
+.material-icons {
+  font-size: 1.3rem;
+  line-height: 1.3;
+}
+
+/*Project status indicator*/
+.project-status-draft {
+	color: $white;
+	background-color: $orange;
+	padding: 0 1rem;
+	margin-bottom: 0;
+}
+
+/*Text style*/
+.font-size-0-8{
+	font-size: 0.8rem;
+}
+
+.font-size-1{
+    font-size: 1rem;
+}
+
+.font-size-1-1 {
+    font-size: 1.1rem;
+}
+
+.text-informative {
+    font-style: italic;
+    color: $dark-grey;
+}
+
+.color-orange {
+    color: $orange;
+}
+
+.color-grey {
+    color: $primary-shade;
+}
+
+/*hide content*/
+.hide {
+	display: none;
+}
+
+/*Different widths*/
+.w-8 {
+  width: 8%;
+}
+
+.w-12 {
+  width: 12%;
+}
+
+.w-32 {
+  width: 32%;
+}
+
+.w-36 {
+  width: 36%;
+}
+
+/*Breaks word at any character*/
+.break-word-all {
+	word-break: break-all;
+}
+
+/*Looses text underline from link*/
+a.no-underline {
+	text-decoration: none;
+}
+
+.min-height-45 {
+	min-height: 45rem;
+}
+
+.box-shadow {
+    -webkit-box-shadow: 2px 2px 8px 0 rgba(0,0,0,0.1);
+    -moz-box-shadow: 2px 2px 8px 0 rgba(0,0,0,0.1);
+    box-shadow: 2px 2px 8px 0 rgba(0,0,0,0.1);
+}
+
+.box-shadow-2 {
+    -webkit-box-shadow: 1px 1px 2px 0 rgba(0,0,0,0.1);
+    -moz-box-shadow: 1px 1px 2px 0 rgba(0,0,0,0.1);
+    box-shadow: 1px 1px 2px 0 rgba(0,0,0,0.1);
+}

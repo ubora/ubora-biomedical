@@ -1,8 +1,8 @@
 ﻿@model Ubora.Web._Features.Projects.DeviceClassifications.DeviceClassificationIndexViewModel
 
-<div class="col-lg-9 pr-5">
+<div class="col-lg-7">
 
-    <h1 class="display-4 mb-4">Device classification</h1>
+    <h1>Device classification</h1>
     <div asp-validation-summary="ModelOnly"></div>
     @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditWorkpackageOne))
     {
@@ -22,18 +22,18 @@
         {
             if (!Model.Last.IsFinished)
             {
-                <form class="d-inline" asp-action="Stop" method="post">
-                    <button class="btn btn-secondary-ghost d-sm-block d-lg-inline-block" type="submit" asp-action="Retake" asp-route-oldQuestionnaireId="@Model.Last.QuestionnaireId">Retake questionnaire</button>
+                <form class="d-inline" method="post">
+                    <button class="btn btn-outline-primary d-sm-block d-lg-inline-block" type="submit" asp-action="Retake" asp-route-oldQuestionnaireId="@Model.Last.QuestionnaireId">Retake questionnaire</button>
                 </form>
                 <span class="mx-1"></span>
                 <a class="btn btn-primary d-sm-block d-lg-inline-block" asp-controller="DeviceClassifications" asp-action="Current" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Continue answering</a>
 
-                <p class="mt-2 color-grey">Questionnaire started at @Model.Last.StartedAt</p>
+                <p class="mt-2 text-informative">Questionnaire started at @Model.Last.StartedAt</p>
             }
         }
 
-        <p class="mt-4 color-grey">Quick notes:</p>
-        <ol class="color-grey">
+        <p class="mt-4 text-informative">Quick notes:</p>
+        <ol class="text-informative">
           <li>An unfinished questionnaire is visible to all project members and everyone can answer.</li>
           <li>You can resume answering questions later if you close the page.</li>
           <li>The questionnaire can be retaken until work package 1 is open.</li>
@@ -43,7 +43,7 @@
     }
     else
     {
-        <p>You can not edit work package when it's under review or has been accepted by review.</p>
+        <p class="text-informative">You can not edit work package when it's under review or has been accepted by review.</p>
     }
 
     @if (Model.Previous.Any())

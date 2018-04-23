@@ -1,8 +1,6 @@
 ﻿@model Ubora.Web._Features.Projects.History.WorkPackages.EditWorkpackageThreeEventViewModel
 
-<li class="list-group-item">
-  <div class="col d-flex flex-column">
-    <span>@Html.ActionLink(Model.EventInitiatedBy.Name, "View", "Profile", new { userId = Model.EventInitiatedBy.UserId }) edited WP3 <a asp-controller="WorkpackageThree" asp-action="Read" asp-route-stepId="@Model.StepId">"@Model.Title"</a>.&nbsp;</span>
-      <p class="history-timestamp timeago" title="@Model.Timestamp">@Model.Timestamp.ToString("dd.MM.yyyy")</p>
-  </div>
-</li>
+<div class="notification">
+    <p>@Html.ActionLink(Model.EventInitiatedBy.Name, "ViewProfile", "Profile", new {userId = Model.EventInitiatedBy.UserId}) edited WP3 <a asp-controller="WorkpackageThree" asp-action="Read" asp-route-stepId="@Model.StepId">"@Model.Title"</a>.</p>
+    @Html.TimeAgoHistorySpan(Model.Timestamp)
+</div>

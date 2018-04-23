@@ -4,7 +4,6 @@ using Ubora.Web._Features.Projects.History._Base;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Ubora.Web._Features._Shared.Tokens;
 using Ubora.Domain.Infrastructure.Events;
-using System.Reflection;
 
 namespace Ubora.Web._Features.Projects.History
 {

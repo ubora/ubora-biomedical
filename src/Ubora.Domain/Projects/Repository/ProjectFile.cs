@@ -36,6 +36,7 @@ namespace Ubora.Domain.Projects.Repository
 
         private void Apply(FileUpdatedEvent e)
         {
+            FileName = e.FileName;
             Location = e.Location;
             FileSize = e.FileSize;
             Comment = e.Comment;

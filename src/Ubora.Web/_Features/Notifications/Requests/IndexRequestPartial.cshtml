@@ -1,24 +1,42 @@
 ﻿@using Ubora.Web._Features.Notifications.Requests
-
 @model RequestToJoinProjectNotifiationViewModel
 
 @{
     var isUnreadCss = Model.IsUnread ? "notification--unread" : "";
 }
 
-<div class="notification @isUnreadCss">
-    <div class="notification-container">
-        <p> <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@Model.UserId">@Model.UserFullName</a> asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.</p>
-
-        <form class="notification--controls " method="post">
-            @Html.AntiForgeryToken()
-            <input type="hidden" asp-for="RequestId" />
-            <div class="form-input notification-action">
-                <button class="btn btn-secondary-ghost" type="submit" asp-controller="Requests" asp-action="Decline">Decline</button>
-            </div>
-            <div class="form-input notification-action">
-                <button class="btn btn-primary" type="submit" asp-controller="Requests" asp-action="Accept">Accept</button>
-            </div>
-        </form>
+@if (Model.IsPending)
+{
+    <div class="notification @isUnreadCss">
+        <div class="d-flex justify-content-between">
+            <p><a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@Model.UserId">@Model.UserFullName</a> asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.</p>
+            <form class="notification-controls" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="RequestId"/>
+                <button class="btn btn-outline-primary btn-sm align-self-start" type="submit" asp-controller="Requests" asp-action="Decline">Decline</button>
+                <button class="btn btn-primary btn-sm ml-2 align-self-start" type="submit" asp-controller="Requests" asp-action="Accept">Accept</button>
+            </form>
+        </div>
+        @Html.TimeAgoHistorySpan(Model.CreatedAt)
     </div>
-</div>
+}
+else
+{
+    <div class="notification">
+        <p>
+            <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@Model.UserId">@Model.UserFullName asked to join project</a> <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.&nbsp;
+            You
+            @if (Model.WasAccepted)
+            {
+                <b>accepted</b>
+                <span>&#46;</span>
+            }
+            else
+            {
+                <b>declined</b>
+                <span>&#46;</span>
+            }
+        </p>
+        @Html.TimeAgoHistorySpan(Model.CreatedAt)
+    </div>
+}

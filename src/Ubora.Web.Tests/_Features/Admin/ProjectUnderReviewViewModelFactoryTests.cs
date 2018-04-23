@@ -7,6 +7,7 @@ using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Queries;
+using Ubora.Domain.Projects.Members.Specifications;
 using Ubora.Domain.Users;
 using Ubora.Web._Features.Admin;
 using Xunit;
@@ -29,15 +30,11 @@ namespace Ubora.Web.Tests._Features.Admin
             var otherMentorId = Guid.NewGuid();
             var leaderId = Guid.NewGuid();
             var memberId = Guid.NewGuid();
-            var members = new []
-            {
-                new ProjectMember(memberId),
-                new ProjectLeader(leaderId),
-                new ProjectMentor(mentorId),
-                new ProjectMentor(otherMentorId),
-            };
-            projectMock.Setup(x => x.Members)
-                .Returns(members);
+            projectMock.Setup(x => x.GetMembers(new IsMentorSpec()))
+                .Returns(new[] {
+                    new ProjectMentor(mentorId),
+                    new ProjectMentor(otherMentorId),
+                });
 
             var mentors = new Dictionary<Guid, string>
             {

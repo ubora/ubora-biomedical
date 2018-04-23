@@ -377,7 +377,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             _signInManagerMock.Verify(m => m.SignOutAsync(), Times.Never);
 
             var successNotice = _controller.Notices.Dequeue();
-            successNotice.Text.Should().Be("Your email has been confirmed successfully!");
+            successNotice.Text.Should().Be(SuccessTexts.EmailConfirmed);
             successNotice.Type.Should().Be(NoticeType.Success);
         }
 
@@ -403,7 +403,7 @@ namespace Ubora.Web.Tests._Features.Users.Account
             result.ActionName.Should().Be("Index");
 
             var successNotice = _controller.Notices.Dequeue();
-            successNotice.Text.Should().Be("Your email has been confirmed successfully!");
+            successNotice.Text.Should().Be(SuccessTexts.EmailConfirmed);
             successNotice.Type.Should().Be(NoticeType.Success);
 
             _signInManagerMock.Verify(m => m.SignOutAsync(), Times.Once);

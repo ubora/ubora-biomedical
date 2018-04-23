@@ -1,14 +1,14 @@
 ﻿@model Ubora.Web._Features.Projects.DeviceClassifications.DeviceClassificationReviewViewModel
 
-<div class="col-lg-9 pr-5">
-    <h1 class="display-4 mb-4">Chosen class: @Model.ChosenClass</h1>
+<div class="col-lg-7">
+    <h1>Chosen class: @Model.ChosenClass</h1>
     <ul class="list-group">
         @foreach (var question in Model.Questions)
         {
             <li class="list-group-item">
                 <div class="flex-column">
                     <p class="font-weight-bold">@question.QuestionText</p>
-                    <p>@question.AnswerText</p>
+                    <p>You answered: @question.AnswerText</p>
                 </div>
             </li>
         }

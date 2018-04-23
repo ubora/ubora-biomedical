@@ -1,0 +1,64 @@
+
+/*for voting*/
+.circle {
+    background:  $tertiary-shade;
+    color: $white;
+    border-radius: 50%;
+}
+
+.average-number {
+    font-size: 3em;
+    width: 3em;
+    height: 3em;
+    line-height: 3em;
+}
+
+.vote-number {
+    font-size: 1em;
+    width: 2.5em;
+    height: 2.5em;
+    line-height: 2.5em;
+    cursor: pointer;
+    color: #fff;
+}
+
+
+.voted {
+    background: $blue;
+}
+
+.table-add-vote input[type="radio"]{
+  display : none;
+}
+
+.table.table-votes td,
+.table.table-votes th {
+  border-top: none;
+}
+
+
+
+/*overrides*/
+.comment-section {
+    @extend .font-size-0-8;
+    @extend .color-grey;
+
+    .btn-link {
+        font-size: inherit;
+        color: $primary-shade;
+        border: none;
+        padding: 0;
+
+        &:hover,
+        &:active,
+        &:focus {
+            color: $light-blue;
+        }
+    }
+}
+
+/*for comments*/
+a.show-more-link {
+	text-decoration:none;
+	outline: none;
+}

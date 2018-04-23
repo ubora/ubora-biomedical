@@ -33,6 +33,10 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
 
         private void Add_Candidate_To_Project()
         {
+            new ProjectBuilder()
+                .WithId(_projectId)
+                .Build(this);
+            
             var candidateAddedEvent = new CandidateAddedEvent(
                 initiatedBy: new UserInfo(_userId, "username"),
                 projectId: _projectId,

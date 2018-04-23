@@ -11,6 +11,7 @@ using Ubora.Domain.Users.Commands;
 using Ubora.Domain.Users.Queries;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Admin
 {
@@ -29,7 +30,7 @@ namespace Ubora.Web._Features.Admin
         {
             base.OnActionExecuting(context);
 
-            ViewData["Title"] = "Manage UBORA";
+            ViewData["Title"] = "Administer UBORA";
         }
 
         [Authorize(Roles = ApplicationRole.Admin)]
@@ -178,7 +179,7 @@ namespace Ubora.Web._Features.Admin
                 ExecuteUserCommand(new DeleteUserCommand
                 {
                     UserId = user.Id
-                });
+                }, Notice.Success(SuccessTexts.UserDeleted));
             }
             else
             {
@@ -190,7 +191,7 @@ namespace Ubora.Web._Features.Admin
                 return await ManageUsers();
             }
 
-            Notices.Success($"User {user.Email} successfully deleted");
+            Notices.NotifyOfSuccess($"User {user.Email} successfully deleted");
             return RedirectToAction(nameof(ManageUsers));
         }
 

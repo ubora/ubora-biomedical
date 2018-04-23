@@ -7,6 +7,7 @@ using Ubora.Domain.Questionnaires.DeviceClassifications.Commands;
 using Ubora.Web.Authorization;
 using Ubora.Web._Features.Projects.Workpackages;
 using Ubora.Web._Features.Projects._Shared;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.DeviceClassifications
 {
@@ -36,7 +37,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
             ExecuteUserProjectCommand(new StartClassifyingDeviceCommand
             {
                 Id = id
-            });
+            }, Notice.Success(SuccessTexts.DeviceClassificationStarted));
 
             if (!ModelState.IsValid)
             {
@@ -63,7 +64,6 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
 
             return RedirectToAction(nameof(ViewQuestion), new { questionnaireId, questionId = nextQuestion.Id });
         }
-
 
         public virtual IActionResult ViewQuestion(Guid questionnaireId, string questionId, [FromServices]DeviceClassificationQuestionViewModel.Factory modelFactory)
         {
@@ -97,7 +97,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
                 AnswerId = model.AnswerId,
                 QuestionId = model.QuestionId,
                 QuestionnaireId = model.QuestionnaireId
-            });
+            }, Notice.None("There is enough visual feedback."));
 
             if (!ModelState.IsValid)
             {
@@ -140,7 +140,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
             {
                 StopQuestionnaireId = oldQuestionnaireId,
                 StartQuestionnaireId = newQuestionnaireId
-            });
+            }, Notice.Success(SuccessTexts.DeviceClassificationRetaken));
 
             if (!ModelState.IsValid)
             {

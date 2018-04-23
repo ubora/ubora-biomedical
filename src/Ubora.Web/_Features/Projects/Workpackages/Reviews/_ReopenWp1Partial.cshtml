@@ -1,0 +1,36 @@
+﻿@model Ubora.Web._Features.Projects.Workpackages.Reviews.WorkpackageReviewListViewModel
+
+<hr>
+<div class="mt-4">
+
+    <button class="btn btn-outline-primary align-self-start" role="button" data-toggle="modal" data-target="#reopenWorkpackageModal">
+        <span>Reopen "WP1: Medical need and product specification"</span>
+    </button>
+
+    <div class="modal fade" id="reopenWorkpackageModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reopen "WP1: Medical need and product specification"</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form asp-controller="WorkpackageOneReview" asp-action="ReopenWorkpackageAfterAcceptance" method="post">
+                    <input asp-for="LatestReview.Id" name="LatestReviewId" type="hidden" />
+                    <div class="modal-body">
+                        <p>As the project mentor, you have the capability to reopen WP1. Note that this step does not close WP2. And WP1 <em>should</em> be reviewed again. So, are you sure?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                            <span class="mx-1"></span>
+                            <button class="btn btn-primary" type="submit">Reopen</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

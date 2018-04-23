@@ -4,30 +4,32 @@
     ViewData["Title"] = "Manage your account";
 }
 
-<div class="container-fluid text-center">
-  <h1 class="display-4">@ViewData["Title"]</h1>
-
-  <div class="row justify-content-center my-2">
-    <div class="col-md-5 col-lg-3">
-      <img class="avatar mb-4" src="@User.GetProfilePictureUrl()" alt="Profile picture" height="250" width="250">
-      <h2>@User.GetFullName()</h2>
+<div class="container my-5 text-center">
+    <h1>@ViewData["Title"]</h1>
+    <div class="row justify-content-center my-2">
+        <div class="col-sm-4">
+            <img class="avatar mb-4" src="@User.GetProfilePictureUrl()" alt="Profile picture" height="250" width="250">
+            <h2>@User.GetFullName()</h2>
+        </div>
     </div>
-  </div>
-
-  <div class="row justify-content-center my-2">
-    <div class="col-md-5 col-lg-3">
-      <a class="btn btn-secondary-ghost btn-block" asp-controller="Profile" asp-action="EditProfile" role="button">Edit profile</a>
-      <a class="btn btn-secondary-ghost btn-block" asp-controller="Manage" asp-action="ChangePassword" role="button">Change password</a>
-      <a class="btn btn-secondary-ghost btn-block" asp-controller="Account" asp-action="TermsOfService" role="button">Terms of Service</a>
+    <div class="row justify-content-center my-2">
+        <div class="col-lg-4 col-md-6">
+            <a class="btn btn-outline-primary btn-block" asp-controller="Profile" asp-action="EditProfile" role="button">Edit profile</a>
+        </div>
     </div>
-  </div>
-
-  <div class="row justify-content-center my-2">
-    <div class="col-md-5 col-lg-3">
-      <form asp-action="Logout" asp-controller="Account" method="post">
-        <button class="btn btn-secondary-ghost btn-block" type="submit">Sign out</button>
-      </form>
+    <div class="row justify-content-center my-2">
+        <div class="col-lg-4 col-md-6">
+            <a class="btn btn-outline-primary btn-block" asp-controller="Manage" asp-action="ChangePassword" role="button">Change password</a>
+        </div>
     </div>
-  </div>
-
+    <div class="row justify-content-center my-2">
+        <div class="col-lg-4 col-md-6">
+            <a class="btn btn-outline-primary btn-block" asp-controller="Manage" asp-action="ChangeEmail" role="button">Change email address</a>
+        </div>
+    </div>
+    <div class="row justify-content-center my-2">
+        <div class="col-lg-4 col-md-6">
+            <a class="btn btn-outline-primary btn-block" asp-controller="Account" asp-action="TermsOfService" role="button">Terms of Service</a>
+        </div>
+    </div>
 </div>

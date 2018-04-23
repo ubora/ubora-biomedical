@@ -17,6 +17,7 @@ using Ubora.Web._Features.Projects.Assignments;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Web._Features.Admin;
+using Ubora.Web._Components;
 using Ubora.Web._Features.Projects.Workpackages.Candidates;
 
 namespace Ubora.Web._Features._Shared
@@ -36,8 +37,6 @@ namespace Ubora.Web._Features._Shared
                 .ForMember(dest => dest.ProjectFile, o => o.Ignore())
                 .ForMember(dest => dest.FileId, o => o.MapFrom(src => src.Id));
 
-            CreateMap<Project, ProjectListViewModel.ProjectListItem>()
-                .ForMember(dest => dest.ImagePath, o => o.Ignore());
 
             CreateMap<Project, UpdateProjectCommand>()
                 .ForMember(dest => dest.ProjectId, o => o.MapFrom(src => src.Id))
@@ -59,7 +58,8 @@ namespace Ubora.Web._Features._Shared
                 .ForMember(dest => dest.ProfilePictureLink, o => o.Ignore())
                 .ForMember(dest => dest.IsVerifiedMentor, o => o.Ignore())
                 .ForMember(dest => dest.IsUnverifedMentor, o => o.Ignore())
-                .ForMember(dest => dest.CountryEnglishName, o => o.MapFrom(src => src.Country.DisplayName));
+                .ForMember(dest => dest.CountryEnglishName, o => o.MapFrom(src => src.Country.DisplayName))
+                .ForMember(dest => dest.UserProjects, o => o.Ignore());
 
             CreateMap<UserProfile, UserProfileViewModel>()
                 .ForMember(dest => dest.CountryCode, o => o.MapFrom(src => src.Country.Code));

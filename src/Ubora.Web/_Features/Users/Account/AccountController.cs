@@ -45,11 +45,6 @@ namespace Ubora.Web._Features.Users.Account
             _logger = logger;
         }
 
-        public IActionResult ProfileCreation()
-        {
-            return View();
-        }
-
         [HttpGet]
         [AllowAnonymous]
         public IActionResult TermsOfService()
@@ -267,7 +262,7 @@ namespace Ubora.Web._Features.Users.Account
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (!result.Succeeded)
             {
-                Notices.Error("Confirmation code is wrong or expired!");
+                Notices.NotifyOfError("Confirmation code is wrong or expired!");
 
                 return RedirectToAction("Index", "Home");
             }
@@ -285,7 +280,7 @@ namespace Ubora.Web._Features.Users.Account
                 }
             }
 
-            Notices.Success("Your email has been confirmed successfully!");
+            Notices.NotifyOfSuccess(SuccessTexts.EmailConfirmed);
 
             return RedirectToAction("Index", "Home");
         }

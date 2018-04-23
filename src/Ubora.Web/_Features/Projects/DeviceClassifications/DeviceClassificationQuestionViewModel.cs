@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 
 namespace Ubora.Web._Features.Projects.DeviceClassifications

@@ -16,13 +16,10 @@ namespace Ubora.Web._Features.Projects.Repository
         public IEnumerable<IGrouping<string, ProjectFileViewModel>> AllFiles { get; set; }
     }
 
-    public class ProjectFileViewModel
+    public class ProjectFileViewModel : FileViewModelBase
     {
         public Guid Id { get; set; }
-        public string FileName { get; set; }
-        public string Comment { get; set; }
         public long FileSize { get; set; }
-        public int RevisionNumber { get; set; }
         public long FileSizeInKbs
         {
             get

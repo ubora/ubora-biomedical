@@ -1,60 +1,62 @@
 ﻿@model List<Ubora.Web._Features.Admin.UserViewModel>
 
-<div class="container-fluid my-4">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <table class="table table-responsive">
-                <tbody>
-                    @foreach (var user in Model)
-                    {
-                        <tr>
-                            <td class="w-100">
-                                <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@user.UserId">
-                                  <span class="d-block">@user.FullName</span>
-                                  <span>@user.UserEmail</span>
-                                </a>
-                            </td>
-                            <form method="post">
-                                <input type="hidden" name="userId" value="@user.UserId" />
-                                <td>
-                                    @if (user.IsAdmin)
-                                    {
-                                        <button class="w-100 btn btn-secondary-ghost" type="submit" asp-action="RemoveAdministratorRole">Remove administrator role</button>
-                                    }
-                                    else
-                                    {
-                                        <button class="w-100 btn btn-primary" type="submit" asp-action="AddAdministratorRole">Add administrator role</button>
-                                    }
-                                </td>
-                                <td>
-                                    @if (user.IsMentor)
-                                    {
-                                        <button class="w-100 btn btn-secondary-ghost" type="submit" asp-action="RemoveMentorRole">Remove mentor role</button>
-                                    }
-                                    else
-                                    {
-                                        <button class="w-100 btn btn-primary" type="submit" asp-action="AddMentorRole">Add mentor role</button>
-                                    }
-                                </td>
-
-                            </form>
+<div class="container my-5">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="table-responsive">
+        <table class="table table-admin">
+            <thead>
+                <tr>
+                    <th scope="col">User name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col" class="w-25">Role(s)</th>
+                    <th scope="col" class="w-8"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@user.UserId">@user.FullName</a>
+                        </td>
+                        <td>
+                            <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@user.UserId">@user.UserEmail</a>
+                        </td>
+                        <td>
+                            @user.RolesJoined
+                        </td>
+                        <form method="post">
+                            <input type="hidden" name="userId" value="@user.UserId" />
                             <td>
-                                <a class="btn btn-danger" asp-route-userEmail="@user.UserEmail" asp-action="DeleteUser">Delete user</a>
+                                <div class="dropdown">
+                                    <button class="dropdown-toggle btn btn-primary btn-sm" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Actions
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+                                        @if (user.IsAdmin)
+                                        {
+                                            <button class="dropdown-item" type="submit" asp-action="RemoveAdministratorRole">Remove administrator role</button>
+                                        }
+                                        else
+                                        {
+                                            <button class="dropdown-item" type="submit" asp-action="AddAdministratorRole">Add administrator role</button>
+                                        }
+                                        @if (user.IsMentor)
+                                        {
+                                            <button class="dropdown-item" type="submit" asp-action="RemoveMentorRole">Remove mentor role</button>
+                                        }
+                                        else
+                                        {
+                                            <button class="dropdown-item" type="submit" asp-action="AddMentorRole">Add mentor role</button>
+                                        }
+                                        <button class="dropdown-item" type="submit" asp-route-userEmail="@user.UserEmail" asp-action="DeleteUser">Delete user</button>
+                                    </div>
+                                </div>
                             </td>
-                        </tr>
-                        @*<div class="user-role-list">
-                            <h4>Roles</h4>
-                            @if (user.Roles.Any())
-                            {
-                              @*TODO: Can be replaced with icons? Each role on new line?*@
-                        @*@string.Join(", ", user.Roles)*@
-                        @*  }
-                            </div>*@
-                    }
-                </tbody>
-            </table>
-        </div>
+                        </form>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>

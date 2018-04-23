@@ -1,51 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Ubora.Web._Features.Projects._Shared
 {
     public class ProjectMenuViewModel
     {
-        private const string ActiveMenuOptionCssClass = "active";
-
-        public ProjectMenuViewModel(ProjectMenuOption option)
+        public ProjectMenuViewModel(ProjectMenuOption activeMenuOption)
         {
-            switch (option)
-            {
-                case ProjectMenuOption.Overview:
-                    OverviewActivityCssClass = ActiveMenuOptionCssClass;
-                    break;
-                case ProjectMenuOption.Workpackages:
-                    WorkpackagesActivityCssClass = ActiveMenuOptionCssClass;
-                    break;
-                case ProjectMenuOption.Assignments:
-                    TasksActivityCssClass = ActiveMenuOptionCssClass;
-                    break;
-                case ProjectMenuOption.News:
-                    NewsActivityCssClass = ActiveMenuOptionCssClass;
-                    break;
-                case ProjectMenuOption.Documentation:
-                    DocumentationActivityCssClass = ActiveMenuOptionCssClass;
-                    break;
-                case ProjectMenuOption.Repository:
-                    RepositoryActivityCssClass = ActiveMenuOptionCssClass;
-                    break;
-                case ProjectMenuOption.History:
-                    HistoryActivityCssClass = ActiveMenuOptionCssClass;
-                    break;
-                case ProjectMenuOption.Members:
-                    MembersActivityCssClass = ActiveMenuOptionCssClass;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(option), option, null);
-            }
+            ActiveMenuOption = activeMenuOption;
         }
 
-        public string OverviewActivityCssClass { get; }
-        public string WorkpackagesActivityCssClass { get; }
-        public string TasksActivityCssClass { get; }
-        public string NewsActivityCssClass { get; }
-        public string DocumentationActivityCssClass { get; }
-        public string RepositoryActivityCssClass { get; }
-        public string HistoryActivityCssClass { get; }
-        public string MembersActivityCssClass { get; }
+        public ProjectMenuOption ActiveMenuOption { get; }
+
+        private static Dictionary<ProjectMenuOption, string> MenuOptionNamesInner => new Dictionary<ProjectMenuOption, string>
+        {
+            {ProjectMenuOption.Overview, "Overview"},
+            {ProjectMenuOption.Workpackages, "Work packages"},
+            {ProjectMenuOption.Assignments, "Assignments"},
+            {ProjectMenuOption.Repository, "Repository"},
+            {ProjectMenuOption.Members, "Members"},
+            {ProjectMenuOption.History, "History"}
+        };
+
+        public Dictionary<ProjectMenuOption, string> MenuOptionNames => MenuOptionNamesInner;
     }
 }

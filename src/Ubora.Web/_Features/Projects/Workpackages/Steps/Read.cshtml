@@ -7,14 +7,14 @@
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
-<div class="col-lg-9 pr-5">
+<div class="col-lg-7">
     <div class="row">
         <div class="col">
             <div class="d-flex justify-content-between">
-                <h1 class="display-4">@Model.Title</h1>
+                <h1>@Model.Title</h1>
                 @if (Model.EditButton.IsVisible)
             {
-                    <a class="btn btn-secondary-ghost align-self-start" href="@Model.EditStepUrl">
+                    <a class="btn btn-outline-primary align-self-start" href="@Model.EditStepUrl">
                         <i class="material-icons">mode_edit</i>
                         <span>Edit</span>
                     </a>
@@ -22,7 +22,7 @@
             </div>
             @if (Model.EditButton.IsHiddenWithMessage)
             {
-                <p>@Model.EditButton.HideReasonMessage</p>
+                <p class="text-informative">@Model.EditButton.HideReasonMessage</p>
             }
             <div class="text-markdown">@Model.Content</div>
         </div>

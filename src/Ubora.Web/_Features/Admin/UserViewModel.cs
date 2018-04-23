@@ -13,6 +13,8 @@ namespace Ubora.Web._Features.Admin
         public string UserEmail { get; set; }
 
         public IEnumerable<string> Roles { get; set; }
+        public IEnumerable<string> RolesWithoutPrefixes => Roles.Select(role => role.Replace("Ubora.", ""));
+        public string RolesJoined => string.Join(", ", RolesWithoutPrefixes); 
 
         public bool IsAdmin => Roles.Any(x => x == ApplicationRole.Admin);
         public bool IsMentor => Roles.Any(x => x == ApplicationRole.Mentor);

@@ -1,4 +1,4 @@
-﻿using ImageSharp;
+﻿using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -99,10 +99,8 @@ namespace Ubora.Web.Infrastructure.ImageServices
             {
                 using (var image = Image.Load(stream))
                 {
-
-
-                    image.Resize(width, height)
-                         .SaveAsJpeg(outputStream);
+                    image.Mutate(i => i.Resize(width, height));
+                    image.SaveAsJpeg(outputStream);
                 }
                 outputStream.Seek(0, SeekOrigin.Begin);
 
