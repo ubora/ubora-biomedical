@@ -1,6 +1,6 @@
 ﻿@model Ubora.Web._Features.Users.Manage.ChangeEmailViewModel
 @{
-    ViewData["Title"] = "Change email";
+    ViewData["Title"] = "Change email address";
 }
 
 <div class="container my-5">
@@ -11,17 +11,18 @@
             <form asp-controller="Manage" asp-action="ChangeEmail" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="NewEmail">New Email</label>
-                    <input asp-for="NewEmail" class="form-control" placeholder="New Email" />
+                    <label asp-for="NewEmail">New email address</label>
+                    <input asp-for="NewEmail" class="form-control" />
                     <span asp-validation-for="NewEmail"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Password">Password</label>
-                    <input asp-for="Password" class="form-control" placeholder="Password" />
+                    <input asp-for="Password" class="form-control" />
                     <span asp-validation-for="Password"></span>
                 </div>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Change email</button>
+                    <button type="submit" class="btn btn-primary">Change email address</button>
+                    <small class="form-text text-muted">We will send a confirmation email.</small>
                 </div>
             </form>
         </div>

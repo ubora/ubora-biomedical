@@ -10,6 +10,7 @@ using Ubora.Web.Services;
 using Ubora.Domain.Users.Commands;
 using Ubora.Web._Features._Shared.Notices;
 using System;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace Ubora.Web._Features.Users.Manage
 {
@@ -218,14 +219,14 @@ namespace Ubora.Web._Features.Users.Manage
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return ChangeEmail();
             }
 
             var userByEmail = await _userManager.FindByEmailAsync(model.NewEmail);
             if (userByEmail != null)
             {
-                Notices.NotifyOfError("Email is already taken!");
-                return View(model);
+                ModelState.AddModelError(nameof(model.NewEmail), "Email is already taken");
+                return ChangeEmail();
             }
 
             var user = await GetCurrentUserAsync();
@@ -233,27 +234,18 @@ namespace Ubora.Web._Features.Users.Manage
             var isCorrectPassword = await _userManager.CheckPasswordAsync(user, model.Password);
             if (!isCorrectPassword)
             {
-                Notices.NotifyOfError("Password is not correct!");
-                return View(model);
+                ModelState.AddModelError(nameof(model.Password), "Password is not correct");
+                return ChangeEmail();
             }
 
             await _emailChangeSender.SendEmailChangeConfirmationMessage(user, model.NewEmail);
 
-            return RedirectToAction(nameof(ChangeEmailConfirmation));
+            return RedirectToAction(nameof(ChangeEmailConfirmation), new { newEmail = model.NewEmail });
         }
 
-        public IActionResult ChangeEmailConfirmation()
+        public IActionResult ChangeEmailConfirmation(string newEmail)
         {
-            return View();
-        }
-
-        private async Task<IdentityResult> ChangeEmailAsync(string newEmail, ApplicationUser user)
-        {
-            user.Email = newEmail;
-            user.UserName = newEmail;
-
-            var result = await _userManager.UpdateAsync(user);
-            return result;
+            return View(model: newEmail);
         }
 
         [HttpGet]
@@ -269,7 +261,7 @@ namespace Ubora.Web._Features.Users.Manage
             var isValid = await _userManager.VerifyUserTokenAsync(user, "Default", "ChangeEmail", code);
             if (!isValid)
             {
-                Notices.NotifyOfError("Confirmation code is wrong or expired!");
+                Notices.NotifyOfError("Confirmation code is wrong or expired");
 
                 return RedirectToAction("Index", "Home");
             }
@@ -292,7 +284,7 @@ namespace Ubora.Web._Features.Users.Manage
                 UserId = UserId,
                 Email = newEmail
             };
-            ExecuteUserCommand(command, Notice.Success("Email was changed successfully!"));
+            ExecuteUserCommand(command, Notice.Success($"Email changed successfully to \"{newEmail}\""));
 
             if (!ModelState.IsValid)
             {
@@ -310,6 +302,15 @@ namespace Ubora.Web._Features.Users.Manage
             return RedirectToAction("Index", "Home");
         }
 
+        private async Task<IdentityResult> ChangeEmailAsync(string newEmail, ApplicationUser user)
+        {
+            user.Email = newEmail;
+            user.UserName = newEmail;
+
+            var result = await _userManager.UpdateAsync(user);
+            return result;
+        }
+        
         [HttpGet]
         public IActionResult SetPassword()
         {
