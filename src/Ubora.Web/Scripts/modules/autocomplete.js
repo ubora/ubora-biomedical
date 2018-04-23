@@ -8,7 +8,7 @@ export class Autocomplete {
     });
   }
 
-  _getApiEndpoint(nodeSelector) {
+  static _getApiEndpoint(nodeSelector) {
     const node = document.querySelector(nodeSelector);
     if (node !== null && node.value !== '') {
       return node.value;
@@ -17,7 +17,7 @@ export class Autocomplete {
     }
   }
 
-  _createAutoComplete(apiEndpoint, targetElement) {
+  static _createAutoComplete(apiEndpoint, targetElement) {
     return AutoComplete({
       Limit: 10,
       MinChars: 2,

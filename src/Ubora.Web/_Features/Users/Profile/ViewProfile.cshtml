@@ -1,8 +1,11 @@
+@using Ubora.Web.Data
 @model Ubora.Web._Features.Users.Profile.ProfileViewModel
 
 @{
     ViewData["Title"] = "View profile";
 }
+
+@inject SignInManager<ApplicationUser> SignInManager
 
 <div class="container my-5">
     <div class="row justify-content-center">
@@ -22,17 +25,7 @@
                     }
                 </p>
             </div>
-            <hr>
-            <div class="my-4">
-                <dl class="row">
-                    <dt class="col-sm-2">E-mail:</dt>
-                    <dd class="col-sm-10">
-                        <a class="email" href="mailto:@Model.Email?Subject=Message%20from%20UBORA">@Model.Email</a>
-                    </dd>
-                    <dt class="col-sm-2">Country:</dt>
-                    <dd class="col-sm-10">@Model.CountryEnglishName</dd>
-                </dl>
-            </div>
+
             <div class="my-5">
                 <ul class="nav nav-tabs " id="myTab" role="tablist">
                     <li class="nav-item">
@@ -48,7 +41,20 @@
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab">
-
+                        <div class="my-4">
+                            <h4>Personal</h4>
+                            <dl class="row mb-4">
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <dt class="col-sm-2">E-mail:</dt>
+                                    <dd class="col-sm-10 mb-0">
+                                        <a class="email" href="mailto:@Model.Email?Subject=Message%20from%20UBORA">@Model.Email</a>
+                                    </dd>
+                                }
+                                <dt class="col-sm-2">Country:</dt>
+                                <dd class="col-sm-10">@Model.CountryEnglishName</dd>
+                            </dl>
+                        </div>
                         <div class="my-4">
                             <h4>Academia</h4>
                             <dl class="row mb-4">
@@ -80,34 +86,34 @@
                     <div class="tab-pane fade" id="projects" role="tabpanel" aria-labelledby="projects-tab">
                         <table class="table my-4 table-projects">
                             <thead>
-                            <tr>
-                                <th>Project</th>
-                                <th>Role(s)</th>
-                            </tr>
+                                <tr>
+                                    <th>Project</th>
+                                    <th>Role(s)</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            @foreach (var project in Model.UserProjects)
-                            {
-                                <tr>
-                                    <td>
-                                        <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@project.ProjectId">@project.Title</a>
-                                    </td>
-                                    <td>
-                                        @if (project.IsMentor)
-                                        {
-                                            <span class="d-block">Mentor</span>
-                                        }
-                                        @if (project.IsLeader)
-                                        {
-                                            <span class="d-block">Leader</span>
-                                        }
-                                        @if (!project.IsMentor && !project.IsLeader)
-                                        {
-                                            <span class="d-block">Member</span>
-                                        }
-                                    </td>
-                                </tr>
-                            }
+                                @foreach (var project in Model.UserProjects)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@project.ProjectId">@project.Title</a>
+                                        </td>
+                                        <td>
+                                            @if (project.IsMentor)
+                                            {
+                                                <span class="d-block">Mentor</span>
+                                            }
+                                            @if (project.IsLeader)
+                                            {
+                                                <span class="d-block">Leader</span>
+                                            }
+                                            @if (!project.IsMentor && !project.IsLeader)
+                                            {
+                                                <span class="d-block">Member</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>

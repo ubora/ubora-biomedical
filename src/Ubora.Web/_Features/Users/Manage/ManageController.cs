@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
+using Ubora.Domain.Users.Commands;
+using Ubora.Web._Features._Shared.Notices;
+using System;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace Ubora.Web._Features.Users.Manage
 {
@@ -17,18 +21,20 @@ namespace Ubora.Web._Features.Users.Manage
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly EmailSender _emailSender;
         private readonly ILogger _logger;
+        private readonly IEmailChangeMessageSender _emailChangeSender;
 
         public ManageController(
           UserManager<ApplicationUser> userManager,
           SignInManager<ApplicationUser> signInManager,
           EmailSender emailSender,
-          ILoggerFactory loggerFactory)
+          ILoggerFactory loggerFactory,
+          IEmailChangeMessageSender emailChangeSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = loggerFactory.CreateLogger(nameof(ManageController));
-
+            _emailChangeSender = emailChangeSender;
         }
 
         [HttpGet]
@@ -201,6 +207,110 @@ namespace Ubora.Web._Features.Users.Manage
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public IActionResult ChangeEmail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeEmail(ChangeEmailViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ChangeEmail();
+            }
+
+            var userByEmail = await _userManager.FindByEmailAsync(model.NewEmail);
+            if (userByEmail != null)
+            {
+                ModelState.AddModelError(nameof(model.NewEmail), "Email is already taken");
+                return ChangeEmail();
+            }
+
+            var user = await GetCurrentUserAsync();
+
+            var isCorrectPassword = await _userManager.CheckPasswordAsync(user, model.Password);
+            if (!isCorrectPassword)
+            {
+                ModelState.AddModelError(nameof(model.Password), "Password is not correct");
+                return ChangeEmail();
+            }
+
+            await _emailChangeSender.SendEmailChangeConfirmationMessage(user, model.NewEmail);
+
+            return RedirectToAction(nameof(ChangeEmailConfirmation), new { newEmail = model.NewEmail });
+        }
+
+        public IActionResult ChangeEmailConfirmation(string newEmail)
+        {
+            return View(model: newEmail);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmChangeEmail(string userId, string code, string newEmail)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var isValid = await _userManager.VerifyUserTokenAsync(user, "Default", "ChangeEmail", code);
+            if (!isValid)
+            {
+                Notices.NotifyOfError("Confirmation code is wrong or expired");
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            var oldEmail = user.Email;
+            var changeEmailResult = await ChangeEmailAsync(newEmail, user);
+
+            if (!changeEmailResult.Succeeded)
+            {
+                var message = string.Join(" | ", changeEmailResult.Errors
+                    .Select(e => e.Description));
+
+                Notices.NotifyOfError($"Email could not be changed. Reason: {message}");
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            var command = new ChangeUserEmailCommand
+            {
+                UserId = UserId,
+                Email = newEmail
+            };
+            ExecuteUserCommand(command, Notice.Success($"Email changed successfully to \"{newEmail}\""));
+
+            if (!ModelState.IsValid)
+            {
+                var message = string.Join(" | ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+
+                Notices.NotifyOfError(message);
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            await _emailChangeSender.SendChangedEmailMessage(user, oldEmail);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        private async Task<IdentityResult> ChangeEmailAsync(string newEmail, ApplicationUser user)
+        {
+            user.Email = newEmail;
+            user.UserName = newEmail;
+
+            var result = await _userManager.UpdateAsync(user);
+            return result;
+        }
+        
         [HttpGet]
         public IActionResult SetPassword()
         {
