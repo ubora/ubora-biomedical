@@ -1,0 +1,14 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+    @Html.Partial("_FeedbackModal")
+}
+
+@Html.Partial("_Notices")
+
+<environment names="Development">
+    <script src="~/dist/app.bundle.js"></script>
+</environment>
+
+<environment names="Staging,Production">
+    <script src="~/dist/app.bundle.js" asp-append-version="true"></script>
+</environment>
