@@ -150,12 +150,12 @@ Scenario: I click Edit Project Description
     When I click on the key "Tab"
         And I click on keys "Welcome to my Project"
         And I click on the element "button=Save changes"
-    Then I expect the element "p=Welcome to my Project" is visible
+    Then I expect the element "div=Welcome to my Project" is visible
         And I expect the title of the page "Overview - UBORA"
 
 Scenario: I click Edit Project Description but Discard it
     When I click on the element "h5=TestProject"
         And I click on the element "#EditDescription"
         And I click on the element "a=Discard"
-    Then I expect the element "p=Welcome to my Project" is visible
+    Then I expect the element "div=Welcome to my Project" is visible
         And I expect the title of the page "Overview - UBORA"
