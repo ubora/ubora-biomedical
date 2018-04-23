@@ -66,7 +66,6 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             _userManagerMock.Setup(x => x.ChangePasswordAsync(applicationUser, currentPassword, newPassword))
                 .ReturnsAsync(identitySuccessResult);
 
-            // SetTempData(_controller);
 
             // Act
             var result = (RedirectToActionResult)await _controller.ChangePassword(viewModel);
@@ -100,7 +99,6 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             _userManagerMock.Setup(x => x.GetUserAsync(_controller.HttpContext.User))
                 .ReturnsAsync((ApplicationUser)null);
 
-            //SetTempData(_controller);
 
             // Act
             var result = (RedirectToActionResult)await _controller.ChangePassword(viewModel);
@@ -113,7 +111,7 @@ namespace Ubora.Web.Tests._Features.Users.Manage
                .Verify(x => x.SignInAsync(It.IsAny<ApplicationUser>(), false, null), Times.Never);
 
             var successNotice = _controller.Notices.Dequeue();
-            successNotice.Text.Should().Be("Password could not be changed!");
+            successNotice.Text.Should().Contain("Password could not be changed");
             successNotice.Type.Should().Be(NoticeType.Error);
 
             AssertRedirectToIndex(result);
@@ -129,8 +127,6 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             var result = (ViewResult)await _controller.ChangeEmail(model);
 
             // Assert
-            result.Model.Should().Be(model);
-
             _userManagerMock.Verify(x => x.FindByEmailAsync(It.IsAny<string>()), Times.Never);
             _userManagerMock.Verify(x => x.UpdateAsync(It.IsAny<ApplicationUser>()), Times.Never);
             AssertZeroCommandsExecuted();
@@ -148,15 +144,11 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             var result = (ViewResult)await _controller.ChangeEmail(model);
 
             // Assert
-            result.Model.Should().Be(model);
-
             _signInManagerMock.Verify(x => x.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never);
             _userManagerMock.Verify(x => x.UpdateAsync(It.IsAny<ApplicationUser>()), Times.Never);
             AssertZeroCommandsExecuted();
 
-            var errorNotice = _controller.Notices.Dequeue();
-            errorNotice.Text.Should().Be("Email is already taken!");
-            errorNotice.Type.Should().Be(NoticeType.Error);
+            _controller.ModelState[nameof(model.NewEmail)].Errors[0].ErrorMessage.Should().Contain("Email is already taken");
         }
 
         [Fact]
@@ -185,15 +177,11 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             var result = (ViewResult)await _controller.ChangeEmail(model);
 
             // Assert
-            result.Model.Should().Be(model);
-
             _signInManagerMock.Verify(x => x.RefreshSignInAsync(It.IsAny<ApplicationUser>()), Times.Never);
             _userManagerMock.Verify(x => x.UpdateAsync(It.IsAny<ApplicationUser>()), Times.Never);
             AssertZeroCommandsExecuted();
 
-            var errorNotice = _controller.Notices.Dequeue();
-            errorNotice.Text.Should().Be("Password is not correct!");
-            errorNotice.Type.Should().Be(NoticeType.Error);
+            _controller.ModelState[nameof(model.Password)].Errors[0].ErrorMessage.Should().Contain("Password is not correct");
         }
 
         [Fact]
@@ -213,7 +201,7 @@ namespace Ubora.Web.Tests._Features.Users.Manage
             result.ControllerName.Should().Be("Home");
 
             var errorNotice = _controller.Notices.Dequeue();
-            errorNotice.Text.Should().Be("Confirmation code is wrong or expired!");
+            errorNotice.Text.Should().Be("Confirmation code is wrong or expired");
             errorNotice.Type.Should().Be(NoticeType.Error);
 
             AssertZeroCommandsExecuted();
