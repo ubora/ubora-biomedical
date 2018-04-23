@@ -1,5 +1,5 @@
 ﻿@using Ubora.Web._Features.Users.UserList
-@model IEnumerable<UserListItemViewModel>
+@model Ubora.Web._Features.Users.UserList.UserListController.IndexViewModel
 
 @{
     ViewData["Title"] = "Community";
@@ -8,7 +8,7 @@
 <div class="container my-5">
     <h1>Community</h1>
     <div class="row">
-        @foreach (var user in Model)
+        @foreach (var user in Model.UserListItems)
         {
             Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
                 userId: user.UserId,
@@ -17,5 +17,10 @@
                 profilePictureUrl: user.ProfilePictureLink)
             );
         }
+    </div>
+    <div class="row mt-4">
+        <div class="col d-flex justify-content-center">
+            @Html.Partial("~/_Features/_Shared/Paging/Pager.cshtml", Model.Pager)
+        </div>
     </div>
 </div>
