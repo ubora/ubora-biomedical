@@ -1,16 +1,21 @@
 ﻿@using Ubora.Web._Features.Projects._Shared
 @model Ubora.Web._Features.Projects.InviteMentors.MentorsViewModel
 @{
-    ViewData["Title"] = "Mentors";
+    ViewData["Title"] = "Project mentors";
     ViewData["MenuOption"] = ProjectMenuOption.Members;
 }
 
 
 <div class="container my-4">
   <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Members" asp-action="Members">Members</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        </ol>
+    </nav>
       @if(Model.ProjectMentors.Any()) {
-        <h1>Project mentors</h1>
+        <h1>@ViewData["Title"]</h1>
         <div class="row my-4">
         @foreach (var mentor in Model.ProjectMentors)
         {
