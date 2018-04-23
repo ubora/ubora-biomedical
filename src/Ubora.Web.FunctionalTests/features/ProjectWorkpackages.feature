@@ -91,7 +91,7 @@ Scenario: System administrator adds Mentor to the project
         And I click on the element "=Members"
     Then I expect the title of the page "Members - UBORA"
     When I click on the element "*=Add mentor"
-    Then I expect the title of the page "Mentors - UBORA"
+    Then I expect the title of the page "Project mentors - UBORA"
     When I click on the element "button=Invite mentor"
     Then I expect the element "p=Invitation sent" is visible
     When I sign out

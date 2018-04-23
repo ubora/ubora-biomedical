@@ -444,6 +444,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             var fileUpdatedEvent = new FileUpdatedEvent(
                 id: fileId,
                 projectId: ProjectId,
+                fileName: "fileName2",
                 location: new BlobLocation("containerName2", "blobPath2"),
                 comment: "comment2",
                 fileSize: 222,
@@ -454,6 +455,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             var fileUpdatedEvent2 = new FileUpdatedEvent(
                 id: fileId,
                 projectId: ProjectId,
+                fileName: "fileName3",
                 location: new BlobLocation("containerName3", "blobPath3"),
                 comment: "comment3",
                 fileSize: 333,
@@ -500,6 +502,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                     EventId = fileAddedEventId,
                     Comment = "comment",
                     FileAddedOn = fileAddedDate,
+                    FileName = "fileName",
                     FileSize = 111,
                     RevisionNumber = 1
                 },
@@ -508,6 +511,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                     EventId = fileUpdatedEventId,
                     Comment = "comment2",
                     FileAddedOn = fileUpdatedDate,
+                    FileName = "fileName2",
                     FileSize = 222,
                     RevisionNumber = 2
                 },
@@ -516,6 +520,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                     EventId = fileUpdatedEvent2Id,
                     Comment = "comment3",
                     FileAddedOn = fileUpdated2Date,
+                    FileName = "fileName3",
                     FileSize = 333,
                     RevisionNumber = 3
                 }
