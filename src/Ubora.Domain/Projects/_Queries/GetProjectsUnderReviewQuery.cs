@@ -18,11 +18,14 @@ namespace Ubora.Domain.Projects._Queries
 
             public IReadOnlyCollection<Project> Handle(GetProjectsUnderReviewQuery query)
             {
-                var inProcessProjectIds = Queryable.Where<WorkpackageOne>(_querySession.Query<WorkpackageOne>(), x => x.HasReviewInProcess)
-                    .Select(x => x.ProjectId);
+                var underReviewProjectIds = 
+                    _querySession
+                        .Query<WorkpackageOne>()
+                        .Where(wp1 => wp1.HasReviewInProcess)
+                        .Select(x => x.ProjectId)
+                        .ToArray();
 
-                var projects = _querySession.LoadMany<Project>(inProcessProjectIds.ToArray());
-                return projects;
+                return _querySession.LoadMany<Project>(underReviewProjectIds);
             }
         }
     }
