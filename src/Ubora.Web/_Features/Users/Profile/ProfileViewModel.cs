@@ -65,8 +65,8 @@ namespace Ubora.Web._Features.Users.Profile
                 {
                     ProjectId = project.Id,
                     Title = project.Title,
-                    IsLeader = project.HasMember<ProjectMentor>(userProfile.UserId),
-                    IsMentor = project.HasMember<ProjectLeader>(userProfile.UserId)
+                    IsLeader = project.HasMember<ProjectLeader>(userProfile.UserId),
+                    IsMentor = project.HasMember<ProjectMentor>(userProfile.UserId)
                 });
 
                 if (userProfile.Role == "Mentor" && !viewModel.IsVerifiedMentor)
