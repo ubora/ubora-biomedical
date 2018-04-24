@@ -16,7 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Projects\History\Specifications\" />
-    <Folder Include="Projects\_Queries\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>

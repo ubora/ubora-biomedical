@@ -51,11 +51,11 @@ namespace Ubora.Domain.Projects.Members.Queries
             public IReadOnlyDictionary<Guid, string> Handle(FindFullNamesQuery query)
             {
                 var usersFullNameMap = _querySession.Query<UserProfile>()
-                    .Where(userProfile => query.UserIds.Contains(userProfile.UserId))
+                    .Where(userProfile => userProfile.UserId.IsOneOf(query.UserIds))
                     .Select(userProfile => new
                     {
                         UserId = userProfile.UserId,
-                        FullName = userProfile.FirstName + " " + userProfile.LastName
+                        FullName = userProfile.FullName
                     })
                     .ToDictionary(x => x.UserId, x => x.FullName);
 
