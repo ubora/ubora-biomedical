@@ -5,6 +5,7 @@ using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.Repository.Events
 {
+    // TODO(Kaspar Kallas): Possibly moot abstract class only used for a lazy history solution.
     public abstract class UboraFileEvent : ProjectEvent
     {
         protected UboraFileEvent(UserInfo initiatedBy, Guid projectId, Guid id, string fileName, BlobLocation location, string comment, long fileSize, int revisionNumber) 
