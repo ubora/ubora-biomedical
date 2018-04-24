@@ -16,10 +16,7 @@ namespace Ubora.Domain.Resources
             Slug = slug;
             Content = content;
         }
-        
-        public override string GetDescription()
-        {
-            throw new System.NotImplementedException();
-        }
+
+        public override string GetDescription() => "Created resource.";
     }
 }

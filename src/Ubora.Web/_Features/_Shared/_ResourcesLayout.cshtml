@@ -1,0 +1,61 @@
+﻿@using Ubora.Domain.Infrastructure.Specifications
+@using Ubora.Domain.Resources
+@using Ubora.Web._Features.Resources
+@inject Ubora.Domain.Infrastructure.Queries.IQueryProcessor QueryProcessor
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @RenderSection("Head", required: false)
+    @{
+        Html.RenderPartial("_LayoutHead");
+    }
+</head>
+
+<body>
+@{
+    Html.RenderPartial("_Header");
+}
+
+<main>
+    <div class="row">
+        <div class="col-3">
+            @{
+                var leftSection = RenderSection("Left", required: false);
+                if (leftSection != null)
+                {
+                    @leftSection
+                }
+                else
+                {
+                    <form>
+                        <div class="form-group">
+                            <input placeholder="Search..." class="form-control" type="text"/>
+                        </div>
+                    </form>
+                    var resources = QueryProcessor.Find(new MatchAll<Resource>(), new ResourceIndexViewModel.Mapper());
+                    <nav class="nav flex-column">
+                        @foreach (var resource in resources)
+                        {
+                            <a class="nav-link" asp-action="Read" asp-controller="Resources" asp-route-id="@resource.ResourceId">@resource.Title</a>
+                        }
+                    </nav>
+                }
+            }
+        </div>
+        <div class="col-6">
+            @RenderBody()
+        </div>
+        <div class="col-3">
+            @RenderSection("Right", required: false)
+        </div>
+    </div>
+</main>
+
+@{
+    Html.RenderPartial("_Footer");
+    Html.RenderPartial("_LayoutBody");
+}
+@RenderSection("Scripts", required: false)
+</body>
+</html>

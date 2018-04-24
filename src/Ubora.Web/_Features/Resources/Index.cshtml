@@ -1,13 +1,16 @@
 ﻿@using Ubora.Web._Features.Resources
-<div class="row">
-    <div class="col-md-3" style="background-color: red">
-        <a asp-action="@nameof(ResourcesController.Add)">Add</a>
-        asdf
-    </div>
-    <div class="col-md-6" style="background-color: blue">
-        asdf
-    </div>
-    <div class="col-md-3" style="background-color: red">
-        asdf
-    </div>
-</div>
+@model IEnumerable<ResourceIndexViewModel>
+
+@section Right {
+    VIEWS:
+    <br>
+    <a href="#">Resources</a><br>
+    <a href="#">Categories</a><br>
+    <a asp-action="@nameof(ResourcesController.Index)" asp-controller="ResourceRepository">Files</a><br>
+    
+    ACTIONS:
+    <br>
+    <a asp-action="@nameof(ResourcesController.Add)">Add resource</a><br>
+    <a href="#">Add category</a><br>
+    <a href="#">Add file</a>
+}

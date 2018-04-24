@@ -1,5 +1,6 @@
 ﻿using System;
 using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Projects.Workpackages.Events;
 
 namespace Ubora.Domain.Resources
 {
@@ -14,10 +15,7 @@ namespace Ubora.Domain.Resources
         
         public ResourceContent Content { get; }
         public Guid PreviousContentVersion { get; }
-        
-        public override string GetDescription()
-        {
-            throw new System.NotImplementedException();
-        }
+
+        public override string GetDescription() => "Edited resource content.";
     }
 }

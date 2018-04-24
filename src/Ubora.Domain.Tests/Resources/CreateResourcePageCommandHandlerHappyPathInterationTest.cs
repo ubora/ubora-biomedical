@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Resources
 {
-    public class CreateResourceCommandHandlerHappyPathInterationTest : IntegrationFixture
+    public class CreateResourcePageCommandHandlerHappyPathInterationTest : IntegrationFixture
     {
         [Fact]
         public void Resource_Page_Can_Be_Created()
@@ -16,7 +16,7 @@ namespace Ubora.Domain.Tests.Resources
                 title: "Introduction page",
                 body: "Hello, and welcome!");
             
-            var command = new CreateResourceCommand
+            var command = new CreateResourcePageCommand
             {
                 ResourceId = resourceId,
                 Content = content,

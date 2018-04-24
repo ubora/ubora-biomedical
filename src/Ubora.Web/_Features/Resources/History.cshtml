@@ -1,1 +1,29 @@
-﻿
+﻿@using Ubora.Web._Features.Resources
+@model ResourceHistoryViewModel
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" asp-action="@nameof(ResourcesController.Read)" asp-route-id="@Model.ResourceId">
+            Read
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-action="@nameof(ResourcesController.Edit)" asp-route-id="@Model.ResourceId">
+            Edit
+        </a>
+    </li>
+    <li class="nav-item" >
+        <a class="nav-link active" asp-action="@nameof(ResourcesController.History)" asp-route-id="@Model.ResourceId">
+            History
+        </a>
+    </li>
+</ul>
+
+<ul>
+@foreach (var @event in Model.Events)
+{
+    <li>
+        @(@event.GetDescription())
+    </li>
+}
+</ul>

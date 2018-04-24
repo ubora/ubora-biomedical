@@ -4,11 +4,11 @@ using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.Resources
 {
-    public class DeleteResourceCommand : UserCommand
+    public class DeleteResourcePageCommand : UserCommand
     {
         public Guid ResourceId { get; set; }
 
-        public class Handler : ICommandHandler<DeleteResourceCommand>
+        public class Handler : ICommandHandler<DeleteResourcePageCommand>
         {
             private readonly IDocumentSession _documentSession;
 
@@ -17,11 +17,11 @@ namespace Ubora.Domain.Resources
                 _documentSession = documentSession;
             }
             
-            public ICommandResult Handle(DeleteResourceCommand cmd)
+            public ICommandResult Handle(DeleteResourcePageCommand cmd)
             {
                 var resourcePage = _documentSession.LoadOrThrow<Resource>(cmd.ResourceId);
 
-                _documentSession.Events.Append(cmd.ResourceId, new ResourceDeletedEvent(
+                _documentSession.Events.Append(cmd.ResourceId, new ResourcePageDeletedEvent(
                     initiatedBy: cmd.Actor,
                     resourceId: cmd.ResourceId));
                 _documentSession.Delete(resourcePage);

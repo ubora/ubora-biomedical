@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Resources
 {
-    public class DeleteResourceCommandHandlerHappyPathIntegrationTest : IntegrationFixture
+    public class DeleteResourcePageCommandHandlerHappyPathIntegrationTest : IntegrationFixture
     {
         [Fact]
         public void Resource_Page_Can_Be_Deleted()
@@ -17,7 +17,7 @@ namespace Ubora.Domain.Tests.Resources
             new ResourceBuilder().WithId(resourceId).Build(this);
             
             // Act
-            var commandResult = Processor.Execute(new DeleteResourceCommand
+            var commandResult = Processor.Execute(new DeleteResourcePageCommand
             {
                 ResourceId = resourceId,
                 Actor = new DummyUserInfo()
@@ -27,7 +27,7 @@ namespace Ubora.Domain.Tests.Resources
             commandResult.IsSuccess.Should().BeTrue();
 
             var lastEventInStream = Session.Events.FetchStream(resourceId).Select(e => e.Data).ToList().Last();
-            lastEventInStream.Should().BeOfType<ResourceDeletedEvent>();
+            lastEventInStream.Should().BeOfType<ResourcePageDeletedEvent>();
 
             Session.Load<Resource>(resourceId)
                 .Then(resourcePage =>

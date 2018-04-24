@@ -4,12 +4,12 @@ using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.Resources
 {
-    public class CreateResourceCommand : UserCommand
+    public class CreateResourcePageCommand : UserCommand
     {
         public Guid ResourceId { get; set; }
         public ResourceContent Content { get; set; }
 
-        internal class Handler : ICommandHandler<CreateResourceCommand>
+        internal class Handler : ICommandHandler<CreateResourcePageCommand>
         {
             private readonly IDocumentSession _documentSession;
 
@@ -18,7 +18,7 @@ namespace Ubora.Domain.Resources
                 _documentSession = documentSession;
             }
             
-            public ICommandResult Handle(CreateResourceCommand cmd)
+            public ICommandResult Handle(CreateResourcePageCommand cmd)
             {
                 if (_documentSession.Load<Resource>(cmd.ResourceId) != null)
                 {

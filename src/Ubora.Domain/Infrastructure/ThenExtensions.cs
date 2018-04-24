@@ -11,7 +11,7 @@ namespace Ubora.Domain.Infrastructure
             action(@this);
         }
         
-        public static TResult Then<T, TResult>(this T @this, Func<T, TResult> func)
+        public static TResult ThenReturn<T, TResult>(this T @this, Func<T, TResult> func)
         {
             return func(@this);
         }

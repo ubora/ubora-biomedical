@@ -3,15 +3,15 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Resources
 {
-    public class ResourceDeletedEvent : UboraEvent
+    public class ResourceFileDeletedEvent : UboraEvent
     {
-        public ResourceDeletedEvent(UserInfo initiatedBy, Guid resourceId) : base(initiatedBy)
+        public ResourceFileDeletedEvent(Guid fileId, UserInfo initiatedBy) : base(initiatedBy)
         {
-            ResourceId = resourceId;
+            FileId = fileId;
         }
         
-        public Guid ResourceId { get; }
-        
+        public Guid FileId { get; }
+
         public override string GetDescription()
         {
             throw new NotImplementedException();

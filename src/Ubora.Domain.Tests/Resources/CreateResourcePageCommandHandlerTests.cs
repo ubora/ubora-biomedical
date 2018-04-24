@@ -7,15 +7,15 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Resources
 {
-    public class CreateResourceCommandHandlerTests
+    public class CreateResourcePageCommandHandlerTests
     {
-        private readonly CreateResourceCommand.Handler _handlerUnderTest;
+        private readonly CreateResourcePageCommand.Handler _handlerUnderTest;
         private readonly Mock<IDocumentSession> _documentSessionMock;
 
-        public CreateResourceCommandHandlerTests()
+        public CreateResourcePageCommandHandlerTests()
         {
             _documentSessionMock = new Mock<IDocumentSession>();
-            _handlerUnderTest = new CreateResourceCommand.Handler(_documentSessionMock.Object);
+            _handlerUnderTest = new CreateResourcePageCommand.Handler(_documentSessionMock.Object);
         }
 
         [Fact]
@@ -28,7 +28,7 @@ namespace Ubora.Domain.Tests.Resources
             
             // Act
             Action act = () => _handlerUnderTest
-                .Handle(new CreateResourceCommand 
+                .Handle(new CreateResourcePageCommand 
                 {
                     ResourceId = resourceId
                 });

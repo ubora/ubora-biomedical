@@ -36,7 +36,7 @@ namespace Ubora.Domain.Tests.Resources
         {
             CreateUserProfileIfNecessary(CreatorUserId, fixture);
             
-            fixture.Processor.Execute(new CreateResourceCommand
+            fixture.Processor.Execute(new CreateResourcePageCommand
             {
                 ResourceId = ResourceId,
                 Content = Content,

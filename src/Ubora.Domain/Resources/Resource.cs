@@ -12,6 +12,8 @@ namespace Ubora.Domain.Resources
         public ResourceContent Content { get; private set; }
         
         public bool IsDeleted { get; private set; }
+        public int Order { get; set; } // TODO: Option to set the order of the resource in the side menu. Default sort by first letter.
+        public string Category { get; set; } // TODO!
 
         private void SetContent(ResourceContent content)
         {
@@ -40,7 +42,7 @@ namespace Ubora.Domain.Resources
             SetContent(@event.Content);
         }
         
-        private void Apply(ResourceDeletedEvent @event)
+        private void Apply(ResourcePageDeletedEvent @event)
         {
             IsDeleted = true;
         }
