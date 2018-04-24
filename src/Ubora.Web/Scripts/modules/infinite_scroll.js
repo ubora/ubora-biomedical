@@ -1,7 +1,7 @@
 ﻿import InfiniteScroll from 'infinite-scroll'
 
 global.UBORA.initInfiniteScroll = function (pageCount) {
-    var infScroll = new InfiniteScroll('.container', {
+    var infiniteScroll = new InfiniteScroll('.container', {
         path: function () {
             if (this.pageIndex < pageCount) {
                 var nextIndex = this.pageIndex + 1;
