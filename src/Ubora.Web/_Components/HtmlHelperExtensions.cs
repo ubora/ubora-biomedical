@@ -9,7 +9,7 @@ namespace Ubora.Web._Components
         public static HtmlString TimeAgoHistorySpan(this IHtmlHelper helper, DateTimeOffset dateTimeOffset)
         {
             var titleAttribute = dateTimeOffset.ToString("o");
-            var textToDisplayAfterTimeAgoOffsetIsOver = dateTimeOffset.ToString("d");
+            var textToDisplayAfterTimeAgoOffsetIsOver = dateTimeOffset.ToString("dd.MM.yyyy");
             
             return new HtmlString($"<span class=\"history-timestamp timeago\" title=\"{titleAttribute}\">{textToDisplayAfterTimeAgoOffsetIsOver}</span>");
         }

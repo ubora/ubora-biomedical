@@ -11,6 +11,7 @@ namespace Ubora.Domain.Projects.Repository.Commands
     public class UpdateFileCommand : UserProjectCommand
     {
         public Guid Id { get; set; }
+        public string FileName { get; set; }
         public BlobLocation BlobLocation { get; set; }
         public string Comment { get; set; }
         public long FileSize { get; set; }
@@ -28,11 +29,11 @@ namespace Ubora.Domain.Projects.Repository.Commands
             {
                 var projectFile = _documentSession.LoadOrThrow<ProjectFile>(cmd.Id);
 
-
                 var revisionNumber = projectFile.RevisionNumber + 1;
                 var @event = new FileUpdatedEvent(
                     id: projectFile.Id,
                     projectId: projectFile.ProjectId,
+                    fileName : cmd.FileName,
                     location: cmd.BlobLocation,
                     comment: cmd.Comment,
                     fileSize: cmd.FileSize,

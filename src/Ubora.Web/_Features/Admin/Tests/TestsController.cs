@@ -16,6 +16,8 @@ namespace Ubora.Web._Features.Admin.Tests
     {
         public IActionResult RunTests()
         {
+            ViewData["Title"] = "Manage UBORA";
+
             var testActions = typeof(TestsController)
                 .GetMethods()
                 .Where(m => m.GetCustomAttributes(typeof(DiagnosticsTestAttribute), inherit: false).Any())

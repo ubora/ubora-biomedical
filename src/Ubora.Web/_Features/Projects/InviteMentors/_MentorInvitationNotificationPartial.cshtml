@@ -4,10 +4,9 @@
 {
     var isUnreadCss = Model.IsUnread ? "notification-unread" : "";
 
-    @*TODO: add 'notification-unread' only for unread notifications*@
     <div class="notification notification-unread @isUnreadCss">
         <div class="d-flex justify-content-between">
-            <p class="mb-0 py-1">
+            <p>
                 You have been asked to mentor project
                 <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>
             </p>
@@ -18,13 +17,13 @@
                 <button class="btn btn-primary btn-sm ml-2 align-self-start" type="submit" asp-controller="Notifications" asp-action="AcceptMentorInvitation">Accept</button>
             </form>
         </div>
-        <span class="history-timestamp timeago" title="@(Model.CreatedAt.ToString("o"))">&nbsp;</span>
+        @Html.TimeAgoHistorySpan(Model.CreatedAt)
     </div>
 }
 else
 {
     <div class="notification">
-        <p class="mb-0 py-1">
+        <p>
             You were asked to mentor project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.
             You
             @if (Model.WasAccepted)
@@ -36,6 +35,6 @@ else
                 <b>declined</b><span>&#46;</span>
             }
         </p>
-        <span class="history-timestamp timeago" title="@(Model.CreatedAt.ToString("o"))">&nbsp;</span>
+        @Html.TimeAgoHistorySpan(Model.CreatedAt)
     </div>
 }

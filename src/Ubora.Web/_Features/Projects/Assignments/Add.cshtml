@@ -2,16 +2,22 @@
 @model Ubora.Web._Features.Projects.Assignments.AddAssignmentViewModel
 
 @{
-    ViewData["Title"] = "Assignments";
+    ViewData["Title"] = "Add assignment";
     ViewData["MenuOption"] = ProjectMenuOption.Assignments;
 }
 
 <div class="container my-4">
-  <div class="row">
-    <div class="col">
-      <h1>Assignment</h1>
-      <form asp-controller="Assignments" enctype="multipart/form-data" asp-action="Add" method="post">
-          <input asp-for="ProjectId" type="hidden">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Assignments" asp-action="Assignments">Assignments</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col">
+            <h1>@ViewData["Title"]</h1>
+            <form asp-controller="Assignments" enctype="multipart/form-data" asp-action="Add" method="post">
+                <input asp-for="ProjectId" type="hidden">
 
           <div class="form-group">
               <label asp-for="Title">Title</label>
@@ -19,11 +25,11 @@
               <span asp-validation-for="Title"></span>
           </div>
 
-          <div class="form-group">
-              <label asp-for="Description">Description</label>
-              <textarea class="form-control" asp-for="Description" placeholder="Assignment description" rows="3"></textarea>
-              <span asp-validation-for="Description"></span>
-          </div>
+                <div class="form-group">
+                    <label asp-for="Description">Description</label>
+                    <textarea class="form-control" asp-for="Description" rows="3"></textarea>
+                    <span asp-validation-for="Description"></span>
+                </div>
 
           <div class="form-group">
               <label asp-for="AssigneeIds">Assignee</label>

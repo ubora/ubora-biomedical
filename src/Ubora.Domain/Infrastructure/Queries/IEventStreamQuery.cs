@@ -37,6 +37,7 @@ namespace Ubora.Domain.Infrastructure.Queries
         {
             var uboraEventStream = _eventStore.FetchStream(streamId);
 
+            // TODO(Kaspar Kallas): Lazy solution warning.
             var fileEvents = uboraEventStream.Where(x => x.Data is UboraFileEvent && ((UboraFileEvent)x.Data).Id == fileId);
 
             return fileEvents;

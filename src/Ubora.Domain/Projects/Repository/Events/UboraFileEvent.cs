@@ -5,12 +5,14 @@ using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.Repository.Events
 {
+    // TODO(Kaspar Kallas): Possibly moot abstract class only used for a lazy history solution.
     public abstract class UboraFileEvent : ProjectEvent
     {
-        protected UboraFileEvent(UserInfo initiatedBy, Guid projectId, Guid id, BlobLocation location, string comment, long fileSize, int revisionNumber) 
+        protected UboraFileEvent(UserInfo initiatedBy, Guid projectId, Guid id, string fileName, BlobLocation location, string comment, long fileSize, int revisionNumber) 
             : base(initiatedBy, projectId)
         {
             Id = id;
+            FileName = fileName;
             Location = location;
             Comment = comment;
             FileSize = fileSize;
@@ -18,6 +20,7 @@ namespace Ubora.Domain.Projects.Repository.Events
         }
 
         public Guid Id { get; private set; }
+        public string FileName { get; private set; }
         public BlobLocation Location { get; private set; }
         public string Comment { get; private set; }
         public long FileSize { get; private set; }
