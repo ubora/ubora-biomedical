@@ -6,6 +6,8 @@ using Baseline;
 using FluentAssertions;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Tests;
+using Ubora.Domain.Users;
+using Ubora.Domain.Users.Queries;
 using Ubora.Web.Infrastructure;
 using Ubora.Web._Features.Home;
 using Xunit;
@@ -17,6 +19,8 @@ namespace Ubora.Web.Tests._Features.Home
         protected override void RegisterAdditional(ContainerBuilder builder)
         {
             builder.RegisterModule(new WebAutofacModule(useSpecifiedPickupDirectory: true));
+            builder.RegisterType<TestFindUboraMentorProfilesQueryHandler>()
+                .As<IQueryHandler<FindUboraMentorProfilesQuery, IReadOnlyCollection<UserProfile>>>();
         }
 
         [Fact]

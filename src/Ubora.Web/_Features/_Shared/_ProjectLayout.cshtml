@@ -5,6 +5,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.css"
+          asp-fallback-href="~/dist/libs/simplemde.min.css">
     @RenderSection("Head", required: false)
     @{
         Html.RenderPartial("_LayoutHead");
@@ -14,14 +17,14 @@
 <body>
     @{
         Html.RenderPartial("_Header");
-        
+
         var projectMenuOption = ViewData["MenuOption"];
         if (projectMenuOption != null)
         {
-            Html.RenderPartial("~/_Features/Projects/_Shared/_ProjectMenu.cshtml", new ProjectMenuViewModel((ProjectMenuOption) projectMenuOption));
+            Html.RenderPartial("~/_Features/Projects/_Shared/_ProjectMenu.cshtml", new ProjectMenuViewModel((ProjectMenuOption)projectMenuOption));
         }
     }
-    
+
     @{
         var workpackageMenuOption = ViewData[nameof(WorkpackageMenuOption)];
         if (workpackageMenuOption != null)
@@ -48,7 +51,7 @@
                         </div>
                     </div>
                 </div>
-    
+
                 <div class="container-fluid my-4">
                     <div class="row">
                         <div class="col-lg-3 wp-sidemenu">
@@ -66,7 +69,15 @@
             </main>
         }
     }
-    
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"
+            asp-fallback-src="~/dist/libs/marked.min.js"
+            asp-fallback-test="window.marked">
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.js"
+            asp-fallback-src="~/dist/libs/simplemde.min.js"
+            asp-fallback-test="window.SimpleMDE">
+    </script>
     @{
         Html.RenderPartial("_LayoutBody");
     }

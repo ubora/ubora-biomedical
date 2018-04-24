@@ -36,7 +36,7 @@ namespace Ubora.Domain.Tests.Projects.Repository.Commands
                 initiatedBy: new DummyUserInfo(),
                 projectId: _projectId,
                 id: _fileId,
-                fileName: _fileName,
+                fileName: "oldFileName",
                 comment: _comment,
                 fileSize: _fileSize,
                 folderName: _folderName,
@@ -52,6 +52,7 @@ namespace Ubora.Domain.Tests.Projects.Repository.Commands
             {
                 Actor = new DummyUserInfo(),
                 ProjectId = _projectId,
+                FileName = _fileName,
                 Id = _fileId,
                 BlobLocation = _blobLocation
             };

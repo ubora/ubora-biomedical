@@ -31,6 +31,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     //o.ViewLocationFormats.Clear(); // Commented out for side-by-side with default folders.
                     o.ViewLocationFormats.Add(options.FeatureNamePlaceholder + @"\{0}.cshtml");
                     o.ViewLocationFormats.Add(options.FeatureFolderName + @"\_Shared\{0}.cshtml");
+                    o.ViewLocationFormats.Add(@"_Components\{0}.cshtml");
                     o.ViewLocationExpanders.Add(expander);
                 });
 

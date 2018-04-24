@@ -23,8 +23,11 @@ namespace Ubora.Web._Features.Projects.History
 
         public IActionResult History(int page = 1)
         {
-            var logs = QueryProcessor.Find(new IsFromProjectSpec<EventLogEntry>() { ProjectId = ProjectId },
-                new SortByTimestampDescendingSpecification(), 10, page);
+            var logs = 
+                QueryProcessor.Find(
+                    new IsFromProjectSpec<EventLogEntry> { ProjectId = ProjectId },
+                    new SortByTimestampDescendingSpecification(), 10, page);
+            
            var logViewModels = logs.Select(x => _eventViewModelFactoryMediator.Create((UboraEvent)x.Event, x.Timestamp)).ToArray();
 
             return View(new HistoryViewModel

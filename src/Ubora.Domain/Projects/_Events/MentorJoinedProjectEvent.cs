@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications;
 
@@ -23,8 +24,16 @@ namespace Ubora.Domain.Projects._Events
                 ProjectId = projectId;
             }
 
-            public Guid JoinerId { get; set; }
-            public Guid ProjectId { get; set; }
+            [JsonConstructor]
+            private NotificationToInviter(Guid id, Guid notificationTo, DateTime createdAt, Guid joinerId, Guid projectId) 
+                : base(id, notificationTo, createdAt)
+            {
+                JoinerId = joinerId;
+                ProjectId = projectId;
+            }
+
+            public Guid JoinerId { get; }
+            public Guid ProjectId { get; }
 
             public override string GetDescription()
             {

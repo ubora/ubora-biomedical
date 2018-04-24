@@ -16,6 +16,8 @@ namespace Ubora.Web._Features.Admin.Tests
     {
         public IActionResult RunTests()
         {
+            ViewData["Title"] = "Manage UBORA";
+
             var testActions = typeof(TestsController)
                 .GetMethods()
                 .Where(m => m.GetCustomAttributes(typeof(DiagnosticsTestAttribute), inherit: false).Any())
@@ -76,8 +78,7 @@ namespace Ubora.Web._Features.Admin.Tests
                     var viewModel = (INotificationViewModel)Activator.CreateInstance(type);
                     try
                     {
-                        viewModel.GetPartialView(htmlHelper, true);
-                        viewModel.GetPartialView(htmlHelper, false);
+                        viewModel.GetPartialView(htmlHelper);
                     }
                     catch (InvalidOperationException)
                     {

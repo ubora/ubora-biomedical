@@ -13,13 +13,13 @@
 @import 'overrides/drag_and_drop_file_uploads.scss';
 @import 'overrides/voting.scss';
 @import 'overrides/profile_view.scss';
+@import 'overrides/breadcrumb.scss';
 @import 'overrides/pagination.scss';
 
 @import 'page_components/header.scss';
 @import 'page_components/footer.scss';
-@import 'page_components/history.scss';
 @import 'page_components/notices.scss';
-@import 'page_components/messages.scss';
+@import 'page_components/notifications.scss';
 @import 'page_components/autocomplete.scss';
 @import 'page_components/landing_jumbotron.scss';
 @import 'page_components/repository.scss';

@@ -3,6 +3,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="AutoFixture" Version="4.2.0" />
     <PackageReference Include="FluentAssertions" Version="4.19.4" />
     <PackageReference Include="Marten" Version="2.7.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.1" />
@@ -23,8 +24,5 @@
     <None Update="xunit.runner.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Questionnaires\DeviceClassifications\Queries\" />
   </ItemGroup>
 </Project>

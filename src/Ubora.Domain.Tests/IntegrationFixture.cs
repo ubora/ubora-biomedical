@@ -1,9 +1,13 @@
-﻿using Autofac;
+﻿using System.Collections.Generic;
+using Autofac;
 using Marten;
 using Moq;
 using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Marten;
+using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Users;
+using Ubora.Domain.Users.Queries;
 
 namespace Ubora.Domain.Tests
 {
@@ -28,6 +32,7 @@ namespace Ubora.Domain.Tests
             var eventTypes = DomainAutofacModule.FindDomainEventConcreteTypes();
             var notificationTypes = DomainAutofacModule.FindDomainNotificationConcreteTypes();
             StoreOptions(new UboraStoreOptionsConfigurer().CreateConfigureAction(eventTypes, notificationTypes, AutoCreate.CreateOnly));
+            InitializeContainer();
         }
 
         private IContainer InitializeContainer()
@@ -36,9 +41,13 @@ namespace Ubora.Domain.Tests
 
             builder.RegisterModule(_domainAutofacModule);
 
+            builder.RegisterType<TestFindUboraMentorProfilesQueryHandler>()
+                .As<IQueryHandler<FindUboraMentorProfilesQuery, IReadOnlyCollection<UserProfile>>>()
+                .InstancePerLifetimeScope();
+            
             // Register Marten DocumentStore/Session
             builder.Register(_ => (TestingDocumentStore)theStore).As<DocumentStore>().As<IDocumentStore>().SingleInstance();
-            builder.Register(_ => Session).As<IDocumentSession>().As<IQuerySession>();
+            builder.Register(_ => Session).As<IDocumentSession>().As<IQuerySession>().InstancePerLifetimeScope();
 
             var storageProviderMock = new Mock<IStorageProvider>().Object;
             builder.RegisterInstance(storageProviderMock).As<IStorageProvider>();
@@ -53,7 +62,7 @@ namespace Ubora.Domain.Tests
         protected virtual void RegisterAdditional(ContainerBuilder builder)
         {
         }
-
+        
         public override void Dispose()
         {
             _innerContainer?.Dispose();

@@ -21,10 +21,6 @@ Scenario: I click New projects
 Scenario: I click Notifications
     When I click on the element "span=Notifications"
     Then I expect the title of the page "Notifications - UBORA"
-    When I click on the element "span=Notification history"
-    Then I expect the title of the page "Notification history - UBORA"
-    When I click on the element "span=Notifications"
-    Then I expect the title of the page "Notifications - UBORA"
 
 Scenario: I click Sign out
     When I sign out

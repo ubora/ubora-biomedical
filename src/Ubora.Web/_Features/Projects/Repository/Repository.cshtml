@@ -1,4 +1,5 @@
 ﻿@using Ubora.Web._Features.Projects._Shared
+@using Ubora.Web._Features.Projects.Repository
 @model Ubora.Web._Features.Projects.Repository.ProjectRepositoryViewModel
 
 @{
@@ -30,19 +31,19 @@
 
                             @foreach (var file in files)
                             {
+                                // Note: Please keep the a-element and i-element on same line because otherwise a strange "little line" appears next to the icon when link is hovered. 
                                 <tr>
                                     <td>
-                                        <a href="@Url.Action("DownloadFile", "Repository", new { fileId = file.Id })" title="Download file" aria-label="Download file" class="no-underline" data-toggle="tooltip" data-placement="bottom">
-                                            <i class="file-list--item-control material-icons">file_download</i>
-                                        </a>
+                                        @if (file.Has3DFileExtension())
+                                        {
+                                            <a href="@Url.Action("View3DFile", "Repository", new { fileId = file.Id })" title="View 3D file" aria-label="View 3D file" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">3d_rotation</i></a>
+                                        }
 
-                                        <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file" class="no-underline" data-toggle="tooltip" data-placement="bottom">
-                                            <i class="file-list--item-control material-icons">file_upload</i>
-                                        </a>
+                                        <a href="@Url.Action("DownloadFile", "Repository", new { fileId = file.Id })" title="Download file" aria-label="Download file" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">file_download</i></a>
 
-                                        <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history" class="no-underline" data-toggle="tooltip" data-placement="bottom">
-                                            <i class="file-list--item-control material-icons">history</i>
-                                        </a>
+                                        <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file" class="no-underline" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">file_upload</i></a>
+
+                                        <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history" class="no-underline" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">history</i></a>
 
                                         <i class="file-list--item-control material-icons js-clipboard"
                                            title="Copy file path to clipboard"

@@ -73,13 +73,6 @@ Scenario: I check my profile if my changes have been saved
         And I expect the element "#Skills" to contain text "TestSkills"
         And I expect the element "#Role" to contain text "Mentor"  
 
-Scenario: I try to add an empty profile picture
-    When I click on the element "span=Profile"
-        And I click on the element "a=Edit profile"
-        And I click on the element "button=Upload image"
-    Then I expect the title of the page "Edit profile - UBORA"
-        And I expect the element "span=Please select an image to upload first!" is visible
-
 Scenario: I check terms of service
     When I click on the element "span=Profile"
         And I click on the element "a=Terms of Service"

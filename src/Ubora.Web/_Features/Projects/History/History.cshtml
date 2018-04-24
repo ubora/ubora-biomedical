@@ -12,12 +12,10 @@
             <h1>@ViewData["Title"]</h1>
             @if (Model.Pager.TotalItemCount > 0)
             {
-                <ul class="list-group">
-                    @foreach (var uboraEvent in Model.Logs)
-                    {
-                        @uboraEvent.GetPartialView(Html)
-                    }
-                </ul>
+                foreach (var uboraEvent in Model.Logs)
+                {
+                    @uboraEvent.GetPartialView(Html)
+                }
             }
             else
             {

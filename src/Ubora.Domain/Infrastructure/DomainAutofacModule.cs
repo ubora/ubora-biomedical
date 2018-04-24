@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Autofac;
 using Marten;
 using Marten.Events;
@@ -45,50 +44,86 @@ namespace Ubora.Domain.Infrastructure
                 
                 builder.RegisterInstance(store).As<IDocumentStore>().SingleInstance();
             }
+
             builder.RegisterType<DomainMigrator>().AsSelf().SingleInstance();
 
-            builder.Register(x => x.Resolve<IDocumentStore>().OpenSession()).As<IDocumentSession>().As<IQuerySession>().InstancePerLifetimeScope();
-            builder.Register(x => x.Resolve<IDocumentSession>().Events).As<IEventStore>().InstancePerLifetimeScope();
+            builder.Register(x => x.Resolve<IDocumentStore>().OpenSession())
+                .As<IDocumentSession>().As<IQuerySession>()
+                .InstancePerLifetimeScope();
+
+            builder.Register(x => x.Resolve<IDocumentSession>().Events)
+                .As<IEventStore>()
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<EventStreamQuery>().As<IEventStreamQuery>().InstancePerLifetimeScope();
-            builder.RegisterType<CommandQueryProcessor>().As<ICommandProcessor>().As<IQueryProcessor>().As<ICommandQueryProcessor>().InstancePerLifetimeScope();
 
-            // Storage abstraction
+            builder.RegisterType<CommandQueryProcessor>()
+                .As<ICommandProcessor>().As<IQueryProcessor>().As<ICommandQueryProcessor>()
+                .InstancePerLifetimeScope();
+
             builder.Register(x => _storageProvider)
                 .As<IStorageProvider>()
                 .SingleInstance();
 
-            builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(ICommandHandler<>)).InstancePerLifetimeScope();
-
-            builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();
-            builder.RegisterType<CountQuery<INotification>.Handler>().As<IQueryHandler<CountQuery<INotification>,int>>()
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .AsClosedTypesOf(typeof(ICommandHandler<>))
                 .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .AsClosedTypesOf(typeof(IQueryHandler<,>))
+                .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .AsClosedTypesOf(typeof(IUboraEventHandler<>))
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<CountQuery<INotification>.Handler>()
+                .As<IQueryHandler<CountQuery<INotification>, int>>()
+                .InstancePerLifetimeScope();
+
             builder.RegisterType<DeviceClassificationQuestionnaireTreeFactory>().AsSelf().SingleInstance();
+
+            builder.RegisterBuildCallback(container =>
+            {
+                AddUboraEventHandlerInvokerToDocumentStoreListenersIfNecessary(container);
+            });
         }
 
         public static IEnumerable<Type> FindDomainEventConcreteTypes()
         {
-            var eventBaseType = typeof(UboraEvent);
-
-            var eventTypes = typeof(DomainAutofacModule).Assembly
+            return typeof(UboraEvent).Assembly
                 .GetTypes()
-                .Where(type => eventBaseType.IsAssignableFrom(type) && !type.GetTypeInfo().IsAbstract);
-
-            return eventTypes;
+                .Where(type => typeof(UboraEvent).IsAssignableFrom(type) && !type.IsAbstract);
         }
 
-        public static IEnumerable<MappedType> FindDomainNotificationConcreteTypes()
+        public static IEnumerable<MappedType> FindDomainNotificationConcreteTypes() 
         {
-            var notificationBaseType = typeof(INotification);
-
-            var eventTypes = typeof(DomainAutofacModule).Assembly
+            return typeof(INotification).Assembly
                 .GetTypes()
-                .Where(type => notificationBaseType.IsAssignableFrom(type) && !type.GetTypeInfo().IsAbstract);
-
-            return eventTypes.Select(x => new MappedType(x));
+                .Where(type => typeof(INotification).IsAssignableFrom(type) && !type.IsAbstract)
+                .Select(type => new MappedType(type));
         }
 
-        // Static helper for tests
+        private static void AddUboraEventHandlerInvokerToDocumentStoreListenersIfNecessary(IContainer container)
+        {
+            var documentStore = (DocumentStore) container.Resolve<IDocumentStore>();
+
+            var isAlreadyRegistered = documentStore.Options.Listeners.OfType<UboraEventHandlerInvoker>().Any();
+            if (isAlreadyRegistered)
+            {
+                // It is possible to build Autofac's Container multiple times but we should definitely not add the listener multiple times.
+                return;
+            }
+
+            var serviceLocator = container.Resolve<IComponentContext>();
+            var uboraEventHandlerInvoker = new UboraEventHandlerInvoker(serviceLocator);
+
+            documentStore.Options.Listeners.Add(uboraEventHandlerInvoker);
+        }
+
+        /// <summary>
+        /// Static helper for tests
+        /// </summary>
         internal static bool ShouldInitializeAndRegisterDocumentStoreOnLoad { get; set; } = true;
     }
 }

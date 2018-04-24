@@ -5,11 +5,10 @@ using Moq;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects;
-using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Users;
+using Ubora.Domain.Users.Queries;
 using Ubora.Web.Infrastructure.ImageServices;
-using Ubora.Web._Features.UboraMentors.Queries;
 using Ubora.Web._Features.Users.Profile;
 using Xunit;
 
