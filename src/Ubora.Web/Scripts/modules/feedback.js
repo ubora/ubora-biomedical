@@ -3,13 +3,15 @@ export class Feedback {
         const userFeedback = document.querySelector('.js-feedback-input');
         const modalSendButton = document.querySelector('.js-feedback-send');
 
-        modalSendButton.addEventListener('click', event => {
-            const data = {
-                feedback: userFeedback.value,
-                fromPath: window.top.location.pathname
-            };
-            return this._sendFeedback(data);
-        });
+        if (modalSendButton) {
+            modalSendButton.addEventListener('click', event => {
+                const data = {
+                    feedback: userFeedback.value,
+                    fromPath: window.top.location.pathname
+                };
+                return this._sendFeedback(data);
+            });
+        }
     }
 
     static _closeModal() {

@@ -23,7 +23,7 @@ namespace Ubora.Web._Features.Users.UserList
 
         public IActionResult Index(int page = 1)
         {
-            var userProfiles = QueryProcessor.Find(new MatchAll<UserProfile>(), new SortByFullNameAscendingSpecification(), 10, page);
+            var userProfiles = QueryProcessor.Find(new MatchAll<UserProfile>(), new SortByFullNameAscendingSpecification(), 8, page);
 
             var userListItemViewModel = userProfiles.Select(userProfile => new UserListItemViewModel
             {
