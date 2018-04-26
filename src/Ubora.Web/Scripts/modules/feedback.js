@@ -8,13 +8,16 @@ export class Feedback {
                 feedback: userFeedback.value,
                 fromPath: window.top.location.pathname
             };
+            modalSendButton.disabled = true;
             return this._sendFeedback(data);
         });
     }
 
     static _closeModal() {
         const textarea = document.querySelector('.js-feedback-input');
+        const modalSendButton = document.querySelector('.js-feedback-send');
         textarea.value = '';
+        modalSendButton.disabled = false;
         $('#feedbackModal').modal('hide');
     }
 

@@ -12,21 +12,21 @@
             <h1>@ViewData["Title"]</h1>
         </div>
         <div class="col-lg-3 d-flex justify-content-end">
-            <a class="btn btn-outline-primary align-self-start" asp-controller="Assignments" asp-action="Add" asp-route-projectId="@Model.ProjectId">
-            <i class="material-icons">add</i>
-            <span>Add assignment</span>
+            <a class="btn btn-outline-primary align-self-start" asp-controller="Assignments" asp-action="Add" asp-route-projectId="@Model.ProjectId" onclick="clickAndDisable(this);">
+                <i class="material-icons">add</i>
+                <span>Add assignment</span>
             </a>
         </div>
     </div>
     <div class="row my-4">
         <div class="col">
             <ol>
-            @foreach (var assignment in Model.Assignments)
-            {
-                <li>
-                    <a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a>
-                </li>
-            }
+                @foreach (var assignment in Model.Assignments)
+                {
+                    <li>
+                        <a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a>
+                    </li>
+                }
             </ol>
         </div>
     </div>

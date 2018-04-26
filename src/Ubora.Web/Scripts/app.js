@@ -32,4 +32,12 @@ $(function () {
     }
 });
 
+$(function () {
+    window.clickAndDisable = function (element) {
+        element.onclick = function (event) {
+            event.preventDefault();
+        }
+    } 
+});
+
 global.UBORA = {};
