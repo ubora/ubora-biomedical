@@ -33,11 +33,9 @@ $(function () {
 });
 
 $(function () {
-    window.clickAndDisable = function (element) {
-        element.onclick = function (event) {
-            event.preventDefault();
-        }
-    } 
+    $('form').on('submit', function () {
+        $(this).find('button[type=submit]').prop('disabled', true);
+    });
 });
 
 global.UBORA = {};
