@@ -8,31 +8,31 @@ namespace Ubora.Domain.Tests.Resources
     /// <summary>
     /// Test-data builder
     /// </summary>
-    public class ResourceBuilder
+    public class ResourcePageBuilder
     {
         private Guid ResourceId { get; set; } = Guid.NewGuid();
         private ResourceContent Content { get; set; } = new ResourceContent(title: Guid.NewGuid().ToString(), body: Guid.NewGuid().ToString());
         private Guid CreatorUserId { get; set; } = Guid.NewGuid();
 
-        public ResourceBuilder WithId(Guid resourceId)
+        public ResourcePageBuilder WithId(Guid resourceId)
         {
             ResourceId = resourceId;
             return this;
         }
         
-        public ResourceBuilder WithContent(ResourceContent content)
+        public ResourcePageBuilder WithContent(ResourceContent content)
         {
             Content = content;
             return this;
         }
         
-        public ResourceBuilder WithCreator(Guid userId)
+        public ResourcePageBuilder WithCreator(Guid userId)
         {
             CreatorUserId = userId;
             return this;
         }
         
-        public Resource Build(IntegrationFixture fixture)
+        public ResourcePage Build(IntegrationFixture fixture)
         {
             CreateUserProfileIfNecessary(CreatorUserId, fixture);
             
@@ -43,7 +43,7 @@ namespace Ubora.Domain.Tests.Resources
                 Actor = new UserInfo(CreatorUserId, "testName")
             });
             
-            return fixture.Processor.FindById<Resource>(ResourceId);
+            return fixture.Processor.FindById<ResourcePage>(ResourceId);
         }
         
         private void CreateUserProfileIfNecessary(Guid userId, IntegrationFixture fixture)

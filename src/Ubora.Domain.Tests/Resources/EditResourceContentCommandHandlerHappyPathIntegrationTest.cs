@@ -13,7 +13,7 @@ namespace Ubora.Domain.Tests.Resources
             var initialContent = new ResourceContent("initialTitle", "initialBody");
             var editedContent = new ResourceContent("editedTitle", "editedBody");
             
-            var resource = new ResourceBuilder()
+            var resource = new ResourcePageBuilder()
                 .WithContent(initialContent)
                 .Build(this);
             
@@ -32,7 +32,7 @@ namespace Ubora.Domain.Tests.Resources
             var lastEventInStream = Session.Events.FetchStream(resource.Id).Select(e => e.Data).ToList().Last();
             lastEventInStream.Should().BeOfType<ResourceContentEditedEvent>();
 
-            Session.Load<Resource>(resource.Id)
+            Session.Load<ResourcePage>(resource.Id)
                 .Content.ShouldBeEquivalentTo(editedContent);
         }
     }

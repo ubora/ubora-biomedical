@@ -5,12 +5,12 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Resources
 {
-    public class ResourceTests : IntegrationFixture
+    public class ResourcePageTests : IntegrationFixture
     {
         [Fact]
         public void Does_Not_Allow_Edits_When_When_Content_Version_Has_Changed()
         {
-            var resourcePage = new Resource()
+            var resourcePage = new ResourcePage()
                 .Set(page => page.ContentVersion, Guid.NewGuid());
 
             // Act

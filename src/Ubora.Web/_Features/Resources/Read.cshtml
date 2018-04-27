@@ -1,27 +1,34 @@
 ﻿@using Ubora.Web._Features.Resources
 @model Ubora.Web._Features.Resources.ResourceReadViewModel
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Resources</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.Title</li>
+    </ol>
+</nav>
+
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="nav-link active" asp-action="@nameof(ResourcesController.Read)" asp-route-id="@Model.ResourceId">
+        <a class="nav-link active" asp-action="@nameof(ResourcesController.Read)">
             Read
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" asp-action="@nameof(ResourcesController.Edit)" asp-route-id="@Model.ResourceId">
+        <a class="nav-link" asp-action="@nameof(ResourcesController.Edit)">
             Edit
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" asp-action="@nameof(ResourcesController.History)" asp-route-id="@Model.ResourceId">
+        <a class="nav-link" asp-action="@nameof(ResourcesController.History)">
             History
         </a>
     </li>
 </ul>
 
-<div class="test">
-    <h1 id="asdf">@Model.Title</h1>
-    <div id="content-body" data-spy="scroll">@Html.Raw(Model.Body)</div>
+<div id="content-body">
+    <h1>@Model.Title</h1>
+    @(Html.Raw(Model.Body))
 </div>
 
 @section Right {
@@ -33,13 +40,11 @@
 @section Scripts
 {
     <script>
-//        $('#content-navigation').scrollspy({ target: '#content-body' });
-        
-        $('#content-body').find('h1').each(function(_, element) {
-            $(element).attr('id', Math.floor((Math.random() * 100) + 1).toString());
-            $('#content-navigation').append(`<a class="nav-link ml-3 my-1" href="#${$(element).attr('id')}">${escape($(element).text())}</a>`);
-            $('#content-navigation').scrollspy('refresh');
+        $('#content-body').find("h1, h2, h3, h4, h5, h6").each(function(_, element) {
+            $(element).attr('id', UBORA.slugify(element.firstChild.textContent));
+            $('#content-navigation')
+                .append(
+                    `<a class="nav-link ml-3 my-1" href="#${$(element).attr('id')}">${$(element).text()}</a>`);
         });
-
     </script>
 }

@@ -19,7 +19,7 @@ namespace Ubora.Domain.Resources
             
             public ICommandResult Handle(DeleteResourcePageCommand cmd)
             {
-                var resourcePage = _documentSession.LoadOrThrow<Resource>(cmd.ResourceId);
+                var resourcePage = _documentSession.LoadOrThrow<ResourcePage>(cmd.ResourceId);
 
                 _documentSession.Events.Append(cmd.ResourceId, new ResourcePageDeletedEvent(
                     initiatedBy: cmd.Actor,

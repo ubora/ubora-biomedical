@@ -20,12 +20,12 @@ namespace Ubora.Domain.Tests.Resources
         [Fact]
         public void Returns_Failed_Result_When_Content_Concurrency_Issue()
         {
-            var resource = new Resource()
+            var resource = new ResourcePage()
                 .Set(x => x.Id, Guid.NewGuid())
                 .Set(x => x.ContentVersion, Guid.NewGuid());
             
             _documentSessionMock
-                .Setup(x => x.Load<Resource>(resource.Id))
+                .Setup(x => x.Load<ResourcePage>(resource.Id))
                 .Returns(resource);
 
             // Act

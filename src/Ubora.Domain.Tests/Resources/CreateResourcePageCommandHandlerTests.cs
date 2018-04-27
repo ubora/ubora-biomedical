@@ -23,8 +23,8 @@ namespace Ubora.Domain.Tests.Resources
         {
             var resourceId = Guid.NewGuid();
             _documentSessionMock
-                .Setup(x => x.Load<Resource>(resourceId))
-                .Returns(Mock.Of<Resource>());
+                .Setup(x => x.Load<ResourcePage>(resourceId))
+                .Returns(Mock.Of<ResourcePage>());
             
             // Act
             Action act = () => _handlerUnderTest

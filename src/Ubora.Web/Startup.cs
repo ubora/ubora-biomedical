@@ -96,6 +96,7 @@ namespace Ubora.Web
 
             services.AddAutoMapper();
             services.AddUboraPolicyBasedAuthorization();
+            services.AddNodeServices();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -112,7 +113,6 @@ namespace Ubora.Web
             services.Configure<AdminSeeder.Options>(Configuration.GetSection("InitialAdminOptions"));
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
-
 
             var azureBlobConnectionString = Configuration.GetConnectionString("AzureBlobConnectionString");
             var autofacContainerBuilder = new ContainerBuilder();

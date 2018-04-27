@@ -59,7 +59,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                     .Duplicate(l => l.Timestamp);
                 options.Schema.For<IProjectEntity>()
                     .AddSubClassHierarchy(typeof(EventLogEntry));
-                options.Schema.For<Resource>().SoftDeleted().UseOptimisticConcurrency(true);
+                options.Schema.For<ResourcePage>().SoftDeleted().UseOptimisticConcurrency(true);
                 
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
@@ -68,7 +68,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<ApplicableRegulationsQuestionnaireAggregate>();
                 options.Events.InlineProjections.AggregateStreamsWith<DeviceClassificationAggregate>();
                 options.Events.InlineProjections.AggregateStreamsWith<DeviceStructuredInformation>();
-                options.Events.InlineProjections.AggregateStreamsWith<Resource>();
+                options.Events.InlineProjections.AggregateStreamsWith<ResourcePage>();
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<Assignment, IAssignmentEvent>());
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());
                 options.Events.InlineProjections.AggregateStreamsWith<Candidate>();

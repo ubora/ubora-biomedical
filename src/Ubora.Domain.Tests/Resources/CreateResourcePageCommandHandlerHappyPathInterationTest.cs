@@ -32,7 +32,7 @@ namespace Ubora.Domain.Tests.Resources
             var singleEventInStream = Session.Events.FetchStream(resourceId).ToList().Single();
             singleEventInStream.Data.Should().BeOfType<ResourceCreatedEvent>();
             
-            var resource = Session.Load<Resource>(resourceId);
+            var resource = Session.Load<ResourcePage>(resourceId);
 
             resource.Id.Should().Be(resourceId);
             resource.Content.ShouldBeEquivalentTo(content);

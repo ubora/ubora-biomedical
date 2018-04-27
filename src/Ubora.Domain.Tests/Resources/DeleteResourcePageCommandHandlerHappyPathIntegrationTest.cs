@@ -14,7 +14,7 @@ namespace Ubora.Domain.Tests.Resources
         public void Resource_Page_Can_Be_Deleted()
         {
             var resourceId = Guid.NewGuid();
-            new ResourceBuilder().WithId(resourceId).Build(this);
+            new ResourcePageBuilder().WithId(resourceId).Build(this);
             
             // Act
             var commandResult = Processor.Execute(new DeleteResourcePageCommand
@@ -29,7 +29,7 @@ namespace Ubora.Domain.Tests.Resources
             var lastEventInStream = Session.Events.FetchStream(resourceId).Select(e => e.Data).ToList().Last();
             lastEventInStream.Should().BeOfType<ResourcePageDeletedEvent>();
 
-            Session.Load<Resource>(resourceId)
+            Session.Load<ResourcePage>(resourceId)
                 .Then(resourcePage =>
                 {
                     resourcePage.IsDeleted().Should().BeTrue(); // Marten's

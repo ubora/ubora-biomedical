@@ -3,7 +3,7 @@ using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Domain.Resources
 {
-    public class Resource : Entity<Resource>
+    public class ResourcePage : Entity<ResourcePage>
     {
         public Guid Id { get; private set; }
         public Slug Slug { get; private set; }

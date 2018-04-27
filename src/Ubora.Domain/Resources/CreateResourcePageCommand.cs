@@ -20,7 +20,7 @@ namespace Ubora.Domain.Resources
             
             public ICommandResult Handle(CreateResourcePageCommand cmd)
             {
-                if (_documentSession.Load<Resource>(cmd.ResourceId) != null)
+                if (_documentSession.Load<ResourcePage>(cmd.ResourceId) != null)
                 {
                     throw new InvalidOperationException("Resource page with given ID already exists.");
                 }

@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Marten.Events;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Newtonsoft.Json;
-using Org.BouncyCastle.Crypto.Agreement;
+using Microsoft.AspNetCore.NodeServices;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Specifications;
@@ -22,15 +20,17 @@ namespace Ubora.Web._Features.Resources
     {
         public Guid ResourceId { get; set; }
         public string Title { get; set; }
+        public string Slug { get; set; }
 
-        public class Mapper : Projection<Resource, ResourceIndexViewModel>
+        public class Mapper : Projection<ResourcePage, ResourceIndexViewModel>
         {
-            protected override Expression<Func<Resource, ResourceIndexViewModel>> ToSelector()
+            protected override Expression<Func<ResourcePage, ResourceIndexViewModel>> ToSelector()
             {
                 return resource => new ResourceIndexViewModel
                 {
                     ResourceId = resource.Id,
-                    Title = resource.Content.Title
+                    Title = resource.Content.Title,
+                    Slug = resource.Slug.Value
                 };
             }
         }
@@ -58,6 +58,7 @@ namespace Ubora.Web._Features.Resources
     public class ResourceHistoryViewModel
     {
         public Guid ResourceId { get; set; }
+        public string Title { get; set; }
         public IReadOnlyCollection<UboraEvent> Events { get; set; }
     }
 
@@ -75,12 +76,13 @@ namespace Ubora.Web._Features.Resources
         {
             _eventStore = eventStore;
         }
-
+        
+        [Route("resources")]
         public IActionResult Index()
         {
             IEnumerable<ResourceIndexViewModel> models =
                 QueryProcessor
-                    .Find(new MatchAll<Resource>())
+                    .Find(new MatchAll<ResourcePage>())
                     .Select(resource => new ResourceIndexViewModel
                     {
                         ResourceId = resource.Id,
@@ -96,6 +98,7 @@ namespace Ubora.Web._Features.Resources
         }
 
         [HttpPost]
+        
         public IActionResult Add(AddResourcePostModel model)
         {
             if (!ModelState.IsValid)
@@ -112,10 +115,12 @@ namespace Ubora.Web._Features.Resources
                 },
                 successNotice: Notice.Success("TODO"));
 
+            var resourcePage = QueryProcessor.FindById<ResourcePage>(resourceId);
+            
             if (!ModelState.IsValid)
                 return Add();
 
-            return RedirectToAction(nameof(Read), new {id = resourceId});
+            return RedirectToAction(nameof(Read), new { slug = resourcePage.Slug.Value });
         }
 
         [HttpPost]
@@ -126,26 +131,27 @@ namespace Ubora.Web._Features.Resources
             return View(nameof(Delete));
         }
 
-        public IActionResult Read(Guid id)
+        [Route("r/{slug}")]
+        public async Task<IActionResult> Read(string slug, [FromServices]INodeServices nodeServices)
         {
-            ResourceReadViewModel model =
-                QueryProcessor
-                    .FindById<Resource>(id)
-                    .ThenReturn(resource => new ResourceReadViewModel
-                    {
-                        ResourceId = resource.Id,
-                        Body = resource.Content.Body,
-                        Title = resource.Content.Title
-                    });
+            var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugQuery(slug));
+
+            ResourceReadViewModel model = new ResourceReadViewModel
+            {
+                ResourceId = resourcePage.Id,
+                Body = await nodeServices.InvokeExportAsync<string>("./Scripts/app-backend", "convertQuillDeltaToHtml", resourcePage.Content.Body),
+                Title = resourcePage.Content.Title
+            };
 
             return View(nameof(Read), model);
         }
 
-        public IActionResult Edit(Guid id)
+        [Route("r/{slug}/edit")]
+        public IActionResult Edit(string slug)
         {
             ResourceEditViewModel model =
                 QueryProcessor
-                    .FindById<Resource>(id)
+                    .ExecuteQuery(new FindResourcePageBySlugQuery(slug))
                     .ThenReturn(resource => new ResourceEditViewModel
                     {
                         ResourceId = resource.Id,
@@ -158,14 +164,15 @@ namespace Ubora.Web._Features.Resources
         }
 
         [HttpPost]
-        public IActionResult Edit([FromBody]ResourceEditPostModel model)
+        [Route("r/{slug}/edit")]
+        public IActionResult Edit(ResourceEditPostModel model)
         {
-            var resource = QueryProcessor.FindById<Resource>(model.ResourceId);
+            var resource = QueryProcessor.FindById<ResourcePage>(model.ResourceId);
             if (resource == null)
                 return NotFound();
 
             if (!ModelState.IsValid)
-                return Edit(model.ResourceId);
+                return Edit(resource.Slug.Value);
 
             ExecuteUserCommand(
                 new EditResourceContentCommand
@@ -179,23 +186,27 @@ namespace Ubora.Web._Features.Resources
                 successNotice: Notice.Success("TODO"));
 
             if (!ModelState.IsValid)
-                return Edit(model.ResourceId);
+                return Edit(resource.Slug.Value);
 
-            return RedirectToAction(nameof(Read), new {id = model.ResourceId});
+            return RedirectToAction(nameof(Read), new { slug = resource.Slug.Value });
         }
 
-        public async Task<IActionResult> History(Guid id)
+        [Route("resources/{slug}/history")]
+        public async Task<IActionResult> History(string slug)
         {
+            var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugQuery(slug));
+
             var resourceEvents =
                 (await _eventStore.FetchStreamAsync(
-                    streamId: id))
+                    streamId: resourcePage.Id))
                 .OrderByDescending(martenEvent => martenEvent.Timestamp)
                 .Select(martenEvent => martenEvent.Data)
                 .Cast<UboraEvent>();
 
             ResourceHistoryViewModel model = new ResourceHistoryViewModel
             {
-                ResourceId = id,
+                ResourceId = resourcePage.Id,
+                Title = resourcePage.Content.Title,
                 Events = resourceEvents.ToList(),
             };
             

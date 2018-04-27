@@ -21,7 +21,7 @@ namespace Ubora.Domain.Resources
             
             public ICommandResult Handle(EditResourceContentCommand cmd)
             {
-                _documentSession.LoadOrThrow<Resource>(cmd.ResourceId);
+                _documentSession.LoadOrThrow<ResourcePage>(cmd.ResourceId);
 
                 _documentSession.Events.Append(
                     stream: cmd.ResourceId, 
