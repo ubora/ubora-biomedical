@@ -55,6 +55,7 @@ export class Feedback {
             type: 'POST',
             data: JSON.stringify(data),
             contentType: 'application/json; charset=utf-8',
+            headers: { 'RequestVerificationToken': document.getElementById('RequestVerificationToken').value },
             success: () => {
                 createNotice('alert-success', 'Thank you for your feedback! 😃');
                 return this._closeModal();

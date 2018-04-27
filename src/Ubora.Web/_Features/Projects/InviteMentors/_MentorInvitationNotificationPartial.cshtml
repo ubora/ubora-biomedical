@@ -11,7 +11,6 @@
                 <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>
             </p>
             <form class="notification-controls" method="post">
-                @Html.AntiForgeryToken()
                 <input type="hidden" asp-for="InvitationId" />
                 <button class="btn btn-outline-primary btn-sm align-self-start" type="submit" asp-controller="Notifications" asp-action="DeclineMentorInvitation">Decline</button>
                 <button class="btn btn-primary btn-sm ml-2 align-self-start" type="submit" asp-controller="Notifications" asp-action="AcceptMentorInvitation">Accept</button>
