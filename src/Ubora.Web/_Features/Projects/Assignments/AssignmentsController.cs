@@ -5,6 +5,8 @@ using Ubora.Domain.Projects.Assignments;
 using Ubora.Domain.Projects.Assignments.Commands;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Web._Features._Shared.Notices;
+using Microsoft.AspNetCore.Authorization;
+using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.Projects.Assignments
 {
@@ -44,6 +46,7 @@ namespace Ubora.Web._Features.Projects.Assignments
             ExecuteUserProjectCommand(new AddAssignmentCommand
             {
                 Id = Guid.NewGuid(),
+                CreatedByUserId = UserId,
                 Title = model.Title,
                 Description = model.Description,
                 AssigneeIds = model.AssigneeIds
@@ -55,6 +58,13 @@ namespace Ubora.Web._Features.Projects.Assignments
             }
 
             return RedirectToAction(nameof(Assignments), new { ProjectId });
+        }
+
+        [Route(nameof(View))]
+        public IActionResult View(Guid id, [FromServices]EditAssignmentViewModel.Factory modelFactory)
+        {
+            var model = modelFactory.Create(id);
+            return View(model);
         }
 
         [Route(nameof(Edit))]

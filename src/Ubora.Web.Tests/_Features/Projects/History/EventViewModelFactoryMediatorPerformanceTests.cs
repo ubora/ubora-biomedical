@@ -150,6 +150,7 @@ namespace Ubora.Web.Tests._Features.Projects.History
             var taskAddedEvent = new AssignmentAddedEvent(
                 initiatedBy: _userInfo,
                 id: Guid.NewGuid(),
+                createdByUserId: Guid.NewGuid(),
                 projectId: _projectId,
                 title: "title",
                 description: $"submitted workpackage 1 for review {StringTokens.WorkpackageOneReview()}",
