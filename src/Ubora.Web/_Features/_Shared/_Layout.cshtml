@@ -1,10 +1,18 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions{
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    @RenderSection("Head", required: false)
     @{
         Html.RenderPartial("_LayoutHead");
     }
+    @RenderSection("Head", required: false)
 </head>
 
 <body>
@@ -15,11 +23,15 @@
     <main>
         @RenderBody()
     </main>
-    
     @{
         Html.RenderPartial("_Footer");
+
         Html.RenderPartial("_LayoutBody");
     }
+
+    <input type="hidden" id="RequestVerificationToken"
+           name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()"/>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

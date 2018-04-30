@@ -11,7 +11,6 @@
         <div class="d-flex justify-content-between">
             <p><a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@Model.UserId">@Model.UserFullName</a> asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.</p>
             <form class="notification-controls" method="post">
-                @Html.AntiForgeryToken()
                 <input type="hidden" asp-for="RequestId"/>
                 <button class="btn btn-outline-primary btn-sm align-self-start" type="submit" asp-controller="Requests" asp-action="Decline">Decline</button>
                 <button class="btn btn-primary btn-sm ml-2 align-self-start" type="submit" asp-controller="Requests" asp-action="Accept">Accept</button>
