@@ -1,6 +1,7 @@
 ﻿import '../../node_modules/three/examples/js/controls/OrbitControls'
 import '../../node_modules/three/examples/js/loaders/STLLoader'
 import '../../node_modules/three/examples/js/loaders/AMFLoader'
+import dat from 'dat.gui'
 
 global.UBORA.init3dViewer = function (fileUrl) {
     var camera, controls, scene, renderer;
@@ -34,7 +35,7 @@ global.UBORA.init3dViewer = function (fileUrl) {
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(600, 600);
         renderer.setClearColor(new THREE.Color("hsl(0, 0%, 10%)"));
-        var container = document.getElementById('container');
+        var container = document.getElementById('3d_container');
         container.appendChild(renderer.domElement);
 
         var isLoaded3Dfile = load3Dfile(fileUrl);
@@ -51,6 +52,19 @@ global.UBORA.init3dViewer = function (fileUrl) {
 
         /* Events */
         window.addEventListener('keydown', onKeyboardEvent, false);
+
+        /* GUI */
+        var guiControls = function () {
+            this.changeZoomSize = 45;
+        };
+        var gui = new dat.GUI({ autoPlace: false });
+        gui.add(new guiControls(), 'changeZoomSize', 0, 100).onChange(function (value) {
+            camera.fov = value;
+            camera.updateProjectionMatrix();
+        });
+
+        var customContainer = document.getElementById('gui_container');
+        customContainer.appendChild(gui.domElement);
     }
 
     function onKeyboardEvent(e) {
