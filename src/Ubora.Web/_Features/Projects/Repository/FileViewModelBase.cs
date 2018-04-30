@@ -6,7 +6,7 @@ namespace Ubora.Web._Features.Projects.Repository
 {
     public abstract class FileViewModelBase
     {
-        private static readonly string[] Supported3DFileExtensions = new[] { ".stl", ".amf", ".nxz" };
+        private static readonly string[] Supported3DFileExtensions = new[] { ".stl", ".amf", ".nxz", ".nxs" };
         
         public string Comment { get; set; }
         public string FileName { get; set; }

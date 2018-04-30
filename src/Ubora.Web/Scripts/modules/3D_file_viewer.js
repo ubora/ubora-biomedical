@@ -98,11 +98,18 @@ global.UBORA.init3dViewer = function (fileUrl) {
                 });
                 return true;
             case 'nxz':
-                var nexus_obj = new NexusObject(fileUrl, renderer, nexusRender);
-                scene.add(nexus_obj);
+                loadNexus(fileUrl)
+                return true;
+            case 'nxs':
+                loadNexus(fileUrl)
                 return true;
         }
         return false;
+    }
+
+    function loadNexus(fileUrl) {
+        var nexus_obj = new NexusObject(fileUrl, renderer, nexusRender);
+        return scene.add(nexus_obj);
     }
 
     function getExtension(filename) {
