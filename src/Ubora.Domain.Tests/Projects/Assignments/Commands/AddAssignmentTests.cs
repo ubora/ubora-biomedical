@@ -21,6 +21,7 @@ namespace Ubora.Domain.Tests.Projects.Assignments.Commands
                 NewProjectId = expectedProjectId
             });
 
+            var expectedCreatedByUserId = Guid.NewGuid();
             var expectedTaskId = Guid.NewGuid();
             var taskAssigneeId = Guid.NewGuid();
             var assigneeIds = new[] { taskAssigneeId };
@@ -28,6 +29,7 @@ namespace Ubora.Domain.Tests.Projects.Assignments.Commands
             var command = new AddAssignmentCommand
             {
                 Title = "expectedTitle",
+                CreatedByUserId = expectedCreatedByUserId,
                 Description = "expectedDescription",
                 ProjectId = expectedProjectId,
                 Id = expectedTaskId,
@@ -42,6 +44,7 @@ namespace Ubora.Domain.Tests.Projects.Assignments.Commands
             var task = Session.Load<Assignment>(expectedTaskId);
 
             task.Id.Should().Be(expectedTaskId);
+            task.CreatedByUserId.Should().Be(expectedCreatedByUserId);
             task.Title.Should().Be("expectedTitle");
             task.Description.Should().Be("expectedDescription");
             task.ProjectId.Should().Be(expectedProjectId);

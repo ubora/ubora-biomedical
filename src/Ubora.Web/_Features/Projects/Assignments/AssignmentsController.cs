@@ -5,8 +5,6 @@ using Ubora.Domain.Projects.Assignments;
 using Ubora.Domain.Projects.Assignments.Commands;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Web._Features._Shared.Notices;
-using Microsoft.AspNetCore.Authorization;
-using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.Projects.Assignments
 {
@@ -61,7 +59,7 @@ namespace Ubora.Web._Features.Projects.Assignments
         }
 
         [Route(nameof(View))]
-        public IActionResult View(Guid id, [FromServices]EditAssignmentViewModel.Factory modelFactory)
+        public IActionResult View(Guid id, [FromServices]AssignmentViewModel.Factory modelFactory)
         {
             var model = modelFactory.Create(id);
             return View(model);

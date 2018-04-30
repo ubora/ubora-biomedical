@@ -23,8 +23,10 @@ namespace Ubora.Web.Tests.Authorization
             _handlerUnderTest = new HandlerUnderTest();
         }
 
-        [Fact]
-        public async Task Succeeds_When_User_Is_Project_Mentor()
+        [Theory]
+        [InlineData("Leader")]
+        [InlineData("Mentor")]
+        public async Task Succeeds_When_User_Is_Project_Leader_or_Mentor(string role)
         {
             var userId = Guid.NewGuid();
             var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(userId);
@@ -37,9 +39,18 @@ namespace Ubora.Web.Tests.Authorization
             var projectMock = new Mock<Project>();
             _handlerUnderTest.SetProject(projectMock.Object);
 
-            projectMock
-                .Setup(x => x.DoesSatisfy(new HasLeader(Guid.NewGuid()) || new HasMember<ProjectMentor>(userId)))
-                .Returns(true);
+            if (role == "Leader")
+            {
+                projectMock
+                    .Setup(x => x.DoesSatisfy(new HasLeader(userId) || new HasMember<ProjectMentor>(userId)))
+                    .Returns(true);
+            }
+            else
+            {
+                projectMock
+                    .Setup(x => x.DoesSatisfy(new HasLeader(Guid.NewGuid()) || new HasMember<ProjectMentor>(userId)))
+                    .Returns(true);
+            }
 
             // Act
             await _handlerUnderTest.HandleAsync(handlerContext);
@@ -50,7 +61,7 @@ namespace Ubora.Web.Tests.Authorization
         }
 
         [Fact]
-        public async Task Handler_Succeeds_For_User_With_Admin_Role()
+        public async Task Succeeds_When_User_With_Admin_Role()
         {
             var userId = Guid.NewGuid();
             var handlerContext = new AuthorizationHandlerContext(
