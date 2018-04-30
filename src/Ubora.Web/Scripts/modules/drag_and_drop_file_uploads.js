@@ -38,9 +38,9 @@ export default class DragAndDropFileUploads {
 
         this.dropzone.on('addedfile',
             () => {
-                document.querySelector('.dz-progress').remove();
-                document.querySelector('.dz-error-mark').remove();
-                document.querySelector('.dz-success-mark').remove();
+                $('.dz-progress').remove();
+                $('.dz-error-mark').remove();
+                $('.dz-success-mark').remove();
             });
 
         const submitButton = document.querySelector('#btnSubmit');
