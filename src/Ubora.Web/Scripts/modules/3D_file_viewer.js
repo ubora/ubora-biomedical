@@ -54,11 +54,10 @@ global.UBORA.init3dViewer = function (fileUrl) {
     }
 
     function onKeyboardEvent(e) {
-        if (e.code === 'KeyZ') {
+        if (e.key === 'z') {
             camera.fov = camera.fov + 1;
             camera.updateProjectionMatrix();
-
-        } else if (e.code === 'KeyX') {
+        } else if (e.key === 'x') {
             camera.fov = camera.fov - 1;
             camera.updateProjectionMatrix();
         }
