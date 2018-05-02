@@ -2,6 +2,9 @@ const expect = require('chai').expect;
 
 module.exports = function () {
     this.Then(/^I expect the title of the page "([^"]*)"$/, (title) => {
+        browser.waitUntil(function () {
+            return browser.getTitle() === title;
+        }, 1500);
         expect(browser.getTitle()).to.be.eql(title)
     });
 
