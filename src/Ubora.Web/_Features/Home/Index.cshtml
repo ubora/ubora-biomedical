@@ -1,3 +1,4 @@
+@model Ubora.Web._Features.Home.IndexViewModel
 @using Ubora.Web.Data
 @using Ubora.Web._Features.ProjectList
 @inject SignInManager<ApplicationUser> SignInManager
@@ -14,35 +15,36 @@
         </div>
         <div class="col-lg-6 text-center landing-image-solution">
 
-        @if(User.Identity.IsAuthenticated)
-        {
-            if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
+            @if (User.Identity.IsAuthenticated)
             {
+                if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
+                {
 
-                <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
-                <a class="btn btn-primary btn-cta align-self-end box-shadow" asp-controller="ProjectCreation" asp-action="Create" role="button">Create project</a>
+                    <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
+                    <a class="btn btn-primary btn-cta align-self-end box-shadow" asp-controller="ProjectCreation" asp-action="Create" role="button">Create project</a>
+                }
+                else
+                {
+                    <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
+                    <a class="btn btn-cta btn-disabled align-self-end box-shadow" role="button" disabled title="Your email must be confirmed to create a project!" data-toggle="tooltip" data-placement="bottom">Create project</a>
+                }
             }
             else
             {
                 <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
-                <a class="btn btn-cta btn-disabled align-self-end box-shadow" role="button" disabled title="Your email must be confirmed to create a project!" data-toggle="tooltip" data-placement="bottom">Create project</a>
+                <a class="btn btn-cta btn-disabled align-self-end box-shadow" role="button" disabled title="You have to log in to create a project!" data-toggle="tooltip" data-placement="bottom">Create project</a>
             }
-        }
-        else
-        {
-            <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
-            <a class="btn btn-cta btn-disabled align-self-end box-shadow" role="button" disabled title="You have to log in to create a project!" data-toggle="tooltip" data-placement="bottom">Create project</a>
-        }
         </div>
     </div>
 </div>
 <div class="container my-5">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
-    }
+    @await Component.InvokeAsync(typeof(PublicProjectListViewComponent), new { page = Model.Page })
+</div>
 
-</div>
-<div class="container my-5">
-    @await Component.InvokeAsync(typeof(PublicProjectListViewComponent))
-</div>
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/dist/infinite_scroll.bundle.js"></script>
+    <script>
+        UBORA.initHomeInfiniteScroll(2);
+    </script>
+}

@@ -11,9 +11,9 @@ namespace Ubora.Web._Features.ProjectList
             return View();
         }
 
-        public IActionResult Search()
+        public IActionResult Search(int page = 1)
         {
-            return View(new SearchViewModel());
+            return View(new SearchViewModel() { Page = page });
         }
 
         [HttpPost]

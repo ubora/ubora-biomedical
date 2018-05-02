@@ -19,5 +19,13 @@
             </form>
         </div>
     </div>
-    @await Component.InvokeAsync(typeof(SearchingProjectListViewComponent), new { title = @Model.Title })
+    @await Component.InvokeAsync(typeof(SearchingProjectListViewComponent), new { title = @Model.Title, page = Model.Page })
 </div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/dist/infinite_scroll.bundle.js"></script>
+    <script>
+        UBORA.initSearchInfiniteScroll(2);
+    </script>
+}

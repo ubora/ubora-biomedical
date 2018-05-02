@@ -8,6 +8,8 @@ using Ubora.Domain.Projects;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web._Components;
+using Ubora.Domain.Projects._SortSpecifications;
+using Ubora.Web._Features._Shared.Paging;
 
 namespace Ubora.Web._Features.ProjectList
 {
@@ -17,6 +19,7 @@ namespace Ubora.Web._Features.ProjectList
         {
         }
 
+        public Pager Pager { get; set; }
         public string Header { get; protected set; }
         public IEnumerable<ProjectCardViewModel> Projects { get; protected set; }
         public bool ShowDefaultMessage { get; protected set; }
@@ -41,14 +44,14 @@ namespace Ubora.Web._Features.ProjectList
                 _projectCardViewModelFactory = projectCardViewModelFactory;
             }
 
-            public ProjectListViewModel Create(string header)
+            public ProjectListViewModel CreatePagedProjectListViewModel(string header, int page)
             {
-                var projects = _queryProcessor.Find<Project>(new MatchAll<Project>())
-                    .OrderBy(p => p.Title);
+                var projects = _queryProcessor.Find<Project>(new MatchAll<Project>(), new SortByTitleAscendingSpecification(), 8, page);
 
                 var model = new ProjectListViewModel
                 {
                     Header = header,
+                    Pager = Pager.From(projects),
                     Projects = projects.Select(project => _projectCardViewModelFactory.Create(project))
                 };
 
@@ -69,14 +72,14 @@ namespace Ubora.Web._Features.ProjectList
                 return model;
             }
 
-            public ProjectListViewModel CreateForSearch(string title)
+            public ProjectListViewModel CreateForSearch(string title, int page)
             {
                 if (string.IsNullOrEmpty(title))
                 {
-                    return Create(header: "All projects");
+                    return CreatePagedProjectListViewModel(header: "All projects", page: page);
                 }
 
-                var projects = _queryProcessor.Find(new BySearchPhrase(title));
+                var projects = _queryProcessor.Find(new BySearchPhrase(title), 8, page);
 
                 var model = new ProjectListViewModel();
                 if (!projects.Any())
@@ -84,6 +87,7 @@ namespace Ubora.Web._Features.ProjectList
                     model.ShowProjectsNotFoundMessage = true;
                 }
 
+                model.Pager = Pager.From(projects);
                 model.Projects = projects.Select(project => _projectCardViewModelFactory.Create(project));
 
                 return model;
