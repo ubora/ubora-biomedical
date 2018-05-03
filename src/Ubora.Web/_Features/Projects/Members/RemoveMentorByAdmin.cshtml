@@ -6,11 +6,10 @@
     ViewData["Title"] = "Remove member";
 }
 
-
 <div class="container my-5">
     <div class="text-center">
         <h3>Are you sure you want to remove "@Model.MemberName" from project?</h3>
-        <form asp-controller="Members" asp-action="RemoveMember" method="post">
+        <form asp-controller="Members" asp-action="RemoveMentorByAdmin" method="post">
             <input asp-for="MemberId" type="hidden" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 

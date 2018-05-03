@@ -33,10 +33,11 @@ namespace Ubora.Web._Features.Projects.Members
         [AllowAnonymous]
         public async Task<IActionResult> Members()
         {
-            var canRemoveProjectMembers = (await AuthorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember)).Succeeded;
             var isProjectMember = (await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement())).Succeeded;
             var isAuthenticated = (await AuthorizationService.AuthorizeAsync(User, Policies.IsAuthenticatedUser)).Succeeded;
 
+            var isAdmin = User.IsInRole(ApplicationRole.Admin);
+            var canRemoveProjectMember = (await AuthorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember)).Succeeded;
             var memberListItemViewModels = new List<ProjectMemberListViewModel.Item>();
             foreach (var userMembers in Project.Members.GroupBy(m => m.UserId))
             {
@@ -49,7 +50,8 @@ namespace Ubora.Web._Features.Projects.Members
                     IsProjectMentor = userMembers.Any(x => x.IsMentor),
                     IsCurrentUser = (isAuthenticated && this.UserId == memberUserId),
                     FullName = userProfile.FullName,
-                    ProfilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile)
+                    ProfilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile),
+                    CanRemoveProjectMember = (isAdmin && userMembers.Any(x => x.IsMentor)) || canRemoveProjectMember
                 };
                 memberListItemViewModels.Add(itemModel);
             }
@@ -59,7 +61,6 @@ namespace Ubora.Web._Features.Projects.Members
             var model = new ProjectMemberListViewModel
             {
                 Id = ProjectId,
-                CanRemoveProjectMembers = canRemoveProjectMembers,
                 Members = memberListItemViewModels,
                 IsProjectMember = isAuthenticated && isProjectMember,
                 IsProjectLeader = isProjectLeader
@@ -141,9 +142,9 @@ namespace Ubora.Web._Features.Projects.Members
             return RedirectToAction("Dashboard", "Dashboard", new { });
         }
 
-        [Route(nameof(RemoveMember))]
+        [Route(nameof(RemoveMemberByProjectLeader))]
         [Authorize(Policies.CanRemoveProjectMember)]
-        public IActionResult RemoveMember(Guid memberId)
+        public IActionResult RemoveMemberByProjectLeader(Guid memberId)
         {
             var removeMemberViewModel = new RemoveMemberViewModel
             {
@@ -155,9 +156,47 @@ namespace Ubora.Web._Features.Projects.Members
         }
 
         [HttpPost]
-        [Route(nameof(RemoveMember))]
+        [Route(nameof(RemoveMemberByProjectLeader))]
         [Authorize(Policies.CanRemoveProjectMember)]
-        public IActionResult RemoveMember(RemoveMemberViewModel removeMemberViewModel)
+        public IActionResult RemoveMemberByProjectLeader(RemoveMemberViewModel removeMemberViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(removeMemberViewModel);
+            }
+
+            ExecuteUserProjectCommand(new RemoveMemberFromProjectCommand
+            {
+                UserId = removeMemberViewModel.MemberId
+            }, Notice.Success(SuccessTexts.ProjectMemberRemoved));
+
+            if (!ModelState.IsValid)
+            {
+                return View(removeMemberViewModel);
+            }
+
+            return RedirectToAction(nameof(Members));
+        }
+
+        [Route(nameof(RemoveMentorByAdmin))]
+        [AllowAnonymous]
+        [Authorize(Roles = ApplicationRole.Admin)]
+        public IActionResult RemoveMentorByAdmin(Guid memberId)
+        {
+            var removeMemberViewModel = new RemoveMemberViewModel
+            {
+                MemberId = memberId,
+                MemberName = QueryProcessor.FindById<UserProfile>(memberId).FullName
+            };
+
+            return View(removeMemberViewModel);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Authorize(Roles = ApplicationRole.Admin)]
+        [Route(nameof(RemoveMentorByAdmin))]
+        public IActionResult RemoveMentorByAdmin(RemoveMemberViewModel removeMemberViewModel)
         {
             if (!ModelState.IsValid)
             {
