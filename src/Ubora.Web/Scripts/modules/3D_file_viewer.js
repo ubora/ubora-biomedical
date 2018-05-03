@@ -1,7 +1,6 @@
 ﻿import '../../node_modules/three/examples/js/controls/OrbitControls'
 import '../../node_modules/three/examples/js/loaders/STLLoader'
 import '../../node_modules/three/examples/js/loaders/AMFLoader'
-import dat from 'dat.gui'
 
 global.UBORA.init3dViewer = function (fileUrl) {
     var camera, controls, scene, renderer;
@@ -48,33 +47,8 @@ global.UBORA.init3dViewer = function (fileUrl) {
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.25;
-        controls.enableZoom = false;
+        controls.enableZoom = true;
 
-        /* Events */
-        window.addEventListener('keydown', onKeyboardEvent, false);
-
-        /* GUI */
-        var guiControls = function () {
-            this.changeZoomSize = 45;
-        };
-        var gui = new dat.GUI({ autoPlace: false });
-        gui.add(new guiControls(), 'changeZoomSize', 0, 100).onChange(function (value) {
-            camera.fov = value;
-            camera.updateProjectionMatrix();
-        });
-
-        var customContainer = document.getElementById('gui_container');
-        customContainer.appendChild(gui.domElement);
-    }
-
-    function onKeyboardEvent(e) {
-        if (e.key === 'z') {
-            camera.fov = camera.fov + 1;
-            camera.updateProjectionMatrix();
-        } else if (e.key === 'x') {
-            camera.fov = camera.fov - 1;
-            camera.updateProjectionMatrix();
-        }
     }
 
     function animate() {
@@ -111,8 +85,6 @@ global.UBORA.init3dViewer = function (fileUrl) {
                 });
                 return true;
             case 'nxz':
-                loadNexus(fileUrl)
-                return true;
             case 'nxs':
                 loadNexus(fileUrl)
                 return true;

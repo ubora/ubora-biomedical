@@ -41,8 +41,7 @@
     "select2": "^4.0.3",
     "simplemde": "^1.11.2",
     "timeago": "^1.6.3",
-    "three": "^0.91.0",
-    "dat.gui": "^0.7.1"
+    "three": "^0.91.0"
   },
   "scripts": {}
 }
