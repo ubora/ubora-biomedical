@@ -34,7 +34,9 @@ $(function () {
 
 $(function () {
     $('form').on('submit', function () {
-        $(this).find('button[type=submit]').prop('disabled', true);
+        if ($(this).valid()) {
+            $(this).find('button[type=submit]').prop('disabled', true);
+        }
     });
 });
 
