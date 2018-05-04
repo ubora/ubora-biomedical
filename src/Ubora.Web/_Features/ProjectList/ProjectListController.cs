@@ -11,15 +11,19 @@ namespace Ubora.Web._Features.ProjectList
             return View();
         }
 
-        public IActionResult Search(int page = 1)
+        public IActionResult Search([FromServices]ProjectListViewModel.Factory modelFactory, string title, int page = 1)
         {
-            return View(new SearchViewModel() { Page = page });
+            var model = modelFactory.CreateForSearch(title, page);
+
+            return View(new SearchViewModel() { ProjectListViewModel = model });
         }
 
         [HttpPost]
-        public IActionResult Search(SearchViewModel model)
+        public IActionResult Search([FromServices]ProjectListViewModel.Factory modelFactory, SearchViewModel model)
         {
-            return View(model);
+            var viewModel = modelFactory.CreateForSearch(model.Title, 1);
+
+            return View(new SearchViewModel() { Title = model.Title, ProjectListViewModel = viewModel });
         }
     }
 }

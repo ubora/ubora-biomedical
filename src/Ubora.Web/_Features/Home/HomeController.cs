@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Ubora.Web._Features.ProjectList;
 
 namespace Ubora.Web._Features.Home
 {
     public class HomeController : UboraController
     {
         [Route("")]
-        public IActionResult Index(string returnUrl = null, int page = 1)
+        public IActionResult Index([FromServices]ProjectListViewModel.Factory modelFactory, string returnUrl = null, int page = 1)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -17,7 +18,9 @@ namespace Ubora.Web._Features.Home
                 return RedirectToLocal(returnUrl);
             }
 
-            return View("Index", new IndexViewModel() { Page = page });
+            var model = modelFactory.CreatePagedProjectListViewModel(header: "Public projects", page: page);
+
+            return View("Index", new IndexViewModel() { ProjectListViewModel = model });
         }
 
         public IActionResult Error()
@@ -29,6 +32,6 @@ namespace Ubora.Web._Features.Home
 
     public class IndexViewModel
     {
-        public int Page { get; set; }
+        public ProjectListViewModel ProjectListViewModel { get; set; }
     }
 }

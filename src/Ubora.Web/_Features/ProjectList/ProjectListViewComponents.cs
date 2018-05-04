@@ -4,25 +4,6 @@ using Ubora.Web.Services;
 
 namespace Ubora.Web._Features.ProjectList
 {
-    public class PublicProjectListViewComponent : ViewComponent
-    {
-        private readonly ProjectListViewModel.Factory _modelFactory;
-
-        public PublicProjectListViewComponent(ProjectListViewModel.Factory modelFactory)
-        {
-            _modelFactory = modelFactory;
-        }
-
-#pragma warning disable 1998
-        public async Task<IViewComponentResult> InvokeAsync(int page)
-#pragma warning restore 1998
-        {
-            var model = _modelFactory.CreatePagedProjectListViewModel(header: "Public projects", page: page);
-
-            return View("~/_Features/ProjectList/ProjectListPartial.cshtml", model);
-        }
-    }
-
     public class MyProjectListViewComponent : ViewComponent
     {
         private readonly ProjectListViewModel.Factory _modelFactory;

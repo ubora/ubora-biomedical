@@ -1,48 +1,16 @@
 ﻿import InfiniteScroll from 'infinite-scroll'
 
-global.UBORA.initInfiniteScroll = function (pageCount) {
+global.UBORA.initInfiniteScroll = function (path, pageCount, title) {
     var infiniteScroll = new InfiniteScroll('.infinite-scroll', {
         path: function () {
-            if (this.pageIndex < pageCount) {
+            if (this.pageIndex < pageCount && title !== undefined) {
                 var nextIndex = this.pageIndex + 1;
-                return '/UserList/Index?page=' + nextIndex;
-            } else {
-                document.querySelector('.view-more-button').style.display = 'none'
+                return '/ProjectList/Search/?title=' + title + path + nextIndex;
+            } else if (this.pageIndex < pageCount && title === undefined) {
+                var nextIndex = this.pageIndex + 1;
+                return path + nextIndex;
             }
-        },
-        append: '.post',
-        button: '.view-more-button',
-        scrollThreshold: false,
-        status: '.page-load-status'
-    });
-}
-
-global.UBORA.initHomeInfiniteScroll = function (pageCount) {
-
-    var infiniteScroll = new InfiniteScroll('.infinite-scroll', {
-        path: function () {
-            if (this.pageIndex < pageCount) {
-                var nextIndex = this.pageIndex + 1;
-                return '/?page=' + nextIndex;
-            } else {
-                document.querySelector('.view-more-button').style.display = 'none'
-            }
-        },
-        append: '.post',
-        button: '.view-more-button',
-        scrollThreshold: false,
-        status: '.page-load-status'
-    });
-}
-
-global.UBORA.initSearchInfiniteScroll = function (pageCount) {
-
-    var infiniteScroll = new InfiniteScroll('.infinite-scroll', {
-        path: function () {
-            if (this.pageIndex < pageCount) {
-                var nextIndex = this.pageIndex + 1;
-                return '/ProjectList/Search/?page=' + nextIndex;
-            } else {
+            else {
                 document.querySelector('.view-more-button').style.display = 'none'
             }
         },
