@@ -63,7 +63,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         [Fact]
         public void RemoveMemberByProjectLeader_Removes_Member_From_Project()
         {
-            var viewModel = new RemoveMemberViewModel
+            var viewModel = new RemoveMemberByProjectLeaderViewModel
             {
                 MemberId = UserId,
                 MemberName = "MemberName"
@@ -84,7 +84,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         [Fact]
         public void RemoveMemberByProjectLeader_Returns_Message_If_Command_Failed()
         {
-            var viewModel = new RemoveMemberViewModel
+            var viewModel = new RemoveMemberByProjectLeaderViewModel
             {
                 MemberId = UserId,
                 MemberName = "MemberName"
@@ -104,7 +104,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         [Fact]
         public void RemoveMentorByAdmin_Removes_Member_From_Project()
         {
-            var viewModel = new RemoveMemberViewModel
+            var viewModel = new RemoveMentorByAdminViewModel
             {
                 MemberId = UserId,
                 MemberName = "MemberName"
@@ -125,7 +125,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         [Fact]
         public void RemoveMentorByAdmin_Returns_Message_If_Command_Failed()
         {
-            var viewModel = new RemoveMemberViewModel
+            var viewModel = new RemoveMentorByAdminViewModel
             {
                 MemberId = UserId,
                 MemberName = "MemberName"

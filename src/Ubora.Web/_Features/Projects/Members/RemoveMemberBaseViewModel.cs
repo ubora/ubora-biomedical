@@ -2,7 +2,7 @@
 
 namespace Ubora.Web._Features.Projects.Members
 {
-    public class RemoveMemberViewModel
+    public abstract class RemoveMemberBaseViewModel
     {
         public Guid MemberId { get; set; }
         public string MemberName { get; set; }

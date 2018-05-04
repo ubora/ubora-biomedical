@@ -210,6 +210,9 @@
   <data name="ProjectMentorInvited" xml:space="preserve">
     <value>Invitation sent</value>
   </data>
+  <data name="ProjectMentorRemoved" xml:space="preserve">
+    <value>Mentor removed</value>
+  </data>
   <data name="ProjectTitleAndDescriptionUpdated" xml:space="preserve">
     <value>Project edited</value>
   </data>
