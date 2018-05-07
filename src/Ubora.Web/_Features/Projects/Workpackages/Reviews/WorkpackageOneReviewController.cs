@@ -33,7 +33,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
                 latestReview: latestReview == null ? null : AutoMapper.Map<WorkpackageReviewViewModel>(latestReview),
                 reviewDecisionUrl: Url.Action(nameof(Decision)),
                 submitForReviewUrl: Url.Action(nameof(SubmitForReview)),
-                submitForReviewButton: await WorkpackageReviewListViewModel.GetSubmitButtonVisibility(WorkpackageOne, User, AuthorizationService)
+                submitForReviewButton: await WorkpackageReviewListViewModel.GetSubmitButtonVisibility(Project, WorkpackageOne, User, AuthorizationService)
             );
 
             return View(nameof(Review), model);

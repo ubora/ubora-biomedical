@@ -12,6 +12,8 @@ using Ubora.Web.Authorization;
 using Ubora.Web.Tests.Helper;
 using Ubora.Web._Features.Projects.Workpackages.Reviews;
 using Xunit;
+using Ubora.Domain.Projects;
+using Ubora.Domain.Projects.Members;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages
 {
@@ -117,6 +119,12 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Setup(x => x.AuthorizeAsync(this.User, It.IsAny<object>(), Policies.CanSubmitWorkpackageForReview))
                 .ReturnsAsync(AuthorizationResult.Success);
 
+            var members = new List<ProjectMember> { new ProjectMentor(Guid.NewGuid()) };
+            var project = new Project();
+            project.Set(p => p.Members, members);
+
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId)).Returns(project);
+
             // Act
             var result = (ViewResult)await _workpackageOneReviewController.Review();
 
@@ -124,6 +132,27 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var viewModel = (WorkpackageReviewListViewModel)result.Model;
             viewModel
                 .SubmitForReviewButton.IsVisible
+                .Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Submit_Button_Can_Be_Visible_Request_Mentoring()
+        {
+            AuthorizationServiceMock
+                .Setup(x => x.AuthorizeAsync(this.User, It.IsAny<object>(), Policies.CanSubmitWorkpackageForReview))
+                .ReturnsAsync(AuthorizationResult.Success);
+
+            var project = new Project();
+
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId)).Returns(project);
+
+            // Act
+            var result = (ViewResult)await _workpackageOneReviewController.Review();
+
+            // Assert
+            var viewModel = (WorkpackageReviewListViewModel)result.Model;
+            viewModel
+                .SubmitForReviewButton.IsVisibleRequestMentoring
                 .Should().BeTrue();
         }
 
@@ -141,6 +170,9 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var expectedReviewViewModel = new WorkpackageReviewViewModel();
             AutoMapperMock.Setup(m => m.Map<WorkpackageReviewViewModel>(expectedReview))
                 .Returns(expectedReviewViewModel);
+
+            var project = new Project();
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId)).Returns(project);
 
             QueryProcessorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
                 .Returns(workpackageMock.Object);
@@ -169,7 +201,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Returns(CommandResult.Success);
 
             // Act
-            var result = (RedirectToActionResult) await _workpackageOneReviewController.ReopenWorkpackageAfterAcceptance(model);
+            var result = (RedirectToActionResult)await _workpackageOneReviewController.ReopenWorkpackageAfterAcceptance(model);
 
             // Assert
             executedCommand.LatestReviewId.Should().Be(model.LatestReviewId);

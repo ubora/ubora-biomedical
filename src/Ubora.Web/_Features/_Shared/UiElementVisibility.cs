@@ -7,7 +7,8 @@ namespace Ubora.Web._Features._Shared
         public bool IsHiddenWithMessage => !string.IsNullOrWhiteSpace(HideReasonMessage);
         public bool IsHiddenCompletely { get; private set; }
         public string HideReasonMessage { get; private set; }
-        public bool IsVisible => !(IsHiddenWithMessage || IsHiddenCompletely);
+        public bool IsVisibleRequestMentoring { get; private set; }
+        public bool IsVisible => !(IsHiddenWithMessage || IsHiddenCompletely || IsVisibleRequestMentoring);
 
         protected UiElementVisibility()
         {
@@ -35,6 +36,14 @@ namespace Ubora.Web._Features._Shared
             return new UiElementVisibility
             {
                 IsHiddenCompletely = true
+            };
+        }
+
+        public static UiElementVisibility RequestMentoring()
+        {
+            return new UiElementVisibility
+            {
+                IsVisibleRequestMentoring = true
             };
         }
     }
