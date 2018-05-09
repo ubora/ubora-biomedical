@@ -131,6 +131,10 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
+                options.AddPolicy(nameof(Policies.CanRequestMentoring), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
             });
         }
     }

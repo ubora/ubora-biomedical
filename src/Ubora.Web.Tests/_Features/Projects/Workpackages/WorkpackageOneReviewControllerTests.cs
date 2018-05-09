@@ -47,6 +47,11 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                     },
                     new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
+                        MethodName = nameof(WorkpackageOneReviewController.RequestMentoring),
+                        Policies = new []{ nameof(Policies.CanRequestMentoring) }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
                         MethodName = nameof(WorkpackageOneReviewController.Decision),
                         Policies = new []{ nameof(Policies.CanReviewProjectWorkpackages) }
                     },
@@ -82,6 +87,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 && x.HasBeenAccepted == hasBeenAccepted
                 && x.Reviews == new List<WorkpackageReview>());
 
+            var project = new Project();
+
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId)).Returns(project);
+
             QueryProcessorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
                 .Returns(workpackage);
 
@@ -101,6 +110,9 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             AuthorizationServiceMock
                 .Setup(x => x.AuthorizeAsync(this.User, It.IsAny<object>(), Policies.CanSubmitWorkpackageForReview))
                 .ReturnsAsync(AuthorizationResult.Failed());
+
+            var project = new Project();
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId)).Returns(project);
 
             // Act
             var result = (ViewResult)await _workpackageOneReviewController.Review();
@@ -154,6 +166,62 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             viewModel
                 .SubmitForReviewButton.IsVisibleRequestMentoring
                 .Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task RequestMentoring_Button_Can_Be_Hidden_With_Message_When_Requested_Mentoring()
+        {
+            AuthorizationServiceMock
+                .Setup(x => x.AuthorizeAsync(this.User, It.IsAny<object>(), Policies.CanSubmitWorkpackageForReview))
+                .ReturnsAsync(AuthorizationResult.Success);
+
+            var project = new Project();
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId)).Returns(project);
+
+            var workpackage = Mock.Of<WorkpackageOne>(
+                x => x.HasBeenRequestedMentoring == true
+                && x.Reviews == new List<WorkpackageReview>());
+            QueryProcessorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId)).Returns(workpackage);
+
+            // Act
+            var result = (ViewResult)await _workpackageOneReviewController.Review();
+
+            // Assert
+            var viewModel = (WorkpackageReviewListViewModel)result.Model;
+            viewModel
+                .SubmitForReviewButton.IsHiddenWithMessage
+                .Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task RequestMentoring_Redirect_Review_It_Was_Requested_Mentoring()
+        {
+            CommandProcessorMock.Setup(x => x.Execute(It.IsAny<RequestMentoringWorkpackageOneReviewCommand>()))
+                .Returns(CommandResult.Success);
+
+            // Act
+            var result = (RedirectToActionResult)await _workpackageOneReviewController.RequestMentoring();
+
+            // Assert
+            result.ActionName.Should().Be(nameof(WorkpackageOneReviewController.Review));
+        }
+
+        [Fact]
+        public async Task RequestMentoring_Does_Not_Execute_Command_When_ModelState_Failure()
+        {
+            _workpackageOneReviewController.ViewData.ModelState.AddModelError("", "test_error");
+
+            var expectedResult = Mock.Of<IActionResult>();
+            _workpackageOneReviewControllerMock.Setup(c => c.Review())
+                .ReturnsAsync(expectedResult);
+
+            // Act
+            var result = await _workpackageOneReviewController.RequestMentoring();
+
+            // Assert
+            CommandProcessorMock.Verify(x => x.Execute(It.IsAny<RequestMentoringWorkpackageOneReviewCommand>()), Times.Never());
+
+            result.Should().Be(expectedResult);
         }
 
         [Fact]

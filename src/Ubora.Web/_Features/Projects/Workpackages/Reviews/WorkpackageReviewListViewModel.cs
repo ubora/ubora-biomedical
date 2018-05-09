@@ -51,8 +51,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
         /// Logic moved here to reduce duplication by making the method generic.
         /// Although it's very possible that the button visibility will be different for each work package in the future.
         /// </remarks>
-        public static async Task<UiElementVisibility> GetSubmitButtonVisibility<T>(Project project, T workpackage, ClaimsPrincipal user, IAuthorizationService authorizationService)
-            where T : Workpackage<T>
+        public static async Task<UiElementVisibility> GetSubmitButtonVisibility(Project project, WorkpackageOne workpackage, ClaimsPrincipal user, IAuthorizationService authorizationService)
         {
             if (workpackage.HasReviewInProcess || workpackage.HasBeenAccepted)
             {
@@ -67,7 +66,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 
             if (!project.Members.Any(m => m.IsMentor))
             {
-                return UiElementVisibility.RequestMentoring();
+                if (!workpackage.HasBeenRequestedMentoring)
+                {
+                    return UiElementVisibility.RequestMentoring();
+                } else
+                {
+                    return UiElementVisibility.HiddenWithMessage("Requested mentoring. Please wait");
+                }
             }
 
             return UiElementVisibility.Visible();

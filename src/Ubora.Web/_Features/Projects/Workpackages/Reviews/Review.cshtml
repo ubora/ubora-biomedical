@@ -61,6 +61,7 @@
     }
     else if (Model.SubmitForReviewButton.IsHiddenWithMessage)
     {
+
         <section>
             <p><i>@Model.SubmitForReviewButton.HideReasonMessage</i></p>
         </section>
@@ -70,10 +71,9 @@
         <section>
             <p><i>Your project do not have mentor yet. Please request mentoring.</i></p>
         </section>
-        <div class="form-group">
-            <span class="mx-1"></span>
+        <form action="@Model.SubmitForReviewUrl" method="post" asp-antiforgery="true">
             <button class="btn btn-primary" type="submit">Request mentoring</button>
-        </div>
+        </form>
     }
 
     @if (Model.Reviews.Any())
