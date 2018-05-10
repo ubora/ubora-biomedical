@@ -24,5 +24,6 @@
         public const string CanVoteCandidate = nameof(CanVoteCandidate);
         public const string CanEditDesignPlanning = nameof(CanEditDesignPlanning);
         public const string CanOpenWorkpackageThree = nameof(CanOpenWorkpackageThree);
+        public const string CanInviteMentors = nameof(CanInviteMentors);
     }
 }
