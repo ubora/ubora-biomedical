@@ -25,5 +25,7 @@
         public const string CanEditDesignPlanning = nameof(CanEditDesignPlanning);
         public const string CanOpenWorkpackageThree = nameof(CanOpenWorkpackageThree);
         public const string CanInviteMentors = nameof(CanInviteMentors);
+        public const string CanViewProjectHistory = nameof(CanViewProjectHistory);
+        public const string CanViewProjectRepository = nameof(CanViewProjectRepository);
     }
 }

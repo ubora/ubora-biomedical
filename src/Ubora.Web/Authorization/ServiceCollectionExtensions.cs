@@ -24,6 +24,9 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<ProjectNonPublicContentViewingRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<IsProjectMemberRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<ProjectNonPublicContentViewingRequirement>>();
+            services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<ProjectWorkpackagesAndAssignmetsViewingRequirement>>();
+            services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<ProjectWorkpackagesAndAssignmetsViewingRequirement>>();
+            services.AddSingleton<IAuthorizationHandler, IsUboraManagementGroupGenericRequirementHandler<ProjectWorkpackagesAndAssignmetsViewingRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsProjectLeaderRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMentorRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsWorkpackageOneNotLockedRequirement.Handler>();
@@ -41,10 +44,22 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                 });
+
                 options.AddPolicy(Policies.CanViewProjectNonPublicContent, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new ProjectNonPublicContentViewingRequirement());
                 });
+
+                options.AddPolicy(Policies.CanViewProjectHistory, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new ProjectWorkpackagesAndAssignmetsViewingRequirement());
+                });
+
+                options.AddPolicy(Policies.CanViewProjectRepository, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new ProjectWorkpackagesAndAssignmetsViewingRequirement());
+                });
+
                 options.AddPolicy(Policies.CanWorkOnProjectContent, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new ProjectNonPublicContentViewingRequirement());
