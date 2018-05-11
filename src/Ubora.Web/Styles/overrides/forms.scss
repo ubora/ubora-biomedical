@@ -97,3 +97,20 @@ label.custom-file {
 .form-group .form-control.input-validation-error {
     border-bottom: 1px solid $orange;
 }
+
+.search.input-group .input-group-prepend .input-group-text {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.search.input-group .input-group-prepend .input-group-text {
+    background-color: transparent;
+    border-left: none;
+
+    button {
+        padding: 0;
+        color: $primary-shade;
+    }
+}
