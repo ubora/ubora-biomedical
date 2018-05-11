@@ -24,9 +24,9 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<ProjectNonPublicContentViewingRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<IsProjectMemberRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<ProjectNonPublicContentViewingRequirement>>();
-            services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<ProjectWorkpackagesAndAssignmetsViewingRequirement>>();
-            services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<ProjectWorkpackagesAndAssignmetsViewingRequirement>>();
-            services.AddSingleton<IAuthorizationHandler, IsUboraManagementGroupGenericRequirementHandler<ProjectWorkpackagesAndAssignmetsViewingRequirement>>();
+            services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<ProjectRepositoryAndHistoryViewingRequirement>>();
+            services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<ProjectRepositoryAndHistoryViewingRequirement>>();
+            services.AddSingleton<IAuthorizationHandler, IsUboraManagementGroupGenericRequirementHandler<ProjectRepositoryAndHistoryViewingRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsProjectLeaderRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMentorRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsWorkpackageOneNotLockedRequirement.Handler>();
@@ -52,12 +52,22 @@ namespace Ubora.Web.Authorization
 
                 options.AddPolicy(Policies.CanViewProjectHistory, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new ProjectWorkpackagesAndAssignmetsViewingRequirement());
+                    policyBuilder.AddRequirements(new ProjectRepositoryAndHistoryViewingRequirement());
                 });
 
                 options.AddPolicy(Policies.CanViewProjectRepository, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new ProjectWorkpackagesAndAssignmetsViewingRequirement());
+                    policyBuilder.AddRequirements(new ProjectRepositoryAndHistoryViewingRequirement());
+                });
+
+                options.AddPolicy(Policies.CanAddFileRepository, policyBuilder => 
+                {
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
+                });
+
+                options.AddPolicy(Policies.CanUpdateFileRepository, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                 });
 
                 options.AddPolicy(Policies.CanWorkOnProjectContent, policyBuilder =>

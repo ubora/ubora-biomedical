@@ -27,5 +27,7 @@
         public const string CanInviteMentors = nameof(CanInviteMentors);
         public const string CanViewProjectHistory = nameof(CanViewProjectHistory);
         public const string CanViewProjectRepository = nameof(CanViewProjectRepository);
+        public const string CanAddFileRepository = nameof(CanAddFileRepository);
+        public const string CanUpdateFileRepository = nameof(CanUpdateFileRepository);
     }
 }

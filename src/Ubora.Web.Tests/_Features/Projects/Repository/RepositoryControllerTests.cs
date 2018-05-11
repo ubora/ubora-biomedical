@@ -58,12 +58,12 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                     new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(RepositoryController.AddFile),
-                        Policies = new []{ Policies.CanViewProjectRepository }
+                        Policies = new []{ Policies.CanAddFileRepository }
                     },
                     new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(RepositoryController.UpdateFile),
-                        Policies = new []{ Policies.CanViewProjectRepository }
+                        Policies = new []{ Policies.CanUpdateFileRepository }
                     },
                     new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {

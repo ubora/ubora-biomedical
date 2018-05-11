@@ -2,7 +2,7 @@
 
 namespace Ubora.Web.Authorization.Requirements
 {
-    public class ProjectWorkpackagesAndAssignmetsViewingRequirement : IAuthorizationRequirement
+    public class ProjectRepositoryAndHistoryViewingRequirement : IAuthorizationRequirement
     {
     }
 }
