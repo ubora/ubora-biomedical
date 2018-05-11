@@ -32,4 +32,12 @@ $(function () {
     }
 });
 
+$(function () {
+    $('form').on('submit', function () {
+        if ($(this).valid()) {
+            $(this).find('button[type=submit]').prop('disabled', true);
+        }
+    });
+});
+
 global.UBORA = {};

@@ -25,7 +25,7 @@
                         <td>
                             @user.RolesJoined
                         </td>
-                        <form method="post">
+                        <form onsubmit="return confirm('Are you sure?')" method="post">
                             <input type="hidden" name="userId" value="@user.UserId" />
                             <td>
                                 <div class="dropdown">
