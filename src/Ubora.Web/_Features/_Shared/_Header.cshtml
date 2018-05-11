@@ -48,12 +48,6 @@
                         <span class="nav-link-description ml-1">Community</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" asp-controller="ProjectList" asp-action="MyProjects">
-                        <i class="material-icons">folder</i>
-                        <span class="nav-link-description ml-1">My projects</span>
-                    </a>
-                </li>
                 <li class="nav-item notification-item">
                     <a class="nav-link nav-link-notification d-flex align-items-center" asp-controller="Notifications" asp-action="Index">
                         @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
