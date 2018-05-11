@@ -35,7 +35,9 @@
     </div>
     <div class="tab-content" id="projectsTabContent">
         <div class="tab-pane fade show active" id="myProjects" role="tabpanel" aria-labelledby="my-projects-tab">
-            <div class="my-4"> my</div>
+            <div class="my-4">
+                @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
+            </div>
         </div>
         <div class="tab-pane fade" id="allProjects" role="tabpanel" aria-labelledby="all-projects-tab">
             <div class="my-4">
