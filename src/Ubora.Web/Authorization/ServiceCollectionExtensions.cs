@@ -27,8 +27,10 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<ProjectRepositoryAndHistoryViewingRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<ProjectRepositoryAndHistoryViewingRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsUboraManagementGroupGenericRequirementHandler<ProjectRepositoryAndHistoryViewingRequirement>>();
+
             services.AddSingleton<IAuthorizationHandler, IsProjectLeaderRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMentorRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, IsProjectLeaderOrManagementGroupRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsWorkpackageOneNotLockedRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsEmailConfirmedRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsCommentAuthorRequirement.Handler>();
@@ -104,7 +106,7 @@ namespace Ubora.Web.Authorization
                 });
                 options.AddPolicy(Policies.CanHideProjectFile, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                    policyBuilder.AddRequirements(new IsProjectLeaderOrManagementGroupRequirement());
                 });
                 options.AddPolicy(Policies.CanCreateProject, policyBuilder =>
                 {

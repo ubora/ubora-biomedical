@@ -157,7 +157,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 ProjectName = "Title",
                 AllFiles = projectFilesViewModel,
                 AddFileViewModel = new AddFileViewModel(),
-                IsProjectLeader = true
+                CanHideProjectFile = true
             };
 
             // Act
