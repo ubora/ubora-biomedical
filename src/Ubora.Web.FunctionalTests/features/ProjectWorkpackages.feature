@@ -75,20 +75,6 @@ Scenario: I check again the Request mentoring for WP1 review
     Then I expect the element "i=Requested mentoring. Please wait" is visible
         And I expect the title of the page "Formal review - UBORA"  
 
-Scenario: System administrator adds Mentor to the project
-    When I sign out
-    Then I expect the title of the page "UBORA"
-    When I sign in as administrator
-        And I click on the element "*=Test title"
-        And I click on the element "=Members"
-    Then I expect the title of the page "Members - UBORA"
-    When I click on the element "*=Add mentor"
-    Then I expect the title of the page "Project mentors - UBORA"
-    When I click on the element "button=Invite mentor"
-    Then I expect the element "p=Invitation sent" is visible
-    When I sign out
-    Then I expect the title of the page "UBORA"
-
 Scenario: System administrator gets the notification and adds Mentor to the project
     When I sign out
     Then I expect the title of the page "UBORA"
