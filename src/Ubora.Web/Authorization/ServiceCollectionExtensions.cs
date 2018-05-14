@@ -30,7 +30,7 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsEmailConfirmedRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsCommentAuthorRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsVoteNotGivenRequirement.Handler>();
-            services.AddSingleton<IAuthorizationHandler, IsProjectLeaderOrMentorOrAdminRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, OrRequirement.Handler>();
         }
 
         private static void AddPolicies(IServiceCollection services)
@@ -134,7 +134,7 @@ namespace Ubora.Web.Authorization
                 });
                 options.AddPolicy(nameof(Policies.CanEditAssignment), policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new IsProjectLeaderOrMentorOrAdminRequirement());
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsProjectMentorRequirement()));
                 });
             });
         }
