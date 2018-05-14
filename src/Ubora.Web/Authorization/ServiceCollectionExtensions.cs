@@ -22,17 +22,15 @@ namespace Ubora.Web.Authorization
             // NOTE: For logical OR evaluation implement multiple handlers for a requirement.
             services.AddSingleton<IAuthorizationHandler, ProjectControllerRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<ProjectNonPublicContentViewingRequirement>>();
-            services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<IsProjectMemberRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<ProjectNonPublicContentViewingRequirement>>();
-            services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<ProjectRepositoryAndHistoryViewingRequirement>>();
-            services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<ProjectRepositoryAndHistoryViewingRequirement>>();
-            services.AddSingleton<IAuthorizationHandler, IsUboraManagementGroupGenericRequirementHandler<ProjectRepositoryAndHistoryViewingRequirement>>();
+            services.AddSingleton<IAuthorizationHandler, IsProjectMemberRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsProjectLeaderRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMentorRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsWorkpackageOneNotLockedRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsEmailConfirmedRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsCommentAuthorRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsVoteNotGivenRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, OrRequirement.Handler>();
         }
 
         private static void AddPolicies(IServiceCollection services)
@@ -52,12 +50,12 @@ namespace Ubora.Web.Authorization
 
                 options.AddPolicy(Policies.CanViewProjectHistory, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new ProjectRepositoryAndHistoryViewingRequirement());
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectMemberRequirement(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin, ApplicationRole.ManagementGroup })));
                 });
 
                 options.AddPolicy(Policies.CanViewProjectRepository, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new ProjectRepositoryAndHistoryViewingRequirement());
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectMemberRequirement(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin, ApplicationRole.ManagementGroup })));
                 });
 
                 options.AddPolicy(Policies.CanAddFileRepository, policyBuilder => 
