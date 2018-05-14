@@ -134,7 +134,7 @@ namespace Ubora.Web.Authorization
                 });
                 options.AddPolicy(nameof(Policies.CanEditAssignment), policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsProjectMentorRequirement()));
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsProjectMentorRequirement(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin })));
                 });
             });
         }
