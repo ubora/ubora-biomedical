@@ -44,14 +44,14 @@
     </div>
     <div class="row">
         @{
-            Func<Guid, IHtmlContent> createRemoveMemberByProjectLeaderFooter =
-            @<a title="Remove member" asp-controller="Members" asp-action="RemoveMemberByProjectLeader" asp-route-memberId="@item">
+            Func<Guid, IHtmlContent> createRemoveMemberFooter =
+            @<a title="Remove member" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@item">
                 <span>Remove member</span>
                 <i class="material-icons align-middle font-size-1">close</i>
             </a>;
 
-            Func<Guid, IHtmlContent> createRemoveMentorByAdminFooter =
-            @<a title="Remove mentor" asp-controller="Members" asp-action="RemoveMentorByAdmin" asp-route-memberId="@item">
+            Func<Guid, IHtmlContent> createRemoveMentorFooter =
+            @<a title="Remove mentor" asp-controller="Members" asp-action="RemoveMentor" asp-route-memberId="@item">
                 <span>Remove mentor</span>
                 <i class="material-icons align-middle font-size-1">close</i>
             </a>;
@@ -66,7 +66,7 @@
                     name: member.FullName,
                     roles: member.Roles,
                     profilePictureUrl: member.ProfilePictureUrl,
-                    footerHtml: isAdmin ? createRemoveMentorByAdminFooter(member.UserId) : createRemoveMemberByProjectLeaderFooter(member.UserId))
+                    footerHtml: isAdmin ? createRemoveMentorFooter(member.UserId) : createRemoveMemberFooter(member.UserId))
                     );
             }
             else

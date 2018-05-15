@@ -42,13 +42,13 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             {
                 new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                 {
-                    MethodName = nameof(MembersController.RemoveMemberByProjectLeader),
+                    MethodName = nameof(MembersController.RemoveMember),
                     Policies = new []{ nameof(Policies.CanRemoveProjectMember) }
                 },
                 new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                 {
-                    MethodName = nameof(MembersController.RemoveMentorByAdmin),
-                    Roles = new []{ "Ubora.Administrator" }
+                    MethodName = nameof(MembersController.RemoveMentor),
+                    Policies = new []{ nameof(Policies.CanRemoveProjectMentor) }
                 },
                 new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                 {
@@ -61,9 +61,9 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         }
 
         [Fact]
-        public void RemoveMemberByProjectLeader_Removes_Member_From_Project()
+        public void RemoveMember_Removes_Member_From_Project()
         {
-            var viewModel = new RemoveMemberByProjectLeaderViewModel
+            var viewModel = new RemoveMemberViewModel
             {
                 MemberId = UserId,
                 MemberName = "MemberName"
@@ -74,7 +74,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
                 .Returns(CommandResult.Success);
 
             // Act
-            var result = (RedirectToActionResult)_membersController.RemoveMemberByProjectLeader(viewModel);
+            var result = (RedirectToActionResult)_membersController.RemoveMember(viewModel);
 
 
             // Assert
@@ -82,9 +82,9 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         }
 
         [Fact]
-        public void RemoveMemberByProjectLeader_Returns_Message_If_Command_Failed()
+        public void RemoveMember_Returns_Message_If_Command_Failed()
         {
-            var viewModel = new RemoveMemberByProjectLeaderViewModel
+            var viewModel = new RemoveMemberViewModel
             {
                 MemberId = UserId,
                 MemberName = "MemberName"
@@ -95,16 +95,16 @@ namespace Ubora.Web.Tests._Features.Projects.Members
                .Returns(CommandResult.Failed("Something went wrong"));
 
             // Act
-            var result = (ViewResult)_membersController.RemoveMemberByProjectLeader(viewModel);
+            var result = (ViewResult)_membersController.RemoveMember(viewModel);
 
             // Assert
             _membersController.ModelState.ErrorCount.Should().Be(1);
         }
 
         [Fact]
-        public void RemoveMentorByAdmin_Removes_Member_From_Project()
+        public void RemoveMentor_Removes_Member_From_Project()
         {
-            var viewModel = new RemoveMentorByAdminViewModel
+            var viewModel = new RemoveMentorViewModel
             {
                 MemberId = UserId,
                 MemberName = "MemberName"
@@ -115,7 +115,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
                 .Returns(CommandResult.Success);
 
             // Act
-            var result = (RedirectToActionResult)_membersController.RemoveMentorByAdmin(viewModel);
+            var result = (RedirectToActionResult)_membersController.RemoveMentor(viewModel);
 
 
             // Assert
@@ -123,9 +123,9 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         }
 
         [Fact]
-        public void RemoveMentorByAdmin_Returns_Message_If_Command_Failed()
+        public void RemoveMentor_Returns_Message_If_Command_Failed()
         {
-            var viewModel = new RemoveMentorByAdminViewModel
+            var viewModel = new RemoveMentorViewModel
             {
                 MemberId = UserId,
                 MemberName = "MemberName"
@@ -136,7 +136,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
                .Returns(CommandResult.Failed("Something went wrong"));
 
             // Act
-            var result = (ViewResult)_membersController.RemoveMentorByAdmin(viewModel);
+            var result = (ViewResult)_membersController.RemoveMentor(viewModel);
 
             // Assert
             _membersController.ModelState.ErrorCount.Should().Be(1);
