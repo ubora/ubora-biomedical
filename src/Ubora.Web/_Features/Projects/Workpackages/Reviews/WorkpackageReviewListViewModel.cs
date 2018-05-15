@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -18,12 +17,14 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
             string submitForReviewUrl,
             string reviewDecisionUrl,
             UiElementVisibility submitForReviewButton,
+            UiElementVisibility requestMentoringButton,
             WorkpackageReviewViewModel latestReview)
         {
             Reviews = reviews;
             SubmitForReviewUrl = submitForReviewUrl;
             ReviewDecisionUrl = reviewDecisionUrl;
             SubmitForReviewButton = submitForReviewButton;
+            RequestMentoringButton = requestMentoringButton;
             LatestReview = latestReview;
         }
 
@@ -31,6 +32,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
         public string SubmitForReviewUrl { get; }
         public string ReviewDecisionUrl { get; }
         public UiElementVisibility SubmitForReviewButton { get; }
+        public UiElementVisibility RequestMentoringButton { get; }
         public WorkpackageReviewViewModel LatestReview { get; }
 
         public bool IsAnyReviewInProcess => Reviews.Any(x => x.Status == WorkpackageReviewStatus.InProcess);
@@ -66,16 +68,31 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
 
             if (!project.Members.Any(m => m.IsMentor))
             {
-                if (!workpackage.HasBeenRequestedMentoring)
-                {
-                    return UiElementVisibility.RequestMentoring();
-                } else
-                {
-                    return UiElementVisibility.HiddenWithMessage("Requested mentoring. Please wait");
-                }
+                return UiElementVisibility.HiddenCompletely();
             }
 
             return UiElementVisibility.Visible();
+        }
+
+        public static async Task<UiElementVisibility> GetRequestMentoringButtonVisibility(Project project, WorkpackageOne workpackage, ClaimsPrincipal user, IAuthorizationService authorizationService)
+        {
+            var isAuthorized = await authorizationService.IsAuthorizedAsync(user, Policies.CanSubmitWorkpackageForReview);
+
+            if (workpackage.HasReviewInProcess || workpackage.HasBeenAccepted || !isAuthorized)
+            {
+                return UiElementVisibility.HiddenCompletely();
+            }
+
+            if (!project.Members.Any(m => m.IsMentor))
+            {
+                if (!workpackage.HasBeenRequestedMentoring)
+                {
+                    return UiElementVisibility.Visible();
+                }
+                return UiElementVisibility.HiddenWithMessage("Requested mentoring. Please wait");
+            }
+
+            return UiElementVisibility.HiddenCompletely();
         }
     }
 }

@@ -78,7 +78,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         [Theory]
         [InlineData(true, false)]
         [InlineData(false, true)]
-        public async Task Submit_Button_Is_Hidden_Completely_When_Workpackage_Is_Under_Review_Or_Has_Been_Accepted(
+        public async Task Submit_Button_And_RequestMentoring_Button_Are_Hidden_Completely_When_Workpackage_Is_Under_Review_Or_Has_Been_Accepted(
             bool isReviewInProcess,
             bool hasBeenAccepted)
         {
@@ -88,11 +88,12 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 && x.Reviews == new List<WorkpackageReview>());
 
             var project = new Project();
-
             QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId)).Returns(project);
-
             QueryProcessorMock.Setup(x => x.FindById<WorkpackageOne>(ProjectId))
                 .Returns(workpackage);
+            AuthorizationServiceMock
+                .Setup(x => x.AuthorizeAsync(this.User, It.IsAny<object>(), Policies.CanSubmitWorkpackageForReview))
+                .ReturnsAsync(AuthorizationResult.Success());
 
             // Act
             var result = (ViewResult)await _workpackageOneReviewController.Review();
@@ -102,6 +103,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             viewModel
                 .SubmitForReviewButton.IsHiddenCompletely
                 .Should().BeTrue();
+            viewModel.RequestMentoringButton.IsHiddenCompletely.Should().BeTrue();
         }
 
         [Fact]
@@ -148,7 +150,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         }
 
         [Fact]
-        public async Task Submit_Button_Can_Be_Visible_Request_Mentoring()
+        public async Task RequestMentoring_Button_Can_Be_Visible_Request_Mentoring()
         {
             AuthorizationServiceMock
                 .Setup(x => x.AuthorizeAsync(this.User, It.IsAny<object>(), Policies.CanSubmitWorkpackageForReview))
@@ -164,12 +166,13 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             // Assert
             var viewModel = (WorkpackageReviewListViewModel)result.Model;
             viewModel
-                .SubmitForReviewButton.IsVisibleRequestMentoring
-                .Should().BeTrue();
+                .SubmitForReviewButton.IsVisible
+                .Should().BeFalse();
+            viewModel.RequestMentoringButton.IsVisible.Should().BeTrue();
         }
 
         [Fact]
-        public async Task RequestMentoring_Button_Can_Be_Hidden_With_Message_When_Requested_Mentoring()
+        public async Task RequestMentoring_Is_Hidden_With_Message_When_Requested_Mentoring()
         {
             AuthorizationServiceMock
                 .Setup(x => x.AuthorizeAsync(this.User, It.IsAny<object>(), Policies.CanSubmitWorkpackageForReview))
@@ -189,8 +192,9 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             // Assert
             var viewModel = (WorkpackageReviewListViewModel)result.Model;
             viewModel
-                .SubmitForReviewButton.IsHiddenWithMessage
+                .SubmitForReviewButton.IsHiddenCompletely
                 .Should().BeTrue();
+            viewModel.RequestMentoringButton.IsHiddenWithMessage.Should().BeTrue();
         }
 
         [Fact]

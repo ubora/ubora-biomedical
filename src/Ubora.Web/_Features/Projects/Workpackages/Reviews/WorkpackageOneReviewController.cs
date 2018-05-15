@@ -34,7 +34,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
                 latestReview: latestReview == null ? null : AutoMapper.Map<WorkpackageReviewViewModel>(latestReview),
                 reviewDecisionUrl: Url.Action(nameof(Decision)),
                 submitForReviewUrl: project.Members.Any(m => m.IsMentor) ? Url.Action(nameof(SubmitForReview)) : Url.Action(nameof(RequestMentoring)),
-                submitForReviewButton: await WorkpackageReviewListViewModel.GetSubmitButtonVisibility(project, WorkpackageOne, User, AuthorizationService)
+                submitForReviewButton: await WorkpackageReviewListViewModel.GetSubmitButtonVisibility(project, WorkpackageOne, User, AuthorizationService),
+                requestMentoringButton: await WorkpackageReviewListViewModel.GetRequestMentoringButtonVisibility(project, WorkpackageOne, User, AuthorizationService)
             );
 
             return View(nameof(Review), model);

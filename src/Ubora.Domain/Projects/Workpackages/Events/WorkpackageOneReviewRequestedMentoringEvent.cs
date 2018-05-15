@@ -39,8 +39,7 @@ namespace Ubora.Domain.Projects.Workpackages.Events
                     .ExecuteQuery(new FindUboraAdministratorsQuery());
 
                 var notifications = admins
-                        .GroupBy(member => member.UserId)
-                        .Select(memberGrouping => EventNotification.Create(eventWithMetadata.Data, eventWithMetadata.Id, memberGrouping.Key));
+                        .Select(admin => EventNotification.Create(eventWithMetadata.Data, eventWithMetadata.Id, admin.UserId));
 
                 _documentSession.StoreUboraNotificationsIfAny(notifications);
                 _documentSession.SaveChanges();
