@@ -6,7 +6,6 @@ using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Domain.Users.Specifications;
 using Ubora.Web._Features._Shared.Paging;
-using Ubora.Web._Features.Projects.History._Base;
 using System.Collections.Generic;
 using Ubora.Domain.Users.SortSpecifications;
 
@@ -23,7 +22,7 @@ namespace Ubora.Web._Features.Users.UserList
 
         public IActionResult Index(int page = 1)
         {
-            var userProfiles = QueryProcessor.Find(new MatchAll<UserProfile>(), new SortByFullNameAscendingSpecification(), 8, page);
+            var userProfiles = QueryProcessor.Find(new MatchAll<UserProfile>(), new SortByFullNameAscendingSpecification(), 24, page);
 
             var userListItemViewModel = userProfiles.Select(userProfile => new UserListItemViewModel
             {
