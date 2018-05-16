@@ -11,7 +11,6 @@ namespace Ubora.Domain.Projects.Assignments.Commands
     public class AddAssignmentCommand : UserProjectCommand
     {
         public Guid Id { get; set; }
-        public Guid CreatedByUserId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
 
@@ -35,7 +34,6 @@ namespace Ubora.Domain.Projects.Assignments.Commands
                 var @event = new AssignmentAddedEvent(
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
-                    createdByUserId: cmd.CreatedByUserId,
                     id: cmd.Id,
                     title: cmd.Title,
                     description: cmd.Description,

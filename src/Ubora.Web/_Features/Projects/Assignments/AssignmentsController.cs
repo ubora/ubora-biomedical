@@ -44,7 +44,6 @@ namespace Ubora.Web._Features.Projects.Assignments
             ExecuteUserProjectCommand(new AddAssignmentCommand
             {
                 Id = Guid.NewGuid(),
-                CreatedByUserId = UserId,
                 Title = model.Title,
                 Description = model.Description,
                 AssigneeIds = model.AssigneeIds

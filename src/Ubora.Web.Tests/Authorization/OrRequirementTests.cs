@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -115,6 +116,23 @@ namespace Ubora.Web.Tests.Authorization
                         { new OrRequirement() },
                     user: null,
                     resource: null);
+
+            // Act
+            await _handler.HandleAsync(handlerContext);
+
+            // Assert
+            handlerContext.HasSucceeded.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task Handle_Is_Failed_When_Context_Has_Failed()
+        {
+            var handlerContext = new AuthorizationHandlerContext(requirements: new[] { new OrRequirement(new IsProjectLeaderRequirement()) }, user: null, resource: null);
+            handlerContext.Fail();
+
+            _authorizationServiceMock
+                .Setup(x => x.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<AuthorizationHandlerContext>(), It.IsAny<IEnumerable<IAuthorizationRequirement>>()))
+                .ReturnsAsync(AuthorizationResult.Success());
 
             // Act
             await _handler.HandleAsync(handlerContext);

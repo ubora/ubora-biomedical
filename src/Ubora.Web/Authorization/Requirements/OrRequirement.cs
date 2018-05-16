@@ -26,19 +26,19 @@ namespace Ubora.Web.Authorization.Requirements
             }
 
             protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
-                OrRequirement requirement)
+                OrRequirement orRequirement)
             {
                 var authorizationService = _httpContextAccessor.HttpContext.RequestServices.GetService<IAuthorizationService>();
 
                 var authorizationResults = new List<AuthorizationResult>();
-                foreach (IAuthorizationRequirement authorizationRequirement in requirement.Requirements)
+                foreach (IAuthorizationRequirement innerRequirement in orRequirement.Requirements)
                 {
-                    authorizationResults.Add(await authorizationService.AuthorizeAsync(context.User, context.Resource, authorizationRequirement));
+                    authorizationResults.Add(await authorizationService.AuthorizeAsync(context.User, context.Resource, innerRequirement));
                 }
 
-                if (authorizationResults.Any(r => r.Succeeded))
+                if (authorizationResults.Any(r => r.Succeeded) && !context.HasFailed)
                 {
-                    context.Succeed(requirement);
+                    context.Succeed(orRequirement);
                 }
             }
         }

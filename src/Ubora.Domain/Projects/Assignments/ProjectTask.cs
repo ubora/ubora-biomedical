@@ -27,7 +27,7 @@ namespace Ubora.Domain.Projects.Assignments
         {
             Id = e.Id;
             ProjectId = e.ProjectId;
-            CreatedByUserId = e.CreatedByUserId;
+            CreatedByUserId = e.InitiatedBy.UserId;
             Title = e.Title;
             Description = e.Description;
 

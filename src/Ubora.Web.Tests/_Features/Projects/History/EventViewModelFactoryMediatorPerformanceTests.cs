@@ -10,7 +10,6 @@ using Marten.Events;
 using Ubora.Domain;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects.Assignments.Events;
-using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Events;
 using Ubora.Domain.Projects._Events;
 using Ubora.Domain.Tests;
@@ -150,7 +149,6 @@ namespace Ubora.Web.Tests._Features.Projects.History
             var taskAddedEvent = new AssignmentAddedEvent(
                 initiatedBy: _userInfo,
                 id: Guid.NewGuid(),
-                createdByUserId: Guid.NewGuid(),
                 projectId: _projectId,
                 title: "title",
                 description: $"submitted workpackage 1 for review {StringTokens.WorkpackageOneReview()}",
