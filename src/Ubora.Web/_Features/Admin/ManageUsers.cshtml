@@ -49,6 +49,14 @@
                                         {
                                             <button class="dropdown-item" type="submit" asp-action="AddMentorRole">Add mentor role</button>
                                         }
+                                        @if (user.IsManagementGroup)
+                                        {
+                                            <button class="dropdown-item" type="submit" asp-action="RemoveManagementGroupRole">Remove management group role</button>
+                                        }
+                                        else
+                                        {
+                                            <button class="dropdown-item" type="submit" asp-action="AddManagementGroupRole">Add management group role</button>
+                                        }
                                         <button class="dropdown-item" type="submit" asp-route-userEmail="@user.UserEmail" asp-action="DeleteUser">Delete user</button>
                                     </div>
                                 </div>

@@ -18,5 +18,6 @@ namespace Ubora.Web._Features.Admin
 
         public bool IsAdmin => Roles.Any(x => x == ApplicationRole.Admin);
         public bool IsMentor => Roles.Any(x => x == ApplicationRole.Mentor);
+        public bool IsManagementGroup => Roles.Any(x => x == ApplicationRole.ManagementGroup);
     }
 }

@@ -2,7 +2,6 @@ import MarkdownRenderer from './modules/markdown_renderer';
 import MarkdownEditor from './modules/markdown_editor';
 import Autocomplete from './modules/autocomplete';
 import Feedback from './modules/feedback';
-import ClipboardJS from 'clipboard';
 
 import '../Styles/styles';
 

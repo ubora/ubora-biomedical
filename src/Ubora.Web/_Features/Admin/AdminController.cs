@@ -145,6 +145,40 @@ namespace Ubora.Web._Features.Admin
             return RedirectToAction(nameof(ManageUsers));
         }
 
+        [HttpPost]
+        [Authorize(Roles = ApplicationRole.Admin)]
+        public async Task<IActionResult> AddManagementGroupRole(Guid userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var result = await _userManager.AddToRoleAsync(user, ApplicationRole.ManagementGroup);
+
+            if (!result.Succeeded)
+            {
+                AddIdentityErrorsToModelState(result);
+
+                return await ManageUsers();
+            }
+
+            return RedirectToAction(nameof(ManageUsers));
+        }
+
+        [HttpPost]
+        [Authorize(Roles = ApplicationRole.Admin)]
+        public async Task<IActionResult> RemoveManagementGroupRole(Guid userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var result = await _userManager.RemoveFromRoleAsync(user, ApplicationRole.ManagementGroup);
+
+            if (!result.Succeeded)
+            {
+                AddIdentityErrorsToModelState(result);
+
+                return await ManageUsers();
+            }
+
+            return RedirectToAction(nameof(ManageUsers));
+        }
+
         [Route(nameof(DeleteUser))]
         public IActionResult DeleteUser(string userEmail)
         {
