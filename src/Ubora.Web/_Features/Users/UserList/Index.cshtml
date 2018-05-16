@@ -21,15 +21,16 @@
         </li>
     </ul>
     <div class="row py-2">
-        <div class="col-lg-3 col-md-4">
-            <div id="sortBy" class="dropdown">
-                <button class="btn btn-icon dropdown-toggle" type="button" id="sortby" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Sort by
-                </button>
-                <div class="dropdown-menu" aria-labelledby="sortby">
-                    <a class="dropdown-item" href="#">Lastname</a>
-                    <a class="dropdown-item" href="#">Firstname</a>
-                </div>
+        <div class="col-xl-1 col-md-2 d-flex align-items-center">
+            Sort by:
+        </div>
+        <div id="sortBy" class="dropdown">
+            <button class="btn btn-icon dropdown-toggle" type="button" id="sortByName" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Lastname
+            </button>
+            <div class="dropdown-menu" aria-labelledby="sortByName">
+                <a class="dropdown-item" href="#">Lastname</a>
+                <a class="dropdown-item" href="#">Firstname</a>
             </div>
         </div>
     </div>
@@ -52,7 +53,7 @@
         </div>
         <div class="tab-pane fade" id="mentors" role="tabpanel" aria-labelledby="mentors-tab">
             <div class="my-4">
-               Display mentors
+                Display mentors
             </div>
         </div>
     </div>
@@ -62,7 +63,7 @@
 <script>
     $(function () {
 
-        $(".dropdown-menu").on('click', '.dropdown-item', function () {
+        $("#sortBy").on('click', '.dropdown-item', function () {
             $(".btn:first-child").text($(this).text());
             $(".btn:first-child").val($(this).text());
         });

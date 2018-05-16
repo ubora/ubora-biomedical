@@ -20,7 +20,7 @@
             </a>
         </li>
     </ul>
-  
+
     <div class="tab-content" id="projectsTabContent">
         <div class="tab-pane fade show active" id="myProjects" role="tabpanel" aria-labelledby="my-projects-tab">
             <div class="my-4">
@@ -28,9 +28,30 @@
             </div>
         </div>
         <div class="tab-pane fade" id="allProjects" role="tabpanel" aria-labelledby="all-projects-tab">
-            <div class="my-4">
-                <div class="row py-2">
-                    <form asp-controller="ProjectList" asp-action="Search" method="post" class="col-lg-5">
+            <div class="row py-2  d-flex align-items-center">
+                <div class="col-xl-1 col-md-2">
+                    Filter by:
+                </div>
+                <div id="filterByArea" class="dropdown">
+                    <button class="btn btn-icon dropdown-toggle" type="button" id="areaFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Area
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="areaFilter">
+                        <a class="dropdown-item" href="#">Cardiovascular surgery</a>
+                        <a class="dropdown-item" href="#">Colorectal surgery</a>
+                    </div>
+                </div>
+                <div id="filterByStatus" class="dropdown">
+                    <button class="btn btn-icon dropdown-toggle" type="button" id="statusFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Status
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="statusFilter">
+                        <a class="dropdown-item" href="#">Not draft</a>
+                        <a class="dropdown-item" href="#">Draft</a>
+                    </div>
+                </div>
+                <div class="col-xl-4 mr-0 ml-auto">
+                    <form asp-controller="ProjectList" asp-action="Search" method="post" >
                         <div class="input-group search">
                             <input class="form-control" asp-for="Title" placeholder="Search projects..." aria-describedby="btnGroupAddon">
                             <div class="input-group-prepend">
@@ -42,8 +63,54 @@
                         </div>
                     </form>
                 </div>
+            </div>
+            <hr class="my-0" />
+            <div class="row py-2">
+                <div class="col-xl-1 col-md-2 d-flex align-items-center">
+                    Sort by:
+                </div>
+                <div id="sortByParamethers" class="dropdown">
+                    <button class="btn btn-icon dropdown-toggle" type="button" id="sortBy" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Newest
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="sortBy">
+                        <a class="dropdown-item" href="#">Newest</a>
+                        <a class="dropdown-item" href="#">Oldest</a>
+                    </div>
+                </div>
+            </div>
+            <div class="my-4">
                 @await Component.InvokeAsync(typeof(SearchingProjectListViewComponent), new { title = @Model.Title })
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(function () {
+
+        $("#filterByArea").on('click', '.dropdown-item', function () {
+            $("#filterByArea .btn:first-child").text($(this).text());
+            $("#filterByArea .btn:first-child").val($(this).text());
+        });
+
+    });
+
+    $(function () {
+
+        $("#filterByStatus").on('click', '.dropdown-item', function () {
+            $("#filterByStatus .btn:first-child").text($(this).text());
+            $("#filterByStatus .btn:first-child").val($(this).text());
+        });
+
+    });
+
+    $(function () {
+
+        $("#sortByParamethers").on('click', '.dropdown-item', function () {
+            $("#sortByParamethers .btn:first-child").text($(this).text());
+            $("#sortByParamethers .btn:first-child").val($(this).text());
+        });
+
+    });
+</script>
