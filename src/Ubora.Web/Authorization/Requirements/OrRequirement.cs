@@ -36,9 +36,14 @@ namespace Ubora.Web.Authorization.Requirements
                     authorizationResults.Add(await authorizationService.AuthorizeAsync(context.User, context.Resource, innerRequirement));
                 }
 
-                if (authorizationResults.Any(r => r.Succeeded) && !context.HasFailed)
+                if (authorizationResults.Any(r => r.Succeeded))
                 {
                     context.Succeed(orRequirement);
+                }
+
+                if (authorizationResults.Any(r => r.Failure?.FailCalled ?? false))
+                {
+                    context.Fail();
                 }
             }
         }

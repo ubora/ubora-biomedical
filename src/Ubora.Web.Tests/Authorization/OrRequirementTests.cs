@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -44,6 +43,7 @@ namespace Ubora.Web.Tests.Authorization
 
             // Assert
             handlerContext.HasSucceeded.Should().BeTrue();
+            handlerContext.HasFailed.Should().BeFalse();
         }
 
         [Fact]
@@ -64,6 +64,7 @@ namespace Ubora.Web.Tests.Authorization
 
             // Assert
             handlerContext.HasSucceeded.Should().BeTrue();
+            handlerContext.HasFailed.Should().BeFalse();
         }
 
         [Fact]
@@ -75,16 +76,18 @@ namespace Ubora.Web.Tests.Authorization
                     user: null,
                     resource: null);
 
+
             _authorizationServiceMock
                 .SetupSequence(x => x.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<AuthorizationHandlerContext>(), It.IsAny<IEnumerable<IAuthorizationRequirement>>()))
                 .ReturnsAsync(AuthorizationResult.Success())
-                .ReturnsAsync(AuthorizationResult.Failed());
+                .ReturnsAsync(AuthorizationResult.Failed(AuthorizationFailure.Failed(new IAuthorizationRequirement[] {})));
 
             // Act
             await _handler.HandleAsync(handlerContext);
 
             // Assert
             handlerContext.HasSucceeded.Should().BeTrue();
+            handlerContext.HasFailed.Should().BeFalse();
         }
 
         [Fact]
@@ -98,14 +101,15 @@ namespace Ubora.Web.Tests.Authorization
 
             _authorizationServiceMock
                 .SetupSequence(x => x.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<AuthorizationHandlerContext>(), It.IsAny<IEnumerable<IAuthorizationRequirement>>()))
-                .ReturnsAsync(AuthorizationResult.Failed())
-                .ReturnsAsync(AuthorizationResult.Failed());
+                .ReturnsAsync(AuthorizationResult.Failed(AuthorizationFailure.Failed(new IAuthorizationRequirement[] { })))
+                .ReturnsAsync(AuthorizationResult.Failed(AuthorizationFailure.Failed(new IAuthorizationRequirement[] { })));
 
             // Act
             await _handler.HandleAsync(handlerContext);
 
             // Assert
             handlerContext.HasSucceeded.Should().BeFalse();
+            handlerContext.HasFailed.Should().BeFalse();
         }
 
         [Fact]
@@ -122,6 +126,7 @@ namespace Ubora.Web.Tests.Authorization
 
             // Assert
             handlerContext.HasSucceeded.Should().BeFalse();
+            handlerContext.HasFailed.Should().BeFalse();
         }
 
         [Fact]
@@ -139,6 +144,7 @@ namespace Ubora.Web.Tests.Authorization
 
             // Assert
             handlerContext.HasSucceeded.Should().BeFalse();
+            handlerContext.HasFailed.Should().BeTrue();
         }
     }
 }
