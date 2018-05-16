@@ -20,6 +20,19 @@
             </a>
         </li>
     </ul>
+    <div class="row py-2">
+        <div class="col-lg-3 col-md-4">
+            <div id="sortBy" class="dropdown">
+                <button class="btn btn-icon dropdown-toggle" type="button" id="sortby" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sort by
+                </button>
+                <div class="dropdown-menu" aria-labelledby="sortby">
+                    <a class="dropdown-item" href="#">Lastname</a>
+                    <a class="dropdown-item" href="#">Firstname</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="tab-content" id="communityContent">
         <div class="tab-pane fade show active" id="allMembers" role="tabpanel" aria-labelledby="all-members-tab">
@@ -44,5 +57,15 @@
         </div>
     </div>
 
-
 </div>
+
+<script>
+    $(function () {
+
+        $(".dropdown-menu").on('click', '.dropdown-item', function () {
+            $(".btn:first-child").text($(this).text());
+            $(".btn:first-child").val($(this).text());
+        });
+
+    });
+</script>
