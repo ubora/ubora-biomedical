@@ -10,7 +10,6 @@ using Marten.Events;
 using Ubora.Domain;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects.Assignments.Events;
-using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Events;
 using Ubora.Domain.Projects._Events;
 using Ubora.Domain.Tests;
