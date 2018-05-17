@@ -1,33 +1,34 @@
-﻿@model Ubora.Web._Features.Projects.Assignments.AssignmentViewModel
+﻿@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Assignments.AssignmentViewModel
 
 @{
-    ViewData["Title"] = "Assignments";
+    ViewData["Title"] = "Assignment";
+    ViewData["MenuOption"] = ProjectMenuOption.Assignments;
 }
 
 <div class="container my-4">
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Assignments" asp-action="Assignments">Assignments</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col">
             <h1>Assignment</h1>
-            <div class="form-group">
-                <label asp-for="Title">Title</label>
-                <input class="form-control" asp-for="Title" placeholder="Assignment title" disabled>
-                <span asp-validation-for="Title"></span>
-            </div>
+            <h5>Title</h5>
+            <p>@Model.Title</p>
+            <h5>Description</h5>
+            <p>@Model.Description</p>
+            <h5>Assignee</h5>
+            <p>
+                @foreach (var member in Model.ProjectMembers)
+                {
 
-            <div class="form-group">
-                <label asp-for="Description">Description</label>
-                <textarea class="form-control" asp-for="Description" placeholder="Assignment description" rows="3" disabled></textarea>
-            </div>
+                    <span>@member.FullName,</span>
 
-            <div class="form-group">
-                <label asp-for="AssigneeIds">Assignee</label>
-                <select asp-for="AssigneeIds" class="form-control js-project-member-selection multiple-select-box select2" multiple="multiple" disabled>
-                    @foreach (var member in Model.ProjectMembers)
-                    {
-                        <option value="@member.AssigneeId">@member.FullName</option>
-                    }
-                </select>
-            </div>
+                }
+            </p>
         </div>
     </div>
 </div>
