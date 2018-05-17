@@ -22,11 +22,9 @@
             <p>@Model.Description</p>
             <h5>Assignee</h5>
             <p>
-                @foreach (var member in Model.ProjectMembers)
+                @foreach (var assigneeId in Model.AssigneeIds)
                 {
-
-                    <span class="comma-separator">@member.FullName</span>
-
+                    <span class="comma-separator">@Model.ProjectMembers.FirstOrDefault(m => m.AssigneeId == assigneeId).FullName</span>
                 }
             </p>
         </div>
