@@ -153,6 +153,9 @@
   <data name="CandidateImageUploaded" xml:space="preserve">
     <value>Image uploaded</value>
   </data>
+  <data name="CandidateRemoved" xml:space="preserve">
+    <value>Candidate removed</value>
+  </data>
   <data name="CandidateVoteAdded" xml:space="preserve">
     <value>Vote added</value>
   </data>

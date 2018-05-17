@@ -49,6 +49,10 @@ namespace Ubora.Domain.Projects.Candidates
             Description = e.Description;
         }
 
+        private void Apply(CandidateRemovedEvent e)
+        {
+        }
+
         private void Apply(CandidateImageEditedEvent e)
         {
             ImageLocation = e.ImageLocation;
