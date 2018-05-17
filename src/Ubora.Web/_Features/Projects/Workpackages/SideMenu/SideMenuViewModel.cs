@@ -32,11 +32,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                     CreateWp1().SetStatus(wpStatuses.Wp1Status),
                     CreateWp2().SetStatus(wpStatuses.Wp2Status),
                     CreateWp3().SetStatus(wpStatuses.Wp3Status),
-                    /*wp4*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageFour", "Implementation", "#", new WorkpackageFourIconProvider())
+                    /*wp4*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageFour", "WP 4: Implementation", "#", new WorkpackageFourIconProvider())
                         .SetStatus(wpStatuses.Wp4Status),
-                    /*wp5*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageFive", "Operation", "#", new WorkpackageFiveIconProvider())
+                    /*wp5*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageFive", "WP 5: Operation", "#", new WorkpackageFiveIconProvider())
                         .SetStatus(wpStatuses.Wp5Status),
-                    /*wp6*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageSix", "Project closure", "#", new WorkpackageSixIconProvider())
+                    /*wp6*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageSix", "WP 6: Project closure", "#", new WorkpackageSixIconProvider())
                         .SetStatus(wpStatuses.Wp6Status)
                 };
 
@@ -53,7 +53,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                 // Local functions below for cleanliness (i.e. don't have to pass 'projectId' forward): 
                 ISideMenuItem CreateWp1()
                 {
-                    return new CollapseMenuItem(NestingLevel.None, "workPackageOne", "Medical need and product specification", new[]
+                    return new CollapseMenuItem(NestingLevel.None, "workPackageOne", "WP 1: Medical need and product specification", new[]
                     {
                         new HyperlinkMenuItem(NestingLevel.One, "ClinicalNeeds","Clinical needs", Wp1StepLink("ClinicalNeeds")),
                         new HyperlinkMenuItem(NestingLevel.One, "ExistingSolutions","Existing solutions", Wp1StepLink("ExistingSolutions")),
@@ -67,7 +67,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
 
                 CollapseMenuItem CreateWp2()
                 {
-                    return new CollapseMenuItem(NestingLevel.None, "workPackageTwo", "Conceptual design", new ISideMenuItem[]
+                    return new CollapseMenuItem(NestingLevel.None, "workPackageTwo", "WP 2: Conceptual design", new ISideMenuItem[]
                     {
                         new HyperlinkMenuItem(NestingLevel.Two, "PhysicalPrinciples", "Physical principles", href: Wp2StepLink("PhysicalPrinciples")),
                         new HyperlinkMenuItem(NestingLevel.Two, "Voting", "Voting", href: _urlHelper.Action("Voting", "Candidates")),
@@ -78,7 +78,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
 
                 ISideMenuItem CreateWp3()
                 {
-                    return new CollapseMenuItem(NestingLevel.None, "workpackageThree", "Design and prototyping", new ISideMenuItem[]
+                    return new CollapseMenuItem(NestingLevel.None, "workpackageThree", "WP 3: Design and prototyping", new ISideMenuItem[]
                     {
                         new CollapseMenuItem(NestingLevel.One, "general-product-description", "General product description", new ISideMenuItem[]
                         {

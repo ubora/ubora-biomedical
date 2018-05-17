@@ -3,7 +3,7 @@
 
 <li id="@Model.Id">
     <a href="javascript:void(0)" data-toggle="collapse" data-target=".@Model.InnerMenuItemsId" class="@(Model.ATagClass)">
-        <img src="@(Model.Icon.Src)" alt="icon for @Model.DisplayName"><span>@Model.DisplayName</span>
+        <span>@Model.DisplayName</span>
     </a>
 
     @if (Model.Status != WorkpackageStatus.Closed)
