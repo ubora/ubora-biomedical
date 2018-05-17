@@ -46,7 +46,7 @@
         @{
             Func<Guid, IHtmlContent> createRemoveMemberFooter =
                 @<a title="Remove member" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@item" class="dropdown-item">
-                    Remove from project
+                    Remove member
                 </a>;
         }
         @foreach (var member in Model.Members)
