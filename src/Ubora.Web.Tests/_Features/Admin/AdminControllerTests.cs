@@ -30,6 +30,70 @@ namespace Ubora.Web.Tests._Features.Admin
         }
 
         [Fact]
+        public async Task AddManagementGroupRole_Redirects_ManageUsers()
+        {
+            var userId = Guid.NewGuid();
+            var user = new ApplicationUser();
+
+            _userManagerMock.Setup(m => m.FindByIdAsync(userId)).ReturnsAsync(user);
+            _userManagerMock.Setup(m => m.AddToRoleAsync(user, ApplicationRole.ManagementGroup)).ReturnsAsync(IdentityResult.Success);
+
+            // Act
+            var result = (RedirectToActionResult)await _controller.AddManagementGroupRole(userId);
+
+            //Assert
+            result.ActionName.Should().Be("ManageUsers");
+        }
+
+        [Fact]
+        public async Task AddManagementGroupRole_Returns_ManageUsers_If_Result_Failed()
+        {
+            var userId = Guid.NewGuid();
+            var user = new ApplicationUser();
+
+            _userManagerMock.Setup(m => m.FindByIdAsync(userId)).ReturnsAsync(user);
+            _userManagerMock.Setup(m => m.AddToRoleAsync(user, ApplicationRole.ManagementGroup)).ReturnsAsync(IdentityResult.Failed());
+
+            // Act
+            var result = (ViewResult)await _controller.AddManagementGroupRole(userId);
+
+            // Assert
+            result.ViewName.Should().Be("ManageUsers");
+        }
+
+        [Fact]
+        public async Task RemoveManagementGroupRole_Redirects_ManageUsers()
+        {
+            var userId = Guid.NewGuid();
+            var user = new ApplicationUser();
+
+            _userManagerMock.Setup(m => m.FindByIdAsync(userId)).ReturnsAsync(user);
+            _userManagerMock.Setup(m => m.RemoveFromRoleAsync(user, ApplicationRole.ManagementGroup)).ReturnsAsync(IdentityResult.Success);
+
+            // Act
+            var result = (RedirectToActionResult)await _controller.RemoveManagementGroupRole(userId);
+
+            // Assert
+            result.ActionName.Should().Be("ManageUsers");
+        }
+
+        [Fact]
+        public async Task RemoveManagementGroupRole_Returns_ManageUsers_If_Result_Failed()
+        {
+            var userId = Guid.NewGuid();
+            var user = new ApplicationUser();
+
+            _userManagerMock.Setup(m => m.FindByIdAsync(userId)).ReturnsAsync(user);
+            _userManagerMock.Setup(m => m.RemoveFromRoleAsync(user, ApplicationRole.ManagementGroup)).ReturnsAsync(IdentityResult.Failed());
+
+            // Act
+            var result = (ViewResult)await _controller.RemoveManagementGroupRole(userId);
+
+            // Assert
+            result.ViewName.Should().Be("ManageUsers");
+        }
+
+        [Fact]
         public async Task ReturnViewWhenInvalidModelState()
         {
             var model = new DeleteUserViewModel
