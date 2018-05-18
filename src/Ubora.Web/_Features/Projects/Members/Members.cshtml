@@ -7,6 +7,8 @@
 @{
     ViewData["Title"] = "Members";
     ViewData["MenuOption"] = ProjectMenuOption.Members;
+
+    var isAdmin = User.IsInRole(ApplicationRole.Admin);
 }
 
 <div class="container my-4">
