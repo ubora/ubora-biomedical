@@ -33,10 +33,11 @@ namespace Ubora.Web._Features.Projects.Members
         [AllowAnonymous]
         public async Task<IActionResult> Members()
         {
-            var canRemoveProjectMembers = (await AuthorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember)).Succeeded;
             var isProjectMember = (await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement())).Succeeded;
             var isAuthenticated = (await AuthorizationService.AuthorizeAsync(User, Policies.IsAuthenticatedUser)).Succeeded;
 
+            var isAdmin = User.IsInRole(ApplicationRole.Admin);
+            var canRemoveProjectMember = (await AuthorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember)).Succeeded;
             var memberListItemViewModels = new List<ProjectMemberListViewModel.Item>();
             foreach (var userMembers in Project.Members.GroupBy(m => m.UserId))
             {
@@ -49,7 +50,8 @@ namespace Ubora.Web._Features.Projects.Members
                     IsProjectMentor = userMembers.Any(x => x.IsMentor),
                     IsCurrentUser = (isAuthenticated && this.UserId == memberUserId),
                     FullName = userProfile.FullName,
-                    ProfilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile)
+                    ProfilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile),
+                    CanRemoveProjectMember = (isAdmin && userMembers.Any(x => x.IsMentor)) || canRemoveProjectMember
                 };
                 memberListItemViewModels.Add(itemModel);
             }
@@ -59,7 +61,6 @@ namespace Ubora.Web._Features.Projects.Members
             var model = new ProjectMemberListViewModel
             {
                 Id = ProjectId,
-                CanRemoveProjectMembers = canRemoveProjectMembers,
                 Members = memberListItemViewModels,
                 IsProjectMember = isAuthenticated && isProjectMember,
                 IsProjectLeader = isProjectLeader
@@ -145,13 +146,13 @@ namespace Ubora.Web._Features.Projects.Members
         [Authorize(Policies.CanRemoveProjectMember)]
         public IActionResult RemoveMember(Guid memberId)
         {
-            var removeMemberViewModel = new RemoveMemberViewModel
+            var removeMember = new RemoveMemberViewModel
             {
                 MemberId = memberId,
                 MemberName = QueryProcessor.FindById<UserProfile>(memberId).FullName
             };
 
-            return View(removeMemberViewModel);
+            return View(removeMember);
         }
 
         [HttpPost]
@@ -172,6 +173,44 @@ namespace Ubora.Web._Features.Projects.Members
             if (!ModelState.IsValid)
             {
                 return View(removeMemberViewModel);
+            }
+
+            return RedirectToAction(nameof(Members));
+        }
+
+        [Route(nameof(RemoveMentor))]
+        [DisableProjectControllerAuthorization]
+        [Authorize(Policies.CanRemoveProjectMentor)]
+        public IActionResult RemoveMentor(Guid memberId)
+        {
+            var removeMentorViewModel = new RemoveMentorViewModel
+            {
+                MemberId = memberId,
+                MemberName = QueryProcessor.FindById<UserProfile>(memberId).FullName
+            };
+
+            return View(removeMentorViewModel);
+        }
+
+        [HttpPost]
+        [DisableProjectControllerAuthorization]
+        [Authorize(Policies.CanRemoveProjectMentor)]
+        [Route(nameof(RemoveMentor))]
+        public IActionResult RemoveMentor(RemoveMentorViewModel removeMentorViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(removeMentorViewModel);
+            }
+
+            ExecuteUserProjectCommand(new RemoveMemberFromProjectCommand
+            {
+                UserId = removeMentorViewModel.MemberId
+            }, Notice.Success(SuccessTexts.ProjectMentorRemoved));
+
+            if (!ModelState.IsValid)
+            {
+                return View(removeMentorViewModel);
             }
 
             return RedirectToAction(nameof(Members));

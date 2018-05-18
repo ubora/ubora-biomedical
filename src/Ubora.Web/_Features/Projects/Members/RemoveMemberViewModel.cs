@@ -1,10 +1,6 @@
-﻿using System;
-
-namespace Ubora.Web._Features.Projects.Members
+﻿namespace Ubora.Web._Features.Projects.Members
 {
-    public class RemoveMemberViewModel
+    public class RemoveMemberViewModel : RemoveMemberBaseViewModel
     {
-        public Guid MemberId { get; set; }
-        public string MemberName { get; set; }
     }
 }
