@@ -166,6 +166,10 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsProjectMentorRequirement(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin })));
                 });
+                options.AddPolicy(Policies.CanPromoteMember, policyBuilder =>
+                {
+                    policyBuilder.RequireRole(ApplicationRole.ManagementGroup);
+                });
             });
         }
     }

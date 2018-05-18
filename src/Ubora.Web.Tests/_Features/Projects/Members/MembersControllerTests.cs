@@ -52,6 +52,11 @@ namespace Ubora.Web.Tests._Features.Projects.Members
                 },
                 new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                 {
+                    MethodName = nameof(MembersController.PromoteMember),
+                    Policies = new []{ nameof(Policies.CanPromoteMember) }
+                },
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                {
                     MethodName = nameof(MembersController.Join),
                     Policies = new []{ nameof(Policies.CanJoinProject) }
                 },
@@ -137,6 +142,46 @@ namespace Ubora.Web.Tests._Features.Projects.Members
 
             // Act
             var result = (ViewResult)_membersController.RemoveMentor(viewModel);
+
+            // Assert
+            _membersController.ModelState.ErrorCount.Should().Be(1);
+        }
+
+        [Fact]
+        public void PromoteMember_Promotes_Member_From_Project()
+        {
+            var viewModel = new PromoteMemberViewModel
+            {
+                MemberId = UserId,
+                MemberName = "MemberName"
+            };
+
+            CommandProcessorMock
+                .Setup(x => x.Execute(It.IsAny<PromoteProjectLeaderCommand>()))
+                .Returns(CommandResult.Success);
+
+            // Act
+            var result = (RedirectToActionResult)_membersController.PromoteMember(viewModel);
+
+            // Assert
+            result.ActionName.Should().Be(nameof(MembersController.Members));
+        }
+
+        [Fact]
+        public void PromoteMember_Returns_Message_If_Command_Failed()
+        {
+            var viewModel = new PromoteMemberViewModel
+            {
+                MemberId = UserId,
+                MemberName = "MemberName"
+            };
+
+            CommandProcessorMock
+               .Setup(x => x.Execute(It.IsAny<PromoteProjectLeaderCommand>()))
+               .Returns(CommandResult.Failed("Something went wrong"));
+
+            // Act
+            var result = (ViewResult)_membersController.PromoteMember(viewModel);
 
             // Assert
             _membersController.ModelState.ErrorCount.Should().Be(1);

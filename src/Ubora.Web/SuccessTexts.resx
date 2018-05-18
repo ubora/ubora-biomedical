@@ -195,6 +195,9 @@
   <data name="ProjectInvitationDeclined" xml:space="preserve">
     <value>Invitation declined</value>
   </data>
+  <data name="ProjectLeaderPromoted" xml:space="preserve">
+    <value>Project leader promoted</value>
+  </data>
   <data name="ProjectMemberInvited" xml:space="preserve">
     <value>Invitation sent</value>
   </data>
