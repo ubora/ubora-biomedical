@@ -7,7 +7,6 @@ namespace Ubora.Web._Features.Projects.Members
     {
         public Guid Id { get; set; }
         public IEnumerable<Item> Members { get; set; }
-        public bool CanRemoveProjectMembers { get; set; }
         public bool IsProjectMember { get; set; }
         public bool IsProjectLeader { get; set; }
 
@@ -18,7 +17,8 @@ namespace Ubora.Web._Features.Projects.Members
             public bool IsProjectLeader { get; set; }
             public bool IsCurrentUser { get; set; }
             public bool IsProjectMentor { get; set; }
-            public string ProfilePictureUrl { get; set; } 
+            public string ProfilePictureUrl { get; set; }
+            public bool CanRemoveProjectMember { get; set; } 
 
             public string Roles
             {
