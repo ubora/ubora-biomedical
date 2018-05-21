@@ -26,7 +26,7 @@ namespace Ubora.Domain.Tests.Projects.Members.Commands
             this.Given(_ => There_Is_Project_And_User())
                     .And(_ => Add_Member_To_Project(_userId))
                     .And(_ => Add_Member_To_Project(_secoundUserId))
-                .When(_ => Management_Group_Promotes_Project_Leader_From_Project(_secoundUserId))
+                .When(_ => Management_Group_Promotes_Project_Leader_From_Project())
                 .Then(_ => Assert_User_Is_Project_Leader_In_Project())
                 .Then(_ => Assert_ProjectLeaderPromoted_Is_Added_In_Events())
                 .BDDfy();
@@ -49,12 +49,12 @@ namespace Ubora.Domain.Tests.Projects.Members.Commands
             });
         }
 
-        private void Management_Group_Promotes_Project_Leader_From_Project(Guid userId)
+        private void Management_Group_Promotes_Project_Leader_From_Project()
         {
             _lastCommandResult = Processor.Execute(new PromoteProjectLeaderCommand
             {
-                UserId = userId,
-                Actor = new UserInfo(Guid.NewGuid(), ""),
+                UserId = _secoundUserId,
+                Actor = new UserInfo(_userId, ""),
                 ProjectId = _projectId
             });
         }
@@ -73,8 +73,9 @@ namespace Ubora.Domain.Tests.Projects.Members.Commands
             var projectLeaderPromotedEvents = Session.Events.QueryRawEventDataOnly<ProjectLeaderPromotedEvent>();
 
             projectLeaderPromotedEvents.Count().Should().Be(1);
-            projectLeaderPromotedEvents.First().InitiatedBy.UserId.Should().Be(_secoundUserId);
+            projectLeaderPromotedEvents.First().InitiatedBy.UserId.Should().Be(_userId);
             projectLeaderPromotedEvents.First().ProjectId.Should().Be(_projectId);
+            projectLeaderPromotedEvents.First().UserId.Should().Be(_secoundUserId);
         }
     }
 }
