@@ -15,6 +15,6 @@ namespace Ubora.Domain.Projects.Workpackages.Events
         public Guid ReviewId { get; private set; }
         public DateTimeOffset SubmittedAt { get; private set; }
 
-        public override string GetDescription() => $"submitted workpackage 2 for {StringTokens.WorkpackageTwoReview()}.";
+        public override string GetDescription() => $"submitted workpackage 2 for {StringTokens.WorkpackageTwoReview(ProjectId)}.";
     }
 }
