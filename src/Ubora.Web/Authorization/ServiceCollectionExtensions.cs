@@ -58,7 +58,7 @@ namespace Ubora.Web.Authorization
                     policyBuilder.AddRequirements(new OrRequirement(new IsProjectMemberRequirement(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin, ApplicationRole.ManagementGroup })));
                 });
 
-                options.AddPolicy(Policies.CanAddFileRepository, policyBuilder => 
+                options.AddPolicy(Policies.CanAddFileRepository, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                 });
@@ -106,7 +106,7 @@ namespace Ubora.Web.Authorization
                 });
                 options.AddPolicy(Policies.CanHideProjectFile, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.ManagementGroup })));
                 });
                 options.AddPolicy(Policies.CanCreateProject, policyBuilder =>
                 {
