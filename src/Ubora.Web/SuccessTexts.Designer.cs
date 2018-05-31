@@ -439,6 +439,15 @@ namespace Ubora.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Requested mentoring.
+        /// </summary>
+        public static string WP1RequestedMentoring {
+            get {
+                return ResourceManager.GetString("WP1RequestedMentoring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to WP1 reviewed.
         /// </summary>
         public static string WP1ReviewAccepted {

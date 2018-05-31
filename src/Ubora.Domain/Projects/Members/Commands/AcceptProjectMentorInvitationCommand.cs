@@ -2,6 +2,7 @@
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects._Events;
+using Ubora.Domain.Projects.Workpackages;
 
 namespace Ubora.Domain.Projects.Members.Commands
 {
@@ -24,6 +25,10 @@ namespace Ubora.Domain.Projects.Members.Commands
 
                 invitation.Accept();
 
+                var workpackageOne = _documentSession.LoadOrThrow<WorkpackageOne>(invitation.ProjectId);
+                workpackageOne.HasBeenRequestedMentoring = false;
+                _documentSession.Store(workpackageOne);
+
                 var @event = new MentorJoinedProjectEvent(
                     projectId: invitation.ProjectId,
                     userId: invitation.InviteeUserId,
@@ -33,6 +38,7 @@ namespace Ubora.Domain.Projects.Members.Commands
                 _documentSession.Store(invitation);
 
                 var notification = new MentorJoinedProjectEvent.NotificationToInviter(invitation.InvitedBy, invitation.InviteeUserId, invitation.ProjectId);
+
                 _documentSession.Store(notification);
 
                 _documentSession.SaveChanges();
