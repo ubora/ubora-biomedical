@@ -132,15 +132,19 @@ namespace Ubora.Web.Authorization
                     policyBuilder.AddRequirements(new IsVoteNotGivenRequirement());
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                 });
-                options.AddPolicy(nameof(Policies.CanOpenWorkpackageThree), policyBuilder =>
+                options.AddPolicy(Policies.CanOpenWorkpackageThree, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
-                options.AddPolicy(nameof(Policies.CanRequestMentoring), policyBuilder =>
+                options.AddPolicy(Policies.CanRemoveCandidate, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
-                options.AddPolicy(nameof(Policies.CanEditAssignment), policyBuilder =>
+                options.AddPolicy(Policies.CanRequestMentoring, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+                options.AddPolicy(Policies.CanEditAssignment, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsProjectMentorRequirement(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin })));
                 });

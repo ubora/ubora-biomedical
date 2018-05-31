@@ -186,11 +186,11 @@ namespace Ubora.Web
                 var applicationDbContext = serviceProvider.GetService<ApplicationDbContext>();
                 applicationDbContext.Database.Migrate();
 
-                var domainMigrator = serviceProvider.GetService<DomainMigrator>();
-                domainMigrator.MigrateDomain(ConnectionString);
-
                 var documentStore = serviceProvider.GetService<IDocumentStore>();
+                var domainMigrator = serviceProvider.GetService<DomainMigrator>();
+
                 documentStore.Schema.ApplyAllConfiguredChangesToDatabase(); // Creates all the tables Marten has been configured for. The initial reason I added this here is for the migrations to work on an empty database that run on the build server.
+                domainMigrator.MigrateDomain(ConnectionString);
                 documentStore.Schema.WritePatchByType("Patches");
 
                 var seeder = serviceProvider.GetService<ApplicationDataSeeder>();
