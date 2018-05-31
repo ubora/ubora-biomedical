@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects._Events;
 
