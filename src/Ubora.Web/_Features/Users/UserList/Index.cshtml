@@ -23,31 +23,34 @@
         </div>
     </div>
 
-    @if (Model.Pager.IsFirstPage)
+    @if (Model.Pager.PageCount > 1)
     {
-        <div class="d-flex justify-content-center">
-            <button class="btn btn-outline-primary js-view-more-button mt-3">Load more</button>
-        </div>
-
-        <div class="page-load-status text-center color-grey mt-3">
-            <div class="infinite-scroll-request">
-                Loading...
+        @if (Model.Pager.IsFirstPage)
+        {
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-outline-primary js-view-more-button mt-3">Load more</button>
             </div>
-        </div>
-    }
-    else
-    {
-        <div class="row mt-4">
-            <div class="col d-flex justify-content-center">
-                @Html.Partial("~/_Features/_Shared/Paging/Pager.cshtml", Model.Pager)
-            </div>
-        </div>
-    }
-    @if (!Model.Pager.IsLastPage)
-    {
-        <div id="js-more-pages-indicator" style="display: none"></div>
-    }
 
+            <div class="page-load-status text-center color-grey mt-3">
+                <div class="infinite-scroll-request">
+                    Loading...
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row mt-4">
+                <div class="col d-flex justify-content-center">
+                    @Html.Partial("~/_Features/_Shared/Paging/Pager.cshtml", Model.Pager)
+                </div>
+            </div>
+        }
+
+        @if (!Model.Pager.IsLastPage)
+        {
+            <div id="js-more-pages-indicator" style="display: none"></div>
+        }
+    }
 </div>
 
 
