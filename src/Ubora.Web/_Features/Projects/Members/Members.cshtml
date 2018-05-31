@@ -41,51 +41,52 @@
     </div>
     <div class="row">
         @{
-            Func<Guid, IHtmlContent> createFooter = @<div>
-                @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectMember))
-                {
-                    <a title="Remove member" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@item" class="dropdown-item">
-                        Remove member
-                    </a>
-                }
-                else if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectMentor))
-                {
-                    <a title="Remove mentor" asp-controller="Members" asp-action="RemoveMentor" asp-route-memberId="@item" class="dropdown-item">
-                        Remove mentor
-                    </a>;
-                }
+            RazorDelegate createRemoveMentor =
+                @<a title="Remove mentor" asp-controller="Members" asp-action="RemoveMentor" asp-route-memberId="@item.UserId" class="dropdown-item">
+                    Remove mentor
+                </a>;
 
-                @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanPromoteMember))
-                {
-                    <a title="Promote to project leader" asp-controller="Members" asp-action="PromoteMember" asp-route-memberId="@item" class="dropdown-item">
-                        Promote to project leader
-                    </a>
-                }
-            </div>;
+            RazorDelegate createPromoteLeader = 
+                @<a title="Promote to project leader" asp-controller="Members" asp-action="PromoteMember" asp-route-memberId="@item.UserId" class="dropdown-item">
+                    Promote to project leader
+                </a>;
+
+            RazorDelegate createRemoveMember =
+                @<a title="Remove member" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@item.UserId" class="dropdown-item">
+                    Remove member
+                </a>;
         }
 
         @foreach (var member in Model.Members)
         {
-            if (member.CanUseDropdown && !member.IsCurrentUser)
-            {
+            var contents = new List<IHtmlContent>();
 
-                Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
-                userId: member.UserId,
-                name: member.FullName,
-                roles: member.Roles,
-                profilePictureUrl: member.ProfilePictureUrl,
-                footerHtml: createFooter(member.UserId))
-                );
-            }
-            else
+            if (!member.IsCurrentUser)
             {
-                Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
-                userId: member.UserId,
-                name: member.FullName,
-                roles: member.Roles,
-                profilePictureUrl: member.ProfilePictureUrl)
-                );
+                if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectMember))
+                {
+                    contents.Add(createRemoveMember(member));
+                }
+
+                if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectMentor) && member.IsProjectMentor)
+                {
+                    contents.Add(createRemoveMentor(member));
+                }
             }
+
+            @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanPromoteMember) && !member.IsProjectLeader)
+            {
+                contents.Add(createPromoteLeader(member));
+            }
+
+            Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
+              userId: member.UserId,
+              name: member.FullName,
+              roles: member.Roles,
+              profilePictureUrl: member.ProfilePictureUrl,
+              footerHtml: Html.Partial("~/_Features/Projects/Members/_DropDownPartial.cshtml", model: contents)
+            )
+          );
         }
     </div>
 </div>

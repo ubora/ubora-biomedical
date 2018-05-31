@@ -51,10 +51,7 @@ namespace Ubora.Web._Features.Projects.Members
                     IsProjectMentor = userMembers.Any(x => x.IsMentor),
                     IsCurrentUser = (isAuthenticated && this.UserId == memberUserId),
                     FullName = userProfile.FullName,
-                    ProfilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile),
-                    CanUseDropdown = (canRemoveProjectMentor && userMembers.Any(x => x.IsMentor) && !userMembers.Any(x => x.IsLeader))
-                                        || (canRemoveProjectMember && !userMembers.Any(x => x.IsLeader))
-                                        || (canPromoteMember && !userMembers.Any(x => x.IsLeader))
+                    ProfilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile)
                 };
                 memberListItemViewModels.Add(itemModel);
             }
