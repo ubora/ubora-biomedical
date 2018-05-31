@@ -152,7 +152,7 @@ namespace Ubora.Web.Tests._Features.Projects.History
                 id: Guid.NewGuid(),
                 projectId: _projectId,
                 title: "title",
-                description: $"submitted workpackage 1 for review {StringTokens.WorkpackageOneReview()}",
+                description: $"submitted workpackage 1 for review {StringTokens.WorkpackageOneReview(_projectId)}",
                 assigneeIds: null
             );
             Session.Events.Append(_projectId, taskAddedEvent);

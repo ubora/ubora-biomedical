@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Moq;
+using System;
 using Ubora.Domain;
 using Ubora.Web._Features._Shared.Tokens;
 using Xunit;
@@ -22,7 +23,7 @@ namespace Ubora.Web.Tests._Features._Shared
         [Fact]
         public void Replaces_Review_Tokens_With_Review_Link()
         {
-            var text = $"test1 {StringTokens.WorkpackageTwoReview()} test2";
+            var text = $"test1 {StringTokens.WorkpackageTwoReview(Guid.NewGuid())} test2";
 
             _urlHelperMock.Setup(h => h.Action(It.Is<UrlActionContext>(
                     x => x.Action == "Review" && x.Controller == "WorkpackageTwoReview")))
