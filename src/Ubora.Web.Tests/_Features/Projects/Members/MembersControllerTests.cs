@@ -17,7 +17,6 @@ using Ubora.Web.Tests.Helper;
 using Xunit;
 using Ubora.Web._Features.Projects.Dashboard;
 
-
 namespace Ubora.Web.Tests._Features.Projects.Members
 {
     public class MembersControllerTests : ProjectControllerTestsBase
@@ -32,7 +31,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
             {
                 Url = Mock.Of<IUrlHelper>()
             };
-            
+
             SetUpForTest(_membersController);
         }
 
@@ -48,9 +47,14 @@ namespace Ubora.Web.Tests._Features.Projects.Members
                 },
                 new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                 {
+                    MethodName = nameof(MembersController.RemoveMentor),
+                    Policies = new []{ nameof(Policies.CanRemoveProjectMentor) }
+                },
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                {
                     MethodName = nameof(MembersController.Join),
                     Policies = new []{ nameof(Policies.CanJoinProject) }
-                }
+                },
             };
 
             AssertHasAuthorizeAttributes(typeof(MembersController), methodPolicies);
@@ -71,7 +75,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
 
             // Act
             var result = (RedirectToActionResult)_membersController.RemoveMember(viewModel);
-            
+
 
             // Assert
             result.ActionName.Should().Be(nameof(MembersController.Members));
@@ -86,12 +90,53 @@ namespace Ubora.Web.Tests._Features.Projects.Members
                 MemberName = "MemberName"
             };
 
-             CommandProcessorMock
-                .Setup(x => x.Execute(It.IsAny<RemoveMemberFromProjectCommand>()))
-                .Returns(CommandResult.Failed("Something went wrong"));
+            CommandProcessorMock
+               .Setup(x => x.Execute(It.IsAny<RemoveMemberFromProjectCommand>()))
+               .Returns(CommandResult.Failed("Something went wrong"));
 
             // Act
             var result = (ViewResult)_membersController.RemoveMember(viewModel);
+
+            // Assert
+            _membersController.ModelState.ErrorCount.Should().Be(1);
+        }
+
+        [Fact]
+        public void RemoveMentor_Removes_Member_From_Project()
+        {
+            var viewModel = new RemoveMentorViewModel
+            {
+                MemberId = UserId,
+                MemberName = "MemberName"
+            };
+
+            CommandProcessorMock
+                .Setup(x => x.Execute(It.IsAny<RemoveMemberFromProjectCommand>()))
+                .Returns(CommandResult.Success);
+
+            // Act
+            var result = (RedirectToActionResult)_membersController.RemoveMentor(viewModel);
+
+
+            // Assert
+            result.ActionName.Should().Be(nameof(MembersController.Members));
+        }
+
+        [Fact]
+        public void RemoveMentor_Returns_Message_If_Command_Failed()
+        {
+            var viewModel = new RemoveMentorViewModel
+            {
+                MemberId = UserId,
+                MemberName = "MemberName"
+            };
+
+            CommandProcessorMock
+               .Setup(x => x.Execute(It.IsAny<RemoveMemberFromProjectCommand>()))
+               .Returns(CommandResult.Failed("Something went wrong"));
+
+            // Act
+            var result = (ViewResult)_membersController.RemoveMentor(viewModel);
 
             // Assert
             _membersController.ModelState.ErrorCount.Should().Be(1);

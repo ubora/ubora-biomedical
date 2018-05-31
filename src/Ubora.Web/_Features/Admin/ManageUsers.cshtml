@@ -1,4 +1,4 @@
-﻿@model List<Ubora.Web._Features.Admin.UserViewModel>
+﻿@model Ubora.Web._Features.Admin.AdminController.ManageUsersViewModel
 
 <div class="container my-5">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -13,7 +13,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var user in Model)
+                @foreach (var user in Model.Items)
                 {
                     <tr>
                         <td>
@@ -49,6 +49,14 @@
                                         {
                                             <button class="dropdown-item" type="submit" asp-action="AddMentorRole">Add mentor role</button>
                                         }
+                                        @if (user.IsManagementGroup)
+                                        {
+                                            <button class="dropdown-item" type="submit" asp-action="RemoveManagementGroupRole">Remove management group role</button>
+                                        }
+                                        else
+                                        {
+                                            <button class="dropdown-item" type="submit" asp-action="AddManagementGroupRole">Add management group role</button>
+                                        }
                                         <button class="dropdown-item" type="submit" asp-route-userEmail="@user.UserEmail" asp-action="DeleteUser">Delete user</button>
                                     </div>
                                 </div>
@@ -58,5 +66,10 @@
                 }
             </tbody>
         </table>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col d-flex justify-content-center">
+        @Html.Partial("~/_Features/_Shared/Paging/Pager.cshtml", Model.Pager)
     </div>
 </div>

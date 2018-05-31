@@ -12,6 +12,8 @@ using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Users.Specifications;
+using Ubora.Domain.Users.SortSpecifications;
+using static Ubora.Web._Features.Users.UserList.UserListController;
 
 namespace Ubora.Web.Tests._Features.Users.UserList
 {
@@ -53,17 +55,17 @@ namespace Ubora.Web.Tests._Features.Users.UserList
                     .Returns(url);
             }
 
-            QueryProcessorMock.Setup(p => p.Find<UserProfile>(new MatchAll<UserProfile>())).Returns(userProfiles);
+            QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByFullNameAscendingSpecification>(), 24, 2)).Returns(userProfiles);
 
             //Act
-            var result = (ViewResult)_controller.Index();
+            var result = (ViewResult)_controller.Index(2);
 
             //Assert
-            result.Model.As<IEnumerable<UserListItemViewModel>>().Last().UserId.Should().Be(userProfile.UserId);
-            result.Model.As<IEnumerable<UserListItemViewModel>>().Last().Email.Should().Be(userProfile.Email);
-            result.Model.As<IEnumerable<UserListItemViewModel>>().Last().FullName.Should().Be(userProfile.FullName);
-            result.Model.As<IEnumerable<UserListItemViewModel>>()
-                .Last()
+            result.Model.As<IndexViewModel>().UserListItems.Count().Should().Be(1);
+            result.Model.As<IndexViewModel>().UserListItems.Last().UserId.Should().Be(userProfile.UserId);
+            result.Model.As<IndexViewModel>().UserListItems.Last().Email.Should().Be(userProfile.Email);
+            result.Model.As<IndexViewModel>().UserListItems.Last().FullName.Should().Be(userProfile.FullName);
+            result.Model.As<IndexViewModel>().UserListItems.Last()
                 .ProfilePictureLink.Should()
                 .Be(blobname != null ? expectedUrl : "/images/profileimagedefault.svg");
         }

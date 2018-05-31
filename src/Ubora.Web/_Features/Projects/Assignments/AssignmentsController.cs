@@ -57,6 +57,13 @@ namespace Ubora.Web._Features.Projects.Assignments
             return RedirectToAction(nameof(Assignments), new { ProjectId });
         }
 
+        [Route(nameof(View))]
+        public IActionResult View(Guid id, [FromServices]AssignmentViewModel.Factory modelFactory)
+        {
+            var model = modelFactory.Create(id);
+            return View(model);
+        }
+
         [Route(nameof(Edit))]
         public IActionResult Edit(Guid id, [FromServices]EditAssignmentViewModel.Factory modelFactory)
         {

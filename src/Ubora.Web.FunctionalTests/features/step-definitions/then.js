@@ -41,4 +41,16 @@ module.exports = function () {
         var actualText = browser.getValue(element);
         expect(actualText).to.contain(expectedText)
     });
+
+    this.Then(/^I expect the console output to clear$/, () => {
+        var javascriptLogs = browser.log('browser').value.filter(function(element) {
+            return element.source === 'javascript'
+        });
+
+        if(javascriptLogs.lenght !== null && javascriptLogs.lenght){
+            throw new Error("Exception: " + JSON.stringify(javascriptLogs));
+        }
+
+        expect(javascriptLogs).to.have.lengthOf(0);
+    });
 }
