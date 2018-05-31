@@ -22,8 +22,8 @@ namespace Ubora.Web.Authorization
             // NOTE: For logical OR evaluation implement multiple handlers for a requirement.
             services.AddSingleton<IAuthorizationHandler, ProjectControllerRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<ProjectNonPublicContentViewingRequirement>>();
-            services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<IsProjectMemberRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<ProjectNonPublicContentViewingRequirement>>();
+            services.AddSingleton<IAuthorizationHandler, IsProjectMemberRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsProjectLeaderRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMentorRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsWorkpackageOneNotLockedRequirement.Handler>();
@@ -42,10 +42,32 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                 });
+
                 options.AddPolicy(Policies.CanViewProjectNonPublicContent, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new ProjectNonPublicContentViewingRequirement());
                 });
+
+                options.AddPolicy(Policies.CanViewProjectHistory, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectMemberRequirement(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin, ApplicationRole.ManagementGroup })));
+                });
+
+                options.AddPolicy(Policies.CanViewProjectRepository, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectMemberRequirement(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin, ApplicationRole.ManagementGroup })));
+                });
+
+                options.AddPolicy(Policies.CanAddFileRepository, policyBuilder => 
+                {
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
+                });
+
+                options.AddPolicy(Policies.CanUpdateFileRepository, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
+                });
+
                 options.AddPolicy(Policies.CanWorkOnProjectContent, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new ProjectNonPublicContentViewingRequirement());
@@ -144,7 +166,11 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
-                options.AddPolicy(Policies.CanEditAssignment, policyBuilder =>
+                options.AddPolicy(nameof(Policies.CanInviteMentors), policyBuilder =>
+                {
+                    policyBuilder.RequireRole(ApplicationRole.Admin, ApplicationRole.ManagementGroup);
+                });
+                options.AddPolicy(nameof(Policies.CanEditAssignment), policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsProjectMentorRequirement(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin })));
                 });

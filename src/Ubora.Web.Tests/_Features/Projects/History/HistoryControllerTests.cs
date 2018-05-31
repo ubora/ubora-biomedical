@@ -15,11 +15,28 @@ using Ubora.Domain.Projects._Specifications;
 using Ubora.Web._Features.Projects.History;
 using Ubora.Web._Features.Projects.History._Base;
 using Xunit;
+using Ubora.Web.Tests.Helper;
+using Ubora.Web.Authorization;
 
 namespace Ubora.Web.Tests._Features.Projects.History
 {
     public class HistoryControllerTests : ProjectControllerTestsBase
     {
+        [Fact]
+        public override void Actions_Have_Authorize_Attributes()
+        {
+            var methodPolicies = new List<AuthorizationTestHelper.RolesAndPoliciesAuthorization>
+                {
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(HistoryController.History),
+                        Policies = new []{ Policies.CanViewProjectHistory }
+                    }
+                };
+
+            AssertHasAuthorizeAttributes(typeof(HistoryController), methodPolicies);
+        }
+
         [Fact]
         public void History_Must_Return_Project_EventLogEntries()
         {

@@ -19,26 +19,26 @@
         <div class="col-lg-7 d-flex justify-content-end">
             @if (Model.IsProjectMember)
             {
-                <a class="btn btn-outline-primary align-self-start d-sm-block d-lg-inline-block" asp-controller="Members" asp-action="Invite">
-                    <i class="material-icons">person_add</i>
-                    <span>Invite member</span>
-                </a>
+            <a class="btn btn-outline-primary align-self-start d-sm-block d-lg-inline-block" asp-controller="Members" asp-action="Invite">
+                <i class="material-icons">person_add</i>
+                <span>Invite member</span>
+            </a>
             }
 
-            @if (isAdmin)
+            @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanInviteMentors))
             {
-                <a class="btn btn-outline-primary align-self-start d-sm-block d-lg-inline-block ml-1" asp-controller="InviteMentors" asp-action="InviteMentors">
-                    <i class="material-icons" id="MentorInviteButton">person_add</i>
-                    <span>Add mentor</span>
-                </a>
+            <a class="btn btn-outline-primary align-self-start d-sm-block d-lg-inline-block ml-1" asp-controller="InviteMentors" asp-action="InviteMentors">
+                <i class="material-icons" id="MentorInviteButton">person_add</i>
+                <span>Add mentor</span>
+            </a>
             }
 
             @if (Model.IsProjectMember && !Model.IsProjectLeader)
             {
-                <a class="btn btn-outline-primary align-self-start d-sm-block d-lg-inline-block ml-1" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId">
-                    <i class="material-icons">exit_to_app</i>
-                    <span>Leave project</span>
-                </a>
+            <a class="btn btn-outline-primary align-self-start d-sm-block d-lg-inline-block ml-1" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId">
+                <i class="material-icons">exit_to_app</i>
+                <span>Leave project</span>
+            </a>
             }
         </div>
     </div>

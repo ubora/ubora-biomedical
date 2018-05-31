@@ -18,6 +18,8 @@ using Ubora.Web._Features._Shared.Notices;
 namespace Ubora.Web._Features.Projects.Repository
 {
     [ProjectRoute("[controller]")]
+    [DisableProjectControllerAuthorization]
+    [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
     public class RepositoryController : ProjectController
     {
         private readonly IUboraStorageProvider _uboraStorageProvider;
@@ -54,6 +56,7 @@ namespace Ubora.Web._Features.Projects.Repository
         }
 
         [Route("AddFile")]
+        [Authorize(Policy = nameof(Policies.CanAddFileRepository))]
         [HttpPost]
         public async Task<IActionResult> AddFile(AddFileViewModel model)
         {
@@ -87,7 +90,6 @@ namespace Ubora.Web._Features.Projects.Repository
             return Ok();
         }
 
-
         [Route("HideFile")]
         [Authorize(Policy = nameof(Policies.CanHideProjectFile))]
         public IActionResult HideFile(Guid fileid)
@@ -98,6 +100,7 @@ namespace Ubora.Web._Features.Projects.Repository
         }
 
         [Route("UpdateFile")]
+        [Authorize(Policy = nameof(Policies.CanUpdateFileRepository))]
         public IActionResult UpdateFile(Guid fileId)
         {
             var file = QueryProcessor.FindById<ProjectFile>(fileId);
@@ -107,6 +110,7 @@ namespace Ubora.Web._Features.Projects.Repository
         }
 
         [Route("UpdateFile")]
+        [Authorize(Policy = nameof(Policies.CanUpdateFileRepository))]
         [HttpPost]
         public async Task<IActionResult> UpdateFile(UpdateFileViewModel model)
         {
