@@ -14,6 +14,7 @@ using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web._Features._Shared.Notices;
+using Ubora.Web.Data;
 
 namespace Ubora.Web._Features.Projects.Repository
 {
@@ -35,12 +36,12 @@ namespace Ubora.Web._Features.Projects.Repository
             _projecFileViewModelFactory = projectFileViewModelFactory;
         }
 
-        public IActionResult Repository()
+        public async Task<IActionResult> Repository()
         {
             var projectFiles = QueryProcessor.Find(new IsProjectFileSpec(ProjectId)
                     && !new IsHiddenFileSpec());
 
-            var isProjectLeader = new HasLeader(UserId).IsSatisfiedBy(Project);
+            var canHideProjectFile = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanHideProjectFile);
 
             var model = new ProjectRepositoryViewModel
             {
@@ -49,7 +50,7 @@ namespace Ubora.Web._Features.Projects.Repository
                 AllFiles = projectFiles.GroupBy(file => file.FolderName,
                     file => _projecFileViewModelFactory.Create(file)),
                 AddFileViewModel = new AddFileViewModel(),
-                IsProjectLeader = isProjectLeader
+                CanHideProjectFile = canHideProjectFile
             };
 
             return View(nameof(Repository), model);
