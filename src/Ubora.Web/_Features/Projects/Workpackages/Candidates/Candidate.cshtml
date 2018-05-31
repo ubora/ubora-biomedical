@@ -1,5 +1,9 @@
 ﻿@model Ubora.Web._Features.Projects.Workpackages.Candidates.CandidateViewModel
 
+@{ 
+    var canChangeProjectCandidateImage = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanChangeProjectCandidateImage);
+}
+
 <div class="col-lg-7">
 
     <div class="row mb-4">
@@ -12,10 +16,10 @@
         <div class="col-lg-6">
             <div class="card">
                 <img class="card-img-top img-fluid w-100" src="@Model.ImageUrl" alt="Illustrative project photo" />
-                @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanChangeProjectCandidateImage))
+                @if (canChangeProjectCandidateImage)
                 {
                     <div class="card-img-overlay text-center">
-                        @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanChangeProjectCandidateImage)).Succeeded)
+                        @if (canChangeProjectCandidateImage)
                         {
                             <a class="mx-1" href="@Url.Action("EditCandidateImage", "Candidates", new { candidateId = Model.Id })">
                                 <i class="material-icons align-middle font-size-1-1" id="EditImage">mode_edit</i>
@@ -23,7 +27,7 @@
                             </a>
                         }
 
-                        @if (Model.HasImage && (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanRemoveProjectCandidateImage)).Succeeded)
+                        @if (Model.HasImage && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectCandidateImage))
                         {
                             <a class="mx-1" href="@Url.Action("RemoveCandidateImage", "Candidates", new { candidateId = Model.Id })">
                                 <i class="material-icons align-middle font-size-1-1 ">delete_forever</i>
@@ -41,7 +45,7 @@
                     <h2 class="mb-4">@Model.Title</h2>
                 </div>
                 <div class="col-lg-3 d-flex justify-content-end">
-                    @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanEditProjectCandidate)).Succeeded)
+                    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectCandidate))
                     {
                         <a class="btn-icon d-flex align-content-center" href="@Url.Action("EditCandidate", "Candidates", new { candidateId = Model.Id })">
                             <i class="material-icons font-size-1-1 mx-1" id="EditImage">mode_edit</i>
@@ -160,7 +164,7 @@
         </div>
     </div>
 
-    @if((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanRemoveCandidate)).Succeeded)
+    @if(await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveCandidate))
     {
         <div class="my-4">
             <hr />
