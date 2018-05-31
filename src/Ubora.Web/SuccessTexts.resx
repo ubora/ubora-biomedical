@@ -213,6 +213,9 @@
   <data name="ProjectMentorInvited" xml:space="preserve">
     <value>Invitation sent</value>
   </data>
+  <data name="ProjectMentorRemoved" xml:space="preserve">
+    <value>Mentor removed</value>
+  </data>
   <data name="ProjectTitleAndDescriptionUpdated" xml:space="preserve">
     <value>Project edited</value>
   </data>
@@ -242,6 +245,9 @@
   </data>
   <data name="WP1Reopened" xml:space="preserve">
     <value>WP1 reopened</value>
+  </data>
+  <data name="WP1RequestedMentoring" xml:space="preserve">
+    <value>Requested mentoring</value>
   </data>
   <data name="WP1ReviewAccepted" xml:space="preserve">
     <value>WP1 reviewed</value>

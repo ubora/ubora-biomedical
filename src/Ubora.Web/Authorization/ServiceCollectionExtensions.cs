@@ -30,6 +30,7 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsEmailConfirmedRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsCommentAuthorRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsVoteNotGivenRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, OrRequirement.Handler>();
         }
 
         private static void AddPolicies(IServiceCollection services)
@@ -57,6 +58,10 @@ namespace Ubora.Web.Authorization
                 options.AddPolicy(Policies.CanRemoveProjectMember, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+                options.AddPolicy(Policies.CanRemoveProjectMentor, policyBuilder =>
+                {
+                    policyBuilder.RequireRole(ApplicationRole.Admin);
                 });
                 options.AddPolicy(Policies.CanReviewProjectWorkpackages, policyBuilder =>
                 {
@@ -127,13 +132,21 @@ namespace Ubora.Web.Authorization
                     policyBuilder.AddRequirements(new IsVoteNotGivenRequirement());
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                 });
-                options.AddPolicy(nameof(Policies.CanOpenWorkpackageThree), policyBuilder =>
+                options.AddPolicy(Policies.CanOpenWorkpackageThree, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
                 options.AddPolicy(Policies.CanRemoveCandidate, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+                options.AddPolicy(Policies.CanRequestMentoring, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+                options.AddPolicy(Policies.CanEditAssignment, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsProjectMentorRequirement(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin })));
                 });
             });
         }

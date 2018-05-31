@@ -13,19 +13,27 @@ using Ubora.Web.Data;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Admin;
 using Xunit;
+using Ubora.Domain.Users;
+using Ubora.Domain.Users.SortSpecifications;
+using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Web.Tests._Features.Admin
 {
     public class AdminControllerTests : UboraControllerTestsBase
     {
+        private readonly Mock<AdminController> _controllerMock;
         private readonly AdminController _controller;
         private readonly Mock<IApplicationUserManager> _userManagerMock;
 
         public AdminControllerTests()
         {
             _userManagerMock = new Mock<IApplicationUserManager>();
+            _controllerMock = new Mock<AdminController>(_userManagerMock.Object)
+            {
+                CallBase = true
+            };
+            _controller = _controllerMock.Object;
 
-            _controller = new AdminController(_userManagerMock.Object);
             SetUpForTest(_controller);
         }
 
@@ -54,11 +62,16 @@ namespace Ubora.Web.Tests._Features.Admin
             _userManagerMock.Setup(m => m.FindByIdAsync(userId)).ReturnsAsync(user);
             _userManagerMock.Setup(m => m.AddToRoleAsync(user, ApplicationRole.ManagementGroup)).ReturnsAsync(IdentityResult.Failed());
 
+            var expectedResult = new ViewResult();
+            _controllerMock
+                .Setup(c => c.ManageUsers(It.IsAny<int>()))
+                .ReturnsAsync(expectedResult);
+
             // Act
             var result = (ViewResult)await _controller.AddManagementGroupRole(userId);
 
             // Assert
-            result.ViewName.Should().Be("ManageUsers");
+            result.Should().Be(expectedResult);
         }
 
         [Fact]
@@ -86,11 +99,16 @@ namespace Ubora.Web.Tests._Features.Admin
             _userManagerMock.Setup(m => m.FindByIdAsync(userId)).ReturnsAsync(user);
             _userManagerMock.Setup(m => m.RemoveFromRoleAsync(user, ApplicationRole.ManagementGroup)).ReturnsAsync(IdentityResult.Failed());
 
+            var expectedResult = new ViewResult();
+            _controllerMock
+                .Setup(c => c.ManageUsers(It.IsAny<int>()))
+                .ReturnsAsync(expectedResult);
+
             // Act
             var result = (ViewResult)await _controller.RemoveManagementGroupRole(userId);
 
             // Assert
-            result.ViewName.Should().Be("ManageUsers");
+            result.Should().Be(expectedResult);
         }
 
         [Fact]
@@ -102,6 +120,13 @@ namespace Ubora.Web.Tests._Features.Admin
             };
 
             _controller.ModelState.AddModelError("", "");
+
+            var userProfiles = new PagedListStub<UserProfile>
+            {
+                new UserProfile(Guid.NewGuid())
+            };
+
+            QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByFullNameAscendingSpecification>(), 10, 1)).Returns(userProfiles);
 
             // Act
             IActionResult result = await _controller.DeleteUser(model);
@@ -121,6 +146,13 @@ namespace Ubora.Web.Tests._Features.Admin
 
             _userManagerMock.Setup(x => x.FindByEmailAsync(model.UserEmail))
                 .ReturnsAsync((ApplicationUser)null);
+
+            var userProfiles = new PagedListStub<UserProfile>
+            {
+                new UserProfile(Guid.NewGuid())
+            };
+
+            QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByFullNameAscendingSpecification>(), 10, 1)).Returns(userProfiles);
 
             // Act
             var result = (ViewResult)await _controller.DeleteUser(model);
@@ -145,6 +177,13 @@ namespace Ubora.Web.Tests._Features.Admin
 
             _userManagerMock.Setup(x => x.DeleteAsync(user))
                 .ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "test-error" }));
+
+            var userProfiles = new PagedListStub<UserProfile>
+            {
+                new UserProfile(Guid.NewGuid())
+            };
+
+            QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByFullNameAscendingSpecification>(), 10, 1)).Returns(userProfiles);
 
             // Act
             var result = (ViewResult)await _controller.DeleteUser(model);
@@ -177,6 +216,7 @@ namespace Ubora.Web.Tests._Features.Admin
             _userManagerMock.Setup(x => x.DeleteAsync(user))
                 .ReturnsAsync(IdentityResult.Success);
 
+
             // Act
             var result = (RedirectToActionResult)await _controller.DeleteUser(model);
 
@@ -203,6 +243,13 @@ namespace Ubora.Web.Tests._Features.Admin
 
             _userManagerMock.Setup(x => x.DeleteAsync(user))
                 .ReturnsAsync(IdentityResult.Success);
+
+            var userProfiles = new PagedListStub<UserProfile>
+            {
+                new UserProfile(Guid.NewGuid())
+            };
+
+            QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByFullNameAscendingSpecification>(), 10, 1)).Returns(userProfiles);
 
             // Act
             var result = (ViewResult)await _controller.DeleteUser(model);

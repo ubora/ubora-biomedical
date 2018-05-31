@@ -17,7 +17,7 @@ namespace Ubora.Domain.Tests
         public IComponentContext Container => _innerContainer ?? (_innerContainer = InitializeContainer());
 
         private ICommandQueryProcessor _processor;
-        public  ICommandQueryProcessor Processor => _processor ?? (_processor = Container.Resolve<ICommandQueryProcessor>());
+        public ICommandQueryProcessor Processor => _processor ?? (_processor = Container.Resolve<ICommandQueryProcessor>());
 
         private readonly DomainAutofacModule _domainAutofacModule;
 
@@ -44,7 +44,10 @@ namespace Ubora.Domain.Tests
             builder.RegisterType<TestFindUboraMentorProfilesQueryHandler>()
                 .As<IQueryHandler<FindUboraMentorProfilesQuery, IReadOnlyCollection<UserProfile>>>()
                 .InstancePerLifetimeScope();
-            
+
+            builder.RegisterType<TestFindUboraAdministratorsQueryHandler>().As<IQueryHandler<FindUboraAdministratorsQuery, IReadOnlyCollection<UserProfile>>>()
+                .InstancePerLifetimeScope();
+
             // Register Marten DocumentStore/Session
             builder.Register(_ => (TestingDocumentStore)theStore).As<DocumentStore>().As<IDocumentStore>().SingleInstance();
             builder.Register(_ => Session).As<IDocumentSession>().As<IQuerySession>().InstancePerLifetimeScope();
@@ -62,7 +65,7 @@ namespace Ubora.Domain.Tests
         protected virtual void RegisterAdditional(ContainerBuilder builder)
         {
         }
-        
+
         public override void Dispose()
         {
             _innerContainer?.Dispose();

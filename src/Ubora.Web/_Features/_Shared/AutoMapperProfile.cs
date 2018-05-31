@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Assignments;
 using Ubora.Domain.Projects.Workpackages;
-using Ubora.Web._Features.ProjectList;
 using Ubora.Domain.Users;
 using Ubora.Web._Features.Projects.Dashboard;
 using Ubora.Web._Features.Projects.Workpackages.Reviews;
@@ -16,8 +14,6 @@ using Ubora.Domain.Projects._Commands;
 using Ubora.Web._Features.Projects.Assignments;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.StructuredInformations;
-using Ubora.Web._Features.Admin;
-using Ubora.Web._Components;
 using Ubora.Web._Features.Projects.Workpackages.Candidates;
 
 namespace Ubora.Web._Features._Shared
@@ -27,6 +23,11 @@ namespace Ubora.Web._Features._Shared
         public AutoMapperProfile()
         {
             CreateMap<Assignment, AssignmentListItemViewModel>();
+
+            CreateMap<Assignment, AssignmentViewModel>()
+                .ForMember(dest => dest.AssigneeIds, o => o.Ignore())
+                .ForMember(dest => dest.ProjectMembers, o => o.Ignore());
+
             CreateMap<Assignment, EditAssignmentViewModel>()
                 .ForMember(dest => dest.AssigneeIds, o => o.Ignore())
                 .ForMember(dest => dest.ProjectMembers, o => o.Ignore());

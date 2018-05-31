@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Linq;
+using Marten;
+using Marten.Events;
 using Newtonsoft.Json;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications;
+using Ubora.Domain.Projects.Members.Specifications;
 
 namespace Ubora.Domain.Projects._Events
 {
@@ -15,6 +20,29 @@ namespace Ubora.Domain.Projects._Events
         public Guid UserId { get; private set; }
 
         public override string GetDescription() => $"joined as mentor.";
+
+        public class Notifier : UboraEventNotifier<MentorJoinedProjectEvent>
+        {
+            private readonly IDocumentSession _documentSession;
+
+            public Notifier(IDocumentSession documentSession)
+            {
+                _documentSession = documentSession;
+            }
+
+            protected override void HandleCore(MentorJoinedProjectEvent @event, IEvent eventWithMetadata)
+            {
+                var project = _documentSession.Load<Project>(@event.ProjectId);
+
+                var notifications = project
+                        .GetMembers(new IsLeaderSpec())
+                        .GroupBy(member => member.UserId)
+                        .Select(memberGrouping => EventNotification.Create(eventWithMetadata.Data, eventWithMetadata.Id, memberGrouping.Key));
+
+                _documentSession.StoreUboraNotificationsIfAny(notifications);
+                _documentSession.SaveChanges();
+            }
+        }
 
         public class NotificationToInviter : GeneralNotification
         {
