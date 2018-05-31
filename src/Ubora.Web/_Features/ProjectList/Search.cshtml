@@ -19,5 +19,13 @@
             </form>
         </div>
     </div>
-    @await Component.InvokeAsync(typeof(SearchingProjectListViewComponent), new { title = @Model.Title })
+    @{ Html.RenderPartial("~/_Features/ProjectList/ProjectListPartial.cshtml", Model.ProjectListViewModel); }
 </div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/dist/infinite_scroll.bundle.js"></script>
+    <script>
+        UBORA.initInfiniteScroll('&page=', '@Html.Raw(Model.ProjectListViewModel.Pager.PageCount)', '@Html.Raw(Model.Title)');
+    </script>
+}

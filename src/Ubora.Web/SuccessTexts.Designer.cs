@@ -169,6 +169,15 @@ namespace Ubora.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Candidate removed.
+        /// </summary>
+        public static string CandidateRemoved {
+            get {
+                return ResourceManager.GetString("CandidateRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vote added.
         /// </summary>
         public static string CandidateVoteAdded {
@@ -435,6 +444,15 @@ namespace Ubora.Web {
         public static string WP1Reopened {
             get {
                 return ResourceManager.GetString("WP1Reopened", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested mentoring.
+        /// </summary>
+        public static string WP1RequestedMentoring {
+            get {
+                return ResourceManager.GetString("WP1RequestedMentoring", resourceCulture);
             }
         }
         

@@ -15,6 +15,7 @@ namespace Ubora.Domain.Projects.Candidates
         public string Title { get; private set; }
         public string Description { get; private set; }
         public BlobLocation ImageLocation { get; private set; }
+        public bool IsDeleted { get; set; }
 
         [JsonIgnore]
         public bool HasImage => ImageLocation != null;
@@ -47,6 +48,12 @@ namespace Ubora.Domain.Projects.Candidates
         {
             Title = e.Title;
             Description = e.Description;
+        }
+
+        private void Apply(CandidateRemovedEvent e)
+        {
+            if (IsDeleted) { throw new InvalidOperationException(); }
+            IsDeleted = true;
         }
 
         private void Apply(CandidateImageEditedEvent e)
@@ -88,10 +95,10 @@ namespace Ubora.Domain.Projects.Candidates
             }
 
             var vote = new Vote(
-                userId: e.InitiatedBy.UserId, 
-                functionality: e.Functionality, 
-                performance: e.Perfomance, 
-                usability: e.Usability, 
+                userId: e.InitiatedBy.UserId,
+                functionality: e.Functionality,
+                performance: e.Perfomance,
+                usability: e.Usability,
                 safety: e.Safety);
 
             _votes.Add(vote);

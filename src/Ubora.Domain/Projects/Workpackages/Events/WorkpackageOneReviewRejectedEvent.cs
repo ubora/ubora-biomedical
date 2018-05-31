@@ -21,7 +21,7 @@ namespace Ubora.Domain.Projects.Workpackages.Events
         public string ConcludingComment { get; private set; }
         public DateTimeOffset RejectedAt { get; private set; }
 
-        public override string GetDescription() => $"rejected workpackage 1 by {StringTokens.WorkpackageOneReview()}.";
+        public override string GetDescription() => $"rejected workpackage 1 by {StringTokens.WorkpackageOneReview(ProjectId)}.";
         
         public class Notifier : UboraEventNotifier<WorkpackageOneReviewRejectedEvent>
         {

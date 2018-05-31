@@ -27,13 +27,15 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
         {
             var latestReview = WorkpackageOne.GetLatestReviewOrNull();
 
+            var project = Project;
             var model = new WorkpackageReviewListViewModel
             (
                 reviews: WorkpackageOne.Reviews.OrderBy(r => r.SubmittedAt).Select(AutoMapper.Map<WorkpackageReviewViewModel>),
                 latestReview: latestReview == null ? null : AutoMapper.Map<WorkpackageReviewViewModel>(latestReview),
                 reviewDecisionUrl: Url.Action(nameof(Decision)),
-                submitForReviewUrl: Url.Action(nameof(SubmitForReview)),
-                submitForReviewButton: await WorkpackageReviewListViewModel.GetSubmitButtonVisibility(WorkpackageOne, User, AuthorizationService)
+                submitForReviewUrl: project.Members.Any(m => m.IsMentor) ? Url.Action(nameof(SubmitForReview)) : Url.Action(nameof(RequestMentoring)),
+                submitForReviewButton: await WorkpackageReviewListViewModel.GetSubmitButtonVisibility(project, WorkpackageOne, User, AuthorizationService),
+                requestMentoringButton: await WorkpackageReviewListViewModel.GetRequestMentoringButtonVisibility(project, WorkpackageOne, User, AuthorizationService)
             );
 
             return View(nameof(Review), model);
@@ -49,6 +51,25 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
             }
 
             ExecuteUserProjectCommand(new SubmitWorkpackageOneForReviewCommand(), Notice.Success(SuccessTexts.WP1SubmittedForReview));
+
+            if (!ModelState.IsValid)
+            {
+                return await Review();
+            }
+
+            return RedirectToAction(nameof(Review));
+        }
+
+        [HttpPost]
+        [Authorize(Policies.CanRequestMentoring)]
+        public async Task<IActionResult> RequestMentoring()
+        {
+            if (!ModelState.IsValid)
+            {
+                return await Review();
+            }
+
+            ExecuteUserProjectCommand(new RequestMentoringWorkpackageOneReviewCommand(), Notice.Success(SuccessTexts.WP1RequestedMentoring));
 
             if (!ModelState.IsValid)
             {

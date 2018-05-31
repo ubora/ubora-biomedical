@@ -8,6 +8,7 @@ using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Domain.Projects._Events;
 using Xunit;
+using Ubora.Domain.Projects.Workpackages;
 
 namespace Ubora.Domain.Tests.Projects.Members.Commands
 {
@@ -34,6 +35,11 @@ namespace Ubora.Domain.Tests.Projects.Members.Commands
 
             _documentSessionStrictMock.Setup(x => x.Load<ProjectMentorInvitation>(invitation.Id))
                 .Returns(invitation);
+
+            _documentSessionStrictMock.Setup(x => x.Load<WorkpackageOne>(projectId))
+                .Returns(new WorkpackageOne());
+
+            _documentSessionStrictMock.Setup(x => x.Store(It.IsAny<WorkpackageOne[]>()));
 
             MentorJoinedProjectEvent storedEvent = null;
             _documentSessionStrictMock.Setup(x => x.Events.Append(projectId, It.IsAny<object[]>()))

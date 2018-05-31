@@ -154,7 +154,15 @@ namespace Ubora.Web.Authorization
                     policyBuilder.AddRequirements(new IsVoteNotGivenRequirement());
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                 });
-                options.AddPolicy(nameof(Policies.CanOpenWorkpackageThree), policyBuilder =>
+                options.AddPolicy(Policies.CanOpenWorkpackageThree, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+                options.AddPolicy(Policies.CanRemoveCandidate, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+                options.AddPolicy(Policies.CanRequestMentoring, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });

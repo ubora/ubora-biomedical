@@ -8,6 +8,12 @@
     <None Remove="Projects\DeviceClassification\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Scripts\17-05-2018 add mt_deleted to candidate.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\17-05-2018 add mt_deleted to candidate.sql" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="dbup-core" Version="4.0.0-beta0004" />
     <PackageReference Include="dbup-postgresql" Version="4.0.0-beta0004" />

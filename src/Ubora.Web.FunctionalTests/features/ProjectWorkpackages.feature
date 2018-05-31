@@ -64,29 +64,24 @@ Scenario: I click different Workpackages and try to edit them
     Then I expect the element "=Formal review" is visible
         And I expect the title of the page "Formal review - UBORA"
 
-Scenario: I Submit project for WP1 review but cancel it
+Scenario: I Submit Request mentoring for WP1 review
     When I click on the element "*=Formal review"
-        And I click on the element "button=Submit project for review"
-    Then I expect the element "h5=Submit project for review" is visible
-        And I expect the element "p=Work package 1 can not be edited while it is under review or after it has passed the review." is visible
-    When I click on the element "button=Cancel"
-    Then I expect the title of the page "Formal review - UBORA"
-        And I expect the element "p=You can submit your project for review:" is visible
+        And I click on the element "button=Request mentoring"
+    Then I expect the element "i=Requested mentoring. Please wait" is visible
+        And I expect the title of the page "Formal review - UBORA"
 
-Scenario: I Submit project for WP1 review
+Scenario: I check again the Request mentoring for WP1 review
     When I click on the element "*=Formal review"
-        And I click on the element "button=Submit project for review"
-        And I click on the element "button=Submit"
-    Then I expect the element "p=WP1: Medical need and product specification can not be edited if:" is visible
-        And I expect the element "li=The project is under review;" is visible
-        And I expect the element "li=It passed the review;" is visible
-        And I expect the element "dt=Status:" is visible
-        And I expect the element "dd=InProcess" is visible
+    Then I expect the element "i=Requested mentoring. Please wait" is visible
+        And I expect the title of the page "Formal review - UBORA"  
 
-Scenario: System administrator adds Mentor to the project
+Scenario: System administrator gets the notification and adds Mentor to the project
     When I sign out
     Then I expect the title of the page "UBORA"
     When I sign in as administrator
+        And I click on the element "span=Notifications"
+        Then I expect the element "p*=Requested mentoring" is visible
+    When I go back to last page
         And I click on the element "*=Test title"
         And I click on the element "=Members"
     Then I expect the title of the page "Members - UBORA"
@@ -106,6 +101,25 @@ Scenario: Mentor accepts the mentor invitation
     When I click on the element "*=My projects"
     Then I expect the element "*=Test title" is visible
         And I expect the title of the page "View projects - UBORA"
+
+Scenario: I Submit project for WP1 review but cancel it
+    When I click on the element "*=Formal review"
+        And I click on the element "button=Submit project for review"
+    Then I expect the element "h5=Submit project for review" is visible
+        And I expect the element "p=Work package 1 can not be edited while it is under review or after it has passed the review." is visible
+    When I click on the element "button=Cancel"
+    Then I expect the title of the page "Formal review - UBORA"
+        And I expect the element "p=You can submit your project for review:" is visible
+
+Scenario: I Submit project for WP1 review
+    When I click on the element "*=Formal review"
+        And I click on the element "button=Submit project for review"
+        And I click on the element "button=Submit"
+    Then I expect the element "p=WP1: Medical need and product specification can not be edited if:" is visible
+        And I expect the element "li=The project is under review;" is visible
+        And I expect the element "li=It passed the review;" is visible
+        And I expect the element "dt=Status:" is visible
+        And I expect the element "dd=InProcess" is visible
 
 Scenario: Project mentor rejects WP1 formal review
     When I sign out
