@@ -36,12 +36,12 @@ namespace Ubora.Web._Features.Projects.Repository
 
         [DisableProjectControllerAuthorization]
         [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
-        public IActionResult Repository()
+        public async Task<IActionResult> Repository()
         {
             var projectFiles = QueryProcessor.Find(new IsProjectFileSpec(ProjectId)
                     && !new IsHiddenFileSpec());
 
-            var canHideProjectFile = new HasLeader(UserId).IsSatisfiedBy(Project) || User.IsInRole(ApplicationRole.ManagementGroup);
+            var canHideProjectFile = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanHideProjectFile);
 
             var model = new ProjectRepositoryViewModel
             {
