@@ -18,7 +18,7 @@ namespace Ubora.Web._Features.Projects.Members
             public bool IsCurrentUser { get; set; }
             public bool IsProjectMentor { get; set; }
             public string ProfilePictureUrl { get; set; }
-            public bool CanRemoveProjectMember { get; set; } 
+            public bool CanUseDropdown { get; set; } 
 
             public string Roles
             {

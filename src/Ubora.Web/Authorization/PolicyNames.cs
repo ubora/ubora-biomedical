@@ -33,5 +33,6 @@
         public const string CanViewProjectRepository = nameof(CanViewProjectRepository);
         public const string CanAddFileRepository = nameof(CanAddFileRepository);
         public const string CanUpdateFileRepository = nameof(CanUpdateFileRepository);
+        public const string CanPromoteMember = nameof(CanPromoteMember);
     }
 }

@@ -304,6 +304,15 @@ namespace Ubora.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Project leader promoted.
+        /// </summary>
+        public static string ProjectLeaderPromoted {
+            get {
+                return ResourceManager.GetString("ProjectLeaderPromoted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invitation sent.
         /// </summary>
         public static string ProjectMemberInvited {
