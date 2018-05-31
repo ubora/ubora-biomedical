@@ -53,6 +53,11 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 },
                 new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                 {
+                    MethodName = nameof(CandidatesController.RemoveCandidate),
+                    Policies = new []{ nameof(Policies.CanRemoveCandidate) }
+                },
+                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                {
                     MethodName = nameof(CandidatesController.EditCandidate),
                     Policies = new []{ nameof(Policies.CanEditProjectCandidate) }
                 },
@@ -109,7 +114,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
             };
 
             // Act
-            var result = (ViewResult) await _controller.Voting(candidateItemViewModelFactoryMock.Object);
+            var result = (ViewResult)await _controller.Voting(candidateItemViewModelFactoryMock.Object);
 
             // Assert
             result.ViewName.Should().Be(nameof(CandidatesController.Voting));
@@ -223,6 +228,61 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
         }
 
         [Fact]
+        public void RemoveCandidate_Returns_View()
+        {
+            var viewModel = new RemoveCandidateViewModel
+            {
+                CandidateId = Guid.NewGuid()
+            };
+
+            // Act
+            var result = (ViewResult)_controller.RemoveCandidate(viewModel.CandidateId);
+
+            // Assert
+            result.Model.ShouldBeEquivalentTo(viewModel);
+        }
+
+        [Fact]
+        public void RemoveCandidate_Redirects_To_Voting_When_Not_Executed_Successfully()
+        {
+            CommandProcessorMock
+                .Setup(p => p.Execute(It.IsAny<RemoveCandidateCommand>()))
+                .Returns(CommandResult.Failed("Error"));
+
+            var model = new RemoveCandidateViewModel
+            {
+                CandidateId = Guid.NewGuid()
+            };
+
+            // Act
+            var result = (RedirectToActionResult)_controller.RemoveCandidate(model);
+
+            // Assert
+            result.ActionName.Should().Be(nameof(CandidatesController.Voting));
+            result.ControllerName.Should().Be("Candidates");
+        }
+
+        [Fact]
+        public void RemoveCandidate_Redirects_To_Voting_When_Command_Executed_Successfully()
+        {
+            CommandProcessorMock
+                .Setup(p => p.Execute(It.IsAny<RemoveCandidateCommand>()))
+                .Returns(CommandResult.Success);
+
+            var model = new RemoveCandidateViewModel
+            {
+                CandidateId = Guid.NewGuid()
+            };
+
+            // Act
+            var result = (RedirectToActionResult)_controller.RemoveCandidate(model);
+
+            // Assert
+            result.ActionName.Should().Be(nameof(CandidatesController.Voting));
+            result.ControllerName.Should().Be("Candidates");
+        }
+
+        [Fact]
         public async Task Candidate_Returns_Candidate_View_With_Expected_Model()
         {
             var candidateId = Guid.NewGuid();
@@ -237,7 +297,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 .ReturnsAsync(expectedModel);
 
             // Act
-            var result = (ViewResult) await _controller.Candidate(candidateId, candidateViewModelFactory.Object);
+            var result = (ViewResult)await _controller.Candidate(candidateId, candidateViewModelFactory.Object);
 
             // Assert
             result.ViewName.Should().Be(nameof(CandidatesController.Candidate));
@@ -559,7 +619,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 .Returns(candidateViewModel);
 
             // Act
-            var result = (ViewResult) await _controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
+            var result = (ViewResult)await _controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
             result.ViewName.Should().Be(nameof(CandidatesController.Candidate));
@@ -591,7 +651,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 .Returns(candidateViewModel);
 
             // Act
-            var result = (ViewResult) await _controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
+            var result = (ViewResult)await _controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
             result.ViewName.Should().Be(nameof(CandidatesController.Candidate));
@@ -612,7 +672,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 .Returns(CommandResult.Success);
 
             // Act
-            var result = (RedirectToActionResult) await _controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
+            var result = (RedirectToActionResult)await _controller.AddComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
             result.ActionName.Should().Be(nameof(CandidatesController.Candidate));
@@ -646,7 +706,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 .Returns(candidateViewModel);
 
             // Act
-            var result = (ViewResult) await _controller.EditComment(model, Mock.Of<CandidateViewModel.Factory>());
+            var result = (ViewResult)await _controller.EditComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
             result.ViewName.Should().Be(nameof(CandidatesController.Candidate));
@@ -716,13 +776,13 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<EditCandidateCommentCommand>()))
                 .Returns(commandResult);
-            
+
             var candidateViewModel = new CandidateViewModel();
             AutoMapperMock.Setup(x => x.Map<CandidateViewModel>(candidate))
                 .Returns(candidateViewModel);
 
             // Act
-            var result = (ViewResult) await _controller.EditComment(model, Mock.Of<CandidateViewModel.Factory>());
+            var result = (ViewResult)await _controller.EditComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
             result.ViewName.Should().Be(nameof(CandidatesController.Candidate));
@@ -758,7 +818,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 .Returns(CommandResult.Success);
 
             // Act
-            var result = (RedirectToActionResult) await _controller.EditComment(model, Mock.Of<CandidateViewModel.Factory>());
+            var result = (RedirectToActionResult)await _controller.EditComment(model, Mock.Of<CandidateViewModel.Factory>());
 
             // Assert
             result.ActionName.Should().Be(nameof(CandidatesController.Candidate));
@@ -1044,7 +1104,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
             var candidateItemViewModelFactoryMock = new Mock<CandidateItemViewModel.Factory>(Mock.Of<ImageStorageProvider>(), Mock.Of<IMapper>());
 
             // Act
-            var result = (RedirectToActionResult) await _controller.OpenWorkpackageThree(candidateItemViewModelFactoryMock.Object);
+            var result = (RedirectToActionResult)await _controller.OpenWorkpackageThree(candidateItemViewModelFactoryMock.Object);
 
             // Assert
             result.ActionName.Should().Be(nameof(CandidatesController.Voting));

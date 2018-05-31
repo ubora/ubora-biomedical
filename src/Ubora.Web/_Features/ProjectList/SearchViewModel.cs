@@ -6,5 +6,6 @@ namespace Ubora.Web._Features.ProjectList
     {
         [StringLength(50)]
         public string Title { get; set; }
+        public ProjectListViewModel ProjectListViewModel { get; set; }
     }
 }

@@ -51,7 +51,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<ProjectFile>();
                 options.Schema.For<Assignment>();
                 options.Schema.For<Project>().SoftDeleted();
-                options.Schema.For<Candidate>();
+                options.Schema.For<Candidate>().SoftDeleted();
                 options.Schema.For<EventLogEntry>()
                     .Duplicate(l => l.ProjectId)
                     .Duplicate(l => l.UserId)
