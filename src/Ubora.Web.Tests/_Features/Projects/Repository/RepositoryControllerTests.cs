@@ -67,33 +67,8 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                     },
                     new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
-                        MethodName = nameof(RepositoryController.FileHistory),
-                        Policies = new []{ Policies.CanViewProjectRepository }
-                    },
-                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                    {
-                        MethodName = nameof(RepositoryController.DownloadFile),
-                        Policies = new []{ Policies.CanViewProjectRepository }
-                    },
-                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                    {
-                        MethodName = nameof(RepositoryController.View3DFile),
-                        Policies = new []{ Policies.CanViewProjectRepository }
-                    },
-                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                    {
-                        MethodName = nameof(RepositoryController.DownloadHistoryFile),
-                        Policies = new []{ Policies.CanViewProjectRepository }
-                    },
-                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                    {
-                        MethodName = nameof(RepositoryController.View3DHistoryFile),
-                        Policies = new []{ Policies.CanViewProjectRepository }
-                    },
-                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                    {
                         MethodName = nameof(RepositoryController.HideFile),
-                        Policies = new []{ Policies.CanViewProjectRepository, Policies.CanHideProjectFile }
+                        Policies = new []{ Policies.CanHideProjectFile }
                     },
                 };
 
@@ -101,7 +76,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         }
 
         [Fact]
-        public void Repository_Returns_View()
+        public async Task Repository_Returns_View()
         {
             var projectFile1 = new ProjectFile()
                 .Set(x => x.ProjectId, ProjectId)
@@ -161,7 +136,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             };
 
             // Act
-            var result = (ViewResult)_controller.Repository();
+            var result = (ViewResult)await _controller.Repository();
 
             // Assert
             result.ViewName.Should().Be(nameof(RepositoryController.Repository));

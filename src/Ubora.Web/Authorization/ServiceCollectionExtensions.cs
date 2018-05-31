@@ -81,6 +81,10 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
+                options.AddPolicy(Policies.CanRemoveProjectMentor, policyBuilder =>
+                {
+                    policyBuilder.RequireRole(ApplicationRole.Admin);
+                });
                 options.AddPolicy(Policies.CanReviewProjectWorkpackages, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectMentorRequirement());
@@ -157,6 +161,10 @@ namespace Ubora.Web.Authorization
                 options.AddPolicy(nameof(Policies.CanInviteMentors), policyBuilder =>
                 {
                     policyBuilder.RequireRole(ApplicationRole.Admin, ApplicationRole.ManagementGroup);
+                });
+                options.AddPolicy(nameof(Policies.CanEditAssignment), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsProjectMentorRequirement(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin })));
                 });
             });
         }
