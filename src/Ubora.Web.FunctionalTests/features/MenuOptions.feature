@@ -25,3 +25,6 @@ Scenario: I click Notifications
 Scenario: I click Sign out
     When I sign out
     Then I expect the title of the page "UBORA"
+
+Scenario: Check on console output
+    Then I expect the console output to clear
