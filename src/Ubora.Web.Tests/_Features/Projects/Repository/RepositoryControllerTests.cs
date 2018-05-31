@@ -26,6 +26,7 @@ using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Web.Tests.Helper;
 using AutoMapper;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ubora.Web.Tests._Features.Projects.Repository
 {
@@ -111,6 +112,9 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             QueryProcessorMock
                 .Setup(x => x.Find(specification))
                 .Returns(expectedProjectFiles);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, null, Policies.CanHideProjectFile))
+                .ReturnsAsync(AuthorizationResult.Success);
 
             QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);
