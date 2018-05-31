@@ -21,14 +21,19 @@ namespace Ubora.Web.Tests._Features.Admin
 {
     public class AdminControllerTests : UboraControllerTestsBase
     {
+        private readonly Mock<AdminController> _controllerMock;
         private readonly AdminController _controller;
         private readonly Mock<IApplicationUserManager> _userManagerMock;
 
         public AdminControllerTests()
         {
             _userManagerMock = new Mock<IApplicationUserManager>();
+            _controllerMock = new Mock<AdminController>(_userManagerMock.Object)
+            {
+                CallBase = true
+            };
+            _controller = _controllerMock.Object;
 
-            _controller = new AdminController(_userManagerMock.Object);
             SetUpForTest(_controller);
         }
 
@@ -57,11 +62,16 @@ namespace Ubora.Web.Tests._Features.Admin
             _userManagerMock.Setup(m => m.FindByIdAsync(userId)).ReturnsAsync(user);
             _userManagerMock.Setup(m => m.AddToRoleAsync(user, ApplicationRole.ManagementGroup)).ReturnsAsync(IdentityResult.Failed());
 
+            var expectedResult = new ViewResult();
+            _controllerMock
+                .Setup(c => c.ManageUsers(It.IsAny<int>()))
+                .ReturnsAsync(expectedResult);
+
             // Act
             var result = (ViewResult)await _controller.AddManagementGroupRole(userId);
 
             // Assert
-            result.ViewName.Should().Be("ManageUsers");
+            result.Should().Be(expectedResult);
         }
 
         [Fact]
@@ -89,11 +99,16 @@ namespace Ubora.Web.Tests._Features.Admin
             _userManagerMock.Setup(m => m.FindByIdAsync(userId)).ReturnsAsync(user);
             _userManagerMock.Setup(m => m.RemoveFromRoleAsync(user, ApplicationRole.ManagementGroup)).ReturnsAsync(IdentityResult.Failed());
 
+            var expectedResult = new ViewResult();
+            _controllerMock
+                .Setup(c => c.ManageUsers(It.IsAny<int>()))
+                .ReturnsAsync(expectedResult);
+
             // Act
             var result = (ViewResult)await _controller.RemoveManagementGroupRole(userId);
 
             // Assert
-            result.ViewName.Should().Be("ManageUsers");
+            result.Should().Be(expectedResult);
         }
 
         [Fact]

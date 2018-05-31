@@ -43,7 +43,7 @@ namespace Ubora.Web._Features.Admin
         }
 
         [Authorize(Roles = ApplicationRole.Admin)]
-        public async Task<IActionResult> ManageUsers(int page = 1)
+        public virtual async Task<IActionResult> ManageUsers(int page = 1)
         {
             var userProfiles = QueryProcessor.Find(new MatchAll<UserProfile>(), new SortByFullNameAscendingSpecification(), 10, page);
 
