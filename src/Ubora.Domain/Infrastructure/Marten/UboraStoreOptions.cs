@@ -5,6 +5,7 @@ using Marten;
 using Marten.Services;
 using Marten.Services.Events;
 using Newtonsoft.Json;
+using Ubora.Domain.Commenting;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects.Workpackages;
@@ -68,6 +69,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<Assignment, IAssignmentEvent>());
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());
                 options.Events.InlineProjections.AggregateStreamsWith<Candidate>();
+                options.Events.InlineProjections.AggregateStreamsWith<Discussion>();
 
                 options.Events.AddEventTypes(eventTypes);
 
