@@ -19,14 +19,14 @@
             Edit
         </a>
     </li>
-    <li class="nav-item" >
+    <li class="nav-item">
         <a class="nav-link" asp-action="@nameof(ResourcesController.History)">
             History
         </a>
     </li>
 </ul>
 
-<form asp-action="Edit">
+<form asp-action="Edit" class="py-3">
     <h1>@Model.Title</h1>
     <input type="hidden" asp-for="ResourceId" />
     <input type="hidden" asp-for="ContentVersion" />
@@ -39,8 +39,9 @@
 </form>
 
 @section Right {
-    ACTIONS:
-    <button>Open repository</button>
+    <span class="color-grey pb-1 d-inline-block">Actions</span>
+    <br />
+    <button class="btn btn-outline-primary">Open repository</button>
 }
 
 @section Scripts {
@@ -52,9 +53,9 @@
                 });
 
             quill.setContents(@(Html.Raw(Model.Body)), 'api');
-            
+
             $('#editor-container').show();
-            
+
             quill.on('editor-change', function() {
                 $('#@(nameof(Model.Body))').val(JSON.stringify(quill.getContents()));
             });

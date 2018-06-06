@@ -19,36 +19,38 @@
 }
 
 <main>
-    <div class="row">
-        <div class="col-3">
-            @{
-                var leftSection = RenderSection("Left", required: false);
-                if (leftSection != null)
-                {
-                    @leftSection
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2 py-3 border-right h-min-50">
+                @{
+                    var leftSection = RenderSection("Left", required: false);
+                    if (leftSection != null)
+                    {
+                        @leftSection
+                    }
+                    else
+                    {
+                        <form>
+                            <div class="form-group">
+                                <input placeholder="Search..." class="form-control" type="text" />
+                            </div>
+                        </form>
+                        var resources = QueryProcessor.Find(new MatchAll<ResourcePage>(), new ResourceIndexViewModel.Mapper());
+                        <nav class="nav flex-column">
+                            @foreach (var resource in resources)
+                            {
+                                <a class="nav-link px-1" asp-action="Read" asp-controller="Resources" asp-route-slug="@resource.Slug">@resource.Title</a>
+                            }
+                        </nav>
+                    }
                 }
-                else
-                {
-                    <form>
-                        <div class="form-group">
-                            <input placeholder="Search..." class="form-control" type="text"/>
-                        </div>
-                    </form>
-                    var resources = QueryProcessor.Find(new MatchAll<ResourcePage>(), new ResourceIndexViewModel.Mapper());
-                    <nav class="nav flex-column">
-                        @foreach (var resource in resources)
-                        {
-                            <a class="nav-link" asp-action="Read" asp-controller="Resources" asp-route-slug="@resource.Slug">@resource.Title</a>
-                        }
-                    </nav>
-                }
-            }
-        </div>
-        <div class="col-6">
-            @RenderBody()
-        </div>
-        <div class="col-3">
-            @RenderSection("Right", required: false)
+            </div>
+            <div class="col-8 py-3 px-xl-7">
+                @RenderBody()
+            </div>
+            <div class="col-2 py-3">
+                @RenderSection("Right", required: false)
+            </div>
         </div>
     </div>
 </main>

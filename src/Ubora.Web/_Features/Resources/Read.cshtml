@@ -26,13 +26,13 @@
     </li>
 </ul>
 
-<div id="content-body">
+<div id="content-body" class="py-3">
     <h1>@Model.Title</h1>
     @(Html.Raw(Model.Body))
 </div>
 
 @section Right {
-    TABLE OF CONTENTS
+    <span class="color-grey">Table of contents</span>
     <nav id="content-navigation" class="nav nav-pills flex-column position-sticky" data-spy="scroll" data-target="#content-body">
     </nav>
 }
@@ -44,7 +44,7 @@
             $(element).attr('id', UBORA.slugify(element.firstChild.textContent));
             $('#content-navigation')
                 .append(
-                    `<a class="nav-link ml-3 my-1" href="#${$(element).attr('id')}">${$(element).text()}</a>`);
+                    `<a class="nav-link" href="#${$(element).attr('id')}">${$(element).text()}</a>`);
         });
     </script>
 }
