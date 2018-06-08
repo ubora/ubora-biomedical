@@ -1,10 +1,15 @@
 ﻿@model Ubora.Web._Features.Admin.AdminController.ManageUsersViewModel
 
+@{
+    ViewData["Title"] = "Manage users";
+}
+
 <div class="container min-height-45 my-5">
+    <h1>@ViewData["Title"]</h1>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     @foreach (var user in Model.Items)
     {
-        <div class="row py-2 border-bottom">
+        <div class="row mx-0 py-2 border-bottom">
             <div class="col-lg-3">
                 <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@user.UserId">@user.FullName</a>
             </div>
