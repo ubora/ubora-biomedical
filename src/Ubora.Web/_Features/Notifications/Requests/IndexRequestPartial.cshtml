@@ -1,12 +1,10 @@
 ﻿@using Ubora.Web._Features.Notifications.Requests
 @model RequestToJoinProjectNotifiationViewModel
 
-@{
-    var isUnreadCss = Model.IsUnread ? "notification--unread" : "";
-}
-
 @if (Model.IsPending)
 {
+    var isUnreadCss = Model.IsUnread ? "notification--unread" : "";
+
     <div class="row notification @isUnreadCss">
         <div class="col-lg-10 px-2">
             <p><a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@Model.UserId">@Model.UserFullName</a> asked to join project <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@Model.ProjectId">@Model.ProjectTitle</a>.</p>

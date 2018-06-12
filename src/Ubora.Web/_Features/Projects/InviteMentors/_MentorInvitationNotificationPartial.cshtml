@@ -1,6 +1,6 @@
 ﻿@model Ubora.Web._Features.Projects.InviteMentors.ProjectMentorInvitationNotificationViewModel
 
-@if (!Model.IsHistory)
+@if (Model.IsPending)
 {
     var isUnreadCss = Model.IsUnread ? "notification-unread" : "";
 
