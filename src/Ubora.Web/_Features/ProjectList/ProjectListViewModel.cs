@@ -46,7 +46,7 @@ namespace Ubora.Web._Features.ProjectList
 
             public ProjectListViewModel CreatePagedProjectListViewModel(string header, int page)
             {
-                var projects = _queryProcessor.Find<Project>(new MatchAll<Project>(), new SortByTitleAscendingSpecification(), 24, page);
+                var projects = _queryProcessor.Find<Project>(new MatchAll<Project>(), new SortByTitleSpecification(), 24, page);
 
                 var model = new ProjectListViewModel
                 {

@@ -4,7 +4,7 @@ using Ubora.Web._Features.Notifications._Base;
 
 namespace Ubora.Web._Features.Notifications
 {
-    public class INotificationListViewModel
+    public class NotificationListViewModel
     {
         public Pager Pager { get; set; }
         public IEnumerable<INotificationViewModel> Notifications { get; set; }

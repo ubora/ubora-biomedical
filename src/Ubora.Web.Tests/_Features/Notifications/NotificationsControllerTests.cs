@@ -34,7 +34,7 @@ namespace Ubora.Web.Tests._Features.Notifications
             var invitations = new Domain.Tests.PagedListStub<INotification> { invitation };
 
             QueryProcessorMock
-                .Setup(x => x.Find(new IsForUser(UserId), It.IsAny<SortByCreatedAtDescendingSpecification>(), 10, 1))
+                .Setup(x => x.Find(new IsForUser(UserId), It.IsAny<SortByCreatedAtSpecification>(), 10, 1))
                 .Returns(invitations);
 
             CommandProcessorMock.Setup(x => x.Execute(It.IsAny<MarkNotificationsAsViewedCommand>()))
