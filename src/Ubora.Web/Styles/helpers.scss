@@ -14,8 +14,6 @@
 .avatar {
     border-radius: 50%;
     object-fit: cover;
-    height: 150px;
-    width: 150px;
 }
 
 /*Avatar in comments section*/
@@ -137,4 +135,10 @@ a.no-underline {
 
 .comma-separator:last-child:after {
     content: '';
+}
+
+@include media-breakpoint-down(xs) {
+    .mt-xs-2 {
+        margin-top: .5rem;
+    }
 }
