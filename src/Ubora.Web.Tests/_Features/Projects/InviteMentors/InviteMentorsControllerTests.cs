@@ -13,6 +13,7 @@ using Ubora.Web.Tests.Helper;
 using Ubora.Web._Features.Projects.InviteMentors;
 using Ubora.Web._Features._Shared.Notices;
 using Xunit;
+using Ubora.Web.Authorization;
 
 namespace Ubora.Web.Tests._Features.Projects.InviteMentors
 {
@@ -37,12 +38,12 @@ namespace Ubora.Web.Tests._Features.Projects.InviteMentors
                 new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                 {
                     MethodName = nameof(InviteMentorsController.InviteMentor),
-                    Roles = new []{ ApplicationRole.Admin }
+                    Policies = new []{ nameof(Policies.CanInviteMentors) }
                 },
                 new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                 {
                     MethodName = nameof(InviteMentorsController.InviteMentors),
-                    Roles = new []{ ApplicationRole.Admin }
+                    Policies = new []{ nameof(Policies.CanInviteMentors) }
                 }
             };
 

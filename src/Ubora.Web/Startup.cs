@@ -186,10 +186,10 @@ namespace Ubora.Web
                 var applicationDbContext = serviceProvider.GetService<ApplicationDbContext>();
                 applicationDbContext.Database.Migrate();
 
-                var domainMigrator = serviceProvider.GetService<DomainMigrator>();
-                domainMigrator.MigrateDomain(ConnectionString);
-
                 var documentStore = serviceProvider.GetService<IDocumentStore>();
+                var domainMigrator = serviceProvider.GetService<DomainMigrator>();
+
+                domainMigrator.MigrateDomain(ConnectionString);
                 documentStore.Schema.WritePatchByType("Patches");
 
                 var seeder = serviceProvider.GetService<ApplicationDataSeeder>();

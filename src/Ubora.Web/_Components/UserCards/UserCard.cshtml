@@ -1,12 +1,11 @@
 ﻿@model Ubora.Web._Features.Users.UserList.UserCardViewModel
 
 <div class="col-sm-6 col-md-4 col-lg-3 my-2">
-    <div class="card text-center box-shadow-2">
-        <div class="justify-content-center">
-            <img src="@Model.ProfilePictureUrl" class="card-img-top mt-4 avatar" alt="@Model.Name profile picture">
-        </div>
+    <div class="card user-card text-center box-shadow-2">
+        
         <div class="card-body">
-            <h4 class="card-title">
+            <img src="@Model.ProfilePictureUrl" class="card-img-top avatar" alt="@Model.Name profile picture">
+            <h4 class="card-title mt-4">
                 <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@Model.UserId" class="user-card--name">
                     @Model.Name
                 </a>
@@ -15,9 +14,18 @@
         </div>
         @if (Model.FooterHtml != null)
         {
-            <div class="card-footer text-muted">
-                @Model.FooterHtml
+        <div class="card-footer text-muted">
+            <div class="btn-group w-100">
+                <button type="button" class="btn btn-light border-0 py-2 btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Manage member
+                </button>
+                <div class="dropdown-menu dropdown-menu-right w-100">
+                    @Model.FooterHtml
+                     @*TODO: Add new action to project member 'add project leader'*@
+                    @*<button class="dropdown-item" type="button">Add project leader role</button>*@
+                </div>
             </div>
+        </div>
         }
     </div>
 </div>

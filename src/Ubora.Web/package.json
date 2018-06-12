@@ -38,10 +38,12 @@
     "jquery-validation-unobtrusive": "^3.2.6",
     "marked": "^0.3.17",
     "popper.js": "^1.12.9",
+    "tether": "^1.4.4",
     "select2": "^4.0.3",
     "simplemde": "^1.11.2",
     "timeago": "^1.6.3",
-    "three": "^0.91.0"
+    "three": "^0.91.0",
+    "infinite-scroll": "^3.0.4"
   },
   "scripts": {}
 }

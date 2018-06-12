@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Notifications.Commands;
 using Ubora.Domain.Notifications.Specifications;
@@ -9,6 +10,8 @@ using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Web.Infrastructure;
 using Ubora.Web._Features.Notifications._Base;
 using Ubora.Web._Features._Shared.Notices;
+using Ubora.Domain.Notifications.SortSpecifications;
+using Ubora.Web._Features._Shared.Paging;
 
 namespace Ubora.Web._Features.Notifications
 {
@@ -23,17 +26,19 @@ namespace Ubora.Web._Features.Notifications
         }
 
         [RestoreModelStateFromTempData]
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            var notifications = QueryProcessor.Find<INotification>(new IsForUser(UserId))
-                .OrderByDescending(x => x.CreatedAt)
-                .ToList();
+            var notifications = QueryProcessor.Find<INotification>(new IsForUser(UserId), new SortByCreatedAtSpecification(SortOrder.Descending), 10, page);
 
             MarkNotificationsAsViewed();
 
-            var viewModels = notifications.Select(_notificationViewModelFactoryMediator.Create);
+            var model = new NotificationListViewModel
+            {
+                Pager = Pager.From(notifications),
+                Notifications = notifications.Select(_notificationViewModelFactoryMediator.Create)
+            };
 
-            return View(viewModels);
+            return View(model);
         }
 
         private void MarkNotificationsAsViewed()

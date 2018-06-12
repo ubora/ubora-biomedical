@@ -7,6 +7,7 @@
         public const string ProjectController = nameof(ProjectController);
         public const string IsAuthenticatedUser = nameof(IsAuthenticatedUser);
         public const string CanRemoveProjectMember = nameof(CanRemoveProjectMember);
+        public const string CanRemoveProjectMentor = nameof(CanRemoveProjectMentor);
         public const string CanReviewProjectWorkpackages = nameof(CanReviewProjectWorkpackages);
         public const string CanSubmitWorkpackageForReview = nameof(CanSubmitWorkpackageForReview);
         public const string CanEditWorkpackageOne = nameof(CanEditWorkpackageOne);
@@ -24,5 +25,14 @@
         public const string CanVoteCandidate = nameof(CanVoteCandidate);
         public const string CanEditDesignPlanning = nameof(CanEditDesignPlanning);
         public const string CanOpenWorkpackageThree = nameof(CanOpenWorkpackageThree);
+        public const string CanRemoveCandidate = nameof(CanRemoveCandidate);
+        public const string CanRequestMentoring = nameof(CanRequestMentoring);
+        public const string CanEditAssignment = nameof(CanEditAssignment);
+        public const string CanInviteMentors = nameof(CanInviteMentors);
+        public const string CanViewProjectHistory = nameof(CanViewProjectHistory);
+        public const string CanViewProjectRepository = nameof(CanViewProjectRepository);
+        public const string CanAddFileRepository = nameof(CanAddFileRepository);
+        public const string CanUpdateFileRepository = nameof(CanUpdateFileRepository);
+        public const string CanPromoteMember = nameof(CanPromoteMember);
     }
 }

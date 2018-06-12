@@ -23,3 +23,6 @@ Scenario: Click on Community
 Scenario: Click on Search
     When I click on the element "span=Search"
     Then I expect the title of the page "Search - UBORA"
+
+Scenario: Check on console output
+    Then I expect the console output to clear

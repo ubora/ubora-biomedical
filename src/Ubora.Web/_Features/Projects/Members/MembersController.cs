@@ -33,10 +33,12 @@ namespace Ubora.Web._Features.Projects.Members
         [AllowAnonymous]
         public async Task<IActionResult> Members()
         {
-            var canRemoveProjectMembers = (await AuthorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember)).Succeeded;
             var isProjectMember = (await AuthorizationService.AuthorizeAsync(User, null, new IsProjectMemberRequirement())).Succeeded;
             var isAuthenticated = (await AuthorizationService.AuthorizeAsync(User, Policies.IsAuthenticatedUser)).Succeeded;
 
+            var canRemoveProjectMember = (await AuthorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMember)).Succeeded;
+            var canRemoveProjectMentor = (await AuthorizationService.AuthorizeAsync(User, Policies.CanRemoveProjectMentor)).Succeeded;
+            var canPromoteMember = (await AuthorizationService.AuthorizeAsync(User, Policies.CanPromoteMember)).Succeeded;
             var memberListItemViewModels = new List<ProjectMemberListViewModel.Item>();
             foreach (var userMembers in Project.Members.GroupBy(m => m.UserId))
             {
@@ -49,7 +51,10 @@ namespace Ubora.Web._Features.Projects.Members
                     IsProjectMentor = userMembers.Any(x => x.IsMentor),
                     IsCurrentUser = (isAuthenticated && this.UserId == memberUserId),
                     FullName = userProfile.FullName,
-                    ProfilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile)
+                    ProfilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile),
+                    CanUseDropdown = (canRemoveProjectMentor && userMembers.Any(x => x.IsMentor) && !userMembers.Any(x => x.IsLeader))
+                                        || (canRemoveProjectMember && !userMembers.Any(x => x.IsLeader))
+                                        || (canPromoteMember && !userMembers.Any(x => x.IsLeader))
                 };
                 memberListItemViewModels.Add(itemModel);
             }
@@ -59,7 +64,6 @@ namespace Ubora.Web._Features.Projects.Members
             var model = new ProjectMemberListViewModel
             {
                 Id = ProjectId,
-                CanRemoveProjectMembers = canRemoveProjectMembers,
                 Members = memberListItemViewModels,
                 IsProjectMember = isAuthenticated && isProjectMember,
                 IsProjectLeader = isProjectLeader
@@ -145,13 +149,13 @@ namespace Ubora.Web._Features.Projects.Members
         [Authorize(Policies.CanRemoveProjectMember)]
         public IActionResult RemoveMember(Guid memberId)
         {
-            var removeMemberViewModel = new RemoveMemberViewModel
+            var removeMember = new RemoveMemberViewModel
             {
                 MemberId = memberId,
                 MemberName = QueryProcessor.FindById<UserProfile>(memberId).FullName
             };
 
-            return View(removeMemberViewModel);
+            return View(removeMember);
         }
 
         [HttpPost]
@@ -172,6 +176,82 @@ namespace Ubora.Web._Features.Projects.Members
             if (!ModelState.IsValid)
             {
                 return View(removeMemberViewModel);
+            }
+
+            return RedirectToAction(nameof(Members));
+        }
+
+        [Route(nameof(RemoveMentor))]
+        [DisableProjectControllerAuthorization]
+        [Authorize(Policies.CanRemoveProjectMentor)]
+        public IActionResult RemoveMentor(Guid memberId)
+        {
+            var removeMentorViewModel = new RemoveMentorViewModel
+            {
+                MemberId = memberId,
+                MemberName = QueryProcessor.FindById<UserProfile>(memberId).FullName
+            };
+
+            return View(removeMentorViewModel);
+        }
+
+        [HttpPost]
+        [DisableProjectControllerAuthorization]
+        [Authorize(Policies.CanRemoveProjectMentor)]
+        [Route(nameof(RemoveMentor))]
+        public IActionResult RemoveMentor(RemoveMentorViewModel removeMentorViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(removeMentorViewModel);
+            }
+
+            ExecuteUserProjectCommand(new RemoveMemberFromProjectCommand
+            {
+                UserId = removeMentorViewModel.MemberId
+            }, Notice.Success(SuccessTexts.ProjectMentorRemoved));
+
+            if (!ModelState.IsValid)
+            {
+                return View(removeMentorViewModel);
+            }
+
+            return RedirectToAction(nameof(Members));
+        }
+
+        [Route(nameof(PromoteMember))]
+        [DisableProjectControllerAuthorization]
+        [Authorize(Policies.CanPromoteMember)]
+        public IActionResult PromoteMember(Guid memberId)
+        {
+            var promoteMemberViewModel = new PromoteMemberViewModel
+            {
+                MemberId = memberId,
+                MemberName = QueryProcessor.FindById<UserProfile>(memberId).FullName
+            };
+
+            return View(promoteMemberViewModel);
+        }
+
+        [HttpPost]
+        [DisableProjectControllerAuthorization]
+        [Authorize(Policies.CanPromoteMember)]
+        [Route(nameof(PromoteMember))]
+        public IActionResult PromoteMember(PromoteMemberViewModel promoteMemberViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(promoteMemberViewModel);
+            }
+
+            ExecuteUserProjectCommand(new PromoteProjectLeaderCommand
+            {
+                UserId = promoteMemberViewModel.MemberId
+            }, Notice.Success(SuccessTexts.ProjectLeaderPromoted));
+
+            if (!ModelState.IsValid)
+            {
+                return View(promoteMemberViewModel);
             }
 
             return RedirectToAction(nameof(Members));

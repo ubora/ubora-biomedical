@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
@@ -103,6 +102,20 @@ namespace Ubora.Domain.Projects
             }
 
             _members.RemoveWhere(m => m.UserId == e.UserId);
+        }
+
+        private void Apply(ProjectLeaderPromotedEvent e)
+        {
+            var doesNotHaveMember = this.DoesSatisfy(!new HasMember<ProjectMember>(e.UserId));
+            if (doesNotHaveMember)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var member = _members.FirstOrDefault(m => m.IsLeader);
+            _members.Remove(member);
+            _members.Add(new ProjectMember(member.UserId));
+            _members.Add(new ProjectLeader(e.UserId));
         }
 
         private void Apply(EditProjectDescriptionEvent e)

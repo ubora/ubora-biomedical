@@ -6,44 +6,26 @@
 }
 
 <div class="container my-5">
-    <h1>@ViewData["Title"]</h1>
-
-    <ul class="nav nav-tabs" id="projectsTab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active d-flex align-items-center" id="my-projects-tab" data-toggle="tab" href="#myProjects" role="tab" aria-controls="myProjects" aria-selected="true">
-                My projects
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link d-flex align-items-center" id="all-projects-tab" data-toggle="tab" href="#allProjects" role="tab" aria-controls="allProjects" aria-selected="false">
-                All projects
-            </a>
-        </li>
-    </ul>
-  
-    <div class="tab-content" id="projectsTabContent">
-        <div class="tab-pane fade show active" id="myProjects" role="tabpanel" aria-labelledby="my-projects-tab">
-            <div class="my-4">
-                @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
-            </div>
-        </div>
-        <div class="tab-pane fade" id="allProjects" role="tabpanel" aria-labelledby="all-projects-tab">
-            <div class="my-4">
-                <div class="row py-2">
-                    <form asp-controller="ProjectList" asp-action="Search" method="post" class="col-lg-5">
-                        <div class="input-group search">
-                            <input class="form-control" asp-for="Title" placeholder="Search projects..." aria-describedby="btnGroupAddon">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text" id="btnGroupAddon">
-                                    <button class="btn btn-icon" type="submit"><i class="material-icons">search</i></button>
-                                </div>
-                            </div>
-                            <span asp-validation-for="Title"></span>
-                        </div>
-                    </form>
+    <div class="row justify-content-center">
+        <div class="col-md-6 mb-4">
+            <form asp-controller="ProjectList" asp-action="Search" method="post">
+                <div class="form-group">
+                    <input class="form-control" asp-for="Title" placeholder="Search UBORA for...">
+                    <span asp-validation-for="Title"></span>
                 </div>
-                @await Component.InvokeAsync(typeof(SearchingProjectListViewComponent), new { title = @Model.Title })
-            </div>
+                <div class="text-center">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
         </div>
     </div>
+    @{ Html.RenderPartial("~/_Features/ProjectList/ProjectListPartial.cshtml", Model.ProjectListViewModel); }
 </div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/dist/infinite_scroll.bundle.js"></script>
+    <script>
+        UBORA.initInfiniteScroll('&page=', '@Html.Raw(Model.ProjectListViewModel.Pager.PageCount)', '@Html.Raw(Model.Title)');
+    </script>
+}

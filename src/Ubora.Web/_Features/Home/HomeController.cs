@@ -1,23 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Ubora.Web._Features.ProjectList;
 
 namespace Ubora.Web._Features.Home
 {
-	public class HomeController : UboraController
-	{
-	    [Route("")]
-        public IActionResult Index(string returnUrl = null)
-		{
-		    if (!User.Identity.IsAuthenticated)
-		    {
-		        return View("LandingPage");
+    public class HomeController : UboraController
+    {
+        [Route("")]
+        public IActionResult Index([FromServices]ProjectListViewModel.Factory modelFactory, string returnUrl = null, int page = 1)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return View("LandingPage");
             }
 
             if (returnUrl != null)
-		    {
-		        return RedirectToLocal(returnUrl);
-		    }
+            {
+                return RedirectToLocal(returnUrl);
+            }
 
-            return View("Index");
+            var model = modelFactory.CreatePagedProjectListViewModel(header: "Public projects", page: page);
+
+            return View("Index", new IndexViewModel() { ProjectListViewModel = model });
         }
 
         public IActionResult Error()
@@ -25,5 +28,10 @@ namespace Ubora.Web._Features.Home
             ViewData["statusCode"] = HttpContext.Response.StatusCode;
             return View();
         }
+    }
+
+    public class IndexViewModel
+    {
+        public ProjectListViewModel ProjectListViewModel { get; set; }
     }
 }

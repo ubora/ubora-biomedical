@@ -105,6 +105,15 @@ namespace Ubora.Domain.Tests
             });
         }
 
+        public static void Request_Mentoring(this IntegrationFixture fixture, Guid projectId)
+        {
+            fixture.Processor.Execute(new RequestMentoringWorkpackageOneReviewCommand
+            {
+                ProjectId = projectId,
+                Actor = new DummyUserInfo()
+            });
+        }
+
         public static void Reject_Workpackage_One_Review(this IntegrationFixture fixture, Guid projectId)
         {
             fixture.Processor.Execute(new RejectWorkpackageOneReviewCommand
