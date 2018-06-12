@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "~/_Features/_Shared/_NeedsLayout.cshtml";
+    ViewData["Title"] = "Indicate new clinical need";
+
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="" asp-action="">UBORA</a></li>
+        <li class="breadcrumb-item"><a href="#">Biomedical clinical needs</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Indicate new clinical need</li>
+    </ol>
+</nav>
+<h1 class="d-inline-block">@ViewData["Title"]</h1>
+<p>Before creating new clinical need be sure that this has not been already created. Check out existing projects from <a href="#">here</a>.</p>
+<form method="post">
+    <div class="form-group">
+        <label>Title</label>
+        <input class="form-control" placeholder="Name your project" />
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <textarea class="form-control" rows="5" placeholder="Describe your need"></textarea>
+    </div>
+    <div class="d-flex justify-content-end">
+        <span class="px-4 py-1">1<span class="color-grey">/2</span></span>
+        <button class="btn btn-primary" type="submit">Continue</button>
+    </div>
+</form>

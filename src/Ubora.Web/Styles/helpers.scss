@@ -22,6 +22,11 @@
 	width: 4em;
 }
 
+.avatar-author {
+    height: 2em;
+    width: 2em;
+}
+
 /*Override bootstrap badge component*/
 .badge {
     font-weight: normal;
@@ -103,10 +108,6 @@
   width: 36%;
 }
 
-.h-min-50 {
-  min-height: 50rem;
-}
-
 /*Breaks word at any character*/
 .break-word-all {
 	word-break: break-all;
@@ -133,10 +134,37 @@ a.no-underline {
     box-shadow: 1px 1px 2px 0 rgba(0,0,0,0.1);
 }
 
+.dot {
+    height: 3px;
+    width: 3px;
+    background-color: $primary-shade;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+
 @include media-breakpoint-up(xl) {
 
-    .px-xl-7 {
-        padding-left: ($spacer * 5) !important;
-        padding-right: ($spacer * 5) !important;
+    .px-xl-9 {
+        padding-left: ($spacer * 7) !important;
+        padding-right: ($spacer * 7) !important;
+    }
+}
+
+
+@include media-breakpoint-down(xs) {
+
+    .d-xs-block {
+        display: block;
+    }
+
+    .d-xs-none {
+        display: none;
+    }
+}
+
+@include media-breakpoint-up(md){
+    .h-min-50-md {
+        min-height: 50rem;
     }
 }

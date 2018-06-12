@@ -1,0 +1,74 @@
+﻿@{
+    Layout = "~/_Features/_Shared/_NeedsLayout.cshtml";
+    ViewData["Title"] = "Biomedical clinical need";
+
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="" asp-action="">UBORA</a></li>
+        <li class="breadcrumb-item active"><a href="#">Biomedical clinical needs</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Biomedical clinical needs</li>
+    </ol>
+</nav>
+<div class="d-flex justify-content-between">
+    <h1 class="d-inline-block">
+        Find a solution to more comfortable masks and
+        moulds for radiotherapy
+    </h1>
+    <div class="dropdown d-inline-block">
+        <div class="d-lg-none">
+            <button class="btn btn-icon dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="material-icons">more_vert</i>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Create new project</a>
+                <a class="dropdown-item" href="#">Similar projects</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-lg-8 pr-xl-5 border-right mb-lg-0 mb-sm-3">
+        <div class="row">
+            <div class="col-lg-12">
+                You might need to have a mould or mask made before your radiotherapy. The mould is also called a shell. The shell keeps the treatment area of your body still each time you have your radiotherapy. So your treatment will be as accurate as possible.
+                You might need a shell for radiotherapy to your head or neck or to an arm or leg. Moulds for the head or neck area are called masks.
+                Some types of mould are see through and others aren't. The radiographers might make marks on them. They use the marks to accurately line up the radiotherapy machine for each treatment. It is very important that you are in exactly the same position each time.
+                The mould is normally made directly against your skin. You need to wear clothing that you can easily take off from the area to be treated. <a href="#">See more..</a>
+            </div>
+            <div class="col-lg-12 color-grey py-3">
+                <img class="avatar avatar-author" src="/images/profileimagedefault.svg" />
+                <span class="mx-xl-2 mx-md-2 my-1 d-xs-none"></span>
+                <span>Author: John Smith</span>
+                <span class="dot mx-xl-2 mx-md-2 my-1 d-xs-none"></span>
+                <span>10.08.18</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 pl-xl-5">
+        <p>
+            <span class="d-block font-weight-bold">Clinical need</span>
+            <span class="d-block">Rehabilitation</span>
+        </p>
+        <p>
+            <span class="d-block font-weight-bold">Area</span>
+            <span class="d-block">Rehabilitation</span>
+        </p>
+        <p>
+            <span class="d-block font-weight-bold">Technology</span>
+            <span class="d-block">Ergonomic support</span>
+        </p>
+        <p>
+            <span class="d-block font-weight-bold">Keywords</span>
+            <span class="d-block">Mould, mask, rehabilitation, radiotherapy</span>
+        </p>
+    </div>
+</div>
+
+@section Right {
+<div class="mr-xl-5">
+    <button class="btn btn-outline-primary btn-action"><i class="material-icons">add</i>Create new project</button>
+</div>
+}
+

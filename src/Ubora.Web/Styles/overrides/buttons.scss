@@ -12,7 +12,6 @@
         color: $white;
         box-shadow: none;
     }
-
 }
 
 .btn-outline-primary .material-icons,
@@ -59,6 +58,10 @@
     }
 }
 
+.btn-icon.dropdown-toggle::after {
+    display:none;
+}
+
 a.btn-icon:hover {
     text-decoration: none;
 }
@@ -69,3 +72,11 @@ a.btn-icon:hover {
     }
 }
 
+
+.btn-action {
+    @extend .d-flex;
+    @extend .align-items-center;
+    @extend .justify-content-center;
+    @extend .my-2;
+    @extend .w-100;
+}

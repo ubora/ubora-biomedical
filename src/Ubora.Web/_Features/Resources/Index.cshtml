@@ -12,8 +12,10 @@
 <div class="mb-3">
     <span class="color-grey mb-1 d-inline-block">Actions</span>
     <br>
-    <a asp-action="@nameof(ResourcesController.Add)" class="w-75 my-2 btn btn-outline-primary d-flex align-items-center justify-content-center"><i class="material-icons">add</i>Add resource</a>
-    <a href="#" class="w-75 my-2 btn btn-outline-primary d-flex align-items-center justify-content-center"><i class="material-icons">add</i>Add category</a>
-    <a href="#" class="w-75 my-2 btn btn-outline-primary d-flex align-items-center justify-content-center"><i class="material-icons">add</i>Add file</a>
+    <div class="mr-xl-5">
+        <a href="#" class="btn btn-outline-primary btn-action"><i class="material-icons">add</i>Add category</a>
+        <a href="#" class="btn btn-outline-primary btn-action"><i class="material-icons">add</i>Add file</a>
+        <a asp-action="@nameof(ResourcesController.Add)" class="btn btn-outline-primary d-flex align-items-center justify-content-center my-2 w-100"><i class="material-icons">add</i>Add resource</a>
+    </div>
 </div>
 }
