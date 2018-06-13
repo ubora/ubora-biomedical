@@ -6,26 +6,89 @@
 }
 
 <div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 mb-4">
-            <form asp-controller="ProjectList" asp-action="Search" method="post">
-                <div class="form-group">
-                    <input class="form-control" asp-for="Title" placeholder="Search UBORA for...">
-                    <span asp-validation-for="Title"></span>
+    <h1>@ViewData["Title"]</h1>
+
+    <ul class="nav nav-tabs" id="projectsTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active d-flex align-items-center" id="my-projects-tab" data-toggle="tab" href="#myProjects" role="tab" aria-controls="myProjects" aria-selected="true">
+                My projects
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" id="all-projects-tab" data-toggle="tab" href="#allProjects" role="tab" aria-controls="allProjects" aria-selected="false">
+                All projects
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="projectsTabContent">
+        <div class="tab-pane fade show active" id="myProjects" role="tabpanel" aria-labelledby="my-projects-tab">
+            <div class="my-4">
+
+            </div>
+        </div>
+        <div class="tab-pane fade" id="allProjects" role="tabpanel" aria-labelledby="all-projects-tab">
+            <div class="row py-2  d-flex align-items-center">
+                <div class="col-xl-1 col-md-2">
+                    Filter by:
                 </div>
-                <div class="text-center">
-                    <button class="btn btn-primary" type="submit">Search</button>
+                <div id="filterByArea" class="dropdown">
+                    <button class="btn btn-icon dropdown-toggle" type="button" id="areaFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Area
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="areaFilter">
+                        <a class="dropdown-item" href="#">Cardiovascular surgery</a>
+                        <a class="dropdown-item" href="#">Colorectal surgery</a>
+                    </div>
                 </div>
-            </form>
+                <div id="filterByStatus" class="dropdown">
+                    <button class="btn btn-icon dropdown-toggle" type="button" id="statusFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Status
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="statusFilter">
+                        <a class="dropdown-item" href="#">Not draft</a>
+                        <a class="dropdown-item" href="#">Draft</a>
+                    </div>
+                </div>
+                <div class="col-xl-4 mr-0 ml-auto">
+                    <form asp-controller="ProjectList" asp-action="Search" method="post">
+                        <div class="input-group search">
+                            <input class="form-control" asp-for="Title" placeholder="Search projects..." aria-describedby="btnGroupAddon">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text" id="btnGroupAddon">
+                                    <button class="btn btn-icon" type="submit"><i class="material-icons">search</i></button>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Title"></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr class="my-0" />
+            <div class="row py-2">
+                <div class="col-xl-1 col-md-2 d-flex align-items-center">
+                    Sort by:
+                </div>
+                <div id="sortByParamethers" class="dropdown">
+                    <button class="btn btn-icon dropdown-toggle" type="button" id="sortBy" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Newest
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="sortBy">
+                        <a class="dropdown-item" href="#">Newest</a>
+                        <a class="dropdown-item" href="#">Oldest</a>
+                    </div>
+                </div>
+            </div>
+            <div class="my-4">
+                @{ Html.RenderPartial("~/_Features/ProjectList/ProjectListPartial.cshtml", Model.ProjectListViewModel); }
+            </div>
         </div>
     </div>
-    @{ Html.RenderPartial("~/_Features/ProjectList/ProjectListPartial.cshtml", Model.ProjectListViewModel); }
-</div>
 
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-    <script src="~/dist/infinite_scroll.bundle.js"></script>
-    <script>
+    @section Scripts {
+        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+        <script src="~/dist/infinite_scroll.bundle.js"></script>
+        <script>
         UBORA.initInfiniteScroll('&page=', '@Html.Raw(Model.ProjectListViewModel.Pager.PageCount)', '@Html.Raw(Model.Title)');
-    </script>
-}
+        </script>
+    }

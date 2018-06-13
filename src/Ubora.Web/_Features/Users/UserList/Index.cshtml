@@ -6,21 +6,61 @@
 }
 
 <div class="container my-5">
-    <div class="infinite-scroll">
-        <h1>Community</h1>
-        <div class="post">
-            <div class="row">
-                @foreach (var user in Model.UserListItems)
-                {
-                    Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
-                        userId: user.UserId,
-                        name: user.FullName,
-                        roles: user.Role,
-                        profilePictureUrl: user.ProfilePictureLink)
-                    );
-                }
+    <h1>@ViewData["Title"]</h1>
+
+    <ul class="nav nav-tabs" id="communityTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active d-flex align-items-center" id="all-members-tab" data-toggle="tab" href="#allMembers" role="tab" aria-controls="allMembers" aria-selected="true">
+                All members
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" id="mentors-tab" data-toggle="tab" href="#mentors" role="tab" aria-controls="mentors" aria-selected="false">
+                Mentors
+            </a>
+        </li>
+    </ul>
+    <div class="row py-2">
+        <div class="col-xl-1 col-md-2 d-flex align-items-center">
+            Sort by:
+        </div>
+        <div id="sortBy" class="dropdown">
+            <button class="btn btn-icon dropdown-toggle" type="button" id="sortByName" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Lastname
+            </button>
+            <div class="dropdown-menu" aria-labelledby="sortByName">
+                <a class="dropdown-item" href="#">Lastname</a>
+                <a class="dropdown-item" href="#">Firstname</a>
             </div>
         </div>
+    </div>
+
+    <div class="tab-content" id="communityContent">
+
+        <div class="tab-pane fade show active" id="allMembers" role="tabpanel" aria-labelledby="all-members-tab">
+            <div class="infinite-scroll">
+                <div class="post">
+                    <div class="row">
+                        @foreach (var user in Model.UserListItems)
+                        {
+                            Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
+                                userId: user.UserId,
+                                name: user.FullName,
+                                roles: user.Role,
+                                profilePictureUrl: user.ProfilePictureLink)
+                            );
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="mentors" role="tabpanel" aria-labelledby="mentors-tab">
+            <div class="my-4">
+                Display mentors
+            </div>
+        </div>
+
     </div>
 
     @if (Model.Pager.PageCount > 1)
@@ -52,7 +92,6 @@
         }
     }
 </div>
-
 
 @section Scripts {
     <script src="~/dist/infinite_scroll.bundle.js"></script>
