@@ -18,6 +18,8 @@
     }
 </style>
 
+<span id="js-all-tests"></span>
+
 <section class="container my-5">
     <div class="d-lg-block d-none">
         <div class="row mx-0 py-2 border-bottom">
@@ -57,8 +59,10 @@
                 };
 
                 function runAction(index, actionUrls) {
-                    if (index >= actionUrls.length)
+                    if (index >= actionUrls.length) {
+                        $("#js-all-tests").text("All tests have run.");
                         return;
+                    }
 
                     $("#actionResult" + index).html("...");
 
