@@ -1,7 +1,6 @@
-﻿@using Microsoft.AspNetCore.Html
-@using Ubora.Web._Features.Projects._Shared
-@using Ubora.Web._Features.Users.UserList
-@model Ubora.Web._Features.Projects.Members.ProjectMemberListViewModel
+﻿@using Ubora.Web._Features.Users.UserList
+
+@model ProjectMemberListViewModel
 
 @{
     ViewData["Title"] = "Members";
@@ -40,53 +39,22 @@
         </div>
     </div>
     <div class="row">
-        @{
-            RazorDelegate createRemoveMentor =
-                @<a title="Remove mentor" asp-controller="Members" asp-action="RemoveMentor" asp-route-memberId="@item.UserId" class="dropdown-item">
-                    Remove mentor
-                </a>;
-
-            RazorDelegate createPromoteLeader = 
-                @<a title="Promote to project leader" asp-controller="Members" asp-action="PromoteMember" asp-route-memberId="@item.UserId" class="dropdown-item">
-                    Promote to project leader
-                </a>;
-
-            RazorDelegate createRemoveMember =
-                @<a title="Remove member" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@item.UserId" class="dropdown-item">
-                    Remove member
-                </a>;
-        }
-
         @foreach (var member in Model.Members)
         {
-            var contents = new List<IHtmlContent>();
-
-            if (!member.IsCurrentUser)
-            {
-                if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectMember))
-                {
-                    contents.Add(createRemoveMember(member));
-                }
-
-                if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectMentor) && member.IsProjectMentor)
-                {
-                    contents.Add(createRemoveMentor(member));
-                }
-            }
-
-            @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanPromoteMember) && !member.IsProjectLeader)
-            {
-                contents.Add(createPromoteLeader(member));
-            }
+            // TODO: Test this logic.
+            var model = new ManageMemberViewModel(
+                memberUserId: member.UserId,
+                isRemoveMemberVisible: (!member.IsCurrentUser && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectMember)),
+                isRemoveMentorVisible: (!member.IsCurrentUser && member.IsProjectMentor && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectMentor)),
+                isPromoteLeaderVisible: !member.IsProjectLeader && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanPromoteMember));
 
             Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
               userId: member.UserId,
               name: member.FullName,
               roles: member.Roles,
               profilePictureUrl: member.ProfilePictureUrl,
-              footerHtml: Html.Partial("~/_Features/Projects/Members/_DropDownPartial.cshtml", model: contents)
-            )
-          );
+              footerHtml: Html.Partial("_ManageMemberFooterPartial.cshtml", model))
+            );
         }
     </div>
 </div>

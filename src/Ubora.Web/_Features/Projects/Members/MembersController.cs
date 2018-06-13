@@ -14,6 +14,7 @@ using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Web.Authorization.Requirements;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
+using Ubora.Web._Features.Projects.Members.Models;
 using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Members

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Ubora.Web._Features.Projects.Members
+namespace Ubora.Web._Features.Projects.Members.Models
 {
     public class ProjectMemberListViewModel
     {
