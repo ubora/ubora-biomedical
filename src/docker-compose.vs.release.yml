@@ -1,9 +1,0 @@
-version: '3'
-
-services:
-  ubora.web:
-    volumes:
-      - ~/clrdbg:/clrdbg:ro
-    entrypoint: tail -f /dev/null
-    labels:
-      - "com.microsoft.visualstudio.targetoperatingsystem=linux"
