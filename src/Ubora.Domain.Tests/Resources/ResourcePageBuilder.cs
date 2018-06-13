@@ -1,6 +1,7 @@
 ﻿using System;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Resources;
+using Ubora.Domain.Resources.Commands;
 using Ubora.Domain.Users;
 
 namespace Ubora.Domain.Tests.Resources

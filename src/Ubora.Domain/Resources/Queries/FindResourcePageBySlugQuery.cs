@@ -2,7 +2,7 @@
 using Marten;
 using Ubora.Domain.Infrastructure.Queries;
 
-namespace Ubora.Domain.Resources
+namespace Ubora.Domain.Resources.Queries
 {
     public class FindResourcePageBySlugQuery : IQuery<ResourcePage>
     {

@@ -1,43 +1,46 @@
-﻿@model Ubora.Web._Features.Resources.AddResourcePostModel
+﻿@model AddResourcePostModel
 
 @{
     ViewData["Title"] = "Add resource";
 }
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesController.Index)">Resources</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
 <h1>@ViewData["Title"]</h1>
+
 <p class="bd-lead">Here you can bla-bla-bla...</p>
-<form asp-action="Add" asp-controller="Resources">
+
+<form asp-action="@nameof(ResourcesController.Add)">
     <div class="form-group">
         <label asp-for="Title">Title</label>
-        <input class="form-control" type="text" asp-for="Title" />
-        <small>URL will be:<div id="test123"></div></small>
+        <input class="form-control" asp-for="Title" placeholder='e.g. "Introduction to UBORA"' />
+        <span asp-validation-for="Title"></span>
+        <small>
+            URL will be: <br><span id="js-slug"></span>
+        </small>
     </div>
     <div class="form-group">
-        <label asp-for="Title">Content</label>
+        <label asp-for="Body">Content</label>
         <input asp-for="Body" type="hidden" />
-        <div id="editor-container" style="display: none;"></div>
+        <span asp-validation-for="Body"></span>
+        <div id="editor-container" class="form-group" style="display: none;"></div>
     </div>
-    <button type="submit" class="btn btn-primary float-right">Add</button>
+    <div class="float-right">
+        <a class="btn btn-outline-primary" asp-action="@nameof(ResourcesController.Index)" role="button">Cancel</a>
+        <button class="btn btn-primary" type="submit">Add</button>
+    </div>
 </form>
 
 @section Scripts {
     <script>
-        $(function() {
-            var quill = new Quill('#editor-container',
-            {
-                theme: 'snow'
-            });
-
-            $('#editor-container').show();
-
-            $("#@(nameof(Model.Title))").change(function() {
-                var element = $("input[id='Title']");
-                $("#test123").text(UBORA.slugify(element.val()));
-            });
-            
-            quill.on('editor-change', function() {
-                $('#@(nameof(Model.Body))').val(JSON.stringify(quill.getContents()));
-            });
-        });
+        var titleInputSelector = "#@(nameof(Model.Title))";
+        var contentInputSelector = "#@(nameof(Model.Body))";
+        var exampleTitle = "Introduction to UBORA";
+        UBORA.initAddResource(titleInputSelector, contentInputSelector, exampleTitle);
     </script>
 }

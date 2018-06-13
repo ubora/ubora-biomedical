@@ -2,7 +2,7 @@
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
 
-namespace Ubora.Domain.Resources
+namespace Ubora.Domain.Resources.Events
 {
     public class ResourceFileUploadedEvent : UboraEvent
     {

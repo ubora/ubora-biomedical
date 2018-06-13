@@ -2,6 +2,7 @@
 using Marten;
 using Moq;
 using Ubora.Domain.Resources;
+using Ubora.Domain.Resources.Commands;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Resources
@@ -32,7 +33,8 @@ namespace Ubora.Domain.Tests.Resources
             var commandResult = _handlerUnderTest.Handle(new EditResourceContentCommand
             {
                 ResourceId = resource.Id,
-                PreviousContentVersion = Guid.NewGuid()
+                PreviousContentVersion = Guid.NewGuid(),
+                Actor = new DummyUserInfo()
             });
 
             // Assert

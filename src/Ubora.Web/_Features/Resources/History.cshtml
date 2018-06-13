@@ -1,9 +1,8 @@
-﻿@using Ubora.Web._Features.Resources
-@model ResourceHistoryViewModel
+﻿@model ResourceHistoryViewModel
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Resources</a></li>
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesController.Index)">Resources</a></li>
         <li class="breadcrumb-item active" aria-current="page">@Model.Title</li>
     </ol>
 </nav>

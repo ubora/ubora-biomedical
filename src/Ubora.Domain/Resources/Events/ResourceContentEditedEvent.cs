@@ -1,8 +1,7 @@
 ﻿using System;
 using Ubora.Domain.Infrastructure.Events;
-using Ubora.Domain.Projects.Workpackages.Events;
 
-namespace Ubora.Domain.Resources
+namespace Ubora.Domain.Resources.Events
 {
     public class ResourceContentEditedEvent : UboraEvent
     {

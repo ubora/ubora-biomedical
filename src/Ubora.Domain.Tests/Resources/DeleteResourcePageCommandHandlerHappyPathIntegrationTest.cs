@@ -4,6 +4,8 @@ using FluentAssertions;
 using Marten.Linq.SoftDeletes;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Resources;
+using Ubora.Domain.Resources.Commands;
+using Ubora.Domain.Resources.Events;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Resources

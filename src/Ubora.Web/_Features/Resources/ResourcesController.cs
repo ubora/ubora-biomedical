@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Marten.Events;
 using Microsoft.AspNetCore.Mvc;
@@ -12,56 +11,13 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Resources;
+using Ubora.Domain.Resources.Commands;
+using Ubora.Domain.Resources.Queries;
+using Ubora.Web._Features.Resources.Models;
 using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Resources
 {
-    public class ResourceIndexViewModel
-    {
-        public Guid ResourceId { get; set; }
-        public string Title { get; set; }
-        public string Slug { get; set; }
-
-        public class Mapper : Projection<ResourcePage, ResourceIndexViewModel>
-        {
-            protected override Expression<Func<ResourcePage, ResourceIndexViewModel>> ToSelector()
-            {
-                return resource => new ResourceIndexViewModel
-                {
-                    ResourceId = resource.Id,
-                    Title = resource.Content.Title,
-                    Slug = resource.Slug.Value
-                };
-            }
-        }
-    }
-
-    public class ResourceReadViewModel
-    {
-        public Guid ResourceId { get; set; }
-        public string Title { get; set; }
-        public string Body { get; set; }
-    }
-
-    public class ResourceEditViewModel : ResourceEditPostModel
-    {
-        public string Title { get; set; }
-    }
-
-    public class ResourceEditPostModel
-    {
-        public Guid ResourceId { get; set; }
-        public string Body { get; set; }
-        public Guid ContentVersion { get; set; }
-    }
-
-    public class ResourceHistoryViewModel
-    {
-        public Guid ResourceId { get; set; }
-        public string Title { get; set; }
-        public IReadOnlyCollection<UboraEvent> Events { get; set; }
-    }
-
     public class ResourcesController : UboraController
     {
         private readonly IEventStore _eventStore;
@@ -76,7 +32,7 @@ namespace Ubora.Web._Features.Resources
         {
             _eventStore = eventStore;
         }
-        
+
         [Route("resources")]
         public IActionResult Index()
         {
@@ -98,7 +54,6 @@ namespace Ubora.Web._Features.Resources
         }
 
         [HttpPost]
-        
         public IActionResult Add(AddResourcePostModel model)
         {
             if (!ModelState.IsValid)
@@ -116,7 +71,7 @@ namespace Ubora.Web._Features.Resources
                 successNotice: Notice.Success("TODO"));
 
             var resourcePage = QueryProcessor.FindById<ResourcePage>(resourceId);
-            
+
             if (!ModelState.IsValid)
                 return Add();
 
@@ -209,8 +164,14 @@ namespace Ubora.Web._Features.Resources
                 Title = resourcePage.Content.Title,
                 Events = resourceEvents.ToList(),
             };
-            
+
             return View(nameof(History), model);
+        }
+
+        [Route("resources/slugify")]
+        public string Slugify(string text)
+        {
+            return Url.Action(nameof(Read), "Resources", new { slug = Slug.Generate(text).Value }, protocol: HttpContext.Request.Scheme);
         }
     }
 }

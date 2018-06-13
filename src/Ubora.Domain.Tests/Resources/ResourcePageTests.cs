@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Ubora.Domain.Resources;
+using Ubora.Domain.Resources.Events;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Resources

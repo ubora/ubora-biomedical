@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ubora.Web._Features.Resources
+namespace Ubora.Web._Features.Resources.Models
 {
     public class DeleteResourcePostModel
     {

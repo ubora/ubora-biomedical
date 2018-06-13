@@ -1,5 +1,6 @@
 ﻿using System;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Resources.Events;
 
 namespace Ubora.Domain.Resources
 {

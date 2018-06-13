@@ -17,7 +17,8 @@ module.exports = env => {
             show_more: './Scripts/modules/show_more.js',
             toggle_formcheck_extra_fields: './Scripts/modules/toggle_formcheck_extra_fields.js',
             voting: './Scripts/modules/voting.js',
-            threeDimensional_file_viewer: './Scripts/modules/3D_file_viewer.js'
+            threeDimensional_file_viewer: './Scripts/modules/3D_file_viewer.js',
+            resources: './Scripts/modules/resources.js'
         },
         // https://webpack.js.org/configuration/output/
         output: {

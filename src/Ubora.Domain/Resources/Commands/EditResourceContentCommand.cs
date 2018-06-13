@@ -1,8 +1,9 @@
 ﻿using System;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Resources.Events;
 
-namespace Ubora.Domain.Resources
+namespace Ubora.Domain.Resources.Commands
 {
     public class EditResourceContentCommand : UserCommand
     {
@@ -21,7 +22,12 @@ namespace Ubora.Domain.Resources
             
             public ICommandResult Handle(EditResourceContentCommand cmd)
             {
-                _documentSession.LoadOrThrow<ResourcePage>(cmd.ResourceId);
+                var resourcePage = _documentSession.LoadOrThrow<ResourcePage>(cmd.ResourceId);
+
+                if (resourcePage.ContentVersion != cmd.PreviousContentVersion)
+                {
+                    return CommandResult.Failed("The content has been changed while you were editing. Please refresh the page.");
+                }
 
                 _documentSession.Events.Append(
                     stream: cmd.ResourceId, 
