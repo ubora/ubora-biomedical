@@ -13,7 +13,7 @@
     </div>
 
     <div class="row mb-4">
-        <div class="col-lg-6">
+        <div class="col-xl-6 col-lg-8 col-md-6 col-sm-8 mb-xl-0 mb-sm-4">
             <div class="card">
                 <img class="card-img-top img-fluid w-100" src="@Model.ImageUrl" alt="Illustrative project photo" />
                 @if (canChangeProjectCandidateImage)
@@ -39,7 +39,7 @@
                 }
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-xl-6">
             <div class="row">
                 <div class="col-lg-9">
                     <h2 class="mb-4">@Model.Title</h2>
@@ -63,18 +63,17 @@
     </div>
 
     <div class="row mb-4">
-
-        <div class="col-lg-6">
+        <div class="col-xl-6 mb-xl-0 mb-sm-4">
             <div class="row">
                 <div class="col-lg-12">
                     <h2 class="mb-4">All votes</h2>
                 </div>
-                <div class="col-lg-4 d-flex align-items-center justify-content-center">
-                    <div class="circle voted average-number d-flex align-items-center justify-content-center">
-                        @Model.TotalScore.ToString("0.0")
+                <div class="col-lg-4 col-sm-3 col-6 d-flex align-items-center justify-content-center pr-xl-1 pr-lg-5">
+                    <div class="circle voted average-number">
+                        <span>@Model.TotalScore.ToString("0.0")</span>
                     </div>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-8 col-sm-9">
                     <span>Very good: 16-20</span>
                     <div class="progress mb-1">
                         <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentageVeryGood)%"></div>
@@ -111,10 +110,10 @@
                     <div class="row">
                         @foreach (var comment in Model.Comments)
                         {
-                            <div class="col-lg-2">
+                            <div class="col-xl-2">
                                 <img class="avatar avatar-comment" src="@comment.ProfilePictureUrl" />
                             </div>
-                            <div class="col-lg-10 mb-4">
+                            <div class="col-xl-10 mb-4">
                                 <span class="d-block">
                                     <strong><a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@comment.CommentatorId">@comment.CommentatorName</a></strong>
                                     @if (comment.IsLeader)

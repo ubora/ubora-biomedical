@@ -1,6 +1,10 @@
 ﻿@model Ubora.Web._Features.Projects.History.GeneralEventViewModel
 
-<div class="notification">
-    <p>@Model.Message</p>
-    @Html.TimeAgoHistorySpan(Model.Timestamp)
+<div class="row notification no-gutters">
+    <div class="col-lg-12">
+        <p>@Model.Message</p>
+    </div>    
+    <div class="col-lg-12">
+        @Html.TimeAgoHistorySpan(Model.Timestamp)
+    </div>
 </div>

@@ -1,7 +1,5 @@
 ﻿using System;
-using Marten.Events;
 using Newtonsoft.Json;
-using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Notifications
 {

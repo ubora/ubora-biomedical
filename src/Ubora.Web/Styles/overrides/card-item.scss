@@ -29,6 +29,7 @@
 }
 
 .user-card {
+    @extend .text-center;
 
     .avatar {
         height: 120px;
