@@ -13,11 +13,12 @@ module.exports = env => {
         // https://webpack.js.org/configuration/entry-context/
         entry: {
             app: './Scripts/app.js',
-            drag_and_drop_file_uploads: './Scripts/modules/drag_and_drop_file_uploads.js',
+            drag_and_drop_file_uploads: ['./Scripts/modules/drag_and_drop_file_uploads.js'],
             show_more: './Scripts/modules/show_more.js',
             toggle_formcheck_extra_fields: './Scripts/modules/toggle_formcheck_extra_fields.js',
             voting: './Scripts/modules/voting.js',
             threeDimensional_file_viewer: './Scripts/modules/3D_file_viewer.js',
+            infinite_scroll: './Scripts/modules/infinite_scroll.js',
             resources: './Scripts/modules/resources.js'
         },
         // https://webpack.js.org/configuration/output/
@@ -89,25 +90,29 @@ module.exports = env => {
                 allChunks: true
             }),
             new CopyWebpackPlugin([
-                {from: './node_modules/jquery/dist/jquery.min.js', to: './lib'},
-                {from: './node_modules/jquery-validation/dist/jquery.validate.min.js', to: './lib'},
-                {from: './node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js', to: './lib'},
-                {from: './node_modules/autocomplete-js/dist/autocomplete.min.js', to: './lib'},
-                {from: './node_modules/autocomplete-js/dist/autocomplete.min.css', to: './lib'},
-                {from: './node_modules/marked/marked.min.js', to: './lib'},
-                {from: './node_modules/simplemde/dist/simplemde.min.js', to: './lib'},
-                {from: './node_modules/simplemde/dist/simplemde.min.css', to: './lib'},
-                {from: './node_modules/select2/dist/js/select2.min.js', to: './lib'},
-                {from: './node_modules/select2/dist/css/select2.min.css', to: './lib'},
-                {from: './node_modules/timeago/jquery.timeago.js', to: './lib'},
-                {from: './node_modules/popper.js/dist/umd/popper.min.js', to: './lib/umd'},
-                {from: './node_modules/popper.js/dist/umd/popper.min.js.map', to: './lib/umd'},
-                {from: './node_modules/bootstrap/dist/js/bootstrap.min.js', to: './lib'},
-                {from: './node_modules/bootstrap/dist/js/bootstrap.min.js.map', to: './lib'},
-                {from: './node_modules/three/build/three.min.js', to: './lib'},
-                {from: './Scripts/lib/nexus/nexus.js', to: './lib/nexus'},
-                {from: './Scripts/lib/nexus/nexus_three.js', to: './lib/nexus'},
-                {from: './Scripts/lib/nexus/meco.js', to: './lib/nexus'}
+                {from: './node_modules/jquery/dist/jquery.min.js', to: './libs'},
+                {from: './node_modules/jquery-validation/dist/jquery.validate.min.js', to: './libs'},
+                {from: './node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js', to: './libs'},
+                {from: './node_modules/autocomplete-js/dist/autocomplete.min.js', to: './libs'},
+                {from: './node_modules/autocomplete-js/dist/autocomplete.min.css', to: './libs'},
+                {from: './node_modules/marked/marked.min.js', to: './libs'},
+                {from: './node_modules/simplemde/dist/simplemde.min.js', to: './libs'},
+                {from: './node_modules/simplemde/dist/simplemde.min.css', to: './libs'},
+                {from: './node_modules/select2/dist/js/select2.min.js', to: './libs'},
+                {from: './node_modules/select2/dist/css/select2.min.css', to: './libs'},
+                {from: './node_modules/timeago/jquery.timeago.js', to: './libs'},
+                {from: './node_modules/popper.js/dist/umd/popper.min.js', to: './libs/umd'},
+                {from: './node_modules/popper.js/dist/umd/popper.min.js.map', to: './libs/umd'},
+                {from: './node_modules/bootstrap/dist/js/bootstrap.min.js', to: './libs'},
+                {from: './node_modules/bootstrap/dist/js/bootstrap.min.js.map', to: './libs' },
+                {from: './node_modules/tether/dist/js/tether.min.js', to: './libs' },
+                {from: './node_modules/clipboard/dist/clipboard.min.js', to: './libs' },
+                {from: './node_modules/three/build/three.min.js', to: './libs'},
+                {from: './Scripts/libs/nexus/nexus.js', to: './libs/nexus'},
+                {from: './Scripts/libs/nexus/nexus_three.js', to: './libs/nexus'},
+                {from: './Scripts/libs/nexus/meco.js', to: './libs/nexus'},
+                {from: './node_modules/dropzone/dist/dropzone.js', to: './libs/dropzone.js'},
+                {from: './node_modules/dropzone/dist/min/dropzone.min.css', to: './libs/dropzone.min.css'}
             ])
         ].concat(isDevBuild ? [
             // Develop plugins:

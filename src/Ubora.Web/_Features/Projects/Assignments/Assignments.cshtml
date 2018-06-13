@@ -1,5 +1,8 @@
-﻿@using Ubora.Web._Features.Projects._Shared
+﻿@using Ubora.Web.Data
+@using Ubora.Web._Features.Projects._Shared
 @model Ubora.Web._Features.Projects.Assignments.AssignmentListViewModel
+
+@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "Assignments";
@@ -13,20 +16,41 @@
         </div>
         <div class="col-lg-3 d-flex justify-content-end">
             <a class="btn btn-outline-primary align-self-start" asp-controller="Assignments" asp-action="Add" asp-route-projectId="@Model.ProjectId">
-            <i class="material-icons">add</i>
-            <span>Add assignment</span>
+                <i class="material-icons">add</i>
+                <span>Add assignment</span>
             </a>
         </div>
     </div>
     <div class="row my-4">
         <div class="col">
             <ol>
-            @foreach (var assignment in Model.Assignments)
-            {
-                <li>
-                    <a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a>
-                </li>
-            }
+                @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditAssignment))
+                {
+                    @foreach (var assignment in Model.Assignments)
+                    {
+                        <li>
+                            <a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    @foreach (var assignment in Model.Assignments)
+                    {
+                        @if (assignment.CreatedByUserId == UserManager.GetUserAsync(User).Result.Id)
+                        {
+                            <li>
+                                <a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a asp-controller="Assignments" asp-action="View" asp-route-id="@assignment.Id">@assignment.Title</a>
+                            </li>
+                        }
+                    }
+                }
             </ol>
         </div>
     </div>

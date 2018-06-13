@@ -15,6 +15,7 @@
 @import 'overrides/profile_view.scss';
 @import 'overrides/breadcrumb.scss';
 @import 'overrides/pagination.scss';
+@import 'overrides/infinite_scroll.scss';
 
 @import 'page_components/header.scss';
 @import 'page_components/footer.scss';
@@ -27,6 +28,7 @@
 @import 'page_components/markdown_editor.scss';
 @import 'page_components/landingpage.scss';
 @import 'page_components/project_header.scss';
+@import 'page_components/3dviewer.scss';
 
 body {
     color: $text-color;

@@ -133,8 +133,22 @@ a.no-underline {
     box-shadow: 1px 1px 2px 0 rgba(0,0,0,0.1);
 }
 
-@include media-breakpoint-up(xl) {
+.comma-separator:after {
+    content: ', ';
+}
 
+.comma-separator:last-child:after {
+    content: '';
+}
+
+@include media-breakpoint-down(xs) {
+    .mt-xs-2 {
+        margin-top: .5rem;
+    }
+}
+
+
+@include media-breakpoint-up(xl) {
     .px-xl-7 {
         padding-left: ($spacer * 5) !important;
         padding-right: ($spacer * 5) !important;

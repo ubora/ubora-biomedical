@@ -14,6 +14,7 @@ namespace Ubora.Web._Features.Projects.Assignments
     {
         public Guid ProjectId { get; set; }
         public Guid Id { get; set; }
+        public Guid CreatedByUserId { get; private set; }
         public string Title { get; set; }
         public string Description { get; set; }
     }

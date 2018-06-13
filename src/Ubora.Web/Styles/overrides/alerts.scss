@@ -1,7 +1,7 @@
 .alert {
     position: fixed;
     text-align: center;
-    bottom: 0;
+    bottom: 5%;
     z-index: 9999;
     width: 40%;
 }
@@ -30,7 +30,8 @@
     border-color: $green;
 }
 
-@media (max-width: 768px) {
+@include media-breakpoint-down(md) {
+
     .alert {
         width: 90%;
     }

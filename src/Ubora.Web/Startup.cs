@@ -26,6 +26,7 @@ using TwentyTwenty.Storage.Azure;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Npgsql;
 using Ubora.Web.Infrastructure.Storage;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ubora.Web
 {
@@ -75,8 +76,7 @@ namespace Ubora.Web
             services
                 .AddMvc(options =>
                 {
-                    // TODO: Kaspar: Should definitely add but not right before Design School (might break some functionality)
-                    //options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 })
                 .AddUboraFeatureFolders(new FeatureFolderOptions {FeatureFolderName = "_Features"});
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
@@ -186,10 +186,10 @@ namespace Ubora.Web
                 var applicationDbContext = serviceProvider.GetService<ApplicationDbContext>();
                 applicationDbContext.Database.Migrate();
 
-                var domainMigrator = serviceProvider.GetService<DomainMigrator>();
-                domainMigrator.MigrateDomain(ConnectionString);
-
                 var documentStore = serviceProvider.GetService<IDocumentStore>();
+                var domainMigrator = serviceProvider.GetService<DomainMigrator>();
+
+                domainMigrator.MigrateDomain(ConnectionString);
                 documentStore.Schema.WritePatchByType("Patches");
 
                 var seeder = serviceProvider.GetService<ApplicationDataSeeder>();

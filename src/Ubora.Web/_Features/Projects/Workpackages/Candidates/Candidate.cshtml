@@ -1,5 +1,9 @@
 ﻿@model Ubora.Web._Features.Projects.Workpackages.Candidates.CandidateViewModel
 
+@{ 
+    var canChangeProjectCandidateImage = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanChangeProjectCandidateImage);
+}
+
 <div class="col-lg-7">
 
     <div class="row mb-4">
@@ -9,39 +13,39 @@
     </div>
 
     <div class="row mb-4">
-        <div class="col-lg-6">
-          <div class="card">
-              <img class="card-img-top img-fluid w-100" src="@Model.ImageUrl" alt="Illustrative project photo" />
-              @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanChangeProjectCandidateImage))
-              {
-                  <div class="card-img-overlay text-center">
-                      @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanChangeProjectCandidateImage)).Succeeded)
-                      {
-                          <a class="mx-1" href="@Url.Action("EditCandidateImage", "Candidates", new { candidateId = Model.Id })">
-                              <i class="material-icons align-middle font-size-1-1" id="EditImage">mode_edit</i>
-                              <span class="align-middle">Change image</span>
-                          </a>
-                      }
+        <div class="col-xl-6 col-lg-8 col-md-6 col-sm-8 mb-xl-0 mb-sm-4">
+            <div class="card">
+                <img class="card-img-top img-fluid w-100" src="@Model.ImageUrl" alt="Illustrative project photo" />
+                @if (canChangeProjectCandidateImage)
+                {
+                    <div class="card-img-overlay text-center">
+                        @if (canChangeProjectCandidateImage)
+                        {
+                            <a class="mx-1" href="@Url.Action("EditCandidateImage", "Candidates", new { candidateId = Model.Id })">
+                                <i class="material-icons align-middle font-size-1-1" id="EditImage">mode_edit</i>
+                                <span class="align-middle">Change image</span>
+                            </a>
+                        }
 
-                      @if (Model.HasImage && (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanRemoveProjectCandidateImage)).Succeeded)
-                      {
-                          <a class="mx-1" href="@Url.Action("RemoveCandidateImage", "Candidates", new { candidateId = Model.Id })">
-                              <i class="material-icons align-middle font-size-1-1 ">delete_forever</i>
-                              <span class="align-middle">Remove image</span>
-                          </a>
-                      }
-                  </div>
+                        @if (Model.HasImage && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectCandidateImage))
+                        {
+                            <a class="mx-1" href="@Url.Action("RemoveCandidateImage", "Candidates", new { candidateId = Model.Id })">
+                                <i class="material-icons align-middle font-size-1-1 ">delete_forever</i>
+                                <span class="align-middle">Remove image</span>
+                            </a>
+                        }
+                    </div>
 
-              }
-          </div>
+                }
+            </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-xl-6">
             <div class="row">
                 <div class="col-lg-9">
                     <h2 class="mb-4">@Model.Title</h2>
                 </div>
                 <div class="col-lg-3 d-flex justify-content-end">
-                    @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanEditProjectCandidate)).Succeeded)
+                    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectCandidate))
                     {
                         <a class="btn-icon d-flex align-content-center" href="@Url.Action("EditCandidate", "Candidates", new { candidateId = Model.Id })">
                             <i class="material-icons font-size-1-1 mx-1" id="EditImage">mode_edit</i>
@@ -59,18 +63,17 @@
     </div>
 
     <div class="row mb-4">
-
-        <div class="col-lg-6">
+        <div class="col-xl-6 mb-xl-0 mb-sm-4">
             <div class="row">
                 <div class="col-lg-12">
                     <h2 class="mb-4">All votes</h2>
                 </div>
-                <div class="col-lg-4 d-flex align-items-center justify-content-center">
-                    <div class="circle voted average-number d-flex align-items-center justify-content-center">
-                        @Model.TotalScore.ToString("0.0")
+                <div class="col-lg-4 col-sm-3 col-6 d-flex align-items-center justify-content-center pr-xl-1 pr-lg-5">
+                    <div class="circle voted average-number">
+                        <span>@Model.TotalScore.ToString("0.0")</span>
                     </div>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-8 col-sm-9">
                     <span>Very good: 16-20</span>
                     <div class="progress mb-1">
                         <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentageVeryGood)%"></div>
@@ -107,10 +110,10 @@
                     <div class="row">
                         @foreach (var comment in Model.Comments)
                         {
-                            <div class="col-lg-2">
+                            <div class="col-xl-2">
                                 <img class="avatar avatar-comment" src="@comment.ProfilePictureUrl" />
                             </div>
-                            <div class="col-lg-10 mb-4">
+                            <div class="col-xl-10 mb-4">
                                 <span class="d-block">
                                     <strong><a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@comment.CommentatorId">@comment.CommentatorName</a></strong>
                                     @if (comment.IsLeader)
@@ -123,7 +126,7 @@
                                     }
                                 </span>
                                 <span class="comment more">
-                                @comment.CommentText
+                                    @comment.CommentText
 
                                 </span>
                                 @if (comment.IsEdited)
@@ -140,7 +143,7 @@
                                         </div>
                                         @Html.Partial("RemoveCommentModal", comment.EditCommentViewModel)
                                         <div class="collapse mt-2" id="@comment.Id">@Html.Partial("_EditCommentPartial", comment.EditCommentViewModel)</div>
-                                       
+
                                     }
                                     else
                                     {
@@ -159,6 +162,17 @@
             </div>
         </div>
     </div>
+
+    @if(await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveCandidate))
+    {
+        <div class="my-4">
+            <hr />
+            <div>
+                <a asp-controller="Candidates" asp-action="RemoveCandidate" asp-route-candidateId="@Model.Id" class="btn btn-outline-danger"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete candidate</span></a>
+            </div>
+        </div>
+    }
+
 </div>
 
 

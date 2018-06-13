@@ -1,0 +1,32 @@
+﻿@model ManageMemberViewModel
+
+@if (Model.IsManageMemberDropdownVisible)
+{
+    <div class="card-footer text-muted">
+        <div class="btn-group w-100">
+            <button type="button" class="btn btn-light border-0 py-2 btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Manage member
+            </button>
+            <div class="dropdown-menu dropdown-menu-right w-100">
+                @if (Model.IsRemoveMentorVisible)
+                {
+                    <a title="Remove mentor" asp-controller="Members" asp-action="RemoveMentor" asp-route-memberId="@Model.MemberUserId" class="dropdown-item">
+                        Remove mentor
+                    </a>
+                }
+                @if (Model.IsRemoveMemberVisible)
+                {
+                    <a title="Remove member" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@Model.MemberUserId" class="dropdown-item">
+                        Remove member
+                    </a>
+                }
+                @if (Model.IsPromoteLeaderVisible)
+                {
+                    <a title="Promote to project leader" asp-controller="Members" asp-action="PromoteMember" asp-route-memberId="@Model.MemberUserId" class="dropdown-item">
+                        Promote to project leader
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+}

@@ -19,7 +19,8 @@ $theme-colors: (
     "secondary": #44AAE0 
 );
 
-
+$input-border-radius: 0;
+    
 @mixin form-field-border {
     border-bottom: 1px solid $secondary-shade;
 }

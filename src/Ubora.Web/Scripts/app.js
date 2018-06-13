@@ -2,7 +2,6 @@
 import MarkdownEditor from './modules/markdown_editor';
 import Autocomplete from './modules/autocomplete';
 import Feedback from './modules/feedback';
-import ClipboardJS from 'clipboard';
 
 import '../Styles/styles';
 
@@ -30,6 +29,14 @@ $(function () {
         $trigger.attr('data-original-title', message).tooltip('show');
         $trigger.attr('data-original-title', initialTitle);
     }
+});
+
+$(function () {
+    $('form').on('submit', function () {
+        if ($(this).valid()) {
+            $(this).find('button[type=submit]').prop('disabled', true);
+        }
+    });
 });
 
 global.UBORA = {};

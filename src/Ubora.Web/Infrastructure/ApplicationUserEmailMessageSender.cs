@@ -75,7 +75,7 @@ namespace Ubora.Web.Infrastructure
                 .MoveCssInline(removeStyleElements: true, ignoreElements: ".ignore-premailer")
                 .Html;
 
-            await _emailSender.SendEmailAsync(oldEmail, "UBORA: Changed email", messageFinalHtml, handleLinkedResources: EmailLayoutViewModel.AddLayoutAttachments);
+            await _emailSender.SendEmailAsync(oldEmail, "UBORA: Email changed", messageFinalHtml, handleLinkedResources: EmailLayoutViewModel.AddLayoutAttachments);
         }
 
         public async Task SendEmailChangeConfirmationMessage(ApplicationUser user, string newEmail)
@@ -95,7 +95,7 @@ namespace Ubora.Web.Infrastructure
                 .MoveCssInline(removeStyleElements: true, ignoreElements: ".ignore-premailer")
                 .Html;
 
-            await _emailSender.SendEmailAsync(user.Email, "UBORA: Confirm the change email", messageFinalHtml, handleLinkedResources: EmailLayoutViewModel.AddLayoutAttachments);
+            await _emailSender.SendEmailAsync(newEmail, "UBORA: Confirm the email change", messageFinalHtml, handleLinkedResources: EmailLayoutViewModel.AddLayoutAttachments);
         }
     }
 }

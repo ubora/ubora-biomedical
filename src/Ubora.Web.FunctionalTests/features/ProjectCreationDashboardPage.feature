@@ -77,7 +77,7 @@ Scenario: I click Assignments and add an Assignment
         And I click on the element "button=Add assignment"
     Then I expect the element "a=Assignment Title" is visible
     When I click on the element "a=Assignment Title"
-    Then I expect the title of the page "Assignments - UBORA"
+    Then I expect the title of the page "Edit assignment - UBORA"
         And I expect the element "textarea=Assignment Description" is visible
 
 Scenario: I click Assignments and try to add an empty Assignment
