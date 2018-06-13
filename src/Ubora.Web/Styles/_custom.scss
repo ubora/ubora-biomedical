@@ -1,4 +1,5 @@
-﻿@import 'helpers.scss';
+﻿@import 'colors';
+@import 'helpers.scss';
 
 @import 'overrides/alerts.scss';
 @import 'overrides/forms.scss';
@@ -41,3 +42,15 @@ main {
     flex-grow: 1;
     min-height: 70vh;
 }
+
+@mixin form-field-border {
+    border-bottom: 1px solid $secondary-shade;
+}
+
+@mixin bg-size-cover {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
