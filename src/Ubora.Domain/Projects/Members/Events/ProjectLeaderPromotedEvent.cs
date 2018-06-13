@@ -11,8 +11,8 @@ namespace Ubora.Domain.Projects.Members.Events
             UserId = userId;
         }
 
-        public Guid UserId { get; internal set; }
+        public Guid UserId { get; }
 
-        public override string GetDescription() => $"Promoted to {StringTokens.User(UserId)} project leader.";
+        public override string GetDescription() => $"Promoted {StringTokens.User(UserId)} to be the project leader.";
     }
 }

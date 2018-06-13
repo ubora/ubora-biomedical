@@ -14,18 +14,9 @@
         </div>
         @if (Model.FooterHtml != null)
         {
-        <div class="card-footer text-muted">
-            <div class="btn-group w-100">
-                <button type="button" class="btn btn-light border-0 py-2 btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Manage member
-                </button>
-                <div class="dropdown-menu dropdown-menu-right w-100">
+
                     @Model.FooterHtml
-                     @*TODO: Add new action to project member 'add project leader'*@
-                    @*<button class="dropdown-item" type="button">Add project leader role</button>*@
-                </div>
-            </div>
-        </div>
+
         }
     </div>
 </div>

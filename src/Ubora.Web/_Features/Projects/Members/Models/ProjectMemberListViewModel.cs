@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Ubora.Web._Features.Projects.Members
+namespace Ubora.Web._Features.Projects.Members.Models
 {
     public class ProjectMemberListViewModel
     {
@@ -18,7 +18,6 @@ namespace Ubora.Web._Features.Projects.Members
             public bool IsCurrentUser { get; set; }
             public bool IsProjectMentor { get; set; }
             public string ProfilePictureUrl { get; set; }
-            public bool CanUseDropdown { get; set; } 
 
             public string Roles
             {
