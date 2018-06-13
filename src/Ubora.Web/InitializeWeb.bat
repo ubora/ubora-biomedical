@@ -1,1 +1,0 @@
-powershell -noexit -executionpolicy bypass -File "InitializeWeb.ps1"
