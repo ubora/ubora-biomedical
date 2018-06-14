@@ -6,7 +6,6 @@
     ViewData["MenuOption"] = ProjectMenuOption.Overview;
 }
 
-<div class="container my-4">
     <div class="row">
         <div class="col-lg-5">
             <div class="row">
@@ -31,8 +30,8 @@
                                 }
                                 else
                                 {
-                                    <a asp-controller="Dashboard" asp-action="EditProjectImage">
-                                        <i class="material-icons" id="EditImage">mode_edit</i>
+                                    <a class="btn-icon" asp-controller="Dashboard" asp-action="EditProjectImage">
+                                        <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
                                         <span>Add image</span>
                                     </a>
                                 }
@@ -199,4 +198,3 @@
         </div>
 
     }
-</div>

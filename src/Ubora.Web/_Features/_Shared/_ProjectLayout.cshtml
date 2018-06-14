@@ -25,13 +25,12 @@
             <div class="container-fluid">
 
                 <div class="row project-header-container">
-                    <div class="col-3"></div>
-                    <div class="col-7">
+                    <div class="col-xl-3"></div>
+                    <div class="col-xl-9">
                         @{
                             Html.RenderPartial("~/_Features/Projects/_Shared/_ProjectMenu.cshtml", new ProjectMenuViewModel((ProjectMenuOption)projectMenuOption));
                         }
                     </div>
-                    <div class="col-2"></div>
                 </div>
             </div>
         }
@@ -73,7 +72,7 @@
 
             <div class="container-fluid my-4">
                 <div class="row">
-                    <div class="col-xl-3">
+                    <div class="col-lg-3">
                         @if (wpSideMenuComponent != null)
                         {
                             <div class="wp-sidemenu">
@@ -85,7 +84,7 @@
                             @RenderSection("Left", required: false)
                         }
                     </div>
-                    <div class="col-xl-7">
+                    <div class="col-lg-9">
                         @RenderBody()
                     </div>
                     <div class="col-xl-2"></div>

@@ -7,22 +7,15 @@
     ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
 }
 
-<div class="col-lg-7">
-
-    <h1>Review WP1</h1>
-
-    <p>Provide some feedback about this project. Please remember to be constructive.</p>
-
-    <form class="my-4" method="post">
-        <div class="form-group">
-            <textarea class="w-100" asp-for="ConcludingComment" placeholder="Provide some feedback..." rows="8"></textarea>
-        </div>
-
-        <div class="form-group d-flex justify-content-center">
-            <button class="btn btn-outline-primary" type="submit" formaction="@Model.RejectUrl">Reject</button>
-            <span class="mx-1"></span>
-            <button class="btn btn-primary" type="submit" formaction="@Model.AcceptUrl">Accept</button>
-        </div>
-    </form>
-
-</div>
+<h1>Review WP1</h1>
+<p>Provide some feedback about this project. Please remember to be constructive.</p>
+<form class="my-4" method="post">
+    <div class="form-group">
+        <textarea class="w-100" asp-for="ConcludingComment" placeholder="Provide some feedback..." rows="8"></textarea>
+    </div>
+    <div class="form-group d-flex justify-content-center">
+        <button class="btn btn-outline-primary" type="submit" formaction="@Model.RejectUrl">Reject</button>
+        <span class="mx-1"></span>
+        <button class="btn btn-primary" type="submit" formaction="@Model.AcceptUrl">Accept</button>
+    </div>
+</form>
