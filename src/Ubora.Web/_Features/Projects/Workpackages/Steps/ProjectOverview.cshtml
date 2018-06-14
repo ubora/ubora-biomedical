@@ -8,140 +8,138 @@
     ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.DesignPlanning;
 }
 
-<div class="col-lg-7">
-    <h1>Design planning</h1>
+<h1>Design planning</h1>
 
-    <form asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="form-group">
-            <label asp-for="ClinicalNeedTags">Clinical need</label>
-            <select class="form-control" asp-for="ClinicalNeedTags">
-                <option selected disabled>Select a clinical need</option>
-                <option value="Monitoring purpose">Monitoring purpose</option>
-                <option value="Non-surgical therapy / Administration of drugs">Non-surgical therapy / Administration of drugs</option>
-                <option value="Point-of-care diagnosis">Point-of-care diagnosis</option>
-                <option value="Prevention of pathology or disease">Prevention of pathology or disease</option>
+    <div class="form-group">
+        <label asp-for="ClinicalNeedTags">Clinical need</label>
+        <select class="form-control" asp-for="ClinicalNeedTags">
+            <option selected disabled>Select a clinical need</option>
+            <option value="Monitoring purpose">Monitoring purpose</option>
+            <option value="Non-surgical therapy / Administration of drugs">Non-surgical therapy / Administration of drugs</option>
+            <option value="Point-of-care diagnosis">Point-of-care diagnosis</option>
+            <option value="Prevention of pathology or disease">Prevention of pathology or disease</option>
+            <option value="Rehabilitation">Rehabilitation</option>
+            <option value="Remote or self-diagnosis">Remote or self-diagnosis</option>
+            <option value="Replacement of human tissues or organs">Replacement of human tissues or organs</option>
+            <option value="Support to laboratory practice">Support to laboratory practice</option>
+            <option value="Support to medical practice">Support to medical practice</option>
+            <option value="Support to surgery">Support to surgery</option>
+        </select>
+        <span asp-validation-for="ClinicalNeedTags"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AreaOfUsageTags">Area</label>
+        <select class="form-control" asp-for="AreaOfUsageTags">
+            <option selected disabled>Select an area of usage</option>
+            <optgroup label="From surgical fields">
+                <option value="Cardiovascular surgery">Cardiovascular surgery</option>
+                <option value="Colorectal surgery">Colorectal surgery</option>
+                <option value="General surgery">General surgery</option>
+                <option value="Neurosurgery">Neurosurgery</option>
+                <option value="Oncologic surgery">Oncologic surgery</option>
+                <option value="Ophthalmic surgery">Ophthalmic surgery</option>
+                <option value="Oral and maxillofacial surgery">Oral and maxillofacial surgery</option>
+                <option value="Orthopedic surgery">Orthopedic surgery</option>
+                <option value="Otolaryngology">Otolaryngology</option>
+                <option value="Pediatric surgery">Pediatric surgery</option>
+                <option value="Plastic surgery">Plastic surgery</option>
+                <option value="Podiatric surgery">Podiatric surgery</option>
+                <option value="Transplant surgery">Transplant surgery</option>
+                <option value="Trauma surgery">Trauma surgery</option>
+                <option value="Urology">Urology</option>
+                <option value="Vascular surgery">Vascular surgery</option>
+            </optgroup>
+            <optgroup label="From internal medicine">
+                <option value="Angiology / vascular medicine">Angiology / vascular medicine</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Critical care medicine">Critical care medicine</option>
+                <option value="Endocrinology">Endocrinology</option>
+                <option value="Gastroenterology">Gastroenterology</option>
+                <option value="Geriatrics">Geriatrics</option>
+                <option value="Hematology">Hematology</option>
+                <option value="Hepatology">Hepatology</option>
+                <option value="Infectious disease">Infectious disease</option>
+                <option value="Nephrology">Nephrology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Oncology">Oncology</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Pneumology / chest medicine">Pneumology / chest medicine</option>
+                <option value="Rheumatology">Rheumatology</option>
+                <option value="Sports medicine">Sports medicine</option>
+                <option value="Traumatology and orthopedics">Traumatology and orthopedics</option>
+            </optgroup>
+            <optgroup label="From diagnostic medicine">
+                <option value="Athology">Athology</option>
+                <option value="Cellular pathology">Cellular pathology</option>
+                <option value="Clinical chemistry">Clinical chemistry</option>
+                <option value="Clinical immunology">Clinical immunology</option>
+                <option value="Clinical microbiology">Clinical microbiology</option>
+                <option value="Clinical neurophysiology">Clinical neurophysiology</option>
+                <option value="Diagnostic radiology">Diagnostic radiology</option>
+                <option value="Hematology">Hematology</option>
+                <option value="Molecular biology">Molecular biology</option>
+                <option value="Nuclear medicine">Nuclear medicine</option>
+                <option value="Transfusion medicine">Transfusion medicine</option>
+            </optgroup>
+            <optgroup label="From other major disciplines">
+                <option value="Anesthesiology">Anesthesiology</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="Emergency medicine">Emergency medicine</option>
+                <option value="Family medicine">Family medicine</option>
+                <option value="Gerontology">Gerontology</option>
+                <option value="Medical genetics">Medical genetics</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Obstetrics and gynecology">Obstetrics and gynecology</option>
+                <option value="Ophthalmology">Ophthalmology</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Pharmaceutical medicine">Pharmaceutical medicine</option>
+                <option value="Preventive medicine">Preventive medicine</option>
+                <option value="Psychiatry">Psychiatry</option>
+                <option value="Public health">Public health</option>
                 <option value="Rehabilitation">Rehabilitation</option>
-                <option value="Remote or self-diagnosis">Remote or self-diagnosis</option>
-                <option value="Replacement of human tissues or organs">Replacement of human tissues or organs</option>
-                <option value="Support to laboratory practice">Support to laboratory practice</option>
-                <option value="Support to medical practice">Support to medical practice</option>
-                <option value="Support to surgery">Support to surgery</option>
-            </select>
-            <span asp-validation-for="ClinicalNeedTags"></span>
-        </div>
+            </optgroup>
+        </select>
+        <span asp-validation-for="AreaOfUsageTags"></span>
+    </div>
 
-        <div class="form-group">
-            <label asp-for="AreaOfUsageTags">Area</label>
-            <select class="form-control" asp-for="AreaOfUsageTags">
-                <option selected disabled>Select an area of usage</option>
-                <optgroup label="From surgical fields">
-                    <option value="Cardiovascular surgery">Cardiovascular surgery</option>
-                    <option value="Colorectal surgery">Colorectal surgery</option>
-                    <option value="General surgery">General surgery</option>
-                    <option value="Neurosurgery">Neurosurgery</option>
-                    <option value="Oncologic surgery">Oncologic surgery</option>
-                    <option value="Ophthalmic surgery">Ophthalmic surgery</option>
-                    <option value="Oral and maxillofacial surgery">Oral and maxillofacial surgery</option>
-                    <option value="Orthopedic surgery">Orthopedic surgery</option>
-                    <option value="Otolaryngology">Otolaryngology</option>
-                    <option value="Pediatric surgery">Pediatric surgery</option>
-                    <option value="Plastic surgery">Plastic surgery</option>
-                    <option value="Podiatric surgery">Podiatric surgery</option>
-                    <option value="Transplant surgery">Transplant surgery</option>
-                    <option value="Trauma surgery">Trauma surgery</option>
-                    <option value="Urology">Urology</option>
-                    <option value="Vascular surgery">Vascular surgery</option>
-                </optgroup>
-                <optgroup label="From internal medicine">
-                    <option value="Angiology / vascular medicine">Angiology / vascular medicine</option>
-                    <option value="Cardiology">Cardiology</option>
-                    <option value="Critical care medicine">Critical care medicine</option>
-                    <option value="Endocrinology">Endocrinology</option>
-                    <option value="Gastroenterology">Gastroenterology</option>
-                    <option value="Geriatrics">Geriatrics</option>
-                    <option value="Hematology">Hematology</option>
-                    <option value="Hepatology">Hepatology</option>
-                    <option value="Infectious disease">Infectious disease</option>
-                    <option value="Nephrology">Nephrology</option>
-                    <option value="Neurology">Neurology</option>
-                    <option value="Oncology">Oncology</option>
-                    <option value="Pediatrics">Pediatrics</option>
-                    <option value="Pneumology / chest medicine">Pneumology / chest medicine</option>
-                    <option value="Rheumatology">Rheumatology</option>
-                    <option value="Sports medicine">Sports medicine</option>
-                    <option value="Traumatology and orthopedics">Traumatology and orthopedics</option>
-                </optgroup>
-                <optgroup label="From diagnostic medicine">
-                    <option value="Athology">Athology</option>
-                    <option value="Cellular pathology">Cellular pathology</option>
-                    <option value="Clinical chemistry">Clinical chemistry</option>
-                    <option value="Clinical immunology">Clinical immunology</option>
-                    <option value="Clinical microbiology">Clinical microbiology</option>
-                    <option value="Clinical neurophysiology">Clinical neurophysiology</option>
-                    <option value="Diagnostic radiology">Diagnostic radiology</option>
-                    <option value="Hematology">Hematology</option>
-                    <option value="Molecular biology">Molecular biology</option>
-                    <option value="Nuclear medicine">Nuclear medicine</option>
-                    <option value="Transfusion medicine">Transfusion medicine</option>
-                </optgroup>
-                <optgroup label="From other major disciplines">
-                    <option value="Anesthesiology">Anesthesiology</option>
-                    <option value="Dermatology">Dermatology</option>
-                    <option value="Emergency medicine">Emergency medicine</option>
-                    <option value="Family medicine">Family medicine</option>
-                    <option value="Gerontology">Gerontology</option>
-                    <option value="Medical genetics">Medical genetics</option>
-                    <option value="Neurology">Neurology</option>
-                    <option value="Obstetrics and gynecology">Obstetrics and gynecology</option>
-                    <option value="Ophthalmology">Ophthalmology</option>
-                    <option value="Pediatrics">Pediatrics</option>
-                    <option value="Pharmaceutical medicine">Pharmaceutical medicine</option>
-                    <option value="Preventive medicine">Preventive medicine</option>
-                    <option value="Psychiatry">Psychiatry</option>
-                    <option value="Public health">Public health</option>
-                    <option value="Rehabilitation">Rehabilitation</option>
-                </optgroup>
-            </select>
-            <span asp-validation-for="AreaOfUsageTags"></span>
-        </div>
+    <div class="form-group">
+        <label asp-for="PotentialTechnologyTags">Technology</label>
+        <select class="form-control" asp-for="PotentialTechnologyTags">
+            <option selected disabled>Select potential technology</option>
+            <option value="Active implantable device">Active implantable device</option>
+            <option value="E-based technology">E-based technology</option>
+            <option value="Ergonomic support">Ergonomic support</option>
+            <option value="Implantable device">Implantable device</option>
+            <option value="In vitro diagnostic device">In vitro diagnostic device</option>
+            <option value="In vivo diagnostic device">In vivo diagnostic device</option>
+            <option value="Laboratory equipment">Laboratory equipment</option>
+            <option value="Mobile-based technology">Mobile-based technology</option>
+            <option value="Monitoring device">Monitoring device</option>
+            <option value="Other supporting equipment">Other supporting equipment</option>
+            <option value="Preventive device">Preventive device</option>
+            <option value="Software">Software</option>
+            <option value="Surgical device">Surgical device</option>
+        </select>
+        <span asp-validation-for="PotentialTechnologyTags"></span>
+    </div>
 
-        <div class="form-group">
-            <label asp-for="PotentialTechnologyTags">Technology</label>
-            <select class="form-control" asp-for="PotentialTechnologyTags">
-                <option selected disabled>Select potential technology</option>
-                <option value="Active implantable device">Active implantable device</option>
-                <option value="E-based technology">E-based technology</option>
-                <option value="Ergonomic support">Ergonomic support</option>
-                <option value="Implantable device">Implantable device</option>
-                <option value="In vitro diagnostic device">In vitro diagnostic device</option>
-                <option value="In vivo diagnostic device">In vivo diagnostic device</option>
-                <option value="Laboratory equipment">Laboratory equipment</option>
-                <option value="Mobile-based technology">Mobile-based technology</option>
-                <option value="Monitoring device">Monitoring device</option>
-                <option value="Other supporting equipment">Other supporting equipment</option>
-                <option value="Preventive device">Preventive device</option>
-                <option value="Software">Software</option>
-                <option value="Surgical device">Surgical device</option>
-            </select>
-            <span asp-validation-for="PotentialTechnologyTags"></span>
-        </div>
+    <div class="form-group">
+        <label asp-for="Gmdn">Project keywords</label>
+        <input class="form-control" asp-for="Gmdn" placeholder="A few keywords about your project">
+        <span asp-validation-for="Gmdn"></span>
+    </div>
 
-        <div class="form-group">
-            <label asp-for="Gmdn">Project keywords</label>
-            <input class="form-control" asp-for="Gmdn" placeholder="A few keywords about your project">
-            <span asp-validation-for="Gmdn"></span>
-        </div>
+    <div class="d-flex justify-content-center flex-wrap-reverse">
+        <a class="btn btn-outline-primary" asp-controller="WorkpackageOne" asp-action="DiscardDesignPlanningChanges" asp-route-returnUrl="@ViewData["ReturnUrl"]" role="button">Discard</a>
+        <span class="mx-1"></span>
+        <button class="btn btn-primary" type="submit">Save changes</button>
+    </div>
 
-        <div class="d-flex justify-content-center flex-wrap-reverse">
-            <a class="btn btn-outline-primary" asp-controller="WorkpackageOne" asp-action="DiscardDesignPlanningChanges" asp-route-returnUrl="@ViewData["ReturnUrl"]" role="button">Discard</a>
-            <span class="mx-1"></span>
-            <button class="btn btn-primary" type="submit">Save changes</button>
-        </div>
-
-    </form>
-</div>
+</form>
 
 @section Head {
     <link rel="stylesheet"
