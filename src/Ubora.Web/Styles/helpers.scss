@@ -81,6 +81,28 @@
     color: $primary-shade;
 }
 
+/* text colors */
+.text-faded-dark {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.text-faded {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* background colors */
+.bg-blue {
+    background-color: $blue;
+}
+
+.bg-dark {
+    background-color: $dark;
+}
+
+.bg-light-grey {
+    background-color: $quartinary-shade;
+}
+
 /*hide content*/
 .hide {
 	display: none;

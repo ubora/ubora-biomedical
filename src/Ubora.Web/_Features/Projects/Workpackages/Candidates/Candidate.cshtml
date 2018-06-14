@@ -21,17 +21,17 @@
                     <div class="card-img-overlay text-center">
                         @if (canChangeProjectCandidateImage)
                         {
-                            <a class="mx-1" href="@Url.Action("EditCandidateImage", "Candidates", new { candidateId = Model.Id })">
-                                <i class="material-icons align-middle font-size-1-1" id="EditImage">mode_edit</i>
-                                <span class="align-middle">Change image</span>
+                            <a class="btn-icon" href="@Url.Action("EditCandidateImage", "Candidates", new { candidateId = Model.Id })">
+                                <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
+                                <span>Change image</span>
                             </a>
                         }
 
                         @if (Model.HasImage && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectCandidateImage))
                         {
-                            <a class="mx-1" href="@Url.Action("RemoveCandidateImage", "Candidates", new { candidateId = Model.Id })">
-                                <i class="material-icons align-middle font-size-1-1 ">delete_forever</i>
-                                <span class="align-middle">Remove image</span>
+                            <a class="btn-icon" href="@Url.Action("RemoveCandidateImage", "Candidates", new { candidateId = Model.Id })">
+                                <i class="material-icons font-size-1-1 ">delete_forever</i>
+                                <span>Remove image</span>
                             </a>
                         }
                     </div>
@@ -47,8 +47,8 @@
                 <div class="col-lg-3 d-flex justify-content-end">
                     @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectCandidate))
                     {
-                        <a class="btn-icon d-flex align-content-center" href="@Url.Action("EditCandidate", "Candidates", new { candidateId = Model.Id })">
-                            <i class="material-icons font-size-1-1 mx-1" id="EditImage">mode_edit</i>
+                        <a class="btn-icon" href="@Url.Action("EditCandidate", "Candidates", new { candidateId = Model.Id })">
+                            <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
                             <span>Edit</span>
                         </a>
                     }
