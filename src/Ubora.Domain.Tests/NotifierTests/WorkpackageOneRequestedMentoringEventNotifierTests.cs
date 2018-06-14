@@ -17,9 +17,14 @@ namespace Ubora.Domain.Tests.NotifierTests
     {
         private readonly WorkpackageOneReviewRequestedMentoringEvent.Notifier _notifierUnderTest;
         private readonly TestFindUboraAdministratorsQueryHandler _findUboraAdministratorsQueryHandler = new TestFindUboraAdministratorsQueryHandler();
+        private readonly TestFindUboraManagementGroupHandler _findUboraManagementGroupHandler = new TestFindUboraManagementGroupHandler();
 
         protected override void RegisterAdditional(ContainerBuilder builder)
         {
+            builder.RegisterInstance(_findUboraManagementGroupHandler)
+                .As<IQueryHandler<FindUboraManagementGroupQuery, IReadOnlyCollection<UserProfile>>>()
+                .SingleInstance();
+
             builder.RegisterInstance(_findUboraAdministratorsQueryHandler)
                 .As<IQueryHandler<FindUboraAdministratorsQuery, IReadOnlyCollection<UserProfile>>>()
                 .SingleInstance();
@@ -33,6 +38,9 @@ namespace Ubora.Domain.Tests.NotifierTests
         [Fact]
         public void Notifies_Administrators()
         {
+            var managementGroupUsers = new List<UserProfile> { new UserProfile(Guid.NewGuid()), new UserProfile(Guid.NewGuid()) };
+            _findUboraManagementGroupHandler.UboraManagementGroupProfilesToReturn = managementGroupUsers;
+
             var administrators = new List<UserProfile> { new UserProfile(Guid.NewGuid()), new UserProfile(Guid.NewGuid()) };
             _findUboraAdministratorsQueryHandler.AdministratorsProfilesToReturn = administrators;
 
@@ -58,10 +66,10 @@ namespace Ubora.Domain.Tests.NotifierTests
                 .All(x => x.EventId == eventId && x.EventType == typeof(WorkpackageOneReviewRequestedMentoringEvent))
                 .Should().BeTrue();
 
-            notifications.Count.Should().Be(administrators.Count);
+            var managementGroupUserAndAdministratorsIds = administrators.Select(x => x.UserId).Concat(managementGroupUsers.Select(x => x.UserId));
 
-            var expectedUserIds = administrators.Select(x => x.UserId);
-            notifications.Select(n => n.NotificationTo).Should().BeEquivalentTo(expectedUserIds);
+            notifications.Count.Should().Be(managementGroupUserAndAdministratorsIds.Count());
+            notifications.Select(n => n.NotificationTo).Should().BeEquivalentTo(managementGroupUserAndAdministratorsIds);
         }
     }
 }

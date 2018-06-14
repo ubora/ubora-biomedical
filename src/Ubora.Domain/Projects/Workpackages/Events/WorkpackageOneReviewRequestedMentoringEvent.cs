@@ -35,13 +35,17 @@ namespace Ubora.Domain.Projects.Workpackages.Events
             {
                 var project = _documentSession.Load<Project>(@event.ProjectId);
 
+                var managementGroupUsers = _queryProcessor.ExecuteQuery(new FindUboraManagementGroupQuery());
+                var notificationsTomanagementGroupUsers = managementGroupUsers
+                    .Select(managementGroupUser => EventNotification.Create(eventWithMetadata.Data, eventWithMetadata.Id, managementGroupUser.UserId));
+                _documentSession.StoreUboraNotificationsIfAny(notificationsTomanagementGroupUsers);
+
                 var admins = _queryProcessor
                     .ExecuteQuery(new FindUboraAdministratorsQuery());
-
-                var notifications = admins
+                var notificationsToAdmins = admins
                         .Select(admin => EventNotification.Create(eventWithMetadata.Data, eventWithMetadata.Id, admin.UserId));
 
-                _documentSession.StoreUboraNotificationsIfAny(notifications);
+                _documentSession.StoreUboraNotificationsIfAny(notificationsToAdmins);
                 _documentSession.SaveChanges();
             }
         }
