@@ -17,7 +17,7 @@ namespace Ubora.Domain.Tests.Resources
             // Act
             Action act = () => resourcePage.Apply(new ResourceContentEditedEvent(
                 initiatedBy: new DummyUserInfo(),
-                content: new ResourceContent("abc", "dfg"), 
+                content: new ResourceContent("abc", new QuillDelta("dfg")), 
                 previousContentVersion: Guid.NewGuid()));
 
             // Assert

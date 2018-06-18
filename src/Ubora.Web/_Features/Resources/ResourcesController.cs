@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AngleSharp.Extensions;
 using Marten.Events;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.NodeServices;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Commands;
 using Ubora.Domain.Resources.Queries;
+using Ubora.Web.Authorization;
 using Ubora.Web._Features.Resources.Models;
 using Ubora.Web._Features._Shared.Notices;
 
@@ -48,17 +48,20 @@ namespace Ubora.Web._Features.Resources
             return View("Index", models);
         }
 
-        public IActionResult Add()
+        public virtual IActionResult Add()
         {
             return View(nameof(Add));
         }
 
         [HttpPost]
-        public IActionResult Add(AddResourcePostModel model)
+        public async Task<IActionResult> Add(AddResourcePostModel model)
         {
+            if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanAddResourcePage))
+                return Unauthorized();
+            
             if (!ModelState.IsValid)
                 return Add();
-
+            
             var resourceId = Guid.NewGuid();
             ExecuteUserCommand(
                 new CreateResourcePageCommand
@@ -66,7 +69,7 @@ namespace Ubora.Web._Features.Resources
                     ResourceId = resourceId,
                     Content = new ResourceContent(
                         title: model.Title,
-                        body: model.Body)
+                        body: new QuillDelta(model.Body))
                 },
                 successNotice: Notice.Success("TODO"));
 
@@ -75,7 +78,7 @@ namespace Ubora.Web._Features.Resources
             if (!ModelState.IsValid)
                 return Add();
 
-            return RedirectToAction(nameof(Read), new { slug = resourcePage.Slug.Value });
+            return RedirectToAction(nameof(Read), new { slug = resourcePage.Slug });
         }
 
         [HttpPost]
@@ -87,47 +90,31 @@ namespace Ubora.Web._Features.Resources
         }
 
         [Route("r/{slug}")]
-        public async Task<IActionResult> Read(string slug, [FromServices]INodeServices nodeServices)
+        public async Task<IActionResult> Read(string slug, [FromServices]ResourceReadViewModel.Factory modelFactory)
         {
             var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugQuery(slug));
-
-            ResourceReadViewModel model = new ResourceReadViewModel
-            {
-                ResourceId = resourcePage.Id,
-                Body = await nodeServices.InvokeExportAsync<string>("./Scripts/app-backend", "convertQuillDeltaToHtml", resourcePage.Content.Body),
-                Title = resourcePage.Content.Title
-            };
-
+            var model = await modelFactory.Create(resourcePage);
             return View(nameof(Read), model);
         }
 
         [Route("r/{slug}/edit")]
-        public IActionResult Edit(string slug)
+        public IActionResult Edit(string slug, [FromServices]ResourceEditViewModel.Factory modelFactory)
         {
-            ResourceEditViewModel model =
-                QueryProcessor
-                    .ExecuteQuery(new FindResourcePageBySlugQuery(slug))
-                    .ThenReturn(resource => new ResourceEditViewModel
-                    {
-                        ResourceId = resource.Id,
-                        Body = resource.Content.Body,
-                        Title = resource.Content.Title,
-                        ContentVersion = resource.ContentVersion
-                    });
-
+            var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugQuery(slug));
+            var model = modelFactory.Create(resourcePage);
             return View(nameof(Edit), model);
         }
 
         [HttpPost]
         [Route("r/{slug}/edit")]
-        public IActionResult Edit(ResourceEditPostModel model)
+        public IActionResult Edit(ResourceEditPostModel model, [FromServices]ResourceEditViewModel.Factory modelFactory)
         {
             var resource = QueryProcessor.FindById<ResourcePage>(model.ResourceId);
             if (resource == null)
                 return NotFound();
 
             if (!ModelState.IsValid)
-                return Edit(resource.Slug.Value);
+                return Edit(resource.Slug.Value, modelFactory);
 
             ExecuteUserCommand(
                 new EditResourceContentCommand
@@ -135,21 +122,21 @@ namespace Ubora.Web._Features.Resources
                     ResourceId = model.ResourceId,
                     Content = new ResourceContent(
                         title: resource.Content.Title,
-                        body: model.Body),
+                        body: new QuillDelta(model.Body)),
                     PreviousContentVersion = model.ContentVersion
                 },
                 successNotice: Notice.Success("TODO"));
 
             if (!ModelState.IsValid)
-                return Edit(resource.Slug.Value);
+                return Edit(resource.Slug.Value, modelFactory);
 
-            return RedirectToAction(nameof(Read), new { slug = resource.Slug.Value });
+            return RedirectToAction(nameof(Read), new { slug = resource.Slug });
         }
 
         [Route("resources/{slug}/history")]
         public async Task<IActionResult> History(string slug)
         {
-            var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugQuery(slug));
+            var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugQuery(slug)); 
 
             var resourceEvents =
                 (await _eventStore.FetchStreamAsync(

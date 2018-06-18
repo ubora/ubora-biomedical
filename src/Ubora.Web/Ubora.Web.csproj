@@ -12,6 +12,7 @@
     <None Remove="_Features\Projects\DeviceClassification\**" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="0.9.9.2" />
     <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.2" />
     <PackageReference Include="AutoMapper" Version="6.1.1" />

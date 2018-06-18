@@ -2,13 +2,13 @@
 {
     public class ResourceContent
     {
-        public ResourceContent(string title, string body)
+        public ResourceContent(string title, QuillDelta body)
         {
             Title = title;
             Body = body;
         }
         
         public string Title { get; }
-        public string Body { get; }
+        public QuillDelta Body { get; }
     }
 }

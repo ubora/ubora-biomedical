@@ -15,6 +15,11 @@ namespace Ubora.Domain.Resources
 
         public string Value { get; }
 
+        public override string ToString()
+        {
+            return Value;
+        }
+
         public static Slug Generate(string title)
         {
             return new Slug(value: ToFriendlyUrl(title, utf8: true, maxlen: 80));

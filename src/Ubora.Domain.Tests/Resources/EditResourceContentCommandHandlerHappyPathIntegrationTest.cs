@@ -12,8 +12,8 @@ namespace Ubora.Domain.Tests.Resources
         [Fact]
         public void Resource_Page_Content_Can_Be_Edited()
         {
-            var initialContent = new ResourceContent("initialTitle", "initialBody");
-            var editedContent = new ResourceContent("editedTitle", "editedBody");
+            var initialContent = new ResourceContent("initialTitle", new QuillDelta("initialBody"));
+            var editedContent = new ResourceContent("editedTitle", new QuillDelta("editedBody"));
             
             var resource = new ResourcePageBuilder()
                 .WithContent(initialContent)

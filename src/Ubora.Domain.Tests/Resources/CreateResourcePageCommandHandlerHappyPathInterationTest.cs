@@ -16,7 +16,7 @@ namespace Ubora.Domain.Tests.Resources
             var resourceId = Guid.NewGuid();
             var content = new ResourceContent(
                 title: "Introduction page",
-                body: "Hello, and welcome!");
+                body: new QuillDelta("Hello, and welcome!"));
             
             var command = new CreateResourcePageCommand
             {

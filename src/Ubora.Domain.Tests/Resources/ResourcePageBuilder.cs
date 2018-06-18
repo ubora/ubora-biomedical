@@ -12,7 +12,7 @@ namespace Ubora.Domain.Tests.Resources
     public class ResourcePageBuilder
     {
         private Guid ResourceId { get; set; } = Guid.NewGuid();
-        private ResourceContent Content { get; set; } = new ResourceContent(title: Guid.NewGuid().ToString(), body: Guid.NewGuid().ToString());
+        private ResourceContent Content { get; set; } = new ResourceContent(title: Guid.NewGuid().ToString(), body: new QuillDelta(Guid.NewGuid().ToString()));
         private Guid CreatorUserId { get; set; } = Guid.NewGuid();
 
         public ResourcePageBuilder WithId(Guid resourceId)

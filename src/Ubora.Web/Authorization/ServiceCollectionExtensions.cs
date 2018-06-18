@@ -172,11 +172,18 @@ namespace Ubora.Web.Authorization
                 });
                 options.AddPolicy(nameof(Policies.CanEditAssignment), policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsProjectMentorRequirement(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin })));
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsProjectMentorRequirement(), new RolesAuthorizationRequirement(new[] { ApplicationRole.Admin })));
                 });
                 options.AddPolicy(Policies.CanPromoteMember, policyBuilder =>
                 {
                     policyBuilder.RequireRole(ApplicationRole.ManagementGroup);
+                });
+
+                options.AddPolicy(Policies.CanAddResourcePage, policyBuilder =>
+                {
+                    // TODO
+
+                    policyBuilder.RequireAuthenticatedUser();
                 });
             });
         }
