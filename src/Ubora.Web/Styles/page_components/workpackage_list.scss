@@ -8,6 +8,7 @@
 
 .list-sidebar a {
     color: $text-color;
+    text-decoration: none;
 }
 
 .list-sidebar img {
@@ -58,6 +59,7 @@ a.checked-status::after {
     font-family: 'Material Icons';
     content: 'check';
     color: $green;
+    line-height: 1;
 }
 
 /*wp sidemenu for smaller devices*/
@@ -115,7 +117,7 @@ a.checked-status::after {
                     padding-top: 0;
 
                     ul.list-sidebar {
-                        padding-left: 0;
+                        padding-left: 1rem;
                         font-size: 14px;
 
                         li {
@@ -172,5 +174,22 @@ a.checked-status::after {
 @media (max-width: 991px) {
     .wp-sidemenu {
         display: none;
+    }
+}
+
+.sidemenu-collapse {
+
+    &[aria-expanded="false"]::before,
+    &::before {
+        font-family: 'Material icons';
+        content: 'arrow_right';
+        display: inline-block;
+        margin-left: -20px;
+    }
+
+    &[aria-expanded="true"]::before {
+        transform: rotate(90deg);
+        -ms-transform: rotate(90deg); /* IE 9 */
+        -webkit-transform: rotate(90deg); /* Safari */
     }
 }

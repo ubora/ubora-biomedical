@@ -3,10 +3,7 @@
 
 <li id="@Model.Id">
     <span class="d-flex align-items-center">
-        <i class="material-icons">
-            arrow_right
-        </i>
-        <a href="javascript:void(0)" data-toggle="collapse" data-target=".@Model.InnerMenuItemsId" class="@(Model.ATagClass)">
+        <a href="javascript:void(0)" data-toggle="collapse" aria-expanded="false" data-target=".@Model.InnerMenuItemsId" class="sidemenu-collapse @(Model.ATagClass)">
             <span>@Model.DisplayName</span>
         </a>
     </span>
