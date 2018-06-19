@@ -1,40 +1,35 @@
 /*First level menu style*/
 .list-sidebar li {
     list-style-type: none;
-    margin-top: .4rem;
-    margin-bottom: .4rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
 }
 
 .list-sidebar a {
-  color: $blue;
+    color: $text-color;
 }
 
-.list-sidebar img{
-  width: 2rem;
+.list-sidebar img {
+    width: 2rem;
 }
 
 /*Second level menu style*/
 .side-menu-secondary {
-    padding-left: .6rem;
+    padding-left: 1.5rem;
 }
 
-    .side-menu-secondary li {
-        margin-top: .1rem;
-        margin-bottom: .1rem;
-    }
-
-    .side-menu-secondary span {
-      margin-left: 1.2rem;
-    }
-
-
-/*Secondary, third and fourth level menu images style*/
-.side-menu-secondary img ,
-.side-menu-tertiary img,
-.side-menu-quaternary img {
-    width: .75rem;
+.side-menu-secondary li {
+    font-weight: normal;
 }
 
+.side-menu-tertiary {
+    padding-left: 1.5rem;
+}
+
+.side-menu-quaternary {
+    padding-left: 1.5rem;
+}
 
 /*Statuses styles*/
 a.muted-status {
@@ -44,13 +39,26 @@ a.muted-status {
 }
 
 a.active-status {
-  color: $light-blue;
+    color: $blue;
 }
 
-a.checked-status {
-  color: $green;
+a.active-status::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 16px;
+    background-color: $blue;
+    margin-left: -10px;
+    margin-top: 4px;
+    position: absolute;
 }
 
+
+a.checked-status::after {
+    font-family: 'Material Icons';
+    content: 'check';
+    color: $green;
+}
 
 /*wp sidemenu for smaller devices*/
 .wp-sidemenu-md {
@@ -115,16 +123,6 @@ a.checked-status {
                             margin-bottom: 1rem;
                         }
 
-                        img {
-                            width: 1.3rem
-                        }
-
-                        .side-menu-secondary img,
-                        .side-menu-tertiary img,
-                        .side-menu-quaternary img {
-                            width: .5rem;
-                        }
-
                         .side-menu-secondary li {
                             font-weight: normal;
                         }
@@ -140,6 +138,13 @@ a.checked-status {
                         .side-menu-quaternary {
                             padding-left: 1.6rem;
                         }
+
+                        a.active-status::before {
+                            height: 14px;
+                            background-color: $blue;
+                            margin-left: -4px;
+                            margin-bottom: -19px;
+                        }
                     }
                 }
             }
@@ -148,24 +153,24 @@ a.checked-status {
 }
 
 
-    @media (max-width: 620px) {
-        .wp-sidemenu-md {
-            .modal {
-                .modal-dialog {
-                    width: 80%;
-                }
+@media (max-width: 620px) {
+    .wp-sidemenu-md {
+        .modal {
+            .modal-dialog {
+                width: 80%;
             }
         }
     }
+}
 
-    @media (min-width: 992px) {
-        .wp-sidemenu-md {
-            display: none;
-        }
+@media (min-width: 992px) {
+    .wp-sidemenu-md {
+        display: none;
     }
+}
 
-    @media (max-width: 991px) {
-        .wp-sidemenu {
-            display: none;
-        }
+@media (max-width: 991px) {
+    .wp-sidemenu {
+        display: none;
     }
+}
