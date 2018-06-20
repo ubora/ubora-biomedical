@@ -7,7 +7,7 @@ namespace Ubora.Domain.Resources
     public class ResourcePage : Entity<ResourcePage>
     {
         public Guid Id { get; private set; }
-        public Slug Slug { get; private set; }
+        public Slug ActiveSlug { get; private set; }
 
         public Guid ContentVersion { get; private set; }
         public ResourceContent Content { get; private set; }
@@ -28,7 +28,7 @@ namespace Ubora.Domain.Resources
                 throw new ArgumentException(nameof(@event.ResourceId));
             
             Id = @event.ResourceId;
-            Slug = @event.Slug;
+            ActiveSlug = @event.Slug;
             SetContent(@event.Content);
         }
 

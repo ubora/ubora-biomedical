@@ -21,13 +21,14 @@
         <input class="form-control" asp-for="Title" placeholder='e.g. "Introduction to UBORA"' />
         <span asp-validation-for="Title"></span>
         <small>
-            URL will be: <br><span id="js-slug"></span>
+            URL will be: <br><span id="js-slug">&nbsp;</span>
         </small>
     </div>
     <div class="form-group">
         <label asp-for="Body">Content</label>
         <input asp-for="Body" type="hidden" />
         <span asp-validation-for="Body"></span>
+        <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial")</div>
         <div id="editor-container" class="form-group" style="display: none;"></div>
     </div>
     <div class="float-right">
@@ -40,7 +41,9 @@
     <script>
         var titleInputSelector = "#@(nameof(Model.Title))";
         var contentInputSelector = "#@(nameof(Model.Body))";
+        var editorSelector = "#editor-container";
+        var toolbarSelector = "#toolbar-container";
         var exampleTitle = "Introduction to UBORA";
-        UBORA.initAddResource(titleInputSelector, contentInputSelector, exampleTitle);
+        UBORA.initAddOrEditResource(editorSelector, toolbarSelector, titleInputSelector, contentInputSelector, exampleTitle);
     </script>
 }

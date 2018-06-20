@@ -1,0 +1,72 @@
+﻿@model AddResourceFileViewModel
+
+@{
+    ViewData["Title"] = "Upload new file(s)";
+}
+
+@section Left {
+    @Html.Partial("_LeftMenuPartial.cshtml")
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesController.Index)">Resources</a></li>
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesController.Read)">@Model.ResourcePageTitle</a></li>
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesController.Repository)">Files</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" asp-action="@nameof(ResourcesController.Read)">
+            Read
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-action="@nameof(ResourcesController.Edit)">
+            Edit
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" asp-action="@nameof(ResourcesController.Repository)">
+            Files
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-action="@nameof(ResourcesController.History)">
+            History
+        </a>
+    </li>
+</ul>
+
+<h1>@ViewData["Title"]</h1>
+
+<form id="my-dropzone" class="w-100" asp-action="@nameof(ResourcesController.AddFile)" asp-route-ResourcePageId="@Model.ResourcePageId" method="post" enctype="multipart/form-data">
+
+    @*Drag and drop*@
+    <div class="dropzone-previews dropzone">
+        <div class="dz-message">
+            <i class="material-icons">cloud_upload</i>
+            <p>Drop files here or click to upload</p>
+        </div>
+    </div>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="d-flex justify-content-center">
+        <button id="btnSubmit" type="button" class="btn btn-primary">Upload new file(s)</button>
+    </div>
+</form>
+
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css"
+          asp-fallback-href="~/dist/libs/dropzone.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js"
+            asp-fallback-src="~/dist/libs/dropzone.js">
+    </script>
+    <script src="~/dist/drag_and_drop_file_uploads.bundle.js"></script>
+}

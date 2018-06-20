@@ -14,4 +14,3 @@ namespace Ubora.Web._Features.Projects.Repository
         public string Comment { get; set; }
     }
 }
-

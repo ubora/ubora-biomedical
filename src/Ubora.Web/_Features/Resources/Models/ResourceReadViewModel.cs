@@ -26,6 +26,8 @@ namespace Ubora.Web._Features.Resources.Models
             
             public virtual async Task<ResourceReadViewModel> Create(ResourcePage resourcePage)
             {
+                var test = await _quillDeltaToHtmlConverter.ConvertQuillDeltaToHtml(resourcePage.Content.Body);
+
                 return new ResourceReadViewModel
                 {
                     ResourceId = resourcePage.Id,

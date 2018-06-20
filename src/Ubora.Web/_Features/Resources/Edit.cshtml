@@ -1,5 +1,9 @@
 ﻿@model ResourceEditViewModel
 
+@section Left {
+    @Html.Partial("_LeftMenuPartial.cshtml")
+}
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesController.Index)">Resources</a></li>
@@ -19,45 +23,50 @@
         </a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" asp-action="@nameof(ResourcesController.Repository)">
+            Files
+        </a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" asp-action="@nameof(ResourcesController.History)">
             History
         </a>
     </li>
 </ul>
 
-<form asp-action="Edit" class="py-3">
-    <h1>@Model.Title</h1>
-    <input type="hidden" asp-for="ResourceId" />
-    <input type="hidden" asp-for="ContentVersion" />
-    <input type="hidden" asp-for="Body" />
-    <div class="form-group">
-        <div id="editor-container" style="display: none;">
-        </div>
-    </div>
-    <button type="submit" class="btn btn-primary float-right">Publish changes</button>
-</form>
+<h1>@Model.Title</h1>
 
-@section Right {
-    <span class="color-grey pb-1 d-inline-block">Actions</span>
-    <br />
-    <button class="btn btn-outline-primary">Open repository</button>
-}
+<form asp-action="@nameof(ResourcesController.Edit)">
+    <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input class="form-control" asp-for="Title" placeholder='e.g. "Introduction to UBORA"' />
+        <span asp-validation-for="Title"></span>
+        <small>
+            URL will be: <br><span id="js-slug">&nbsp;</span>
+        </small>
+    </div>
+    <div class="form-group">
+        <input type="hidden" asp-for="ResourceId" />
+        <input type="hidden" asp-for="ContentVersion" />
+        <label asp-for="Body">Content</label>
+        <input asp-for="Body" type="hidden" />
+        <span asp-validation-for="Body"></span>
+        <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial")</div>
+        <div id="editor-container" class="form-group" style="display: none;"></div>
+    </div>
+    <div class="float-right">
+        <button type="submit" class="btn btn-primary float-right">Publish changes</button>
+    </div>
+</form>
 
 @section Scripts {
     <script>
-        $(function() {
-            var quill = new Quill('#editor-container',
-                {
-                    theme: 'snow'
-                });
-
-            quill.setContents(@(Html.Raw(Model.Body)), 'api');
-
-            $('#editor-container').show();
-
-            quill.on('editor-change', function() {
-                $('#@(nameof(Model.Body))').val(JSON.stringify(quill.getContents()));
-            });
-        });
+        var titleInputSelector = "#@(nameof(Model.Title))";
+        var contentInputSelector = "#@(nameof(Model.Body))";
+        var editorSelector = "#editor-container";
+        var toolbarSelector = "#toolbar-container";
+        var exampleTitle = "Introduction to UBORA";
+        var initialContent = @Html.Raw(Model.Body);
+        UBORA.initAddOrEditResource(editorSelector, toolbarSelector, titleInputSelector, contentInputSelector, exampleTitle, initialContent);
     </script>
 }

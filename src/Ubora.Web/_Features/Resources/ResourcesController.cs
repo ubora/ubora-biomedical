@@ -6,7 +6,6 @@ using AngleSharp.Extensions;
 using Marten.Events;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Resources;
@@ -15,17 +14,17 @@ using Ubora.Domain.Resources.Queries;
 using Ubora.Web.Authorization;
 using Ubora.Web._Features.Resources.Models;
 using Ubora.Web._Features._Shared.Notices;
+using Ubora.Domain.Resources.Specifications;
+using Ubora.Web.Infrastructure.Extensions;
+using TwentyTwenty.Storage;
+using Ubora.Web._Features.Projects.History._Base;
 
 namespace Ubora.Web._Features.Resources
 {
+    [Route("resources")]
     public class ResourcesController : UboraController
     {
         private readonly IEventStore _eventStore;
-
-        public override void OnActionExecuted(ActionExecutedContext context)
-        {
-            ViewData["IsResourcesArea"] = true;
-        }
 
         // TODO: Use something less 'powerful' than EventStore
         public ResourcesController(IEventStore eventStore)
@@ -33,7 +32,7 @@ namespace Ubora.Web._Features.Resources
             _eventStore = eventStore;
         }
 
-        [Route("resources")]
+        [Route("")]
         public IActionResult Index()
         {
             IEnumerable<ResourceIndexViewModel> models =
@@ -45,23 +44,25 @@ namespace Ubora.Web._Features.Resources
                         Title = resource.Content.Title
                     });
 
-            return View("Index", models);
+            return View(nameof(Index), models);
         }
 
+        [Route("add")]
         public virtual IActionResult Add()
         {
             return View(nameof(Add));
         }
 
         [HttpPost]
+        [Route("add")]
         public async Task<IActionResult> Add(AddResourcePostModel model)
         {
             if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanAddResourcePage))
                 return Unauthorized();
-            
+
             if (!ModelState.IsValid)
                 return Add();
-            
+
             var resourceId = Guid.NewGuid();
             ExecuteUserCommand(
                 new CreateResourcePageCommand
@@ -78,9 +79,10 @@ namespace Ubora.Web._Features.Resources
             if (!ModelState.IsValid)
                 return Add();
 
-            return RedirectToAction(nameof(Read), new { slug = resourcePage.Slug });
+            return RedirectToAction(nameof(Read), new { slugOrId = resourcePage.ActiveSlug });
         }
 
+        [Route("{slugOrId}/delete")]
         [HttpPost]
         public IActionResult Delete(DeleteResourcePageCommand command)
         {
@@ -89,24 +91,93 @@ namespace Ubora.Web._Features.Resources
             return View(nameof(Delete));
         }
 
-        [Route("r/{slug}")]
-        public async Task<IActionResult> Read(string slug, [FromServices]ResourceReadViewModel.Factory modelFactory)
+        [Route("{slugOrId}")]
+        public async Task<IActionResult> Read(string slugOrId, [FromServices]ResourceReadViewModel.Factory modelFactory)
         {
-            var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugQuery(slug));
+            var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugOrIdQuery(slugOrId));
             var model = await modelFactory.Create(resourcePage);
             return View(nameof(Read), model);
         }
 
-        [Route("r/{slug}/edit")]
-        public IActionResult Edit(string slug, [FromServices]ResourceEditViewModel.Factory modelFactory)
+        [Route("{slugOrId}/repository")]
+        public IActionResult Repository(string slugOrId)
         {
-            var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugQuery(slug));
+            var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugOrIdQuery(slugOrId));
+
+            var model =
+                new IndexResourceFilesViewModel(
+                    files: QueryProcessor.Find(new IsFileFromResourcePageSpec(resourcePage.Id), new ResourceFileListItemViewModel.Projection()),
+                    resourcePageId: resourcePage.Id,
+                    resourcePageName: resourcePage.Content.Title);
+
+            return View(nameof(Repository), model);
+        }
+
+        [Route("{slugOrId}/add-file")]
+        public IActionResult AddFile(string slugOrId)
+        {
+            var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugOrIdQuery(slugOrId));
+
+            var model = new AddResourceFileViewModel(resourcePage.Id, resourcePage.Content.Title);
+
+            return base.View(nameof(AddFile), model);
+        }
+
+        [Route("{slugOrId}/add-file")]
+        [HttpPost]
+        public IActionResult AddFile(AddResourceFilePostModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ModelState.ToJsonResult();
+            }
+
+            foreach (var file in model.ProjectFiles)
+                using (var fileStream = file.OpenReadStream())
+                {
+                    ExecuteUserCommand(new UploadFileToResourceRepositoryCommand
+                    {
+                        FileId = Guid.NewGuid(),
+                        FileName = file.GetFileName(),
+                        FileSize = file.Length,
+                        FileStream = file.OpenReadStream(),
+                        ResourcePageId = model.ResourcePageId,
+                    }, Notice.Success(SuccessTexts.RepositoryFileAdded));
+                }
+
+            if (!ModelState.IsValid)
+            {
+                return ModelState.ToJsonResult();
+            }
+
+            return Json(new { redirect = Url.Action(nameof(Repository)) });
+        }
+
+        [Route("{resourcePageId}/repository/{fileId}")]
+        public IActionResult DownloadFile(Guid resourcePageId, Guid fileId, [FromServices] IStorageProvider storageProvider)
+        {
+            var file = QueryProcessor.FindById<ResourceFile>(fileId);
+            if (file == null)
+                return NotFound();
+
+            if (file.ResourcePageId != resourcePageId)
+                return NotFound();
+
+            var blobSasUrl = storageProvider.GetBlobUrl(file.BlobLocation.ContainerName, file.BlobLocation.BlobPath);
+
+            return Redirect(blobSasUrl);
+        }
+
+        [Route("{slugOrId}/edit")]
+        public IActionResult Edit(string slugOrId, [FromServices]ResourceEditViewModel.Factory modelFactory)
+        {
+            var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugOrIdQuery(slugOrId));
             var model = modelFactory.Create(resourcePage);
             return View(nameof(Edit), model);
         }
 
         [HttpPost]
-        [Route("r/{slug}/edit")]
+        [Route("{slugOrId}/edit")]
         public IActionResult Edit(ResourceEditPostModel model, [FromServices]ResourceEditViewModel.Factory modelFactory)
         {
             var resource = QueryProcessor.FindById<ResourcePage>(model.ResourceId);
@@ -114,7 +185,7 @@ namespace Ubora.Web._Features.Resources
                 return NotFound();
 
             if (!ModelState.IsValid)
-                return Edit(resource.Slug.Value, modelFactory);
+                return Edit(resource.ActiveSlug.Value, modelFactory);
 
             ExecuteUserCommand(
                 new EditResourceContentCommand
@@ -125,40 +196,38 @@ namespace Ubora.Web._Features.Resources
                         body: new QuillDelta(model.Body)),
                     PreviousContentVersion = model.ContentVersion
                 },
-                successNotice: Notice.Success("TODO"));
+                successNotice: Notice.Success("Resource edited"));
 
             if (!ModelState.IsValid)
-                return Edit(resource.Slug.Value, modelFactory);
+                return Edit(resource.ActiveSlug.Value, modelFactory);
 
-            return RedirectToAction(nameof(Read), new { slug = resource.Slug });
+            return RedirectToAction(nameof(Read), new { slugOrId = resource.ActiveSlug });
         }
 
-        [Route("resources/{slug}/history")]
-        public async Task<IActionResult> History(string slug)
+        [Route("{slugOrId}/history")]
+        public async Task<IActionResult> History(string slugOrId, [FromServices] IEventViewModelFactoryMediator eventViewModelFactoryMediator)
         {
-            var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugQuery(slug)); 
+            var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugOrIdQuery(slugOrId));
 
             var resourceEvents =
                 (await _eventStore.FetchStreamAsync(
                     streamId: resourcePage.Id))
-                .OrderByDescending(martenEvent => martenEvent.Timestamp)
-                .Select(martenEvent => martenEvent.Data)
-                .Cast<UboraEvent>();
+                .OrderByDescending(martenEvent => martenEvent.Timestamp);
 
             ResourceHistoryViewModel model = new ResourceHistoryViewModel
             {
                 ResourceId = resourcePage.Id,
                 Title = resourcePage.Content.Title,
-                Events = resourceEvents.ToList(),
+                Events = resourceEvents.Select(x => eventViewModelFactoryMediator.Create((UboraEvent)x.Data, x.Timestamp)).ToList()
             };
 
             return View(nameof(History), model);
         }
 
-        [Route("resources/slugify")]
+        [Route("slugify")]
         public string Slugify(string text)
         {
-            return Url.Action(nameof(Read), "Resources", new { slug = Slug.Generate(text).Value }, protocol: HttpContext.Request.Scheme);
+            return Url.Action(nameof(Read), "Resources", new { slugOrId = Slug.Generate(text).Value }, protocol: HttpContext.Request.Scheme);
         }
     }
 }

@@ -1,5 +1,9 @@
 ﻿@model ResourceHistoryViewModel
 
+@section Left {
+    @Html.Partial("_LeftMenuPartial.cshtml")
+}
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesController.Index)">Resources</a></li>
@@ -18,18 +22,20 @@
             Edit
         </a>
     </li>
-    <li class="nav-item" >
+    <li class="nav-item">
+        <a class="nav-link" asp-action="@nameof(ResourcesController.Repository)">
+            Files
+        </a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link active" asp-action="@nameof(ResourcesController.History)">
             History
         </a>
     </li>
 </ul>
 
-<ul class="py-3">
+<h1>@ViewData["Title"]</h1>
 @foreach (var @event in Model.Events)
 {
-    <li>
-        @(@event.GetDescription())
-    </li>
+    @(@event.GetPartialView(Html))
 }
-</ul>

@@ -38,7 +38,7 @@ namespace Ubora.Domain.Tests.Resources
 
             resource.Id.Should().Be(resourceId);
             resource.Content.ShouldBeEquivalentTo(content);
-            resource.Slug.Value.Should().Be("introduction-page");
+            resource.ActiveSlug.Value.Should().Be("introduction-page");
         }
     }
 }

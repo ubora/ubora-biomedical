@@ -103,7 +103,7 @@ namespace Ubora.Web.Tests._Features.Resources
                 .Callback<CreateResourcePageCommand>(c => executedCommand = c)
                 .Returns(CommandResult.Success);
 
-            var resourcePage = new ResourcePage().Set(x => x.Slug, Slug.Generate("test slug"));
+            var resourcePage = new ResourcePage().Set(x => x.ActiveSlug, Slug.Generate("test slug"));
 
             QueryProcessorMock
                 .Setup(q => q.FindById<ResourcePage>(It.IsAny<Guid>()))

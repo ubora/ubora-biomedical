@@ -21,6 +21,8 @@ using Ubora.Web._Features.Projects.History._Base;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Ubora.Web._Features.Resources;
 using Ubora.Web._Features.Users.Manage;
+using Ubora.Domain.Resources.Commands;
+using Ubora.Web._Features.ResourceRepository.Commands;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -76,6 +78,7 @@ namespace Ubora.Web.Infrastructure
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<SendFeedbackCommand.Handler>().As<ICommandHandler<SendFeedbackCommand>>().InstancePerLifetimeScope();
+            builder.RegisterType<UploadFileToResourceRepositoryCommandHandler>().As<ICommandHandler<UploadFileToResourceRepositoryCommand>>().InstancePerLifetimeScope();
 
             builder.RegisterType<NotificationViewModelFactoryMediator>().AsSelf().InstancePerLifetimeScope();
 

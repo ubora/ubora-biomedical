@@ -19,7 +19,7 @@ namespace Ubora.Web._Features.Resources.Models
                 {
                     ResourceId = resource.Id,
                     Title = resource.Content.Title,
-                    Slug = resource.Slug.Value
+                    Slug = resource.ActiveSlug.Value
                 };
             }
         }

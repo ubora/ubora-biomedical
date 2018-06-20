@@ -1,14 +1,26 @@
-﻿global.UBORA.initAddResource = function (titleInputSelector, contentInputSelector, exampleTitle) {
-    var quill = new Quill('#editor-container',
+﻿global.UBORA.initAddOrEditResource = function (editorSelector, toolbarSelector, titleInputSelector, contentInputSelector, exampleTitle, initialContent) {
+    var quill = new Quill(editorSelector,
         {
-            theme: 'snow'
+            theme: 'snow',
+            modules: {
+                toolbar: toolbarSelector
+            }
         });
 
-    $('#editor-container').show();
+    if (!!initialContent) {
+        quill.setContents(initialContent, 'api');
+    }
 
-    Slugify(exampleTitle);
-
+    $(editorSelector).show();
+    $(toolbarSelector).show();
+    
     var titleInput = $(titleInputSelector);
+    if (titleInput.val()) {
+        Slugify(titleInput.val());
+    } else {
+        Slugify(exampleTitle);
+    }
+
     titleInput.change(function () {
         const textToSlugify = titleInput.val() || exampleTitle;
         Slugify(textToSlugify);
@@ -16,7 +28,7 @@
 
     function Slugify(text) {
         $.ajax({
-                url: "slugify",
+                url: "/resources/slugify",
                 data: { text: text }
             })
             .done((slug) => {

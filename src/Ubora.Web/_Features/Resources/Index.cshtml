@@ -1,20 +1,35 @@
-﻿@using Ubora.Web._Features.Resources
-@model IEnumerable<ResourceIndexViewModel>
+﻿@using Ubora.Domain.Resources
+
+@inject Ubora.Domain.Infrastructure.Queries.IQueryProcessor QueryProcessor
+
+@{
+    ViewData["Title"] = "Resources";
+}
 
 @section Right {
-<div class="mb-3">
-    <span class="color-grey mb-1 d-inline-block">Views</span>
-    <br>
-    <a href="#">Resources</a><br>
-    <a href="#">Categories</a><br>
-    <a asp-action="@nameof(ResourcesController.Index)" asp-controller="ResourceRepository">Files</a><br>
-</div>
-
-<div class="mb-3">
-    <span class="color-grey mb-1 d-inline-block">Actions</span>
-    <br>
-    <a asp-action="@nameof(ResourcesController.Add)" class="w-75 my-2 btn btn-outline-primary d-flex align-items-center justify-content-center"><i class="material-icons">add</i>Add resource</a>
-    <a href="#" class="w-75 my-2 btn btn-outline-primary d-flex align-items-center justify-content-center"><i class="material-icons">add</i>Add category</a>
-    <a href="#" class="w-75 my-2 btn btn-outline-primary d-flex align-items-center justify-content-center"><i class="material-icons">add</i>Add file</a>
-</div>
+    <div class="mb-3">
+        <a asp-action="@nameof(ResourcesController.Add)" class="w-75 my-2 btn btn-outline-primary d-flex align-items-center justify-content-center"><i class="material-icons">add</i>Add new resource page</a>
+    </div>
 }
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page"> @ViewData["Title"]</li>
+    </ol>
+</nav>
+
+
+<h1>@ViewData["Title"]</h1>
+
+@{
+    var resources = QueryProcessor.Find(new MatchAll<ResourcePage>(), new ResourceIndexViewModel.Mapper());
+}
+
+<ul>
+    @foreach (var resourcePage in resources)
+    {
+        <li>
+            <a asp-action="Read" asp-controller="Resources" asp-route-slugOrId="@resourcePage.Slug">@resourcePage.Title</a>
+        </li>
+    }
+</ul>

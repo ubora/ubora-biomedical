@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ubora.Domain.Infrastructure.Events;
+using Ubora.Web._Features._Shared.Paging;
+using Ubora.Web._Features.Projects.History._Base;
 
 namespace Ubora.Web._Features.Resources.Models
 {
@@ -8,6 +9,6 @@ namespace Ubora.Web._Features.Resources.Models
     {
         public Guid ResourceId { get; set; }
         public string Title { get; set; }
-        public IReadOnlyCollection<UboraEvent> Events { get; set; }
+        public IReadOnlyCollection<IEventViewModel> Events { get; set; }
     }
 }

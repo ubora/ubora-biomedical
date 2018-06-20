@@ -13,7 +13,7 @@ namespace Ubora.Web._Features.Projects.Repository
         public string ProjectName { get; set; }
         public AddFileViewModel AddFileViewModel { get; set; }
         public bool CanHideProjectFile { get; set; }
-        public IEnumerable<IGrouping<string, ProjectFileViewModel>> AllFiles { get; set; }
+        public IEnumerable<IGrouping<string, ProjectFileViewModel>> AllFiles { get; set; } = new List<IGrouping<string, ProjectFileViewModel>>();
     }
 
     public class ProjectFileViewModel : FileViewModelBase
