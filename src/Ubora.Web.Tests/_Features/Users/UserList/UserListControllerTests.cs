@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
@@ -55,10 +54,10 @@ namespace Ubora.Web.Tests._Features.Users.UserList
                     .Returns(url);
             }
 
-            QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByFullNameAscendingSpecification>(), 24, 2)).Returns(userProfiles);
+            QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByMultipleUserProfileSortSpecification>(), 4, 2)).Returns(userProfiles);
 
             //Act
-            var result = (ViewResult)_controller.Index(2);
+            var result = (ViewResult)_controller.Index(new SearchModel(),2);
 
             //Assert
             result.Model.As<IndexViewModel>().UserListItems.Count().Should().Be(1);

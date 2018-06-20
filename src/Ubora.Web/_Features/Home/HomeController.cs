@@ -18,9 +18,9 @@ namespace Ubora.Web._Features.Home
                 return RedirectToLocal(returnUrl);
             }
 
-            var model = modelFactory.CreatePagedProjectListViewModel(header: "Public projects", page: page);
+            //var model = modelFactory.CreatePagedProjectListViewModel(header: "Public projects", page: page);
 
-            return View("Index", new IndexViewModel() { ProjectListViewModel = model });
+            return View("Index", new IndexViewModel() { ProjectListViewModel = null });
         }
 
         public IActionResult Error()

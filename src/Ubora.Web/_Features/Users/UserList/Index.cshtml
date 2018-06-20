@@ -8,36 +8,63 @@
 <div class="container my-5">
     <h1>@ViewData["Title"]</h1>
 
-    <ul class="nav nav-tabs" id="communityTab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active d-flex align-items-center" id="all-members-tab" data-toggle="tab" href="#allMembers" role="tab" aria-controls="allMembers" aria-selected="true">
-                All members
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link d-flex align-items-center" id="mentors-tab" data-toggle="tab" href="#mentors" role="tab" aria-controls="mentors" aria-selected="false">
-                Mentors
-            </a>
-        </li>
+    <ul class="nav nav-tabs" id="communityTab">
+        @{
+            if (Model.Tab == UserListController.TabType.Mentors)
+            {
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center" id="all-members-tab" href="/UserList/Index?Tab=AllMemeber&Ordering=@Model.Ordering">
+                        All members
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active d-flex align-items-center" id="mentors-tab" href="/UserList/Index?Tab=Mentors&Ordering=@Model.Ordering">
+                        Mentors
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link active d-flex align-items-center" id="all-members-tab" href="/UserList/Index?Tab=AllMemeber&Ordering=@Model.Ordering">
+                        All members
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center" id="mentors-tab" href="/UserList/Index?Tab=Mentors&Ordering=@Model.Ordering">
+                        Mentors
+                    </a>
+                </li>
+            }
+        }
     </ul>
+
     <div class="row py-2">
         <div class="col-xl-1 col-md-2 d-flex align-items-center">
             Sort by:
         </div>
         <div id="sortBy" class="dropdown">
-            <button class="btn btn-icon dropdown-toggle" type="button" id="sortByName" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Lastname
-            </button>
-            <div class="dropdown-menu" aria-labelledby="sortByName">
-                <a class="dropdown-item" href="#">Lastname</a>
-                <a class="dropdown-item" href="#">Firstname</a>
+            @if (Model.Ordering == UserListController.OrderingMethod.Lastname)
+            {
+                <button class="btn btn-icon dropdown-toggle" type="button" data-toggle="dropdown">
+                    Lastname
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-icon dropdown-toggle" type="button" data-toggle="dropdown">
+                    Firstname
+                </button>
+            }
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/UserList/Index?Tab=@Model.Tab&Ordering=Lastname">Lastname</a>
+                <a class="dropdown-item" href="/UserList/Index?Tab=@Model.Tab&Ordering=FirstName">Firstname</a>
             </div>
         </div>
     </div>
 
     <div class="tab-content" id="communityContent">
-
-        <div class="tab-pane fade show active" id="allMembers" role="tabpanel" aria-labelledby="all-members-tab">
+        <div class="tab-pane fade show active">
             <div class="infinite-scroll">
                 <div class="post">
                     <div class="row">
@@ -54,13 +81,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="tab-pane fade" id="mentors" role="tabpanel" aria-labelledby="mentors-tab">
-            <div class="my-4">
-                Display mentors
-            </div>
-        </div>
-
     </div>
 
     @if (Model.Pager.PageCount > 1)
@@ -96,6 +116,6 @@
 @section Scripts {
     <script src="~/dist/infinite_scroll.bundle.js"></script>
     <script>
-        UBORA.initInfiniteScroll('@Url.Action(nameof(UserListController.Index), "UserList")');
+        UBORA.initInfiniteScroll('@Html.Raw(Url.Action(nameof(UserListController.Index), "UserList", new { Tab = Model.Tab, Ordering = Model.Ordering }))');
     </script>
 }

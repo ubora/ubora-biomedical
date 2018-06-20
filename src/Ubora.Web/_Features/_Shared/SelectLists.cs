@@ -23,5 +23,12 @@ namespace Ubora.Web._Features._Shared
             new SelectListItem { Value = "Consultant", Text = "Consultant"},
             new SelectListItem { Value = "Other", Text = "Other"}
         });
+
+        public static List<SelectListItem> Areas => new List<SelectListItem>(new[]
+        {
+            new SelectListItem { Value = "Cardiovascular surgery", Text = "Cardiovascular surgery"},
+            new SelectListItem { Value = "Colorectal surgery", Text = "Colorectal surgery"},
+            new SelectListItem { Value = "General surgery", Text = "General surgery"}
+        });
     }
 }

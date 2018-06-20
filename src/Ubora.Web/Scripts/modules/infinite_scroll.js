@@ -3,7 +3,7 @@
 global.UBORA.initInfiniteScroll = function (path) {
     return new InfiniteScroll('.infinite-scroll', {
         path: function () {
-            return path + "?page=" + (this.pageIndex + 1);
+            return path + "&page=" + (this.pageIndex + 1);
         },
         append: '.post',
         button: '.js-view-more-button',

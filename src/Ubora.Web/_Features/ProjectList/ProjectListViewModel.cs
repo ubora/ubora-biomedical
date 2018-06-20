@@ -10,6 +10,7 @@ using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web._Components;
 using Ubora.Domain.Projects._SortSpecifications;
 using Ubora.Web._Features._Shared.Paging;
+using static Ubora.Web._Features.ProjectList.ProjectListController;
 
 namespace Ubora.Web._Features.ProjectList
 {
@@ -44,9 +45,10 @@ namespace Ubora.Web._Features.ProjectList
                 _projectCardViewModelFactory = projectCardViewModelFactory;
             }
 
-            public ProjectListViewModel CreatePagedProjectListViewModel(string header, int page)
+            public ProjectListViewModel CreatePagedProjectListViewModel(SearchModel searchModel, string header, int page)
             {
-                var projects = _queryProcessor.Find<Project>(new MatchAll<Project>(), new SortByTitleSpecification(), 24, page);
+                var specification = CombineSpecificationMethods(false, searchModel);
+                var projects = _queryProcessor.Find<Project>(specification, new SortByTitleSpecification(), 4, page);
 
                 var model = new ProjectListViewModel
                 {
@@ -72,14 +74,15 @@ namespace Ubora.Web._Features.ProjectList
                 return model;
             }
 
-            public ProjectListViewModel CreateForSearch(string title, int page)
+            public ProjectListViewModel CreateForSearch(SearchModel searchModel, int page)
             {
-                if (string.IsNullOrEmpty(title))
+                if (string.IsNullOrEmpty(searchModel.Title))
                 {
-                    return CreatePagedProjectListViewModel(header: "All projects", page: page);
+                    return CreatePagedProjectListViewModel(searchModel: searchModel, header: "All projects", page: page);
                 }
 
-                var projects = _queryProcessor.Find(new BySearchPhrase(title), 24, page);
+                var specification = CombineSpecificationMethods(true, searchModel);
+                var projects = _queryProcessor.Find(specification, 4, page);
 
                 var model = new ProjectListViewModel();
                 if (!projects.Any())
@@ -91,6 +94,36 @@ namespace Ubora.Web._Features.ProjectList
                 model.Projects = projects.Select(project => _projectCardViewModelFactory.Create(project));
 
                 return model;
+            }
+
+            private AndSpecification<Project> CombineSpecificationMethods(bool isSearching, SearchModel searchModel)
+            {
+                var specifications = new List<Specification<Project>>();
+
+                if (isSearching)
+                {
+                    specifications.Add(new BySearchPhrase(searchModel.Title));
+                }
+                else
+                {
+                    specifications.Add(new MatchAll<Project>());
+                }
+
+                if (!string.IsNullOrEmpty(searchModel.ByArea))
+                {
+                    specifications.Add(new IsAreaSpec(searchModel.ByArea));
+                }
+
+                if (searchModel.ByStatus == ByStatusFilteringMethod.Draft)
+                {
+                    specifications.Add(new IsDraftSpec());
+                }
+                else if (searchModel.ByStatus == ByStatusFilteringMethod.NotDraft)
+                {
+                    specifications.Add(new NotSpecification<Project>(new IsDraftSpec()));
+                }
+
+                return new AndSpecification<Project>(specifications.ToArray());
             }
         }
     }
