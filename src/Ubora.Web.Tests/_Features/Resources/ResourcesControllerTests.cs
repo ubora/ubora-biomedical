@@ -51,7 +51,7 @@ namespace Ubora.Web.Tests._Features.Resources
                 .Setup(c => c.Add()).Returns(expectedResult);
 
             AuthorizationServiceMock
-                .Setup(a => a.AuthorizeAsync(ControllerUnderTest.User, null, Policies.CanAddResourcePage))
+                .Setup(a => a.AuthorizeAsync(ControllerUnderTest.User, null, Policies.CanManageResourcePages))
                 .ReturnsAsync(AuthorizationResult.Success);
             
             var postModel = new AddResourcePostModel();
@@ -76,7 +76,7 @@ namespace Ubora.Web.Tests._Features.Resources
                 .Returns(CommandResult.Failed("dummyError"));
 
             AuthorizationServiceMock
-                .Setup(a => a.AuthorizeAsync(ControllerUnderTest.User, null, Policies.CanAddResourcePage))
+                .Setup(a => a.AuthorizeAsync(ControllerUnderTest.User, null, Policies.CanManageResourcePages))
                 .ReturnsAsync(AuthorizationResult.Success);
             
             var postModel = new AddResourcePostModel();
@@ -110,7 +110,7 @@ namespace Ubora.Web.Tests._Features.Resources
                 .Returns(resourcePage);
             
             AuthorizationServiceMock
-                .Setup(a => a.AuthorizeAsync(ControllerUnderTest.User, null, Policies.CanAddResourcePage))
+                .Setup(a => a.AuthorizeAsync(ControllerUnderTest.User, null, Policies.CanManageResourcePages))
                 .ReturnsAsync(AuthorizationResult.Success);
 
             // Act

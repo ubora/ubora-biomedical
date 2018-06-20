@@ -6,10 +6,13 @@
     ViewData["Title"] = "Resources";
 }
 
-@section Right {
-    <div class="mb-3">
-        <a asp-action="@nameof(ResourcesController.Add)" class="w-75 my-2 btn btn-outline-primary d-flex align-items-center justify-content-center"><i class="material-icons">add</i>Add new resource page</a>
-    </div>
+@if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResourcePages))
+{
+    @section Right {
+        <div class="mb-3">
+            <a asp-action="@nameof(ResourcesController.Add)" class="w-75 my-2 btn btn-outline-primary d-flex align-items-center justify-content-center"><i class="material-icons">add</i>Add new resource page</a>
+        </div>
+    }
 }
 
 <nav aria-label="breadcrumb">
@@ -17,7 +20,6 @@
         <li class="breadcrumb-item active" aria-current="page"> @ViewData["Title"]</li>
     </ol>
 </nav>
-
 
 <h1>@ViewData["Title"]</h1>
 

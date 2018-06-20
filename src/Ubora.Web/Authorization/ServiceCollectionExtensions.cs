@@ -179,10 +179,8 @@ namespace Ubora.Web.Authorization
                     policyBuilder.RequireRole(ApplicationRole.ManagementGroup);
                 });
 
-                options.AddPolicy(Policies.CanAddResourcePage, policyBuilder =>
+                options.AddPolicy(Policies.CanManageResourcePages, policyBuilder =>
                 {
-                    // TODO
-
                     policyBuilder.RequireAuthenticatedUser();
                 });
             });

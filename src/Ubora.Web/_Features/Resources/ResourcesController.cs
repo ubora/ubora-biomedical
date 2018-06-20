@@ -47,17 +47,23 @@ namespace Ubora.Web._Features.Resources
             return View(nameof(Index), models);
         }
 
+        [Authorize(Policies.CanManageResourcePages)]
         [Route("add")]
         public virtual IActionResult Add()
         {
+            ViewData["currentTab"] = nameof(Add);
+
             return View(nameof(Add));
         }
 
+        [Authorize(Policies.CanManageResourcePages)]
         [HttpPost]
         [Route("add")]
         public async Task<IActionResult> Add(AddResourcePostModel model)
         {
-            if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanAddResourcePage))
+            ViewData["currentTab"] = nameof(Add);
+
+            if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResourcePages))
                 return Unauthorized();
 
             if (!ModelState.IsValid)
@@ -82,18 +88,20 @@ namespace Ubora.Web._Features.Resources
             return RedirectToAction(nameof(Read), new { slugOrId = resourcePage.ActiveSlug });
         }
 
-        [Route("{slugOrId}/delete")]
-        [HttpPost]
-        public IActionResult Delete(DeleteResourcePageCommand command)
-        {
-            ExecuteUserCommand(command, Notice.Success("TODO"));
+        //[Route("{slugOrId}/delete")]
+        //[HttpPost]
+        //public IActionResult Delete(DeleteResourcePageCommand command)
+        //{
+        //    ExecuteUserCommand(command, Notice.Success("TODO"));
 
-            return View(nameof(Delete));
-        }
+        //    return View(nameof(Delete));
+        //}
 
         [Route("{slugOrId}")]
         public async Task<IActionResult> Read(string slugOrId, [FromServices]ResourceReadViewModel.Factory modelFactory)
         {
+            ViewData["currentTab"] = nameof(Read);
+
             var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugOrIdQuery(slugOrId));
             var model = await modelFactory.Create(resourcePage);
             return View(nameof(Read), model);
@@ -102,6 +110,8 @@ namespace Ubora.Web._Features.Resources
         [Route("{slugOrId}/repository")]
         public IActionResult Repository(string slugOrId)
         {
+            ViewData["currentTab"] = nameof(Repository);
+
             var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugOrIdQuery(slugOrId));
 
             var model =
@@ -113,9 +123,12 @@ namespace Ubora.Web._Features.Resources
             return View(nameof(Repository), model);
         }
 
+        [Authorize(Policies.CanManageResourcePages)]
         [Route("{slugOrId}/add-file")]
         public IActionResult AddFile(string slugOrId)
         {
+            ViewData["currentTab"] = nameof(Repository);
+
             var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugOrIdQuery(slugOrId));
 
             var model = new AddResourceFileViewModel(resourcePage.Id, resourcePage.Content.Title);
@@ -123,10 +136,13 @@ namespace Ubora.Web._Features.Resources
             return base.View(nameof(AddFile), model);
         }
 
+        [Authorize(Policies.CanManageResourcePages)]
         [Route("{slugOrId}/add-file")]
         [HttpPost]
         public IActionResult AddFile(AddResourceFilePostModel model)
         {
+            ViewData["currentTab"] = nameof(Repository);
+
             if (!ModelState.IsValid)
             {
                 return ModelState.ToJsonResult();
@@ -168,18 +184,24 @@ namespace Ubora.Web._Features.Resources
             return Redirect(blobSasUrl);
         }
 
+        [Authorize(Policies.CanManageResourcePages)]
         [Route("{slugOrId}/edit")]
         public IActionResult Edit(string slugOrId, [FromServices]ResourceEditViewModel.Factory modelFactory)
         {
+            ViewData["currentTab"] = nameof(Edit);
+
             var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugOrIdQuery(slugOrId));
             var model = modelFactory.Create(resourcePage);
             return View(nameof(Edit), model);
         }
 
+        [Authorize(Policies.CanManageResourcePages)]
         [HttpPost]
         [Route("{slugOrId}/edit")]
         public IActionResult Edit(ResourceEditPostModel model, [FromServices]ResourceEditViewModel.Factory modelFactory)
         {
+            ViewData["currentTab"] = nameof(Edit);
+
             var resource = QueryProcessor.FindById<ResourcePage>(model.ResourceId);
             if (resource == null)
                 return NotFound();
@@ -207,6 +229,8 @@ namespace Ubora.Web._Features.Resources
         [Route("{slugOrId}/history")]
         public async Task<IActionResult> History(string slugOrId, [FromServices] IEventViewModelFactoryMediator eventViewModelFactoryMediator)
         {
+            ViewData["currentTab"] = nameof(History);
+
             var resourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugOrIdQuery(slugOrId));
 
             var resourceEvents =
