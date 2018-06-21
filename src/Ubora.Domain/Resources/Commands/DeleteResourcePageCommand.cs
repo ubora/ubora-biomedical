@@ -12,10 +12,12 @@ namespace Ubora.Domain.Resources.Commands
         public class Handler : ICommandHandler<DeleteResourcePageCommand>
         {
             private readonly IDocumentSession _documentSession;
+            private readonly IResourceBlobDeleter _resourceBlobDeleter;
 
-            public Handler(IDocumentSession documentSession)
+            public Handler(IDocumentSession documentSession, IResourceBlobDeleter resourceBlobDeleter)
             {
                 _documentSession = documentSession;
+                _resourceBlobDeleter = resourceBlobDeleter;
             }
             
             public ICommandResult Handle(DeleteResourcePageCommand cmd)
@@ -27,7 +29,10 @@ namespace Ubora.Domain.Resources.Commands
                     resourceId: cmd.ResourceId));
                 _documentSession.Delete(resourcePage);
                 _documentSession.SaveChanges();
-                
+
+                _resourceBlobDeleter.DeleteBlobContainerOfResourcePage(resourcePage)
+                    .GetAwaiter().GetResult();
+
                 return CommandResult.Success;
             }
         }

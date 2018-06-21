@@ -13,9 +13,9 @@ using Ubora.Web.Infrastructure;
 using Ubora.Web.Infrastructure.Storage;
 using Xunit;
 
-namespace Ubora.Web.Tests._Features.ResourceRepository.CommandHandlers
+namespace Ubora.Web.Tests._Features.Resources
 {
-    public class UploadFileToResourceRepositoryCommandHandlerIntegrationTests : IntegrationFixture
+    public class UploadResourceFileCommandHandlerIntegrationTests : IntegrationFixture
     {
         private Mock<IUboraStorageProvider> _uboraStorageProviderMock;
 
@@ -30,16 +30,21 @@ namespace Ubora.Web.Tests._Features.ResourceRepository.CommandHandlers
         [Fact]
         public void Resource_File_Can_Be_Uploaded()
         {
-            var resourcePage = new ResourcePage().Set(x => x.Id, Guid.Parse("C962707F-BBAD-4E18-9225-ACEE4205D73F"));
-            this.Session.Store(resourcePage);
-            this.Session.SaveChanges();
+            var resourcePageId = Guid.Parse("C962707F-BBAD-4E18-9225-ACEE4205D73F");
+            this.Processor.Execute(new CreateResourcePageCommand
+            {
+                ResourceId = resourcePageId,
+                Content = new ResourceContent("testTitle", new QuillDelta("testValue")),
+                Actor = new DummyUserInfo(),
+                MenuOrder = 123
+            });
 
             using (var fileStream = new MemoryStream())
             {
-                var command = new UploadFileToResourceRepositoryCommand
+                var command = new UploadResourceFileCommand
                 {
                     FileId = Guid.Parse("A9896CBA-EE90-435D-AF6F-FEE5F6A832D1"),
-                    ResourcePageId = resourcePage.Id,
+                    ResourcePageId = resourcePageId,
                     Actor = new DummyUserInfo(),
                     FileName = "testName.jpg",
                     FileSize = 123,
@@ -58,14 +63,15 @@ namespace Ubora.Web.Tests._Features.ResourceRepository.CommandHandlers
                 entityProjection.FileName.Should().Be("testName.jpg");
                 entityProjection.FileSize.Should().Be(123);
 
-                var expectedBlobLocation = new BlobLocation("resources", "pages/C962707F-BBAD-4E18-9225-ACEE4205D73F/repository/A9896CBA-EE90-435D-AF6F-FEE5F6A832D1/testName.jpg");
+                var expectedBlobLocation = new BlobLocation("ResourcePage_C962707F-BBAD-4E18-9225-ACEE4205D73F", "repository/A9896CBA-EE90-435D-AF6F-FEE5F6A832D1/testName.jpg");
                 entityProjection.BlobLocation.Should().Be(expectedBlobLocation);
 
                 _uboraStorageProviderMock
                     .Verify(x => x.SavePublic(expectedBlobLocation, command.FileStream),
                     Times.Once);
 
-                var @event = (ResourceFileUploadedEvent) this.Session.Events.FetchStream(resourcePage.Id).Select(martenEvent => martenEvent.Data).Single();
+                var @event = (ResourceFileUploadedEvent)this.Session.Events
+                    .FetchStream(resourcePageId).Select(martenEvent => martenEvent.Data).OfType<ResourceFileUploadedEvent>().Single();
                 @event.InitiatedBy.ShouldBeEquivalentTo(command.Actor);
             }
         }

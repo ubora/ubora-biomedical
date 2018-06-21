@@ -78,7 +78,7 @@ namespace Ubora.Web.Infrastructure
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<SendFeedbackCommand.Handler>().As<ICommandHandler<SendFeedbackCommand>>().InstancePerLifetimeScope();
-            builder.RegisterType<UploadFileToResourceRepositoryCommandHandler>().As<ICommandHandler<UploadFileToResourceRepositoryCommand>>().InstancePerLifetimeScope();
+            builder.RegisterType<UploadResourceFileCommandHandler>().As<ICommandHandler<UploadResourceFileCommand>>().InstancePerLifetimeScope();
 
             builder.RegisterType<NotificationViewModelFactoryMediator>().AsSelf().InstancePerLifetimeScope();
 

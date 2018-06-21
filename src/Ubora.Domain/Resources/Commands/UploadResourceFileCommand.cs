@@ -4,7 +4,7 @@ using Ubora.Domain.Infrastructure.Commands;
 
 namespace Ubora.Domain.Resources.Commands
 {
-    public class UploadFileToResourceRepositoryCommand : UserCommand
+    public class UploadResourceFileCommand : UserCommand
     {
         public Guid FileId { get; set; }
         public Guid ResourcePageId { get; set; }

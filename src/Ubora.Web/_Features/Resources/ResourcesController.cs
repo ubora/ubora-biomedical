@@ -38,6 +38,8 @@ namespace Ubora.Web._Features.Resources
             IEnumerable<ResourceIndexViewModel> models =
                 QueryProcessor
                     .Find(new MatchAll<ResourcePage>())
+                    .OrderBy(x => x.MenuOrder)
+                    .ThenBy(x => x.Content.Title)
                     .Select(resource => new ResourceIndexViewModel
                     {
                         ResourceId = resource.Id,
@@ -76,7 +78,8 @@ namespace Ubora.Web._Features.Resources
                     ResourceId = resourceId,
                     Content = new ResourceContent(
                         title: model.Title,
-                        body: new QuillDelta(model.Body))
+                        body: new QuillDelta(model.Body)),
+                    MenuOrder = model.MenuOrder
                 },
                 successNotice: Notice.Success("TODO"));
 
@@ -89,11 +92,8 @@ namespace Ubora.Web._Features.Resources
         }
 
         //[Route("{slugOrId}/delete")]
-        //[HttpPost]
-        //public IActionResult Delete(DeleteResourcePageCommand command)
+        //public IActionResult Delete(string slugOrId)
         //{
-        //    ExecuteUserCommand(command, Notice.Success("TODO"));
-
         //    return View(nameof(Delete));
         //}
 
@@ -151,7 +151,7 @@ namespace Ubora.Web._Features.Resources
             foreach (var file in model.ProjectFiles)
                 using (var fileStream = file.OpenReadStream())
                 {
-                    ExecuteUserCommand(new UploadFileToResourceRepositoryCommand
+                    ExecuteUserCommand(new UploadResourceFileCommand
                     {
                         FileId = Guid.NewGuid(),
                         FileName = file.GetFileName(),

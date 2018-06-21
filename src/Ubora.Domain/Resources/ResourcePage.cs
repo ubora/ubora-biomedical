@@ -13,8 +13,10 @@ namespace Ubora.Domain.Resources
         public ResourceContent Content { get; private set; }
         
         public bool IsDeleted { get; private set; }
-        public int Order { get; set; } // TODO: Option to set the order of the resource in the side menu. Default sort by first letter.
+        public int MenuOrder { get; set; } // TODO: Option to set the order of the resource in the side menu. Default sort by first letter.
         public string Category { get; set; } // TODO!
+
+        public string GetBlobContainerName() => $"ResourcePage_{Id}";
 
         private void SetContent(ResourceContent content)
         {
@@ -30,6 +32,8 @@ namespace Ubora.Domain.Resources
             Id = @event.ResourceId;
             ActiveSlug = @event.Slug;
             SetContent(@event.Content);
+
+            Category = Guid.NewGuid().ToString();
         }
 
         private void Apply(ResourceContentEditedEvent @event)

@@ -8,5 +8,7 @@ namespace Ubora.Web._Features.Resources.Models
         public string Title { get; set; }
 
         public string Body { get; set; } // TODO required validation
+
+        public int MenuOrder { get; set; }
     }
 }

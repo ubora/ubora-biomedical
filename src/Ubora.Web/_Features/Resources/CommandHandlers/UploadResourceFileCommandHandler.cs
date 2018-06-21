@@ -8,25 +8,25 @@ using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web._Features.ResourceRepository.Commands
 {
-    public class UploadFileToResourceRepositoryCommandHandler : ICommandHandler<UploadFileToResourceRepositoryCommand>
+    public class UploadResourceFileCommandHandler : ICommandHandler<UploadResourceFileCommand>
     {
         private readonly IDocumentSession _documentSession;
         private readonly IUboraStorageProvider _uboraStorageProvider;
 
-        public UploadFileToResourceRepositoryCommandHandler(IDocumentSession documentSession, IUboraStorageProvider uboraStorageProvider, IDocumentStore documentStore)
+        public UploadResourceFileCommandHandler(IDocumentSession documentSession, IUboraStorageProvider uboraStorageProvider, IDocumentStore documentStore)
         {
             _documentSession = documentSession;
             _uboraStorageProvider = uboraStorageProvider;
         }
 
-        public ICommandResult Handle(UploadFileToResourceRepositoryCommand cmd)
+        public ICommandResult Handle(UploadResourceFileCommand cmd)
         {
             var resourcePage = _documentSession.LoadOrThrow<ResourcePage>(cmd.ResourcePageId);
 
             var blobLocation = 
                 new BlobLocation(
-                    containerName: BlobLocation.ContainerNames.Resources,
-                    blobPath: $"pages/{resourcePage.Id}/repository/{cmd.FileId}/{cmd.FileName}");
+                    containerName: resourcePage.GetBlobContainerName(),
+                    blobPath: $"repository/{cmd.FileId}/{cmd.FileName}");
 
             _uboraStorageProvider
                 .SavePublic(blobLocation, cmd.FileStream)

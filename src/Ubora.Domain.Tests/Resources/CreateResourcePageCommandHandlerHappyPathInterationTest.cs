@@ -22,7 +22,8 @@ namespace Ubora.Domain.Tests.Resources
             {
                 ResourceId = resourceId,
                 Content = content,
-                Actor = new DummyUserInfo()
+                Actor = new DummyUserInfo(),
+                MenuOrder = 123
             };
             
             // Act
@@ -39,6 +40,7 @@ namespace Ubora.Domain.Tests.Resources
             resource.Id.Should().Be(resourceId);
             resource.Content.ShouldBeEquivalentTo(content);
             resource.ActiveSlug.Value.Should().Be("introduction-page");
+            resource.MenuOrder.Should().Be(123);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Ubora.Domain.Resources.Commands
     {
         public Guid ResourceId { get; set; }
         public ResourceContent Content { get; set; }
+        public int MenuOrder { get; set; }
 
         internal class Handler : ICommandHandler<CreateResourcePageCommand>
         {

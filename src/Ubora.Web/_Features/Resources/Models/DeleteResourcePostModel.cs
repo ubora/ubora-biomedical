@@ -2,8 +2,8 @@
 
 namespace Ubora.Web._Features.Resources.Models
 {
-    public class DeleteResourcePostModel
+    public class DeleteResourcePagePostModel
     {
-        public Guid PageId { get; set; }
+        public Guid ResourcePageId { get; set; }
     }
 }
