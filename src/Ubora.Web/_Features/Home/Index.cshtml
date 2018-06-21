@@ -1,4 +1,3 @@
-@model Ubora.Web._Features.Home.IndexViewModel
 @using Ubora.Web.Data
 @using Ubora.Web._Features.ProjectList
 @inject SignInManager<ApplicationUser> SignInManager
@@ -40,18 +39,7 @@
 <div class="container my-5">
     @if (SignInManager.IsSignedIn(User))
     {
+        <h2 class="display-4">My projects</h2>
         @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
     }
 </div>
-
-<div class="container my-5">
-    @*@{ Html.RenderPartial("~/_Features/ProjectList/ProjectListPartial.cshtml", Model.ProjectListViewModel); }*@
-</div>
-
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-    <script src="~/dist/infinite_scroll.bundle.js"></script>
-    <script>
-        UBORA.initInfiniteScroll('@Url.Action(nameof(ProjectListController.Search), "ProjectList")');
-    </script>
-}
