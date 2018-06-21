@@ -1,0 +1,63 @@
+﻿@model ResourceEditViewModel
+
+@{
+    ViewData["Title"] = ViewData["ResourcePageTitle"];
+}
+
+@section Left {
+    @Html.Partial("_LeftResourcePagesNavMenuPartial.cshtml")
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="@nameof(IndexController.Index)" asp-controller="@nameof(IndexController).RemoveSuffix()">Resources</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+@Html.Partial("_ResourcePageTabsPartial.cshtml")
+
+<h1>@Model.Title</h1>
+
+<form asp-action="@nameof(ResourcePagesController.Edit)">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input class="form-control" asp-for="Title" placeholder='e.g. "Introduction to UBORA"' />
+        <span asp-validation-for="Title"></span>
+        <small>
+            URL will be: <br><span id="js-slug">&nbsp;</span>
+        </small>
+    </div>
+    <div class="form-group">
+        <input type="hidden" asp-for="ResourceId" />
+        <input type="hidden" asp-for="ContentVersion" />
+        <label asp-for="Body">Content</label>
+        <input asp-for="Body" type="hidden" />
+        <span asp-validation-for="Body"></span>
+        <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial")</div>
+        <div id="editor-container" class="form-group" style="display: none;"></div>
+    </div>
+    <div class="float-right">
+        <button type="submit" class="btn btn-primary float-right">Publish changes</button>
+    </div>
+</form>
+
+@*@section Right {
+
+    <div class="mb-3">
+        <a class="w-75 my-2 btn btn-outline-primary d-flex align-items-center justify-content-center" asp-action="@nameof(ResourcePagesController.Delete)">Delete</a>
+    </div>
+}*@
+
+@section Scripts {
+    <script>
+        var titleInputSelector = "#@(nameof(Model.Title))";
+        var contentInputSelector = "#@(nameof(Model.Body))";
+        var editorSelector = "#editor-container";
+        var toolbarSelector = "#toolbar-container";
+        var exampleTitle = "Introduction to UBORA";
+        var initialContent = @Html.Raw(Model.Body);
+        UBORA.initAddOrEditResource(editorSelector, toolbarSelector, titleInputSelector, contentInputSelector, exampleTitle, initialContent);
+    </script>
+}

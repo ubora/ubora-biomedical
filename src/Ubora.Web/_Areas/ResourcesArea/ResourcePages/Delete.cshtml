@@ -1,0 +1,29 @@
+﻿@model DeleteResourcePagePostModel
+
+@{
+    ViewData["Title"] = "Delete resource page";
+}
+
+@section Left {
+    @Html.Partial("_LeftResourcePagesNavMenuPartial.cshtml")
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="@nameof(IndexController.Index)">Resources</a></li>
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcePagesController.Read)">@ViewData["ResourcePageTitle"]</a></li>
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcePagesController.Edit)">Edit</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+@Html.Partial("_ResourcePageTabsPartial.cshtml")
+
+<h1>@ViewData["Title"]</h1>
+
+@*<form asp-action="@nameof(ResourcesController.Delete)">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="float-right">
+        <button type="submit" class="btn btn-primary float-right">Yes – I am sure, delete</button>
+    </div>
+</form>*@

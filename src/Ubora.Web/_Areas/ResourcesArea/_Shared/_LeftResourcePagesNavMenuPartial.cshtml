@@ -1,0 +1,24 @@
+﻿@using Ubora.Domain.Infrastructure.Specifications
+@using Ubora.Domain.Resources
+@inject Ubora.Domain.Infrastructure.Queries.IQueryProcessor QueryProcessor
+@*<form style="visibility:hidden;">
+        <div class="form-group">
+            <input placeholder="Search..." class="form-control" type="text" />
+        </div>
+    </form>*@
+
+@{
+    var resources = QueryProcessor.Find(new MatchAll<ResourcePage>(), new ResourceIndexViewModel.Mapper());
+}
+
+<nav class="nav flex-column">
+    @foreach (var resource in resources)
+    {
+        <a class="nav-link px-1"
+           asp-action="@nameof(ResourcePagesController.Read)"
+           asp-controller="@nameof(ResourcePagesController).RemoveSuffix()"
+           asp-route-slugOrId="@resource.Slug">
+            @resource.Title
+        </a>
+    }
+</nav>

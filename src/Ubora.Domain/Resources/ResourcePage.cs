@@ -13,8 +13,7 @@ namespace Ubora.Domain.Resources
         public ResourceContent Content { get; private set; }
         
         public bool IsDeleted { get; private set; }
-        public int MenuOrder { get; set; } // TODO: Option to set the order of the resource in the side menu. Default sort by first letter.
-        public string Category { get; set; } // TODO!
+        public int MenuPriority { get; set; }
 
         public string GetBlobContainerName() => $"ResourcePage_{Id}";
 
@@ -24,7 +23,7 @@ namespace Ubora.Domain.Resources
             ContentVersion = Guid.NewGuid();
         }
         
-        private void Apply(ResourceCreatedEvent @event)
+        private void Apply(ResourcePageCreatedEvent @event)
         {
             if (@event.ResourceId == default(Guid))
                 throw new ArgumentException(nameof(@event.ResourceId));
@@ -32,11 +31,10 @@ namespace Ubora.Domain.Resources
             Id = @event.ResourceId;
             ActiveSlug = @event.Slug;
             SetContent(@event.Content);
-
-            Category = Guid.NewGuid().ToString();
+            MenuPriority = @event.MenuPriority;
         }
 
-        private void Apply(ResourceContentEditedEvent @event)
+        private void Apply(ResourcePageContentEditedEvent @event)
         {
             if (IsDeleted)
                 throw new InvalidOperationException();

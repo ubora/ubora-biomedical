@@ -20,10 +20,10 @@ namespace Ubora.Domain.Tests.Resources
             
             var command = new CreateResourcePageCommand
             {
-                ResourceId = resourceId,
+                ResourcePageId = resourceId,
                 Content = content,
                 Actor = new DummyUserInfo(),
-                MenuOrder = 123
+                MenuPriority = 123
             };
             
             // Act
@@ -33,14 +33,14 @@ namespace Ubora.Domain.Tests.Resources
             commandResult.IsSuccess.Should().BeTrue();
 
             var singleEventInStream = Session.Events.FetchStream(resourceId).ToList().Single();
-            singleEventInStream.Data.Should().BeOfType<ResourceCreatedEvent>();
+            singleEventInStream.Data.Should().BeOfType<ResourcePageCreatedEvent>();
             
             var resource = Session.Load<ResourcePage>(resourceId);
 
             resource.Id.Should().Be(resourceId);
             resource.Content.ShouldBeEquivalentTo(content);
             resource.ActiveSlug.Value.Should().Be("introduction-page");
-            resource.MenuOrder.Should().Be(123);
+            resource.MenuPriority.Should().Be(123);
         }
     }
 }

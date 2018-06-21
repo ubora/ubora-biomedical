@@ -31,7 +31,7 @@ namespace Ubora.Domain.Tests.Resources
             Action act = () => _handlerUnderTest
                 .Handle(new CreateResourcePageCommand 
                 {
-                    ResourceId = resourceId
+                    ResourcePageId = resourceId
                 });
             
             // Assert

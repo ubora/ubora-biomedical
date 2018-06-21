@@ -39,7 +39,7 @@ namespace Ubora.Domain.Tests.Resources
             
             fixture.Processor.Execute(new CreateResourcePageCommand
             {
-                ResourceId = ResourceId,
+                ResourcePageId = ResourceId,
                 Content = Content,
                 Actor = new UserInfo(CreatorUserId, "testName")
             });

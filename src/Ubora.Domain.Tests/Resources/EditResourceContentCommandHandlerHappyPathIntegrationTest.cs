@@ -32,7 +32,7 @@ namespace Ubora.Domain.Tests.Resources
             commandResult.IsSuccess.Should().BeTrue();
 
             var lastEventInStream = Session.Events.FetchStream(resource.Id).Select(e => e.Data).ToList().Last();
-            lastEventInStream.Should().BeOfType<ResourceContentEditedEvent>();
+            lastEventInStream.Should().BeOfType<ResourcePageContentEditedEvent>();
 
             Session.Load<ResourcePage>(resource.Id)
                 .Content.ShouldBeEquivalentTo(editedContent);

@@ -31,7 +31,7 @@ namespace Ubora.Domain.Resources.Commands
 
                 _documentSession.Events.Append(
                     stream: cmd.ResourceId, 
-                    events: new ResourceContentEditedEvent(
+                    events: new ResourcePageContentEditedEvent(
                         initiatedBy: cmd.Actor,
                         content: cmd.Content,
                         previousContentVersion: cmd.PreviousContentVersion));

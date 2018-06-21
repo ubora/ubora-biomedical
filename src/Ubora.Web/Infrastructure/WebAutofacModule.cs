@@ -22,7 +22,7 @@ using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Ubora.Web._Features.Resources;
 using Ubora.Web._Features.Users.Manage;
 using Ubora.Domain.Resources.Commands;
-using Ubora.Web._Features.ResourceRepository.Commands;
+using Ubora.Web._Areas.ResourcesArea.ResourcePages.CommandHandlers;
 
 namespace Ubora.Web.Infrastructure
 {

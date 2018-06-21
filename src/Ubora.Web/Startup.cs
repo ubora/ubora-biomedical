@@ -174,9 +174,9 @@ namespace Ubora.Web
                     name: "default",
                     template: "{controller}/{action}/{id?}");
 
-                routes.MapRoute(
-                    name: "areaRoute",
-                    template: "{area:exists}/{controller}/{action}");
+                //routes.MapRoute(
+                //    name: "areaRoute",
+                //    template: "{area:exists}/{controller}/{action}");
             });
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
