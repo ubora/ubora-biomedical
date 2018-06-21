@@ -11,6 +11,7 @@ using Ubora.Web._Components;
 using Ubora.Domain.Projects._SortSpecifications;
 using Ubora.Web._Features._Shared.Paging;
 using static Ubora.Web._Features.ProjectList.ProjectListController;
+using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Web._Features.ProjectList
 {
@@ -47,8 +48,19 @@ namespace Ubora.Web._Features.ProjectList
 
             public ProjectListViewModel CreatePagedProjectListViewModel(SearchModel searchModel, string header, int page)
             {
+                var sortSpecifications = new List<ISortSpecification<Project>>();
+                switch (searchModel.SortBy)
+                {
+                    case SortBy.Newest:
+                        sortSpecifications.Add(new SortByCreatedDateTimeSpecfication(SortOrder.Ascending));
+                        break;
+                    case SortBy.Oldest:
+                        sortSpecifications.Add(new SortByCreatedDateTimeSpecfication(SortOrder.Descending));
+                        break;
+                }
+
                 var specification = CombineSpecificationMethods(false, searchModel);
-                var projects = _queryProcessor.Find<Project>(specification, new SortByTitleSpecification(), 4, page);
+                var projects = _queryProcessor.Find<Project>(specification, new SortByMultipleProjectSpecification(sortSpecifications), 4, page);
 
                 var model = new ProjectListViewModel
                 {
@@ -81,8 +93,19 @@ namespace Ubora.Web._Features.ProjectList
                     return CreatePagedProjectListViewModel(searchModel: searchModel, header: "All projects", page: page);
                 }
 
+                var sortSpecifications = new List<ISortSpecification<Project>>();
+                switch (searchModel.SortBy)
+                {
+                    case SortBy.Newest:
+                        sortSpecifications.Add(new SortByCreatedDateTimeSpecfication(SortOrder.Ascending));
+                        break;
+                    case SortBy.Oldest:
+                        sortSpecifications.Add(new SortByCreatedDateTimeSpecfication(SortOrder.Descending));
+                        break;
+                }
+
                 var specification = CombineSpecificationMethods(true, searchModel);
-                var projects = _queryProcessor.Find(specification, 4, page);
+                var projects = _queryProcessor.Find(specification, new SortByMultipleProjectSpecification(sortSpecifications), 4, page);
 
                 var model = new ProjectListViewModel();
                 if (!projects.Any())

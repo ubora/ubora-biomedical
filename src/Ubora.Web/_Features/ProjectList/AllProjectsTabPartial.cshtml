@@ -1,5 +1,5 @@
 ﻿@model Ubora.Web._Features.ProjectList.SearchViewModel
-
+@using Ubora.Web._Features.ProjectList
 <div class="tab-pane fade show active" id="allProjects" role="tabpanel" aria-labelledby="all-projects-tab">
     <div class="row py-2  d-flex align-items-center">
         <div class="col-xl-1 col-md-2">
@@ -12,7 +12,7 @@
             <div class="dropdown-menu" aria-labelledby="areaFilter">
                 @foreach (var areaOfUsageTag in Model.AreaOfUsageTags)
                 {
-                    <a class="dropdown-item" href="/ProjectList/Search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@areaOfUsageTag">@areaOfUsageTag</a>
+                    <a class="dropdown-item" href="/ProjectList/Search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@areaOfUsageTag&SortBy=@Model.SortBy">@areaOfUsageTag</a>
                 }
             </div>
         </div>
@@ -21,8 +21,8 @@
                 Status
             </button>
             <div class="dropdown-menu" aria-labelledby="statusFilter">
-                <a class="dropdown-item" href="/ProjectList/Search?ByStatus=NotDraft&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea">Not draft</a>
-                <a class="dropdown-item" href="/ProjectList/Search?ByStatus=Draft&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea">Draft</a>
+                <a class="dropdown-item" href="/ProjectList/Search?ByStatus=NotDraft&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=@Model.SortBy">Not draft</a>
+                <a class="dropdown-item" href="/ProjectList/Search?ByStatus=Draft&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=@Model.SortBy">Draft</a>
             </div>
         </div>
         <div class="col-xl-4 mr-0 ml-auto">
@@ -30,6 +30,7 @@
                 <input asp-for="Tab" type="hidden" />
                 <input asp-for="ByArea" type="hidden" />
                 <input asp-for="ByStatus" type="hidden" />
+                <input asp-for="SortBy" type="hidden" />
                 <div class="input-group search">
                     <input class="form-control" asp-for="Title" placeholder="Search projects..." aria-describedby="btnGroupAddon">
                     <div class="input-group-prepend">
@@ -48,12 +49,21 @@
             Sort by:
         </div>
         <div id="sortByParamethers" class="dropdown">
-            <button class="btn btn-icon dropdown-toggle" type="button" id="sortBy" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Newest
-            </button>
+            @if (Model.SortBy == ProjectListController.SortBy.Newest)
+            {
+                <button class="btn btn-icon dropdown-toggle" type="button" data-toggle="dropdown">
+                    Newest
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-icon dropdown-toggle" type="button" data-toggle="dropdown">
+                    Oldest
+                </button>
+            }
             <div class="dropdown-menu" aria-labelledby="sortBy">
-                <a class="dropdown-item" href="#">Newest</a>
-                <a class="dropdown-item" href="#">Oldest</a>
+                <a class="dropdown-item" href="/ProjectList/Search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=Newest">Newest</a>
+                <a class="dropdown-item" href="/ProjectList/Search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=Oldest">Oldest</a>
             </div>
         </div>
     </div>

@@ -21,6 +21,7 @@ namespace Ubora.Web._Features.ProjectList
                 Tab = searchModel.Tab,
                 ByArea = searchModel.ByArea,
                 ByStatus = searchModel.ByStatus,
+                SortBy = searchModel.SortBy,
                 ProjectListViewModel = projectListViewModel
             });
         }
@@ -35,6 +36,7 @@ namespace Ubora.Web._Features.ProjectList
                 Tab = searchModel.Tab,
                 ByArea = searchModel.ByArea,
                 ByStatus = searchModel.ByStatus,
+                SortBy = searchModel.SortBy,
                 ProjectListViewModel = projectListViewModel });
         }
 
@@ -45,6 +47,7 @@ namespace Ubora.Web._Features.ProjectList
             public TabType Tab { get; set; }
             public string ByArea { get; set; }
             public ByStatusFilteringMethod ByStatus { get; set; }
+            public SortBy SortBy { get; set; }
         }
 
         public enum TabType
@@ -58,6 +61,12 @@ namespace Ubora.Web._Features.ProjectList
             All = 0,
             NotDraft = 1,
             Draft = 2
+        }
+
+        public enum SortBy
+        {
+            Newest = 0,
+            Oldest = 1
         }
     }
 }
