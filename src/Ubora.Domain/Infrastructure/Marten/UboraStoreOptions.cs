@@ -57,14 +57,18 @@ namespace Ubora.Domain.Infrastructure.Marten
                     .Duplicate(l => l.ProjectId)
                     .Duplicate(l => l.UserId)
                     .Duplicate(l => l.Timestamp);
+
                 options.Schema.For<IProjectEntity>()
                     .AddSubClassHierarchy(typeof(EventLogEntry));
 
-                options.Schema.For<ResourcePage>().SoftDeleted().Duplicate(page => page.ActiveSlug.Value, configure: index =>
-                {
-                    index.IsUnique = true;
-                });
-                options.Schema.For<ResourceFile>().Duplicate(file => file.ResourcePageId);
+                options.Schema.For<ResourcePage>()
+                    .Duplicate(page => page.ActiveSlug.Value, configure: index =>
+                    {
+                        index.IsUnique = true;
+                    });
+
+                options.Schema.For<ResourceFile>()
+                    .Duplicate(file => file.ResourcePageId);
 
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();

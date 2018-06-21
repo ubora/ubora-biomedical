@@ -7,7 +7,7 @@ namespace Ubora.Domain.Resources.Commands
 {
     public class DeleteResourcePageCommand : UserCommand
     {
-        public Guid ResourceId { get; set; }
+        public Guid ResourcePageId { get; set; }
 
         public class Handler : ICommandHandler<DeleteResourcePageCommand>
         {
@@ -22,12 +22,13 @@ namespace Ubora.Domain.Resources.Commands
             
             public ICommandResult Handle(DeleteResourcePageCommand cmd)
             {
-                var resourcePage = _documentSession.LoadOrThrow<ResourcePage>(cmd.ResourceId);
+                var resourcePage = _documentSession.LoadOrThrow<ResourcePage>(cmd.ResourcePageId);
 
-                _documentSession.Events.Append(cmd.ResourceId, new ResourcePageDeletedEvent(
-                    initiatedBy: cmd.Actor,
-                    resourceId: cmd.ResourceId));
+                _documentSession.DeleteWhere<ResourceFile>(resourceFile => resourceFile.ResourcePageId == resourcePage.Id);
                 _documentSession.Delete(resourcePage);
+
+                _documentSession.DocumentStore.Advanced.Clean.DeleteSingleEventStream(cmd.ResourcePageId);
+
                 _documentSession.SaveChanges();
 
                 _resourceBlobDeleter.DeleteBlobContainerOfResourcePage(resourcePage)

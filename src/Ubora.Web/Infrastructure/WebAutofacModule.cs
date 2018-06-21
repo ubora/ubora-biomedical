@@ -23,6 +23,8 @@ using Ubora.Web._Features.Resources;
 using Ubora.Web._Features.Users.Manage;
 using Ubora.Domain.Resources.Commands;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages.CommandHandlers;
+using Ubora.Web._Areas.ResourcesArea.ResourcePages.Services;
+using Ubora.Domain.Resources;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -116,6 +118,7 @@ namespace Ubora.Web.Infrastructure
                 .SingleInstance();
 
             builder.RegisterType<QuillDeltaToHtmlConverter>().InstancePerLifetimeScope();
+            builder.RegisterType<ResourceBlobDeleter>().As<IResourceBlobDeleter>().InstancePerLifetimeScope();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)

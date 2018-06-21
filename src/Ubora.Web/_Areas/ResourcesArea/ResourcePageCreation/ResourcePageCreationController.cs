@@ -14,7 +14,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePageCreation
     public class ResourcePageCreationController : ResourcesAreaController
     {
         [Authorize(Policies.CanManageResourcePages)]
-        [Route("add")]
+        [Route("create")]
         public virtual IActionResult Add()
         {
             return View();
@@ -22,7 +22,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePageCreation
 
         [Authorize(Policies.CanManageResourcePages)]
         [HttpPost]
-        [Route("add")]
+        [Route("create")]
         public async Task<IActionResult> Add(AddResourcePostModel model)
         {
             if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResourcePages))

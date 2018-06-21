@@ -11,13 +11,13 @@ using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Commands;
 using Ubora.Domain.Resources.Queries;
 using Ubora.Domain.Resources.Specifications;
-using Ubora.Web._Features;
 using Ubora.Web._Features._Shared.Notices;
 using Ubora.Web._Features.Projects.History._Base;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web._Areas.ResourcesArea.Index.Models;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages.Models;
 using Ubora.Web._Areas.ResourcesArea._Shared;
+using Ubora.Web._Areas.ResourcesArea.Index;
 
 namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
 {
@@ -57,13 +57,15 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             }
         }
 
+        [AllowAnonymous]
         [Route("")]
         public async Task<IActionResult> Read([FromServices]ResourceReadViewModel.Factory modelFactory)
         {
             var model = await modelFactory.Create(ResourcePage);
-            return View(nameof(Read), model);
+            return View(model);
         }
 
+        [AllowAnonymous]
         [Route("repository")]
         public IActionResult Repository()
         {
@@ -73,7 +75,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
                     resourcePageId: ResourcePage.Id,
                     resourcePageName: ResourcePage.Content.Title);
 
-            return View(nameof(Repository), model);
+            return View(model);
         }
 
         [Authorize(Policies.CanManageResourcePages)]
@@ -82,7 +84,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
         {
             var model = new AddResourceFileViewModel(ResourcePage.Id, ResourcePage.Content.Title);
 
-            return View(nameof(AddFile), model);
+            return View(model);
         }
 
         [Authorize(Policies.CanManageResourcePages)]
@@ -116,6 +118,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             return Json(new { redirect = Url.Action(nameof(Repository)) });
         }
 
+        [AllowAnonymous]
         [Route("repository/{fileId}")]
         public IActionResult DownloadFile(Guid fileId, [FromServices] IStorageProvider storageProvider)
         {
@@ -136,7 +139,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
         public IActionResult Edit(string slugOrId, [FromServices]ResourceEditViewModel.Factory modelFactory)
         {
             var model = modelFactory.Create(ResourcePage);
-            return View(nameof(Edit), model);
+            return View(model);
         }
 
         [Authorize(Policies.CanManageResourcePages)]
@@ -164,6 +167,36 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             return RedirectToAction(nameof(Read), new { slugOrId = ResourcePage.ActiveSlug });
         }
 
+        [Authorize(Policies.CanManageResourcePages)]
+        [Route("edit/delete")]
+        public IActionResult Delete()
+        {
+            return View();
+        }
+
+        [Authorize(Policies.CanManageResourcePages)]
+        [HttpPost]
+        [Route("edit/delete")]
+        public IActionResult Delete(DeleteResourcePagePostModel postModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Delete();
+            }
+
+            ExecuteUserCommand(new DeleteResourcePageCommand
+            {
+                ResourcePageId = ResourcePage.Id
+            }, Notice.Success("Resource deleted"));
+
+            if (!ModelState.IsValid)
+            {
+                return Delete();
+            }
+
+            return RedirectToAction(nameof(IndexController.Index), nameof(IndexController).RemoveSuffix());
+        }
+
         [Route("history")]
         public async Task<IActionResult> History(string slugOrId, [FromServices]IEventStore eventStore, [FromServices] IEventViewModelFactoryMediator eventViewModelFactoryMediator)
         {
@@ -179,7 +212,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
                 Events = resourceEvents.Select(x => eventViewModelFactoryMediator.Create((UboraEvent)x.Data, x.Timestamp)).ToList()
             };
 
-            return View(nameof(History), model);
+            return View(model);
         }
     }
 }

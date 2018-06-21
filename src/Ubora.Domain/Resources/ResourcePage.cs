@@ -12,7 +12,6 @@ namespace Ubora.Domain.Resources
         public Guid ContentVersion { get; private set; }
         public ResourceContent Content { get; private set; }
         
-        public bool IsDeleted { get; private set; }
         public int MenuPriority { get; set; }
 
         public string GetBlobContainerName() => $"ResourcePage_{Id}";
@@ -36,18 +35,10 @@ namespace Ubora.Domain.Resources
 
         private void Apply(ResourcePageContentEditedEvent @event)
         {
-            if (IsDeleted)
-                throw new InvalidOperationException();
-
             if (ContentVersion != @event.PreviousContentVersion)
                 throw new InvalidOperationException("Content has been changed -- the versions don't match.");
             
             SetContent(@event.Content);
-        }
-        
-        private void Apply(ResourcePageDeletedEvent @event)
-        {
-            IsDeleted = true;
         }
     }
 }

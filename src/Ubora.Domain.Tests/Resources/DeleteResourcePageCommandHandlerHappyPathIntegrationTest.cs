@@ -30,7 +30,7 @@ namespace Ubora.Domain.Tests.Resources
             // Act
             var commandResult = Processor.Execute(new DeleteResourcePageCommand
             {
-                ResourceId = resourceId,
+                ResourcePageId = resourceId,
                 Actor = new DummyUserInfo()
             });
 

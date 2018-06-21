@@ -1,5 +1,4 @@
 const QuillDeltaToHtmlConverter = require("quill-delta-to-html");
-const document = require("min-document");
 
 const convertQuillDeltaToHtml = function (callback, delta) {
     const config = {
