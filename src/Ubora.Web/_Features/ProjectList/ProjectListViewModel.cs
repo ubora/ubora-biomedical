@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects._Specifications;
-using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web._Components;
 using Ubora.Domain.Projects._SortSpecifications;
 using Ubora.Web._Features._Shared.Paging;
@@ -29,20 +27,14 @@ namespace Ubora.Web._Features.ProjectList
 
         public class Factory
         {
-            private readonly IMapper _mapper;
             private readonly IQueryProcessor _queryProcessor;
-            private readonly ImageStorageProvider _imageStorage;
             private readonly ProjectCardViewModel.Factory _projectCardViewModelFactory;
 
             public Factory(
                 IQueryProcessor queryProcessor,
-                IMapper mapper,
-                ImageStorageProvider imageStorage,
                 ProjectCardViewModel.Factory projectCardViewModelFactory)
             {
                 _queryProcessor = queryProcessor;
-                _mapper = mapper;
-                _imageStorage = imageStorage;
                 _projectCardViewModelFactory = projectCardViewModelFactory;
             }
 

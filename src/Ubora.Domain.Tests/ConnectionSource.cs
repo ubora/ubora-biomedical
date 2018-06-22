@@ -7,7 +7,7 @@ namespace Ubora.Domain.Tests
 {
     public class ConnectionSource : ConnectionFactory
     {
-        public static readonly string ConnectionString = "server=localhost;Port=5400;userid=postgres;password=ubora;database=postgres";
+        public static readonly string ConnectionString = Environment.GetEnvironmentVariable("marten_testing_database");
 
         static ConnectionSource()
         {

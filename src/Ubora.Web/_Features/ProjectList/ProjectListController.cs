@@ -1,17 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ubora.Web._Features.ProjectList
 {
     public class ProjectListController : UboraController
     {
-        [Authorize]
-        public IActionResult MyProjects()
-        {
-            return View();
-        }
-
         public IActionResult Search([FromServices]ProjectListViewModel.Factory modelFactory, SearchModel searchModel, int page = 1)
         {
             var projectListViewModel = modelFactory.CreateForSearch(searchModel, page);

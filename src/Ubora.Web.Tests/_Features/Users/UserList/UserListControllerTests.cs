@@ -13,6 +13,7 @@ using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Users.Specifications;
 using Ubora.Domain.Users.SortSpecifications;
 using static Ubora.Web._Features.Users.UserList.UserListController;
+using Ubora.Web._Features._Shared.Paging;
 
 namespace Ubora.Web.Tests._Features.Users.UserList
 {
@@ -57,9 +58,12 @@ namespace Ubora.Web.Tests._Features.Users.UserList
             QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByMultipleUserProfileSortSpecification>(), 4, 2)).Returns(userProfiles);
 
             //Act
-            var result = (ViewResult)_controller.Index(new SearchModel(),2);
+            var result = (ViewResult)_controller.Index(new SearchModel(), 2);
 
             //Assert
+            result.Model.As<IndexViewModel>().Ordering.Should().Be(OrderingMethod.Firstname);
+            result.Model.As<IndexViewModel>().Tab.Should().Be(TabType.AllMemeber);
+            result.Model.As<IndexViewModel>().Pager.ShouldBeEquivalentTo(Pager.From(userProfiles));
             result.Model.As<IndexViewModel>().UserListItems.Count().Should().Be(1);
             result.Model.As<IndexViewModel>().UserListItems.Last().UserId.Should().Be(userProfile.UserId);
             result.Model.As<IndexViewModel>().UserListItems.Last().Email.Should().Be(userProfile.Email);
