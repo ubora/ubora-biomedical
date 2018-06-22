@@ -16,6 +16,7 @@ using Ubora.Web.Tests.Fakes;
 using Ubora.Web.Tests.Helper;
 using Xunit;
 using Ubora.Web._Features.Projects.Dashboard;
+using Ubora.Web._Features.Projects.Members.Models;
 
 namespace Ubora.Web.Tests._Features.Projects.Members
 {

@@ -30,13 +30,13 @@ namespace Ubora.Web._Features.Notifications
         {
             var notifications = QueryProcessor.Find<INotification>(new IsForUser(UserId), new SortByCreatedAtSpecification(SortOrder.Descending), 10, page);
 
-            MarkNotificationsAsViewed();
-
             var model = new NotificationListViewModel
             {
                 Pager = Pager.From(notifications),
-                Notifications = notifications.Select(_notificationViewModelFactoryMediator.Create)
+                Notifications = notifications.Select(_notificationViewModelFactoryMediator.Create).ToList()
             };
+
+            MarkNotificationsAsViewed();
 
             return View(model);
         }

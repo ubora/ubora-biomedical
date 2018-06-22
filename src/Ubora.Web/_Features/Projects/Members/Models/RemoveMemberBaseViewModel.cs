@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ubora.Web._Features.Projects.Members
+namespace Ubora.Web._Features.Projects.Members.Models
 {
     public abstract class RemoveMemberBaseViewModel
     {

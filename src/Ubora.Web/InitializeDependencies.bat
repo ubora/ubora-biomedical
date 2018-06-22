@@ -1,0 +1,1 @@
+powershell -noexit -executionpolicy bypass -File "InitializeDependencies.ps1"

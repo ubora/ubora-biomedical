@@ -10,25 +10,26 @@
     <div class="infinite-scroll">
         <h1>Notifications</h1>
         <div class="post">
-            <div class="row">
-                <div class="col">
-                    @if (Model.Notifications.Any())
-                    {
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                        foreach (var notification in Model.Notifications)
-                        {
-                            @notification.GetPartialView(Html)
-                        }
-                    }
-                    else
-                    {
+            @if (Model.Notifications.Any())
+            {
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                foreach (var notification in Model.Notifications)
+                {
+                    @notification.GetPartialView(Html)
+                }
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col">
                         <div class="my-4">
                             <p>You currently have no notifications.</p>
                         </div>
-                    }
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     </div>
 
@@ -59,7 +60,6 @@
             <div id="js-more-pages-indicator" style="display: none"></div>
         }
     }
-
 </div>
 @section Scripts {
     <script src="~/dist/infinite_scroll.bundle.js"></script>
