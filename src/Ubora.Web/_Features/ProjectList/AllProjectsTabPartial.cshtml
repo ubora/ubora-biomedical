@@ -13,7 +13,7 @@
                 <div class="dropdown-menu" aria-labelledby="areaFilter">
                     @foreach (var areaOfUsageTag in Model.AreaOfUsageTags)
                     {
-                        <a class="dropdown-item" href="/ProjectList/Search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@areaOfUsageTag&SortBy=@Model.SortBy">@areaOfUsageTag</a>
+                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@areaOfUsageTag&SortBy=@Model.SortBy">@areaOfUsageTag</a>
                     }
                 </div>
             </div>
@@ -22,14 +22,14 @@
                     Status
                 </button>
                 <div class="dropdown-menu" aria-labelledby="statusFilter">
-                    <a class="dropdown-item">All</a>
-                    <a class="dropdown-item" href="/ProjectList/Search?ByStatus=NotDraft&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=@Model.SortBy">Approved</a>
-                    <a class="dropdown-item" href="/ProjectList/Search?ByStatus=Draft&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=@Model.SortBy">Draft</a>
+                    <a class="dropdown-item" href="/projects/search?ByStatus=All&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=@Model.SortBy">All</a>
+                    <a class="dropdown-item" href="/projects/search?ByStatus=NotDraft&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=@Model.SortBy">Approved</a>
+                    <a class="dropdown-item" href="/projects/search?ByStatus=Draft&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=@Model.SortBy">Draft</a>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 mr-0 ml-auto">
-            <form asp-controller="ProjectList" asp-action="Search" method="post">
+            <form asp-controller="ProjectList" asp-action="Search" method="get">
                 <input asp-for="Tab" type="hidden" />
                 <input asp-for="ByArea" type="hidden" />
                 <input asp-for="ByStatus" type="hidden" />
@@ -65,8 +65,8 @@
                 </button>
             }
             <div class="dropdown-menu" aria-labelledby="sortBy">
-                <a class="dropdown-item" href="/ProjectList/Search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=Newest">Newest</a>
-                <a class="dropdown-item" href="/ProjectList/Search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=Oldest">Oldest</a>
+                <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=Newest">Newest</a>
+                <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=Oldest">Oldest</a>
             </div>
         </div>
     </div>

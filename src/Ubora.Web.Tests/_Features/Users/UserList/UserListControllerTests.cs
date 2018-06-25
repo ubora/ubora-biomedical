@@ -32,7 +32,7 @@ namespace Ubora.Web.Tests._Features.Users.UserList
         [Theory]
         [InlineData("test.jpg")]
         [InlineData(null)]
-        public void Index_Returns_Users(string blobname)
+        public void Search_Returns_Users(string blobname)
         {
             var userProfile = new UserProfile(Guid.NewGuid());
 
@@ -58,11 +58,11 @@ namespace Ubora.Web.Tests._Features.Users.UserList
             QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByMultipleUserProfileSortSpecification>(), 4, 2)).Returns(userProfiles);
 
             //Act
-            var result = (ViewResult)_controller.Index(new SearchModel(), 2);
+            var result = (ViewResult)_controller.Search(new SearchModel(), 2);
 
             //Assert
             result.Model.As<IndexViewModel>().Ordering.Should().Be(OrderingMethod.Firstname);
-            result.Model.As<IndexViewModel>().Tab.Should().Be(TabType.AllMemeber);
+            result.Model.As<IndexViewModel>().Tab.Should().Be(TabType.AllMembers);
             result.Model.As<IndexViewModel>().Pager.ShouldBeEquivalentTo(Pager.From(userProfiles));
             result.Model.As<IndexViewModel>().UserListItems.Count().Should().Be(1);
             result.Model.As<IndexViewModel>().UserListItems.Last().UserId.Should().Be(userProfile.UserId);

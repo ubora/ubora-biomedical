@@ -16,12 +16,12 @@
             @if (Model.Tab == ProjectListController.TabType.AllProjects)
             {
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" id="my-projects-tab" href="/ProjectList/Search?Tab=MyProjects">
+                    <a class="nav-link d-flex align-items-center" id="my-projects-tab" href="/projects/search?Tab=MyProjects">
                         My projects
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active d-flex align-items-center" id="all-projects-tab" href="/ProjectList/Search?Tab=AllProjects">
+                    <a class="nav-link active d-flex align-items-center" id="all-projects-tab" href="/projects/search?Tab=AllProjects">
                         All projects
                     </a>
                 </li>
@@ -29,12 +29,12 @@
             else
             {
                 <li class="nav-item">
-                    <a class="nav-link active d-flex align-items-center" id="my-projects-tab" href="/ProjectList/Search?Tab=MyProjects">
+                    <a class="nav-link active d-flex align-items-center" id="my-projects-tab" href="/projects/search?Tab=MyProjects">
                         My projects
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" id="all-projects-tab" href="/ProjectList/Search?Tab=AllProjects">
+                    <a class="nav-link d-flex align-items-center" id="all-projects-tab" href="/projects/search?Tab=AllProjects">
                         All projects
                     </a>
                 </li>
@@ -43,7 +43,7 @@
         else
         {
             <li class="nav-item">
-                <a class="nav-link active d-flex align-items-center" id="all-projects-tab" href="/ProjectList/Search?Tab=AllProjects">
+                <a class="nav-link active d-flex align-items-center" id="all-projects-tab" href="/projects/search?Tab=AllProjects">
                     All projects
                 </a>
             </li>
