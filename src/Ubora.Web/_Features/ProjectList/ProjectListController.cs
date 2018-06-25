@@ -5,11 +5,13 @@ namespace Ubora.Web._Features.ProjectList
 {
     public class ProjectListController : UboraController
     {
+        [Route("projects", Order = 0)]
+        [Route("projects/search", Order = 1)] 
         public IActionResult Search([FromServices]ProjectListViewModel.Factory modelFactory, SearchModel searchModel, int page = 1)
         {
             var projectListViewModel = modelFactory.CreateForSearch(searchModel, page);
 
-            return View(new SearchViewModel {
+            return View(nameof(Search), new SearchViewModel {
                 Title = searchModel.Title,
                 Tab = searchModel.Tab,
                 ByArea = searchModel.ByArea,
@@ -17,20 +19,6 @@ namespace Ubora.Web._Features.ProjectList
                 SortBy = searchModel.SortBy,
                 ProjectListViewModel = projectListViewModel
             });
-        }
-
-        [HttpPost]
-        public IActionResult Search([FromServices]ProjectListViewModel.Factory modelFactory, SearchModel searchModel)
-        {
-            var projectListViewModel = modelFactory.CreateForSearch(searchModel, 1);
-
-            return View(new SearchViewModel {
-                Title = searchModel.Title,
-                Tab = searchModel.Tab,
-                ByArea = searchModel.ByArea,
-                ByStatus = searchModel.ByStatus,
-                SortBy = searchModel.SortBy,
-                ProjectListViewModel = projectListViewModel });
         }
 
         public class SearchModel

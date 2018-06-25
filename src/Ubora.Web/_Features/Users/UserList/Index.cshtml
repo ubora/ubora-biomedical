@@ -13,12 +13,12 @@
             if (Model.Tab == UserListController.TabType.Mentors)
             {
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" id="all-members-tab" href="/UserList/Index?Tab=AllMemeber&Ordering=@Model.Ordering">
+                    <a id="all-members-tab" class="nav-link d-flex align-items-center" href="/community/search?Tab=AllMembers&Ordering=@Model.Ordering">
                         All members
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active d-flex align-items-center" id="mentors-tab" href="/UserList/Index?Tab=Mentors&Ordering=@Model.Ordering">
+                    <a id="mentors-tab" class="nav-link active d-flex align-items-center" href="/community/search?Tab=Mentors&Ordering=@Model.Ordering">
                         Mentors
                     </a>
                 </li>
@@ -26,12 +26,12 @@
             else
             {
                 <li class="nav-item">
-                    <a class="nav-link active d-flex align-items-center" id="all-members-tab" href="/UserList/Index?Tab=AllMemeber&Ordering=@Model.Ordering">
+                    <a id="all-members-tab" class="nav-link active d-flex align-items-center" href="/community/search?Tab=AllMembers&Ordering=@Model.Ordering">
                         All members
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" id="mentors-tab" href="/UserList/Index?Tab=Mentors&Ordering=@Model.Ordering">
+                    <a id="mentors-tab" class="nav-link d-flex align-items-center" href="/community/search?Tab=Mentors&Ordering=@Model.Ordering">
                         Mentors
                     </a>
                 </li>
@@ -47,18 +47,18 @@
             @if (Model.Ordering == UserListController.OrderingMethod.Lastname)
             {
                 <button class="btn btn-icon dropdown-toggle" type="button" data-toggle="dropdown">
-                    Lastname
+                    Last name
                 </button>
             }
             else
             {
                 <button class="btn btn-icon dropdown-toggle" type="button" data-toggle="dropdown">
-                    Firstname
+                    First name
                 </button>
             }
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="/UserList/Index?Tab=@Model.Tab&Ordering=Lastname">Lastname</a>
-                <a class="dropdown-item" href="/UserList/Index?Tab=@Model.Tab&Ordering=FirstName">Firstname</a>
+                <a class="dropdown-item" href="/community/search?Tab=@Model.Tab&Ordering=LastName">Last name</a>
+                <a class="dropdown-item" href="/community/search?Tab=@Model.Tab&Ordering=FirstName">First name</a>
             </div>
         </div>
     </div>

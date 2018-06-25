@@ -23,7 +23,14 @@ namespace Ubora.Web._Features.Users.UserList
             _imageStorageProvider = imageStorageProvider;
         }
 
-        public IActionResult Index(SearchModel searchModel, int page = 1)
+        [Route("community")]
+        public IActionResult Index()
+        {
+            return Search(new SearchModel());
+        }
+
+        [Route("community/search")]
+        public IActionResult Search(SearchModel searchModel, int page = 1)
         {
             var sortSpecifications = new List<ISortSpecification<UserProfile>>();
             switch (searchModel.Ordering)
@@ -37,7 +44,7 @@ namespace Ubora.Web._Features.Users.UserList
             }
 
             IPagedList<UserProfile> userProfiles;
-            if (searchModel.Tab == TabType.AllMemeber)
+            if (searchModel.Tab == TabType.AllMembers)
             {
                 userProfiles = QueryProcessor.Find(new MatchAll<UserProfile>(), new SortByMultipleUserProfileSortSpecification(sortSpecifications), 4, page);
             }
@@ -55,7 +62,7 @@ namespace Ubora.Web._Features.Users.UserList
                 ProfilePictureLink = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile)
             });
 
-            return View(new IndexViewModel
+            return View(nameof(Index), new IndexViewModel
             {
                 Ordering = searchModel.Ordering,
                 Tab = searchModel.Tab,
@@ -64,6 +71,9 @@ namespace Ubora.Web._Features.Users.UserList
             });
         }
 
+        /// <summary>
+        /// Used for autocomplete.
+        /// </summary>
         [HttpGet]
         public JsonResult SearchUsers(string searchPhrase)
         {
@@ -91,7 +101,7 @@ namespace Ubora.Web._Features.Users.UserList
 
         public enum TabType
         {
-            AllMemeber = 0,
+            AllMembers = 0,
             Mentors = 1
         }
 
