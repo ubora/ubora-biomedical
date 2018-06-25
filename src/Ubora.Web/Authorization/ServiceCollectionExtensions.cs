@@ -21,6 +21,7 @@ namespace Ubora.Web.Authorization
         {
             // NOTE: For logical OR evaluation implement multiple handlers for a requirement.
             services.AddSingleton<IAuthorizationHandler, ProjectControllerRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, IsCandidateCreatedUserRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<ProjectNonPublicContentViewingRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<ProjectNonPublicContentViewingRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMemberRequirement.Handler>();
@@ -130,19 +131,19 @@ namespace Ubora.Web.Authorization
                 });
                 options.AddPolicy(Policies.CanAddProjectCandidate, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsProjectMemberRequirement()));
                 });
                 options.AddPolicy(Policies.CanEditProjectCandidate, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsCandidateCreatedUserRequirement()));
                 });
                 options.AddPolicy(Policies.CanChangeProjectCandidateImage, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsCandidateCreatedUserRequirement()));
                 });
                 options.AddPolicy(Policies.CanRemoveProjectCandidateImage, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsCandidateCreatedUserRequirement()));
                 });
                 options.AddPolicy(Policies.CanEditComment, policyBuilder =>
                 {
@@ -160,7 +161,7 @@ namespace Ubora.Web.Authorization
                 });
                 options.AddPolicy(Policies.CanRemoveCandidate, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsCandidateCreatedUserRequirement()));
                 });
                 options.AddPolicy(Policies.CanRequestMentoring, policyBuilder =>
                 {
