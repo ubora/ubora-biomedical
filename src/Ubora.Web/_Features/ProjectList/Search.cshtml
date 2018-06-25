@@ -25,7 +25,6 @@
                         All projects
                     </a>
                 </li>
-
             }
             else
             {
@@ -49,6 +48,15 @@
                 </a>
             </li>
         }
+
+        <li class="ml-sm-auto d-xs-block">
+            <a class="btn btn-sm btn-outline-primary d-xs-block my-xs-2" asp-controller="ProjectCreation" asp-action="Create" role="button">
+                <i class="material-icons">add</i>
+                <span>
+                    Create project
+                </span>
+            </a>
+        </li>
     </ul>
 
     <div class="tab-content" id="projectsTabContent">
@@ -75,6 +83,7 @@
             @await Html.PartialAsync("AllProjectsTabPartial.cshtml", Model);
         }
     </div>
+</div>
 
     @section Scripts {
         @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

@@ -97,11 +97,22 @@ label.custom-file {
     border-bottom: 1px solid $orange;
 }
 
-.search.input-group .input-group-prepend .input-group-text {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-top-right-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
+.search.input-group {
+    .form-control {
+        border-top-left-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+    }
+
+    .input-group-prepend .input-group-text {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
+
+        .btn {
+            font-size: .5rem;
+        }
+    }
 }
 
 .search.input-group .input-group-prepend .input-group-text {
