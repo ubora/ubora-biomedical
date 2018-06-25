@@ -63,7 +63,7 @@ namespace Ubora.Web.Tests._Features.Resources
                 entityProjection.FileName.Should().Be("testName.jpg");
                 entityProjection.FileSize.Should().Be(123);
 
-                var expectedBlobLocation = new BlobLocation("ResourcePage_C962707F-BBAD-4E18-9225-ACEE4205D73F", "repository/A9896CBA-EE90-435D-AF6F-FEE5F6A832D1/testName.jpg");
+                var expectedBlobLocation = new BlobLocation("resourcepage-C962707F-BBAD-4E18-9225-ACEE4205D73F", "repository/A9896CBA-EE90-435D-AF6F-FEE5F6A832D1/testName.jpg");
                 entityProjection.BlobLocation.Should().Be(expectedBlobLocation);
 
                 _uboraStorageProviderMock

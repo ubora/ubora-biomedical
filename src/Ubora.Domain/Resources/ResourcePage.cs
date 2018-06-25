@@ -14,7 +14,7 @@ namespace Ubora.Domain.Resources
         
         public int MenuPriority { get; set; }
 
-        public string GetBlobContainerName() => $"ResourcePage_{Id}";
+        public string GetBlobContainerName() => $"resourcepage-{Id}";
 
         private void SetContent(ResourceContent content)
         {
