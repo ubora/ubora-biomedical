@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using AngleSharp.Extensions;
+using Microsoft.AspNetCore.NodeServices;
 using Ubora.Domain.Resources;
-using Ubora.Web._Features.Resources;
 
 namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Models
 {
@@ -10,15 +9,15 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Models
     {
         public Guid ResourceId { get; private set; }
         public string Title { get; private set; }
-        public string Body { get; private set; }
+        public string BodyHtml { get; private set; }
 
         public class Factory
         {
-            private readonly QuillDeltaToHtmlConverter _quillDeltaToHtmlConverter;
+            private readonly INodeServices _nodeServices;
 
-            public Factory(QuillDeltaToHtmlConverter quillDeltaToHtmlConverter)
+            public Factory(INodeServices nodeServices)
             {
-                _quillDeltaToHtmlConverter = quillDeltaToHtmlConverter;
+                _nodeServices = nodeServices;
             }
             
             protected Factory()
@@ -27,12 +26,10 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Models
             
             public virtual async Task<ResourceReadViewModel> Create(ResourcePage resourcePage)
             {
-                var test = await _quillDeltaToHtmlConverter.ConvertQuillDeltaToHtml(resourcePage.Content.Body);
-
                 return new ResourceReadViewModel
                 {
                     ResourceId = resourcePage.Id,
-                    Body = (await _quillDeltaToHtmlConverter.ConvertQuillDeltaToHtml(resourcePage.Content.Body)).ToHtml(),
+                    BodyHtml = await _nodeServices.InvokeExportAsync<string>("./Scripts/backend/app-backend", "convertQuillDeltaToHtml", resourcePage.Content.Body.Value),
                     Title = resourcePage.Content.Title
                 };
             }

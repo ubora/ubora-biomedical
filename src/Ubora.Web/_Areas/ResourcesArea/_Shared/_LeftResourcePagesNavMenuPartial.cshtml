@@ -14,7 +14,7 @@
 <nav class="nav flex-column">
     @foreach (var resource in resources)
     {
-        <a class="nav-link px-1"
+        <a class="nav-link px-1 border-bottom"
            asp-action="@nameof(ResourcePagesController.Read)"
            asp-controller="@nameof(ResourcePagesController).RemoveSuffix()"
            asp-route-slugOrId="@resource.Slug">

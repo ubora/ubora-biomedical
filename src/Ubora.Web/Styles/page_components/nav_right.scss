@@ -1,5 +1,6 @@
 ﻿.nav-right-sticky {
     @extend .nav;
+    @extend .sticky-top;
     @extend .flex-column;
     position: sticky;
     height: calc(100vh - 3.5rem);

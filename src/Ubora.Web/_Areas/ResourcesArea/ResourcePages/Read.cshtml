@@ -20,42 +20,23 @@
 <h1>@Model.Title</h1>
 
 <div id="content-body" class="py-3">
-    @(Html.Raw(Model.Body))
+    @(Html.Raw(Model.BodyHtml))
 </div>
 
 @section Right {
-    <nav id="content-navigation" class="nav nav-pills flex-column nav-right-sticky" data-spy="scroll" data-target="#content-body">
+    <nav id="table-of-contents" class="nav-right-sticky">
         <span class="color-grey">Table of contents</span>
     </nav>
-
-    <ul class="nav-right-sticky">
-        <li>
-            <a href="#" class="nav-link ">Kotkas</a>
-            <ul>
-                <li><a href="#" class="nav-link active">Eesti liigid</a></li>
-                <li><a href="#" class="nav-link">Kaitse</a></li>
-                <li><a href="#" class="nav-link">Välimus</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="#" class="nav-link">Vares</a>
-        </li>
-        <li>
-            <a href="#" class="nav-link">Sääsk</a>
-        </li>
-    </ul>
-
 }
 
-
-@section Scripts
-    {
+@section Scripts {
+    <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.js" 
+            asp-fallback-test="Toc"
+            asp-fallback-src="~/dist/libs/bootstrap-toc.min.js"></script>
     <script>
-        $('#content-body').find("h1, h2, h3, h4, h5, h6").each(function (_, element) {
-            $(element).attr('id', UBORA.slugify(element.firstChild.textContent));
-            $('#content-navigation')
-                .append(
-                    `<a class="nav-link" href="#${$(element).attr('id')}">${$(element).text()}</a>`);
-        });
-    </script>
+        Toc.init({
+            $nav: $('#table-of-contents'),
+            $scope: $('#content-body')
+        })</script>
+    <script>$('body').scrollspy({ target: '#table-of-contents' })</script>
 }
