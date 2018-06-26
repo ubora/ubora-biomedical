@@ -4,11 +4,11 @@ using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Projects.Candidates.Specifications
 {
-    public class HasCreatedByUserId : Specification<Candidate>
+    public class IsCreatedByUserIdSpec : Specification<Candidate>
     {
         public Guid CreatedByUserId { get; }
 
-        public HasCreatedByUserId(Guid createdByUserId)
+        public IsCreatedByUserIdSpec(Guid createdByUserId)
         {
             CreatedByUserId = createdByUserId;
         }

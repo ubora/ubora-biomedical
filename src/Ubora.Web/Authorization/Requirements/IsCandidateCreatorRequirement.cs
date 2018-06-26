@@ -8,17 +8,17 @@ using Ubora.Web.Services;
 
 namespace Ubora.Web.Authorization.Requirements
 {
-    public class IsCandidateCreatedUserRequirement : IAuthorizationRequirement
+    public class IsCandidateCreatorRequirement : IAuthorizationRequirement
     {
-        public class Handler : ProjectAuthorizationHandler<IsCandidateCreatedUserRequirement, Candidate>
+        public class Handler : ProjectAuthorizationHandler<IsCandidateCreatorRequirement, Candidate>
         {
             public Handler(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
             {
             }
 
-            protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsCandidateCreatedUserRequirement requirement, Candidate candidate)
+            protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsCandidateCreatorRequirement requirement, Candidate candidate)
             {
-                var candidates = QueryProcessor.Find<Candidate>(new HasCreatedByUserId(context.User.GetId()));
+                var candidates = QueryProcessor.Find<Candidate>(new IsCreatedByUserIdSpec(context.User.GetId()));
 
                 if (candidates.Any(x => x.CreatedByUserId == candidate.CreatedByUserId))
                 {

@@ -27,7 +27,6 @@ namespace Ubora.Web.Authorization
         // Scoped services need to use service location because all authorization-handlers are singletons.
         private IServiceProvider ServiceProvider => HttpContext.RequestServices;
 
-        // Virtual for testing
         protected virtual IQueryProcessor QueryProcessor => ServiceProvider.GetService<IQueryProcessor>();
 
         protected Project Project { get; private set; }
@@ -45,7 +44,6 @@ namespace Ubora.Web.Authorization
             await base.HandleAsync(context);
         }
 
-        // Virtual for testing
         protected virtual Project GetProject()
         {
             var routeData = HttpContext.GetRouteData();
@@ -71,7 +69,6 @@ namespace Ubora.Web.Authorization
         // Scoped services need to use service location because all authorization-handlers are singletons.
         private IServiceProvider ServiceProvider => HttpContext.RequestServices;
 
-        // Virtual for testing
         protected virtual IQueryProcessor QueryProcessor => ServiceProvider.GetService<IQueryProcessor>();
 
         protected Project Project { get; private set; }
@@ -86,16 +83,9 @@ namespace Ubora.Web.Authorization
                 return;
             }
 
-            if (context.Resource is TResource)
-            {
-                foreach (var req in context.Requirements.OfType<TRequirement>())
-                {
-                    await HandleRequirementAsync(context, req, (TResource)context.Resource);
-                }
-            }
+            await base.HandleAsync(context);
         }
 
-        // Virtual for testing
         protected virtual Project GetProject()
         {
             var routeData = HttpContext.GetRouteData();
