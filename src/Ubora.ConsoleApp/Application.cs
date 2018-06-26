@@ -1,7 +1,8 @@
 ﻿using Marten;
-using Marten.Events.Projections.Async;
+using Marten.Linq.SoftDeletes;
 using System;
 using System.Linq;
+using Ubora.Domain.Projects;
 
 namespace Ubora.ConsoleApp
 {
@@ -17,15 +18,12 @@ namespace Ubora.ConsoleApp
         public void Run()
         {
             Console.WriteLine("Reaggregationing...");
-            var streamIds = _documentSession.Events.QueryAllRawEvents().Select(e => e.StreamId).Distinct();
-            foreach (var streamId in streamIds)
+            var ids = _documentSession.Query<Project>().Where(x => x.MaybeDeleted()).Select(x => x.Id).ToList();
+
+            foreach (var id in ids)
             {
-                foreach (var inlineProjection in _documentSession.DocumentStore.Events.InlineProjections)
-                {
-                    var streamEvents = _documentSession.Events.FetchStream(streamId);
-                    inlineProjection.Apply(_documentSession, new EventPage(0, 0, streamEvents));
-                    _documentSession.SaveChanges();
-                }
+                var project = _documentSession.Events.AggregateStream<Project>(id);
+                _documentSession.Store(project);
             }
 
             _documentSession.SaveChanges();
