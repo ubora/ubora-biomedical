@@ -45,7 +45,10 @@
 
 @section Right {
     <div class="mb-3">
-        <a class="w-75 my-2 btn btn-outline-primary d-flex align-items-center justify-content-center" asp-action="@nameof(ResourcePagesController.Delete)">Delete resource page</a>
+        <a class="my-2 btn btn-outline-primary btn-block" asp-action="@nameof(ResourcePagesController.Delete)">
+            <i class="material-icons">delete_forever</i>
+            <span>Delete resource page</span>
+        </a>
     </div>
 }
 

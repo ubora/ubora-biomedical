@@ -1,0 +1,18 @@
+﻿.nav-right-sticky {
+    @extend .nav;
+    @extend .flex-column;
+    position: sticky;
+    height: calc(100vh - 3.5rem);
+    overflow-y: auto;
+    top: 1rem;
+
+    ul {
+        @extend .nav;
+        @extend .flex-column;
+        padding-left: .8rem;
+    }
+
+    .nav-link.active::before {
+        @extend .active-nav-link;
+    }
+}

@@ -22,7 +22,10 @@
     @section Right {
 
         <div class="mb-3">
-            <a asp-action="@nameof(ResourcePagesController.AddFile)" class="w-75 my-2 btn btn-outline-primary d-flex align-items-center justify-content-center"><i class="material-icons">add</i>Upload new file(s)</a>
+            <a asp-action="@nameof(ResourcePagesController.AddFile)" class="my-2 btn btn-outline-primary btn-block">
+                <i class="material-icons">add</i>
+                <span> Upload new file(s)</span>
+            </a>
         </div>
     }
 }
