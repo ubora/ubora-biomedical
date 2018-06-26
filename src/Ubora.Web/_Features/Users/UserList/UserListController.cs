@@ -11,6 +11,7 @@ using Ubora.Domain.Users.SortSpecifications;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Users.Queries;
 using Marten.Pagination;
+using Ubora.Web._Features.Users.UserList.Models;
 
 namespace Ubora.Web._Features.Users.UserList
 {
@@ -84,31 +85,19 @@ namespace Ubora.Web._Features.Users.UserList
 
             return Json(peopleDictionary);
         }
+    }
 
-        public class IndexViewModel
-        {
-            public TabType Tab { get; set; }
-            public OrderingMethod Ordering { get; set; }
-            public Pager Pager { get; set; }
-            public IEnumerable<UserListItemViewModel> UserListItems { get; set; }
-        }
+    public class IndexViewModel
+    {
+        public TabType Tab { get; set; }
+        public OrderingMethod Ordering { get; set; }
+        public Pager Pager { get; set; }
+        public IEnumerable<UserListItemViewModel> UserListItems { get; set; }
+    }
 
-        public class SearchModel
-        {
-            public TabType Tab { get; set; }
-            public OrderingMethod Ordering { get; set; }
-        }
-
-        public enum TabType
-        {
-            AllMembers = 0,
-            Mentors = 1
-        }
-
-        public enum OrderingMethod
-        {
-            Firstname = 0,
-            Lastname = 1
-        }
+    public class SearchModel
+    {
+        public TabType Tab { get; set; }
+        public OrderingMethod Ordering { get; set; }
     }
 }

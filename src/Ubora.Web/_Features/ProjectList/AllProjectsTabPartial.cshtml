@@ -1,5 +1,6 @@
-﻿@model Ubora.Web._Features.ProjectList.SearchViewModel
-@using Ubora.Web._Features.ProjectList
+﻿@model Ubora.Web._Features.ProjectList.Models.SearchViewModel
+@using Ubora.Web._Features.ProjectList.Models
+
 <div class="tab-pane fade show active" id="allProjects" role="tabpanel" aria-labelledby="all-projects-tab">
     <div class="row py-2  d-flex align-items-center">
         <div class="col-xl-1 col-md-2">
@@ -52,7 +53,7 @@
             Sort by:
         </div>
         <div id="sortByParamethers" class="col dropdown">
-            @if (Model.SortBy == ProjectListController.SortBy.Newest)
+            @if (Model.SortBy == SortBy.Newest)
             {
                 <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
                     Newest

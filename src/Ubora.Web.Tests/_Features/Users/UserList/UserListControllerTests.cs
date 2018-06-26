@@ -5,15 +5,16 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Users;
-using Ubora.Web._Features.Users.UserList;
+using Ubora.Web._Features.Users.UserList.Models;
 using Xunit;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Users.Specifications;
 using Ubora.Domain.Users.SortSpecifications;
-using static Ubora.Web._Features.Users.UserList.UserListController;
+using Ubora.Web._Features.Users.UserList;
 using Ubora.Web._Features._Shared.Paging;
+using static Ubora.Web._Features.Users.UserList.UserListController;
 
 namespace Ubora.Web.Tests._Features.Users.UserList
 {

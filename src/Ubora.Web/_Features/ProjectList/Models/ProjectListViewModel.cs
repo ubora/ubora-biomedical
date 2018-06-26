@@ -8,10 +8,9 @@ using Ubora.Domain.Projects._Specifications;
 using Ubora.Web._Components;
 using Ubora.Domain.Projects._SortSpecifications;
 using Ubora.Web._Features._Shared.Paging;
-using static Ubora.Web._Features.ProjectList.ProjectListController;
 using Ubora.Domain.Infrastructure;
 
-namespace Ubora.Web._Features.ProjectList
+namespace Ubora.Web._Features.ProjectList.Models
 {
     public class ProjectListViewModel
     {

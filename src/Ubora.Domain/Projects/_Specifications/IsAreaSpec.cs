@@ -15,7 +15,7 @@ namespace Ubora.Domain.Projects._Specifications
 
         internal override Expression<Func<Project, bool>> ToExpression()
         {
-            return project => project.AreaOfUsageTags == AreaOfUsageTags;
+            return project => String.Equals(project.AreaOfUsageTags, AreaOfUsageTags, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

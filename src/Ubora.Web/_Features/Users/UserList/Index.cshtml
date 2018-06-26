@@ -1,5 +1,6 @@
-﻿@using Ubora.Web._Features.Users.UserList
-@model Ubora.Web._Features.Users.UserList.UserListController.IndexViewModel
+﻿@model Ubora.Web._Features.Users.UserList.IndexViewModel
+@using Ubora.Web._Features.Users.UserList.Models
+@using Ubora.Web._Features.Users.UserList
 
 @{
     ViewData["Title"] = "Community";
@@ -10,7 +11,7 @@
 
     <ul class="nav nav-tabs" id="communityTab">
         @{
-            if (Model.Tab == UserListController.TabType.Mentors)
+            if (Model.Tab == TabType.Mentors)
             {
                 <li class="nav-item">
                     <a id="all-members-tab" class="nav-link d-flex align-items-center" href="/community/search?Tab=AllMembers&Ordering=@Model.Ordering">
@@ -44,7 +45,7 @@
             Sort by:
         </div>
         <div id="sortBy" class="dropdown">
-            @if (Model.Ordering == UserListController.OrderingMethod.Lastname)
+            @if (Model.Ordering == OrderingMethod.Lastname)
             {
                 <button class="btn btn-icon dropdown-toggle" type="button" data-toggle="dropdown">
                     Last name
