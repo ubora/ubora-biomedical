@@ -90,6 +90,8 @@
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <script src="~/dist/infinite_scroll.bundle.js"></script>
     <script>
-        UBORA.initInfiniteScroll('@Html.Raw(Url.Action(nameof(ProjectListController.Search), "ProjectList", new { Title = Model.Title, Tab = Model.Tab, ByStatus = Model.ByStatus, ByArea = Model.ByArea, SortBy = Model.SortBy }))');
+        if ('@Model.Tab' == 'AllProjects') {
+            UBORA.initInfiniteScroll('@Html.Raw(Url.Action(nameof(ProjectListController.Search), "ProjectList", new { Title = Model.Title, Tab = Model.Tab, ByStatus = Model.ByStatus, ByArea = Model.ByArea, SortBy = Model.SortBy }))');
+        }
     </script>
 }
