@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ubora.Web._Features.ProjectList;
+using Ubora.Web._Features.ProjectList.Models;
 
 namespace Ubora.Web._Features.Home
 {

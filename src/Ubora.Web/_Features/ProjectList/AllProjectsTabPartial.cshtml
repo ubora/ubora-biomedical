@@ -1,32 +1,36 @@
-﻿@model Ubora.Web._Features.ProjectList.SearchViewModel
-@using Ubora.Web._Features.ProjectList
+﻿@model Ubora.Web._Features.ProjectList.Models.SearchViewModel
+@using Ubora.Web._Features.ProjectList.Models
+
 <div class="tab-pane fade show active" id="allProjects" role="tabpanel" aria-labelledby="all-projects-tab">
     <div class="row py-2  d-flex align-items-center">
         <div class="col-xl-1 col-md-2">
             Filter by:
         </div>
-        <div id="filterByArea" class="dropdown">
-            <button class="btn btn-icon dropdown-toggle" type="button" id="areaFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Area
-            </button>
-            <div class="dropdown-menu" aria-labelledby="areaFilter">
-                @foreach (var areaOfUsageTag in Model.AreaOfUsageTags)
-                {
-                    <a class="dropdown-item" href="/ProjectList/Search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@areaOfUsageTag&SortBy=@Model.SortBy">@areaOfUsageTag</a>
-                }
+        <div class="col">
+            <div id="filterByArea" class="dropdown d-inline-block d-xs-block">
+                <button class="btn btn-icon dropdown-toggle px-0" type="button" id="areaFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Area
+                </button>
+                <div class="dropdown-menu" aria-labelledby="areaFilter">
+                    @foreach (var areaOfUsageTag in Model.AreaOfUsageTags)
+                    {
+                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@areaOfUsageTag&SortBy=@Model.SortBy">@areaOfUsageTag</a>
+                    }
+                </div>
+            </div>
+            <div id="filterByStatus" class="dropdown d-inline-block d-xs-block">
+                <button class="btn btn-icon dropdown-toggle px-0 pl-sm-3" type="button" id="statusFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Status
+                </button>
+                <div class="dropdown-menu" aria-labelledby="statusFilter">
+                    <a class="dropdown-item" href="/projects/search?ByStatus=All&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=@Model.SortBy">All</a>
+                    <a class="dropdown-item" href="/projects/search?ByStatus=NotDraft&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=@Model.SortBy">Approved</a>
+                    <a class="dropdown-item" href="/projects/search?ByStatus=Draft&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=@Model.SortBy">Draft</a>
+                </div>
             </div>
         </div>
-        <div id="filterByStatus" class="dropdown">
-            <button class="btn btn-icon dropdown-toggle" type="button" id="statusFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Status
-            </button>
-            <div class="dropdown-menu" aria-labelledby="statusFilter">
-                <a class="dropdown-item" href="/ProjectList/Search?ByStatus=NotDraft&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=@Model.SortBy">Not draft</a>
-                <a class="dropdown-item" href="/ProjectList/Search?ByStatus=Draft&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=@Model.SortBy">Draft</a>
-            </div>
-        </div>
-        <div class="col-xl-4 mr-0 ml-auto">
-            <form asp-controller="ProjectList" asp-action="Search" method="post">
+        <div class="col-lg-4 mr-0 ml-auto">
+            <form asp-controller="ProjectList" asp-action="Search" method="get">
                 <input asp-for="Tab" type="hidden" />
                 <input asp-for="ByArea" type="hidden" />
                 <input asp-for="ByStatus" type="hidden" />
@@ -48,22 +52,22 @@
         <div class="col-xl-1 col-md-2 d-flex align-items-center">
             Sort by:
         </div>
-        <div id="sortByParamethers" class="dropdown">
-            @if (Model.SortBy == ProjectListController.SortBy.Newest)
+        <div id="sortByParamethers" class="col dropdown">
+            @if (Model.SortBy == SortBy.Newest)
             {
-                <button class="btn btn-icon dropdown-toggle" type="button" data-toggle="dropdown">
+                <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
                     Newest
                 </button>
             }
             else
             {
-                <button class="btn btn-icon dropdown-toggle" type="button" data-toggle="dropdown">
+                <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
                     Oldest
                 </button>
             }
             <div class="dropdown-menu" aria-labelledby="sortBy">
-                <a class="dropdown-item" href="/ProjectList/Search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=Newest">Newest</a>
-                <a class="dropdown-item" href="/ProjectList/Search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=Oldest">Oldest</a>
+                <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=Newest">Newest</a>
+                <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=Oldest">Oldest</a>
             </div>
         </div>
     </div>

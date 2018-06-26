@@ -6,8 +6,7 @@ using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Users.Queries;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
-using Ubora.Web._Features.UboraMentors.Queries;
-using Ubora.Web._Features.Users.UserList;
+using Ubora.Web._Features.Users.UserList.Models;
 
 namespace Ubora.Web._Features.Projects.InviteMentors
 {

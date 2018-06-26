@@ -1,5 +1,6 @@
-﻿@using Ubora.Web._Features.ProjectList
-@model Ubora.Web._Features.ProjectList.SearchViewModel
+﻿@using Ubora.Web._Features.ProjectList.Models
+@using Ubora.Web._Features.ProjectList
+@model Ubora.Web._Features.ProjectList.Models.SearchViewModel
 @using Ubora.Web.Data
 @inject SignInManager<ApplicationUser> SignInManager
 
@@ -13,29 +14,28 @@
     <ul class="nav nav-tabs" id="projectsTab">
         @if (SignInManager.IsSignedIn(User))
         {
-            @if (Model.Tab == ProjectListController.TabType.AllProjects)
+            @if (Model.Tab == TabType.AllProjects)
             {
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" id="my-projects-tab" href="/ProjectList/Search?Tab=MyProjects">
+                    <a class="nav-link d-flex align-items-center" id="my-projects-tab" href="/projects/search?Tab=MyProjects">
                         My projects
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active d-flex align-items-center" id="all-projects-tab" href="/ProjectList/Search?Tab=AllProjects">
+                    <a class="nav-link active d-flex align-items-center" id="all-projects-tab" href="/projects/search?Tab=AllProjects">
                         All projects
                     </a>
                 </li>
-
             }
             else
             {
                 <li class="nav-item">
-                    <a class="nav-link active d-flex align-items-center" id="my-projects-tab" href="/ProjectList/Search?Tab=MyProjects">
+                    <a class="nav-link active d-flex align-items-center" id="my-projects-tab" href="/projects/search?Tab=MyProjects">
                         My projects
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" id="all-projects-tab" href="/ProjectList/Search?Tab=AllProjects">
+                    <a class="nav-link d-flex align-items-center" id="all-projects-tab" href="/projects/search?Tab=AllProjects">
                         All projects
                     </a>
                 </li>
@@ -44,17 +44,26 @@
         else
         {
             <li class="nav-item">
-                <a class="nav-link active d-flex align-items-center" id="all-projects-tab" href="/ProjectList/Search?Tab=AllProjects">
+                <a class="nav-link active d-flex align-items-center" id="all-projects-tab" href="/projects/search?Tab=AllProjects">
                     All projects
                 </a>
             </li>
         }
+
+        <li class="ml-sm-auto d-xs-block">
+            <a class="btn btn-sm btn-outline-primary d-xs-block my-xs-2" asp-controller="ProjectCreation" asp-action="Create" role="button">
+                <i class="material-icons">add</i>
+                <span>
+                    Create project
+                </span>
+            </a>
+        </li>
     </ul>
 
     <div class="tab-content" id="projectsTabContent">
         @if (SignInManager.IsSignedIn(User))
         {
-            @if (Model.Tab == ProjectListController.TabType.MyProjects)
+            @if (Model.Tab == TabType.MyProjects)
             {
                 <div class="tab-pane fade show active" id="myProjects">
                     <div class="my-4">
@@ -75,11 +84,14 @@
             @await Html.PartialAsync("AllProjectsTabPartial.cshtml", Model);
         }
     </div>
+</div>
 
-    @section Scripts {
-        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-        <script src="~/dist/infinite_scroll.bundle.js"></script>
-        <script>
-        UBORA.initInfiniteScroll('@Html.Raw(Url.Action(nameof(ProjectListController.Search), "ProjectList", new { Title = Model.Title, Tab = Model.Tab, ByStatus = Model.ByStatus, ByArea = Model.ByArea, SortBy = Model.SortBy }))');
-        </script>
-    }
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/dist/infinite_scroll.bundle.js"></script>
+    <script>
+        if ('@Model.Tab' == 'AllProjects') {
+            UBORA.initInfiniteScroll('@Html.Raw(Url.Action(nameof(ProjectListController.Search), "ProjectList", new { Title = Model.Title, Tab = Model.Tab, ByStatus = Model.ByStatus, ByArea = Model.ByArea, SortBy = Model.SortBy }))');
+        }
+    </script>
+}
