@@ -4,8 +4,6 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Models
 {
     public class ResourceEditViewModel : ResourceEditPostModel
     {
-        public string Title { get; set; }
-
         public class Factory
         {
             public ResourceEditViewModel Create(ResourcePage resourcePage)

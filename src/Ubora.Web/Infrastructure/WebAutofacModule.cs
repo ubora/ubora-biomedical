@@ -19,7 +19,6 @@ using Ubora.Web._Features.Projects.ApplicableRegulations;
 using Ubora.Web._Features.Projects.DeviceClassifications;
 using Ubora.Web._Features.Projects.History._Base;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
-using Ubora.Web._Features.Resources;
 using Ubora.Web._Features.Users.Manage;
 using Ubora.Domain.Resources.Commands;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages.CommandHandlers;
@@ -117,7 +116,6 @@ namespace Ubora.Web.Infrastructure
                 .As<IProjection<ApplicableRegulationsQuestionnaireAggregate, QuestionnaireIndexViewModel.QuestionnaireListItem>>()
                 .SingleInstance();
 
-            builder.RegisterType<QuillDeltaToHtmlConverter>().InstancePerLifetimeScope();
             builder.RegisterType<ResourceBlobDeleter>().As<IResourceBlobDeleter>().InstancePerLifetimeScope();
         }
 
