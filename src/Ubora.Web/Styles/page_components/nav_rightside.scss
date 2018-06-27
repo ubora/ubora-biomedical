@@ -13,21 +13,16 @@
         padding-left: .8rem;
 
         .nav-link {
-            color: $text-color;
+            color: $primary-shade;
+            font-size: .875rem;
+            padding-top: .2rem;
+            padding-bottom: .2rem;
 
             &:active,
             &:focus,
             &:hover {
-                color: $blue;
+                color: $light-blue;
             }
-        }
-    }
-
-    .nav-link.active {
-        color: $blue;
-
-        &:before {
-            @extend .active-nav-link;
         }
     }
 }
