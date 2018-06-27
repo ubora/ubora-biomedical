@@ -9,7 +9,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Models
     {
         public Guid ResourceId { get; private set; }
         public string Title { get; private set; }
-        public string BodyHtml { get; private set; }
+        public string ContentHtml { get; private set; }
 
         public class Factory
         {
@@ -19,17 +19,17 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Models
             {
                 _nodeServices = nodeServices;
             }
-            
+
             protected Factory()
             {
             }
-            
+
             public virtual async Task<ResourceReadViewModel> Create(ResourcePage resourcePage)
             {
                 return new ResourceReadViewModel
                 {
+                    ContentHtml = await _nodeServices.InvokeAsync<string>("./Scripts/backend/ConvertQuillDeltaToHtml.js", resourcePage.Content.Body.Value),
                     ResourceId = resourcePage.Id,
-                    BodyHtml = await _nodeServices.InvokeExportAsync<string>("./Scripts/backend/app-backend", "convertQuillDeltaToHtml", resourcePage.Content.Body.Value),
                     Title = resourcePage.Content.Title
                 };
             }

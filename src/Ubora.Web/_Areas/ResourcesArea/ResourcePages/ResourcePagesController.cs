@@ -46,6 +46,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             }
             else
             {
+                ViewData["DisableFooter"] = true;
                 ViewData["ResourcePageTitle"] = ResourcePage.Content.Title;
 
                 var urlTemplateParts = context.ActionDescriptor.AttributeRouteInfo.Template.Split("/");
@@ -105,7 +106,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
                         FileId = Guid.NewGuid(),
                         FileName = file.GetFileName(),
                         FileSize = file.Length,
-                        FileStream = file.OpenReadStream(),
+                        FileStream = fileStream,
                         ResourcePageId = ResourcePage.Id,
                     }, Notice.Success(SuccessTexts.RepositoryFileAdded));
                 }
@@ -155,7 +156,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
                 {
                     ResourceId = model.ResourceId,
                     Content = new ResourceContent(
-                        title: ResourcePage.Content.Title,
+                        title: model.Title,
                         body: new QuillDelta(model.Body)),
                     PreviousContentVersion = model.ContentVersion
                 },
