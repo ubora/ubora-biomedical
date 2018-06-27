@@ -12,15 +12,12 @@ $primary-shade: #9E9E9E;
 $secondary-shade: #BDBDBD;
 $tertiary-shade: #E0E0E0;
 $quartinary-shade: #F5F5F5;
-$blue-shade: #eaf0f9; 
-    
-$theme-colors: ( 
-    "primary": #4777BB,
-    "secondary": #44AAE0 
-);
+$blue-shade: #eaf0f9;
+
+$theme-colors: ( "primary": #4777BB, "secondary": #44AAE0 );
 
 $input-border-radius: 0;
-    
+
 @mixin form-field-border {
     border-bottom: 1px solid $secondary-shade;
 }
@@ -30,6 +27,41 @@ $input-border-radius: 0;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+
+@mixin modal-left-nav {
+    &.modal-left-pane {
+        &.show .modal-dialog {
+            transform: translate(0, 0);
+        }
+
+        .modal-dialog {
+            transform: translate(-100%, 0);
+            margin-left: 0;
+            margin-top: 0;
+            width: 50%;
+            height: 100%;
+
+            .modal-content {
+                border-radius: 0;
+                border: none;
+                height: 100%;
+                overflow-y: auto;
+
+                .modal-header {
+                    padding: .5rem 1rem;
+                }
+
+                .modal-body {
+                    padding-top: 0;
+                }
+            }
+        }
+    }
+
+    &.fade.in .modal-dialog {
+        left: 0;
+    }
 }
 
 @import "~bootstrap/scss/bootstrap";

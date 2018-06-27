@@ -30,7 +30,7 @@
             <a class="nav-link nav-link-notification navbar-toggler" asp-controller="Notifications" asp-action="Index">
                 @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
+            <button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
                 <i class="material-icons">menu</i>
             </button>
         </div>
@@ -105,7 +105,7 @@ else
         <a class="navbar-brand" asp-controller="Home" asp-action="Index">
             <img id="UboraLogo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" height="48">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
+        <button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
             <i class="material-icons">menu</i>
         </button>
         <div id="headerNavbar" class="collapse navbar-collapse justify-content-end">

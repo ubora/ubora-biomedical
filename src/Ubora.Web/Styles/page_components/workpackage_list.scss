@@ -60,7 +60,7 @@ a.checked-status {
 /*wp sidemenu for smaller devices*/
 .wp-sidemenu-md {
     background-color: $quartinary-shade;
-    padding: .2rem 1rem;
+    padding: .1rem 1rem;
     width: 100%;
 
     button.btn-icon {
@@ -78,99 +78,65 @@ a.checked-status {
 
 
     .modal {
-        &.modal-left-pane {
-            &.show .modal-dialog {
-                transform: translate(0, 0);
+        @include modal-left-nav;
+
+        ul.list-sidebar {
+            padding-left: 0;
+            font-size: 14px;
+
+            li {
+                margin-top: 1rem;
+                margin-bottom: 1rem;
             }
 
-            .modal-dialog {
-                transform: translate(-100%, 0);
+            img {
+                width: 1.3rem
             }
-        }
 
-        &.fade.in .modal-dialog {
-            left: 0;
-        }
+            .side-menu-secondary img,
+            .side-menu-tertiary img,
+            .side-menu-quaternary img {
+                width: .5rem;
+            }
 
-        .modal-dialog {
-            margin-left: 0;
-            margin-top: 0;
-            width: 50%;
-            height: 100%;
+            .side-menu-secondary li {
+                font-weight: normal;
+            }
 
-            .modal-content {
-                border-radius: 0;
-                border: none;
-                height: 100%;
-                overflow-y: auto;
+            .side-menu-secondary span {
+                margin-left: .6rem;
+            }
 
-                .modal-header {
-                    padding: .5rem 1rem;
-                }
+            .side-menu-tertiary {
+                padding-left: 1.6rem;
+            }
 
-                .modal-body {
-                    padding-top: 0;
-
-                    ul.list-sidebar {
-                        padding-left: 0;
-                        font-size: 14px;
-
-                        li {
-                            margin-top: 1rem;
-                            margin-bottom: 1rem;
-                        }
-
-                        img {
-                            width: 1.3rem
-                        }
-
-                        .side-menu-secondary img,
-                        .side-menu-tertiary img,
-                        .side-menu-quaternary img {
-                            width: .5rem;
-                        }
-
-                        .side-menu-secondary li {
-                            font-weight: normal;
-                        }
-
-                        .side-menu-secondary span {
-                            margin-left: .6rem;
-                        }
-
-                        .side-menu-tertiary {
-                            padding-left: 1.6rem;
-                        }
-
-                        .side-menu-quaternary {
-                            padding-left: 1.6rem;
-                        }
-                    }
-                }
+            .side-menu-quaternary {
+                padding-left: 1.6rem;
             }
         }
     }
 }
 
 
-    @media (max-width: 620px) {
-        .wp-sidemenu-md {
-            .modal {
-                .modal-dialog {
-                    width: 80%;
-                }
+@include media-breakpoint-down(sm) {
+    .wp-sidemenu-md {
+        .modal.modal-left-pane {
+            .modal-dialog {
+                width: 80%;
             }
         }
     }
+}
 
-    @media (min-width: 992px) {
-        .wp-sidemenu-md {
-            display: none;
-        }
+@include media-breakpoint-up(lg) {
+    .wp-sidemenu-md {
+        display: none;
     }
+}
 
-    @media (max-width: 991px) {
-        .wp-sidemenu {
-            display: none;
-        }
+@include media-breakpoint-down(md) {
+    .wp-sidemenu {
+        display: none;
     }
+}

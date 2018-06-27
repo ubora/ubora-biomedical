@@ -141,6 +141,17 @@ a.no-underline {
     content: '';
 }
 
+.active-nav-link {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 16px;
+    background-color: $blue;
+    margin-left: -10px;
+    margin-top: 4px;
+    position: absolute;
+}
+
 @include media-breakpoint-down(xs) {
     .mt-xs-2 {
         margin-top: .5rem;
@@ -155,13 +166,11 @@ a.no-underline {
     }
 }
 
-.active-nav-link {
-    content: '';
-    display: block;
-    width: 4px;
-    height: 16px;
-    background-color: $blue;
-    margin-left: -10px;
-    margin-top: 4px;
-    position: absolute;
+@include media-breakpoint-up(lg) {
+    .h-min-lg-50 {
+        min-height: 50rem;
+    }
 }
+
+
+

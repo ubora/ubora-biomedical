@@ -1,0 +1,44 @@
+﻿.nav-resources-md {
+    @extend .border-bottom;
+    padding: .1rem 1rem;
+    width: 100%;
+
+    button.btn-icon {
+        color: $blue;
+
+        .material-icons {
+            font-size: 180%;
+        }
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    .modal {
+        @include modal-left-nav;
+    }
+}
+
+
+@include media-breakpoint-up(lg) {
+    .nav-resources-md {
+        display: none;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .nav-resources {
+        display: none;
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .nav-resources-md {
+        .modal.modal-left-pane {
+            .modal-dialog {
+                width: 80%;
+            }
+        }
+    }
+}
