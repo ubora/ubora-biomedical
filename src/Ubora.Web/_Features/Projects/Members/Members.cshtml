@@ -39,20 +39,20 @@
         </div>
     </div>
     <div class="row">
-        @foreach (var member in Model.Members)
+        @foreach (var item in Model.Items)
         {
             // TODO: Test this logic.
             var model = new ManageMemberViewModel(
-                memberUserId: member.UserId,
-                isRemoveMemberVisible: (!member.IsCurrentUser && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectMember)),
-                isRemoveMentorVisible: (!member.IsCurrentUser && member.IsProjectMentor && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectMentor)),
-                isPromoteLeaderVisible: !member.IsProjectLeader && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanPromoteMember));
+                memberUserId: item.UserId,
+                isRemoveMemberVisible: (!item.IsCurrentUser && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectMember)),
+                isRemoveMentorVisible: (!item.IsCurrentUser && item.IsProjectMentor && item.CanRemoveProjectMentor),
+                isPromoteLeaderVisible: !item.IsProjectLeader && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanPromoteMember));
 
             Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
-              userId: member.UserId,
-              name: member.FullName,
-              roles: member.Roles,
-              profilePictureUrl: member.ProfilePictureUrl,
+              userId: item.UserId,
+              name: item.FullName,
+              roles: item.Roles,
+              profilePictureUrl: item.ProfilePictureUrl,
               footerHtml: Html.Partial("_ManageMemberFooterPartial.cshtml", model))
             );
         }
