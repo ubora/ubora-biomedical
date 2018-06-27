@@ -38,27 +38,24 @@ namespace Ubora.Web._Features.Projects.InviteMentors
                 var projectMentors = _queryProcessor.ExecuteQuery(new FindProjectMentorProfilesQuery
                 {
                     ProjectId = projectId
-                });
+                }).OrderBy(m => m.FullName);
+
                 var projectMentorIds = projectMentors.Select(x => x.UserId);
 
-                var orderedProjectMentors = projectMentors.OrderBy(m => m.FullName);
-
-                var uboraMentors = _queryProcessor.ExecuteQuery(new FindUboraMentorProfilesQuery())
+                var uboraMentors = _queryProcessor.ExecuteQuery(new FindUboraMentorProfilesQuery()).OrderBy(m => m.FullName)
                     .ToList();
                 uboraMentors.RemoveAll(x => projectMentorIds.Contains(x.UserId));
 
-                var orderedUboraMentors = uboraMentors.OrderBy(m => m.FullName);
-
                 var model = new MentorsViewModel
                 {
-                    UboraMentors = orderedUboraMentors.Select(x => new UserListItemViewModel
+                    UboraMentors = uboraMentors.Select(x => new UserListItemViewModel
                     {
                         UserId = x.UserId,
                         Email = x.Email,
                         FullName = x.FullName,
                         ProfilePictureLink = _imageStorageProvider.GetDefaultOrBlobUrl(x)
                     }),
-                    ProjectMentors = orderedProjectMentors.Select(x => new UserListItemViewModel
+                    ProjectMentors = projectMentors.Select(x => new UserListItemViewModel
                     {
                         UserId = x.UserId,
                         Email = x.Email,
