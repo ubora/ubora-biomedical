@@ -85,7 +85,7 @@ Scenario: System administrator gets the notification and adds Mentor to the proj
         And I click on the element "*=Test title"
         And I click on the element "=Members"
     Then I expect the title of the page "Members - UBORA"
-    When I click on the element "*=Add mentor"
+    When I click on the element "*=Invite mentor"
     Then I expect the title of the page "Project mentors - UBORA"
     When I click on the element "button=Invite mentor"
     Then I expect the element "p=Invitation sent" is visible

@@ -11,10 +11,11 @@
 }
 
 .notification {
-    border-bottom: 1px solid $light;
-    display: block;
-    position: relative;
-    padding: .5rem;
+    @extend .d-flex;
+    @extend .justify-content-between;
+    @extend .border-bottom;
+    @extend .py-2;
+    @extend .mx-0;
 
     &.notification-unread {
         background-color: $blue-shade;
@@ -22,9 +23,6 @@
     }
 
     .notification-controls {
-        display: flex;
-        flex-direction: row;
-        margin: 0;
 
         .btn-outline-primary {
             background-color: $white;
@@ -34,13 +32,22 @@
             }
         }
     }
-    
-    p
-    {
+
+    p {
         @extend .mb-0;
         @extend .py-0;
     }
 }
+
+@include media-breakpoint-down(md) {
+    .notification {
+        .notification-controls {
+            margin-top: .5rem;
+            margin-bottom: .5rem;
+        }
+    }
+}
+
 
 
 .history-timestamp {

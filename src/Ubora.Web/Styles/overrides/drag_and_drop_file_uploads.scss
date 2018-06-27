@@ -8,8 +8,7 @@
 }
 
 #my-dropzone .dropzone {
-  border: none;
-  background-color: $quartinary-shade;
+    border: 1px dashed $primary-shade;
 }
 
 .dropzone-previews .dz-message .material-icons {
@@ -24,8 +23,4 @@
 .dropzone .dz-preview.dz-file-preview .dz-image {
   border-radius: 0!important;
 
-}
-
-.dropzone .dz-preview .dz-remove {
-  background-color: $quartinary-shade;
 }

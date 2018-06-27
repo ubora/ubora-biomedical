@@ -23,6 +23,16 @@ module.exports = function () {
         .click('button=Log in')
     });
 
+    this.Given(/^I am signed in as administrator on first page$/, () => {
+        browser
+        .deleteCookie(".AspNetCore.Identity.Application")
+        .url('/')
+        .click('span=Log in');
+        browser.waitForEnabled('#Email');
+        browser.setValue('#Email', 'admin@agileworks.eu')
+        .setValue('#Password', 'ChangeMe123!')
+        .click('button=Log in')
+    });
 
     this.Given(/^I am signed in as user and on first page$/, () => {
         browser

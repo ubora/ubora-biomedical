@@ -136,3 +136,9 @@ a.no-underline {
 .comma-separator:last-child:after {
     content: '';
 }
+
+@include media-breakpoint-down(xs) {
+    .mt-xs-2 {
+        margin-top: .5rem;
+    }
+}

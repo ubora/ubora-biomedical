@@ -21,7 +21,7 @@ module.exports = function () {
         });
 
     this.When(/^I select value "([^"]*)?" from element "([^"]*)?"$/, (value, element) => {
-            browser.selectByValue(element,value)
+            browser.selectByValue(element, value)
         });
 
     this.When(/^I click on the key "([^"]*)?"$/, (value) => {
@@ -39,6 +39,10 @@ module.exports = function () {
     this.When(/^I wait for the element "([^"]*)?"$/, (value) => {
             browser.waitForVisible(value)
         });
+
+    this.When(/^I wait for the element "([^"]*)" for "([^"]*)" ms$/, (value, ms) => {
+        browser.waitForVisible(value, ms)
+    });
 
     this.When(/^I sign out$/, () => {
             browser.click('span=Log out');

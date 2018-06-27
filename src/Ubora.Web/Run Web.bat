@@ -1,1 +1,0 @@
-powershell -noexit -executionpolicy bypass -File "Run Web.ps1"
