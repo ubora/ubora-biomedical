@@ -41,21 +41,24 @@ namespace Ubora.Web._Features.Projects.InviteMentors
                 });
                 var projectMentorIds = projectMentors.Select(x => x.UserId);
 
+                var orderedProjectMentors = projectMentors.OrderBy(m => m.FullName);
+
                 var uboraMentors = _queryProcessor.ExecuteQuery(new FindUboraMentorProfilesQuery())
                     .ToList();
-
                 uboraMentors.RemoveAll(x => projectMentorIds.Contains(x.UserId));
+
+                var orderedUboraMentors = uboraMentors.OrderBy(m => m.FullName);
 
                 var model = new MentorsViewModel
                 {
-                    UboraMentors = uboraMentors.Select(x => new UserListItemViewModel
+                    UboraMentors = orderedUboraMentors.Select(x => new UserListItemViewModel
                     {
                         UserId = x.UserId,
                         Email = x.Email,
                         FullName = x.FullName,
                         ProfilePictureLink = _imageStorageProvider.GetDefaultOrBlobUrl(x)
                     }),
-                    ProjectMentors = projectMentors.Select(x => new UserListItemViewModel
+                    ProjectMentors = orderedProjectMentors.Select(x => new UserListItemViewModel
                     {
                         UserId = x.UserId,
                         Email = x.Email,
