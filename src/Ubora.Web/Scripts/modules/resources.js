@@ -13,7 +13,7 @@
 
     $(editorSelector).show();
     $(toolbarSelector).show();
-    
+
     var titleInput = $(titleInputSelector);
     if (titleInput.val()) {
         Slugify(titleInput.val());
@@ -28,9 +28,9 @@
 
     function Slugify(text) {
         $.ajax({
-                url: "/resources/slugify",
-                data: { text: text }
-            })
+            url: "/resources/slugify",
+            data: { text: text }
+        })
             .done((slug) => {
                 $("#js-slug").text(slug);
             })

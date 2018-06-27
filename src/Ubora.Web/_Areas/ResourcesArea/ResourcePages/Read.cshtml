@@ -20,23 +20,23 @@
 <h1>@Model.Title</h1>
 
 <div id="content-body" class="py-3">
-    @(Html.Raw(Model.BodyHtml))
+    @Html.Raw(Model.ContentHtml)
 </div>
+
 
 @section Right {
     <nav id="table-of-contents" class="nav-right-sticky">
-        <span class="color-grey">Table of contents</span>
+        <span class="color-grey text-center">Table of contents</span>
     </nav>
 }
 
 @section Scripts {
-    <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.js" 
-            asp-fallback-test="Toc"
-            asp-fallback-src="~/dist/libs/bootstrap-toc.min.js"></script>
     <script>
-        Toc.init({
-            $nav: $('#table-of-contents'),
-            $scope: $('#content-body')
-        })</script>
-    <script>$('body').scrollspy({ target: '#table-of-contents' })</script>
+        $(document).ready(function () {
+            Toc.init({
+                $scope: $('#content-body'),
+                $nav: $('#table-of-contents'),
+            });
+        });
+    </script>
 }

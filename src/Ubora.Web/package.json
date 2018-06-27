@@ -13,8 +13,6 @@
     "cssnano": "^3.10.0",
     "expose-loader": "^0.7.3",
     "extract-text-webpack-plugin": "^3.0.0",
-    "jsdom": "^11.11.0",
-    "min-document": "^2.19.0",
     "node-sass": "^4.7.2",
     "postcss-cssnext": "^3.1.0",
     "postcss-import": "^10.0.0",
@@ -35,18 +33,19 @@
     "autocomplete-js": "^2.6.4",
     "clipboard": "^2.0.0",
     "dropzone": "^5.4.0",
+    "infinite-scroll": "^3.0.4",
     "jquery": "^3.3.1",
     "jquery-validation": "^1.17.0",
     "jquery-validation-unobtrusive": "^3.2.6",
+    "jsdom": "^11.11.0",
     "marked": "^0.3.17",
     "popper.js": "^1.12.9",
-    "tether": "^1.4.4",
     "quill": "^1.3.6",
     "select2": "^4.0.3",
     "simplemde": "^1.11.2",
-    "timeago": "^1.6.3",
+    "tether": "^1.4.4",
     "three": "^0.91.0",
-    "infinite-scroll": "^3.0.4"
+    "timeago": "^1.6.3"
   },
   "scripts": {}
 }

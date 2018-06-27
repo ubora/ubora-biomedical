@@ -5,7 +5,9 @@
     @{
         Html.RenderPartial("_LayoutHead");
     }
-    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"
+          asp-fallback-test-class="ql-snow"
+          asp-fallback-href="~/dist/quill.snow.css">
 </head>
 
 <body>
@@ -35,10 +37,19 @@
     </main>
 
     @{
-        Html.RenderPartial("_Footer");
+        if ((bool?)ViewData["DisableFooter"] != true)
+        {
+            Html.RenderPartial("_Footer");
+        };
         Html.RenderPartial("_LayoutBody");
     }
-    <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+
+    <script src="//cdn.quilljs.com/1.3.6/quill.js"
+            asp-fallback-test="Quill"
+            asp-fallback-src="~/dist/quill.min.js"></script>
+    <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.js"
+            asp-fallback-test="Toc"
+            asp-fallback-src="~/dist/libs/bootstrap-toc.min.js"></script>
     <script src="~/dist/resources.bundle.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
