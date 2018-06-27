@@ -48,11 +48,13 @@ namespace Ubora.Web._Features.Projects.Members
             var projectMemberUserProfiles = QueryProcessor.ExecuteQuery(new FindUserProfilesQuery { UserIds = userIds });
             foreach (var userProfile in projectMemberUserProfiles)
             {
+                var projectMemberGroup = projectMemberGroups.FirstOrDefault(g => g.Key == userProfile.UserId);
+
                 var itemModel = new ProjectMemberListViewModel.Item
                 {
                     UserId = userProfile.UserId,
-                    IsProjectLeader = projectMemberGroups.FirstOrDefault(g => g.Key == userProfile.UserId).Any(x => x.IsLeader),
-                    IsProjectMentor = projectMemberGroups.FirstOrDefault(g => g.Key == userProfile.UserId).Any(x => x.IsMentor),
+                    IsProjectLeader = projectMemberGroup.Any(x => x.IsLeader),
+                    IsProjectMentor = projectMemberGroup.Any(x => x.IsMentor),
                     IsCurrentUser = (isAuthenticated && this.UserId == userProfile.UserId),
                     FullName = userProfile.FullName,
                     ProfilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile)
