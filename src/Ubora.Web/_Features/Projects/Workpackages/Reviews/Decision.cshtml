@@ -13,16 +13,57 @@
 
     <p>Provide some feedback about this project. Please remember to be constructive.</p>
 
-    <form class="my-4" method="post">
-        <div class="form-group">
-            <textarea class="w-100" asp-for="ConcludingComment" placeholder="Provide some feedback..." rows="8"></textarea>
-        </div>
+    <div class="form-group">
+        <textarea class="w-100" asp-for="ConcludingComment" placeholder="Provide some feedback..." rows="8"></textarea>
+    </div>
 
-        <div class="form-group d-flex justify-content-center">
-            <button class="btn btn-outline-primary" type="submit" formaction="@Model.RejectUrl">Reject</button>
-            <span class="mx-1"></span>
-            <button class="btn btn-primary" type="submit" formaction="@Model.AcceptUrl">Accept</button>
+    <div class="form-group d-flex justify-content-center">
+        <button class="btn btn-outline-primary" type="submit" data-toggle="modal" data-target="#rejectWP1modal">Reject</button>
+        <span class="mx-1"></span>
+        <button class="btn btn-primary" type="submit" data-toggle="modal" data-target="#acceptWP1Modal">Accept</button>
+    </div>
+    <div id="rejectWP1modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reject WP1</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <p>Are you sure you want to reject WP1?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary" type="submit" formaction="@Model.RejectUrl">Reject</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </form>
-
+    </div>
+    <div id="acceptWP1Modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Accept WP1</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <p>Are you sure you want to accept WP1?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" formaction="@Model.AcceptUrl">Accept</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
