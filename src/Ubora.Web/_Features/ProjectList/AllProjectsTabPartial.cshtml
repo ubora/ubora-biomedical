@@ -18,6 +18,39 @@
                     }
                 </div>
             </div>
+            <div id="filterByClinicalNeeds" class="dropdown d-inline-block d-xs-block">
+                <button class="btn btn-icon dropdown-toggle px-0" type="button" id="areaFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @(string.IsNullOrEmpty(Model.ByArea) ? "ClinicalNeeds" : "ClinicalNeeds: " + Model.ByArea)
+                </button>
+                <div class="dropdown-menu" aria-labelledby="areaFilter">
+                    @foreach (var areaOfUsageTag in Model.AreaOfUsageTags)
+                    {
+                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@areaOfUsageTag&SortBy=@Model.SortBy">@areaOfUsageTag</a>
+                    }
+                </div>
+            </div>
+            <div id="filterByTechnology" class="dropdown d-inline-block d-xs-block">
+                <button class="btn btn-icon dropdown-toggle px-0" type="button" id="areaFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @(string.IsNullOrEmpty(Model.ByArea) ? "Technology" : "Technology: " + Model.ByArea)
+                </button>
+                <div class="dropdown-menu" aria-labelledby="areaFilter">
+                    @foreach (var areaOfUsageTag in Model.AreaOfUsageTags)
+                    {
+                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@areaOfUsageTag&SortBy=@Model.SortBy">@areaOfUsageTag</a>
+                    }
+                </div>
+            </div>
+            <div id="filterByDeviceClassification" class="dropdown d-inline-block d-xs-block">
+                <button class="btn btn-icon dropdown-toggle px-0" type="button" id="areaFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @(string.IsNullOrEmpty(Model.ByArea) ? "Device Classification" : "Device Classification: " + Model.ByArea)
+                </button>
+                <div class="dropdown-menu" aria-labelledby="areaFilter">
+                    @foreach (var areaOfUsageTag in Model.AreaOfUsageTags)
+                    {
+                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@areaOfUsageTag&SortBy=@Model.SortBy">@areaOfUsageTag</a>
+                    }
+                </div>
+            </div>
             <div id="filterByStatus" class="dropdown d-inline-block d-xs-block">
                 <button class="btn btn-icon dropdown-toggle px-0 pl-sm-3" type="button" id="statusFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     @{
