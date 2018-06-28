@@ -32,6 +32,22 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
             // Assert
             act.ShouldThrow<InvalidOperationException>().And.Message.Should().Contain("latest");
         }
+
+        [Fact]
+        public void Apply_For_WorkpackageOneReviewRequestedMentoringEvent_Sets_HasBeenRequestedMentoring()
+        {
+            var wp1 = new TestWorkpackageOne();
+
+            var @event = new WorkpackageOneReviewRequestedMentoringEvent(
+            initiatedBy: new DummyUserInfo(),
+            projectId: Guid.Empty);
+
+            // Act
+            wp1.Apply(@event);
+
+            // Assert
+            wp1.HasBeenRequestedMentoring.Should().Be(true);
+        }
     }
 
     public class TestWorkpackageOne : WorkpackageOne

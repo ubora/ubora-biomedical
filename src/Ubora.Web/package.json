@@ -32,7 +32,7 @@
   "dependencies": {
     "autocomplete-js": "^2.6.4",
     "clipboard": "^2.0.0",
-    "dropzone": "5.1.1",
+    "dropzone": "^5.4.0",
     "jquery": "^3.3.1",
     "jquery-validation": "^1.17.0",
     "jquery-validation-unobtrusive": "^3.2.6",
@@ -42,7 +42,8 @@
     "select2": "^4.0.3",
     "simplemde": "^1.11.2",
     "timeago": "^1.6.3",
-    "three": "^0.91.0"
+    "three": "^0.91.0",
+    "infinite-scroll": "^3.0.4"
   },
   "scripts": {}
 }

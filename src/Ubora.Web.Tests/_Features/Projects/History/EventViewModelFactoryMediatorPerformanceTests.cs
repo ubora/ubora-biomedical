@@ -10,7 +10,6 @@ using Marten.Events;
 using Ubora.Domain;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects.Assignments.Events;
-using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Events;
 using Ubora.Domain.Projects._Events;
 using Ubora.Domain.Tests;
@@ -152,7 +151,7 @@ namespace Ubora.Web.Tests._Features.Projects.History
                 id: Guid.NewGuid(),
                 projectId: _projectId,
                 title: "title",
-                description: $"submitted workpackage 1 for review {StringTokens.WorkpackageOneReview()}",
+                description: $"submitted workpackage 1 for review {StringTokens.WorkpackageOneReview(_projectId)}",
                 assigneeIds: null
             );
             Session.Events.Append(_projectId, taskAddedEvent);

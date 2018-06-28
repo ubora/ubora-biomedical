@@ -12,7 +12,7 @@ namespace Ubora.Web._Features.Projects.Repository
         public Guid ProjectId { get; set; }
         public string ProjectName { get; set; }
         public AddFileViewModel AddFileViewModel { get; set; }
-        public bool IsProjectLeader { get; set; }
+        public bool CanHideProjectFile { get; set; }
         public IEnumerable<IGrouping<string, ProjectFileViewModel>> AllFiles { get; set; }
     }
 

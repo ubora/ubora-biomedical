@@ -1,70 +1,68 @@
-﻿@model List<Ubora.Web._Features.Admin.UserViewModel>
+﻿@model Ubora.Web._Features.Admin.AdminController.ManageUsersViewModel
 
-<div class="container my-5">
+@{
+    ViewData["Title"] = "Manage users";
+}
+
+<div class="container min-height-45 my-5">
+    <h1>@ViewData["Title"]</h1>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="table-responsive">
-        <table class="table table-admin">
-            <thead>
-                <tr>
-                    <th scope="col">User name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col" class="w-25">Role(s)</th>
-                    <th scope="col" class="w-8"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var user in Model)
-                {
-                    <tr>
-                        <td>
-                            <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@user.UserId">@user.FullName</a>
-                        </td>
-                        <td>
-                            <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@user.UserId">@user.UserEmail</a>
-                        </td>
-                        <td>
-                            @user.RolesJoined
-                        </td>
-                        <form onsubmit="return confirm('Are you sure?')" method="post">
-                            <input type="hidden" name="userId" value="@user.UserId" />
-                            <td>
-                                <div class="dropdown">
-                                    <button class="dropdown-toggle btn btn-primary btn-sm" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Actions
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
-                                        @if (user.IsAdmin)
-                                        {
-                                            <button class="dropdown-item" type="submit" asp-action="RemoveAdministratorRole">Remove administrator role</button>
-                                        }
-                                        else
-                                        {
-                                            <button class="dropdown-item" type="submit" asp-action="AddAdministratorRole">Add administrator role</button>
-                                        }
-                                        @if (user.IsMentor)
-                                        {
-                                            <button class="dropdown-item" type="submit" asp-action="RemoveMentorRole">Remove mentor role</button>
-                                        }
-                                        else
-                                        {
-                                            <button class="dropdown-item" type="submit" asp-action="AddMentorRole">Add mentor role</button>
-                                        }
-                                        @if (user.IsManagementGroup)
-                                        {
-                                            <button class="dropdown-item" type="submit" asp-action="RemoveManagementGroupRole">Remove management group role</button>
-                                        }
-                                        else
-                                        {
-                                            <button class="dropdown-item" type="submit" asp-action="AddManagementGroupRole">Add management group role</button>
-                                        }
-                                        <button class="dropdown-item" type="submit" asp-route-userEmail="@user.UserEmail" asp-action="DeleteUser">Delete user</button>
-                                    </div>
-                                </div>
-                            </td>
-                        </form>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    @foreach (var user in Model.Items)
+    {
+        <div class="row mx-0 py-2 border-bottom">
+            <div class="col-lg-3">
+                <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@user.UserId">@user.FullName</a>
+            </div>
+            <div class="col-lg-4 mt-lg-0 mt-sm-2 mt-xs-2">
+                <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@user.UserId">@user.UserEmail</a>
+            </div>
+            <div class="col-lg-3 mt-lg-0 mt-sm-2 mt-xs-2">
+                @user.RolesJoined
+            </div>
+            <div class="col-lg-2">
+                <form onsubmit="return confirm('Are you sure?')" method="post">
+                    <input type="hidden" name="userId" value="@user.UserId" />
+                    <div class="dropdown">
+                        <button class="dropdown-toggle btn btn-primary btn-sm mt-lg-0 mt-sm-2 mt-xs-2" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Manage user
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+                            @if (user.IsAdmin)
+                            {
+                                <button class="dropdown-item" type="submit" asp-action="RemoveAdministratorRole">Remove administrator role</button>
+                            }
+                            else
+                            {
+                                <button class="dropdown-item" type="submit" asp-action="AddAdministratorRole">Add administrator role</button>
+                            }
+                            @if (user.IsMentor)
+                            {
+                                <button class="dropdown-item" type="submit" asp-action="RemoveMentorRole">Remove mentor role</button>
+                            }
+                            else
+                            {
+                                <button class="dropdown-item" type="submit" asp-action="AddMentorRole">Add mentor role</button>
+                            }
+                            @if (user.IsManagementGroup)
+                            {
+                                <button class="dropdown-item" type="submit" asp-action="RemoveManagementGroupRole">Remove management group role</button>
+                            }
+                            else
+                            {
+                                <button class="dropdown-item" type="submit" asp-action="AddManagementGroupRole">Add management group role</button>
+                            }
+                            <button class="dropdown-item" type="submit" asp-route-userEmail="@user.UserEmail" asp-action="DeleteUser">Delete user</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+</div>
+<div class="container">
+    <div class="row mt-4">
+        <div class="col d-flex justify-content-center">
+            @Html.Partial("~/_Features/_Shared/Paging/Pager.cshtml", Model.Pager)
+        </div>
     </div>
 </div>

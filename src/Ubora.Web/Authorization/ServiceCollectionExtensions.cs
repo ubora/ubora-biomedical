@@ -22,14 +22,15 @@ namespace Ubora.Web.Authorization
             // NOTE: For logical OR evaluation implement multiple handlers for a requirement.
             services.AddSingleton<IAuthorizationHandler, ProjectControllerRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<ProjectNonPublicContentViewingRequirement>>();
-            services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<IsProjectMemberRequirement>>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMemberGenericRequirementHandler<ProjectNonPublicContentViewingRequirement>>();
+            services.AddSingleton<IAuthorizationHandler, IsProjectMemberRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsProjectLeaderRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsProjectMentorRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsWorkpackageOneNotLockedRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsEmailConfirmedRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsCommentAuthorRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsVoteNotGivenRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, OrRequirement.Handler>();
         }
 
         private static void AddPolicies(IServiceCollection services)
@@ -41,10 +42,32 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new DenyAnonymousAuthorizationRequirement());
                 });
+
                 options.AddPolicy(Policies.CanViewProjectNonPublicContent, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new ProjectNonPublicContentViewingRequirement());
                 });
+
+                options.AddPolicy(Policies.CanViewProjectHistory, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectMemberRequirement(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin, ApplicationRole.ManagementGroup })));
+                });
+
+                options.AddPolicy(Policies.CanViewProjectRepository, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectMemberRequirement(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin, ApplicationRole.ManagementGroup })));
+                });
+
+                options.AddPolicy(Policies.CanAddFileRepository, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
+                });
+
+                options.AddPolicy(Policies.CanUpdateFileRepository, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
+                });
+
                 options.AddPolicy(Policies.CanWorkOnProjectContent, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new ProjectNonPublicContentViewingRequirement());
@@ -57,6 +80,10 @@ namespace Ubora.Web.Authorization
                 options.AddPolicy(Policies.CanRemoveProjectMember, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+                options.AddPolicy(Policies.CanRemoveProjectMentor, policyBuilder =>
+                {
+                    policyBuilder.RequireRole(ApplicationRole.Admin, ApplicationRole.ManagementGroup);
                 });
                 options.AddPolicy(Policies.CanReviewProjectWorkpackages, policyBuilder =>
                 {
@@ -79,7 +106,7 @@ namespace Ubora.Web.Authorization
                 });
                 options.AddPolicy(Policies.CanHideProjectFile, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.ManagementGroup })));
                 });
                 options.AddPolicy(Policies.CanCreateProject, policyBuilder =>
                 {
@@ -127,9 +154,29 @@ namespace Ubora.Web.Authorization
                     policyBuilder.AddRequirements(new IsVoteNotGivenRequirement());
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                 });
-                options.AddPolicy(nameof(Policies.CanOpenWorkpackageThree), policyBuilder =>
+                options.AddPolicy(Policies.CanOpenWorkpackageThree, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+                options.AddPolicy(Policies.CanRemoveCandidate, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+                options.AddPolicy(Policies.CanRequestMentoring, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+                options.AddPolicy(nameof(Policies.CanInviteMentors), policyBuilder =>
+                {
+                    policyBuilder.RequireRole(ApplicationRole.Admin, ApplicationRole.ManagementGroup);
+                });
+                options.AddPolicy(nameof(Policies.CanEditAssignment), policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsProjectMentorRequirement(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin })));
+                });
+                options.AddPolicy(Policies.CanPromoteMember, policyBuilder =>
+                {
+                    policyBuilder.RequireRole(ApplicationRole.ManagementGroup);
                 });
             });
         }

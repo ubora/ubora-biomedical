@@ -169,6 +169,15 @@ namespace Ubora.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Candidate removed.
+        /// </summary>
+        public static string CandidateRemoved {
+            get {
+                return ResourceManager.GetString("CandidateRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vote added.
         /// </summary>
         public static string CandidateVoteAdded {
@@ -295,6 +304,15 @@ namespace Ubora.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Project leader promoted.
+        /// </summary>
+        public static string ProjectLeaderPromoted {
+            get {
+                return ResourceManager.GetString("ProjectLeaderPromoted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invitation sent.
         /// </summary>
         public static string ProjectMemberInvited {
@@ -336,6 +354,15 @@ namespace Ubora.Web {
         public static string ProjectMentorInvited {
             get {
                 return ResourceManager.GetString("ProjectMentorInvited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mentor removed.
+        /// </summary>
+        public static string ProjectMentorRemoved {
+            get {
+                return ResourceManager.GetString("ProjectMentorRemoved", resourceCulture);
             }
         }
         
@@ -426,6 +453,15 @@ namespace Ubora.Web {
         public static string WP1Reopened {
             get {
                 return ResourceManager.GetString("WP1Reopened", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested mentoring.
+        /// </summary>
+        public static string WP1RequestedMentoring {
+            get {
+                return ResourceManager.GetString("WP1RequestedMentoring", resourceCulture);
             }
         }
         

@@ -98,6 +98,29 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             return RedirectToAction(nameof(Voting), "Candidates");
         }
 
+        [Authorize(Policies.CanRemoveCandidate)]
+        public IActionResult RemoveCandidate(Guid candidateId)
+        {
+            var model = new RemoveCandidateViewModel
+            {
+                CandidateId = candidateId
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Policies.CanRemoveCandidate)]
+        public IActionResult RemoveCandidate(RemoveCandidateViewModel model)
+        {
+            ExecuteUserProjectCommand(new RemoveCandidateCommand
+            {
+                CandidateId = model.CandidateId
+            }, Notice.Success(SuccessTexts.CandidateRemoved));
+
+            return RedirectToAction(nameof(Voting), "Candidates");
+        }
+
         public async Task<IActionResult> Candidate(Guid candidateId, [FromServices]CandidateViewModel.Factory candidateViewModelFactory)
         {
             var candidate = QueryProcessor.FindById<Candidate>(candidateId);

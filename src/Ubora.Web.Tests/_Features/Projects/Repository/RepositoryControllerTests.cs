@@ -26,6 +26,7 @@ using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Web.Tests.Helper;
 using AutoMapper;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ubora.Web.Tests._Features.Projects.Repository
 {
@@ -52,16 +53,31 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 {
                     new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
+                        MethodName = nameof(RepositoryController.Repository),
+                        Policies = new []{ Policies.CanViewProjectRepository }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(RepositoryController.AddFile),
+                        Policies = new []{ Policies.CanAddFileRepository }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(RepositoryController.UpdateFile),
+                        Policies = new []{ Policies.CanUpdateFileRepository }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
                         MethodName = nameof(RepositoryController.HideFile),
-                        Policies = new []{ Policies.CanHideProjectFile}
-                    }
+                        Policies = new []{ Policies.CanHideProjectFile }
+                    },
                 };
 
             AssertHasAuthorizeAttributes(typeof(RepositoryController), methodPolicies);
         }
 
         [Fact]
-        public void Repository_Returns_View()
+        public async Task Repository_Returns_View()
         {
             var projectFile1 = new ProjectFile()
                 .Set(x => x.ProjectId, ProjectId)
@@ -97,6 +113,9 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .Setup(x => x.Find(specification))
                 .Returns(expectedProjectFiles);
 
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, null, Policies.CanHideProjectFile))
+                .ReturnsAsync(AuthorizationResult.Success);
+
             QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);
 
@@ -117,11 +136,11 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 ProjectName = "Title",
                 AllFiles = projectFilesViewModel,
                 AddFileViewModel = new AddFileViewModel(),
-                IsProjectLeader = true
+                CanHideProjectFile = true
             };
 
             // Act
-            var result = (ViewResult)_controller.Repository();
+            var result = (ViewResult)await _controller.Repository();
 
             // Assert
             result.ViewName.Should().Be(nameof(RepositoryController.Repository));

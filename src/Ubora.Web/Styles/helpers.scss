@@ -128,3 +128,17 @@ a.no-underline {
     -moz-box-shadow: 1px 1px 2px 0 rgba(0,0,0,0.1);
     box-shadow: 1px 1px 2px 0 rgba(0,0,0,0.1);
 }
+
+.comma-separator:after {
+    content: ', ';
+}
+
+.comma-separator:last-child:after {
+    content: '';
+}
+
+@include media-breakpoint-down(xs) {
+    .mt-xs-2 {
+        margin-top: .5rem;
+    }
+}

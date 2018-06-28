@@ -34,11 +34,23 @@ module.exports = function () {
         if (isVisible instanceof Array) {
             isVisible = isVisible[0];
         }
-        expect(isVisible).to.equal(true, `Expected "${element}" to be visible.`);
+        expect(isVisible).to.equal(false, `Expected "${element}" to not be visible.`);
     });
 
     this.Then(/^I expect the element "([^"]*)?" to contain text "([^"]*)?"$/, (element, expectedText) => {
         var actualText = browser.getValue(element);
         expect(actualText).to.contain(expectedText)
+    });
+
+    this.Then(/^I expect the console output to clear$/, () => {
+        var javascriptLogs = browser.log('browser').value.filter(function(element) {
+            return element.source === 'javascript'
+        });
+
+        if(javascriptLogs.lenght !== null && javascriptLogs.lenght){
+            throw new Error("Exception: " + JSON.stringify(javascriptLogs));
+        }
+
+        expect(javascriptLogs).to.have.lengthOf(0);
     });
 }

@@ -1,21 +1,62 @@
 ﻿@using Ubora.Web._Features.Users.UserList
-@model IEnumerable<UserListItemViewModel>
+@model Ubora.Web._Features.Users.UserList.UserListController.IndexViewModel
 
 @{
     ViewData["Title"] = "Community";
 }
 
 <div class="container my-5">
-    <h1>Community</h1>
-    <div class="row">
-        @foreach (var user in Model)
-        {
-            Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
-                userId: user.UserId,
-                name: user.FullName,
-                roles: user.Role,
-                profilePictureUrl: user.ProfilePictureLink)
-            );
-        }
+    <div class="infinite-scroll">
+        <h1>Community</h1>
+        <div class="post">
+            <div class="row">
+                @foreach (var user in Model.UserListItems)
+                {
+                    Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
+                        userId: user.UserId,
+                        name: user.FullName,
+                        roles: user.Role,
+                        profilePictureUrl: user.ProfilePictureLink)
+                    );
+                }
+            </div>
+        </div>
     </div>
+
+    @if (Model.Pager.PageCount > 1)
+    {
+        @if (Model.Pager.IsFirstPage)
+        {
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-outline-primary js-view-more-button mt-3">Load more</button>
+            </div>
+
+            <div class="page-load-status text-center color-grey mt-3">
+                <div class="infinite-scroll-request">
+                    Loading...
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row mt-4">
+                <div class="col d-flex justify-content-center">
+                    @Html.Partial("~/_Features/_Shared/Paging/Pager.cshtml", Model.Pager)
+                </div>
+            </div>
+        }
+
+        @if (!Model.Pager.IsLastPage)
+        {
+            <div id="js-more-pages-indicator" style="display: none"></div>
+        }
+    }
 </div>
+
+
+@section Scripts {
+    <script src="~/dist/infinite_scroll.bundle.js"></script>
+    <script>
+        UBORA.initInfiniteScroll('@Url.Action(nameof(UserListController.Index), "UserList")');
+    </script>
+}

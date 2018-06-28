@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Text.RegularExpressions;
 
 namespace Ubora.Web._Features._Shared.Tokens
@@ -11,13 +12,15 @@ namespace Ubora.Web._Features._Shared.Tokens
             _urlHelper = urlHelper;
         }
 
-        public static Regex Regex = new Regex("\\#{review2}");
+        public static Regex Regex = new Regex("\\#review2{([0-9A-f-]+)\\}");
 
         public string ReplaceTokens(string text)
         {
             var replacedText = Regex.Replace(text, match =>
             {
-                var reviewLink = _urlHelper.Action("Review", "WorkpackageTwoReview");
+                var projectId = new Guid(match.Groups[1].Value);
+
+                var reviewLink = _urlHelper.Action("Review", "WorkpackageTwoReview", new { projectId });
 
                 return $"<a href=\"{reviewLink}\">review</a>";
             });

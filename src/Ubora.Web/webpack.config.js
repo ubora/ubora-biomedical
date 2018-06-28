@@ -17,7 +17,8 @@ module.exports = env => {
             show_more: './Scripts/modules/show_more.js',
             toggle_formcheck_extra_fields: './Scripts/modules/toggle_formcheck_extra_fields.js',
             voting: './Scripts/modules/voting.js',
-            threeDimensional_file_viewer: './Scripts/modules/3D_file_viewer.js'
+            threeDimensional_file_viewer: './Scripts/modules/3D_file_viewer.js',
+            infinite_scroll: './Scripts/modules/infinite_scroll.js'
         },
         // https://webpack.js.org/configuration/output/
         output: {
@@ -108,7 +109,9 @@ module.exports = env => {
                 {from: './node_modules/three/build/three.min.js', to: './libs'},
                 {from: './Scripts/libs/nexus/nexus.js', to: './libs/nexus'},
                 {from: './Scripts/libs/nexus/nexus_three.js', to: './libs/nexus'},
-                {from: './Scripts/libs/nexus/meco.js', to: './libs/nexus'}
+                {from: './Scripts/libs/nexus/meco.js', to: './libs/nexus'},
+                {from: './node_modules/dropzone/dist/dropzone.js', to: './libs/dropzone.js'},
+                {from: './node_modules/dropzone/dist/min/dropzone.min.css', to: './libs/dropzone.min.css'}
             ])
         ].concat(isDevBuild ? [
             // Develop plugins:
