@@ -162,8 +162,17 @@ a.no-underline {
     }
 }
 
-@include media-breakpoint-up(lg) {
+@include media-breakpoint-up(xl) {
     .h-min-xl-100 {
+        min-height: calc(100vh - 57px);
+        min-height: -o-calc(100vh - 57px); /* opera */
+        min-height: -webkit-calc(100vh - 57px); /* google, safari */
+        min-height: -moz-calc(100vh - 57px); /* firefox */
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .h-min-lg-100 {
         min-height: calc(100vh - 57px);
         min-height: -o-calc(100vh - 57px); /* opera */
         min-height: -webkit-calc(100vh - 57px); /* google, safari */
