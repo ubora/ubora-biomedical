@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Npgsql;
 using Ubora.Web.Infrastructure.Storage;
 using Microsoft.AspNetCore.Mvc;
+using StackExchange.Profiling;
 
 namespace Ubora.Web
 {
@@ -105,6 +106,7 @@ namespace Ubora.Web
                 services.AddSingleton<TestUserSeeder>();
                 services.AddSingleton<TestProjectSeeder>();
                 services.AddSingleton<TestMentorSeeder>();
+                services.AddMiniProfiler().AddEntityFramework();
             }
 
             services.AddSingleton<ApplicationDataSeeder>();
@@ -154,6 +156,7 @@ namespace Ubora.Web
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
+                app.UseMiniProfiler();
             }
             else
             {

@@ -30,8 +30,10 @@
     }
 
     <input type="hidden" id="RequestVerificationToken"
-           name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()"/>
+           name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()" />
 
     @RenderSection("Scripts", required: false)
+
+    <mini-profiler />
 </body>
 </html>
