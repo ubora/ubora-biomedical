@@ -16,6 +16,8 @@ namespace Ubora.Web._Features.ProjectList
             {
                 Title = searchModel.Title,
                 Tab = searchModel.Tab,
+                ByPotentialTechnologyTags = searchModel.ByPotentialTechnologyTags,
+                ByClinicalNeedTags = searchModel.ByClinicalNeedTags,
                 ByArea = searchModel.ByArea,
                 ByStatus = searchModel.ByStatus,
                 SortBy = searchModel.SortBy,
@@ -29,6 +31,8 @@ namespace Ubora.Web._Features.ProjectList
         [StringLength(50)]
         public string Title { get; set; }
         public TabType Tab { get; set; }
+        public string ByPotentialTechnologyTags { get; set; }
+        public string ByClinicalNeedTags { get; set; }
         public string ByArea { get; set; }
         public ByStatusFilteringMethod ByStatus { get; set; }
         public SortBy SortBy { get; set; }

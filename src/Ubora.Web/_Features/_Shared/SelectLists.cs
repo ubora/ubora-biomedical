@@ -86,5 +86,36 @@ namespace Ubora.Web._Features._Shared
             new SelectListItem { Value ="Public health", Text = "Public health"},
             new SelectListItem { Value ="Rehabilitation", Text = "Rehabilitation"},
         });
+
+        public static List<SelectListItem> ClinicalNeedTags => new List<SelectListItem>(new[]
+        {
+            new SelectListItem { Value ="Monitoring purpose", Text = "Monitoring purpose" },
+            new SelectListItem { Value ="Non-surgical therapy / Administration of drugs", Text = "Non-surgical therapy / Administration of drugs" },
+            new SelectListItem { Value ="Point-of-care diagnosis", Text = "Point-of-care diagnosis" },
+            new SelectListItem { Value ="Prevention of pathology or disease", Text = "Prevention of pathology or disease" },
+            new SelectListItem { Value ="Rehabilitation", Text = "Rehabilitation" },
+            new SelectListItem { Value ="Remote or self-diagnosis", Text = "Remote or self-diagnosis" },
+            new SelectListItem { Value ="Replacement of human tissues or organs", Text = "Replacement of human tissues or organs" },
+            new SelectListItem { Value ="Support to laboratory practice", Text = "Support to laboratory practice" },
+            new SelectListItem { Value ="Support to medical practice", Text = "Support to medical practice" },
+            new SelectListItem { Value ="Support to surgery", Text = "Support to surgery" },
+        });
+
+        public static List<SelectListItem> PotentialTechnologyTags => new List<SelectListItem>(new[]
+        {
+            new SelectListItem { Value ="Active implantable device", Text = "Active implantable device"},
+            new SelectListItem { Value ="E-based technology", Text = "E-based technology"},
+            new SelectListItem { Value ="Ergonomic support", Text = "Ergonomic support"},
+            new SelectListItem { Value ="Implantable device", Text = "Implantable device"},
+            new SelectListItem { Value ="In vitro diagnostic device", Text = "In vitro diagnostic device"},
+            new SelectListItem { Value ="In vivo diagnostic device", Text = "In vivo diagnostic device"},
+            new SelectListItem { Value ="Laboratory equipment", Text = "Laboratory equipment"},
+            new SelectListItem { Value ="Mobile-based technology", Text = "Mobile-based technology"},
+            new SelectListItem { Value ="Monitoring device", Text = "Monitoring device"},
+            new SelectListItem { Value ="Other supporting equipment", Text = "Other supporting equipment"},
+            new SelectListItem { Value ="Preventive device", Text = "Preventive device"},
+            new SelectListItem { Value ="Software", Text = "Software"},
+            new SelectListItem { Value ="Surgical device", Text = "Surgical device"},
+        });
     }
 }

@@ -4,16 +4,16 @@ using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Domain.Projects._SortSpecifications
 {
-    public class SortByMultipleProjectSpecification : ISortSpecification<Project>
+    public class SortByMultipleSpecification<T> : ISortSpecification<T>
     {
-        public List<ISortSpecification<Project>> SortSpecifications { get; set; }
+        public List<ISortSpecification<T>> SortSpecifications { get; set; }
 
-        public SortByMultipleProjectSpecification(List<ISortSpecification<Project>> sortSpecifications)
+        public SortByMultipleSpecification(List<ISortSpecification<T>> sortSpecifications)
         {
             SortSpecifications = sortSpecifications;
         }
 
-        public IQueryable<Project> Sort(IQueryable<Project> query)
+        public IQueryable<T> Sort(IQueryable<T> query)
         {
             foreach (var sortSpec in SortSpecifications)
             {

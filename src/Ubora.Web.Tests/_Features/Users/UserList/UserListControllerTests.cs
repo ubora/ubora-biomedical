@@ -56,7 +56,7 @@ namespace Ubora.Web.Tests._Features.Users.UserList
                     .Returns(url);
             }
 
-            QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByMultipleUserProfileSortSpecification>(), 4, 2)).Returns(userProfiles);
+            QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByMultipleUserProfileSortSpecification>(), 24, 2)).Returns(userProfiles);
 
             //Act
             var result = (ViewResult)_controller.Search(new SearchModel(), 2);

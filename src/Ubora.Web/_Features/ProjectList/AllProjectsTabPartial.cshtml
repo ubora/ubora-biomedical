@@ -14,40 +14,29 @@
                 <div class="dropdown-menu" aria-labelledby="areaFilter">
                     @foreach (var areaOfUsageTag in Model.AreaOfUsageTags)
                     {
-                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@areaOfUsageTag&SortBy=@Model.SortBy">@areaOfUsageTag</a>
-                    }
-                </div>
-            </div>
-            <div id="filterByClinicalNeeds" class="dropdown d-inline-block d-xs-block">
-                <button class="btn btn-icon dropdown-toggle px-0" type="button" id="areaFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    @(string.IsNullOrEmpty(Model.ByArea) ? "ClinicalNeeds" : "ClinicalNeeds: " + Model.ByArea)
-                </button>
-                <div class="dropdown-menu" aria-labelledby="areaFilter">
-                    @foreach (var areaOfUsageTag in Model.AreaOfUsageTags)
-                    {
-                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@areaOfUsageTag&SortBy=@Model.SortBy">@areaOfUsageTag</a>
+                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@Model.ByPotentialTechnologyTags&ByClinicalNeedTags=@Model.ByClinicalNeedTags&ByArea=@areaOfUsageTag&SortBy=@Model.SortBy">@areaOfUsageTag</a>
                     }
                 </div>
             </div>
             <div id="filterByTechnology" class="dropdown d-inline-block d-xs-block">
                 <button class="btn btn-icon dropdown-toggle px-0" type="button" id="areaFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    @(string.IsNullOrEmpty(Model.ByArea) ? "Technology" : "Technology: " + Model.ByArea)
+                    @(string.IsNullOrEmpty(Model.ByPotentialTechnologyTags) ? "Technology" : "Technology: " + Model.ByPotentialTechnologyTags)
                 </button>
                 <div class="dropdown-menu" aria-labelledby="areaFilter">
-                    @foreach (var areaOfUsageTag in Model.AreaOfUsageTags)
+                    @foreach (var potentialTechnologyTag in Model.PotentialTechnologyTags)
                     {
-                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@areaOfUsageTag&SortBy=@Model.SortBy">@areaOfUsageTag</a>
+                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@potentialTechnologyTag&ByClinicalNeedTags=@Model.ByClinicalNeedTags&ByArea=@Model.ByArea&SortBy=@Model.SortBy">@potentialTechnologyTag</a>
                     }
                 </div>
             </div>
-            <div id="filterByDeviceClassification" class="dropdown d-inline-block d-xs-block">
+            <div id="filterByClinicalNeeds" class="dropdown d-inline-block d-xs-block">
                 <button class="btn btn-icon dropdown-toggle px-0" type="button" id="areaFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    @(string.IsNullOrEmpty(Model.ByArea) ? "Device Classification" : "Device Classification: " + Model.ByArea)
+                    @(string.IsNullOrEmpty(Model.ByClinicalNeedTags) ? "ClinicalNeeds" : "ClinicalNeeds: " + Model.ByClinicalNeedTags)
                 </button>
                 <div class="dropdown-menu" aria-labelledby="areaFilter">
-                    @foreach (var areaOfUsageTag in Model.AreaOfUsageTags)
+                    @foreach (var clinicalNeedTag in Model.ClinicalNeedTags)
                     {
-                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@areaOfUsageTag&SortBy=@Model.SortBy">@areaOfUsageTag</a>
+                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@Model.ByPotentialTechnologyTags&ByClinicalNeedTags=@clinicalNeedTag&ByArea=@Model.ByArea&SortBy=@Model.SortBy">@clinicalNeedTag</a>
                     }
                 </div>
             </div>
@@ -69,15 +58,17 @@
                     }
                 </button>
                 <div class="dropdown-menu" aria-labelledby="statusFilter">
-                    <a class="dropdown-item" href="/projects/search?ByStatus=All&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=@Model.SortBy">All</a>
-                    <a class="dropdown-item" href="/projects/search?ByStatus=NotDraft&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=@Model.SortBy">Approved</a>
-                    <a class="dropdown-item" href="/projects/search?ByStatus=Draft&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=@Model.SortBy">Draft</a>
+                    <a class="dropdown-item" href="/projects/search?ByStatus=All&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@Model.ByPotentialTechnologyTags&ByClinicalNeedTags=@Model.ByClinicalNeedTags&ByArea=@Model.ByArea&SortBy=@Model.SortBy">All</a>
+                    <a class="dropdown-item" href="/projects/search?ByStatus=NotDraft&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@Model.ByPotentialTechnologyTags&ByClinicalNeedTags=@Model.ByClinicalNeedTags&ByArea=@Model.ByArea&SortBy=@Model.SortBy">Approved</a>
+                    <a class="dropdown-item" href="/projects/search?ByStatus=Draft&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@Model.ByPotentialTechnologyTags&ByClinicalNeedTags=@Model.ByClinicalNeedTags&ByArea=@Model.ByArea&SortBy=@Model.SortBy">Draft</a>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 mr-0 ml-auto">
             <form asp-controller="ProjectList" asp-action="Search" method="get">
                 <input asp-for="Tab" type="hidden" />
+                <input asp-for="ByPotentialTechnologyTags" type="hidden" />
+                <input asp-for="ByClinicalNeedTags" type="hidden" />
                 <input asp-for="ByArea" type="hidden" />
                 <input asp-for="ByStatus" type="hidden" />
                 <input asp-for="SortBy" type="hidden" />
@@ -112,8 +103,8 @@
                 </button>
             }
             <div class="dropdown-menu" aria-labelledby="sortBy">
-                <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=Newest">Newest</a>
-                <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByArea=@Model.ByArea&SortBy=Oldest">Oldest</a>
+                <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@Model.ByPotentialTechnologyTags&ByClinicalNeedTags=@Model.ByClinicalNeedTags&ByArea=@Model.ByArea&SortBy=Newest">Newest</a>
+                <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@Model.ByPotentialTechnologyTags&ByClinicalNeedTags=@Model.ByClinicalNeedTags&ByArea=@Model.ByArea&SortBy=Oldest">Oldest</a>
             </div>
         </div>
     </div>

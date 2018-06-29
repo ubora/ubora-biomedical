@@ -51,7 +51,7 @@ namespace Ubora.Web._Features.ProjectList.Models
                 }
 
                 var specification = CombineSpecificationMethods(false, searchModel);
-                var projects = _queryProcessor.Find<Project>(specification, new SortByMultipleProjectSpecification(sortSpecifications), 4, page);
+                var projects = _queryProcessor.Find<Project>(specification, new SortByMultipleSpecification<Project>(sortSpecifications), 24, page);
 
                 var model = new ProjectListViewModel
                 {
@@ -96,7 +96,7 @@ namespace Ubora.Web._Features.ProjectList.Models
                 }
 
                 var specification = CombineSpecificationMethods(true, searchModel);
-                var projects = _queryProcessor.Find(specification, new SortByMultipleProjectSpecification(sortSpecifications), 4, page);
+                var projects = _queryProcessor.Find(specification, new SortByMultipleSpecification<Project>(sortSpecifications), 24, page);
 
                 var model = new ProjectListViewModel();
                 if (!projects.Any())
@@ -121,6 +121,16 @@ namespace Ubora.Web._Features.ProjectList.Models
                 else
                 {
                     specifications.Add(new MatchAll<Project>());
+                }
+
+                if (!string.IsNullOrEmpty(searchModel.ByPotentialTechnologyTags))
+                {
+                    specifications.Add(new IsPotentialTechnologyTagsSpec(searchModel.ByPotentialTechnologyTags));
+                }
+
+                if (!string.IsNullOrEmpty(searchModel.ByClinicalNeedTags))
+                {
+                    specifications.Add(new IsClinicalNeedTagsSpec(searchModel.ByClinicalNeedTags));
                 }
 
                 if (!string.IsNullOrEmpty(searchModel.ByArea))
