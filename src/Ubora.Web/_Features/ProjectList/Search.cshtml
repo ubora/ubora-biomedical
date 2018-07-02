@@ -23,7 +23,6 @@
 </div>
 
 @section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <script src="~/dist/infinite_scroll.bundle.js"></script>
     <script>
         UBORA.initInfiniteScroll('&page=', '@Html.Raw(Model.ProjectListViewModel.Pager.PageCount)', '@Html.Raw(Model.Title)');
