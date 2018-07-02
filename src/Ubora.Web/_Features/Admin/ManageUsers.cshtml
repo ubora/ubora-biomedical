@@ -22,6 +22,7 @@
             <div class="col-lg-2">
                 <form onsubmit="return confirm('Are you sure?')" method="post">
                     <input type="hidden" name="userId" value="@user.UserId" />
+                    <input type="hidden" name="page" value="@Model.Pager.PageNumber" />
                     <div class="dropdown">
                         <button class="dropdown-toggle btn btn-primary btn-sm mt-lg-0 mt-sm-2 mt-xs-2" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Manage user
@@ -29,29 +30,29 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
                             @if (user.IsAdmin)
                             {
-                                <button class="dropdown-item" type="submit" asp-action="RemoveAdministratorRole" asp-route-page="@Model.Pager.PageNumber">Remove administrator role</button>
+                                <button class="dropdown-item" type="submit" asp-action="RemoveAdministratorRole">Remove administrator role</button>
                             }
                             else
                             {
-                                <button class="dropdown-item" type="submit" asp-action="AddAdministratorRole" asp-route-page="@Model.Pager.PageNumber">Add administrator role</button>
+                                <button class="dropdown-item" type="submit" asp-action="AddAdministratorRole">Add administrator role</button>
                             }
                             @if (user.IsMentor)
                             {
-                                <button class="dropdown-item" type="submit" asp-action="RemoveMentorRole" asp-route-page="@Model.Pager.PageNumber">Remove mentor role</button>
+                                <button class="dropdown-item" type="submit" asp-action="RemoveMentorRole">Remove mentor role</button>
                             }
                             else
                             {
-                                <button class="dropdown-item" type="submit" asp-action="AddMentorRole" asp-route-page="@Model.Pager.PageNumber">Add mentor role</button>
+                                <button class="dropdown-item" type="submit" asp-action="AddMentorRole">Add mentor role</button>
                             }
                             @if (user.IsManagementGroup)
                             {
-                                <button class="dropdown-item" type="submit" asp-action="RemoveManagementGroupRole" asp-route-page="@Model.Pager.PageNumber">Remove management group role</button>
+                                <button class="dropdown-item" type="submit" asp-action="RemoveManagementGroupRole">Remove management group role</button>
                             }
                             else
                             {
-                                <button class="dropdown-item" type="submit" asp-action="AddManagementGroupRole" asp-route-page="@Model.Pager.PageNumber">Add management group role</button>
+                                <button class="dropdown-item" type="submit" asp-action="AddManagementGroupRole">Add management group role</button>
                             }
-                            <button class="dropdown-item" type="submit" asp-route-userEmail="@user.UserEmail" asp-action="DeleteUser" asp-route-page="@Model.Pager.PageNumber">Delete user</button>
+                            <button class="dropdown-item" type="submit" asp-route-userEmail="@user.UserEmail" asp-action="DeleteUser">Delete user</button>
                         </div>
                     </div>
                 </form>
