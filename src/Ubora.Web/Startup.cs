@@ -157,6 +157,7 @@ namespace Ubora.Web
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
+                //For more details on using MiniProfiler https://miniprofiler.com/dotnet/AspDotNetCore
                 app.UseMiniProfiler();
             }
             else
