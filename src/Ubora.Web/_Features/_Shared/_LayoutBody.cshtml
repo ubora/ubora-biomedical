@@ -5,6 +5,8 @@
 
 @Html.Partial("_Notices")
 
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
 <environment names="Development">
     <script src="~/dist/app.bundle.js"></script>
 </environment>
