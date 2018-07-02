@@ -8,83 +8,211 @@
     ViewData["Title"] = "Biomedical device projects";
 }
 
-<div class="container my-5">
-    <h1>@ViewData["Title"]</h1>
 
-    <ul class="nav nav-tabs" id="projectsTab">
-        @if (SignInManager.IsSignedIn(User))
-        {
-            @if (Model.Tab == TabType.AllProjects)
-            {
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" id="my-projects-tab" href="/projects/search?Tab=MyProjects">
-                        My projects
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active d-flex align-items-center" id="all-projects-tab" href="/projects/search?Tab=AllProjects">
-                        All projects
-                    </a>
-                </li>
-            }
-            else
-            {
-                <li class="nav-item">
-                    <a class="nav-link active d-flex align-items-center" id="my-projects-tab" href="/projects/search?Tab=MyProjects">
-                        My projects
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" id="all-projects-tab" href="/projects/search?Tab=AllProjects">
-                        All projects
-                    </a>
-                </li>
-            }
-        }
-        else
-        {
-            <li class="nav-item">
-                <a class="nav-link active d-flex align-items-center" id="all-projects-tab" href="/projects/search?Tab=AllProjects">
-                    All projects
-                </a>
-            </li>
-        }
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-2 col-lg-3 py-3 pb-4 border-right h-min-lg-100-footer">
+            <form asp-controller="ProjectList" asp-action="Search" method="get" class="py-3">
+                <input asp-for="Tab" type="hidden" />
+                <input asp-for="ByPotentialTechnologyTags" type="hidden" />
+                <input asp-for="ByClinicalNeedTags" type="hidden" />
+                <input asp-for="ByArea" type="hidden" />
+                <input asp-for="ByStatus" type="hidden" />
+                <input asp-for="SortBy" type="hidden" />
+                <div class="input-group search">
+                    <input class="form-control" asp-for="Title" placeholder="Search projects..." aria-describedby="btnGroupAddon">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text" id="btnGroupAddon">
+                            <button class="btn btn-icon" type="submit"><i class="material-icons">search</i></button>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Title"></span>
+                </div>
+            </form>
 
-        <li class="ml-sm-auto d-xs-block">
-            <a class="btn btn-sm btn-outline-primary d-xs-block my-xs-2" asp-controller="ProjectCreation" asp-action="Create" role="button">
-                <i class="material-icons">add</i>
-                <span>
-                    Create project
-                </span>
-            </a>
-        </li>
-    </ul>
-
-    <div class="tab-content" id="projectsTabContent">
-        @if (SignInManager.IsSignedIn(User))
-        {
-            @if (Model.Tab == TabType.MyProjects)
-            {
-                <div class="tab-pane fade show active" id="myProjects">
-                    <div class="my-4">
-                        @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
+            <button class="btn btn-icon px-0 w-100" type="button" data-toggle="collapse" data-target="#collapseArea" aria-expanded="false" aria-controls="collapseArea">
+                <div class="d-flex justify-content-between">
+                    <span>Area</span>
+                    <i class="material-icons">keyboard_arrow_down</i>
+                </div>
+            </button>
+            <div class="collapse" id="collapseArea">
+                <div class="filter-group">
+                    <div class="custom-control custom-checkbox mx-1 my-1">
+                        <input type="checkbox" class="custom-control-input" id="allAreas" />
+                        <label class="custom-control-label" for="allAreas">All</label>
+                    </div>
+                    <span class="color-grey font-size-0-8">Surgery</span>
+                    <div class="custom-control custom-checkbox mx-1 my-1">
+                        <input type="checkbox" class="custom-control-input" id="cardiovascularSurgery" />
+                        <label class="custom-control-label" for="cardiovascularSurgery">Cardiovascular surgery</label>
+                    </div>
+                    <div class="custom-control custom-checkbox mx-1 my-1">
+                        <input type="checkbox" class="custom-control-input" id="colorectalSurgery" />
+                        <label class="custom-control-label" for="colorectalSurgery">Colorectal surgery</label>
+                    </div>
+                    <div class="custom-control custom-checkbox mx-1 my-1">
+                        <input type="checkbox" class="custom-control-input" id="generalSurgery" />
+                        <label class="custom-control-label" for="generalSurgery">General surgery</label>
                     </div>
                 </div>
-
-                <div class="tab-pane fade" id="allProjects">
+            </div>
+            <hr />
+            <button class="btn btn-icon px-0 w-100" type="button" data-toggle="collapse" data-target="#collapseClinicalNeeds" aria-expanded="false" aria-controls="collapseClinicalNeeds">
+                <div class="d-flex justify-content-between">
+                    <span>Clinical needs</span>
+                    <i class="material-icons">keyboard_arrow_down</i>
                 </div>
-            }
-            else
-            {
-                @await Html.PartialAsync("AllProjectsTabPartial.cshtml", Model);
-            }
-        }
-        else
-        {
-            @await Html.PartialAsync("AllProjectsTabPartial.cshtml", Model);
-        }
+            </button>
+            <div class="collapse" id="collapseClinicalNeeds">
+                <div class="filter-group">
+                    <div class="custom-control custom-checkbox mx-1 my-1">
+                        <input type="checkbox" class="custom-control-input" id="allClinicalNeeds" />
+                        <label class="custom-control-label" for="allClinicalNeeds">All</label>
+                    </div>
+                    <div class="custom-control custom-checkbox mx-1 my-1">
+                        <input type="checkbox" class="custom-control-input" id="nonsurgicalTherapy" />
+                        <label class="custom-control-label" for="nonsurgicalTherapy">Non-surgical therapy / Administration of drugs</label>
+                    </div>
+                    <div class="custom-control custom-checkbox mx-1 my-1">
+                        <input type="checkbox" class="custom-control-input" id="id1" />
+                        <label class="custom-control-label" for="id1">Colorectal surgery</label>
+                    </div>
+                    <div class="custom-control custom-checkbox mx-1 my-1">
+                        <input type="checkbox" class="custom-control-input" id="id2" />
+                        <label class="custom-control-label" for="id2">General surgery</label>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <button class="btn btn-icon px-0 w-100" type="button" data-toggle="collapse" data-target="#collapseTechnology" aria-expanded="false" aria-controls="collapseTechnology">
+                <div class="d-flex justify-content-between">
+                    <span>Technology</span>
+                    <i class="material-icons">keyboard_arrow_down</i>
+                </div>
+            </button>
+            <div class="collapse" id="collapseTechnology">
+                <div class="filter-group">
+                    <div class="custom-control custom-checkbox mx-1 my-1">
+                        <input type="checkbox" class="custom-control-input" id="allTechnologies" />
+                        <label class="custom-control-label" for="allTechnologies">All</label>
+                    </div>
+                    <div class="custom-control custom-checkbox mx-1 my-1">
+                        <input type="checkbox" class="custom-control-input" id="id3" />
+                        <label class="custom-control-label" for="id3">Active implantable device</label>
+                    </div>
+                    <div class="custom-control custom-checkbox mx-1 my-1">
+                        <input type="checkbox" class="custom-control-input" id="id4" />
+                        <label class="custom-control-label" for="id4">E-based technology</label>
+                    </div>
+                    <div class="custom-control custom-checkbox mx-1 my-1">
+                        <input type="checkbox" class="custom-control-input" id="id5" />
+                        <label class="custom-control-label" for="id5">Ergonomic support</label>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <span>Status</span>
+            <div class="custom-control custom-radio mx-1 my-1">
+                <input type="radio" id="statusAll" name="customRadio" class="custom-control-input" />
+                <label class="custom-control-label" for="statusAll">All</label>
+            </div>
+            <div class="custom-control custom-radio mx-1 my-1">
+                <input type="radio" id="statusDraft" name="customRadio" class="custom-control-input" />
+                <label class="custom-control-label" for="statusDraft">Draft</label>
+            </div>
+            <div class="custom-control custom-radio mx-1 my-1">
+                <input type="radio" id="statusApproved" name="customRadio" class="custom-control-input" />
+                <label class="custom-control-label" for="statusApproved">Approved</label>
+            </div>
+        </div>
+
+        <div class="col-xl-8 col-lg-9 px-xl-7 py-3">
+            <h1>@ViewData["Title"]</h1>
+            <ul class="nav nav-tabs" id="projectsTab">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    @if (Model.Tab == TabType.AllProjects)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" id="my-projects-tab" href="/projects/search?Tab=MyProjects">
+                                My projects
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active d-flex align-items-center" id="all-projects-tab" href="/projects/search?Tab=AllProjects">
+                                All projects
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link active d-flex align-items-center" id="my-projects-tab" href="/projects/search?Tab=MyProjects">
+                                My projects
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" id="all-projects-tab" href="/projects/search?Tab=AllProjects">
+                                All projects
+                            </a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link active d-flex align-items-center" id="all-projects-tab" href="/projects/search?Tab=AllProjects">
+                            All projects
+                        </a>
+                    </li>
+                }
+
+                <li class="ml-sm-auto d-xs-block">
+                    <a class="btn btn-sm btn-outline-primary d-xs-block my-xs-2" asp-controller="ProjectCreation" asp-action="Create" role="button">
+                        <i class="material-icons">add</i>
+                        <span>
+                            Create project
+                        </span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="projectsTabContent">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    @if (Model.Tab == TabType.MyProjects)
+                    {
+                        <div class="tab-pane fade show active" id="myProjects">
+                            <div class="my-4">
+                                @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="allProjects">
+                        </div>
+                    }
+                    else
+                    {
+                        @await Html.PartialAsync("AllProjectsTabPartial.cshtml", Model);
+                    }
+                }
+                else
+                {
+                    @await Html.PartialAsync("AllProjectsTabPartial.cshtml", Model);
+                }
+            </div>
+
+        </div>
+        <div class="col-xl-2 py-3"></div>
     </div>
 </div>
+
+@section Head {
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"
+          asp-fallback-href="~/dist/libs/select2.min.css">
+}
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
@@ -94,4 +222,11 @@
             UBORA.initInfiniteScroll('@Html.Raw(Url.Action(nameof(ProjectListController.Search), "ProjectList", new { Title = Model.Title, Tab = Model.Tab, ByStatus = Model.ByStatus, ByArea = Model.ByArea, SortBy = Model.SortBy }))');
         }
     </script>
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"
+            asp-fallback-src="~/dist/libs/select2.min.js"
+            asp-fallback-test="window.select2">
+    </script>
+    <script>$('select').select2({ theme: 'ubora' });</script>
 }
