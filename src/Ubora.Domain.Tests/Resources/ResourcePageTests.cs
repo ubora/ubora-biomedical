@@ -12,13 +12,13 @@ namespace Ubora.Domain.Tests.Resources
         public void Does_Not_Allow_Edits_When_When_Content_Version_Has_Changed()
         {
             var resourcePage = new ResourcePage()
-                .Set(page => page.ContentVersion, Guid.NewGuid());
+                .Set(page => page.BodyVersion, 2);
 
             // Act
-            Action act = () => resourcePage.Apply(new ResourcePageContentEditedEvent(
+            Action act = () => resourcePage.Apply(new ResourcePageBodyEditedEvent(
                 initiatedBy: new DummyUserInfo(),
-                content: new ResourceContent("abc", new QuillDelta("dfg")), 
-                previousContentVersion: Guid.NewGuid()));
+                body: new QuillDelta("dfg"), 
+                previousBodyVersion: 1));
 
             // Assert
             act.ShouldThrow<InvalidOperationException>()

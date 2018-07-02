@@ -8,7 +8,8 @@ namespace Ubora.Domain.Resources.Commands
     public class CreateResourcePageCommand : UserCommand
     {
         public Guid ResourcePageId { get; set; }
-        public ResourceContent Content { get; set; }
+        public string Title { get; set; }
+        public QuillDelta Body { get; set; }
         public int MenuPriority { get; set; }
 
         internal class Handler : ICommandHandler<CreateResourcePageCommand>
@@ -31,9 +32,10 @@ namespace Ubora.Domain.Resources.Commands
                     id: cmd.ResourcePageId, 
                     events: new ResourcePageCreatedEvent(
                         initiatedBy: cmd.Actor,
-                        resourceId: cmd.ResourcePageId,
-                        slug: Slug.Generate(cmd.Content.Title),
-                        content: cmd.Content,
+                        resourcePageId: cmd.ResourcePageId,
+                        slug: Slug.Generate(cmd.Title),
+                        title: cmd.Title,
+                        body: cmd.Body,
                         menuPriority: cmd.MenuPriority));
                 
                 _documentSession.SaveChanges();

@@ -2,7 +2,6 @@
 using FluentAssertions;
 using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Commands;
-using Ubora.Domain.Resources.Events;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Resources
@@ -12,30 +11,30 @@ namespace Ubora.Domain.Tests.Resources
         [Fact]
         public void Resource_Page_Content_Can_Be_Edited()
         {
-            var initialContent = new ResourceContent("initialTitle", new QuillDelta("initialBody"));
-            var editedContent = new ResourceContent("editedTitle", new QuillDelta("editedBody"));
+            var initialContent = new QuillDelta("initialBody");
+            var editedContent = new QuillDelta("editedBody");
             
             var resource = new ResourcePageBuilder()
-                .WithContent(initialContent)
+                .WithTitle("initialTitle")
+                .WithBody(initialContent)
                 .Build(this);
             
             // Act
-            var commandResult = Processor.Execute(new EditResourceContentCommand
+            var commandResult = Processor.Execute(new EditResourcePageContentCommand
             {
                 ResourceId = resource.Id,
-                Content = editedContent,
+                Title = "changedTitle",
+                Body = editedContent,
                 Actor = new DummyUserInfo(),
-                PreviousContentVersion = resource.ContentVersion
+                PreviousContentVersion = resource.BodyVersion
             });
 
             // Assert
             commandResult.IsSuccess.Should().BeTrue();
 
-            var lastEventInStream = Session.Events.FetchStream(resource.Id).Select(e => e.Data).ToList().Last();
-            lastEventInStream.Should().BeOfType<ResourcePageContentEditedEvent>();
-
-            Session.Load<ResourcePage>(resource.Id)
-                .Content.ShouldBeEquivalentTo(editedContent);
+            var page = Session.Load<ResourcePage>(resource.Id);
+            page.Body.Should().Be(editedContent);
+            page.Title.Should().Be("changedTitle");
         }
     }
 }

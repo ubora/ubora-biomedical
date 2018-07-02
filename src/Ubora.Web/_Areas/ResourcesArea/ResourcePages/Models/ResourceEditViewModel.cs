@@ -11,9 +11,9 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Models
                 return new ResourceEditViewModel
                 {
                     ResourceId = resourcePage.Id,
-                    Body = resourcePage.Content.Body.Value,
-                    Title = resourcePage.Content.Title,
-                    ContentVersion = resourcePage.ContentVersion
+                    Body = resourcePage.Body.Value,
+                    Title = resourcePage.Title,
+                    ContentVersion = resourcePage.BodyVersion
                 };
             }
         }

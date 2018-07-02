@@ -117,8 +117,8 @@ namespace Ubora.Web.Tests._Areas.ResourcesArea.ResourcePageCreation
             result.RouteValues["slugOrId"] = "test-slug";
 
             executedCommand.ResourcePageId.Should().NotBe(default(Guid));
-            executedCommand.Content.Body.Value.Should().Be("testBody");
-            executedCommand.Content.Title.Should().Be("testTitle");
+            executedCommand.Body.Value.Should().Be("testBody");
+            executedCommand.Title.Should().Be("testTitle");
         }
     }
 }

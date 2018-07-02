@@ -14,14 +14,11 @@ namespace Ubora.Domain.Tests.Resources
         public void Resource_Page_Can_Be_Created()
         {
             var resourceId = Guid.NewGuid();
-            var content = new ResourceContent(
-                title: "Introduction page",
-                body: new QuillDelta("Hello, and welcome!"));
-            
             var command = new CreateResourcePageCommand
             {
                 ResourcePageId = resourceId,
-                Content = content,
+                Title = "Introduction page",
+                Body = new QuillDelta("Hello, and welcome!"),
                 Actor = new DummyUserInfo(),
                 MenuPriority = 123
             };
@@ -38,7 +35,8 @@ namespace Ubora.Domain.Tests.Resources
             var resource = Session.Load<ResourcePage>(resourceId);
 
             resource.Id.Should().Be(resourceId);
-            resource.Content.ShouldBeEquivalentTo(content);
+            resource.Title.Should().Be("Introduction page");
+            resource.Body.Should().Be(new QuillDelta("Hello, and welcome!"));
             resource.ActiveSlug.Value.Should().Be("introduction-page");
             resource.MenuPriority.Should().Be(123);
         }

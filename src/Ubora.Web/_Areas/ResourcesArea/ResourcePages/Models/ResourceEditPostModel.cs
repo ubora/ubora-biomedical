@@ -7,7 +7,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Models
     {
         public Guid ResourceId { get; set; }
         public string Body { get; set; }
-        public Guid ContentVersion { get; set; }
+        public int ContentVersion { get; set; }
         [Required]
         [StringLength(100)]
         public string Title { get; set; }

@@ -19,11 +19,11 @@ namespace Ubora.Web._Areas.ResourcesArea.Index
                 QueryProcessor
                     .Find(new MatchAll<ResourcePage>())
                     .OrderBy(x => x.MenuPriority)
-                    .ThenBy(x => x.Content.Title)
+                    .ThenBy(x => x.Title)
                     .Select(resource => new ResourceIndexViewModel
                     {
                         ResourceId = resource.Id,
-                        Title = resource.Content.Title
+                        Title = resource.Title
                     });
 
             return View(nameof(Index), models);

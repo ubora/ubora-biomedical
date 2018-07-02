@@ -47,7 +47,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             else
             {
                 ViewData["DisableFooter"] = true;
-                ViewData["ResourcePageTitle"] = ResourcePage.Content.Title;
+                ViewData["ResourcePageTitle"] = ResourcePage.Title;
 
                 var urlTemplateParts = context.ActionDescriptor.AttributeRouteInfo.Template.Split("/");
 
@@ -74,7 +74,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
                 new IndexResourceFilesViewModel(
                     files: QueryProcessor.Find(new IsFileFromResourcePageSpec(ResourcePage.Id), new ResourceFileListItemViewModel.Projection()),
                     resourcePageId: ResourcePage.Id,
-                    resourcePageName: ResourcePage.Content.Title);
+                    resourcePageName: ResourcePage.Title);
 
             return View(model);
         }
@@ -83,7 +83,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
         [Route("repository/add-file")]
         public IActionResult AddFile(string slugOrId)
         {
-            var model = new AddResourceFileViewModel(ResourcePage.Id, ResourcePage.Content.Title);
+            var model = new AddResourceFileViewModel(ResourcePage.Id, ResourcePage.Title);
 
             return View(model);
         }
@@ -152,12 +152,11 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
                 return Edit(ResourcePage.ActiveSlug.Value, modelFactory);
 
             ExecuteUserCommand(
-                new EditResourceContentCommand
+                new EditResourcePageContentCommand
                 {
                     ResourceId = model.ResourceId,
-                    Content = new ResourceContent(
-                        title: model.Title,
-                        body: new QuillDelta(model.Body)),
+                    Title = model.Title,
+                    Body = new QuillDelta(model.Body),
                     PreviousContentVersion = model.ContentVersion
                 },
                 successNotice: Notice.Success("Resource edited"));
@@ -209,7 +208,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             ResourceHistoryViewModel model = new ResourceHistoryViewModel
             {
                 ResourceId = ResourcePage.Id,
-                Title = ResourcePage.Content.Title,
+                Title = ResourcePage.Title,
                 Events = resourceEvents.Select(x => eventViewModelFactoryMediator.Create((UboraEvent)x.Data, x.Timestamp)).ToList()
             };
 

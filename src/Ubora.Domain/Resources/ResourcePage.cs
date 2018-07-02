@@ -8,37 +8,46 @@ namespace Ubora.Domain.Resources
     {
         public Guid Id { get; private set; }
         public Slug ActiveSlug { get; private set; }
+        public string Title { get; private set; }
 
-        public Guid ContentVersion { get; private set; }
-        public ResourceContent Content { get; private set; }
+        public int BodyVersion { get; private set; }
+        public QuillDelta Body { get; private set; }
         
         public int MenuPriority { get; set; }
 
         public string GetBlobContainerName() => $"resourcepage-{Id}";
 
-        private void SetContent(ResourceContent content)
+        private void SetBody(QuillDelta body)
         {
-            Content = content;
-            ContentVersion = Guid.NewGuid();
-        }
-        
-        private void Apply(ResourcePageCreatedEvent @event)
-        {
-            if (@event.ResourceId == default(Guid))
-                throw new ArgumentException(nameof(@event.ResourceId));
-            
-            Id = @event.ResourceId;
-            ActiveSlug = @event.Slug;
-            SetContent(@event.Content);
-            MenuPriority = @event.MenuPriority;
+            BodyVersion++;
+            Body = body;
         }
 
-        private void Apply(ResourcePageContentEditedEvent @event)
+        private void Apply(ResourcePageCreatedEvent @event)
         {
-            if (ContentVersion != @event.PreviousContentVersion)
-                throw new InvalidOperationException("Content has been changed -- the versions don't match.");
+            if (@event.ResourcePageId == default(Guid))
+                throw new ArgumentException(nameof(@event.ResourcePageId));
             
-            SetContent(@event.Content);
+            Id = @event.ResourcePageId;
+            ActiveSlug = @event.Slug;
+            Title = @event.Title;
+            MenuPriority = @event.MenuPriority;
+
+            SetBody(@event.Body);
+        }
+
+        private void Apply(ResourcePageTitleChangedEvent @event)
+        {
+            Title = @event.Title;
+            ActiveSlug = @event.Slug;
+        }
+
+        private void Apply(ResourcePageBodyEditedEvent @event)
+        {
+            if (BodyVersion != @event.PreviousBodyVersion)
+                throw new InvalidOperationException("Content has been changed -- the versions don't match.");
+
+            SetBody(@event.Body);
         }
     }
 }

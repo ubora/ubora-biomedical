@@ -18,7 +18,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Models
                 return resource => new ResourceIndexViewModel
                 {
                     ResourceId = resource.Id,
-                    Title = resource.Content.Title,
+                    Title = resource.Title,
                     Slug = resource.ActiveSlug.Value
                 };
             }

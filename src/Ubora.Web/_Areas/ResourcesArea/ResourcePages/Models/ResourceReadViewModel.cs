@@ -28,9 +28,9 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Models
             {
                 return new ResourceReadViewModel
                 {
-                    ContentHtml = await _nodeServices.InvokeAsync<string>("./Scripts/backend/ConvertQuillDeltaToHtml.js", resourcePage.Content.Body.Value),
+                    ContentHtml = await _nodeServices.InvokeAsync<string>("./Scripts/backend/ConvertQuillDeltaToHtml.js", resourcePage.Body.Value),
                     ResourceId = resourcePage.Id,
-                    Title = resourcePage.Content.Title
+                    Title = resourcePage.Title
                 };
             }
         }

@@ -1,9 +1,9 @@
-﻿using Autofac;
-using FluentAssertions;
-using Moq;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
+using Autofac;
+using FluentAssertions;
+using Moq;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Commands;
@@ -13,7 +13,7 @@ using Ubora.Web.Infrastructure;
 using Ubora.Web.Infrastructure.Storage;
 using Xunit;
 
-namespace Ubora.Web.Tests._Features.Resources
+namespace Ubora.Web.Tests._Areas.ResourcesArea.ResourcePages.CommandHandlers
 {
     public class UploadResourceFileCommandHandlerIntegrationTests : IntegrationFixture
     {
@@ -34,7 +34,8 @@ namespace Ubora.Web.Tests._Features.Resources
             this.Processor.Execute(new CreateResourcePageCommand
             {
                 ResourcePageId = resourcePageId,
-                Content = new ResourceContent("testTitle", new QuillDelta("testValue")),
+                Title = "testTitle",
+                Body = new QuillDelta("testValue"),
                 Actor = new DummyUserInfo(),
                 MenuPriority = 123
             });

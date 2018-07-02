@@ -36,9 +36,8 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePageCreation
                 new CreateResourcePageCommand
                 {
                     ResourcePageId = resourcePageId,
-                    Content = new ResourceContent(
-                        title: model.Title,
-                        body: new QuillDelta(model.Body)),
+                    Title = model.Title,
+                    Body = new QuillDelta(model.Body),
                     MenuPriority = model.MenuPriority
                 },
                 successNotice: Notice.Success("Resource page created"));

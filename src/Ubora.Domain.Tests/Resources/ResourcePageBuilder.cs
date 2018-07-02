@@ -12,7 +12,8 @@ namespace Ubora.Domain.Tests.Resources
     public class ResourcePageBuilder
     {
         private Guid ResourceId { get; set; } = Guid.NewGuid();
-        private ResourceContent Content { get; set; } = new ResourceContent(title: Guid.NewGuid().ToString(), body: new QuillDelta(Guid.NewGuid().ToString()));
+        private string Title { get; set; } = Guid.NewGuid().ToString();
+        private QuillDelta Content { get; set; } = new QuillDelta(Guid.NewGuid().ToString());
         private Guid CreatorUserId { get; set; } = Guid.NewGuid();
 
         public ResourcePageBuilder WithId(Guid resourceId)
@@ -20,8 +21,14 @@ namespace Ubora.Domain.Tests.Resources
             ResourceId = resourceId;
             return this;
         }
-        
-        public ResourcePageBuilder WithContent(ResourceContent content)
+
+        public ResourcePageBuilder WithTitle(string title)
+        {
+            Title = title;
+            return this;
+        }
+
+        public ResourcePageBuilder WithBody(QuillDelta content)
         {
             Content = content;
             return this;
@@ -40,7 +47,7 @@ namespace Ubora.Domain.Tests.Resources
             fixture.Processor.Execute(new CreateResourcePageCommand
             {
                 ResourcePageId = ResourceId,
-                Content = Content,
+                Body = Content,
                 Actor = new UserInfo(CreatorUserId, "testName")
             });
             
