@@ -31,7 +31,7 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsEmailConfirmedRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsCommentAuthorRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsVoteNotGivenRequirement.Handler>();
-            services.AddSingleton<IAuthorizationHandler, HasProjectMemberRequirement<ProjectMentor>.Handler>();
+            services.AddSingleton<IAuthorizationHandler, HasProjectMemberOfTypeRequirement<ProjectMentor>.Handler>();
             services.AddSingleton<IAuthorizationHandler, OrRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, AndRequirement.Handler>();
         }
@@ -86,7 +86,7 @@ namespace Ubora.Web.Authorization
                 });
                 options.AddPolicy(Policies.CanRemoveProjectMentor, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new AndRequirement(new HasProjectMemberRequirement<ProjectMentor>(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin, ApplicationRole.ManagementGroup })));
+                    policyBuilder.AddRequirements(new AndRequirement(new HasProjectMemberOfTypeRequirement<ProjectMentor>(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin, ApplicationRole.ManagementGroup })));
                 });
                 options.AddPolicy(Policies.CanReviewProjectWorkpackages, policyBuilder =>
                 {
