@@ -33,7 +33,7 @@ namespace Ubora.Domain.Projects.Candidates.Commands
                     imageLocation: cmd.ImageLocation
                 );
 
-                DocumentSession.Events.StartStream<Candidate>(cmd.Id, @event);
+                DocumentSession.Events.StartStream(cmd.Id, @event);
                 DocumentSession.SaveChanges();
 
                 return CommandResult.Success;

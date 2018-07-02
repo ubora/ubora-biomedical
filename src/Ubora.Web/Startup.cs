@@ -113,7 +113,6 @@ namespace Ubora.Web
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
 
-
             var azureBlobConnectionString = Configuration.GetConnectionString("AzureBlobConnectionString");
             var autofacContainerBuilder = new ContainerBuilder();
             var azOptions = new AzureProviderOptions

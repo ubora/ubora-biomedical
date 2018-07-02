@@ -20,6 +20,7 @@ using Ubora.Web._Features.Projects.DeviceClassifications;
 using Ubora.Web._Features.Projects.History._Base;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Ubora.Web._Features.Users.Manage;
+using Ubora.Web._Features.Projects.Workpackages.Candidates;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -110,6 +111,8 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterType<QuestionnaireIndexViewModel.QuestionnaireListItemProjection>()
                 .As<IProjection<ApplicableRegulationsQuestionnaireAggregate, QuestionnaireIndexViewModel.QuestionnaireListItem>>()
                 .SingleInstance();
+
+            builder.RegisterType<CommentViewModelFactory>().AsSelf().InstancePerLifetimeScope();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)

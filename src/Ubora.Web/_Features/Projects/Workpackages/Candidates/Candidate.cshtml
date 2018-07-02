@@ -1,4 +1,6 @@
-﻿@model Ubora.Web._Features.Projects.Workpackages.Candidates.CandidateViewModel
+﻿@using Ubora.Web._Features.Projects.Workpackages.Candidates
+
+@model CandidateViewModel
 
 @{ 
     var canChangeProjectCandidateImage = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanChangeProjectCandidateImage);
@@ -100,68 +102,13 @@
 
     </div>
 
-    <div class="row mb-4">
-        <div class="col-sm-12 col-lg-6">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2 class="mb-4">All comments</h2>
-                </div>
-                <div class="col-lg-12">
-                    <div class="row">
-                        @foreach (var comment in Model.Comments)
-                        {
-                            <div class="col-xl-2">
-                                <img class="avatar avatar-comment" src="@comment.ProfilePictureUrl" />
-                            </div>
-                            <div class="col-xl-10 mb-4">
-                                <span class="d-block">
-                                    <strong><a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@comment.CommentatorId">@comment.CommentatorName</a></strong>
-                                    @if (comment.IsLeader)
-                                    {
-                                        <i class="material-icons align-middle" title="Project leader">supervisor_account</i>
-                                    }
-                                    @if (comment.IsMentor)
-                                    {
-                                        <i class="material-icons align-middle" title="Project mentor">school</i>
-                                    }
-                                </span>
-                                <span class="comment more">
-                                    @comment.CommentText
+    @Html.Partial("~/_Components/Discussions/_Discussion.cshtml", new Ubora.Web._Components.Discussions.Models.DiscussionViewModel
+    {
+        Comments = Model.Comments.ToList(),
+        AddCommentActionPath = Url.Action(nameof(CandidatesController.AddComment)),
+        EditCommentActionPath = Url.Action(nameof(CandidatesController.EditComment))
+    })
 
-                                </span>
-                                @if (comment.IsEdited)
-                                {
-                                    <span class="color-grey">(edited)</span>
-                                }
-                                <span class="d-block mt-2 comment-section">
-                                    @if (comment.CanBeEdited)
-                                    {
-                                        <div class="d-flex align-items-center">
-                                            <button class="btn btn-link mr-2" role="button" data-toggle="collapse" data-target="#@comment.Id">Edit</button>
-                                            <button class="btn btn-link mr-2" role="button" data-toggle="modal" data-target="#removeCommentModal-@comment.Id">Delete</button>
-                                            <span class="timeago" title="@(comment.CommentEditedAt.ToString("o"))">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
-                                        </div>
-                                        @Html.Partial("RemoveCommentModal", comment.EditCommentViewModel)
-                                        <div class="collapse mt-2" id="@comment.Id">@Html.Partial("_EditCommentPartial", comment.EditCommentViewModel)</div>
-
-                                    }
-                                    else
-                                    {
-                                        <span class="timeago" title="@(comment.CommentEditedAt.ToString("o"))">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
-                                    }
-                                </span>
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-lg-6">
-            <div>
-                @Html.Partial("_AddCommentPartial", Model.AddCommentViewModel)
-            </div>
-        </div>
-    </div>
 
     @if(await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveCandidate))
     {
@@ -172,9 +119,7 @@
             </div>
         </div>
     }
-
 </div>
-
 
 @section Scripts {
     <script src="~/dist/voting.bundle.js"></script>

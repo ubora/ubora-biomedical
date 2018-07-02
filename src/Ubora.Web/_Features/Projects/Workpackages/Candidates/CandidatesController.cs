@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Ubora.Domain.Discussions;
+using Ubora.Domain.Discussions.Commands;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.Candidates.Commands;
@@ -17,16 +19,29 @@ using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web._Features.Projects._Shared;
 using Ubora.Web._Features._Shared.Notices;
+using Ubora.Web._Components.Discussions.Models;
+using Ubora.Domain.Projects;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 {
+    [ProjectRoute("candidates")]
     public class CandidatesController : ProjectController
     {
         private readonly ImageStorageProvider _imageStorageProvider;
 
+        public Guid CandidateId => RouteData.Values["CandidateId"] != null ? Guid.Parse((string)RouteData.Values["CandidateId"]) : Guid.Empty;
+        public Candidate CurrentCandidate { get; set; }
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
+
+            if (CandidateId != default(Guid))
+            {
+                CurrentCandidate = QueryProcessor.FindById<Candidate>(CandidateId);
+            }
 
             ViewData["Title"] = "Voting";
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
@@ -38,7 +53,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             _imageStorageProvider = imageStorageProvider;
         }
 
-        [Route(nameof(Voting))]
+        [HttpGet("")]
         public async Task<IActionResult> Voting([FromServices] CandidateItemViewModel.Factory candidateItemViewModelFactory)
         {
             var candidates = QueryProcessor.Find(new IsProjectCandidateSpec(ProjectId));
@@ -56,6 +71,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             return View(nameof(Voting), model);
         }
 
+        [HttpGet("add")]
         [Authorize(Policies.CanAddProjectCandidate)]
         public IActionResult AddCandidate()
         {
@@ -63,7 +79,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             return View(nameof(AddCandidate), model);
         }
 
-        [HttpPost]
+        [HttpPost("add")]
         [Authorize(Policies.CanAddProjectCandidate)]
         public async Task<IActionResult> AddCandidate(AddCandidateViewModel model)
         {
@@ -98,47 +114,43 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             return RedirectToAction(nameof(Voting), "Candidates");
         }
 
+        [HttpGet("{candidateId}/delete")]
         [Authorize(Policies.CanRemoveCandidate)]
-        public IActionResult RemoveCandidate(Guid candidateId)
+        public IActionResult RemoveCandidate()
         {
-            var model = new RemoveCandidateViewModel
-            {
-                CandidateId = candidateId
-            };
-
-            return View(model);
+            return View();
         }
 
-        [HttpPost]
+        [HttpPost("{candidateId}/delete")]
         [Authorize(Policies.CanRemoveCandidate)]
         public IActionResult RemoveCandidate(RemoveCandidateViewModel model)
         {
             ExecuteUserProjectCommand(new RemoveCandidateCommand
             {
-                CandidateId = model.CandidateId
+                CandidateId = CandidateId
             }, Notice.Success(SuccessTexts.CandidateRemoved));
 
             return RedirectToAction(nameof(Voting), "Candidates");
         }
 
-        public async Task<IActionResult> Candidate(Guid candidateId, [FromServices]CandidateViewModel.Factory candidateViewModelFactory)
+        [HttpGet("{candidateId}")]
+        public virtual async Task<IActionResult> Candidate([FromServices]CandidateViewModel.Factory candidateViewModelFactory)
         {
-            var candidate = QueryProcessor.FindById<Candidate>(candidateId);
-            var model = await candidateViewModelFactory.Create(candidate, User);
+            var candidateDiscussion = QueryProcessor.FindById<Discussion>(CurrentCandidate.Id);
+            var model = await candidateViewModelFactory.Create(CurrentCandidate, candidateDiscussion, User);
 
             return View(nameof(Candidate), model);
         }
 
+        [HttpGet("{candidateId}/edit")]
         [Authorize(Policies.CanEditProjectCandidate)]
         public IActionResult EditCandidate(Guid candidateId)
         {
-            var candidate = QueryProcessor.FindById<Candidate>(candidateId);
-            var model = AutoMapper.Map<EditCandidateViewModel>(candidate);
-
+            var model = AutoMapper.Map<EditCandidateViewModel>(CurrentCandidate);
             return View(nameof(EditCandidate), model);
         }
 
-        [HttpPost]
+        [HttpPost("{candidateId}/edit")]
         [Authorize(Policies.CanEditProjectCandidate)]
         public IActionResult EditCandidate(EditCandidateViewModel model)
         {
@@ -159,25 +171,24 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
                 return EditCandidate(model.Id);
             }
 
-            return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
+            return RedirectToAction(nameof(Candidate));
         }
 
+        [HttpGet("{candidateId}/change-image")]
         [Authorize(Policies.CanChangeProjectCandidateImage)]
-        public IActionResult EditCandidateImage(Guid candidateId)
+        public IActionResult EditCandidateImage()
         {
-            var candidate = QueryProcessor.FindById<Candidate>(candidateId);
-            var model = AutoMapper.Map<EditCandidateImageViewModel>(candidate);
-
+            var model = AutoMapper.Map<EditCandidateImageViewModel>(CurrentCandidate);
             return View(nameof(EditCandidateImage), model);
         }
 
-        [HttpPost]
+        [HttpPost("{candidateId}/change-image")]
         [Authorize(Policies.CanChangeProjectCandidateImage)]
         public async Task<IActionResult> EditCandidateImage(EditCandidateImageViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return EditCandidateImage(model.Id);
+                return EditCandidateImage();
             }
 
             var imageLocation = BlobLocations.GetProjectCandidateBlobLocation(ProjectId, model.Id);
@@ -186,145 +197,157 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 
             ExecuteUserProjectCommand(new EditCandidateImageCommand
             {
-                Id = model.Id,
+                Id = CandidateId,
                 ImageLocation = imageLocation
             }, Notice.Success(SuccessTexts.CandidateImageUploaded));
 
             if (!ModelState.IsValid)
             {
-                return EditCandidateImage(model.Id);
+                return EditCandidateImage();
             }
 
-            return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
+            return RedirectToAction(nameof(Candidate));
         }
 
+        [HttpGet("{candidateId}/remove-image")]
         [Authorize(Policies.CanRemoveProjectCandidateImage)]
-        public IActionResult RemoveCandidateImage(Guid candidateId)
+        public IActionResult RemoveCandidateImage()
         {
-            var candidate = QueryProcessor.FindById<Candidate>(candidateId);
-            var model = AutoMapper.Map<RemoveCandidateImageViewModel>(candidate);
-
+            var model = AutoMapper.Map<RemoveCandidateImageViewModel>(CurrentCandidate);
             return View(nameof(RemoveCandidateImage), model);
         }
 
-        [HttpPost]
+        [HttpPost("{candidateId}/remove-image")]
         [Authorize(Policies.CanRemoveProjectCandidateImage)]
         public async Task<IActionResult> RemoveCandidateImage(RemoveCandidateImageViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return RemoveCandidateImage(model.Id);
+                return RemoveCandidateImage();
             }
 
-            await _imageStorageProvider.DeleteImagesAsync(BlobLocations.GetProjectCandidateBlobLocation(ProjectId, model.Id));
+            await _imageStorageProvider.DeleteImagesAsync(BlobLocations.GetProjectCandidateBlobLocation(ProjectId, CandidateId));
 
             ExecuteUserProjectCommand(new DeleteCandidateImageCommand
             {
-                CandidateId = model.Id,
+                CandidateId = CandidateId,
                 Actor = UserInfo
             }, Notice.Success(SuccessTexts.CandidateImageDeleted));
 
             if (!ModelState.IsValid)
             {
-                return RemoveCandidateImage(model.Id);
+                return RemoveCandidateImage();
             }
 
-            return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
+            return RedirectToAction(nameof(Candidate));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddComment(AddCommentViewModel model, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
+        [HttpPost("{candidateId}/add-comment")]
+        public async Task<IActionResult> AddComment(AddCommentModel model, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
         {
             if(!ModelState.IsValid)
             {
-                return await Candidate(model.CandidateId, candidateViewModelFactory);
+                return await Candidate(candidateViewModelFactory);
             }
 
-            ExecuteUserProjectCommand(new AddCandidateCommentCommand
+            var project = QueryProcessor.FindById<Project>(this.ProjectId);
+            var roleKeys = project.Members
+                .Where(m => m.UserId == this.UserId)
+                .Select(x => x.RoleKey)
+                .ToArray();
+
+            ExecuteUserProjectCommand(new AddCommentCommand
             {
-                CandidateId = model.CandidateId,
                 CommentText = model.CommentText,
+                DiscussionId = CurrentCandidate.Id,
+                AdditionalCommentData = new Dictionary<string, object> { { "RoleKeys", roleKeys } }.ToImmutableDictionary()
             }, Notice.Success(SuccessTexts.CandidateCommentAdded));
-
+            
             if (!ModelState.IsValid)
             {
-                return await Candidate(model.CandidateId, candidateViewModelFactory);
+                return await Candidate(candidateViewModelFactory);
             }
 
-            return RedirectToAction(nameof(Candidate), new { candidateId = model.CandidateId });
+            return RedirectToAction(nameof(Candidate));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> EditComment(EditCommentViewModel model, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
+        [HttpPost("{candidateId}/edit-comment")]
+        public async Task<IActionResult> EditComment(EditCommentModel model, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
         {
             if (!ModelState.IsValid)
             {
-                return await Candidate(model.CandidateId, candidateViewModelFactory);
+                return await Candidate(candidateViewModelFactory);
             }
 
-            var candidate = QueryProcessor.FindById<Candidate>(model.CandidateId);
-            var comment = candidate.Comments.Single(x => x.Id == model.Id);
-            var canEditComment = (await AuthorizationService.AuthorizeAsync(User, comment, Policies.CanEditComment)).Succeeded;
-            if(!canEditComment)
-            {
-                return Forbid();
-            }
+            var candidateDiscussion = QueryProcessor.FindById<Discussion>(CurrentCandidate.Id);
+            var comment = candidateDiscussion.Comments.Single(x => x.Id == model.CommentId);
 
-            ExecuteUserProjectCommand(new EditCandidateCommentCommand
-            {
-                CandidateId = model.CandidateId,
-                CommentText = model.CommentText,
-                CommentId = model.Id
-            }, Notice.Success(SuccessTexts.CandidateCommentEdited));
-
-            if (!ModelState.IsValid)
-            {
-                return await Candidate(model.CandidateId, candidateViewModelFactory);
-            }
-
-            return RedirectToAction(nameof(Candidate), new { candidateId = model.CandidateId });
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> RemoveComment(Guid candidateId, Guid commentId, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
-        {
-            if (!ModelState.IsValid)
-            {
-                return await Candidate(candidateId, candidateViewModelFactory);
-            }
-
-            var candidate = QueryProcessor.FindById<Candidate>(candidateId);
-            var comment = candidate.Comments.Single(x => x.Id == commentId);
             var canEditComment = (await AuthorizationService.AuthorizeAsync(User, comment, Policies.CanEditComment)).Succeeded;
             if (!canEditComment)
             {
                 return Forbid();
             }
 
-            ExecuteUserProjectCommand(new RemoveCandidateCommentCommand
+            var project = QueryProcessor.FindById<Project>(this.ProjectId);
+            var roleKeys = project.Members
+                .Where(m => m.UserId == this.UserId)
+                .Select(x => x.RoleKey)
+                .ToArray();
+
+            ExecuteUserProjectCommand(new EditCommentCommand
             {
-                CandidateId = candidateId,
+                DiscussionId = CandidateId,
+                CommentText = model.CommentText,
+                CommentId = model.CommentId,
+                AdditionalCommentData = new Dictionary<string, object> { { "RoleKeys", roleKeys } }.ToImmutableDictionary()
+            }, Notice.Success(SuccessTexts.CandidateCommentEdited));
+
+            if (!ModelState.IsValid)
+            {
+                return await Candidate(candidateViewModelFactory);
+            }
+
+            return RedirectToAction(nameof(Candidate));
+        }
+
+        [HttpPost("{candidateId}/delete-comment")]
+        public async Task<IActionResult> RemoveComment(Guid candidateId, Guid commentId, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
+        {
+            if (!ModelState.IsValid)
+            {
+                return await Candidate(candidateViewModelFactory);
+            }
+
+//            var comment = candidate.Comments.Single(x => x.Id == commentId);
+//            var canEditComment = (await AuthorizationService.AuthorizeAsync(User, comment, Policies.CanEditComment)).Succeeded;
+//            if (!canEditComment)
+//            {
+//                return Forbid();
+//            }
+
+            ExecuteUserProjectCommand(new DeleteCommentCommand
+            {
+                DiscussionId = candidateId,
                 CommentId = commentId
             }, Notice.Success(SuccessTexts.CandidateCommentRemoved));
 
             if (!ModelState.IsValid)
             {
-                return await Candidate(candidateId, candidateViewModelFactory);
+                return await Candidate(candidateViewModelFactory);
             }
 
-            return RedirectToAction(nameof(Candidate), new { candidateId = candidateId });
+            return RedirectToAction(nameof(Candidate));
         }
 
-        [HttpPost]
+        [HttpPost("{candidateId}/vote")]
         public async Task<IActionResult> AddVote(AddVoteViewModel model, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
         {
             if (!ModelState.IsValid)
             {
-                return await Candidate(model.CandidateId, candidateViewModelFactory);
+                return await Candidate(candidateViewModelFactory);
             }
 
-            var candidate = QueryProcessor.FindById<Candidate>(model.CandidateId);
-            var canVoteForCandidate = await AuthorizationService.IsAuthorizedAsync(User, candidate, Policies.CanVoteCandidate);
+            var canVoteForCandidate = await AuthorizationService.IsAuthorizedAsync(User, CurrentCandidate, Policies.CanVoteCandidate);
             if (!canVoteForCandidate)
             {
                 return Forbid();
@@ -332,7 +355,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 
             ExecuteUserProjectCommand(new AddCandidateVoteCommand
             {
-                CandidateId = model.CandidateId,
+                CandidateId = CandidateId,
                 Functionality = model.Functionality,
                 Safety = model.Safety,
                 Performance = model.Performace,
@@ -341,10 +364,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 
             if (!ModelState.IsValid)
             {
-                return await Candidate(model.CandidateId, candidateViewModelFactory);
+                return await Candidate(candidateViewModelFactory);
             }
 
-            return RedirectToAction(nameof(Candidate), new { candidateId = model.CandidateId });
+            return RedirectToAction(nameof(Candidate));
         }
 
         [HttpPost]

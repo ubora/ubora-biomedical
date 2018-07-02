@@ -51,7 +51,7 @@ namespace Ubora.Domain.Projects
             return DoesSatisfy(new HasMember<T>(userId));
         }
 
-        private void Apply(ProjectCreatedEvent e)
+        protected virtual void Apply(ProjectCreatedEvent e)
         {
             Id = e.ProjectId;
             Title = e.Title;

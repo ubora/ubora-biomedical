@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Commenting;
-using Ubora.Domain.Commenting.Commands;
-using Ubora.Web._Components.Commenting;
+using Ubora.Domain.Discussions;
+using Ubora.Domain.Discussions.Commands;
+using Ubora.Web._Components.Discussions.Models;
 using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Comments
@@ -42,16 +41,16 @@ namespace Ubora.Web._Features.Projects.Comments
         }
 
         [HttpPost]
-        public IActionResult Delete(EditCommentModel model)
+        public IActionResult Add(AddCommentModel model)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid) 
             {
                 return Index();
             }
 
-            ExecuteUserCommand(new DeleteCommentCommand
+            ExecuteUserProjectCommand(new AddCommentCommand
             {
-                CommentId = model.CommentId,
+                CommentText = model.CommentText,
                 DiscussionId = ProjectId,
                 ProjectId = ProjectId
             }, Notice.Success("todo"));
@@ -63,18 +62,18 @@ namespace Ubora.Web._Features.Projects.Comments
 
             return RedirectToAction("Index");
         }
-
+        
         [HttpPost]
-        public IActionResult Add(AddCommentModel model)
+        public IActionResult Delete(EditCommentModel model)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 return Index();
             }
 
-            ExecuteUserCommand(new AddCommentCommand
+            ExecuteUserProjectCommand(new DeleteCommentCommand
             {
-                CommentText = model.CommentText,
+                CommentId = model.CommentId,
                 DiscussionId = ProjectId,
                 ProjectId = ProjectId
             }, Notice.Success("todo"));
@@ -95,7 +94,7 @@ namespace Ubora.Web._Features.Projects.Comments
                 return Index();
             }
 
-            ExecuteUserCommand(new EditCommentCommand
+            ExecuteUserProjectCommand(new EditCommentCommand
             {
                 CommentId = model.CommentId,
                 CommentText = model.CommentText,

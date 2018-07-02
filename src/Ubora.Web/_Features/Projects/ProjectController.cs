@@ -11,7 +11,7 @@ namespace Ubora.Web._Features.Projects
 {
     public class ProjectRouteAttribute : RouteAttribute
     {
-        public ProjectRouteAttribute(string template) : base("Projects/{projectId:Guid}/" + template)
+        public ProjectRouteAttribute(string template) : base("projects/{projectId:Guid}/" + template)
         {
         }
     }

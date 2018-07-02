@@ -10,6 +10,10 @@ using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features.Projects.Workpackages.Candidates;
 using Xunit;
+using Ubora.Domain.Discussions;
+using Ubora.Web._Components.Discussions.Models;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
 {
@@ -17,13 +21,13 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
     {
         private readonly CandidateViewModel.Factory _factory;
         private readonly Mock<ImageStorageProvider> _imageStorageProvider;
-        private readonly Mock<CommentViewModel.Factory> _commentFactory;
+        private readonly Mock<CommentViewModelFactory> _commentFactory;
         private readonly Mock<IAuthorizationService> _authorizationService;
 
         public CandidateViewModelFactoryTests()
         {
             _imageStorageProvider = new Mock<ImageStorageProvider>();
-            _commentFactory = new Mock<CommentViewModel.Factory>();
+            _commentFactory = new Mock<CommentViewModelFactory>();
             _authorizationService = new Mock<IAuthorizationService>();
             _factory = new CandidateViewModel.Factory( _imageStorageProvider.Object, _commentFactory.Object, _authorizationService.Object);
         }
@@ -32,6 +36,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
         public async Task Create_Returns_Expected_ViewModel()
         {
             var candidateMock = new Mock<Candidate>();
+            var discussionMock = new Mock<Discussion>();
 
             var candidateId = Guid.NewGuid();
             candidateMock.Object.Set(x => x.Id, candidateId);
@@ -44,9 +49,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
             var candidateDescription = "description";
             candidateMock.Object.Set(x => x.Description,candidateDescription);
 
-            var comment1 = new Comment(Guid.NewGuid(), "comment1", Guid.NewGuid(), DateTime.UtcNow, new[] { "project-member" });
-            var comment2 = new Comment(Guid.NewGuid(), "comment2", Guid.NewGuid(), DateTime.UtcNow, new[] { "project-member" });
-            candidateMock.Setup(x => x.Comments).Returns(new [] { comment1, comment2 });
+            var comment1 = Comment.Create(Guid.NewGuid(), Guid.NewGuid(), "comment1", DateTime.UtcNow, new Dictionary<string, object> { { "RoleKeys", "project-member" } }.ToImmutableDictionary());
+            var comment2 = Comment.Create(Guid.NewGuid(), Guid.NewGuid(), "comment2", DateTime.UtcNow, new Dictionary<string, object> { { "RoleKeys", "project-member" } }.ToImmutableDictionary());
+
+            discussionMock.Setup(x => x.Comments).Returns(new [] { comment1, comment2 }.ToImmutableList());
 
             var userId = Guid.NewGuid();
             var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(userId);
@@ -78,7 +84,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 .ReturnsAsync(AuthorizationResult.Success);
 
             // Act
-            var result = await _factory.Create(candidateMock.Object, user);
+            var result = await _factory.Create(candidateMock.Object, discussionMock.Object, user);
 
             // Assert
             var expectedModel = new CandidateViewModel
@@ -89,10 +95,6 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 Description = candidateDescription,
                 ImageUrl = imageUrl,
                 Comments = new[] {comment1ViewModel, comment2ViewModel},
-                AddCommentViewModel = new AddCommentViewModel
-                {
-                    CandidateId = candidateId
-                },
                 AddVoteViewModel = new AddVoteViewModel
                 {
                     CandidateId = candidateId
