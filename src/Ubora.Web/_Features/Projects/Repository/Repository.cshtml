@@ -15,10 +15,8 @@
 {
     <div class="mb-3">
         <h2>@files.Key</h2>
-
         <div class="d-lg-block d-none">
             <div class="row mx-0 py-2 border-bottom">
-
                 <div class="col-lg-3 font-weight-light-bold">
                     File name
                 </div>
@@ -60,16 +58,16 @@
 
                     @if (file.Has3DFileExtension())
                     {
-                        <a href="@Url.Action("View3DFile", "Repository", new { fileId = file.Id })" title="View 3D file" aria-label="View 3D file" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">3d_rotation</i></a>
+                        <a href="@Url.Action("View3DFile", "Repository", new { fileId = file.Id })" title="View 3D file" aria-label="View 3D file" class="mx-md-0 mx-2" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">3d_rotation</i></a>
                     }
 
-                    <a href="@Url.Action("DownloadFile", "Repository", new { fileId = file.Id })" title="Download file" aria-label="Download file" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">file_download</i></a>
+                    <a href="@Url.Action("DownloadFile", "Repository", new { fileId = file.Id })" title="Download file" aria-label="Download file" class="mx-md-0 mx-2" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">file_download</i></a>
 
-                    <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file" class="no-underline" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">file_upload</i></a>
+                    <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file" class="no-underline mx-md-0 mx-2" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">file_upload</i></a>
 
-                    <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history" class="no-underline" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">history</i></a>
+                    <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history" class="no-underline mx-md-0 mx-2" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">history</i></a>
 
-                    <i class="file-list--item-control material-icons js-clipboard"
+                    <i class="file-list--item-control material-icons js-clipboard mx-md-0 mx-2"
                        title="Copy file path to clipboard"
                        aria-label="Copy file"
                        data-toggle="tooltip"
@@ -80,7 +78,7 @@
 
                     @if (Model.CanHideProjectFile)
                     {
-                        <a href="@Url.Action("HideFile", new {fileId = file.Id})" title="Delete file forever" aria-label="Delete file forever" class="no-underline" data-toggle="tooltip" data-placement="bottom">
+                        <a href="@Url.Action("HideFile", new {fileId = file.Id})" title="Delete file forever" aria-label="Delete file forever" class="no-underline mx-md-0 mx-2" data-toggle="tooltip" data-placement="bottom">
                             <i class="file-list--item-control material-icons">delete_forever</i>
                         </a>
                     }
