@@ -58,10 +58,10 @@ a.checked-status {
 
 
 /*wp sidemenu for smaller devices*/
-.wp-sidemenu-md {
-    background-color: $quartinary-shade;
+.wp-sidemenu-lg {
     padding: .2rem 1rem;
     width: 100%;
+    @extend .border-bottom;
 
     button.btn-icon {
         color: $blue;
@@ -154,7 +154,7 @@ a.checked-status {
 
 
     @media (max-width: 620px) {
-        .wp-sidemenu-md {
+        .wp-sidemenu-lg {
             .modal {
                 .modal-dialog {
                     width: 80%;
@@ -163,14 +163,14 @@ a.checked-status {
         }
     }
 
-    @media (min-width: 992px) {
-        .wp-sidemenu-md {
-            display: none;
-        }
+@include media-breakpoint-up(xl) {
+    .wp-sidemenu-lg {
+        display: none;
     }
+}
 
-    @media (max-width: 991px) {
-        .wp-sidemenu {
-            display: none;
-        }
+@include media-breakpoint-down(lg) {
+    .wp-sidemenu {
+        display: none;
     }
+}

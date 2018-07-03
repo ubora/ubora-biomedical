@@ -23,10 +23,9 @@
         if (projectMenuOption != null) // TODO: All views should have project menu?
         {
             <div class="container-fluid">
-
                 <div class="row project-header-container">
                     <div class="col-xl-3"></div>
-                    <div class="col-xl-9">
+                    <div class="col-xl-8">
                         @{
                             Html.RenderPartial("~/_Features/Projects/_Shared/_ProjectMenu.cshtml", new ProjectMenuViewModel((ProjectMenuOption)projectMenuOption));
                         }
@@ -47,7 +46,7 @@
         <main>
             @if (wpSideMenuComponent != null)
             {
-                <div class="wp-sidemenu-md">
+                <div class="wp-sidemenu-lg">
                     <button type="button" class="btn btn-icon d-flex align-items-center" data-toggle="modal" data-target="#wpSidemenuModal">
                         <i class="material-icons mr-2">format_list_numbered</i>
                         <span>WP menu</span>
@@ -72,7 +71,7 @@
 
             <div class="container-fluid my-4">
                 <div class="row">
-                    <div class="col-lg-3">
+                    <div class="col-xl-3">
                         @if (wpSideMenuComponent != null)
                         {
                             <div class="wp-sidemenu">
@@ -84,10 +83,9 @@
                             @RenderSection("Left", required: false)
                         }
                     </div>
-                    <div class="col-lg-9">
+                    <div class="col-xl-7">
                         @RenderBody()
                     </div>
-                    <div class="col-xl-2"></div>
                 </div>
             </div>
         </main>
