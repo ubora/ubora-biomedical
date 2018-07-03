@@ -1,0 +1,132 @@
+﻿@using Ubora.Web._Features.Projects._Shared
+
+@{
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
+
+
+<div class="col-lg-7">
+    <div class="row">
+        <div class="col">
+            <div class="d-flex justify-content-between">
+                <h1>ISO compliance</h1>
+                <button type="button" class="btn btn-outline-primary align-self-start" data-toggle="modal" data-target="#addStandardModal">
+                    <i class="material-icons">add</i>
+                    <span>Add standard</span>
+                </button>
+                <div class="modal fade" id="addStandardModal" tabindex="-1" role="dialog" aria-labelledby="addStandardModal" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Add standard</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                ...
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary">Add standard</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p>
+                The following standards and guidelines are applicable to your device according to the regulation checklist:
+            </p>
+            <div class="pl-3">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="check1" />
+                    <label class="custom-control-label" for="check1">
+                        <a href="http://shop.bsigroup.com/ProductDetail?pid=000000000030353196" target="_blank">EN ISO 13485:2016</a>
+                    </label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="check2" />
+                    <label class="custom-control-label" for="check2">
+                        <a href="http://shop.bsigroup.com/ProductDetail?pid=000000000030268035" target="_blank">EN ISO 14971:2012</a>
+                    </label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="check3" />
+                    <label class="custom-control-label" for="check3">
+                        <a href="#" target="_blank">MEDDEV 2.7.1 rev 4 CLINICAL EVALUATION: A GUIDE FOR MANUFACTURERS AND NOTIFIED BODIES UNDER DIRECTIVES 93/42/EEC and 90/385/EEC</a>
+                    </label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="check4" />
+                    <label class="custom-control-label" for="check4">
+                        <a href="https://www.iso.org/obp/ui/#iso:std:iec:62366:-1:ed-1:v1:en,fr" target="_blank">IEC 62366-1</a>
+                    </label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="check5" />
+                    <label class="custom-control-label" for="check5">
+                        <a href="http://shop.bsigroup.com/ProductDetail/?pid=000000000030358535" target="_blank">EN ISO 15223-1:2016</a>
+                    </label>
+                </div>
+            </div>
+            <hr />
+            <p>
+                The following standards and guidelines are applicable to all devices, regardless the kind and risk classification:
+            </p>
+            <div class="pl-3">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="check6" />
+                    <label class="custom-control-label" for="check6">
+                        <a href="http://shop.bsigroup.com/ProductDetail?pid=000000000030353196" target="_blank">EN ISO 13485:2016</a>
+                    </label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="check7" />
+                    <label class="custom-control-label" for="check7">
+                        <a href="http://shop.bsigroup.com/ProductDetail?pid=000000000030268035" target="_blank">EN ISO 14971:2012</a>
+                    </label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="check8" />
+                    <label class="custom-control-label" for="check8">
+                        <a href="#" target="_blank">MEDDEV 2.7.1 rev 4 CLINICAL EVALUATION: A GUIDE FOR MANUFACTURERS AND NOTIFIED BODIES UNDER DIRECTIVES 93/42/EEC and 90/385/EEC</a>
+                    </label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="check9" />
+                    <label class="custom-control-label" for="check9">
+                        <a href="https://www.iso.org/obp/ui/#iso:std:iec:62366:-1:ed-1:v1:en,fr" target="_blank">IEC 62366-1</a>
+                    </label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="check10" />
+                    <label class="custom-control-label" for="check10">
+                        <a href="http://shop.bsigroup.com/ProductDetail/?pid=000000000030358535" target="_blank">EN ISO 15223-1:2016</a>
+                    </label>
+                </div>
+            </div>
+            <hr />
+            <p>Added standards:</p>
+            <div class="pl-3">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="check11" />
+                    <label class="custom-control-label" for="check11">
+                        <a href="#" target="_blank">MEDDEV 2.7.1 rev 4 CLINICAL EVALUATION: A GUIDE FOR MANUFACTURERS AND NOTIFIED BODIES UNDER DIRECTIVES 93/42/EEC and 90/385/EEC</a>
+                    </label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="check12" />
+                    <label class="custom-control-label" for="check12">
+                        <a href="https://www.iso.org/obp/ui/#iso:std:iec:62366:-1:ed-1:v1:en,fr" target="_blank">IEC 62366-1</a>
+                    </label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="check13" />
+                    <label class="custom-control-label" for="check13">
+                        <a href="http://shop.bsigroup.com/ProductDetail/?pid=000000000030358535" target="_blank">EN ISO 15223-1:2016</a>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

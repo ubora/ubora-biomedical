@@ -127,5 +127,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             return RedirectToAction(nameof(Read), new { stepId = model.StepId });
         }
+
+        [Route("iso")]
+        public IActionResult IsoCompliance()
+        {
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.DesignPlanning;
+            return View();
+        }
     }
 }
