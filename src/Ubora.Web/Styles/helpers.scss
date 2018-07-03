@@ -68,6 +68,10 @@
     font-size: 1.1rem;
 }
 
+.font-size-2 {
+    font-size: 2rem;
+}
+
 .text-informative {
     font-style: italic;
     color: $dark-grey;
@@ -79,6 +83,10 @@
 
 .color-grey {
     color: $primary-shade;
+}
+
+.color-grey-2 {
+    color: $secondary-shade;
 }
 
 /*hide content*/
