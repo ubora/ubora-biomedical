@@ -9,12 +9,23 @@
 <div class="@(cardClass)">
     <a href="@(projectHref)" class="card-link">
         <img class="card-img-top project-img" src="@(projectImageSrc)" alt="Image for project called @Model.ProjectTitle">
-        @if (Model.IsDraftProject)
-        {
-            <p class="project-status-draft">Draft</p>
-        }
-        <div class="card-body">
-            <h5 class="card-title">@Model.ProjectTitle</h5>
+
+
+        <div class="card-body color-dark">
+            <h5 class="card-title d-inline-block mb-0">@Model.ProjectTitle</h5>
+            @if (Model.IsDraftProject)
+            {
+                <span class="badge badge-pill badge-orange font-size-0-8 align-middle mb-1">Draft</span>
+            }
+            <hr style="border-top: 2px solid #4777BB"/>
+            <dl class="font-size-0-8">
+                <dt>Clinical need</dt>
+                <dd class="mb-1">Monitoring purpose</dd>
+                <dt>Area</dt>
+                <dd class="mb-1">Public health</dd>
+                <dt>Technology</dt>
+                <dd class="mb-1">Software</dd>
+            </dl>
         </div>
     </a>
 </div>
