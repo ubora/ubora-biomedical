@@ -18,7 +18,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Add standard</h5>
+                                <h5 class="modal-title" id="addStandardModalLabel">Add standard</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -27,11 +27,15 @@
                                 <form>
                                     <div class="form-group">
                                         <label for="standardTitle">Standard title</label>
-                                        <input class="form-control" placeholder="For example EN ISO 13485:2016" id="standardTitle" name="standardTitle"/>
+                                        <input class="form-control" placeholder="For example EN ISO 13485:2016" id="standardTitle" name="standardTitle" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="standardDescription">Description</label>
+                                        <textarea class="form-control" placeholder="Short standard description (250 characters)" rows="4" id="standardDescription" name="standardDescription"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="standardLink">Link</label>
-                                        <input class="form-control" placeholder="Insert website link" id="standardLink" name="standardLink"/>
+                                        <input class="form-control" placeholder="Insert website link" id="standardLink" name="standardLink" />
                                     </div>
                                 </form>
                             </div>
@@ -47,35 +51,99 @@
                 The following standards and guidelines are applicable to your device according to the regulation checklist:
             </p>
             <div class="pl-3">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="check1" />
-                    <label class="custom-control-label" for="check1">
-                        <a href="http://shop.bsigroup.com/ProductDetail?pid=000000000030353196" target="_blank">EN ISO 13485:2016</a>
-                    </label>
+                <div class="d-flex justify-content-between">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="check1" />
+                        <label class="custom-control-label" for="check1">
+                            <a href="http://shop.bsigroup.com/ProductDetail?pid=000000000030353196" target="_blank">EN ISO 13485:2016</a>
+                        </label>
+                    </div>
+                    <button class="btn btn-icon align-self-start py-0" type="button" data-toggle="collapse" data-target="#collapseStandard1" aria-expanded="false" aria-controls="collapseStandard1">
+                        <i class="material-icons">
+                            keyboard_arrow_down
+                        </i>
+                    </button>
                 </div>
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="check2" />
-                    <label class="custom-control-label" for="check2">
-                        <a href="http://shop.bsigroup.com/ProductDetail?pid=000000000030268035" target="_blank">EN ISO 14971:2012</a>
-                    </label>
+                <div class="collapse" id="collapseStandard1">
+                    <div class="py-2 px-4">
+                        This standard specifies requirements for all entities involved in medical devices, in all stages of the product life cycle: from design to manufacture to installation to disposal. Ubora Platform is structured to be a guideline for design activities in compliance to this standard.
+                    </div>
                 </div>
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="check3" />
-                    <label class="custom-control-label" for="check3">
-                        <a href="#" target="_blank">MEDDEV 2.7.1 rev 4 CLINICAL EVALUATION: A GUIDE FOR MANUFACTURERS AND NOTIFIED BODIES UNDER DIRECTIVES 93/42/EEC and 90/385/EEC</a>
-                    </label>
+
+                <div class="d-flex justify-content-between">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="check2" />
+                        <label class="custom-control-label" for="check2">
+                            <a href="http://shop.bsigroup.com/ProductDetail?pid=000000000030268035" target="_blank">EN ISO 14971:2012</a>
+                        </label>
+                    </div>
+                    <button class="btn btn-icon align-self-start py-0" type="button" data-toggle="collapse" data-target="#collapseStandard2" aria-expanded="false" aria-controls="collapseStandard2">
+                        <i class="material-icons">
+                            keyboard_arrow_down
+                        </i>
+                    </button>
                 </div>
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="check4" />
-                    <label class="custom-control-label" for="check4">
-                        <a href="https://www.iso.org/obp/ui/#iso:std:iec:62366:-1:ed-1:v1:en,fr" target="_blank">IEC 62366-1</a>
-                    </label>
+                <div class="collapse" id="collapseStandard2">
+                    <div class="py-2 px-4">
+                        This standard specifies requirements for designers and manufacturers of medical devices, in order to minimize the risk of the device itself. There is no “risk zero” device but many activities can be implemented to reduce and manage risk. This standard provides useful checklists and also guidance on the most widespread risk management techniques such as FMEA.
+                    </div>
                 </div>
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="check5" />
-                    <label class="custom-control-label" for="check5">
-                        <a href="http://shop.bsigroup.com/ProductDetail/?pid=000000000030358535" target="_blank">EN ISO 15223-1:2016</a>
-                    </label>
+
+                <div class="d-flex justify-content-between">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="check3" />
+                        <label class="custom-control-label" for="check3">
+                            <a href="#" target="_blank">MEDDEV 2.7.1 rev 4 CLINICAL EVALUATION: A GUIDE FOR MANUFACTURERS AND NOTIFIED BODIES UNDER DIRECTIVES 93/42/EEC and 90/385/EEC</a>
+                        </label>
+                    </div>
+                    <button class="btn btn-icon align-self-start py-0" type="button" data-toggle="collapse" data-target="#collapseStandard3" aria-expanded="false" aria-controls="collapseStandard3">
+                        <i class="material-icons">
+                            keyboard_arrow_down
+                        </i>
+                    </button>
+                </div>
+                <div class="collapse" id="collapseStandard3">
+                    <div class="py-2 px-4">
+                        This guideline provides information on methods used to assess the clinical performance and the clinical benefit of a medical device. It is provided for free by the Commission at http://ec.europa.eu/docsroom/documents/17522/attachments/1/translations/en/renditions/native.
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="check4" />
+                        <label class="custom-control-label" for="check4">
+                            <a href="https://www.iso.org/obp/ui/#iso:std:iec:62366:-1:ed-1:v1:en,fr" target="_blank">IEC 62366-1</a>
+                        </label>
+                    </div>
+                    <button class="btn btn-icon align-self-start py-0" type="button" data-toggle="collapse" data-target="#collapseStandard4" aria-expanded="false" aria-controls="collapseStandard4">
+                        <i class="material-icons">
+                            keyboard_arrow_down
+                        </i>
+                    </button>
+                </div>
+                <div class="collapse" id="collapseStandard4">
+                    <div class="py-2 px-4">
+                        This standard provides guidance on how to manage the human factors while designing a medical device (usability engineering). NOTE: chapter -2 of ths same standards will provide comments and integrations
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="check5" />
+                        <label class="custom-control-label" for="check5">
+                            <a href="http://shop.bsigroup.com/ProductDetail/?pid=000000000030358535" target="_blank">EN ISO 15223-1:2016</a>
+                        </label>
+                    </div>
+                    <button class="btn btn-icon align-self-start py-0" type="button" data-toggle="collapse" data-target="#collapseStandard5" aria-expanded="false" aria-controls="collapseStandard5">
+                        <i class="material-icons">
+                            keyboard_arrow_down
+                        </i>
+                    </button>
+                </div>
+                <div class="collapse" id="collapseStandard5">
+                    <div class="py-2 px-4">
+                        This standard provides guidance on how to manage the human factors while designing a medical device (usability engineering). NOTE: chapter -2 of ths same standards will provide comments and integrations
+                    </div>
                 </div>
             </div>
             <hr />
