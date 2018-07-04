@@ -56,6 +56,10 @@
     &:hover {
         cursor: pointer;
     }
+
+    .material-icons, span {
+        @extend .align-middle;
+    }
 }
 
 .btn-icon.dropdown-toggle::after {

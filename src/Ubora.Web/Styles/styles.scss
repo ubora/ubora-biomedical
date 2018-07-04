@@ -1,2 +1,16 @@
-@import "custom";
+@import 'colors';
+
+@mixin form-field-border {
+    border-bottom: 1px solid $secondary-shade;
+}
+
+@mixin bg-size-cover {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 @import "~bootstrap/scss/bootstrap";
+@import "custom";
+
