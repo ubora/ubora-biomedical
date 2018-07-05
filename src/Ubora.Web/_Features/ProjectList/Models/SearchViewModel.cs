@@ -1,20 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Ubora.Web._Features._Shared;
+﻿using System.Linq;
 
 namespace Ubora.Web._Features.ProjectList.Models
 {
-    public class SearchViewModel
+    public class SearchViewModel : SearchModel
     {
-        public string Title { get; set; }
-        public TabType Tab { get; set; }
-        public int[] ByPotentialTechnologyTags { get; set; }
-        public int[] ByClinicalNeedTags { get; set; }
-        public int[] ByArea { get; set; }
-        public ByStatusFilteringMethod ByStatus { get; set; }
-        public SortBy SortBy { get; set; }
+        public bool IsAnyFilterSet => ByArea.Any() || ByClinicalNeedTags.Any() || ByPotentialTechnologyTags.Any() || ByStatus != ByStatusFilteringMethod.All;
         public ProjectListViewModel ProjectListViewModel { get; set; }
-        
-        
     }
 }

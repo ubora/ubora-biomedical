@@ -1,431 +1,240 @@
-﻿@using Microsoft.EntityFrameworkCore.Internal
-@using Ubora.Web._Features.ProjectList.Models
+﻿@using Ubora.Web._Features.ProjectList.Models
 @using Ubora.Web._Features.ProjectList
 @model Ubora.Web._Features.ProjectList.Models.SearchViewModel
 @using Ubora.Web.Data
 @using Ubora.Web._Features._Shared
+
 @inject SignInManager<ApplicationUser> SignInManager
 
 @{
     ViewData["Title"] = "Biomedical device projects";
-
-    var commaSeparatedAreaIds = string.Join(",", Model.ByArea.ToList());
-    var commaSeparatedClinicalNeedIds = string.Join(",", Model.ByClinicalNeedTags.ToList());
-    var commaSeparatedPotentialTechnologyIds = string.Join(",", Model.ByPotentialTechnologyTags.ToList());
 }
 
 <div class="container-fluid">
-<div class="row">
-<div class="col-xl-2 col-lg-3 py-3 pb-4 border-right h-min-lg-100-footer">
-<form asp-controller="ProjectList" asp-action="Search" method="get" class="py-3">
-<input asp-for="Tab" type="hidden"/>
-<input type="hidden" id="ByPotentialTechnologyTags" name="ByPotentialTechnologyTags" value="@commaSeparatedPotentialTechnologyIds"/>
-<input type="hidden" id="ByClinicalNeedTags" name="ByClinicalNeedTags" value="@commaSeparatedClinicalNeedIds"/>
-<input type="hidden" id="ByArea" name="ByArea" value="@commaSeparatedAreaIds"/>
-<input asp-for="ByStatus" type="hidden"/>
-<input asp-for="SortBy" type="hidden"/>
-<div class="input-group search">
-    <input class="form-control" asp-for="Title" placeholder="Search projects..." aria-describedby="btnGroupAddon">
-    <div class="input-group-prepend">
-        <div class="input-group-text" id="btnGroupAddon">
-            <button class="btn btn-icon" type="submit">
-                <i class="material-icons">search</i>
-            </button>
+    <div class="row">
+
+
+        <div class="col-xl-2 col-lg-3 py-3 pb-4 border-right h-min-lg-100-footer">
+            @if (Model.Tab == TabType.AllProjects)
+            {
+                <form id="filters" asp-controller="ProjectList" asp-action="Search" method="get" class="py-3">
+                    <input asp-for="Tab" type="hidden" />
+                    <input asp-for="SortBy" type="hidden" />
+
+                    <div class="input-group search">
+                        <input class="form-control" asp-for="Title" placeholder="Search projects..." aria-describedby="btnGroupAddon">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text" id="btnGroupAddon">
+                                <button class="btn btn-icon" type="submit">
+                                    <i class="material-icons">search</i>
+                                </button>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Title"></span>
+                    </div>
+                    <button class="btn btn-icon px-0 w-100" type="button" data-toggle="collapse" data-target="#collapseArea" aria-expanded="false" aria-controls="collapseArea">
+                        <div class="d-flex justify-content-between">
+                            <span>Area</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </div>
+                    </button>
+
+                    <div class="collapse @(Model.ByArea.Any() ? "show" : "")" id="collapseArea">
+                        <div class="filter-group">
+                            @{
+                                var index = 0;
+
+                                <span class="color-grey font-size-0-8">Surgery</span>
+                                foreach (var area in Tags.SurgicalFieldAreas)
+                                {
+                                    var id = "a" + index;
+                                    <div class="custom-control custom-checkbox mx-1 my-1">
+                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByArea)" value="@index" checked="@Model.ByArea.Contains(index)" />
+                                        <label class="custom-control-label" for="@id">@area</label>
+                                    </div>
+                                    index++;
+                                }
+
+                                <span class="color-grey font-size-0-8">Internal Medicine</span>
+                                foreach (var area in Tags.InternalMedicineAreas)
+                                {
+                                    var id = "a" + index;
+                                    <div class="custom-control custom-checkbox mx-1 my-1">
+                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByArea)" value="@index" checked="@Model.ByArea.Contains(index)" />
+                                        <label class="custom-control-label" for="@id">@area</label>
+                                    </div>
+                                    index++;
+                                }
+
+                                <span class="color-grey font-size-0-8">Diagnostic medicine</span>
+                                foreach (var area in Tags.DiagnosticMedicineAreas)
+                                {
+                                    var id = "a" + index;
+                                    <div class="custom-control custom-checkbox mx-1 my-1">
+                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByArea)" value="@index" checked="@Model.ByArea.Contains(index)" />
+                                        <label class="custom-control-label" for="@id">@area</label>
+                                    </div>
+                                    index++;
+                                }
+
+                                <span class="color-grey font-size-0-8">Other major disciplines</span>
+                                foreach (var area in Tags.OtherMajorDisciplineAreas)
+                                {
+                                    var id = "a" + index;
+                                    <div class="custom-control custom-checkbox mx-1 my-1">
+                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByArea)" value="@index" checked="@Model.ByArea.Contains(index)" />
+                                        <label class="custom-control-label" for="@id">@area</label>
+                                    </div>
+                                    index++;
+                                }
+                            }
+
+                        </div>
+                    </div>
+                    <hr />
+                    <button class="btn btn-icon px-0 w-100" type="button" data-toggle="collapse" data-target="#collapseClinicalNeeds" aria-expanded="false" aria-controls="collapseClinicalNeeds">
+                        <div class="d-flex justify-content-between">
+                            <span>Clinical needs</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </div>
+                    </button>
+                    <div class="collapse @(@Model.ByClinicalNeedTags.Any() ? "show" : "")" id="collapseClinicalNeeds">
+                        <div class="filter-group">
+                            @{
+                                for (int i = 0; i < Tags.ClinicalNeeds.Count; i++)
+                                {
+                                    var id = "c" + i;
+                                    <div class="custom-control custom-checkbox mx-1 my-1">
+                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByClinicalNeedTags)" value="@i" checked="@Model.ByClinicalNeedTags.Contains(i)" />
+                                        <label class="custom-control-label" for="@id">@Tags.ClinicalNeeds[i]</label>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <hr />
+                    <button class="btn btn-icon px-0 w-100" type="button" data-toggle="collapse" data-target="#collapseTechnology" aria-expanded="false" aria-controls="collapseTechnology">
+                        <div class="d-flex justify-content-between">
+                            <span>Technology</span>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </div>
+                    </button>
+                    <div class="collapse @(Model.ByPotentialTechnologyTags.Any() ? "show" : "")" id="collapseTechnology">
+                        <div class="filter-group">
+                            @{
+                                for (int i = 0; i < Tags.PotentialTechnologies.Count; i++)
+                                {
+                                    var id = "t" + i;
+                                    <div class="custom-control custom-checkbox mx-1 my-1">
+                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByPotentialTechnologyTags)" value="@i" checked="@Model.ByPotentialTechnologyTags.Contains(i)" />
+                                        <label class="custom-control-label" for="@id">@Tags.PotentialTechnologies[i]</label>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <hr />
+                    <span>Status</span>
+                    @{
+                        <div class="custom-control custom-radio mx-1 my-1">
+                            <input id="statusAll" type="radio" asp-for="ByStatus" class="custom-control-input" value="@ByStatusFilteringMethod.All" />
+                            <label for="statusAll" class="custom-control-label">All</label>
+                        </div>
+
+                        <div class="custom-control custom-radio mx-1 my-1">
+                            <input id="statusDraft" type="radio" asp-for="ByStatus" class="custom-control-input" value="@ByStatusFilteringMethod.Draft" />
+                            <label for="statusDraft" class="custom-control-label">Draft</label>
+                        </div>
+
+                        <div class="custom-control custom-radio mx-1 my-1">
+                            <input id="statusApproved" type="radio" asp-for="ByStatus" class="custom-control-input" value="@ByStatusFilteringMethod.NotDraft" />
+                            <label for="statusApproved" class="custom-control-label">Approved</label>
+                        </div>
+                    }
+                </form>
+            }
         </div>
-    </div>
-    <span asp-validation-for="Title"></span>
-</div>
 
-<button class="btn btn-icon px-0 w-100" type="button" data-toggle="collapse" data-target="#collapseArea" aria-expanded="false" aria-controls="collapseArea">
-    <div class="d-flex justify-content-between">
-        <span>Area</span>
-        <i class="material-icons">keyboard_arrow_down</i>
-    </div>
-</button>
-
-<div class="collapse @(@Model.ByArea.Length == 0 ? "" : "show")" id="collapseArea">
-    <div class="filter-group">
-        <span class="color-grey font-size-0-8">Surgery</span>
-        @{
-            var surgicalFieldAreas = Tags.SurgicalFieldAreas;
-
-            foreach (var surgicalFieldArea in surgicalFieldAreas)
-            {
-                var index = Tags.Areas.FindIndex(x => x == surgicalFieldArea);
-
-                if (Model.ByArea.Contains(index))
+        <div class="col-xl-8 col-lg-9 px-xl-7 py-3">
+            <h1>@ViewData["Title"]</h1>
+            <ul class="nav nav-tabs" id="projectsTab">
+                @if (SignInManager.IsSignedIn(User))
                 {
-                    var areaIds = Model.ByArea.ToList();
-                    areaIds.Remove(index);
-                    var commaSeparatedAreas = string.Join(",", areaIds);
-
-                    <div class="custom-control custom-checkbox mx-1 my-1">
-                        <input type="checkbox" class="custom-control-input" id="@(nameof(Tags.SurgicalFieldAreas) + surgicalFieldArea)" onchange="window.location.replace('/projects/search?&Tab=1&Title=@Model.Title&ByArea=@commaSeparatedAreas&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologyIds&ByClinicalNeedTags=@commaSeparatedClinicalNeedIds&SortBy=@Model.SortBy')" value="@(nameof(Tags.SurgicalFieldAreas) + surgicalFieldArea)" checked/>
-                        <label class="custom-control-label" for="@(nameof(Tags.SurgicalFieldAreas) + surgicalFieldArea)">@surgicalFieldArea</label>
-                    </div>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center @(Model.Tab == TabType.MyProjects ? "active" : "")" id="my-projects-tab" asp-route-tab="@TabType.MyProjects">
+                            My projects
+                        </a>
+                    </li>
                 }
-                else
-                {
-                    var areaIds = Model.ByArea.ToList();
-                    areaIds.Add(index);
-                    var commaSeparatedAreas = string.Join(",", areaIds);
-
-                    <div class="custom-control custom-checkbox mx-1 my-1">
-                        <input type="checkbox" class="custom-control-input" id="@(nameof(Tags.SurgicalFieldAreas) + surgicalFieldArea)" onchange="window.location.replace('/projects/search?&Tab=1&Title=@Model.Title&ByArea=@commaSeparatedAreas&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologyIds&ByClinicalNeedTags=@commaSeparatedClinicalNeedIds&SortBy=@Model.SortBy')" value="@(nameof(Tags.SurgicalFieldAreas) + surgicalFieldArea)"/>
-                        <label class="custom-control-label" for="@(nameof(Tags.SurgicalFieldAreas) + surgicalFieldArea)">@surgicalFieldArea</label>
-                    </div>
-                }
-            }
-        }
-
-        <span class="color-grey font-size-0-8">Internal Medicine</span>
-        @{
-            var internalMedicineAreas = Tags.InternalMedicineAreas;
-
-            foreach (var internalMedicineArea in internalMedicineAreas)
-            {
-                var index = Tags.Areas.FindIndex(x => x == internalMedicineArea);
-
-                if (Model.ByArea.Contains(index))
-                {
-                    var areaIds = Model.ByArea.ToList();
-                    areaIds.Remove(index);
-                    var commaSeparatedAreas = string.Join(",", areaIds);
-
-                    <div class="custom-control custom-checkbox mx-1 my-1">
-                        <input type="checkbox" class="custom-control-input" id="@(nameof(Tags.InternalMedicineAreas) + internalMedicineArea)" onchange="window.location.replace('/projects/search?&Tab=1&Title=@Model.Title&ByArea=@commaSeparatedAreas&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologyIds&ByClinicalNeedTags=@commaSeparatedClinicalNeedIds&SortBy=@Model.SortBy')" value="@(nameof(Tags.InternalMedicineAreas) + internalMedicineArea)" checked/>
-                        <label class="custom-control-label" for="@(nameof(Tags.InternalMedicineAreas) + internalMedicineArea)">@internalMedicineArea</label>
-                    </div>
-                }
-                else
-                {
-                    var areaIds = Model.ByArea.ToList();
-                    areaIds.Add(index);
-                    var commaSeparatedAreas = string.Join(",", areaIds);
-
-                    <div class="custom-control custom-checkbox mx-1 my-1">
-                        <input type="checkbox" class="custom-control-input" id="@(nameof(Tags.InternalMedicineAreas) + internalMedicineArea)" onchange="window.location.replace('/projects/search?&Tab=1&Title=@Model.Title&ByArea=@commaSeparatedAreas&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologyIds&ByClinicalNeedTags=@commaSeparatedClinicalNeedIds&SortBy=@Model.SortBy')" value="@(nameof(Tags.InternalMedicineAreas) + internalMedicineArea)"/>
-                        <label class="custom-control-label" for="@(nameof(Tags.InternalMedicineAreas) + internalMedicineArea)">@internalMedicineArea</label>
-                    </div>
-                }
-            }
-        }
-
-        <span class="color-grey font-size-0-8">Diagnostic medicine</span>
-        @{
-            var diagnosticMedicineAreas = Tags.DiagnosticMedicineAreas;
-
-            foreach (var diagnosticMedicineArea in diagnosticMedicineAreas)
-            {
-                var index = Tags.Areas.FindIndex(x => x == diagnosticMedicineArea);
-
-                if (Model.ByArea.Contains(index))
-                {
-                    var areaIds = Model.ByArea.ToList();
-                    areaIds.Remove(index);
-                    var commaSeparatedAreas = string.Join(",", areaIds);
-
-                    <div class="custom-control custom-checkbox mx-1 my-1">
-                        <input type="checkbox" class="custom-control-input" id="@(nameof(Tags.DiagnosticMedicineAreas) + diagnosticMedicineArea)" onchange="window.location.replace('/projects/search?&Tab=1&Title=@Model.Title&ByArea=@commaSeparatedAreas&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologyIds&ByClinicalNeedTags=@commaSeparatedClinicalNeedIds&SortBy=@Model.SortBy')" value="@(nameof(Tags.DiagnosticMedicineAreas) + diagnosticMedicineArea)" checked/>
-                        <label class="custom-control-label" for="@(nameof(Tags.DiagnosticMedicineAreas) + diagnosticMedicineArea)">@diagnosticMedicineArea</label>
-                    </div>
-                }
-                else
-                {
-                    var areaIds = Model.ByArea.ToList();
-                    areaIds.Add(index);
-                    var commaSeparatedAreas = string.Join(",", areaIds);
-
-                    <div class="custom-control custom-checkbox mx-1 my-1">
-                        <input type="checkbox" class="custom-control-input" id="@(nameof(Tags.DiagnosticMedicineAreas) + diagnosticMedicineArea)" onchange="window.location.replace('/projects/search?&Tab=1&Title=@Model.Title&ByArea=@commaSeparatedAreas&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologyIds&ByClinicalNeedTags=@commaSeparatedClinicalNeedIds&SortBy=@Model.SortBy')" value="@(nameof(Tags.DiagnosticMedicineAreas) + diagnosticMedicineArea)"/>
-                        <label class="custom-control-label" for="@(nameof(Tags.DiagnosticMedicineAreas) + diagnosticMedicineArea)">@diagnosticMedicineArea</label>
-                    </div>
-                }
-            }
-        }
-
-        <span class="color-grey font-size-0-8">Other major disciplines</span>
-        @{
-            var otherMajorDisciplineAreas = Tags.OtherMajorDisciplineAreas;
-
-            foreach (var otherMajorDisciplineArea in otherMajorDisciplineAreas)
-            {
-                var index = Tags.Areas.FindIndex(x => x == otherMajorDisciplineArea);
-
-                if (Model.ByArea.Contains(index))
-                {
-                    var areaIds = Model.ByArea.ToList();
-                    areaIds.Remove(index);
-                    var commaSeparatedAreas = string.Join(",", areaIds);
-
-                    <div class="custom-control custom-checkbox mx-1 my-1">
-                        <input type="checkbox" class="custom-control-input" id="@(nameof(Tags.OtherMajorDisciplineAreas) + otherMajorDisciplineArea)" onchange="window.location.replace('/projects/search?&Tab=1&Title=@Model.Title&ByArea=@commaSeparatedAreas&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologyIds&ByClinicalNeedTags=@commaSeparatedClinicalNeedIds&SortBy=@Model.SortBy')" value="@(nameof(Tags.OtherMajorDisciplineAreas) + otherMajorDisciplineArea)" checked/>
-                        <label class="custom-control-label" for="@(nameof(Tags.OtherMajorDisciplineAreas) + otherMajorDisciplineArea)">@otherMajorDisciplineArea</label>
-                    </div>
-                }
-                else
-                {
-                    var areaIds = Model.ByArea.ToList();
-                    areaIds.Add(index);
-                    var commaSeparatedAreas = string.Join(",", areaIds);
-
-                    <div class="custom-control custom-checkbox mx-1 my-1">
-                        <input type="checkbox" class="custom-control-input" id="@(nameof(Tags.OtherMajorDisciplineAreas) + otherMajorDisciplineArea)" onchange="window.location.replace('/projects/search?&Tab=1&Title=@Model.Title&ByArea=@commaSeparatedAreas&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologyIds&ByClinicalNeedTags=@commaSeparatedClinicalNeedIds&SortBy=@Model.SortBy')" value="@(nameof(Tags.OtherMajorDisciplineAreas) + otherMajorDisciplineArea)"/>
-                        <label class="custom-control-label" for="@(nameof(Tags.OtherMajorDisciplineAreas) + otherMajorDisciplineArea)">@otherMajorDisciplineArea</label>
-                    </div>
-                }
-            }
-        }
-
-    </div>
-</div>
-<hr/>
-<button class="btn btn-icon px-0 w-100" type="button" data-toggle="collapse" data-target="#collapseClinicalNeeds" aria-expanded="false" aria-controls="collapseClinicalNeeds">
-    <div class="d-flex justify-content-between">
-        <span>Clinical needs</span>
-        <i class="material-icons">keyboard_arrow_down</i>
-    </div>
-</button>
-<div class="collapse @(@Model.ByClinicalNeedTags.Length == 0 ? "" : "show")" id="collapseClinicalNeeds">
-    <div class="filter-group">
-               
-        @{
-            foreach (var clinicalNeed in Tags.ClinicalNeeds)
-            {
-                var index = Tags.ClinicalNeeds.FindIndex(x => x == clinicalNeed);
-
-                if (Model.ByClinicalNeedTags.Contains(index))
-                {
-                    var clinicalNeedIds = Model.ByClinicalNeedTags.ToList();
-                    clinicalNeedIds.Remove(index);
-                    var commaSeparatedClinicalNeeds = string.Join(",", clinicalNeedIds);
-
-                    <div class="custom-control custom-checkbox mx-1 my-1">
-                        <input type="checkbox" class="custom-control-input" id="@(nameof(Tags.ClinicalNeeds) + clinicalNeed)" onchange="window.location.replace('/projects/search?&Tab=1&Title=@Model.Title&ByArea=@commaSeparatedAreaIds&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologyIds&ByClinicalNeedTags=@commaSeparatedClinicalNeeds&SortBy=@Model.SortBy')" value="@(nameof(Tags.ClinicalNeeds) + clinicalNeed)" checked/>
-                        <label class="custom-control-label" for="@(nameof(Tags.ClinicalNeeds) + clinicalNeed)">@clinicalNeed</label>
-                    </div>
-                }
-                else
-                {
-                    var clinicalNeedIds = Model.ByClinicalNeedTags.ToList();
-                    clinicalNeedIds.Add(index);
-                    var commaSeparatedClinicalNeeds = string.Join(",", clinicalNeedIds);
-
-                    <div class="custom-control custom-checkbox mx-1 my-1">
-                        <input type="checkbox" class="custom-control-input" id="@(nameof(Tags.ClinicalNeeds) + clinicalNeed)" onchange="window.location.replace('/projects/search?&Tab=1&Title=@Model.Title&ByArea=@commaSeparatedAreaIds&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologyIds&ByClinicalNeedTags=@commaSeparatedClinicalNeeds&SortBy=@Model.SortBy')" value="@(nameof(Tags.ClinicalNeeds) + clinicalNeed)"/>
-                        <label class="custom-control-label" for="@(nameof(Tags.ClinicalNeeds) + clinicalNeed)">@clinicalNeed</label>
-                    </div>
-                }
-            }
-        }
-    </div>
-</div>
-</form>
-<hr/>
-<button class="btn btn-icon px-0 w-100" type="button" data-toggle="collapse" data-target="#collapseTechnology" aria-expanded="false" aria-controls="collapseTechnology">
-    <div class="d-flex justify-content-between">
-        <span>Technology</span>
-        <i class="material-icons">keyboard_arrow_down</i>
-    </div>
-</button>
-<div class="collapse @(@Model.ByPotentialTechnologyTags.Length == 0 ? "" : "show")" id="collapseTechnology">
-    <div class="filter-group">
-        @{
-            foreach (var potentialTechnology in Tags.PotentialTechnologies)
-            {
-                var index = Tags.PotentialTechnologies.FindIndex(x => x == potentialTechnology);
-
-                if (Model.ByPotentialTechnologyTags.Contains(index))
-                {
-                    var potentialTechnologyIds = Model.ByPotentialTechnologyTags.ToList();
-                    potentialTechnologyIds.Remove(index);
-                    var commaSeparatedPotentialTechnologies = string.Join(",", potentialTechnologyIds);
-
-                    <div class="custom-control custom-checkbox mx-1 my-1">
-                        <input type="checkbox" class="custom-control-input" id="@(nameof(Tags.PotentialTechnologies) + potentialTechnology)" onchange="window.location.replace('/projects/search?&Tab=1&Title=@Model.Title&ByArea=@commaSeparatedAreaIds&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologies&ByClinicalNeedTags=@commaSeparatedClinicalNeedIds&SortBy=@Model.SortBy')" value="@(nameof(Tags.PotentialTechnologies) + potentialTechnology)" checked/>
-                        <label class="custom-control-label" for="@(nameof(Tags.PotentialTechnologies) + potentialTechnology)">@potentialTechnology</label>
-                    </div>
-                }
-                else
-                {
-                    var potentialTechnologyIds = Model.ByPotentialTechnologyTags.ToList();
-                    potentialTechnologyIds.Add(index);
-                    var commaSeparatedPotentialTechnologies = string.Join(",", potentialTechnologyIds);
-
-                    <div class="custom-control custom-checkbox mx-1 my-1">
-                        <input type="checkbox" class="custom-control-input" id="@(nameof(Tags.PotentialTechnologies) + potentialTechnology)" onchange="window.location.replace('/projects/search?&Tab=1&Title=@Model.Title&ByArea=@commaSeparatedAreaIds&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologies&ByClinicalNeedTags=@commaSeparatedClinicalNeedIds&SortBy=@Model.SortBy')" value="@(nameof(Tags.PotentialTechnologies) + potentialTechnology)"/>
-                        <label class="custom-control-label" for="@(nameof(Tags.PotentialTechnologies) + potentialTechnology)">@potentialTechnology</label>
-                    </div>
-                }
-            }
-        }
-    </div>
-</div>
-<hr/>
-
-
-<span>Status</span>
-
-@{
-    switch (Model.ByStatus)
-    {
-        case ByStatusFilteringMethod.All:
-        {
-            <div class="custom-control custom-radio mx-1 my-1">
-                <input type="radio" id="statusAll" name="customRadio" class="custom-control-input" checked/>
-                <label class="custom-control-label" for="statusAll">All</label>
-            </div>
-            <div class="custom-control custom-radio mx-1 my-1">
-                <input type="radio" id="statusDraft" name="customRadio" class="custom-control-input" onchange="window.location.replace('/projects/search?&Tab=1&ByStatus=Draft&Title=@Model.Title&ByArea=@commaSeparatedAreaIds&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologyIds&ByClinicalNeedTags=@commaSeparatedClinicalNeedIds&SortBy=@Model.SortBy')"/>
-                <label class="custom-control-label" for="statusDraft">Draft</label>
-            </div>
-            <div class="custom-control custom-radio mx-1 my-1">
-                <input type="radio" id="statusApproved" name="customRadio" class="custom-control-input" onchange="window.location.replace('/projects/search?&Tab=1&ByStatus=NotDraft&Title=@Model.Title&ByArea=@commaSeparatedAreaIds&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologyIds&ByClinicalNeedTags=@commaSeparatedClinicalNeedIds&SortBy=@Model.SortBy')"/>
-                <label class="custom-control-label" for="statusApproved">Approved</label>
-            </div>
-        }
-            break;
-        case ByStatusFilteringMethod.NotDraft:
-        {
-            <div class="custom-control custom-radio mx-1 my-1">
-                <input type="radio" id="statusAll" name="customRadio" class="custom-control-input" onchange="window.location.replace('/projects/search?&Tab=1&ByStatus=All&Title=@Model.Title&ByArea=@commaSeparatedAreaIds&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologyIds&ByClinicalNeedTags=@commaSeparatedClinicalNeedIds&SortBy=@Model.SortBy')"/>
-                <label class="custom-control-label" for="statusAll">All</label>
-            </div>
-            <div class="custom-control custom-radio mx-1 my-1">
-                <input type="radio" id="statusDraft" name="customRadio" class="custom-control-input" onchange="window.location.replace('/projects/search?&Tab=1&ByStatus=Draft&Title=@Model.Title&ByArea=@commaSeparatedAreaIds&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologyIds&ByClinicalNeedTags=@commaSeparatedClinicalNeedIds&SortBy=@Model.SortBy')"/>
-                <label class="custom-control-label" for="statusDraft">Draft</label>
-            </div>
-            <div class="custom-control custom-radio mx-1 my-1">
-                <input type="radio" id="statusApproved" name="customRadio" class="custom-control-input" checked/>
-                <label class="custom-control-label" for="statusApproved">Approved</label>
-            </div>
-        }
-            break;
-        case ByStatusFilteringMethod.Draft:
-        {
-            <div class="custom-control custom-radio mx-1 my-1">
-                <input type="radio" id="statusAll" name="customRadio" class="custom-control-input" onchange="window.location.replace('/projects/search?&Tab=1&ByStatus=All&Title=@Model.Title&ByArea=@commaSeparatedAreaIds&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologyIds&ByClinicalNeedTags=@commaSeparatedClinicalNeedIds&SortBy=@Model.SortBy')"/>
-                <label class="custom-control-label" for="statusAll">All</label>
-            </div>
-            <div class="custom-control custom-radio mx-1 my-1">
-                <input type="radio" id="statusDraft" name="customRadio" class="custom-control-input" checked/>
-                <label class="custom-control-label" for="statusDraft">Draft</label>
-            </div>
-            <div class="custom-control custom-radio mx-1 my-1">
-                <input type="radio" id="statusApproved" name="customRadio" class="custom-control-input" onchange="window.location.replace('/projects/search?&Tab=1&ByStatus=NotDraft&Title=@Model.Title&ByArea=@commaSeparatedAreaIds&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologyIds&ByClinicalNeedTags=@commaSeparatedClinicalNeedIds&SortBy=@Model.SortBy')"/>
-                <label class="custom-control-label" for="statusApproved">Approved</label>
-            </div>
-        }
-            break;
-    }
-}
-
-</div>
-
-<div class="col-xl-8 col-lg-9 px-xl-7 py-3">
-    <h1>@ViewData["Title"]</h1>
-    <ul class="nav nav-tabs" id="projectsTab">
-        @if (SignInManager.IsSignedIn(User))
-        {
-            if (Model.Tab == TabType.AllProjects)
-            {
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" id="my-projects-tab" href="/projects/search?Tab=MyProjects">
-                        My projects
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active d-flex align-items-center" id="all-projects-tab" href="/projects/search?Tab=AllProjects">
+                    <a class="nav-link d-flex align-items-center @(Model.Tab == TabType.AllProjects ? "active" : "")" id="all-projects-tab" asp-route-tab="@TabType.AllProjects">
                         All projects
                     </a>
                 </li>
-            }
-            else
-            {
-                <li class="nav-item">
-                    <a class="nav-link active d-flex align-items-center" id="my-projects-tab" href="/projects/search?Tab=MyProjects">
-                        My projects
+
+                <li class="ml-sm-auto d-xs-block">
+                    <a class="btn btn-sm btn-outline-primary d-xs-block my-xs-2" asp-controller="ProjectCreation" asp-action="Create" role="button">
+                        <i class="material-icons">add</i>
+                        <span>
+                            Create project
+                        </span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" id="all-projects-tab" href="/projects/search?Tab=AllProjects">
-                        All projects
-                    </a>
-                </li>
-            }
-        }
-        else
-        {
-            <li class="nav-item">
-                <a class="nav-link active d-flex align-items-center" id="all-projects-tab" href="/projects/search?Tab=AllProjects">
-                    All projects
-                </a>
-            </li>
-        }
 
-        <li class="ml-sm-auto d-xs-block">
-            <a class="btn btn-sm btn-outline-primary d-xs-block my-xs-2" asp-controller="ProjectCreation" asp-action="Create" role="button">
-                <i class="material-icons">add</i>
-                <span>
-                    Create project
-                </span>
-            </a>
-        </li>
-    </ul>
+            </ul>
 
-    <div class="tab-content" id="projectsTabContent">
-        @if (SignInManager.IsSignedIn(User))
-        {
-            if (Model.Tab == TabType.MyProjects)
-            {
-                <div class="tab-pane fade show active" id="myProjects">
-                    <div class="my-4">
-                        @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
+            <div class="tab-content" id="projectsTabContent">
+                @if (SignInManager.IsSignedIn(User) && Model.Tab == TabType.MyProjects)
+                {
+                    <div class="tab-pane fade show active" id="myProjects">
+                        <div class="my-4">
+                            @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
+                        </div>
                     </div>
-                </div>
 
-                <div class="tab-pane fade" id="allProjects">
-                </div>
-            }
-            else
-            {
-                @await Html.PartialAsync("AllProjectsTabPartial.cshtml", Model)
-                ;
-            }
-        }
-        else
-        {
-            @await Html.PartialAsync("AllProjectsTabPartial.cshtml", Model)
-            ;
-        }
+                    <div class="tab-pane fade" id="allProjects">
+                    </div>
+                }
+                else
+                {
+                    @await Html.PartialAsync("AllProjectsTabPartial.cshtml", Model)
+                }
+            </div>
+
+        </div>
+        <div class="col-xl-2 py-3"></div>
     </div>
-
 </div>
-<div class="col-xl-2 py-3"></div>
-</div>
-</div>
-
-@section Head {
-    <link rel="stylesheet"
-          href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"
-          asp-fallback-href="~/dist/libs/select2.min.css">
-}
 
 @section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-    <script src="~/dist/infinite_scroll.bundle.js">
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+    <script src="~/dist/infinite_scroll.bundle.js"></script>
+    @if (Model.Tab == TabType.AllProjects)
+    {
+        <script>UBORA.initInfiniteScroll(window.location.href);</script>
+    }
     <script>
-        if ('@Model.Tab' == 'AllProjects') {
-            UBORA.initInfiniteScroll(
-                '@Html.Raw(Url.RouteUrl("ProjectsSearch", new {Title = Model.Title, Tab = Model.Tab, ByStatus = Model.ByStatus, ByArea = commaSeparatedAreaIds, ByClinicalNeedTags = commaSeparatedClinicalNeedIds, ByPotentialTechnologyTags = commaSeparatedPotentialTechnologyIds, SortBy = Model.SortBy}))');
+        function applyFilters() {
+            $.ajax('/projects/search', {
+                method: 'get',
+                data: $('#filters').serialize(),
+                success: function (response) {
+                    history.pushState({}, '', this.url); // https://developer.mozilla.org/en-US/docs/Web/API/History_API
+                    var responseHtml = $(response).find('.tab-content').html();
+                    $('.tab-content').html(responseHtml);
+                    UBORA.initInfiniteScroll(window.location.href);
+                }
+            });
         }
-    </script>
 
+        $('#filters :input').change($.debounce(250, function () {
+            applyFilters();
+        }));
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"
-            asp-fallback-src="~/dist/libs/select2.min.js"
-            asp-fallback-test="window.select2">
+        var $title = $('#Title');
+        $title.unbind();
+        $title.on('input', $.debounce(250, function () {
+            applyFilters();
+        }));
     </script>
-    <script>$('select').select2({ theme: 'ubora' });</script>
 }

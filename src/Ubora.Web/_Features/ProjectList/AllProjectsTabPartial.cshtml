@@ -1,127 +1,62 @@
-﻿@model Ubora.Web._Features.ProjectList.Models.SearchViewModel
+﻿@using Newtonsoft.Json
 @using Ubora.Web._Features.ProjectList.Models
-
-@{
-    var commaSeparatedAreas = string.Join(",", Model.ByArea.ToList());
-    var commaSeparatedClinicalNeeds = string.Join(",", Model.ByClinicalNeedTags.ToList());
-    var commaSeparatedPotentialTechnologies = string.Join(",", Model.ByPotentialTechnologyTags.ToList());
-}
+@model Ubora.Web._Features.ProjectList.Models.SearchViewModel
 
 <div class="tab-pane fade show active" id="allProjects" role="tabpanel" aria-labelledby="all-projects-tab">
-    @*TODO: show filters on left side*@
-    @*<div class="row py-2  d-flex align-items-center">
-            <div class="col-xl-1 col-md-2">
-                Filter by
-            </div>
-            <div class="col">
-                <div id="filterByArea" class="dropdown d-inline-block d-xs-block">
-                    <button class="btn btn-icon dropdown-toggle px-0" type="button" id="areaFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @(string.IsNullOrEmpty(Model.ByArea) ? "Area" : "Area: " + Model.ByArea)
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="areaFilter">
-                        @foreach (var areaOfUsageTag in Model.AreaOfUsageTags)
-                        {
-                            <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@Model.ByPotentialTechnologyTags&ByClinicalNeedTags=@Model.ByClinicalNeedTags&ByArea=@areaOfUsageTag&SortBy=@Model.SortBy">@areaOfUsageTag</a>
-                        }
-                    </div>
-                </div>
-                <div id="filterByTechnology" class="dropdown d-inline-block d-xs-block">
-                    <button class="btn btn-icon dropdown-toggle px-0" type="button" id="areaFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @(string.IsNullOrEmpty(Model.ByPotentialTechnologyTags) ? "Technology" : "Technology: " + Model.ByPotentialTechnologyTags)
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="areaFilter">
-                        @foreach (var potentialTechnologyTag in Model.PotentialTechnologyTags)
-                        {
-                            <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@potentialTechnologyTag&ByClinicalNeedTags=@Model.ByClinicalNeedTags&ByArea=@Model.ByArea&SortBy=@Model.SortBy">@potentialTechnologyTag</a>
-                        }
-                    </div>
-                </div>
-                <div id="filterByClinicalNeeds" class="dropdown d-inline-block d-xs-block">
-                    <button class="btn btn-icon dropdown-toggle px-0" type="button" id="areaFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @(string.IsNullOrEmpty(Model.ByClinicalNeedTags) ? "ClinicalNeeds" : "ClinicalNeeds: " + Model.ByClinicalNeedTags)
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="areaFilter">
-                        @foreach (var clinicalNeedTag in Model.ClinicalNeedTags)
-                        {
-                            <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@Model.ByPotentialTechnologyTags&ByClinicalNeedTags=@clinicalNeedTag&ByArea=@Model.ByArea&SortBy=@Model.SortBy">@clinicalNeedTag</a>
-                        }
-                    </div>
-                </div>
-                <div id="filterByStatus" class="dropdown d-inline-block d-xs-block">
-                    <button class="btn btn-icon dropdown-toggle px-0 pl-sm-3" type="button" id="statusFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @{
-                            switch (Model.ByStatus)
-                            {
-                                case ByStatusFilteringMethod.All:
-                                    @: Status
-                                    break;
-                                case ByStatusFilteringMethod.NotDraft:
-                                    @: Status: Approved
-                                    break;
-                                case ByStatusFilteringMethod.Draft:
-                                    @: Status: Draft
-                                    break;
-                            }
-                        }
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="statusFilter">
-                        <a class="dropdown-item" href="/projects/search?ByStatus=All&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@Model.ByPotentialTechnologyTags&ByClinicalNeedTags=@Model.ByClinicalNeedTags&ByArea=@Model.ByArea&SortBy=@Model.SortBy">All</a>
-                        <a class="dropdown-item" href="/projects/search?ByStatus=NotDraft&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@Model.ByPotentialTechnologyTags&ByClinicalNeedTags=@Model.ByClinicalNeedTags&ByArea=@Model.ByArea&SortBy=@Model.SortBy">Approved</a>
-                        <a class="dropdown-item" href="/projects/search?ByStatus=Draft&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@Model.ByPotentialTechnologyTags&ByClinicalNeedTags=@Model.ByClinicalNeedTags&ByArea=@Model.ByArea&SortBy=@Model.SortBy">Draft</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 mr-0 ml-auto">
-                <form asp-controller="ProjectList" asp-action="Search" method="get">
-                    <input asp-for="Tab" type="hidden" />
-                    <input asp-for="ByPotentialTechnologyTags" type="hidden" />
-                    <input asp-for="ByClinicalNeedTags" type="hidden" />
-                    <input asp-for="ByArea" type="hidden" />
-                    <input asp-for="ByStatus" type="hidden" />
-                    <input asp-for="SortBy" type="hidden" />
-                    <div class="input-group search">
-                        <input class="form-control" asp-for="Title" placeholder="Search projects..." aria-describedby="btnGroupAddon">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text" id="btnGroupAddon">
-                                <button class="btn btn-icon" type="submit"><i class="material-icons">search</i></button>
-                            </div>
-                        </div>
-                        <span asp-validation-for="Title"></span>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <hr class="my-0" />*@
     <div class="row py-2">
         <div class="col d-flex justify-content-between ">
-            <button class="btn btn-icon px-0" onclick="window.location.replace('/projects/search?Tab=AllProjects')">
-                <i class="material-icons">
-                    refresh
-                </i>
-                <span>
-                    Clear filters
-                </span>
-            </button>
+            <a class="btn btn-icon px-0" asp-route-tab="@TabType.AllProjects">
+                @if (Model.IsAnyFilterSet)
+                {
+                    <i class="material-icons">
+                        refresh
+                    </i>
+                    <span>
+                        Clear filters
+                    </span>
+                }
+            </a>
             <div>
                 <span class="align-middle px-2">Sort by</span>
-                <div id="sortByParamethers" class="dropdown d-inline-block">
-                    @if (Model.SortBy == SortBy.Newest)
+                <form method="get">
+                    @foreach (var tag in Model.ByArea)
                     {
-                        <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
-                            Newest
-                        </button>
+                        <input type="hidden" value="@tag" name="@nameof(Model.ByArea)" />
                     }
-                    else
+                    @foreach (var tag in Model.ByClinicalNeedTags)
                     {
-                        <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
-                            Oldest
-                        </button>
+                        <input type="hidden" value="@tag" name="@nameof(Model.ByClinicalNeedTags)" />
                     }
-                    <div class="dropdown-menu" aria-labelledby="sortBy">
-                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologies&ByClinicalNeedTags=@commaSeparatedClinicalNeeds&ByArea=@commaSeparatedAreas&SortBy=Newest">Newest</a>
-                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologies&ByClinicalNeedTags=@commaSeparatedClinicalNeeds&ByArea=@commaSeparatedAreas&SortBy=Oldest">Oldest</a>
+                    @foreach (var tag in Model.ByPotentialTechnologyTags)
+                    {
+                        <input type="hidden" value="@tag" name="@nameof(Model.ByPotentialTechnologyTags)" />
+                    }
+                    <input asp-for="Tab" type="hidden" />
+                    <input asp-for="Title" type="hidden" />
+                    <input asp-for="ByStatus" type="hidden" />
+                    <div id="sortByParamethers" class="dropdown d-inline-block">
+                        @if (Model.SortBy == SortBy.Newest)
+                        {
+                            <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
+                                Newest
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="sortBy">
+                                <input name="@nameof(SearchViewModel.SortBy)" value="@SortBy.Oldest" type="hidden" />
+                                <button class="dropdown-item" type="submit">Oldest</button>
+                            </div>
+                        }
+                        else
+                        {
+                            <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
+                                Oldest
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="sortBy">
+                                <input name="@nameof(SearchViewModel.SortBy)" value="@SortBy.Newest" type="hidden" />
+                                <button class="dropdown-item" type="submit">Newest</button>
+                            </div>
+                        }
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
