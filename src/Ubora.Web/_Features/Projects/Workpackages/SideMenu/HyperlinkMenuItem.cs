@@ -1,21 +1,17 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Ubora.Domain.Projects.Workpackages.Queries;
-using Ubora.Web._Features.Projects.Workpackages.SideMenu.IconProviders;
 
 namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
 {
     public class HyperlinkMenuItem : ISideMenuItem
     {
-        private readonly IIconProvider _iconProvider;
-
-        public HyperlinkMenuItem(NestingLevel nesting, string id, string displayName, string href, IIconProvider iconProvider = null)
+        public HyperlinkMenuItem(NestingLevel nesting, string id, string displayName, string href)
         {
             DisplayName = displayName;
             Href = href;
             Nesting = nesting;
             Id = id;
-            _iconProvider = iconProvider ?? new DefaultHyperlinkMenuItemIconProvider();
         }
 
         public string Id { get; }
@@ -24,7 +20,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
         public string Href { get; }
         public NestingLevel Nesting { get; set; }
         public WorkpackageStatus Status { get; set; }
-        public ImgIcon Icon => _iconProvider.ProvideIcon(this);
         public string ATagClass
         {
             get

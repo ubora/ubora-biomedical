@@ -37,12 +37,12 @@ namespace Ubora.Web._Features.Projects.InviteMentors
                 var projectMentors = _queryProcessor.ExecuteQuery(new FindProjectMentorProfilesQuery
                 {
                     ProjectId = projectId
-                });
+                }).OrderBy(m => m.FullName);
+
                 var projectMentorIds = projectMentors.Select(x => x.UserId);
 
-                var uboraMentors = _queryProcessor.ExecuteQuery(new FindUboraMentorProfilesQuery())
+                var uboraMentors = _queryProcessor.ExecuteQuery(new FindUboraMentorProfilesQuery()).OrderBy(m => m.FullName)
                     .ToList();
-
                 uboraMentors.RemoveAll(x => projectMentorIds.Contains(x.UserId));
 
                 var model = new MentorsViewModel
