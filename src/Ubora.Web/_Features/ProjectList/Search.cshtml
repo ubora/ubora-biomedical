@@ -17,22 +17,16 @@
 <div class="container-fluid">
 <div class="row">
 <div class="col-xl-2 col-lg-3 py-3 pb-4 border-right h-min-lg-100-footer">
-<form asp-controller="ProjectList" asp-action="Search" method="get" class="py-3">
+<form asp-controller="ProjectList" asp-action="Search" method="get">
 <input asp-for="Tab" type="hidden"/>
 <input type="hidden" id="ByPotentialTechnologyTags" name="ByPotentialTechnologyTags" value="@commaSeparatedPotentialTechnologyIds"/>
 <input type="hidden" id="ByClinicalNeedTags" name="ByClinicalNeedTags" value="@commaSeparatedClinicalNeedIds"/>
 <input type="hidden" id="ByArea" name="ByArea" value="@commaSeparatedAreaIds"/>
 <input asp-for="ByStatus" type="hidden"/>
 <input asp-for="SortBy" type="hidden"/>
-<div class="input-group search">
+
+<div class="form-group search mb-5">
     <input class="form-control" asp-for="Title" placeholder="Search projects..." aria-describedby="btnGroupAddon">
-    <div class="input-group-prepend">
-        <div class="input-group-text" id="btnGroupAddon">
-            <button class="btn btn-icon" type="submit">
-                <i class="material-icons">search</i>
-            </button>
-        </div>
-    </div>
     <span asp-validation-for="Title"></span>
 </div>
 
