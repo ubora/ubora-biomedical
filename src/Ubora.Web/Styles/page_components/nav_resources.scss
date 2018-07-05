@@ -1,4 +1,4 @@
-﻿.nav-resources-md {
+﻿.nav-resources-lg {
     @extend .border-bottom;
     padding: .1rem 1rem;
     width: 100%;
@@ -21,20 +21,20 @@
 }
 
 
-@include media-breakpoint-up(lg) {
-    .nav-resources-md {
+@include media-breakpoint-up(xl) {
+    .nav-resources-lg {
         display: none;
     }
 }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(lg) {
     .nav-resources {
         display: none;
     }
 }
 
 @include media-breakpoint-down(sm) {
-    .nav-resources-md {
+    .nav-resources-lg {
         .modal.modal-left-pane {
             .modal-dialog {
                 width: 80%;

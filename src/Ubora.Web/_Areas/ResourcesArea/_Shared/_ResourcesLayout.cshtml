@@ -18,19 +18,29 @@
     <main>
         <div class="container-fluid px-0">
             <div class="row no-gutters">
-                <div class="col-lg-2 py-lg-3 px-lg-3 px-sm-0 @(IsSectionDefined("left") ? "border-right" : "") h-min-lg-50">
+                <div class="col-xl-2 py-xl-3 px-xl-3 px-sm-0 @(IsSectionDefined("left") ? "border-right" : "")">
                     @{
                         if (IsSectionDefined("left"))
                         {
-                            @RenderSection("Left", required: false)
+                            <div class="h-min-xl-100">
+                                @RenderSection("Left", required: false)
+                            </div>
                         }
                     }
+
                 </div>
-                <div class="col-lg-8 order-lg-1 order-2 py-lg-3 px-xl-7 px-3">
+                <div class="col-xl-8 col-lg-8 order-lg-1 order-2 py-xl-3 px-xl-7 px-3">
                     @RenderBody()
                 </div>
-                <div class="col-lg-2 order-lg-2 order-1 py-lg-3 px-3 @(IsSectionDefined("Right") ? "border-left" : "")">
-                    @RenderSection("Right", required: false)
+                <div class="col-xl-2 col-lg-4 order-lg-2 order-1 py-xl-3 px-3 @(IsSectionDefined("Right") ? "border-left" : "")">
+                    @{
+                        if (IsSectionDefined("right"))
+                        {
+                            <div class="h-min-lg-100-footer">
+                                @RenderSection("Right", required: false)
+                            </div>
+                        }
+                    }
                 </div>
             </div>
         </div>
