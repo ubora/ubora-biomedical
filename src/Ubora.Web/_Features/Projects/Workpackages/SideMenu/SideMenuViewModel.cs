@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Workpackages.Queries;
-using Ubora.Web._Features.Projects.Workpackages.SideMenu.IconProviders;
 
 namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
 {
@@ -32,11 +31,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                     CreateWp1().SetStatus(wpStatuses.Wp1Status),
                     CreateWp2().SetStatus(wpStatuses.Wp2Status),
                     CreateWp3().SetStatus(wpStatuses.Wp3Status),
-                    /*wp4*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageFour", "WP 4: Implementation", "#", new WorkpackageFourIconProvider())
+                    /*wp4*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageFour", "WP 4: Implementation", "#")
                         .SetStatus(wpStatuses.Wp4Status),
-                    /*wp5*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageFive", "WP 5: Operation", "#", new WorkpackageFiveIconProvider())
+                    /*wp5*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageFive", "WP 5: Operation", "#")
                         .SetStatus(wpStatuses.Wp5Status),
-                    /*wp6*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageSix", "WP 6: Project closure", "#", new WorkpackageSixIconProvider())
+                    /*wp6*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageSix", "WP 6: Project closure", "#")
                         .SetStatus(wpStatuses.Wp6Status)
                 };
 
@@ -62,7 +61,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         new HyperlinkMenuItem(NestingLevel.One, "DeviceClassification","Device classification", _urlHelper.Action("Index", "DeviceClassifications")),
                         new HyperlinkMenuItem(NestingLevel.One, "RegulationChecklist","Regulation checklist", _urlHelper.Action("Index", "ApplicableRegulations")),
                         new HyperlinkMenuItem(NestingLevel.One, "WorkpackageOneReview","Formal review", _urlHelper.Action("Review", "WorkpackageOneReview"))
-                    }, new WorkpackageOneIconProvider());
+                    });
                 }
 
                 CollapseMenuItem CreateWp2()
@@ -73,7 +72,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         new HyperlinkMenuItem(NestingLevel.Two, "Voting", "Voting", href: _urlHelper.Action("Voting", "Candidates")),
                         new HyperlinkMenuItem(NestingLevel.Two, "ConceptDescription", "Concept description", href: Wp2StepLink("ConceptDescription")),
                         new HyperlinkMenuItem(NestingLevel.Two, "StructuredInformationOnTheDevice", "Structured information on the device", href: _urlHelper.Action("StructuredInformationOnTheDevice", "WorkpackageTwo")),
-                    }, new WorkpackageTwoIconProvider());
+                    });
                 }
 
                 ISideMenuItem CreateWp3()
@@ -107,7 +106,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         }),
                         new HyperlinkMenuItem(NestingLevel.One, "DesignForIsoTestingCompliance", "Design for ISO testing compliance", href: Wp3StepLink("DesignForIsoTestingCompliance")),
                         new HyperlinkMenuItem(NestingLevel.One, "InstructionsForFabricationOfPrototypes", "Instructions for fabrication of prototypes", href: Wp3StepLink("InstructionsForFabricationOfPrototypes"))
-                    }, new WorkpackageThreeIconProvider());
+                    });
                 }
 
                 string Wp3StepLink(string stepId)
@@ -141,7 +140,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                     }
                     else
                     {
-                        var isSelectedHyperlinkMenuItem = string.Equals(item.Id, selectedId, StringComparison.InvariantCultureIgnoreCase);
+                        var isSelectedHyperlinkMenuItem = string.Equals(item.Id, selectedId, StringComparison.OrdinalIgnoreCase);
                         if (isSelectedHyperlinkMenuItem)
                         {
                             ((HyperlinkMenuItem)item).IsSelected = true;

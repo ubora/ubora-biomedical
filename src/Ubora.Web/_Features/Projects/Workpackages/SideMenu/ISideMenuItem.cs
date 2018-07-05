@@ -8,7 +8,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
     {
         string Id { get; }
         string DisplayName { get; }
-        ImgIcon Icon { get; }
         NestingLevel Nesting { get; set; }
         string ATagClass { get;  }
 

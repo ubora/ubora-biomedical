@@ -3,11 +3,10 @@
 
 <li id="@Model.Id">
     <span class="d-flex align-items-center">
-        <a href="javascript:void(0)" data-toggle="collapse" aria-expanded="false" data-target=".@Model.InnerMenuItemsId" class="sidemenu-collapse @(Model.ATagClass)">
+        <a href="javascript:void(0)" data-toggle="collapse" aria-expanded="@Model.IsSelected.ToString().ToLower()" data-target=".@Model.InnerMenuItemsId" class="sidemenu-collapse @(Model.ATagClass)">
             <span>@Model.DisplayName</span>
         </a>
     </span>
-
     @if (Model.Status != WorkpackageStatus.Closed)
     {
         <ul class="collapse @(Model.IsSelected ? "show" : "") @(Model.CssClassForItemsBelow) @Model.InnerMenuItemsId">
