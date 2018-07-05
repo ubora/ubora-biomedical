@@ -1,5 +1,4 @@
-﻿@using Ubora.Domain.Projects.Workpackages.Queries;
-@model Ubora.Web._Features.Projects.Workpackages.SideMenu.CollapseMenuItem
+﻿@model Ubora.Web._Features.Projects.Workpackages.SideMenu.CollapseMenuItem
 
 <li id="@Model.Id">
     <span class="d-flex align-items-center">
@@ -7,12 +6,13 @@
             <span>@Model.DisplayName</span>
         </a>
     </span>
-    @if (Model.Status != WorkpackageStatus.Closed)
+
+    @if (Model.RenderInnerMenuItems)
     {
         <ul class="collapse @(Model.IsSelected ? "show" : "") @(Model.CssClassForItemsBelow) @Model.InnerMenuItemsId">
             @foreach (var innerMenuItem in Model.InnerMenuItems)
             {
-                @innerMenuItem.GenerateHtmlMarkup(this.Html)
+                @Html.Partial("~/_Features/Projects/Workpackages/SideMenu/_SideMenuItemPartial.cshtml", innerMenuItem);
             }
         </ul>
     }

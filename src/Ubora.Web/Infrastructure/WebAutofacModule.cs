@@ -8,6 +8,8 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
+using Ubora.Domain.Resources;
+using Ubora.Domain.Resources.Commands;
 using Ubora.Web.Infrastructure.PreMailers;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Feedback;
@@ -20,10 +22,8 @@ using Ubora.Web._Features.Projects.DeviceClassifications;
 using Ubora.Web._Features.Projects.History._Base;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Ubora.Web._Features.Users.Manage;
-using Ubora.Domain.Resources.Commands;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages.CommandHandlers;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages.Services;
-using Ubora.Domain.Resources;
 
 namespace Ubora.Web.Infrastructure
 {

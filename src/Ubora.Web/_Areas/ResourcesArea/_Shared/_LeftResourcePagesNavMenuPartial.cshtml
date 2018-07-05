@@ -1,5 +1,8 @@
 ﻿@using Ubora.Domain.Infrastructure.Specifications
 @using Ubora.Domain.Resources
+@using Ubora.Domain.Resources.Events
+@using Ubora.Domain.Resources.Queries
+@using Ubora.Web._Features.Projects.Workpackages.SideMenu
 @inject Ubora.Domain.Infrastructure.Queries.IQueryProcessor QueryProcessor
 @*<form style="visibility:hidden;">
         <div class="form-group">
@@ -8,18 +11,20 @@
     </form>*@
 
 @{
-    var resources = QueryProcessor.Find(new MatchAll<ResourcePage>(), new ResourceIndexViewModel.Mapper());
+    var sideMenuFactory = new ResourcesHierarchySideMenuFactory(Url);
+    var root = QueryProcessor.ExecuteQuery(new FindResourceMenuRootQuery());
+
+    var model = new SideMenuViewModel
+    {
+        TopLevelMenuItems = sideMenuFactory.CreateSideMenuItems(root).ToList()
+    };
+
+    if (ViewContext.RouteData.Values["slugOrId"] != null)
+    {
+        ResourcesHierarchySideMenuFactory.MarkSelected(model.TopLevelMenuItems, (string)ViewContext.RouteData.Values["slugOrId"]);
+    }
 }
 
 <nav class="nav flex-column">
-    <span class="color-grey text-center">Resource pages</span>
-    @foreach (var resource in resources)
-    {
-        <a class="nav-link px-1 border-bottom"
-           asp-action="@nameof(ResourcePagesController.Read)"
-           asp-controller="@nameof(ResourcePagesController).RemoveSuffix()"
-           asp-route-slugOrId="@resource.Slug">
-            @resource.Title
-        </a>
-    }
+    @Html.Partial("~/_Features/Projects/Workpackages/SideMenu/_WorkpackageSideMenuPartial.cshtml", model)
 </nav>

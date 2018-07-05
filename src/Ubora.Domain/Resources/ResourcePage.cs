@@ -12,10 +12,11 @@ namespace Ubora.Domain.Resources
 
         public int BodyVersion { get; private set; }
         public QuillDelta Body { get; private set; }
-        
-        public int MenuPriority { get; set; }
+
+        public int MenuPriority { get; private set; }
 
         public string GetBlobContainerName() => $"resourcepage-{Id}";
+        public Guid ParentCategoryId { get; private set; }
 
         private void SetBody(QuillDelta body)
         {
@@ -27,11 +28,12 @@ namespace Ubora.Domain.Resources
         {
             if (@event.ResourcePageId == default(Guid))
                 throw new ArgumentException(nameof(@event.ResourcePageId));
-            
+
             Id = @event.ResourcePageId;
             ActiveSlug = @event.Slug;
             Title = @event.Title;
             MenuPriority = @event.MenuPriority;
+            ParentCategoryId = @event.ParentCategoryId;
 
             SetBody(@event.Body);
         }

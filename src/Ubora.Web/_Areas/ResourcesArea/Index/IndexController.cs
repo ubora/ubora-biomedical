@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Resources;
+using Ubora.Domain.Resources.Events;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages.Models;
 using Ubora.Web._Areas.ResourcesArea._Shared;

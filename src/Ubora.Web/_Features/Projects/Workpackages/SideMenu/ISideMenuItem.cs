@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Ubora.Domain.Projects.Workpackages.Queries;
+﻿using Ubora.Domain.Projects.Workpackages.Queries;
 
 namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
 {
@@ -8,15 +6,16 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
     {
         string Id { get; }
         string DisplayName { get; }
-        NestingLevel Nesting { get; set; }
+        NestingLevel Nesting { get; }
         string ATagClass { get;  }
+        bool IsSelected { get; }
+    }
+
+    public interface IWorkpackageSideMenuItem : ISideMenuItem
+    {
 
         /// <remarks>Return object itself for fluent-API.</remarks>>
-        ISideMenuItem SetStatus(WorkpackageStatus status);
-        WorkpackageStatus Status { get; set; }
-
-        bool IsSelected { get; }
-
-        IHtmlContent GenerateHtmlMarkup(IHtmlHelper htmlHelper);
+        IWorkpackageSideMenuItem SetStatus(WorkpackageStatus status);
+        WorkpackageStatus Status { get; }
     }
 }

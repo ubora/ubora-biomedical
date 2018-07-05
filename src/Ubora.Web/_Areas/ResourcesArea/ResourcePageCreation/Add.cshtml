@@ -1,4 +1,4 @@
-﻿@model AddResourcePostModel
+﻿@model CreateResourcePagePostModel
 
 @{
     ViewData["Title"] = "Create new resource page";
@@ -38,6 +38,13 @@
         <span asp-validation-for="MenuPriority"></span>
         <small>Resource pages are ordered by from highest priority to lowest, and then by title alphabetically. You can leave it at "0".</small>
     </div>
+    <div class="form-group">
+        <label asp-for="ParentCategoryId">Category</label>
+        <span asp-validation-for="ParentCategoryId"></span>
+        <div id="js-categories">
+        </div>
+        <small><a href="javascript:refreshCategories();">Refresh categories</a></small>
+    </div>
     <div class="float-right">
         <a class="btn btn-outline-primary" role="button" asp-action="@nameof(IndexController.Index)" asp-controller="@nameof(IndexController).RemoveSuffix()">Cancel</a>
         <button class="btn btn-primary" type="submit">Create & publish</button>
@@ -46,6 +53,18 @@
 
 @section Scripts {
     <script>
+        function refreshCategories() {
+            console.log('foo')
+            $.ajax({
+                url: "/resources/categories/test",
+                success: function (result) {
+                    $('#js-categories').html(result);
+                }
+            });
+        };
+
+        refreshCategories();
+
         var titleInputSelector = "#@nameof(Model.Title)";
         var contentInputSelector = "#@nameof(Model.Body)";
         var editorSelector = "#editor-container";

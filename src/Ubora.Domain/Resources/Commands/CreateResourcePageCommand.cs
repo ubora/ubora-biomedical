@@ -11,6 +11,7 @@ namespace Ubora.Domain.Resources.Commands
         public string Title { get; set; }
         public QuillDelta Body { get; set; }
         public int MenuPriority { get; set; }
+        public Guid ParentCategoryId { get; set; }
 
         internal class Handler : ICommandHandler<CreateResourcePageCommand>
         {
@@ -36,7 +37,8 @@ namespace Ubora.Domain.Resources.Commands
                         slug: Slug.Generate(cmd.Title),
                         title: cmd.Title,
                         body: cmd.Body,
-                        menuPriority: cmd.MenuPriority));
+                        menuPriority: cmd.MenuPriority,
+                        parentCategoryId: cmd.ParentCategoryId));
                 
                 _documentSession.SaveChanges();
                 

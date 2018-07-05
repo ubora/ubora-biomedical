@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
 

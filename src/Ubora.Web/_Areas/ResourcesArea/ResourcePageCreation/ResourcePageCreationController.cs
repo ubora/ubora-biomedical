@@ -23,7 +23,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePageCreation
         [Authorize(Policies.CanManageResourcePages)]
         [HttpPost]
         [Route("create")]
-        public async Task<IActionResult> Add(AddResourcePostModel model)
+        public async Task<IActionResult> Add(CreateResourcePagePostModel model)
         {
             if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResourcePages))
                 return Unauthorized();
@@ -38,7 +38,8 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePageCreation
                     ResourcePageId = resourcePageId,
                     Title = model.Title,
                     Body = new QuillDelta(model.Body),
-                    MenuPriority = model.MenuPriority
+                    MenuPriority = model.MenuPriority,
+                    ParentCategoryId = model.ParentCategoryId
                 },
                 successNotice: Notice.Success("Resource page created"));
 

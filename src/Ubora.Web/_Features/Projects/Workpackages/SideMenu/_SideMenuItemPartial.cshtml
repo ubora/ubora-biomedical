@@ -1,0 +1,14 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages.SideMenu
+@model ISideMenuItem
+
+@{
+    if (Model is CollapseMenuItem collapseMenuItem)
+    {
+        @Html.Partial("~/_Features/Projects/Workpackages/SideMenu/_CollapseMenuItemPartial.cshtml", collapseMenuItem)
+    }
+
+    if (Model is HyperlinkMenuItem hyperlinkMenuItem)
+    {
+        @Html.Partial("~/_Features/Projects/Workpackages/SideMenu/_HyperlinkMenuItemPartial.cshtml", hyperlinkMenuItem)
+    }
+}

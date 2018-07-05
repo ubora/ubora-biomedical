@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using TwentyTwenty.Storage;
 using Ubora.Domain.Resources;
+using Ubora.Domain.Resources.Events;
 
 namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Services
 {

@@ -1,26 +1,23 @@
-﻿using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Ubora.Domain.Projects.Workpackages.Queries;
+﻿using Ubora.Domain.Projects.Workpackages.Queries;
 
 namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
 {
-    public class HyperlinkMenuItem : ISideMenuItem
+    public class WpSideMenuHyperlinkMenuItem : HyperlinkMenuItem, IWorkpackageSideMenuItem
     {
-        public HyperlinkMenuItem(NestingLevel nesting, string id, string displayName, string href)
+        public WpSideMenuHyperlinkMenuItem(NestingLevel nesting, string id, string displayName, string href) 
+            : base(nesting, id, displayName, href)
         {
-            DisplayName = displayName;
-            Href = href;
-            Nesting = nesting;
-            Id = id;
         }
 
-        public string Id { get; }
-        public string DisplayName { get; }
-        public bool IsSelected { get; set; }
-        public string Href { get; }
-        public NestingLevel Nesting { get; set; }
         public WorkpackageStatus Status { get; set; }
-        public string ATagClass
+
+        public IWorkpackageSideMenuItem SetStatus(WorkpackageStatus status)
+        {
+            Status = status;
+            return this;
+        }
+
+        public override string ATagClass
         {
             get
             {
@@ -39,17 +36,24 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                 }
             }
         }
+    }
 
-        public IHtmlContent GenerateHtmlMarkup(IHtmlHelper htmlHelper)
+    public abstract class HyperlinkMenuItem : ISideMenuItem
+    {
+        protected HyperlinkMenuItem(NestingLevel nesting, string id, string displayName, string href)
         {
-            return htmlHelper.Partial("~/_Features/Projects/Workpackages/SideMenu/_LinkMenuItemPartial.cshtml", model: this);
+            DisplayName = displayName;
+            Href = href;
+            Nesting = nesting;
+            Id = id;
         }
 
-        public ISideMenuItem SetStatus(WorkpackageStatus status)
-        {
-            Status = status;
+        public string Id { get; }
+        public string DisplayName { get; }
+        public bool IsSelected { get; set; }
+        public string Href { get; }
+        public NestingLevel Nesting { get; }
 
-            return this;
-        }
+        public virtual string ATagClass => IsSelected ? "active-status" : "";
     }
 }

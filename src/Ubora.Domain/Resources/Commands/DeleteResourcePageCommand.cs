@@ -1,7 +1,6 @@
 ﻿using System;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Resources.Events;
 
 namespace Ubora.Domain.Resources.Commands
 {

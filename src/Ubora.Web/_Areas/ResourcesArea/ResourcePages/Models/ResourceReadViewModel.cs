@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.NodeServices;
 using Ubora.Domain.Resources;
+using Ubora.Domain.Resources.Events;
 
 namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Models
 {

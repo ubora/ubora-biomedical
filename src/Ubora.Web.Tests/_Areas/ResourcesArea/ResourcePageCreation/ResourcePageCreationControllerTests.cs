@@ -34,7 +34,7 @@ namespace Ubora.Web.Tests._Areas.ResourcesArea.ResourcePageCreation
         public async Task Add_HttpPost_Returns_UnauthorizedResult_When_User_Is_Not_Authorized()
         {
             // Act
-            var result = await ControllerUnderTest.Add(new AddResourcePostModel());
+            var result = await ControllerUnderTest.Add(new CreateResourcePagePostModel());
 
             // Assert
             result.Should().BeOfType<UnauthorizedResult>();
@@ -53,7 +53,7 @@ namespace Ubora.Web.Tests._Areas.ResourcesArea.ResourcePageCreation
                 .Setup(a => a.AuthorizeAsync(ControllerUnderTest.User, null, Policies.CanManageResourcePages))
                 .ReturnsAsync(AuthorizationResult.Success);
 
-            var postModel = new AddResourcePostModel();
+            var postModel = new CreateResourcePagePostModel();
 
             // Act
             var result = await ControllerUnderTest.Add(postModel);
@@ -78,7 +78,7 @@ namespace Ubora.Web.Tests._Areas.ResourcesArea.ResourcePageCreation
                 .Setup(a => a.AuthorizeAsync(ControllerUnderTest.User, null, Policies.CanManageResourcePages))
                 .ReturnsAsync(AuthorizationResult.Success);
 
-            var postModel = new AddResourcePostModel();
+            var postModel = new CreateResourcePagePostModel();
 
             // Act
             var result = await ControllerUnderTest.Add(postModel);
@@ -90,7 +90,7 @@ namespace Ubora.Web.Tests._Areas.ResourcesArea.ResourcePageCreation
         [Fact]
         public async Task Add_HttpPost_Redirects_To_ResourcePage_After_Successful_Command_Execution()
         {
-            var postModel = new AddResourcePostModel
+            var postModel = new CreateResourcePagePostModel
             {
                 Body = "testBody",
                 Title = "testTitle"

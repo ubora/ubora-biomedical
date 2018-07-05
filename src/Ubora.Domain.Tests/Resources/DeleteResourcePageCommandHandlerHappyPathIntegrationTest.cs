@@ -5,10 +5,9 @@ using FluentAssertions;
 using Marten.Linq.SoftDeletes;
 using Moq;
 using Ubora.Domain.Infrastructure;
+using Xunit;
 using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Commands;
-using Ubora.Domain.Resources.Events;
-using Xunit;
 
 namespace Ubora.Domain.Tests.Resources
 {
@@ -38,13 +37,11 @@ namespace Ubora.Domain.Tests.Resources
             commandResult.IsSuccess.Should().BeTrue();
 
             var lastEventInStream = Session.Events.FetchStream(resourceId).Select(e => e.Data).ToList().Last();
-            lastEventInStream.Should().BeOfType<ResourcePageDeletedEvent>();
 
             Session.Load<ResourcePage>(resourceId)
                 .Then(resourcePage =>
                 {
                     resourcePage.IsDeleted().Should().BeTrue(); // Marten's
-                    resourcePage.IsDeleted.Should().BeTrue();
                 });
 
             _resourceBlobDeleterMock

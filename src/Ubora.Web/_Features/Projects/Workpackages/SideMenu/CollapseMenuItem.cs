@@ -1,14 +1,60 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Ubora.Domain.Projects.Workpackages.Queries;
 
 namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
 {
-    public class CollapseMenuItem : ISideMenuItem
+    public class WpSideMenuCollapseMenuItem : CollapseMenuItem, IWorkpackageSideMenuItem
     {
-        public CollapseMenuItem(NestingLevel nesting, string id, string displayName, ISideMenuItem[] innerMenuItems)
+        public WpSideMenuCollapseMenuItem(NestingLevel nesting, string id, string displayName, IEnumerable<IWorkpackageSideMenuItem> innerMenuItems)
+            : base(nesting, id, displayName, innerMenuItems)
+        {
+        }
+
+        public WorkpackageStatus Status { get; private set; }
+
+        public IWorkpackageSideMenuItem SetStatus(WorkpackageStatus status)
+        {
+            foreach (var innerMenuItem in InnerMenuItems.Cast<IWorkpackageSideMenuItem>())
+            {
+                Status = status;
+
+                if (status == WorkpackageStatus.Accepted)
+                {
+                    // Ugly solution.
+                    innerMenuItem.SetStatus(WorkpackageStatus.Opened);
+                }
+                else
+                {
+                    innerMenuItem.SetStatus(status);
+                }
+            }
+            return this;
+        }
+
+        public override string ATagClass
+        {
+            get
+            {
+                switch (Status)
+                {
+                    case WorkpackageStatus.Accepted:
+                        return "checked-status";
+                    case WorkpackageStatus.Closed:
+                        return "muted-status";
+                    default:
+                        return "";
+                }
+            }
+        }
+
+        public override bool RenderInnerMenuItems => Status != WorkpackageStatus.Closed;
+    }
+
+    public abstract class CollapseMenuItem : ISideMenuItem
+    {
+        protected CollapseMenuItem(NestingLevel nesting, string id, string displayName, IEnumerable<ISideMenuItem> innerMenuItems)
         {
             Id = id;
             DisplayName = displayName;
@@ -18,10 +64,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
 
         public string Id { get; }
         public string DisplayName { get; }
-        public ISideMenuItem[] InnerMenuItems { get; }
+        public IEnumerable<ISideMenuItem> InnerMenuItems { get; }
         public string InnerMenuItemsId => $"{Id}-items";
+        public virtual string ATagClass => "";
 
-        public string CssClassForItemsBelow
+        public virtual string CssClassForItemsBelow
         {
             get
             {
@@ -39,47 +86,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
             }
         }
 
-        public NestingLevel Nesting { get; set; }
-        public WorkpackageStatus Status { get; set; }
+        public NestingLevel Nesting { get; }
+
         public bool IsSelected => InnerMenuItems.Any(item => item.IsSelected);
-        public string ATagClass
-        {
-            get
-            {
-                switch (Status)
-                {
-                    case WorkpackageStatus.Accepted:
-                        return "checked-status";
-                    case WorkpackageStatus.Closed:
-                        return "muted-status";
-                    default:
-                        return "";
-                }
-            }
-        }
-
-        public IHtmlContent GenerateHtmlMarkup(IHtmlHelper htmlHelper)
-        {
-            return htmlHelper.Partial("~/_Features/Projects/Workpackages/SideMenu/_CollapseMenuItemPartial.cshtml", model: this);
-        }
-
-        public ISideMenuItem SetStatus(WorkpackageStatus status)
-        {
-            foreach (var innerMenuItem in InnerMenuItems)
-            {
-                Status = status;
-
-                if (status == WorkpackageStatus.Accepted)
-                {
-                    // Ugly solution.
-                    innerMenuItem.SetStatus(WorkpackageStatus.Opened);
-                }
-                else
-                {
-                    innerMenuItem.SetStatus(status);
-                }
-            }
-            return this;
-        }
+        public virtual bool RenderInnerMenuItems => true;
     }
 }

@@ -19,7 +19,9 @@ using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.History;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects._Events;
+using System.Reflection;
 using Ubora.Domain.Resources;
+using Ubora.Domain.Resources.Events;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
@@ -82,6 +84,8 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ResourceFile, IResourceFileEvent>());
                 options.Events.InlineProjections.AggregateStreamsWith<Candidate>();
+                options.Events.InlineProjections.AggregateStreamsWith<ResourceCategory>();
+                options.Events.InlineProjections.Add(new ResourcesHierarchyViewProjection());
 
                 options.Events.AddEventTypes(eventTypes);
 
@@ -106,6 +110,19 @@ namespace Ubora.Domain.Infrastructure.Marten
                 c.ContractResolver = new PrivateSetterResolver();
             });
             return serializer;
+        }
+
+        private static bool IsApplyMethodForType(MethodInfo methodInfo, Type type)
+        {
+            var methodParameters = methodInfo.GetParameters();
+            var isApplyMethod = (methodInfo.Name == "Apply" && methodParameters.Length == 1);
+
+            if (!isApplyMethod)
+            {
+                return false;
+            }
+
+            return methodParameters.Single().ParameterType == type;
         }
     }
 }
