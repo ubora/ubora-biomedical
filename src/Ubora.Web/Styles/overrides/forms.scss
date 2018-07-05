@@ -97,30 +97,12 @@ label.custom-file {
     border-bottom: 1px solid $orange;
 }
 
-.search.input-group {
-    .form-control {
-        border-top-left-radius: 0.25rem;
-        border-bottom-left-radius: 0.25rem;
-    }
-
-    .input-group-prepend .input-group-text {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        border-top-right-radius: 0.25rem;
-        border-bottom-right-radius: 0.25rem;
-
-        .btn {
-            font-size: .5rem;
-        }
-    }
-}
-
-.search.input-group .input-group-prepend .input-group-text {
-    background-color: transparent;
-    border-left: none;
-
-    button {
-        padding: 0;
-        color: $primary-shade;
-    }
+.form-group.search:after {
+    font-family: Material icons;
+    content: 'search';
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 1.5rem;
+    color: $secondary-shade;
 }
