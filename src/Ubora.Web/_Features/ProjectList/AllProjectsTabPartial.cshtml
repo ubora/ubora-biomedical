@@ -1,6 +1,12 @@
 ﻿@model Ubora.Web._Features.ProjectList.Models.SearchViewModel
 @using Ubora.Web._Features.ProjectList.Models
 
+@{
+    var commaSeparatedAreas = string.Join(",", Model.ByArea.ToList());
+    var commaSeparatedClinicalNeeds = string.Join(",", Model.ByClinicalNeedTags.ToList());
+    var commaSeparatedPotentialTechnologies = string.Join(",", Model.ByPotentialTechnologyTags.ToList());
+}
+
 <div class="tab-pane fade show active" id="allProjects" role="tabpanel" aria-labelledby="all-projects-tab">
     @*TODO: show filters on left side*@
     @*<div class="row py-2  d-flex align-items-center">
@@ -112,8 +118,8 @@
                         </button>
                     }
                     <div class="dropdown-menu" aria-labelledby="sortBy">
-                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@Model.ByPotentialTechnologyTags&ByClinicalNeedTags=@Model.ByClinicalNeedTags&ByArea=@Model.ByArea&SortBy=Newest">Newest</a>
-                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@Model.ByPotentialTechnologyTags&ByClinicalNeedTags=@Model.ByClinicalNeedTags&ByArea=@Model.ByArea&SortBy=Oldest">Oldest</a>
+                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologies&ByClinicalNeedTags=@commaSeparatedClinicalNeeds&ByArea=@commaSeparatedAreas&SortBy=Newest">Newest</a>
+                        <a class="dropdown-item" href="/projects/search?ByStatus=@Model.ByStatus&Tab=AllProjects&Title=@Model.Title&ByPotentialTechnologyTags=@commaSeparatedPotentialTechnologies&ByClinicalNeedTags=@commaSeparatedClinicalNeeds&ByArea=@commaSeparatedAreas&SortBy=Oldest">Oldest</a>
                     </div>
                 </div>
             </div>
