@@ -1,45 +1,36 @@
 /*First level menu style*/
 .list-sidebar li {
     list-style-type: none;
-    margin-top: .4rem;
-    margin-bottom: .4rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
 }
 
 .list-sidebar a {
-  color: $blue;
+    color: $text-color;
+    text-decoration: none;
 }
 
-.list-sidebar img{
-  width: 2rem;
+.list-sidebar img {
+    width: 2rem;
 }
-
-.list-sidebar span{
-  margin-left: .5rem;
-}
-
 
 /*Second level menu style*/
 .side-menu-secondary {
-  padding-left: .6rem;
+    padding-left: 1.5rem;
 }
 
-    .side-menu-secondary li {
-        margin-top: .1rem;
-        margin-bottom: .1rem;
-    }
-
-    .side-menu-secondary span {
-      margin-left: 1.2rem;
-    }
-
-
-/*Secondary, third and fourth level menu images style*/
-.side-menu-secondary img ,
-.side-menu-tertiary img,
-.side-menu-quaternary img {
-    width: .75rem;
+.side-menu-secondary li {
+    font-weight: normal;
 }
 
+.side-menu-tertiary {
+    padding-left: 1.5rem;
+}
+
+.side-menu-quaternary {
+    padding-left: 1.5rem;
+}
 
 /*Statuses styles*/
 a.muted-status {
@@ -49,18 +40,32 @@ a.muted-status {
 }
 
 a.active-status {
-  color: $light-blue;
+    color: $blue;
 }
 
-a.checked-status {
-  color: $green;
+a.active-status::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 16px;
+    background-color: $blue;
+    margin-left: -10px;
+    margin-top: 4px;
+    position: absolute;
 }
 
+
+a.checked-status::after {
+    font-family: 'Material Icons';
+    content: 'check';
+    color: $green;
+    line-height: 1;
+}
 
 /*wp sidemenu for smaller devices*/
 .wp-sidemenu-md {
     background-color: $quartinary-shade;
-    padding: .1rem 1rem;
+    padding: .2rem 1rem;
     width: 100%;
 
     button.btn-icon {
@@ -78,50 +83,81 @@ a.checked-status {
 
 
     .modal {
-        @include modal-left-nav;
-
-        ul.list-sidebar {
-            padding-left: 0;
-            font-size: 14px;
-
-            li {
-                margin-top: 1rem;
-                margin-bottom: 1rem;
+        &.modal-left-pane {
+            &.show .modal-dialog {
+                transform: translate(0, 0);
             }
 
-            img {
-                width: 1.3rem
+            .modal-dialog {
+                transform: translate(-100%, 0);
             }
+        }
 
-            .side-menu-secondary img,
-            .side-menu-tertiary img,
-            .side-menu-quaternary img {
-                width: .5rem;
-            }
+        &.fade.in .modal-dialog {
+            left: 0;
+        }
 
-            .side-menu-secondary li {
-                font-weight: normal;
-            }
+        .modal-dialog {
+            margin-left: 0;
+            margin-top: 0;
+            width: 50%;
+            height: 100%;
 
-            .side-menu-secondary span {
-                margin-left: .6rem;
-            }
+            .modal-content {
+                border-radius: 0;
+                border: none;
+                height: 100%;
+                overflow-y: auto;
 
-            .side-menu-tertiary {
-                padding-left: 1.6rem;
-            }
+                .modal-header {
+                    padding: .5rem 1rem;
+                }
 
-            .side-menu-quaternary {
-                padding-left: 1.6rem;
+                .modal-body {
+                    padding-top: 0;
+
+                    ul.list-sidebar {
+                        padding-left: 1rem;
+                        font-size: 14px;
+
+                        li {
+                            margin-top: 1rem;
+                            margin-bottom: 1rem;
+                        }
+
+                        .side-menu-secondary li {
+                            font-weight: normal;
+                        }
+
+                        .side-menu-secondary span {
+                            margin-left: .6rem;
+                        }
+
+                        .side-menu-tertiary {
+                            padding-left: 1.6rem;
+                        }
+
+                        .side-menu-quaternary {
+                            padding-left: 1.6rem;
+                        }
+
+                        a.active-status::before {
+                            height: 14px;
+                            background-color: $blue;
+                            margin-left: -4px;
+                            margin-bottom: -19px;
+                        }
+                    }
+                }
             }
         }
     }
 }
 
 
-@include media-breakpoint-down(sm) {
+@media (max-width: 620px) {
     .wp-sidemenu-md {
-        .modal.modal-left-pane {
+        .modal {
             .modal-dialog {
                 width: 80%;
             }
@@ -129,14 +165,31 @@ a.checked-status {
     }
 }
 
-@include media-breakpoint-up(lg) {
+@media (min-width: 992px) {
     .wp-sidemenu-md {
         display: none;
     }
 }
 
-@include media-breakpoint-down(md) {
+@media (max-width: 991px) {
     .wp-sidemenu {
         display: none;
+    }
+}
+
+.sidemenu-collapse {
+
+    &[aria-expanded="false"]::before,
+    &::before {
+        font-family: 'Material icons';
+        content: 'arrow_right';
+        display: inline-block;
+        margin-left: -20px;
+    }
+
+    &[aria-expanded="true"]::before {
+        transform: rotate(90deg);
+        -ms-transform: rotate(90deg); /* IE 9 */
+        -webkit-transform: rotate(90deg); /* Safari */
     }
 }

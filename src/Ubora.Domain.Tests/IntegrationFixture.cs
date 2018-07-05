@@ -45,6 +45,11 @@ namespace Ubora.Domain.Tests
                 .As<IQueryHandler<FindUboraMentorProfilesQuery, IReadOnlyCollection<UserProfile>>>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<TestFindUboraManagementGroupHandler>()
+                .As<IQueryHandler<FindUboraManagementGroupQuery, IReadOnlyCollection<UserProfile>>>()
+                .InstancePerLifetimeScope();
+
+
             builder.RegisterType<TestFindUboraAdministratorsQueryHandler>().As<IQueryHandler<FindUboraAdministratorsQuery, IReadOnlyCollection<UserProfile>>>()
                 .InstancePerLifetimeScope();
 
