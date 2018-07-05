@@ -8,14 +8,13 @@ namespace Ubora.Web._Features.ProjectList.Models
     {
         public string Title { get; set; }
         public TabType Tab { get; set; }
-        public string ByPotentialTechnologyTags { get; set; }
-        public string ByClinicalNeedTags { get; set; }
-        public string ByArea { get; set; }
+        public int[] ByPotentialTechnologyTags { get; set; }
+        public int[] ByClinicalNeedTags { get; set; }
+        public int[] ByArea { get; set; }
         public ByStatusFilteringMethod ByStatus { get; set; }
         public SortBy SortBy { get; set; }
         public ProjectListViewModel ProjectListViewModel { get; set; }
-        public List<string> PotentialTechnologyTags { get; set; } = SelectLists.PotentialTechnologyTags.Select(a => a.Text).ToList();
-        public List<string> ClinicalNeedTags { get; set; } = SelectLists.ClinicalNeedTags.Select(a => a.Text).ToList();
-        public List<string> AreaOfUsageTags { get; set; } = SelectLists.Areas.Select(a => a.Text).ToList();
+        
+        
     }
 }

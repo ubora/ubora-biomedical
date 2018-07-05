@@ -30,7 +30,7 @@ namespace Ubora.Web._Features.Users.UserList
             return Search(new SearchModel());
         }
 
-        [Route("community/search")]
+        [Route("community/search", Name = "CommunitySearch")]
         public IActionResult Search(SearchModel searchModel, int page = 1)
         {
             var sortSpecifications = new List<ISortSpecification<UserProfile>>();

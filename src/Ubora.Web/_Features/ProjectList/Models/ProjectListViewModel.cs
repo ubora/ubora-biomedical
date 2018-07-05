@@ -9,6 +9,7 @@ using Ubora.Web._Components;
 using Ubora.Domain.Projects._SortSpecifications;
 using Ubora.Web._Features._Shared.Paging;
 using Ubora.Domain.Infrastructure;
+using Ubora.Web._Features._Shared;
 
 namespace Ubora.Web._Features.ProjectList.Models
 {
@@ -37,7 +38,8 @@ namespace Ubora.Web._Features.ProjectList.Models
                 _projectCardViewModelFactory = projectCardViewModelFactory;
             }
 
-            public ProjectListViewModel CreatePagedProjectListViewModel(SearchModel searchModel, string header, int page)
+            public ProjectListViewModel CreatePagedProjectListViewModel(SearchModel searchModel, string header,
+                int page)
             {
                 var sortSpecifications = new List<ISortSpecification<Project>>();
                 switch (searchModel.SortBy)
@@ -49,9 +51,11 @@ namespace Ubora.Web._Features.ProjectList.Models
                         sortSpecifications.Add(new SortByCreatedDateTimeSpecfication(SortOrder.Descending));
                         break;
                 }
-
-                var specification = CombineSpecificationMethods(false, searchModel);
-                var projects = _queryProcessor.Find<Project>(specification, new SortByMultipleSpecification<Project>(sortSpecifications), 24, page);
+                var sortByMultipleSpecification = new SortByMultipleSpecification<Project>(sortSpecifications);
+                
+                var combinedSpecification = CombineSpecificationMethods(false, searchModel);
+                
+                var projects = _queryProcessor.Find<Project>(combinedSpecification, sortByMultipleSpecification, 4, page);
 
                 var model = new ProjectListViewModel
                 {
@@ -81,7 +85,8 @@ namespace Ubora.Web._Features.ProjectList.Models
             {
                 if (string.IsNullOrEmpty(searchModel.Title))
                 {
-                    return CreatePagedProjectListViewModel(searchModel: searchModel, header: "All projects", page: page);
+                    return CreatePagedProjectListViewModel(searchModel: searchModel, header: "All projects",
+                        page: page);
                 }
 
                 var sortSpecifications = new List<ISortSpecification<Project>>();
@@ -96,7 +101,8 @@ namespace Ubora.Web._Features.ProjectList.Models
                 }
 
                 var specification = CombineSpecificationMethods(true, searchModel);
-                var projects = _queryProcessor.Find(specification, new SortByMultipleSpecification<Project>(sortSpecifications), 24, page);
+                var projects = _queryProcessor.Find(specification,
+                    new SortByMultipleSpecification<Project>(sortSpecifications), 4, page);
 
                 var model = new ProjectListViewModel();
                 if (!projects.Any())
@@ -123,20 +129,14 @@ namespace Ubora.Web._Features.ProjectList.Models
                     specifications.Add(new MatchAll<Project>());
                 }
 
-                if (!string.IsNullOrEmpty(searchModel.ByPotentialTechnologyTags))
-                {
-                    specifications.Add(new IsPotentialTechnologyTagsSpec(searchModel.ByPotentialTechnologyTags));
-                }
+                var areaSpecifications = IsAreaSpecifications(searchModel);
+                specifications.Add(new OrSpecification<Project>(areaSpecifications.ToArray()));
 
-                if (!string.IsNullOrEmpty(searchModel.ByClinicalNeedTags))
-                {
-                    specifications.Add(new IsClinicalNeedTagsSpec(searchModel.ByClinicalNeedTags));
-                }
+                var isClinicalNeedTagsSpecifications = IsClinicalNeedTagsSpecifications(searchModel);
+                specifications.Add(new OrSpecification<Project>(isClinicalNeedTagsSpecifications.ToArray()));
 
-                if (!string.IsNullOrEmpty(searchModel.ByArea))
-                {
-                    specifications.Add(new IsAreaSpec(searchModel.ByArea));
-                }
+                var isPotentialTechnologyTagsSpecifications = IsPotentialTechnologyTagsSpecifications(searchModel);
+                specifications.Add(new OrSpecification<Project>(isPotentialTechnologyTagsSpecifications.ToArray()));
 
                 if (searchModel.ByStatus == ByStatusFilteringMethod.Draft)
                 {
@@ -149,6 +149,52 @@ namespace Ubora.Web._Features.ProjectList.Models
 
                 return new AndSpecification<Project>(specifications.ToArray());
             }
+
+            private List<Specification<Project>> IsAreaSpecifications(SearchModel searchModel)
+            {
+                var projectSpecifications = new List<Specification<Project>>();
+                foreach (var areaId in searchModel.ByArea)
+                {
+                    var area = Tags.Areas[areaId];
+                    if (!string.IsNullOrEmpty(area))
+                    {
+                        projectSpecifications.Add(new IsAreaSpec(area));
+                    }
+                }
+
+                return projectSpecifications;
+            }
+
+            private List<Specification<Project>> IsClinicalNeedTagsSpecifications(SearchModel searchModel)
+            {
+                var projectSpecifications = new List<Specification<Project>>();
+                foreach (var clinicalNeedTagId in searchModel.ByClinicalNeedTags)
+                {
+                    var clinical = Tags.ClinicalNeeds[clinicalNeedTagId];
+                    if (!string.IsNullOrEmpty(clinical))
+                    {
+                        projectSpecifications.Add(new IsClinicalNeedTagsSpec(clinical));
+                    }
+                }
+
+                return projectSpecifications;
+            }
+
+            private List<Specification<Project>> IsPotentialTechnologyTagsSpecifications(SearchModel searchModel)
+            {
+                var projectSpecifications = new List<Specification<Project>>();
+                foreach (var potentialTechnologyTagId in searchModel.ByPotentialTechnologyTags)
+                {
+                    var potentialTechnology = Tags.PotentialTechnologies[potentialTechnologyTagId];
+                    if (!string.IsNullOrEmpty(potentialTechnology))
+                    {
+                        projectSpecifications.Add(
+                            new IsPotentialTechnologyTagsSpec(potentialTechnology));
+                    }
+                }
+
+                return projectSpecifications;
+            }  
         }
     }
 }
