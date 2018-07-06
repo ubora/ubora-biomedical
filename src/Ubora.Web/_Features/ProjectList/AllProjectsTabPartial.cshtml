@@ -23,7 +23,6 @@
                 }
             </a>
             <div>
-                <span class="align-middle px-2">Sort by</span>
                 <form method="get">
                     <input type="hidden" value="@commaSeparatedAreas" name="@nameof(Model.ByArea)" />
                     <input type="hidden" value="@commaSeparatedClinicalNeeds" name="@nameof(Model.ByClinicalNeedTags)" />
@@ -32,6 +31,7 @@
                     <input asp-for="Title" type="hidden" />
                     <input asp-for="ByStatus" type="hidden" />
                     <div id="sortByParamethers" class="dropdown d-inline-block">
+                        <span class="align-middle px-2">Sort by</span>
                         @if (Model.SortBy == SortBy.Newest)
                         {
                             <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
