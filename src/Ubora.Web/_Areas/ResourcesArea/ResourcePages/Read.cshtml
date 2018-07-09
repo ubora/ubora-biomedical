@@ -5,29 +5,7 @@
 }
 
 @section Left {
-    <div class="nav-resources">
-        @Html.Partial("_LeftResourcePagesNavMenuPartial.cshtml")
-    </div>
-    <div class="nav-resources-lg">
-        <button type="button" class="btn btn-icon d-flex align-items-center px-0" data-toggle="modal" data-target="#resourcesNavModal">
-            <i class="material-icons mr-2">menu</i>
-            <span>Resources menu</span>
-        </button>
-        <div class="modal fade modal-left-pane" id="resourcesNavModal" tabindex="-1" role="dialog" aria-labelledby="resourcesNavLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content bg-blue">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" class="color-white">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="resourcesNavLabel">
-                        @Html.Partial("_LeftResourcePagesNavMenuPartial.cshtml")
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @Html.Partial("_LeftResourcePagesNavMenuPartial.cshtml")
 }
 
 <nav aria-label="breadcrumb">
