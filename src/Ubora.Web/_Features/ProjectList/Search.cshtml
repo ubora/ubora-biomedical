@@ -1,8 +1,8 @@
 ﻿@using Ubora.Web._Features.ProjectList.Models
 @using Ubora.Web._Features.ProjectList
-@model Ubora.Web._Features.ProjectList.Models.SearchViewModel
 @using Ubora.Web.Data
 @using Ubora.Web._Features._Shared
+@model Ubora.Web._Features.ProjectList.Models.SearchViewModel
 
 @inject SignInManager<ApplicationUser> SignInManager
 
@@ -18,8 +18,8 @@
             <div class="col-xl-2 col-lg-3 py-3 pb-4 border-right h-min-lg-100-footer">
 
                 <form id="filters" asp-controller="ProjectList" asp-action="Search" method="get">
-                    <input asp-for="Tab" type="hidden" />
-                    <input asp-for="SortBy" type="hidden" />
+                    <input asp-for="Tab" type="hidden"/>
+                    <input asp-for="SortBy" type="hidden"/>
 
                     <div class="form-group search mb-5">
                         <input class="form-control" asp-for="Title" placeholder="Search projects..." aria-describedby="btnGroupAddon">
@@ -43,7 +43,7 @@
                                 {
                                     var id = nameof(Model.ByArea) + index;
                                     <div class="custom-control custom-checkbox mx-1 my-1">
-                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByArea)" value="@index" checked="@Model.ByArea.Contains(index)" />
+                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByArea)" value="@index" checked="@Model.ByArea.Contains(index)"/>
                                         <label class="custom-control-label" for="@id">@area</label>
                                     </div>
                                     index++;
@@ -54,7 +54,7 @@
                                 {
                                     var id = nameof(Model.ByArea) + index;
                                     <div class="custom-control custom-checkbox mx-1 my-1">
-                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByArea)" value="@index" checked="@Model.ByArea.Contains(index)" />
+                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByArea)" value="@index" checked="@Model.ByArea.Contains(index)"/>
                                         <label class="custom-control-label" for="@id">@area</label>
                                     </div>
                                     index++;
@@ -65,7 +65,7 @@
                                 {
                                     var id = nameof(Model.ByArea) + index;
                                     <div class="custom-control custom-checkbox mx-1 my-1">
-                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByArea)" value="@index" checked="@Model.ByArea.Contains(index)" />
+                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByArea)" value="@index" checked="@Model.ByArea.Contains(index)"/>
                                         <label class="custom-control-label" for="@id">@area</label>
                                     </div>
                                     index++;
@@ -76,7 +76,7 @@
                                 {
                                     var id = nameof(Model.ByArea) + index;
                                     <div class="custom-control custom-checkbox mx-1 my-1">
-                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByArea)" value="@index" checked="@Model.ByArea.Contains(index)" />
+                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByArea)" value="@index" checked="@Model.ByArea.Contains(index)"/>
                                         <label class="custom-control-label" for="@id">@area</label>
                                     </div>
                                     index++;
@@ -85,7 +85,7 @@
 
                         </div>
                     </div>
-                    <hr />
+                    <hr/>
                     <button class="btn btn-icon px-0 w-100" type="button" data-toggle="collapse" data-target="#collapseClinicalNeeds" aria-expanded="false" aria-controls="collapseClinicalNeeds">
                         <div class="d-flex justify-content-between">
                             <span>Clinical needs</span>
@@ -99,14 +99,14 @@
                                 {
                                     var id = nameof(Model.ByClinicalNeedTags) + i;
                                     <div class="custom-control custom-checkbox mx-1 my-1">
-                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByClinicalNeedTags)" value="@i" checked="@Model.ByClinicalNeedTags.Contains(i)" />
+                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByClinicalNeedTags)" value="@i" checked="@Model.ByClinicalNeedTags.Contains(i)"/>
                                         <label class="custom-control-label" for="@id">@Tags.ClinicalNeeds[i]</label>
                                     </div>
                                 }
                             }
                         </div>
                     </div>
-                    <hr />
+                    <hr/>
                     <button class="btn btn-icon px-0 w-100" type="button" data-toggle="collapse" data-target="#collapseTechnology" aria-expanded="false" aria-controls="collapseTechnology">
                         <div class="d-flex justify-content-between">
                             <span>Technology</span>
@@ -120,28 +120,28 @@
                                 {
                                     var id = nameof(Model.ByPotentialTechnologyTags) + i;
                                     <div class="custom-control custom-checkbox mx-1 my-1">
-                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByPotentialTechnologyTags)" value="@i" checked="@Model.ByPotentialTechnologyTags.Contains(i)" />
+                                        <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByPotentialTechnologyTags)" value="@i" checked="@Model.ByPotentialTechnologyTags.Contains(i)"/>
                                         <label class="custom-control-label" for="@id">@Tags.PotentialTechnologies[i]</label>
                                     </div>
                                 }
                             }
                         </div>
                     </div>
-                    <hr />
+                    <hr/>
                     <span>Status</span>
                     @{
                         <div class="custom-control custom-radio mx-1 my-1">
-                            <input id="statusAll" type="radio" asp-for="ByStatus" class="custom-control-input" value="@ByStatusFilteringMethod.All" />
+                            <input id="statusAll" type="radio" asp-for="ByStatus" class="custom-control-input" value="@ByStatusFilteringMethod.All"/>
                             <label for="statusAll" class="custom-control-label">All</label>
                         </div>
 
                         <div class="custom-control custom-radio mx-1 my-1">
-                            <input id="statusDraft" type="radio" asp-for="ByStatus" class="custom-control-input" value="@ByStatusFilteringMethod.Draft" />
+                            <input id="statusDraft" type="radio" asp-for="ByStatus" class="custom-control-input" value="@ByStatusFilteringMethod.Draft"/>
                             <label for="statusDraft" class="custom-control-label">Draft</label>
                         </div>
 
                         <div class="custom-control custom-radio mx-1 my-1">
-                            <input id="statusApproved" type="radio" asp-for="ByStatus" class="custom-control-input" value="@ByStatusFilteringMethod.NotDraft" />
+                            <input id="statusApproved" type="radio" asp-for="ByStatus" class="custom-control-input" value="@ByStatusFilteringMethod.NotDraft"/>
                             <label for="statusApproved" class="custom-control-label">Approved</label>
                         </div>
                     }
@@ -176,23 +176,7 @@
 
             </ul>
 
-            <div class="tab-content" id="projectsTabContent">
-                @if (SignInManager.IsSignedIn(User) && Model.Tab == TabType.MyProjects)
-                {
-                    <div class="tab-pane fade show active" id="myProjects">
-                        <div class="my-4">
-                            @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
-                        </div>
-                    </div>
-
-                    <div class="tab-pane fade" id="allProjects">
-                    </div>
-                }
-                else
-                {
-                    @await Html.PartialAsync("AllProjectsTabPartial.cshtml", Model)
-                }
-            </div>
+            @await Html.PartialAsync("ProjectsTabPartial.cshtml", Model)
 
         </div>
         <div class="col-xl-2 py-3"></div>
@@ -208,16 +192,21 @@
     }
     <script>
         function applyFilters() {
-            $.ajax('/projects/search', {
-                method: 'get',
-                data: compress($('#filters').serialize()),
-                success: function (response) {
-                    history.replaceState({}, '', this.url); // https://developer.mozilla.org/en-US/docs/Web/API/History_API
-                    var responseHtml = $(response).find('.tab-content').html();
-                    $('.tab-content').html(responseHtml);
-                    UBORA.initInfiniteScroll(window.location.href);
-                }
-            });
+            $.ajax('/projects/search',
+                {
+                    method: 'get',
+                    data: compress($('#filters').serialize()),
+                    success: function(response) {
+                        history.replaceState({},
+                            '',
+                            this.url); // https://developer.mozilla.org/en-US/docs/Web/API/History_API
+                        var responseHtml = $(response).find('.tab-content').html();
+                        console.log(response);
+                        console.log(responseHtml);
+                        $('.tab-content').html(responseHtml);
+                        UBORA.initInfiniteScroll(window.location.href);
+                    }
+                });
         }
 
         //Multiple parameters to a comma-separated - https://stackoverflow.com/questions/2019608/pass-entire-form-as-data-in-jquery-ajax-function/2020193#2020193
@@ -226,14 +215,17 @@
             return /([^&=]+=).*?&\1/.test(data) ? compress(data) : data;
         }
 
-        $('#filters :input').change($.debounce(250, function () {
-            applyFilters();
-        }));
+        $('#filters :input').change($.debounce(250,
+            function() {
+                applyFilters();
+            }));
 
         var $title = $('#Title');
         $title.unbind();
-        $title.on('input', $.debounce(250, function () {
-            applyFilters();
-        }));
+        $title.on('input',
+            $.debounce(250,
+                function() {
+                    applyFilters();
+                }));
     </script>
 }

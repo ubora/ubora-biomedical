@@ -7,13 +7,16 @@ namespace Ubora.Web._Features.ProjectList
 {
     public class ProjectListController : UboraController
     {
+        [ResponseCache(NoStore = true)]
         [Route("projects", Order = 0)]
         [Route("projects/search", Order = 1, Name = "ProjectsSearch")]
         public IActionResult Search([FromServices]ProjectListViewModel.Factory modelFactory, SearchModel searchModel, int page = 1)
         {
             var projectListViewModel = modelFactory.CreateForSearch(searchModel, page);
-    
-            return View(nameof(Search), new SearchViewModel
+
+            var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+
+            var searchViewModel = new SearchViewModel
             {
                 Title = searchModel.Title,
                 Tab = searchModel.Tab,
@@ -23,7 +26,16 @@ namespace Ubora.Web._Features.ProjectList
                 ByStatus = searchModel.ByStatus,
                 SortBy = searchModel.SortBy,
                 ProjectListViewModel = projectListViewModel
-            });
+            };
+            
+            if (isAjax)
+            {
+                return PartialView("~/_Features/ProjectList/ProjectsTabPartial.cshtml", searchViewModel);
+            }
+            else
+            {
+                return View(nameof(Search), searchViewModel);
+            }
         }
     }
 
