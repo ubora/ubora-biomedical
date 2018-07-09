@@ -1,4 +1,5 @@
 ﻿using Ubora.Domain.Projects.Workpackages.Queries;
+using Ubora.Web._Features._Shared.LeftSideMenu;
 
 namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
 {
@@ -36,24 +37,5 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                 }
             }
         }
-    }
-
-    public abstract class HyperlinkMenuItem : ISideMenuItem
-    {
-        protected HyperlinkMenuItem(NestingLevel nesting, string id, string displayName, string href)
-        {
-            DisplayName = displayName;
-            Href = href;
-            Nesting = nesting;
-            Id = id;
-        }
-
-        public string Id { get; }
-        public string DisplayName { get; }
-        public bool IsSelected { get; set; }
-        public string Href { get; }
-        public NestingLevel Nesting { get; }
-
-        public virtual string ATagClass => IsSelected ? "active-status" : "";
     }
 }

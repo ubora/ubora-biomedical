@@ -16,7 +16,7 @@ namespace Ubora.Domain.Resources
         public int MenuPriority { get; private set; }
 
         public string GetBlobContainerName() => $"resourcepage-{Id}";
-        public Guid ParentCategoryId { get; private set; }
+        public Guid? ParentCategoryId { get; private set; }
 
         private void SetBody(QuillDelta body)
         {

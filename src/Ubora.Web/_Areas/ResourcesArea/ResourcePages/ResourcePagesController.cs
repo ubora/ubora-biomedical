@@ -36,9 +36,11 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             if (ResourcePage == null)
             {
                 context.Result = new NotFoundResult();
+                return;
             }
+
             // Redirect if URL is not to the latest slug.
-            else if (!SlugOrId.Equals(ResourcePage.ActiveSlug.Value, StringComparison.OrdinalIgnoreCase))
+            if (!SlugOrId.Equals(ResourcePage.ActiveSlug.Value, StringComparison.OrdinalIgnoreCase))
             {
                 var test = (dynamic)context.ActionDescriptor;
                 context.RouteData.Values["slugOrId"] = ResourcePage.ActiveSlug.Value;

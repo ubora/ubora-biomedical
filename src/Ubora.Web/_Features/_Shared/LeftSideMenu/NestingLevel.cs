@@ -1,4 +1,4 @@
-﻿namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
+﻿namespace Ubora.Web._Features._Shared.LeftSideMenu
 {
     public enum NestingLevel
     {

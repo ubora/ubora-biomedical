@@ -2,13 +2,9 @@
 @using Ubora.Domain.Resources
 @using Ubora.Domain.Resources.Events
 @using Ubora.Domain.Resources.Queries
+@using Ubora.Web._Areas.ResourcesArea._Shared.Models
 @using Ubora.Web._Features.Projects.Workpackages.SideMenu
 @inject Ubora.Domain.Infrastructure.Queries.IQueryProcessor QueryProcessor
-@*<form style="visibility:hidden;">
-        <div class="form-group">
-            <input placeholder="Search..." class="form-control" type="text" />
-        </div>
-    </form>*@
 
 @{
     var sideMenuFactory = new ResourcesHierarchySideMenuFactory(Url);
@@ -23,11 +19,22 @@
     {
         ResourcesHierarchySideMenuFactory.MarkSelected(model.TopLevelMenuItems, (string)ViewContext.RouteData.Values["slugOrId"]);
     }
+
+    var menuLinks = model.TopLevelMenuItems.Select(item => Html.Partial("~/_Features/_Shared/LeftSideMenu/_SideMenuItemPartial.cshtml", item)).ToList();
 }
 
 <div class="nav-resources">
     <nav class="nav flex-column">
-        @Html.Partial("~/_Features/Projects/Workpackages/SideMenu/_WorkpackageSideMenuPartial.cshtml", model)
+
+        <aside>
+            <ul class="list-sidebar">
+                @foreach (var menuLink in menuLinks)
+                {
+                    @menuLink
+                }
+            </ul>
+        </aside>
+
     </nav>
 </div>
 <div class="nav-resources-lg">
@@ -45,7 +52,16 @@
                 </div>
                 <div class="modal-body" id="resourcesNavLabel">
                     <nav class="nav flex-column">
-                        @Html.Partial("~/_Features/Projects/Workpackages/SideMenu/_WorkpackageSideMenuPartial.cshtml", model)
+                        
+                        <aside>
+                            <ul class="list-sidebar">
+                                @foreach (var menuLink in menuLinks)
+                                {
+                                    @menuLink
+                                }
+                            </ul>
+                        </aside>
+
                     </nav>
                 </div>
             </div>

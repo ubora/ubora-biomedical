@@ -4,7 +4,7 @@
     <ul class="list-sidebar">
         @foreach (var topLevelMenuItem in Model.TopLevelMenuItems)
         {
-            @Html.Partial("~/_Features/Projects/Workpackages/SideMenu/_SideMenuItemPartial.cshtml", topLevelMenuItem)
+            @Html.Partial("~/_Features/_Shared/LeftSideMenu/_SideMenuItemPartial.cshtml", topLevelMenuItem)
         }
     </ul>
 </aside>

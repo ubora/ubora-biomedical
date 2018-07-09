@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Workpackages.Queries;
+using Ubora.Web._Features._Shared.LeftSideMenu;
 
 namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
 {

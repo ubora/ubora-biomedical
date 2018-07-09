@@ -1,4 +1,4 @@
-﻿@model Ubora.Web._Features.Projects.Workpackages.SideMenu.CollapseMenuItem
+﻿@model Ubora.Web._Features._Shared.LeftSideMenu.CollapseMenuItem
 
 <li id="@Model.Id">
     <span class="d-flex align-items-center">
@@ -12,7 +12,7 @@
         <ul class="collapse @(Model.IsSelected ? "show" : "") @(Model.CssClassForItemsBelow) @Model.InnerMenuItemsId">
             @foreach (var innerMenuItem in Model.InnerMenuItems)
             {
-                @Html.Partial("~/_Features/Projects/Workpackages/SideMenu/_SideMenuItemPartial.cshtml", innerMenuItem);
+                @Html.Partial("_SideMenuItemPartial.cshtml", innerMenuItem);
             }
         </ul>
     }

@@ -11,7 +11,7 @@ namespace Ubora.Domain.Resources.Commands
         public string Title { get; set; }
         public QuillDelta Body { get; set; }
         public int MenuPriority { get; set; }
-        public Guid ParentCategoryId { get; set; }
+        public Guid? ParentCategoryId { get; set; }
 
         internal class Handler : ICommandHandler<CreateResourcePageCommand>
         {

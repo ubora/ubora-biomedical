@@ -6,10 +6,9 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourceCategories.Models
     public class CreateResourceCategoryPostModel
     {
         [Required]
-        [StringLength(50)]
+        [StringLength(30)]
         public string Title { get; set; }
 
-        [Required]
         [StringLength(200)]
         public string Description { get; set; }
 

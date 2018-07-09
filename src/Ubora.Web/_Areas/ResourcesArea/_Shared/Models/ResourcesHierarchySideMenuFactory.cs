@@ -4,26 +4,10 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Resources;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages;
-using Ubora.Web._Features.Projects.Workpackages.SideMenu;
+using Ubora.Web._Features._Shared.LeftSideMenu;
 
-namespace Ubora.Web._Areas.ResourcesArea.ResourceCategories
+namespace Ubora.Web._Areas.ResourcesArea._Shared.Models
 {
-    public class ResourcesSideMenuHyperlinkMenuItem : HyperlinkMenuItem
-    {
-        public ResourcesSideMenuHyperlinkMenuItem(NestingLevel nesting, string id, string displayName, string href) 
-            : base(nesting, id, displayName, href)
-        {
-        }
-    }
-
-    public class ResourcesSideMenuCollapseMenuItem : CollapseMenuItem
-    {
-        public ResourcesSideMenuCollapseMenuItem(NestingLevel nesting, string id, string displayName, IEnumerable<ISideMenuItem> innerMenuItems) 
-            : base(nesting, id, displayName, innerMenuItems)
-        {
-        }
-    }
-
     public class ResourcesHierarchySideMenuFactory
     {
         private readonly IUrlHelper _urlHelper;
@@ -50,13 +34,13 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourceCategories
                 switch (link)
                 {
                     case ResourcePageLink _:
-                        yield return new ResourcesSideMenuHyperlinkMenuItem((NestingLevel)nesting, link.Slug.ToString(), link.Title, _urlHelper.Action(nameof(ResourcePagesController.Read), nameof(ResourcePagesController).RemoveSuffix(), new { slugOrId = link.Id }));
+                        yield return new ResourcesSideMenuHyperlinkMenuItem((NestingLevel)nesting, link.Slug.ToString(), link.Title, _urlHelper.Action(nameof(ResourcePagesController.Read), nameof(ResourcePagesController).RemoveSuffix(), new { slugOrId = link.Slug }));
                         break;
                     case ResourceCategoryLink _:
                         var children = root.Links.Where(l => l.ParentCategoryId == link.Id).ToList();
                         if (children.Any())
                         {
-                            yield return new ResourcesSideMenuCollapseMenuItem((NestingLevel)nesting, link.Id.ToString(), link.Title, CreateSideMenuItems(children, nesting + 1, root).ToList());
+                            yield return new ResourcesSideMenuCollapseMenuItem((NestingLevel)nesting, link.Slug.ToString(), link.Title, CreateSideMenuItems(children, nesting + 1, root).ToList());
                         }
                         break;
                 }

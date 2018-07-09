@@ -65,10 +65,14 @@ namespace Ubora.Domain.Resources
 
         internal void Apply(ResourcePageCreatedEvent @event)
         {
-            if (Links.OfType<ResourceCategoryLink>().All(category => category.Id != @event.ParentCategoryId))
+            if (@event.ParentCategoryId.HasValue)
             {
-                throw new InvalidOperationException($"Parent category does not exist. Parent ID: {@event.ParentCategoryId}");
+                if (Links.OfType<ResourceCategoryLink>().All(category => category.Id != @event.ParentCategoryId))
+                {
+                    throw new InvalidOperationException($"Parent category does not exist. Parent ID: {@event.ParentCategoryId}");
+                }
             }
+            
 
             Links = Links.Add(new ResourcePageLink
             {

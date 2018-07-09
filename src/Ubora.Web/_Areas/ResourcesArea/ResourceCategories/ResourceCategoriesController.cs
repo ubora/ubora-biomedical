@@ -6,6 +6,7 @@ using Ubora.Web._Areas.ResourcesArea._Shared;
 using Ubora.Web._Features.Projects.Workpackages.SideMenu;
 using Ubora.Web._Features._Shared.Notices;
 using Ubora.Domain.Resources.Queries;
+using Ubora.Web._Areas.ResourcesArea._Shared.Models;
 
 namespace Ubora.Web._Areas.ResourcesArea.ResourceCategories
 {
