@@ -8,6 +8,8 @@
 
 @{
     ViewData["Title"] = "Biomedical device projects";
+
+    var isSignedIn = SignInManager.IsSignedIn(User);
 }
 
 <div class="container-fluid">
@@ -151,7 +153,7 @@
         <div class="@(@Model.Tab == TabType.AllProjects ? "col-xl-8 col-lg-9 px-xl-7 py-3" : "col-xl-8 col-lg-9 px-xl-7 py-3 offset-xl-2 offset-lg-1")">
             <h1>@ViewData["Title"]</h1>
             <ul class="nav nav-tabs" id="projectsTab">
-                @if (SignInManager.IsSignedIn(User))
+                @if (isSignedIn)
                 {
                     <li class="nav-item">
                         <a class="nav-link d-flex align-items-center @(Model.Tab == TabType.MyProjects ? "active" : "")" id="my-projects-tab" asp-route-tab="@TabType.MyProjects">
@@ -165,14 +167,16 @@
                     </a>
                 </li>
 
-                <li class="ml-sm-auto d-xs-block">
-                    <a class="btn btn-sm btn-outline-primary d-xs-block my-xs-2" asp-controller="ProjectCreation" asp-action="Create" role="button">
-                        <i class="material-icons">add</i>
-                        <span>
-                            Create project
-                        </span>
-                    </a>
-                </li>
+                @if(isSignedIn){
+                    <li class="ml-sm-auto d-xs-block">
+                        <a class="btn btn-sm btn-outline-primary d-xs-block my-xs-2" asp-controller="ProjectCreation" asp-action="Create" role="button">
+                            <i class="material-icons">add</i>
+                            <span>
+                                Create project
+                            </span>
+                        </a>
+                    </li>
+                }
 
             </ul>
 
