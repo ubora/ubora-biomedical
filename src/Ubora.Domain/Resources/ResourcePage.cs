@@ -8,14 +8,13 @@ namespace Ubora.Domain.Resources
     {
         public Guid Id { get; private set; }
         public string Title { get; private set; }
+        public int MenuPriority { get; private set; }
+        public Guid? CategoryId { get; private set; }
 
         public int BodyVersion { get; private set; }
         public QuillDelta Body { get; private set; }
 
-        public int MenuPriority { get; private set; }
-
         public string GetBlobContainerName() => $"resourcepage-{Id}";
-        public Guid? ParentCategoryId { get; private set; }
 
         private void SetBody(QuillDelta body)
         {
@@ -31,7 +30,7 @@ namespace Ubora.Domain.Resources
             Id = @event.ResourcePageId;
             Title = @event.Title;
             MenuPriority = @event.MenuPriority;
-            ParentCategoryId = @event.ParentCategoryId;
+            CategoryId = @event.ParentCategoryId;
 
             SetBody(@event.Body);
         }
@@ -47,6 +46,11 @@ namespace Ubora.Domain.Resources
                 throw new InvalidOperationException("Content has been changed -- the versions don't match.");
 
             SetBody(@event.Body);
+        }
+
+        private void Apply(ResourcePageMenuPriorityChangedEvent @event)
+        {
+            MenuPriority = @event.MenuPriority;
         }
     }
 }

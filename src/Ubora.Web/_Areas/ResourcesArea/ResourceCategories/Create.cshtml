@@ -6,7 +6,7 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a asp-action="@nameof(IndexController.Index)" asp-controller="@nameof(IndexController).RemoveSuffix()">Resources</a></li>
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Resources</a></li>
         <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
     </ol>
 </nav>
@@ -39,7 +39,7 @@
         <span asp-validation-for="MenuPriority" class="text-danger"></span>
     </div>
     <div class="form-group float-right">
-        <a class="btn btn-outline-primary" role="button" asp-action="@nameof(IndexController.Index)" asp-controller="@nameof(IndexController).RemoveSuffix()">Cancel</a>
+        <a class="btn btn-outline-primary" role="button" asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Cancel</a>
         <input type="submit" value="Create category" class="btn btn-primary" />
     </div>
 </form>
@@ -47,7 +47,6 @@
 @section Scripts {
     <script>
         function refreshCategories() {
-            console.log('foo')
             $.ajax({
                 url: "/resources/categories/test",
                 success: function (result) {

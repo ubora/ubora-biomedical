@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions;
 using Marten;
 using Moq;
 using Ubora.Domain.Resources;
@@ -7,15 +8,15 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Resources
 {
-    public class EditResourceContentCommandHandlerTests
+    public class EditResourceCommandHandlerTests
     {
         private readonly Mock<IDocumentSession> _documentSessionMock;
-        private readonly EditResourcePageContentCommand.Handler _handlerUnderTest;
+        private readonly EditResourcePageCommand.Handler _handlerUnderTest;
 
-        public EditResourceContentCommandHandlerTests()
+        public EditResourceCommandHandlerTests()
         {
             _documentSessionMock = new Mock<IDocumentSession>();
-            _handlerUnderTest = new EditResourcePageContentCommand.Handler(_documentSessionMock.Object);
+            _handlerUnderTest = new EditResourcePageCommand.Handler(_documentSessionMock.Object);
         }
 
         [Fact]
@@ -23,6 +24,7 @@ namespace Ubora.Domain.Tests.Resources
         {
             var resource = new ResourcePage()
                 .Set(x => x.Id, Guid.NewGuid())
+                .Set(x => x.Body, new QuillDelta("first"))
                 .Set(x => x.BodyVersion, 1);
             
             _documentSessionMock
@@ -30,9 +32,10 @@ namespace Ubora.Domain.Tests.Resources
                 .Returns(resource);
 
             // Act
-            var commandResult = _handlerUnderTest.Handle(new EditResourcePageContentCommand
+            var commandResult = _handlerUnderTest.Handle(new EditResourcePageCommand
             {
-                ResourceId = resource.Id,
+                ResourcePageId = resource.Id,
+                Body = new QuillDelta("second"),
                 PreviousContentVersion = 2,
                 Actor = new DummyUserInfo()
             });

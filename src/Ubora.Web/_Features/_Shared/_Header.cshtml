@@ -1,7 +1,7 @@
 ﻿@using Ubora.Web.Data
 @using Ubora.Web.Services
 @using Ubora.Web._Features.Notifications
-@using Ubora.Web._Areas.ResourcesArea.Index
+@using Ubora.Web._Areas.ResourcesArea.ResourcesMenus
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject ApplicationUserManager UserManager
@@ -63,7 +63,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" asp-controller="@nameof(IndexController.Index)" asp-action="@nameof(IndexController).RemoveSuffix()" asp-area="@Areas.ResourcesArea">
+                    <a class="nav-link d-flex align-items-center" asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()" asp-area="@Areas.ResourcesArea">
                         <i class="material-icons">school</i>
                         <span class="nav-link-description ml-1">Resources</span>
                     </a>
@@ -123,7 +123,7 @@ else
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" asp-controller="@nameof(IndexController.Index)" asp-action="@nameof(IndexController).RemoveSuffix()" asp-area="@Areas.ResourcesArea">
+                    <a class="nav-link d-flex align-items-center" asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()" asp-area="@Areas.ResourcesArea">
                         <i class="material-icons">school</i>
                         <span class="nav-link-description ml-1">Resources</span>
                     </a>

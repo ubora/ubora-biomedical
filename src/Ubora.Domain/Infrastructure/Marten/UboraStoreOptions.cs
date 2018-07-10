@@ -63,7 +63,8 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<IProjectEntity>()
                     .AddSubClassHierarchy(typeof(EventLogEntry));
 
-                options.Schema.For<ResourcePage>();
+                options.Schema.For<ResourcePage>().Duplicate(x => x.CategoryId);
+                options.Schema.For<ResourceCategory>().SoftDeleted();
 
                 options.Schema.For<ResourceFile>()
                     .Duplicate(file => file.ResourcePageId);
@@ -81,7 +82,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ResourceFile, IResourceFileEvent>());
                 options.Events.InlineProjections.AggregateStreamsWith<Candidate>();
                 options.Events.InlineProjections.AggregateStreamsWith<ResourceCategory>();
-                options.Events.InlineProjections.Add(new ResourcesHierarchyViewProjection());
+                options.Events.InlineProjections.Add(new ResourcesMenuViewProjection());
 
                 options.Events.AddEventTypes(eventTypes);
 

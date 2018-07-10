@@ -9,28 +9,26 @@ using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Commands;
-using Ubora.Domain.Resources.Queries;
 using Ubora.Domain.Resources.Specifications;
 using Ubora.Web._Features._Shared.Notices;
 using Ubora.Web._Features.Projects.History._Base;
 using Ubora.Web.Infrastructure.Extensions;
-using Ubora.Web._Areas.ResourcesArea.Index.Models;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages.Models;
+using Ubora.Web._Areas.ResourcesArea.ResourcesMenus;
 using Ubora.Web._Areas.ResourcesArea._Shared;
-using Ubora.Web._Areas.ResourcesArea.Index;
 
 namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
 {
     [Route("resources/{resourcePageId}")]
     public class ResourcePagesController : ResourcesAreaController
     {
-        public Guid resourcePageId => Guid.Parse(RouteData.Values["resourcePageId"] as string);
+        public Guid ResourcePageId => Guid.Parse(RouteData.Values["resourcePageId"] as string);
 
         public ResourcePage ResourcePage { get; private set; }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            ResourcePage = QueryProcessor.FindById<ResourcePage>(resourcePageId);
+            ResourcePage = QueryProcessor.FindById<ResourcePage>(ResourcePageId);
             if (ResourcePage == null)
             {
                 context.Result = new NotFoundResult();
@@ -142,12 +140,14 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
                 return Edit(modelFactory);
 
             ExecuteUserCommand(
-                new EditResourcePageContentCommand
+                new EditResourcePageCommand
                 {
-                    ResourceId = model.ResourceId,
+                    ResourcePageId = model.ResourceId,
                     Title = model.Title,
                     Body = new QuillDelta(model.Body),
-                    PreviousContentVersion = model.ContentVersion
+                    PreviousContentVersion = model.ContentVersion,
+                    MenuPriority = model.MenuPriority,
+                    ParentCategoryId = model.ParentCategoryId
                 },
                 successNotice: Notice.Success("Resource edited"));
 
@@ -184,7 +184,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
                 return Delete();
             }
 
-            return RedirectToAction(nameof(IndexController.Index), nameof(IndexController).RemoveSuffix());
+            return RedirectToAction(nameof(ResourcesMenusController.HighestPriorityResourcePage), nameof(ResourcesMenusController).RemoveSuffix());
         }
 
         [Route("history")]

@@ -5,10 +5,9 @@ using System.Linq.Expressions;
 using Marten.Pagination;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Resources;
-using Ubora.Domain.Resources.Events;
 using Ubora.Web._Features._Shared.Paging;
 
-namespace Ubora.Web._Areas.ResourcesArea.Index.Models
+namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Models
 {
     public class IndexResourceFilesViewModel
     {

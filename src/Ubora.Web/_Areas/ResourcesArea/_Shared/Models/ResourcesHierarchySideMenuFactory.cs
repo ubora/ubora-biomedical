@@ -17,7 +17,7 @@ namespace Ubora.Web._Areas.ResourcesArea._Shared.Models
             _urlHelper = urlHelper;
         }
 
-        public IEnumerable<ISideMenuItem> CreateSideMenuItems(ResourcesHierarchy root)
+        public IEnumerable<ISideMenuItem> CreateSideMenuItems(ResourcesMenu root)
         {
             var rootLinks = root.Links.Where(link => !link.ParentCategoryId.HasValue);
 
@@ -27,7 +27,7 @@ namespace Ubora.Web._Areas.ResourcesArea._Shared.Models
             }
         }
 
-        public IEnumerable<ISideMenuItem> CreateSideMenuItems(IEnumerable<ILink> links, int nesting, ResourcesHierarchy root)
+        public IEnumerable<ISideMenuItem> CreateSideMenuItems(IEnumerable<IResourceMenuLink> links, int nesting, ResourcesMenu root)
         {
             foreach (var link in links)
             {

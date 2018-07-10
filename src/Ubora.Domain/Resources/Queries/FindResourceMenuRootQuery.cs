@@ -3,9 +3,9 @@ using Ubora.Domain.Infrastructure.Queries;
 
 namespace Ubora.Domain.Resources.Queries
 {
-    public class FindResourceMenuRootQuery : IQuery<ResourcesHierarchy>
+    public class FindResourceMenuRootQuery : IQuery<ResourcesMenu>
     {
-        public class Handler : IQueryHandler<FindResourceMenuRootQuery, ResourcesHierarchy>
+        public class Handler : IQueryHandler<FindResourceMenuRootQuery, ResourcesMenu>
         {
             private readonly IQuerySession _querySession;
 
@@ -14,9 +14,9 @@ namespace Ubora.Domain.Resources.Queries
                 _querySession = querySession;
             }
 
-            public ResourcesHierarchy Handle(FindResourceMenuRootQuery query)
+            public ResourcesMenu Handle(FindResourceMenuRootQuery query)
             {
-                return _querySession.Load<ResourcesHierarchy>(ResourcesHierarchy.SingletonId);
+                return _querySession.Load<ResourcesMenu>(ResourcesMenu.SingletonId);
             }
         }
     }

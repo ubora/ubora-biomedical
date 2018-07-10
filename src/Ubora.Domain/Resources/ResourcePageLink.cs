@@ -2,12 +2,28 @@
 
 namespace Ubora.Domain.Resources
 {
-    // TODO: immutable
-    public class ResourcePageLink : ILink
+    public class ResourcePageLink : IResourceMenuLink
     {
-        public Guid Id { get; set; }
-        public Guid? ParentCategoryId { get; set; }
-        public string Title { get; set; }
-        public int MenuPriority { get; set; }
+        public ResourcePageLink(Guid id, Guid? parentCategoryId, string title, int menuPriority)
+        {
+            Id = id;
+            ParentCategoryId = parentCategoryId;
+            Title = title;
+            MenuPriority = menuPriority;
+        }
+
+        public Guid Id { get; }
+        public Guid? ParentCategoryId { get; }
+        public string Title { get; }
+        public int MenuPriority { get; }
+
+        public ResourcePageLink Edit(string title, int menuPriority, Guid? parentCategoryId)
+        {
+            return new ResourcePageLink(
+                id: Id,
+                title: title,
+                menuPriority: menuPriority,
+                parentCategoryId: parentCategoryId);
+        }
     }
 }

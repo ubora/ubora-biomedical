@@ -20,7 +20,8 @@ namespace Ubora.Domain.Tests.Resources
                 Title = "Introduction page",
                 Body = new QuillDelta("Hello, and welcome!"),
                 Actor = new DummyUserInfo(),
-                MenuPriority = 123
+                MenuPriority = 123,
+                ParentCategoryId = null
             };
             
             // Act
@@ -32,12 +33,19 @@ namespace Ubora.Domain.Tests.Resources
             var singleEventInStream = Session.Events.FetchStream(resourceId).ToList().Single();
             singleEventInStream.Data.Should().BeOfType<ResourcePageCreatedEvent>();
             
-            var resource = Session.Load<ResourcePage>(resourceId);
+            var resourcePage = Session.Load<ResourcePage>(resourceId);
 
-            resource.Id.Should().Be(resourceId);
-            resource.Title.Should().Be("Introduction page");
-            resource.Body.Should().Be(new QuillDelta("Hello, and welcome!"));
-            resource.MenuPriority.Should().Be(123);
+            resourcePage.Id.Should().Be(resourceId);
+            resourcePage.Title.Should().Be("Introduction page");
+            resourcePage.Body.Should().Be(new QuillDelta("Hello, and welcome!"));
+            resourcePage.MenuPriority.Should().Be(123);
+            resourcePage.CategoryId.Should().BeNull();
+
+            // Link should be in menu
+            Session.Load<ResourcesMenu>(ResourcesMenu.SingletonId)
+                .Links.OfType<ResourcePageLink>()
+                .Any(link => link.Id == resourceId && link.Title == "Introduction page")
+                .Should().BeTrue();
         }
     }
 }

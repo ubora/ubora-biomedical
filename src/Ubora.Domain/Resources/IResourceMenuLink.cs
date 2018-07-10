@@ -2,7 +2,7 @@
 
 namespace Ubora.Domain.Resources
 {
-    public interface ILink
+    public interface IResourceMenuLink
     {
         Guid Id { get; }
         Guid? ParentCategoryId { get; }

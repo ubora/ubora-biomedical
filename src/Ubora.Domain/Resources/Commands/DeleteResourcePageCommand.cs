@@ -1,6 +1,7 @@
 ﻿using System;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
+using Ubora.Domain.Resources.Events;
 
 namespace Ubora.Domain.Resources.Commands
 {
@@ -23,6 +24,7 @@ namespace Ubora.Domain.Resources.Commands
             {
                 var resourcePage = _documentSession.LoadOrThrow<ResourcePage>(cmd.ResourcePageId);
 
+                _documentSession.Events.Append(resourcePage.Id, new ResourcePageDeletedEvent(cmd.Actor, cmd.ResourcePageId));
                 _documentSession.DeleteWhere<ResourceFile>(resourceFile => resourceFile.ResourcePageId == resourcePage.Id);
                 _documentSession.Delete(resourcePage);
 

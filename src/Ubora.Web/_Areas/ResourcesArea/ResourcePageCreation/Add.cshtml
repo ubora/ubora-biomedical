@@ -6,7 +6,7 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a asp-action="@nameof(IndexController.Index)" asp-controller="@nameof(IndexController).RemoveSuffix()">Resources</a></li>
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Resources</a></li>
         <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
     </ol>
 </nav>
@@ -30,20 +30,24 @@
         <div id="editor-container" class="form-group" style="display: none;"></div>
     </div>
     <div class="form-group">
+        <label asp-for="ParentCategoryId">Category</label>
+        <span asp-validation-for="ParentCategoryId"></span>
+        <div id="js-categories">
+            @await Component.InvokeAsync(typeof(ResourceCategorySelectionViewComponent))
+        </div>
+        <small class="float-right">
+            <a href="javascript:refreshCategories();">Refresh categories</a> |
+            <a asp-action="@nameof(ResourceCategoriesController.Create)" asp-controller="@nameof(ResourceCategoriesController).RemoveSuffix()" target="_blank">Create new category</a>
+        </small>
+    </div>
+    <div class="form-group">
         <label asp-for="MenuPriority">Menu priority</label>
         <input class="form-control" asp-for="MenuPriority" value="0" />
         <span asp-validation-for="MenuPriority"></span>
         <small>Resource pages are ordered by from highest priority to lowest, and then by title alphabetically. You can leave it at "0".</small>
     </div>
-    <div class="form-group">
-        <label asp-for="ParentCategoryId">Category</label>
-        <span asp-validation-for="ParentCategoryId"></span>
-        <div id="js-categories">
-        </div>
-        <small><a href="javascript:refreshCategories();">Refresh categories</a></small>
-    </div>
     <div class="float-right">
-        <a class="btn btn-outline-primary" role="button" asp-action="@nameof(IndexController.Index)" asp-controller="@nameof(IndexController).RemoveSuffix()">Cancel</a>
+        <a class="btn btn-outline-primary" role="button" asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Cancel</a>
         <button class="btn btn-primary" type="submit">Create & publish</button>
     </div>
 </form>
@@ -58,8 +62,6 @@
                 }
             });
         };
-
-        refreshCategories();
 
         var contentInputSelector = "#@nameof(Model.Body)";
         var editorSelector = "#editor-container";

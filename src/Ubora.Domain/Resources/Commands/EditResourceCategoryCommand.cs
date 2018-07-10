@@ -5,7 +5,7 @@ using Ubora.Domain.Resources.Events;
 
 namespace Ubora.Domain.Resources.Commands
 {
-    public class CreateResourceCategoryCommand : UserCommand
+    public class EditResourceCategoryCommand : UserCommand
     {
         public Guid CategoryId { get; set; }
         public string Title { get; set; }
@@ -13,7 +13,7 @@ namespace Ubora.Domain.Resources.Commands
         public Guid? ParentCategoryId { get; set; }
         public int MenuPriority { get; set; }
 
-        public class Handler : ICommandHandler<CreateResourceCategoryCommand>
+        public class Handler : ICommandHandler<EditResourceCategoryCommand>
         {
             private readonly IDocumentSession _documentSession;
 
@@ -22,19 +22,15 @@ namespace Ubora.Domain.Resources.Commands
                 _documentSession = documentSession;
             }
 
-            public ICommandResult Handle(CreateResourceCategoryCommand cmd)
+            public ICommandResult Handle(EditResourceCategoryCommand cmd)
             {
-                var category = _documentSession.Load<ResourceCategory>(cmd.CategoryId);
-                if (category != null)
-                {
-                    throw new InvalidOperationException();
-                }
+                var category = _documentSession.LoadOrThrow<ResourceCategory>(cmd.CategoryId);
 
-                _documentSession.Events.StartStream(
-                    cmd.CategoryId, 
+                _documentSession.Events.Append(
+                    category.Id,
                     new ResourceCategoryEditedEvent(
                         initiatedBy: cmd.Actor,
-                        categoryId: cmd.CategoryId,
+                        categoryId: category.Id,
                         title: cmd.Title,
                         description: cmd.Description,
                         parentCategoryId: cmd.ParentCategoryId,

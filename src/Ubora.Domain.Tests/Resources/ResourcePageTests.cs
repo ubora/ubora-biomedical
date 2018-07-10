@@ -17,7 +17,8 @@ namespace Ubora.Domain.Tests.Resources
             // Act
             Action act = () => resourcePage.Apply(new ResourcePageBodyEditedEvent(
                 initiatedBy: new DummyUserInfo(),
-                body: new QuillDelta("dfg"), 
+                resourcePageId: resourcePage.Id,
+                body: new QuillDelta("dfg"),
                 previousBodyVersion: 1));
 
             // Assert
