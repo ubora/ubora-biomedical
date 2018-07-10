@@ -204,7 +204,6 @@ Scenario: I change candidates details in Voting
         And I expect the element "span=Value for performance must be between 1 and 5." is visible
         And I expect the element "span=Value for usability must be between 1 and 5." is visible
         And I expect the element "span=Value for safety must be between 1 and 5." is visible
-        And I expect the element "//span[contains(text(),'0,0')]" is visible
 
 Scenario: I add/edit a comment in Voting
     When I click on the element "=Design planning"
