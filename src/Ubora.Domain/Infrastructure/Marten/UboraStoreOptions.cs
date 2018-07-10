@@ -63,11 +63,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<IProjectEntity>()
                     .AddSubClassHierarchy(typeof(EventLogEntry));
 
-                options.Schema.For<ResourcePage>()
-                    .Duplicate(page => page.ActiveSlug.Value, configure: index =>
-                    {
-                        index.IsUnique = true;
-                    });
+                options.Schema.For<ResourcePage>();
 
                 options.Schema.For<ResourceFile>()
                     .Duplicate(file => file.ResourcePageId);

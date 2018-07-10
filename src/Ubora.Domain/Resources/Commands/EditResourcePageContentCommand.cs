@@ -38,8 +38,7 @@ namespace Ubora.Domain.Resources.Commands
                         previousBodyVersion: cmd.PreviousContentVersion),
                     new ResourcePageTitleChangedEvent(
                         initiatedBy: cmd.Actor,
-                        title: cmd.Title,
-                        slug: Slug.Generate(cmd.Title))
+                        title: cmd.Title)
                 };
 
                 _documentSession.Events.Append(cmd.ResourceId, events);

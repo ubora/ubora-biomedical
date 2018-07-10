@@ -37,7 +37,6 @@ namespace Ubora.Domain.Tests.Resources
             resource.Id.Should().Be(resourceId);
             resource.Title.Should().Be("Introduction page");
             resource.Body.Should().Be(new QuillDelta("Hello, and welcome!"));
-            resource.ActiveSlug.Value.Should().Be("introduction-page");
             resource.MenuPriority.Should().Be(123);
         }
     }

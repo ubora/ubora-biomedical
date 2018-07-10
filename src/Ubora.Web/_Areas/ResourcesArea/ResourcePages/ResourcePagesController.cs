@@ -21,43 +21,31 @@ using Ubora.Web._Areas.ResourcesArea.Index;
 
 namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
 {
-    [Route("resources/{slugOrId}")]
+    [Route("resources/{resourcePageId}")]
     public class ResourcePagesController : ResourcesAreaController
     {
-        public string SlugOrId => RouteData.Values["slugOrId"] as string;
+        public Guid resourcePageId => Guid.Parse(RouteData.Values["resourcePageId"] as string);
 
         public ResourcePage ResourcePage { get; private set; }
 
-        private readonly IEventStore _eventStore;
-
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            ResourcePage = QueryProcessor.ExecuteQuery(new FindResourcePageBySlugOrIdQuery(SlugOrId));
+            ResourcePage = QueryProcessor.FindById<ResourcePage>(resourcePageId);
             if (ResourcePage == null)
             {
                 context.Result = new NotFoundResult();
                 return;
             }
 
-            // Redirect if URL is not to the latest slug.
-            if (!SlugOrId.Equals(ResourcePage.ActiveSlug.Value, StringComparison.OrdinalIgnoreCase))
-            {
-                var test = (dynamic)context.ActionDescriptor;
-                context.RouteData.Values["slugOrId"] = ResourcePage.ActiveSlug.Value;
-                context.Result = new RedirectToActionResult(test.ActionName, test.ControllerName, context.RouteData.Values, permanent: true);
-            }
-            else
-            {
-                ViewData["DisableFooter"] = true;
-                ViewData["ResourcePageTitle"] = ResourcePage.Title;
+            ViewData["DisableFooter"] = true;
+            ViewData["ResourcePageTitle"] = ResourcePage.Title;
 
-                var urlTemplateParts = context.ActionDescriptor.AttributeRouteInfo.Template.Split("/");
+            var urlTemplateParts = context.ActionDescriptor.AttributeRouteInfo.Template.Split("/");
 
-                // Set "current tab" (read, edit, repository, history) from the URL part after slug.
-                ViewData["CurrentTab"] = urlTemplateParts
-                    .SkipWhile(urlPart => urlPart != "{slugOrId}")
-                    .ElementAtOrDefault(1);
-            }
+            // Set "current tab" (read, edit, repository, history) from the URL part after slug.
+            ViewData["CurrentTab"] = urlTemplateParts
+                .SkipWhile(urlPart => urlPart != "{resourcePageId}")
+                .ElementAtOrDefault(1);
         }
 
         [AllowAnonymous]
@@ -83,7 +71,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
 
         [Authorize(Policies.CanManageResourcePages)]
         [Route("repository/add-file")]
-        public IActionResult AddFile(string slugOrId)
+        public IActionResult AddFile()
         {
             var model = new AddResourceFileViewModel(ResourcePage.Id, ResourcePage.Title);
 
@@ -139,7 +127,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
 
         [Authorize(Policies.CanManageResourcePages)]
         [Route("edit")]
-        public IActionResult Edit(string slugOrId, [FromServices]ResourceEditViewModel.Factory modelFactory)
+        public IActionResult Edit([FromServices]ResourceEditViewModel.Factory modelFactory)
         {
             var model = modelFactory.Create(ResourcePage);
             return View(model);
@@ -151,7 +139,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
         public IActionResult Edit(ResourceEditPostModel model, [FromServices]ResourceEditViewModel.Factory modelFactory)
         {
             if (!ModelState.IsValid)
-                return Edit(ResourcePage.ActiveSlug.Value, modelFactory);
+                return Edit(modelFactory);
 
             ExecuteUserCommand(
                 new EditResourcePageContentCommand
@@ -164,9 +152,9 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
                 successNotice: Notice.Success("Resource edited"));
 
             if (!ModelState.IsValid)
-                return Edit(ResourcePage.ActiveSlug.Value, modelFactory);
+                return Edit(modelFactory);
 
-            return RedirectToAction(nameof(Read), new { slugOrId = ResourcePage.ActiveSlug });
+            return RedirectToAction(nameof(Read));
         }
 
         [Authorize(Policies.CanManageResourcePages)]
@@ -200,7 +188,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
         }
 
         [Route("history")]
-        public async Task<IActionResult> History(string slugOrId, [FromServices]IEventStore eventStore, [FromServices] IEventViewModelFactoryMediator eventViewModelFactoryMediator)
+        public async Task<IActionResult> History(string resourcePageId, [FromServices]IEventStore eventStore, [FromServices] IEventViewModelFactoryMediator eventViewModelFactoryMediator)
         {
             var resourceEvents =
                 (await eventStore.FetchStreamAsync(

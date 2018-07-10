@@ -38,7 +38,7 @@
     @foreach (var resourcePage in resources)
     {
         <li>
-            <a asp-action="@nameof(ResourcePagesController.Read)" asp-controller="@nameof(ResourcePagesController).RemoveSuffix()" asp-route-slugOrId="@resourcePage.Slug">@resourcePage.Title</a>
+            <a asp-action="@nameof(ResourcePagesController.Read)" asp-controller="@nameof(ResourcePagesController).RemoveSuffix()" asp-route-resourcePageId="@resourcePage.ResourceId">@resourcePage.Title</a>
         </li>
     }
 </ul>

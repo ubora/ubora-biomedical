@@ -31,7 +31,6 @@ namespace Ubora.Domain.Resources.Commands
                         categoryId: cmd.CategoryId,
                         title: cmd.Title,
                         description: cmd.Description,
-                        slug: Slug.Generate(cmd.Title),
                         parentCategoryId: cmd.ParentCategoryId,
                         menuPriority: cmd.MenuPriority));
 

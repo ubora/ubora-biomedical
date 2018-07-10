@@ -34,13 +34,13 @@ namespace Ubora.Web._Areas.ResourcesArea._Shared.Models
                 switch (link)
                 {
                     case ResourcePageLink _:
-                        yield return new ResourcesSideMenuHyperlinkMenuItem((NestingLevel)nesting, link.Slug.ToString(), link.Title, _urlHelper.Action(nameof(ResourcePagesController.Read), nameof(ResourcePagesController).RemoveSuffix(), new { slugOrId = link.Slug }));
+                        yield return new ResourcesSideMenuHyperlinkMenuItem((NestingLevel)nesting, link.Id.ToString(), link.Title, _urlHelper.Action(nameof(ResourcePagesController.Read), nameof(ResourcePagesController).RemoveSuffix(), new { resourcePageId = link.Id }));
                         break;
                     case ResourceCategoryLink _:
                         var children = root.Links.Where(l => l.ParentCategoryId == link.Id).ToList();
                         if (children.Any())
                         {
-                            yield return new ResourcesSideMenuCollapseMenuItem((NestingLevel)nesting, link.Slug.ToString(), link.Title, CreateSideMenuItems(children, nesting + 1, root).ToList());
+                            yield return new ResourcesSideMenuCollapseMenuItem((NestingLevel)nesting, link.Id.ToString(), link.Title, CreateSideMenuItems(children, nesting + 1, root).ToList());
                         }
                         break;
                 }

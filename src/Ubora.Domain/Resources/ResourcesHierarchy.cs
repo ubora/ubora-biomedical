@@ -45,7 +45,6 @@ namespace Ubora.Domain.Resources
                     ParentCategoryId = @event.ParentCategoryId,
                     Title = @event.Title,
                     Description = @event.Description,
-                    Slug = @event.Slug
                 });
             }
             else
@@ -73,13 +72,11 @@ namespace Ubora.Domain.Resources
                 }
             }
             
-
             Links = Links.Add(new ResourcePageLink
             {
                 Id = @event.ResourcePageId,
                 ParentCategoryId = @event.ParentCategoryId,
                 Title = @event.Title,
-                Slug = @event.Slug
             });
         }
 

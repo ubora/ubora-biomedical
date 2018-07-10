@@ -5,11 +5,10 @@ namespace Ubora.Domain.Resources.Events
 {
     public class ResourcePageCreatedEvent : UboraEvent
     {
-        public ResourcePageCreatedEvent(UserInfo initiatedBy, Guid resourcePageId, Slug slug, string title, QuillDelta body, int menuPriority, Guid? parentCategoryId)
+        public ResourcePageCreatedEvent(UserInfo initiatedBy, Guid resourcePageId, string title, QuillDelta body, int menuPriority, Guid? parentCategoryId)
             : base(initiatedBy)
         {
             ResourcePageId = resourcePageId;
-            Slug = slug;
             Title = title;
             Body = body;
             MenuPriority = menuPriority;
@@ -17,7 +16,6 @@ namespace Ubora.Domain.Resources.Events
         }
 
         public Guid ResourcePageId { get; }
-        public Slug Slug { get; }
         public string Title { get; }
         public QuillDelta Body { get; }
         public int MenuPriority { get; }

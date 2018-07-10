@@ -34,7 +34,6 @@ namespace Ubora.Domain.Resources.Commands
                     events: new ResourcePageCreatedEvent(
                         initiatedBy: cmd.Actor,
                         resourcePageId: cmd.ResourcePageId,
-                        slug: Slug.Generate(cmd.Title),
                         title: cmd.Title,
                         body: cmd.Body,
                         menuPriority: cmd.MenuPriority,

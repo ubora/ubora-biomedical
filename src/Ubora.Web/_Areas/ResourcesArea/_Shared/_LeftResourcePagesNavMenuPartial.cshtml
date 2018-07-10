@@ -15,9 +15,9 @@
         TopLevelMenuItems = sideMenuFactory.CreateSideMenuItems(root).ToList()
     };
 
-    if (ViewContext.RouteData.Values["slugOrId"] != null)
+    if (ViewContext.RouteData.Values["resourcePageId"] != null)
     {
-        ResourcesHierarchySideMenuFactory.MarkSelected(model.TopLevelMenuItems, (string)ViewContext.RouteData.Values["slugOrId"]);
+        ResourcesHierarchySideMenuFactory.MarkSelected(model.TopLevelMenuItems, (string)ViewContext.RouteData.Values["resourcePageId"]);
     }
 
     var menuLinks = model.TopLevelMenuItems.Select(item => Html.Partial("~/_Features/_Shared/LeftSideMenu/_SideMenuItemPartial.cshtml", item)).ToList();

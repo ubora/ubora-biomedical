@@ -102,8 +102,6 @@ namespace Ubora.Web.Tests._Areas.ResourcesArea.ResourcePageCreation
                 .Callback<CreateResourcePageCommand>(c => executedCommand = c)
                 .Returns(CommandResult.Success);
 
-            var resourcePage = new ResourcePage().Set(x => x.ActiveSlug, Slug.Generate("test slug"));
-
             AuthorizationServiceMock
                 .Setup(a => a.AuthorizeAsync(ControllerUnderTest.User, null, Policies.CanManageResourcePages))
                 .ReturnsAsync(AuthorizationResult.Success);
@@ -114,7 +112,6 @@ namespace Ubora.Web.Tests._Areas.ResourcesArea.ResourcePageCreation
             // Assert
             result.ActionName.Should().Be(nameof(ResourcePagesController.Read));
             result.ControllerName.Should().Be(nameof(ResourcePagesController).RemoveSuffix());
-            result.RouteValues["slugOrId"] = "test-slug";
 
             executedCommand.ResourcePageId.Should().NotBe(default(Guid));
             executedCommand.Body.Value.Should().Be("testBody");

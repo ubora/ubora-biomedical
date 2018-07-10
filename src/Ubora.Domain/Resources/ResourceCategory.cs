@@ -10,7 +10,6 @@ namespace Ubora.Domain.Resources
         public string Title { get; set; }
         public string Description { get; set; }
         public int MenuPriority { get; set; }
-        public Slug ActiveSlug { get; private set; }
 
         private void Apply(ResourceCategoryEditedEvent @event)
         {
@@ -19,7 +18,6 @@ namespace Ubora.Domain.Resources
             Title = @event.Title;
             Description = @event.Description;
             MenuPriority = @event.MenuPriority;
-            ActiveSlug = @event.Slug;
         }
     }
 }

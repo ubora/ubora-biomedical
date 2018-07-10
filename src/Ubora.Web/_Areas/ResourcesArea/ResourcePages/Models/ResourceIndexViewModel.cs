@@ -10,7 +10,6 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Models
     {
         public Guid ResourceId { get; set; }
         public string Title { get; set; }
-        public string Slug { get; set; }
 
         public class Mapper : Projection<ResourcePage, ResourceIndexViewModel>
         {
@@ -19,8 +18,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Models
                 return resource => new ResourceIndexViewModel
                 {
                     ResourceId = resource.Id,
-                    Title = resource.Title,
-                    Slug = resource.ActiveSlug.Value
+                    Title = resource.Title
                 };
             }
         }

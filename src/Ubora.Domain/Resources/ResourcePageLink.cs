@@ -9,6 +9,5 @@ namespace Ubora.Domain.Resources
         public Guid? ParentCategoryId { get; set; }
         public string Title { get; set; }
         public int MenuPriority { get; set; }
-        public Slug Slug { get; set; }
     }
 }

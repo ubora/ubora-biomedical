@@ -21,9 +21,6 @@
         <label asp-for="Title">Page title</label>
         <input class="form-control" asp-for="Title" placeholder='e.g. "Introduction to UBORA"' />
         <span asp-validation-for="Title"></span>
-        <small>
-            URL will be: <br><span id="js-slug">&nbsp;</span>
-        </small>
     </div>
     <div class="form-group">
         <label asp-for="Body">Page content</label>
@@ -54,7 +51,6 @@
 @section Scripts {
     <script>
         function refreshCategories() {
-            console.log('foo')
             $.ajax({
                 url: "/resources/categories/test",
                 success: function (result) {
@@ -65,11 +61,9 @@
 
         refreshCategories();
 
-        var titleInputSelector = "#@nameof(Model.Title)";
         var contentInputSelector = "#@nameof(Model.Body)";
         var editorSelector = "#editor-container";
         var toolbarSelector = "#toolbar-container";
-        var exampleTitle = "Introduction to UBORA";
-        UBORA.initAddOrEditResource(editorSelector, toolbarSelector, titleInputSelector, contentInputSelector, exampleTitle);
+        UBORA.initAddOrEditResource(editorSelector, toolbarSelector, contentInputSelector);
     </script>
 }

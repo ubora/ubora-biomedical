@@ -7,7 +7,6 @@ namespace Ubora.Domain.Resources
     public class ResourcePage : Entity<ResourcePage>
     {
         public Guid Id { get; private set; }
-        public Slug ActiveSlug { get; private set; }
         public string Title { get; private set; }
 
         public int BodyVersion { get; private set; }
@@ -30,7 +29,6 @@ namespace Ubora.Domain.Resources
                 throw new ArgumentException(nameof(@event.ResourcePageId));
 
             Id = @event.ResourcePageId;
-            ActiveSlug = @event.Slug;
             Title = @event.Title;
             MenuPriority = @event.MenuPriority;
             ParentCategoryId = @event.ParentCategoryId;
@@ -41,7 +39,6 @@ namespace Ubora.Domain.Resources
         private void Apply(ResourcePageTitleChangedEvent @event)
         {
             Title = @event.Title;
-            ActiveSlug = @event.Slug;
         }
 
         private void Apply(ResourcePageBodyEditedEvent @event)

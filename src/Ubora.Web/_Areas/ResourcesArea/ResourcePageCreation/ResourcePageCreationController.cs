@@ -46,7 +46,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePageCreation
             if (!ModelState.IsValid)
                 return Add();
 
-            return RedirectToAction(nameof(ResourcePagesController.Read), nameof(ResourcePagesController).RemoveSuffix(), new { slugOrId = resourcePageId });
+            return RedirectToAction(nameof(ResourcePagesController.Read), nameof(ResourcePagesController).RemoveSuffix(), new { resourcePageId = resourcePageId });
         }
     }
 }

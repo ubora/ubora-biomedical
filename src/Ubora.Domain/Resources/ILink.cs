@@ -8,6 +8,5 @@ namespace Ubora.Domain.Resources
         Guid? ParentCategoryId { get; }
         string Title { get; }
         int MenuPriority { get; }
-        Slug Slug { get; }
     }
 }

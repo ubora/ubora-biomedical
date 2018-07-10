@@ -13,7 +13,7 @@ namespace Ubora.Domain.Tests.Resources
 {
     public class DeleteResourcePageCommandHandlerHappyPathIntegrationTest : IntegrationFixture
     {
-        private Mock<IResourceBlobDeleter> _resourceBlobDeleterMock = new Mock<IResourceBlobDeleter>();
+        private readonly Mock<IResourceBlobDeleter> _resourceBlobDeleterMock = new Mock<IResourceBlobDeleter>();
 
         protected override void RegisterAdditional(ContainerBuilder builder)
         {
@@ -35,8 +35,6 @@ namespace Ubora.Domain.Tests.Resources
 
             // Assert
             commandResult.IsSuccess.Should().BeTrue();
-
-            var lastEventInStream = Session.Events.FetchStream(resourceId).Select(e => e.Data).ToList().Last();
 
             Session.Load<ResourcePage>(resourceId)
                 .Then(resourcePage =>

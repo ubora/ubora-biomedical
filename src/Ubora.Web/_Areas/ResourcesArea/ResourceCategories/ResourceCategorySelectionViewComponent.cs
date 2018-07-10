@@ -18,7 +18,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourceCategories
             _queryProcessor = queryProcessor;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public Task<IViewComponentResult> InvokeAsync()
         {
             var allCategories = _queryProcessor.Find(new MatchAll<ResourceCategory>()).ToList();
 
@@ -36,7 +36,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourceCategories
 
             html = html + "</select>";
 
-            return View("~/_Components/_HtmlRaw.cshtml", html);
+            return Task.FromResult<IViewComponentResult>(View("~/_Components/_HtmlRaw.cshtml", html));
         }
 
         private string CreateRadioButtonHtml(ResourceCategory category, string parentCategoryPrefix, IReadOnlyCollection<ResourceCategory> allCategories, Guid? selectedValue)
