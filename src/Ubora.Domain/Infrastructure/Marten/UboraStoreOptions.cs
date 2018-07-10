@@ -62,6 +62,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageThree>();
+                options.Events.InlineProjections.AggregateStreamsWith<WorkpackageFour>();
                 options.Events.InlineProjections.AggregateStreamsWith<ApplicableRegulationsQuestionnaireAggregate>();
                 options.Events.InlineProjections.AggregateStreamsWith<DeviceClassificationAggregate>();
                 options.Events.InlineProjections.AggregateStreamsWith<DeviceStructuredInformation>();

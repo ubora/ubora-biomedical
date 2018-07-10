@@ -31,8 +31,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                     CreateWp1().SetStatus(wpStatuses.Wp1Status),
                     CreateWp2().SetStatus(wpStatuses.Wp2Status),
                     CreateWp3().SetStatus(wpStatuses.Wp3Status),
-                    /*wp4*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageFour", "WP 4: Implementation", "#")
-                        .SetStatus(wpStatuses.Wp4Status),
+                    CreateWp4().SetStatus(wpStatuses.Wp4Status),
                     /*wp5*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageFive", "WP 5: Operation", "#")
                         .SetStatus(wpStatuses.Wp5Status),
                     /*wp6*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageSix", "WP 6: Project closure", "#")
@@ -108,7 +107,25 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         new HyperlinkMenuItem(NestingLevel.One, "InstructionsForFabricationOfPrototypes", "Instructions for fabrication of prototypes", href: Wp3StepLink("InstructionsForFabricationOfPrototypes"))
                     });
                 }
+                
+                ISideMenuItem CreateWp4()
+                {
+                    return new CollapseMenuItem(NestingLevel.None, "workpackageFour", "WP 4: Implementation", new[]
+                    {
+                        new HyperlinkMenuItem(NestingLevel.One, "PrototypesAndConsiderationsForSafetyAssessment","Prototypes and considerations for safety assessment", href: Wp4StepLink("PrototypesAndConsiderationsForSafetyAssessment")),
+                        new HyperlinkMenuItem(NestingLevel.One, "QualityCriteria","Quality criteria", href: Wp4StepLink("QualityCriteria")),
+                        new HyperlinkMenuItem(NestingLevel.One, "IsoCompliance","ISO compliance", href: "#"),
+                        new HyperlinkMenuItem(NestingLevel.One, "ResultsFromVitroOrVivo","Results from vitro/vivo", href: Wp4StepLink("ResultsFromVitroOrVivo")),
+                        new HyperlinkMenuItem(NestingLevel.One, "WP4StructuredInformationOnTheDevice","Structured information on the device", href: _urlHelper.Action("StructuredInformationOnTheDevice", "WorkpackageFour")),
+                        new HyperlinkMenuItem(NestingLevel.One, "PreproductionDocuments","Preproduction documents", href: "#"),
+                    });
+                }
 
+                string Wp4StepLink(string stepId)
+                {
+                    return _urlHelper.Action("Read", "WorkpackageFour", new { projectId = projectId, stepId = stepId });
+                }
+                
                 string Wp3StepLink(string stepId)
                 {
                     return _urlHelper.Action("Read", "WorkpackageThree", new { projectId = projectId, stepId = stepId });

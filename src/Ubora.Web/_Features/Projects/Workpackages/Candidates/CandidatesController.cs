@@ -358,6 +358,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
                 Notices.NotifyOfError("Failed to open work package 3!");
                 return await Voting(candidateItemViewModelFactory);
             }
+            
+            ExecuteUserProjectCommand(new OpenWorkpackageFourCommand(), Notice.Success("WP4 opened"));
+            if (!ModelState.IsValid)
+            {
+                Notices.NotifyOfError("Failed to open work package 4!");
+                return await Voting(candidateItemViewModelFactory);
+            }
 
             return RedirectToAction(nameof(Voting));
         }
