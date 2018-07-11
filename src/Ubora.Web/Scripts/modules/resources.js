@@ -15,6 +15,6 @@
     $(toolbarSelector).show();
 
     quill.on('editor-change', function () {
-        $(contentInputSelector).val(JSON.stringify(quill.getContents()));
+        $(contentInputSelector).val(JSON.stringify(quill.getContents())).trigger('change');
     });
 };
