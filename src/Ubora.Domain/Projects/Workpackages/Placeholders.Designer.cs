@@ -241,5 +241,32 @@ namespace Ubora.Domain.Projects.Workpackages {
                 return ResourceManager.GetString("ProductRequirements", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Describe the final implementation of the prototype of your medical device, with links to the repository. Put emphasis on how your device respect relevant standards.&lt;/p&gt;.
+        /// </summary>
+        public static string PrototypesAndConsiderationsForSafetyAssessment {
+            get {
+                return ResourceManager.GetString("PrototypesAndConsiderationsForSafetyAssessment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;Please indicate how your device can be evaluated according to specific criteria (both tests and parameters) for determining its proper implementation.&lt;/p&gt;.
+        /// </summary>
+        public static string QualityCriteria {
+            get {
+                return ResourceManager.GetString("QualityCriteria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;If applicable and if available, please provide both protocols and results of in vitro and in vivo test of your medical device. In case on in vivo test, please provide also the ethical clearance from local ethical committee.&lt;/p&gt;.
+        /// </summary>
+        public static string ResultsFromVitroOrVivo {
+            get {
+                return ResourceManager.GetString("ResultsFromVitroOrVivo", resourceCulture);
+            }
+        }
     }
 }
