@@ -8,12 +8,12 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Resources
 {
-    public class EditResourceCommandHandlerTests
+    public class EditResourcePageCommandHandlerTests
     {
         private readonly Mock<IDocumentSession> _documentSessionMock;
         private readonly EditResourcePageCommand.Handler _handlerUnderTest;
 
-        public EditResourceCommandHandlerTests()
+        public EditResourcePageCommandHandlerTests()
         {
             _documentSessionMock = new Mock<IDocumentSession>();
             _handlerUnderTest = new EditResourcePageCommand.Handler(_documentSessionMock.Object);

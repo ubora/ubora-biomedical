@@ -4,10 +4,6 @@
     ViewData["Title"] = ViewData["ResourcePageTitle"];
 }
 
-@section Left {
-    @Html.Partial("_LeftResourcePagesNavMenuPartial.cshtml")
-}
-
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Resources</a></li>
@@ -25,16 +21,12 @@
 
 
 @section Right {
-    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResourcePages))
+    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
     {
         <div class="mb-3">
             <a asp-action="@nameof(ResourcePageCreationController.Add)" asp-controller="ResourcePageCreation" class="my-2 btn btn-block btn-outline-primary">
                 <i class="material-icons">add</i>
                 <span>Create new resource page</span>
-            </a>
-            <a asp-action="@nameof(ResourceCategoriesController.Create)" asp-controller="ResourceCategories" class="my-2 btn btn-block btn-outline-primary">
-                <i class="material-icons">add</i>
-                <span>Create new resource category</span>
             </a>
         </div>
     }

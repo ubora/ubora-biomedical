@@ -50,15 +50,6 @@ namespace Ubora.Domain.Resources
 
         internal void Apply(ResourceCategoryEditedEvent @event)
         {
-            var parentCategory = @event.ParentCategoryId.HasValue
-                ? Links.OfType<ResourceCategoryLink>().Single(c => c.Id == @event.ParentCategoryId.Value)
-                : null;
-
-            if (parentCategory != null && parentCategory.ParentCategoryId == @event.CategoryId)
-            {
-                throw new InvalidOperationException($"There is a circular reference. Parent ID: {@event.ParentCategoryId}");
-            }
-
             var existingCategoryLink = Links.OfType<ResourceCategoryLink>().SingleOrDefault(link => link.Id == @event.CategoryId);
             if (existingCategoryLink == null)
             {
@@ -123,13 +114,13 @@ namespace Ubora.Domain.Resources
             Links = Links.Replace(existingLink, newValue);
         }
 
-        internal void Apply(ResourcePageMenuPriorityChangedEvent @event)
+        internal void Apply(ResourcePageMenuPreferencesChangedEvent @event)
         {
             var existingLink = Links.OfType<ResourcePageLink>().Single(link => link.Id == @event.ResourcePageId);
             var newValue = existingLink.Edit(
                 title: existingLink.Title,
                 menuPriority: @event.MenuPriority,
-                parentCategoryId: existingLink.ParentCategoryId);
+                parentCategoryId: @event.ParentCategoryId);
             Links = Links.Replace(existingLink, newValue);
         }
     }

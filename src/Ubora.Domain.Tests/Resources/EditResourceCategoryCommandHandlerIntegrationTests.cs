@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Resources
 {
-    public class EditResourceCategoryHappyPathIntegrationTest : IntegrationFixture
+    public class EditResourceCategoryCommandHandlerIntegrationTests : IntegrationFixture
     {
         [Fact]
         public void Resource_Category_Can_Be_Edited()

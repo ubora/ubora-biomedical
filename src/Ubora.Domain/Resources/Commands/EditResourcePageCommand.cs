@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Resources.Events;
 
 namespace Ubora.Domain.Resources.Commands
@@ -32,9 +31,9 @@ namespace Ubora.Domain.Resources.Commands
 
                 var events = new List<object>();
 
-                if (resourcePage.MenuPriority != cmd.MenuPriority)
+                if (resourcePage.MenuPriority != cmd.MenuPriority || resourcePage.CategoryId != cmd.ParentCategoryId)
                 {
-                    events.Add(new ResourcePageMenuPriorityChangedEvent(cmd.Actor, resourcePage.Id, cmd.MenuPriority));
+                    events.Add(new ResourcePageMenuPreferencesChangedEvent(cmd.Actor, resourcePage.Id, cmd.MenuPriority, cmd.ParentCategoryId));
                 }
 
                 if (resourcePage.Body != cmd.Body)

@@ -4,10 +4,6 @@
     ViewData["Title"] = ViewData["ResourcePageTitle"];
 }
 
-@section Left {
-    @Html.Partial("_LeftResourcePagesNavMenuPartial.cshtml")
-}
-
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Resources</a></li>
@@ -37,10 +33,10 @@
     </div>
     <div class="form-group">
         <label asp-for="ParentCategoryId">Category</label>
+        <select id="js-categories" class="form-control" asp-for="ParentCategoryId">
+            @await Component.InvokeAsync(typeof(ResourceCategorySelectOptionsViewComponent))
+        </select>
         <span asp-validation-for="ParentCategoryId"></span>
-        <div id="js-categories">
-            @await Component.InvokeAsync(typeof(ResourceCategorySelectionViewComponent))
-        </div>
         <small class="float-right">
             <a href="javascript:refreshCategories();">Refresh categories</a> |
             <a asp-action="@nameof(ResourceCategoriesController.Create)" asp-controller="@nameof(ResourceCategoriesController).RemoveSuffix()">Create new category</a>
@@ -48,12 +44,12 @@
     </div>
     <div class="form-group">
         <label asp-for="MenuPriority">Menu priority</label>
-        <input class="form-control" asp-for="MenuPriority" value="0" />
+        <input class="form-control" asp-for="MenuPriority" />
         <span asp-validation-for="MenuPriority"></span>
         <small>Resource pages are ordered by from highest priority to lowest, and then by title alphabetically. You can leave it at "0".</small>
     </div>
     <div class="float-right">
-        <button type="submit" class="btn btn-primary float-right">Publish changes</button>
+        <button type="submit" class="btn btn-primary">Publish changes</button>
     </div>
 </form>
 
@@ -70,7 +66,7 @@
     <script>
         function refreshCategories() {
             $.ajax({
-                url: "/resources/categories/test",
+                url: '@Url.Action(nameof(ResourceCategoriesController.FormSelectOptions), nameof(ResourceCategoriesController).RemoveSuffix())',
                 success: function (result) {
                     $('#js-categories').html(result);
                 }
@@ -82,6 +78,6 @@
         var toolbarSelector = "#toolbar-container";
         var initialContent = @Html.Raw(Model.Body);
         UBORA.initAddOrEditResource(editorSelector, toolbarSelector, contentInputSelector, initialContent);
-    
+
     </script>
 }

@@ -13,7 +13,7 @@
             Files
         </a>
     </li>
-    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResourcePages))
+    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
     {
         <li class="nav-item">
             <a class="nav-link @(currentTab == "edit" ? "active" : "")" asp-action="@nameof(ResourcePagesController.Edit)">
@@ -21,7 +21,7 @@
             </a>
         </li>
     }
-    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResourcePages))
+    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
     {
         <li class="nav-item">
             <a class="nav-link @(currentTab == "history" ? "active" : "")" asp-action="@nameof(ResourcePagesController.History)">

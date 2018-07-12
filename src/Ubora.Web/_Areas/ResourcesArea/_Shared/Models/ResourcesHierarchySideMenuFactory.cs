@@ -19,7 +19,11 @@ namespace Ubora.Web._Areas.ResourcesArea._Shared.Models
 
         public IEnumerable<ISideMenuItem> CreateSideMenuItems(ResourcesMenu root)
         {
-            var rootLinks = root.Links.Where(link => !link.ParentCategoryId.HasValue);
+            var rootLinks = root?.Links.Where(link => !link.ParentCategoryId.HasValue);
+            if (rootLinks == null)
+            {
+                yield break;
+            }
 
             foreach (var sideMenuItem in CreateSideMenuItems(rootLinks, 0, root))
             {

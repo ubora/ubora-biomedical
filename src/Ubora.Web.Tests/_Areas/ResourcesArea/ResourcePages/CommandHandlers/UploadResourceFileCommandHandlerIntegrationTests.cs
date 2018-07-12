@@ -4,6 +4,7 @@ using System.Linq;
 using Autofac;
 using FluentAssertions;
 using Moq;
+using Ubora.Domain;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Commands;

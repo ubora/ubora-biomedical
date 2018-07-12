@@ -32,5 +32,5 @@
     public const string CanAddFileRepository = nameof(CanAddFileRepository);
     public const string CanUpdateFileRepository = nameof(CanUpdateFileRepository);
     public const string CanPromoteMember = nameof(CanPromoteMember);
-    public const string CanManageResourcePages = nameof(CanManageResourcePages);
+    public const string CanManageResources = nameof(CanManageResources);
 }

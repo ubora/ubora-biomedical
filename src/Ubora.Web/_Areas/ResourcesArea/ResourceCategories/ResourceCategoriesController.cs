@@ -1,41 +1,35 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Infrastructure.Specifications;
+using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Commands;
 using Ubora.Web._Areas.ResourcesArea.ResourceCategories.Models;
 using Ubora.Web._Areas.ResourcesArea._Shared;
-using Ubora.Web._Features.Projects.Workpackages.SideMenu;
 using Ubora.Web._Features._Shared.Notices;
-using Ubora.Domain.Resources.Queries;
-using Ubora.Web._Areas.ResourcesArea.ResourcesMenus;
-using Ubora.Web._Areas.ResourcesArea._Shared.Models;
 
 namespace Ubora.Web._Areas.ResourcesArea.ResourceCategories
 {
+    [Route("resources/categories")]
     public class ResourceCategoriesController : ResourcesAreaController
     {
-        [HttpGet("categories")]
-        public IActionResult Index()
-        {
-            var sideMenuFactory = new ResourcesHierarchySideMenuFactory(Url);
-            var root = QueryProcessor.ExecuteQuery(new FindResourceMenuRootQuery());
-
-            var model = new SideMenuViewModel
-            {
-                TopLevelMenuItems = sideMenuFactory.CreateSideMenuItems(root)
-            };
-
-            return View(model);
-        }
-
-        [HttpGet("categories/create")]
+        [HttpGet("create")]
+        [Authorize(Policies.CanManageResources)]
         public IActionResult Create()
         {
             return View(new CreateResourceCategoryPostModel());
         }
 
-        [HttpPost("categories/create")]
-        public IActionResult Create(CreateResourceCategoryPostModel model)
+        [HttpPost("create")]
+        public async Task<IActionResult> Create(CreateResourceCategoryPostModel model)
         {
+            if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
+            {
+                return Forbid();
+            }
+
             if (!ModelState.IsValid)
             {
                 return Create();
@@ -48,20 +42,101 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourceCategories
                 Description = model.Description,
                 MenuPriority = model.MenuPriority,
                 ParentCategoryId = model.ParentCategoryId
-            }, Notice.Success("TODO"));
+            }, Notice.Success("Resource category created"));
 
             if (!ModelState.IsValid)
             {
                 return Create();
             }
 
-            return RedirectToAction(nameof(ResourcesMenusController.HighestPriorityResourcePage), nameof(ResourcesMenusController).RemoveSuffix());
+            return RedirectToAction(nameof(List));
         }
 
-        [HttpGet("categories/test")]
-        public IActionResult RadioButtons()
+        [HttpGet("")]
+        public IActionResult List()
         {
-            return ViewComponent(typeof(ResourceCategorySelectionViewComponent));
+            var model = new ListResourceCategoryViewModel
+            {
+                Categories = QueryProcessor.Find(new MatchAll<ResourceCategory>(), new ListItemResourceCategoryViewModel.Projection()).ToList(),
+            };
+
+            return View(model);
+        }
+
+        [HttpGet("selection")]
+        public IActionResult FormSelectOptions()
+        {
+            return ViewComponent(typeof(ResourceCategorySelectOptionsViewComponent));
+        }
+
+        [HttpGet("edit")]
+        [Authorize(Policies.CanManageResources)]
+        public virtual IActionResult Edit(Guid resourceCategoryId, [FromServices]EditResourceCategoryViewModel.Factory modelFactory)
+        {
+            var category = QueryProcessor.FindById<ResourceCategory>(resourceCategoryId);
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            return View(modelFactory.Create(category));
+        }
+
+        [HttpPost("edit")]
+        public async Task<IActionResult> Edit(EditResourceCategoryPostModel model, [FromServices]EditResourceCategoryViewModel.Factory modelFactory)
+        {
+            if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
+            {
+                return Forbid();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Edit(model.CategoryId, modelFactory);
+            }
+
+            ExecuteUserCommand(new EditResourceCategoryCommand
+            {
+                CategoryId = model.CategoryId,
+                Description = model.Description,
+                MenuPriority = model.MenuPriority,
+                ParentCategoryId = model.ParentCategoryId,
+                Title = model.Title
+            }, Notice.Success("Resource category edited"));
+
+            if (!ModelState.IsValid)
+            {
+                return Edit(model.CategoryId, modelFactory);
+            }
+
+            return RedirectToAction(nameof(List));
+        }
+
+        [HttpPost("delete")]
+        [Authorize(Policies.CanManageResources)]
+        public async Task<IActionResult> Delete(DeleteResourceCategoryPostModel model, [FromServices]EditResourceCategoryViewModel.Factory modelFactory)
+        {
+            if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
+            {
+                return Forbid();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Edit(model.ResourceCategoryId, modelFactory);
+            }
+
+            ExecuteUserCommand(new DeleteResourceCategoryCommand
+            {
+                ResourceCategoryId = model.ResourceCategoryId
+            }, Notice.Success("Resource category deleted"));
+
+            if (!ModelState.IsValid)
+            {
+                return Edit(model.ResourceCategoryId, modelFactory);
+            }
+
+            return RedirectToAction(nameof(List));
         }
     }
 }

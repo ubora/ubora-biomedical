@@ -13,7 +13,7 @@ namespace Ubora.Domain.Resources
             ProjectEvent<ResourcePageCreatedEvent>(viewIdSelector: _ => ResourcesMenu.SingletonId, handler: (projection, @event) => { projection.Apply(@event); });
             ProjectEvent<ResourcePageTitleChangedEvent>(viewIdSelector: _ => ResourcesMenu.SingletonId, handler: (projection, @event) => { projection.Apply(@event); });
             ProjectEvent<ResourcePageDeletedEvent>(viewIdSelector: _ => ResourcesMenu.SingletonId, handler: (projection, @event) => { projection.Apply(@event); });
-            ProjectEvent<ResourcePageMenuPriorityChangedEvent>(viewIdSelector: _ => ResourcesMenu.SingletonId, handler: (projection, @event) => { projection.Apply(@event); });
+            ProjectEvent<ResourcePageMenuPreferencesChangedEvent>(viewIdSelector: _ => ResourcesMenu.SingletonId, handler: (projection, @event) => { projection.Apply(@event); });
         }
     }
 }

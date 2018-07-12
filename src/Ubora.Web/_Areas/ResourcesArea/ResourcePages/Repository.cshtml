@@ -13,11 +13,7 @@
 
 @Html.Partial("_ResourcePageTabsPartial.cshtml")
 
-@section Left {
-    @Html.Partial("_LeftResourcePagesNavMenuPartial.cshtml")
-}
-
-@if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResourcePages))
+@if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
 {
     @section Right {
 

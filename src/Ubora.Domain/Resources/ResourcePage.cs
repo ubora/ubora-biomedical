@@ -48,8 +48,9 @@ namespace Ubora.Domain.Resources
             SetBody(@event.Body);
         }
 
-        private void Apply(ResourcePageMenuPriorityChangedEvent @event)
+        private void Apply(ResourcePageMenuPreferencesChangedEvent @event)
         {
+            CategoryId = @event.ParentCategoryId;
             MenuPriority = @event.MenuPriority;
         }
     }

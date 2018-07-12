@@ -32,9 +32,9 @@
     <div class="form-group">
         <label asp-for="ParentCategoryId">Category</label>
         <span asp-validation-for="ParentCategoryId"></span>
-        <div id="js-categories">
-            @await Component.InvokeAsync(typeof(ResourceCategorySelectionViewComponent))
-        </div>
+        <select id="js-categories" class="form-control" asp-for="ParentCategoryId">
+            @await Component.InvokeAsync(typeof(ResourceCategorySelectOptionsViewComponent))
+        </select>
         <small class="float-right">
             <a href="javascript:refreshCategories();">Refresh categories</a> |
             <a asp-action="@nameof(ResourceCategoriesController.Create)" asp-controller="@nameof(ResourceCategoriesController).RemoveSuffix()">Create new category</a>
@@ -56,7 +56,7 @@
     <script>
         function refreshCategories() {
             $.ajax({
-                url: "/resources/categories/test",
+                url: '@Url.Action(nameof(ResourceCategoriesController.FormSelectOptions), nameof(ResourceCategoriesController).RemoveSuffix())',
                 success: function (result) {
                     $('#js-categories').html(result);
                 }

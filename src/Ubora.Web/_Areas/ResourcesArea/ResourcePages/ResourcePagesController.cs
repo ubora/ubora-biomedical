@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using TwentyTwenty.Storage;
+using Ubora.Domain;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Commands;
@@ -24,7 +25,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
     {
         public Guid ResourcePageId => Guid.Parse(RouteData.Values["resourcePageId"] as string);
 
-        public ResourcePage ResourcePage { get; private set; }
+        public virtual ResourcePage ResourcePage { get; private set; }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
@@ -47,7 +48,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
         }
 
         [AllowAnonymous]
-        [Route("")]
+        [HttpGet("")]
         public async Task<IActionResult> Read([FromServices]ResourceReadViewModel.Factory modelFactory)
         {
             var model = await modelFactory.Create(ResourcePage);
@@ -55,7 +56,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
         }
 
         [AllowAnonymous]
-        [Route("repository")]
+        [HttpGet("repository")]
         public IActionResult Repository()
         {
             var model =
@@ -67,8 +68,8 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             return View(model);
         }
 
-        [Authorize(Policies.CanManageResourcePages)]
-        [Route("repository/add-file")]
+        [Authorize(Policies.CanManageResources)]
+        [HttpGet("repository/add-file")]
         public IActionResult AddFile()
         {
             var model = new AddResourceFileViewModel(ResourcePage.Id, ResourcePage.Title);
@@ -76,15 +77,16 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             return View(model);
         }
 
-        [Authorize(Policies.CanManageResourcePages)]
-        [Route("repository/add-file")]
-        [HttpPost]
-        public IActionResult AddFile(AddResourceFilePostModel model)
+        [HttpPost("repository/add-file")]
+        public async Task<IActionResult> AddFile(AddResourceFilePostModel model)
         {
-            if (!ModelState.IsValid)
+            if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
             {
-                return ModelState.ToJsonResult();
+                return Forbid();
             }
+
+            if (!ModelState.IsValid)
+                return ModelState.ToJsonResult();
 
             foreach (var file in model.ProjectFiles)
                 using (var fileStream = file.OpenReadStream())
@@ -108,7 +110,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
         }
 
         [AllowAnonymous]
-        [Route("repository/{fileId}")]
+        [HttpGet("repository/{fileId}")]
         public IActionResult DownloadFile(Guid fileId, [FromServices] IStorageProvider storageProvider)
         {
             var file = QueryProcessor.FindById<ResourceFile>(fileId);
@@ -123,19 +125,22 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             return Redirect(blobSasUrl);
         }
 
-        [Authorize(Policies.CanManageResourcePages)]
-        [Route("edit")]
+        [HttpGet("edit")]
+        [Authorize(Policies.CanManageResources)]
         public IActionResult Edit([FromServices]ResourceEditViewModel.Factory modelFactory)
         {
             var model = modelFactory.Create(ResourcePage);
             return View(model);
         }
 
-        [Authorize(Policies.CanManageResourcePages)]
-        [HttpPost]
-        [Route("edit")]
-        public IActionResult Edit(ResourceEditPostModel model, [FromServices]ResourceEditViewModel.Factory modelFactory)
+        [HttpPost("edit")]
+        public async Task<IActionResult> Edit(ResourceEditPostModel model, [FromServices]ResourceEditViewModel.Factory modelFactory)
         {
+            if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
+            {
+                return Forbid();
+            }
+
             if (!ModelState.IsValid)
                 return Edit(modelFactory);
 
@@ -157,37 +162,38 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             return RedirectToAction(nameof(Read));
         }
 
-        [Authorize(Policies.CanManageResourcePages)]
-        [Route("edit/delete")]
+        // TODO: Modal?
+        [HttpGet("edit/delete")]
+        [Authorize(Policies.CanManageResources)]
         public IActionResult Delete()
         {
             return View();
         }
 
-        [Authorize(Policies.CanManageResourcePages)]
-        [HttpPost]
-        [Route("edit/delete")]
-        public IActionResult Delete(DeleteResourcePagePostModel postModel)
+        [HttpPost("edit/delete")]
+        public async Task<IActionResult> Delete(DeleteResourcePagePostModel postModel)
         {
-            if (!ModelState.IsValid)
+            if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
             {
-                return Delete();
+                return Forbid();
             }
+
+            if (!ModelState.IsValid)
+                return Delete();
 
             ExecuteUserCommand(new DeleteResourcePageCommand
             {
                 ResourcePageId = ResourcePage.Id
-            }, Notice.Success("Resource deleted"));
+            }, Notice.Success("Resource page deleted"));
 
             if (!ModelState.IsValid)
-            {
                 return Delete();
-            }
 
             return RedirectToAction(nameof(ResourcesMenusController.HighestPriorityResourcePage), nameof(ResourcesMenusController).RemoveSuffix());
         }
 
-        [Route("history")]
+        [HttpGet("history")]
+        [Authorize(Policies.CanManageResources)]
         public async Task<IActionResult> History(string resourcePageId, [FromServices]IEventStore eventStore, [FromServices] IEventViewModelFactoryMediator eventViewModelFactoryMediator)
         {
             var resourceEvents =

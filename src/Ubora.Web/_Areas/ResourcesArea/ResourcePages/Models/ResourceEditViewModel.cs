@@ -1,5 +1,4 @@
 ﻿using Ubora.Domain.Resources;
-using Ubora.Domain.Resources.Events;
 
 namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Models
 {
@@ -14,8 +13,10 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Models
                     ResourceId = resourcePage.Id,
                     Body = resourcePage.Body.Value,
                     Title = resourcePage.Title,
-                    ContentVersion = resourcePage.BodyVersion
-                };
+                    ContentVersion = resourcePage.BodyVersion,
+                    MenuPriority = resourcePage.MenuPriority,
+                    ParentCategoryId = resourcePage.CategoryId
+                }; 
             }
         }
     }

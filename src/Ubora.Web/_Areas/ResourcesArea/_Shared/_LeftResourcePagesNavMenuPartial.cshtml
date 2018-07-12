@@ -33,6 +33,15 @@
                     @menuLink
                 }
             </ul>
+            @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
+            {
+                <hr />
+                <ul class="list-sidebar">
+                    <li>
+                        <a asp-action="@nameof(ResourceCategoriesController.List)" asp-controller="@nameof(ResourceCategoriesController).RemoveSuffix()">Resource categories</a>
+                    </li>
+                </ul>
+            }
         </aside>
 
     </nav>
@@ -52,7 +61,7 @@
                 </div>
                 <div class="modal-body" id="resourcesNavLabel">
                     <nav class="nav flex-column">
-                        
+
                         <aside>
                             <ul class="list-sidebar">
                                 @foreach (var menuLink in menuLinks)
@@ -60,6 +69,15 @@
                                     @menuLink
                                 }
                             </ul>
+                            @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
+                            {
+                                <hr />
+                                <ul class="list-sidebar">
+                                    <li>
+                                        <a asp-action="@nameof(ResourceCategoriesController.List)" asp-controller="@nameof(ResourceCategoriesController).RemoveSuffix()">Resource categories</a>
+                                    </li>
+                                </ul>
+                            }
                         </aside>
 
                     </nav>

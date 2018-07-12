@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain;
 using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Commands;
 using Ubora.Web._Areas.ResourcesArea.ResourcePageCreation.Models;
@@ -13,19 +14,19 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePageCreation
 {
     public class ResourcePageCreationController : ResourcesAreaController
     {
-        [Authorize(Policies.CanManageResourcePages)]
+        [Authorize(Policies.CanManageResources)]
         [Route("create")]
         public virtual IActionResult Add()
         {
             return View();
         }
 
-        [Authorize(Policies.CanManageResourcePages)]
+        [Authorize(Policies.CanManageResources)]
         [HttpPost]
         [Route("create")]
         public async Task<IActionResult> Add(CreateResourcePagePostModel model)
         {
-            if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResourcePages))
+            if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
                 return Unauthorized();
 
             if (!ModelState.IsValid)
