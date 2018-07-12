@@ -162,16 +162,8 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             return RedirectToAction(nameof(Read));
         }
 
-        // TODO: Modal?
-        [HttpGet("edit/delete")]
-        [Authorize(Policies.CanManageResources)]
-        public IActionResult Delete()
-        {
-            return View();
-        }
-
         [HttpPost("edit/delete")]
-        public async Task<IActionResult> Delete(DeleteResourcePagePostModel postModel)
+        public async Task<IActionResult> Delete(DeleteResourcePagePostModel postModel, [FromServices]ResourceEditViewModel.Factory modelFactory)
         {
             if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
             {
@@ -179,7 +171,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             }
 
             if (!ModelState.IsValid)
-                return Delete();
+                return Edit(modelFactory);
 
             ExecuteUserCommand(new DeleteResourcePageCommand
             {
@@ -187,7 +179,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             }, Notice.Success("Resource page deleted"));
 
             if (!ModelState.IsValid)
-                return Delete();
+                return Edit(modelFactory);
 
             return RedirectToAction(nameof(ResourcesMenusController.HighestPriorityResourcePage), nameof(ResourcesMenusController).RemoveSuffix());
         }
