@@ -55,7 +55,7 @@ namespace Ubora.Web._Features.ProjectList.Models
                 
                 var combinedSpecification = CombineSpecificationMethods(false, searchModel);
                 
-                var projects = _queryProcessor.Find<Project>(combinedSpecification, sortByMultipleSpecification, 4, page);
+                var projects = _queryProcessor.Find<Project>(combinedSpecification, sortByMultipleSpecification, 24, page);
 
                 var model = new ProjectListViewModel
                 {
@@ -102,7 +102,7 @@ namespace Ubora.Web._Features.ProjectList.Models
 
                 var specification = CombineSpecificationMethods(true, searchModel);
                 var projects = _queryProcessor.Find(specification,
-                    new SortByMultipleSpecification<Project>(sortSpecifications), 4, page);
+                    new SortByMultipleSpecification<Project>(sortSpecifications), 24, page);
 
                 var model = new ProjectListViewModel();
                 if (!projects.Any())
