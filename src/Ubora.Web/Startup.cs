@@ -96,7 +96,7 @@ namespace Ubora.Web
 
             services.AddAutoMapper();
             services.AddUboraPolicyBasedAuthorization();
-            services.AddNodeServices();
+            services.AddNodeServices(setupAction => setupAction.InvocationTimeoutMilliseconds = 300000);
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
