@@ -127,9 +127,9 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
 
         [HttpGet("edit")]
         [Authorize(Policies.CanManageResources)]
-        public IActionResult Edit([FromServices]ResourceEditViewModel.Factory modelFactory)
+        public async Task<IActionResult> Edit([FromServices]ResourceEditViewModel.Factory modelFactory)
         {
-            var model = modelFactory.Create(ResourcePage);
+            var model = await modelFactory.Create(ResourcePage);
             return View(model);
         }
 
@@ -142,7 +142,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             }
 
             if (!ModelState.IsValid)
-                return Edit(modelFactory);
+                return await Edit(modelFactory);
 
             ExecuteUserCommand(
                 new EditResourcePageCommand
@@ -157,7 +157,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
                 successNotice: Notice.Success("Resource edited"));
 
             if (!ModelState.IsValid)
-                return Edit(modelFactory);
+                return await Edit(modelFactory);
 
             return RedirectToAction(nameof(Read));
         }
@@ -171,7 +171,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             }
 
             if (!ModelState.IsValid)
-                return Edit(modelFactory);
+                return await Edit(modelFactory);
 
             ExecuteUserCommand(new DeleteResourcePageCommand
             {
@@ -179,7 +179,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             }, Notice.Success("Resource page deleted"));
 
             if (!ModelState.IsValid)
-                return Edit(modelFactory);
+                return await Edit(modelFactory);
 
             return RedirectToAction(nameof(ResourcesMenusController.HighestPriorityResourcePage), nameof(ResourcesMenusController).RemoveSuffix());
         }
