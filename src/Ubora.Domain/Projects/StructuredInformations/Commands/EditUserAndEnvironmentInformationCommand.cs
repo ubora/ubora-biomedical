@@ -10,6 +10,8 @@ namespace Ubora.Domain.Projects.StructuredInformations.Commands
 {
     public class EditUserAndEnvironmentInformationCommand : UserProjectCommand
     {
+        public Guid DeviceStructuredInformationId { get; set; }
+        public WorkpackageType WorkpackageType { get; set; }
         public UserAndEnvironmentInformation UserAndEnvironmentInformation { get; set; }
 
         internal class Handler : CommandHandler<EditUserAndEnvironmentInformationCommand>
@@ -21,14 +23,15 @@ namespace Ubora.Domain.Projects.StructuredInformations.Commands
             public override ICommandResult Handle(EditUserAndEnvironmentInformationCommand cmd)
             {
                 var project = DocumentSession.LoadOrThrow<Project>(cmd.ProjectId);
-                var wp2 = DocumentSession.LoadOrThrow<WorkpackageTwo>(cmd.ProjectId);
-
+       
                 var @event = new UserAndEnvironmentInformationWasEditedEvent(
+                    deviceStructuredInformationId: cmd.DeviceStructuredInformationId,
+                    workpackageType: cmd.WorkpackageType,
                     initiatedBy: cmd.Actor, 
-                    projectId: cmd.ProjectId, 
+                    projectId: cmd.ProjectId,
                     userAndEnvironmentInformation: cmd.UserAndEnvironmentInformation);
 
-                DocumentSession.Events.Append(cmd.ProjectId, @event);
+                DocumentSession.Events.Append(cmd.DeviceStructuredInformationId, @event);
                 DocumentSession.SaveChanges();
 
                 return CommandResult.Success;

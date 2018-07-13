@@ -3,13 +3,16 @@
 
 @{
     ViewData["Title"] = "User and evironment";
+    
+    var workpackageMenuOptionViewData = (string)ViewData["WorkpackageMenuOption"];
+    var workpackage = workpackageMenuOptionViewData == WorkpackageMenuOption.WP4StructuredInformationOnTheDevice
+        ? "WorkpackageFour" : "WorkpackageTwo";
 }
 
-
 <div class="col-xl-7 col-lg-9">
-    <form asp-controller="WorkpackageTwo" asp-action="UserAndEnvironment">
+    <form asp-controller="@workpackage" asp-action="UserAndEnvironment">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+        <input type="hidden" asp-for="DeviceStructuredInformationId" >
         <div class="row">
             <h1 class="col-lg-12 mb-4">@ViewData["Title"]</h1>
             <div class="col-lg-12">

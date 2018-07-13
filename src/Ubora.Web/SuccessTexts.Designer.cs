@@ -511,6 +511,15 @@ namespace Ubora.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to WP3 and WP4 opened successfully.
+        /// </summary>
+        public static string WP3AndWP4Opened {
+            get {
+                return ResourceManager.GetString("WP3AndWP4Opened", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Changes saved.
         /// </summary>
         public static string WP3HealthTechnologySpecificationsEdited {

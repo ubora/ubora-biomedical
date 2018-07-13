@@ -1,9 +1,14 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using FluentAssertions;
+using Marten.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.Commands;
+using Ubora.Domain.Projects.StructuredInformations.Specifications;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Xunit;
 
@@ -25,8 +30,13 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         public void UserAndEnvironment_Returns_Form_View_With_Mapped_Values_From_Domain()
         {
             var deviceStructuredInformation = new DeviceStructuredInformation();
-            QueryProcessorMock.Setup(x => x.FindById<DeviceStructuredInformation>(ProjectId))
-                .Returns(deviceStructuredInformation);
+            var deviceStructuredInformations = new List<DeviceStructuredInformation>
+            {
+                deviceStructuredInformation
+            };
+            
+            QueryProcessorMock.Setup(x => x.Find<DeviceStructuredInformation>(It.IsAny<IsProjectAndWorkpackageTypeDeviceStructuredInformationSpec>()))
+                .Returns(new PagedList<DeviceStructuredInformation>(deviceStructuredInformations.AsQueryable(), 1,10));
 
             var expectedModel = new UserAndEnvironmentInformationViewModel();
 

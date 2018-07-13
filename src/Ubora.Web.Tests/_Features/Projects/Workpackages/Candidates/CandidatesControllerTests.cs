@@ -1095,10 +1095,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
         [Fact]
         public async Task OpenWorkpackageThree_Executes_Command_And_Redirects_To_Voting_With_Success_Notice()
         {
-            OpenWorkpackageThreeCommand executedCommand = null;
+            OpenWorkpackageFourCommand executedCommand = null;
             CommandProcessorMock
-                .Setup(p => p.Execute(It.IsAny<OpenWorkpackageThreeCommand>()))
-                .Callback<OpenWorkpackageThreeCommand>(c => executedCommand = c)
+                .Setup(p => p.Execute(It.IsAny<OpenWorkpackageFourCommand>()))
+                .Callback<OpenWorkpackageFourCommand>(c => executedCommand = c)
                 .Returns(CommandResult.Success);
 
             var candidateItemViewModelFactoryMock = new Mock<CandidateItemViewModel.Factory>(Mock.Of<ImageStorageProvider>(), Mock.Of<IMapper>());
@@ -1112,7 +1112,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
             executedCommand.Actor.UserId.Should().Be(UserId);
 
             var successNotice = _controller.Notices.Dequeue();
-            successNotice.Text.Should().Be(SuccessTexts.WP3Opened);
+            successNotice.Text.Should().Be(SuccessTexts.WP3AndWP4Opened);
             successNotice.Type.Should().Be(NoticeType.Success);
         }
     }

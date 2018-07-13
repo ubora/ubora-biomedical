@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.Projects.StructuredInformations;
+using Ubora.Domain.Projects.StructuredInformations.Specifications;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web._Features._Shared;
@@ -76,7 +78,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
-            var deviceStructuredInformation = QueryProcessor.FindById<DeviceStructuredInformation>(ProjectId);
+            var deviceStructuredInformation = QueryProcessor
+                .Find(new IsProjectAndWorkpackageTypeDeviceStructuredInformationSpec(ProjectId, WorkpackageType.Two))
+                .FirstOrDefault();
 
             var model = modelFactory.Create(deviceStructuredInformation);
 
@@ -88,13 +92,16 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
-            var deviceStructuredInformation = QueryProcessor.FindById<DeviceStructuredInformation>(ProjectId);
+            var deviceStructuredInformation = QueryProcessor
+                .Find(new IsProjectAndWorkpackageTypeDeviceStructuredInformationSpec(ProjectId, WorkpackageType.Two))
+                .FirstOrDefault();
             if (deviceStructuredInformation == null)
             {
                 return View(nameof(HealthTechnologySpecifications));
             }
 
             var model = modelFactory.Create(deviceStructuredInformation.HealthTechnologySpecification);
+            model.DeviceStructuredInformationId = deviceStructuredInformation.Id;
 
             return View(nameof(HealthTechnologySpecifications),model);
         }
@@ -112,6 +119,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             var command = modelMapper.MapToCommand(model);
+            command.DeviceStructuredInformationId = model.DeviceStructuredInformationId;
+            command.WorkpackageType = WorkpackageType.Two;
+            
             ExecuteUserProjectCommand(command, Notice.Success(SuccessTexts.WP3HealthTechnologySpecificationsEdited));
 
             if (!ModelState.IsValid)
@@ -127,13 +137,16 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
-            var deviceStructuredInformation = QueryProcessor.FindById<DeviceStructuredInformation>(ProjectId);
+            var deviceStructuredInformation = QueryProcessor
+                .Find(new IsProjectAndWorkpackageTypeDeviceStructuredInformationSpec(ProjectId, WorkpackageType.Two))
+                .FirstOrDefault();
             if (deviceStructuredInformation == null)
             {
                 return View(nameof(UserAndEnvironment));
             }
 
             var model = modelFactory.Create(deviceStructuredInformation.UserAndEnvironment);
+            model.DeviceStructuredInformationId = deviceStructuredInformation.Id;
 
             return View(nameof(UserAndEnvironment),model);
         }
@@ -151,6 +164,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             var command = modelMapper.MapToCommand(model);
+            command.DeviceStructuredInformationId = model.DeviceStructuredInformationId;
+            command.WorkpackageType = WorkpackageType.Two;
             ExecuteUserProjectCommand(command, Notice.Success(SuccessTexts.WP3UserAndEnvironmentEdited));
 
             if (!ModelState.IsValid)

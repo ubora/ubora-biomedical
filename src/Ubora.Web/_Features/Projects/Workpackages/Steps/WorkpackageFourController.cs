@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.StructuredInformations;
+using Ubora.Domain.Projects.StructuredInformations.Specifications;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web._Features._Shared;
@@ -68,19 +70,101 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
 
-/*            var deviceStructuredInformation = QueryProcessor.FindById<DeviceStructuredInformation>(ProjectId);
-
-            var model = modelFactory.Create(deviceStructuredInformation);*/
-
-            var model = new StructuredInformationResultViewModel
-            {
-                UserAndEnvironment = new UserAndEnvironmentResult(),
-                HealthTechnologySpecifications = new HealthTechnologySpecificationsResult(),
-                IsUserAndEnvironmentEdited = false,
-                IsHealthTechnologySpecificationEdited = false
-            };
+            var deviceStructuredInformation = QueryProcessor
+                .Find(new IsProjectAndWorkpackageTypeDeviceStructuredInformationSpec(ProjectId, WorkpackageType.Four))
+                .FirstOrDefault();
+            var model = modelFactory.Create(deviceStructuredInformation);
 
             return View(model);
+        }
+        
+        [Route(nameof(HealthTechnologySpecifications))]
+        public virtual IActionResult HealthTechnologySpecifications([FromServices] HealthTechnologySpecificationsViewModel.Factory modelFactory)
+        {
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
+
+            var deviceStructuredInformation = QueryProcessor
+                .Find(new IsProjectAndWorkpackageTypeDeviceStructuredInformationSpec(ProjectId, WorkpackageType.Four))
+                .FirstOrDefault();
+            if (deviceStructuredInformation == null)
+            {
+                return View(nameof(HealthTechnologySpecifications));
+            }
+
+            var model = modelFactory.Create(deviceStructuredInformation.HealthTechnologySpecification);
+            model.DeviceStructuredInformationId = deviceStructuredInformation.Id;
+
+            return View(nameof(HealthTechnologySpecifications),model);
+        }
+        
+        [HttpPost]
+        [Route(nameof(HealthTechnologySpecifications))]
+        public IActionResult EditHealthTechnologySpecifications(
+            HealthTechnologySpecificationsViewModel model,
+            [FromServices] HealthTechnologySpecificationsViewModel.Mapper modelMapper,
+            [FromServices] HealthTechnologySpecificationsViewModel.Factory modelFactory)
+        {
+            if (!ModelState.IsValid)
+            {
+                return HealthTechnologySpecifications(modelFactory);
+            }
+
+            var command = modelMapper.MapToCommand(model);
+            command.DeviceStructuredInformationId = model.DeviceStructuredInformationId;
+            command.WorkpackageType = WorkpackageType.Four;
+            
+            ExecuteUserProjectCommand(command, Notice.Success("WP4HealthTechnologySpecificationsEdited"));
+
+            if (!ModelState.IsValid)
+            {
+                return HealthTechnologySpecifications(modelFactory);
+            }
+
+            return RedirectToAction(nameof(StructuredInformationOnTheDevice));
+        }
+        
+        [Route(nameof(UserAndEnvironment))]
+        public virtual IActionResult UserAndEnvironment([FromServices] UserAndEnvironmentInformationViewModel.Factory modelFactory)
+        {
+            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
+
+            var deviceStructuredInformation = QueryProcessor
+                .Find(new IsProjectAndWorkpackageTypeDeviceStructuredInformationSpec(ProjectId, WorkpackageType.Four))
+                .FirstOrDefault();
+            if (deviceStructuredInformation == null)
+            {
+                return View(nameof(UserAndEnvironment));
+            }
+
+            var model = modelFactory.Create(deviceStructuredInformation.UserAndEnvironment);
+            model.DeviceStructuredInformationId = deviceStructuredInformation.Id;
+
+            return View(nameof(UserAndEnvironment),model);
+        }
+
+        [HttpPost]
+        [Route(nameof(UserAndEnvironment))]
+        public IActionResult EditUserAndEnvironment(
+            UserAndEnvironmentInformationViewModel model, 
+            [FromServices] UserAndEnvironmentInformationViewModel.Mapper modelMapper,
+            [FromServices] UserAndEnvironmentInformationViewModel.Factory modelFactory)
+        {
+            if (!ModelState.IsValid)
+            {
+                return UserAndEnvironment(modelFactory);
+            }
+
+            var command = modelMapper.MapToCommand(model);
+            command.DeviceStructuredInformationId = model.DeviceStructuredInformationId;
+            command.WorkpackageType = WorkpackageType.Four;
+            ExecuteUserProjectCommand(command , Notice.Success("WP4UserAndEnvironmentEdited"));
+
+            if (!ModelState.IsValid)
+            {
+                return UserAndEnvironment(modelFactory);
+            }
+
+            return RedirectToAction(nameof(StructuredInformationOnTheDevice));
         }
     }
 }

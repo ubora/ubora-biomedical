@@ -351,7 +351,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
         [Authorize(Policies.CanOpenWorkpackageThree)]
         public async Task<IActionResult> OpenWorkpackageThree([FromServices] CandidateItemViewModel.Factory candidateItemViewModelFactory)
         {
-            ExecuteUserProjectCommand(new OpenWorkpackageThreeCommand(), Notice.Success(SuccessTexts.WP3Opened));
+            ExecuteUserProjectCommand(new OpenWorkpackageFourCommand
+            {
+                DeviceStructuredInformationId = Guid.NewGuid()
+            }, Notice.Success(SuccessTexts.WP3AndWP4Opened));
 
             if (!ModelState.IsValid)
             {
@@ -359,13 +362,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
                 return await Voting(candidateItemViewModelFactory);
             }
             
-            ExecuteUserProjectCommand(new OpenWorkpackageFourCommand(), Notice.Success("WP4 opened"));
-            if (!ModelState.IsValid)
-            {
-                Notices.NotifyOfError("Failed to open work package 4!");
-                return await Voting(candidateItemViewModelFactory);
-            }
-
             return RedirectToAction(nameof(Voting));
         }
     }

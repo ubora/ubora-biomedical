@@ -57,6 +57,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
             var expectedAggregate = new DeviceStructuredInformation()
                 .Set(x => x.Id, _projectId)
                 .Set(x => x.ProjectId, _projectId)
+                .Set(x => x.WorkpackageType, WorkpackageType.Two)
                 .Set(x => x.UserAndEnvironment, UserAndEnvironmentInformation.CreateEmpty())
                 .Set(x => x.HealthTechnologySpecification, new HealthTechnologySpecificationsInformation());
 

@@ -27,6 +27,8 @@ namespace Ubora.Domain.Tests.Projects.StructuredInformations
         {
             var commandUnderTest = new EditHealthTechnologySpecificationInformationCommand
             {
+                DeviceStructuredInformationId = projectId,
+                WorkpackageType = WorkpackageType.Two,
                 HealthTechnologySpecificationsInformation = healthTechnologySpecificationsInformation,
                 ProjectId = projectId,
                 Actor = new DummyUserInfo()
