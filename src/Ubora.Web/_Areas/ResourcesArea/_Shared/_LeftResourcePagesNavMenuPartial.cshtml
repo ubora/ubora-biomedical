@@ -4,17 +4,17 @@
 @inject Ubora.Domain.Infrastructure.Queries.IQueryProcessor QueryProcessor
 
 @{
-    var sideMenuFactory = new ResourcesHierarchySideMenuFactory(Url);
+    var sideMenuFactory = new ResourcesHierarchySideMenuFactory(Url, AuthorizationService);
     var root = QueryProcessor.ExecuteQuery(new FindResourceMenuRootQuery());
 
     var model = new SideMenuViewModel
     {
-        TopLevelMenuItems = sideMenuFactory.CreateSideMenuItems(root).ToList()
+        TopLevelMenuItems = sideMenuFactory.CreateSideMenuItems(root, User).ToList()
     };
 
-    if (ViewContext.RouteData.Values["resourcePageId"] != null)
+    if (ViewData["SelectedSideMenuOption"] != null)
     {
-        ResourcesHierarchySideMenuFactory.MarkSelected(model.TopLevelMenuItems, (string)ViewContext.RouteData.Values["resourcePageId"]);
+        ResourcesHierarchySideMenuFactory.MarkSelected(model.TopLevelMenuItems, (string)ViewData["SelectedSideMenuOption"]);
     }
 
     var menuLinks = model.TopLevelMenuItems.Select(item => Html.Partial("~/_Features/_Shared/LeftSideMenu/_SideMenuItemPartial.cshtml", item)).ToList();
@@ -30,15 +30,6 @@
                     @menuLink
                 }
             </ul>
-            @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
-            {
-                <hr />
-                <ul class="list-sidebar">
-                    <li>
-                        <a asp-action="@nameof(ResourceCategoriesController.List)" asp-controller="@nameof(ResourceCategoriesController).RemoveSuffix()">Resource categories</a>
-                    </li>
-                </ul>
-            }
         </aside>
 
     </nav>
@@ -66,15 +57,6 @@
                                     @menuLink
                                 }
                             </ul>
-                            @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
-                            {
-                                <hr />
-                                <ul class="list-sidebar">
-                                    <li>
-                                        <a asp-action="@nameof(ResourceCategoriesController.List)" asp-controller="@nameof(ResourceCategoriesController).RemoveSuffix()">Resource categories</a>
-                                    </li>
-                                </ul>
-                            }
                         </aside>
 
                     </nav>

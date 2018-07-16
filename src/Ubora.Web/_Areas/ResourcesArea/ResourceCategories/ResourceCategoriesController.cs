@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Commands;
@@ -15,6 +16,11 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourceCategories
     [Route("resources/categories")]
     public class ResourceCategoriesController : ResourcesAreaController
     {
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            ViewData["SelectedSideMenuOption"] = "resource-categories";
+        }
+
         [HttpGet("create")]
         [Authorize(Policies.CanManageResources)]
         public IActionResult Create()
@@ -53,6 +59,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourceCategories
         }
 
         [HttpGet("")]
+        [Authorize(Policies.CanManageResources)]
         public IActionResult List()
         {
             var model = new ListResourceCategoryViewModel

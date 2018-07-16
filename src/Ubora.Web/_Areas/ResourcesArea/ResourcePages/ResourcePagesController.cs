@@ -38,6 +38,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
 
             ViewData["DisableFooter"] = true;
             ViewData["ResourcePageTitle"] = ResourcePage.Title;
+            ViewData["SelectedSideMenuOption"] = ResourcePageId.ToString();
 
             var urlTemplateParts = context.ActionDescriptor.AttributeRouteInfo.Template.Split("/");
 

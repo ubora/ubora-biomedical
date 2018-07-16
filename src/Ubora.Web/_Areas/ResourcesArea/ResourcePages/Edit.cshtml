@@ -13,8 +13,6 @@
 
 @Html.Partial("_ResourcePageTabsPartial.cshtml")
 
-<h1>@Model.Title</h1>
-
 <form asp-action="@nameof(ResourcePagesController.Edit)">
     <div asp-validation-summary="ModelOnly"></div>
     <div class="form-group">

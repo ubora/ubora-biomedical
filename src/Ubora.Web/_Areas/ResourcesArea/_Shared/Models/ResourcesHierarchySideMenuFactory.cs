@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Resources;
+using Ubora.Web._Areas.ResourcesArea.ResourceCategories;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages;
 using Ubora.Web._Features._Shared.LeftSideMenu;
 
@@ -11,15 +15,17 @@ namespace Ubora.Web._Areas.ResourcesArea._Shared.Models
     public class ResourcesHierarchySideMenuFactory
     {
         private readonly IUrlHelper _urlHelper;
+        private readonly IAuthorizationService _authorizationService;
 
-        public ResourcesHierarchySideMenuFactory(IUrlHelper urlHelper)
+        public ResourcesHierarchySideMenuFactory(IUrlHelper urlHelper, IAuthorizationService authorizationService)
         {
             _urlHelper = urlHelper;
+            _authorizationService = authorizationService;
         }
 
-        public IEnumerable<ISideMenuItem> CreateSideMenuItems(ResourcesMenu root)
+        public IEnumerable<ISideMenuItem> CreateSideMenuItems(ResourcesMenu root, ClaimsPrincipal user)
         {
-            var rootLinks = root?.Links.Where(link => !link.ParentCategoryId.HasValue);
+            var rootLinks = root?.Links.Where(link => !link.ParentCategoryId.HasValue).ToList();
             if (rootLinks == null)
             {
                 yield break;
@@ -28,6 +34,12 @@ namespace Ubora.Web._Areas.ResourcesArea._Shared.Models
             foreach (var sideMenuItem in CreateSideMenuItems(rootLinks, 0, root))
             {
                 yield return sideMenuItem;
+            }
+
+            if (_authorizationService.IsAuthorized(user, Policies.CanManageResources))
+            {
+                yield return new SeparatorSideMenuItem();
+                yield return new ResourcesSideMenuHyperlinkMenuItem(NestingLevel.None, "resource-categories", "Resource categories", _urlHelper.Action(nameof(ResourceCategoriesController.List), nameof(ResourceCategoriesController).RemoveSuffix()));
             }
         }
 

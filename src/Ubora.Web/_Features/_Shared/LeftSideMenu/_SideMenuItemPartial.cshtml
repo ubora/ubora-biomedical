@@ -11,4 +11,9 @@
     {
         @Html.Partial("_HyperlinkMenuItemPartial.cshtml", hyperlinkMenuItem)
     }
+
+    if (Model is SeparatorSideMenuItem)
+    {
+        <li>&nbsp;</li>
+    }
 }
