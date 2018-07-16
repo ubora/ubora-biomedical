@@ -1,23 +1,32 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using Ubora.Domain.Infrastructure;
 
 namespace Ubora.ConsoleApp
 {
-    class Program
+    internal class Program
     {
-        static private IContainer CompositionRoot()
+        private static IContainer CompositionRoot(string connectionString)
         {
-            var connectionString = "server=localhost;Port=5400;userid=postgres;password=ubora;database=postgres";
             var autofacContainerBuilder = new ContainerBuilder();
             autofacContainerBuilder.RegisterType<Application>();
-            var domainModule = new DomainAutofacModule(connectionString, null);
+
+            var domainModule = new DomainAutofacModule(connectionString, storageProvider: null);
             autofacContainerBuilder.RegisterModule(domainModule);
+
             return autofacContainerBuilder.Build();
         }
 
         static void Main(string[] args)
         {
-            CompositionRoot().Resolve<Application>().Run();
+            if (string.IsNullOrWhiteSpace(args[0]))
+            {
+                throw new InvalidOperationException("Connection string not set.");
+            }
+
+            CompositionRoot(connectionString: args[0])
+                .Resolve<Application>()
+                .Run();
         }
     }
 }
