@@ -43,9 +43,9 @@
         // TODO: Test this logic.
         var model = new ManageMemberViewModel(
             memberUserId: member.UserId,
-            isRemoveMemberVisible: (!member.IsCurrentUser && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectMember)),
-            isRemoveMentorVisible: (!member.IsCurrentUser && member.IsProjectMentor && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectMentor)),
-            isPromoteLeaderVisible: !member.IsProjectLeader && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanPromoteMember));
+            isRemoveMemberVisible: (!item.IsCurrentUser && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectMember)),
+            isRemoveMentorVisible: (!item.IsCurrentUser && item.IsProjectMentor && item.CanRemoveProjectMentor),
+            isPromoteLeaderVisible: !item.IsProjectLeader && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanPromoteMember));
 
         Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
           userId: member.UserId,

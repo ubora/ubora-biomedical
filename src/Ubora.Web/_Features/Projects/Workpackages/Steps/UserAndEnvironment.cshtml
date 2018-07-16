@@ -9,64 +9,65 @@
 <form asp-controller="WorkpackageTwo" asp-action="UserAndEnvironment">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="row">
-        <h1 class="col-lg-12 mb-4">User and evironment</h1>
-        <div class="col-lg-12">
-            <div class="row mb-4">
-                <h5 class="col-lg-12">1. Who is the intended user?</h5>
-                <div class="col-lg-4">
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="self-user_or_patient" />
-                            Self-user/patient
-                        </label>
+        <div class="row">
+            <h1 class="col-lg-12 mb-4">@ViewData["Title"]</h1>
+            <div class="col-lg-12">
+
+                <div class="row mb-4">
+                    <h5 class="col-lg-12">1. Who is the intended user?</h5>
+                    <div class="col-lg-4">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="self-user_or_patient" />
+                                Self-user/patient
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="physician" />
+                                Physician
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="technician" />
+                                Technician
+                            </label>
+                        </div>
                     </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="physician" />
-                            Physician
-                        </label>
+                    <div class="col-lg-4">
+                        <div class="form-check ">
+                            <label class="form-check-label">
+                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="nurse" />
+                                Nurse
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="midwife" />
+                                Midwife
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="family_member" />
+                                Family member
+                            </label>
+                        </div>
                     </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="technician" />
-                            Technician
-                        </label>
+                    <div class="col-lg-4">
+                        <div class="form-check">
+                            <label class="form-check-label w-100">
+                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="other" />
+                                <span class="d-inline">Other:</span>
+                                <input asp-for="IntendedUserIfOther" class="form-control d-inline w-75" type="text" title="Other indended user" />
+                                <span asp-validation-for="IntendedUserIfOther"></span>
+                            </label>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="form-check ">
-                        <label class="form-check-label">
-                            <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="nurse" />
-                            Nurse
-                        </label>
+                    <div class="col-lg-4">
+                        <span asp-validation-for="IntendedUserTypeKey"></span>
                     </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="midwife" />
-                            Midwife
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="family_member" />
-                            Family member
-                        </label>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="form-check">
-                        <label class="form-check-label w-100">
-                            <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="other" />
-                            <span class="d-inline">Other:</span>
-                            <input asp-for="IntendedUserIfOther" class="form-control d-inline w-75" type="text" title="Other indended user" />
-                            <span asp-validation-for="IntendedUserIfOther"></span>
-                        </label>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <span asp-validation-for="IntendedUserTypeKey"></span>
-                </div>
 
 
             </div>
