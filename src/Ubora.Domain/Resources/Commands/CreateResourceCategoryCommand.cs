@@ -30,6 +30,15 @@ namespace Ubora.Domain.Resources.Commands
                     throw new InvalidOperationException();
                 }
 
+                if (cmd.ParentCategoryId.HasValue)
+                {
+                    var menu = _documentSession.Load<ResourcesMenu>(ResourcesMenu.SingletonId);
+                    if (menu.CalculateNesting(cmd.ParentCategoryId.Value) > 1)
+                    {
+                        return CommandResult.Failed("Please do not create so deep of a category structure.");
+                    }
+                }
+
                 _documentSession.Events.StartStream(
                     cmd.CategoryId, 
                     new ResourceCategoryEditedEvent(

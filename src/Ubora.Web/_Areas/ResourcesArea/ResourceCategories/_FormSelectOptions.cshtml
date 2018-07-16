@@ -6,15 +6,15 @@
     RazorDelegate<(ResourceCategory Category, string Prefix)> renderCategoryWithChildren = null;
     renderCategoryWithChildren =
     @<div>
-        <option name="ParentCategoryId" value="@item.Category.Id" selected="@(item.Category.Id == Model.SelectedCategory)">@item.Category.Title</option>
+        <option value="@item.Category.Id" selected="@(item.Category.Id == Model.SelectedCategory)">@($"{item.Prefix}{item.Category.Title}")</option>
         @foreach (var childCategory in Model.Categories.Where(c => c.ParentCategoryId == item.Category.Id))
         {
-            @renderCategoryWithChildren((childCategory, $"{item.Prefix}{item.Category.Title}/"));
+            @renderCategoryWithChildren((childCategory, $"{item.Prefix}{item.Category.Title}/ "));
         }
     </div>;
 }
 
-<select id="js-categories" class="form-control">
+<select id="js-categories" name="ParentCategoryId" class="form-control">
     <option value=""></option>
     @foreach (var category in Model.Categories.Where(c => c.ParentCategoryId == null))
     {

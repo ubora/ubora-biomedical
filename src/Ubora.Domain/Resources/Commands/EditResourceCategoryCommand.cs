@@ -26,6 +26,15 @@ namespace Ubora.Domain.Resources.Commands
             {
                 var category = _documentSession.LoadOrThrow<ResourceCategory>(cmd.CategoryId);
 
+                if (cmd.ParentCategoryId.HasValue)
+                {
+                    var menu = _documentSession.Load<ResourcesMenu>(ResourcesMenu.SingletonId);
+                    if (menu.CalculateNesting(cmd.ParentCategoryId.Value) > 1)
+                    {
+                        return CommandResult.Failed("Please do not create so deep of a category structure.");
+                    }
+                }
+
                 _documentSession.Events.Append(
                     category.Id,
                     new ResourceCategoryEditedEvent(

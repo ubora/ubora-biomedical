@@ -123,5 +123,19 @@ namespace Ubora.Domain.Resources
                 parentCategoryId: @event.ParentCategoryId);
             Links = Links.Replace(existingLink, newValue);
         }
+
+        public int CalculateNesting(Guid id)
+        {
+            int nesting = 0;
+            Guid? parentCategoryId = Links.First(l => l.Id == id).ParentCategoryId;
+
+            while (parentCategoryId.HasValue)
+            {
+                ++nesting;
+                parentCategoryId = Links.First(x => x.Id == parentCategoryId).ParentCategoryId;
+            }
+
+            return nesting;
+        }
     }
 }
