@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Ubora.Domain.Projects.Members;
 using Ubora.Web.Authorization.Requirements;
 using Ubora.Web.Data;
 
@@ -31,7 +32,9 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsEmailConfirmedRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsCommentAuthorRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsVoteNotGivenRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, HasProjectMemberOfTypeRequirement<ProjectMentor>.Handler>();
             services.AddSingleton<IAuthorizationHandler, OrRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, AndRequirement.Handler>();
         }
 
         private static void AddPolicies(IServiceCollection services)
@@ -84,7 +87,7 @@ namespace Ubora.Web.Authorization
                 });
                 options.AddPolicy(Policies.CanRemoveProjectMentor, policyBuilder =>
                 {
-                    policyBuilder.RequireRole(ApplicationRole.Admin, ApplicationRole.ManagementGroup);
+                    policyBuilder.AddRequirements(new AndRequirement(new HasProjectMemberOfTypeRequirement<ProjectMentor>(), new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin, ApplicationRole.ManagementGroup })));
                 });
                 options.AddPolicy(Policies.CanReviewProjectWorkpackages, policyBuilder =>
                 {

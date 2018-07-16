@@ -1,24 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 
 namespace Ubora.Web._Features.ProjectList.Models
 {
-    public class SearchViewModel
+    public class SearchViewModel : SearchModel
     {
-        public string Title { get; set; }
-        public TabType Tab { get; set; }
-        public string ByArea { get; set; }
-        public ByStatusFilteringMethod ByStatus { get; set; }
-        public SortBy SortBy { get; set; }
+        public bool IsAnyFilterSet => ByArea.Any() || ByClinicalNeedTags.Any() || ByPotentialTechnologyTags.Any() || ByStatus != ByStatusFilteringMethod.All;
         public ProjectListViewModel ProjectListViewModel { get; set; }
-        public List<string> AreaOfUsageTags { get; set; } =
-            new List<string> { "Cardiovascular surgery",
-                "Colorectal surgery",
-                "General surgery",
-                "Neurosurgery",
-                "Oncologic surgery",
-                "Ophthalmic surgery",
-                "Oral and maxillofacial surgery",
-                "Orthopedic surgery"
-            };
     }
 }

@@ -42,7 +42,7 @@
 
     <div class="row py-2">
         <div class="col-xl-1 col-md-2 d-flex align-items-center">
-            Sort by:
+            Sort by
         </div>
         <div id="sortBy" class="dropdown">
             @if (Model.Ordering == OrderingMethod.Lastname)
@@ -117,6 +117,6 @@
 @section Scripts {
     <script src="~/dist/infinite_scroll.bundle.js"></script>
     <script>
-        UBORA.initInfiniteScroll('@Html.Raw(Url.Action(nameof(UserListController.Index), "UserList", new { Tab = Model.Tab, Ordering = Model.Ordering }))');
+        UBORA.initInfiniteScroll('@Html.Raw(Url.RouteUrl("CommunitySearch", new { Tab = Model.Tab, Ordering = Model.Ordering }))');
     </script>
 }

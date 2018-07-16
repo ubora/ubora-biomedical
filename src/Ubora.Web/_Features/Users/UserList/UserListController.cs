@@ -30,7 +30,7 @@ namespace Ubora.Web._Features.Users.UserList
             return Search(new SearchModel());
         }
 
-        [Route("community/search")]
+        [Route("community/search", Name = "CommunitySearch")]
         public IActionResult Search(SearchModel searchModel, int page = 1)
         {
             var sortSpecifications = new List<ISortSpecification<UserProfile>>();
@@ -47,11 +47,11 @@ namespace Ubora.Web._Features.Users.UserList
             IPagedList<UserProfile> userProfiles;
             if (searchModel.Tab == TabType.AllMembers)
             {
-                userProfiles = QueryProcessor.Find(new MatchAll<UserProfile>(), new SortByMultipleUserProfileSortSpecification(sortSpecifications), 4, page);
+                userProfiles = QueryProcessor.Find(new MatchAll<UserProfile>(), new SortByMultipleUserProfileSortSpecification(sortSpecifications), 24, page);
             }
             else
             {
-                userProfiles = QueryProcessor.ExecuteQuery(new SortByMultipleUboraMentorProfilesQuery(sortSpecifications, 4, page));
+                userProfiles = QueryProcessor.ExecuteQuery(new SortByMultipleUboraMentorProfilesQuery(sortSpecifications, 24, page));
             }
 
             var userListItemViewModel = userProfiles.Select(userProfile => new UserListItemViewModel

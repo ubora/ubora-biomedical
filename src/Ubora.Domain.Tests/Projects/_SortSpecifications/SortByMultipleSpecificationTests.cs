@@ -10,7 +10,7 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Projects._SortSpecifications
 {
-    public class SortByMultipleProjectSpecificationTests
+    public class SortByMultipleSpecificationTests
     {
         [Fact]
         public void Sorts_By_Multiple()
@@ -44,7 +44,7 @@ namespace Ubora.Domain.Tests.Projects._SortSpecifications
             sortSpecifications.Add(new SortByCreatedDateTimeSpecfication(SortOrder.Ascending));
             sortSpecifications.Add(new SortByTitleSpecification(SortOrder.Ascending));
 
-            var sut = new SortByMultipleProjectSpecification(sortSpecifications);
+            var sut = new SortByMultipleSpecification<Project>(sortSpecifications);
 
             //Act
             var sortedResult = sut.Sort(projects.AsQueryable());

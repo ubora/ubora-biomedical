@@ -58,6 +58,10 @@
         cursor: pointer;
         box-shadow: none;
     }
+
+    .material-icons, span {
+        @extend .align-middle;
+    }
 }
 
 a.btn-icon:hover {

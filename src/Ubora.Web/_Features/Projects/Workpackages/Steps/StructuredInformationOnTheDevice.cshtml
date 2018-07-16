@@ -10,246 +10,245 @@
 }
 
 
-<div class="col-lg-7">
+<div class="col-xl-7 col-lg-9">
 
-  <div class="row">
-    <div class="col">
-      <div class="d-flex justify-content-between">
-        <h1 class="mb-4">User and evironment</h1>
-        <a class="btn btn-outline-primary align-self-start" asp-action="UserAndEnvironment" asp-controller="WorkpackageTwo">
-          <i class="material-icons">mode_edit</i>
-          <span>Edit</span>
-        </a>
-      </div>
-      @if (Model.IsUserAndEnvironmentEdited)
-      {
-        <table class="table table-bordered table-structured-information">
-            <tbody>
-                <tr>
-                    <th scope="row">Who is the intended user?</th>
-                    <td>
-                        @if (!string.IsNullOrEmpty(Model.UserAndEnvironment.IntendedUser))
+    <div class="row">
+        <div class="col">
+            <h1>@ViewData["Title"]</h1>
+            <div class="d-flex justify-content-between">
+                <h2 class="mb-4">User and evironment</h2>
+                <a class="btn btn-outline-primary align-self-start" asp-action="UserAndEnvironment" asp-controller="WorkpackageTwo">
+                    <i class="material-icons">mode_edit</i>
+                    <span>Edit</span>
+                </a>
+            </div>
+            @if (Model.IsUserAndEnvironmentEdited)
+            {
+                <table class="table table-bordered table-structured-information">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Who is the intended user?</th>
+                            <td>
+                                @if (!string.IsNullOrEmpty(Model.UserAndEnvironment.IntendedUser))
+                                {
+                                    @Model.UserAndEnvironment.IntendedUser
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Is training required in addition to the expected skill level of the intended user?</th>
+                            <td>@Model.UserAndEnvironment.IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser.ToYesNo()</td>
+                        </tr>
+                        @if (Model.UserAndEnvironment.IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser == true)
                         {
-                            @Model.UserAndEnvironment.IntendedUser
+                            <tr>
+                                <th scope="row">If training is required, please describe who will deliver the training and the materials and time required for the training.</th>
+                                <td>@Model.UserAndEnvironment.IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining</td>
+                            </tr>
                         }
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">Is training required in addition to the expected skill level of the intended user?</th>
-                    <td>@Model.UserAndEnvironment.IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser.ToYesNo()</td>
-                </tr>
-                @if (Model.UserAndEnvironment.IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser == true)
-                {
-                    <tr>
-                        <th scope="row">If training is required, please describe who will deliver the training and the materials and time required for the training.</th>
-                        <td>@Model.UserAndEnvironment.IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining</td>
-                    </tr>
-                }
-                <tr>
-                    <th scope="row">Is any maintenance or calibration required by the user at the time of use?</th>
-                    <td>@Model.UserAndEnvironment.IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse.ToYesNo()</td>
-                </tr>
+                        <tr>
+                            <th scope="row">Is any maintenance or calibration required by the user at the time of use?</th>
+                            <td>@Model.UserAndEnvironment.IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse.ToYesNo()</td>
+                        </tr>
 
-                <tr>
-                    <th scope="row">Where will the technology be used?</th>
-                    <td>
-                        @if (Model.UserAndEnvironment.WhereWillTechnologyBeUsed.GetResult().Any())
+                        <tr>
+                            <th scope="row">Where will the technology be used?</th>
+                            <td>
+                                @if (Model.UserAndEnvironment.WhereWillTechnologyBeUsed.GetResult().Any())
+                                {
+                                    @string.Join(", ", Model.UserAndEnvironment.WhereWillTechnologyBeUsed.GetResult())
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="text-informative">Seems that you have not filled this part yet. You can start it now.</p>
+            }
+        </div>
+    </div>
+
+    <div class="row my-4">
+        <div class="col">
+            <div class="d-flex justify-content-between">
+                <h2 class="mb-4">Health technology specifications</h2>
+                <a class="btn btn-outline-primary align-self-start" asp-action="HealthTechnologySpecifications" asp-controller="WorkpackageTwo">
+                    <i class="material-icons">mode_edit</i>
+                    <span>Edit</span>
+                </a>
+            </div>
+            @if (Model.IsHealthTechnologySpecificationEdited)
+            {
+                <table class="table table-bordered table-structured-information">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Dimensions (mm<sup>3</sup>)</th>
+                            <td>
+                                @if (Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.IsAllDimensionsSet)
+                                {
+                                    @Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsLength <span>mm x</span> @Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsWidth <span>mm x</span> @Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsHeight <span>mm</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Weight (kg)</th>
+                            <td>
+                                @if (Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.WeightInKilograms != 0)
+                                {
+                                    @(Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.WeightInKilograms) <span>kg</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Does it require the use of consumables? For example, disposable batteries, disposable electrodes, etc.</th>
+                            @if (Model.HealthTechnologySpecifications.DoesItRequireUseOfConsumables == true)
+                            {
+                                <td>Yes. @Model.HealthTechnologySpecifications.IfRequiresConsumablesListConsumables</td>
+                            }
+                            else
+                            {
+                                <td>@Model.HealthTechnologySpecifications.DoesItRequireUseOfConsumables?.ToYesNo()</td>
+                            }
+                        </tr>
+                        <tr>
+                            <th scope="row">Estimated life time</th>
+                            <td>
+                                @if (Model.HealthTechnologySpecifications.EstimatedLifeTimeInDays != 0)
+                                {
+                                    @Model.HealthTechnologySpecifications.EstimatedLifeTimeInDays <span>Days</span>
+                                }
+                                @if (Model.HealthTechnologySpecifications.EstimatedLifeTimeInMonths != 0)
+                                {
+                                    @Model.HealthTechnologySpecifications.EstimatedLifeTimeInMonths <span>Months</span>
+                                }
+                                @if (Model.HealthTechnologySpecifications.EstimatedLifeTimeInYears != 0)
+                                {
+                                    @Model.HealthTechnologySpecifications.EstimatedLifeTimeInYears <span>Years</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Estimated shelf life</th>
+                            <td>
+                                @if (Model.HealthTechnologySpecifications.EstimatedShelfLifeInDays != 0)
+                                {
+                                    @Model.HealthTechnologySpecifications.EstimatedShelfLifeInDays <span>Days</span>
+                                }
+                                @if (Model.HealthTechnologySpecifications.EstimatedShelfLifeInMonths != 0)
+                                {
+                                    @Model.HealthTechnologySpecifications.EstimatedShelfLifeInMonths <span>Months</span>
+                                }
+                                @if (Model.HealthTechnologySpecifications.EstimatedShelfLifeInYears != 0)
+                                {
+                                    @Model.HealthTechnologySpecifications.EstimatedShelfLifeInYears <span>Years</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Can it have a telemedicine or eHealth application?</th>
+                            <td>@Model.HealthTechnologySpecifications.CanItHaveATelemedicineOrEHealthApplication.ToYesNo()</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Does it use any kind of software?</th>
+                            <td>@Model.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.DoesItUseAnyKindOfSoftware.ToYesNo()</td>
+                        </tr>
+                        @if (Model.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.DoesItUseAnyKindOfSoftware)
                         {
-                            @string.Join(", ", Model.UserAndEnvironment.WhereWillTechnologyBeUsed.GetResult())
+                            <tr>
+                                <th scope="row">If yes, please describe the software, whether it is open source or proprietary, its use and/or license fee, etc. (10-70 words).</th>
+                                <td>@Model.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.IfUsesSoftwareDescribeSoftware</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">If yes, can the software be customized for local use? Please explain (10-70 words). Include languages available.</th>
+                                <td>@Model.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse</td>
+                            </tr>
                         }
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-      }
-      else {
-        <p class="text-informative">Seems that you have not filled this part yet. You can start it now.</p>
-      }
-
+                        <tr>
+                            <th scope="row">Is it portable?</th>
+                            <td>@Model.HealthTechnologySpecifications.Portability</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Type of use</th>
+                            <td>@Model.HealthTechnologySpecifications.TypeOfUse</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Does the technology require maintenance?</th>
+                            <td>
+                                <p>@Model.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance.ToYesNo()</p>
+                                @if (Model.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance)
+                                {
+                                    <p>Type: @Model.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceSpecifyType</p>
+                                    <p>Frequency: @Model.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceSpecifyFrequency</p>
+                                    <p>Can it be done on-site / home / community?: @Model.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceCanItBeDoneOnSiteOrHomeOrCommunity.ToYesNo()</p>
+                                }
+                            </td>
+                        </tr>
+                        @if (Model.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance)
+                        {
+                            <tr>
+                                <th scope="row">If yes, who should provide maintenance?</th>
+                                <td>@Model.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance</td>
+                            </tr>
+                        }
+                        <tr>
+                            <th scope="row">Energy requirements</th>
+                            <td>
+                                @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.MechanicalEnergy)
+                                {
+                                    <p>Mechanical energy (e.g. manually powered)</p>
+                                }
+                                @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.Batteries)
+                                {
+                                    <p>Batteries</p>
+                                }
+                                @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.PowerSupplyForRecharging)
+                                {
+                                    <p>
+                                        <span class="d-block">Power supply for recharging</span>
+                                        <span class="d-block pl-3">Voltage required: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredVoltage V</span>
+                                        <span class="d-block pl-3">Time required to recharge: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours hours @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes minutes</span>
+                                        <span class="d-block pl-3">Battery life with full charge: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours hours @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes minutes</span>
+                                    </p>
+                                }
+                                @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.ContinuousPowerSupply)
+                                {
+                                    <p>
+                                        <span class="d-block">Continuous power supply</span>
+                                        <span class="d-block pl-3">Voltage required: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfContinuousPowerSupplyThenRequiredVoltage V</span>
+                                    </p>
+                                }
+                                @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.SolarPower)
+                                {
+                                    <p>
+                                        <span class="d-block">Solar power</span>
+                                        <span class="d-block pl-3">Time in sunlight required to charge: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours hours @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes minutes</span>
+                                        <span class="d-block pl-3">Battery life with full charge: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenBatteryLifeInHours hours @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenBatteryLifeInMinutes minutes</span>
+                                    </p>
+                                }
+                                @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.Other)
+                                {
+                                    <p>@Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.OtherText</p>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Facility requirements</th>
+                            <td>
+                                @foreach (var item in Model.HealthTechnologySpecifications.FacilityRequirementsViewModel.GetResult())
+                                {
+                                    <p>@item</p>
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="text-informative">Seems that you have not filled this part yet. You can start it now.</p>
+            }
+        </div>
     </div>
-  </div>
-
-  <div class="row my-4">
-    <div class="col">
-      <div class="d-flex justify-content-between">
-        <h1 class="mb-4">Health technology specifications</h1>
-        <a class="btn btn-outline-primary align-self-start" asp-action="HealthTechnologySpecifications" asp-controller="WorkpackageTwo">
-          <i class="material-icons">mode_edit</i>
-          <span>Edit</span>
-        </a>
-      </div>
-
-      @if (Model.IsHealthTechnologySpecificationEdited)
-      {
-
-      <table class="table table-bordered table-structured-information">
-          <tbody>
-              <tr>
-                  <th scope="row">Dimensions (mm<sup>3</sup>)</th>
-                  <td>
-                      @if (Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.IsAllDimensionsSet)
-                      {
-                          @Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsLength <span>mm x</span> @Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsWidth <span>mm x</span> @Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsHeight <span>mm</span>
-                      }
-                  </td>
-              </tr>
-              <tr>
-                  <th scope="row">Weight (kg)</th>
-                  <td>
-                      @if (Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.WeightInKilograms != 0)
-                      {
-                          @(Model.HealthTechnologySpecifications.DeviceMeasurementsViewModel.WeightInKilograms) <span>kg</span>
-                      }
-                  </td>
-          </tr>
-          <tr>
-              <th scope="row">Does it require the use of consumables? For example, disposable batteries, disposable electrodes, etc.</th>
-              @if (Model.HealthTechnologySpecifications.DoesItRequireUseOfConsumables == true)
-              {
-                  <td>Yes. @Model.HealthTechnologySpecifications.IfRequiresConsumablesListConsumables</td>
-              }
-              else
-              {
-                  <td>@Model.HealthTechnologySpecifications.DoesItRequireUseOfConsumables?.ToYesNo()</td>
-              }
-          </tr>
-          <tr>
-              <th scope="row">Estimated life time</th>
-              <td>
-                  @if (Model.HealthTechnologySpecifications.EstimatedLifeTimeInDays != 0)
-                  {
-                      @Model.HealthTechnologySpecifications.EstimatedLifeTimeInDays <span>Days</span>
-                  }
-                  @if (Model.HealthTechnologySpecifications.EstimatedLifeTimeInMonths != 0)
-                  {
-                      @Model.HealthTechnologySpecifications.EstimatedLifeTimeInMonths <span>Months</span>
-                  }
-                  @if (Model.HealthTechnologySpecifications.EstimatedLifeTimeInYears != 0)
-                  {
-                      @Model.HealthTechnologySpecifications.EstimatedLifeTimeInYears <span>Years</span>
-                  }
-              </td>
-          </tr>
-          <tr>
-              <th scope="row">Estimated shelf life</th>
-              <td>
-                  @if (Model.HealthTechnologySpecifications.EstimatedShelfLifeInDays != 0)
-                  {
-                      @Model.HealthTechnologySpecifications.EstimatedShelfLifeInDays <span>Days</span>
-                  }
-                  @if (Model.HealthTechnologySpecifications.EstimatedShelfLifeInMonths != 0)
-                  {
-                      @Model.HealthTechnologySpecifications.EstimatedShelfLifeInMonths <span>Months</span>
-                  }
-                  @if (Model.HealthTechnologySpecifications.EstimatedShelfLifeInYears != 0)
-                  {
-                      @Model.HealthTechnologySpecifications.EstimatedShelfLifeInYears <span>Years</span>
-                  }
-              </td>
-          </tr>
-          <tr>
-              <th scope="row">Can it have a telemedicine or eHealth application?</th>
-              <td>@Model.HealthTechnologySpecifications.CanItHaveATelemedicineOrEHealthApplication.ToYesNo()</td>
-          </tr>
-          <tr>
-              <th scope="row">Does it use any kind of software?</th>
-              <td>@Model.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.DoesItUseAnyKindOfSoftware.ToYesNo()</td>
-          </tr>
-          @if (Model.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.DoesItUseAnyKindOfSoftware)
-          {
-              <tr>
-                  <th scope="row">If yes, please describe the software, whether it is open source or proprietary, its use and/or license fee, etc. (10-70 words).</th>
-                  <td>@Model.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.IfUsesSoftwareDescribeSoftware</td>
-              </tr>
-                  <tr>
-                      <th scope="row">If yes, can the software be customized for local use? Please explain (10-70 words). Include languages available.</th>
-                      <td>@Model.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse</td>
-                  </tr>
-          }
-          <tr>
-              <th scope="row">Is it portable?</th>
-              <td>@Model.HealthTechnologySpecifications.Portability</td>
-          </tr>
-          <tr>
-              <th scope="row">Type of use</th>
-              <td>@Model.HealthTechnologySpecifications.TypeOfUse</td>
-          </tr>
-          <tr>
-              <th scope="row">Does the technology require maintenance?</th>
-              <td>
-                  <p>@Model.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance.ToYesNo()</p>
-                  @if (Model.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance)
-                  {
-                      <p>Type: @Model.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceSpecifyType</p>
-                          <p>Frequency: @Model.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceSpecifyFrequency</p>
-                          <p>Can it be done on-site / home / community?: @Model.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceCanItBeDoneOnSiteOrHomeOrCommunity.ToYesNo()</p>
-                  }
-              </td>
-          </tr>
-          @if (Model.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance)
-          {
-              <tr>
-                  <th scope="row">If yes, who should provide maintenance?</th>
-                  <td>@Model.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance</td>
-              </tr>
-          }
-          <tr>
-              <th scope="row">Energy requirements</th>
-              <td>
-                  @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.MechanicalEnergy)
-                  {
-                      <p>Mechanical energy (e.g. manually powered)</p>
-                  }
-                  @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.Batteries)
-                  {
-                      <p>Batteries</p>
-                  }
-                  @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.PowerSupplyForRecharging)
-                  {
-                      <p>
-                          <span class="d-block">Power supply for recharging</span>
-                          <span class="d-block pl-3">Voltage required: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredVoltage V</span>
-                          <span class="d-block pl-3">Time required to recharge: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours hours @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes minutes</span>
-                          <span class="d-block pl-3">Battery life with full charge: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours hours @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes minutes</span>
-                      </p>
-                  }
-                  @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.ContinuousPowerSupply)
-                  {
-                      <p>
-                          <span class="d-block">Continuous power supply</span>
-                          <span class="d-block pl-3">Voltage required: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfContinuousPowerSupplyThenRequiredVoltage V</span>
-                      </p>
-                  }
-                  @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.SolarPower)
-                  {
-                      <p>
-                          <span class="d-block">Solar power</span>
-                          <span class="d-block pl-3">Time in sunlight required to charge: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours hours @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes minutes</span>
-                          <span class="d-block pl-3">Battery life with full charge: @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenBatteryLifeInHours hours @Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenBatteryLifeInMinutes minutes</span>
-                      </p>
-                  }
-                  @if (Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.Other)
-                  {
-                      <p>@Model.HealthTechnologySpecifications.EnergyRequirementsViewModel.OtherText</p>
-                  }
-              </td>
-          </tr>
-          <tr>
-              <th scope="row">Facility requirements</th>
-              <td>
-                  @foreach (var item in Model.HealthTechnologySpecifications.FacilityRequirementsViewModel.GetResult())
-                  {
-                      <p>@item</p>
-                  }
-              </td>
-          </tr>
-      </tbody>
-    </table>
-    }
-    else {
-      <p class="text-informative">Seems that you have not filled this part yet. You can start it now.</p>
-    }
-    </div>
-  </div>
-
 </div>

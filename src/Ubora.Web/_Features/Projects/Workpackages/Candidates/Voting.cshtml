@@ -1,6 +1,6 @@
 ﻿@model Ubora.Web._Features.Projects.Workpackages.Candidates.VotingViewModel
 
-<div class="col-lg-7">
+<div class="col-xl-7 col-lg-9">
     <div class="row">
         <div class="col">
             <div class="row">
@@ -46,36 +46,33 @@
                 <hr>
                 <div class="mt-4">
 
-                  <button class="btn btn-outline-primary align-self-start" role="button" data-toggle="modal" data-target="#openWorkpackageModal" style="">
-                    <i class="material-icons align-middle">arrow_forward</i>
-                    <span>Open “WP3: Design and prototyping”</span>
-                  </button>
+                    <button class="btn btn-outline-primary align-self-start" role="button" data-toggle="modal" data-target="#openWorkpackageModal" style="">
+                        <i class="material-icons align-middle">arrow_forward</i>
+                        <span>Open “WP3: Design and prototyping”</span>
+                    </button>
 
-                  <div class="modal fade" id="openWorkpackageModal" tabindex="-1" role="dialog" aria-hidden="true">
-                      <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <h5 class="modal-title">Open “Work package 3: design and prototyping”</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                      <span aria-hidden="true">&times;</span>
-                                  </button>
-                              </div>
-                              <form asp-controller="Candidates" asp-action="OpenWorkpackageThree" method="post">
-                                  <div class="modal-body">
-                                      <p>Please be sure you have reached consensus on the conceptual design of your medical device. Are you sure you want to open “WP3: Design and prototyping”?</p>
-                                  </div>
-                                  <div class="modal-footer">
-                                      <div class="form-group">
-                                          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                                          <span class="mx-1"></span>
-                                          <button class="btn btn-primary" type="submit">Open</button>
-                                      </div>
-                                  </div>
-                              </form>
-                          </div>
-                      </div>
-                  </div>
-              
+                    <div class="modal fade" id="openWorkpackageModal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Open “Work package 3: design and prototyping”</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form asp-controller="Candidates" asp-action="OpenWorkpackageThree" method="post">
+                                    <div class="modal-body">
+                                        <p>Please be sure you have reached consensus on the conceptual design of your medical device. Are you sure you want to open “WP3: Design and prototyping”?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Open</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             }
         </div>
