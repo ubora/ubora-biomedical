@@ -16,6 +16,7 @@ using Xunit;
 using Ubora.Domain.Users;
 using Ubora.Domain.Users.SortSpecifications;
 using Ubora.Domain.Infrastructure.Specifications;
+using System.Linq;
 
 namespace Ubora.Web.Tests._Features.Admin
 {
@@ -40,6 +41,7 @@ namespace Ubora.Web.Tests._Features.Admin
         [Fact]
         public async Task AddManagementGroupRole_Redirects_ManageUsers()
         {
+            var page = 2;
             var userId = Guid.NewGuid();
             var user = new ApplicationUser();
 
@@ -47,15 +49,17 @@ namespace Ubora.Web.Tests._Features.Admin
             _userManagerMock.Setup(m => m.AddToRoleAsync(user, ApplicationRole.ManagementGroup)).ReturnsAsync(IdentityResult.Success);
 
             // Act
-            var result = (RedirectToActionResult)await _controller.AddManagementGroupRole(userId);
+            var result = (RedirectToActionResult)await _controller.AddManagementGroupRole(userId, page);
 
             //Assert
             result.ActionName.Should().Be("ManageUsers");
+            result.RouteValues.Last().Value.Should().Be(page);
         }
 
         [Fact]
         public async Task AddManagementGroupRole_Returns_ManageUsers_If_Result_Failed()
         {
+            var page = 2;
             var userId = Guid.NewGuid();
             var user = new ApplicationUser();
 
@@ -68,7 +72,7 @@ namespace Ubora.Web.Tests._Features.Admin
                 .ReturnsAsync(expectedResult);
 
             // Act
-            var result = (ViewResult)await _controller.AddManagementGroupRole(userId);
+            var result = (ViewResult)await _controller.AddManagementGroupRole(userId, page);
 
             // Assert
             result.Should().Be(expectedResult);
@@ -77,6 +81,7 @@ namespace Ubora.Web.Tests._Features.Admin
         [Fact]
         public async Task RemoveManagementGroupRole_Redirects_ManageUsers()
         {
+            var page = 2;
             var userId = Guid.NewGuid();
             var user = new ApplicationUser();
 
@@ -84,15 +89,17 @@ namespace Ubora.Web.Tests._Features.Admin
             _userManagerMock.Setup(m => m.RemoveFromRoleAsync(user, ApplicationRole.ManagementGroup)).ReturnsAsync(IdentityResult.Success);
 
             // Act
-            var result = (RedirectToActionResult)await _controller.RemoveManagementGroupRole(userId);
+            var result = (RedirectToActionResult)await _controller.RemoveManagementGroupRole(userId, page);
 
             // Assert
             result.ActionName.Should().Be("ManageUsers");
+            result.RouteValues.Last().Value.Should().Be(page);
         }
 
         [Fact]
         public async Task RemoveManagementGroupRole_Returns_ManageUsers_If_Result_Failed()
         {
+            var page = 2;
             var userId = Guid.NewGuid();
             var user = new ApplicationUser();
 
@@ -105,7 +112,7 @@ namespace Ubora.Web.Tests._Features.Admin
                 .ReturnsAsync(expectedResult);
 
             // Act
-            var result = (ViewResult)await _controller.RemoveManagementGroupRole(userId);
+            var result = (ViewResult)await _controller.RemoveManagementGroupRole(userId, page);
 
             // Assert
             result.Should().Be(expectedResult);
@@ -114,6 +121,7 @@ namespace Ubora.Web.Tests._Features.Admin
         [Fact]
         public async Task ReturnViewWhenInvalidModelState()
         {
+            var page = 2;
             var model = new DeleteUserViewModel
             {
                 UserEmail = "test@test.ee"
@@ -129,7 +137,7 @@ namespace Ubora.Web.Tests._Features.Admin
             QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByFullNameAscendingSpecification>(), 10, 1)).Returns(userProfiles);
 
             // Act
-            IActionResult result = await _controller.DeleteUser(model);
+            IActionResult result = await _controller.DeleteUser(model, page);
 
             // Assert
             _userManagerMock.Verify(x => x.DeleteAsync(It.IsAny<ApplicationUser>()), Times.Never);
@@ -139,6 +147,7 @@ namespace Ubora.Web.Tests._Features.Admin
         [Fact]
         public async Task ReturnViewAndDeleteAsyncIsNeverCalledWhenNoUserIsFound()
         {
+            var page = 2;
             var model = new DeleteUserViewModel
             {
                 UserEmail = "test@test.ee"
@@ -155,7 +164,7 @@ namespace Ubora.Web.Tests._Features.Admin
             QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByFullNameAscendingSpecification>(), 10, 1)).Returns(userProfiles);
 
             // Act
-            var result = (ViewResult)await _controller.DeleteUser(model);
+            var result = (ViewResult)await _controller.DeleteUser(model, page);
 
             // Assert
             _userManagerMock.Verify(x => x.DeleteAsync(It.IsAny<ApplicationUser>()), Times.Never);
@@ -166,6 +175,7 @@ namespace Ubora.Web.Tests._Features.Admin
         [Fact]
         public async Task DeleteUserCommandIsNeverCalledAndViewisReturnedWhenDeleteAsyncFailed()
         {
+            var page = 2;
             var model = new DeleteUserViewModel
             {
                 UserEmail = "test@test.ee"
@@ -186,7 +196,7 @@ namespace Ubora.Web.Tests._Features.Admin
             QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByFullNameAscendingSpecification>(), 10, 1)).Returns(userProfiles);
 
             // Act
-            var result = (ViewResult)await _controller.DeleteUser(model);
+            var result = (ViewResult)await _controller.DeleteUser(model, page);
 
             // Assert
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<DeleteUserCommand>()), Times.Never);
@@ -197,6 +207,7 @@ namespace Ubora.Web.Tests._Features.Admin
         [Fact]
         public async Task RedirectToActionWhenDeleteUserCommandIsSuccess()
         {
+            var page = 2;
             DeleteUserCommand executedCommand = null;
 
             CommandProcessorMock.Setup(x => x.Execute(It.IsAny<DeleteUserCommand>()))
@@ -218,17 +229,19 @@ namespace Ubora.Web.Tests._Features.Admin
 
 
             // Act
-            var result = (RedirectToActionResult)await _controller.DeleteUser(model);
+            var result = (RedirectToActionResult)await _controller.DeleteUser(model, page);
 
             // Assert
             executedCommand.UserId.Should().Be(user.Id);
 
             result.ActionName.Should().Be("ManageUsers");
+            result.RouteValues.Last().Value.Should().Be(page);
         }
 
         [Fact]
         public async Task ReturnViewWhenDeleteUserCommandIsFailure()
         {
+            var page = 2;
             CommandProcessorMock.Setup(x => x.Execute(It.IsAny<DeleteUserCommand>()))
                 .Returns(CommandResult.Failed("test viga"));
 
@@ -252,7 +265,7 @@ namespace Ubora.Web.Tests._Features.Admin
             QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByFullNameAscendingSpecification>(), 10, 1)).Returns(userProfiles);
 
             // Act
-            var result = (ViewResult)await _controller.DeleteUser(model);
+            var result = (ViewResult)await _controller.DeleteUser(model, page);
 
             // Assert
             result.ViewName.Should().Be("ManageUsers");
