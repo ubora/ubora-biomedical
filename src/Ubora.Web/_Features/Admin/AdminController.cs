@@ -23,7 +23,6 @@ namespace Ubora.Web._Features.Admin
     {
         private readonly IApplicationUserManager _userManager;
 
-
         public AdminController(IApplicationUserManager userManager)
         {
             _userManager = userManager;
@@ -94,7 +93,6 @@ namespace Ubora.Web._Features.Admin
 
             return View(nameof(ProjectsUnderReview), projectsViewModel);
         }
-
 
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]

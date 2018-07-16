@@ -26,14 +26,12 @@ namespace Ubora.Web._Areas.ResourcesArea._Shared.Models
         public IEnumerable<ISideMenuItem> CreateSideMenuItems(ResourcesMenu root, ClaimsPrincipal user)
         {
             var rootLinks = root?.Links.Where(link => !link.ParentCategoryId.HasValue).ToList();
-            if (rootLinks == null)
+            if (rootLinks != null)
             {
-                yield break;
-            }
-
-            foreach (var sideMenuItem in CreateSideMenuItems(rootLinks, 0, root))
-            {
-                yield return sideMenuItem;
+                foreach (var sideMenuItem in CreateSideMenuItems(rootLinks, 0, root))
+                {
+                    yield return sideMenuItem;
+                }
             }
 
             if (_authorizationService.IsAuthorized(user, Policies.CanManageResources))
