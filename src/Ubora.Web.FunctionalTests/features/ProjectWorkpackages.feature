@@ -193,7 +193,7 @@ Scenario: I change candidates details in Voting
     When I click on the element "=Design planning"
         And I click on the element "=WP 2: Conceptual design"
         And I click on the element "=Voting"
-        And I click on the element "p=TestCandidate"
+        And I click on the element "a=TestCandidate"
     Then I expect the element "h2=TestCandidate" is visible
         And I expect the element "p=TestDescription" is visible
         And I expect the title of the page "Voting - UBORA"        
@@ -211,7 +211,7 @@ Scenario: I add/edit a comment in Voting
     When I click on the element "=Design planning"
         And I click on the element "=WP 2: Conceptual design"
         And I click on the element "=Voting"
-        And I click on the element "p=TestCandidate"
+        And I click on the element "a=TestCandidate"
         And I click on the element "button=Add comment"
     Then I expect the element "span=The CommentText field is required." is visible
     When I set value "This is an awesome candidate!" to the element "#CommentText"
@@ -222,7 +222,7 @@ Scenario: I edit candidate's details in Voting
     When I click on the element "=Design planning"
         And I click on the element "=WP 2: Conceptual design"
         And I click on the element "=Voting"
-        And I click on the element "p=TestCandidate"
+        And I click on the element "a=TestCandidate"
         And I click on the element "*=Edit"
     Then I expect the element "h2=Candidate description" is visible
         And I expect the title of the page "Voting - UBORA"
