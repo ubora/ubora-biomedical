@@ -38,7 +38,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePageCreation
                 {
                     ResourcePageId = resourcePageId,
                     Title = model.Title,
-                    Body = new QuillDelta(model.Body),
+                    Body = string.IsNullOrWhiteSpace(model.Body) ? new QuillDelta("") : new QuillDelta(model.Body),
                     MenuPriority = model.MenuPriority,
                     ParentCategoryId = model.ParentCategoryId
                 },
