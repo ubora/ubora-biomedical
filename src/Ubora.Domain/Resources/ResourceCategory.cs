@@ -16,7 +16,7 @@ namespace Ubora.Domain.Resources
         {
             if (@event.ParentCategoryId == @event.CategoryId)
             {
-                throw new InvalidOperationException($"There is a circular reference. ID: {@event.ParentCategoryId}");
+                throw new InvalidOperationException($"There is a circular reference. ID: {@event.ParentCategoryId}"); // TODO: A circular reference is still possible if there is an intermediate category.
             }
 
             Id = @event.CategoryId;

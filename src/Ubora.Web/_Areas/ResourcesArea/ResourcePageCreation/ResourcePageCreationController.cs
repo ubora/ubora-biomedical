@@ -18,7 +18,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePageCreation
         [Route("create")]
         public virtual IActionResult Add()
         {
-            return View();
+            return View(new CreateResourcePagePostModel());
         }
 
         [Authorize(Policies.CanManageResources)]

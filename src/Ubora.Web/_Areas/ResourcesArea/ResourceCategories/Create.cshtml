@@ -28,11 +28,8 @@
     </div>
     <div class="form-group">
         <label asp-for="ParentCategoryId">Parent category</label>
+        @await Component.InvokeAsync(typeof(ResourceCategorySelectOptionsViewComponent), new { selectedCategory = Model.ParentCategoryId })
         <span asp-validation-for="ParentCategoryId"></span>
-        <select id="js-categories" class="form-control" asp-for="ParentCategoryId">
-            @await Component.InvokeAsync(typeof(ResourceCategorySelectOptionsViewComponent))
-        </select>
-        <small class="float-right"><a href="javascript:refreshCategories();">Refresh categories</a></small>
     </div>
     <div class="form-group">
         <label asp-for="MenuPriority"></label>
@@ -44,16 +41,3 @@
         <input type="submit" value="Create category" class="btn btn-primary" />
     </div>
 </form>
-
-@section Scripts {
-    <script>
-        function refreshCategories() {
-            $.ajax({
-                url: '@Url.Action(nameof(ResourceCategoriesController.FormSelectOptions), nameof(ResourceCategoriesController).RemoveSuffix())',
-                success: function (result) {
-                    $('#js-categories').html(result);
-                }
-            });
-        };
-    </script>
-}

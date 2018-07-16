@@ -64,9 +64,9 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourceCategories
         }
 
         [HttpGet("selection")]
-        public IActionResult FormSelectOptions()
+        public IActionResult FormSelectOptions(Guid? selectedCategory)
         {
-            return ViewComponent(typeof(ResourceCategorySelectOptionsViewComponent));
+            return ViewComponent(typeof(ResourceCategorySelectOptionsViewComponent), new { selectedCategory });
         }
 
         [HttpGet("edit")]

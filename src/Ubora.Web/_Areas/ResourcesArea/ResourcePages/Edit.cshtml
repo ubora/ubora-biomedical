@@ -33,14 +33,8 @@
     </div>
     <div class="form-group">
         <label asp-for="ParentCategoryId">Category</label>
-        <select id="js-categories" class="form-control" asp-for="ParentCategoryId">
-            @await Component.InvokeAsync(typeof(ResourceCategorySelectOptionsViewComponent))
-        </select>
+        @await Component.InvokeAsync(typeof(ResourceCategorySelectOptionsViewComponent), new { selectedCategory = Model.ParentCategoryId })
         <span asp-validation-for="ParentCategoryId"></span>
-        <small class="float-right">
-            <a href="javascript:refreshCategories();">Refresh categories</a> |
-            <a asp-action="@nameof(ResourceCategoriesController.Create)" asp-controller="@nameof(ResourceCategoriesController).RemoveSuffix()">Create new category</a>
-        </small>
     </div>
     <div class="form-group">
         <label asp-for="MenuPriority">Menu priority</label>
@@ -60,7 +54,7 @@
             <span>Delete resource page</span>
         </button>
     </div>
-    
+
     <div class="modal fade" id="delete-page-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -71,7 +65,7 @@
                     </button>
                 </div>
                 <form asp-action="@nameof(ResourcePagesController.Delete)">
-                    <input name="@nameof(DeleteResourcePagePostModel.ResourcePageId)" value="@Model.ResourceId" type="hidden"/>
+                    <input name="@nameof(DeleteResourcePagePostModel.ResourcePageId)" value="@Model.ResourceId" type="hidden" />
                     <div class="modal-body">
                         <p>Note that this can not be undone and will delete all the files uploaded to the page.</p>
                         <p>
@@ -90,15 +84,6 @@
 
 @section Scripts {
     <script>
-        function refreshCategories() {
-            $.ajax({
-                url: '@Url.Action(nameof(ResourceCategoriesController.FormSelectOptions), nameof(ResourceCategoriesController).RemoveSuffix())',
-                success: function (result) {
-                    $('#js-categories').html(result);
-                }
-            });
-        };
-
         var contentInputSelector = "#@(nameof(Model.Body))";
         var editorSelector = "#editor-container";
         var toolbarSelector = "#toolbar-container";
