@@ -22,6 +22,7 @@
             <div class="col-lg-2">
                 <form onsubmit="return confirm('Are you sure?')" method="post">
                     <input type="hidden" name="userId" value="@user.UserId" />
+                    <input type="hidden" name="page" value="@Model.Pager.PageNumber" />
                     <div class="dropdown">
                         <button class="dropdown-toggle btn btn-primary btn-sm mt-lg-0 mt-sm-2 mt-xs-2" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Manage user
