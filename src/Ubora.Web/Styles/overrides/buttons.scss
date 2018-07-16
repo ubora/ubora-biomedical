@@ -58,6 +58,11 @@
     &:focus,
     &:hover {
         cursor: pointer;
+        box-shadow: none;
+    }
+
+    .material-icons, span {
+        @extend .align-middle;
     }
 
     .material-icons, span {

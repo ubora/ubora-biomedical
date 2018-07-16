@@ -82,6 +82,8 @@ Scenario: System administrator gets the notification and adds Mentor to the proj
         And I click on the element "span=Notifications"
         Then I expect the element "p*=Requested mentoring" is visible
     When I go back to last page
+        And I click on the element "span=Projects"
+        And I click on the element "a*=All projects"
         And I click on the element "*=Test title"
         And I click on the element "=Members"
     Then I expect the title of the page "Members - UBORA"
@@ -98,9 +100,9 @@ Scenario: Mentor accepts the mentor invitation
         And I click on the element "*=Notifications"
         And I click on the element "button=Accept"
     Then I expect the title of the page "Notifications - UBORA"
-    When I click on the element "*=My projects"
+    When I click on the element "*=Projects"
     Then I expect the element "*=Test title" is visible
-        And I expect the title of the page "View projects - UBORA"
+        And I expect the title of the page "Biomedical device projects - UBORA"
 
 Scenario: I Submit project for WP1 review but cancel it
     When I click on the element "*=Formal review"

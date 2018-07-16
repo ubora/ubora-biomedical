@@ -1,18 +1,19 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Users;
-using Ubora.Web._Features.Users.UserList;
+using Ubora.Web._Features.Users.UserList.Models;
 using Xunit;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Users.Specifications;
 using Ubora.Domain.Users.SortSpecifications;
+using Ubora.Web._Features.Users.UserList;
+using Ubora.Web._Features._Shared.Paging;
 using static Ubora.Web._Features.Users.UserList.UserListController;
 
 namespace Ubora.Web.Tests._Features.Users.UserList
@@ -32,7 +33,7 @@ namespace Ubora.Web.Tests._Features.Users.UserList
         [Theory]
         [InlineData("test.jpg")]
         [InlineData(null)]
-        public void Index_Returns_Users(string blobname)
+        public void Search_Returns_Users(string blobname)
         {
             var userProfile = new UserProfile(Guid.NewGuid());
 
@@ -55,12 +56,15 @@ namespace Ubora.Web.Tests._Features.Users.UserList
                     .Returns(url);
             }
 
-            QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByFullNameAscendingSpecification>(), 24, 2)).Returns(userProfiles);
+            QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByMultipleUserProfileSortSpecification>(), 24, 2)).Returns(userProfiles);
 
             //Act
-            var result = (ViewResult)_controller.Index(2);
+            var result = (ViewResult)_controller.Search(new SearchModel(), 2);
 
             //Assert
+            result.Model.As<IndexViewModel>().Ordering.Should().Be(OrderingMethod.Firstname);
+            result.Model.As<IndexViewModel>().Tab.Should().Be(TabType.AllMembers);
+            result.Model.As<IndexViewModel>().Pager.ShouldBeEquivalentTo(Pager.From(userProfiles));
             result.Model.As<IndexViewModel>().UserListItems.Count().Should().Be(1);
             result.Model.As<IndexViewModel>().UserListItems.Last().UserId.Should().Be(userProfile.UserId);
             result.Model.As<IndexViewModel>().UserListItems.Last().Email.Should().Be(userProfile.Email);

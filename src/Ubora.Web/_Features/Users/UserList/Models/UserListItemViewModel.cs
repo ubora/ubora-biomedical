@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ubora.Web._Features.Users.UserList
+namespace Ubora.Web._Features.Users.UserList.Models
 {
     public class UserListItemViewModel
     {
