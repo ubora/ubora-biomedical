@@ -15,7 +15,11 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages.Models
                 _nodeServices = nodeServices;
             }
 
-            public async Task<ResourceEditViewModel> Create(ResourcePage resourcePage)
+            protected Factory()
+            {
+            }
+
+            public virtual async Task<ResourceEditViewModel> Create(ResourcePage resourcePage)
             {
                 return new ResourceEditViewModel
                 {

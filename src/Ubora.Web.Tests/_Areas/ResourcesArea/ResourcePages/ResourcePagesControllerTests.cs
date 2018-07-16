@@ -56,7 +56,7 @@ namespace Ubora.Web.Tests._Areas.ResourcesArea.ResourcePages
         public async Task Delete_HttpPost_Authorizes()
         {
             // Act
-            var result = await _controller.Delete(new DeleteResourcePagePostModel());
+            var result = await _controller.Delete(new DeleteResourcePagePostModel(), Mock.Of<ResourceEditViewModel.Factory>());
 
             // Assert
             result.Should().BeOfType<ForbidResult>();
@@ -96,7 +96,7 @@ namespace Ubora.Web.Tests._Areas.ResourcesArea.ResourcePages
             _controller.ModelState.AddModelError("", "dummy");
 
             // Act
-            var result = await _controller.Delete(new DeleteResourcePagePostModel());
+            var result = await _controller.Delete(new DeleteResourcePagePostModel(), Mock.Of<ResourceEditViewModel.Factory>());
 
             // Assert
             result.Should().NotBeOfType<RedirectToActionResult>();
