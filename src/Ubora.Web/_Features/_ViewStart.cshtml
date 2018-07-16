@@ -1,17 +1,10 @@
 ﻿@{
     var isProjectArea = ViewData["ProjectTitle"] != null;
-    var isResourcesArea = ViewData["IsResourcesArea"] as bool? == true;
 }
 @if (isProjectArea)
 {
     {
         Layout = "_ProjectLayout";
-    }
-}
-else if (isResourcesArea)
-{
-    {
-        Layout = "_ResourcesLayout";
     }
 }
 else

@@ -5,13 +5,13 @@ namespace Ubora.Domain.Resources.Events
 {
     public class ResourcePageDeletedEvent : UboraEvent
     {
-        public ResourcePageDeletedEvent(UserInfo initiatedBy, Guid resourceId) : base(initiatedBy)
-        {
-            ResourceId = resourceId;
-        }
-        
-        public Guid ResourceId { get; }
+        public Guid ResourcePageId { get; }
 
-        public override string GetDescription() => "Deleted resource.";
+        public ResourcePageDeletedEvent(UserInfo initiatedBy, Guid resourcePageId) : base(initiatedBy)
+        {
+            ResourcePageId = resourcePageId;
+        }
+
+        public override string GetDescription() => "deleted resource page.";
     }
 }

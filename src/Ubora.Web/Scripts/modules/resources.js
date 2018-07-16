@@ -1,33 +1,22 @@
-﻿global.UBORA.initAddResource = function (titleInputSelector, contentInputSelector, exampleTitle) {
-    var quill = new Quill('#editor-container',
+﻿global.UBORA.initAddOrEditResource = function (editorSelector, toolbarSelector, contentInputSelector, initialContent) {
+    var quill = new Quill(editorSelector,
         {
-            theme: 'snow'
+            theme: 'snow',
+            modules: {
+                toolbar: toolbarSelector
+            }
         });
 
-    $('#editor-container').show();
-
-    Slugify(exampleTitle);
-
-    var titleInput = $(titleInputSelector);
-    titleInput.change(function () {
-        const textToSlugify = titleInput.val() || exampleTitle;
-        Slugify(textToSlugify);
-    });
-
-    function Slugify(text) {
-        $.ajax({
-                url: "slugify",
-                data: { text: text }
-            })
-            .done((slug) => {
-                $("#js-slug").text(slug);
-            })
-            .fail(() => {
-                $("#js-slug").text("error generating URL...");
-            });
+    if (!!initialContent) {
+        quill.setContents(initialContent, 'api');
     }
 
+    $(editorSelector).show();
+    $(toolbarSelector).show();
+
+    console.log(JSON.stringify(quill.getContents()));
+
     quill.on('editor-change', function () {
-        $(contentInputSelector).val(JSON.stringify(quill.getContents()));
+        $(contentInputSelector).val(JSON.stringify(quill.getContents())).trigger('change');
     });
 };

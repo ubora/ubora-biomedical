@@ -1,0 +1,56 @@
+﻿@model CreateResourcePagePostModel
+
+@{
+    ViewData["Title"] = "Create new resource page";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Resources</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+<h1>@ViewData["Title"]</h1>
+
+<p class="bd-lead">The resource page you create will be published immediately. You can keep editing it later. Other UBORA Management Group members can edit it as well.</p>
+
+<form asp-action="@nameof(ResourcePageCreationController.Add)">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-group">
+        <label asp-for="Title">Page title</label>
+        <input class="form-control" asp-for="Title" placeholder='e.g. "Introduction to UBORA"' />
+        <span asp-validation-for="Title"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Body">Page content</label>
+        <input asp-for="Body" type="hidden" />
+        <span asp-validation-for="Body"></span>
+        <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial")</div>
+        <div id="editor-container" class="form-group" style="display: none;"></div>
+    </div>
+    <div class="form-group">
+        <label asp-for="ParentCategoryId">Category</label>
+        @await Component.InvokeAsync(typeof(ResourceCategorySelectOptionsViewComponent), new { selectedCategory = Model.ParentCategoryId })
+        <span asp-validation-for="ParentCategoryId"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="MenuPriority">Menu priority</label>
+        <input class="form-control" asp-for="MenuPriority" value="0" />
+        <span asp-validation-for="MenuPriority"></span>
+        <small>Resource pages are ordered by from highest priority to lowest, and then by title alphabetically. You can leave it at "0".</small>
+    </div>
+    <div class="float-right">
+        <a class="btn btn-outline-primary" role="button" asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Cancel</a>
+        <button class="btn btn-primary" type="submit">Create & publish</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        var contentInputSelector = "#@nameof(Model.Body)";
+        var editorSelector = "#editor-container";
+        var toolbarSelector = "#toolbar-container";
+        UBORA.initAddOrEditResource(editorSelector, toolbarSelector, contentInputSelector);
+    </script>
+}

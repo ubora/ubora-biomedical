@@ -1,0 +1,43 @@
+﻿@model CreateResourceCategoryPostModel
+
+@{
+    ViewData["Title"] = "Create new resource category";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Resources</a></li>
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourceCategoriesController.List)">Resource categories</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ParentCategoryId">Parent category</label>
+        @await Component.InvokeAsync(typeof(ResourceCategorySelectOptionsViewComponent), new { selectedCategory = Model.ParentCategoryId })
+        <span asp-validation-for="ParentCategoryId"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="MenuPriority"></label>
+        <input asp-for="MenuPriority" class="form-control" />
+        <span asp-validation-for="MenuPriority" class="text-danger"></span>
+    </div>
+    <div class="form-group float-right">
+        <a class="btn btn-outline-primary" role="button" asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Cancel</a>
+        <input type="submit" value="Create category" class="btn btn-primary" />
+    </div>
+</form>

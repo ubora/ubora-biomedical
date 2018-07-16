@@ -108,11 +108,11 @@ module.exports = env => {
                 {from: './node_modules/tether/dist/js/tether.min.js', to: './libs' },
                 {from: './node_modules/clipboard/dist/clipboard.min.js', to: './libs' },
                 {from: './node_modules/three/build/three.min.js', to: './libs'},
-                {from: './Scripts/libs/nexus/nexus.js', to: './libs/nexus'},
-                {from: './Scripts/libs/nexus/nexus_three.js', to: './libs/nexus'},
-                {from: './Scripts/libs/nexus/meco.js', to: './libs/nexus'},
-                {from: './node_modules/dropzone/dist/dropzone.js', to: './libs/dropzone.js'},
-                {from: './node_modules/dropzone/dist/min/dropzone.min.css', to: './libs/dropzone.min.css'}
+                {from: './Scripts/libs', to: './libs'},
+                {from: './node_modules/dropzone/dist/dropzone.js', to: './libs'},
+                {from: './node_modules/dropzone/dist/min/dropzone.min.css', to: './libs'},
+                {from: './node_modules/quill/dist/quill.min.js', to: './libs'},
+                {from: './node_modules/quill/dist/quill.snow.css', to: './libs'}
             ])
         ].concat(isDevBuild ? [
             // Develop plugins:

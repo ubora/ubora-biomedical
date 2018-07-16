@@ -12,7 +12,7 @@ namespace Ubora.Web._Features.Projects._Shared
 
         public ProjectMenuOption ActiveMenuOption { get; }
 
-        private static Dictionary<ProjectMenuOption, string> MenuOptionNamesInner => new Dictionary<ProjectMenuOption, string>
+        private static Dictionary<ProjectMenuOption, string> MenuOptionNamesInner = new Dictionary<ProjectMenuOption, string>
         {
             {ProjectMenuOption.Overview, "Overview"},
             {ProjectMenuOption.Workpackages, "Work packages"},

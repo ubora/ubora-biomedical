@@ -15,7 +15,7 @@ namespace Ubora.Domain.Projects.Candidates
         public string Title { get; private set; }
         public string Description { get; private set; }
         public BlobLocation ImageLocation { get; private set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; private set; }
 
         [JsonIgnore]
         public bool HasImage => ImageLocation != null;

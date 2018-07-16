@@ -1,0 +1,67 @@
+﻿.nav-resources-lg {
+    @extend .border-bottom;
+    padding: .1rem 1rem;
+    width: 100%;
+
+    button.btn-icon {
+        color: white;
+
+        .material-icons {
+            font-size: 180%;
+        }
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    .modal {
+        @include modal-left-nav;
+    }
+}
+
+
+@include media-breakpoint-up(xl) {
+    .nav-resources-lg {
+        display: none;
+    }
+}
+
+@include media-breakpoint-down(lg) {
+    .nav-resources {
+        display: none;
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .nav-resources-lg {
+        .modal.modal-left-pane {
+            .modal-dialog {
+                width: 80%;
+
+                .close {
+                    font-weight: normal;
+                    text-shadow: none;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+
+.nav-resources,
+.nav-resources-lg {
+    .list-sidebar a {
+        color: rgba(255, 255, 255, 0.8);
+
+        &.active-status {
+            color: white;
+        }
+
+        &:hover {
+            color: white;
+        }
+    }
+}
+
+

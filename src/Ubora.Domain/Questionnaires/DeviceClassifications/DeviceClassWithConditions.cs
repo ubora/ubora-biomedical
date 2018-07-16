@@ -27,7 +27,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
         // Keeping this as a concrete class to lessen the JSON-serialization cost ('$type' field for each condition would be too expensive). 
         // If new types of conditions are introduced, add them as new properties.
         [JsonProperty(nameof(ChosenAnswerDeviceClassConditions))]
-        public ImmutableArray<ChosenAnswerDeviceClassCondition> ChosenAnswerDeviceClassConditions { get; set; }
+        public ImmutableArray<ChosenAnswerDeviceClassCondition> ChosenAnswerDeviceClassConditions { get; private set; }
 
         [JsonIgnore]
         private IEnumerable<IDeviceClassCondition> Conditions => ChosenAnswerDeviceClassConditions;

@@ -1,6 +1,7 @@
 ﻿@using Ubora.Web.Data
 @using Ubora.Web.Services
 @using Ubora.Web._Features.Notifications
+@using Ubora.Web._Areas.ResourcesArea.ResourcesMenus
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject ApplicationUserManager UserManager
@@ -29,7 +30,7 @@
             <a class="nav-link nav-link-notification navbar-toggler" asp-controller="Notifications" asp-action="Index">
                 @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
+            <button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
                 <i class="material-icons">menu</i>
             </button>
         </div>
@@ -62,11 +63,12 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" asp-controller="Resources" asp-action="Index">
+                    <a class="nav-link d-flex align-items-center" asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()" asp-area="@Areas.ResourcesArea">
+                        <i class="material-icons">school</i>
                         <span class="nav-link-description ml-1">Resources</span>
                     </a>
                 </li>
-                
+
                 @if (User.IsInRole(ApplicationRole.Admin))
                 {
                     <li class="nav-item">
@@ -103,7 +105,7 @@ else
         <a class="navbar-brand" asp-controller="Home" asp-action="Index">
             <img id="UboraLogo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" height="48">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
+        <button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
             <i class="material-icons">menu</i>
         </button>
         <div id="headerNavbar" class="collapse navbar-collapse justify-content-end">
@@ -121,7 +123,13 @@ else
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" id="SignInSignUp" class="nav-link" asp-controller="Account" asp-action="Login">
+                    <a class="nav-link d-flex align-items-center" asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()" asp-area="@Areas.ResourcesArea">
+                        <i class="material-icons">school</i>
+                        <span class="nav-link-description ml-1">Resources</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center" id="SignInSignUp" asp-controller="Account" asp-action="Login">
                         <i class="material-icons">account_circle</i>
                         <span class="nav-link-description ml-1">Log in</span>
                     </a>

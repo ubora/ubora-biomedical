@@ -12,6 +12,18 @@
     <None Remove="_Features\Projects\DeviceClassification\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Scripts\backend\ConvertQuillDeltaToHtml.js" />
+    <None Remove="Scripts\backend\_polyfill.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\backend\ConvertQuillDeltaToHtml.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\backend\_polyfill.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.2" />
     <PackageReference Include="AutoMapper" Version="6.1.1" />

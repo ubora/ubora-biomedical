@@ -96,7 +96,7 @@ namespace Ubora.Web
 
             services.AddAutoMapper();
             services.AddUboraPolicyBasedAuthorization();
-            services.AddNodeServices();
+            services.AddNodeServices(setupAction => setupAction.InvocationTimeoutMilliseconds = 300000);
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -174,9 +174,9 @@ namespace Ubora.Web
                     name: "default",
                     template: "{controller}/{action}/{id?}");
 
-                routes.MapRoute(
-                    name: "areaRoute",
-                    template: "{area:exists}/{controller}/{action}");
+                //routes.MapRoute(
+                //    name: "areaRoute",
+                //    template: "{area:exists}/{controller}/{action}");
             });
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())

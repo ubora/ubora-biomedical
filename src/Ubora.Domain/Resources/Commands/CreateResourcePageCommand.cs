@@ -7,8 +7,11 @@ namespace Ubora.Domain.Resources.Commands
 {
     public class CreateResourcePageCommand : UserCommand
     {
-        public Guid ResourceId { get; set; }
-        public ResourceContent Content { get; set; }
+        public Guid ResourcePageId { get; set; }
+        public string Title { get; set; }
+        public QuillDelta Body { get; set; }
+        public int MenuPriority { get; set; }
+        public Guid? ParentCategoryId { get; set; }
 
         internal class Handler : ICommandHandler<CreateResourcePageCommand>
         {
@@ -21,18 +24,20 @@ namespace Ubora.Domain.Resources.Commands
             
             public ICommandResult Handle(CreateResourcePageCommand cmd)
             {
-                if (_documentSession.Load<ResourcePage>(cmd.ResourceId) != null)
+                if (_documentSession.Load<ResourcePage>(cmd.ResourcePageId) != null)
                 {
                     throw new InvalidOperationException("Resource page with given ID already exists.");
                 }
 
                 _documentSession.Events.StartStream(
-                    id: cmd.ResourceId, 
-                    events: new ResourceCreatedEvent(
+                    id: cmd.ResourcePageId, 
+                    events: new ResourcePageCreatedEvent(
                         initiatedBy: cmd.Actor,
-                        resourceId: cmd.ResourceId,
-                        slug: Slug.Generate(cmd.Content.Title),
-                        content: cmd.Content));
+                        resourcePageId: cmd.ResourcePageId,
+                        title: cmd.Title,
+                        body: cmd.Body,
+                        menuPriority: cmd.MenuPriority,
+                        parentCategoryId: cmd.ParentCategoryId));
                 
                 _documentSession.SaveChanges();
                 
