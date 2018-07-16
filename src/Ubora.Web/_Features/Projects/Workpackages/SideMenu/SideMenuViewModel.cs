@@ -23,15 +23,22 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
             public SideMenuViewModel Create(Guid projectId, string selectedId)
             {
                 var wpStatuses = _queryProcessor.ExecuteQuery(new GetStatusesOfProjectWorkpackagesQuery(projectId));
+             
 
+                var isWp3OpenedAndLocked = wpStatuses.Wp3Status != WorkpackageStatus.Closed &&
+                                  wpStatuses.Wp3Status != WorkpackageStatus.UnLocked;
+                
+                var isWp4OpenedAndLocked = wpStatuses.Wp4Status != WorkpackageStatus.Closed &&
+                                           wpStatuses.Wp4Status != WorkpackageStatus.UnLocked;
+                
                 var items = new ISideMenuItem[]
                 {
                     /*wp0*/ new HyperlinkMenuItem(NestingLevel.None, "DesignPlanning", "Design planning", _urlHelper.Action("ProjectOverview", "WorkpackageOne"))
                         .SetStatus(WorkpackageStatus.Accepted),
                     CreateWp1().SetStatus(wpStatuses.Wp1Status),
                     CreateWp2().SetStatus(wpStatuses.Wp2Status),
-                    CreateWp3().SetStatus(wpStatuses.Wp3Status),
-                    CreateWp4().SetStatus(wpStatuses.Wp4Status),
+                    isWp3OpenedAndLocked ? CreateWp3Locked() : CreateWp3().SetStatus(wpStatuses.Wp3Status),
+                    isWp4OpenedAndLocked ? CreateWp4Locked() : CreateWp4().SetStatus(wpStatuses.Wp4Status),
                     /*wp5*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageFive", "WP 5: Operation", "#")
                         .SetStatus(wpStatuses.Wp5Status),
                     /*wp6*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageSix", "WP 6: Project closure", "#")
@@ -75,7 +82,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                 }
 
                 ISideMenuItem CreateWp3()
-                {
+                {          
                     return new CollapseMenuItem(NestingLevel.None, "workpackageThree", "WP 3: Design and prototyping", new ISideMenuItem[]
                     {
                         new CollapseMenuItem(NestingLevel.One, "general-product-description", "General product description", new ISideMenuItem[]
@@ -107,6 +114,15 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         new HyperlinkMenuItem(NestingLevel.One, "InstructionsForFabricationOfPrototypes", "Instructions for fabrication of prototypes", href: Wp3StepLink("InstructionsForFabricationOfPrototypes"))
                     });
                 }
+
+                ISideMenuItem CreateWp3Locked()
+                {
+                    return new HyperlinkMenuItem(NestingLevel.One, "workpackageThreeLocked",
+                        "WP 3: Design and prototyping", href: _urlHelper.Action("UnlockConfirmation", "WorkpackageThree"))
+                    {
+                        IsLocked = true
+                    };
+                }
                 
                 ISideMenuItem CreateWp4()
                 {
@@ -119,6 +135,15 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         new HyperlinkMenuItem(NestingLevel.One, "WP4StructuredInformationOnTheDevice","Structured information on the device", href: _urlHelper.Action("StructuredInformationOnTheDevice", "WorkpackageFour")),
                         new HyperlinkMenuItem(NestingLevel.One, "PreproductionDocuments","Preproduction documents", href: "#"),
                     });
+                }
+
+                ISideMenuItem CreateWp4Locked()
+                {
+                    return new HyperlinkMenuItem(NestingLevel.One, "workpackageFourLocked",
+                        "WP 4: Implementation", href: _urlHelper.Action("UnlockConfirmation", "WorkpackageFour"))
+                    {
+                        IsLocked = true
+                    };
                 }
 
                 string Wp4StepLink(string stepId)

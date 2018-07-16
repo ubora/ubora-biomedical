@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Web._Features.Projects._Shared;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features._Shared.Notices;
 
@@ -58,6 +60,26 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             return RedirectToAction(nameof(Read), new { stepId = model.StepId });
+        }
+
+        [Route(nameof(UnlockConfirmation))]
+        public IActionResult UnlockConfirmation()
+        {
+            ViewBag.Title = "WP 3: Design and prototyping";
+            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.WorkpackageThreeLocked;
+            
+            return View(nameof(UnlockConfirmation));
+        }
+        
+        [HttpPost]
+        [Route(nameof(UnLock))]
+        public IActionResult UnLock()
+        {
+            var command = new UnlockWorkpackageCommand { WorkpackageType = WorkpackageType.Three };
+            ExecuteUserProjectCommand(command, Notice.Success("Unlocked."));
+            
+            return RedirectToAction("ProjectOverview","WorkpackageOne");
         }
     }
 }

@@ -6,6 +6,8 @@ namespace Ubora.Domain.Projects.Workpackages
 {
     public class WorkpackageFour : Workpackage<WorkpackageFour>
     {
+        public bool IsUnLocked { get; private set; }
+        
         private void Apply(WorkpackageFourOpenedEvent e)
         {
             if (_steps.Any())
@@ -23,6 +25,11 @@ namespace Ubora.Domain.Projects.Workpackages
             _steps.Add(new WorkpackageStep("ResultsFromVitroOrVivo", "Results from vitro/vivo"));
             _steps.Add(new WorkpackageStep("WP4StructuredInformationOnTheDevice", "Structured information on the device"));
             _steps.Add(new WorkpackageStep("PreproductionDocuments", "Preproduction documents"));
+        }
+
+        private void Apply(WorkpackageFourUnlockedEvent e)
+        {
+            IsUnLocked = true;
         }
         
         private void Apply(WorkpackageFourStepEdited e)

@@ -4,6 +4,7 @@ using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.Specifications;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Web._Features.Projects._Shared;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features._Shared.Notices;
 
@@ -165,6 +166,26 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             return RedirectToAction(nameof(StructuredInformationOnTheDevice));
+        }
+        
+        [Route(nameof(UnlockConfirmation))]
+        public IActionResult UnlockConfirmation()
+        {
+            ViewBag.Title = "WP 4: Implementation";
+            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.WorkpackageFourLocked;
+            
+            return View(nameof(UnlockConfirmation));
+        }
+        
+        [HttpPost]
+        [Route(nameof(UnLock))]
+        public IActionResult UnLock()
+        {
+            var command = new UnlockWorkpackageCommand { WorkpackageType = WorkpackageType.Four };
+            ExecuteUserProjectCommand(command, Notice.Success("Unlocked."));
+            
+            return RedirectToAction("ProjectOverview","WorkpackageOne");
         }
     }
 }

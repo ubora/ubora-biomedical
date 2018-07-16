@@ -1,0 +1,26 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages
+@{
+    var workpackageMenuOptionViewData = (string)ViewData["WorkpackageMenuOption"];
+    var workpackage = workpackageMenuOptionViewData == WorkpackageMenuOption.WorkpackageFourLocked
+        ? "WorkpackageFour" : "WorkpackageThree";
+}
+
+<div class="col-xl-7 col-lg-9">
+    <div class="row">
+        <div class="col">
+            <h1>@ViewBag.Title</h1>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vitae tempus odio, pellentesque facilisis metus. Aliquam sit amet felis lectus. Quisque quis nibh velit. Vestibulum tristique malesuada est, sit amet aliquam tellus consequat ut.
+            </p>
+            <p>
+                Nullam at lectus a eros egestas mattis mollis eu purus. Nam consectetur ornare massa, quis ultrices felis lobortis non. Praesent diam mi, blandit vitae ante eget, tincidunt venenatis felis.
+            </p>
+            <form asp-controller="@workpackage" asp-action="UnLock">
+            <button type="submit" class="btn btn-outline-primary">
+                <i class="material-icons">lock_open</i>
+                <span>Open @ViewBag.Title</span>
+            </button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -2,7 +2,6 @@
 .list-sidebar li {
     list-style-type: none;
     margin-top: 1rem;
-    margin-bottom: 1rem;
     font-weight: 600;
 }
 
@@ -59,7 +58,20 @@ a.checked-status::after {
     font-family: 'Material Icons';
     content: 'check';
     color: $green;
-    line-height: 1;
+    vertical-align: middle;
+    font-weight: 700;
+}
+
+a.unlocked-status {
+    color: text-color;
+}
+
+a.unlocked-status::after {
+    font-family: 'Material Icons';
+    content: 'lock_open';
+    color: $secondary-shade;
+    vertical-align: middle;
+    font-weight: 700;
 }
 
 /*wp sidemenu for smaller devices*/

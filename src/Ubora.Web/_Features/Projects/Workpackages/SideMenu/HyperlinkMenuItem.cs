@@ -17,6 +17,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
         public string Id { get; }
         public string DisplayName { get; }
         public bool IsSelected { get; set; }
+        public bool IsLocked { get; set; }
         public string Href { get; }
         public NestingLevel Nesting { get; set; }
         public WorkpackageStatus Status { get; set; }
@@ -24,6 +25,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
         {
             get
             {
+                if (IsLocked)
+                {
+                    return "unlocked-status";
+                }
                 if (IsSelected)
                 {
                     return "active-status";
