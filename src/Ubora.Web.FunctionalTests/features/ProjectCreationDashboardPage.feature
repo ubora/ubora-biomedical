@@ -30,36 +30,36 @@ Scenario: I create a project
 
 Scenario: I click on My projects and open up TestProject
     When I click on the element "i=folder"
-    Then I expect the title of the page "View projects - UBORA"
-    When I click on the element "h5=TestProject"
+    Then I expect the title of the page "Biomedical device projects - UBORA"
+    When I click on the element "(//*[contains(text(),'TestProject')])"
     Then I expect the title of the page "Overview - UBORA"
 
 Scenario: I click Project overview
-    When I click on the element "h5=TestProject"
+    When I click on the element "(//*[contains(text(),'TestProject')])"
     Then I expect the title of the page "Overview - UBORA"
     When I click on the element "a=Overview"
     Then I expect the title of the page "Overview - UBORA"
 
 Scenario: I click Home
-    When I click on the element "h5=TestProject"
+    When I click on the element "(//*[contains(text(),'TestProject')])"
     Then I expect the title of the page "Overview - UBORA"
     When I click on the element "#UboraLogo"
     Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: I click My projects
-    When I click on the element "h5=TestProject"
+    When I click on the element "(//*[contains(text(),'TestProject')])"
     Then I expect the title of the page "Overview - UBORA"
     When I click on the element "i=folder"
-    Then I expect the title of the page "View projects - UBORA"
+    Then I expect the title of the page "Biomedical device projects - UBORA"
 
 Scenario: I click Work packages
-    When I click on the element "h5=TestProject"
+    When I click on the element "(//*[contains(text(),'TestProject')])"
     Then I expect the title of the page "Overview - UBORA"
     When I click on the element "a=Work packages"
     Then I expect the title of the page "Design planning - UBORA"
 
 Scenario: I click Repository
-    When I click on the element "h5=TestProject"
+    When I click on the element "(//*[contains(text(),'TestProject')])"
         And I click on the element "a=Repository"
     Then I expect the title of the page "Repository - UBORA"
     When I click on the element "button=Upload new file"
@@ -67,7 +67,7 @@ Scenario: I click Repository
         And I expect the element "span=Please select a file to upload!" is visible
 
 Scenario: I click Assignments and add an Assignment
-    When I click on the element "h5=TestProject"
+    When I click on the element "(//*[contains(text(),'TestProject')])"
         And I click on the element "a=Assignments"
     Then I expect the title of the page "Assignments - UBORA"
     When I click on the element "span=Add assignment"
@@ -81,7 +81,7 @@ Scenario: I click Assignments and add an Assignment
         And I expect the element "textarea=Assignment Description" is visible
 
 Scenario: I click Assignments and try to add an empty Assignment
-    When I click on the element "h5=TestProject"
+    When I click on the element "(//*[contains(text(),'TestProject')])"
         And I click on the element "a=Assignments"
         And I click on the element "span=Add assignment"
         And I click on the element "button=Add assignment"
@@ -89,7 +89,7 @@ Scenario: I click Assignments and try to add an empty Assignment
         And I expect the element "span=The Description field is required." is visible
 
 Scenario: I click Assignments and click Discard changes in new assignment
-    When I click on the element "h5=TestProject"
+    When I click on the element "(//*[contains(text(),'TestProject')])"
         And I click on the element "a=Assignments"
         And I click on the element "span=Add assignment"
         And I click on the element "a=Discard"
@@ -97,7 +97,7 @@ Scenario: I click Assignments and click Discard changes in new assignment
         And I expect the element "h1=Assignments" is visible
 
 Scenario: I click Assignments and click Discard changes in Assignment
-    When I click on the element "h5=TestProject"
+    When I click on the element "(//*[contains(text(),'TestProject')])"
         And I click on the element "a=Assignments"
         And I click on the element "a=Assignment Title"
     Then I expect the element "h1=Assignment" is visible
@@ -106,12 +106,12 @@ Scenario: I click Assignments and click Discard changes in Assignment
         And I expect the title of the page "Assignments - UBORA"
 
 Scenario: I click History
-    When I click on the element "h5=TestProject"
+    When I click on the element "(//*[contains(text(),'TestProject')])"
         And I click on the element "a=History"
     Then I expect the title of the page "History - UBORA"
 
 Scenario: I click Members and try to add a member without email
-    When I click on the element "h5=TestProject"
+    When I click on the element "(//*[contains(text(),'TestProject')])"
         And I click on the element "a=Members"
         And I click on the element "i=person_add"
     Then I expect the title of the page "Invite member - UBORA"
@@ -119,7 +119,7 @@ Scenario: I click Members and try to add a member without email
     Then I expect the element "span=The Email field is required." is visible
 
 Scenario: I click Members and try to add new member
-    When I click on the element "h5=TestProject"
+    When I click on the element "(//*[contains(text(),'TestProject')])"
         And I click on the element "a=Members"
         And I click on the element "i=person_add"
         And I set value "emailemail@email.com" to the element "#Email"
@@ -127,21 +127,21 @@ Scenario: I click Members and try to add new member
     Then I expect the title of the page "Invite member - UBORA"
 
 Scenario: I click Members and on project owner
-    When I click on the element "h5=TestProject"
+    When I click on the element "(//*[contains(text(),'TestProject')])"
         And I click on the element "a=Members"
         And I click on the element "a=Test User"
     Then I expect the element "h2=Test User" is visible
         And I expect the title of the page "View profile - UBORA"
 
 Scenario: I click Edit image
-    When I click on the element "h5=TestProject"
+    When I click on the element "(//*[contains(text(),'TestProject')])"
         And I click on the element "#EditImage"
         And I click on the element "button=Upload image"
     Then I expect the element "span=Please select an image to upload first!" is visible
         And I expect the title of the page "Dashboard - UBORA"
 
 Scenario: I click Edit Project Description
-    When I click on the element "h5=TestProject"
+    When I click on the element "(//*[contains(text(),'TestProject')])"
     Then I expect the element "h2=Medical tags" is visible
     When I click on the element "#EditDescription"
         And I click on the element "span=Helpful tips"
@@ -153,7 +153,7 @@ Scenario: I click Edit Project Description
         And I expect the title of the page "Overview - UBORA"
 
 Scenario: I click Edit Project Description but Discard it
-    When I click on the element "h5=TestProject"
+    When I click on the element "(//*[contains(text(),'TestProject')])"
         And I click on the element "#EditDescription"
         And I click on the element "a=Discard"
     Then I expect the element "div=Welcome to my Project" is visible

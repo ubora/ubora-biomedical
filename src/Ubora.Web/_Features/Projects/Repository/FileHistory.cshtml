@@ -6,52 +6,69 @@
     ViewData["MenuOption"] = ProjectMenuOption.Repository;
 }
 
-<div class="container my-4">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-controller="Repository" asp-action="Repository">Repository</a></li>
-            <li class="breadcrumb-item active" aria-current="page">History of filename.jpg</li>
-        </ol>
-    </nav>
-    <h2>History of @Model.FileName</h2>
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Date added</th>
-                    <th scope="col">Revision number</th>
-                    <th scope="col">Size (kB)</th>
-                    <th scope="col">Comment</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var file in Model.Files)
-                {
-                    // Note: Please keep the a-element and i-element on same line because otherwise a strange "little line" appears next to the icon when link is hovered. 
-                    <tr>
-                        <td>
-                        @if (file.Has3DFileExtension())
-                        {
-                        <a href="@Url.Action("View3DHistoryFile", "Repository", new { eventId = file.EventId })" title="View 3D file" aria-label="View 3D file" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">3d_rotation</i></a>
-                        }
-                        <a href="@Url.Action("DownloadHistoryFile", "Repository", new { eventId = file.EventId })" title="Download file" aria-label="Download file" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">file_download</i></a>
-                        <i class="file-list--item-control material-icons js-clipboard"
-                           title="Copy file path to clipboard"
-                           aria-label="Copy file"
-                           data-toggle="tooltip"
-                           data-placement="bottom"
-                           data-copy="@Url.Action("DownloadHistoryFile", "Repository", new { eventId = file.EventId }, Context.Request.Scheme)">
-                            content_copy
-                        </i>
-                        </td>
-                        <td class="timeago" title="@file.FileAddedOn">@file.FileAddedOn.ToString("dd.MM.yyyy")</td>
-                        <td>@file.RevisionNumber</td>
-                        <td>@file.FileSizeInKbs</td>
-                        <td>@file.Comment</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Repository" asp-action="Repository">Repository</a></li>
+        <li class="breadcrumb-item active" aria-current="page">History of filename.jpg</li>
+    </ol>
+</nav>
+<h2>History of @Model.FileName</h2>
+<div class="d-lg-block d-none">
+    <div class="row mx-0 py-2 border-bottom">
+        <div class="col-lg-3 font-weight-light-bold">
+            Date added
+        </div>
+        <div class="col-lg-2 font-weight-light-bold">
+            Revision number
+        </div>
+        <div class="col-lg-2 font-weight-light-bold">
+            Size (kB)
+        </div>
+        <div class="col-lg-3 font-weight-light-bold">
+            Comment
+        </div>
+        <div class="col-lg-2">
+
+        </div>
     </div>
 </div>
+@foreach (var file in Model.Files)
+{
+    // Note: Please keep the a-element and i-element on same line because otherwise a strange "little line" appears next to the icon when link is hovered.
+    <div class="row mx-0 py-2 border-bottom">
+        <div class="col-lg-3">
+            <span class="d-md-block d-lg-none font-weight-light-bold">Date number:</span>
+            <span class="timeago" title="@file.FileAddedOn">
+                @file.FileAddedOn.ToString("dd.MM.yyyy")
+            </span>
+        </div>
+        <div class="col-lg-2">
+            <span class="d-md-block d-lg-none font-weight-light-bold">Revision number:</span>
+            @file.RevisionNumber
+        </div>
+        <div class="col-lg-2">
+            <span class="d-md-block d-lg-none font-weight-light-bold">Size (kB):</span>
+            @file.FileSizeInKbs
+        </div>
+        <div class="col-lg-3">
+            <span class="d-md-block d-lg-none font-weight-light-bold">Comment:</span>
+            @file.Comment
+        </div>
+        <div class="col-lg-2 d-flex justify-content-end">
+
+            @if (file.Has3DFileExtension())
+            {
+                <a href="@Url.Action("View3DHistoryFile", "Repository", new { eventId = file.EventId })" title="View 3D file" aria-label="View 3D file" class="mx-md-0 mx-2" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">3d_rotation</i></a>
+            }
+            <a href="@Url.Action("DownloadHistoryFile", "Repository", new { eventId = file.EventId })" title="Download file" aria-label="Download file" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">file_download</i></a>
+            <i class="file-list--item-control material-icons js-clipboard mx-md-0 mx-2"
+               title="Copy file path to clipboard"
+               aria-label="Copy file"
+               data-toggle="tooltip"
+               data-placement="bottom"
+               data-copy="@Url.Action("DownloadHistoryFile", "Repository", new { eventId = file.EventId }, Context.Request.Scheme)">
+                content_copy
+            </i>
+        </div>
+    </div>
+}

@@ -33,7 +33,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications
         /// Example: { "q1", "y" }, { "q2", "n" } => Condition fulfilled when question "q1" is answered with "y" and question "q2" answered with "n".
         /// </summary>
         [JsonProperty("qaIds")]
-        public ReadOnlyDictionary<string, string> QuestionAnswerMap { get; set; }
+        public ReadOnlyDictionary<string, string> QuestionAnswerMap { get; private set; }
 
         public bool IsSatisfied(DeviceClassificationQuestionnaireTree questionnaireTree)
         {

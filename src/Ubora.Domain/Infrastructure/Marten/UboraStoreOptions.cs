@@ -19,6 +19,9 @@ using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.History;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects._Events;
+using System.Reflection;
+using Ubora.Domain.Resources;
+using Ubora.Domain.Resources.Events;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
@@ -56,8 +59,16 @@ namespace Ubora.Domain.Infrastructure.Marten
                     .Duplicate(l => l.ProjectId)
                     .Duplicate(l => l.UserId)
                     .Duplicate(l => l.Timestamp);
+
                 options.Schema.For<IProjectEntity>()
                     .AddSubClassHierarchy(typeof(EventLogEntry));
+
+                options.Schema.For<ResourcePage>().Duplicate(x => x.CategoryId);
+                options.Schema.For<ResourceCategory>().SoftDeleted();
+
+                options.Schema.For<ResourceFile>()
+                    .Duplicate(file => file.ResourcePageId);
+
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
@@ -66,9 +77,13 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<ApplicableRegulationsQuestionnaireAggregate>();
                 options.Events.InlineProjections.AggregateStreamsWith<DeviceClassificationAggregate>();
                 options.Events.InlineProjections.AggregateStreamsWith<DeviceStructuredInformation>();
+                options.Events.InlineProjections.AggregateStreamsWith<ResourcePage>();
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<Assignment, IAssignmentEvent>());
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());
+                options.Events.InlineProjections.Add(new AggregateMemberProjection<ResourceFile, IResourceFileEvent>());
                 options.Events.InlineProjections.AggregateStreamsWith<Candidate>();
+                options.Events.InlineProjections.AggregateStreamsWith<ResourceCategory>();
+                options.Events.InlineProjections.Add(new ResourcesMenuViewProjection());
 
                 options.Events.AddEventTypes(eventTypes);
 
@@ -79,9 +94,8 @@ namespace Ubora.Domain.Infrastructure.Marten
                 {
                     var transformerType = typeof(EventToHistoryTransformer<>).MakeGenericType(eventType);
                     var transformer = Activator.CreateInstance(transformerType);
-                    options.Events.InlineProjections.TransformEvents((dynamic) transformer);
+                    options.Events.InlineProjections.TransformEvents((dynamic)transformer);
                 }
-
             };
         }
 
@@ -94,6 +108,19 @@ namespace Ubora.Domain.Infrastructure.Marten
                 c.ContractResolver = new PrivateSetterResolver();
             });
             return serializer;
+        }
+
+        private static bool IsApplyMethodForType(MethodInfo methodInfo, Type type)
+        {
+            var methodParameters = methodInfo.GetParameters();
+            var isApplyMethod = (methodInfo.Name == "Apply" && methodParameters.Length == 1);
+
+            if (!isApplyMethod)
+            {
+                return false;
+            }
+
+            return methodParameters.Single().ParameterType == type;
         }
     }
 }
