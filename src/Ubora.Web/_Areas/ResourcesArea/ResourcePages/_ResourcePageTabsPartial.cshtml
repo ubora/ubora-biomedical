@@ -1,0 +1,33 @@
+﻿@{
+    var currentTab = (string)ViewData["CurrentTab"];
+}
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link @(currentTab == null ? "active" : "")" asp-action="@nameof(ResourcePagesController.Read)">
+            Read
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(currentTab == "repository" ? "active" : "")" asp-action="@nameof(ResourcePagesController.Repository)">
+            Files
+        </a>
+    </li>
+    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
+    {
+        <li class="nav-item">
+            <a class="nav-link @(currentTab == "edit" ? "active" : "")" asp-action="@nameof(ResourcePagesController.Edit)">
+                Edit
+            </a>
+        </li>
+    }
+    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
+    {
+        <li class="nav-item">
+            <a class="nav-link @(currentTab == "history" ? "active" : "")" asp-action="@nameof(ResourcePagesController.History)">
+                History
+            </a>
+        </li>
+    }
+</ul>
+<br/> @*todo: Kärolin*@

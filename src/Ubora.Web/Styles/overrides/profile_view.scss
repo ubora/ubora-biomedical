@@ -1,10 +1,8 @@
-
 .nav-tabs .nav-link {
     border: none;
     color: $text-color;
 
     &.active {
-        color: $blue;
         border-bottom: 2px solid $blue;
 
         .badge-dark-outline {

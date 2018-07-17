@@ -1,0 +1,42 @@
+﻿@using Ubora.Domain.Resources;
+
+@model FormSelectOptionsViewModel
+
+@{
+    RazorDelegate<(ResourceCategory Category, string Prefix)> renderCategoryWithChildren = null;
+    renderCategoryWithChildren =
+    @<div>
+        <option value="@item.Category.Id" selected="@(item.Category.Id == Model.SelectedCategory)">@($"{item.Prefix}{item.Category.Title}")</option>
+        @foreach (var childCategory in Model.Categories.Where(c => c.ParentCategoryId == item.Category.Id))
+        {
+            @renderCategoryWithChildren((childCategory, $"{item.Prefix}{item.Category.Title} / "));
+        }
+    </div>;
+}
+
+<select id="js-categories" name="ParentCategoryId" class="form-control">
+    <option value=""></option>
+    @foreach (var category in Model.Categories.Where(c => c.ParentCategoryId == null))
+    {
+        @renderCategoryWithChildren((category, ""))
+    }
+</select>
+
+<small class="float-right">
+    <a href="javascript:refreshCategories();">Refresh categories</a>
+</small>
+
+<script>
+    function refreshCategories() {
+        var $jsCategories = $('#js-categories');
+        var selectedCategory = $jsCategories.find(':selected')[0].value;
+        $.ajax({
+            url: '@Url.Action(nameof(ResourceCategoriesController.FormSelectOptions), nameof(ResourceCategoriesController).RemoveSuffix())',
+            data: { selectedCategory: selectedCategory, removedCategory: '@Model.RemovedCategory' },
+            success: function (response) {
+                var responseHtml = $($(response)[0]).html();
+                $jsCategories.html(responseHtml);
+            }
+        });
+    };
+</script>

@@ -98,6 +98,7 @@ namespace Ubora.Web
 
             services.AddAutoMapper();
             services.AddUboraPolicyBasedAuthorization();
+            services.AddNodeServices(setupAction => setupAction.InvocationTimeoutMilliseconds = 300000);
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -115,7 +116,6 @@ namespace Ubora.Web
             services.Configure<AdminSeeder.Options>(Configuration.GetSection("InitialAdminOptions"));
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
-
 
             var azureBlobConnectionString = Configuration.GetConnectionString("AzureBlobConnectionString");
             var autofacContainerBuilder = new ContainerBuilder();
@@ -179,9 +179,9 @@ namespace Ubora.Web
                     name: "default",
                     template: "{controller}/{action}/{id?}");
 
-                routes.MapRoute(
-                    name: "areaRoute",
-                    template: "{area:exists}/{controller}/{action}");
+                //routes.MapRoute(
+                //    name: "areaRoute",
+                //    template: "{area:exists}/{controller}/{action}");
             });
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
