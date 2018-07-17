@@ -33,13 +33,11 @@
     }
 
     .card-title {
-        @extend .px-4;
         @extend .mb-0;
         @extend .bg-blue;
         @extend .color-white;
         font-size: 1.125rem;
-        padding-top: .75rem;
-        padding-bottom: .75rem;
+        padding: .75rem 1.25rem;
     }
 }
 
