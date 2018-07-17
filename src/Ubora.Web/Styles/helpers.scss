@@ -69,7 +69,7 @@
 }
 
 .font-size-1-1 {
-    font-size: 1.1rem;
+    font-size: 1.125rem;
 }
 
 .text-informative {
@@ -83,6 +83,10 @@
 
 .color-grey {
     color: $primary-shade;
+}
+
+.color-dark {
+    color: $text-color;
 }
 
 /* background colors */
