@@ -34,5 +34,8 @@
         public const string CanAddFileRepository = nameof(CanAddFileRepository);
         public const string CanUpdateFileRepository = nameof(CanUpdateFileRepository);
         public const string CanPromoteMember = nameof(CanPromoteMember);
+        public const string CanUnlockWorkPackage = nameof(CanUnlockWorkPackage);
+        public const string CanEditAndViewUnlockedWorkPackageThree = nameof(CanEditAndViewUnlockedWorkPackageThree);
+        public const string CanEditAndViewUnlockedWorkPackageFour = nameof(CanEditAndViewUnlockedWorkPackageFour);
     }
 }

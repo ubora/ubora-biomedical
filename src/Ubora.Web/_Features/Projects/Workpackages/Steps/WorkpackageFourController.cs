@@ -1,9 +1,11 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.Specifications;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Web.Authorization;
 using Ubora.Web._Features.Projects._Shared;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features._Shared.Notices;
@@ -20,6 +22,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             _workpackageFour ?? (_workpackageFour = QueryProcessor.FindById<WorkpackageFour>(ProjectId));
 
         [Route("{stepId}")]
+        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
         public IActionResult Read(string stepId)
         {
             var step = WorkpackageFour.GetSingleStep(stepId);
@@ -32,6 +35,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [Route("{stepId}/Edit")]
+        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
         public IActionResult Edit(string stepId)
         {
             var step = WorkpackageFour.GetSingleStep(stepId);
@@ -45,6 +49,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         [HttpPost]
         [Route("{stepId}/Edit")]
+        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
         public IActionResult Edit(EditStepPostModel model)
         {
             if (!ModelState.IsValid)
@@ -67,6 +72,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
         
         [Route(nameof(StructuredInformationOnTheDevice))]
+        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
         public IActionResult StructuredInformationOnTheDevice([FromServices] StructuredInformationResultViewModel.Factory modelFactory)
         {
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
@@ -80,6 +86,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
         
         [Route(nameof(HealthTechnologySpecifications))]
+        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
         public virtual IActionResult HealthTechnologySpecifications([FromServices] HealthTechnologySpecificationsViewModel.Factory modelFactory)
         {
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
@@ -100,6 +107,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         
         [HttpPost]
         [Route(nameof(HealthTechnologySpecifications))]
+        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
         public IActionResult EditHealthTechnologySpecifications(
             HealthTechnologySpecificationsViewModel model,
             [FromServices] HealthTechnologySpecificationsViewModel.Mapper modelMapper,
@@ -125,6 +133,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
         
         [Route(nameof(UserAndEnvironment))]
+        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
         public virtual IActionResult UserAndEnvironment([FromServices] UserAndEnvironmentInformationViewModel.Factory modelFactory)
         {
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
@@ -145,6 +154,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         [HttpPost]
         [Route(nameof(UserAndEnvironment))]
+        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
         public IActionResult EditUserAndEnvironment(
             UserAndEnvironmentInformationViewModel model, 
             [FromServices] UserAndEnvironmentInformationViewModel.Mapper modelMapper,
@@ -179,8 +189,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
         
         [HttpPost]
-        [Route(nameof(UnLock))]
-        public IActionResult UnLock()
+        [Route(nameof(Unlock))]
+        [Authorize(Policy = nameof(Policies.CanUnlockWorkPackage))]
+        public IActionResult Unlock()
         {
             var command = new UnlockWorkpackageCommand { WorkpackageType = WorkpackageType.Four };
             ExecuteUserProjectCommand(command, Notice.Success("Unlocked."));

@@ -15,12 +15,16 @@
             <p>
                 Nullam at lectus a eros egestas mattis mollis eu purus. Nam consectetur ornare massa, quis ultrices felis lobortis non. Praesent diam mi, blandit vitae ante eget, tincidunt venenatis felis.
             </p>
-            <form asp-controller="@workpackage" asp-action="UnLock">
-            <button type="submit" class="btn btn-outline-primary">
-                <i class="material-icons">lock_open</i>
-                <span>Open @ViewBag.Title</span>
-            </button>
-            </form>
+            
+            @if(await AuthorizationService.IsAuthorizedAsync(User, Policies.CanUnlockWorkPackage))
+            {
+                <form asp-controller="@workpackage" asp-action="Unlock">
+                    <button type="submit" class="btn btn-outline-primary">
+                        <i class="material-icons">lock_open</i>
+                        <span>Open @ViewBag.Title</span>
+                    </button>
+                </form>
+            }
         </div>
     </div>
 </div>

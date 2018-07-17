@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Web.Authorization;
 using Ubora.Web._Features.Projects._Shared;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features._Shared.Notices;
@@ -16,6 +18,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public WorkpackageThree WorkpackageThree => _workpackageThree ?? (_workpackageThree = QueryProcessor.FindById<WorkpackageThree>(ProjectId));
 
         [Route("{stepId}")]
+        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageThree))]
         public IActionResult Read(string stepId)
         {
             var step = WorkpackageThree.GetSingleStep(stepId);
@@ -28,6 +31,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [Route("{stepId}/Edit")]
+        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageThree))]
         public IActionResult Edit(string stepId)
         {
             var step = WorkpackageThree.GetSingleStep(stepId);
@@ -41,6 +45,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         [HttpPost]
         [Route("{stepId}/Edit")]
+        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageThree))]
         public IActionResult Edit(EditStepPostModel model)
         {
             if (!ModelState.IsValid)
@@ -73,8 +78,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
         
         [HttpPost]
-        [Route(nameof(UnLock))]
-        public IActionResult UnLock()
+        [Route(nameof(Unlock))]
+        [Authorize(Policy = nameof(Policies.CanUnlockWorkPackage))]
+        public IActionResult Unlock()
         {
             var command = new UnlockWorkpackageCommand { WorkpackageType = WorkpackageType.Three };
             ExecuteUserProjectCommand(command, Notice.Success("Unlocked."));

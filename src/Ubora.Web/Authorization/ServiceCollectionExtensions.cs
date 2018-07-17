@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Web.Authorization.Requirements;
 using Ubora.Web.Data;
 
@@ -31,6 +32,7 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsCommentAuthorRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsVoteNotGivenRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, OrRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, IsWorkpackageStatusUnlockedRequirement.Handler>();
         }
 
         private static void AddPolicies(IServiceCollection services)
@@ -177,6 +179,18 @@ namespace Ubora.Web.Authorization
                 options.AddPolicy(Policies.CanPromoteMember, policyBuilder =>
                 {
                     policyBuilder.RequireRole(ApplicationRole.ManagementGroup);
+                });
+                options.AddPolicy(Policies.CanUnlockWorkPackage, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement()); 
+                });
+                options.AddPolicy(Policies.CanEditAndViewUnlockedWorkPackageThree, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsWorkpackageStatusUnlockedRequirement(WorkpackageType.Three));
+                });
+                options.AddPolicy(Policies.CanEditAndViewUnlockedWorkPackageFour, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsWorkpackageStatusUnlockedRequirement(WorkpackageType.Four));
                 });
             });
         }
