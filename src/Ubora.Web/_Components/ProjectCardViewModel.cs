@@ -1,5 +1,4 @@
 using System;
-using AutoMapper;
 using Ubora.Domain.Projects;
 using Ubora.Web.Infrastructure.ImageServices;
 
@@ -12,6 +11,9 @@ namespace Ubora.Web._Components
         public bool IsDraftProject { get; protected set; }
         public string ProjectImageUrl { get; protected set; }
         public bool ShowCardShadow { get; protected set; }
+        public string ClinicalNeedTags { get; set; }
+        public string AreaTags { get; set; }
+        public string TechnologyTags { get; set; }
 
         public class Factory
         {
@@ -29,7 +31,10 @@ namespace Ubora.Web._Components
                     ProjectId = project.Id,
                     ProjectTitle = project.Title,
                     IsDraftProject = project.IsInDraft,
-                    ShowCardShadow = showCardShadow
+                    ShowCardShadow = showCardShadow,
+                    AreaTags = project.AreaOfUsageTags,
+                    ClinicalNeedTags = project.ClinicalNeedTags,
+                    TechnologyTags = project.PotentialTechnologyTags
                 };
 
                 if (project.HasImage)

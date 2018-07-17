@@ -13,11 +13,11 @@
         <div class="card-body color-dark">
             <dl class="font-size-0-8">
                 <dt>Clinical need</dt>
-                <dd class="mb-1">Monitoring purpose</dd>
+                <dd class="mb-1">@Model.ClinicalNeedTags</dd>
                 <dt>Area</dt>
-                <dd class="mb-1">Public health</dd>
+                <dd class="mb-1">@Model.AreaTags</dd>
                 <dt>Technology</dt>
-                <dd class="mb-1">Software</dd>
+                <dd class="mb-1">@Model.TechnologyTags</dd>
             </dl>
             @if (Model.IsDraftProject)
             {
