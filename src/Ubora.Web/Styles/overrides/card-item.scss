@@ -23,8 +23,21 @@
         text-decoration: none;
     }
 
-    img.project-img {
+ 
+}
+
+.project-card {
+    img {
         height: 180px;
+        position: relative;
+    }
+
+    .card-title {
+        @extend .px-4;
+        @extend .py-3;
+        @extend .mb-0;
+        @extend .bg-blue;
+        @extend .color-white;
     }
 }
 
