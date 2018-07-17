@@ -19,9 +19,9 @@
                 <dt>Technology</dt>
                 <dd class="mb-1">Software</dd>
             </dl>
-            @if (Model.IsDraftProject)
+            @if (!Model.IsDraftProject)
             {
-                <span class="badge badge-pill badge-orange font-size-0-8 align-middle">Draft</span>
+            <span class="badge badge-pill badge-green font-size-0-8 align-middle py-1 px-2">WP1 accepted by UBORA formal review</span>
             }
         </div>
     </a>
