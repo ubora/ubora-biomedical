@@ -2,7 +2,7 @@
     height: 100%;
 
     a h5 {
-        color: $blue;
+        color: $text-color;
     }
 
     .card-link {
@@ -23,8 +23,23 @@
         text-decoration: none;
     }
 
-    img.project-img {
+ 
+}
+
+.project-card {
+    img {
         height: 180px;
+        position: relative;
+    }
+
+    .card-title {
+        @extend .px-4;
+        @extend .mb-0;
+        @extend .bg-blue;
+        @extend .color-white;
+        font-size: 1.125rem;
+        padding-top: .75rem;
+        padding-bottom: .75rem;
     }
 }
 
