@@ -71,6 +71,11 @@
       <LastGenOutput>SuccessTexts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <None Update="Scripts\backend\SanitizeQuillDelta.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <Exec Command="npm install ajv@6.2.1 --no-save" />
     <Exec Command="npm install" />

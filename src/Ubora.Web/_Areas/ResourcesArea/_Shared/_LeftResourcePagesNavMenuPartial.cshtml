@@ -27,7 +27,7 @@
             <ul class="list-sidebar">
                 @foreach (var menuLink in menuLinks)
                 {
-                    @menuLink
+                    menuLink.WriteTo(Output, HtmlEncoder);
                 }
             </ul>
         </aside>
@@ -54,7 +54,7 @@
                             <ul class="list-sidebar">
                                 @foreach (var menuLink in menuLinks)
                                 {
-                                    @menuLink
+                                    menuLink.WriteTo(Output, HtmlEncoder);
                                 }
                             </ul>
                         </aside>

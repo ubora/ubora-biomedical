@@ -9,7 +9,7 @@
         <option value="@item.Category.Id" selected="@(item.Category.Id == Model.SelectedCategory)">@($"{item.Prefix}{item.Category.Title}")</option>
         @foreach (var childCategory in Model.Categories.Where(c => c.ParentCategoryId == item.Category.Id))
         {
-            @renderCategoryWithChildren((childCategory, $"{item.Prefix}{item.Category.Title}/ "));
+            @renderCategoryWithChildren((childCategory, $"{item.Prefix}{item.Category.Title} / "));
         }
     </div>;
 }
@@ -34,7 +34,8 @@
             url: '@Url.Action(nameof(ResourceCategoriesController.FormSelectOptions), nameof(ResourceCategoriesController).RemoveSuffix())',
             data: { selectedCategory: selectedCategory, removedCategory: '@Model.RemovedCategory' },
             success: function (response) {
-                $jsCategories.html($(response).find('#js-categories')[0]);
+                var responseHtml = $($(response)[0]).html();
+                $jsCategories.html(responseHtml);
             }
         });
     };
