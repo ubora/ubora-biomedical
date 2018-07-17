@@ -236,7 +236,7 @@ Scenario: I edit candidate's details in Voting
     Then I expect the element "h2=Candidate123" is visible
         And I expect the element "p=Description123" is visible
     When I click on the element "=Voting"
-    Then I expect the element "p=Candidate123" is visible
+    Then I expect the element "h2=Candidate123" is visible
         And I expect the element "p=Description123" is visible
 
 Scenario: I edit Health technology specifications form
