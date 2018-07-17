@@ -13,7 +13,6 @@ namespace Ubora.Domain.Projects.Members
         public Guid UserId { get; private set; }
 
         // Override this!
-        [JsonIgnore]
         public virtual string RoleKey => "project-member";
 
         [JsonIgnore]

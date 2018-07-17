@@ -12,6 +12,18 @@
     <None Remove="_Features\Projects\DeviceClassification\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Scripts\backend\ConvertQuillDeltaToHtml.js" />
+    <None Remove="Scripts\backend\_polyfill.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\backend\ConvertQuillDeltaToHtml.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\backend\_polyfill.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.2" />
     <PackageReference Include="AutoMapper" Version="6.1.1" />
@@ -19,6 +31,7 @@
     <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
     <PackageReference Include="MailKit" Version="2.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="2.0.3" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="2.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.1" />
@@ -57,6 +70,11 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SuccessTexts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Scripts\backend\SanitizeQuillDelta.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <Exec Command="npm install ajv@6.2.1 --no-save" />

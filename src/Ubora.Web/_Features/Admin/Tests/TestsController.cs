@@ -160,7 +160,7 @@ namespace Ubora.Web._Features.Admin.Tests
                     }
                     catch (InvalidOperationException ex)
                     {
-                        if (ex.Message.Contains("can only be called from a layout page."))
+                        if (ex.Message.Contains("can only be called from a layout page.") || ex.Message.Contains("The layout view"))
                         {
                             // Swallow exceptions regarding layout pages.
                         }

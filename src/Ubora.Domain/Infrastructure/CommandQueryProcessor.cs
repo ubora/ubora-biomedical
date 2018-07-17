@@ -45,34 +45,61 @@ namespace Ubora.Domain.Infrastructure
             return Find(specification, int.MaxValue, 1);
         }
 
-        public IPagedList<T> Find<T>(ISpecification<T> specification, int pageSize, int pageNumber)
+        public IPagedList<T> Find<T>(
+            ISpecification<T> specification, 
+            int pageSize, 
+            int pageNumber)
         {
             return Find(specification, null, pageSize, pageNumber);
         }
 
-        public virtual IPagedList<TDocument> Find<TDocument>(ISpecification<TDocument> specification, ISortSpecification<TDocument> sortSpecification, int pageSize, int pageNumber)
+        public IPagedList<TProjection> Find<T, TProjection>(
+            ISpecification<T> specification, 
+            IProjection<T, TProjection> projection, 
+            int pageSize = int.MaxValue, 
+            int pageNumber = 1)
+        {
+            if (specification == null) throw new ArgumentNullException(nameof(specification));
+            if (projection == null) throw new ArgumentNullException(nameof(projection));
+
+            return _querySession
+                .Query<T>().AsQueryable()
+                .ThenReturn(query => specification.SatisfyEntitiesFrom(query))
+                .ThenReturn(specified => projection.Apply(specified))
+                .ThenReturn(projected => projected.AsPagedList(pageNumber, pageSize));
+        }
+
+        public virtual IPagedList<T> Find<T>(
+            ISpecification<T> specification, 
+            ISortSpecification<T> sortSpecification, 
+            int pageSize, 
+            int pageNumber)
         {
             if (specification == null) throw new ArgumentNullException(nameof(specification));
 
-            var query = _querySession.Query<TDocument>().AsQueryable();
+            var query = _querySession.Query<T>().AsQueryable();
             query = specification.SatisfyEntitiesFrom(query);
             query = sortSpecification?.Sort(query) ?? query;
             return query.AsPagedList(pageNumber, pageSize);
         }
 
-        public IPagedList<TDocumentProjection> Find<TDocument, TDocumentProjection>(ISpecification<TDocument> specification,
-            IProjection<TDocument, TDocumentProjection> projection, ISortSpecification<TDocumentProjection> sortSpecification, int pageSize, int pageNumber)
+        public IPagedList<TProjection> Find<T, TProjection>(
+            ISpecification<T> specification,
+            IProjection<T, TProjection> projection, 
+            ISortSpecification<TProjection> sortSpecification, 
+            int pageSize, 
+            int pageNumber)
         {
             if (specification == null) throw new ArgumentNullException(nameof(specification));
             if (projection == null) throw new ArgumentNullException(nameof(projection));
             
-            var query = _querySession.Query<TDocument>().AsQueryable();
+            var query = _querySession.Query<T>().AsQueryable();
             query = specification.SatisfyEntitiesFrom(query);
             var queryWitProjection = projection.Apply(query);
             queryWitProjection = sortSpecification?.Sort(queryWitProjection) ?? queryWitProjection;
+            
             return queryWitProjection.AsPagedList(pageNumber, pageSize);
         }
-
 
         public T FindById<T>(Guid id)
         {

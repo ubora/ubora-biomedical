@@ -82,6 +82,8 @@ Scenario: System administrator gets the notification and adds Mentor to the proj
         And I click on the element "span=Notifications"
         Then I expect the element "p*=Requested mentoring" is visible
     When I go back to last page
+        And I click on the element "span=Projects"
+        And I click on the element "a*=All projects"
         And I click on the element "*=Test title"
         And I click on the element "=Members"
     Then I expect the title of the page "Members - UBORA"
@@ -98,9 +100,9 @@ Scenario: Mentor accepts the mentor invitation
         And I click on the element "*=Notifications"
         And I click on the element "button=Accept"
     Then I expect the title of the page "Notifications - UBORA"
-    When I click on the element "*=My projects"
+    When I click on the element "*=Projects"
     Then I expect the element "*=Test title" is visible
-        And I expect the title of the page "View projects - UBORA"
+        And I expect the title of the page "Biomedical device projects - UBORA"
 
 Scenario: I Submit project for WP1 review but cancel it
     When I click on the element "*=Formal review"
@@ -191,7 +193,7 @@ Scenario: I change candidates details in Voting
     When I click on the element "=Design planning"
         And I click on the element "=WP 2: Conceptual design"
         And I click on the element "=Voting"
-        And I click on the element "p=TestCandidate"
+        And I click on the element "a=TestCandidate"
     Then I expect the element "h2=TestCandidate" is visible
         And I expect the element "p=TestDescription" is visible
         And I expect the title of the page "Voting - UBORA"        
@@ -209,7 +211,7 @@ Scenario: I add/edit a comment in Voting
     When I click on the element "=Design planning"
         And I click on the element "=WP 2: Conceptual design"
         And I click on the element "=Voting"
-        And I click on the element "p=TestCandidate"
+        And I click on the element "a=TestCandidate"
         And I click on the element "button=Add comment"
     Then I expect the element "span=The CommentText field is required." is visible
     When I set value "This is an awesome candidate!" to the element "#CommentText"
@@ -220,7 +222,7 @@ Scenario: I edit candidate's details in Voting
     When I click on the element "=Design planning"
         And I click on the element "=WP 2: Conceptual design"
         And I click on the element "=Voting"
-        And I click on the element "p=TestCandidate"
+        And I click on the element "a=TestCandidate"
         And I click on the element "*=Edit"
     Then I expect the element "h2=Candidate description" is visible
         And I expect the title of the page "Voting - UBORA"
@@ -234,7 +236,7 @@ Scenario: I edit candidate's details in Voting
     Then I expect the element "h2=Candidate123" is visible
         And I expect the element "p=Description123" is visible
     When I click on the element "=Voting"
-    Then I expect the element "p=Candidate123" is visible
+    Then I expect the element "a=Candidate123" is visible
         And I expect the element "p=Description123" is visible
 
 Scenario: I edit Health technology specifications form

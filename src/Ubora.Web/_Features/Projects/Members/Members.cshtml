@@ -7,54 +7,52 @@
     ViewData["MenuOption"] = ProjectMenuOption.Members;
 }
 
-<div class="container my-4">
-    <div class="row">
-        <div class="col-lg-5">
-            <h1>@ViewData["Title"]</h1>
-        </div>
-        <div class="col-lg-7 d-flex justify-content-end">
-            @if (Model.IsProjectMember)
-            {
-                <a class="btn btn-outline-primary align-self-start d-sm-block d-lg-inline-block" asp-controller="Members" asp-action="Invite">
-                    <i class="material-icons">person_add</i>
-                    <span>Invite member</span>
-                </a>
-            }
-
-            @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanInviteMentors))
-            {
-                <a class="btn btn-outline-primary align-self-start d-sm-block d-lg-inline-block ml-1" asp-controller="InviteMentors" asp-action="InviteMentors">
-                    <i class="material-icons" id="MentorInviteButton">person_add</i>
-                    <span>Invite mentor</span>
-                </a>
-            }
-
-            @if (Model.IsProjectMember && !Model.IsProjectLeader)
-            {
-                <a class="btn btn-outline-primary align-self-start d-sm-block d-lg-inline-block ml-1" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId">
-                    <i class="material-icons">exit_to_app</i>
-                    <span>Leave project</span>
-                </a>
-            }
-        </div>
+<div class="row">
+    <div class="col-lg-5">
+        <h1>@ViewData["Title"]</h1>
     </div>
-    <div class="row">
-        @foreach (var item in Model.Items)
+    <div class="col-lg-7 d-flex justify-content-end">
+        @if (Model.IsProjectMember)
         {
-            // TODO: Test this logic.
-            var model = new ManageMemberViewModel(
-                memberUserId: item.UserId,
-                isRemoveMemberVisible: (!item.IsCurrentUser && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectMember)),
-                isRemoveMentorVisible: (!item.IsCurrentUser && item.IsProjectMentor && item.CanRemoveProjectMentor),
-                isPromoteLeaderVisible: !item.IsProjectLeader && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanPromoteMember));
+            <a class="btn btn-outline-primary align-self-start d-sm-block d-lg-inline-block" asp-controller="Members" asp-action="Invite">
+                <i class="material-icons">person_add</i>
+                <span>Invite member</span>
+            </a>
+        }
 
-            Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
-              userId: item.UserId,
-              name: item.FullName,
-              roles: item.Roles,
-              profilePictureUrl: item.ProfilePictureUrl,
-              footerHtml: Html.Partial("_ManageMemberFooterPartial.cshtml", model))
-            );
+        @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanInviteMentors))
+        {
+            <a class="btn btn-outline-primary align-self-start d-sm-block d-lg-inline-block ml-1" asp-controller="InviteMentors" asp-action="InviteMentors">
+                <i class="material-icons" id="MentorInviteButton">person_add</i>
+                <span>Invite mentor</span>
+            </a>
+        }
+
+        @if (Model.IsProjectMember && !Model.IsProjectLeader)
+        {
+            <a class="btn btn-outline-primary align-self-start d-sm-block d-lg-inline-block ml-1" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId">
+                <i class="material-icons">exit_to_app</i>
+                <span>Leave project</span>
+            </a>
         }
     </div>
+</div>
+<div class="row">
+    @foreach (var item in Model.Items)
+    {
+        // TODO: Test this logic.
+        var model = new ManageMemberViewModel(
+            memberUserId: item.UserId,
+            isRemoveMemberVisible: (!item.IsCurrentUser && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectMember)),
+            isRemoveMentorVisible: (!item.IsCurrentUser && item.IsProjectMentor && item.CanRemoveProjectMentor),
+            isPromoteLeaderVisible: !item.IsProjectLeader && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanPromoteMember));
+
+        Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
+          userId: item.UserId,
+          name: item.FullName,
+          roles: item.Roles,
+          profilePictureUrl: item.ProfilePictureUrl,
+          footerHtml: Html.Partial("_ManageMemberFooterPartial.cshtml", model))
+        );
+    }
 </div>

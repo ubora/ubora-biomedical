@@ -76,7 +76,7 @@ namespace Ubora.Domain.Tests.Questionnaires.DeviceClassifications.Commands
         {
             var questionnaireAggregate = Session.Load<DeviceClassificationAggregate>(_questionnaireId);
 
-            questionnaireAggregate.FinishedAt.Should().BeCloseTo(DateTime.UtcNow, precision: 200);
+            questionnaireAggregate.FinishedAt.Should().BeCloseTo(DateTime.UtcNow, precision: 500);
         }
     }
 }
