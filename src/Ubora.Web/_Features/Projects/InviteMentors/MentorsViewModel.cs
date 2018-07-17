@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Users.Queries;
@@ -47,7 +48,7 @@ namespace Ubora.Web._Features.Projects.InviteMentors
                     .ToList();
                 uboraMentors.RemoveAll(x => projectMentorIds.Contains(x.UserId));
 
-                var alreadyInvitedMentorIds = _queryProcessor.Find(new IsFromProjectSpec<ProjectMentorInvitation> { ProjectId = projectId }).Where(x => x.IsArchived == false).Select(x => x.InviteeUserId);
+                var alreadyInvitedMentorIds = _queryProcessor.Find(new IsFromProjectSpec<ProjectMentorInvitation> { ProjectId = projectId } && !new IsArchived<ProjectMentorInvitation>()).Select(x => x.InviteeUserId);
                 
                 var model = new MentorsViewModel
                 {
