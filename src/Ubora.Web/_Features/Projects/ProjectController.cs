@@ -34,7 +34,7 @@ namespace Ubora.Web._Features.Projects
         }
 
         [Obsolete]
-        protected new void ExecuteUserCommand<T>(T command) where T : IUserCommand
+        protected new void ExecuteUserCommand<T>(T command, Notice successNotice) where T : IUserCommand
         {
             throw new NotSupportedException($"Use {nameof(ExecuteUserProjectCommand)} instead.");
         }

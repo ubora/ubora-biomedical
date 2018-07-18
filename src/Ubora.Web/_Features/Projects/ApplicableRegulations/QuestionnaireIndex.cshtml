@@ -1,60 +1,58 @@
 ﻿@model Ubora.Web._Features.Projects.ApplicableRegulations.QuestionnaireIndexViewModel
 
-<div class="col-xl-7 col-lg-9">
 
-    <h1>Regulation checklist</h1>
-    <div asp-validation-summary="ModelOnly"></div>
-    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditWorkpackageOne))
+<h1>Regulation checklist</h1>
+<div asp-validation-summary="ModelOnly"></div>
+@if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditWorkpackageOne))
+{
+    <p>Please take the questionnaire to identify applicable regulations:</p>
+
+    if (Model.Last == null || Model.Last.IsFinished)
     {
-        <p>Please take the questionnaire to identify applicable regulations:</p>
+        <form asp-action="Start" method="post">
+            <button type="submit" class="btn btn-primary">Take questionnaire</button>
+        </form>
+    }
 
-        if (Model.Last == null || Model.Last.IsFinished)
+    if (Model.Last != null)
+    {
+        if (!Model.Last.IsFinished)
         {
-            <form asp-action="Start" method="post">
-                <button type="submit" class="btn btn-primary">Take questionnaire</button>
+
+            <form class="d-inline" asp-action="Stop" method="post">
+                <button class="btn btn-outline-primary d-sm-block d-lg-inline-block" type="submit" asp-action="Retake" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Retake questionnaire</button>
             </form>
-        }
+            <span class="mx-1"></span>
+            <a class="btn btn-primary d-sm-block d-lg-inline-block" asp-controller="ApplicableRegulations" asp-action="CurrentUnansweredQuestion" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Continue answering</a>
 
-        if (Model.Last != null)
+            <p class="mt-2 text-informative">Questionnaire started at @Model.Last.StartedAt</p>
+        }
+    }
+
+    <p class="mt-4 text-informative">Quick notes:</p>
+    <ol class="text-informative">
+        <li>An unfinished questionnaire is visible to all project members and everyone can answer.</li>
+        <li>You can resume answering questions later if you close the page.</li>
+        <li>The questionnaire can be retaken until work package 1 is open.</li>
+        <li>Unfortunately, if you answer a question incorrectly then you have to take the questionnaire again.</li>
+        <li>Contact your UBORA mentor if you have any questions about the questionnaire.</li>
+    </ol>
+}
+else
+{
+    <p class="text-informative">You can not edit work package when it's under review or has been accepted by review.</p>
+}
+
+@if (Model.Previous.Any())
+{
+    <p class="mt-4">Results:</p>
+    <ul>
+        @foreach (var questionnaire in Model.Previous)
         {
-            if (!Model.Last.IsFinished)
-            {
-
-                <form class="d-inline" asp-action="Stop" method="post">
-                    <button class="btn btn-outline-primary d-sm-block d-lg-inline-block" type="submit" asp-action="Retake" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Retake questionnaire</button>
-                </form>
-                <span class="mx-1"></span>
-                <a class="btn btn-primary d-sm-block d-lg-inline-block" asp-controller="ApplicableRegulations" asp-action="CurrentUnansweredQuestion" asp-route-questionnaireId="@Model.Last.QuestionnaireId">Continue answering</a>
-
-                <p class="mt-2 text-informative">Questionnaire started at @Model.Last.StartedAt</p>
-            }
+            <li>
+                <a asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@questionnaire.QuestionnaireId">@questionnaire.StartedAt</a>
+            </li>
         }
+    </ul>
+}
 
-        <p class="mt-4 text-informative">Quick notes:</p>
-        <ol class="text-informative">
-          <li>An unfinished questionnaire is visible to all project members and everyone can answer.</li>
-          <li>You can resume answering questions later if you close the page.</li>
-          <li>The questionnaire can be retaken until work package 1 is open.</li>
-          <li>Unfortunately, if you answer a question incorrectly then you have to take the questionnaire again.</li>
-          <li>Contact your UBORA mentor if you have any questions about the questionnaire.</li>
-        </ol>
-    }
-    else
-    {
-        <p class="text-informative">You can not edit work package when it's under review or has been accepted by review.</p>
-    }
-
-    @if (Model.Previous.Any())
-    {
-        <p class="mt-4">Results:</p>
-        <ul>
-            @foreach (var questionnaire in Model.Previous)
-            {
-                <li>
-                    <a asp-controller="ApplicableRegulations" asp-action="Review" asp-route-questionnaireId="@questionnaire.QuestionnaireId">@questionnaire.StartedAt</a>
-                </li>
-            }
-        </ul>
-    }
-
-</div>

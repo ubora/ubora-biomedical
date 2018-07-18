@@ -55,6 +55,7 @@ namespace Ubora.Domain.Tests.Projects._Commands
             project.ClinicalNeedTags.Should().Be("expectedClinicalNeed");
             project.Gmdn.Should().Be("expectedGmdnTerm");
             project.PotentialTechnologyTags.Should().Be("expectedPotentialTechnology");
+            project.CreatedDateTime.Should().BeCloseTo(DateTime.UtcNow, 1000);
         }
 
         private void Then_Creator_Should_Be_First_Member(CreateProjectCommand command)

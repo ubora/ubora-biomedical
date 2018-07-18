@@ -53,26 +53,6 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 },
                 new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                 {
-                    MethodName = nameof(CandidatesController.RemoveCandidate),
-                    Policies = new []{ nameof(Policies.CanRemoveCandidate) }
-                },
-                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                {
-                    MethodName = nameof(CandidatesController.EditCandidate),
-                    Policies = new []{ nameof(Policies.CanEditProjectCandidate) }
-                },
-                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                {
-                    MethodName = nameof(CandidatesController.EditCandidateImage),
-                    Policies = new []{ nameof(Policies.CanChangeProjectCandidateImage) }
-                },
-                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                {
-                    MethodName = nameof(CandidatesController.RemoveCandidateImage),
-                    Policies = new []{ nameof(Policies.CanRemoveProjectCandidateImage) }
-                },
-                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                {
                     MethodName = nameof(CandidatesController.OpenWorkpackageThree),
                     Policies = new []{ nameof(Policies.CanOpenWorkpackageThree) }
                 }
@@ -228,34 +208,48 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
         }
 
         [Fact]
-        public void RemoveCandidate_Returns_View()
+        public async Task RemoveCandidate_Returns_View()
         {
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanRemoveCandidate))
+                .ReturnsAsync(AuthorizationResult.Success);
+
             var viewModel = new RemoveCandidateViewModel
             {
-                CandidateId = Guid.NewGuid()
+                CandidateId = candidateId
             };
 
             // Act
-            var result = (ViewResult)_controller.RemoveCandidate(viewModel.CandidateId);
+            var result = (ViewResult)await _controller.RemoveCandidate(viewModel.CandidateId);
 
             // Assert
             result.Model.ShouldBeEquivalentTo(viewModel);
         }
 
         [Fact]
-        public void RemoveCandidate_Redirects_To_Voting_When_Not_Executed_Successfully()
+        public async Task RemoveCandidate_Redirects_To_Voting_When_Not_Executed_Successfully()
         {
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanRemoveCandidate))
+                .ReturnsAsync(AuthorizationResult.Success);
+
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<RemoveCandidateCommand>()))
                 .Returns(CommandResult.Failed("Error"));
 
             var model = new RemoveCandidateViewModel
             {
-                CandidateId = Guid.NewGuid()
+                CandidateId = candidateId
             };
 
             // Act
-            var result = (RedirectToActionResult)_controller.RemoveCandidate(model);
+            var result = (RedirectToActionResult)await _controller.RemoveCandidate(model);
 
             // Assert
             result.ActionName.Should().Be(nameof(CandidatesController.Voting));
@@ -263,23 +257,80 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
         }
 
         [Fact]
-        public void RemoveCandidate_Redirects_To_Voting_When_Command_Executed_Successfully()
+        public async Task RemoveCandidate_Returns_Forbid_When_Not_Allowed_To_Go_View()
         {
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanRemoveCandidate))
+                .ReturnsAsync(AuthorizationResult.Failed);
+
+            var viewModel = new RemoveCandidateViewModel
+            {
+                CandidateId = candidateId
+            };
+
+            // Act
+            var result = await _controller.RemoveCandidate(viewModel.CandidateId);
+
+            // Assert
+            result.GetType().Should().Be(typeof(ForbidResult));
+
+            CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task RemoveCandidate_Redirects_To_Voting_When_Command_Executed_Successfully()
+        {
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<RemoveCandidateCommand>()))
                 .Returns(CommandResult.Success);
 
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanRemoveCandidate))
+                .ReturnsAsync(AuthorizationResult.Success);
+
             var model = new RemoveCandidateViewModel
             {
-                CandidateId = Guid.NewGuid()
+                CandidateId = candidateId
             };
 
             // Act
-            var result = (RedirectToActionResult)_controller.RemoveCandidate(model);
+            var result = (RedirectToActionResult) await _controller.RemoveCandidate(model);
 
             // Assert
             result.ActionName.Should().Be(nameof(CandidatesController.Voting));
             result.ControllerName.Should().Be("Candidates");
+        }
+
+        [Fact]
+        public async Task RemoveCandidate_Returns_Forbid_When_Not_Allowed_To_Remove_Candidate()
+        {
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanRemoveCandidate))
+                .ReturnsAsync(AuthorizationResult.Failed);
+
+            var model = new RemoveCandidateViewModel
+            {
+                CandidateId = candidateId
+            };
+
+            // Act
+            var result = await _controller.RemoveCandidate(model);
+
+            // Assert
+            result.GetType().Should().Be(typeof(ForbidResult));
+
+            CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
         }
 
         [Fact]
@@ -305,11 +356,17 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
         }
 
         [Fact]
-        public void EditCandidate_Returns_EditCandidateView_With_Expected_Model()
+        public async Task EditCandidate_Returns_EditCandidateView_With_Expected_Model()
         {
             var candidateId = Guid.NewGuid();
-            var imageLocation = new BlobLocation("containerName", "blobPath");
             var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanEditProjectCandidate))
+                .ReturnsAsync(AuthorizationResult.Success);
+
+            var imageLocation = new BlobLocation("containerName", "blobPath");
             candidate.Set(x => x.Id, candidateId);
             candidate.Set(x => x.ImageLocation, imageLocation);
 
@@ -321,7 +378,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 .Returns(expectedModel);
 
             // Act
-            var result = (ViewResult)_controller.EditCandidate(candidateId);
+            var result = (ViewResult) await _controller.EditCandidate(candidateId);
 
             // Assert
             result.ViewName.Should().Be(nameof(CandidatesController.EditCandidate));
@@ -329,14 +386,52 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
         }
 
         [Fact]
-        public void EditCandidate_Returns_EditCandidate_View_With_ModelState_Errors_When_Model_Is_Invalid()
+        public async Task EditCandidate_Returns_Forbid_When_Not_Allowed_To_Go_View()
         {
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanEditProjectCandidate))
+                .ReturnsAsync(AuthorizationResult.Failed);
+
+            var imageLocation = new BlobLocation("containerName", "blobPath");
+            candidate.Set(x => x.Id, candidateId);
+            candidate.Set(x => x.ImageLocation, imageLocation);
+
+            QueryProcessorMock.Setup(x => x.FindById<Candidate>(candidateId))
+                .Returns(candidate);
+
+            var expectedModel = new EditCandidateViewModel();
+            AutoMapperMock.Setup(x => x.Map<EditCandidateViewModel>(candidate))
+                .Returns(expectedModel);
+
+            // Act
+            var result = await _controller.EditCandidate(candidateId);
+
+            // Assert
+            result.GetType().Should().Be(typeof(ForbidResult));
+        }
+
+        [Fact]
+        public async Task EditCandidate_Returns_EditCandidate_View_With_ModelState_Errors_When_Model_Is_Invalid()
+        {
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanEditProjectCandidate))
+                .ReturnsAsync(AuthorizationResult.Success);
+
             var model = new EditCandidateViewModel();
+            model.Id = candidateId;
             var errorMessage = "errorMessage";
             _controller.ModelState.AddModelError("", errorMessage);
 
             // Act
-            var result = (ViewResult)_controller.EditCandidate(model);
+            var result = (ViewResult) await _controller.EditCandidate(model);
 
             // Assert
             result.ViewName.Should().Be(nameof(CandidatesController.EditCandidate));
@@ -346,12 +441,21 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
         }
 
         [Fact]
-        public void EditCandidate_Returns_EditCandidate_View_With_ModelState_Errors_When_Command_Is_Not_Executed_Successfully()
+        public async Task EditCandidate_Returns_EditCandidate_View_With_ModelState_Errors_When_Command_Is_Not_Executed_Successfully()
         {
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanEditProjectCandidate))
+                .ReturnsAsync(AuthorizationResult.Success);
+
             var model = new EditCandidateViewModel
             {
                 Description = "description",
-                Title = "title"
+                Title = "title",
+                Id = candidateId
             };
 
             var commandResult = CommandResult.Failed("testError1", "testError2");
@@ -360,7 +464,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 .Returns(commandResult);
 
             // Act
-            var result = (ViewResult)_controller.EditCandidate(model);
+            var result = (ViewResult) await _controller.EditCandidate(model);
 
             // Assert
             result.ViewName.Should().Be(nameof(CandidatesController.EditCandidate));
@@ -368,8 +472,16 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
         }
 
         [Fact]
-        public void EditCandidate_Redirects_To_Candidate_View_When_Command_Executed_Successfully()
+        public async Task EditCandidate_Redirects_To_Candidate_View_When_Command_Executed_Successfully()
         {
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanEditProjectCandidate))
+                .ReturnsAsync(AuthorizationResult.Success);
+
             EditCandidateCommand executedCommand = null;
             CommandProcessorMock
                 .Setup(p => p.Execute(It.IsAny<EditCandidateCommand>()))
@@ -380,21 +492,55 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
             {
                 Description = "description",
                 Title = "title",
+                Id = candidateId
             };
 
             // Act
-            var result = (RedirectToActionResult)_controller.EditCandidate(model);
+            var result = (RedirectToActionResult)await _controller.EditCandidate(model);
 
             // Assert
             result.ActionName.Should().Be(nameof(CandidatesController.Candidate));
         }
 
         [Fact]
-        public void EditCandidateImage_Returns_EditCandidateImage_View_With_Expected_Model()
+        public async Task EditCandidate_Returns_Forbid_When_Not_Allowed_To_Edit_Candidate()
         {
             var candidateId = Guid.NewGuid();
-            var imageLocation = new BlobLocation("containerName", "blobPath");
             var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanEditProjectCandidate))
+                .ReturnsAsync(AuthorizationResult.Failed);
+
+            var model = new EditCandidateViewModel
+            {
+                Description = "description",
+                Title = "title",
+                Id = candidateId
+            };
+
+            // Act
+            var result = await _controller.EditCandidate(model);
+
+            // Assert
+            result.GetType().Should().Be(typeof(ForbidResult));
+
+            CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task EditCandidateImage_Returns_EditCandidateImage_View_With_Expected_Model()
+        {
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanChangeProjectCandidateImage))
+                .ReturnsAsync(AuthorizationResult.Success);
+
+            var imageLocation = new BlobLocation("containerName", "blobPath");
             candidate.Set(x => x.Id, candidateId);
             candidate.Set(x => x.ImageLocation, imageLocation);
 
@@ -406,7 +552,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 .Returns(expectedModel);
 
             // Act
-            var result = (ViewResult)_controller.EditCandidateImage(candidateId);
+            var result = (ViewResult)await _controller.EditCandidateImage(candidateId);
 
             // Assert
             result.ViewName.Should().Be(nameof(CandidatesController.EditCandidateImage));
@@ -414,9 +560,40 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
         }
 
         [Fact]
+        public async Task EditCandidateImage_Returns_Forbid_When_Not_Allowed_To_Go_View()
+        {
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanChangeProjectCandidateImage))
+                .ReturnsAsync(AuthorizationResult.Failed);
+
+            var imageLocation = new BlobLocation("containerName", "blobPath");
+            candidate.Set(x => x.Id, candidateId);
+            candidate.Set(x => x.ImageLocation, imageLocation);
+
+            // Act
+            var result = await _controller.EditCandidateImage(candidateId);
+
+            // Assert
+            result.GetType().Should().Be(typeof(ForbidResult));
+        }
+
+        [Fact]
         public async Task EditCandidateImage_Returns_EditCandidateImage_View_With_ModelState_Errors_When_Invalid_Model()
         {
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanChangeProjectCandidateImage))
+                .ReturnsAsync(AuthorizationResult.Success);
+
             var model = new EditCandidateImageViewModel();
+            model.Id = candidateId;
             var errorMessage = "errorMessage";
             _controller.ModelState.AddModelError("", errorMessage);
 
@@ -435,6 +612,12 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
         public async Task EditCandidateImage_Returns_EditCandidateImage_View_With_ModelState_Errors_When_Command_Not_Executed_Successfully()
         {
             var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanChangeProjectCandidateImage))
+                .ReturnsAsync(AuthorizationResult.Success);
             var imageFile = new Mock<IFormFile>();
             var fileName = "fileName";
             imageFile.Setup(f => f.FileName)
@@ -471,6 +654,13 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
         public async Task EditCandidateImage_Redirects_To_Candidate_View_When_Command_Executed_Successfully()
         {
             var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanChangeProjectCandidateImage))
+                .ReturnsAsync(AuthorizationResult.Success);
+
             var imageFile = new Mock<IFormFile>();
             var fileName = "fileName";
             imageFile.Setup(f => f.FileName)
@@ -504,11 +694,51 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
         }
 
         [Fact]
-        public void RemoveCandidateImage_Returns_RemoveCandidateImage_View_With_Expected_Model()
+        public async Task EditCandidateImage_Returns_Forbid_When_Not_Allowed_To_Change_CandidateImage()
         {
             var candidateId = Guid.NewGuid();
-            var imageLocation = new BlobLocation("containerName", "blobPath");
             var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanChangeProjectCandidateImage))
+                .ReturnsAsync(AuthorizationResult.Failed);
+
+            var imageFile = new Mock<IFormFile>();
+            var fileName = "fileName";
+            imageFile.Setup(f => f.FileName)
+                .Returns($"C:\\Test\\Parent\\Parent\\{fileName}");
+
+            var stream = Mock.Of<Stream>();
+            imageFile.Setup(f => f.OpenReadStream())
+                .Returns(stream);
+
+            var model = new EditCandidateImageViewModel
+            {
+                Id = candidateId,
+                Image = imageFile.Object
+            };
+
+            // Act
+            var result = await _controller.EditCandidateImage(model);
+
+            // Assert
+            result.GetType().Should().Be(typeof(ForbidResult));
+
+            CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task RemoveCandidateImage_Returns_RemoveCandidateImage_View_With_Expected_Model()
+        {
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanRemoveProjectCandidateImage))
+                .ReturnsAsync(AuthorizationResult.Success);
+            var imageLocation = new BlobLocation("containerName", "blobPath");
             candidate.Set(x => x.Id, candidateId);
             candidate.Set(x => x.ImageLocation, imageLocation);
 
@@ -520,7 +750,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 .Returns(expectedModel);
 
             // Act
-            var result = (ViewResult)_controller.RemoveCandidateImage(candidateId);
+            var result = (ViewResult)await _controller.RemoveCandidateImage(candidateId);
 
             // Assert
             result.ViewName.Should().Be(nameof(CandidatesController.RemoveCandidateImage));
@@ -530,7 +760,16 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
         [Fact]
         public async Task Returns_RemoveCandidateImage_View_With_ModelState_Errors_When_Invalid_Model()
         {
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanRemoveProjectCandidateImage))
+                .ReturnsAsync(AuthorizationResult.Success);
+
             var model = new RemoveCandidateImageViewModel();
+            model.Id = candidateId;
             var errorMessage = "errorMessage";
             _controller.ModelState.AddModelError("", errorMessage);
 
@@ -546,9 +785,34 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
         }
 
         [Fact]
+        public async Task Returns_RemoveCandidateImage_Forbid_When_Not_Allowed_To_Go_View()
+        {
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanRemoveProjectCandidateImage))
+                .ReturnsAsync(AuthorizationResult.Failed);
+
+            // Act
+            var result = await _controller.RemoveCandidateImage(candidateId);
+
+            // Assert
+            result.GetType().Should().Be(typeof(ForbidResult));
+            CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
+        }
+
+        [Fact]
         public async Task RemoveCandidateImage_Returns_RemoveCandidateImage_View_With_ModelState_Errors_When_Command_Not_Executed_Successfully()
         {
             var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanRemoveProjectCandidateImage))
+                .ReturnsAsync(AuthorizationResult.Success);
 
             var expectedBlobLocation = BlobLocations.GetProjectCandidateBlobLocation(ProjectId, candidateId);
             Expression<Func<BlobLocation, bool>> expectedBlobLocationFunc = b => b.ContainerName == expectedBlobLocation.ContainerName
@@ -576,6 +840,12 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
         public async Task RemoveCandidateImage_Redirects_To_Candidate_View_When_Command_Executed_Successfully()
         {
             var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanRemoveProjectCandidateImage))
+                .ReturnsAsync(AuthorizationResult.Success);
 
             DeleteCandidateImageCommand executedCommand = null;
             CommandProcessorMock
@@ -597,6 +867,24 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
 
             // Assert
             result.ActionName.Should().Be(nameof(CandidatesController.Candidate));
+        }
+
+        [Fact]
+        public async Task RemoveCandidateImage_Returns_Forbid_When_Not_Allowed_To_Remove_CandidateImage()
+        {
+            var candidateId = Guid.NewGuid();
+            var candidate = new Candidate();
+
+            QueryProcessorMock.Setup(p => p.FindById<Candidate>(candidateId)).Returns(candidate);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, candidate, Policies.CanRemoveProjectCandidateImage))
+                .ReturnsAsync(AuthorizationResult.Failed);
+
+            // Act
+            var result = await _controller.RemoveCandidateImage(candidateId);
+
+            // Assert
+            result.GetType().Should().Be(typeof(ForbidResult));
         }
 
         [Fact]

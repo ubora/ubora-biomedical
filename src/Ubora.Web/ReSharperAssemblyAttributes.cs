@@ -6,6 +6,10 @@
 // {1} - Controller Name
 // {2} - Area Name
 
+[assembly: AspMvcAreaViewLocationFormat(@"~\_Areas\{2}\{1}\{0}.cshtml")]
+[assembly: AspMvcAreaPartialViewLocationFormat(@"~\_Areas\{2}\_Shared\{0}.cshtml")]
+[assembly: AspMvcAreaPartialViewLocationFormat(@"~\_Features\_Shared\{0}.cshtml")]
+
 [assembly: AspMvcViewLocationFormat(@"~\_Features\_Shared\{0}.cshtml")]
 [assembly: AspMvcPartialViewLocationFormat(@"~\_Features\_Shared\")]
 

@@ -6,24 +6,25 @@
     ViewData["MenuOption"] = ProjectMenuOption.History;
 }
 
-<div class="container my-4">
-    <div class="min-height-45">
-            <h1>@ViewData["Title"]</h1>
-            @if (Model.Pager.TotalItemCount > 0)
-            {
-                foreach (var uboraEvent in Model.Logs)
-                {
-                    @uboraEvent.GetPartialView(Html)
-                }
-            }
-            else
-            {
-                <p>No history to show.</p>
-            }
-    </div>
+<div class="h-min-45">
+    <h1>@ViewData["Title"]</h1>
+    @if (Model.Pager.TotalItemCount > 0)
+    {
+        foreach (var uboraEvent in Model.Logs)
+        {
+            @uboraEvent.GetPartialView(Html)
+        }
+    }
+    else
+    {
+        <p>No history to show.</p>
+    }
+</div>
+@if (Model.Pager.PageCount > 1)
+{
     <div class="row mt-4">
         <div class="col d-flex justify-content-center">
             @Html.Partial("~/_Features/_Shared/Paging/Pager.cshtml", Model.Pager)
         </div>
     </div>
-</div>
+}

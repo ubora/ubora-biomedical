@@ -15,7 +15,8 @@ namespace Ubora.Domain.Projects.Candidates
         public string Title { get; private set; }
         public string Description { get; private set; }
         public BlobLocation ImageLocation { get; private set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; private set; }
+        public Guid CreatedByUserId { get; private set; }
 
         [JsonIgnore]
         public bool HasImage => ImageLocation != null;
@@ -42,6 +43,7 @@ namespace Ubora.Domain.Projects.Candidates
             Title = e.Title;
             Description = e.Description;
             ImageLocation = e.ImageLocation;
+            CreatedByUserId = e.InitiatedBy.UserId;
         }
 
         private void Apply(CandidateEditedEvent e)

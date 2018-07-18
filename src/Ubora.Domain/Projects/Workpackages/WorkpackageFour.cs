@@ -28,6 +28,10 @@ namespace Ubora.Domain.Projects.Workpackages
         private void Apply(WorkpackageFourStepEdited e)
         {
             var step = GetSingleStep(e.StepId);
+            if (step == null)
+            {
+                throw new InvalidOperationException($"{nameof(WorkpackageStep)} not found with id [{e.StepId}]");
+            }
             
             step.Title = e.Title;
             step.Content = e.NewValue;
