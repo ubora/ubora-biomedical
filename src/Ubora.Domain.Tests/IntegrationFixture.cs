@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Autofac;
 using Marten;
 using Moq;
@@ -31,7 +32,7 @@ namespace Ubora.Domain.Tests
             _domainAutofacModule = new DomainAutofacModule(ConnectionSource.ConnectionString, Mock.Of<IStorageProvider>());
             var eventTypes = DomainAutofacModule.FindDomainEventConcreteTypes();
             var notificationTypes = DomainAutofacModule.FindDomainNotificationConcreteTypes();
-            StoreOptions(new UboraStoreOptionsConfigurer().CreateConfigureAction(eventTypes, notificationTypes, AutoCreate.CreateOnly));
+            StoreOptions(new UboraStoreOptionsConfigurer().CreateConfigureAction(eventTypes.ToList(), notificationTypes.ToList(), AutoCreate.CreateOnly));
             InitializeContainer();
         }
 

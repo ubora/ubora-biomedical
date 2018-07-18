@@ -20,6 +20,7 @@ using Ubora.Domain.Projects.History;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects._Events;
 using System.Reflection;
+using Ubora.Domain.Projects.IsoStandardsCompliances;
 using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Events;
 
@@ -28,8 +29,8 @@ namespace Ubora.Domain.Infrastructure.Marten
     public class UboraStoreOptionsConfigurer
     {
         public Action<StoreOptions> CreateConfigureAction(
-            IEnumerable<Type> eventTypes,
-            IEnumerable<MappedType> notificationTypes,
+            IReadOnlyCollection<Type> eventTypes,
+            IReadOnlyCollection<MappedType> notificationTypes,
             AutoCreate autoCreate)
         {
             if (eventTypes == null)
@@ -84,6 +85,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<Candidate>();
                 options.Events.InlineProjections.AggregateStreamsWith<ResourceCategory>();
                 options.Events.InlineProjections.Add(new ResourcesMenuViewProjection());
+                options.Events.InlineProjections.AggregateStreamsWith<IsoStandardsComplianceAggregate>();
 
                 options.Events.AddEventTypes(eventTypes);
 
