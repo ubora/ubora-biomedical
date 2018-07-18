@@ -18,7 +18,7 @@ namespace Ubora.Domain.Projects.Workpackages.Events
         {
         }
 
-        public override string GetDescription() => $"Requested mentoring";
+        public override string GetDescription() => $"requested mentoring.";
 
         public class Notifier : UboraEventNotifier<WorkpackageOneReviewRequestedMentoringEvent>
         {
