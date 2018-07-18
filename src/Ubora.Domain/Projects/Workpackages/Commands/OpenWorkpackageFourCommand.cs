@@ -27,27 +27,25 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                     return CommandResult.Failed("Work package one hasn't been accepted.");
                 } 
                 var workpackageTwo = DocumentSession.LoadOrThrow<WorkpackageTwo>(cmd.ProjectId);
-
-                
+ 
                 var workPackageFour = DocumentSession.Load<WorkpackageFour>(cmd.ProjectId);
                 if (workPackageFour != null)
                 {
                     return CommandResult.Failed("Work package is already opened.");
                 }
-                _commandProcessor.Execute(new OpenWorkpackageThreeCommand { Actor = cmd.Actor, ProjectId = cmd.ProjectId});
-
                 
+                var result = _commandProcessor.Execute(new OpenWorkpackageThreeCommand { Actor = cmd.Actor, ProjectId = cmd.ProjectId});
+                if(result.IsFailure)
+                {
+                    return CommandResult.Failed("Work package three has been failure.");
+                }
+
                 var workPackageThree = DocumentSession.Load<WorkpackageThree>(cmd.ProjectId);
                 if (!workPackageThree.HasBeenOpened)
                 {
                     return CommandResult.Failed("Work package three hasn't been opened.");
                 }
-
-                if (cmd.DeviceStructuredInformationId == Guid.Empty)
-                {
-                    return CommandResult.Failed("Not allow to be guid empty.");
-                }
-                
+             
                 var @event = new WorkpackageFourOpenedEvent(
                     deviceStructuredInformationId: cmd.DeviceStructuredInformationId,
                     initiatedBy: cmd.Actor,
