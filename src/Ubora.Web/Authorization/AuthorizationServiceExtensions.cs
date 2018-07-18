@@ -15,5 +15,15 @@ namespace Microsoft.AspNetCore.Authorization
         {
             return (await authorizationService.AuthorizeAsync(user, resource: resource, policyName: policyName)).Succeeded;
         }
+
+        public static bool IsAuthorized(this IAuthorizationService authorizationService, ClaimsPrincipal user, string policyName)
+        {
+            return authorizationService.AuthorizeAsync(user, resource: null, policyName: policyName).GetAwaiter().GetResult().Succeeded;
+        }
+
+        public static bool IsAuthorized(this IAuthorizationService authorizationService, ClaimsPrincipal user, object resource, string policyName)
+        {
+            return authorizationService.AuthorizeAsync(user, resource: resource, policyName: policyName).GetAwaiter().GetResult().Succeeded;
+        }
     }
 }

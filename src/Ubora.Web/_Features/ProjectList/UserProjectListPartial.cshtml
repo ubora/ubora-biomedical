@@ -1,31 +1,28 @@
-@model Ubora.Web._Features.ProjectList.ProjectListViewModel
+@model Ubora.Web._Features.ProjectList.Models.ProjectListViewModel
 
+@if (Model.Projects.Any())
+{
 
-    @if (Model.Projects.Any())
-    {
-       
-        <h2 class="display-4">@Model.Header</h2>
-        <div class="row">
-            @foreach (var project in Model.Projects)
-            {
-                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-7 px-xl-4 mb-4">
-                    @await Html.PartialAsync("~/_Components/ProjectCard.cshtml", model: project)
-                </div>
-            }
+    <div class="row">
+        @foreach (var project in Model.Projects)
+        {
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-7 px-xl-4 mb-4">
+            @await Html.PartialAsync("~/_Components/ProjectCard.cshtml", model: project)
         </div>
-    }
-    else if (Model.ShowDefaultMessage)
-    {
-        <div class="text-center">
-            <h2 class="display-4">You have no projects.</h2>
-            @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
-            {
-                <p>Either <a asp-controller="ProjectCreation" asp-action="Create">create a new one</a> or find projects to join.</p>
-            }
-            else
-            {
-                <p>Your email must be confirmed to create a project!</p>
-            }
-        </div>
-    }
-  
+        }
+    </div>
+}
+else if (Model.ShowDefaultMessage)
+{
+    <div class="text-center">
+        <h2 class="display-4">You have no projects.</h2>
+        @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
+        {
+            <p>Either <a asp-controller="ProjectCreation" asp-action="Create">create a new one</a> or find projects to join.</p>
+        }
+        else 
+        {
+            <p>Your email must be confirmed to create a project!</p>
+        }
+    </div>
+}

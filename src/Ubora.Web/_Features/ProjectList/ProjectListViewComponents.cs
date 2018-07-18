@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Web._Features.ProjectList.Models;
 using Ubora.Web.Services;
 
 namespace Ubora.Web._Features.ProjectList

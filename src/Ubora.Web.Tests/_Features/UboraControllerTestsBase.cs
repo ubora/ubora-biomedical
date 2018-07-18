@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Commands;
@@ -35,6 +36,7 @@ namespace Ubora.Web.Tests._Features
         {
             UserId = Guid.NewGuid();
             User = CreateUser(UserId);
+            AuthorizationServiceMock.SetReturnsDefault(Task.FromResult(AuthorizationResult.Failed()));
         }
 
         protected virtual void SetUpForTest(UboraController controller)

@@ -1,0 +1,47 @@
+﻿/*First level menu style*/
+.list-sidebar {
+    li {
+        list-style-type: none;
+        margin-top: 1rem;
+    }
+
+    a {
+        color: $text-color;
+        text-decoration: none;
+
+        &.muted-status {
+            color: $tertiary-shade;
+            text-decoration: none;
+            cursor: default;
+        }
+
+        &.active-status {
+            font-weight: 700;
+        }
+
+        &.checked-status::after {
+            font-family: 'Material Icons';
+            content: 'check';
+            color: $green;
+            line-height: 1;
+            font-weight: 600;
+        }
+    }
+
+    img {
+        width: 2rem;
+    }
+}
+
+/*Lower level menu style*/
+.side-menu-secondary {
+    padding-left: 1.5rem;
+}
+
+.side-menu-tertiary {
+    padding-left: 1.5rem;
+}
+
+.side-menu-quaternary {
+    padding-left: 1.5rem;
+}
