@@ -41,7 +41,7 @@ namespace Ubora.Domain.Infrastructure
                     .Invoke(options);
 
                 var store = new DocumentStore(options);
-
+                
                 builder.RegisterInstance(store).As<IDocumentStore>().SingleInstance();
             }
 

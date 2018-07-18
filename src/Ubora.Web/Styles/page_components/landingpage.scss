@@ -12,7 +12,7 @@
             border-color: $black;
         }
     }
-    /* header */
+
     header {
 
         .btn-cta {
@@ -141,7 +141,7 @@
             color: $text-color;
         }
     }
-    /* sections */
+    
     section {
         padding: 8rem 0;
     }
@@ -176,45 +176,14 @@
     }
 }
 
-
-
-/* background colors */
-.bg-blue {
-    background-color: $blue;
-}
-
-.bg-dark {
-    background-color: $dark;
-}
-
-.bg-light-grey {
-    background-color: $quartinary-shade;
-}
-
-
-/* text colors */
-.text-faded-dark {
-    color: rgba(0, 0, 0, 0.7);
-}
-
-.text-faded {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-/* Buttons */
-.btn-light {
-    border: 1px solid $blue;
-    color: $blue;
-}
-
 /*media queries*/
-@media (min-width: 1200px) {
+@include media-breakpoint-up(xl) {
     header.masthead h1 {
         font-size: 4rem;
     }
 }
 
-@media (min-width: 992px) {
+@include media-breakpoint-up(lg) {
     header.masthead {
         height: 95vh;
         min-height: 650px;
@@ -231,7 +200,7 @@
     }
 }
 
-@media (max-width: 992px) {
+@include media-breakpoint-down(md) {
     header.masthead h1 {
         font-size: 2rem;
     }
@@ -287,7 +256,7 @@
 }
 
 
-@media (max-width: 768px) {
+@include media-breakpoint-down(sm) {
     .landing-page {
         header.masthead {
             .btn-primary {
@@ -299,7 +268,7 @@
 }
 
 
-@media (max-width: 576px) {
+@include media-breakpoint-down(xs) {
     .landing-page {
         section, .discussion-section, .resources-section {
             padding-top: 5rem;

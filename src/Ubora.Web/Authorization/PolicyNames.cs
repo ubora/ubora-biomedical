@@ -1,4 +1,4 @@
-﻿namespace Ubora.Web.Authorization
+﻿public class Policies
 {
     public class Policies
     {
@@ -38,4 +38,5 @@
         public const string CanEditAndViewUnlockedWorkPackageThree = nameof(CanEditAndViewUnlockedWorkPackageThree);
         public const string CanEditAndViewUnlockedWorkPackageFour = nameof(CanEditAndViewUnlockedWorkPackageFour);
     }
+    public const string CanManageResources = nameof(CanManageResources);
 }

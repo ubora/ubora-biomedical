@@ -22,10 +22,6 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                 var workpackage = DocumentSession.LoadOrThrow<WorkpackageFour>(cmd.ProjectId);
 
                 var step = workpackage.Steps.SingleOrDefault(x => x.Id == cmd.StepId);
-                if (step == null)
-                {
-                    throw new InvalidOperationException($"{nameof(WorkpackageStep)} not found with id [{cmd.StepId}]");
-                }
 
                 var @event = new WorkpackageFourStepEdited
                 (

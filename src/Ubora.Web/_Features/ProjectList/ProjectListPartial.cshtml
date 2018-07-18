@@ -1,14 +1,13 @@
-﻿@model Ubora.Web._Features.ProjectList.ProjectListViewModel
+﻿@model Ubora.Web._Features.ProjectList.Models.ProjectListViewModel
 
 @if (Model.Projects.Any())
 {
     <div class="infinite-scroll">
-        <h2 class="display-4">@Model.Header</h2>
         <div class="post">
             <div class="row ">
                 @foreach (var project in Model.Projects)
                 {
-                    <div class="col-sm-6 col-md-4 col-lg-3 my-2">
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-7 px-xl-4 mb-4">
                         @await Html.PartialAsync("~/_Components/ProjectCard.cshtml", model: project)
                     </div>
                 }
@@ -16,7 +15,7 @@
         </div>
     </div>
 
-    @if (Model.Pager.PageCount > 1)
+    if (Model.Pager.PageCount > 1)
     {
         if (Model.Pager.IsFirstPage)
         {
@@ -39,7 +38,7 @@
         </div>
         }
 
-        @if (!Model.Pager.IsLastPage)
+        if (!Model.Pager.IsLastPage)
         {
         <div id="js-more-pages-indicator" style="display: none"></div>
         }

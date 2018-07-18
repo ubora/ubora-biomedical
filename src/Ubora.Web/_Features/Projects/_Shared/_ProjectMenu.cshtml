@@ -22,39 +22,37 @@ string GetActivityCssClass(ProjectMenuOption menuOption)
 }
 
 <div class="project-header-container d-none d-lg-block">
-    <div class="container pl-0">
-        <h1 class="my-3 pl-3">
-            @ViewData["ProjectTitle"]
-            @if ((bool)ViewData["ProjectIsDraft"])
-            {
-                <span class="badge badge-pill badge-orange font-size-1 ml-2">Draft</span>
-            }
-        </h1>
-        <nav class="project-header nav nav-tabs flex-column flex-md-row justify-content-start">
-            <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Overview)" asp-controller="Dashboard" asp-action="Dashboard">@Model.MenuOptionNames[ProjectMenuOption.Overview]</a>
+    <h1 class="my-3">
+        @ViewData["ProjectTitle"]
+        @if ((bool)ViewData["ProjectIsDraft"])
+        {
+            <span class="badge badge-pill badge-orange font-size-1 ml-2">Draft</span>
+        }
+    </h1>
+    <nav class="project-header nav nav-tabs flex-column flex-md-row justify-content-start">
+        <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Overview)" asp-controller="Dashboard" asp-action="Dashboard">@Model.MenuOptionNames[ProjectMenuOption.Overview]</a>
 
-            @if (canViewProjectNonPublicContent)
-            {
-                <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Workpackages)" asp-controller="WorkpackageOne" asp-action="ProjectOverview">@Model.MenuOptionNames[ProjectMenuOption.Workpackages]</a>
-            }
+        @if (canViewProjectNonPublicContent)
+        {
+            <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Workpackages)" asp-controller="WorkpackageOne" asp-action="ProjectOverview">@Model.MenuOptionNames[ProjectMenuOption.Workpackages]</a>
+        }
 
-            @if (canViewProjectRepository)
-            {
-                <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Repository)" asp-controller="Repository" asp-action="Repository">@Model.MenuOptionNames[ProjectMenuOption.Repository]</a>
-            }
+        @if (canViewProjectRepository)
+        {
+            <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Repository)" asp-controller="Repository" asp-action="Repository">@Model.MenuOptionNames[ProjectMenuOption.Repository]</a>
+        }
 
-            @if (canViewProjectNonPublicContent)
-            {
-                <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Assignments)" asp-controller="Assignments" asp-action="Assignments">@Model.MenuOptionNames[ProjectMenuOption.Assignments]</a>
-            }
-            <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Members)" asp-controller="Members" asp-action="Members">@Model.MenuOptionNames[ProjectMenuOption.Members]</a>
+        @if (canViewProjectNonPublicContent)
+        {
+            <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Assignments)" asp-controller="Assignments" asp-action="Assignments">@Model.MenuOptionNames[ProjectMenuOption.Assignments]</a>
+        }
+        <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Members)" asp-controller="Members" asp-action="Members">@Model.MenuOptionNames[ProjectMenuOption.Members]</a>
 
-            @if (canViewProjectHistory)
-            {
-                <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.History)" asp-controller="History" asp-action="History">@Model.MenuOptionNames[ProjectMenuOption.History]</a>
-            }
-        </nav>
-    </div>
+        @if (canViewProjectHistory)
+        {
+            <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.History)" asp-controller="History" asp-action="History">@Model.MenuOptionNames[ProjectMenuOption.History]</a>
+        }
+    </nav>
 </div>
 
 
