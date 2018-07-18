@@ -21,7 +21,7 @@
             @Html.Partial("_ProjectSearchFiltersForm.cshtml", Model)
         </div>
         }
-        <div class="@(@Model.Tab == TabType.AllProjects ? "col-xl-8 col-lg-9 px-xl-7 py-3" : "col-xl-8 col-lg-9 px-xl-7 py-3 offset-xl-2 offset-lg-1")">
+        <div class="@(Model.Tab == TabType.AllProjects ? "col-xl-8 col-lg-9 px-xl-7 py-3" : "col-xl-8 col-lg-9 px-xl-7 py-3 offset-xl-2 offset-lg-1")">
             <h1>@ViewData["Title"]</h1>
             <ul class="nav nav-tabs" id="projectsTab">
                 @if (isSignedIn)

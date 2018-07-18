@@ -2,18 +2,22 @@
 
 @if (Model.Projects.Any())
 {
-    <div class="infinite-scroll">
-        <div class="post">
-            <div class="row ">
-                @foreach (var project in Model.Projects)
-                {
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-7 px-xl-4 mb-4">
-                        @await Html.PartialAsync("~/_Components/ProjectCard.cshtml", model: project)
-                    </div>
-                }
-            </div>
+<div class="infinite-scroll">
+    @if (!string.IsNullOrWhiteSpace(Model.Header))
+    {
+        <h2 class="display-4">@Model.Header</h2>
+    }
+    <div class="post">
+        <div class="row ">
+            @foreach (var project in Model.Projects)
+            {
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-7 px-xl-4 mb-4">
+                    @await Html.PartialAsync("~/_Components/ProjectCard.cshtml", model: project)
+                </div>
+            }
         </div>
     </div>
+</div>
 
     if (Model.Pager.PageCount > 1)
     {
