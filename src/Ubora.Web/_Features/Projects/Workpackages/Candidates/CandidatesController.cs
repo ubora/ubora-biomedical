@@ -406,7 +406,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             ExecuteUserProjectCommand(new OpenWorkpackageFourCommand(), Notice.Success("WP4 opened"));
             if (!ModelState.IsValid)
             {
-                Notices.NotifyOfError("Failed to open work package 4!");
+                var message = string.Join(" | ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+                
+                Notices.NotifyOfError(message);
                 return await Voting(candidateItemViewModelFactory);
             }
 

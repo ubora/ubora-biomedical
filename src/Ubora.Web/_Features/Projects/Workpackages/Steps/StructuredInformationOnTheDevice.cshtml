@@ -9,7 +9,7 @@
 
     var workpackageMenuOptionViewData = (string) ViewData["WorkpackageMenuOption"];
 
-    var workpackage = workpackageMenuOptionViewData == WorkpackageMenuOption.WP4StructuredInformationOnTheDevice
+    var wpControllerName = workpackageMenuOptionViewData == WorkpackageMenuOption.WP4StructuredInformationOnTheDevice
         ? "WorkpackageFour" : "WorkpackageTwo";
 }
 
@@ -28,7 +28,7 @@
     <div class="col">
         <div class="d-flex justify-content-between">
             <h2 class="mb-4">User and evironment</h2>
-            <a class="btn btn-outline-primary align-self-start" asp-action="UserAndEnvironment" asp-controller="@workpackage">
+            <a class="btn btn-outline-primary align-self-start" asp-action="UserAndEnvironment" asp-controller="@wpControllerName">
                 <i class="material-icons">mode_edit</i>
                 <span>Edit</span>
             </a>
@@ -86,7 +86,7 @@
     <div class="col">
         <div class="d-flex justify-content-between">
             <h2 class="mb-4">Health technology specifications</h2>
-            <a class="btn btn-outline-primary align-self-start" asp-action="HealthTechnologySpecifications" asp-controller="@workpackage">
+            <a class="btn btn-outline-primary align-self-start" asp-action="HealthTechnologySpecifications" asp-controller="@wpControllerName">
                 <i class="material-icons">mode_edit</i>
                 <span>Edit</span>
             </a>
