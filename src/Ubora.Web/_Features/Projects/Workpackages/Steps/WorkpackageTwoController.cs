@@ -5,6 +5,7 @@ using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.Specifications;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Domain.Projects._Specifications;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features.Projects._Shared;
 using Ubora.Web._Features._Shared.Notices;
@@ -79,7 +80,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
-                .Find(new IsProjectAndWorkpackageTypeDeviceStructuredInformationSpec(ProjectId, WorkpackageType.Two))
+                .Find(new IsWorkpackageTypeDeviceStructuredInformationSpec(WorkpackageType.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
                 .FirstOrDefault();
 
             var model = modelFactory.Create(deviceStructuredInformation);
@@ -93,7 +94,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
-                .Find(new IsProjectAndWorkpackageTypeDeviceStructuredInformationSpec(ProjectId, WorkpackageType.Two))
+                .Find(new IsWorkpackageTypeDeviceStructuredInformationSpec(WorkpackageType.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
                 .FirstOrDefault();
             if (deviceStructuredInformation == null)
             {
@@ -138,7 +139,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
-                .Find(new IsProjectAndWorkpackageTypeDeviceStructuredInformationSpec(ProjectId, WorkpackageType.Two))
+                .Find(new IsWorkpackageTypeDeviceStructuredInformationSpec(WorkpackageType.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
                 .FirstOrDefault();
             if (deviceStructuredInformation == null)
             {

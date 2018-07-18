@@ -2,8 +2,8 @@
 {
     public enum WorkpackageType
     {
-        Two = 1,
-        Three = 2,
-        Four = 4
+        Two = 0,
+        Three = 1,
+        Four = 2
     }
 }
