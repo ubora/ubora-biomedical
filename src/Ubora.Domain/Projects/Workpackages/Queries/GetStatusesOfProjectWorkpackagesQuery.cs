@@ -58,12 +58,12 @@ namespace Ubora.Domain.Projects.Workpackages.Queries
 
                 var wp3 = batch.Query<WorkpackageThree>()
                     .Where(wp => wp.ProjectId == query.ProjectId)
-                    .Select(wp => new IntermediateResult { HasBeenAcceptedByReview = wp.HasBeenAccepted, IsUnLocked = wp.IsUnLocked})
+                    .Select(wp => new IntermediateResult { HasBeenAcceptedByReview = wp.HasBeenAccepted})
                     .FirstOrDefault();
                 
                 var wp4 = batch.Query<WorkpackageFour>()
                     .Where(wp => wp.ProjectId == query.ProjectId)
-                    .Select(wp => new IntermediateResult { HasBeenAcceptedByReview = wp.HasBeenAccepted, IsUnLocked = wp.IsUnLocked})
+                    .Select(wp => new IntermediateResult { HasBeenAcceptedByReview = wp.HasBeenAccepted})
                     .FirstOrDefault();
 
                 batch.ExecuteSynchronously();
@@ -90,19 +90,13 @@ namespace Ubora.Domain.Projects.Workpackages.Queries
                 {
                     return WorkpackageStatus.Accepted;
                 }
-
-                if (workpackage.IsUnLocked)
-                {
-                    return WorkpackageStatus.UnLocked;
-                }
-                
+     
                 return WorkpackageStatus.Opened;
             }
 
             private class IntermediateResult
             {
                 public bool HasBeenAcceptedByReview { get; set; }
-                public bool IsUnLocked { get; set; }
             }
         }
     }

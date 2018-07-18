@@ -12,11 +12,8 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
         
         internal class Handler : CommandHandler<OpenWorkpackageFourCommand>
         {
-            private readonly ICommandProcessor _commandProcessor;
-            
-            public Handler(IDocumentSession documentSession, ICommandProcessor commandProcessor) : base(documentSession)
+            public Handler(IDocumentSession documentSession) : base(documentSession)
             {
-                _commandProcessor = commandProcessor;
             }
 
             public override ICommandResult Handle(OpenWorkpackageFourCommand cmd)
@@ -33,19 +30,7 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                 {
                     return CommandResult.Failed("Work package is already opened.");
                 }
-                
-                var result = _commandProcessor.Execute(new OpenWorkpackageThreeCommand { Actor = cmd.Actor, ProjectId = cmd.ProjectId});
-                if(result.IsFailure)
-                {
-                    return CommandResult.Failed("Work package three has been failure.");
-                }
-
-                var workPackageThree = DocumentSession.Load<WorkpackageThree>(cmd.ProjectId);
-                if (!workPackageThree.HasBeenOpened)
-                {
-                    return CommandResult.Failed("Work package three hasn't been opened.");
-                }
-             
+                           
                 var @event = new WorkpackageFourOpenedEvent(
                     deviceStructuredInformationId: cmd.DeviceStructuredInformationId,
                     initiatedBy: cmd.Actor,

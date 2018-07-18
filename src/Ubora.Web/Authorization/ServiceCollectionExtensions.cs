@@ -35,7 +35,7 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsVoteNotGivenRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, HasProjectMemberOfTypeRequirement<ProjectMentor>.Handler>();
             services.AddSingleton<IAuthorizationHandler, OrRequirement.Handler>();
-            services.AddSingleton<IAuthorizationHandler, IsWorkpackageStatusUnlockedRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, IsWorkpackageRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, AndRequirement.Handler>();
         }
 
@@ -195,11 +195,11 @@ namespace Ubora.Web.Authorization
                 });
                 options.AddPolicy(Policies.CanEditAndViewUnlockedWorkPackageThree, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new IsWorkpackageStatusUnlockedRequirement(WorkpackageType.Three));
+                    policyBuilder.AddRequirements(new IsWorkpackageRequirement(WorkpackageType.Three));
                 });
                 options.AddPolicy(Policies.CanEditAndViewUnlockedWorkPackageFour, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new IsWorkpackageStatusUnlockedRequirement(WorkpackageType.Four));
+                    policyBuilder.AddRequirements(new IsWorkpackageRequirement(WorkpackageType.Four));
                 });
             });
         }

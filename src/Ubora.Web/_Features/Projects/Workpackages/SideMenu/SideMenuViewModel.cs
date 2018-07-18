@@ -25,22 +25,15 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
             public SideMenuViewModel Create(Guid projectId, string selectedId)
             {
                 var wpStatuses = _queryProcessor.ExecuteQuery(new GetStatusesOfProjectWorkpackagesQuery(projectId));
-             
 
-                var isWp3OpenedAndLocked = wpStatuses.Wp3Status != WorkpackageStatus.Closed &&
-                                  wpStatuses.Wp3Status != WorkpackageStatus.UnLocked;
-                
-                var isWp4OpenedAndLocked = wpStatuses.Wp4Status != WorkpackageStatus.Closed &&
-                                           wpStatuses.Wp4Status != WorkpackageStatus.UnLocked;
-                
                 var items = new ISideMenuItem[]
                 {
                     /*wp0*/ new WpSideMenuHyperlinkMenuItem(NestingLevel.None, "DesignPlanning", "Design planning", _urlHelper.Action("ProjectOverview", "WorkpackageOne"))
                         .SetStatus(WorkpackageStatus.Accepted),
                     CreateWp1().SetStatus(wpStatuses.Wp1Status),
                     CreateWp2().SetStatus(wpStatuses.Wp2Status),
-                    isWp3OpenedAndLocked ? CreateWp3Locked() : CreateWp3().SetStatus(wpStatuses.Wp3Status),
-                    isWp4OpenedAndLocked ? CreateWp4Locked() : CreateWp4().SetStatus(wpStatuses.Wp4Status),
+                    CreateWp3OrLocked(wpStatuses),
+                    CreateWp4OrLocked(wpStatuses),
                     /*wp5*/ new WpSideMenuHyperlinkMenuItem(NestingLevel.None, "workpackageFive", "WP 5: Operation", "#")
                         .SetStatus(wpStatuses.Wp5Status),
                     /*wp6*/ new WpSideMenuHyperlinkMenuItem(NestingLevel.None, "workpackageSix", "WP 6: Project closure", "#")
@@ -125,6 +118,21 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         IsLocked = true
                     };
                 }
+
+                IWorkpackageSideMenuItem CreateWp3OrLocked(GetStatusesOfProjectWorkpackagesQuery.Result statuses)
+                {
+                    if (statuses.Wp3Status == WorkpackageStatus.Opened)
+                    {
+                        return CreateWp3().SetStatus(WorkpackageStatus.Opened);
+                    }
+
+                    if (statuses.Wp2Status == WorkpackageStatus.Opened)
+                    {
+                        return CreateWp3Locked();
+                    }
+
+                    return CreateWp3().SetStatus(WorkpackageStatus.Closed);
+                }
                 
                 IWorkpackageSideMenuItem CreateWp4()
                 {
@@ -146,6 +154,21 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                     {
                         IsLocked = true
                     };
+                }
+                
+                IWorkpackageSideMenuItem CreateWp4OrLocked(GetStatusesOfProjectWorkpackagesQuery.Result statuses)
+                {
+                    if (statuses.Wp4Status == WorkpackageStatus.Opened)
+                    {
+                        return CreateWp4().SetStatus(WorkpackageStatus.Opened);
+                    }
+
+                    if (statuses.Wp2Status == WorkpackageStatus.Opened)
+                    {
+                        return CreateWp4Locked();
+                    }
+
+                    return CreateWp4().SetStatus(WorkpackageStatus.Closed);
                 }
 
                 string Wp4StepLink(string stepId)

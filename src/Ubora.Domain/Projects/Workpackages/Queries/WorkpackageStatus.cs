@@ -4,7 +4,6 @@
     {
         Closed = 0,
         Opened = 1,
-        Accepted = 2,
-        UnLocked = 4
+        Accepted = 2
     }
 }

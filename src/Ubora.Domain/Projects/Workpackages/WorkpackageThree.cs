@@ -6,7 +6,6 @@ namespace Ubora.Domain.Projects.Workpackages
 {
     public class WorkpackageThree : Workpackage<WorkpackageThree>
     {
-        public bool IsUnLocked { get; private set; }
         public bool HasBeenOpened { get; private set ; }
         
         private void Apply(WorkpackageThreeOpenedEvent e)
@@ -36,11 +35,6 @@ namespace Ubora.Domain.Projects.Workpackages
 
             _steps.Add(new WorkpackageStep("DesignForIsoTestingCompliance", "Design for ISO testing compliance"));
             _steps.Add(new WorkpackageStep("InstructionsForFabricationOfPrototypes", "Instructions for fabrication of prototypes"));
-        }
-
-        private void Apply(WorkpackageThreeUnlockedEvent e)
-        {
-            IsUnLocked = true;
         }
 
         private void Apply(WorkpackageThreeStepEdited e)

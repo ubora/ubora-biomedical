@@ -2,41 +2,41 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Ubora.Domain.Projects.StructuredInformations;
-using Ubora.Domain.Projects.Workpackages.Queries;
+using Ubora.Domain.Projects.Workpackages;
 
 namespace Ubora.Web.Authorization.Requirements
 {
-    public class IsWorkpackageStatusUnlockedRequirement : IAuthorizationRequirement
+    public class IsWorkpackageRequirement : IAuthorizationRequirement
     {
         public WorkpackageType WorkpackageType { get; set; }
         
-        public IsWorkpackageStatusUnlockedRequirement(WorkpackageType workpackageType)
+        public IsWorkpackageRequirement(WorkpackageType workpackageType)
         {
             WorkpackageType = workpackageType;
         }
         
-        public class Handler : ProjectAuthorizationHandler<IsWorkpackageStatusUnlockedRequirement>
+        public class Handler : ProjectAuthorizationHandler<IsWorkpackageRequirement>
         {
             public Handler(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
             {
             }
 
             protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-                IsWorkpackageStatusUnlockedRequirement requirement)
-            {
-                var result = QueryProcessor.ExecuteQuery(new GetStatusesOfProjectWorkpackagesQuery(Project.Id));
-
+                IsWorkpackageRequirement requirement)
+            {    
                 switch (requirement.WorkpackageType)
                 {
                     case WorkpackageType.Three:
-                        if (result.Wp3Status == WorkpackageStatus.UnLocked)
+                        var workpackageThree = QueryProcessor.FindById<WorkpackageThree>(Project.Id);
+                        if (workpackageThree != null)
                         {
                             context.Succeed(requirement);
                         }
                         break;
                     
                     case WorkpackageType.Four:
-                        if (result.Wp4Status == WorkpackageStatus.UnLocked)
+                        var workpackageFour = QueryProcessor.FindById<WorkpackageFour>(Project.Id);
+                        if (workpackageFour != null)
                         {
                             context.Succeed(requirement);
                         }

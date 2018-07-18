@@ -1,3 +1,4 @@
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.StructuredInformations;
@@ -82,10 +83,19 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Authorize(Policy = nameof(Policies.CanUnlockWorkPackage))]
         public IActionResult Unlock()
         {
-            var command = new UnlockWorkpackageCommand { WorkpackageType = WorkpackageType.Three };
-            ExecuteUserProjectCommand(command, Notice.Success("Unlocked."));
+            ExecuteUserProjectCommand(new OpenWorkpackageThreeCommand(), Notice.Success("Unlocked."));
+
+            if (!ModelState.IsValid)
+            {
+                var message = string.Join(" | ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+                
+                Notices.NotifyOfError(message);
+                return View(nameof(UnlockConfirmation));
+            }
             
             return RedirectToAction("ProjectOverview","WorkpackageOne");
-        }
+        }        
     }
 }

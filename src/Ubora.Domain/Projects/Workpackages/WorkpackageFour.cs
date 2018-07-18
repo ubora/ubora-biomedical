@@ -5,9 +5,7 @@ using Ubora.Domain.Projects.Workpackages.Events;
 namespace Ubora.Domain.Projects.Workpackages
 {
     public class WorkpackageFour : Workpackage<WorkpackageFour>
-    {
-        public bool IsUnLocked { get; private set; }
-        
+    {       
         private void Apply(WorkpackageFourOpenedEvent e)
         {
             if (_steps.Any())
@@ -18,7 +16,7 @@ namespace Ubora.Domain.Projects.Workpackages
             ProjectId = e.ProjectId;
 
             Title = "Implementation";
-
+            
             _steps.Add(new WorkpackageStep("PrototypesAndConsiderationsForSafetyAssessment", "Prototypes and considerations for safety assessment"));
             _steps.Add(new WorkpackageStep("QualityCriteria", "Quality criteria"));
             _steps.Add(new WorkpackageStep("IsoCompliance", "ISO compliance"));
@@ -26,12 +24,7 @@ namespace Ubora.Domain.Projects.Workpackages
             _steps.Add(new WorkpackageStep("WP4StructuredInformationOnTheDevice", "Structured information on the device"));
             _steps.Add(new WorkpackageStep("PreproductionDocuments", "Preproduction documents"));
         }
-
-        private void Apply(WorkpackageFourUnlockedEvent e)
-        {
-            IsUnLocked = true;
-        }
-        
+      
         private void Apply(WorkpackageFourStepEdited e)
         {
             var step = GetSingleStep(e.StepId);
