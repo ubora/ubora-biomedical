@@ -55,7 +55,6 @@ namespace Ubora.Domain.Projects.StructuredInformations
             if (Id == default(Guid)) throw new InvalidOperationException();
             if (ProjectId == default(Guid)) throw new InvalidOperationException();
 
-            Id = e.DeviceStructuredInformationId;
             WorkpackageType = e.WorkpackageType;
             UserAndEnvironment = e.UserAndEnvironmentInformation ?? throw new InvalidOperationException();
             IsUserAndEnvironmentEdited = true;
@@ -66,7 +65,6 @@ namespace Ubora.Domain.Projects.StructuredInformations
             if (Id == default(Guid)) throw new InvalidOperationException();
             if (ProjectId == default(Guid)) throw new InvalidOperationException();
 
-            Id = e.DeviceStructuredInformationId;
             WorkpackageType = e.WorkpackageType;
             HealthTechnologySpecification =
                 e.HealthTechnologySpecificationsInformation ?? throw new InvalidOperationException();

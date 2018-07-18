@@ -21,9 +21,9 @@ namespace Ubora.Domain.Projects.StructuredInformations.Commands
             public override ICommandResult Handle(EditHealthTechnologySpecificationInformationCommand cmd)
             {
                 var project = DocumentSession.LoadOrThrow<Project>(cmd.ProjectId);
-
+                var deviceStructuredInformation = DocumentSession.LoadOrThrow<DeviceStructuredInformation>(cmd.DeviceStructuredInformationId);
+                
                 var @event = new HealthTechnologySpecificationInformationWasEditedEvent(
-                    deviceStructuredInformationId: cmd.DeviceStructuredInformationId,
                     workpackageType: cmd.WorkpackageType,
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
