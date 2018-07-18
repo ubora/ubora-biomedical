@@ -1,4 +1,4 @@
-import MarkdownRenderer from './modules/markdown_renderer';
+﻿import MarkdownRenderer from './modules/markdown_renderer';
 import MarkdownEditor from './modules/markdown_editor';
 import Autocomplete from './modules/autocomplete';
 import Feedback from './modules/feedback';
@@ -6,11 +6,11 @@ import Feedback from './modules/feedback';
 import '../Styles/styles';
 
 $(function () {
+    // Bootstrap tooltips/popovers
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="popover"]').popover();
-});
 
-$(function () {
+    // Clipboard
     const clipboard = new ClipboardJS('.js-clipboard');
 
     clipboard.on('success', function (e) {
@@ -29,14 +29,39 @@ $(function () {
         $trigger.attr('data-original-title', message).tooltip('show');
         $trigger.attr('data-original-title', initialTitle);
     }
-});
 
-$(function () {
+    // Disable form button when submitted & and don't ask confirmation about navigating away
     $('form').on('submit', function () {
-        if ($(this).valid()) {
-            $(this).find('button[type=submit]').prop('disabled', true);
+        const $this = $(this);
+        if ($this.valid()) {
+            window.onbeforeunload = null;
+            $this.find('button[type=submit]').prop('disabled', true);
         }
     });
+
+    var possiblyChangedForms = [];
+
+    // Ask whether the user wants to navigate away
+    $('form[method="post"]')
+        .each(function (i, element) {
+            const $form = $(element);
+
+            if ($form.hasClass('js-disable-onbeforeunload')) {
+                return;
+            };
+
+            possiblyChangedForms.push({ form: $form, initialSerialize: $form.serialize() })
+        })
+        .on('change', function () {
+            window.onbeforeunload = null;
+
+            possiblyChangedForms.forEach(function (item) {
+                if (item.form.serialize() !== item.initialSerialize) {
+                    window.onbeforeunload = function () { return true };
+                    return;
+                }
+            });
+        })
 });
 
 global.UBORA = {};

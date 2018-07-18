@@ -11,7 +11,6 @@ using Ubora.Domain.Projects.Candidates.Specifications;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Domain.Projects.Workpackages.Queries;
 using Ubora.Domain.Projects._Commands;
-using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
@@ -98,9 +97,15 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             return RedirectToAction(nameof(Voting), "Candidates");
         }
 
-        [Authorize(Policies.CanRemoveCandidate)]
-        public IActionResult RemoveCandidate(Guid candidateId)
+        public async Task<IActionResult> RemoveCandidate(Guid candidateId)
         {
+            var candidate = QueryProcessor.FindById<Candidate>(candidateId);
+            var canRemoveCandidate = (await AuthorizationService.AuthorizeAsync(User, candidate, Policies.CanRemoveCandidate)).Succeeded;
+            if (!canRemoveCandidate)
+            {
+                return Forbid();
+            }
+
             var model = new RemoveCandidateViewModel
             {
                 CandidateId = candidateId
@@ -110,9 +115,15 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
         }
 
         [HttpPost]
-        [Authorize(Policies.CanRemoveCandidate)]
-        public IActionResult RemoveCandidate(RemoveCandidateViewModel model)
+        public async Task<IActionResult> RemoveCandidate(RemoveCandidateViewModel model)
         {
+            var candidate = QueryProcessor.FindById<Candidate>(model.CandidateId);
+            var canRemoveCandidate = (await AuthorizationService.AuthorizeAsync(User, candidate, Policies.CanRemoveCandidate)).Succeeded;
+            if (!canRemoveCandidate)
+            {
+                return Forbid();
+            }
+
             ExecuteUserProjectCommand(new RemoveCandidateCommand
             {
                 CandidateId = model.CandidateId
@@ -129,22 +140,34 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             return View(nameof(Candidate), model);
         }
 
-        [Authorize(Policies.CanEditProjectCandidate)]
-        public IActionResult EditCandidate(Guid candidateId)
+        
+        public async Task<IActionResult> EditCandidate(Guid candidateId)
         {
             var candidate = QueryProcessor.FindById<Candidate>(candidateId);
+            var canEditProjectCandidate = (await AuthorizationService.AuthorizeAsync(User, candidate, Policies.CanEditProjectCandidate)).Succeeded;
+            if (!canEditProjectCandidate)
+            {
+                return Forbid();
+            }
+
             var model = AutoMapper.Map<EditCandidateViewModel>(candidate);
 
             return View(nameof(EditCandidate), model);
         }
 
         [HttpPost]
-        [Authorize(Policies.CanEditProjectCandidate)]
-        public IActionResult EditCandidate(EditCandidateViewModel model)
+        public async Task<IActionResult> EditCandidate(EditCandidateViewModel model)
         {
+            var candidate = QueryProcessor.FindById<Candidate>(model.Id);
+            var canEditProjectCandidate = (await AuthorizationService.AuthorizeAsync(User, candidate, Policies.CanEditProjectCandidate)).Succeeded;
+            if (!canEditProjectCandidate)
+            {
+                return Forbid();
+            }
+
             if (!ModelState.IsValid)
             {
-                return EditCandidate(model.Id);
+                return await EditCandidate(model.Id);
             }
 
             ExecuteUserProjectCommand(new EditCandidateCommand
@@ -156,28 +179,39 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 
             if (!ModelState.IsValid)
             {
-                return EditCandidate(model.Id);
+                return await EditCandidate(model.Id);
             }
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
         }
 
-        [Authorize(Policies.CanChangeProjectCandidateImage)]
-        public IActionResult EditCandidateImage(Guid candidateId)
+        public async Task<IActionResult> EditCandidateImage(Guid candidateId)
         {
             var candidate = QueryProcessor.FindById<Candidate>(candidateId);
+            var canChangeProjectCandidateImage = (await AuthorizationService.AuthorizeAsync(User, candidate, Policies.CanChangeProjectCandidateImage)).Succeeded;
+            if (!canChangeProjectCandidateImage)
+            {
+                return Forbid();
+            }
+
             var model = AutoMapper.Map<EditCandidateImageViewModel>(candidate);
 
             return View(nameof(EditCandidateImage), model);
         }
 
         [HttpPost]
-        [Authorize(Policies.CanChangeProjectCandidateImage)]
         public async Task<IActionResult> EditCandidateImage(EditCandidateImageViewModel model)
         {
+            var candidate = QueryProcessor.FindById<Candidate>(model.Id);
+            var canChangeProjectCandidateImage = (await AuthorizationService.AuthorizeAsync(User, candidate, Policies.CanChangeProjectCandidateImage)).Succeeded;
+            if (!canChangeProjectCandidateImage)
+            {
+                return Forbid();
+            }
+
             if (!ModelState.IsValid)
             {
-                return EditCandidateImage(model.Id);
+                return await EditCandidateImage(model.Id);
             }
 
             var imageLocation = BlobLocations.GetProjectCandidateBlobLocation(ProjectId, model.Id);
@@ -192,28 +226,38 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 
             if (!ModelState.IsValid)
             {
-                return EditCandidateImage(model.Id);
+                return await EditCandidateImage(model.Id);
             }
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
         }
 
-        [Authorize(Policies.CanRemoveProjectCandidateImage)]
-        public IActionResult RemoveCandidateImage(Guid candidateId)
+        public async Task<IActionResult> RemoveCandidateImage(Guid candidateId)
         {
             var candidate = QueryProcessor.FindById<Candidate>(candidateId);
+            var canChangeProjectCandidateImage = (await AuthorizationService.AuthorizeAsync(User, candidate, Policies.CanRemoveProjectCandidateImage)).Succeeded;
+            if (!canChangeProjectCandidateImage)
+            {
+                return Forbid();
+            }
             var model = AutoMapper.Map<RemoveCandidateImageViewModel>(candidate);
 
             return View(nameof(RemoveCandidateImage), model);
         }
 
         [HttpPost]
-        [Authorize(Policies.CanRemoveProjectCandidateImage)]
         public async Task<IActionResult> RemoveCandidateImage(RemoveCandidateImageViewModel model)
         {
+            var candidate = QueryProcessor.FindById<Candidate>(model.Id);
+            var canChangeProjectCandidateImage = (await AuthorizationService.AuthorizeAsync(User, candidate, Policies.CanRemoveProjectCandidateImage)).Succeeded;
+            if (!canChangeProjectCandidateImage)
+            {
+                return Forbid();
+            }
+
             if (!ModelState.IsValid)
             {
-                return RemoveCandidateImage(model.Id);
+                return await RemoveCandidateImage(model.Id);
             }
 
             await _imageStorageProvider.DeleteImagesAsync(BlobLocations.GetProjectCandidateBlobLocation(ProjectId, model.Id));
@@ -226,7 +270,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 
             if (!ModelState.IsValid)
             {
-                return RemoveCandidateImage(model.Id);
+                return await RemoveCandidateImage(model.Id);
             }
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.Id });
@@ -356,6 +400,17 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             if (!ModelState.IsValid)
             {
                 Notices.NotifyOfError("Failed to open work package 3!");
+                return await Voting(candidateItemViewModelFactory);
+            }
+            
+            ExecuteUserProjectCommand(new OpenWorkpackageFourCommand(), Notice.Success("WP4 opened"));
+            if (!ModelState.IsValid)
+            {
+                var message = string.Join(" | ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+                
+                Notices.NotifyOfError(message);
                 return await Voting(candidateItemViewModelFactory);
             }
 

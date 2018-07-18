@@ -5,7 +5,7 @@ namespace Ubora.Web.Tests
 {
     public class PagedListStub<T> : List<T>, IPagedList<T>
     {
-        public int Count { get; }
+        public new int Count { get; }
         public int PageNumber { get; }
         public int PageSize { get; }
         public int PageCount { get; }
