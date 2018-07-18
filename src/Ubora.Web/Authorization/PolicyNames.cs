@@ -1,7 +1,5 @@
 ﻿public class Policies
 {
-    public class Policies
-    {
         public const string CanViewProjectNonPublicContent = nameof(CanViewProjectNonPublicContent);
         public const string CanWorkOnProjectContent = nameof(CanWorkOnProjectContent);
         public const string ProjectController = nameof(ProjectController);
@@ -37,6 +35,5 @@
         public const string CanUnlockWorkPackage = nameof(CanUnlockWorkPackage);
         public const string CanEditAndViewUnlockedWorkPackageThree = nameof(CanEditAndViewUnlockedWorkPackageThree);
         public const string CanEditAndViewUnlockedWorkPackageFour = nameof(CanEditAndViewUnlockedWorkPackageFour);
-    }
-    public const string CanManageResources = nameof(CanManageResources);
+        public const string CanManageResources = nameof(CanManageResources);
 }

@@ -22,6 +22,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
         {
             get
             {
+                if (IsLocked)
+                {
+                    return "unlocked-status";
+                }
                 if (IsSelected)
                 {
                     return "active-status";
