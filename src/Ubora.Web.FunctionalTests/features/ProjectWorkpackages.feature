@@ -243,7 +243,7 @@ Scenario: I edit Health technology specifications form
     When I click on the element "=Design planning"
         And I click on the element "=WP 2: Conceptual design"
         And I click on the element "=Structured information on the device"
-        And I click on the element "/html/body/main/div[2]/div/div[2]/div[2]/div/div/a/span"
+        And I click on the element "(//span[contains(text(),'Edit')])[last()]"
     Then I expect the title of the page "Health technology specifications - UBORA"
     When I set value "111" to the element "#DeviceMeasurementsViewModel_DimensionsHeight"
         And I set value "222" to the element "#DeviceMeasurementsViewModel_DimensionsLength"
@@ -341,18 +341,11 @@ Scenario: I edit Health technology specifications form
         And I expect the element "p=Additional sound / light control facilities" is visible
         And I expect the element "p=There are some more facility requirements!" is visible
         And I expect the title of the page "Structured information on the device - UBORA"
-
-Scenario: I open WP3
-    When I click on the element "=Design planning"
-        And I click on the element "=WP 2: Conceptual design"
-        And I click on the element "=Voting"
-        And I click on the element "span=Open “WP3: Design and prototyping”"
-    Then I expect the element "h5=Open “Work package 3: design and prototyping”" is visible
-    When I click on the element "button=Open"
-    Then I expect the element "p=WP3 opened successfully" is visible
     
 Scenario: I click and edit two last WP3 work packages
     When I click on the element "=Design planning"
+        And I click on the element "=WP 3: Design and prototyping"
+        And I click on the element "(//span[contains(text(),'Open WP 3: Design and prototyping')])[last()]"
         And I click on the element "=WP 3: Design and prototyping"
         And I click on the element "=Design for ISO testing compliance"
     Then I expect the title of the page "Design for ISO testing compliance - UBORA"
