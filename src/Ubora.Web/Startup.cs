@@ -108,7 +108,10 @@ namespace Ubora.Web
                 services.AddSingleton<TestUserSeeder>();
                 services.AddSingleton<TestProjectSeeder>();
                 services.AddSingleton<TestMentorSeeder>();
-                services.AddMiniProfiler().AddEntityFramework();
+                services.AddMiniProfiler(options =>
+                {
+                    options.IgnoredPaths.Add("dist");
+                }).AddEntityFramework();
             }
 
             services.AddSingleton<ApplicationDataSeeder>();
