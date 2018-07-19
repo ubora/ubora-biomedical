@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Npgsql;
 using Ubora.Web.Infrastructure.Storage;
 using Microsoft.AspNetCore.Mvc;
+using StackExchange.Profiling;
 
 namespace Ubora.Web
 {
@@ -77,6 +78,7 @@ namespace Ubora.Web
                 .AddMvc(options =>
                 {
                     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                    options.AddStringTrimmingProvider();
                 })
                 .AddUboraFeatureFolders(new FeatureFolderOptions {FeatureFolderName = "_Features"});
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
@@ -106,6 +108,7 @@ namespace Ubora.Web
                 services.AddSingleton<TestUserSeeder>();
                 services.AddSingleton<TestProjectSeeder>();
                 services.AddSingleton<TestMentorSeeder>();
+                services.AddMiniProfiler().AddEntityFramework();
             }
 
             services.AddSingleton<ApplicationDataSeeder>();
@@ -154,6 +157,8 @@ namespace Ubora.Web
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
+                //For more details on using MiniProfiler https://miniprofiler.com/dotnet/AspDotNetCore
+                app.UseMiniProfiler();
             }
             else
             {
