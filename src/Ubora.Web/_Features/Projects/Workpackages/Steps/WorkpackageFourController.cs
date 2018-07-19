@@ -207,7 +207,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                     .Select(e => e.ErrorMessage));
                 
                 Notices.NotifyOfError(message);
-                return View(nameof(UnlockConfirmation));
+                return RedirectToAction("ProjectOverview","WorkpackageOne");
             }
             
             return RedirectToAction("ProjectOverview","WorkpackageOne");

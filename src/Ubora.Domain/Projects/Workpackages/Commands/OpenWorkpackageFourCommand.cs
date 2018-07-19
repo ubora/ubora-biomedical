@@ -19,10 +19,6 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
             public override ICommandResult Handle(OpenWorkpackageFourCommand cmd)
             {
                 var workpackageOne = DocumentSession.LoadOrThrow<WorkpackageOne>(cmd.ProjectId);
-                if (!workpackageOne.HasBeenAccepted)
-                {
-                    return CommandResult.Failed("Work package one hasn't been accepted.");
-                } 
                 var workpackageTwo = DocumentSession.LoadOrThrow<WorkpackageTwo>(cmd.ProjectId);
  
                 var workPackageFour = DocumentSession.Load<WorkpackageFour>(cmd.ProjectId);
