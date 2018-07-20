@@ -4,9 +4,9 @@ using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.IsoStandardsCompliances.Events
 {
-    public class IsoStandardAddedToChecklistEvent : ProjectEvent
+    public class IsoStandardAddedToComplianceChecklistEvent : ProjectEvent
     {
-        public IsoStandardAddedToChecklistEvent(UserInfo initiatedBy, Guid projectId, Guid aggregateId, string title, string shortDescription, Uri link)
+        public IsoStandardAddedToComplianceChecklistEvent(UserInfo initiatedBy, Guid projectId, Guid aggregateId, string title, string shortDescription, Uri link)
             : base(initiatedBy, projectId)
         {
             AggregateId = aggregateId;
@@ -20,9 +20,6 @@ namespace Ubora.Domain.Projects.IsoStandardsCompliances.Events
         public string ShortDescription { get; }
         public Uri Link { get; }
 
-        public override string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
+        public override string GetDescription() => "added ISO standard to compliance checklist.";
     }
 }

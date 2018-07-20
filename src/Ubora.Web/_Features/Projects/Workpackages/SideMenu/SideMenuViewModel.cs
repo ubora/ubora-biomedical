@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Workpackages.Queries;
+using Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances;
 using Ubora.Web._Features._Shared.LeftSideMenu;
 
 namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
@@ -116,7 +117,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                     {
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "PrototypesAndConsiderationsForSafetyAssessment","Prototypes and considerations for safety assessment", href: Wp4StepLink("PrototypesAndConsiderationsForSafetyAssessment")),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "QualityCriteria","Quality criteria", href: Wp4StepLink("QualityCriteria")),
-                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "IsoCompliance","ISO compliance", href: "#"),
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "IsoCompliance","ISO compliance", href: _urlHelper.Action(nameof(IsoCompliancesController.Index), nameof(IsoCompliancesController).RemoveSuffix())),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "ResultsFromVitroOrVivo","Results from vitro/vivo", href: Wp4StepLink("ResultsFromVitroOrVivo")),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "WP4StructuredInformationOnTheDevice","Structured information on the device", href: _urlHelper.Action("StructuredInformationOnTheDevice", "WorkpackageFour")),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "PreproductionDocuments","Preproduction documents", href: "#"),

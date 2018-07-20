@@ -4,9 +4,9 @@ using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.IsoStandardsCompliances.Events
 {
-    public class IsoStandardRemovedFromChecklistEvent : ProjectEvent
+    public class IsoStandardRemovedFromComplianceChecklistEvent : ProjectEvent
     {
-        public IsoStandardRemovedFromChecklistEvent(UserInfo initiatedBy, Guid projectId, Guid aggregateId, Guid isoStandardId) : base(initiatedBy, projectId)
+        public IsoStandardRemovedFromComplianceChecklistEvent(UserInfo initiatedBy, Guid projectId, Guid aggregateId, Guid isoStandardId) : base(initiatedBy, projectId)
         {
             AggregateId = aggregateId;
             IsoStandardId = isoStandardId;
@@ -15,9 +15,6 @@ namespace Ubora.Domain.Projects.IsoStandardsCompliances.Events
         public Guid AggregateId { get; }
         public Guid IsoStandardId { get; set; }
 
-        public override string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
+        public override string GetDescription() => "removed ISO standard from the compliance checklist.";
     }
 }

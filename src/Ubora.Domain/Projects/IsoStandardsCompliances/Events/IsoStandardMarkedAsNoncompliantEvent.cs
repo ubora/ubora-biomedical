@@ -15,9 +15,6 @@ namespace Ubora.Domain.Projects.IsoStandardsCompliances.Events
         public Guid AggregateId { get; }
         public Guid IsoStandardId { get; }
 
-        public override string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
+        public override string GetDescription() => "marked ISO standard as non-compliant.";
     }
 }

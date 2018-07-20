@@ -1,0 +1,37 @@
+﻿@model IsoStandardIndexVieModel
+
+@{
+    var collapsibleId = "short-description-for-iso-standard-" + Model.IsoStandardId;
+}
+
+<div class="d-flex justify-content-between">
+    <div class="custom-control custom-checkbox">
+        @{
+            var controllerAction = Model.IsMarkedAsCompliant ? nameof(IsoCompliancesController.MarkAsNoncompliant) : nameof(IsoCompliancesController.MarkAsCompliant);
+            var isoCheckboxId = "checkbox-for-" + Model.IsoStandardId;
+        }
+        <form asp-action="@controllerAction" asp-controller="@nameof(IsoCompliancesController).RemoveSuffix()">
+            <input type="hidden" value="@Model.IsoStandardId" name="@nameof(Model.IsoStandardId)" />
+            <input type="checkbox" class="custom-control-input js-iso-checkbox" checked="@Model.IsMarkedAsCompliant" id="@isoCheckboxId"/>
+            <label class="custom-control-label" for="@isoCheckboxId">
+                <a href="@Model.Link" target="_blank">@Model.Title</a>
+            </label>
+        </form>
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model.ShortDescription))
+    {
+        <button class="btn btn-icon align-self-start py-0" type="button" data-toggle="collapse" data-target="#@collapsibleId" aria-expanded="false" aria-controls="@collapsibleId">
+            <i class="material-icons">
+                keyboard_arrow_down
+            </i>
+        </button>
+    }
+</div>
+@if (!string.IsNullOrWhiteSpace(Model.ShortDescription))
+{
+    <div class="collapse" id="@collapsibleId">
+        <div class="py-2 px-4">
+            @Model.ShortDescription
+        </div>
+    </div>
+}

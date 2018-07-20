@@ -14,7 +14,7 @@ namespace Ubora.Domain.Projects.IsoStandardsCompliances
         public Guid ProjectId { get; private set; }
         public ImmutableList<IsoStandard> IsoStandards { get; private set; } = ImmutableList<IsoStandard>.Empty;
 
-        private void Apply(IsoStandardAddedToChecklistEvent @event)
+        private void Apply(IsoStandardAddedToComplianceChecklistEvent @event)
         {
             if (@event.AggregateId != Id)
                 throw new InvalidOperationException();
@@ -24,7 +24,7 @@ namespace Ubora.Domain.Projects.IsoStandardsCompliances
             IsoStandards = IsoStandards.Add(value);
         }
 
-        private void Apply(IsoStandardRemovedFromChecklistEvent @event)
+        private void Apply(IsoStandardRemovedFromComplianceChecklistEvent @event)
         {
             if (@event.AggregateId != Id)
                 throw new InvalidOperationException();

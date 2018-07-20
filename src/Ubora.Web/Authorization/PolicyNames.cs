@@ -33,4 +33,5 @@
     public const string CanUpdateFileRepository = nameof(CanUpdateFileRepository);
     public const string CanPromoteMember = nameof(CanPromoteMember);
     public const string CanManageResources = nameof(CanManageResources);
+    public const string CanRemoveIsoStandardFromComplianceChecklist = nameof(CanRemoveIsoStandardFromComplianceChecklist);
 }
