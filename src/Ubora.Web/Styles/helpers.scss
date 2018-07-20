@@ -94,6 +94,10 @@
     background-color: $blue;
 }
 
+.bg-dark-blue {
+    background-color: $dark-blue;
+}
+
 .bg-dark {
     background-color: $dark;
 }
@@ -102,6 +106,15 @@
     background-color: $quartinary-shade;
 }
 
+hr {
+    &.light {
+        border-color: $white;
+    }
+
+    &.dark {
+        border-color: $black;
+    }
+}
 
 /* text colors */
 .text-faded-dark {
