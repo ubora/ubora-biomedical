@@ -209,14 +209,7 @@ a.no-underline {
     position: absolute;
 }
 
-.dropdown-menu-right {
-    position: absolute;
-    transform: translate3d(-10px, 38px, 0px);
-    top: 0px;
-    left: auto;
-    will-change: transform;
-    right: 0;
-}
+
 
 @include media-breakpoint-down(xs) {
     .mt-xs-2 {

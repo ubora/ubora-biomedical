@@ -27,31 +27,35 @@
                 (in-development preview)
             </div>
         </div>
-        <div class="d-flex align-items-center">
-            <a class="nav-link nav-link-notification navbar-toggler" asp-controller="Notifications" asp-action="Index">
+        <div class="navbar-md">
+            <a class="nav-link nav-link-notification" asp-controller="Notifications" asp-action="Index">
                 @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
             </a>
-            <div class="btn-group navbar-toggler">
+            <div class="btn-group">
                 <button type="button" class="btn btn-icon dropdown-toggle py-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="@User.GetProfilePictureUrl()" class="avatar" />
-                    <span>@User.GetFirstName()</span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
+                    <p class="dropdown-header">
+                        <b>@User.GetFullName()</b>
+                        <span class="d-block">@User.GetEmail()</span>
+                    </p>
+                    <div class="dropdown-divider"></div>
                     <div class="dropdown-item">
-                        <a class="d-flex align-items-center" asp-controller="Manage" asp-action="Index">
+                        <a asp-controller="Manage" asp-action="Index">
                             Profile settings
                         </a>
                     </div>
                     <div class="dropdown-item">
                         <form asp-action="Logout" asp-controller="Account" method="post">
-                            <button class="btn btn-link p-0" type="submit">
+                            <button class="btn btn-link p-0 btn-block d-flex justify-content-start " type="submit">
                                 Log out
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
-            <button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
                 <i class="material-icons">menu</i>
             </button>
         </div>
@@ -96,14 +100,13 @@
                     <img src="@User.GetProfilePictureUrl()" class="avatar" />
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
-                    
-                    @*TODO: K2rolin*@
-                    <p class="dropdown-header"><b>@User.GetFullName()</b></p>
-                    <p class="dropdown-header">@User.GetEmail()</p>
+                    <p class="dropdown-header">
+                        <b>@User.GetFullName()</b>
+                        <span class="d-block">@User.GetEmail()</span>
+                    </p>
                     <div class="dropdown-divider"></div>
-
                     <div class="dropdown-item">
-                        <a class="d-flex align-items-center" asp-controller="Manage" asp-action="Index">
+                        <a asp-controller="Manage" asp-action="Index">
                             Profile settings
                         </a>
                     </div>
