@@ -40,6 +40,7 @@ namespace Ubora.Web.Services
 
             var userProfile = _queryProcessor.FindById<UserProfile>(user.Id);
             claimsIdentity.AddClaim(new Claim(ApplicationUser.FullNameClaimType, userProfile.FullName));
+            claimsIdentity.AddClaim(new Claim(ApplicationUser.FirstNameClaimType, userProfile.FirstName));
 
             var profilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile);
             claimsIdentity.AddClaim(new Claim(ApplicationUser.ProfilePictureUrlClaimType, profilePictureUrl));
