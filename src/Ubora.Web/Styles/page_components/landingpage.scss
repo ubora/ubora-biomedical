@@ -29,7 +29,16 @@
                 color: $white;
                 font-weight: 400;
             }
+
+            &.masthead-loggedin {
+                background-image: url("../images/icons/ubora-logo.svg");
+                background-position: 91%;
+                background-size: auto;
+                background-repeat: no-repeat;
+            }
         }
+
+
 
         .container-fluid {
             z-index: 1;
@@ -92,6 +101,11 @@
         min-height: 650px;
         padding-top: 0;
         padding-bottom: 0;
+
+        &.masthead-loggedin {
+            height: 40vh;
+            min-height: 400px;
+        }
     }
 
     header.masthead h1 {
@@ -107,7 +121,6 @@
     header.masthead h1 {
         font-size: 2rem;
     }
-
 }
 
 

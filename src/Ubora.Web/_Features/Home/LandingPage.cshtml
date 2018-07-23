@@ -3,32 +3,50 @@
 
 
 <div class="landing-page">
-    <header class="masthead text-center d-flex ">
-        <div class="container-fluid my-auto">
-            <div class="row">
-                <div class="col-xl-8 col-lg-10 px-5 mx-auto">
-                    <h1>
-                        <strong>UBORA: Euro-African Open Biomedical Engineering e-platform for Innovation through Education</strong>
-                    </h1>
-                    <hr class="light">
-                </div>
-                <div class="col-xl-6 col-lg-8 mx-auto">
-                    <p class="text-faded mb-5">The EU funded project aims at creating an e-platform – UBORA – for open-source co-design of new solutions to face the current and future healthcare challenges of Europe and Africa; by exploiting networking, knowledge on rapid prototyping of new ideas and sharing of safety criteria and performance data.</p>
-                </div>
-                <div class="col-lg-8 mx-auto">
-                    <a class="btn btn-outline-light btn-primary btn-lg mx-lg-1" href="http://ubora-biomedical.org/" target="_blank">Read latest news on our blog</a>
-                    <a class="btn btn-cta btn-primary btn-lg mx-lg-1 js-animate-scroll" role="button" href="#signUpToUbora">Sign up to UBORA e-platform</a>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <header class="masthead text-center d-flex ">
+            <div class="container-fluid my-auto">
+                <div class="row">
+                    <div class="col-xl-8 col-lg-10 px-5 mx-auto">
+                        <h1>
+                            <strong>UBORA: Euro-African Open Biomedical Engineering e-platform for Innovation through Education</strong>
+                        </h1>
+                        <hr class="light">
+                    </div>
+                    <div class="col-xl-6 col-lg-8 mx-auto">
+                        <p class="text-faded mb-5">The EU funded project aims at creating an e-platform – UBORA – for open-source co-design of new solutions to face the current and future healthcare challenges of Europe and Africa; by exploiting networking, knowledge on rapid prototyping of new ideas and sharing of safety criteria and performance data.</p>
+                    </div>
+                    <div class="col-lg-8 mx-auto">
+                        <a class="btn btn-outline-light btn-primary btn-lg mx-lg-1" href="http://ubora-biomedical.org/" target="_blank">Read latest news on our blog</a>
+                        <a class="btn btn-cta btn-primary btn-lg mx-lg-1 js-animate-scroll" role="button" href="#signUpToUbora">Sign up to UBORA e-platform</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="pull-down">
-            <a class="ct-js-btn-scroll js-animate-scroll" href="#publicProjects">
-                <i class="material-icons text-faded">keyboard_arrow_down</i>
-            </a>
-        </div>
-    </header>
+            <div class="pull-down">
+                <a class="ct-js-btn-scroll js-animate-scroll" href="#publicProjects">
+                    <i class="material-icons text-faded">keyboard_arrow_down</i>
+                </a>
+            </div>
+        </header>
+    }
 
-    <section class="bg-light text-center">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <header class="masthead masthead-loggedin text-center d-flex ">
+            <div class="container-fluid my-auto">
+                <div class="row">
+                    <div class="col-xl-8 col-lg-10 px-5 mx-auto">
+                        <h1>
+                            <strong>UBORA: Euro-African Open Biomedical Engineering e-platform for Innovation through Education</strong>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </header>
+    }
+
+    <section class="bg-light text-center py-5">
         <div class="container">
             <div class="row">
                 <div class="col">
@@ -254,83 +272,87 @@
         </div>
     </section>
 
-    <section>
-        <div id="signUpToUbora" class="container">
-            <div class="text-center">
-                <h2>Sign up to UBORA e-platform</h2>
-                <hr class="dark my-4">
-            </div>
-            <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="form-register js-disable-onbeforeunload" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="form-group">
-                            <label asp-for="Email">Email address</label>
-                            <input class="form-control" asp-for="Email" placeholder="email@example.com">
-                            <span asp-validation-for="Email"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label asp-for="FirstName">First name</label>
-                            <input class="form-control" asp-for="FirstName" placeholder="First name">
-                            <span asp-validation-for="FirstName"></span>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label asp-for="LastName">Last name</label>
-                            <input class="form-control" asp-for="LastName" placeholder="Last name">
-                            <span asp-validation-for="LastName"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label asp-for="Password">Password</label>
-                            <input class="form-control password-input" asp-for="Password" placeholder="Password" onfocus="show()">
-                            <ul class="pl-4 pt-1 text-muted hide" id="passwordHelper">
-                                <li><small>Password must have at least one digit ('0'-'9')</small></li>
-                                <li><small>Must contain one uppercase character ('A'-'Z')</small></li>
-                                <li><small>Must be at least 6 and at max 100 characters long</small></li>
-                            </ul>
-                            <span asp-validation-for="Password"></span>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label asp-for="ConfirmPassword">Confirm password</label>
-                            <input class="form-control" asp-for="ConfirmPassword" placeholder="Confirm password">
-                            <span asp-validation-for="ConfirmPassword"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="custom-control custom-checkbox my-4">
-                            <input type="checkbox" class="custom-control-input" asp-for="IsAgreedToTermsOfService" required>
-                            <label class="custom-control-label" asp-for="IsAgreedToTermsOfService">
-                                <span class="custom-control-description">I agree to </span>
-                                <a asp-controller="Account" asp-action="TermsOfService" target="_blank">Terms of Service</a>
-                            </label>
-                            <span asp-validation-for="IsAgreedToTermsOfService"></span>
-                        </div>
-                    </div>
-                </div>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <section>
+            <div id="signUpToUbora" class="container">
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-lg">Sign up</button>
+                    <h2>Sign up to UBORA e-platform</h2>
+                    <hr class="dark my-4">
                 </div>
-                <div class="mt-4 text-center">
-                    <span>Already signed up?</span>
-                    <a asp-controller="Account" asp-action="Login">Log in</a>
-                </div>
-            </form>
-        </div>
-    </section>
-</div>
+                <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="form-register js-disable-onbeforeunload" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="form-group">
+                                <label asp-for="Email">Email address</label>
+                                <input class="form-control" asp-for="Email" placeholder="email@example.com">
+                                <span asp-validation-for="Email"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label asp-for="FirstName">First name</label>
+                                <input class="form-control" asp-for="FirstName" placeholder="First name">
+                                <span asp-validation-for="FirstName"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label asp-for="LastName">Last name</label>
+                                <input class="form-control" asp-for="LastName" placeholder="Last name">
+                                <span asp-validation-for="LastName"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label asp-for="Password">Password</label>
+                                <input class="form-control password-input" asp-for="Password" placeholder="Password" onfocus="show()">
+                                <ul class="pl-4 pt-1 text-muted hide" id="passwordHelper">
+                                    <li><small>Password must have at least one digit ('0'-'9')</small></li>
+                                    <li><small>Must contain one uppercase character ('A'-'Z')</small></li>
+                                    <li><small>Must be at least 6 and at max 100 characters long</small></li>
+                                </ul>
+                                <span asp-validation-for="Password"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label asp-for="ConfirmPassword">Confirm password</label>
+                                <input class="form-control" asp-for="ConfirmPassword" placeholder="Confirm password">
+                                <span asp-validation-for="ConfirmPassword"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="custom-control custom-checkbox my-4">
+                                <input type="checkbox" class="custom-control-input" asp-for="IsAgreedToTermsOfService" required>
+                                <label class="custom-control-label" asp-for="IsAgreedToTermsOfService">
+                                    <span class="custom-control-description">I agree to </span>
+                                    <a asp-controller="Account" asp-action="TermsOfService" target="_blank">Terms of Service</a>
+                                </label>
+                                <span asp-validation-for="IsAgreedToTermsOfService"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">Sign up</button>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <span>Already signed up?</span>
+                        <a asp-controller="Account" asp-action="Login">Log in</a>
+                    </div>
+                </form>
+            </div>
+        </section>
+    }
+
+    </div>
 
 <script>
     function show() {
