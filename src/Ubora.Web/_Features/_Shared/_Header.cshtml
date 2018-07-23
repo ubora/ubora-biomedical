@@ -76,11 +76,6 @@
                         <span class="nav-link-description ml-1">Community</span>
                     </a>
                 </li>
-                <li class="nav-item notification-item">
-                    <a class="nav-link nav-link-notification d-flex align-items-center" asp-controller="Notifications" asp-action="Index" title="Notifications">
-                        @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
-                    </a>
-                </li>
                 @if (User.IsInRole(ApplicationRole.Admin))
                 {
                     <li class="nav-item">
@@ -90,13 +85,23 @@
                         </a>
                     </li>
                 }
+                <li class="nav-item notification-item">
+                    <a class="nav-link nav-link-notification d-flex align-items-center" asp-controller="Notifications" asp-action="Index" title="Notifications">
+                        @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
+                    </a>
+                </li>
             </ul>
             <div class="btn-group d-none d-lg-block">
                 <button type="button" class="btn btn-icon dropdown-toggle py-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="@User.GetProfilePictureUrl()" class="avatar"/>
-                    <span>@User.GetFirstName()</span>
+                    <img src="@User.GetProfilePictureUrl()" class="avatar" />
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
+                    
+                    @*TODO: K2rolin*@
+                    <p class="dropdown-header"><b>@User.GetFullName()</b></p>
+                    <p class="dropdown-header">@User.GetEmail()</p>
+                    <div class="dropdown-divider"></div>
+
                     <div class="dropdown-item">
                         <a class="d-flex align-items-center" asp-controller="Manage" asp-action="Index">
                             Profile settings
@@ -104,7 +109,7 @@
                     </div>
                     <div class="dropdown-item">
                         <form asp-action="Logout" asp-controller="Account" method="post">
-                            <button class="btn btn-link p-0" type="submit">
+                            <button class="btn btn-link p-0 btn-block d-flex justify-content-start " type="submit">
                                 Log out
                             </button>
                         </form>
