@@ -8,6 +8,11 @@
     a {
         color: $text-color;
         text-decoration: none;
+        display: block;
+
+        &:hover {
+            text-decoration: underline;
+        }
 
         &.muted-status {
             color: $tertiary-shade;
