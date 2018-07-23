@@ -22,11 +22,11 @@ string GetActivityCssClass(ProjectMenuOption menuOption)
 }
 
 <div class="project-header-container d-none d-lg-block">
-        <h1 class="my-3">
-            @ViewData["ProjectTitle"]
-        </h1>
-        <nav class="project-header nav nav-tabs flex-column flex-md-row justify-content-start">
-            <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Overview)" asp-controller="Dashboard" asp-action="Dashboard">@Model.MenuOptionNames[ProjectMenuOption.Overview]</a>
+    <h1 class="my-3">
+        @ViewData["ProjectTitle"]
+    </h1>
+    <nav class="project-header nav nav-tabs flex-column flex-md-row justify-content-start">
+        <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Overview)" asp-controller="Dashboard" asp-action="Dashboard">@Model.MenuOptionNames[ProjectMenuOption.Overview]</a>
 
         @if (canViewProjectNonPublicContent)
         {
@@ -55,7 +55,7 @@ string GetActivityCssClass(ProjectMenuOption menuOption)
 <div class="project-header-md d-md-block d-lg-none">
     <h1 class="text-center mb-0 my-2">@ViewData["ProjectTitle"]</h1>
     <div class="dropdown">
-        <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-icon dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             @Model.MenuOptionNames[Model.ActiveMenuOption]
         </button>
         <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton" id="projectNavMobile">
