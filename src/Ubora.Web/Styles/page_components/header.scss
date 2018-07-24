@@ -110,6 +110,8 @@
     }
 
     a {
+        color: $blue;
+
         &:active,
         &:hover {
             text-decoration: none;
@@ -132,11 +134,6 @@
 
         .navbar-nav .nav-item.notification-item {
             display: none;
-        }
-
-        img {
-            height: 2rem;
-            width: 2rem;
         }
     }
 }

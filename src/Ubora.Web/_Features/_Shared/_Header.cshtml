@@ -28,11 +28,16 @@
             </div>
         </div>
         <div class="navbar-md">
+            <div class="pl-2">
+                <button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
+                    <i class="material-icons">menu</i>
+                </button>
+            </div>
             <a class="nav-link nav-link-notification px-3" asp-controller="Notifications" asp-action="Index">
                 @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
             </a>
             <div class="btn-group">
-                <button type="button" class="btn btn-icon dropdown-toggle py-0 px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn btn-icon dropdown-toggle py-0 px-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="@User.GetProfilePictureUrl()" class="avatar" />
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -41,24 +46,15 @@
                         <span class="d-block">@User.GetEmail()</span>
                     </p>
                     <div class="dropdown-divider"></div>
-                    <div class="dropdown-item">
-                        <a asp-controller="Manage" asp-action="Index">
-                            Profile settings
-                        </a>
-                    </div>
-                    <div class="dropdown-item">
-                        <form asp-action="Logout" asp-controller="Account" method="post">
-                            <button class="btn btn-link p-0 btn-block d-flex justify-content-start " type="submit">
-                                Log out
-                            </button>
-                        </form>
-                    </div>
+                    <a class="dropdown-item" asp-controller="Manage" asp-action="Index">
+                        Profile settings
+                    </a>
+                    <form asp-action="Logout" asp-controller="Account" method="post">
+                        <button class="btn btn-link dropdown-item" type="submit">
+                            Log out
+                        </button>
+                    </form>
                 </div>
-            </div>
-            <div class="pl-2">
-                <button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
-                    <i class="material-icons">menu</i>
-                </button>
             </div>
         </div>
 
@@ -87,7 +83,7 @@
                     <li class="nav-item">
                         <a class="nav-link d-flex align-items-center" asp-controller="Admin" asp-action="Diagnostics" title="Manage UBORA">
                             <i class="material-icons">build</i>
-                            <span class="nav-link-description ml-1 d-block d-lg-none">Admin</span>
+                            <span class="nav-link-description ml-1">Admin</span>
                         </a>
                     </li>
                 }
@@ -99,7 +95,7 @@
             </ul>
             <div class="btn-group d-none d-lg-block">
                 <button type="button" class="btn btn-icon dropdown-toggle py-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="@User.GetProfilePictureUrl()" class="avatar"/>
+                    <img src="@User.GetProfilePictureUrl()" class="avatar" />
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <p class="dropdown-header">
@@ -107,18 +103,14 @@
                         <span class="d-block">@User.GetEmail()</span>
                     </p>
                     <div class="dropdown-divider"></div>
-                    <div class="dropdown-item">
-                        <a asp-controller="Manage" asp-action="Index">
-                            Profile settings
-                        </a>
-                    </div>
-                    <div class="dropdown-item">
-                        <form asp-action="Logout" asp-controller="Account" method="post">
-                            <button class="btn btn-link p-0 btn-block d-flex justify-content-start " type="submit">
-                                Log out
-                            </button>
-                        </form>
-                    </div>
+                    <a class="dropdown-item" asp-controller="Manage" asp-action="Index">
+                        Profile settings
+                    </a>
+                    <form asp-action="Logout" asp-controller="Account" method="post">
+                        <button class="btn btn-link dropdown-item" type="submit">
+                            Log out
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
