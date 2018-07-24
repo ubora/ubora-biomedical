@@ -26,22 +26,32 @@
             line-height: 1;
             font-weight: 600;
         }
+
+        &.unlocked-status {
+            color: $text-color;
+        }
+
+        &.unlocked-status::after {
+            font-family: 'Material Icons';
+            content: 'lock_open';
+            color: $secondary-shade;
+            vertical-align: middle;
+        }
+
+        img {
+            width: 2rem;
+        }
+    }
+    /*Lower level menu style*/
+    .side-menu-secondary {
+        padding-left: 1.5rem;
     }
 
-    img {
-        width: 2rem;
+    .side-menu-tertiary {
+        padding-left: 1.5rem;
     }
-}
 
-/*Lower level menu style*/
-.side-menu-secondary {
-    padding-left: 1.5rem;
-}
-
-.side-menu-tertiary {
-    padding-left: 1.5rem;
-}
-
-.side-menu-quaternary {
-    padding-left: 1.5rem;
+    .side-menu-quaternary {
+        padding-left: 1.5rem;
+    }
 }

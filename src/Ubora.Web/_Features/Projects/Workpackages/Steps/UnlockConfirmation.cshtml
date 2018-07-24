@@ -5,26 +5,34 @@
         ? "WorkpackageFour" : "WorkpackageThree";
 }
 
-<div class="col-xl-7 col-lg-9">
-    <div class="row">
-        <div class="col">
-            <h1>@ViewBag.Title</h1>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vitae tempus odio, pellentesque facilisis metus. Aliquam sit amet felis lectus. Quisque quis nibh velit. Vestibulum tristique malesuada est, sit amet aliquam tellus consequat ut.
-            </p>
-            <p>
-                Nullam at lectus a eros egestas mattis mollis eu purus. Nam consectetur ornare massa, quis ultrices felis lobortis non. Praesent diam mi, blandit vitae ante eget, tincidunt venenatis felis.
-            </p>
-            
-            @if(await AuthorizationService.IsAuthorizedAsync(User, Policies.CanUnlockWorkPackage))
-            {
-                <form asp-controller="@workpackage" asp-action="Unlock">
-                    <button type="submit" class="btn btn-outline-primary">
-                        <i class="material-icons">lock_open</i>
-                        <span>Open @ViewBag.Title</span>
-                    </button>
-                </form>
-            }
-        </div>
-    </div>
-</div>
+<h1>@ViewBag.Title</h1>
+@if (workpackageMenuOptionViewData == WorkpackageMenuOption.WorkpackageThreeLocked)
+{
+
+<p>
+    WP3 will drive you in the design and prototyping hardware, electronics, firmware and software of your medical device, whose concept is depicted in WP2.
+    For each part, you can propose already existing solutions, including commercially available parts and open source software libraries.
+</p>
+<p>
+    In the "Design for ISO design compliance" you can indicate the specific design solution to guarantee compliance with the relevant standards.
+</p>
+<p>
+    Finally, in the last section you should provide the step-by-step instructions for assembling the prototype of you medical device.
+</p>
+}
+else
+{
+   
+
+}
+
+
+@if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanUnlockWorkPackage))
+{
+    <form asp-controller="@workpackage" asp-action="Unlock">
+        <button type="submit" class="btn btn-outline-primary">
+            <i class="material-icons">lock_open</i>
+            <span>Open @ViewBag.Title</span>
+        </button>
+    </form>
+}
