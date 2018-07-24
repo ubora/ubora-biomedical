@@ -311,6 +311,13 @@ a.no-underline {
         min-height: -webkit-calc(100vh - 57px); /* google, safari */
         min-height: -moz-calc(100vh - 57px); /* firefox */
     }
+
+    .h-min-xl-100-footer {
+        min-height: calc(100vh - 246px);
+        min-height: -o-calc(100vh - 246px); /* opera */
+        min-height: -webkit-calc(100vh - 246px); /* google, safari */
+        min-height: -moz-calc(100vh - 246px); /* firefox */
+    }
 }
 
 @include media-breakpoint-up(lg) {
@@ -328,6 +335,7 @@ a.no-underline {
          min-height: -moz-calc(100vh - 246px); /* firefox */
     }
 }
+
 
 
 

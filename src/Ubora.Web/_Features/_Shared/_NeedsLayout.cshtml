@@ -19,7 +19,7 @@
     <main>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xl-2 col-lg-3 py-3 border-right h-min-lg-100-footer">
+                <div class="col-xl-2 col-lg-12 py-xl-3 pb-3 border-right h-min-xl-100-footer">
                     @{
                         var leftSection = RenderSection("Left", required: false);
                         if (leftSection != null)
@@ -29,17 +29,17 @@
                         else
                         {
                             <form>
-                                <div class="form-group">
+                                <div class="form-group mt-xl-0 mt-3">
                                     <input placeholder="Search..." class="form-control" type="text" />
                                 </div>
                             </form>
                         }
                     }
                 </div>
-                <div class="col-xl-8 col-lg-9 py-3 px-xl-9">
+                <div class="col-xl-8 col-lg-8 py-xl-3 px-xl-9 pb-3 order-lg-1 order-2">
                     @RenderBody()
                 </div>
-                <div class="col-xl-2 py-3 d-none d-xl-block @(IsSectionDefined("Right") ? "border-left" : "")" >
+                <div class="col-xl-2 py-xl-3 col-lg-4 order-lg-2 order-1 pb-3 @(IsSectionDefined("Right") ? "border-left" : "")" >
                     @RenderSection("Right", required: false)
                 </div>
             </div>
