@@ -1,9 +1,8 @@
 ﻿namespace Ubora.Domain.Projects.StructuredInformations
 {
-    public enum WorkpackageType
+    public enum DeviceStructuredInformationWorkpackageTypes
     {
         Two = 0,
-        Three = 1,
-        Four = 2
+        Four = 1
     }
 }

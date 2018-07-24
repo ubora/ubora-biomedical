@@ -9,7 +9,7 @@ namespace Ubora.Domain.Projects.StructuredInformations.Commands
     public class EditHealthTechnologySpecificationInformationCommand : UserProjectCommand
     {
         public Guid DeviceStructuredInformationId { get; set; }
-        public WorkpackageType WorkpackageType { get; set; }
+        public DeviceStructuredInformationWorkpackageTypes WorkpackageType { get; set; }
         public HealthTechnologySpecificationsInformation HealthTechnologySpecificationsInformation { get; set; }
 
         internal class Handler : CommandHandler<EditHealthTechnologySpecificationInformationCommand>

@@ -72,7 +72,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
-                .Find(new IsWorkpackageTypeDeviceStructuredInformationSpec(WorkpackageType.Four)&& new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
+                .Find(new IsWorkpackageTypeDeviceStructuredInformationSpec(DeviceStructuredInformationWorkpackageTypes.Four)&& new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
                 .FirstOrDefault();
             var model = modelFactory.Create(deviceStructuredInformation);
 
@@ -85,7 +85,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
-                .Find(new IsWorkpackageTypeDeviceStructuredInformationSpec(WorkpackageType.Four) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
+                .Find(new IsWorkpackageTypeDeviceStructuredInformationSpec(DeviceStructuredInformationWorkpackageTypes.Four) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
                 .FirstOrDefault();
             if (deviceStructuredInformation == null)
             {
@@ -112,7 +112,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             var command = modelMapper.MapToCommand(model);
             command.DeviceStructuredInformationId = model.DeviceStructuredInformationId;
-            command.WorkpackageType = WorkpackageType.Four;
+            command.WorkpackageType = DeviceStructuredInformationWorkpackageTypes.Four;
             
             ExecuteUserProjectCommand(command, Notice.Success("WP4HealthTechnologySpecificationsEdited"));
 
@@ -130,7 +130,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
-                .Find(new IsWorkpackageTypeDeviceStructuredInformationSpec(WorkpackageType.Four) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
+                .Find(new IsWorkpackageTypeDeviceStructuredInformationSpec(DeviceStructuredInformationWorkpackageTypes.Four) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
                 .FirstOrDefault();
             if (deviceStructuredInformation == null)
             {
@@ -157,7 +157,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             var command = modelMapper.MapToCommand(model);
             command.DeviceStructuredInformationId = model.DeviceStructuredInformationId;
-            command.WorkpackageType = WorkpackageType.Four;
+            command.WorkpackageType = DeviceStructuredInformationWorkpackageTypes.Four;
             ExecuteUserProjectCommand(command , Notice.Success("WP4UserAndEnvironmentEdited"));
 
             if (!ModelState.IsValid)

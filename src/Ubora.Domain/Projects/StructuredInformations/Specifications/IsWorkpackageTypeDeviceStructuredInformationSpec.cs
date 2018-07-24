@@ -6,9 +6,9 @@ namespace Ubora.Domain.Projects.StructuredInformations.Specifications
 {
     public class IsWorkpackageTypeDeviceStructuredInformationSpec : Specification<DeviceStructuredInformation>
     {
-        public WorkpackageType WorkpackageType { get; }
+        public DeviceStructuredInformationWorkpackageTypes WorkpackageType { get; }
 
-        public IsWorkpackageTypeDeviceStructuredInformationSpec(WorkpackageType workpackageType)
+        public IsWorkpackageTypeDeviceStructuredInformationSpec(DeviceStructuredInformationWorkpackageTypes workpackageType)
         {
             WorkpackageType = workpackageType;
         }

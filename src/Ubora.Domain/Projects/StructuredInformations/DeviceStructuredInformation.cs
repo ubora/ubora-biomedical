@@ -9,7 +9,7 @@ namespace Ubora.Domain.Projects.StructuredInformations
     {
         public Guid Id { get; private set; }
         public Guid ProjectId { get; private set; }
-        public WorkpackageType WorkpackageType { get; private set; }
+        public DeviceStructuredInformationWorkpackageTypes WorkpackageType { get; private set; }
 
         public UserAndEnvironmentInformation UserAndEnvironment { get; private set; }
         public HealthTechnologySpecificationsInformation HealthTechnologySpecification { get; private set; }
@@ -20,7 +20,7 @@ namespace Ubora.Domain.Projects.StructuredInformations
         {
             Id = e.ProjectId;
             ProjectId = e.ProjectId;
-            WorkpackageType = WorkpackageType.Two;
+            WorkpackageType = DeviceStructuredInformationWorkpackageTypes.Two;
 
             if (!IsUserAndEnvironmentEdited)
             {
@@ -37,7 +37,7 @@ namespace Ubora.Domain.Projects.StructuredInformations
         {
             Id = e.DeviceStructuredInformationId;
             ProjectId = e.ProjectId;
-            WorkpackageType = WorkpackageType.Four;
+            WorkpackageType = DeviceStructuredInformationWorkpackageTypes.Four;
 
             if (!IsUserAndEnvironmentEdited)
             {
