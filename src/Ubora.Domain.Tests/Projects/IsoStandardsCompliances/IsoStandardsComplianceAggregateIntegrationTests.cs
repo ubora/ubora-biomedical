@@ -17,7 +17,8 @@ namespace Ubora.Domain.Tests.Projects.IsoStandardsCompliances
             var projectId = Guid.NewGuid();
             var aggregateId = Guid.NewGuid();
             var actor = new DummyUserInfo();
-            var @event = new IsoStandardAddedToComplianceChecklistEvent(actor, projectId, aggregateId, "testTitle", "testDescription", new Uri("https://www.google.com"));
+            var isoStandardId = Guid.NewGuid();
+            var @event = new IsoStandardAddedToComplianceChecklistEvent(actor, projectId, aggregateId, isoStandardId, "testTitle", "testDescription", new Uri("https://www.google.com"));
 
             // Act
             var aggregate = Session.EventsAppendAndSaveAndLoad<IsoStandardsComplianceAggregate>(aggregateId, @event);
@@ -43,26 +44,24 @@ namespace Ubora.Domain.Tests.Projects.IsoStandardsCompliances
         {
             var projectId = Guid.NewGuid();
             var aggregateId = Guid.NewGuid();
+            var isoStandardToRemoveId = Guid.NewGuid();
 
-            Session.Events.Append(aggregateId, new IsoStandardAddedToComplianceChecklistEvent(new DummyUserInfo(), projectId, aggregateId, "testTitle", "testDescription", new Uri("https://www.google.com")));
-            Session.Events.Append(aggregateId, new IsoStandardAddedToComplianceChecklistEvent(new DummyUserInfo(), projectId, aggregateId, "testTitle", "testDescription", new Uri("https://www.google.com")));
-            Session.Events.Append(aggregateId, new IsoStandardAddedToComplianceChecklistEvent(new DummyUserInfo(), projectId, aggregateId, "testTitle", "testDescription", new Uri("https://www.google.com")));
+            Session.Events.Append(aggregateId, new IsoStandardAddedToComplianceChecklistEvent(new DummyUserInfo(), projectId, aggregateId, Guid.NewGuid(), "testTitle", "testDescription", new Uri("https://www.google.com")));
+            Session.Events.Append(aggregateId, new IsoStandardAddedToComplianceChecklistEvent(new DummyUserInfo(), projectId, aggregateId, isoStandardToRemoveId, "testTitle", "testDescription", new Uri("https://www.google.com")));
+            Session.Events.Append(aggregateId, new IsoStandardAddedToComplianceChecklistEvent(new DummyUserInfo(), projectId, aggregateId, Guid.NewGuid(), "testTitle", "testDescription", new Uri("https://www.google.com")));
             Session.SaveChanges();
 
-            var aggregate = Session.Load<IsoStandardsComplianceAggregate>(aggregateId);
-            var isoStandardToRemove = aggregate.IsoStandards.Skip(1).First();
-
-            var @event = new IsoStandardRemovedFromComplianceChecklistEvent(new DummyUserInfo(), projectId, aggregateId, isoStandardToRemove.Id);
+            var @event = new IsoStandardRemovedFromComplianceChecklistEvent(new DummyUserInfo(), projectId, aggregateId, isoStandardToRemoveId);
 
             // Act
-            aggregate = Session.EventsAppendAndSaveAndLoad<IsoStandardsComplianceAggregate>(aggregateId, @event);
+            var aggregate = Session.EventsAppendAndSaveAndLoad<IsoStandardsComplianceAggregate>(aggregateId, @event);
 
             // Assert
             using (new AssertionScope())
             {
                 aggregate.IsoStandards.Should()
                     .HaveCount(2)
-                    .And.NotContain(x => x.Id == isoStandardToRemove.Id);
+                    .And.NotContain(x => x.Id == isoStandardToRemoveId);
             }
         }
 
@@ -72,7 +71,7 @@ namespace Ubora.Domain.Tests.Projects.IsoStandardsCompliances
             var projectId = Guid.NewGuid();
             var aggregateId = Guid.NewGuid();
 
-            var aggregate = Session.EventsAppendAndSaveAndLoad<IsoStandardsComplianceAggregate>(aggregateId, new IsoStandardAddedToComplianceChecklistEvent(new DummyUserInfo(), projectId, aggregateId, "testTitle", "testDescription", new Uri("https://www.google.com")));
+            var aggregate = Session.EventsAppendAndSaveAndLoad<IsoStandardsComplianceAggregate>(aggregateId, new IsoStandardAddedToComplianceChecklistEvent(new DummyUserInfo(), projectId, aggregateId, Guid.NewGuid(), "testTitle", "testDescription", new Uri("https://www.google.com")));
             var isoStandardBeforeMarking = aggregate.IsoStandards.Single();
 
             var @event = new IsoStandardMarkedAsCompliantEvent(new DummyUserInfo(), projectId, aggregateId, isoStandardBeforeMarking.Id);
@@ -98,7 +97,7 @@ namespace Ubora.Domain.Tests.Projects.IsoStandardsCompliances
 
             var aggregate = Session.EventsAppendAndSaveAndLoad<IsoStandardsComplianceAggregate>(
                 aggregateId, 
-                new IsoStandardAddedToComplianceChecklistEvent(new DummyUserInfo(), projectId, aggregateId, "testTitle", "testDescription", new Uri("https://www.google.com")));
+                new IsoStandardAddedToComplianceChecklistEvent(new DummyUserInfo(), projectId, aggregateId, Guid.NewGuid(), "testTitle", "testDescription", new Uri("https://www.google.com")));
 
             var isoStandardId = aggregate.IsoStandards.Single().Id;
 

@@ -403,7 +403,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
                 return await Voting(candidateItemViewModelFactory);
             }
             
-            ExecuteUserProjectCommand(new OpenWorkpackageFourCommand(), Notice.Success("WP4 opened"));
+            ExecuteUserProjectCommand(new OpenWorkpackageFourCommand(), Notice.Success("WP3 opened"));
             if (!ModelState.IsValid)
             {
                 var message = string.Join(" | ", ModelState.Values

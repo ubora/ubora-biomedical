@@ -7,14 +7,18 @@ using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Projects.Members.Specifications;
 using Ubora.Domain.Projects._Events;
+using Ubora.Domain.Questionnaires.ApplicableRegulations;
 
 namespace Ubora.Domain.Projects.Workpackages.Events
 {
     public class WorkpackageFourOpenedEvent : ProjectEvent
     {
-        public WorkpackageFourOpenedEvent(UserInfo initiatedBy, Guid projectId) : base(initiatedBy, projectId)
+        public WorkpackageFourOpenedEvent(UserInfo initiatedBy, Guid projectId, ApplicableRegulationsQuestionnaireTree latestFinishedApplicableRegulationsQuestionnaire) : base(initiatedBy, projectId)
         {
+            LatestFinishedApplicableRegulationsQuestionnaire = latestFinishedApplicableRegulationsQuestionnaire;
         }
+
+        public ApplicableRegulationsQuestionnaireTree LatestFinishedApplicableRegulationsQuestionnaire { get; }
 
         public override string GetDescription() => $"opened work package 4: Implementation.";
         

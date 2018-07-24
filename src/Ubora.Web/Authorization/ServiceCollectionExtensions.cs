@@ -187,6 +187,11 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.RequireRole(ApplicationRole.ManagementGroup);
                 });
+
+                options.AddPolicy(Policies.CanRemoveIsoStandardFromComplianceChecklist, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
             });
         }
     }

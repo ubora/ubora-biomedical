@@ -23,8 +23,9 @@ namespace Ubora.Domain.Projects.IsoStandardsCompliances.Commands
             public ICommandResult Handle(AddIsoStandardCommand cmd)
             {
                 var project = _documentSession.LoadOrThrow<Project>(cmd.ProjectId);
+                var isoStandardId = Guid.NewGuid();
 
-                var @event = new IsoStandardAddedToComplianceChecklistEvent(cmd.Actor, cmd.ProjectId, cmd.ProjectId, cmd.Title, cmd.ShortDescription, cmd.Link);
+                var @event = new IsoStandardAddedToComplianceChecklistEvent(cmd.Actor, cmd.ProjectId, cmd.ProjectId, isoStandardId, cmd.Title, cmd.ShortDescription, cmd.Link);
                 _documentSession.Events.Append(cmd.ProjectId, @event);
                 _documentSession.SaveChanges();
 

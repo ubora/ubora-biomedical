@@ -5,13 +5,13 @@ namespace Ubora.Domain.Projects.IsoStandardsCompliances
 {
     public class IsoStandard
     {
-        public IsoStandard(string title, string shortDescription, Uri link, Guid addedByUserId)
-            : this(Guid.NewGuid(), title, shortDescription, link, false, addedByUserId)
+        public IsoStandard(Guid id, string title, Uri link, string shortDescription = "", Guid? addedByUserId = null)
+            : this(id, title, shortDescription, link, false, addedByUserId)
         {
         }
 
         [JsonConstructor]
-        private IsoStandard(Guid id, string title, string shortDescription, Uri link, bool isMarkedAsCompliant, Guid addedByUserId)
+        private IsoStandard(Guid id, string title, string shortDescription, Uri link, bool isMarkedAsCompliant, Guid? addedByUserId)
         {
             Id = id;
             AddedByUserId = addedByUserId;
@@ -26,7 +26,7 @@ namespace Ubora.Domain.Projects.IsoStandardsCompliances
         public string ShortDescription { get; }
         public Uri Link { get; }
         public bool IsMarkedAsCompliant { get; }
-        public Guid AddedByUserId { get; }
+        public Guid? AddedByUserId { get; }
 
         public IsoStandard MarkAsCompliant()
         {
