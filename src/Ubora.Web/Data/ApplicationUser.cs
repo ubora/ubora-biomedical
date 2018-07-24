@@ -8,6 +8,7 @@ namespace Ubora.Web.Data
     {
         public static readonly string ProfilePictureUrlClaimType = "Ubora.UserProfile.ProfilePictureUrl";
         public static readonly string FullNameClaimType = "Ubora.UserProfile.FullName";
+        public static readonly string FirstNameClaimType = "Ubora.UserProfile.FirstName";
         public static readonly string EmailClaimType = "Ubora.UserProfile.Email";
         public static readonly string IsEmailConfirmedType = "Ubora.UserManager.IsEmailConfirmed";
     }

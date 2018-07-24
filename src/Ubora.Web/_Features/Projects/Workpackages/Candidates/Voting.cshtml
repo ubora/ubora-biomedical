@@ -1,17 +1,18 @@
 ﻿@model Ubora.Web._Features.Projects.Workpackages.Candidates.VotingViewModel
 
 <div class="row">
-    <div class="col-lg-9">
-        <h1>Voting</h1>
-    </div>
-    <div class="col-lg-3 d-flex justify-content-end">
-        @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanAddProjectCandidate)).Succeeded)
-        {
-            <a class="btn btn-outline-primary align-self-start" asp-controller="Candidates" asp-action="AddCandidate">
-                <i class="material-icons">add</i>
-                <span>Add candidate</span>
-            </a>
-        }
+    <div class="col">
+        <div class="d-flex justify-content-between">
+            <h1>Voting</h1>
+            @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanAddProjectCandidate)).Succeeded)
+            {
+                <a class="btn btn-outline-primary align-self-start" asp-controller="Candidates" asp-action="AddCandidate">
+                    <i class="material-icons">add</i>
+                    <span>Add candidate</span>
+                </a>
+            }
+        </div>
+        <p>This voting section can help you to identify the best solutions for your medical device. Please use it for creating polls and discussion both on general (e.g. use of piezoelectric sensors) and/or on specific topics (e.g. use of LM7805 voltage regulator), in order to have a more clear idea of your concept, which will be described in the next "Concept description" section.</p>
     </div>
 </div>
 <div class="row">

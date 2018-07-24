@@ -32,7 +32,7 @@
 }
 
 .badge-green {
-    background-color: $green;
+    background-color: $dark-green;
     color: $white;
 }
 
@@ -87,6 +87,10 @@
 
 .color-dark {
     color: $text-color;
+}
+
+.color-blue {
+    color: $blue;
 }
 
 /* background colors */
@@ -204,6 +208,8 @@ a.no-underline {
     margin-top: 4px;
     position: absolute;
 }
+
+
 
 @include media-breakpoint-down(xs) {
     .mt-xs-2 {

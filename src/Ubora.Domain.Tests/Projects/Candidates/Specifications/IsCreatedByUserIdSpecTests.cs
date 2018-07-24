@@ -36,3 +36,4 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Specifications
         }
     }
 }
+

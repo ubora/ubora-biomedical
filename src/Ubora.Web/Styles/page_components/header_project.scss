@@ -1,4 +1,3 @@
-
 .project-header-container {
     background-color: $blue;
 
@@ -33,8 +32,6 @@
 }
 
 
-
-
 .project-header-md {
     background-color: $blue;
 
@@ -43,7 +40,9 @@
         font-size: 1rem;
     }
 
-    .btn-primary {
+    .btn-icon {
+        @extend .btn-block;
+        @extend .color-white;
         border-radius: 0;
         padding-top: .75rem;
         padding-bottom: .75rem;
@@ -68,20 +67,22 @@
 }
 
 
-
-@media (min-width: 1200px) {
+// Extra large devices (large desktops, 1200px and up)
+@include media-breakpoint-up(xl) {
     .project-header .nav-item {
         margin-right: 1rem;
     }
 }
 
-@media (max-width: 1199px) {
+// Large devices (desktops, less than 1200px)
+@include media-breakpoint-down(lg) {
     .project-header .nav-item {
         margin-right: .5rem;
     }
 }
 
-@media (max-width: 992px) {
+// Medium devices (tablets, less than 992px)
+@include media-breakpoint-down(md) {
     .project-header .nav-item {
         margin-right: .25rem;
     }

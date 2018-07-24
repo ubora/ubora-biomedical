@@ -229,7 +229,7 @@
     <value>File added</value>
   </data>
   <data name="RepositoryFileHidden" xml:space="preserve">
-    <value>File hidden</value>
+    <value>File deleted</value>
   </data>
   <data name="RepositoryFileUpdated" xml:space="preserve">
     <value>File updated</value>

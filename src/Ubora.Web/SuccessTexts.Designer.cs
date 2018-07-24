@@ -394,7 +394,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File hidden.
+        ///   Looks up a localized string similar to File deleted.
         /// </summary>
         public static string RepositoryFileHidden {
             get {

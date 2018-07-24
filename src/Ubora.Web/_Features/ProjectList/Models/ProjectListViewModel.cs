@@ -85,7 +85,7 @@ namespace Ubora.Web._Features.ProjectList.Models
             {
                 if (string.IsNullOrEmpty(searchModel.Title))
                 {
-                    return CreatePagedProjectListViewModel(searchModel: searchModel, header: "All projects",
+                    return CreatePagedProjectListViewModel(searchModel: searchModel, header: "",
                         page: page);
                 }
 
