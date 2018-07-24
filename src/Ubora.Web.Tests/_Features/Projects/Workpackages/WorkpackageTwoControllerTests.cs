@@ -35,7 +35,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 deviceStructuredInformation
             };
             
-            QueryProcessorMock.Setup(x => x.Find<DeviceStructuredInformation>(It.IsAny<IsWorkpackageTypeDeviceStructuredInformationSpec>()))
+            QueryProcessorMock.Setup(x => x.Find<DeviceStructuredInformation>(It.IsAny<IsFromWhichWorkpackageSpec>()))
                 .Returns(new PagedList<DeviceStructuredInformation>(deviceStructuredInformations.AsQueryable(), 1,10));
 
             var expectedModel = new UserAndEnvironmentInformationViewModel();
