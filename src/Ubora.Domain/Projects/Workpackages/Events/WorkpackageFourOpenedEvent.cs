@@ -12,10 +12,13 @@ namespace Ubora.Domain.Projects.Workpackages.Events
 {
     public class WorkpackageFourOpenedEvent : ProjectEvent
     {
-        public WorkpackageFourOpenedEvent(UserInfo initiatedBy, Guid projectId) : base(initiatedBy, projectId)
+        public WorkpackageFourOpenedEvent(Guid deviceStructuredInformationId, UserInfo initiatedBy, Guid projectId) : base(initiatedBy, projectId)
         {
+            DeviceStructuredInformationId = deviceStructuredInformationId;
         }
 
+        public Guid DeviceStructuredInformationId { get; private set; }
+        
         public override string GetDescription() => $"opened work package 4: Implementation.";
         
         public class Notifier : UboraEventNotifier<WorkpackageFourOpenedEvent>
