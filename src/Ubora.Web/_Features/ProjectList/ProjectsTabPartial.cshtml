@@ -1,7 +1,8 @@
 ﻿@using Ubora.Web._Features.ProjectList
 @using Ubora.Web._Features.ProjectList.Models
 @using Ubora.Web.Data
-@model Ubora.Web._Features.ProjectList.Models.SearchViewModel
+
+@model SearchViewModel
 
 @inject SignInManager<ApplicationUser> SignInManager
 
@@ -17,7 +18,7 @@
         {
             <div class="tab-pane fade show active" id="myProjects">
                 <div class="my-4">
-                    @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
+                    @await Component.InvokeAsync(typeof(MyProjectListViewComponent), new { hideHeading = true})
                 </div>
             </div>
 
