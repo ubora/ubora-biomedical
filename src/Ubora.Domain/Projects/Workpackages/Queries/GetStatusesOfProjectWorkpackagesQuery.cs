@@ -60,6 +60,11 @@ namespace Ubora.Domain.Projects.Workpackages.Queries
                     .Where(wp => wp.ProjectId == query.ProjectId)
                     .Select(wp => new IntermediateResult { HasBeenAcceptedByReview = wp.HasBeenAccepted })
                     .FirstOrDefault();
+                
+                var wp4 = batch.Query<WorkpackageFour>()
+                    .Where(wp => wp.ProjectId == query.ProjectId)
+                    .Select(wp => new IntermediateResult { HasBeenAcceptedByReview = wp.HasBeenAccepted })
+                    .FirstOrDefault();
 
                 batch.ExecuteSynchronously();
 
@@ -68,7 +73,7 @@ namespace Ubora.Domain.Projects.Workpackages.Queries
                     wp1Status: GetStatus(wp1.Result),
                     wp2Status: GetStatus(wp2.Result),
                     wp3Status: GetStatus(wp3.Result),
-                    wp4Status: WorkpackageStatus.Closed,
+                    wp4Status: GetStatus(wp4.Result),
                     wp5Status: WorkpackageStatus.Closed,
                     wp6Status: WorkpackageStatus.Closed
                 );

@@ -8,6 +8,7 @@
         public static string Voting => "Voting";
         public static string DesignPlanning => "DesignPlanning";
         public static string StructuredInformationOnTheDevice => "StructuredInformationOnTheDevice";
+        public static string WP4StructuredInformationOnTheDevice => "WP4StructuredInformationOnTheDevice";
         public static string Step(string stepId) => stepId;
     }
 }
