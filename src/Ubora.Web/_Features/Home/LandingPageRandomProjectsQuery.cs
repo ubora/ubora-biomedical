@@ -34,7 +34,7 @@ namespace Ubora.Web._Features.Home
                         pageSize: int.MaxValue,
                         pageNumber: 1)
                     .OrderBy(x => Guid.NewGuid()) // randomize order
-                    .Take(4)
+                    .Take(3)
                     .ToArray();
 
                 var projects = _querySession.Query<Project>().Where(project => project.Id.IsOneOf(randomizedNotDraftProjectIds));

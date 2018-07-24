@@ -4,13 +4,24 @@
   </PropertyGroup>
   <PropertyGroup>
     <UserSecretsId>aspnet-Ubora.Web-d1f6fc32-3f07-4ac3-bdfa-0102a5b76a9d</UserSecretsId>
-    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="_Features\Projects\DeviceClassification\**" />
     <Content Remove="_Features\Projects\DeviceClassification\**" />
     <EmbeddedResource Remove="_Features\Projects\DeviceClassification\**" />
     <None Remove="_Features\Projects\DeviceClassification\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Scripts\backend\ConvertQuillDeltaToHtml.js" />
+    <None Remove="Scripts\backend\_polyfill.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\backend\ConvertQuillDeltaToHtml.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\backend\_polyfill.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
@@ -23,6 +34,8 @@
     <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="2.0.3" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="2.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
+    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.0.119" />
+    <PackageReference Include="MiniProfiler.EntityFrameworkCore" Version="4.0.119" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.1" />
     <PackageReference Include="PreMailer.Net" Version="2.0.0-beta2" />
@@ -59,6 +72,11 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SuccessTexts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Scripts\backend\SanitizeQuillDelta.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <Exec Command="npm install ajv@6.2.1 --no-save" />

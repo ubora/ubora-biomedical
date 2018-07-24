@@ -1,0 +1,50 @@
+﻿@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Assignments.AssignmentViewModel
+
+@{
+    ViewData["Title"] = "Assignment";
+    ViewData["MenuOption"] = ProjectMenuOption.Assignments;
+}
+
+<div class="container my-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Assignments" asp-action="Assignments">Assignments</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col">
+            <h1>Assignment</h1>
+            <h5>Title</h5>
+            <p>@Model.Title</p>
+            <h5>Description</h5>
+            <p>@Model.Description</p>
+            <h5>Assignee</h5>
+            <p>
+                @foreach (var assigneeId in Model.AssigneeIds)
+                {
+                    <span class="comma-separator">@Model.ProjectMembers.FirstOrDefault(m => m.AssigneeId == assigneeId).FullName</span>
+                }
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Head {
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"
+          asp-fallback-href="~/dist/lib/select2.min.css">
+}
+
+@section Scripts {
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"
+            asp-fallback-src="~/dist/lib/select2.min.js"
+            asp-fallback-test="window.select2">
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.js-project-member-selection').select2();
+        });
+    </script>
+}

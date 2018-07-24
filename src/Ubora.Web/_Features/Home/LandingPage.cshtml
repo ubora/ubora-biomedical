@@ -15,8 +15,10 @@
                 </div>
                 <div class="col-xl-6 col-lg-8 mx-auto">
                     <p class="text-faded mb-5">The EU funded project aims at creating an e-platform – UBORA – for open-source co-design of new solutions to face the current and future healthcare challenges of Europe and Africa; by exploiting networking, knowledge on rapid prototyping of new ideas and sharing of safety criteria and performance data.</p>
-                    <a class="btn btn-outline-light btn-primary btn-lg mx-1" href="http://ubora-biomedical.org/" target="_blank">Read latest news on our blog</a>
-                    <a class="btn btn-cta btn-primary btn-lg mx-1 js-animate-scroll" role="button" href="#signUpToUbora">Sign up to UBORA e-platform</a>
+                </div>
+                <div class="col-lg-8 mx-auto">
+                    <a class="btn btn-outline-light btn-primary btn-lg mx-lg-1" href="http://ubora-biomedical.org/" target="_blank">Read latest news on our blog</a>
+                    <a class="btn btn-cta btn-primary btn-lg mx-lg-1 js-animate-scroll" role="button" href="#signUpToUbora">Sign up to UBORA e-platform</a>
                 </div>
             </div>
         </div>
@@ -60,8 +62,8 @@
                                         <dt>Device classification:</dt>
                                         <dd>IIa</dd>
                                     </dl>
-                                    <a href="http://ubora-kahawa.azurewebsites.net/Projects/695b13f0-266b-44a5-9e11-4a4ff509a779/Dashboard" class="btn-icon d-flex align-items-center">
-                                        <span class="mr-1">View project</span>
+                                    <a href="http://ubora-kahawa.azurewebsites.net/Projects/695b13f0-266b-44a5-9e11-4a4ff509a779/Dashboard" class="btn-icon">
+                                        <span>View project</span>
                                         <i class="material-icons font-size-1-1">arrow_forward</i>
                                     </a>
                                 </div>
@@ -80,7 +82,7 @@
                                         <dt>Device classification:</dt>
                                         <dd>I</dd>
                                     </dl>
-                                    <a href="http://ubora-kahawa.azurewebsites.net/Projects/d6534063-e380-48f8-a50e-f38c3aaddcb5/Dashboard" class="btn-icon d-flex align-items-center">
+                                    <a href="http://ubora-kahawa.azurewebsites.net/Projects/d6534063-e380-48f8-a50e-f38c3aaddcb5/Dashboard" class="btn-icon">
                                         <span class="mr-1">View project</span>
                                         <i class="material-icons font-size-1-1">arrow_forward</i>
                                     </a>
@@ -100,7 +102,7 @@
                                         <dt>Device classification:</dt>
                                         <dd>IIa</dd>
                                     </dl>
-                                    <a href="http://ubora-kahawa.azurewebsites.net/Projects/753b19aa-266f-4e63-bc8b-9488d220a36f/Dashboard" class="btn-icon d-flex align-items-center">
+                                    <a href="http://ubora-kahawa.azurewebsites.net/Projects/753b19aa-266f-4e63-bc8b-9488d220a36f/Dashboard" class="btn-icon">
                                         <span class="mr-1">View project</span>
                                         <i class="material-icons font-size-1-1">arrow_forward</i>
                                     </a>
@@ -119,17 +121,15 @@
                 </div>
             </div>
 
-            <div class="d-none d-md-block">
+            <div class="d-none d-lg-block">
                 <cache expires-after="@TimeSpan.FromMinutes(15)">
                     @(await Component.InvokeAsync<LandingPageRandomProjectsRow>())
                 </cache>
             </div>
-           
-
             <div class="row">
                 <div class="col d-flex justify-content-end mt-3">
-                    <a class="btn-icon d-flex align-items-center" asp-controller="ProjectList" asp-action="Search">
-                        <span class="nav-link-description mr-1">View all</span>
+                    <a class="btn-icon" asp-controller="ProjectList" asp-action="Search">
+                        <span class="nav-link-description">View all</span>
                         <i class="material-icons font-size-1-1">arrow_forward</i>
                     </a>
                 </div>
@@ -165,10 +165,8 @@
             <hr class="light my-4">
             <p class="text-faded mb-4">You can support UBORA by spreading the word, by collaborating on open-source projects or by supporting financially.</p>
             <a tabindex="0" class="btn btn-light btn-primary btn-lg popover-dismiss" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="Coming soon">
-                <span class="d-flex align-items-center">
-                    <i class="material-icons align-middle mr-1">favorite_border</i>
-                    <span>Donate</span>
-                </span>
+                <i class="material-icons align-middle">favorite_border</i>
+                <span class="align-middle">Donate</span>
             </a>
         </div>
     </section>
@@ -178,8 +176,8 @@
             <div class="text-center">
                 <h2 class="section-heading text-dark">Sign up to UBORA e-platform</h2>
                 <hr class="dark my-4">
-             </div>
-            <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]"  class="form-register" method="post">
+            </div>
+            <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="form-register js-disable-onbeforeunload" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
@@ -206,12 +204,12 @@
                         </div>
                     </div>
                 </div>
-              
+
                 <div class="row justify-content-center">
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label asp-for="Password">Password</label>
-                            <input class="form-control password-input" asp-for="Password" placeholder="Password"  onfocus="show()" >
+                            <input class="form-control password-input" asp-for="Password" placeholder="Password" onfocus="show()">
                             <ul class="pl-4 pt-1 text-muted hide" id="passwordHelper">
                                 <li><small>Password must have at least one digit ('0'-'9')</small></li>
                                 <li><small>Must contain one uppercase character ('A'-'Z')</small></li>
@@ -221,7 +219,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="form-group"> 
+                        <div class="form-group">
                             <label asp-for="ConfirmPassword">Confirm password</label>
                             <input class="form-control" asp-for="ConfirmPassword" placeholder="Confirm password">
                             <span asp-validation-for="ConfirmPassword"></span>
@@ -245,10 +243,10 @@
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary btn-lg">Sign up</button>
                 </div>
-                    <div class="mt-4 text-center">
-                        <span>Already signed up?</span>
-                        <a asp-controller="Account" asp-action="Login">Log in</a>
-                    </div>
+                <div class="mt-4 text-center">
+                    <span>Already signed up?</span>
+                    <a asp-controller="Account" asp-action="Login">Log in</a>
+                </div>
             </form>
         </div>
     </section>
@@ -267,7 +265,7 @@
 </script>
 
 <script>
-    $(document).on('click', 'a[class*="js-animate-scroll"]', function(e) {
+    $(document).on('click', 'a[class*="js-animate-scroll"]', function (e) {
         // target element id
         var id = $(this).attr('href');
 
@@ -284,6 +282,6 @@
         var pos = $id.offset().top;
 
         // animated top scrolling
-        $('body, html').animate({scrollTop: pos});
-    }); 
+        $('body, html').animate({ scrollTop: pos });
+    });
 </script>

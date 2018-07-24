@@ -14,10 +14,13 @@ using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web._Features._Shared.Notices;
+using Ubora.Web.Data;
 
 namespace Ubora.Web._Features.Projects.Repository
 {
     [ProjectRoute("[controller]")]
+    [DisableProjectControllerAuthorization]
+    [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
     public class RepositoryController : ProjectController
     {
         private readonly IUboraStorageProvider _uboraStorageProvider;
@@ -33,12 +36,12 @@ namespace Ubora.Web._Features.Projects.Repository
             _projecFileViewModelFactory = projectFileViewModelFactory;
         }
 
-        public IActionResult Repository()
+        public async Task<IActionResult> Repository()
         {
             var projectFiles = QueryProcessor.Find(new IsProjectFileSpec(ProjectId)
                     && !new IsHiddenFileSpec());
 
-            var isProjectLeader = new HasLeader(UserId).IsSatisfiedBy(Project);
+            var canHideProjectFile = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanHideProjectFile);
 
             var model = new ProjectRepositoryViewModel
             {
@@ -47,15 +50,15 @@ namespace Ubora.Web._Features.Projects.Repository
                 AllFiles = projectFiles.GroupBy(file => file.FolderName,
                     file => _projecFileViewModelFactory.Create(file)),
                 AddFileViewModel = new AddFileViewModel(),
-                IsProjectLeader = isProjectLeader
+                CanHideProjectFile = canHideProjectFile
             };
 
             return View(nameof(Repository), model);
         }
 
         [Route("AddFile")]
+        [Authorize(Policy = nameof(Policies.CanAddFileRepository))]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddFile(AddFileViewModel model)
         {
             if (!ModelState.IsValid)
@@ -88,7 +91,6 @@ namespace Ubora.Web._Features.Projects.Repository
             return Ok();
         }
 
-
         [Route("HideFile")]
         [Authorize(Policy = nameof(Policies.CanHideProjectFile))]
         public IActionResult HideFile(Guid fileid)
@@ -99,6 +101,7 @@ namespace Ubora.Web._Features.Projects.Repository
         }
 
         [Route("UpdateFile")]
+        [Authorize(Policy = nameof(Policies.CanUpdateFileRepository))]
         public IActionResult UpdateFile(Guid fileId)
         {
             var file = QueryProcessor.FindById<ProjectFile>(fileId);
@@ -108,6 +111,7 @@ namespace Ubora.Web._Features.Projects.Repository
         }
 
         [Route("UpdateFile")]
+        [Authorize(Policy = nameof(Policies.CanUpdateFileRepository))]
         [HttpPost]
         public async Task<IActionResult> UpdateFile(UpdateFileViewModel model)
         {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
-using FluentAssertions;
 using FluentAssertions.Primitives;
 
-namespace Ubora.Domain.Tests
+// ReSharper disable once CheckNamespace
+namespace FluentAssertions
 {
     public static class FluentAssertionExtensions
     {

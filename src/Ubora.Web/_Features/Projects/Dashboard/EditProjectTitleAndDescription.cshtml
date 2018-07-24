@@ -8,29 +8,27 @@
     ViewData["MenuOption"] = ProjectMenuOption.Overview;
 }
 
-<div class="container my-4">
-    <form action="" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <h2>Project title</h2>
-        <div class="form-group">
-            <input class="form-control" asp-for="Title" placeholder="Rename your project">
-            <span asp-validation-for="Title"></span>
-        </div>
-        <h2>Project description</h2>
-        <a class="btn-icon my-3 d-flex align-items-center" data-toggle="collapse" href="#collapseHelpfulTips" role="button" aria-expanded="false" aria-controls="collapseHelpfulTips">
-            <i class="material-icons mr-1">help</i>
-            <span>Helpful tips</span>
-        </a>
-        <div id="collapseHelpfulTips" class="collapse">
-            <p>Describe in few words the device technology/intended use/and intended clinical benefits of the device. Describe who are the intended users. Describe if there are some limitation about the use of the device (for example need of continuous power supply) and if there are contraindications.</p>
-        </div>
-        <div class="form-group">
-            <textarea class="content_editable" asp-for="ProjectDescription" rows="8"></textarea>
-        </div>
-        <div class="text-center">
-            <a class="btn btn-outline-primary" asp-controller="Dashboard" asp-action="Dashboard">Discard</a>
-            <span class="mx-1"></span>
-            <button class="btn btn-primary" type="submit">Save changes</button>
-        </div>
-    </form>
-</div>
+<form action="" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <h2>Project title</h2>
+    <div class="form-group">
+        <input class="form-control" asp-for="Title" placeholder="Rename your project">
+        <span asp-validation-for="Title"></span>
+    </div>
+    <h2>Project description</h2>
+    <a class="btn-icon my-3 d-flex align-items-center" data-toggle="collapse" href="#collapseHelpfulTips" role="button" aria-expanded="false" aria-controls="collapseHelpfulTips">
+        <i class="material-icons mr-1">help</i>
+        <span>Helpful tips</span>
+    </a>
+    <div id="collapseHelpfulTips" class="collapse">
+        <p>Describe in few words the device technology/intended use/and intended clinical benefits of the device. Describe who are the intended users. Describe if there are some limitation about the use of the device (for example need of continuous power supply) and if there are contraindications.</p>
+    </div>
+    <div class="form-group">
+        <textarea class="content_editable" asp-for="ProjectDescription" rows="8"></textarea>
+    </div>
+    <div class="text-center">
+        <a class="btn btn-outline-primary" asp-controller="Dashboard" asp-action="Dashboard">Discard</a>
+        <span class="mx-1"></span>
+        <button class="btn btn-primary" type="submit">Save changes</button>
+    </div>
+</form>

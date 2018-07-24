@@ -34,12 +34,14 @@
     }
 }
 
-.btn-primary[disabled]:focus,
-.btn-primary[disabled]:hover {
-  background-color: $primary-shade;
-  border-color: $primary-shade;
-  color: $white;
+.btn[disabled]:focus,
+.btn[disabled]:hover {
   cursor: not-allowed;
+}
+
+.btn-light {
+    border: 1px solid $blue;
+    color: $blue;
 }
 
 .btn-cta {
@@ -55,6 +57,15 @@
     &:focus,
     &:hover {
         cursor: pointer;
+        box-shadow: none;
+    }
+
+    .material-icons, span {
+        @extend .align-middle;
+    }
+
+    .material-icons, span {
+        @extend .align-middle;
     }
 
     .material-icons, span {

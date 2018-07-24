@@ -1,47 +1,51 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages
 @model Ubora.Web._Features.Projects.ApplicableRegulations.NextQuestionViewModel
 
-<div class="col-lg-7 d-flex flex-column">
-    <h1>Regulation checklist</h1>
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<h1>Regulation checklist</h1>
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    @if (Model.IsAnswered)
-            {
+@if (Model.IsAnswered)
+{
+    <div class="form-group">
+        <h5>@Model.Text</h5>
+    </div>
+    <div class="form-group">
+        <p>You answered: @Model.Answer</p>
+    </div>
+}
+else
+{
+    <form method="post">
         <div class="form-group">
             <h5>@Model.Text</h5>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="QuestionnaireId" />
         </div>
         <div class="form-group">
-            <p>You answered: @Model.Answer</p>
+            <button class="btn btn-outline-primary px-4" type="submit" asp-action="AnswerYes">Yes</button>
+            <button class="btn btn-outline-primary px-4" type="submit" asp-action="AnswerNo">No</button>
         </div>
-    }
-    else
+    </form>
+}
+<div class="form-group">
+    @if (Model.PreviousAnsweredQuestionId != null)
     {
-        <form method="post">
-            <div class="form-group">
-                <h5>@Model.Text</h5>
-                @Html.AntiForgeryToken()
-                <input type="hidden" asp-for="Id" />
-                <input type="hidden" asp-for="QuestionnaireId" />
-            </div>
-            <div class="form-group">
-                <button class="btn btn-outline-primary px-4" type="submit" asp-action="AnswerYes">Yes</button>
-                <button class="btn btn-outline-primary px-4" type="submit" asp-action="AnswerNo">No</button>
-            </div>
-        </form>
+        <a class="btn-icon" asp-action="ReviewQuestion" asp-route-questionId="@Model.PreviousAnsweredQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId">
+            <i class="material-icons font-size-1-1">keyboard_arrow_left</i>
+            <span>Previous</span>
+        </a>
     }
-    <div class="form-group">
-        @if (Model.PreviousAnsweredQuestionId != null)
-        {
-            <a class="btn-icon" asp-action="ReviewQuestion" asp-route-questionId="@Model.PreviousAnsweredQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId"><i class="material-icons align-middle font-size-1-1">keyboard_arrow_left</i><span>Previous</span></a>
-        }
-        @if (Model.NextQuestionId != null)
-        {
-            <a class="btn-icon" asp-action="ReviewQuestion" asp-route-questionId="@Model.NextQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId"><span>Next</span><i class="material-icons align-middle font-size-1-1">keyboard_arrow_right</i></a>
-        }
-    </div>
-
-    @if (!string.IsNullOrEmpty(Model.Note))
+    @if (Model.NextQuestionId != null)
     {
-        <p class="text-informative">Notes: @Model.Note</p>
+        <span class="ml-1"></span>
+        <a class="btn-icon" asp-action="ReviewQuestion" asp-route-questionId="@Model.NextQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId">
+            <span>Next</span>
+            <i class="material-icons font-size-1-1">keyboard_arrow_right</i>
+        </a>
     }
 </div>
+
+@if (!string.IsNullOrEmpty(Model.Note))
+{
+    <p class="text-informative">Notes: @Model.Note</p>
+}

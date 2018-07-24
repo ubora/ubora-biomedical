@@ -8,8 +8,10 @@ namespace Ubora.Domain.Projects.Workpackages
 {
     public class WorkpackageOne : Workpackage<WorkpackageOne>
     {
+        public bool HasBeenRequestedMentoring { get; set; }
+
         public bool IsLocked => this.DoesSatisfy(new IsWorkpackageOneLocked());
-        
+
         private void Apply(ProjectCreatedEvent e)
         {
             ProjectId = e.ProjectId;
@@ -84,6 +86,11 @@ namespace Ubora.Domain.Projects.Workpackages
 
             _reviews.Remove(oldReview);
             _reviews.Add(reopenedReview);
+        }
+
+        private void Apply(WorkpackageOneReviewRequestedMentoringEvent e)
+        {
+            HasBeenRequestedMentoring = true;
         }
     }
 }

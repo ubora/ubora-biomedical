@@ -1,0 +1,76 @@
+﻿@model EditResourceCategoryPostModel
+
+@{
+    ViewData["Title"] = "Edit resource category";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Resources</a></li>
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourceCategoriesController.List)">Resource categories</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+<form asp-action="@nameof(ResourceCategoriesController.Edit)">
+    <div asp-validation-summary="ModelOnly"></div>
+    <input asp-for="CategoryId" type="hidden" />
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ParentCategoryId">Parent category</label>
+        @await Component.InvokeAsync(typeof(ResourceCategorySelectOptionsViewComponent), new { selectedCategory = Model.ParentCategoryId, removedCategory = Model.CategoryId })
+        <span asp-validation-for="ParentCategoryId"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="MenuPriority">Menu priority</label>
+        <input asp-for="MenuPriority" class="form-control" />
+        <span asp-validation-for="MenuPriority"></span>
+    </div>
+    <div class="form-group float-right">
+        <button type="submit" class="btn btn-primary">Edit</button>
+    </div>
+</form>
+
+@section Right {
+    <div class="mb-3">
+        <button class="my-2 btn btn-outline-primary btn-block" data-toggle="modal" data-target="#delete-category-modal">
+            <i class="material-icons">delete_forever</i>
+            <span>Delete resource category</span>
+        </button>
+    </div>
+    
+    <div class="modal fade" id="delete-category-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete resource category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form asp-action="@nameof(ResourceCategoriesController.Delete)">
+                    <input name="@nameof(DeleteResourceCategoryPostModel.ResourceCategoryId)" value="@Model.CategoryId" type="hidden"/>
+                    <div class="modal-body">
+                        <p>Note that a resource category can only be deleted if it does not contain anything.</p>
+                        <p>
+                            Are you sure you want to delete the resource category named "@Model.Title"?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}

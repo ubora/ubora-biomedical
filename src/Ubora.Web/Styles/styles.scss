@@ -10,6 +10,44 @@
     -o-background-size: cover;
     background-size: cover;
 }
+$input-border-radius: 0;
+$breadcrumb-padding-x: 0;
+$nav-tabs-link-active-color: $blue;
+
+@mixin modal-left-nav {
+    &.modal-left-pane {
+        &.show .modal-dialog {
+            transform: translate(0, 0);
+        }
+
+        .modal-dialog {
+            transform: translate(-100%, 0);
+            margin-left: 0;
+            margin-top: 0;
+            width: 50%;
+            height: 100%;
+
+            .modal-content {
+                border-radius: 0;
+                border: none;
+                height: 100%;
+                overflow-y: auto;
+
+                .modal-header {
+                    padding: .5rem 1rem;
+                }
+
+                .modal-body {
+                    padding-top: 0;
+                }
+            }
+        }
+    }
+
+    &.fade.in .modal-dialog {
+        left: 0;
+    }
+}
 
 @import "~bootstrap/scss/bootstrap";
 @import "custom";

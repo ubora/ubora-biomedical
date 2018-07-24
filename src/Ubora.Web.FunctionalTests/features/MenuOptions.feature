@@ -5,14 +5,17 @@ Feature: Menu Options
 Background:
     Given I go to Home page
 
+Scenario: Check on console output
+    Then I expect the console output to clear
+
 Scenario: I sign in and click Profile
     When I sign in as user
         And I click on the element "span=Profile"
     Then I expect the title of the page "Manage your account - UBORA"
 
-Scenario: I click My projects
-    When I click on the element "span=My projects"
-    Then I expect the title of the page "View projects - UBORA"
+Scenario: I click Projects
+    When I click on the element "span=Projects"
+    Then I expect the title of the page "Biomedical device projects - UBORA"
 
 Scenario: I click New projects
     When I click on the element "a=Create project"

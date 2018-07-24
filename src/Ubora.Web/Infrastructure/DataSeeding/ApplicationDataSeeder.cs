@@ -24,6 +24,7 @@ namespace Ubora.Web.Infrastructure.DataSeeding
         {
             await AddRoleIfNecessary(ApplicationRole.Admin);
             await AddRoleIfNecessary(ApplicationRole.Mentor);
+            await AddRoleIfNecessary(ApplicationRole.ManagementGroup);
 
             var isSeedNecessary = !_documentSession.Query<UserProfile>().Any();
             if (!isSeedNecessary)

@@ -1,33 +1,38 @@
 ﻿@model Ubora.Web._Features.Admin.ProjectsUnderReviewViewModel
 
-@{ 
+@{
     ViewData["Title"] = "All projects under review";
 }
 
 <div class="container my-5">
     <h1>@ViewData["Title"]</h1>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Project</th>
-                <th>Mentors</th>
-            </tr>
-        <tbody>
-            @foreach (var project in Model.ProjectsUnderReview)
-            {
-                <tr>
-                    <td>
-                        <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@project.Id">@project.Title</a>
-                    </td>
-                    <td>
-                        @foreach (var mentor in project.ProjectMentors)
-                        {
-                            <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@mentor.Key">@mentor.Value</a>@(project.ProjectMentors.Keys.Last() == mentor.Key ? "" : ",")
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="d-lg-block d-none">
+        <div class="row mx-0 py-2 border-bottom">
+            <div class="col-lg-6">
+                <b>Project</b>
+            </div>
+            <div class="col-lg-6">
+                <b>Mentors</b>
+            </div>
+        </div>
+    </div>
+
+    @foreach (var project in Model.ProjectsUnderReview)
+    {
+        <div class="row mx-0 py-2 border-bottom">
+            <div class="col-lg-6">
+                <span class="d-md-block d-lg-none"><b>Project:</b></span>
+                <a asp-controller="Dashboard" asp-action="Dashboard" asp-route-projectId="@project.Id">@project.Title</a>
+            </div>
+            <div class="col-lg-6">
+                @foreach (var mentor in project.ProjectMentors)
+                {
+                    <span class="d-md-block d-lg-none"><b>Mentors:</b></span>
+                    <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@mentor.Key">@mentor.Value</a>@(project.ProjectMentors.Keys.Last() == mentor.Key ? "" : ",")
+                }
+            </div>
+        </div>
+    }
+
 </div>

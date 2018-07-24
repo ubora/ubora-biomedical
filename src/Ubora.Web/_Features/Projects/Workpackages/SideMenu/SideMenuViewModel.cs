@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Workpackages.Queries;
-using Ubora.Web._Features.Projects.Workpackages.SideMenu.IconProviders;
+using Ubora.Web._Features._Shared.LeftSideMenu;
 
 namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
 {
     public class SideMenuViewModel
     {
-        public ISideMenuItem[] TopLevelMenuItems { get; set; }
+        public IEnumerable<ISideMenuItem> TopLevelMenuItems { get; set; }
 
         public class Factory
         {
@@ -27,16 +28,16 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
 
                 var items = new ISideMenuItem[]
                 {
-                    /*wp0*/ new HyperlinkMenuItem(NestingLevel.None, "DesignPlanning", "Design planning", _urlHelper.Action("ProjectOverview", "WorkpackageOne"))
+                    /*wp0*/ new WpSideMenuHyperlinkMenuItem(NestingLevel.None, "DesignPlanning", "Design planning", _urlHelper.Action("ProjectOverview", "WorkpackageOne"))
                         .SetStatus(WorkpackageStatus.Accepted),
                     CreateWp1().SetStatus(wpStatuses.Wp1Status),
                     CreateWp2().SetStatus(wpStatuses.Wp2Status),
                     CreateWp3().SetStatus(wpStatuses.Wp3Status),
-                    /*wp4*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageFour", "Implementation", "#", new WorkpackageFourIconProvider())
+                    /*wp4*/ new WpSideMenuHyperlinkMenuItem(NestingLevel.None, "workpackageFour", "WP 4: Implementation", "#")
                         .SetStatus(wpStatuses.Wp4Status),
-                    /*wp5*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageFive", "Operation", "#", new WorkpackageFiveIconProvider())
+                    /*wp5*/ new WpSideMenuHyperlinkMenuItem(NestingLevel.None, "workpackageFive", "WP 5: Operation", "#")
                         .SetStatus(wpStatuses.Wp5Status),
-                    /*wp6*/ new HyperlinkMenuItem(NestingLevel.None, "workpackageSix", "Project closure", "#", new WorkpackageSixIconProvider())
+                    /*wp6*/ new WpSideMenuHyperlinkMenuItem(NestingLevel.None, "workpackageSix", "WP 6: Project closure", "#")
                         .SetStatus(wpStatuses.Wp6Status)
                 };
 
@@ -51,63 +52,63 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                 };
 
                 // Local functions below for cleanliness (i.e. don't have to pass 'projectId' forward): 
-                ISideMenuItem CreateWp1()
+                IWorkpackageSideMenuItem CreateWp1()
                 {
-                    return new CollapseMenuItem(NestingLevel.None, "workPackageOne", "Medical need and product specification", new[]
+                    return new WpSideMenuCollapseMenuItem(NestingLevel.None, "workPackageOne", "WP 1: Medical need and product specification", new[]
                     {
-                        new HyperlinkMenuItem(NestingLevel.One, "ClinicalNeeds","Clinical needs", Wp1StepLink("ClinicalNeeds")),
-                        new HyperlinkMenuItem(NestingLevel.One, "ExistingSolutions","Existing solutions", Wp1StepLink("ExistingSolutions")),
-                        new HyperlinkMenuItem(NestingLevel.One, "IntendedUsers","Intended users", Wp1StepLink("IntendedUsers")),
-                        new HyperlinkMenuItem(NestingLevel.One, "ProductRequirements","Product requirements", Wp1StepLink("ProductRequirements")),
-                        new HyperlinkMenuItem(NestingLevel.One, "DeviceClassification","Device classification", _urlHelper.Action("Index", "DeviceClassifications")),
-                        new HyperlinkMenuItem(NestingLevel.One, "RegulationChecklist","Regulation checklist", _urlHelper.Action("Index", "ApplicableRegulations")),
-                        new HyperlinkMenuItem(NestingLevel.One, "WorkpackageOneReview","Formal review", _urlHelper.Action("Review", "WorkpackageOneReview"))
-                    }, new WorkpackageOneIconProvider());
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "ClinicalNeeds","Clinical needs", Wp1StepLink("ClinicalNeeds")),
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "ExistingSolutions","Existing solutions", Wp1StepLink("ExistingSolutions")),
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "IntendedUsers","Intended users", Wp1StepLink("IntendedUsers")),
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "ProductRequirements","Product requirements", Wp1StepLink("ProductRequirements")),
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "DeviceClassification","Device classification", _urlHelper.Action("Index", "DeviceClassifications")),
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "RegulationChecklist","Regulation checklist", _urlHelper.Action("Index", "ApplicableRegulations")),
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "WorkpackageOneReview","Formal review", _urlHelper.Action("Review", "WorkpackageOneReview"))
+                    });
                 }
 
-                CollapseMenuItem CreateWp2()
+                IWorkpackageSideMenuItem CreateWp2()
                 {
-                    return new CollapseMenuItem(NestingLevel.None, "workPackageTwo", "Conceptual design", new ISideMenuItem[]
+                    return new WpSideMenuCollapseMenuItem(NestingLevel.None, "workPackageTwo", "WP 2: Conceptual design", new IWorkpackageSideMenuItem[]
                     {
-                        new HyperlinkMenuItem(NestingLevel.Two, "PhysicalPrinciples", "Physical principles", href: Wp2StepLink("PhysicalPrinciples")),
-                        new HyperlinkMenuItem(NestingLevel.Two, "Voting", "Voting", href: _urlHelper.Action("Voting", "Candidates")),
-                        new HyperlinkMenuItem(NestingLevel.Two, "ConceptDescription", "Concept description", href: Wp2StepLink("ConceptDescription")),
-                        new HyperlinkMenuItem(NestingLevel.Two, "StructuredInformationOnTheDevice", "Structured information on the device", href: _urlHelper.Action("StructuredInformationOnTheDevice", "WorkpackageTwo")),
-                    }, new WorkpackageTwoIconProvider());
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.Two, "PhysicalPrinciples", "Physical principles", href: Wp2StepLink("PhysicalPrinciples")),
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.Two, "Voting", "Voting", href: _urlHelper.Action("Voting", "Candidates")),
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.Two, "ConceptDescription", "Concept description", href: Wp2StepLink("ConceptDescription")),
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.Two, "StructuredInformationOnTheDevice", "Structured information on the device", href: _urlHelper.Action("StructuredInformationOnTheDevice", "WorkpackageTwo")),
+                    });
                 }
 
-                ISideMenuItem CreateWp3()
+                IWorkpackageSideMenuItem CreateWp3()
                 {
-                    return new CollapseMenuItem(NestingLevel.None, "workpackageThree", "Design and prototyping", new ISideMenuItem[]
+                    return new WpSideMenuCollapseMenuItem(NestingLevel.None, "workpackageThree", "WP 3: Design and prototyping", new IWorkpackageSideMenuItem[]
                     {
-                        new CollapseMenuItem(NestingLevel.One, "general-product-description", "General product description", new ISideMenuItem[]
+                        new WpSideMenuCollapseMenuItem(NestingLevel.One, "general-product-description", "General product description", new IWorkpackageSideMenuItem[]
                         {
-                            new CollapseMenuItem(NestingLevel.Two, "general-product-description-for-hardware", "Hardware", new ISideMenuItem[]
+                            new WpSideMenuCollapseMenuItem(NestingLevel.Two, "general-product-description-for-hardware", "Hardware", new IWorkpackageSideMenuItem[]
                             {
-                                new HyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_Hardware_CommercialParts", "Commercial parts", href: Wp3StepLink("GeneralProductDescription_Hardware_CommercialParts")),
-                                new HyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_Hardware_PurposelyDesignedParts", "Purposely designed parts", href: Wp3StepLink("GeneralProductDescription_Hardware_PurposelyDesignedParts")),
-                                new HyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_Hardware_PrototypesAndFunctionalTrials", "Prototypes and functional trials", href: Wp3StepLink("GeneralProductDescription_Hardware_PrototypesAndFunctionalTrials")),
+                                new WpSideMenuHyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_Hardware_CommercialParts", "Commercial parts", href: Wp3StepLink("GeneralProductDescription_Hardware_CommercialParts")),
+                                new WpSideMenuHyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_Hardware_PurposelyDesignedParts", "Purposely designed parts", href: Wp3StepLink("GeneralProductDescription_Hardware_PurposelyDesignedParts")),
+                                new WpSideMenuHyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_Hardware_PrototypesAndFunctionalTrials", "Prototypes and functional trials", href: Wp3StepLink("GeneralProductDescription_Hardware_PrototypesAndFunctionalTrials")),
                             }),
-                            new CollapseMenuItem(NestingLevel.Two, "general-product-description-for-electronic-and-firmware", "Electronic & firmware", new ISideMenuItem[]
+                            new WpSideMenuCollapseMenuItem(NestingLevel.Two, "general-product-description-for-electronic-and-firmware", "Electronic & firmware", new IWorkpackageSideMenuItem[]
                             {
-                                new HyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_ElectronicAndFirmware_CommercialParts", "Commercial parts", href: Wp3StepLink("GeneralProductDescription_ElectronicAndFirmware_CommercialParts")),
-                                new HyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_ElectronicAndFirmware_PurposelyDesignedParts", "Purposely designed parts", href: Wp3StepLink("GeneralProductDescription_ElectronicAndFirmware_PurposelyDesignedParts")),
-                                new HyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_ElectronicAndFirmware_PrototypesAndFunctionalTrials", "Prototypes and functional trials", href: Wp3StepLink("GeneralProductDescription_ElectronicAndFirmware_PrototypesAndFunctionalTrials")),
+                                new WpSideMenuHyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_ElectronicAndFirmware_CommercialParts", "Commercial parts", href: Wp3StepLink("GeneralProductDescription_ElectronicAndFirmware_CommercialParts")),
+                                new WpSideMenuHyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_ElectronicAndFirmware_PurposelyDesignedParts", "Purposely designed parts", href: Wp3StepLink("GeneralProductDescription_ElectronicAndFirmware_PurposelyDesignedParts")),
+                                new WpSideMenuHyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_ElectronicAndFirmware_PrototypesAndFunctionalTrials", "Prototypes and functional trials", href: Wp3StepLink("GeneralProductDescription_ElectronicAndFirmware_PrototypesAndFunctionalTrials")),
                             }),
-                            new CollapseMenuItem(NestingLevel.Two, "general-product-description-for-software", "Software", new ISideMenuItem[]
+                            new WpSideMenuCollapseMenuItem(NestingLevel.Two, "general-product-description-for-software", "Software", new IWorkpackageSideMenuItem[]
                             {
-                                new HyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_Software_ExistingSolutions", "Existing solutions (open source)", href: Wp3StepLink("GeneralProductDescription_Software_ExistingSolutions")),
-                                new HyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_Software_PurposelyDesignedParts", "Purposely designed parts", href: Wp3StepLink("GeneralProductDescription_Software_PurposelyDesignedParts")),
-                                new HyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_Software_PrototypesAndFunctionalTrials", "Prototypes and functional trials", href: Wp3StepLink("GeneralProductDescription_Software_PrototypesAndFunctionalTrials")),
+                                new WpSideMenuHyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_Software_ExistingSolutions", "Existing solutions (open source)", href: Wp3StepLink("GeneralProductDescription_Software_ExistingSolutions")),
+                                new WpSideMenuHyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_Software_PurposelyDesignedParts", "Purposely designed parts", href: Wp3StepLink("GeneralProductDescription_Software_PurposelyDesignedParts")),
+                                new WpSideMenuHyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_Software_PrototypesAndFunctionalTrials", "Prototypes and functional trials", href: Wp3StepLink("GeneralProductDescription_Software_PrototypesAndFunctionalTrials")),
                             }),
-                            new CollapseMenuItem(NestingLevel.Two, "general-product-description-for-system-integration", "System integration", new ISideMenuItem[]
+                            new WpSideMenuCollapseMenuItem(NestingLevel.Two, "general-product-description-for-system-integration", "System integration", new IWorkpackageSideMenuItem[]
                             {
-                                new HyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_SystemIntegration_PrototypesAndFunctionalTrials", "Prototypes and functional trials", href: Wp3StepLink("GeneralProductDescription_SystemIntegration_PrototypesAndFunctionalTrials")),
+                                new WpSideMenuHyperlinkMenuItem(NestingLevel.Three, "GeneralProductDescription_SystemIntegration_PrototypesAndFunctionalTrials", "Prototypes and functional trials", href: Wp3StepLink("GeneralProductDescription_SystemIntegration_PrototypesAndFunctionalTrials")),
                             })
                         }),
-                        new HyperlinkMenuItem(NestingLevel.One, "DesignForIsoTestingCompliance", "Design for ISO testing compliance", href: Wp3StepLink("DesignForIsoTestingCompliance")),
-                        new HyperlinkMenuItem(NestingLevel.One, "InstructionsForFabricationOfPrototypes", "Instructions for fabrication of prototypes", href: Wp3StepLink("InstructionsForFabricationOfPrototypes"))
-                    }, new WorkpackageThreeIconProvider());
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "DesignForIsoTestingCompliance", "Design for ISO testing compliance", href: Wp3StepLink("DesignForIsoTestingCompliance")),
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "InstructionsForFabricationOfPrototypes", "Instructions for fabrication of prototypes", href: Wp3StepLink("InstructionsForFabricationOfPrototypes"))
+                    });
                 }
 
                 string Wp3StepLink(string stepId)
@@ -126,7 +127,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                 }
             }
 
-            private bool MarkSelected(ISideMenuItem[] items, string selectedId)
+            private bool MarkSelected(IEnumerable<ISideMenuItem> items, string selectedId)
             {
                 foreach (var item in items)
                 {
@@ -141,7 +142,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                     }
                     else
                     {
-                        var isSelectedHyperlinkMenuItem = string.Equals(item.Id, selectedId, StringComparison.InvariantCultureIgnoreCase);
+                        var isSelectedHyperlinkMenuItem = string.Equals(item.Id, selectedId, StringComparison.OrdinalIgnoreCase);
                         if (isSelectedHyperlinkMenuItem)
                         {
                             ((HyperlinkMenuItem)item).IsSelected = true;

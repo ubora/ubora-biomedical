@@ -32,15 +32,22 @@ export default class DragAndDropFileUploads {
                     removeFileAndSetError(file);
                 }
             } else {
-                window.location.reload();
+                if (response.redirect) {
+                    window.location.href = response.redirect;
+                } else {
+                    window.location.reload();
+                }
             }
         });
 
         this.dropzone.on('addedfile',
             () => {
-                document.querySelector('.dz-progress').remove();
-                document.querySelector('.dz-error-mark').remove();
-                document.querySelector('.dz-success-mark').remove();
+                const progress = document.querySelector('.dz-progress');
+                progress.parentNode.removeChild(progress);
+                const errorMark = document.querySelector('.dz-error-mark');
+                errorMark.parentNode.removeChild(errorMark);
+                const successMark = document.querySelector('.dz-success-mark');
+                successMark.parentNode.removeChild(successMark);
             });
 
         const submitButton = document.querySelector('#btnSubmit');
@@ -75,11 +82,12 @@ export default class DragAndDropFileUploads {
         }
 
         let isValidFileSize = true;
-        for (var file of this.dropzone.files) {
+
+        this.dropzone.files.forEach(function (file) {
             if (file.size > 4000000) {
                 isValidFileSize = false;
             }
-        }
+        });
 
         if (!isValidFileSize) {
             element.innerHTML = setError('Please upload a smaller file. The maximum file size is 4MB.');

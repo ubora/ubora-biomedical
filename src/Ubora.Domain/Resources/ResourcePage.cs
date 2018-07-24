@@ -1,50 +1,57 @@
 ﻿using System;
 using Ubora.Domain.Infrastructure;
+using Ubora.Domain.Resources.Events;
 
 namespace Ubora.Domain.Resources
 {
     public class ResourcePage : Entity<ResourcePage>
     {
         public Guid Id { get; private set; }
-        public Slug Slug { get; private set; }
+        public string Title { get; private set; }
+        public int MenuPriority { get; private set; }
+        public Guid? CategoryId { get; private set; }
 
-        public Guid ContentVersion { get; private set; }
-        public ResourceContent Content { get; private set; }
-        
-        public bool IsDeleted { get; private set; }
-        public int Order { get; set; } // TODO: Option to set the order of the resource in the side menu. Default sort by first letter.
-        public string Category { get; set; } // TODO!
+        public int BodyVersion { get; private set; }
+        public QuillDelta Body { get; private set; }
 
-        private void SetContent(ResourceContent content)
+        public string GetBlobContainerName() => $"resourcepage-{Id}";
+
+        private void SetBody(QuillDelta body)
         {
-            Content = content;
-            ContentVersion = Guid.NewGuid();
-        }
-        
-        private void Apply(ResourceCreatedEvent @event)
-        {
-            if (@event.ResourceId == default(Guid))
-                throw new ArgumentException(nameof(@event.ResourceId));
-            
-            Id = @event.ResourceId;
-            Slug = @event.Slug;
-            SetContent(@event.Content);
+            BodyVersion++;
+            Body = body;
         }
 
-        private void Apply(ResourceContentEditedEvent @event)
+        private void Apply(ResourcePageCreatedEvent @event)
         {
-            if (IsDeleted)
-                throw new InvalidOperationException();
+            if (@event.ResourcePageId == default(Guid))
+                throw new ArgumentException(nameof(@event.ResourcePageId));
 
-            if (ContentVersion != @event.PreviousContentVersion)
+            Id = @event.ResourcePageId;
+            Title = @event.Title;
+            MenuPriority = @event.MenuPriority;
+            CategoryId = @event.ParentCategoryId;
+
+            SetBody(@event.Body);
+        }
+
+        private void Apply(ResourcePageTitleChangedEvent @event)
+        {
+            Title = @event.Title;
+        }
+
+        private void Apply(ResourcePageBodyEditedEvent @event)
+        {
+            if (BodyVersion != @event.PreviousBodyVersion)
                 throw new InvalidOperationException("Content has been changed -- the versions don't match.");
-            
-            SetContent(@event.Content);
+
+            SetBody(@event.Body);
         }
-        
-        private void Apply(ResourcePageDeletedEvent @event)
+
+        private void Apply(ResourcePageMenuPreferencesChangedEvent @event)
         {
-            IsDeleted = true;
+            CategoryId = @event.ParentCategoryId;
+            MenuPriority = @event.MenuPriority;
         }
     }
 }

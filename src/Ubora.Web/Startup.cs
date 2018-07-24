@@ -26,6 +26,8 @@ using TwentyTwenty.Storage.Azure;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Npgsql;
 using Ubora.Web.Infrastructure.Storage;
+using Microsoft.AspNetCore.Mvc;
+using StackExchange.Profiling;
 
 namespace Ubora.Web
 {
@@ -75,8 +77,8 @@ namespace Ubora.Web
             services
                 .AddMvc(options =>
                 {
-                    // TODO: Kaspar: Should definitely add but not right before Design School (might break some functionality)
-                    //options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                    options.AddStringTrimmingProvider();
                 })
                 .AddUboraFeatureFolders(new FeatureFolderOptions {FeatureFolderName = "_Features"});
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
@@ -96,7 +98,7 @@ namespace Ubora.Web
 
             services.AddAutoMapper();
             services.AddUboraPolicyBasedAuthorization();
-            services.AddNodeServices();
+            services.AddNodeServices(setupAction => setupAction.InvocationTimeoutMilliseconds = 300000);
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -106,6 +108,10 @@ namespace Ubora.Web
                 services.AddSingleton<TestUserSeeder>();
                 services.AddSingleton<TestProjectSeeder>();
                 services.AddSingleton<TestMentorSeeder>();
+                services.AddMiniProfiler(options =>
+                {
+                    options.IgnoredPaths.Add("dist");
+                }).AddEntityFramework();
             }
 
             services.AddSingleton<ApplicationDataSeeder>();
@@ -154,6 +160,8 @@ namespace Ubora.Web
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
+                //For more details on using MiniProfiler https://miniprofiler.com/dotnet/AspDotNetCore
+                app.UseMiniProfiler();
             }
             else
             {
@@ -174,9 +182,9 @@ namespace Ubora.Web
                     name: "default",
                     template: "{controller}/{action}/{id?}");
 
-                routes.MapRoute(
-                    name: "areaRoute",
-                    template: "{area:exists}/{controller}/{action}");
+                //routes.MapRoute(
+                //    name: "areaRoute",
+                //    template: "{area:exists}/{controller}/{action}");
             });
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
@@ -186,10 +194,10 @@ namespace Ubora.Web
                 var applicationDbContext = serviceProvider.GetService<ApplicationDbContext>();
                 applicationDbContext.Database.Migrate();
 
-                var domainMigrator = serviceProvider.GetService<DomainMigrator>();
-                domainMigrator.MigrateDomain(ConnectionString);
-
                 var documentStore = serviceProvider.GetService<IDocumentStore>();
+                var domainMigrator = serviceProvider.GetService<DomainMigrator>();
+
+                domainMigrator.MigrateDomain(ConnectionString);
                 documentStore.Schema.WritePatchByType("Patches");
 
                 var seeder = serviceProvider.GetService<ApplicationDataSeeder>();

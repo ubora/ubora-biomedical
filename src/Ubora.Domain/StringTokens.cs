@@ -19,14 +19,14 @@ namespace Ubora.Domain
             return $"#file{{{fileId}}}";
         }
 
-        public static string WorkpackageOneReview()
+        public static string WorkpackageOneReview(Guid projectId)
         {
-            return "#{review1}";
+            return $"#review1{{{projectId}}}";
         }
 
-        public static string WorkpackageTwoReview()
+        public static string WorkpackageTwoReview(Guid projectId)
         {
-            return "#{review2}";
+            return $"#review2{{{projectId}}}";
         }
 
         public static string Task(Guid taskId)

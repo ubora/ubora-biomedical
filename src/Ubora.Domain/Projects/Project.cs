@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
@@ -26,6 +25,7 @@ namespace Ubora.Domain.Projects
         public BlobLocation ProjectImageBlobLocation { get; private set; }
         public DateTime ProjectImageLastUpdated { get; private set; }
         public bool IsDeleted { get; private set; }
+        public DateTime CreatedDateTime { get; set; }
 
         [JsonIgnore]
         public bool HasImage => new HasImageSpec().IsSatisfiedBy(this);
@@ -60,6 +60,7 @@ namespace Ubora.Domain.Projects
             ClinicalNeedTags = e.ClinicalNeed;
             Gmdn = e.Gmdn;
             PotentialTechnologyTags = e.PotentialTechnology;
+            CreatedDateTime = e.Timestamp.UtcDateTime;
 
             var userId = e.InitiatedBy.UserId;
             var leader = new ProjectLeader(userId);
@@ -103,6 +104,20 @@ namespace Ubora.Domain.Projects
             }
 
             _members.RemoveWhere(m => m.UserId == e.UserId);
+        }
+
+        private void Apply(ProjectLeaderPromotedEvent e)
+        {
+            var doesNotHaveMember = this.DoesSatisfy(!new HasMember<ProjectMember>(e.UserId));
+            if (doesNotHaveMember)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var member = _members.FirstOrDefault(m => m.IsLeader);
+            _members.Remove(member);
+            _members.Add(new ProjectMember(member.UserId));
+            _members.Add(new ProjectLeader(e.UserId));
         }
 
         private void Apply(EditProjectDescriptionEvent e)

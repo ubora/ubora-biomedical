@@ -8,7 +8,6 @@ namespace Ubora.Web._Features.Projects
         {
             var projectController = (ProjectController)context.Controller;
             projectController.ViewData["ProjectTitle"] = projectController.Project.Title;
-            projectController.ViewData["ProjectIsDraft"] = projectController.Project.IsInDraft;
         }
     }
 }

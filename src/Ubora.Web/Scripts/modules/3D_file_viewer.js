@@ -34,7 +34,7 @@ global.UBORA.init3dViewer = function (fileUrl) {
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(600, 600);
         renderer.setClearColor(new THREE.Color("hsl(0, 0%, 10%)"));
-        var container = document.getElementById('container');
+        var container = document.getElementById('3d_container');
         container.appendChild(renderer.domElement);
 
         var isLoaded3Dfile = load3Dfile(fileUrl);
@@ -47,21 +47,8 @@ global.UBORA.init3dViewer = function (fileUrl) {
         controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.25;
-        controls.enableZoom = false;
+        controls.enableZoom = true;
 
-        /* Events */
-        window.addEventListener('keydown', onKeyboardEvent, false);
-    }
-
-    function onKeyboardEvent(e) {
-        if (e.code === 'KeyZ') {
-            camera.fov = camera.fov + 1;
-            camera.updateProjectionMatrix();
-
-        } else if (e.code === 'KeyX') {
-            camera.fov = camera.fov - 1;
-            camera.updateProjectionMatrix();
-        }
     }
 
     function animate() {
@@ -98,11 +85,16 @@ global.UBORA.init3dViewer = function (fileUrl) {
                 });
                 return true;
             case 'nxz':
-                var nexus_obj = new NexusObject(fileUrl, renderer, nexusRender);
-                scene.add(nexus_obj);
+            case 'nxs':
+                loadNexus(fileUrl)
                 return true;
         }
         return false;
+    }
+
+    function loadNexus(fileUrl) {
+        var nexus_obj = new NexusObject(fileUrl, renderer, nexusRender);
+        return scene.add(nexus_obj);
     }
 
     function getExtension(filename) {

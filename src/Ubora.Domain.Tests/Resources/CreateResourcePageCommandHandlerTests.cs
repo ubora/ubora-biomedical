@@ -3,6 +3,7 @@ using FluentAssertions;
 using Marten;
 using Moq;
 using Ubora.Domain.Resources;
+using Ubora.Domain.Resources.Commands;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Resources
@@ -30,7 +31,7 @@ namespace Ubora.Domain.Tests.Resources
             Action act = () => _handlerUnderTest
                 .Handle(new CreateResourcePageCommand 
                 {
-                    ResourceId = resourceId
+                    ResourcePageId = resourceId
                 });
             
             // Assert
