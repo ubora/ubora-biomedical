@@ -14,10 +14,9 @@
 
 <div class="container-fluid">
     <div class="row">
-
         @if (Model.Tab == TabType.AllProjects)
         {
-        <div class="col-xl-2 col-lg-3 py-3 pb-4 border-right h-min-lg-100-footer">
+        <div class="col-xl-2 col-lg-3 py-3 pb-4 h-min-lg-100-footer border-right">
             @Html.Partial("_ProjectSearchFiltersForm.cshtml", Model)
         </div>
         }
@@ -38,23 +37,24 @@
                     </a>
                 </li>
 
-                @if(isSignedIn){
-                    <li class="ml-sm-auto d-xs-block">
-                        <a class="btn btn-sm btn-outline-primary d-xs-block my-xs-2" asp-controller="ProjectCreation" asp-action="Create" role="button">
-                            <i class="material-icons">add</i>
-                            <span>
-                                Create project
-                            </span>
-                        </a>
-                    </li>
-                }
+             
 
             </ul>
 
             @await Html.PartialAsync("ProjectsTabPartial.cshtml", Model)
 
         </div>
-        <div class="col-xl-2 py-3"></div>
+        <div class="col-xl-2 py-3 h-min-lg-100-footer border-left">
+            @if (isSignedIn)
+            {
+                    <a class="btn btn-block btn-outline-primary my-xs-2" asp-controller="ProjectCreation" asp-action="Create" role="button">
+                        <i class="material-icons">add</i>
+                        <span>
+                            Create project
+                        </span>
+                    </a>
+            }
+        </div>
     </div>
 </div>
 

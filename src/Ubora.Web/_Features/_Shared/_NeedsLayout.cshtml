@@ -1,7 +1,5 @@
 ﻿@using Ubora.Domain.Infrastructure.Specifications
 @using Ubora.Domain.Resources
-@using Ubora.Web._Features.Resources
-@inject Ubora.Domain.Infrastructure.Queries.IQueryProcessor QueryProcessor
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,20 +33,13 @@
                                     <input placeholder="Search..." class="form-control" type="text" />
                                 </div>
                             </form>
-                            var resources = QueryProcessor.Find(new MatchAll<ResourcePage>(), new ResourceIndexViewModel.Mapper());
-                            <nav class="nav flex-column">
-                                @foreach (var resource in resources)
-                                {
-                                    <a class="nav-link px-1" asp-action="Read" asp-controller="Resources" asp-route-slug="@resource.Slug">@resource.Title</a>
-                                }
-                            </nav>
                         }
                     }
                 </div>
                 <div class="col-xl-8 col-lg-9 py-3 px-xl-9">
                     @RenderBody()
                 </div>
-                <div class="col-xl-2 py-3 d-none d-xl-block">
+                <div class="col-xl-2 py-3 d-none d-xl-block @(IsSectionDefined("Right") ? "border-left" : "")" >
                     @RenderSection("Right", required: false)
                 </div>
             </div>
