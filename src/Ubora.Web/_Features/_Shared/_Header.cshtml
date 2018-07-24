@@ -22,75 +22,95 @@
             <a class="navbar-brand" asp-controller="Home" asp-action="Index">
                 <img id="UboraLogo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
             </a>
-            <div class="d-none d-md-block" style="color: #4777BB">
+            <div class="d-none d-md-block color-blue">
                 <a class="no-underline" asp-controller="Home" asp-action="Index">UBORA</a>
                 (in-development preview)
             </div>
         </div>
-        <div class="d-flex align-items-center">
-            <a class="nav-link nav-link-notification navbar-toggler" asp-controller="Notifications" asp-action="Index">
-                @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
-            </a>
-            <button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
+        <div class="navbar-md">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
                 <i class="material-icons">menu</i>
             </button>
+            <a class="nav-link nav-link-notification" asp-controller="Notifications" asp-action="Index">
+                @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
+            </a>
+            <div class="btn-group">
+                <button type="button" class="btn btn-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="@User.GetProfilePictureUrl()" class="avatar" />
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <p class="dropdown-header">
+                        <b>@User.GetFullName()</b>
+                        <span class="d-block">@User.GetEmail()</span>
+                    </p>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" asp-controller="Manage" asp-action="Index">
+                        Profile settings
+                    </a>
+                    <form asp-action="Logout" asp-controller="Account" method="post">
+                        <button class="btn btn-link dropdown-item" type="submit">
+                            Log out
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
 
         <div id="headerNavbar" class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" asp-controller="ProjectList" asp-action="Search">
+                    <a class="nav-link d-flex align-items-center" asp-controller="ProjectList" asp-action="Search" title="Projects">
                         <i class="material-icons">folder</i>
                         <span class="nav-link-description ml-1">Projects</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" asp-controller="UserList" asp-action="Index">
-                        <i class="material-icons">people</i>
-                        <span class="nav-link-description ml-1">Community</span>
-                    </a>
-                </li>
-                <li class="nav-item notification-item">
-                    <a class="nav-link nav-link-notification d-flex align-items-center" asp-controller="Notifications" asp-action="Index">
-                        @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
-                        <span class="nav-link-description ml-1">Notifications</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()" asp-area="@Areas.ResourcesArea">
+                    <a class="nav-link d-flex align-items-center" asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()" asp-area="@Areas.ResourcesArea" title="Resources">
                         <i class="material-icons">school</i>
                         <span class="nav-link-description ml-1">Resources</span>
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center" asp-controller="UserList" asp-action="Index" title="Community">
+                        <i class="material-icons">people</i>
+                        <span class="nav-link-description ml-1">Community</span>
+                    </a>
+                </li>
                 @if (User.IsInRole(ApplicationRole.Admin))
                 {
                     <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center" asp-controller="Admin" asp-action="Diagnostics">
+                        <a class="nav-link d-flex align-items-center" asp-controller="Admin" asp-action="Diagnostics" title="Manage UBORA">
                             <i class="material-icons">build</i>
                             <span class="nav-link-description ml-1">Admin</span>
                         </a>
                     </li>
                 }
-
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" asp-controller="Manage" asp-action="Index">
-                        <i class="material-icons">account_circle</i>
-                        <span class="nav-link-description ml-1">Profile</span>
+                <li class="nav-item notification-item">
+                    <a class="nav-link nav-link-notification d-flex align-items-center" asp-controller="Notifications" asp-action="Index" title="Notifications">
+                        @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
                     </a>
                 </li>
-
-                <li class="nav-item">
+            </ul>
+            <div class="btn-group d-none d-lg-block">
+                <button type="button" class="btn btn-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="@User.GetProfilePictureUrl()" class="avatar" />
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <p class="dropdown-header">
+                        <b>@User.GetFullName()</b>
+                        <span class="d-block">@User.GetEmail()</span>
+                    </p>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" asp-controller="Manage" asp-action="Index">
+                        Profile settings
+                    </a>
                     <form asp-action="Logout" asp-controller="Account" method="post">
-                        <button class="btn btn-link btn-block nav-link d-flex align-items-center" type="submit">
-                            <i class="material-icons">exit_to_app</i>
-                            <span class="ml-1">Log out</span>
+                        <button class="btn btn-link dropdown-item" type="submit">
+                            Log out
                         </button>
                     </form>
-                </li>
-
-            </ul>
+                </div>
+            </div>
         </div>
     </nav>
 }

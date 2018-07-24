@@ -89,6 +89,10 @@
     color: $text-color;
 }
 
+.color-blue {
+    color: $blue;
+}
+
 /* background colors */
 .bg-blue {
     background-color: $blue;
@@ -204,6 +208,8 @@ a.no-underline {
     margin-top: 4px;
     position: absolute;
 }
+
+
 
 @include media-breakpoint-down(xs) {
     .mt-xs-2 {
