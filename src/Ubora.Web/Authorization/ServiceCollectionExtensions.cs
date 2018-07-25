@@ -195,11 +195,11 @@ namespace Ubora.Web.Authorization
                 });
                 options.AddPolicy(Policies.CanEditAndViewUnlockedWorkPackageThree, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new IsWorkpackageRequirement(WorkpackageType.Three));
+                    policyBuilder.AddRequirements(new IsWorkpackageRequirement(DeviceStructuredInformationWorkpackageTypes.Three));
                 });
                 options.AddPolicy(Policies.CanEditAndViewUnlockedWorkPackageFour, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new IsWorkpackageRequirement(WorkpackageType.Four));
+                    policyBuilder.AddRequirements(new IsWorkpackageRequirement(DeviceStructuredInformationWorkpackageTypes.Four));
                 });
             });
         }

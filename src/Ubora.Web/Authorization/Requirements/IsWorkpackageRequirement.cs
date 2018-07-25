@@ -8,9 +8,9 @@ namespace Ubora.Web.Authorization.Requirements
 {
     public class IsWorkpackageRequirement : IAuthorizationRequirement
     {
-        public WorkpackageType WorkpackageType { get; set; }
+        public DeviceStructuredInformationWorkpackageTypes WorkpackageType { get; set; }
         
-        public IsWorkpackageRequirement(WorkpackageType workpackageType)
+        public IsWorkpackageRequirement(DeviceStructuredInformationWorkpackageTypes workpackageType)
         {
             WorkpackageType = workpackageType;
         }
@@ -26,7 +26,7 @@ namespace Ubora.Web.Authorization.Requirements
             {    
                 switch (requirement.WorkpackageType)
                 {
-                    case WorkpackageType.Three:
+                    case DeviceStructuredInformationWorkpackageTypes.Three:
                         var workpackageThree = QueryProcessor.FindById<WorkpackageThree>(Project.Id);
                         if (workpackageThree != null)
                         {
@@ -34,7 +34,7 @@ namespace Ubora.Web.Authorization.Requirements
                         }
                         break;
                     
-                    case WorkpackageType.Four:
+                    case DeviceStructuredInformationWorkpackageTypes.Four:
                         var workpackageFour = QueryProcessor.FindById<WorkpackageFour>(Project.Id);
                         if (workpackageFour != null)
                         {

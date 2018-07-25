@@ -4,11 +4,11 @@ using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Projects.StructuredInformations.Specifications
 {
-    public class IsWorkpackageTypeDeviceStructuredInformationSpec : Specification<DeviceStructuredInformation>
+    public class IsFromWhichWorkpackageSpec : Specification<DeviceStructuredInformation>
     {
-        public WorkpackageType WorkpackageType { get; }
+        public DeviceStructuredInformationWorkpackageTypes WorkpackageType { get; }
 
-        public IsWorkpackageTypeDeviceStructuredInformationSpec(WorkpackageType workpackageType)
+        public IsFromWhichWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes workpackageType)
         {
             WorkpackageType = workpackageType;
         }

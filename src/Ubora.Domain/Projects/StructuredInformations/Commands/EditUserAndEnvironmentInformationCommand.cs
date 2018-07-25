@@ -11,7 +11,7 @@ namespace Ubora.Domain.Projects.StructuredInformations.Commands
     public class EditUserAndEnvironmentInformationCommand : UserProjectCommand
     {
         public Guid DeviceStructuredInformationId { get; set; }
-        public WorkpackageType WorkpackageType { get; set; }
+        public DeviceStructuredInformationWorkpackageTypes WorkpackageType { get; set; }
         public UserAndEnvironmentInformation UserAndEnvironmentInformation { get; set; }
 
         internal class Handler : CommandHandler<EditUserAndEnvironmentInformationCommand>

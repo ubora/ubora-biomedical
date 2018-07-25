@@ -28,7 +28,7 @@ namespace Ubora.Domain.Tests.Projects.StructuredInformations
             var commandUnderTest = new EditUserAndEnvironmentInformationCommand
             {
                 DeviceStructuredInformationId = projectId,
-                WorkpackageType = WorkpackageType.Two,
+                WorkpackageType = DeviceStructuredInformationWorkpackageTypes.Two,
                 UserAndEnvironmentInformation = userAndEnvironmentInformation,
                 ProjectId = projectId,
                 Actor = new DummyUserInfo()
