@@ -22,12 +22,20 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
         {
             get
             {
+                if (IsSelected && Status == WorkpackageStatus.Unlockable)
+                {
+                    return "active-status unlockable-status";
+                }
+
                 if (IsSelected)
                 {
                     return "active-status";
                 }
+
                 switch (Status)
                 {
+                    case WorkpackageStatus.Unlockable:
+                        return "unlockable-status";
                     case WorkpackageStatus.Accepted:
                         return "checked-status";
                     case WorkpackageStatus.Closed:

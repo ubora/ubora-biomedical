@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
+using System.Security.Principal;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Workpackages.Queries;
+using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Ubora.Web._Features._Shared.LeftSideMenu;
 
 namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
@@ -15,14 +19,16 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
         {
             private readonly IQueryProcessor _queryProcessor;
             private readonly IUrlHelper _urlHelper;
+            private readonly IAuthorizationService _authorizationService;
 
-            public Factory(IQueryProcessor queryProcessor, IUrlHelper urlHelper)
+            public Factory(IQueryProcessor queryProcessor, IUrlHelper urlHelper, IAuthorizationService authorizationService)
             {
                 _queryProcessor = queryProcessor;
                 _urlHelper = urlHelper;
+                _authorizationService = authorizationService;
             }
 
-            public SideMenuViewModel Create(Guid projectId, string selectedId)
+            public SideMenuViewModel Create(Guid projectId, string selectedId, ClaimsPrincipal user)
             {
                 var wpStatuses = _queryProcessor.ExecuteQuery(new GetStatusesOfProjectWorkpackagesQuery(projectId));
 
@@ -30,10 +36,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                 {
                     /*wp0*/ new WpSideMenuHyperlinkMenuItem(NestingLevel.None, "DesignPlanning", "Design planning", _urlHelper.Action("ProjectOverview", "WorkpackageOne"))
                         .SetStatus(WorkpackageStatus.Accepted),
-                    CreateWp1().SetStatus(wpStatuses.Wp1Status),
-                    CreateWp2().SetStatus(wpStatuses.Wp2Status),
-                    CreateWp3().SetStatus(wpStatuses.Wp3Status),
-                    CreateWp4().SetStatus(wpStatuses.Wp4Status),
+                    CreateWp1(wpStatuses.Wp1Status),
+                    CreateWp2(wpStatuses.Wp2Status),
+                    CreateWp3(wpStatuses.Wp3Status),
+                    CreateWp4(wpStatuses.Wp4Status),
                     /*wp5*/ new WpSideMenuHyperlinkMenuItem(NestingLevel.None, "workpackageFive", "WP 5: Operation", "#")
                         .SetStatus(wpStatuses.Wp5Status),
                     /*wp6*/ new WpSideMenuHyperlinkMenuItem(NestingLevel.None, "workpackageSix", "WP 6: Project closure", "#")
@@ -51,7 +57,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                 };
 
                 // Local functions below for cleanliness (i.e. don't have to pass 'projectId' forward): 
-                IWorkpackageSideMenuItem CreateWp1()
+                IWorkpackageSideMenuItem CreateWp1(WorkpackageStatus workpackageStatus)
                 {
                     return new WpSideMenuCollapseMenuItem(NestingLevel.None, "workPackageOne", "WP 1: Medical need and product specification", new[]
                     {
@@ -62,10 +68,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "DeviceClassification","Device classification", _urlHelper.Action("Index", "DeviceClassifications")),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "RegulationChecklist","Regulation checklist", _urlHelper.Action("Index", "ApplicableRegulations")),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "WorkpackageOneReview","Formal review", _urlHelper.Action("Review", "WorkpackageOneReview"))
-                    });
+                    }).SetStatus(workpackageStatus);
                 }
 
-                IWorkpackageSideMenuItem CreateWp2()
+                IWorkpackageSideMenuItem CreateWp2(WorkpackageStatus workpackageStatus)
                 {
                     return new WpSideMenuCollapseMenuItem(NestingLevel.None, "workPackageTwo", "WP 2: Conceptual design", new IWorkpackageSideMenuItem[]
                     {
@@ -73,11 +79,22 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.Two, "Voting", "Voting", href: _urlHelper.Action("Voting", "Candidates")),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.Two, "ConceptDescription", "Concept description", href: Wp2StepLink("ConceptDescription")),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.Two, "StructuredInformationOnTheDevice", "Structured information on the device", href: _urlHelper.Action("StructuredInformationOnTheDevice", "WorkpackageTwo")),
-                    });
+                    }).SetStatus(workpackageStatus);
                 }
 
-                IWorkpackageSideMenuItem CreateWp3()
+                IWorkpackageSideMenuItem CreateWp3(WorkpackageStatus workpackageStatus)
                 {
+                    if (workpackageStatus == WorkpackageStatus.Unlockable)
+                    {
+                        if (!_authorizationService.IsAuthorized(user, Policies.CanUnlockWorkpackages))
+                        {
+                            workpackageStatus = WorkpackageStatus.Closed;
+                        }
+
+                        return new WpSideMenuHyperlinkMenuItem(NestingLevel.One, WorkpackageMenuOption.WorkpackageThreeLocked,
+                            "WP 3: Design and prototyping", href: _urlHelper.Action(nameof(WorkpackageThreeController.Unlocking), "WorkpackageThree")).SetStatus(workpackageStatus);
+                    }
+
                     return new WpSideMenuCollapseMenuItem(NestingLevel.None, "workpackageThree", "WP 3: Design and prototyping", new IWorkpackageSideMenuItem[]
                     {
                         new WpSideMenuCollapseMenuItem(NestingLevel.One, "general-product-description", "General product description", new IWorkpackageSideMenuItem[]
@@ -107,11 +124,22 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         }),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "DesignForIsoTestingCompliance", "Design for ISO testing compliance", href: Wp3StepLink("DesignForIsoTestingCompliance")),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "InstructionsForFabricationOfPrototypes", "Instructions for fabrication of prototypes", href: Wp3StepLink("InstructionsForFabricationOfPrototypes"))
-                    });
+                    }).SetStatus(workpackageStatus);
                 }
                 
-                IWorkpackageSideMenuItem CreateWp4()
+                IWorkpackageSideMenuItem CreateWp4(WorkpackageStatus workpackageStatus)
                 {
+                    if (workpackageStatus == WorkpackageStatus.Unlockable)
+                    {
+                        if (!_authorizationService.IsAuthorized(user, Policies.CanUnlockWorkpackages))
+                        {
+                            workpackageStatus = WorkpackageStatus.Closed;
+                        }
+
+                        return new WpSideMenuHyperlinkMenuItem(NestingLevel.One, WorkpackageMenuOption.WorkpackageFourLocked,
+                            "WP 4: Implementation", href: _urlHelper.Action(nameof(WorkpackageFourController.Unlocking), "WorkpackageFour")).SetStatus(workpackageStatus);
+                    }
+
                     return new WpSideMenuCollapseMenuItem(NestingLevel.None, "workpackageFour", "WP 4: Implementation", new[]
                     {
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "PrototypesAndConsiderationsForSafetyAssessment","Prototypes and considerations for safety assessment", href: Wp4StepLink("PrototypesAndConsiderationsForSafetyAssessment")),
@@ -119,8 +147,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "IsoCompliance","ISO compliance", href: "#"),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "ResultsFromVitroOrVivo","Results from vitro/vivo", href: Wp4StepLink("ResultsFromVitroOrVivo")),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "WP4StructuredInformationOnTheDevice","Structured information on the device", href: _urlHelper.Action("StructuredInformationOnTheDevice", "WorkpackageFour")),
-                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "PreproductionDocuments","Preproduction documents", href: "#"),
-                    });
+                        //new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "PreproductionDocuments","Preproduction documents", href: "#"),
+                    }).SetStatus(workpackageStatus);
                 }
 
                 string Wp4StepLink(string stepId)

@@ -1,7 +1,7 @@
 ﻿@model Ubora.Web._Features._Shared.LeftSideMenu.CollapseMenuItem
 
 <li id="@Model.Id">
-    <a href="javascript:void(0)" data-toggle="collapse" aria-expanded="@Model.IsSelected.ToString().ToLower()" data-target=".@Model.InnerMenuItemsId" class="sidemenu-collapse @(Model.ATagClass)">
+    <a href="javascript:void(0)" data-toggle="collapse" aria-expanded="@Model.IsSelected.ToString().ToLower()" data-target=".@Model.InnerMenuItemsId" class="@(Model.ATagClass) @(Model.RenderInnerMenuItems ? "sidemenu-collapse" : "")">
         <span>@Model.DisplayName</span>
     </a>
 
