@@ -1,7 +1,6 @@
 ﻿using System;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.Workpackages.Events;
 
 namespace Ubora.Domain.Projects.Workpackages.Commands

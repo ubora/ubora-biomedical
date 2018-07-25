@@ -187,9 +187,9 @@ namespace Ubora.Web.Authorization
 
                 options.AddPolicy(Policies.CanManageResources, policyBuilder =>
                 {
-                    policyBuilder.RequireRole(ApplicationRole.ManagementGroup);
+                    policyBuilder.AddRequirements(new OrRequirement(new RolesAuthorizationRequirement(new[] { ApplicationRole.ManagementGroup }), new RolesAuthorizationRequirement(new[] { ApplicationRole.Admin })));
                 });
-                options.AddPolicy(Policies.CanUnlockWorkPackage, policyBuilder =>
+                options.AddPolicy(Policies.CanUnlockWorkpackages, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement()); 
                 });

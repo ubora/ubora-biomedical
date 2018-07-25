@@ -13,7 +13,6 @@
         public string Id { get; }
         public string DisplayName { get; }
         public bool IsSelected { get; set; }
-        public bool IsLocked { get; set; }
         public string Href { get; }
         public NestingLevel Nesting { get; }
 

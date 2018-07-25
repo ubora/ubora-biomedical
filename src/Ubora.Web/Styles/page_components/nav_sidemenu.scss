@@ -36,14 +36,10 @@
             font-weight: 600;
         }
 
-        &.unlocked-status {
-            color: $text-color;
-        }
-
-        &.unlocked-status::after {
+        &.unlockable-status::after {
             font-family: 'Material Icons';
-            content: 'lock_open';
-            color: $secondary-shade;
+            content: 'lock';
+            color: $blue;
             vertical-align: middle;
         }
 
