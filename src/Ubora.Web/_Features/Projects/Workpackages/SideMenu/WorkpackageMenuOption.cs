@@ -12,6 +12,7 @@
         public static string WP4StructuredInformationOnTheDevice => "WP4StructuredInformationOnTheDevice";
         public static string WorkpackageThreeLocked => "workpackageThreeLocked";
         public static string WorkpackageFourLocked => "workpackageFourLocked";
+        public static string PreproductionDocuments => "PreproductionDocuments";
         public static string Step(string stepId) => stepId;
     }
 }

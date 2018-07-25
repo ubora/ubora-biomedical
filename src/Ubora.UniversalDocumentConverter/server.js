@@ -48,7 +48,7 @@ app.post('/download/docx', function(req, res) {
                   throw err;
                 }
 
- 
+                fs.unlink(absolutePath);
             });
           }
         });

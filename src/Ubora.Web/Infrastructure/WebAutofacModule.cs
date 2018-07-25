@@ -48,6 +48,12 @@ namespace Ubora.Web.Infrastructure
                 builder.RegisterType<SpecifiedPickupDirectoryEmailSender>().As<EmailSender>()
                     .InstancePerLifetimeScope();
             }
+            
+            builder.RegisterType<PandocService>().As<PandocService>().InstancePerLifetimeScope();
+            
+            builder.RegisterType<UniversalDocumentConverter>()
+                .As<IWordProcessingCreationConverter>()
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().SingleInstance();
             builder.RegisterType<UrlHelperFactory>().As<IUrlHelperFactory>().SingleInstance();

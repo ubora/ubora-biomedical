@@ -84,6 +84,7 @@ namespace Ubora.Web
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
+            services.Configure<Pandoc>(Configuration.GetSection("Pandoc"));
 
             var useSpecifiedPickupDirectory =
                 Convert.ToBoolean(Configuration["SmtpSettings:UseSpecifiedPickupDirectory"]);

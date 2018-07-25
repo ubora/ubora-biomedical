@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -9,6 +11,7 @@ using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web._Features.Projects._Shared;
 using Ubora.Domain.Projects._Specifications;
+using Ubora.Web.Services;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features._Shared.Notices;
 
@@ -23,6 +26,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public WorkpackageFour WorkpackageFour =>
             _workpackageFour ?? (_workpackageFour = QueryProcessor.FindById<WorkpackageFour>(ProjectId));
 
+        private readonly IWordProcessingCreationConverter _wordProcessingCreationConverter;
+
+        public WorkpackageFourController(IWordProcessingCreationConverter wordProcessingCreationConverter)
+        {
+            _wordProcessingCreationConverter = wordProcessingCreationConverter;
+        }
+        
         public IActionResult FirstStep()
         {
             return RedirectToAction(nameof(Read), new { stepId = WorkpackageFour.Steps.First().Id });
@@ -217,6 +227,24 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             return RedirectToAction(nameof(FirstStep));
+        }
+        
+        [Route(nameof(PreproductionDocuments))]
+        public IActionResult PreproductionDocuments()
+        {
+            ViewBag.Title = "WP 4: Implementation";
+            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.PreproductionDocuments;
+            
+            return View();
+        }
+        
+        [Route(nameof(DownloadPreproductionDocument))]
+        public async Task<IActionResult> DownloadPreproductionDocument(Guid preproductionDocumentId)
+        {
+            var documentStream = await _wordProcessingCreationConverter.GetDocumentAsync("test");
+
+            return File(documentStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Test.docx");
         }
     }
 }
