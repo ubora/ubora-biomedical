@@ -42,7 +42,7 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                     projectId: cmd.ProjectId,
                     latestFinishedApplicableRegulationsQuestionnaire: latestFinishedApplicableRegulationsQuestionnaire);
                 
-                DocumentSession.Events.Append(cmd.DeviceStructuredInformationId, @event);
+                DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();
                 
                 return CommandResult.Success;
