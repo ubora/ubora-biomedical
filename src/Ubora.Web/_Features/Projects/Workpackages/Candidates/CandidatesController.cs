@@ -41,15 +41,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
         public async Task<IActionResult> Voting([FromServices] CandidateItemViewModel.Factory candidateItemViewModelFactory)
         {
             var candidates = QueryProcessor.Find(new IsProjectCandidateSpec(ProjectId));
-
-            var isAuthorizedToOpenWp3 = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanOpenWorkpackageThree);
-            var isWp3Opened = QueryProcessor.ExecuteQuery(new IsWorkpackageThreeOpenedQuery(ProjectId));
-
+            
             var candidateViewModels = candidates.Select(candidateItemViewModelFactory.Create);
             var model = new VotingViewModel
             {
-                Candidates = candidateViewModels,
-                CanOpenWorkpackageThree = isAuthorizedToOpenWp3 && !isWp3Opened && candidates.Any() // Untested
+                Candidates = candidateViewModels
             };
 
             return View(nameof(Voting), model);
@@ -389,32 +385,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             }
 
             return RedirectToAction(nameof(Candidate), new { candidateId = model.CandidateId });
-        }
-
-        [HttpPost]
-        [Authorize(Policies.CanOpenWorkpackageThree)]
-        public async Task<IActionResult> OpenWorkpackageThree([FromServices] CandidateItemViewModel.Factory candidateItemViewModelFactory)
-        {
-            ExecuteUserProjectCommand(new OpenWorkpackageThreeCommand(), Notice.Success(SuccessTexts.WP3Opened));
-
-            if (!ModelState.IsValid)
-            {
-                Notices.NotifyOfError("Failed to open work package 3!");
-                return await Voting(candidateItemViewModelFactory);
-            }
-            
-            ExecuteUserProjectCommand(new OpenWorkpackageFourCommand(), Notice.Success("WP3 opened"));
-            if (!ModelState.IsValid)
-            {
-                var message = string.Join(" | ", ModelState.Values
-                    .SelectMany(v => v.Errors)
-                    .Select(e => e.ErrorMessage));
-                
-                Notices.NotifyOfError(message);
-                return await Voting(candidateItemViewModelFactory);
-            }
-
-            return RedirectToAction(nameof(Voting));
         }
     }
 }

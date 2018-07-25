@@ -28,8 +28,6 @@ namespace Ubora.Domain.Tests.Projects.IsoStandardsCompliances
 
             using (new AssertionScope())
             {
-                aggregate.ProjectId.Should().Be(projectId);
-
                 standard.Id.Should().NotBe(Guid.Empty);
                 standard.Title.Should().Be("testTitle");
                 standard.Link.Should().Be(new Uri("https://www.google.com"));

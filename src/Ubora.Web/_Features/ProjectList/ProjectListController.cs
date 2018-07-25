@@ -10,21 +10,26 @@ namespace Ubora.Web._Features.ProjectList
         [ResponseCache(NoStore = true)]
         [Route("projects", Order = 0)]
         [Route("projects/search", Order = 1, Name = "ProjectsSearch")]
-        public IActionResult Search([FromServices]ProjectListViewModel.Factory modelFactory, SearchModel searchModel, int page = 1)
+        public IActionResult Search([FromServices]ProjectListViewModel.Factory modelFactory, SearchModel model, int page = 1)
         {
-            var projectListViewModel = modelFactory.CreateForSearch(searchModel, page);
+            var projectListViewModel = modelFactory.CreateForSearch(model, page);
 
             var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
 
+            if (model.Tab == null)
+            {
+                model.Tab = (User.Identity.IsAuthenticated) ? TabType.MyProjects : TabType.AllProjects;
+            }
+
             var searchViewModel = new SearchViewModel
             {
-                Title = searchModel.Title,
-                Tab = searchModel.Tab,
-                ByPotentialTechnologyTags = searchModel.ByPotentialTechnologyTags,
-                ByClinicalNeedTags = searchModel.ByClinicalNeedTags,
-                ByArea = searchModel.ByArea,
-                ByStatus = searchModel.ByStatus,
-                SortBy = searchModel.SortBy,
+                Title = model.Title,
+                Tab = model.Tab,
+                ByPotentialTechnologyTags = model.ByPotentialTechnologyTags,
+                ByClinicalNeedTags = model.ByClinicalNeedTags,
+                ByArea = model.ByArea,
+                ByStatus = model.ByStatus,
+                SortBy = model.SortBy,
                 ProjectListViewModel = projectListViewModel
             };
             
@@ -43,7 +48,7 @@ namespace Ubora.Web._Features.ProjectList
     {
         [StringLength(50)]
         public string Title { get; set; }
-        public TabType Tab { get; set; }
+        public TabType? Tab { get; set; }
         [BindProperty(BinderType = typeof(CommaSeparatedValuesModelBinder))]
         public int[] ByPotentialTechnologyTags { get; set; } = new int[]{};
         [BindProperty(BinderType = typeof(CommaSeparatedValuesModelBinder))]

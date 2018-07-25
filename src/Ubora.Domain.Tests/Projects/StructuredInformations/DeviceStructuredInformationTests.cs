@@ -14,6 +14,7 @@ namespace Ubora.Domain.Tests.Projects.StructuredInformations
             var deviceStructuredInformation = new DeviceStructuredInformation();
 
             var @event = new UserAndEnvironmentInformationWasEditedEvent(
+                workpackageType: DeviceStructuredInformationWorkpackageTypes.Two,
                 initiatedBy: new DummyUserInfo(), 
                 projectId: Guid.NewGuid(),
                 userAndEnvironmentInformation: UserAndEnvironmentInformation.CreateEmpty());
@@ -32,6 +33,7 @@ namespace Ubora.Domain.Tests.Projects.StructuredInformations
 
             var @event = new HealthTechnologySpecificationInformationWasEditedEvent(
                 initiatedBy: new DummyUserInfo(),
+                workpackageType: DeviceStructuredInformationWorkpackageTypes.Two,
                 projectId: Guid.NewGuid(),
                 healthTechnologySpecificationsInformation: new HealthTechnologySpecificationsInformation());
 

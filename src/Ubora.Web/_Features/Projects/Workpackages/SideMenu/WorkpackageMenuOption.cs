@@ -10,6 +10,8 @@
         public static string DesignPlanning => "DesignPlanning";
         public static string StructuredInformationOnTheDevice => "StructuredInformationOnTheDevice";
         public static string WP4StructuredInformationOnTheDevice => "WP4StructuredInformationOnTheDevice";
+        public static string WorkpackageThreeLocked => "workpackageThreeLocked";
+        public static string WorkpackageFourLocked => "workpackageFourLocked";
         public static string Step(string stepId) => stepId;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Marten;
+﻿using System;
+using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Workpackages.Events;
@@ -8,6 +9,8 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
 {
     public class OpenWorkpackageFourCommand : UserProjectCommand
     {
+        public Guid DeviceStructuredInformationId { get; set; }
+        
         internal class Handler : CommandHandler<OpenWorkpackageFourCommand>
         {
             private readonly IQueryProcessor _queryProcessor;
@@ -20,19 +23,8 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
             public override ICommandResult Handle(OpenWorkpackageFourCommand cmd)
             {
                 var workpackageOne = DocumentSession.LoadOrThrow<WorkpackageOne>(cmd.ProjectId);
-                if (!workpackageOne.HasBeenAccepted)
-                {
-                    return CommandResult.Failed("Work package one hasn't been accepted.");
-                }
-                    
                 var workpackageTwo = DocumentSession.LoadOrThrow<WorkpackageTwo>(cmd.ProjectId);
-
-                var workPackageThree = DocumentSession.Load<WorkpackageThree>(cmd.ProjectId);
-                if (!workPackageThree.HasBeenOpened)
-                {
-                    return CommandResult.Failed("Work package three hasn't been opened.");
-                }
-                
+ 
                 var workPackageFour = DocumentSession.Load<WorkpackageFour>(cmd.ProjectId);
                 if (workPackageFour != null)
                 {
@@ -45,11 +37,12 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                         ?.Questionnaire;
 
                 var @event = new WorkpackageFourOpenedEvent(
+                    deviceStructuredInformationId: cmd.DeviceStructuredInformationId,
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
                     latestFinishedApplicableRegulationsQuestionnaire: latestFinishedApplicableRegulationsQuestionnaire);
                 
-                DocumentSession.Events.Append(cmd.ProjectId, @event);
+                DocumentSession.Events.Append(cmd.DeviceStructuredInformationId, @event);
                 DocumentSession.SaveChanges();
                 
                 return CommandResult.Success;

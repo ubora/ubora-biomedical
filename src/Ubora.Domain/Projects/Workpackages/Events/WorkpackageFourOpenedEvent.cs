@@ -13,11 +13,14 @@ namespace Ubora.Domain.Projects.Workpackages.Events
 {
     public class WorkpackageFourOpenedEvent : ProjectEvent
     {
-        public WorkpackageFourOpenedEvent(UserInfo initiatedBy, Guid projectId, ApplicableRegulationsQuestionnaireTree latestFinishedApplicableRegulationsQuestionnaire) : base(initiatedBy, projectId)
+        public WorkpackageFourOpenedEvent(Guid deviceStructuredInformationId, UserInfo initiatedBy, Guid projectId, ApplicableRegulationsQuestionnaireTree latestFinishedApplicableRegulationsQuestionnaire) : base(initiatedBy, projectId)
         {
+            DeviceStructuredInformationId = deviceStructuredInformationId;
             LatestFinishedApplicableRegulationsQuestionnaire = latestFinishedApplicableRegulationsQuestionnaire;
         }
 
+        public Guid DeviceStructuredInformationId { get; private set; }
+        
         public ApplicableRegulationsQuestionnaireTree LatestFinishedApplicableRegulationsQuestionnaire { get; }
 
         public override string GetDescription() => $"opened work package 4: Implementation.";
