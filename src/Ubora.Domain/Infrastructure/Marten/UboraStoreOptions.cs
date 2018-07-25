@@ -20,7 +20,7 @@ using Ubora.Domain.Projects.History;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects._Events;
 using System.Reflection;
-using Ubora.Domain.Projects.IsoStandardsCompliances;
+using Ubora.Domain.Projects.IsoStandardsComplianceChecklists;
 using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Events;
 
@@ -85,7 +85,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<Candidate>();
                 options.Events.InlineProjections.AggregateStreamsWith<ResourceCategory>();
                 options.Events.InlineProjections.Add(new ResourcesMenuViewProjection());
-                options.Events.InlineProjections.AggregateStreamsWith<IsoStandardsComplianceAggregate>();
+                options.Events.InlineProjections.AggregateStreamsWith<IsoStandardsComplianceChecklist>();
 
                 options.Events.AddEventTypes(eventTypes);
 

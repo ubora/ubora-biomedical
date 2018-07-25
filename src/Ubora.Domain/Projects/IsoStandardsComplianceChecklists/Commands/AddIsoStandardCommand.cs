@@ -1,9 +1,9 @@
 ﻿using System;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Projects.IsoStandardsCompliances.Events;
+using Ubora.Domain.Projects.IsoStandardsComplianceChecklists.Events;
 
-namespace Ubora.Domain.Projects.IsoStandardsCompliances.Commands
+namespace Ubora.Domain.Projects.IsoStandardsComplianceChecklists.Commands
 {
     public class AddIsoStandardCommand : UserProjectCommand
     {

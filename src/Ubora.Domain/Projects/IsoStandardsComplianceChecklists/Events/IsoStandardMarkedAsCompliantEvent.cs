@@ -2,7 +2,7 @@
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects._Events;
 
-namespace Ubora.Domain.Projects.IsoStandardsCompliances.Events
+namespace Ubora.Domain.Projects.IsoStandardsComplianceChecklists.Events
 {
     public class IsoStandardMarkedAsCompliantEvent : ProjectEvent
     {

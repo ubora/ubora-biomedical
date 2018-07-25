@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Projects.IsoStandardsCompliances;
+using Ubora.Domain.Projects.IsoStandardsComplianceChecklists;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances.Models
 {
@@ -13,7 +13,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances.Models
 
         public class Factory
         {
-            public IndexViewModel Create(IsoStandardsComplianceAggregate aggregate = null)
+            public IndexViewModel Create(IsoStandardsComplianceChecklist aggregate = null)
             {
                 if (aggregate == null)
                 {

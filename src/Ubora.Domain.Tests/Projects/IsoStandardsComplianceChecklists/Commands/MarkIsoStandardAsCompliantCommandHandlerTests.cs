@@ -5,12 +5,12 @@ using FluentAssertions;
 using Marten;
 using Marten.Events;
 using Moq;
-using Ubora.Domain.Projects.IsoStandardsCompliances;
-using Ubora.Domain.Projects.IsoStandardsCompliances.Commands;
-using Ubora.Domain.Projects.IsoStandardsCompliances.Events;
+using Ubora.Domain.Projects.IsoStandardsComplianceChecklists;
+using Ubora.Domain.Projects.IsoStandardsComplianceChecklists.Commands;
+using Ubora.Domain.Projects.IsoStandardsComplianceChecklists.Events;
 using Xunit;
 
-namespace Ubora.Domain.Tests.Projects.IsoStandardsCompliances.Commands
+namespace Ubora.Domain.Tests.Projects.IsoStandardsComplianceChecklists.Commands
 {
     public class MarkIsoStandardAsCompliantCommandHandlerTests
     {
@@ -30,8 +30,8 @@ namespace Ubora.Domain.Tests.Projects.IsoStandardsCompliances.Commands
             var command = AutoFixture.Create<MarkIsoStandardAsCompliantCommand>();
 
             _documentSessionMock
-                .Setup(x => x.Load<IsoStandardsComplianceAggregate>(command.ProjectId))
-                .Returns(new IsoStandardsComplianceAggregate().Set(x => x.Id, command.ProjectId));
+                .Setup(x => x.Load<IsoStandardsComplianceChecklist>(command.ProjectId))
+                .Returns(new IsoStandardsComplianceChecklist().Set(x => x.Id, command.ProjectId));
 
             object[] appendedEvents = null;
             _documentSessionMock

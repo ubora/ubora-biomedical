@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using Ubora.Domain.Projects.IsoStandardsCompliances.Events;
+using Ubora.Domain.Projects.IsoStandardsComplianceChecklists.Events;
 using Ubora.Domain.Projects.Workpackages.Events;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
 
-namespace Ubora.Domain.Projects.IsoStandardsCompliances
+namespace Ubora.Domain.Projects.IsoStandardsComplianceChecklists
 {
     /// <summary>
     /// WP4 step
     /// </summary>
-    public class IsoStandardsComplianceAggregate : IProjectEntity
+    public class IsoStandardsComplianceChecklist : IProjectEntity
     {
         public Guid Id { get; private set; }
         public Guid ProjectId { get; private set; }
