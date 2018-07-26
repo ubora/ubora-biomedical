@@ -34,11 +34,9 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                         .ExecuteQuery(new FindLatestFinishedApplicableRegulationsQuestionnaireAggregateQuery(cmd.ProjectId))
                         ?.Questionnaire;
 
-                var @event = new WorkpackageFourOpenedEvent(
-                    deviceStructuredInformationId: Guid.NewGuid(),
-                    initiatedBy: cmd.Actor,
+                var @event = new WorkpackageFourOpenedEvent(initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
-                    latestFinishedApplicableRegulationsQuestionnaire: latestFinishedApplicableRegulationsQuestionnaire);
+                    deviceStructuredInformationId: Guid.NewGuid(), latestFinishedApplicableRegulationsQuestionnaire: latestFinishedApplicableRegulationsQuestionnaire);
                 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();

@@ -4,7 +4,6 @@ using System.Text;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.StructuredInformations.Events;
-using Ubora.Domain.Projects.Workpackages;
 
 namespace Ubora.Domain.Projects.StructuredInformations.Commands
 {
@@ -24,12 +23,10 @@ namespace Ubora.Domain.Projects.StructuredInformations.Commands
             {
                 var project = DocumentSession.LoadOrThrow<Project>(cmd.ProjectId);
                 var deviceStructuredInformation = DocumentSession.LoadOrThrow<DeviceStructuredInformation>(cmd.DeviceStructuredInformationId);
-       
-                var @event = new UserAndEnvironmentInformationWasEditedEvent(
-                    workpackageType: cmd.WorkpackageType,
-                    initiatedBy: cmd.Actor, 
+
+                var @event = new UserAndEnvironmentInformationWasEditedEvent(initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
-                    userAndEnvironmentInformation: cmd.UserAndEnvironmentInformation);
+                    deviceStructuredInformationId: cmd.DeviceStructuredInformationId, workpackageType: cmd.WorkpackageType, userAndEnvironmentInformation: cmd.UserAndEnvironmentInformation);
 
                 DocumentSession.Events.Append(cmd.DeviceStructuredInformationId, @event);
                 DocumentSession.SaveChanges();

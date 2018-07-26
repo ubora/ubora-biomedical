@@ -18,6 +18,9 @@ namespace Ubora.Domain.Projects.StructuredInformations
 
         private void Apply(WorkpackageOneReviewAcceptedEvent e)
         {
+            if (WorkpackageType != DeviceStructuredInformationWorkpackageTypes.Two)
+                throw new InvalidOperationException();
+
             Id = e.ProjectId;
             ProjectId = e.ProjectId;
             WorkpackageType = DeviceStructuredInformationWorkpackageTypes.Two;
@@ -35,19 +38,15 @@ namespace Ubora.Domain.Projects.StructuredInformations
 
         private void Apply(WorkpackageFourOpenedEvent e)
         {
+            if (IsUserAndEnvironmentEdited || IsHealthTechnologySpecificationEdited)
+                throw new InvalidOperationException();
+
             Id = e.DeviceStructuredInformationId;
             ProjectId = e.ProjectId;
             WorkpackageType = DeviceStructuredInformationWorkpackageTypes.Four;
 
-            if (!IsUserAndEnvironmentEdited)
-            {
-                UserAndEnvironment = UserAndEnvironmentInformation.CreateEmpty();
-            }
-
-            if (!IsHealthTechnologySpecificationEdited)
-            {
-                HealthTechnologySpecification = HealthTechnologySpecificationsInformation.CreateEmpty();
-            }
+            UserAndEnvironment = UserAndEnvironmentInformation.CreateEmpty();
+            HealthTechnologySpecification = HealthTechnologySpecificationsInformation.CreateEmpty();
         }
 
         private void Apply(UserAndEnvironmentInformationWasEditedEvent e)

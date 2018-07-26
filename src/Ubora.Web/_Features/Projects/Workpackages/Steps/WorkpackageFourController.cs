@@ -192,7 +192,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return RedirectToAction(nameof(StructuredInformationOnTheDevice));
         }
 
-        [HttpGet("/unlock")]
+        [HttpGet("unlock")]
         public IActionResult Unlocking()
         {
             ViewBag.Title = "WP 4: Implementation";
@@ -201,7 +201,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View(nameof(Unlocking));
         }
 
-        [HttpPost("/unlock")]
+        [HttpPost("unlock")]
         [Authorize(Policy = nameof(Policies.CanUnlockWorkpackages))]
         public IActionResult Unlock()
         {

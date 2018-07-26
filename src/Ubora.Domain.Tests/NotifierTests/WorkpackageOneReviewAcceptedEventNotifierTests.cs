@@ -43,7 +43,8 @@ namespace Ubora.Domain.Tests.NotifierTests
                     initiatedBy: new UserInfo(eventInvokerUserId, ""),
                     projectId: project.Id,
                     concludingComment: "whatever",
-                    acceptedAt: DateTimeOffset.MinValue))
+                    acceptedAt: DateTimeOffset.MinValue,
+                    deviceStructuredInformationId: Guid.NewGuid()))
             {
                 Id = eventId
             };

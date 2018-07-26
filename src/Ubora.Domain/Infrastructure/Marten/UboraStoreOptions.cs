@@ -19,8 +19,8 @@ using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.History;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects._Events;
-using System.Reflection;
 using Ubora.Domain.Projects.IsoStandardsComplianceChecklists;
+using Ubora.Domain.Projects.StructuredInformations.Events;
 using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Events;
 
@@ -80,7 +80,6 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageFour>();
                 options.Events.InlineProjections.AggregateStreamsWith<ApplicableRegulationsQuestionnaireAggregate>();
                 options.Events.InlineProjections.AggregateStreamsWith<DeviceClassificationAggregate>();
-                options.Events.InlineProjections.AggregateStreamsWith<DeviceStructuredInformation>();
                 options.Events.InlineProjections.AggregateStreamsWith<ResourcePage>();
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<Assignment, IAssignmentEvent>());
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());
@@ -89,6 +88,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<ResourceCategory>();
                 options.Events.InlineProjections.Add(new ResourcesMenuViewProjection());
                 options.Events.InlineProjections.AggregateStreamsWith<IsoStandardsComplianceChecklist>();
+                options.Events.InlineProjections.Add(new DeviceStructuredInformationProjection<IDeviceStructuredInformationEvent>());
 
                 options.Events.AddEventTypes(eventTypes);
 
