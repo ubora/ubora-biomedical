@@ -24,6 +24,7 @@ using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Ubora.Web._Features.Users.Manage;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages.CommandHandlers;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages.Services;
+using Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -52,7 +53,8 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterType<PandocService>().As<PandocService>().InstancePerLifetimeScope();
             
             builder.RegisterType<UniversalDocumentConverter>()
-                .As<IWordProcessingCreationConverter>()
+                .As<IWordProcessingDocumentConverter>()
+                .As<IMarkdownConverter>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().SingleInstance();

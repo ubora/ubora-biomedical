@@ -1,31 +1,32 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.NodeServices;
 using Ubora.Web.Services;
-using Ubora.Web._Features.Projects.Workpackages.Steps;
-using Ubora.Web._Features._Shared.Documents;
-
+using Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments;
 namespace Ubora.Web.Infrastructure
 {
-    public class UniversalDocumentConverter : IWordProcessingCreationConverter
+    public class UniversalDocumentConverter : IWordProcessingDocumentConverter, IMarkdownConverter
     {
         private readonly PandocService _pandocService;
-        private readonly ViewRender _viewRender;
+        private readonly INodeServices _nodeServices;
 
-        public UniversalDocumentConverter(ViewRender viewRender, PandocService pandocService)
+        public UniversalDocumentConverter(PandocService pandocService, INodeServices nodeServices)
         {
-            _viewRender = viewRender;
             _pandocService = pandocService;
+            _nodeServices = nodeServices;
         }
 
-        public async Task<Stream> GetDocumentAsync(string description)
+        public async Task<Stream> GetDocumentStreamAsync(string view)
         {
-            var viewModel = new WP1TemplateViewModel {Description = description};
-            var view = _viewRender.Render("/_Features/_Shared/Documents/", "WP1Template.cshtml", viewModel);
-
             var response = await _pandocService.ConvertDocumentAsync(view);
             Stream documentStream = await response.Content.ReadAsStreamAsync();
             
             return documentStream;
+        }
+
+        public async Task<string> GetHtmlAsync(string markdown)
+        {
+            return await _nodeServices.InvokeAsync<string>("./Scripts/backend/ConvertMarkdownToHtml.js", markdown);
         }
     }
 }

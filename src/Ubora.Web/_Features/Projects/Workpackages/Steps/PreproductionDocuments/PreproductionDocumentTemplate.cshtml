@@ -1,7 +1,7 @@
-﻿@model Ubora.Web._Features._Shared.Documents.WP1TemplateViewModel
+﻿@model Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments.PreproductionDocumentTemplateViewModel
 
 <head>
-    <title>Title</title>
+    <title>@Model.Title</title>
 </head>
 
 <div id="content-body" class="py-3">
@@ -15,27 +15,27 @@
     <p>
         <div custom-style="dt">Clinical need</div>
     </p>
-    <p>Rehabilitation</p>
+    <p>@Model.ClinicalNeedTags</p>
     <p></p>
     <p>
         <div custom-style="dt">Area</div>
     </p>
-    <p>Rehabilitation</p>
+    <p>@Model.AreaOfUsageTags</p>
     <p></p>
     <p>
         <div custom-style="dt">Technology</div>
     </p>
-    <p>Ergonomic support</p>
+    <p>@Model.PotentialTechnologyTags</p>
     <p></p>
     <p>
         <div custom-style="dt">Project keywords</div>
     </p>
-    <p>Splint, Limbs, Clubfoot, Ankle, Knee, Wrist, Elbow, Neck, Finger, Ergonomics</p>
+    <p>@Model.Gmdn</p>
     <p></p>
     <p>
         <div custom-style="dt">Device classification</div>
     </p>
-    <p>I</p>
+    <p>@Model.DeviceClassification</p>
     <p></p>
     <h1 id="project-description">Project description</h1>
     <p></p>
@@ -67,4 +67,9 @@
             <td>Member</td>
         </tr>
     </table>
+    
+    @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP1TemplatePartial.cshtml", Model.Wp1TemplatePartialViewModel)
+    
+    @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP3TemplatePartial.cshtml", Model.Wp3TemplatePartialViewModel)
+     
 </div>
