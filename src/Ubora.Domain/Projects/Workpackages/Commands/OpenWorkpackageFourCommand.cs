@@ -9,8 +9,6 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
 {
     public class OpenWorkpackageFourCommand : UserProjectCommand
     {
-        public Guid DeviceStructuredInformationId { get; set; }
-        
         internal class Handler : CommandHandler<OpenWorkpackageFourCommand>
         {
             private readonly IQueryProcessor _queryProcessor;
@@ -37,12 +35,12 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                         ?.Questionnaire;
 
                 var @event = new WorkpackageFourOpenedEvent(
-                    deviceStructuredInformationId: cmd.DeviceStructuredInformationId,
+                    deviceStructuredInformationId: Guid.NewGuid(),
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
                     latestFinishedApplicableRegulationsQuestionnaire: latestFinishedApplicableRegulationsQuestionnaire);
                 
-                DocumentSession.Events.Append(cmd.DeviceStructuredInformationId, @event);
+                DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();
                 
                 return CommandResult.Success;

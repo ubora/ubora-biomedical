@@ -70,6 +70,9 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<ResourceFile>()
                     .Duplicate(file => file.ResourcePageId);
 
+                options.Schema.For<IsoStandardsComplianceChecklist>()
+                    .Duplicate(checklist => checklist.ProjectId);
+
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
@@ -110,19 +113,6 @@ namespace Ubora.Domain.Infrastructure.Marten
                 c.ContractResolver = new PrivateSetterResolver();
             });
             return serializer;
-        }
-
-        private static bool IsApplyMethodForType(MethodInfo methodInfo, Type type)
-        {
-            var methodParameters = methodInfo.GetParameters();
-            var isApplyMethod = (methodInfo.Name == "Apply" && methodParameters.Length == 1);
-
-            if (!isApplyMethod)
-            {
-                return false;
-            }
-
-            return methodParameters.Single().ParameterType == type;
         }
     }
 }

@@ -80,7 +80,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
-                .Find(new IsFromWhichWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
+                .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
                 .FirstOrDefault();
 
             var model = modelFactory.Create(deviceStructuredInformation);
@@ -94,7 +94,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
-                .Find(new IsFromWhichWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
+                .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
                 .FirstOrDefault();
             if (deviceStructuredInformation == null)
             {
@@ -139,7 +139,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
-                .Find(new IsFromWhichWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
+                .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
                 .FirstOrDefault();
             if (deviceStructuredInformation == null)
             {

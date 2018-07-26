@@ -31,12 +31,11 @@ namespace Ubora.Domain.Projects.IsoStandardsComplianceChecklists
 
         private void Apply(IsoStandardAddedToComplianceChecklistEvent @event)
         {
-            //if (@event.AggregateId != Id)
-            //    throw new InvalidOperationException();
+            if (@event.AggregateId != Id)
+                throw new InvalidOperationException();
 
-            //if (@event.ProjectId != ProjectId)
-            //    throw new InvalidOperationException();
-            // TODO(make test more robust)
+            if (@event.ProjectId != ProjectId)
+                throw new InvalidOperationException();
 
             var value = new IsoStandard(@event.IsoStandardId, @event.Title, @event.Link, @event.ShortDescription, @event.InitiatedBy.UserId);
             IsoStandards = IsoStandards.Add(value);
@@ -44,12 +43,11 @@ namespace Ubora.Domain.Projects.IsoStandardsComplianceChecklists
 
         private void Apply(IsoStandardRemovedFromComplianceChecklistEvent @event)
         {
-            //if (@event.AggregateId != Id)
-            //    throw new InvalidOperationException();
+            if (@event.AggregateId != Id)
+                throw new InvalidOperationException();
 
-            //if (@event.ProjectId != ProjectId)
-            //    throw new InvalidOperationException();
-            // TODO(make test more robust)
+            if (@event.ProjectId != ProjectId)
+                throw new InvalidOperationException();
 
             var value = IsoStandards.Single(iso => iso.Id == @event.IsoStandardId);
             IsoStandards = IsoStandards.Remove(value);
@@ -57,12 +55,11 @@ namespace Ubora.Domain.Projects.IsoStandardsComplianceChecklists
 
         private void Apply(IsoStandardMarkedAsCompliantEvent @event)
         {
-            //if (@event.AggregateId != Id)
-            //    throw new InvalidOperationException();
+            if (@event.AggregateId != Id)
+                throw new InvalidOperationException();
 
-            //if (@event.ProjectId != ProjectId)
-            //    throw new InvalidOperationException();
-            // TODO(make test more robust)
+            if (@event.ProjectId != ProjectId)
+                throw new InvalidOperationException();
 
             var oldValue = IsoStandards.Single(iso => iso.Id == @event.IsoStandardId);
             var newValue = oldValue.MarkAsCompliant();
@@ -71,19 +68,18 @@ namespace Ubora.Domain.Projects.IsoStandardsComplianceChecklists
 
         private void Apply(IsoStandardMarkedAsNoncompliantEvent @event)
         {
-            //if (@event.AggregateId != Id)
-            //    throw new InvalidOperationException();
+            if (@event.AggregateId != Id)
+                throw new InvalidOperationException();
 
-            //if (@event.ProjectId != ProjectId)
-            //    throw new InvalidOperationException();
-            // TODO(make test more robust)
+            if (@event.ProjectId != ProjectId)
+                throw new InvalidOperationException();
 
             var oldValue = IsoStandards.Single(iso => iso.Id == @event.IsoStandardId);
             var newValue = oldValue.MarkAsNoncompliant();
             IsoStandards = IsoStandards.Replace(oldValue, newValue);
         }
 
-
+        /// <remarks>Definitely extract this logic when there are multiple versions of the questionnaire.</remarks>
         private IEnumerable<IsoStandard> GetIsoStandardsBasedOnQuestionnaire(ApplicableRegulationsQuestionnaireTree questionnaire)
         {
             var questionsAnsweredYesIds = questionnaire.AnsweredQuestions.Where(q => q.ChosenAnswer.IsYes()).Select(q => q.Id);

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Autofac;
+using AutoFixture;
 using Marten;
 using Moq;
 using TwentyTwenty.Storage;
@@ -21,6 +22,8 @@ namespace Ubora.Domain.Tests
         public ICommandQueryProcessor Processor => _processor ?? (_processor = Container.Resolve<ICommandQueryProcessor>());
 
         private readonly DomainAutofacModule _domainAutofacModule;
+
+        public IFixture AutoFixture { get; } = new Fixture();
 
         static IntegrationFixture()
         {

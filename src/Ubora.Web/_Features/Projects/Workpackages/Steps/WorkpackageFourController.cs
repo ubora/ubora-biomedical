@@ -92,7 +92,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
-                .Find(new IsFromWhichWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four)&& new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
+                .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four)&& new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
                 .FirstOrDefault();
             var model = modelFactory.Create(deviceStructuredInformation);
 
@@ -106,7 +106,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
-                .Find(new IsFromWhichWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
+                .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
                 .FirstOrDefault();
             if (deviceStructuredInformation == null)
             {
@@ -153,7 +153,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
-                .Find(new IsFromWhichWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
+                .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
                 .FirstOrDefault();
             if (deviceStructuredInformation == null)
             {
@@ -192,7 +192,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return RedirectToAction(nameof(StructuredInformationOnTheDevice));
         }
 
-        [Route(nameof(Unlocking))]
+        [HttpGet("/unlock")]
         public IActionResult Unlocking()
         {
             ViewBag.Title = "WP 4: Implementation";
@@ -201,15 +201,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View(nameof(Unlocking));
         }
 
-        [HttpPost]
-        [Route(nameof(Unlock))]
+        [HttpPost("/unlock")]
         [Authorize(Policy = nameof(Policies.CanUnlockWorkpackages))]
         public IActionResult Unlock()
         {
-            ExecuteUserProjectCommand(new OpenWorkpackageFourCommand
-            {
-                DeviceStructuredInformationId = Guid.NewGuid()
-            }, Notice.Success("Work package unlocked"));
+            ExecuteUserProjectCommand(new OpenWorkpackageFourCommand(), Notice.Success("Work package unlocked"));
 
             if (!ModelState.IsValid)
             {

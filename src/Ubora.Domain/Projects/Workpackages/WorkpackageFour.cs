@@ -19,10 +19,7 @@ namespace Ubora.Domain.Projects.Workpackages
             
             _steps.Add(new WorkpackageStep("PrototypesAndConsiderationsForSafetyAssessment", "Prototypes and considerations for safety assessment"));
             _steps.Add(new WorkpackageStep("QualityCriteria", "Quality criteria"));
-            _steps.Add(new WorkpackageStep("IsoCompliance", "ISO compliance"));
             _steps.Add(new WorkpackageStep("ResultsFromVitroOrVivo", "Results from vitro/vivo"));
-            _steps.Add(new WorkpackageStep("WP4StructuredInformationOnTheDevice", "Structured information on the device"));
-            _steps.Add(new WorkpackageStep("PreproductionDocuments", "Preproduction documents"));
         }
       
         private void Apply(WorkpackageFourStepEdited e)
