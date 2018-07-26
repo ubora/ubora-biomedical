@@ -85,11 +85,8 @@
     }
 
     .dropdown-menu {
+        z-index: 1021;
         top: .5rem;
-
-        .dropdown-header {
-            white-space: normal;
-        }
 
         .dropdown-item {
 
