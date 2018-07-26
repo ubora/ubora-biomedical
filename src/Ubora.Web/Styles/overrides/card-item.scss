@@ -25,6 +25,7 @@
 }
 
 .project-card {
+
     img {
         height: 180px;
         position: relative;
@@ -59,6 +60,15 @@
             border-top-left-radius: 0;
             border-top-right-radius: 0;
         }
+    }
+}
+
+
+.project-card,
+.user-card {
+
+    &:hover {
+        @extend .box-shadow;
     }
 }
 
