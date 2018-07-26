@@ -1,9 +1,9 @@
 ﻿using System;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Projects.IsoStandardsCompliances.Events;
+using Ubora.Domain.Projects.IsoStandardsComplianceChecklists.Events;
 
-namespace Ubora.Domain.Projects.IsoStandardsCompliances.Commands
+namespace Ubora.Domain.Projects.IsoStandardsComplianceChecklists.Commands
 {
     public class MarkIsoStandardAsCompliantCommand : UserProjectCommand
     {
@@ -20,7 +20,7 @@ namespace Ubora.Domain.Projects.IsoStandardsCompliances.Commands
 
             public ICommandResult Handle(MarkIsoStandardAsCompliantCommand cmd)
             {
-                var aggregate = _documentSession.LoadOrThrow<IsoStandardsComplianceAggregate>(cmd.ProjectId);
+                var aggregate = _documentSession.LoadOrThrow<IsoStandardsComplianceChecklist>(cmd.ProjectId);
 
                 _documentSession.Events.Append(aggregate.Id, new IsoStandardMarkedAsCompliantEvent(cmd.Actor, cmd.ProjectId, cmd.ProjectId, cmd.IsoStandardId));
                 _documentSession.SaveChanges();

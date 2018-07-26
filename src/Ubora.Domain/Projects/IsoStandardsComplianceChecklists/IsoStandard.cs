@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Ubora.Domain.Projects.IsoStandardsCompliances
+namespace Ubora.Domain.Projects.IsoStandardsComplianceChecklists
 {
     public class IsoStandard
     {

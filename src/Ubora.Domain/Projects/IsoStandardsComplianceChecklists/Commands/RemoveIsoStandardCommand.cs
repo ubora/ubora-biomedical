@@ -1,9 +1,9 @@
 ﻿using System;
 using Marten;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Projects.IsoStandardsCompliances.Events;
+using Ubora.Domain.Projects.IsoStandardsComplianceChecklists.Events;
 
-namespace Ubora.Domain.Projects.IsoStandardsCompliances.Commands
+namespace Ubora.Domain.Projects.IsoStandardsComplianceChecklists.Commands
 {
     public class RemoveIsoStandardCommand : UserProjectCommand
     {
@@ -20,7 +20,7 @@ namespace Ubora.Domain.Projects.IsoStandardsCompliances.Commands
 
             public ICommandResult Handle(RemoveIsoStandardCommand cmd)
             {
-                var aggregate = _documentSession.LoadOrThrow<IsoStandardsComplianceAggregate>(cmd.ProjectId);
+                var aggregate = _documentSession.LoadOrThrow<IsoStandardsComplianceChecklist>(cmd.ProjectId);
 
                 var @event = new IsoStandardRemovedFromComplianceChecklistEvent(cmd.Actor, cmd.ProjectId, aggregate.Id, cmd.IsoStandardId);
                 _documentSession.Events.Append(aggregate.Id, @event);

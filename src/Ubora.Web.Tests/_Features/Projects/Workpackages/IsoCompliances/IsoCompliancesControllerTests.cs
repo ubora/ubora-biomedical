@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Projects.IsoStandardsCompliances.Commands;
+using Ubora.Domain.Projects.IsoStandardsComplianceChecklists.Commands;
 using Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances;
 using Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances.Models;
 using Xunit;

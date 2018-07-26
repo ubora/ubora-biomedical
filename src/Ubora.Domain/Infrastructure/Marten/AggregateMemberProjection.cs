@@ -11,8 +11,21 @@ using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
-    internal class AggregateMemberProjection<T, TEvent> 
-        : IProjection where T : class, new() where TEvent : class, IAggregateMemberEvent
+    internal class AggregateMemberProjection<T, TEvent> : AggregateMemberProjectionBase<T, TEvent>
+        where T : class, new()
+        where TEvent : class, IAggregateMemberEvent
+    {
+        protected override T LoadAggregate(IDocumentSession session, TEvent @event)
+        {
+            var aggregateMemberId = @event.Id;
+            return session.Load<T>(aggregateMemberId) ?? new T();
+        }
+    }
+
+    internal abstract class AggregateMemberProjectionBase<T, TEvent> 
+        : IProjection 
+        where T : class, new() 
+        where TEvent : class
     {
         public Type[] Consumes => new[] { typeof(TEvent) };
 
@@ -32,8 +45,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                         continue;
                     }
 
-                    var aggregateMemberId = @event.Id;
-                    var aggregateMember = session.Load<T>(aggregateMemberId) ?? new T();
+                    var aggregateMember = LoadAggregate(session, @event);
 
                     var eventApplyMethod = typeof(T)
                         .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
@@ -46,6 +58,8 @@ namespace Ubora.Domain.Infrastructure.Marten
                 }
             }
         }
+
+        protected abstract T LoadAggregate(IDocumentSession session, TEvent @event);
 
         private static bool IsApplyMethodForType(MethodInfo methodInfo, Type type)
         {
