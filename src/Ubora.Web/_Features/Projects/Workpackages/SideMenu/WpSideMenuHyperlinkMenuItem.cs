@@ -5,9 +5,14 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
 {
     public class WpSideMenuHyperlinkMenuItem : HyperlinkMenuItem, IWorkpackageSideMenuItem
     {
+        private readonly string _href;
+
         public WpSideMenuHyperlinkMenuItem(NestingLevel nesting, string id, string displayName, string href) 
-            : base(nesting, id, displayName, href)
         {
+            DisplayName = displayName;
+            _href = href;
+            Nesting = nesting;
+            Id = id;
         }
 
         public WorkpackageStatus Status { get; set; }
@@ -16,6 +21,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
         {
             Status = status;
             return this;
+        }
+
+        public override string Href
+        {
+            get
+            {
+                if (Status == WorkpackageStatus.Closed)
+                {
+                    return "#";
+                }
+                return _href;
+            }
         }
 
         public override string ATagClass

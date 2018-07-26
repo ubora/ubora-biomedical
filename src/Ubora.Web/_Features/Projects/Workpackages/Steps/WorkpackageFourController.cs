@@ -193,6 +193,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [HttpGet("unlock")]
+        [Authorize(Policy = nameof(Policies.CanUnlockWorkpackages))]
         public IActionResult Unlocking()
         {
             ViewBag.Title = "WP 4: Implementation";

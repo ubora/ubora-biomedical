@@ -80,6 +80,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [Route(nameof(Unlocking))]
+        [Authorize(Policy = nameof(Policies.CanUnlockWorkpackages))]
         public IActionResult Unlocking()
         {
             ViewBag.Title = "WP 3: Design and prototyping";
