@@ -2,25 +2,37 @@
     background-color: $quartinary-shade;
     color: $text-color;
     border-top: 1px solid $light;
+    @extend .py-5;
+
+    a {
+        color: $text-color;
+        display: block;
+    }
+
+    h6 {
+        @extend .font-weight-light-bold;
+    }
 }
 
-.social-item:active,
-.social-item:focus,
-.social-item:hover {
-  color: $white;
-  text-decoration: underline;
+.social-item {
+    &:active,
+    &:focus,
+    &:hover {
+        color: $white;
+        text-decoration: underline;
+    }
 }
 
 .social-item--image {
-  height: 2em;
-  width: 2em;
+    height: 2em;
+    width: 2em;
 }
 
 .legal-flag {
-  width:4em;
+    width: 4em;
 }
 
 .legal-quote {
-  font-size: 80%;
-  font-style: italic;
+    font-size: 80%;
+    font-style: italic;
 }
