@@ -75,7 +75,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
                 StepId = model.StepId,
                 NewValue = model.Content
-            }, Notice.Success("WP4StepEdited"));
+            }, Notice.Success("Changes saved"));
 
             if (!ModelState.IsValid)
             {
