@@ -32,7 +32,11 @@ export default class DragAndDropFileUploads {
                     removeFileAndSetError(file);
                 }
             } else {
-                window.location.reload();
+                if (response.redirect) {
+                    window.location.href = response.redirect;
+                } else {
+                    window.location.reload();
+                }
             }
         });
 

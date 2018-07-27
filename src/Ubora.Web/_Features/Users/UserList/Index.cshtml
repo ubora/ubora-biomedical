@@ -1,24 +1,86 @@
-﻿@using Ubora.Web._Features.Users.UserList
-@model Ubora.Web._Features.Users.UserList.UserListController.IndexViewModel
+﻿@model Ubora.Web._Features.Users.UserList.IndexViewModel
+@using Ubora.Web._Features.Users.UserList.Models
+@using Ubora.Web._Features.Users.UserList
 
 @{
     ViewData["Title"] = "Community";
 }
 
 <div class="container my-5">
-    <div class="infinite-scroll">
-        <h1>Community</h1>
-        <div class="post">
-            <div class="row">
-                @foreach (var user in Model.UserListItems)
+    <h1>@ViewData["Title"]</h1>
+
+    <ul class="nav nav-tabs" id="communityTab">
+        @{
+            if (Model.Tab == TabType.Mentors)
+            {
+                <li class="nav-item">
+                    <a id="all-members-tab" class="nav-link d-flex align-items-center" href="/community/search?Tab=AllMembers&Ordering=@Model.Ordering">
+                        All members
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="mentors-tab" class="nav-link active d-flex align-items-center" href="/community/search?Tab=Mentors&Ordering=@Model.Ordering">
+                        Mentors
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a id="all-members-tab" class="nav-link active d-flex align-items-center" href="/community/search?Tab=AllMembers&Ordering=@Model.Ordering">
+                        All members
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="mentors-tab" class="nav-link d-flex align-items-center" href="/community/search?Tab=Mentors&Ordering=@Model.Ordering">
+                        Mentors
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+
+    <div class="row py-2">
+        <div class="col d-flex justify-content-end">
+            <div id="sortBy" class="dropdown d-inline-block">
+                <span class="align-middle px-2">Sort by</span>
+
+                @if (Model.Ordering == OrderingMethod.Lastname)
                 {
-                    Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
-                        userId: user.UserId,
-                        name: user.FullName,
-                        roles: user.Role,
-                        profilePictureUrl: user.ProfilePictureLink)
-                    );
+                    <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
+                        Last name
+                    </button>
                 }
+                else
+                {
+                    <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
+                        First name
+                    </button>
+                }
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/community/search?Tab=@Model.Tab&Ordering=LastName">Last name</a>
+                    <a class="dropdown-item" href="/community/search?Tab=@Model.Tab&Ordering=FirstName">First name</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-content" id="communityContent">
+        <div class="tab-pane fade show active">
+            <div class="infinite-scroll">
+                <div class="post">
+                    <div class="row">
+                        @foreach (var user in Model.UserListItems)
+                        {
+                            Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
+                                userId: user.UserId,
+                                name: user.FullName,
+                                roles: user.Role,
+                                profilePictureUrl: user.ProfilePictureLink)
+                            );
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -53,10 +115,9 @@
     }
 </div>
 
-
 @section Scripts {
     <script src="~/dist/infinite_scroll.bundle.js"></script>
     <script>
-        UBORA.initInfiniteScroll('@Url.Action(nameof(UserListController.Index), "UserList")');
+        UBORA.initInfiniteScroll('@Html.Raw(Url.RouteUrl("CommunitySearch", new { Tab = Model.Tab, Ordering = Model.Ordering }))');
     </script>
 }

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Manage users";
 }
 
-<div class="container min-height-45 my-5">
+<div class="container h-min-45 my-5">
     <h1>@ViewData["Title"]</h1>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     @foreach (var user in Model.Items)
@@ -22,11 +22,12 @@
             <div class="col-lg-2">
                 <form onsubmit="return confirm('Are you sure?')" method="post">
                     <input type="hidden" name="userId" value="@user.UserId" />
+                    <input type="hidden" name="page" value="@Model.Pager.PageNumber" />
                     <div class="dropdown">
-                        <button class="dropdown-toggle btn btn-primary btn-sm mt-lg-0 mt-sm-2 mt-xs-2" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="dropdown-toggle btn btn-primary btn-sm mt-lg-0 mt-sm-2 mt-xs-2" type="button" id="manageuserDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Manage user
                         </button>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="manageuserDropdown">
                             @if (user.IsAdmin)
                             {
                                 <button class="dropdown-item" type="submit" asp-action="RemoveAdministratorRole">Remove administrator role</button>

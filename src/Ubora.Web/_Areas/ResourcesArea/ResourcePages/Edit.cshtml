@@ -1,0 +1,92 @@
+﻿@model ResourceEditViewModel
+
+@{
+    ViewData["Title"] = ViewData["ResourcePageTitle"];
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Resources</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+@Html.Partial("_ResourcePageTabsPartial.cshtml")
+
+<form asp-action="@nameof(ResourcePagesController.Edit)">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input class="form-control" asp-for="Title" placeholder='e.g. "Introduction to UBORA"' />
+        <span asp-validation-for="Title"></span>
+    </div>
+    <div class="form-group">
+        <input type="hidden" asp-for="ResourceId" />
+        <input type="hidden" asp-for="ContentVersion" />
+        <label asp-for="Body">Content</label>
+        <input asp-for="Body" type="hidden" />
+        <span asp-validation-for="Body"></span>
+        <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial")</div>
+        <div id="editor-container" class="form-group" style="display: none;"></div>
+    </div>
+    <div class="form-group">
+        <label asp-for="ParentCategoryId">Category</label>
+        @await Component.InvokeAsync(typeof(ResourceCategorySelectOptionsViewComponent), new { selectedCategory = Model.ParentCategoryId })
+        <span asp-validation-for="ParentCategoryId"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="MenuPriority">Menu priority</label>
+        <input class="form-control" asp-for="MenuPriority" />
+        <span asp-validation-for="MenuPriority"></span>
+        <small>Resource pages are ordered by from highest priority to lowest, and then by title alphabetically. You can leave it at "0".</small>
+    </div>
+    <div class="float-right">
+        <button type="submit" class="btn btn-primary">Publish changes</button>
+    </div>
+</form>
+
+@section Right {
+    <div class="mb-3">
+        <button class="my-2 btn btn-outline-primary btn-block" data-toggle="modal" data-target="#delete-page-modal">
+            <i class="material-icons">delete_forever</i>
+            <span>Delete resource page</span>
+        </button>
+    </div>
+
+    <div class="modal fade" id="delete-page-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete resource page</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form asp-action="@nameof(ResourcePagesController.Delete)">
+                    <input name="@nameof(DeleteResourcePagePostModel.ResourcePageId)" value="@Model.ResourceId" type="hidden" />
+                    <div class="modal-body">
+                        <p>Note that this can not be undone and will delete all the files uploaded to the page.</p>
+                        <p>
+                            Are you sure you want to delete the resource page named "@Model.Title"?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        var contentInputSelector = "#@(nameof(Model.Body))";
+        var editorSelector = "#editor-container";
+        var toolbarSelector = "#toolbar-container";
+        var initialContent = @Html.Raw(Model.Body);
+        UBORA.initAddOrEditResource(editorSelector, toolbarSelector, contentInputSelector, initialContent);
+
+    </script>
+}

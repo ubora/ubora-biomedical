@@ -28,11 +28,16 @@ namespace Microsoft.Extensions.DependencyInjection
                 })
                 .AddRazorOptions(o =>
                 {
-                    //o.ViewLocationFormats.Clear(); // Commented out for side-by-side with default folders.
+                    o.ViewLocationFormats.Clear();
+
                     o.ViewLocationFormats.Add(options.FeatureNamePlaceholder + @"\{0}.cshtml");
                     o.ViewLocationFormats.Add(options.FeatureFolderName + @"\_Shared\{0}.cshtml");
                     o.ViewLocationFormats.Add(@"_Components\{0}.cshtml");
                     o.ViewLocationExpanders.Add(expander);
+
+                    o.AreaViewLocationFormats.Add(@"_Areas\{2}\{1}\{0}.cshtml");
+                    o.AreaViewLocationFormats.Add(@"_Areas\{2}\_Shared\{0}.cshtml");
+                    o.AreaViewLocationFormats.Add(@"_Features\_Shared\{0}.cshtml");
                 });
 
             return services;

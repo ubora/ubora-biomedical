@@ -1,0 +1,89 @@
+.project-header-container {
+    background-color: $blue;
+
+    h1 {
+        color: $white;
+        font-size: 1.5rem;
+    }
+
+    .project-header {
+        border: 0;
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.7);
+
+            &.active {
+                border-color: transparent;
+                border-bottom: 1px solid $white;
+                color: $blue;
+
+                &:hover {
+                    color: $light-blue;
+                }
+            }
+
+            &:focus,
+            &:hover {
+                color: $white;
+                border-color: transparent;
+            }
+        }
+    }
+}
+
+
+.project-header-md {
+    background-color: $blue;
+
+    h1 {
+        color: $white;
+        font-size: 1rem;
+    }
+
+    .btn-icon {
+        @extend .btn-block;
+        @extend .color-white;
+        border-radius: 0;
+        padding-top: .75rem;
+        padding-bottom: .75rem;
+    }
+
+    .dropdown-menu {
+        margin: 0;
+        border-radius: 0;
+        transform: none !important;
+        top: 50px !important;
+    }
+
+    .dropdown-toggle::after {
+        font-family: 'Material Icons';
+        content: '\E313';
+        border: none;
+        font-size: 24px;
+        margin-right: 2.8rem;
+        margin-top: -4px;
+        position: absolute;
+    }
+}
+
+
+// Extra large devices (large desktops, 1200px and up)
+@include media-breakpoint-up(xl) {
+    .project-header .nav-item {
+        margin-right: 1rem;
+    }
+}
+
+// Large devices (desktops, less than 1200px)
+@include media-breakpoint-down(lg) {
+    .project-header .nav-item {
+        margin-right: .5rem;
+    }
+}
+
+// Medium devices (tablets, less than 992px)
+@include media-breakpoint-down(md) {
+    .project-header .nav-item {
+        margin-right: .25rem;
+    }
+}

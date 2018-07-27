@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Notifications.Specifications;
+using Ubora.Domain.Projects.Members;
+using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Users.Queries;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
-using Ubora.Web._Features.UboraMentors.Queries;
-using Ubora.Web._Features.Users.UserList;
+using Ubora.Web._Features.Users.UserList.Models;
 
 namespace Ubora.Web._Features.Projects.InviteMentors
 {
@@ -46,6 +48,8 @@ namespace Ubora.Web._Features.Projects.InviteMentors
                     .ToList();
                 uboraMentors.RemoveAll(x => projectMentorIds.Contains(x.UserId));
 
+                var alreadyInvitedMentorIds = _queryProcessor.Find(new IsFromProjectSpec<ProjectMentorInvitation> { ProjectId = projectId } && !new IsArchived<ProjectMentorInvitation>()).Select(x => x.InviteeUserId);
+                
                 var model = new MentorsViewModel
                 {
                     UboraMentors = uboraMentors.Select(x => new UserListItemViewModel
@@ -53,7 +57,8 @@ namespace Ubora.Web._Features.Projects.InviteMentors
                         UserId = x.UserId,
                         Email = x.Email,
                         FullName = x.FullName,
-                        ProfilePictureLink = _imageStorageProvider.GetDefaultOrBlobUrl(x)
+                        ProfilePictureLink = _imageStorageProvider.GetDefaultOrBlobUrl(x),
+                        IsInvited = alreadyInvitedMentorIds.Contains(x.UserId)
                     }),
                     ProjectMentors = projectMentors.Select(x => new UserListItemViewModel
                     {

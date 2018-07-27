@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Web._Features.ProjectList.Models;
 using Ubora.Web.Services;
 
 namespace Ubora.Web._Features.ProjectList
@@ -14,10 +15,10 @@ namespace Ubora.Web._Features.ProjectList
         }
 
 #pragma warning disable 1998
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(bool hideHeading)
 #pragma warning restore 1998
         {
-            var model = _modelFactory.Create(header: "My projects", userId: User.GetId());
+            var model = _modelFactory.Create(header: (hideHeading ? "" : "My projects"), userId: User.GetId());
 
             return View("~/_Features/ProjectList/UserProjectListPartial.cshtml", model);
         }

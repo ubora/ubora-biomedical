@@ -1,0 +1,67 @@
+﻿@using Ubora.Domain.Resources.Queries
+@using Ubora.Web._Areas.ResourcesArea._Shared.Models
+@using Ubora.Web._Features.Projects.Workpackages.SideMenu
+@inject Ubora.Domain.Infrastructure.Queries.IQueryProcessor QueryProcessor
+
+@{
+    var sideMenuFactory = new ResourcesHierarchySideMenuFactory(Url, AuthorizationService);
+    var root = QueryProcessor.ExecuteQuery(new FindResourceMenuRootQuery());
+
+    var model = new SideMenuViewModel
+    {
+        TopLevelMenuItems = sideMenuFactory.CreateSideMenuItems(root, User).ToList()
+    };
+
+    if (ViewData["SelectedSideMenuOption"] != null)
+    {
+        ResourcesHierarchySideMenuFactory.MarkSelected(model.TopLevelMenuItems, (string)ViewData["SelectedSideMenuOption"]);
+    }
+
+    var menuLinks = model.TopLevelMenuItems.Select(item => Html.Partial("~/_Features/_Shared/LeftSideMenu/_SideMenuItemPartial.cshtml", item)).ToList();
+}
+
+<div class="nav-resources">
+    <nav class="nav flex-column">
+
+        <aside>
+            <ul class="list-sidebar">
+                @foreach (var menuLink in menuLinks)
+                {
+                    menuLink.WriteTo(Output, HtmlEncoder);
+                }
+            </ul>
+        </aside>
+
+    </nav>
+</div>
+<div class="nav-resources-lg">
+    <button type="button" class="btn btn-icon d-flex align-items-center px-0" data-toggle="modal" data-target="#resourcesNavModal">
+        <i class="material-icons mr-2">menu</i>
+        <span>Resources menu</span>
+    </button>
+    <div class="modal fade modal-left-pane" id="resourcesNavModal" tabindex="-1" role="dialog" aria-labelledby="resourcesNavLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content bg-blue">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="color-white">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="resourcesNavLabel">
+                    <nav class="nav flex-column">
+
+                        <aside>
+                            <ul class="list-sidebar">
+                                @foreach (var menuLink in menuLinks)
+                                {
+                                    menuLink.WriteTo(Output, HtmlEncoder);
+                                }
+                            </ul>
+                        </aside>
+
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

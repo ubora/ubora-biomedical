@@ -1,80 +1,71 @@
 ﻿@model Ubora.Web._Features.Projects.Workpackages.Candidates.VotingViewModel
 
-<div class="col-lg-7">
-    <div class="row">
-        <div class="col">
-            <div class="row">
-                <div class="col-lg-9">
-                    <h1>Voting</h1>
-                </div>
-                <div class="col-lg-3 d-flex justify-content-end">
-                    @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanAddProjectCandidate)).Succeeded)
-                    {
-                        <a class="btn btn-outline-primary align-self-start" asp-controller="Candidates" asp-action="AddCandidate">
-                            <i class="material-icons">add</i>
-                            <span>Add candidate</span>
-                        </a>
-
-
-                    }
-                </div>
-            </div>
-
-            <div class="row">
-                @foreach (var candidate in Model.Candidates)
-                {
-                    <div class="col-sm-12 col-md-3 my-2">
-                        <div class="card w-100 h-100">
-                            <a href="@Url.Action("Candidate", "Candidates", new { candidateId = candidate.Id })" class="card-link">
-                                <img class="card-img-top img-fluid" src="@candidate.ImageUrl" alt="Card image cap">
-                            </a>
-                            <div class="card-body h-100">
-                                <h4 class="card-title mt-2"><a href="@Url.Action("Candidate", "Candidates", new { candidateId = candidate.Id })"><p>@candidate.Title</p></a></h4>
-                                <p class="card-text text-truncate mb-2">@candidate.Description</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">Score: @candidate.TotalScore.ToString("0.0")</small>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-
-
-            @if (Model.CanOpenWorkpackageThree)
+<div class="row">
+    <div class="col">
+        <div class="d-flex justify-content-between">
+            <h1>Voting</h1>
+            @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanAddProjectCandidate)).Succeeded)
             {
-                <hr>
-                <div class="mt-4">
-
-                    <button class="btn btn-outline-primary align-self-start" role="button" data-toggle="modal" data-target="#openWorkpackageModal" style="">
-                        <i class="material-icons align-middle">arrow_forward</i>
-                        <span>Open “WP3: Design and prototyping”</span>
-                    </button>
-
-                    <div class="modal fade" id="openWorkpackageModal" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Open “Work package 3: design and prototyping”</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form asp-controller="Candidates" asp-action="OpenWorkpackageThree" method="post">
-                                    <div class="modal-body">
-                                        <p>Please be sure you have reached consensus on the conceptual design of your medical device. Are you sure you want to open “WP3: Design and prototyping”?</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="btn btn-primary">Open</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                <a class="btn btn-outline-primary align-self-start" asp-controller="Candidates" asp-action="AddCandidate">
+                    <i class="material-icons">add</i>
+                    <span>Add candidate</span>
+                </a>
             }
         </div>
+        <p>This voting section can help you to identify the best solutions for your medical device. Please use it for creating polls and discussion both on general (e.g. use of piezoelectric sensors) and/or on specific topics (e.g. use of LM7805 voltage regulator), in order to have a more clear idea of your concept, which will be described in the next "Concept description" section.</p>
     </div>
 </div>
+<div class="row">
+    @foreach (var candidate in Model.Candidates)
+    {
+        <div class="col-sm-12 col-md-3 my-2">
+            <div class="card w-100 h-100">
+                <a href="@Url.Action("Candidate", "Candidates" , new { candidateId=candidate.Id })" class="card-link">
+                    <img class="card-img-top img-fluid" src="@candidate.ImageUrl" alt="Card image cap">
+                </a>
+                <div class="card-body h-100">
+                    <h4 class="card-title mt-2"><a href="@Url.Action("Candidate", "Candidates" , new { candidateId=candidate.Id })">@candidate.Title</a></h4>
+                    <p class="card-text text-truncate mb-2">@candidate.Description</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Score: @candidate.TotalScore.ToString("0.0")</small>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (Model.CanOpenWorkpackageThree)
+{
+    <hr>
+    <div class="mt-4">
+
+        <button class="btn btn-outline-primary align-self-start" role="button" data-toggle="modal" data-target="#openWorkpackageModal" style="">
+            <i class="material-icons align-middle">arrow_forward</i>
+            <span>Open “WP3: Design and prototyping”</span>
+        </button>
+
+        <div class="modal fade" id="openWorkpackageModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Open “Work package 3: design and prototyping”</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form asp-controller="Candidates" asp-action="OpenWorkpackageThree" method="post">
+                        <div class="modal-body">
+                            <p>Please be sure you have reached consensus on the conceptual design of your medical device. Are you sure you want to open “WP3: Design and prototyping”?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" type="submit">Open</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
