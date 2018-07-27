@@ -97,6 +97,14 @@
     color: $blue;
 }
 
+.color-white {
+    color: white;
+}
+
+.color-grey-2 {
+    color: $secondary-shade;
+}
+
 /* background colors */
 .bg-blue {
     background-color: $blue;
@@ -131,14 +139,6 @@
 
 .bg-light-grey {
     background-color: $quartinary-shade;
-}
-
-.color-white {
-    color: white;
-}
-
-.color-grey-2 {
-    color: $secondary-shade;
 }
 
 /*hide content*/
