@@ -67,9 +67,15 @@
             <td>Member</td>
         </tr>
     </table>
-    
-    @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP1TemplatePartial.cshtml", Model.Wp1TemplatePartialViewModel)
-    
-    @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP3TemplatePartial.cshtml", Model.Wp3TemplatePartialViewModel)
-     
+
+    @if (Model.Wp1TemplatePartialViewModel != null)
+    {
+        @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP1TemplatePartial.cshtml", Model.Wp1TemplatePartialViewModel)
+    }
+
+    @if (Model.Wp3TemplatePartialViewModel != null)
+    {
+        @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP3TemplatePartial.cshtml", Model.Wp3TemplatePartialViewModel)
+    }
+
 </div>

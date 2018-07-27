@@ -4,12 +4,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
 {
     public class PreproductionDocumentsViewModel
     {
-        public List<WorkpackageSelectList> WorkpackageSelectList { get; set; }
+        public List<WorkpackageCheckBoxListItem> WorkpackageCheckBoxListItems { get; set; }
     }
 
-    public class WorkpackageSelectList
+    public class WorkpackageCheckBoxListItem
     {
         public string Name { get; set; }
-        public bool Checked { get; set; }
+        public bool IsChecked { get; set; }
     }
 }

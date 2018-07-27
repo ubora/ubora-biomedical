@@ -243,12 +243,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             var model = new PreproductionDocumentsViewModel
             {
-                WorkpackageSelectList = new List<WorkpackageSelectList>
+                WorkpackageCheckBoxListItems = new List<WorkpackageCheckBoxListItem>
                 {
-                    new WorkpackageSelectList { Name = "WP1"},
-                    new WorkpackageSelectList { Name = "WP2"},
-                    new WorkpackageSelectList { Name = "WP3"},
-                    new WorkpackageSelectList { Name = "WP4"}
+                    new WorkpackageCheckBoxListItem { Name = "WP1"},
+                    new WorkpackageCheckBoxListItem { Name = "WP2"},
+                    new WorkpackageCheckBoxListItem { Name = "WP3"},
+                    new WorkpackageCheckBoxListItem { Name = "WP4"}
                 }
             };
             
@@ -259,7 +259,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Route(nameof(DownloadPreproductionDocument))]
         public async Task<IActionResult> DownloadPreproductionDocument(PreproductionDocumentsViewModel model, [FromServices] PreproductionDocumentTemplateViewModel.Factory modelFactory)
         {
-            var preproductionDocumentTemplateViewModel = await modelFactory.Create(Project);
+            var preproductionDocumentTemplateViewModel = await modelFactory.Create(Project, model.WorkpackageCheckBoxListItems);
 
             var view = _viewRender.Render("/_Features/Projects/Workpackages/Steps/PreproductionDocuments/", "PreproductionDocumentTemplate.cshtml", preproductionDocumentTemplateViewModel);
             var documentStream = await _wordProcessingDocumentConverter.GetDocumentStreamAsync(view);

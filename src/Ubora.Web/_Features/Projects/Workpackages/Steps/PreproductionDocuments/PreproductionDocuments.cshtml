@@ -13,11 +13,13 @@
         </label>
     </div>
 
-    @for (var i = 0; i < Model.WorkpackageSelectList.Count; i++)
+    @for (var i = 0; i < Model.WorkpackageCheckBoxListItems.Count; i++)
     {
         <div class="checkbox">
-            @Model.WorkpackageSelectList[i].Name
-            @Html.CheckBoxFor(model => model.WorkpackageSelectList[i].Checked)
+            <label>
+                <input asp-for="@Model.WorkpackageCheckBoxListItems[i].Name" type="hidden">
+                <input asp-for="@Model.WorkpackageCheckBoxListItems[i].IsChecked" type="checkbox" class="check"/> @Model.WorkpackageCheckBoxListItems[i].Name
+            </label>
         </div>
     }
 

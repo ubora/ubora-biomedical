@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Queries;
@@ -33,7 +34,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
             {
             }
 
-            public virtual async Task<PreproductionDocumentTemplateViewModel> Create(Project project)
+            public virtual async Task<PreproductionDocumentTemplateViewModel> Create(Project project, List<WorkpackageCheckBoxListItem> workpackageCheckListItems)
             {
                 var model = new PreproductionDocumentTemplateViewModel();
                 model.Title = project.Title;
@@ -43,11 +44,19 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                 model.PotentialTechnologyTags = project.PotentialTechnologyTags;
                 model.Gmdn = project.Gmdn;
 
-                var workspackageOne = _queryProcessor.FindById<WorkpackageOne>(project.Id);
-                model.Wp1TemplatePartialViewModel = await GetWp1TemplatePartialViewModel(workspackageOne);
+                var isCheckedWp1 = workpackageCheckListItems[0].IsChecked;
+                if (isCheckedWp1)
+                {
+                    var workspackageOne = _queryProcessor.FindById<WorkpackageOne>(project.Id);
+                    model.Wp1TemplatePartialViewModel = await GetWp1TemplatePartialViewModel(workspackageOne);
+                }
 
-                var workspackageThree = _queryProcessor.FindById<WorkpackageThree>(project.Id);
-                model.Wp3TemplatePartialViewModel = await GetWp3TemplatePartialViewModel(workspackageThree);
+                var isCheckedWp3 = workpackageCheckListItems[2].IsChecked;
+                if (isCheckedWp3)
+                {
+                     var workspackageThree = _queryProcessor.FindById<WorkpackageThree>(project.Id);
+                     model.Wp3TemplatePartialViewModel = await GetWp3TemplatePartialViewModel(workspackageThree);
+                }
 
                 var deviceClassificationAggregate = _queryProcessor.ExecuteQuery(new LatestFinishedProjectDeviceClassificationQuery(project.Id));
                 if (deviceClassificationAggregate != null)
