@@ -31,5 +31,10 @@ namespace Ubora.Domain.Infrastructure.Commands
             }
             return new CommandResult(errors);
         }
+
+        public override string ToString()
+        {
+            return IsSuccess ? "Success" : "Failure: " + string.Join(",", ErrorMessages);
+        }
     }
 }

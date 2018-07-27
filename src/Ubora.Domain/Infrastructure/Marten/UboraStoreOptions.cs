@@ -19,7 +19,8 @@ using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.History;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects._Events;
-using System.Reflection;
+using Ubora.Domain.Projects.IsoStandardsComplianceChecklists;
+using Ubora.Domain.Projects.StructuredInformations.Events;
 using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Events;
 
@@ -28,8 +29,8 @@ namespace Ubora.Domain.Infrastructure.Marten
     public class UboraStoreOptionsConfigurer
     {
         public Action<StoreOptions> CreateConfigureAction(
-            IEnumerable<Type> eventTypes,
-            IEnumerable<MappedType> notificationTypes,
+            IReadOnlyCollection<Type> eventTypes,
+            IReadOnlyCollection<MappedType> notificationTypes,
             AutoCreate autoCreate)
         {
             if (eventTypes == null)
@@ -69,13 +70,16 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<ResourceFile>()
                     .Duplicate(file => file.ResourcePageId);
 
+                options.Schema.For<IsoStandardsComplianceChecklist>()
+                    .Duplicate(checklist => checklist.ProjectId);
+
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageThree>();
+                options.Events.InlineProjections.AggregateStreamsWith<WorkpackageFour>();
                 options.Events.InlineProjections.AggregateStreamsWith<ApplicableRegulationsQuestionnaireAggregate>();
                 options.Events.InlineProjections.AggregateStreamsWith<DeviceClassificationAggregate>();
-                options.Events.InlineProjections.AggregateStreamsWith<DeviceStructuredInformation>();
                 options.Events.InlineProjections.AggregateStreamsWith<ResourcePage>();
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<Assignment, IAssignmentEvent>());
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());
@@ -83,6 +87,8 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<Candidate>();
                 options.Events.InlineProjections.AggregateStreamsWith<ResourceCategory>();
                 options.Events.InlineProjections.Add(new ResourcesMenuViewProjection());
+                options.Events.InlineProjections.AggregateStreamsWith<IsoStandardsComplianceChecklist>();
+                options.Events.InlineProjections.Add(new DeviceStructuredInformationProjection<IDeviceStructuredInformationEvent>());
 
                 options.Events.AddEventTypes(eventTypes);
 
@@ -107,19 +113,6 @@ namespace Ubora.Domain.Infrastructure.Marten
                 c.ContractResolver = new PrivateSetterResolver();
             });
             return serializer;
-        }
-
-        private static bool IsApplyMethodForType(MethodInfo methodInfo, Type type)
-        {
-            var methodParameters = methodInfo.GetParameters();
-            var isApplyMethod = (methodInfo.Name == "Apply" && methodParameters.Length == 1);
-
-            if (!isApplyMethod)
-            {
-                return false;
-            }
-
-            return methodParameters.Single().ParameterType == type;
         }
     }
 }

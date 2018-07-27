@@ -267,6 +267,9 @@
   <data name="WP2StepEdited" xml:space="preserve">
     <value>Changes saved</value>
   </data>
+  <data name="WP3AndWP4Opened" xml:space="preserve">
+    <value>WP3 and WP4 opened successfully</value>
+  </data>
   <data name="WP3HealthTechnologySpecificationsEdited" xml:space="preserve">
     <value>Changes saved</value>
   </data>

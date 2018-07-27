@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.Members;
 using Ubora.Web.Authorization.Requirements;
 using Ubora.Web.Data;
@@ -34,6 +35,7 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsVoteNotGivenRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, HasProjectMemberOfTypeRequirement<ProjectMentor>.Handler>();
             services.AddSingleton<IAuthorizationHandler, OrRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, IsWorkpackageRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, AndRequirement.Handler>();
         }
 
@@ -185,7 +187,24 @@ namespace Ubora.Web.Authorization
 
                 options.AddPolicy(Policies.CanManageResources, policyBuilder =>
                 {
-                    policyBuilder.RequireRole(ApplicationRole.ManagementGroup);
+                    policyBuilder.AddRequirements(new OrRequirement(new RolesAuthorizationRequirement(new[] { ApplicationRole.ManagementGroup }), new RolesAuthorizationRequirement(new[] { ApplicationRole.Admin })));
+                });
+                options.AddPolicy(Policies.CanUnlockWorkpackages, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement()); 
+                });
+                options.AddPolicy(Policies.CanEditAndViewUnlockedWorkPackageThree, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsWorkpackageRequirement(DeviceStructuredInformationWorkpackageTypes.Three));
+                });
+                options.AddPolicy(Policies.CanEditAndViewUnlockedWorkPackageFour, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsWorkpackageRequirement(DeviceStructuredInformationWorkpackageTypes.Four));
+                });
+
+                options.AddPolicy(Policies.CanRemoveIsoStandardFromComplianceChecklist, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
             });
         }
