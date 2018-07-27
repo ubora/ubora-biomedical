@@ -199,7 +199,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewBag.Title = "WP 4: Implementation";
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.WorkpackageFourLocked;
 
-            return View(nameof(Unlocking));
+            return View("UnlockWp4");
         }
 
         [HttpPost("unlock")]

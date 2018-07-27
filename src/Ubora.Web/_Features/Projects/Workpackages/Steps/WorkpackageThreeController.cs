@@ -86,7 +86,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewBag.Title = "WP 3: Design and prototyping";
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.WorkpackageThreeLocked;
 
-            return View(nameof(Unlocking));
+            return View("UnlockWp3");
         }
 
         [HttpPost]
