@@ -13,6 +13,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
     public class HealthTechnologySpecificationsViewModel
     {
+        public Guid DeviceStructuredInformationId { get; set; }
         public DeviceMeasurementsViewModel DeviceMeasurementsViewModel { get; set; } = new DeviceMeasurementsViewModel();
         [Required(ErrorMessage = "The field is required.")]
         public bool DoesItRequireUseOfConsumables { get; set; }

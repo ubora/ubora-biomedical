@@ -6,21 +6,29 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Projects.Members.Specifications;
+using Ubora.Domain.Projects.StructuredInformations.Events;
 using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.Workpackages.Events
 {
-    public class WorkpackageOneReviewAcceptedEvent : ProjectEvent
+    public class WorkpackageOneReviewAcceptedEvent : ProjectEvent, IDeviceStructuredInformationEvent
     {
-        public WorkpackageOneReviewAcceptedEvent(UserInfo initiatedBy, Guid projectId, string concludingComment, DateTimeOffset acceptedAt) 
+        public WorkpackageOneReviewAcceptedEvent(
+            UserInfo initiatedBy, 
+            Guid projectId, 
+            string concludingComment, 
+            DateTimeOffset acceptedAt,
+            Guid deviceStructuredInformationId) 
             : base(initiatedBy, projectId)
         {
+            DeviceStructuredInformationId = (deviceStructuredInformationId == default(Guid)) ? projectId : deviceStructuredInformationId; // Warning: backwards-compatibility (ubora-kahawa)
             ConcludingComment = concludingComment;
             AcceptedAt = acceptedAt;
         }
 
         public string ConcludingComment { get; private set; }
         public DateTimeOffset AcceptedAt { get; private set; }
+        public Guid DeviceStructuredInformationId { get; }
 
         public override string GetDescription() => $"accepted work package 1 by {StringTokens.WorkpackageOneReview(ProjectId)}.";
 
