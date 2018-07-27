@@ -1,0 +1,25 @@
+﻿@model Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments.WP2TemplatePartialViewModel
+
+@{
+    var isNonEmptyPhysicalPrinciples = !String.IsNullOrEmpty(Model.PhysicalPrinciples);
+    var isNonEmptyConceptDescription = !String.IsNullOrEmpty(Model.ConceptDescription);
+}
+
+@if (isNonEmptyPhysicalPrinciples || isNonEmptyConceptDescription)
+{
+    <h1>Conceptual design</h1>
+}
+
+@if (isNonEmptyPhysicalPrinciples)
+{
+    <h2>Physical principles</h2>
+
+    @Html.Raw(Model.PhysicalPrinciples)
+}
+
+@if (isNonEmptyConceptDescription)
+{
+    <h2>Concept description</h2>
+
+    @Html.Raw(Model.ConceptDescription) 
+}

@@ -50,22 +50,13 @@
             <th>Name</th>
             <th>Role</th>
         </tr>
-        <tr>
-            <td>Kadri</td>
-            <td>Leader</td>
-        </tr>
-        <tr>
-            <td>Jüri</td>
-            <td>Mentor</td>
-        </tr>
-        <tr>
-            <td>Mart</td>
-            <td>Member</td>
-        </tr>
-        <tr>
-            <td>Marta</td>
-            <td>Member</td>
-        </tr>
+        @foreach (var member in Model.Members)
+        {
+            <tr>
+                <td>@member.FullName</td>
+                <td>@member.Roles</td>
+            </tr>
+        }
     </table>
 
     @if (Model.Wp1TemplatePartialViewModel != null)
@@ -73,9 +64,19 @@
         @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP1TemplatePartial.cshtml", Model.Wp1TemplatePartialViewModel)
     }
 
+    @if (Model.Wp2TemplatePartialViewModel != null)
+    {
+        @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP2TemplatePartial.cshtml", Model.Wp2TemplatePartialViewModel)
+    }
+    
     @if (Model.Wp3TemplatePartialViewModel != null)
     {
         @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP3TemplatePartial.cshtml", Model.Wp3TemplatePartialViewModel)
     }
-
+    
+    @if (Model.Wp4TemplatePartialViewModel != null)
+    {
+        @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP4TemplatePartial.cshtml", Model.Wp4TemplatePartialViewModel)
+    }
+    
 </div>

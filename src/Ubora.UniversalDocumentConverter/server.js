@@ -38,7 +38,7 @@ app.post('/download/docx', function(req, res) {
         const random = crypto.randomBytes(8).toString('hex');
         const fileName = random + '.docx';
 
-        pdc(body, "html", "docx", [ '-o', fileName, '--reference-doc=custom-reference.docx' ], function(err) {
+        pdc(body, "html", "docx", [ '-o', fileName, '--reference-doc=custom-reference.docx', '--toc' ], function(err) {
           if (err){
             res.sendStatus(400)  
           } else {
