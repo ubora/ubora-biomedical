@@ -6,6 +6,8 @@ namespace Ubora.Domain.Projects.Workpackages
 {
     public class WorkpackageThree : Workpackage<WorkpackageThree>
     {
+        public bool HasBeenOpened { get; private set ; }
+        
         private void Apply(WorkpackageThreeOpenedEvent e)
         {
             if (_steps.Any())
@@ -14,8 +16,8 @@ namespace Ubora.Domain.Projects.Workpackages
             }
 
             ProjectId = e.ProjectId;
-
             Title = "Design and prototyping";
+            HasBeenOpened = true;
 
             _steps.Add(new WorkpackageStep("GeneralProductDescription_Hardware_CommercialParts", "Commercial parts"));
             _steps.Add(new WorkpackageStep("GeneralProductDescription_Hardware_PurposelyDesignedParts", "Purposely designed parts"));

@@ -30,12 +30,12 @@ namespace Ubora.Domain.Tests.NotifierTests
                 Guid.NewGuid(),
             };
 
-            var project = new ProjectBuilder()
+            var project = new ProjectSeeder()
                 .WithCreator(expectedProjectMemberUserIds[0])
                 .AddMentors(expectedProjectMemberUserIds[1], eventInvokerUserId)
                 .AddRegularMembers(expectedProjectMemberUserIds[2])
                 .AddRegularMembers(expectedProjectMemberUserIds[2]) // duplicates should not be notified
-                .Build(this);
+                .Seed(this);
 
             var eventId = Guid.NewGuid();
             var martenEvent = new Event<WorkpackageThreeOpenedEvent>(

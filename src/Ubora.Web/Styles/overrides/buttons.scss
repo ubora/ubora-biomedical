@@ -1,3 +1,13 @@
+.btn:not(.btn-icon) {
+    min-width: 8rem;
+}
+
+.modal-dialog {
+    .btn:not(.btn-icon) {
+        min-width: 5rem;
+    }
+}
+
 .btn-primary,
 .btn-outline-primary {
     font-family: inherit;
@@ -53,19 +63,12 @@
 .btn-icon {
     background-color: transparent;
     border: none;
+    color: $blue;
 
     &:focus,
     &:hover {
         cursor: pointer;
         box-shadow: none;
-    }
-
-    .material-icons, span {
-        @extend .align-middle;
-    }
-
-    .material-icons, span {
-        @extend .align-middle;
     }
 
     .material-icons, span {
@@ -84,6 +87,12 @@ a.btn-icon:hover {
 .modal-footer {
     button {
         min-width: 4.5rem;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .btn:not(.btn-icon) {
+        min-width: 6rem;
     }
 }
 

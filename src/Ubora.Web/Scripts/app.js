@@ -46,9 +46,11 @@ $(function () {
         .each(function (i, element) {
             const $form = $(element);
 
-            if ($form.hasClass('js-disable-onbeforeunload')) {
+            if (!$form.hasClass('js-onbeforeunload')) {
                 return;
             };
+
+            console.log('foo')
 
             possiblyChangedForms.push({ form: $form, initialSerialize: $form.serialize() })
         })
@@ -56,8 +58,10 @@ $(function () {
             window.onbeforeunload = null;
 
             possiblyChangedForms.forEach(function (item) {
+                console.log(item.form.serialize())
+
                 if (item.form.serialize() !== item.initialSerialize) {
-                    window.onbeforeunload = function () { return true };
+                    window.onbeforeunload = function () { return "You may have unsaved changes. Do you really want to leave?" };
                     return;
                 }
             });

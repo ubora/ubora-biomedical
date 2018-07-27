@@ -53,7 +53,8 @@ namespace Ubora.Web._Features._Shared
                 .ForMember(dest => dest.EditButton, o => o.Ignore());
 
             CreateMap<UserProfile, UserListItemViewModel>()
-                .ForMember(dest => dest.ProfilePictureLink, o => o.Ignore());
+                .ForMember(dest => dest.ProfilePictureLink, o => o.Ignore())
+                .ForMember(dest => dest.IsInvited, o => o.Ignore());
 
             CreateMap<UserProfile, ProfileViewModel>()
                 .ForMember(dest => dest.ProfilePictureLink, o => o.Ignore())

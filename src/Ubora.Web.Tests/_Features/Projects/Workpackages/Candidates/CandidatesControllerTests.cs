@@ -50,11 +50,6 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 {
                     MethodName = nameof(CandidatesController.AddCandidate),
                     Policies = new []{ nameof(Policies.CanAddProjectCandidate) }
-                },
-                new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                {
-                    MethodName = nameof(CandidatesController.OpenWorkpackageThree),
-                    Policies = new []{ nameof(Policies.CanOpenWorkpackageThree) }
                 }
             };
 
@@ -89,8 +84,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
 
             var expectedModel = new VotingViewModel
             {
-                Candidates = new[] { candidate1ItemViewModel, candidate2ItemViewModel }.AsEnumerable(),
-                CanOpenWorkpackageThree = true
+                Candidates = new[] { candidate1ItemViewModel, candidate2ItemViewModel }.AsEnumerable()
             };
 
             // Act
@@ -1378,30 +1372,6 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
             result.GetType().Should().Be(typeof(ForbidResult));
 
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
-        }
-
-        [Fact]
-        public async Task OpenWorkpackageThree_Executes_Command_And_Redirects_To_Voting_With_Success_Notice()
-        {
-            OpenWorkpackageThreeCommand executedCommand = null;
-            CommandProcessorMock
-                .Setup(p => p.Execute(It.IsAny<OpenWorkpackageThreeCommand>()))
-                .Callback<OpenWorkpackageThreeCommand>(c => executedCommand = c)
-                .Returns(CommandResult.Success);
-
-            var candidateItemViewModelFactoryMock = new Mock<CandidateItemViewModel.Factory>(Mock.Of<ImageStorageProvider>(), Mock.Of<IMapper>());
-
-            // Act
-            var result = (RedirectToActionResult)await _controller.OpenWorkpackageThree(candidateItemViewModelFactoryMock.Object);
-
-            // Assert
-            result.ActionName.Should().Be(nameof(CandidatesController.Voting));
-            executedCommand.ProjectId.Should().Be(ProjectId);
-            executedCommand.Actor.UserId.Should().Be(UserId);
-
-            var successNotice = _controller.Notices.Dequeue();
-            successNotice.Text.Should().Be(SuccessTexts.WP3Opened);
-            successNotice.Type.Should().Be(NoticeType.Success);
         }
     }
 }

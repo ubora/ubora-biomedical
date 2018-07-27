@@ -18,6 +18,16 @@ namespace Ubora.Web.Services
             return fullName;
         }
 
+        public static string GetFirstName(this IPrincipal principal)
+        {
+            if (principal == null) throw new ArgumentNullException(nameof(principal));
+
+            var claimsPrincipal = (ClaimsPrincipal)principal;
+            var fullName = claimsPrincipal.FindFirstValue(ApplicationUser.FirstNameClaimType);
+
+            return fullName;
+        }
+
         public static string GetProfilePictureUrl(this IPrincipal principal)
         {
             if (principal == null) throw new ArgumentNullException(nameof(principal));

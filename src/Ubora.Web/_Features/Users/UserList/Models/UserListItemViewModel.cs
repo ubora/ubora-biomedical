@@ -9,5 +9,6 @@ namespace Ubora.Web._Features.Users.UserList.Models
         public string Email { get; set; }
         public string ProfilePictureLink { get; set; }
         public string Role { get; set; }
+        public bool IsInvited { get; set; }
     }
 }
