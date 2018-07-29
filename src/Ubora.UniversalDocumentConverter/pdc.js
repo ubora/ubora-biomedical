@@ -1,5 +1,5 @@
 var execFile = require('child_process').execFile;
-var optipng = require('pandoc-bin').path;
+var optipng = require('./pandoc-bin/index').path;
 
 module.exports = pdc;
 

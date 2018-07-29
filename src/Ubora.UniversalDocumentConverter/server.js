@@ -6,7 +6,7 @@ const path = require('path')
 const pdc = require('./pdc')
 const helpers = require('./helpers')
 const execFile = require('child_process').execFile;
-const optipng = require('pandoc-bin').path;
+const optipng = require('./pandoc-bin/index').path;
 
 const PORT = process.env.PORT || 1337;
 
