@@ -9,7 +9,9 @@
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a asp-controller="Members" asp-action="Members">Members</a></li>
+        <li class="breadcrumb-item">
+            <a asp-controller="Members" asp-action="Members">Members</a>
+        </li>
         <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
     </ol>
 </nav>
@@ -25,11 +27,13 @@
                         <img class="card-img-top mt-4 avatar" src="@mentor.ProfilePictureLink" alt="@mentor.FullName profile picture">
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title"><a asp-action="ViewProfile" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h4>
+                        <h4 class="card-title">
+                            <a asp-action="ViewProfile" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a>
+                        </h4>
                         @*TODO: show all roles*@
                         <p>Mentor&nbsp;</p>
                         <form class="form-group" asp-action="InviteMentor">
-                            <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId" />
+                            <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId"/>
                         </form>
                     </div>
                 </div>
@@ -48,11 +52,21 @@
                     <img class="avatar mt-4" src="@mentor.ProfilePictureLink" alt="@mentor.FullName profile picture">
                 </div>
                 <div class="card-body pb-0">
-                    <h4 class="card-title"><a asp-action="ViewProfile" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a></h4>
+                    <h4 class="card-title">
+                        <a asp-action="ViewProfile" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a>
+                    </h4>
                 </div>
                 <form class="form-group py-2" asp-action="InviteMentor">
-                    <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId" />
-                    <button class="btn btn-outline-primary" type="submit">Invite mentor</button>
+                    @if (mentor.IsInvited)
+                    {
+                        <span class="d-block mb-2">Invitation sent</span>
+                        <button class="btn btn-outline-primary" type="submit" disabled>Invite mentor</button>
+                    }
+                    else
+                    {
+                        <input type="hidden" name="@nameof(mentor.UserId)" value="@mentor.UserId"/>
+                        <button class="btn btn-outline-primary" type="submit">Invite mentor</button>
+                    }
                 </form>
             </div>
         </div>

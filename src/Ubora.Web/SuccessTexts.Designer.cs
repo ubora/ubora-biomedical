@@ -394,7 +394,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File hidden.
+        ///   Looks up a localized string similar to File deleted.
         /// </summary>
         public static string RepositoryFileHidden {
             get {
@@ -507,6 +507,15 @@ namespace Ubora.Web {
         public static string WP2StepEdited {
             get {
                 return ResourceManager.GetString("WP2StepEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WP3 and WP4 opened successfully.
+        /// </summary>
+        public static string WP3AndWP4Opened {
+            get {
+                return ResourceManager.GetString("WP3AndWP4Opened", resourceCulture);
             }
         }
         

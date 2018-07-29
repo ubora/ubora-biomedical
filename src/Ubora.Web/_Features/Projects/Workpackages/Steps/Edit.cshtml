@@ -16,7 +16,7 @@
     <div id="collapseHelpfulTips" class="collapse">@Html.Raw(Model.Description)</div>
 }
 
-<form action="@Model.EditStepUrl" method="post" asp-antiforgery="true">
+<form action="@Model.EditStepUrl" method="post" asp-antiforgery="true" class="js-onbeforeunload">
     <input asp-for="StepId" type="hidden" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 

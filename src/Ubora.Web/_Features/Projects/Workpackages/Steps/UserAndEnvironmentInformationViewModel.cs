@@ -11,6 +11,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     public class UserAndEnvironmentInformationViewModel
     {
+        public Guid DeviceStructuredInformationId { get; set; }
         [Required(ErrorMessage = "The intended user field is required.")]
         public string IntendedUserTypeKey { get; set; }
         [RequiredIf(nameof(IntendedUserTypeKey), "other")]
@@ -76,7 +77,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
                 return new EditUserAndEnvironmentInformationCommand
                 {
-                    UserAndEnvironmentInformation = userAndEnvironmentInformation
+                    UserAndEnvironmentInformation = userAndEnvironmentInformation 
                 };
             }
 

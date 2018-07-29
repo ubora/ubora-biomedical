@@ -52,13 +52,15 @@
 .nav-resources,
 .nav-resources-lg {
     .list-sidebar a {
-        color: rgba(255, 255, 255, 0.8);
+        color: rgb(255, 255, 255);
 
         &.active-status {
             color: white;
+            opacity: 1;
         }
 
         &:hover {
+            opacity: 1;
             color: white;
         }
     }

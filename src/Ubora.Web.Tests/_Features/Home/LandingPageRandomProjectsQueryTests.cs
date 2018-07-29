@@ -47,7 +47,7 @@ namespace Ubora.Web.Tests._Features.Home
             var allResultProjectIds = new[] {result1, result2, result3, result4}.SelectMany(result => result.Select(project => project.Id)).ToArray();
 
             AssertResultsAreOfExpectedProjects();
-            AssertResultCountsAreFour();
+            AssertResultCountsAreThree();
             AssertResultsAreNotAllSame(); // i.e are random
             
             void AssertResultsAreOfExpectedProjects()
@@ -55,12 +55,12 @@ namespace Ubora.Web.Tests._Features.Home
                 allResultProjectIds.Should().BeSubsetOf(expectedProjectIds);
             }
 
-            void AssertResultCountsAreFour()
+            void AssertResultCountsAreThree()
             {
-                result1.Count.Should().Be(4);
-                result2.Count.Should().Be(4);
-                result3.Count.Should().Be(4);
-                result4.Count.Should().Be(4);
+                result1.Count.Should().Be(3);
+                result2.Count.Should().Be(3);
+                result3.Count.Should().Be(3);
+                result4.Count.Should().Be(3);
             }
 
             void AssertResultsAreNotAllSame()

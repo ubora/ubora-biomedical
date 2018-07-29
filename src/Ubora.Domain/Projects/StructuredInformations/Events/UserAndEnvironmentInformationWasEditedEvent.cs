@@ -4,15 +4,25 @@ using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.StructuredInformations.Events
 {
-    public class UserAndEnvironmentInformationWasEditedEvent : ProjectEvent
+    public class UserAndEnvironmentInformationWasEditedEvent : ProjectEvent, IDeviceStructuredInformationEvent
     {
-        public UserAndEnvironmentInformationWasEditedEvent(UserInfo initiatedBy, Guid projectId, UserAndEnvironmentInformation userAndEnvironmentInformation) : base(initiatedBy, projectId)
+        public UserAndEnvironmentInformationWasEditedEvent(
+            UserInfo initiatedBy, 
+            Guid projectId, 
+            Guid deviceStructuredInformationId, 
+            DeviceStructuredInformationWorkpackageTypes workpackageType, 
+            UserAndEnvironmentInformation userAndEnvironmentInformation) 
+            : base(initiatedBy, projectId)
         {
+            DeviceStructuredInformationId = (deviceStructuredInformationId == default(Guid)) ? projectId : deviceStructuredInformationId; // Warning: backwards-compatibility (ubora-kahawa)
+            WorkpackageType = workpackageType;
             UserAndEnvironmentInformation = userAndEnvironmentInformation;
         }
 
-        public UserAndEnvironmentInformation UserAndEnvironmentInformation { get; private set; }
-
+        public Guid DeviceStructuredInformationId { get; }
+        public DeviceStructuredInformationWorkpackageTypes WorkpackageType { get; }
+        public UserAndEnvironmentInformation UserAndEnvironmentInformation { get; }
+        
         public override string GetDescription() => "edited device structured information.";
     }
 }
