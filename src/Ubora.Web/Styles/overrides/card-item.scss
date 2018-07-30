@@ -60,12 +60,17 @@
             border-top-left-radius: 0;
             border-top-right-radius: 0;
         }
+
+        .btn-group a {
+            width: 100%;
+        }
     }
 }
 
 
 .project-card,
-.user-card {
+.user-card,
+.need-card {
 
     &:hover {
         @extend .box-shadow;

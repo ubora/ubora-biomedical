@@ -2,21 +2,20 @@
 
 <div class="col-sm-6 col-md-4 col-lg-3 my-2">
     <div class="card user-card text-center">
-        <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@Model.UserId" class="user-card--name">
+        <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@Model.UserId">
             <div class="card-body">
                 <img src="@Model.ProfilePictureUrl" class="card-img-top avatar" alt="@Model.Name profile picture">
                 <h4 class="card-title mt-4">
                     @Model.Name
                 </h4>
-                <p style="text-transform: capitalize">@(Model.Roles)&nbsp;</p>
+                <p class="text-capitalize">@(Model.Roles)&nbsp;</p>
             </div>
-            @if (Model.FooterHtml != null)
-            {
-
-                @Model.FooterHtml
-
-            }
         </a>
+        @if (Model.FooterHtml != null)
+        {
 
+            @Model.FooterHtml
+
+        }
     </div>
 </div>
