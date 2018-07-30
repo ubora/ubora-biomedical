@@ -57,36 +57,32 @@
         </div>
 
         <div id="headerNavbar" class="collapse navbar-collapse justify-content-end">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav d-flex align-items-center">
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" asp-controller="ProjectList" asp-action="Search" title="Projects">
-                        <i class="material-icons">folder</i>
-                        <span class="nav-link-description ml-1">Projects</span>
+                    <a class="nav-link" asp-controller="ProjectList" asp-action="Search" title="Projects">
+                        Projects
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()" asp-area="@Areas.ResourcesArea" title="Resources">
-                        <i class="material-icons">school</i>
-                        <span class="nav-link-description ml-1">Resources</span>
+                    <a class="nav-link" asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()" asp-area="@Areas.ResourcesArea" title="Resources">
+                        Resources
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" asp-controller="UserList" asp-action="Index" title="Community">
-                        <i class="material-icons">people</i>
-                        <span class="nav-link-description ml-1">Community</span>
+                    <a class="nav-link" asp-controller="UserList" asp-action="Index" title="Community">
+                        Community
                     </a>
                 </li>
                 @if (User.IsInRole(ApplicationRole.Admin))
                 {
                     <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center" asp-controller="Admin" asp-action="Diagnostics" title="Manage UBORA">
-                            <i class="material-icons">build</i>
-                            <span class="nav-link-description ml-1">Admin</span>
+                        <a class="nav-link" asp-controller="Admin" asp-action="Diagnostics" title="Manage UBORA">
+                            Admin
                         </a>
                     </li>
                 }
                 <li class="nav-item notification-item">
-                    <a class="nav-link nav-link-notification d-flex align-items-center" asp-controller="Notifications" asp-action="Index" title="Notifications">
+                    <a class="nav-link nav-link-notification" asp-controller="Notifications" asp-action="Index" title="Notifications">
                         @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
                     </a>
                 </li>
@@ -124,29 +120,25 @@ else
             <i class="material-icons">menu</i>
         </button>
         <div id="headerNavbar" class="collapse navbar-collapse justify-content-end">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav d-flex align-items-center">
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" asp-controller="ProjectList" asp-action="Search">
-                        <i class="material-icons">folder</i>
-                        <span class="nav-link-description ml-1">Projects</span>
+                    <a class="nav-link" asp-controller="ProjectList" asp-action="Search">
+                        Projects
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" asp-controller="UserList" asp-action="Index">
-                        <i class="material-icons">people</i>
-                        <span class="nav-link-description ml-1">Community</span>
+                    <a class="nav-link" asp-controller="UserList" asp-action="Index">
+                        Community
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()" asp-area="@Areas.ResourcesArea">
-                        <i class="material-icons">school</i>
-                        <span class="nav-link-description ml-1">Resources</span>
+                    <a class="nav-link" asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()" asp-area="@Areas.ResourcesArea">
+                        Resources
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" id="SignInSignUp" asp-controller="Account" asp-action="Login">
-                        <i class="material-icons">account_circle</i>
-                        <span class="nav-link-description ml-1">Log in</span>
+                    <a class="nav-link" id="SignInSignUp" asp-controller="Account" asp-action="Login">
+                        Log in
                     </a>
                 </li>
             </ul>
