@@ -22,10 +22,11 @@
             <a class="navbar-brand" asp-controller="Home" asp-action="Index">
                 <img id="UboraLogo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
             </a>
-            <div class="d-none d-md-block color-blue">
-                <a class="no-underline" asp-controller="Home" asp-action="Index">UBORA</a>
-                (in-development preview)
-            </div>
+            @*TODO: add link to donation page*@
+            <a href="#" class="btn btn-icon" title="Support UBORA">
+                <i class="material-icons">favorite_border</i>
+                <span>Support</span>
+            </a>
         </div>
         <div class="navbar-md">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
@@ -115,6 +116,11 @@ else
     <nav class="header navbar navbar-expand-lg box-shadow sticky-top">
         <a class="navbar-brand" asp-controller="Home" asp-action="Index">
             <img id="UboraLogo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" height="48">
+        </a>
+        @*TODO: add link to donation page*@
+        <a href="#" class="btn btn-icon" title="Support UBORA">
+            <i class="material-icons">favorite_border</i>
+            <span>Support</span>
         </a>
         <button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#headerNavbar" aria-controls="headerNavbar" aria-expanded="false" aria-label="Toggle header navigation">
             <i class="material-icons">menu</i>
