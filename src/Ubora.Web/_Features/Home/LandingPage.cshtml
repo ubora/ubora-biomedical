@@ -32,21 +32,6 @@
         </header>
     }
 
-    @if (User.Identity.IsAuthenticated)
-    {
-        <header class="masthead masthead-loggedin text-center d-flex ">
-            <div class="container-fluid my-auto">
-                <div class="row">
-                    <div class="col-xl-8 col-lg-10 px-5 mx-auto">
-                        <h1>
-                            <strong>UBORA: Euro-African Open Biomedical Engineering e-platform for Innovation through Education</strong>
-                        </h1>
-                    </div>
-                </div>
-            </div>
-        </header>
-    }
-
     <section class="bg-light text-center py-5">
         <div class="container">
             <div class="row">
@@ -123,7 +108,7 @@
         <p class="color-grey">Latest needs:</p>
         <div class="row mb-2">
             <div class="col">
-                <div class="card px-3 py-3 box-shadow">
+                <div class="card need-card px-3 py-3">
                     <div class="row">
                         <div class="col-lg-7">
                             <h6 class="font-weight-bold">Find a solution to more comfortable masks and moulds for radiotherapy</h6>
@@ -168,7 +153,7 @@
         </div>
         <div class="row mb-2">
             <div class="col">
-                <div class="card px-3 py-3 box-shadow">
+                <div class="card need-card px-3 py-3">
                     <div class="row">
                         <div class="col-lg-7">
                             <h6 class="font-weight-bold">Find a solution to more comfortable masks and moulds for radiotherapy</h6>
@@ -214,7 +199,7 @@
         <div class="row">
             <div class="col d-flex justify-content-end mt-3">
                 <a class="btn-icon" asp-controller="ProjectList" asp-action="Search">
-                    <span class="nav-link-description">View all</span>
+                    <span>View all</span>
                     <i class="material-icons font-size-1-1">arrow_forward</i>
                 </a>
             </div>
@@ -236,7 +221,7 @@
             <div class="row">
                 <div class="col d-flex justify-content-end mt-3">
                     <a class="btn-icon" asp-controller="ProjectList" asp-action="Search">
-                        <span class="nav-link-description">View all</span>
+                        <span>View all</span>
                         <i class="material-icons font-size-1-1">arrow_forward</i>
                     </a>
                 </div>
