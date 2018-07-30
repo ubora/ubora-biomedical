@@ -3,10 +3,8 @@ const timeout = require('connect-timeout')
 const fs = require('fs');
 const crypto = require('crypto');
 const path = require('path')
-const pdc = require('./pdc')
+const pdc = require('pdc')
 const helpers = require('./helpers')
-const execFile = require('child_process').execFile;
-const optipng = require('./pandoc-bin/index').path;
 
 const PORT = process.env.PORT || 1337;
 
@@ -16,10 +14,7 @@ var timeoutMilliseconds = 1 * 60 * 1000;
 app.use(timeout(timeoutMilliseconds));
 
 app.get('/', function(req, res) {
-    execFile(optipng, ['-v'], function (err, stdout, stderr) {
-      var version = stdout.match(/\d+\.\d+\.\d+(\.\d+)?/)[0];
-      res.send('Pandoc service. Version: ' + version)
-    });
+    res.send('Pandoc service. Example: curl -H "Content-Type: text/markdown" -X POST -d "# hello" http://localhost/output/html')
 });
 
 app.post('/output/:format', function(req, res) {
@@ -43,11 +38,15 @@ app.post('/download/docx', function(req, res) {
         const random = crypto.randomBytes(8).toString('hex');
         const fileName = random + '.docx';
 
-        pdc(body, "html", "docx", [ '-o', fileName, '--reference-doc=custom-reference.docx', '--toc' ], function() {
+        pdc(body, "html", "docx", [ '-o', fileName, '--reference-doc=custom-reference.docx', '--toc' ], function(err) {
+            if (err) {
+                res.send(err.message, 404)
+            }
+
             const absolutePath = path.join(__dirname, fileName);
             res.download(absolutePath, fileName, function(err){
                 if (err) {
-                    throw err;
+                    res.send(err.message, 404)
                 }
 
                 fs.unlink(absolutePath);

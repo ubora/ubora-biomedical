@@ -12,6 +12,6 @@ RUN apt-get update --fix-missing \
   && rm -rf /var/lib/apt/lists/* \
   && npm install
 
-EXPOSE 5001
+EXPOSE 1337
 
 CMD ["npm", "start"]
