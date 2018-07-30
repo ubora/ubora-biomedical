@@ -1,1 +1,60 @@
-﻿Tere
+﻿@{
+    ViewData["Title"] = "Project closure";
+}
+
+
+<h1>@ViewData["Title"]</h1>
+<div class="project-closure-steps">
+    <div class="row mb-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <a href="#">
+                        <div class="d-flex justify-content-between">
+                            <h3>
+                                Info for general public
+                            </h3>
+                            @*TODO: if user has added some information into this step the icon should be green*@
+                            <i class="material-icons color-dark-green">check</i>
+                        </div>
+                        <small>Provide descriptive materials for your project.</small>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <a href="#">
+                        <div class="d-flex justify-content-between">
+                            <h3>
+                                Real life use or simulation
+                            </h3>
+                            <i class="material-icons color-grey-2">check</i>
+                        </div>
+                        <small>Describe the use of your medical device in a real case scenario.</small>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <a href="#">
+                        <div class="d-flex justify-content-between">
+                            <h3>
+                                Presentation for press
+                            </h3>
+                            <i class="material-icons color-grey-2">check</i>
+                        </div>
+                        <small>Provide descriptive materials for your project to be used "as it is" by media to spotlight your work.</small>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
