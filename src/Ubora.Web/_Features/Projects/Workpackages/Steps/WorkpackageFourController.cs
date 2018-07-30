@@ -9,6 +9,7 @@ using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.Specifications;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Domain.Projects.Workpackages.Queries;
 using Ubora.Web._Features.Projects._Shared;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Infrastructure;
@@ -241,14 +242,16 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.PreproductionDocuments;
 
+            var wpStatuses = QueryProcessor.ExecuteQuery(new GetStatusesOfProjectWorkpackagesQuery(ProjectId));
+            
             var model = new PreproductionDocumentsViewModel
             {
                 WorkpackageCheckBoxListItems = new List<WorkpackageCheckBoxListItem>
                 {
-                    new WorkpackageCheckBoxListItem { Name = "WP1"},
-                    new WorkpackageCheckBoxListItem { Name = "WP2"},
-                    new WorkpackageCheckBoxListItem { Name = "WP3"},
-                    new WorkpackageCheckBoxListItem { Name = "WP4"}
+                    new WorkpackageCheckBoxListItem { Name = "WP1", IsOpened = wpStatuses.Wp1Status == WorkpackageStatus.Opened || wpStatuses.Wp1Status == WorkpackageStatus.Accepted},
+                    new WorkpackageCheckBoxListItem { Name = "WP2", IsOpened = wpStatuses.Wp2Status == WorkpackageStatus.Opened || wpStatuses.Wp2Status == WorkpackageStatus.Accepted},
+                    new WorkpackageCheckBoxListItem { Name = "WP3", IsOpened = wpStatuses.Wp3Status == WorkpackageStatus.Opened || wpStatuses.Wp3Status == WorkpackageStatus.Accepted},
+                    new WorkpackageCheckBoxListItem { Name = "WP4", IsOpened = wpStatuses.Wp4Status == WorkpackageStatus.Opened || wpStatuses.Wp4Status == WorkpackageStatus.Accepted}
                 }
             };
             

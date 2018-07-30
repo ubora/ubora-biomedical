@@ -39,3 +39,44 @@
 
     @Html.Raw(Model.ProductRequirements)
 }
+
+@foreach (var reviewQuestionnaireViewModel in Model.ReviewQuestionnaireViewModels)
+{
+    <h1>Questionnaire results:</h1>
+<p>
+    Most of the cited standards are issued by ISO; some of them are also harmonized (=approved) by the European Commission and in this case they are identified by the EN code. Since the EN version contains more information than the general version, links are provided to the EN version in English language if appropriate.
+</p>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Question</th>
+                <th scope="col">Standard</th>
+                <th scope="col">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var questionAnswer in reviewQuestionnaireViewModel.QuestionAnswerList)
+            {
+                <tr>
+                    <td>
+                        <span class="font-weight-bold">@questionAnswer.QuestionText</span>
+                        <p>You answered: @(questionAnswer.Answer)</p>
+                    </td>
+                    @if (questionAnswer.Answer.Equals("Yes", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        @Html.Raw(questionAnswer.IsoStandardText)
+                    }
+                    else
+                    {
+                        <td></td>
+                        <td></td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<p class="color-orange font-weight-bold">There may be product specific standards that apply, talk to your mentor.</p>
+}

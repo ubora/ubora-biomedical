@@ -4,5 +4,6 @@
     {
         public string PhysicalPrinciples { get; set; }
         public string ConceptDescription { get; set; }
+        public StructuredInformationResultViewModel StructuredInformationResultViewModel { get; set; }
     }
 }
