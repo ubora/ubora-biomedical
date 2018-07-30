@@ -211,6 +211,20 @@ a.no-underline {
     content: '';
 }
 
+.divider {
+    border-top: 3px solid white;
+    width: 50px;
+    display: block;
+}
+
+.border-white {
+    border-color: white;
+}
+
+.border-dark {
+    border-color: $text-color;
+}
+
 .active-nav-link {
     content: '';
     display: block;

@@ -6,14 +6,14 @@
 <div class="landing-page">
     @if (!User.Identity.IsAuthenticated)
     {
-        <header class="masthead text-center d-flex ">
+        <header class="masthead text-center d-flex">
             <div class="container-fluid my-auto">
                 <div class="row">
                     <div class="col-xl-8 col-lg-10 px-5 mx-auto">
                         <h1>
                             <strong>UBORA: Euro-African Open Biomedical Engineering e-platform for Innovation through Education</strong>
                         </h1>
-                        <hr class="light">
+                        <span class="divider border-white mx-auto"></span>
                     </div>
                     <div class="col-xl-6 col-lg-8 mx-auto">
                         <p class="text-faded mb-5">The EU funded project aims at creating an e-platform – UBORA – for open-source co-design of new solutions to face the current and future healthcare challenges of Europe and Africa; by exploiting networking, knowledge on rapid prototyping of new ideas and sharing of safety criteria and performance data.</p>
@@ -47,52 +47,68 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6 needs-section">
-                <h2 class="text-white">
-                    Biomedical device needs
-                </h2>
-                <hr class="light my-4">
-                <p class="text-faded mb-4">Find a suitable Bioengineering solution to healthcare problems through open discussion</p>
-                <ul class="text-faded">
-                    <li>
-                        Find serious problems to solve
-                    </li>
-                    <li>
-                        Discuss on important issues
-                    </li>
-                    <li>
-                        Share your experiences
-                    </li>
-                </ul>
-                <a tabindex="0" class="btn btn-icon color-white" role="button">
-                    <span>
-                        Read more
-                    </span>
-                    <i class="material-icons">arrow_forward</i>
-                </a>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-xl-7">
+                        <h2>
+                            Biomedical device needs
+                        </h2>
+                        <span class="divider border-white"></span>
+                        <p class="mb-4">Find a suitable Bioengineering solution to healthcare problems through open discussion</p>
+                        <ul>
+                            <li>
+                                Find serious problems to solve
+                            </li>
+                            <li>
+                                Discuss on important issues
+                            </li>
+                            <li>
+                                Share your experiences
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-xl-7 d-flex justify-content-end">
+                        <a tabindex="0" class="btn btn-icon color-white" role="button">
+                            <span>
+                                Read more
+                            </span>
+                            <i class="material-icons">arrow_forward</i>
+                        </a>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-6 projects-section">
-                <h2 class="text-white">
-                    Biomedical device projects
-                </h2>
-                <hr class="light my-4">
-                <p class="text-faded mb-4">Find materials on Regulations, Standards, Design selected by UBORA mentors.</p>
-                <ul class="text-faded">
-                    <li>
-                        Work on achieving great results
-                    </li>
-                    <li>
-                        Get guidance and mentoring
-                    </li>
-                    <li>
-                        Follow certified workflow
-                    </li>
-                </ul>
-                <a tabindex="0" class="btn btn-icon color-white" role="button">
-                    <span>
-                        Read more
-                    </span>
-                    <i class="material-icons">arrow_forward</i>
-                </a>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-xl-7">
+                        <h2>
+                            Biomedical device projects
+                        </h2>
+                        <span class="divider border-white"></span>
+                        <p class="mb-4">Find materials on Regulations, Standards, Design selected by UBORA mentors.</p>
+                        <ul>
+                            <li>
+                                Work on achieving great results
+                            </li>
+                            <li>
+                                Get guidance and mentoring
+                            </li>
+                            <li>
+                                Follow certified workflow
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-xl-7 d-flex justify-content-end">
+                        <a tabindex="0" class="btn btn-icon color-white" role="button">
+                            <span>
+                                Read more
+                            </span>
+                            <i class="material-icons">arrow_forward</i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -101,7 +117,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2>Needs looking for solution</h2>
-                <hr class="dark my-4">
+                <span class="divider border-dark mx-auto"></span>
                 <p class="mb-4">UBORA features a project collaboration tool to guide the process of developing a biomedical device in an open-source manner that is in accordance with the international safety standards. All projects are overlooked by the UBORA certified mentors. You can freely create a new project or join existing ones to start collaborating with the community.</p>
             </div>
         </div>
@@ -211,7 +227,7 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2>Projects collaborated on UBORA e-platform</h2>
-                    <hr class="dark my-4">
+                    <span class="divider border-dark mx-auto"></span>
                     <p class="text-faded-dark mb-4">UBORA features a project collaboration tool to guide the process of developing a biomedical device in an open-source manner that is in accordance with the international safety standards. All projects are overlooked by the UBORA certified mentors. You can freely create a new project or join existing ones to start collaborating with the community.</p>
                 </div>
             </div>
@@ -229,25 +245,29 @@
         </div>
     </section>
 
-    <section class="bg-dark">
-        <div class="container">
-            <div class="row">
-                <div class="col text-center">
-                    <h2 class="text-white">Looking for design resources?</h2>
-                    <hr class="light my-4">
-                    <p class="text-faded mb-4">Find materials on Regulations, Standards, Design selected by UBORA mentors.</p>
-                    <a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()" asp-area="@Areas.ResourcesArea" tabindex="0" class="btn btn-outline-light btn-primary btn-lg" role="button">Medical resources</a>
+    <div class="container-fluid bg-dark">
+        <div class="row">
+            <div class="col resources-img d-lg-block d-none">
+            </div>
+            <div class="col resources-section">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-xl-7">
+                        <h2>Design resources</h2>
+                        <span class="divider border-white"></span>
+                        <p class="mb-4">Find materials on Regulations, Standards, Design selected by UBORA mentors.</p>
+                        <a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()" asp-area="@Areas.ResourcesArea" tabindex="0" class="btn btn-outline-light btn-primary btn-lg" role="button">Medical resources</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
     <section class="bg-blue">
         <div class="container">
             <div class="row">
                 <div class="col text-center">
                     <h2 class="text-white">Support UBORA</h2>
-                    <hr class="light my-4">
+                    <span class="divider border-white mx-auto"></span>
                     <p class="text-faded mb-4">You can support UBORA by spreading the word, by collaborating on open-source projects or by supporting financially.</p>
                     <a tabindex="0" class="btn btn-light btn-primary btn-lg popover-dismiss" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="Coming soon">
                         <i class="material-icons align-middle">favorite_border</i>
@@ -264,7 +284,7 @@
             <div id="signUpToUbora" class="container">
                 <div class="text-center">
                     <h2>Sign up to UBORA e-platform</h2>
-                    <hr class="dark my-4">
+                    <span class="divider border-dark mx-auto"></span>
                 </div>
                 <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="form-register js-disable-onbeforeunload" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -338,7 +358,7 @@
         </section>
     }
 
-    </div>
+</div>
 
 <script>
     function show() {

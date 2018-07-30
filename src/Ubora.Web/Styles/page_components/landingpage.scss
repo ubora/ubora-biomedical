@@ -4,9 +4,8 @@
         min-width: 7rem;
     }
 
-    hr {
-        max-width: 50px;
-        border-width: 3px;
+    .divider {
+        @extend .my-4;
     }
 
     header {
@@ -28,13 +27,6 @@
             h1 {
                 color: $white;
                 font-weight: 400;
-            }
-
-            &.masthead-loggedin {
-                background-image: url("../images/icons/ubora-logo.svg");
-                background-position: 91%;
-                background-size: auto;
-                background-repeat: no-repeat;
             }
         }
 
@@ -60,26 +52,40 @@
     }
 
     section {
-        padding: 8rem 0;
+        padding-top: 8rem;
+        padding-bottom: 8rem;
+    }
+
+    .projects-section,
+    .needs-section,
+    .resources-section {
+        padding-top: 8rem;
+        padding-bottom: 8rem;
+        @extend .px-lg-5;
+        @extend .text-center;
+        @extend .text-lg-left;
+
+        .divider {
+            @extend .mx-lg-0;
+            @extend .mx-auto;
+        }
+
+        p, ul {
+            @extend .text-faded;
+        }
+
+
+        h2 {
+            color: white;
+        }
     }
 
     .projects-section {
         @extend .bg-blue;
-        @extend .text-center;
     }
 
     .needs-section {
         @extend .bg-dark-blue;
-        @extend .text-center;
-    }
-
-    .needs-section,
-    .projects-section {
-        padding: 8rem 0;
-
-        ul {
-            list-style-position: inside;
-        }
     }
 
     section.footer {
@@ -87,6 +93,13 @@
         font-size: 80%;
         font-style: italic;
     }
+}
+
+.resources-img {
+    /*Photo by Štefan Štefančík on Unsplash*/
+    background-image: url("../images/discussion.jpg");
+    background-repeat: no-repeat;
+    box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.5);
 }
 
 @include media-breakpoint-up(xl) {
@@ -101,11 +114,6 @@
         min-height: 650px;
         padding-top: 0;
         padding-bottom: 0;
-
-        &.masthead-loggedin {
-            height: 40vh;
-            min-height: 400px;
-        }
     }
 
     header.masthead h1 {
@@ -138,7 +146,10 @@
 
 @include media-breakpoint-down(xs) {
     .landing-page {
-        section, .discussion-section, .resources-section {
+        section, 
+        .projects-section,
+        .needs-section,
+        .resources-section {
             padding-top: 5rem;
             padding-bottom: 5rem;
         }
