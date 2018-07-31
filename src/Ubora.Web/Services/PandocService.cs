@@ -21,6 +21,7 @@ namespace Ubora.Web.Services
                 client.BaseAddress = new Uri(_appSettings.Value.Address);
 
                 var request = new HttpRequestMessage(HttpMethod.Post, "download/docx");
+                request.Headers.Add("privateapikey", _appSettings.Value.Key);
                 request.Content = new StringContent(html);
 
                 return await client.SendAsync(request);

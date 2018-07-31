@@ -7,6 +7,7 @@ const pdc = require('pdc')
 const helpers = require('./helpers')
 
 const PORT = process.env.PORT || 1337;
+const KEY = process.env['CONVERTER_API_KEY'];
 
 const app = express()
 
@@ -18,6 +19,13 @@ app.get('/', function(req, res) {
 });
 
 app.post('/output/:format', function(req, res) {
+    if (req.headers['privateapikey'] !== KEY) {
+        res.status(403);
+        res.send("Invalid key or no key provided");
+    
+        return;
+    }
+
     var contentType = req.get('Content-Type');
     
     if (contentType) {
@@ -34,6 +42,13 @@ app.post('/output/:format', function(req, res) {
   });
 
 app.post('/download/docx', function(req, res) {
+    if (req.headers['privateapikey'] !== KEY) {
+        res.status(403);
+        res.send("Invalid key or no key provided");
+    
+        return;
+    }
+
     helpers.getBody(req, function(body) {
         const random = crypto.randomBytes(8).toString('hex');
         const fileName = random + '.docx';

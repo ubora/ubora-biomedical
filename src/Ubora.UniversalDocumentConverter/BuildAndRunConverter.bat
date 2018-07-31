@@ -1,0 +1,1 @@
+powershell -noexit -executionpolicy bypass -File "BuildAndRunConverter.ps1"

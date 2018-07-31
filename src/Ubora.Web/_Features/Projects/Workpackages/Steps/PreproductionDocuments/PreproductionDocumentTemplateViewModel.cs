@@ -101,8 +101,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                 model.PotentialTechnologyTags = project.PotentialTechnologyTags;
                 model.Gmdn = project.Gmdn;
                 model.Members = GetMembers(project);
-                model.ImagePath = _storageProvider.GetUrl(project.ProjectImageBlobLocation, ImageSize.Thumbnail400x300);
-                
+                if (project.HasImage)
+                {
+                    model.ImagePath = _storageProvider.GetUrl(project.ProjectImageBlobLocation, ImageSize.Thumbnail400x300);
+                }
+
                 var isCheckedWp1 = workpackageCheckListItems[0].IsChecked;
                 if (isCheckedWp1)
                 {
