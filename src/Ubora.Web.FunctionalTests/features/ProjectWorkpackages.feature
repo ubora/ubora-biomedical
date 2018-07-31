@@ -75,13 +75,11 @@ Scenario: I check again the Request mentoring for WP1 review
     Then I expect the element "i=Requested mentoring. Please wait" is visible
         And I expect the title of the page "Formal review - UBORA"  
 
-Scenario: System administrator gets the notification and adds Mentor to the project
+Scenario: System administrator adds Mentor to the project
     When I sign out
     Then I expect the title of the page "UBORA"
-    When I sign in as administrator
-        And I click on the element "span=Notifications"
-        Then I expect the element "p*=Requested mentoring" is visible
     When I go back to last page
+        And I sign in as administrator
         And I click on the element "span=Projects"
         And I click on the element "a*=All projects"
         And I click on the element "*=Test title"
@@ -91,13 +89,11 @@ Scenario: System administrator gets the notification and adds Mentor to the proj
     Then I expect the title of the page "Project mentors - UBORA"
     When I click on the element "button=Invite mentor"
     Then I expect the element "p=Invitation sent" is visible
-    When I sign out
-    Then I expect the title of the page "UBORA"
 
 Scenario: Mentor accepts the mentor invitation
     When I sign out
         And I sign in as mentor
-        And I click on the element "*=Notifications"
+        And I click on the element "(//i[contains(text(),'notifications')])[last()]"
         And I click on the element "button=Accept"
     Then I expect the title of the page "Notifications - UBORA"
     When I click on the element "*=Projects"
@@ -346,7 +342,6 @@ Scenario: I click and edit two last WP3 work packages
     When I click on the element "=Design planning"
         And I click on the element "=WP 3: Design and prototyping"
         And I click on the element "(//span[contains(text(),'Open WP 3: Design and prototyping')])[last()]"
-        And I click on the element "=WP 3: Design and prototyping"
         And I click on the element "=Design for ISO testing compliance"
     Then I expect the title of the page "Design for ISO testing compliance - UBORA"
         And I expect the element "=Design for ISO testing compliance" is visible
@@ -361,3 +356,12 @@ Scenario: I click and edit two last WP3 work packages
         And I click on the element "*=Helpful tips"
     Then I expect the element "p=Use this last section of WP3 to describe step by step how to fabricate and assemble the last version of your prototype: fill it once the part 1 and part 2 of WP3 can be considered stable." is visible
         And I expect the title of the page "Instructions for fabrication of prototypes - UBORA"
+
+Scenario: I open WP4 and download the document
+    When I click on the element "=WP 4: Implementation"
+        And I click on the element "(//span[contains(text(),'Open WP 4: Implementation')])[last()]"
+        And I click on the element "(//span[contains(text(),'Preproduction documents')])[last()]"
+        And I click on the element "(//button[contains(text(),'Download')])[last()]"
+    Then I expect the element "(//h1[contains(text(),'Preproduction Document')])[last()]" is visible
+
+

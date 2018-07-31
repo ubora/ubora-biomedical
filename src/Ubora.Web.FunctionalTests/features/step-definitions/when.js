@@ -45,7 +45,8 @@ module.exports = function () {
     });
 
     this.When(/^I sign out$/, () => {
-            browser.click('span=Log out');
+            browser.click("(//img[contains(@class, 'avatar')])[last()]");
+            browser.click("(//button[contains(text(),'Log out')])[last()]");
         });
 
     this.When(/^I sign up as "([^"]*)?"$/, (email) => {

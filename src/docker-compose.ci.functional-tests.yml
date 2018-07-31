@@ -6,6 +6,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       ConnectionStrings__ApplicationDbConnection: "server=postgres;Port=5432;userid=postgres;password=ubora;database=ubora"
+      Pandoc__Address: "http://ubora.pandoc:1337/"
     depends_on:
       - "postgres"
       - "ubora.pandoc"
