@@ -7,7 +7,7 @@ if(!$isPostgresRunning) {
 
 $isAzureEmulatorRunning | docker inspect --format=" {{ .State.Running }} " ubora_azurite
 
-if(!$isPostgresRunning) {
+if(!$isAzureEmulatorRunning) {
     docker rm -f ubora_azurite
     docker run -d -p 32500:10000 --name "ubora_azurite" mpahk/azurite
 }

@@ -8,6 +8,7 @@ services:
       ConnectionStrings__ApplicationDbConnection: "server=postgres;Port=5432;userid=postgres;password=ubora;database=ubora"
     depends_on:
       - "postgres"
+      - "ubora.pandoc"
     networks:
       - ubora-testnetwork
 
@@ -17,6 +18,14 @@ services:
     environment:
       POSTGRES_PASSWORD: ubora
       POSTGRES_DB: ubora
+    networks:
+      - ubora-testnetwork
+
+  ubora.pandoc:
+    build: ./Ubora.UniversalDocumentConverter
+    volumes:
+      - ./Ubora.UniversalDocumentConverter:/app
+      - /app/node_modules
     networks:
       - ubora-testnetwork
   
