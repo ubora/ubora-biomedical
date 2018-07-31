@@ -34,19 +34,23 @@
     <div class="pl-3">
         @foreach (var isoStandard in Model.IsoStandardIndexListViewModel.IsoStandards)
         {
-            <div class="d-flex justify-content-between">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input js-iso-checkbox" checked="@isoStandard.IsMarkedAsCompliant"/>
-                    <label class="custom-control-label">
-                        <a href="@isoStandard.Link" target="_blank">@isoStandard.Title</a>
-                    </label>
-                </div>
-            </div>
-            if (!string.IsNullOrWhiteSpace(isoStandard.ShortDescription))
+            if (isoStandard.IsMarkedAsCompliant)
             {
-                <p id="@("short-description-for-iso-standard-" + isoStandard.IsoStandardId)" class="px-4">
-                    @isoStandard.ShortDescription
-                </p>
+                <div class="d-flex justify-content-between">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input js-iso-checkbox"/>
+                        <label class="custom-control-label">
+                            <a href="@isoStandard.Link" target="_blank">@isoStandard.Title</a>
+                        </label>
+                    </div>
+                </div>
+
+                if (!string.IsNullOrWhiteSpace(isoStandard.ShortDescription))
+                {
+                    <p id="@("short-description-for-iso-standard-" + isoStandard.IsoStandardId)" class="px-4">
+                        @isoStandard.ShortDescription
+                    </p>
+                }
             }
         }
     </div>

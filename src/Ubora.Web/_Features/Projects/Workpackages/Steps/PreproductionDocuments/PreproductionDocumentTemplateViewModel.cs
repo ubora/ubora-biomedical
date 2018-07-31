@@ -11,6 +11,7 @@ using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Questionnaires.ApplicableRegulations.Queries;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Queries;
+using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web._Features.Projects.ApplicableRegulations;
 using Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances.Models;
 using Project = Ubora.Domain.Projects.Project;
@@ -26,6 +27,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
         public string AreaOfUsageTags { get; set; }
         public string PotentialTechnologyTags { get; set; }
         public string Gmdn { get; set; }
+        public string ImagePath { get; set; }
         public IEnumerable<Member> Members { get; set; }
         public WP1TemplatePartialViewModel Wp1TemplatePartialViewModel { get; set; }
         public WP2TemplatePartialViewModel Wp2TemplatePartialViewModel { get; set; }
@@ -69,11 +71,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
             private readonly IndexViewModel.Factory _indexViewModelFactory;
             private readonly QuestionnaireIndexViewModel.Factory _questionnaireIndexViewModelFactory;
             private readonly ReviewQuestionnaireViewModel.Factory _reviewQuestionnaireViewModelFactory;
+            private readonly ImageStorageProvider _storageProvider;
      
             public Factory(IQueryProcessor queryProcessor, IMarkdownConverter markdownConverter, 
                 StructuredInformationResultViewModel.Factory structuredInformationResultViewModel, 
                 IndexViewModel.Factory indexViewModelFactory, 
-                QuestionnaireIndexViewModel.Factory questionnaireIndexViewModelFactory, ReviewQuestionnaireViewModel.Factory reviewQuestionnaireViewModelFactory)
+                QuestionnaireIndexViewModel.Factory questionnaireIndexViewModelFactory, ReviewQuestionnaireViewModel.Factory reviewQuestionnaireViewModelFactory, ImageStorageProvider storageProvider)
             {
                 _queryProcessor = queryProcessor;
                 _markdownConverter = markdownConverter;
@@ -81,6 +84,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                 _indexViewModelFactory = indexViewModelFactory;
                 _questionnaireIndexViewModelFactory = questionnaireIndexViewModelFactory;
                 _reviewQuestionnaireViewModelFactory = reviewQuestionnaireViewModelFactory;
+                _storageProvider = storageProvider;
             }
             
             protected Factory()
@@ -97,6 +101,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                 model.PotentialTechnologyTags = project.PotentialTechnologyTags;
                 model.Gmdn = project.Gmdn;
                 model.Members = GetMembers(project);
+                model.ImagePath = _storageProvider.GetUrl(project.ProjectImageBlobLocation, ImageSize.Thumbnail400x300);
                 
                 var isCheckedWp1 = workpackageCheckListItems[0].IsChecked;
                 if (isCheckedWp1)
