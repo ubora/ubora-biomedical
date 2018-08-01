@@ -4,76 +4,76 @@
     <title>@Model.Title</title>
 </head>
 
-<div id="content-body" class="py-3">
-    <p></p>
-    <h1 id="medical-tags">Medical tags</h1>
-    <p></p>
-    <img src="@Model.ImagePath" alt="Illustrative project image">
-    <p>
-        <strong>Clinical need</strong>
-    </p>
-    <p>@Model.ClinicalNeedTags</p>
-    <p></p>
-    <p>
-        <strong>Area</strong>
-    </p>
-    <p>@Model.AreaOfUsageTags</p>
-    <p></p>
-    <p>
-        <strong>Technology</strong>
-    </p>
-    <p>@Model.PotentialTechnologyTags</p>
-    <p></p>
-    <p>
-        <strong>Project keywords</strong>
-    </p>
-    <p>@Model.Gmdn</p>
-    <p></p>
-    <p>
-        <strong>Device classification</strong>
-    </p>
-    <p>@Model.DeviceClassification</p>
-    <p></p>
-    <h1 id="project-description">Project description</h1>
-    <p></p>
-    <p>The splint is a rehabilitation device used to immobilize and support broken or dislocated limbs as they heal. The project
-        idea is to design a 3D printed universal splint that will be used instead of the normal plasters which have numerous
-        disadvantages such as water absorption, causing numbness and soreness among others. Our device is an improved version
-        that can be made to custom fit anyone hence the term 'universal splint'.</p>
-    <p></p>
-    <h1>Members</h1>
-    <table>
+<p></p>
+<h1>Medical tags</h1>
+<p></p>
+<img src="@Model.ImagePath">
+<p>
+    <strong>Clinical need</strong>
+</p>
+<p>@Model.ClinicalNeedTags</p>
+<p></p>
+<p>
+    <strong>Area</strong>
+</p>
+<p>@Model.AreaOfUsageTags</p>
+<p></p>
+<p>
+    <strong>Technology</strong>
+</p>
+<p>@Model.PotentialTechnologyTags</p>
+<p></p>
+<p>
+    <strong>Project keywords</strong>
+</p>
+<p>@Model.Gmdn</p>
+<p></p>
+<p>
+    <strong>Device classification</strong>
+</p>
+<p>@Model.DeviceClassification</p>
+<p></p>
+<h1>Project description</h1>
+<p></p>
+<p>
+    The splint is a rehabilitation device used to immobilize and support broken or dislocated limbs as they heal. The project
+    idea is to design a 3D printed universal splint that will be used instead of the normal plasters which have numerous
+    disadvantages such as water absorption, causing numbness and soreness among others. Our device is an improved version
+    that can be made to custom fit anyone hence the term 'universal splint'.
+</p>
+<p></p>
+<h1>Members</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Role</th>
+    </tr>
+    @foreach (var member in Model.Members)
+    {
         <tr>
-            <th>Name</th>
-            <th>Role</th>
+            <td>@member.FullName</td>
+            <td>@member.Roles</td>
         </tr>
-        @foreach (var member in Model.Members)
-        {
-            <tr>
-                <td>@member.FullName</td>
-                <td>@member.Roles</td>
-            </tr>
-        }
-    </table>
+    }
+</table>
 
-    @if (Model.Wp1TemplatePartialViewModel != null)
-    {
-        @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP1TemplatePartial.cshtml", Model.Wp1TemplatePartialViewModel)
-    }
+@if (Model.Wp1TemplatePartialViewModel != null)
+{
+    @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP1TemplatePartial.cshtml", Model.Wp1TemplatePartialViewModel)
+}
 
-    @if (Model.Wp2TemplatePartialViewModel != null)
-    {
-        @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP2TemplatePartial.cshtml", Model.Wp2TemplatePartialViewModel)
-    }
+@if (Model.Wp2TemplatePartialViewModel != null)
+{
+    @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP2TemplatePartial.cshtml", Model.Wp2TemplatePartialViewModel)
+}
+
+@if (Model.Wp3TemplatePartialViewModel != null)
+{
+    @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP3TemplatePartial.cshtml", Model.Wp3TemplatePartialViewModel)
+}
+
+@if (Model.Wp4TemplatePartialViewModel != null)
+{
+    @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP4TemplatePartial.cshtml", Model.Wp4TemplatePartialViewModel)
+}
     
-    @if (Model.Wp3TemplatePartialViewModel != null)
-    {
-        @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP3TemplatePartial.cshtml", Model.Wp3TemplatePartialViewModel)
-    }
-    
-    @if (Model.Wp4TemplatePartialViewModel != null)
-    {
-        @await Html.PartialAsync("~/_Features/Projects/Workpackages/Steps/PreproductionDocuments/WP4TemplatePartial.cshtml", Model.Wp4TemplatePartialViewModel)
-    }
-    
-</div>

@@ -1,22 +1,22 @@
 ﻿@model Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments.WP1TemplatePartialViewModel
 
 @{
-    var isNonEmptyClinicalNeeds = !String.IsNullOrEmpty(Model.ClinicalNeeds);
-    var isNonEmptyExistingSolutions = !String.IsNullOrEmpty(Model.ExistingSolutions);
-    var isNonEmptyIntendedUsers = !String.IsNullOrEmpty(Model.IntendedUsers);
-    var isNonEmptyProductRequirements = !String.IsNullOrEmpty(Model.ProductRequirements);
+    var isNonEmptyClinicalNeeds = !string.IsNullOrEmpty(Model.ClinicalNeeds);
+    var isNonEmptyExistingSolutions = !string.IsNullOrEmpty(Model.ExistingSolutions);
+    var isNonEmptyIntendedUsers = !string.IsNullOrEmpty(Model.IntendedUsers);
+    var isNonEmptyProductRequirements = !string.IsNullOrEmpty(Model.ProductRequirements);
 }
 
 @if (isNonEmptyClinicalNeeds || isNonEmptyExistingSolutions || isNonEmptyIntendedUsers || isNonEmptyProductRequirements)
 {
-    <h1>Project context</h1> 
+    <h1>Project context</h1>
 }
 
 @if (isNonEmptyClinicalNeeds)
 {
     <h2>Clinical needs</h2>
 
-    @Html.Raw(Model.ClinicalNeeds) 
+    @Html.Raw(Model.ClinicalNeeds)
 }
 
 @if (isNonEmptyExistingSolutions)
@@ -43,40 +43,38 @@
 @foreach (var reviewQuestionnaireViewModel in Model.ReviewQuestionnaireViewModels)
 {
     <h1>Questionnaire results:</h1>
-<p>
-    Most of the cited standards are issued by ISO; some of them are also harmonized (=approved) by the European Commission and in this case they are identified by the EN code. Since the EN version contains more information than the general version, links are provided to the EN version in English language if appropriate.
-</p>
-<div class="table-responsive">
-    <table class="table table-bordered">
+    <p>
+        Most of the cited standards are issued by ISO; some of them are also harmonized (=approved) by the European Commission and in this case they are identified by the EN code. Since the EN version contains more information than the general version, links are provided to the EN version in English language if appropriate.
+    </p>
+    <table>
         <thead>
-            <tr>
-                <th scope="col">Question</th>
-                <th scope="col">Standard</th>
-                <th scope="col">Description</th>
-            </tr>
+        <tr>
+            <th>Question</th>
+            <th>Standard</th>
+            <th>Description</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var questionAnswer in reviewQuestionnaireViewModel.QuestionAnswerList)
-            {
-                <tr>
-                    <td>
-                        <span class="font-weight-bold">@questionAnswer.QuestionText</span>
-                        <p>You answered: @(questionAnswer.Answer)</p>
-                    </td>
-                    @if (questionAnswer.Answer.Equals("Yes", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        @Html.Raw(questionAnswer.IsoStandardText)
-                    }
-                    else
-                    {
-                        <td></td>
-                        <td></td>
-                    }
-                </tr>
-            }
+        @foreach (var questionAnswer in reviewQuestionnaireViewModel.QuestionAnswerList)
+        {
+            <tr>
+                <td>
+                    <span>@questionAnswer.QuestionText</span>
+                    <p>You answered: @(questionAnswer.Answer)</p>
+                </td>
+                @if (questionAnswer.Answer.Equals("Yes", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    @Html.Raw(questionAnswer.IsoStandardText)
+                }
+                else
+                {
+                    <td></td>
+                    <td></td>
+                }
+            </tr>
+        }
         </tbody>
     </table>
-</div>
 
-<p class="color-orange font-weight-bold">There may be product specific standards that apply, talk to your mentor.</p>
+    <p>There may be product specific standards that apply, talk to your mentor.</p>
 }

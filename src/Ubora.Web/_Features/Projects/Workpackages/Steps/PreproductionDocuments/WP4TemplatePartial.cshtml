@@ -26,28 +26,27 @@
     @Html.Raw(Model.QualityCriteria)
 }
 
-<div class="col">
-    <div class="d-flex justify-content-between">
+<div>
+    <div>
         <h1>ISO compliance</h1>
     </div>
-    <div asp-validation-summary="All"></div>
-    <div class="pl-3">
+    <div>
         @foreach (var isoStandard in Model.IsoStandardIndexListViewModel.IsoStandards)
         {
             if (isoStandard.IsMarkedAsCompliant)
             {
-                <div class="d-flex justify-content-between">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input js-iso-checkbox"/>
-                        <label class="custom-control-label">
-                            <a href="@isoStandard.Link" target="_blank">@isoStandard.Title</a>
+                <div>
+                    <div>
+                        <input type="checkbox"/>
+                        <label>
+                            <a href="@isoStandard.Link">@isoStandard.Title</a>
                         </label>
                     </div>
                 </div>
 
                 if (!string.IsNullOrWhiteSpace(isoStandard.ShortDescription))
                 {
-                    <p id="@("short-description-for-iso-standard-" + isoStandard.IsoStandardId)" class="px-4">
+                    <p>
                         @isoStandard.ShortDescription
                     </p>
                 }
@@ -67,10 +66,10 @@
 {
     <h2>User and evironment</h2>
     
-    <table class="table table-bordered table-structured-information">
+    <table>
         <tbody>
         <tr>
-            <th scope="row">Who is the intended user?</th>
+            <th>Who is the intended user?</th>
             <td>
                 @if (!string.IsNullOrEmpty(Model.StructuredInformationResultViewModel.UserAndEnvironment.IntendedUser))
                 {
@@ -79,23 +78,23 @@
             </td>
         </tr>
         <tr>
-            <th scope="row">Is training required in addition to the expected skill level of the intended user?</th>
+            <th>Is training required in addition to the expected skill level of the intended user?</th>
             <td>@Model.StructuredInformationResultViewModel.UserAndEnvironment.IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser.ToYesNo()</td>
         </tr>
         @if (Model.StructuredInformationResultViewModel.UserAndEnvironment.IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser)
         {
             <tr>
-                <th scope="row">If training is required, please describe who will deliver the training and the materials and time required for the training.</th>
+                <th>If training is required, please describe who will deliver the training and the materials and time required for the training.</th>
                 <td>@Model.StructuredInformationResultViewModel.UserAndEnvironment.IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining</td>
             </tr>
         }
         <tr>
-            <th scope="row">Is any maintenance or calibration required by the user at the time of use?</th>
+            <th>Is any maintenance or calibration required by the user at the time of use?</th>
             <td>@Model.StructuredInformationResultViewModel.UserAndEnvironment.IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse.ToYesNo()</td>
         </tr>
 
         <tr>
-            <th scope="row">Where will the technology be used?</th>
+            <th>Where will the technology be used?</th>
             <td>
                 @if (Model.StructuredInformationResultViewModel.UserAndEnvironment.WhereWillTechnologyBeUsed.GetResult().Any())
                 {
@@ -111,10 +110,10 @@
 {
     <h2>Health technology specifications</h2>
     
-    <table class="table table-bordered table-structured-information">
+    <table>
         <tbody>
         <tr>
-            <th scope="row">Dimensions (mm<sup>3</sup>)</th>
+            <th>Dimensions (mm<sup>3</sup>)</th>
             <td>
                 @if (Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.DeviceMeasurementsViewModel.IsAllDimensionsSet)
                 {
@@ -128,7 +127,7 @@
             </td>
         </tr>
         <tr>
-            <th scope="row">Weight (kg)</th>
+            <th>Weight (kg)</th>
             <td>
                 @if (Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.DeviceMeasurementsViewModel.WeightInKilograms != 0)
                 {
@@ -138,7 +137,7 @@
             </td>
         </tr>
         <tr>
-            <th scope="row">Does it require the use of consumables? For example, disposable batteries, disposable electrodes, etc.</th>
+            <th>Does it require the use of consumables? For example, disposable batteries, disposable electrodes, etc.</th>
             @if (Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.DoesItRequireUseOfConsumables == true)
             {
                 <td>Yes. @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.IfRequiresConsumablesListConsumables</td>
@@ -149,7 +148,7 @@
             }
         </tr>
         <tr>
-            <th scope="row">Estimated life time</th>
+            <th>Estimated life time</th>
             <td>
                 @if (Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EstimatedLifeTimeInDays != 0)
                 {
@@ -169,7 +168,7 @@
             </td>
         </tr>
         <tr>
-            <th scope="row">Estimated shelf life</th>
+            <th>Estimated shelf life</th>
             <td>
                 @if (Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EstimatedShelfLifeInDays != 0)
                 {
@@ -189,34 +188,34 @@
             </td>
         </tr>
         <tr>
-            <th scope="row">Can it have a telemedicine or eHealth application?</th>
+            <th>Can it have a telemedicine or eHealth application?</th>
             <td>@Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.CanItHaveATelemedicineOrEHealthApplication.ToYesNo()</td>
         </tr>
         <tr>
-            <th scope="row">Does it use any kind of software?</th>
+            <th>Does it use any kind of software?</th>
             <td>@Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.DoesItUseAnyKindOfSoftware.ToYesNo()</td>
         </tr>
         @if (Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.DoesItUseAnyKindOfSoftware)
         {
             <tr>
-                <th scope="row">If yes, please describe the software, whether it is open source or proprietary, its use and/or license fee, etc. (10-70 words).</th>
+                <th>If yes, please describe the software, whether it is open source or proprietary, its use and/or license fee, etc. (10-70 words).</th>
                 <td>@Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.IfUsesSoftwareDescribeSoftware</td>
             </tr>
             <tr>
-                <th scope="row">If yes, can the software be customized for local use? Please explain (10-70 words). Include languages available.</th>
+                <th>If yes, can the software be customized for local use? Please explain (10-70 words). Include languages available.</th>
                 <td>@Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse</td>
             </tr>
         }
         <tr>
-            <th scope="row">Is it portable?</th>
+            <th>Is it portable?</th>
             <td>@Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.Portability</td>
         </tr>
         <tr>
-            <th scope="row">Type of use</th>
+            <th>Type of use</th>
             <td>@Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.TypeOfUse</td>
         </tr>
         <tr>
-            <th scope="row">Does the technology require maintenance?</th>
+            <th>Does the technology require maintenance?</th>
             <td>
                 <p>@Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance.ToYesNo()</p>
                 @if (Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance)
@@ -230,12 +229,12 @@
         @if (Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance)
         {
             <tr>
-                <th scope="row">If yes, who should provide maintenance?</th>
+                <th>If yes, who should provide maintenance?</th>
                 <td>@Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance</td>
             </tr>
         }
         <tr>
-            <th scope="row">Energy requirements</th>
+            <th>Energy requirements</th>
             <td>
                 @if (Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.MechanicalEnergy)
                 {
@@ -248,25 +247,25 @@
                 @if (Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.PowerSupplyForRecharging)
                 {
                     <p>
-                        <span class="d-block">Power supply for recharging</span>
-                        <span class="d-block pl-3">Voltage required: @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredVoltage V</span>
-                        <span class="d-block pl-3">Time required to recharge: @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours hours @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes minutes</span>
-                        <span class="d-block pl-3">Battery life with full charge: @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours hours @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes minutes</span>
+                        <span>Power supply for recharging</span>
+                        <span>Voltage required: @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredVoltage V</span>
+                        <span>Time required to recharge: @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours hours @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes minutes</span>
+                        <span>Battery life with full charge: @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours hours @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes minutes</span>
                     </p>
                 }
                 @if (Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.ContinuousPowerSupply)
                 {
                     <p>
-                        <span class="d-block">Continuous power supply</span>
-                        <span class="d-block pl-3">Voltage required: @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfContinuousPowerSupplyThenRequiredVoltage V</span>
+                        <span>Continuous power supply</span>
+                        <span>Voltage required: @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfContinuousPowerSupplyThenRequiredVoltage V</span>
                     </p>
                 }
                 @if (Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.SolarPower)
                 {
                     <p>
-                        <span class="d-block">Solar power</span>
-                        <span class="d-block pl-3">Time in sunlight required to charge: @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours hours @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes minutes</span>
-                        <span class="d-block pl-3">Battery life with full charge: @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenBatteryLifeInHours hours @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenBatteryLifeInMinutes minutes</span>
+                        <span>Solar power</span>
+                        <span>Time in sunlight required to charge: @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours hours @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes minutes</span>
+                        <span>Battery life with full charge: @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenBatteryLifeInHours hours @Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenBatteryLifeInMinutes minutes</span>
                     </p>
                 }
                 @if (Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.EnergyRequirementsViewModel.Other)
@@ -276,7 +275,7 @@
             </td>
         </tr>
         <tr>
-            <th scope="row">Facility requirements</th>
+            <th>Facility requirements</th>
             <td>
                 @foreach (var item in Model.StructuredInformationResultViewModel.HealthTechnologySpecifications.FacilityRequirementsViewModel.GetResult())
                 {
