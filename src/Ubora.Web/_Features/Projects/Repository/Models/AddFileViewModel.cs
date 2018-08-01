@@ -9,7 +9,7 @@ namespace Ubora.Web._Features.Projects.Repository
     {
         [FileSize(4000000)]
         public IEnumerable<IFormFile> ProjectFiles { get; set; }
-        [Required]
+        [Required(ErrorMessage = "\"Select a folder\" is required.")]
         public string FolderName { get; set; }
         public string Comment { get; set; }
     }
