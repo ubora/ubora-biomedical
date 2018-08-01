@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Projects.IsoStandardsCompliances;
 using Ubora.Domain.Projects.Members.Queries;
@@ -72,11 +73,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
             private readonly QuestionnaireIndexViewModel.Factory _questionnaireIndexViewModelFactory;
             private readonly ReviewQuestionnaireViewModel.Factory _reviewQuestionnaireViewModelFactory;
             private readonly ImageStorageProvider _storageProvider;
+            private readonly IConfiguration _configuration;
      
             public Factory(IQueryProcessor queryProcessor, IMarkdownConverter markdownConverter, 
                 StructuredInformationResultViewModel.Factory structuredInformationResultViewModel, 
                 IndexViewModel.Factory indexViewModelFactory, 
-                QuestionnaireIndexViewModel.Factory questionnaireIndexViewModelFactory, ReviewQuestionnaireViewModel.Factory reviewQuestionnaireViewModelFactory, ImageStorageProvider storageProvider)
+                QuestionnaireIndexViewModel.Factory questionnaireIndexViewModelFactory, ReviewQuestionnaireViewModel.Factory reviewQuestionnaireViewModelFactory, ImageStorageProvider storageProvider, IConfiguration Configuration)
             {
                 _queryProcessor = queryProcessor;
                 _markdownConverter = markdownConverter;
@@ -85,6 +87,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                 _questionnaireIndexViewModelFactory = questionnaireIndexViewModelFactory;
                 _reviewQuestionnaireViewModelFactory = reviewQuestionnaireViewModelFactory;
                 _storageProvider = storageProvider;
+                _configuration = Configuration;
             }
             
             protected Factory()
@@ -103,7 +106,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                 model.Members = GetMembers(project);
                 if (project.HasImage)
                 {
-                    model.ImagePath = _storageProvider.GetUrl(project.ProjectImageBlobLocation, ImageSize.Thumbnail400x300);
+                    var isLocal = _configuration.GetValue<bool?>("Storage:IsLocal") ?? false;
+                    model.ImagePath = isLocal ? "https://www.w3schools.com/images/w3schools_green.jpg" : _storageProvider.GetUrl(project.ProjectImageBlobLocation, ImageSize.Thumbnail400x300); 
                 }
 
                 var isCheckedWp1 = workpackageCheckListItems[0].IsChecked;

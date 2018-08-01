@@ -11,7 +11,7 @@ const KEY = process.env['CONVERTER_API_KEY'];
 
 const app = express()
 
-var timeoutMilliseconds = 1 * 60 * 1000;
+const timeoutMilliseconds = 1 * 60 * 1000;
 app.use(timeout(timeoutMilliseconds));
 
 app.get('/', function(req, res) {
@@ -20,31 +20,33 @@ app.get('/', function(req, res) {
 
 app.post('/output/:format', function(req, res) {
     if (req.headers['privateapikey'] !== KEY) {
-        res.status(403);
-        res.send("Invalid key or no key provided");
+        res.status(403).send("Invalid key or no key provided");
     
         return;
     }
 
-    var contentType = req.get('Content-Type');
-    
-    if (contentType) {
-      var from = contentType.split("/")[1];
-      var to = req.params.format;
-    
-      helpers.getBody(req, function(body) {
-        pdc(body, from, to, function(err, result) {
-          if (err) res.sendStatus(400)
-            else res.append('Content-Type', 'text/' + to).send(result);
-        });
-      });  
-    } else res.sendStatus(400) 
+    const contentType = req.get('Content-Type');
+    if (!contentType) { 
+        res.status(400).send("Missed content type");
+
+        return;
+    }
+
+    const from = contentType.split("/")[1];
+    const to = req.params.format;
+  
+    helpers.getBody(req, function(body) {
+      pdc(body, from, to, function(err, result) {
+        if (err) res.sendStatus(400)
+          else res.append('Content-Type', 'text/' + to).send(result);
+      });
+    });
+
   });
 
 app.post('/download/docx', function(req, res) {
     if (req.headers['privateapikey'] !== KEY) {
-        res.status(403);
-        res.send("Invalid key or no key provided");
+        res.status(403).send("Invalid key or no key provided");
     
         return;
     }
@@ -54,14 +56,18 @@ app.post('/download/docx', function(req, res) {
         const fileName = random + '.docx';
 
         pdc(body, "html", "docx", [ '-o', fileName, '--reference-doc=custom-reference.docx', '--toc' ], function(err) {
+            const absolutePath = path.join(__dirname, fileName);
             if (err) {
-                res.send(err.message, 404)
+                fs.unlink(absolutePath);
+                res.status(404).send(err.message)
+                return
             }
 
-            const absolutePath = path.join(__dirname, fileName);
             res.download(absolutePath, fileName, function(err){
                 if (err) {
-                    res.send(err.message, 404)
+                    fs.unlink(absolutePath);
+                    res.status(404).send(err.message)
+                    return
                 }
 
                 fs.unlink(absolutePath);
@@ -70,4 +76,4 @@ app.post('/download/docx', function(req, res) {
     }); 
 });
 
-var server = app.listen(PORT)
+const server = app.listen(PORT)
