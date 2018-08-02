@@ -106,8 +106,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                 model.Members = GetMembers(project);
                 if (project.HasImage)
                 {
-                    var isLocal = _configuration.GetValue<bool?>("Storage:IsLocal") ?? false;
-                    model.ImagePath = isLocal ? "https://www.w3schools.com/images/w3schools_green.jpg" : _storageProvider.GetUrl(project.ProjectImageBlobLocation, ImageSize.Thumbnail400x300); 
+                    model.ImagePath = _storageProvider.GetUrl(project.ProjectImageBlobLocation, ImageSize.Thumbnail400x300); 
                 }
 
                 var isCheckedWp1 = workpackageCheckListItems[0].IsChecked;
@@ -232,7 +231,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
             {
                 var physicalPrinciples = workspackageTwo.GetSingleStep("PhysicalPrinciples");
                 var conceptDescription = workspackageTwo.GetSingleStep("ConceptDescription");
-                
+
                 return new WP2TemplatePartialViewModel
                 {
                     PhysicalPrinciples = await _markdownConverter.GetHtmlAsync(physicalPrinciples.Content ?? ""),
