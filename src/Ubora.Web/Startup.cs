@@ -133,7 +133,8 @@ namespace Ubora.Web
 
             if (isLocalStorage)
             {
-                storageProvider = new CustomDevelopmentAzureStorageProvider(azOptions, azureStorageProvider);
+                var linkLocalIpAddress = Configuration.GetValue<string>("Storage:LinkLocalIpAddress");
+                storageProvider = new CustomDevelopmentAzureStorageProvider(azOptions, azureStorageProvider, linkLocalIpAddress);
             }
             else
             {

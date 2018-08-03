@@ -170,7 +170,7 @@ namespace Ubora.Web._Features.Projects.Repository
             return View(nameof(FileHistory), model);
         }
 
-        [Route("DownloadFile")]
+        [Route("DownloadFileFromRepository")]
         public IActionResult DownloadFile(Guid fileId)
         {
             var file = QueryProcessor.FindById<ProjectFile>(fileId);
