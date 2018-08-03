@@ -5,11 +5,11 @@ using Ubora.Domain.Infrastructure.Queries;
 
 namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Queries
 {
-    public class FindApplicableRegulationsQuestionnaireAggregatesQuery : IQuery<IEnumerable<ApplicableRegulationsQuestionnaireAggregate>>
+    public class FindApplicableRegulationsQuestionnaireAggregatesByIdsQuery : IQuery<IEnumerable<ApplicableRegulationsQuestionnaireAggregate>>
     {
         public Guid [] QuestionnaireIds { get; set; }
 
-        public class Handler : QueryHandler<FindApplicableRegulationsQuestionnaireAggregatesQuery,
+        public class Handler : QueryHandler<FindApplicableRegulationsQuestionnaireAggregatesByIdsQuery,
             IEnumerable<ApplicableRegulationsQuestionnaireAggregate>>
         {
             private readonly IQuerySession _querySession;
@@ -19,10 +19,10 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations.Queries
                 _querySession = querySession;
             }
 
-            public override IEnumerable<ApplicableRegulationsQuestionnaireAggregate> Handle(FindApplicableRegulationsQuestionnaireAggregatesQuery query)
+            public override IEnumerable<ApplicableRegulationsQuestionnaireAggregate> Handle(FindApplicableRegulationsQuestionnaireAggregatesByIdsQuery byIdsQuery)
             {
                 var applicableRegulationsQuestionnaireAggregates =
-                    _querySession.LoadMany<ApplicableRegulationsQuestionnaireAggregate>(query.QuestionnaireIds);
+                    _querySession.LoadMany<ApplicableRegulationsQuestionnaireAggregate>(byIdsQuery.QuestionnaireIds);
 
                 return applicableRegulationsQuestionnaireAggregates;
             }

@@ -180,7 +180,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                 }
 
                 var applicableRegulationsQuestionnaireAggregates = _queryProcessor.ExecuteQuery(
-                    new FindApplicableRegulationsQuestionnaireAggregatesQuery {QuestionnaireIds = questionnaireIds.ToArray()});
+                    new FindApplicableRegulationsQuestionnaireAggregatesByIdsQuery {QuestionnaireIds = questionnaireIds.ToArray()});
                 var reviewQuestionnaireViewModels =
                     applicableRegulationsQuestionnaireAggregates.Select(q =>
                         _reviewQuestionnaireViewModelFactory.Create(q.Questionnaire));
