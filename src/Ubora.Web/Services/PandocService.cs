@@ -16,9 +16,12 @@ namespace Ubora.Web.Services
 
         public async Task<HttpResponseMessage> ConvertDocumentAsync(string html)
         {
+            var isHttps = _appSettings.Value.IsHttps;
+            var protocol = isHttps ? "https" : "http";
+            
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(_appSettings.Value.Address);
+                client.BaseAddress = new Uri($"{protocol}://{_appSettings.Value.Ip}:{_appSettings.Value.Port}");
 
                 var request = new HttpRequestMessage(HttpMethod.Post, "download/docx");
                 request.Headers.Add("privateapikey", _appSettings.Value.Key);

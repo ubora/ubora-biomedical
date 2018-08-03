@@ -37,6 +37,7 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, OrRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsWorkpackageRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, AndRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, PandocServiceIpRequirement.Handler>();
         }
 
         private static void AddPolicies(IServiceCollection services)
@@ -205,6 +206,11 @@ namespace Ubora.Web.Authorization
                 options.AddPolicy(Policies.CanRemoveIsoStandardFromComplianceChecklist, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+                
+                options.AddPolicy(Policies.CanCopyFileToClipboard, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new PandocServiceIpRequirement());
                 });
             });
         }
