@@ -360,7 +360,7 @@ Scenario: I click and edit two last WP3 work packages
 Scenario: I open WP4 and download the document
     When I click on the element "=WP 4: Implementation"
         And I click on the element "span*=Open WP 4: Implementation"
-        And I click on the element "span*=Preproduction documents"
+        And I click on the element "(//span[contains(text(),'Preproduction documents')])[last()]"
         And I click on the element "button*=Download"
     Then I expect the element "h1*=Preproduction Document" is visible
 
