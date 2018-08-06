@@ -1,29 +1,19 @@
 ﻿@using Ubora.Web._Features._Shared.Helpers
 @model Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments.WP4TemplatePartialViewModel
 
-@{
-    var isNonEmptyPrototypesAndConsiderationsForSafetyAssessment = !String.IsNullOrEmpty(Model.PrototypesAndConsiderationsForSafetyAssessment);
-    var isNonEmptyQualityCriteria = !String.IsNullOrEmpty(Model.QualityCriteria);
-    var isNonEmptyResultsFromVitroOrVivo = !String.IsNullOrEmpty(Model.ResultsFromVitroOrVivo);
-}
-
-@if (isNonEmptyPrototypesAndConsiderationsForSafetyAssessment || isNonEmptyQualityCriteria || isNonEmptyResultsFromVitroOrVivo)
+@if (Model.WorkpackageStepViewModels.Count != 0)
 {
     <h1>Implementation</h1> 
 }
 
-@if (isNonEmptyPrototypesAndConsiderationsForSafetyAssessment)
+@foreach (var workpackageStepViewModel in Model.WorkpackageStepViewModels)
 {
-    <h2>Prototypes and considerations for safety assessment</h2>
+    if (!string.IsNullOrEmpty(workpackageStepViewModel.Content))
+    {
+        <h2>@workpackageStepViewModel.Title</h2>
 
-    @Html.Raw(Model.PrototypesAndConsiderationsForSafetyAssessment)
-}
-
-@if (isNonEmptyQualityCriteria)
-{
-    <h2>Quality criteria</h2>
-
-    @Html.Raw(Model.QualityCriteria)
+        @Html.Raw(workpackageStepViewModel.Content)
+    }
 }
 
 <div>
@@ -54,13 +44,6 @@
         }
     </div>
 </div>
-
-@if (isNonEmptyResultsFromVitroOrVivo)
-{
-    <h2>Results from vitro/vivo</h2>
-
-    @Html.Raw(Model.ResultsFromVitroOrVivo)
-}
 
 @if (Model.StructuredInformationResultViewModel.IsUserAndEnvironmentEdited)
 {

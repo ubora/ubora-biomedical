@@ -20,7 +20,6 @@ namespace Ubora.Web._Features.Projects.Repository
 {
     [ProjectRoute("[controller]")]
     [DisableProjectControllerAuthorization]
-    [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
     public class RepositoryController : ProjectController
     {
         private readonly IUboraStorageProvider _uboraStorageProvider;
@@ -36,6 +35,7 @@ namespace Ubora.Web._Features.Projects.Repository
             _projecFileViewModelFactory = projectFileViewModelFactory;
         }
 
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
         public async Task<IActionResult> Repository()
         {
             var projectFiles = QueryProcessor.Find(new IsProjectFileSpec(ProjectId)
@@ -57,6 +57,7 @@ namespace Ubora.Web._Features.Projects.Repository
         }
 
         [Route("AddFile")]
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
         [Authorize(Policy = nameof(Policies.CanAddFileRepository))]
         [HttpPost]
         public async Task<IActionResult> AddFile(AddFileViewModel model)
@@ -92,6 +93,7 @@ namespace Ubora.Web._Features.Projects.Repository
         }
 
         [Route("HideFile")]
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
         [Authorize(Policy = nameof(Policies.CanHideProjectFile))]
         public IActionResult HideFile(Guid fileid)
         {
@@ -101,6 +103,7 @@ namespace Ubora.Web._Features.Projects.Repository
         }
 
         [Route("UpdateFile")]
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
         [Authorize(Policy = nameof(Policies.CanUpdateFileRepository))]
         public IActionResult UpdateFile(Guid fileId)
         {
@@ -111,6 +114,7 @@ namespace Ubora.Web._Features.Projects.Repository
         }
 
         [Route("UpdateFile")]
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
         [Authorize(Policy = nameof(Policies.CanUpdateFileRepository))]
         [HttpPost]
         public async Task<IActionResult> UpdateFile(UpdateFileViewModel model)
@@ -143,6 +147,7 @@ namespace Ubora.Web._Features.Projects.Repository
             return RedirectToAction(nameof(Repository));
         }
 
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
         [Route("FileHistory")]
         public IActionResult FileHistory(Guid fileId)
         {
@@ -170,7 +175,8 @@ namespace Ubora.Web._Features.Projects.Repository
             return View(nameof(FileHistory), model);
         }
 
-        [Route("DownloadFileFromRepository")]
+        [Authorize(Policy = nameof(Policies.CanDownloadFile))]
+        [Route("DownloadFile")]
         public IActionResult DownloadFile(Guid fileId)
         {
             var file = QueryProcessor.FindById<ProjectFile>(fileId);
@@ -184,6 +190,7 @@ namespace Ubora.Web._Features.Projects.Repository
             return Redirect(blobSasUrl);
         }
 
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
         [Route("View3DFile")]
         public IActionResult View3DFile(Guid fileId)
         {
@@ -205,6 +212,7 @@ namespace Ubora.Web._Features.Projects.Repository
             return View(nameof(View3DFile), model);
         }
 
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
         [Route("DownloadHistoryFile")]
         public IActionResult DownloadHistoryFile(Guid eventId)
         {
@@ -221,6 +229,7 @@ namespace Ubora.Web._Features.Projects.Repository
             return Redirect(blobSasUrl);
         }
 
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
         [Route("View3DHistoryFile")]
         public IActionResult View3DHistoryFile(Guid eventId)
         {

@@ -7,6 +7,7 @@ using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Domain.Users;
 using Xunit;
+using UserProfile = Ubora.Domain.Users.UserProfile;
 
 namespace Ubora.Domain.Tests.Projects.Members.Commands
 {

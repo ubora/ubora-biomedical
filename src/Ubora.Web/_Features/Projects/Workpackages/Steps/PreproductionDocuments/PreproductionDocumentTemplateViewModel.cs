@@ -12,6 +12,7 @@ using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Questionnaires.ApplicableRegulations.Queries;
 using Ubora.Domain.Questionnaires.DeviceClassifications.Queries;
+using Ubora.Domain.Users.Queries;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web._Features.Projects.ApplicableRegulations;
 using Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances.Models;
@@ -112,11 +113,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                 var isCheckedWp1 = workpackageCheckListItems[0].IsChecked;
                 if (isCheckedWp1)
                 {
-                    var workspackageOne = _queryProcessor.FindById<WorkpackageOne>(project.Id);
-                    var wp1TemplatePartialViewModel = await GetWp1TemplatePartialViewModel(workspackageOne);
-                    wp1TemplatePartialViewModel.ReviewQuestionnaireViewModels = GetReviewQuestionnaireViewModels(project);
-                    
-                    model.Wp1TemplatePartialViewModel = wp1TemplatePartialViewModel;
+                    var workpackageOne = _queryProcessor.FindById<WorkpackageOne>(project.Id);
+
+                    model.Wp1TemplatePartialViewModel = new WP1TemplatePartialViewModel
+                    {
+                        WorkpackageStepViewModels = await GetWorkpackageStepViewModels(workpackageOne),
+                        ReviewQuestionnaireViewModels = GetReviewQuestionnaireViewModels(project)
+                    };
                 }
 
                 var isCheckedWp2 = workpackageCheckListItems[1].IsChecked;
@@ -128,17 +131,21 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                         .Find(new IsFromWhichWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = project.Id })
                         .FirstOrDefault();
 
-                    var wp2TemplatePartialViewModel = await GetWp2TemplatePartialViewModel(workspackageTwo);
-                    wp2TemplatePartialViewModel.StructuredInformationResultViewModel = _structuredInformationResultViewModel.Create(deviceStructuredInformation);
-                    
-                    model.Wp2TemplatePartialViewModel = wp2TemplatePartialViewModel;
+                    model.Wp2TemplatePartialViewModel = new WP2TemplatePartialViewModel
+                    {
+                        WorkpackageStepViewModels = await GetWorkpackageStepViewModels(workspackageTwo),
+                        StructuredInformationResultViewModel = _structuredInformationResultViewModel.Create(deviceStructuredInformation)
+                    };
                 }
                 
                 var isCheckedWp3 = workpackageCheckListItems[2].IsChecked;
                 if (isCheckedWp3)
                 {
                     var workspackageThree = _queryProcessor.FindById<WorkpackageThree>(project.Id);
-                    model.Wp3TemplatePartialViewModel = await GetWp3TemplatePartialViewModel(workspackageThree);  
+                    model.Wp3TemplatePartialViewModel = new WP3TemplatePartialViewModel
+                    {
+                        WorkpackageStepViewModels = await GetWorkpackageStepViewModels(workspackageThree)
+                    };
                 }
 
                 var isCheckedWp4 = workpackageCheckListItems[3].IsChecked;
@@ -149,15 +156,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                         .Find(new IsFromWhichWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four)&& new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = project.Id })
                         .FirstOrDefault();
                     var isoStandardsComplianceAggregate = _queryProcessor.FindById<IsoStandardsComplianceAggregate>(project.Id);
-
-                    var wp4TemplatePartialViewModel = await GetWp4TemplatePartialViewModel(workspackageFour);
-                    wp4TemplatePartialViewModel.StructuredInformationResultViewModel =
-                        _structuredInformationResultViewModel.Create(deviceStructuredInformation);
-
-                    wp4TemplatePartialViewModel.IsoStandardIndexListViewModel =
-                        _indexViewModelFactory.Create(isoStandardsComplianceAggregate);
                     
-                    model.Wp4TemplatePartialViewModel = wp4TemplatePartialViewModel;
+                    model.Wp4TemplatePartialViewModel = new WP4TemplatePartialViewModel
+                    {
+                        WorkpackageStepViewModels = await GetWorkpackageStepViewModels(workspackageFour),
+                        StructuredInformationResultViewModel = _structuredInformationResultViewModel.Create(deviceStructuredInformation),
+                        IsoStandardIndexListViewModel = _indexViewModelFactory.Create(isoStandardsComplianceAggregate)
+                    };;
                 }
 
                 var deviceClassificationAggregate = _queryProcessor.ExecuteQuery(new LatestFinishedProjectDeviceClassificationQuery(project.Id));
@@ -191,8 +196,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
             {
                 var members = new List<Member>();
                 var projectMemberGroups = project.Members.GroupBy(m => m.UserId);
-                var userIds = projectMemberGroups.Select(m => m.Key);
-                var projectMemberUserProfiles = _queryProcessor.ExecuteQuery(new FindUserProfilesQuery {UserIds = userIds});
+                var projectMemberUserProfiles = _queryProcessor.ExecuteQuery(new GetProjectUserProfiles { ProjectId = project.Id});
                 foreach (var userProfile in projectMemberUserProfiles)
                 {
                     var projectMemberGroup = projectMemberGroups.FirstOrDefault(g => g.Key == userProfile.UserId);
@@ -210,112 +214,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                 return members;
             }
 
-            private async Task<WP1TemplatePartialViewModel> GetWp1TemplatePartialViewModel(WorkpackageOne workpackageOne)
+            private async Task<List<WorkpackageStepViewModel>> GetWorkpackageStepViewModels<T>(Workpackage<T> workpackage) where T : Workpackage<T>
             {
-                var clinicalNeeds = workpackageOne.GetSingleStep("ClinicalNeeds");
-                var existingSolutions = workpackageOne.GetSingleStep("ExistingSolutions");
-                var intendedUsers = workpackageOne.GetSingleStep("IntendedUsers");
-                var productRequirements = workpackageOne.GetSingleStep("ProductRequirements");
-              
-                return new WP1TemplatePartialViewModel
-                {
-                    ClinicalNeeds = await _markdownConverter.GetHtmlAsync(clinicalNeeds.Content ?? ""),
-                    ExistingSolutions = await _markdownConverter.GetHtmlAsync(existingSolutions.Content ?? ""),
-                    IntendedUsers = await _markdownConverter.GetHtmlAsync(intendedUsers.Content ?? ""),
-                    ProductRequirements = await _markdownConverter.GetHtmlAsync(productRequirements.Content ?? ""),
-                };
-            }
-
-            private async Task<WP2TemplatePartialViewModel> GetWp2TemplatePartialViewModel(
-                WorkpackageTwo workspackageTwo)
-            {
-                var physicalPrinciples = workspackageTwo.GetSingleStep("PhysicalPrinciples");
-                var conceptDescription = workspackageTwo.GetSingleStep("ConceptDescription");
-
-                return new WP2TemplatePartialViewModel
-                {
-                    PhysicalPrinciples = await _markdownConverter.GetHtmlAsync(physicalPrinciples.Content ?? ""),
-                    ConceptDescription = await _markdownConverter.GetHtmlAsync(conceptDescription.Content ?? "")
-                };
-            }
-
-            private async Task<WP3TemplatePartialViewModel> GetWp3TemplatePartialViewModel(WorkpackageThree workspackageThree)
-            {
-                var generalProductDescriptionHardwareCommercialParts =
-                    workspackageThree.GetSingleStep("GeneralProductDescription_Hardware_CommercialParts");
-                var generalProductDescriptionHardwarePurposelyDesignedParts =
-                    workspackageThree.GetSingleStep("GeneralProductDescription_Hardware_PurposelyDesignedParts");
-                var generalProductDescriptionHardwarePrototypesAndFunctionalTrials =
-                    workspackageThree.GetSingleStep("GeneralProductDescription_Hardware_PrototypesAndFunctionalTrials");
-                var generalProductDescriptionElectronicAndFirmwareCommercialParts =
-                    workspackageThree.GetSingleStep("GeneralProductDescription_ElectronicAndFirmware_CommercialParts");
-                var generalProductDescriptionElectronicAndFirmwarePurposelyDesignedParts =
-                    workspackageThree.GetSingleStep("GeneralProductDescription_ElectronicAndFirmware_PurposelyDesignedParts");
-                var generalProductDescriptionElectronicAndFirmwarePrototypesAndFunctionalTrials =
-                    workspackageThree.GetSingleStep(
-                        "GeneralProductDescription_ElectronicAndFirmware_PrototypesAndFunctionalTrials");
-                var generalProductDescriptionSoftwareExistingSolutions =
-                    workspackageThree.GetSingleStep("GeneralProductDescription_Software_ExistingSolutions");
-                var generalProductDescriptionSoftwarePurposelyDesignedParts =
-                    workspackageThree.GetSingleStep("GeneralProductDescription_Software_PurposelyDesignedParts");
-                var generalProductDescriptionSoftwarePrototypesAndFunctionalTrials =
-                    workspackageThree.GetSingleStep("GeneralProductDescription_Software_PrototypesAndFunctionalTrials");
-                var generalProductDescriptionSystemIntegrationPrototypesAndFunctionalTrials =
-                    workspackageThree.GetSingleStep("GeneralProductDescription_SystemIntegration_PrototypesAndFunctionalTrials");
-                var designForIsoTestingCompliance = workspackageThree.GetSingleStep("DesignForIsoTestingCompliance");
-                var instructionsForFabricationOfPrototypes =
-                    workspackageThree.GetSingleStep("InstructionsForFabricationOfPrototypes");
-
-                return new WP3TemplatePartialViewModel
-                {
-                    GeneralProductDescriptionHardwareCommercialParts =
-                        await _markdownConverter.GetHtmlAsync(generalProductDescriptionHardwareCommercialParts.Content ?? ""),
-                    GeneralProductDescriptionHardwarePurposelyDesignedParts =
-                        await _markdownConverter.GetHtmlAsync(generalProductDescriptionHardwarePurposelyDesignedParts.Content ??
-                                                              ""),
-                    GeneralProductDescriptionHardwarePrototypesAndFunctionalTrials =
-                        await _markdownConverter.GetHtmlAsync(
-                            generalProductDescriptionHardwarePrototypesAndFunctionalTrials.Content ?? ""),
-                    GeneralProductDescriptionElectronicAndFirmwareCommercialParts =
-                        await _markdownConverter.GetHtmlAsync(
-                            generalProductDescriptionElectronicAndFirmwareCommercialParts.Content ?? ""),
-                    GeneralProductDescriptionElectronicAndFirmwarePurposelyDesignedParts =
-                        await _markdownConverter.GetHtmlAsync(generalProductDescriptionElectronicAndFirmwarePurposelyDesignedParts
-                                                                  .Content ?? ""),
-                    GeneralProductDescriptionElectronicAndFirmwarePrototypesAndFunctionalTrials =
-                        await _markdownConverter.GetHtmlAsync(
-                            generalProductDescriptionElectronicAndFirmwarePrototypesAndFunctionalTrials.Content ?? ""),
-                    GeneralProductDescriptionSoftwareExistingSolutions =
-                        await _markdownConverter.GetHtmlAsync(generalProductDescriptionSoftwareExistingSolutions.Content ?? ""),
-                    GeneralProductDescriptionSoftwarePurposelyDesignedParts =
-                        await _markdownConverter.GetHtmlAsync(generalProductDescriptionSoftwarePurposelyDesignedParts.Content ??
-                                                              ""),
-                    GeneralProductDescriptionSoftwarePrototypesAndFunctionalTrials =
-                        await _markdownConverter.GetHtmlAsync(
-                            generalProductDescriptionSoftwarePrototypesAndFunctionalTrials.Content ?? ""),
-                    GeneralProductDescriptionSystemIntegrationPrototypesAndFunctionalTrials =
-                        await _markdownConverter.GetHtmlAsync(
-                            generalProductDescriptionSystemIntegrationPrototypesAndFunctionalTrials.Content ?? ""),
-                    DesignForIsoTestingCompliance =
-                        await _markdownConverter.GetHtmlAsync(designForIsoTestingCompliance.Content ?? ""),
-                    InstructionsForFabricationOfPrototypes =
-                        await _markdownConverter.GetHtmlAsync(instructionsForFabricationOfPrototypes.Content ?? "")
-                };
-            }
-
-            private async Task<WP4TemplatePartialViewModel> GetWp4TemplatePartialViewModel(
-                WorkpackageFour workspackageFour)
-            {
-                var prototypesAndConsiderationsForSafetyAssessment = workspackageFour.GetSingleStep("PrototypesAndConsiderationsForSafetyAssessment");
-                var qualityCriteria = workspackageFour.GetSingleStep("QualityCriteria");
-                var resultsFromVitroOrVivo = workspackageFour.GetSingleStep("ResultsFromVitroOrVivo");
+                var workpackageStepViewModels = new List<WorkpackageStepViewModel>();
                 
-                return new WP4TemplatePartialViewModel
+                foreach (var step in workpackage.Steps)
                 {
-                    PrototypesAndConsiderationsForSafetyAssessment = await _markdownConverter.GetHtmlAsync(prototypesAndConsiderationsForSafetyAssessment.Content ?? ""),
-                    QualityCriteria = await _markdownConverter.GetHtmlAsync(qualityCriteria.Content ?? ""),
-                    ResultsFromVitroOrVivo = await _markdownConverter.GetHtmlAsync(resultsFromVitroOrVivo.Content ?? "")
-                };
+                    var workpackageStepView = new WorkpackageStepViewModel {Title = step.Title, Content = await _markdownConverter.GetHtmlAsync(step.Content ?? "")};
+                    
+                    workpackageStepViewModels.Add(workpackageStepView);
+                }
+
+                return workpackageStepViewModels;
             }
         }
     }

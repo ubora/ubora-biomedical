@@ -5,10 +5,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
 {
     public class WP1TemplatePartialViewModel
     {
-        public string ClinicalNeeds { get; set; }
-        public string ExistingSolutions { get; set; }
-        public string IntendedUsers { get; set; }
-        public string ProductRequirements { get; set; }
+        public List<WorkpackageStepViewModel> WorkpackageStepViewModels { get; set; }
         public IEnumerable<ReviewQuestionnaireViewModel> ReviewQuestionnaireViewModels { get; set; }
     }
 }

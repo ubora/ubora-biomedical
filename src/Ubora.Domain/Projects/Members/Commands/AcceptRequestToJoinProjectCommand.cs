@@ -23,7 +23,7 @@ namespace Ubora.Domain.Projects.Members.Commands
             public ICommandResult Handle(AcceptRequestToJoinProjectCommand command)
             {
                 var request = _documentSession.LoadOrThrow<RequestToJoinProject>(command.RequestId);
-                var userProfile = _documentSession.LoadOrThrow<UserProfile>(request.AskingToJoinMemberId);
+                var userProfile = _documentSession.LoadOrThrow<Users.UserProfile>(request.AskingToJoinMemberId);
                 var project = _documentSession.LoadOrThrow<Project>(request.ProjectId);
 
                 var isUserAlreadyMember = project.DoesSatisfy(new HasMember(request.AskingToJoinMemberId));

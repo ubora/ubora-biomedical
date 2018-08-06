@@ -3,9 +3,9 @@ using System;
 
 namespace Ubora.Domain.Projects.Members
 {
-    public class ProjectMember
+    public class UserProfile
     {
-        public ProjectMember(Guid userId)
+        public UserProfile(Guid userId)
         {
             UserId = userId;
         }

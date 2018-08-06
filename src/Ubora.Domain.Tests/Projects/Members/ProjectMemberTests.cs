@@ -14,14 +14,14 @@ namespace Ubora.Domain.Tests.Projects.Members
         [Fact]
         public void All_Inherited_ProjectMembers_Must_Implement_Unique_Role_Key()
         {
-            IEnumerable<Type> inheritedProjectMemberTypes = typeof(ProjectMember).Assembly
+            IEnumerable<Type> inheritedProjectMemberTypes = typeof(UserProfile).Assembly
                 .GetTypes()
-                .Where(type => typeof(ProjectMember).IsAssignableFrom(type));
+                .Where(type => typeof(UserProfile).IsAssignableFrom(type));
 
             var userId = Guid.NewGuid();
-            IEnumerable<ProjectMember> projectMemberInstances = inheritedProjectMemberTypes
+            IEnumerable<UserProfile> projectMemberInstances = inheritedProjectMemberTypes
                 .Select(type => Activator.CreateInstance(type, userId))
-                .Cast<ProjectMember>()
+                .Cast<UserProfile>()
                 .ToList();
 
             // Act

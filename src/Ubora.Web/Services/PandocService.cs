@@ -18,8 +18,8 @@ namespace Ubora.Web.Services
 
         public async Task<Stream> ConvertDocumentAsync(string html)
         {
-            var isHttps = _appSettings.Value.IsHttps;
-            var protocol = isHttps ? "https" : "http";
+            var isUnsafeHttp = _appSettings.Value.IsUnsafeHttp;
+            var protocol = isUnsafeHttp ? "http" : "https";
             
             using (var client = new HttpClient())
             {

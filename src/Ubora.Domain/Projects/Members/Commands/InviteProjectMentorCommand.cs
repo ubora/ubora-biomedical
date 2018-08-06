@@ -27,7 +27,7 @@ namespace Ubora.Domain.Projects.Members.Commands
             public ICommandResult Handle(InviteProjectMentorCommand cmd)
             {
                 var project = _documentSession.LoadOrThrow<Project>(cmd.ProjectId);
-                var userProfile = _documentSession.LoadOrThrow<UserProfile>(cmd.UserId);
+                var userProfile = _documentSession.LoadOrThrow<Users.UserProfile>(cmd.UserId);
 
                 var isAlreadyMentor = project.DoesSatisfy(new HasMember<ProjectMentor>(cmd.UserId));
                 if (isAlreadyMentor)

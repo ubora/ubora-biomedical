@@ -2,7 +2,7 @@
 
 namespace Ubora.Domain.Projects.Members
 {
-    public class ProjectMentor : ProjectMember
+    public class ProjectMentor : UserProfile
     {
         public ProjectMentor(Guid userId) : base(userId)
         {

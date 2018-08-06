@@ -1,28 +1,19 @@
 ﻿@using Ubora.Web._Features._Shared.Helpers
 @model Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments.WP2TemplatePartialViewModel
 
-@{
-    var isNonEmptyPhysicalPrinciples = !String.IsNullOrEmpty(Model.PhysicalPrinciples);
-    var isNonEmptyConceptDescription = !String.IsNullOrEmpty(Model.ConceptDescription);
-}
-
-@if (isNonEmptyPhysicalPrinciples || isNonEmptyConceptDescription)
+@if (Model.WorkpackageStepViewModels.Count != 0)
 {
     <h1>Conceptual design</h1>
 }
 
-@if (isNonEmptyPhysicalPrinciples)
+@foreach (var workpackageStepViewModel in Model.WorkpackageStepViewModels)
 {
-    <h2>Physical principles</h2>
+    if (!string.IsNullOrEmpty(workpackageStepViewModel.Content))
+    {
+        <h2>@workpackageStepViewModel.Title</h2>
 
-    @Html.Raw(Model.PhysicalPrinciples)
-}
-
-@if (isNonEmptyConceptDescription)
-{
-    <h2>Concept description</h2>
-
-    @Html.Raw(Model.ConceptDescription) 
+        @Html.Raw(workpackageStepViewModel.Content)
+    }
 }
 
 @if (Model.StructuredInformationResultViewModel.IsUserAndEnvironmentEdited)

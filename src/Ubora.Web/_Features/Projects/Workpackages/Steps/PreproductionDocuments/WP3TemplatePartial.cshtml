@@ -1,132 +1,16 @@
 ﻿@model Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments.WP3TemplatePartialViewModel
 
-@{
-    var isNonEmptyGeneralProductDescriptionHardwareCommercialParts = !String.IsNullOrEmpty(Model.GeneralProductDescriptionHardwareCommercialParts);
-    var isNonEmptyGeneralProductDescriptionHardwarePurposelyDesignedParts = !String.IsNullOrEmpty(Model.GeneralProductDescriptionHardwarePurposelyDesignedParts);
-    var isNonEmptyGeneralProductDescriptionHardwarePrototypesAndFunctionalTrials = !String.IsNullOrEmpty(Model.GeneralProductDescriptionHardwarePrototypesAndFunctionalTrials);
-    var isNonEmptyGeneralProductDescriptionElectronicAndFirmwareCommercialParts = !String.IsNullOrEmpty(Model.GeneralProductDescriptionElectronicAndFirmwareCommercialParts);
-    var isNonEmptyGeneralProductDescriptionElectronicAndFirmwarePurposelyDesignedParts = !String.IsNullOrEmpty(Model.GeneralProductDescriptionElectronicAndFirmwarePurposelyDesignedParts);
-    var isNonEmptyGeneralProductDescriptionElectronicAndFirmwarePrototypesAndFunctionalTrials = !String.IsNullOrEmpty(Model.GeneralProductDescriptionElectronicAndFirmwarePrototypesAndFunctionalTrials);
-    var isNonEmptyGeneralProductDescriptionSoftwareExistingSolutions = !String.IsNullOrEmpty(Model.GeneralProductDescriptionSoftwareExistingSolutions);
-    var isNonEmptyGeneralProductDescriptionSoftwarePurposelyDesignedParts = !String.IsNullOrEmpty(Model.GeneralProductDescriptionSoftwarePurposelyDesignedParts);
-    var isNonEmptyGeneralProductDescriptionSoftwarePrototypesAndFunctionalTrials = !String.IsNullOrEmpty(Model.GeneralProductDescriptionSoftwarePrototypesAndFunctionalTrials);
-    var isNonEmptyGeneralProductDescriptionSystemIntegrationPrototypesAndFunctionalTrials = !String.IsNullOrEmpty(Model.GeneralProductDescriptionSystemIntegrationPrototypesAndFunctionalTrials);
-    var isNonEmptyDesignForIsoTestingCompliance = !String.IsNullOrEmpty(Model.DesignForIsoTestingCompliance);
-    var isNonEmptyInstructionsForFabricationOfPrototypes = !String.IsNullOrEmpty(Model.InstructionsForFabricationOfPrototypes);
-    var isNonEmptyAll = isNonEmptyGeneralProductDescriptionHardwareCommercialParts || isNonEmptyGeneralProductDescriptionHardwarePurposelyDesignedParts || isNonEmptyGeneralProductDescriptionHardwarePrototypesAndFunctionalTrials
-                     || isNonEmptyGeneralProductDescriptionElectronicAndFirmwareCommercialParts || isNonEmptyGeneralProductDescriptionElectronicAndFirmwarePurposelyDesignedParts
-                     || isNonEmptyGeneralProductDescriptionElectronicAndFirmwarePrototypesAndFunctionalTrials || isNonEmptyGeneralProductDescriptionSoftwareExistingSolutions 
-                     || isNonEmptyGeneralProductDescriptionSoftwarePurposelyDesignedParts || isNonEmptyGeneralProductDescriptionSoftwarePrototypesAndFunctionalTrials 
-                     || isNonEmptyGeneralProductDescriptionSystemIntegrationPrototypesAndFunctionalTrials || isNonEmptyDesignForIsoTestingCompliance || isNonEmptyInstructionsForFabricationOfPrototypes;
-        
-}
-
-@if (isNonEmptyAll)
+@if (Model.WorkpackageStepViewModels.Count != 0)
 {
     <h1>DESIGN AND PROTOTYPING</h1>
 }
 
-@if (isNonEmptyGeneralProductDescriptionHardwareCommercialParts || isNonEmptyGeneralProductDescriptionHardwarePurposelyDesignedParts || isNonEmptyGeneralProductDescriptionHardwarePrototypesAndFunctionalTrials)
+@foreach (var workpackageStepViewModel in Model.WorkpackageStepViewModels)
 {
-    <h2>Hardware</h2>
+    if (!string.IsNullOrEmpty(workpackageStepViewModel.Content))
+    {
+        <h2>@workpackageStepViewModel.Title</h2>
+
+        @Html.Raw(workpackageStepViewModel.Content)
+    }
 }
-
-@if (isNonEmptyGeneralProductDescriptionHardwareCommercialParts)
-{
-    <h3>CommercialParts</h3>
-
-    @Html.Raw(Model.GeneralProductDescriptionHardwareCommercialParts)
-}
-
-@if (isNonEmptyGeneralProductDescriptionHardwarePurposelyDesignedParts)
-{
-    <h3>PurposelyDesignedParts</h3>
-
-
-    @Html.Raw(Model.GeneralProductDescriptionHardwarePurposelyDesignedParts)
-}
-
-@if (isNonEmptyGeneralProductDescriptionHardwarePrototypesAndFunctionalTrials)
-{
-    <h3>PrototypesAndFunctionalTrials</h3>
-
-    @Html.Raw(Model.GeneralProductDescriptionHardwarePrototypesAndFunctionalTrials)
-}
-
-@if (isNonEmptyGeneralProductDescriptionElectronicAndFirmwareCommercialParts || isNonEmptyGeneralProductDescriptionElectronicAndFirmwarePurposelyDesignedParts || isNonEmptyGeneralProductDescriptionElectronicAndFirmwarePrototypesAndFunctionalTrials)
-{
-    <h2>ElectronicAndFirmware</h2>
-}
-
-
-@if (isNonEmptyGeneralProductDescriptionElectronicAndFirmwareCommercialParts)
-{
-    <h3>CommercialParts</h3>
-
-    @Html.Raw(Model.GeneralProductDescriptionElectronicAndFirmwareCommercialParts)
-}
-
-@if (isNonEmptyGeneralProductDescriptionElectronicAndFirmwarePurposelyDesignedParts)
-{
-    <h3>PurposelyDesignedParts</h3>
-
-    @Html.Raw(Model.GeneralProductDescriptionElectronicAndFirmwarePurposelyDesignedParts)
-}
-
-@if (isNonEmptyGeneralProductDescriptionElectronicAndFirmwarePrototypesAndFunctionalTrials)
-{
-    <h3>PrototypesAndFunctionalTrials</h3>
-
-    @Html.Raw(Model.GeneralProductDescriptionElectronicAndFirmwarePrototypesAndFunctionalTrials)
-}
-
-@if (isNonEmptyGeneralProductDescriptionSoftwareExistingSolutions || isNonEmptyGeneralProductDescriptionSoftwarePurposelyDesignedParts || isNonEmptyGeneralProductDescriptionSoftwarePrototypesAndFunctionalTrials)
-{
-    <h2>Software</h2> 
-}
-
-@if (isNonEmptyGeneralProductDescriptionSoftwareExistingSolutions)
-{
-    <h3>ExistingSolutions</h3>
-
-    @Html.Raw(Model.GeneralProductDescriptionSoftwareExistingSolutions)
-}
-
-@if (isNonEmptyGeneralProductDescriptionSoftwarePurposelyDesignedParts)
-{
-    <h3>PurposelyDesignedParts</h3>
-
-    @Html.Raw(Model.GeneralProductDescriptionSoftwarePurposelyDesignedParts)
-}
-
-@if (isNonEmptyGeneralProductDescriptionSoftwarePrototypesAndFunctionalTrials)
-{
-    <h3>PrototypesAndFunctionalTrials</h3>
-
-    @Html.Raw(Model.GeneralProductDescriptionSoftwarePrototypesAndFunctionalTrials)
-}
-
-@if (isNonEmptyGeneralProductDescriptionSystemIntegrationPrototypesAndFunctionalTrials)
-{
-    <h2>SystemIntegration</h2>
-
-    <h3>PrototypesAndFunctionalTrials</h3>
-
-    @Html.Raw(Model.GeneralProductDescriptionSystemIntegrationPrototypesAndFunctionalTrials)
-}
-
-@if (isNonEmptyDesignForIsoTestingCompliance)
-{
-    <h2>SystemIntegration</h2>
-
-    @Html.Raw(Model.DesignForIsoTestingCompliance)
-}
-
-@if (isNonEmptyInstructionsForFabricationOfPrototypes)
-{
-    <h2>SystemIntegration</h2>
-
-    @Html.Raw(Model.InstructionsForFabricationOfPrototypes)
-}
-
-

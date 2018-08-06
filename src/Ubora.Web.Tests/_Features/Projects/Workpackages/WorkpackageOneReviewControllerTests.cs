@@ -133,7 +133,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Setup(x => x.AuthorizeAsync(this.User, It.IsAny<object>(), Policies.CanSubmitWorkpackageForReview))
                 .ReturnsAsync(AuthorizationResult.Success);
 
-            var members = new List<ProjectMember> { new ProjectMentor(Guid.NewGuid()) };
+            var members = new List<UserProfile> { new ProjectMentor(Guid.NewGuid()) };
             var project = new Project();
             project.Set(p => p.Members, members);
 

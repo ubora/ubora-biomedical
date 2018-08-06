@@ -22,7 +22,7 @@ namespace Ubora.Web.Authorization.Requirements
             {
                 var clientIpAddress = _contextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
 
-                if (_appSettings.Value.IsHttps)
+                if (!_appSettings.Value.IsUnsafeHttp)
                 {
                     var isHttps = _contextAccessor.HttpContext.Request.IsHttps;
                     

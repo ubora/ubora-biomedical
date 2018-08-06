@@ -6,7 +6,7 @@ using Ubora.Domain.Projects.Members;
 
 namespace Ubora.Domain.Projects._Specifications
 {
-    public class HasMember<T> : Specification<Project> where T : ProjectMember
+    public class HasMember<T> : Specification<Project> where T : UserProfile
     {
         public Guid UserId { get; }
 
@@ -21,7 +21,7 @@ namespace Ubora.Domain.Projects._Specifications
         }
     }
 
-    public class HasMember : HasMember<ProjectMember>
+    public class HasMember : HasMember<UserProfile>
     {
         public HasMember(Guid userId) : base(userId)
         {

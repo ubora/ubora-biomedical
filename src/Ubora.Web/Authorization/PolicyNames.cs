@@ -37,5 +37,5 @@
     public const string CanEditAndViewUnlockedWorkPackageFour = nameof(CanEditAndViewUnlockedWorkPackageFour);
     public const string CanManageResources = nameof(CanManageResources);
     public const string CanRemoveIsoStandardFromComplianceChecklist = nameof(CanRemoveIsoStandardFromComplianceChecklist);
-    public const string CanCopyFileToClipboard = nameof(CanCopyFileToClipboard);
+    public const string CanDownloadFile = nameof(CanDownloadFile);
 }

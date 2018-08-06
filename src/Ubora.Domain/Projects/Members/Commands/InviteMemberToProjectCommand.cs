@@ -20,7 +20,7 @@ namespace Ubora.Domain.Projects.Members.Commands
 
             public ICommandResult Handle(InviteMemberToProjectCommand cmd)
             {
-                var userProfile = _documentSession.Query<UserProfile>().SingleOrDefault(x => x.Email == cmd.InvitedMemberEmail);
+                var userProfile = _documentSession.Query<Users.UserProfile>().SingleOrDefault(x => x.Email == cmd.InvitedMemberEmail);
                 if (userProfile == null)
                 {
                     return CommandResult.Failed($"Email [{cmd.InvitedMemberEmail}] not found.");

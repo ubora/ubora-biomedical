@@ -115,7 +115,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         {
             var projectMentor = new ProjectMentor(UserId);
             var project = new Project()
-                .Set(x => x.Members, new List<ProjectMember> { projectMentor });
+                .Set(x => x.Members, new List<UserProfile> { projectMentor });
 
             QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);
@@ -146,7 +146,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         {
             var projectMentor = new ProjectMentor(UserId);
             var project = new Project()
-                .Set(x => x.Members, new List<ProjectMember> { projectMentor });
+                .Set(x => x.Members, new List<UserProfile> { projectMentor });
 
             QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);
@@ -174,7 +174,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         {
             var projectMentor = new ProjectMentor(UserId);
             var project = new Project()
-                .Set(x => x.Members, new List<ProjectMember> { projectMentor });
+                .Set(x => x.Members, new List<UserProfile> { projectMentor });
 
             QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);
@@ -194,7 +194,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         {
             var projectMentor = new ProjectMentor(UserId);
             var project = new Project()
-                .Set(x => x.Members, new List<ProjectMember> { projectMentor });
+                .Set(x => x.Members, new List<UserProfile> { projectMentor });
 
             QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);

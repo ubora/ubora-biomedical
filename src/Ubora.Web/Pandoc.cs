@@ -4,7 +4,7 @@
     {
         public string Ip { get; set; }
         public int Port { get; set; }
-        public bool IsHttps { get; set; }
+        public bool IsUnsafeHttp { get; set; }
         public string Key { get; set; }
     }
 }        

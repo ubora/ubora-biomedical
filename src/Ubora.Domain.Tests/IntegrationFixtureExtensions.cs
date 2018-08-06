@@ -9,6 +9,7 @@ using Ubora.Domain.Projects._Commands;
 using Ubora.Domain.Users.Commands;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Users;
+using UserProfile = Ubora.Domain.Users.UserProfile;
 
 namespace Ubora.Domain.Tests
 {

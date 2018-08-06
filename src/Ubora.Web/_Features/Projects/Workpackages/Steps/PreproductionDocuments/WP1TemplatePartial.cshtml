@@ -1,43 +1,18 @@
 ﻿@model Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments.WP1TemplatePartialViewModel
 
-@{
-    var isNonEmptyClinicalNeeds = !string.IsNullOrEmpty(Model.ClinicalNeeds);
-    var isNonEmptyExistingSolutions = !string.IsNullOrEmpty(Model.ExistingSolutions);
-    var isNonEmptyIntendedUsers = !string.IsNullOrEmpty(Model.IntendedUsers);
-    var isNonEmptyProductRequirements = !string.IsNullOrEmpty(Model.ProductRequirements);
-}
-
-@if (isNonEmptyClinicalNeeds || isNonEmptyExistingSolutions || isNonEmptyIntendedUsers || isNonEmptyProductRequirements)
+@if (Model.WorkpackageStepViewModels.Count != 0)
 {
     <h1>Project context</h1>
 }
 
-@if (isNonEmptyClinicalNeeds)
+@foreach (var workpackageStepViewModel in Model.WorkpackageStepViewModels)
 {
-    <h2>Clinical needs</h2>
+    if (!string.IsNullOrEmpty(workpackageStepViewModel.Content))
+    {
+         <h2>@workpackageStepViewModel.Title</h2>
 
-    @Html.Raw(Model.ClinicalNeeds)
-}
-
-@if (isNonEmptyExistingSolutions)
-{
-    <h2>Existing solutions</h2>
-
-    @Html.Raw(Model.ExistingSolutions)
-}
-
-@if (isNonEmptyIntendedUsers)
-{
-    <h2>Intended Users</h2>
-
-    @Html.Raw(Model.IntendedUsers)
-}
-
-@if (isNonEmptyProductRequirements)
-{
-    <h2>Proposed product and its innovative aspects</h2>
-
-    @Html.Raw(Model.ProductRequirements)
+         @Html.Raw(workpackageStepViewModel.Content)
+    }
 }
 
 @foreach (var reviewQuestionnaireViewModel in Model.ReviewQuestionnaireViewModels)

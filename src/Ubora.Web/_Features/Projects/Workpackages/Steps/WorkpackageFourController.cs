@@ -248,10 +248,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
                 WorkpackageCheckBoxListItems = new List<WorkpackageCheckBoxListItem>
                 {
-                    new WorkpackageCheckBoxListItem { Name = "WP1", IsOpened = wpStatuses.Wp1Status == WorkpackageStatus.Opened || wpStatuses.Wp1Status == WorkpackageStatus.Accepted},
-                    new WorkpackageCheckBoxListItem { Name = "WP2", IsOpened = wpStatuses.Wp2Status == WorkpackageStatus.Opened || wpStatuses.Wp2Status == WorkpackageStatus.Accepted},
-                    new WorkpackageCheckBoxListItem { Name = "WP3", IsOpened = wpStatuses.Wp3Status == WorkpackageStatus.Opened || wpStatuses.Wp3Status == WorkpackageStatus.Accepted},
-                    new WorkpackageCheckBoxListItem { Name = "WP4", IsOpened = wpStatuses.Wp4Status == WorkpackageStatus.Opened || wpStatuses.Wp4Status == WorkpackageStatus.Accepted}
+                    new WorkpackageCheckBoxListItem { Name = "WP1", IsExportable = wpStatuses.Wp1Status == WorkpackageStatus.Opened || wpStatuses.Wp1Status == WorkpackageStatus.Accepted},
+                    new WorkpackageCheckBoxListItem { Name = "WP2", IsExportable = wpStatuses.Wp2Status == WorkpackageStatus.Opened || wpStatuses.Wp2Status == WorkpackageStatus.Accepted},
+                    new WorkpackageCheckBoxListItem { Name = "WP3", IsExportable = wpStatuses.Wp3Status == WorkpackageStatus.Opened || wpStatuses.Wp3Status == WorkpackageStatus.Accepted},
+                    new WorkpackageCheckBoxListItem { Name = "WP4", IsExportable = wpStatuses.Wp4Status == WorkpackageStatus.Opened || wpStatuses.Wp4Status == WorkpackageStatus.Accepted}
                 }
             };
             

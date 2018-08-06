@@ -104,7 +104,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             var project = new Project();
             project.Set(p => p.Id, ProjectId);
             project.Set(p => p.Title, "Title");
-            var projectMembers = new List<ProjectMember> { new ProjectLeader(UserId) };
+            var projectMembers = new List<UserProfile> { new ProjectLeader(UserId) };
             project.Set(p => p.Members, projectMembers);
 
             var specification = new IsProjectFileSpec(ProjectId)

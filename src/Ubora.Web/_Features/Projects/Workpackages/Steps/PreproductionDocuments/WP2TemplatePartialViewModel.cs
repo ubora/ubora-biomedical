@@ -1,9 +1,10 @@
-﻿namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
+﻿using System.Collections.Generic;
+
+namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
 {
     public class WP2TemplatePartialViewModel
     {
-        public string PhysicalPrinciples { get; set; }
-        public string ConceptDescription { get; set; }
+        public List<WorkpackageStepViewModel> WorkpackageStepViewModels { get; set; }
         public StructuredInformationResultViewModel StructuredInformationResultViewModel { get; set; }
     }
 }

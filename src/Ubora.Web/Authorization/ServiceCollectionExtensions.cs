@@ -208,7 +208,7 @@ namespace Ubora.Web.Authorization
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
                 
-                options.AddPolicy(Policies.CanCopyFileToClipboard, policyBuilder =>
+                options.AddPolicy(Policies.CanDownloadFile, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new OrRequirement(new IsProjectMemberRequirement(), new PandocServiceIpRequirement()));
                 });
