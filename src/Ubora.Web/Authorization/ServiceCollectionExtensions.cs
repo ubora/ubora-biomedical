@@ -210,7 +210,7 @@ namespace Ubora.Web.Authorization
                 
                 options.AddPolicy(Policies.CanCopyFileToClipboard, policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new PandocServiceIpRequirement());
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectMemberRequirement(), new PandocServiceIpRequirement()));
                 });
             });
         }
