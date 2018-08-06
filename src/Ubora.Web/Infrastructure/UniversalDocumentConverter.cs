@@ -19,17 +19,8 @@ namespace Ubora.Web.Infrastructure
         }
 
         public async Task<Stream> GetDocumentStreamAsync(string view)
-        {
-            var response = await _pandocService.ConvertDocumentAsync(view);
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                var error = await response.Content.ReadAsStringAsync();
-                throw new System.ArgumentException(error);
-            }
-            
-            Stream documentStream = await response.Content.ReadAsStreamAsync();
-            
-            return documentStream;
+        {    
+            return await _pandocService.ConvertDocumentAsync(view);
         }
 
         public async Task<string> GetHtmlAsync(string markdown)

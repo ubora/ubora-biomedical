@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
@@ -14,7 +16,7 @@ namespace Ubora.Web.Services
             _appSettings = appSettings;
         }
 
-        public async Task<HttpResponseMessage> ConvertDocumentAsync(string html)
+        public async Task<Stream> ConvertDocumentAsync(string html)
         {
             var isHttps = _appSettings.Value.IsHttps;
             var protocol = isHttps ? "https" : "http";
@@ -27,7 +29,14 @@ namespace Ubora.Web.Services
                 request.Headers.Add("privateapikey", _appSettings.Value.Key);
                 request.Content = new StringContent(html);
 
-                return await client.SendAsync(request);
+                var response = await client.SendAsync(request);
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    throw new ArgumentException(error);
+                }
+
+                return await response.Content.ReadAsStreamAsync();
             }
         }
     }
