@@ -43,15 +43,3 @@
         @await Component.InvokeAsync(typeof(MyProjectListViewComponent))
     }
 </div>
-
-<div class="container my-5">
-    @{ Html.RenderPartial("~/_Features/ProjectList/ProjectListPartial.cshtml", Model.ProjectListViewModel); }
-</div>
-
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-    <script src="~/dist/infinite_scroll.bundle.js"></script>
-    <script>
-        UBORA.initInfiniteScroll('@Url.Action(nameof(ProjectListController.Search), "ProjectList")');
-    </script>
-}

@@ -2,38 +2,39 @@
 @model Ubora.Web._Features.Projects.Workpackages.Steps.UserAndEnvironmentInformationViewModel
 
 @{
-    ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
     ViewData["Title"] = "User and evironment";
+
+    var workpackageMenuOptionViewData = (string) ViewData["WorkpackageMenuOption"];
+    var wpControllerName = workpackageMenuOptionViewData == WorkpackageMenuOption.WP4StructuredInformationOnTheDevice
+        ? "WorkpackageFour" : "WorkpackageTwo";
 }
 
-
-<div class="col-lg-7">
-    <form asp-controller="WorkpackageTwo" asp-action="UserAndEnvironment">
+<div class="col-xl-7 col-lg-9">
+    <form asp-controller="@wpControllerName" asp-action="UserAndEnvironment" class="js-onbeforeunload">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+        <input type="hidden" asp-for="DeviceStructuredInformationId">
         <div class="row">
-            <h1 class="col-lg-12 mb-4">User and evironment</h1>
+            <h1 class="col-lg-12 mb-4">@ViewData["Title"]</h1>
             <div class="col-lg-12">
-
 
                 <div class="row mb-4">
                     <h5 class="col-lg-12">1. Who is the intended user?</h5>
                     <div class="col-lg-4">
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="self-user_or_patient" />
+                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="self-user_or_patient"/>
                                 Self-user/patient
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="physician" />
+                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="physician"/>
                                 Physician
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="technician" />
+                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="technician"/>
                                 Technician
                             </label>
                         </div>
@@ -41,19 +42,19 @@
                     <div class="col-lg-4">
                         <div class="form-check ">
                             <label class="form-check-label">
-                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="nurse" />
+                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="nurse"/>
                                 Nurse
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="midwife" />
+                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="midwife"/>
                                 Midwife
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="family_member" />
+                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="family_member"/>
                                 Family member
                             </label>
                         </div>
@@ -61,9 +62,9 @@
                     <div class="col-lg-4">
                         <div class="form-check">
                             <label class="form-check-label w-100">
-                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="other" />
+                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="other"/>
                                 <span class="d-inline">Other:</span>
-                                <input asp-for="IntendedUserIfOther" class="form-control d-inline w-75" type="text" title="Other indended user" />
+                                <input asp-for="IntendedUserIfOther" class="form-control d-inline w-75" type="text" title="Other indended user"/>
                                 <span asp-validation-for="IntendedUserIfOther"></span>
                             </label>
                         </div>
@@ -81,13 +82,13 @@
                     <div class="col-lg-12">
                         <div class="form-check form-check-inline">
                             <label class="form-check-label">
-                                <input asp-for="IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser" class="show-extra-fields-js form-check-input" type="radio" value="@true" data-target="#training-extra-field" />
+                                <input asp-for="IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser" class="show-extra-fields-js form-check-input" type="radio" value="@true" data-target="#training-extra-field"/>
                                 Yes
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
                             <label class="form-check-label">
-                                <input asp-for="IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser" class="hide-extra-fields-js form-check-input" type="radio" value="@false" data-target="#training-extra-field" />
+                                <input asp-for="IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser" class="hide-extra-fields-js form-check-input" type="radio" value="@false" data-target="#training-extra-field"/>
                                 No
                             </label>
                         </div>
@@ -111,13 +112,13 @@
                     <div class="col-lg-12">
                         <div class="form-check form-check-inline">
                             <label class="form-check-label">
-                                <input asp-for="IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse" class="form-check-input" type="radio" value="@true" />
+                                <input asp-for="IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse" class="form-check-input" type="radio" value="@true"/>
                                 Yes
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
                             <label class="form-check-label">
-                                <input asp-for="IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse" class="form-check-input" type="radio" value="@false" />
+                                <input asp-for="IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse" class="form-check-input" type="radio" value="@false"/>
                                 No
                             </label>
                         </div>
@@ -130,25 +131,25 @@
                     <div class="col-lg-4">
                         <div class="form-check ">
                             <label class="form-check-label">
-                                <input asp-for="WhereWillTechnologyBeUsed.RuralSettings" class="form-check-input" type="checkbox" />
+                                <input asp-for="WhereWillTechnologyBeUsed.RuralSettings" class="form-check-input" type="checkbox"/>
                                 Rural settings
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input asp-for="WhereWillTechnologyBeUsed.UrbanSettings" class="form-check-input" type="checkbox" />
+                                <input asp-for="WhereWillTechnologyBeUsed.UrbanSettings" class="form-check-input" type="checkbox"/>
                                 Urban settings
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input asp-for="WhereWillTechnologyBeUsed.Outdoors" class="form-check-input" type="checkbox" />
+                                <input asp-for="WhereWillTechnologyBeUsed.Outdoors" class="form-check-input" type="checkbox"/>
                                 Outdoors
                             </label>
                         </div>
                         <div class="form-check ">
                             <label class="form-check-label">
-                                <input asp-for="WhereWillTechnologyBeUsed.Indoors" class="form-check-input" type="checkbox" />
+                                <input asp-for="WhereWillTechnologyBeUsed.Indoors" class="form-check-input" type="checkbox"/>
                                 Indoors
                             </label>
                         </div>
@@ -156,25 +157,25 @@
                     <div class="col-lg-4">
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input asp-for="WhereWillTechnologyBeUsed.AtHome" class="form-check-input" type="checkbox" />
+                                <input asp-for="WhereWillTechnologyBeUsed.AtHome" class="form-check-input" type="checkbox"/>
                                 At home
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input asp-for="WhereWillTechnologyBeUsed.PrimaryLevel" class="form-check-input" type="checkbox" />
+                                <input asp-for="WhereWillTechnologyBeUsed.PrimaryLevel" class="form-check-input" type="checkbox"/>
                                 Primary level (health post, health center)
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input asp-for="WhereWillTechnologyBeUsed.SecondaryLevel" class="form-check-input" type="checkbox" />
+                                <input asp-for="WhereWillTechnologyBeUsed.SecondaryLevel" class="form-check-input" type="checkbox"/>
                                 Secondary level (general hospital)
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input asp-for="WhereWillTechnologyBeUsed.TertiaryLevel" class="form-check-input" type="checkbox" />
+                                <input asp-for="WhereWillTechnologyBeUsed.TertiaryLevel" class="form-check-input" type="checkbox"/>
                                 Tertiary level (specialist hospital)
                             </label>
                         </div>
@@ -193,7 +194,6 @@
         </div>
     </form>
 </div>
-
 
 @section Scripts {
     <script src="~/dist/toggle_formcheck_extra_fields.bundle.js"></script>

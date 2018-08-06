@@ -13,6 +13,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
         public void Apply_For_WorkpackageOneReviewAcceptedEvent_Throws_When_Applied_Multiple_Times_In_Row()
         {
             var @event = new WorkpackageOneReviewAcceptedEvent(
+                deviceStructuredInformationId: Guid.NewGuid(),
                 initiatedBy: new DummyUserInfo(),
                 projectId: Guid.NewGuid(),
                 concludingComment: "",
@@ -32,6 +33,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages
         public void Apply_For_WorkpackageOneReviewAcceptedEvent_Does_Not_Change_Steps_When_Wp1_Was_Reopened_And_Accepted_Again()
         {
             var acceptedEvent = new WorkpackageOneReviewAcceptedEvent(
+                deviceStructuredInformationId: Guid.NewGuid(),
                 initiatedBy: new DummyUserInfo(),
                 projectId: Guid.NewGuid(),
                 concludingComment: "",

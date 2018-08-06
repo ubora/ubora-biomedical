@@ -7,7 +7,6 @@ using Ubora.Web._Features.Projects.Dashboard;
 using Ubora.Web._Features.Projects.Workpackages.Reviews;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Ubora.Web._Features.Users.Profile;
-using Ubora.Web._Features.Users.UserList;
 using Ubora.Web._Features.Projects.Repository;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects._Commands;
@@ -15,6 +14,7 @@ using Ubora.Web._Features.Projects.Assignments;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Web._Features.Projects.Workpackages.Candidates;
+using Ubora.Web._Features.Users.UserList.Models;
 
 namespace Ubora.Web._Features._Shared
 {
@@ -53,7 +53,8 @@ namespace Ubora.Web._Features._Shared
                 .ForMember(dest => dest.EditButton, o => o.Ignore());
 
             CreateMap<UserProfile, UserListItemViewModel>()
-                .ForMember(dest => dest.ProfilePictureLink, o => o.Ignore());
+                .ForMember(dest => dest.ProfilePictureLink, o => o.Ignore())
+                .ForMember(dest => dest.IsInvited, o => o.Ignore());
 
             CreateMap<UserProfile, ProfileViewModel>()
                 .ForMember(dest => dest.ProfilePictureLink, o => o.Ignore())

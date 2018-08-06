@@ -1,0 +1,42 @@
+﻿@model AddIsoStandardPostModel
+
+<button type="button" class="btn btn-outline-primary align-self-start" data-toggle="modal" data-target="#addStandardModal">
+    <i class="material-icons">add</i>
+    <span>Add ISO standard</span>
+</button>
+
+<div class="modal fade" id="addStandardModal" tabindex="-1" role="dialog" aria-labelledby="addStandardModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addStandardModalLabel">Add ISO standard</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-action="@nameof(IsoCompliancesController.AddIsoStandard)" asp-controller="@nameof(IsoCompliancesController).RemoveSuffix()">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label asp-for="Title">Title of the ISO standard</label>
+                        <input asp-for="Title" class="form-control" placeholder='For example "EN ISO 13485:2016"' />
+                        <span asp-validation-for="Title"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ShortDescription">Description</label>
+                        <textarea asp-for="ShortDescription" class="form-control" placeholder="Short standard description (250 characters)" rows="4"></textarea>
+                        <span asp-validation-for="ShortDescription"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Link">Link</label>
+                        <input asp-for="Link" class="form-control" placeholder="Insert website link" />
+                        <span asp-validation-for="Link"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add ISO standard</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

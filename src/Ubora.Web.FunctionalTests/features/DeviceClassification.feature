@@ -4,7 +4,7 @@ Feature: Device classification
 
 Background:
     Given I am signed in as user and on first page
-        And I click on the element "h5=Test title"
+        And I click on the element "(//*[contains(text(),'Test title')])"
         And I click on the element "a=Work packages"
         And I click on the element "*=Medical need and product specification" inside "main"
         And I click on the element "*=Device classification" inside "main"

@@ -61,14 +61,19 @@ namespace Ubora.Domain.Projects.Workpackages.Queries
                     .Select(wp => new IntermediateResult { HasBeenAcceptedByReview = wp.HasBeenAccepted })
                     .FirstOrDefault();
 
+                var wp4 = batch.Query<WorkpackageFour>()
+                    .Where(wp => wp.ProjectId == query.ProjectId)
+                    .Select(wp => new IntermediateResult { HasBeenAcceptedByReview = wp.HasBeenAccepted })
+                    .FirstOrDefault();
+
                 batch.ExecuteSynchronously();
 
                 return new Result
                 (
                     wp1Status: GetStatus(wp1.Result),
                     wp2Status: GetStatus(wp2.Result),
-                    wp3Status: GetStatus(wp3.Result),
-                    wp4Status: WorkpackageStatus.Closed,
+                    wp3Status: GetWp3OrWp4Status(wp3.Result, wp1.Result.HasBeenAcceptedByReview),
+                    wp4Status: GetWp3OrWp4Status(wp4.Result, wp1.Result.HasBeenAcceptedByReview),
                     wp5Status: WorkpackageStatus.Closed,
                     wp6Status: WorkpackageStatus.Closed
                 );
@@ -87,6 +92,21 @@ namespace Ubora.Domain.Projects.Workpackages.Queries
                 }
 
                 return WorkpackageStatus.Opened;
+            }
+
+            private WorkpackageStatus GetWp3OrWp4Status(IntermediateResult workpackage, bool isWp1AcceptedByReview)
+            {
+                if (workpackage != null)
+                {
+                    return WorkpackageStatus.Opened;
+                }
+
+                if (isWp1AcceptedByReview)
+                {
+                    return WorkpackageStatus.Unlockable;
+                }
+
+                return WorkpackageStatus.Closed;
             }
 
             private class IntermediateResult

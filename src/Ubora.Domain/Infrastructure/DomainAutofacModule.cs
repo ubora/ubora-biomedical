@@ -37,11 +37,11 @@ namespace Ubora.Domain.Infrastructure
                 var notificationTypes = FindDomainNotificationConcreteTypes();
 
                 new UboraStoreOptionsConfigurer()
-                    .CreateConfigureAction(eventTypes, notificationTypes, AutoCreate.CreateOnly)
+                    .CreateConfigureAction(eventTypes.ToList(), notificationTypes.ToList(), AutoCreate.CreateOnly)
                     .Invoke(options);
 
                 var store = new DocumentStore(options);
-
+                
                 builder.RegisterInstance(store).As<IDocumentStore>().SingleInstance();
             }
 

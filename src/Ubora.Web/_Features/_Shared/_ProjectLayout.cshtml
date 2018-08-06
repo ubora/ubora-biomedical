@@ -1,4 +1,5 @@
-﻿@using Ubora.Web._Features.Projects._Shared
+﻿@using Microsoft.AspNetCore.Html;
+@using Ubora.Web._Features.Projects._Shared
 @using Ubora.Web._Features.Projects.Workpackages
 @using Ubora.Web._Features.Projects.Workpackages.SideMenu
 
@@ -19,20 +20,34 @@
         Html.RenderPartial("_Header");
 
         var projectMenuOption = ViewData["MenuOption"];
-        if (projectMenuOption != null)
+        if (projectMenuOption != null) // TODO: All views should have project menu?
         {
-            Html.RenderPartial("~/_Features/Projects/_Shared/_ProjectMenu.cshtml", new ProjectMenuViewModel((ProjectMenuOption)projectMenuOption));
+            <div class="container-fluid">
+                <div class="row project-header-container">
+                    <div class="col-xl-3"></div>
+                    <div class="col-xl-8">
+                        @{
+                            Html.RenderPartial("~/_Features/Projects/_Shared/_ProjectMenu.cshtml", new ProjectMenuViewModel((ProjectMenuOption)projectMenuOption));
+                        }
+                    </div>
+                </div>
+            </div>
         }
     }
 
     @{
         var workpackageMenuOption = ViewData[nameof(WorkpackageMenuOption)];
+        IHtmlContent wpSideMenuComponent = null;
         if (workpackageMenuOption != null)
         {
-            var wpSideMenuComponent = await Component.InvokeAsync<WorkpackageSideMenuViewComponent>();
-            <main>
-                <div class="wp-sidemenu-md">
-                    <button type="button" class="btn btn-icon d-flex align-items-center" data-toggle="modal" data-target="#wpSidemenuModal">
+            wpSideMenuComponent = await Component.InvokeAsync<WorkpackageSideMenuViewComponent>();
+        }
+
+        <main>
+            @if (wpSideMenuComponent != null)
+            {
+                <div class="wp-sidemenu-lg">
+                    <button type="button" class="btn btn-icon d-flex align-items-center pl-0" data-toggle="modal" data-target="#wpSidemenuModal">
                         <i class="material-icons mr-2">format_list_numbered</i>
                         <span>WP menu</span>
                     </button>
@@ -51,23 +66,29 @@
                         </div>
                     </div>
                 </div>
+            }
 
-                <div class="container-fluid my-4">
-                    <div class="row">
-                        <div class="col-lg-3 wp-sidemenu">
-                            @{ wpSideMenuComponent.WriteTo(Output, HtmlEncoder); }
-                        </div>
+
+            <div class="container-fluid my-4">
+                <div class="row">
+                    <div class="col-xl-3">
+                        @if (wpSideMenuComponent != null)
+                        {
+                            <div class="wp-sidemenu">
+                                @{ wpSideMenuComponent.WriteTo(Output, HtmlEncoder); }
+                            </div>
+                        }
+                        else
+                        {
+                            @RenderSection("Left", required: false)
+                        }
+                    </div>
+                    <div class="col-xl-7 no-gutters">
                         @RenderBody()
                     </div>
                 </div>
-            </main>
-        }
-        else
-        {
-            <main>
-                @RenderBody()
-            </main>
-        }
+            </div>
+        </main>
     }
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"

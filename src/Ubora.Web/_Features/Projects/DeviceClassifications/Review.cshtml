@@ -1,16 +1,14 @@
 ﻿@model Ubora.Web._Features.Projects.DeviceClassifications.DeviceClassificationReviewViewModel
 
-<div class="col-lg-7">
-    <h1>Chosen class: @Model.ChosenClass</h1>
-    <ul class="list-group">
-        @foreach (var question in Model.Questions)
-        {
-            <li class="list-group-item">
-                <div class="flex-column">
-                    <p class="font-weight-bold">@question.QuestionText</p>
-                    <p>You answered: @question.AnswerText</p>
-                </div>
-            </li>
-        }
-    </ul>
-</div>
+<h1>Chosen class: @Model.ChosenClass</h1>
+<ul class="list-group">
+    @foreach (var question in Model.Questions)
+    {
+        <li class="list-group-item">
+            <div class="flex-column">
+                <p class="font-weight-bold">@question.QuestionText</p>
+                <p>You answered: @question.AnswerText</p>
+            </div>
+        </li>
+    }
+</ul>

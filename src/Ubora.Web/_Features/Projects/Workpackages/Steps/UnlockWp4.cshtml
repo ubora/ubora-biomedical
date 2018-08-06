@@ -1,0 +1,14 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages.Steps
+
+<h1>@ViewBag.Title</h1>
+
+<div asp-validation-summary="All"></div>
+
+<p class="text-informative">You have the privilege to open work packages because you are in the project leader role. Once you open a work package it will become visible to other projects members.</p>
+
+<form asp-controller="@nameof(WorkpackageFourController).RemoveSuffix()" asp-action="@nameof(WorkpackageThreeController.Unlock)">
+    <button type="submit" class="btn btn-outline-primary">
+        <i class="material-icons">lock_open</i>
+        <span>Open @ViewBag.Title</span>
+    </button>
+</form>

@@ -20,14 +20,18 @@ using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.History;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects._Events;
+using Ubora.Domain.Projects.IsoStandardsComplianceChecklists;
+using Ubora.Domain.Projects.StructuredInformations.Events;
+using Ubora.Domain.Resources;
+using Ubora.Domain.Resources.Events;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
     public class UboraStoreOptionsConfigurer
     {
         public Action<StoreOptions> CreateConfigureAction(
-            IEnumerable<Type> eventTypes,
-            IEnumerable<MappedType> notificationTypes,
+            IReadOnlyCollection<Type> eventTypes,
+            IReadOnlyCollection<MappedType> notificationTypes,
             AutoCreate autoCreate)
         {
             if (eventTypes == null)
@@ -57,8 +61,19 @@ namespace Ubora.Domain.Infrastructure.Marten
                     .Duplicate(l => l.ProjectId)
                     .Duplicate(l => l.UserId)
                     .Duplicate(l => l.Timestamp);
+
                 options.Schema.For<IProjectEntity>()
                     .AddSubClassHierarchy(typeof(EventLogEntry));
+
+                options.Schema.For<ResourcePage>().Duplicate(x => x.CategoryId);
+                options.Schema.For<ResourceCategory>().SoftDeleted();
+
+                options.Schema.For<ResourceFile>()
+                    .Duplicate(file => file.ResourcePageId);
+
+                options.Schema.For<IsoStandardsComplianceChecklist>()
+                    .Duplicate(checklist => checklist.ProjectId);
+
                 options.Schema.For<Discussion>()
                     .Duplicate(d => d.AttachedToEntity.EntityId)
                     .Duplicate(d => d.AttachedToEntity.EntityName);
@@ -67,12 +82,18 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageThree>();
+                options.Events.InlineProjections.AggregateStreamsWith<WorkpackageFour>();
                 options.Events.InlineProjections.AggregateStreamsWith<ApplicableRegulationsQuestionnaireAggregate>();
                 options.Events.InlineProjections.AggregateStreamsWith<DeviceClassificationAggregate>();
-                options.Events.InlineProjections.AggregateStreamsWith<DeviceStructuredInformation>();
+                options.Events.InlineProjections.AggregateStreamsWith<ResourcePage>();
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<Assignment, IAssignmentEvent>());
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());
+                options.Events.InlineProjections.Add(new AggregateMemberProjection<ResourceFile, IResourceFileEvent>());
                 options.Events.InlineProjections.AggregateStreamsWith<Candidate>();
+                options.Events.InlineProjections.AggregateStreamsWith<ResourceCategory>();
+                options.Events.InlineProjections.Add(new ResourcesMenuViewProjection());
+                options.Events.InlineProjections.AggregateStreamsWith<IsoStandardsComplianceChecklist>();
+                options.Events.InlineProjections.Add(new DeviceStructuredInformationProjection<IDeviceStructuredInformationEvent>());
                 options.Events.InlineProjections.AggregateStreamsWith<Discussion>();
 
                 options.Events.AddEventTypes(eventTypes);
@@ -84,9 +105,8 @@ namespace Ubora.Domain.Infrastructure.Marten
                 {
                     var transformerType = typeof(EventToHistoryTransformer<>).MakeGenericType(eventType);
                     var transformer = Activator.CreateInstance(transformerType);
-                    options.Events.InlineProjections.TransformEvents((dynamic) transformer);
+                    options.Events.InlineProjections.TransformEvents((dynamic)transformer);
                 }
-
             };
         }
 

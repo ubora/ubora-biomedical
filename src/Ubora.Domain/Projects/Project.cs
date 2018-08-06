@@ -25,6 +25,7 @@ namespace Ubora.Domain.Projects
         public BlobLocation ProjectImageBlobLocation { get; private set; }
         public DateTime ProjectImageLastUpdated { get; private set; }
         public bool IsDeleted { get; private set; }
+        public DateTime CreatedDateTime { get; set; }
 
         [JsonIgnore]
         public bool HasImage => new HasImageSpec().IsSatisfiedBy(this);
@@ -59,6 +60,7 @@ namespace Ubora.Domain.Projects
             ClinicalNeedTags = e.ClinicalNeed;
             Gmdn = e.Gmdn;
             PotentialTechnologyTags = e.PotentialTechnology;
+            CreatedDateTime = e.Timestamp.UtcDateTime;
 
             var userId = e.InitiatedBy.UserId;
             var leader = new ProjectLeader(userId);

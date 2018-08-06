@@ -8,6 +8,8 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
+using Ubora.Domain.Resources;
+using Ubora.Domain.Resources.Commands;
 using Ubora.Web.Infrastructure.PreMailers;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Feedback;
@@ -21,6 +23,8 @@ using Ubora.Web._Features.Projects.History._Base;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Ubora.Web._Features.Users.Manage;
 using Ubora.Web._Features.Projects.Workpackages.Candidates;
+using Ubora.Web._Areas.ResourcesArea.ResourcePages.CommandHandlers;
+using Ubora.Web._Areas.ResourcesArea.ResourcePages.Services;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -76,6 +80,7 @@ namespace Ubora.Web.Infrastructure
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<SendFeedbackCommand.Handler>().As<ICommandHandler<SendFeedbackCommand>>().InstancePerLifetimeScope();
+            builder.RegisterType<UploadResourceFileCommandHandler>().As<ICommandHandler<UploadResourceFileCommand>>().InstancePerLifetimeScope();
 
             builder.RegisterType<NotificationViewModelFactoryMediator>().AsSelf().InstancePerLifetimeScope();
 
@@ -113,6 +118,8 @@ namespace Ubora.Web.Infrastructure
                 .SingleInstance();
 
             builder.RegisterType<CommentViewModelFactory>().AsSelf().InstancePerLifetimeScope();
+
+            builder.RegisterType<ResourceBlobDeleter>().As<IResourceBlobDeleter>().InstancePerLifetimeScope();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)

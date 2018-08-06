@@ -2,124 +2,119 @@
 
 @model CandidateViewModel
 
-@{ 
+@{
     var canChangeProjectCandidateImage = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanChangeProjectCandidateImage);
 }
 
-<div class="col-lg-7">
 
-    <div class="row mb-4">
-        <div class="col">
-            <h1>Voting</h1>
-        </div>
-    </div>
+<h1>Voting</h1>
 
-    <div class="row mb-4">
-        <div class="col-xl-6 col-lg-8 col-md-6 col-sm-8 mb-xl-0 mb-sm-4">
-            <div class="card">
-                <img class="card-img-top img-fluid w-100" src="@Model.ImageUrl" alt="Illustrative project photo" />
-                @if (canChangeProjectCandidateImage)
-                {
-                    <div class="card-img-overlay text-center">
-                        @if (canChangeProjectCandidateImage)
-                        {
-                            <a class="mx-1" href="@Url.Action("EditCandidateImage", "Candidates", new { candidateId = Model.Id })">
-                                <i class="material-icons align-middle font-size-1-1" id="EditImage">mode_edit</i>
-                                <span class="align-middle">Change image</span>
-                            </a>
-                        }
-
-                        @if (Model.HasImage && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectCandidateImage))
-                        {
-                            <a class="mx-1" href="@Url.Action("RemoveCandidateImage", "Candidates", new { candidateId = Model.Id })">
-                                <i class="material-icons align-middle font-size-1-1 ">delete_forever</i>
-                                <span class="align-middle">Remove image</span>
-                            </a>
-                        }
-                    </div>
-
-                }
-            </div>
-        </div>
-        <div class="col-xl-6">
-            <div class="row">
-                <div class="col-lg-9">
-                    <h2 class="mb-4">@Model.Title</h2>
-                </div>
-                <div class="col-lg-3 d-flex justify-content-end">
-                    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectCandidate))
+<div class="row mb-4">
+    <div class="col-xl-6 col-lg-8 col-md-6 col-sm-8 mb-xl-0 mb-sm-4">
+        <div class="card">
+            <img class="card-img-top img-fluid w-100" src="@Model.ImageUrl" alt="Illustrative project photo" />
+            @if (canChangeProjectCandidateImage)
+            {
+                <div class="card-img-overlay text-center">
+                    @if (canChangeProjectCandidateImage)
                     {
-                        <a class="btn-icon d-flex align-content-center" href="@Url.Action("EditCandidate", "Candidates", new { candidateId = Model.Id })">
-                            <i class="material-icons font-size-1-1 mx-1" id="EditImage">mode_edit</i>
-                            <span>Edit</span>
+                        <a class="btn-icon" href="@Url.Action("EditCandidateImage", "Candidates" , new { candidateId=Model.Id })">
+                            <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
+                            <span>Change image</span>
+                        </a>
+                    }
+
+                    @if (Model.HasImage && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectCandidateImage))
+                    {
+                        <a class="btn-icon" href="@Url.Action("RemoveCandidateImage", "Candidates" , new { candidateId=Model.Id })">
+                            <i class="material-icons font-size-1-1 ">delete_forever</i>
+                            <span>Remove image</span>
                         </a>
                     }
                 </div>
+
+            }
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="row">
+            <div class="col-lg-9">
+                <h2 class="mb-4">@Model.Title</h2>
             </div>
-            <div class="row">
-                <div class="col">
-                    <p>@Model.Description</p>
-                </div>
+            <div class="col-lg-3 d-flex justify-content-end">
+                @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectCandidate))
+                {
+                    <a class="btn-icon" href="@Url.Action("EditCandidate", "Candidates" , new { candidateId=Model.Id })">
+                        <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
+                        <span>Edit</span>
+                    </a>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>@Model.Description</p>
             </div>
         </div>
     </div>
-
-    <div class="row mb-4">
-        <div class="col-xl-6 mb-xl-0 mb-sm-4">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2 class="mb-4">All votes</h2>
-                </div>
-                <div class="col-lg-4 col-sm-3 col-6 d-flex align-items-center justify-content-center pr-xl-1 pr-lg-5">
-                    <div class="circle voted average-number">
-                        <span>@Model.TotalScore.ToString("0.0")</span>
-                    </div>
-                </div>
-                <div class="col-lg-8 col-sm-9">
-                    <span>Very good: 16-20</span>
-                    <div class="progress mb-1">
-                        <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentageVeryGood)%"></div>
-                    </div>
-                    <span>Good: 11-15</span>
-                    <div class="progress mb-1">
-                        <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentageGood)%"></div>
-                    </div>
-                    <span>Mediocre: 6-10</span>
-                    <div class="progress mb-1">
-                        <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentageMediocre)%"></div>
-                    </div>
-                    <span>Poor: 1-5</span>
-                    <div class="progress mb-1">
-                        <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentagePoor)%"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-6">
-            @(Model.HasUserVoted ? Html.Partial("_VotePartial", Model.UserVotesViewModel) : Html.Partial("_AddVotePartial", Model.AddVoteViewModel))
-        </div>
-
-    </div>
-
-    @Html.Partial("~/_Components/Discussions/_Discussion.cshtml", new Ubora.Web._Components.Discussions.Models.DiscussionViewModel
-    {
-        Comments = Model.Comments.ToList(),
-        AddCommentActionPath = Url.Action(nameof(CandidatesController.AddComment)),
-        EditCommentActionPath = Url.Action(nameof(CandidatesController.EditComment))
-    })
-
-
-    @if(await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveCandidate))
-    {
-        <div class="my-4">
-            <hr />
-            <div>
-                <a asp-controller="Candidates" asp-action="RemoveCandidate" asp-route-candidateId="@Model.Id" class="btn btn-outline-danger"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete candidate</span></a>
-            </div>
-        </div>
-    }
 </div>
+
+<div class="row mb-4">
+    <div class="col-xl-6 mb-xl-0 mb-sm-4">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="mb-4">All votes</h2>
+            </div>
+            <div class="col-lg-4 col-sm-3 col-6 d-flex align-items-center justify-content-center pr-xl-1 pr-lg-5">
+                <div class="circle voted average-number">
+                    <span>@Model.TotalScore.ToString("0.0")</span>
+                </div>
+            </div>
+            <div class="col-lg-8 col-sm-9">
+                <span>Very good: 16-20</span>
+                <div class="progress mb-1">
+                    <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentageVeryGood)%"></div>
+                </div>
+                <span>Good: 11-15</span>
+                <div class="progress mb-1">
+                    <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentageGood)%"></div>
+                </div>
+                <span>Mediocre: 6-10</span>
+                <div class="progress mb-1">
+                    <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentageMediocre)%"></div>
+                </div>
+                <span>Poor: 1-5</span>
+                <div class="progress mb-1">
+                    <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentagePoor)%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        @(Model.HasUserVoted ? Html.Partial("_VotePartial", Model.UserVotesViewModel) : Html.Partial("_AddVotePartial", Model.AddVoteViewModel))
+    </div>
+
+</div>
+
+@Html.Partial("~/_Components/Discussions/_Discussion.cshtml", new Ubora.Web._Components.Discussions.Models.DiscussionViewModel
+{
+    Comments = Model.Comments.ToList(),
+    AddCommentActionPath = Url.Action(nameof(CandidatesController.AddComment)),
+    EditCommentActionPath = Url.Action(nameof(CandidatesController.EditComment)),
+    DeleteCommentActionPath = Url.Action(nameof(CandidatesController.RemoveComment))
+})
+
+
+@if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveCandidate))
+{
+    <div class="my-4">
+        <hr />
+        <div>
+            <a asp-controller="Candidates" asp-action="RemoveCandidate" asp-route-candidateId="@Model.Id" class="btn btn-outline-danger"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete candidate</span></a>
+        </div>
+    </div>
+}
 
 @section Scripts {
     <script src="~/dist/voting.bundle.js"></script>

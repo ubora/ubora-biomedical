@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Npgsql;
 using Ubora.Web.Infrastructure.Storage;
 using Microsoft.AspNetCore.Mvc;
+using StackExchange.Profiling;
 
 namespace Ubora.Web
 {
@@ -77,6 +78,7 @@ namespace Ubora.Web
                 .AddMvc(options =>
                 {
                     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                    options.AddStringTrimmingProvider();
                 })
                 .AddUboraFeatureFolders(new FeatureFolderOptions {FeatureFolderName = "_Features"});
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
@@ -96,6 +98,7 @@ namespace Ubora.Web
 
             services.AddAutoMapper();
             services.AddUboraPolicyBasedAuthorization();
+            services.AddNodeServices(setupAction => setupAction.InvocationTimeoutMilliseconds = 300000);
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -105,6 +108,10 @@ namespace Ubora.Web
                 services.AddSingleton<TestUserSeeder>();
                 services.AddSingleton<TestProjectSeeder>();
                 services.AddSingleton<TestMentorSeeder>();
+                services.AddMiniProfiler(options =>
+                {
+                    options.IgnoredPaths.Add("dist");
+                }).AddEntityFramework();
             }
 
             services.AddSingleton<ApplicationDataSeeder>();
@@ -153,6 +160,8 @@ namespace Ubora.Web
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
+                //For more details on using MiniProfiler https://miniprofiler.com/dotnet/AspDotNetCore
+                app.UseMiniProfiler();
             }
             else
             {
@@ -173,9 +182,9 @@ namespace Ubora.Web
                     name: "default",
                     template: "{controller}/{action}/{id?}");
 
-                routes.MapRoute(
-                    name: "areaRoute",
-                    template: "{area:exists}/{controller}/{action}");
+                //routes.MapRoute(
+                //    name: "areaRoute",
+                //    template: "{area:exists}/{controller}/{action}");
             });
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())

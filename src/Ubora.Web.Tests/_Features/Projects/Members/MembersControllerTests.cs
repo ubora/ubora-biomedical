@@ -17,6 +17,9 @@ using Ubora.Web.Tests.Helper;
 using Xunit;
 using Ubora.Web._Features.Projects.Dashboard;
 using Ubora.Web._Features.Projects.Members.Models;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Ubora.Domain.Projects.Members;
 
 namespace Ubora.Web.Tests._Features.Projects.Members
 {
@@ -108,8 +111,18 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         }
 
         [Fact]
-        public void RemoveMentor_Removes_Member_From_Project()
+        public async Task RemoveMentor_Removes_Member_From_Project()
         {
+            var projectMentor = new ProjectMentor(UserId);
+            var project = new Project()
+                .Set(x => x.Members, new List<ProjectMember> { projectMentor });
+
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
+                .Returns(project);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, projectMentor, Policies.CanRemoveProjectMentor))
+                .ReturnsAsync(AuthorizationResult.Success);
+
             var viewModel = new RemoveMentorViewModel
             {
                 MemberId = UserId,
@@ -121,7 +134,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
                 .Returns(CommandResult.Success);
 
             // Act
-            var result = (RedirectToActionResult)_membersController.RemoveMentor(viewModel);
+            var result = (RedirectToActionResult)await _membersController.RemoveMentor(viewModel);
 
 
             // Assert
@@ -129,8 +142,66 @@ namespace Ubora.Web.Tests._Features.Projects.Members
         }
 
         [Fact]
-        public void RemoveMentor_Returns_Message_If_Command_Failed()
+        public async Task RemoveMentor_Returns_Forbid_When_Not_Allowed_To_Remove_Mentor()
         {
+            var projectMentor = new ProjectMentor(UserId);
+            var project = new Project()
+                .Set(x => x.Members, new List<ProjectMember> { projectMentor });
+
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
+                .Returns(project);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, projectMentor, Policies.CanRemoveProjectMentor))
+                .ReturnsAsync(AuthorizationResult.Failed);
+
+            var viewModel = new RemoveMentorViewModel
+            {
+                MemberId = UserId,
+                MemberName = "MemberName"
+            };
+
+            // Act
+            var result = await _membersController.RemoveMentor(viewModel);
+
+            // Assert
+            result.GetType().Should().Be(typeof(ForbidResult));
+            
+            CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task RemoveMentor_Returns_Forbid_When_Not_Allowed_To_Go_View()
+        {
+            var projectMentor = new ProjectMentor(UserId);
+            var project = new Project()
+                .Set(x => x.Members, new List<ProjectMember> { projectMentor });
+
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
+                .Returns(project);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, projectMentor, Policies.CanRemoveProjectMentor))
+                .ReturnsAsync(AuthorizationResult.Failed);
+
+            //Act
+            var result = await _membersController.RemoveMentor(UserId);
+
+            // Assert
+            result.GetType().Should().Be(typeof(ForbidResult));
+        }
+
+        [Fact]
+        public async Task RemoveMentor_Returns_Message_If_Command_Failed()
+        {
+            var projectMentor = new ProjectMentor(UserId);
+            var project = new Project()
+                .Set(x => x.Members, new List<ProjectMember> { projectMentor });
+
+            QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
+                .Returns(project);
+
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, projectMentor, Policies.CanRemoveProjectMentor))
+                .ReturnsAsync(AuthorizationResult.Success);
+
             var viewModel = new RemoveMentorViewModel
             {
                 MemberId = UserId,
@@ -142,7 +213,7 @@ namespace Ubora.Web.Tests._Features.Projects.Members
                .Returns(CommandResult.Failed("Something went wrong"));
 
             // Act
-            var result = (ViewResult)_membersController.RemoveMentor(viewModel);
+            var result = (ViewResult) await _membersController.RemoveMentor(viewModel);
 
             // Assert
             _membersController.ModelState.ErrorCount.Should().Be(1);

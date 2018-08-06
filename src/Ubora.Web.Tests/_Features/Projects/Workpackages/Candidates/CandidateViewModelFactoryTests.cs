@@ -29,7 +29,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
             _imageStorageProvider = new Mock<ImageStorageProvider>();
             _commentFactory = new Mock<CommentViewModelFactory>();
             _authorizationService = new Mock<IAuthorizationService>();
-            _factory = new CandidateViewModel.Factory( _imageStorageProvider.Object, _commentFactory.Object, _authorizationService.Object);
+            _factory = new CandidateViewModel.Factory(_imageStorageProvider.Object, _commentFactory.Object, _authorizationService.Object);
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
             var candidateTitle = "title";
             candidateMock.Object.Set(x => x.Title, candidateTitle);
             var candidateDescription = "description";
-            candidateMock.Object.Set(x => x.Description,candidateDescription);
+            candidateMock.Object.Set(x => x.Description, candidateDescription);
 
             var comment1 = Comment.Create(Guid.NewGuid(), Guid.NewGuid(), "comment1", DateTime.UtcNow, new Dictionary<string, object> { { "RoleKeys", "project-member" } }.ToImmutableDictionary());
             var comment2 = Comment.Create(Guid.NewGuid(), Guid.NewGuid(), "comment2", DateTime.UtcNow, new Dictionary<string, object> { { "RoleKeys", "project-member" } }.ToImmutableDictionary());
@@ -82,6 +82,14 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
 
             _authorizationService.Setup(x => x.AuthorizeAsync(user, candidateMock.Object, Policies.CanVoteCandidate))
                 .ReturnsAsync(AuthorizationResult.Success);
+            _authorizationService.Setup(x => x.AuthorizeAsync(user, candidateMock.Object, Policies.CanEditProjectCandidate))
+                .ReturnsAsync(AuthorizationResult.Success);
+            _authorizationService.Setup(x => x.AuthorizeAsync(user, candidateMock.Object, Policies.CanChangeProjectCandidateImage))
+                .ReturnsAsync(AuthorizationResult.Success);
+            _authorizationService.Setup(x => x.AuthorizeAsync(user, candidateMock.Object, Policies.CanRemoveProjectCandidateImage))
+                .ReturnsAsync(AuthorizationResult.Success);
+            _authorizationService.Setup(x => x.AuthorizeAsync(user, candidateMock.Object, Policies.CanRemoveCandidate))
+                .ReturnsAsync(AuthorizationResult.Success);
 
             // Act
             var result = await _factory.Create(candidateMock.Object, discussionMock.Object, user);
@@ -106,6 +114,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 ScorePercentageMediocre = 20,
                 ScorePercentagePoor = 40,
                 IsVotingAllowed = true,
+                CanEditProjectCandidate = true,
+                CanChangeProjectCandidateImage = true,
+                CanRemoveProjectCandidateImage = true,
+                CanRemoveCandidate = true,
                 UserVotesViewModel = new UserVotesViewModel
                 {
                     Functionality = userVoteFunctionality,

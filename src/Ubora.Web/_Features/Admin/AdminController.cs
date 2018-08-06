@@ -23,7 +23,6 @@ namespace Ubora.Web._Features.Admin
     {
         private readonly IApplicationUserManager _userManager;
 
-
         public AdminController(IApplicationUserManager userManager)
         {
             _userManager = userManager;
@@ -95,10 +94,9 @@ namespace Ubora.Web._Features.Admin
             return View(nameof(ProjectsUnderReview), projectsViewModel);
         }
 
-
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]
-        public async Task<IActionResult> AddAdministratorRole(Guid userId)
+        public async Task<IActionResult> AddAdministratorRole(Guid userId, int page)
         {
             var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.AddToRoleAsync(user, ApplicationRole.Admin);
@@ -110,12 +108,12 @@ namespace Ubora.Web._Features.Admin
                 return Diagnostics();
             }
 
-            return RedirectToAction(nameof(ManageUsers));
+            return RedirectToAction(nameof(ManageUsers), new { page });
         }
 
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]
-        public async Task<IActionResult> RemoveAdministratorRole(Guid userId)
+        public async Task<IActionResult> RemoveAdministratorRole(Guid userId, int page)
         {
             var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.RemoveFromRoleAsync(user, ApplicationRole.Admin);
@@ -127,12 +125,12 @@ namespace Ubora.Web._Features.Admin
                 return await ManageUsers();
             }
 
-            return RedirectToAction(nameof(ManageUsers));
+            return RedirectToAction(nameof(ManageUsers), new { page });
         }
 
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]
-        public async Task<IActionResult> AddMentorRole(Guid userId)
+        public async Task<IActionResult> AddMentorRole(Guid userId, int page)
         {
             var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.AddToRoleAsync(user, ApplicationRole.Mentor);
@@ -144,12 +142,12 @@ namespace Ubora.Web._Features.Admin
                 return await ManageUsers();
             }
 
-            return RedirectToAction(nameof(ManageUsers));
+            return RedirectToAction(nameof(ManageUsers), new { page });
         }
 
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]
-        public async Task<IActionResult> RemoveMentorRole(Guid userId)
+        public async Task<IActionResult> RemoveMentorRole(Guid userId, int page)
         {
             var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.RemoveFromRoleAsync(user, ApplicationRole.Mentor);
@@ -161,12 +159,12 @@ namespace Ubora.Web._Features.Admin
                 return await ManageUsers();
             }
 
-            return RedirectToAction(nameof(ManageUsers));
+            return RedirectToAction(nameof(ManageUsers), new { page });
         }
 
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]
-        public async Task<IActionResult> AddManagementGroupRole(Guid userId)
+        public async Task<IActionResult> AddManagementGroupRole(Guid userId, int page)
         {
             var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.AddToRoleAsync(user, ApplicationRole.ManagementGroup);
@@ -178,12 +176,12 @@ namespace Ubora.Web._Features.Admin
                 return await ManageUsers();
             }
 
-            return RedirectToAction(nameof(ManageUsers));
+            return RedirectToAction(nameof(ManageUsers), new { page });
         }
 
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]
-        public async Task<IActionResult> RemoveManagementGroupRole(Guid userId)
+        public async Task<IActionResult> RemoveManagementGroupRole(Guid userId, int page)
         {
             var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.RemoveFromRoleAsync(user, ApplicationRole.ManagementGroup);
@@ -195,7 +193,7 @@ namespace Ubora.Web._Features.Admin
                 return await ManageUsers();
             }
 
-            return RedirectToAction(nameof(ManageUsers));
+            return RedirectToAction(nameof(ManageUsers), new { page });
         }
 
         [Route(nameof(DeleteUser))]
@@ -212,7 +210,7 @@ namespace Ubora.Web._Features.Admin
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]
         [Route(nameof(DeleteUser))]
-        public async Task<IActionResult> DeleteUser(DeleteUserViewModel model)
+        public async Task<IActionResult> DeleteUser(DeleteUserViewModel model, int page)
         {
             if (!ModelState.IsValid)
             {
@@ -245,7 +243,7 @@ namespace Ubora.Web._Features.Admin
             }
 
             Notices.NotifyOfSuccess($"User {user.Email} successfully deleted");
-            return RedirectToAction(nameof(ManageUsers));
+            return RedirectToAction(nameof(ManageUsers), new { page });
         }
 
         public class ManageUsersViewModel

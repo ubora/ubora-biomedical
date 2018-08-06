@@ -27,11 +27,11 @@ namespace Ubora.Domain.Tests.NotifierTests
                 Guid.NewGuid(),
             };
 
-            var project = new ProjectBuilder()
+            var project = new ProjectSeeder()
                 .AddMentors(expectedProjectMentorUserIds)
                 .AddRegularMembers(expectedProjectMentorUserIds[0]) // duplicates should not be notified
                 .AddRegularMembers(Guid.NewGuid())
-                .Build(this);
+                .Seed(this);
 
             var eventId = Guid.NewGuid();
             var martenEvent = new Event<WorkpackageOneSubmittedForReviewEvent>(

@@ -229,7 +229,7 @@
     <value>File added</value>
   </data>
   <data name="RepositoryFileHidden" xml:space="preserve">
-    <value>File hidden</value>
+    <value>File deleted</value>
   </data>
   <data name="RepositoryFileUpdated" xml:space="preserve">
     <value>File updated</value>
@@ -266,6 +266,9 @@
   </data>
   <data name="WP2StepEdited" xml:space="preserve">
     <value>Changes saved</value>
+  </data>
+  <data name="WP3AndWP4Opened" xml:space="preserve">
+    <value>WP3 and WP4 opened successfully</value>
   </data>
   <data name="WP3HealthTechnologySpecificationsEdited" xml:space="preserve">
     <value>Changes saved</value>

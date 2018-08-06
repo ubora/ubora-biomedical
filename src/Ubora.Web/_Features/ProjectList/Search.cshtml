@@ -1,31 +1,104 @@
-﻿@using Ubora.Web._Features.ProjectList
-@model Ubora.Web._Features.ProjectList.SearchViewModel
+﻿@using Ubora.Web._Features.ProjectList.Models
+@using Ubora.Web._Features.ProjectList
+@using Ubora.Web.Data
+
+@model SearchViewModel
+
+@inject SignInManager<ApplicationUser> SignInManager
 
 @{
-    ViewData["Title"] = "Search";
+    ViewData["Title"] = "Biomedical device projects";
+
+    var isSignedIn = SignInManager.IsSignedIn(User);
 }
 
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 mb-4">
-            <form asp-controller="ProjectList" asp-action="Search" method="post">
-                <div class="form-group">
-                    <input class="form-control" asp-for="Title" placeholder="Search UBORA for...">
-                    <span asp-validation-for="Title"></span>
-                </div>
-                <div class="text-center">
-                    <button class="btn btn-primary" type="submit">Search</button>
-                </div>
-            </form>
+<div class="container-fluid">
+    <div class="row">
+
+        @if (Model.Tab == TabType.AllProjects)
+        {
+        <div class="col-xl-2 col-lg-3 py-5 pb-4 border-right h-min-lg-100-footer">
+            @Html.Partial("_ProjectSearchFiltersForm.cshtml", Model)
         </div>
+        }
+        <div class="@(Model.Tab == TabType.AllProjects ? "col-xl-8 col-lg-9 px-xl-7 py-5" : "col-xl-8 col-lg-9 px-xl-7 py-5 offset-xl-2 offset-lg-1")">
+            <h1>@ViewData["Title"]</h1>
+            <ul class="nav nav-tabs" id="projectsTab">
+                @if (isSignedIn)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center @(Model.Tab == TabType.MyProjects ? "active" : "")" id="my-projects-tab" asp-route-tab="@TabType.MyProjects">
+                            My projects
+                        </a>
+                    </li>
+                }
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center @(Model.Tab == TabType.AllProjects ? "active" : "")" id="all-projects-tab" asp-route-tab="@TabType.AllProjects">
+                        All projects
+                    </a>
+                </li>
+
+                @if(isSignedIn){
+                    <li class="ml-sm-auto d-xs-block">
+                        <a class="btn btn-sm btn-outline-primary d-xs-block my-xs-2" asp-controller="ProjectCreation" asp-action="Create" role="button">
+                            <i class="material-icons">add</i>
+                            <span>
+                                Create project
+                            </span>
+                        </a>
+                    </li>
+                }
+
+            </ul>
+
+            @await Html.PartialAsync("ProjectsTabPartial.cshtml", Model)
+
+        </div>
+        <div class="col-xl-2 py-5"></div>
     </div>
-    @{ Html.RenderPartial("~/_Features/ProjectList/ProjectListPartial.cshtml", Model.ProjectListViewModel); }
 </div>
 
 @section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
     <script src="~/dist/infinite_scroll.bundle.js"></script>
+    @if (Model.Tab == TabType.AllProjects)
+    {
+        <script>UBORA.initInfiniteScroll(window.location.href);</script>
+    }
     <script>
-        UBORA.initInfiniteScroll('&page=', '@Html.Raw(Model.ProjectListViewModel.Pager.PageCount)', '@Html.Raw(Model.Title)');
+        function applyFilters() {
+            $.ajax('/projects/search',
+                {
+                    method: 'get',
+                    data: compress($('#filters').serialize()),
+                    success: function(response) {
+                        history.replaceState({},
+                            '',
+                            this.url); // https://developer.mozilla.org/en-US/docs/Web/API/History_API
+                        var responseHtml = $(response).find('.tab-content').html();
+                        $('.tab-content').html(responseHtml);
+                        UBORA.initInfiniteScroll(window.location.href);
+                    }
+                });
+        }
+
+        //Multiple parameters to a comma-separated - https://stackoverflow.com/questions/2019608/pass-entire-form-as-data-in-jquery-ajax-function/2020193#2020193
+        function compress(data) {
+            data = data.replace(/([^&=]+=)([^&]*)(.*?)&\1([^&]*)/g, "$1$2,$4$3");
+            return /([^&=]+=).*?&\1/.test(data) ? compress(data) : data;
+        }
+
+        $('#filters :input').change($.debounce(250,
+            function() {
+                applyFilters();
+            }));
+
+        var $title = $('#Title');
+        $title.unbind();
+        $title.on('input',
+            $.debounce(250,
+                function() {
+                    applyFilters();
+                }));
     </script>
 }

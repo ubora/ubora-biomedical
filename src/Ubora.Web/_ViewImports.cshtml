@@ -4,7 +4,9 @@
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Authorization
 @using Ubora.Web._Components
+@using Ubora.Domain.Infrastructure.Specifications
 
+@addTagHelper *, MiniProfiler.AspNetCore.Mvc
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper Ubora.Web.Infrastructure.TagHelpers.*, Ubora.Web
 @inject IAuthorizationService AuthorizationService

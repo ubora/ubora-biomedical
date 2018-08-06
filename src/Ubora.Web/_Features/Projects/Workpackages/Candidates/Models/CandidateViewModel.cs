@@ -28,6 +28,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
         public decimal ScorePercentagePoor { get; set; }
         public bool IsVotingAllowed { get; set; }
         public bool HasUserVoted { get; set; }
+        public bool CanEditProjectCandidate { get; set; }
+        public bool CanChangeProjectCandidateImage { get; set; }
+        public bool CanRemoveProjectCandidateImage { get; set; }
+        public bool CanRemoveCandidate { get; set; }
 
         public IEnumerable<Ubora.Web._Components.Discussions.Models.CommentViewModel> Comments { get; set; }
         public AddVoteViewModel AddVoteViewModel { get; set; }
@@ -74,6 +78,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
                 model.Comments = await Task.WhenAll(comments);
 
                 model.IsVotingAllowed = await _authorizationService.IsAuthorizedAsync(user, candidate, Policies.CanVoteCandidate);
+                model.CanEditProjectCandidate = await _authorizationService.IsAuthorizedAsync(user, candidate, Policies.CanEditProjectCandidate);
+                model.CanChangeProjectCandidateImage = await _authorizationService.IsAuthorizedAsync(user, candidate, Policies.CanChangeProjectCandidateImage);
+                model.CanRemoveProjectCandidateImage = await _authorizationService.IsAuthorizedAsync(user, candidate, Policies.CanRemoveProjectCandidateImage);
+                model.CanRemoveCandidate = await _authorizationService.IsAuthorizedAsync(user, candidate, Policies.CanRemoveCandidate);
 
                 model.HasUserVoted = candidate.Votes.Any(x => x.UserId == user.GetId());
                 if (model.HasUserVoted)

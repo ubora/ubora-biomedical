@@ -1,3 +1,13 @@
+.btn:not(.btn-icon) {
+    min-width: 8rem;
+}
+
+.modal-dialog {
+    .btn:not(.btn-icon) {
+        min-width: 5rem;
+    }
+}
+
 .btn-primary,
 .btn-outline-primary {
     font-family: inherit;
@@ -12,7 +22,6 @@
         color: $white;
         box-shadow: none;
     }
-
 }
 
 .btn-outline-primary .material-icons,
@@ -35,12 +44,14 @@
     }
 }
 
-.btn-primary[disabled]:focus,
-.btn-primary[disabled]:hover {
-  background-color: $primary-shade;
-  border-color: $primary-shade;
-  color: $white;
+.btn[disabled]:focus,
+.btn[disabled]:hover {
   cursor: not-allowed;
+}
+
+.btn-light {
+    border: 1px solid $blue;
+    color: $blue;
 }
 
 .btn-cta {
@@ -52,10 +63,16 @@
 .btn-icon {
     background-color: transparent;
     border: none;
+    color: $blue;
 
     &:focus,
     &:hover {
         cursor: pointer;
+        box-shadow: none;
+    }
+
+    .material-icons, span {
+        @extend .align-middle;
     }
 }
 
@@ -68,4 +85,11 @@ a.btn-icon:hover {
         min-width: 4.5rem;
     }
 }
+
+@include media-breakpoint-down(md) {
+    .btn:not(.btn-icon) {
+        min-width: 6rem;
+    }
+}
+
 

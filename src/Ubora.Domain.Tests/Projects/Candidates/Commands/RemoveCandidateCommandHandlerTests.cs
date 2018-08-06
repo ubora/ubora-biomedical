@@ -31,9 +31,9 @@ namespace Ubora.Domain.Tests.Projects.Candidates.Commands
 
         private void Add_Candidate_To_Project(Guid candidateId)
         {
-            new ProjectBuilder()
+            new ProjectSeeder()
                 .WithId(_projectId)
-                .Build(this);
+                .Seed(this);
 
             var candidateAddedEvent = new CandidateAddedEvent(
                 initiatedBy: new UserInfo(_userId, "username"),
