@@ -59,18 +59,46 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                     new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(RepositoryController.AddFile),
-                        Policies = new []{ Policies.CanAddFileRepository }
+                        Policies = new []{ Policies.CanAddFileRepository, Policies.CanViewProjectRepository }
                     },
                     new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(RepositoryController.UpdateFile),
-                        Policies = new []{ Policies.CanUpdateFileRepository }
+                        Policies = new []{ Policies.CanUpdateFileRepository, Policies.CanViewProjectRepository }
                     },
                     new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(RepositoryController.HideFile),
-                        Policies = new []{ Policies.CanHideProjectFile }
+                        Policies = new []{ Policies.CanHideProjectFile, Policies.CanViewProjectRepository }
                     },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(RepositoryController.FileHistory),
+                        Policies = new []{ Policies.CanViewProjectRepository }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(RepositoryController.DownloadFile),
+                        Policies = new []{ Policies.CanDownloadFile }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(RepositoryController.View3DFile
+                        ),
+                        Policies = new []{Policies.CanViewProjectRepository }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(RepositoryController.DownloadHistoryFile
+                        ),
+                        Policies = new []{Policies.CanViewProjectRepository }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(RepositoryController.View3DHistoryFile
+                        ),
+                        Policies = new []{Policies.CanViewProjectRepository }
+                    }
                 };
 
             AssertHasAuthorizeAttributes(typeof(RepositoryController), methodPolicies);
