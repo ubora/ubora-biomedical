@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using AutoFixture;
 using AutoFixture.Kernel;
@@ -23,6 +25,7 @@ namespace Ubora.Domain.Tests
             autoFixture.Register<DeviceClassificationQuestionnaireTree>(() => new DeviceClassificationQuestionnaireTreeFactory().CreateDeviceClassificationVersionOne());
             autoFixture.Register<ApplicableRegulationsQuestionnaireTree>(() => ApplicableRegulationsQuestionnaireTreeFactory.Create());
             autoFixture.Register<IntendedUser>(() => new FamilyMember());
+            autoFixture.Register<ImmutableDictionary<string, object>>(() => new Dictionary<string, object> { {"test", "test"}}.ToImmutableDictionary());
 
             var uboraEventTypes = DomainAutofacModule.FindDomainEventConcreteTypes();
 

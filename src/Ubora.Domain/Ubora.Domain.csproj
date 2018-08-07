@@ -17,7 +17,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Projects\History\Specifications\" />
-    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Projects\Workpackages\Placeholders.Designer.cs">
@@ -85,5 +84,14 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>QuestionTexts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Properties\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Properties\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Properties\**" />
   </ItemGroup>
 </Project>

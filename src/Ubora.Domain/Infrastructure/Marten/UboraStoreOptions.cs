@@ -5,6 +5,7 @@ using Marten;
 using Marten.Services;
 using Marten.Services.Events;
 using Newtonsoft.Json;
+using Ubora.Domain.Discussions;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects.Workpackages;
@@ -73,6 +74,10 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<IsoStandardsComplianceChecklist>()
                     .Duplicate(checklist => checklist.ProjectId);
 
+                options.Schema.For<Discussion>()
+                    .Duplicate(d => d.AttachedToEntity.EntityId)
+                    .Duplicate(d => d.AttachedToEntity.EntityName);
+
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
@@ -89,6 +94,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.Add(new ResourcesMenuViewProjection());
                 options.Events.InlineProjections.AggregateStreamsWith<IsoStandardsComplianceChecklist>();
                 options.Events.InlineProjections.Add(new DeviceStructuredInformationProjection<IDeviceStructuredInformationEvent>());
+                options.Events.InlineProjections.AggregateStreamsWith<Discussion>();
 
                 options.Events.AddEventTypes(eventTypes);
 
