@@ -60,6 +60,13 @@ namespace Ubora.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            
             services.AddApplicationInsightsTelemetry(Configuration);
 
             var npgSqlConnectionString = new NpgsqlConnectionStringBuilder(ConnectionString);
@@ -80,7 +87,9 @@ namespace Ubora.Web
                     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     options.AddStringTrimmingProvider();
                 })
-                .AddUboraFeatureFolders(new FeatureFolderOptions {FeatureFolderName = "_Features"});
+                .AddUboraFeatureFolders(new FeatureFolderOptions {FeatureFolderName = "_Features"})
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                       
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
@@ -88,7 +97,8 @@ namespace Ubora.Web
             var useSpecifiedPickupDirectory =
                 Convert.ToBoolean(Configuration["SmtpSettings:UseSpecifiedPickupDirectory"]);
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>(o => { o.Password.RequireNonAlphanumeric = false; })
+            services.AddDefaultIdentity<ApplicationUser>(o => { o.Password.RequireNonAlphanumeric = false; })
+                .AddRoles<ApplicationRole>()
                 .AddUserManager<ApplicationUserManager>()
                 .AddSignInManager<ApplicationSignInManager>()
                 .AddClaimsPrincipalFactory<ApplicationClaimsPrincipalFactory>()
@@ -167,11 +177,14 @@ namespace Ubora.Web
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
 
             app.UseStatusCodePagesWithReExecute("/Home/Error/");
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             app.UseAuthentication();
 

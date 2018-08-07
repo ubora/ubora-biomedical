@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Projects\DeviceClassification\**" />
@@ -12,7 +12,7 @@
     <PackageReference Include="CSharpFunctionalExtensions" Version="1.10.0" />
     <PackageReference Include="dbup-core" Version="4.0.0-beta0004" />
     <PackageReference Include="dbup-postgresql" Version="4.0.0-beta0004" />
-    <PackageReference Include="Marten" Version="2.7.1" />
+    <PackageReference Include="Marten" Version="3.0.0-alpha-1" />
     <PackageReference Include="TwentyTwenty.Storage" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
