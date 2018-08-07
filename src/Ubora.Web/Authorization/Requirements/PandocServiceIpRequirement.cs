@@ -22,23 +22,11 @@ namespace Ubora.Web.Authorization.Requirements
             {
                 var clientIpAddress = _contextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
 
-                if (!_appSettings.Value.IsUnsafeHttp)
+                if (clientIpAddress == _appSettings.Value.Ip)
                 {
-                    var isHttps = _contextAccessor.HttpContext.Request.IsHttps;
-                    
-                    if (clientIpAddress == _appSettings.Value.Ip && isHttps)
-                    {
-                        context.Succeed(requirement);
-                    } 
-                }
-                else
-                {
-                    if (clientIpAddress == _appSettings.Value.Ip)
-                    {
-                        context.Succeed(requirement);
-                    } 
-                }
-                  
+                    context.Succeed(requirement);
+                } 
+                
                 return Task.CompletedTask;
             }
         }
