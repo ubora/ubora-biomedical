@@ -77,7 +77,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<Discussion>()
                     .Duplicate(d => d.AttachedToEntity.EntityId)
                     .Duplicate(d => d.AttachedToEntity.EntityName);
-                
+
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();

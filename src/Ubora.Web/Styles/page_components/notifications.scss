@@ -17,6 +17,10 @@
     @extend .py-2;
     @extend .mx-0;
 
+    .btn {
+        min-width: 0;
+    }
+
     &.notification-unread {
         background-color: $blue-shade;
         border-bottom: 1px solid $white;
