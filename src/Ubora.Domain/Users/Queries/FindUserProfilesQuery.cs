@@ -9,11 +9,11 @@ using Ubora.Domain.Users;
 
 namespace Ubora.Domain.Projects.Members.Queries
 {
-    public class FindUserProfilesQuery : IQuery<IReadOnlyCollection<Users.UserProfile>>
+    public class FindUserProfilesQuery : IQuery<IReadOnlyCollection<UserProfile>>
     {
         public IEnumerable<Guid> UserIds { get; set; }
 
-        internal class Handler : IQueryHandler<FindUserProfilesQuery, IReadOnlyCollection<Users.UserProfile>>
+        internal class Handler : IQueryHandler<FindUserProfilesQuery, IReadOnlyCollection<UserProfile>>
         {
             private readonly IQuerySession _querySession;
 
@@ -22,9 +22,9 @@ namespace Ubora.Domain.Projects.Members.Queries
                 _querySession = querySession;
             }
 
-            public IReadOnlyCollection<Users.UserProfile> Handle(FindUserProfilesQuery query)
+            public IReadOnlyCollection<UserProfile> Handle(FindUserProfilesQuery query)
             {
-                return _querySession.LoadMany<Users.UserProfile>(query.UserIds.ToArray())
+                return _querySession.LoadMany<UserProfile>(query.UserIds.ToArray())
                     .ToArray();
             }
         }
@@ -50,7 +50,7 @@ namespace Ubora.Domain.Projects.Members.Queries
 
             public IReadOnlyDictionary<Guid, string> Handle(FindFullNamesQuery query)
             {
-                var usersFullNameMap = _querySession.Query<Users.UserProfile>()
+                var usersFullNameMap = _querySession.Query<UserProfile>()
                     .Where(userProfile => userProfile.UserId.IsOneOf(query.UserIds))
                     .Select(userProfile => new
                     {

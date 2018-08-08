@@ -9,7 +9,6 @@ using Ubora.Domain.Users;
 using Ubora.Domain.Users.Queries;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Extensions;
-using UserProfile = Ubora.Domain.Users.UserProfile;
 
 namespace Ubora.Web._Features.Users.Profile
 {

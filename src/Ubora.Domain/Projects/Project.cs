@@ -31,23 +31,23 @@ namespace Ubora.Domain.Projects
         public bool HasImage => new HasImageSpec().IsSatisfiedBy(this);
 
         [JsonProperty(nameof(Projects.Members))]
-        private HashSet<UserProfile> _members = new HashSet<UserProfile>();
+        private HashSet<ProjectMember> _members = new HashSet<ProjectMember>();
 
         [JsonIgnore]
         // Virtual for testing.
-        public virtual IReadOnlyCollection<UserProfile> Members
+        public virtual IReadOnlyCollection<ProjectMember> Members
         {
             get { return _members.ToList().AsReadOnly(); }
             private set { _members = value.ToHashSet(); }
         }
 
-        public virtual IReadOnlyCollection<UserProfile> GetMembers(ISpecification<UserProfile> spec = null)
+        public virtual IReadOnlyCollection<ProjectMember> GetMembers(ISpecification<ProjectMember> spec = null)
         {
-            spec = spec ?? new MatchAll<UserProfile>();
+            spec = spec ?? new MatchAll<ProjectMember>();
             return spec.SatisfyEntitiesFrom(Members).ToList().AsReadOnly();
         }
         
-        public bool HasMember<T>(Guid userId) where T : UserProfile
+        public bool HasMember<T>(Guid userId) where T : ProjectMember
         {
             return DoesSatisfy(new HasMember<T>(userId));
         }
@@ -79,25 +79,25 @@ namespace Ubora.Domain.Projects
 
         private void Apply(MemberAddedToProjectEvent e)
         {
-            var alreadyHasMember = this.DoesSatisfy(new HasMember<UserProfile>(e.UserId));
+            var alreadyHasMember = this.DoesSatisfy(new HasMember<ProjectMember>(e.UserId));
             if (alreadyHasMember)
             {
                 throw new InvalidOperationException();
             }
 
-            var member = new UserProfile(e.UserId);
+            var member = new ProjectMember(e.UserId);
             _members.Add(member);
         }
 
         private void Apply(MemberAcceptedToJoinProjectEvent e)
         {
-            var member = new UserProfile(e.UserId);
+            var member = new ProjectMember(e.UserId);
             _members.Add(member);
         }
 
         private void Apply(MemberRemovedFromProjectEvent e)
         {
-            var doesNotHaveMember = this.DoesSatisfy(!new HasMember<UserProfile>(e.UserId));
+            var doesNotHaveMember = this.DoesSatisfy(!new HasMember<ProjectMember>(e.UserId));
             if (doesNotHaveMember)
             {
                 throw new InvalidOperationException();
@@ -108,7 +108,7 @@ namespace Ubora.Domain.Projects
 
         private void Apply(ProjectLeaderPromotedEvent e)
         {
-            var doesNotHaveMember = this.DoesSatisfy(!new HasMember<UserProfile>(e.UserId));
+            var doesNotHaveMember = this.DoesSatisfy(!new HasMember<ProjectMember>(e.UserId));
             if (doesNotHaveMember)
             {
                 throw new InvalidOperationException();
@@ -116,7 +116,7 @@ namespace Ubora.Domain.Projects
 
             var member = _members.FirstOrDefault(m => m.IsLeader);
             _members.Remove(member);
-            _members.Add(new UserProfile(member.UserId));
+            _members.Add(new ProjectMember(member.UserId));
             _members.Add(new ProjectLeader(e.UserId));
         }
 

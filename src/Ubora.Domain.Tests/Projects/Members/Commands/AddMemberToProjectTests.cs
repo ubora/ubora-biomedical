@@ -265,7 +265,7 @@ namespace Ubora.Domain.Tests.Projects.Members.Commands
 
             var addedMember = project.Members.Last();
             addedMember.UserId.Should().Be(_invitedUserId);
-            addedMember.Should().BeOfType<UserProfile>();
+            addedMember.Should().BeOfType<ProjectMember>();
 
             _lastCommandResult.IsSuccess.Should().BeTrue();
         }

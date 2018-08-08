@@ -37,7 +37,7 @@ namespace Ubora.Web.Tests.Authorization
             _handlerUnderTest.SetProject(projectMock.Object);
 
             projectMock
-                .Setup(x => x.DoesSatisfy(new HasMember<UserProfile>(userId)))
+                .Setup(x => x.DoesSatisfy(new HasMember<ProjectMember>(userId)))
                 .Returns(true);
 
             // Act

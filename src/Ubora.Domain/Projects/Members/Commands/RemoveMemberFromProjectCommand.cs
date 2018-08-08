@@ -22,7 +22,7 @@ namespace Ubora.Domain.Projects.Members.Commands
 
             public ICommandResult Handle(RemoveMemberFromProjectCommand cmd)
             {
-                var userProfile = _documentSession.LoadOrThrow<Users.UserProfile>(cmd.UserId);
+                var userProfile = _documentSession.LoadOrThrow<UserProfile>(cmd.UserId);
                 var project = _documentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
                 var isUserMember = project.DoesSatisfy(new HasMember(cmd.UserId));
