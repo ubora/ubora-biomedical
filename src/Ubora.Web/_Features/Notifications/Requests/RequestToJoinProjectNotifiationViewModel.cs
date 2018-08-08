@@ -6,7 +6,6 @@ using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Users;
 using Ubora.Web._Features.Notifications._Base;
-using UserProfile = Ubora.Domain.Users.UserProfile;
 
 namespace Ubora.Web._Features.Notifications.Requests
 {

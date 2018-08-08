@@ -12,7 +12,6 @@ using Ubora.Domain.Projects.Members.Queries;
 using Ubora.Domain.Users;
 using Ubora.Web._Features.Projects.Assignments;
 using Xunit;
-using UserProfile = Ubora.Domain.Projects.Members.UserProfile;
 
 namespace Ubora.Web.Tests._Features.Projects.Assignments
 {
@@ -39,11 +38,11 @@ namespace Ubora.Web.Tests._Features.Projects.Assignments
             var user1Id = Guid.NewGuid();
             var user2Id = Guid.NewGuid();
             var user3Id = Guid.NewGuid();
-            var projectMembers = new List<UserProfile>
+            var projectMembers = new List<ProjectMember>
             {
                 new ProjectLeader(user1Id),
-                new UserProfile(user2Id),
-                new UserProfile(user3Id)
+                new ProjectMember(user2Id),
+                new ProjectMember(user3Id)
             };
 
             Mock.Get(project).Setup(x => x.Members)
@@ -67,9 +66,9 @@ namespace Ubora.Web.Tests._Features.Projects.Assignments
 
             var userProfiles = new[]
             {
-                new Domain.Users.UserProfile(user1Id).Set(x => x.FirstName, "User1"),
-                new Domain.Users.UserProfile(user2Id).Set(x => x.FirstName, "User2"),
-                new Domain.Users.UserProfile(user3Id).Set(x => x.FirstName, "User3")
+                new UserProfile(user1Id).Set(x => x.FirstName, "User1"),
+                new UserProfile(user2Id).Set(x => x.FirstName, "User2"),
+                new UserProfile(user3Id).Set(x => x.FirstName, "User3")
             };
 
             var projectMemberIds = projectMembers.Select(x => x.UserId);

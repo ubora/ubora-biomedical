@@ -17,7 +17,7 @@ namespace Ubora.Domain.Projects.Members.Commands
 
             public override ICommandResult Handle(JoinProjectCommand cmd)
             {
-                var userProfile = DocumentSession.LoadOrThrow<Users.UserProfile>(cmd.Actor.UserId);
+                var userProfile = DocumentSession.LoadOrThrow<UserProfile>(cmd.Actor.UserId);
                 var project = DocumentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
                 var isUserAlreadyMember = project.DoesSatisfy(new HasMember(cmd.Actor.UserId));

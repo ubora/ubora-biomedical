@@ -4,7 +4,7 @@ using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Projects.Members.Specifications
 {
-    public class HasUserIdSpec : Specification<UserProfile>
+    public class HasUserIdSpec : Specification<ProjectMember>
     {
         public Guid UserId { get; }
 
@@ -13,7 +13,7 @@ namespace Ubora.Domain.Projects.Members.Specifications
             UserId = userId;
         }
         
-        internal override Expression<Func<UserProfile, bool>> ToExpression()
+        internal override Expression<Func<ProjectMember, bool>> ToExpression()
         {
             return x => x.UserId == UserId;
         }

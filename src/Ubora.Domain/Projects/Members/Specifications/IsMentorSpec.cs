@@ -4,9 +4,9 @@ using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Projects.Members.Specifications
 {
-    public class IsMentorSpec : Specification<UserProfile>
+    public class IsMentorSpec : Specification<ProjectMember>
     {
-        internal override Expression<Func<UserProfile, bool>> ToExpression()
+        internal override Expression<Func<ProjectMember, bool>> ToExpression()
         {
             return x => x.RoleKey == "project-mentor";
         }
