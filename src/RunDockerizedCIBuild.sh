@@ -1,5 +1,6 @@
 #!/bin/bash
 chmod +x RunCIBuild.sh
+dotnet restore
 docker-compose -f "docker-compose.ci.build.yml" build
 docker-compose -f "docker-compose.ci.build.yml" run -e TEAMCITY_PROJECT_NAME=$1 ci-build
 exitCode=$?
