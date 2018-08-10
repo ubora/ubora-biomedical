@@ -1,4 +1,4 @@
-$isPandocRunning | docker inspect --format=" {{ .State.Running }} " ubora_pandoc
+$isPandocRunning | docker inspect --format="{{ .State.Running }}" ubora_pandoc
 
 if(!$isPandocRunning) {
     docker rm -f ubora_pandoc
