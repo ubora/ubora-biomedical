@@ -9,7 +9,6 @@ namespace Ubora.Web._Features.Needs
     [Route("[controller]/[action]")]
     public class NeedsController : UboraController
     {
-        // URL: /Needs/First
         public IActionResult First()
         {
             return View();

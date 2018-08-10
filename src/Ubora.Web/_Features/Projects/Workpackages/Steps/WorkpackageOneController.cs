@@ -47,10 +47,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             ExecuteUserProjectCommand(new UpdateProjectCommand
             {
-                AreaOfUsageTags = model.AreaOfUsageTags,
-                ClinicalNeedTags = model.ClinicalNeedTags,
-                PotentialTechnologyTags = model.PotentialTechnologyTags,
-                Gmdn = model.Gmdn,
+                AreaOfUsageTags = model.AreaOfUsageTag,
+                ClinicalNeedTags = model.ClinicalNeedTag,
+                PotentialTechnologyTags = model.PotentialTechnologyTag,
+                Gmdn = model.Keywords,
                 Title = Project.Title
             }, Notice.Success(SuccessTexts.ProjectUpdated));
 

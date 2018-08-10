@@ -38,10 +38,10 @@ namespace Ubora.Domain.Tests.Projects._Commands
 
             project.Id.Should().Be(projectId);
             project.Title.Should().Be("title");
-            project.ClinicalNeedTags.Should().Be("clinicalNeedTags");
-            project.AreaOfUsageTags.Should().Be("areaOfUsageTags");
-            project.PotentialTechnologyTags.Should().Be("potentialTechnologyTags");
-            project.Gmdn.Should().Be("gmdn");
+            project.ClinicalNeedTag.Should().Be("clinicalNeedTags");
+            project.AreaOfUsageTag.Should().Be("areaOfUsageTags");
+            project.PotentialTechnologyTag.Should().Be("potentialTechnologyTags");
+            project.Keywords.Should().Be("gmdn");
         }
     }
 }

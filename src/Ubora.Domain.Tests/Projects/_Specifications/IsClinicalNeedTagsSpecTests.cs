@@ -12,7 +12,7 @@ namespace Ubora.Domain.Tests.Projects._Specifications
         public void Returns_True_When_Project_Is_Rehabilitation()
         {
             var clinicalNeedTags = "Rehabilitation";
-            var project = new Project().Set(x => x.ClinicalNeedTags, clinicalNeedTags);
+            var project = new Project().Set(x => x.ClinicalNeedTag, clinicalNeedTags);
 
             // Act
             var result = new IsClinicalNeedTagsSpec(clinicalNeedTags).IsSatisfiedBy(project);
@@ -24,7 +24,7 @@ namespace Ubora.Domain.Tests.Projects._Specifications
         [Fact]
         public void Returns_False_When_Project_Isnt_Rehabilitation()
         {
-            var project = new Project().Set(x => x.ClinicalNeedTags, "");
+            var project = new Project().Set(x => x.ClinicalNeedTag, "");
 
             // Act
             var result = new IsClinicalNeedTagsSpec("Rehabilitation").IsSatisfiedBy(project);

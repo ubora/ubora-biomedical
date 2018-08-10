@@ -206,6 +206,8 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
+
+                options.AddPolicy(Policies.CanIndicateClinicalNeeds, policyBuilder => { policyBuilder.RequireAuthenticatedUser(); });
             });
         }
     }

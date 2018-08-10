@@ -165,10 +165,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var potentialTechnologyTags = "PotentialTechnologyTags";
             var projectOverViewModel = new ProjectOverviewViewModel
             {
-                AreaOfUsageTags = areaOfUsageTags,
-                ClinicalNeedTags = clinicalNeedTags,
-                Gmdn = gmdn,
-                PotentialTechnologyTags = potentialTechnologyTags,
+                AreaOfUsageTag = areaOfUsageTags,
+                ClinicalNeedTag = clinicalNeedTags,
+                Keywords = gmdn,
+                PotentialTechnologyTag = potentialTechnologyTags,
             };
 
             var project = new Project().Set(x => x.Title, projectTitle);
@@ -206,10 +206,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var potentialTechnologyTags = "PotentialTechnologyTags";
             var projectOverViewModel = new ProjectOverviewViewModel
             {
-                AreaOfUsageTags = areaOfUsageTags,
-                ClinicalNeedTags = clinicalNeedTags,
-                Gmdn = gmdn,
-                PotentialTechnologyTags = potentialTechnologyTags,
+                AreaOfUsageTag = areaOfUsageTags,
+                ClinicalNeedTag = clinicalNeedTags,
+                Keywords = gmdn,
+                PotentialTechnologyTag = potentialTechnologyTags,
             };
 
             var project = new Project().Set(x => x.Title, projectTitle);
@@ -252,10 +252,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var potentialTechnologyTags = "PotentialTechnologyTags";
             var projectOverViewModel = new ProjectOverviewViewModel
             {
-                AreaOfUsageTags = areaOfUsageTags,
-                ClinicalNeedTags = clinicalNeedTags,
-                Gmdn = gmdn,
-                PotentialTechnologyTags = potentialTechnologyTags,
+                AreaOfUsageTag = areaOfUsageTags,
+                ClinicalNeedTag = clinicalNeedTags,
+                Keywords = gmdn,
+                PotentialTechnologyTag = potentialTechnologyTags,
             };
 
             var project = new Project().Set(x => x.Title, projectTitle);
@@ -293,10 +293,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var potentialTechnologyTags = "PotentialTechnologyTags";
             var projectOverViewModel = new ProjectOverviewViewModel
             {
-                AreaOfUsageTags = areaOfUsageTags,
-                ClinicalNeedTags = clinicalNeedTags,
-                Gmdn = gmdn,
-                PotentialTechnologyTags = potentialTechnologyTags,
+                AreaOfUsageTag = areaOfUsageTags,
+                ClinicalNeedTag = clinicalNeedTags,
+                Keywords = gmdn,
+                PotentialTechnologyTag = potentialTechnologyTags,
             };
 
             var project = new Project().Set(x => x.Title, projectTitle);

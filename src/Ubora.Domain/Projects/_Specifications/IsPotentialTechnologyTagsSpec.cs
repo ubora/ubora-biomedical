@@ -15,7 +15,7 @@ namespace Ubora.Domain.Projects._Specifications
 
         internal override Expression<Func<Project, bool>> ToExpression()
         {
-            return project => String.Equals(project.PotentialTechnologyTags, PotentialTechnologyTags, StringComparison.OrdinalIgnoreCase);
+            return project => String.Equals(project.PotentialTechnologyTag, PotentialTechnologyTags, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

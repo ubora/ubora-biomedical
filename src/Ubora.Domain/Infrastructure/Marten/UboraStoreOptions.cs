@@ -5,6 +5,8 @@ using Marten;
 using Marten.Services;
 using Marten.Services.Events;
 using Newtonsoft.Json;
+using Ubora.Domain;
+using Ubora.Domain.ClinicalNeeds;
 using Ubora.Domain.Discussions;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Repository;
@@ -95,6 +97,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<IsoStandardsComplianceChecklist>();
                 options.Events.InlineProjections.Add(new DeviceStructuredInformationProjection<IDeviceStructuredInformationEvent>());
                 options.Events.InlineProjections.AggregateStreamsWith<Discussion>();
+                options.Events.InlineProjections.AggregateStreamsWith<ClinicalNeed>();
 
                 options.Events.AddEventTypes(eventTypes);
 

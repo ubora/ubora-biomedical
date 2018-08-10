@@ -22,10 +22,10 @@ namespace Ubora.Domain.Tests.Projects._Commands
             {
                 NewProjectId = Guid.NewGuid(),
                 Title = "ProjectName",
-                AreaOfUsage = "expectedAreaOfUsage",
-                ClinicalNeed = "expectedClinicalNeed",
-                Gmdn = "expectedGmdnTerm",
-                PotentialTechnology = "expectedPotentialTechnology",
+                AreaOfUsageTag = "expectedAreaOfUsage",
+                ClinicalNeedTag = "expectedClinicalNeed",
+                Keywords = "expectedGmdnTerm",
+                PotentialTechnologyTag = "expectedPotentialTechnology",
                 Actor = new UserInfo(Guid.NewGuid(), "")
             };
 
@@ -51,10 +51,10 @@ namespace Ubora.Domain.Tests.Projects._Commands
 
             project.Id.Should().Be(command.NewProjectId);
             project.Title.Should().Be(command.Title);
-            project.AreaOfUsageTags.Should().Be("expectedAreaOfUsage");
-            project.ClinicalNeedTags.Should().Be("expectedClinicalNeed");
-            project.Gmdn.Should().Be("expectedGmdnTerm");
-            project.PotentialTechnologyTags.Should().Be("expectedPotentialTechnology");
+            project.AreaOfUsageTag.Should().Be("expectedAreaOfUsage");
+            project.ClinicalNeedTag.Should().Be("expectedClinicalNeed");
+            project.Keywords.Should().Be("expectedGmdnTerm");
+            project.PotentialTechnologyTag.Should().Be("expectedPotentialTechnology");
             project.CreatedDateTime.Should().BeCloseTo(DateTime.UtcNow, 1000);
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoFixture;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Commands;
@@ -31,6 +32,8 @@ namespace Ubora.Web.Tests._Features
 
         public Mock<ICommandProcessor> CommandProcessorMock { get; private set; } = new Mock<ICommandProcessor>(MockBehavior.Strict);
         protected void AssertZeroCommandsExecuted() => CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
+
+        public IFixture AutoFixture { get; } = new Fixture();
 
         protected UboraControllerTestsBase()
         {

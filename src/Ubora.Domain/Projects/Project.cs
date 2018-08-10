@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Ubora.Domain;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.Members;
@@ -12,20 +13,20 @@ using Ubora.Domain.Projects._Specifications;
 
 namespace Ubora.Domain.Projects
 {
-    public class Project : Entity<Project>
+    public class Project : Entity<Project>, ITagsAndKeywords
     {
         public Guid Id { get; private set; }
         public string Title { get; private set; }
-        public string Gmdn { get; private set; }
-        public string ClinicalNeedTags { get; private set; }
-        public string AreaOfUsageTags { get; private set; }
-        public string PotentialTechnologyTags { get; private set; }
+        public string Keywords { get; private set; }
+        public string ClinicalNeedTag { get; private set; }
+        public string AreaOfUsageTag { get; private set; }
+        public string PotentialTechnologyTag { get; private set; }
         public string Description { get; private set; }
         public bool IsInDraft { get; private set; } = true;
         public BlobLocation ProjectImageBlobLocation { get; private set; }
         public DateTime ProjectImageLastUpdated { get; private set; }
         public bool IsDeleted { get; private set; }
-        public DateTime CreatedDateTime { get; set; }
+        public DateTime CreatedDateTime { get; private set; }
 
         [JsonIgnore]
         public bool HasImage => new HasImageSpec().IsSatisfiedBy(this);
@@ -56,10 +57,10 @@ namespace Ubora.Domain.Projects
         {
             Id = e.ProjectId;
             Title = e.Title;
-            AreaOfUsageTags = e.AreaOfUsage;
-            ClinicalNeedTags = e.ClinicalNeed;
-            Gmdn = e.Gmdn;
-            PotentialTechnologyTags = e.PotentialTechnology;
+            AreaOfUsageTag = e.AreaOfUsage;
+            ClinicalNeedTag = e.ClinicalNeed;
+            Keywords = e.Gmdn;
+            PotentialTechnologyTag = e.PotentialTechnology;
             CreatedDateTime = e.Timestamp.UtcDateTime;
 
             var userId = e.InitiatedBy.UserId;
@@ -71,10 +72,10 @@ namespace Ubora.Domain.Projects
         private void Apply(ProjectUpdatedEvent e)
         {
             Title = e.Title;
-            ClinicalNeedTags = e.ClinicalNeedTags;
-            AreaOfUsageTags = e.AreaOfUsageTags;
-            PotentialTechnologyTags = e.PotentialTechnologyTags;
-            Gmdn = e.Gmdn;
+            ClinicalNeedTag = e.ClinicalNeedTags;
+            AreaOfUsageTag = e.AreaOfUsageTags;
+            PotentialTechnologyTag = e.PotentialTechnologyTags;
+            Keywords = e.Gmdn;
         }
 
         private void Apply(MemberAddedToProjectEvent e)

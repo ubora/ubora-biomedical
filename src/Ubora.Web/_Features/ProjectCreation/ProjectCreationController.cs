@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects._Commands;
-using Ubora.Web.Authorization;
 using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.ProjectCreation
@@ -28,10 +27,10 @@ namespace Ubora.Web._Features.ProjectCreation
             {
                 NewProjectId = projectId,
                 Title = model.Title,
-                ClinicalNeed = model.ClinicalNeedTags,
-                AreaOfUsage = model.AreaOfUsageTags,
-                PotentialTechnology = model.PotentialTechnologyTags,
-                Gmdn = model.Gmdn
+                ClinicalNeedTag = model.ClinicalNeedTag,
+                AreaOfUsageTag = model.AreaOfUsageTag,
+                PotentialTechnologyTag = model.PotentialTechnologyTag,
+                Keywords = model.Keywords
             }, Notice.None("Visual feedback obvious enough."));
 
             if (!ModelState.IsValid)
