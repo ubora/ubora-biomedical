@@ -14,6 +14,7 @@ namespace Ubora.Domain.ClinicalNeeds
         public string PotentialTechnologyTag { get; private set; }
         public string Keywords { get; private set; }
         public DateTimeOffset IndicatedAt { get; private set; }
+        public Guid IndicatorUserId { get; set; }
 
         private void Apply(ClinicalNeedIndicatedEvent @event)
         {
@@ -28,6 +29,7 @@ namespace Ubora.Domain.ClinicalNeeds
             PotentialTechnologyTag = @event.PotentialTechnologyTag;
             Keywords = @event.Keywords;
             IndicatedAt = @event.Timestamp;
+            IndicatorUserId = @event.InitiatedBy.UserId;
         }
     }
 }

@@ -1,6 +1,5 @@
 using System;
 using Marten;
-using Ubora.Domain;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects._Events;
 

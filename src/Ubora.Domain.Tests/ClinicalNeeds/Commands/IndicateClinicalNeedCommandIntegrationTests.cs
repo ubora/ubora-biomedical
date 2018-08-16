@@ -6,6 +6,8 @@ using FluentAssertions.Execution;
 using Ubora.Domain.ClinicalNeeds;
 using Ubora.Domain.ClinicalNeeds.Commands;
 using Ubora.Domain.ClinicalNeeds.Events;
+using Ubora.Domain.Discussions;
+using Ubora.Domain.Discussions.Events;
 
 namespace Ubora.Domain.Tests.ClinicalNeeds.Commands
 {
@@ -22,8 +24,8 @@ namespace Ubora.Domain.Tests.ClinicalNeeds.Commands
             // Assert
             result.IsSuccess.Should().BeTrue();
 
-            var @event = Session.Events.QueryRawEventDataOnly<ClinicalNeedIndicatedEvent>().Single();
-            @event.InitiatedBy.Should().Be(command.Actor);
+            var event1 = Session.Events.QueryRawEventDataOnly<ClinicalNeedIndicatedEvent>().Single();
+            event1.InitiatedBy.Should().Be(command.Actor);
 
             var clinicalNeed = Session.Load<ClinicalNeed>(command.ClinicalNeedId);
             clinicalNeed.Should().NotBeNull();
@@ -37,7 +39,20 @@ namespace Ubora.Domain.Tests.ClinicalNeeds.Commands
                 clinicalNeed.AreaOfUsageTag.Should().Be(command.AreaOfUsageTag);
                 clinicalNeed.PotentialTechnologyTag.Should().Be(command.PotentialTechnologyTag);
                 clinicalNeed.Keywords.Should().Be(command.Keywords);
-                clinicalNeed.IndicatedAt.Should().Be(@event.Timestamp);
+                clinicalNeed.IndicatedAt.Should().Be(event1.Timestamp);
+                clinicalNeed.IndicatorUserId.Should().Be(command.Actor.UserId);
+            }
+
+            var event2 = Session.Events.QueryRawEventDataOnly<DiscussionOpenedEvent>().Single();
+            event2.InitiatedBy.Should().Be(command.Actor);
+
+            var discussion = Session.Load<Discussion>(command.ClinicalNeedId);
+            discussion.Should().NotBeNull();
+
+            using (new AssertionScope())
+            {
+                discussion.Id.Should().Be(command.ClinicalNeedId);
+                discussion.AttachedToEntity.Should().Be(new AttachedToEntity(EntityName.ClinicalNeed, command.ClinicalNeedId));
             }
         }
     }

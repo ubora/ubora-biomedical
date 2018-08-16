@@ -59,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="_Areas\ClinicalNeedsArea\AClinicalNeed\Comments\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="SuccessTexts.Designer.cs">

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -23,11 +24,10 @@ namespace Ubora.Web.Tests._Areas.ClinicalNeedsArea.AClinicalNeed.Overview
             };
             _controller = _controllerMock.Object;
             SetUpForTest(_controller);
-
         }
 
         [Fact]
-        public void Overview_Returns_View_With_Model()
+        public async Task Overview_Returns_View_With_Model()
         {
             var clinicalNeed = new ClinicalNeed()
                     .Set(x => x.IndicatedAt, DateTimeOffset.Now)
@@ -39,7 +39,7 @@ namespace Ubora.Web.Tests._Areas.ClinicalNeedsArea.AClinicalNeed.Overview
             _controller.ClinicalNeed = clinicalNeed;
 
             // Act
-            var result = (ViewResult) _controller.Overview();
+            var result = (ViewResult) await _controller.Overview();
 
             // Assert
             var model = (OverviewViewModel) result.Model;

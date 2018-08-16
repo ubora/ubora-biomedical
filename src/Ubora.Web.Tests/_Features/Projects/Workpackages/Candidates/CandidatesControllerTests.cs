@@ -971,7 +971,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 .Setup(x => x.FindById<Discussion>(candidateId))
                 .Returns(new Discussion().Set(d => d.Comments, new [] { comment }.ToImmutableList()));
 
-            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, comment, Policies.CanEditComment))
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, comment, Policies.CanEditCandidateComment))
                 .ReturnsAsync(AuthorizationResult.Failed);
 
             var candidateViewModel = new CandidateViewModel();

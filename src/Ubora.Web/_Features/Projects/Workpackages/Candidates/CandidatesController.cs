@@ -317,7 +317,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             var candidateDiscussion = QueryProcessor.FindById<Discussion>(CurrentCandidate.Id);
             var comment = candidateDiscussion.Comments.Single(x => x.Id == model.CommentId);
 
-            var canEditComment = (await AuthorizationService.AuthorizeAsync(User, comment, Policies.CanEditComment)).Succeeded;
+            var canEditComment = (await AuthorizationService.AuthorizeAsync(User, comment, Policies.CanEditCandidateComment)).Succeeded;
             if (!canEditComment)
             {
                 return Forbid();
@@ -355,7 +355,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 
             var candidateDiscussion = QueryProcessor.FindById<Discussion>(CurrentCandidate.Id);
             var comment = candidateDiscussion.Comments.Single(x => x.Id == commentId);
-            var canEditComment = (await AuthorizationService.AuthorizeAsync(User, comment, Policies.CanEditComment)).Succeeded;
+            var canEditComment = (await AuthorizationService.AuthorizeAsync(User, comment, Policies.CanEditCandidateComment)).Succeeded;
             if (!canEditComment)
             {
                 return Forbid();

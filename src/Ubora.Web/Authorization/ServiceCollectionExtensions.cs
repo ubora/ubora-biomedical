@@ -150,7 +150,7 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsCandidateCreatorRequirement()));
                 });
-                options.AddPolicy(Policies.CanEditComment, policyBuilder =>
+                options.AddPolicy(Policies.CanEditCandidateComment, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsCommentAuthorRequirement());
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
@@ -207,7 +207,16 @@ namespace Ubora.Web.Authorization
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
                 });
 
-                options.AddPolicy(Policies.CanIndicateClinicalNeeds, policyBuilder => { policyBuilder.RequireAuthenticatedUser(); });
+                options.AddPolicy(Policies.CanIndicateClinicalNeeds, policyBuilder =>
+                {
+                    policyBuilder.RequireAuthenticatedUser();
+                });
+
+                options.AddPolicy(Policies.CanEditClinicalNeedComment, policyBuilder =>
+                {
+                    policyBuilder.RequireAuthenticatedUser();
+                    policyBuilder.Requirements.Add(new IsCommentAuthorRequirement());
+                });
             });
         }
     }

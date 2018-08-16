@@ -18,10 +18,10 @@
                 <a href="#">See more..</a>
             </div>
             <div class="col-lg-12 color-grey font-size-0-8 py-3">
-                <img class="avatar avatar-author" src="/images/profileimagedefault.svg" />
+                <img class="avatar avatar-author" src="@Model.IndicatorProfilePictureUrl" />
                 <span class="mx-xl-1 mx-md-2 my-1 d-xs-none"></span>
-                <a href="#" class="no-underline">
-                    <span>Author: John Smith</span>
+                <a class="no-underline" asp-route-userId="@Model.IndicatorUserId" asp-action="@nameof(ProfileController.ViewProfile)" asp-controller="@nameof(ProfileController).RemoveSuffix()" asp-area="">
+                    <span>Author: @Model.IndicatorFullName</span>
                 </a>
                 <span class="dot mx-xl-2 mx-md-2 my-1 d-xs-none"></span>
                 <span>@Model.IndicatedAt</span>
@@ -47,6 +47,7 @@
         </p>
     </div>
 </div>
+
 <div class="row">
     <div class="col-lg-8">
 
@@ -70,6 +71,8 @@
         </p>
     </div>
 </div>
+
+@await Html.PartialAsync("~/_Components/Discussions/_Discussion.cshtml", Model.Discussion)
 
 @section Right {
     <button class="btn btn-outline-primary btn-action"><i class="material-icons">add</i>Create new project</button>
