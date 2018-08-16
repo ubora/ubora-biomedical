@@ -17,6 +17,10 @@
         }
     }
 
+    .avatar:hover {
+        @extend .box-shadow;
+    }
+
     button {
         color: $blue;
     }
