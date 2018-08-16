@@ -60,7 +60,7 @@
         <div id="headerNavbar" class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav d-flex align-items-center">
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="LandingPage" asp-action="LandingPage" asp-area="@Areas.ClinicalNeedsArea" title="Projects">
+                    <a class="nav-link" asp-controller="LandingPage" asp-action="LandingPage" asp-area="@Areas.ClinicalNeedsArea">
                         Clinical needs
                     </a>
                 </li>
@@ -133,8 +133,13 @@ else
         <div id="headerNavbar" class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav d-flex align-items-center">
                 <li class="nav-item">
+                    <a class="nav-link" asp-controller="LandingPage" asp-action="LandingPage" asp-area="@Areas.ClinicalNeedsArea">
+                        Clinical needs
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" asp-controller="ProjectList" asp-action="Search">
-                        Projects
+                        Device projects
                     </a>
                 </li>
                 <li class="nav-item">

@@ -1,5 +1,6 @@
 using System;
 using Marten;
+using Ubora.Domain.ClinicalNeeds;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects._Events;
 
@@ -13,6 +14,7 @@ namespace Ubora.Domain.Projects._Commands
         public string AreaOfUsageTag { get; set; }
         public string PotentialTechnologyTag { get; set; }
         public string Keywords { get; set; }
+        public Guid? RelatedClinicalNeedId { get; set; }
 
         internal class Handler : CommandHandler<CreateProjectCommand>
         {
@@ -22,6 +24,11 @@ namespace Ubora.Domain.Projects._Commands
 
             public override ICommandResult Handle(CreateProjectCommand cmd)
             {
+                if (cmd.RelatedClinicalNeedId.HasValue)
+                {
+                    DocumentSession.LoadOrThrow<ClinicalNeed>(cmd.RelatedClinicalNeedId.Value);
+                }
+
                 var @event = new ProjectCreatedEvent(
                     initiatedBy: cmd.Actor,
                     projectId: cmd.NewProjectId,
@@ -29,7 +36,8 @@ namespace Ubora.Domain.Projects._Commands
                     clinicalNeed: cmd.ClinicalNeedTag,
                     areaOfUsage: cmd.AreaOfUsageTag,
                     potentialTechnology: cmd.PotentialTechnologyTag,
-                    gmdn: cmd.Keywords);
+                    gmdn: cmd.Keywords,
+                    relatedClinicalNeedId: cmd.RelatedClinicalNeedId);
 
                 DocumentSession.Events.Append(cmd.NewProjectId, @event);
                 DocumentSession.SaveChanges();

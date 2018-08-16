@@ -1,3 +1,5 @@
+@using Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed
+@using Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Overview
 @using Ubora.Web._Features.ProjectCreation
 @model Ubora.Web._Features.ProjectCreation.CreateProjectViewModel
 
@@ -7,9 +9,15 @@
 
 <div class="container my-5">
     @* TODO: Add sidebar component
-    <div class="col"></div>
+        <div class="col"></div>
     *@
     <h1>Design planning</h1>
+
+    @if (Model.ClinicalNeedId.HasValue)
+    {
+        <p>Your created project will be marked as related to the clinical need <a asp-route-clinicalNeedId="@Model.ClinicalNeedId.Value" asp-area="@Areas.ClinicalNeedsArea" asp-action="@nameof(OverviewController.Overview)" asp-controller="@nameof(OverviewController).RemoveSuffix()">@Model.ClinicalNeedTitle</a>.</p>
+    }
+
     <form asp-controller="ProjectCreation" asp-action="Create" method="post">
         <div class="form-group">
             <label asp-for="Title">Project title</label>
@@ -141,16 +149,15 @@
 
 
 @section Head {
-<link rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"
-      asp-fallback-href="~/dist/libs/select2.min.css">
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"
+          asp-fallback-href="~/dist/libs/select2.min.css">
 }
 
 @section Scripts {
-  <script
-    src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"
-    asp-fallback-src="~/dist/libs/select2.min.js"
-    asp-fallback-test="window.select2">
-  </script>
-  <script>$('select').select2({ theme: 'ubora' });</script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"
+            asp-fallback-src="~/dist/libs/select2.min.js"
+            asp-fallback-test="window.select2">
+    </script>
+    <script>$('select').select2({ theme: 'ubora' });</script>
 }
