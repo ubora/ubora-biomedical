@@ -21,7 +21,11 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed
                 ClinicalNeed = QueryProcessor.FindById<ClinicalNeed>(clinicalNeedId);
             }
 
-            if (ClinicalNeed == null)
+            if (ClinicalNeed != null)
+            {
+                ViewData["Title"] = ClinicalNeed.Title;
+            }
+            else
             {
                 context.Result = new NotFoundResult();
             }

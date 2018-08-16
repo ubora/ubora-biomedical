@@ -2,20 +2,36 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a asp-controller="" asp-action="">UBORA</a></li>
-        <li class="breadcrumb-item active"><a href="#">Biomedical clinical needs</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Biomedical clinical needs</li>
+        <li class="breadcrumb-item"><a asp-action="LandingPage" asp-controller="LandingPage">Clinical needs</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
     </ol>
 </nav>
 
-<h1 class="d-inline-block">@Model.Title</h1>
+<h1 class="d-inline-block">@ViewData["Title"]</h1>
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" asp-action="Overview" asp-controller="Overview">
+            Description
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-action="Comments" asp-controller="Comments">
+            Comments
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-action="RelatedProjects" asp-controller="RelatedProjects">
+            Related projects
+        </a>
+    </li>
+</ul>
 
 <div class="row mb-3">
     <div class="col-lg-8 pr-xl-5 border-right mb-lg-0 mb-sm-3">
         <div class="row">
             <div class="col-lg-12">
                 @Model.Description
-                <a href="#">See more..</a>
             </div>
             <div class="col-lg-12 color-grey font-size-0-8 py-3">
                 <img class="avatar avatar-author" src="@Model.IndicatorProfilePictureUrl" />
@@ -48,7 +64,7 @@
     </div>
 </div>
 
-<div class="row">
+@*<div class="row">
     <div class="col-lg-8">
 
     </div>
@@ -72,8 +88,8 @@
     </div>
 </div>
 
-@await Html.PartialAsync("~/_Components/Discussions/_Discussion.cshtml", Model.Discussion)
+@await Html.PartialAsync("~/_Components/Discussions/_Discussion.cshtml", Model.Discussion)*@
 
 @section Right {
-    <button class="btn btn-outline-primary btn-action"><i class="material-icons">add</i>Create new project</button>
+    <a asp-route-clinicalNeedId="@Model.Id" asp-area="" asp-action="@nameof(ProjectCreationController.Create)" asp-controller="@nameof(ProjectCreationController).RemoveSuffix()" class="btn btn-outline-primary btn-action"><i class="material-icons">add</i>Create new project</a>
 }

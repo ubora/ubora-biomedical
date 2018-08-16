@@ -6,6 +6,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Overview.Models
 {
     public class OverviewViewModel : ITagsAndKeywords
     {
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string ClinicalNeedTag { get; set; }
