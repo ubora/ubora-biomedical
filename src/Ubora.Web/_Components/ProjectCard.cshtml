@@ -1,7 +1,7 @@
 ﻿@model ProjectCardViewModel
 
 @{
-    var cardClass = "card" + (Model.ShowCardShadow ? " box-shadow-2" : "");
+    var cardClass = "card";
     var projectHref = Url.Action("Dashboard", "Dashboard", new { projectId = Model.ProjectId });
     var projectImageSrc = string.IsNullOrEmpty(Model.ProjectImageUrl) ? "/images/project-default-image.png" : Model.ProjectImageUrl;
 }

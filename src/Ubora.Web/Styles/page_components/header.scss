@@ -1,6 +1,10 @@
 .header {
     background-color: $white;
 
+    .nav-link {
+        @extend .px-3;
+    }
+
     .nav-link, a {
         color: $blue;
         transition: color 100ms ease-in;
@@ -22,10 +26,6 @@
         width: 2.5rem;
     }
 
-    .material-icons {
-        margin: 0 0 0 .5rem;
-    }
-
     .nav-link-notification {
         position: relative;
 
@@ -41,6 +41,10 @@
             right: -.6rem;
             text-align: center;
             width: 1.2rem;
+        }
+
+        .material-icons {
+            font-size: 1.5rem;
         }
     }
 

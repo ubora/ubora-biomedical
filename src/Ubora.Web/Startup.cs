@@ -111,6 +111,7 @@ namespace Ubora.Web
                 services.AddMiniProfiler(options =>
                 {
                     options.IgnoredPaths.Add("dist");
+                    options.IgnoredPaths.Add("images");
                 }).AddEntityFramework();
             }
 

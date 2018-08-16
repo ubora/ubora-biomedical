@@ -28,7 +28,7 @@
                     </div>
                     <div class="card-body">
                         <h4 class="card-title">
-                            <a asp-action="ViewProfile" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a>
+                            <a asp-action="ViewProfile" asp-controller="Profile" asp-route-userId="@mentor.UserId">@mentor.FullName</a>
                         </h4>
                         @*TODO: show all roles*@
                         <p>Mentor&nbsp;</p>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="card-body pb-0">
                     <h4 class="card-title">
-                        <a asp-action="ViewProfile" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a>
+                        <a asp-action="ViewProfile" asp-controller="Profile" asp-route-userId="@mentor.UserId">@mentor.FullName</a>
                     </h4>
                 </div>
                 <form class="form-group py-2" asp-action="InviteMentor">

@@ -108,6 +108,10 @@
     background-color: $blue;
 }
 
+.bg-dark-blue {
+    background-color: $dark-blue;
+}
+
 .bg-dark {
     background-color: $dark;
 }
@@ -116,6 +120,15 @@
     background-color: $quartinary-shade;
 }
 
+hr {
+    &.light {
+        border-color: $white;
+    }
+
+    &.dark {
+        border-color: $black;
+    }
+}
 
 /* text colors */
 .text-faded-dark {
@@ -242,6 +255,20 @@ a.no-underline {
 
 .comma-separator:last-child:after {
     content: '';
+}
+
+.divider {
+    border-top: 3px solid white;
+    width: 50px;
+    display: block;
+}
+
+.border-white {
+    border-color: white;
+}
+
+.border-dark {
+    border-color: $text-color;
 }
 
 .active-nav-link {
