@@ -8,6 +8,15 @@
 </nav>
 
 <h1 class="d-inline-block">@ViewData["Title"]</h1>
+<div class="color-grey font-size-0-8 mb-3">
+    <img class="avatar avatar-author" src="@Model.IndicatorProfilePictureUrl" />
+    <span class="mx-xl-1 mx-md-2 my-1 d-xs-none"></span>
+    <a class="no-underline" asp-route-userId="@Model.IndicatorUserId" asp-action="@nameof(ProfileController.ViewProfile)" asp-controller="@nameof(ProfileController).RemoveSuffix()" asp-area="">
+        <span>Author: @Model.IndicatorFullName</span>
+    </a>
+    <span class="dot mx-xl-2 mx-md-2 my-1 d-xs-none"></span>
+    <span>@Model.IndicatedAt</span>
+</div>
 
 <ul class="nav nav-tabs">
     <li class="nav-item">
@@ -33,15 +42,6 @@
             <div class="col-lg-12">
                 @Model.Description
             </div>
-            <div class="col-lg-12 color-grey font-size-0-8 py-3">
-                <img class="avatar avatar-author" src="@Model.IndicatorProfilePictureUrl" />
-                <span class="mx-xl-1 mx-md-2 my-1 d-xs-none"></span>
-                <a class="no-underline" asp-route-userId="@Model.IndicatorUserId" asp-action="@nameof(ProfileController.ViewProfile)" asp-controller="@nameof(ProfileController).RemoveSuffix()" asp-area="">
-                    <span>Author: @Model.IndicatorFullName</span>
-                </a>
-                <span class="dot mx-xl-2 mx-md-2 my-1 d-xs-none"></span>
-                <span>@Model.IndicatedAt</span>
-            </div>
         </div>
     </div>
     <div class="col-lg-4 pl-xl-5">
@@ -65,30 +65,30 @@
 </div>
 
 @*<div class="row">
-    <div class="col-lg-8">
+        <div class="col-lg-8">
 
+        </div>
+        <div class="col-lg-4 pl-xl-5">
+            <h6>Related projects</h6>
+            <p>
+                <a href="http://ubora-kahawa.azurewebsites.net/Projects/5f6f4b3e-4c5f-4f21-a676-e38e78ce740d/Dashboard">
+                    BLosSoM (Babies Life Saving Mask)
+                </a>
+            </p>
+            <p>
+                <a href="http://ubora-kahawa.azurewebsites.net/Projects/d6534063-e380-48f8-a50e-f38c3aaddcb5/Dashboard">
+                    Personalised multi-purpose mask
+                </a>
+            </p>
+            <p>
+                <a href="http://ubora-kahawa.azurewebsites.net/Projects/1600b885-16a8-4836-984f-881da9ee7f16/Dashboard">
+                    Portable cooler for vaccines / Nevera portátil para vacunas
+                </a>
+            </p>
+        </div>
     </div>
-    <div class="col-lg-4 pl-xl-5">
-        <h6>Related projects</h6>
-        <p>
-            <a href="http://ubora-kahawa.azurewebsites.net/Projects/5f6f4b3e-4c5f-4f21-a676-e38e78ce740d/Dashboard">
-                BLosSoM (Babies Life Saving Mask)
-            </a>
-        </p>
-        <p>
-            <a href="http://ubora-kahawa.azurewebsites.net/Projects/d6534063-e380-48f8-a50e-f38c3aaddcb5/Dashboard">
-                Personalised multi-purpose mask
-            </a>
-        </p>
-        <p>
-            <a href="http://ubora-kahawa.azurewebsites.net/Projects/1600b885-16a8-4836-984f-881da9ee7f16/Dashboard">
-                Portable cooler for vaccines / Nevera portátil para vacunas
-            </a>
-        </p>
-    </div>
-</div>
 
-@await Html.PartialAsync("~/_Components/Discussions/_Discussion.cshtml", Model.Discussion)*@
+    @await Html.PartialAsync("~/_Components/Discussions/_Discussion.cshtml", Model.Discussion)*@
 
 @section Right {
     <a asp-route-clinicalNeedId="@Model.Id" asp-area="" asp-action="@nameof(ProjectCreationController.Create)" asp-controller="@nameof(ProjectCreationController).RemoveSuffix()" class="btn btn-outline-primary btn-action"><i class="material-icons">add</i>Create new project</a>

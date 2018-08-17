@@ -302,11 +302,21 @@ a.no-underline {
 
 @include media-breakpoint-up(xl) {
     .px-xl-7 {
-         padding-left: ($spacer * 5) !important;
-         padding-right: ($spacer * 5) !important;
-        
+        padding-left: ($spacer * 5) !important;
+        padding-right: ($spacer * 5) !important;
+    }
+
+    .pt-xl-7 {
+        padding-top: ($spacer * 5) !important;
     }
 }
+
+@include media-breakpoint-up(lg) {
+    .pt-lg-7 {
+        padding-top: ($spacer * 5) !important;
+    }
+}
+
 
 @include media-breakpoint-up(lg) {
     .h-min-lg-100 {
@@ -368,6 +378,14 @@ a.no-underline {
          min-height: -moz-calc(100vh - 246px); /* firefox */
     }
 }
+
+@include media-breakpoint-down(md) {
+    .btn-md-block {
+        display: block;
+        width: 100%;
+    }
+}
+
 
 
 

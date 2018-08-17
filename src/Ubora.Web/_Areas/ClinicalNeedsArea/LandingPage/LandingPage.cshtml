@@ -10,13 +10,21 @@
     </ol>
 </nav>
 
-<h1 class="d-inline-block">@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-lg-8 order-lg-1 order-2">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col d-flex justify-content-end order-lg-2 order-1">
+        <a asp-action="@nameof(IndicateClinicalNeedController.StepOne)" asp-controller="@nameof(IndicateClinicalNeedController).RemoveSuffix()" class="btn btn-outline-primary btn-md-block my-lg-0 my-3 align-self-start">
+        <i class="material-icons">add</i>
+        <span>
+            Indicate a need
+        </span>        
+        </a>
+    </div>
+</div>
 
 @foreach (var clinicalNeed in Model.ClinicalNeeds)
 {
     @await Html.PartialAsync("_ClinicalNeedPartial.cshtml", clinicalNeed)
-}
-
-@section Right {
-    <a asp-action="@nameof(IndicateClinicalNeedController.StepOne)" asp-controller="@nameof(IndicateClinicalNeedController).RemoveSuffix()" class="btn btn-outline-primary btn-action"><i class="material-icons">add</i>Indicate a need</a>
 }

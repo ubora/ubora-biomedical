@@ -101,13 +101,4 @@ label.custom-file {
     input {
         padding-right: 2rem;
     }
-    :after {
-        font-family: Material icons;
-        content: 'search';
-        position: absolute;
-        top: 3rem;
-        right: 1rem;
-        font-size: 1.5rem;
-        color: $secondary-shade;
-    }
 }

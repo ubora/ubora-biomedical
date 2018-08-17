@@ -36,7 +36,7 @@
         .nav-link-notification-count {
             background-color: $orange;
             border-radius: 50%;
-            top: -.6rem;
+            top: -.3rem;
             color: $white;
             font-size: .8rem;
             height: 1.2rem;
@@ -111,23 +111,5 @@
 
     .dropdown-toggle::after {
         display: none;
-    }
-}
-
-// Medium devices (tablets, less than 992px)
-@include media-breakpoint-down(md) {
-
-    .header {
-        .nav-link-notification .nav-link-notification-count {
-            top: -.1rem;
-            height: 1rem;
-            line-height: 1.8;
-            right: -.4rem;
-            width: 1rem;
-        }
-
-        .navbar-nav .nav-item.notification-item {
-            display: none;
-        }
     }
 }

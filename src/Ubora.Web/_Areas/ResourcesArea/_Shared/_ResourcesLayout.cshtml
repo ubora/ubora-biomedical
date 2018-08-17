@@ -18,7 +18,7 @@
     <main>
         <div class="container-fluid px-0">
             <div class="row no-gutters">
-                <div class="col-xl-2 py-xl-3 px-xl-3 px-sm-0 bg-blue color-white">
+                <div class="col-xl-2 py-xl-3 px-xl-3 bg-blue color-white">
                     <div class="h-min-xl-100">
                         @Html.Partial("_LeftResourcePagesNavMenuPartial.cshtml")
                     </div>
@@ -30,7 +30,7 @@
                     @{
                         if (IsSectionDefined("right"))
                         {
-                            <div class="h-min-lg-100-footer">
+                            <div class="h-min-lg-100">
                                 @RenderSection("Right", required: false)
                             </div>
                         }
