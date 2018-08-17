@@ -23,7 +23,7 @@
                 <img id="UboraLogo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo">
             </a>
             @*TODO: add link to donation page*@
-            <a href="#" class="btn btn-icon" title="Support UBORA">
+            <a href="#" class="btn-icon px-lg-4" title="Support UBORA">
                 <i class="material-icons">favorite_border</i>
                 <span class="d-none d-lg-inline-block">Support</span>
             </a>
@@ -36,7 +36,7 @@
                 @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
             </a>
             <div class="btn-group">
-                <button type="button" class="btn btn-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="@User.GetProfilePictureUrl()" class="avatar" />
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -94,7 +94,7 @@
                 </li>
             </ul>
             <div class="btn-group d-none d-lg-block">
-                <button type="button" class="btn btn-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="@User.GetProfilePictureUrl()" class="avatar" />
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -123,7 +123,7 @@ else
             <img id="UboraLogo" src="~/images/icons/ubora-logo.svg" alt="UBORA logo" height="48">
         </a>
         @*TODO: add link to donation page*@
-        <a href="#" class="btn btn-icon" title="Support UBORA">
+        <a href="#" class="btn-icon px-lg-4" title="Support UBORA">
             <i class="material-icons">favorite_border</i>
             <span class="d-none d-lg-inline-block">Support</span>
         </a>

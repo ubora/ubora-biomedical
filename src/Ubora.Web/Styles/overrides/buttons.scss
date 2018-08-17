@@ -1,4 +1,5 @@
-.btn:not(.btn-icon) {
+.btn:not(.btn-icon),
+.btn:not(.btn-link) {
     min-width: 8rem;
 }
 
