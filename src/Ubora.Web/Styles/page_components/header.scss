@@ -2,7 +2,7 @@
     background-color: $white;
 
     .nav-link, 
-    button {
+    .btn-icon {
         @extend .px-3;
     }
 
@@ -24,6 +24,7 @@
 
     button {
         color: $blue;
+        outline: none;
     }
 
     img {

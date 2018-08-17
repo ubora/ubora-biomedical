@@ -237,6 +237,10 @@ a.no-underline {
     .d-xs-none {
         display: none;
     }
+
+    .pl-xs-0 {
+        padding-left: 0 !important;
+    }
 }
 
 @include media-breakpoint-up(lg) {
