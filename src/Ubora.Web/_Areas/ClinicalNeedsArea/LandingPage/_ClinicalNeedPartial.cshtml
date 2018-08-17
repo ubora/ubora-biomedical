@@ -2,7 +2,7 @@
 
 <div class="row mb-3">
     <div class="col">
-        <div class="card px-3 py-3 box-shadow">
+        <div class="card clinical-need-card px-3 py-3">
             <div class="row">
                 <div class="col-lg-7">
                     <a asp-route-clinicalNeedId="@Model.Id" asp-action="@nameof(OverviewController.Overview)" asp-controller="@nameof(OverviewController).RemoveSuffix()">
@@ -28,15 +28,15 @@
                             Author: @Model.IndicatorFullName
                         </span>
                     </a>
-                    <span class="dot mx-xl-2 mx-md-2 my-1 d-xs-none"></span>
+                    <span class="dot d-xs-none"></span>
                     <span class="d-xs-block">Last activity @Html.TimeAgoHistorySpan(Model.IndicatedAt)</span>
-                    <span class="dot mx-xl-2 mx-md-2 my-1 d-xs-none"></span>
+                    <span class="dot d-xs-none"></span>
                     <a href="#">
                         <span class="d-xs-block">
                             @Model.NumberOfRelatedProjects related projects
                         </span>
                     </a>
-                    <span class="dot mx-xl-2 mx-md-2 my-1 d-xs-none"></span>
+                    <span class="dot d-xs-none"></span>
                     <a href="#">
                         <span class="d-xs-block">
                             @Model.NumberOfComments comments

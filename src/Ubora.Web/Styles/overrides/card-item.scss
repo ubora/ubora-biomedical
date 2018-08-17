@@ -1,5 +1,4 @@
 .card {
-    height: 100%;
 
     a h5 {
         color: $text-color;
@@ -25,7 +24,6 @@
 }
 
 .project-card {
-
     img {
         height: 180px;
         position: relative;
@@ -47,6 +45,7 @@
 
 .user-card {
     @extend .text-center;
+    @extend .h-100;
 
     .avatar {
         height: 120px;
@@ -70,7 +69,7 @@
 
 .project-card,
 .user-card,
-.need-card {
+.clinical-need-card {
 
     &:hover {
         @extend .box-shadow;
