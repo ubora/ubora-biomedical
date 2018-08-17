@@ -5,10 +5,14 @@
 <form action="@(Model.AddCommentActionPath)" method="post">
     @Html.AntiForgeryToken()
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
+    <div class="form-group my-3">
         <label class="mb-4" asp-for="CommentText">Comment</label>
-        <textarea class="form-control" asp-for="CommentText" placeholder="Add comment" rows="4"></textarea>
+        <textarea class="form-control" asp-for="CommentText" placeholder="Add comment" rows="6"></textarea>
         <span asp-validation-for="CommentText"></span>
     </div>
-    <button class="btn btn-primary" type="submit">Add comment</button>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-outline-primary" type="reset">Discard</button>
+        <span class="mx-1"></span>
+        <button class="btn btn-primary" type="submit">Add comment</button>
+    </div>
 </form>

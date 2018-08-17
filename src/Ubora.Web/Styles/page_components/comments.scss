@@ -1,0 +1,50 @@
+﻿.comment {
+    @extend .border-bottom;
+    @extend .py-3;
+
+    a:active,
+    a:focus,
+    a:hover {
+        color: $light-blue;
+    }
+
+    .avatar {
+        height: 4em;
+        width: 4em;
+    }
+
+    .comment-content {
+        @extend .pl-xl-5;
+        @extend .pl-md-4;
+    }
+
+    .comment-details {
+        @extend .color-grey;
+        @extend .font-size-0-8;
+    }
+
+    .comment-actions {
+        @extend .color-grey;
+        @extend .font-size-0-8;
+        display: block;
+
+        .btn-link {
+            font-size: inherit;
+            color: $primary-shade;
+            border: none;
+            padding: 0;
+
+            &:hover,
+            &:active,
+            &:focus {
+                color: $light-blue;
+            }
+        }
+    }
+}
+
+
+a.show-more-link {
+    text-decoration: none;
+    outline: none;
+}
