@@ -1,27 +1,8 @@
-﻿<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a asp-action="LandingPage" asp-controller="LandingPage">Clinical needs</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
-    </ol>
-</nav>
+﻿@model RelatedProjectsViewModel
 
-<h1 class="d-inline-block">@ViewData["Title"]</h1>
-
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link" asp-action="Overview" asp-controller="Overview">
-            Description
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" asp-action="Comments" asp-controller="Comments">
-            Comments
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link active" asp-action="RelatedProjects" asp-controller="RelatedProjects">
-            Related projects
-        </a>
-    </li>
-</ul>
-
+@foreach (var project in Model.RelatedProjects)
+{
+    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-7 px-xl-4 mb-4">
+        @await Html.PartialAsync("~/_Components/ProjectCard.cshtml", model: project)
+    </div>
+}

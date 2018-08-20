@@ -3,20 +3,33 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
+using Marten;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.Discussions;
 using Ubora.Domain.Discussions.Commands;
+using Ubora.Domain.Users;
 using Ubora.Web.Infrastructure;
+using Ubora.Web.Infrastructure.Extensions;
+using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments.Models;
-using Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Overview;
 using Ubora.Web._Components.Discussions.Models;
 using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
 {
+    public class CommentatorViewModel
+    {
+        public Guid UserId { get; set; }
+        public string FullName { get; set; }
+        public string ProfilePictureUrl { get; set; }
+    }
+
     public class CommentsController : AClinicalNeedController
     {
+        private readonly IQuerySession _querySession;
+        private readonly ImageStorageProvider _imageStorageProvider;
+
         public Discussion Discussion { get; private set; }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -26,9 +39,43 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
             Discussion = QueryProcessor.FindById<Discussion>(ClinicalNeed.Id);
         }
 
+        public CommentsController(IQuerySession querySession, ImageStorageProvider imageStorageProvider)
+        {
+            _querySession = querySession;
+            _imageStorageProvider = imageStorageProvider;
+        }
+
         [HttpGet("comments")]
         public IActionResult Comments()
         {
+            var commentatorIds = Discussion.Comments.Select(c => c.UserId).Distinct().ToArray();
+
+            var commentators = _querySession.LoadMany<UserProfile>(commentatorIds)
+                .Select(up => new CommentatorViewModel
+                {
+                    UserId = up.UserId,
+                    FullName = up.FullName,
+                    ProfilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(up)
+                })
+                .ToDictionary(vm => vm.UserId, vm => vm);
+
+            //var commentators = _querySession.Query<UserProfile>() // or use loadmany?
+            //    .Where(up => up.UserId.IsOneOf(commentatorIds))
+            //    .Select(up => new
+            //    {
+            //        UserId = up.UserId,
+            //        FullName = up.FullName,
+            //        ProfilePictureBlobLocation = up.ProfilePictureBlobLocation
+            //    })
+            //    .ToList()
+            //    .Select(up => new CommentatorViewModel
+            //    {
+            //        UserId = up.UserId,
+            //        FullName = up.FullName,
+            //        ProfilePictureUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(up.ProfilePictureBlobLocation, ImageSize.Thumbnail400x300)
+            //    })
+            //    .ToDictionary(vm => vm.UserId, vm => vm);
+
             var model = new CommentsViewModel
             {
                 Discussion = new DiscussionViewModel
@@ -42,17 +89,17 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
                         CanBeEdited = (await AuthorizationService.AuthorizeAsync(User, c, Policies.CanEditClinicalNeedComment)).Succeeded,
                         CommentText = c.Text,
                         CommentatorId = c.UserId,
-                        CommentatorName = "test",
+                        CommentatorName = commentators[c.UserId].FullName,
                         CommentedAt = c.CommentedAt,
                         LastEditedAt = c.LastEditedAt,
                         IsLeader = false,
                         IsMentor = false,
-                        ProfilePictureUrl = "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
+                        ProfilePictureUrl = commentators[c.UserId].ProfilePictureUrl
                     }).Select(t => t.Result).ToList()
                 }
             };
 
-            return View(model);
+            return View(nameof(Comments), model);
         }
 
         [HttpPost("add-comment")]
@@ -61,7 +108,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
         {
             if (!ModelState.IsValid)
             {
-                return await RedirectToOverview();
+                return Comments();
             }
 
             ExecuteUserCommand(new AddCommentCommand
@@ -73,10 +120,10 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
 
             if (!ModelState.IsValid)
             {
-                return await RedirectToOverview();
+                return Comments();
             }
 
-            return await RedirectToOverview();
+            return RedirectToAction(nameof(Comments));
         }
 
         [HttpPost("edit-comment")]
@@ -85,7 +132,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
         {
             if (!ModelState.IsValid)
             {
-                return await RedirectToOverview();
+                return Comments();
             }
 
             var comment = Discussion.Comments.Single(x => x.Id == model.CommentId);
@@ -106,10 +153,10 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
 
             if (!ModelState.IsValid)
             {
-                return await RedirectToOverview();
+                return Comments();
             }
 
-            return await RedirectToOverview();
+            return RedirectToAction(nameof(Comments));
         }
 
         [HttpPost("delete-comment")]
@@ -118,7 +165,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
         {
             if (!ModelState.IsValid)
             {
-                return await RedirectToOverview();
+                return Comments();
             }
 
             var comment = Discussion.Comments.Single(x => x.Id == commentId);
@@ -137,15 +184,10 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
 
             if (!ModelState.IsValid)
             {
-                return await RedirectToOverview();
+                return Comments();
             }
 
-            return await RedirectToOverview();
-        }
-
-        private Task<RedirectToActionResult> RedirectToOverview()
-        {
-            return Task.FromResult(RedirectToAction(nameof(OverviewController.Overview), nameof(OverviewController).RemoveSuffix()));
+            return RedirectToAction(nameof(Comments));
         }
     }
 }

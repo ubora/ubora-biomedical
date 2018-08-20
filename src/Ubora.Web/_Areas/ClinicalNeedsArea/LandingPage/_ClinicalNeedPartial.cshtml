@@ -31,13 +31,13 @@
                     <span class="dot mx-xl-2 mx-md-2 my-1 d-xs-none"></span>
                     <span class="d-xs-block">Last activity @Html.TimeAgoHistorySpan(Model.IndicatedAt)</span>
                     <span class="dot mx-xl-2 mx-md-2 my-1 d-xs-none"></span>
-                    <a href="#">
+                    <a asp-route-clinicalNeedId="@Model.Id" asp-action="@nameof(RelatedProjectsController.RelatedProjects)" asp-controller="@nameof(RelatedProjectsController).RemoveSuffix()">
                         <span class="d-xs-block">
                             @Model.NumberOfRelatedProjects related projects
                         </span>
                     </a>
                     <span class="dot mx-xl-2 mx-md-2 my-1 d-xs-none"></span>
-                    <a href="#">
+                    <a asp-route-clinicalNeedId="@Model.Id" asp-action="@nameof(CommentsController.Comments)" asp-controller="@nameof(CommentsController.Comments).RemoveSuffix()">
                         <span class="d-xs-block">
                             @Model.NumberOfComments comments
                         </span>

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using Newtonsoft.Json;
-using Ubora.Domain;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.Members;
@@ -27,6 +27,9 @@ namespace Ubora.Domain.Projects
         public DateTime ProjectImageLastUpdated { get; private set; }
         public bool IsDeleted { get; private set; }
         public DateTime CreatedDateTime { get; private set; }
+
+        // TODO: Duplicate and immutable
+        public Guid[] RelatedClinicalNeeds { get; private set; } = new Guid[0];
 
         [JsonIgnore]
         public bool HasImage => new HasImageSpec().IsSatisfiedBy(this);
@@ -62,6 +65,12 @@ namespace Ubora.Domain.Projects
             Keywords = e.Gmdn;
             PotentialTechnologyTag = e.PotentialTechnology;
             CreatedDateTime = e.Timestamp.UtcDateTime;
+
+            if (e.RelatedClinicalNeedId.HasValue)
+            {
+                // TODO: Test
+                RelatedClinicalNeeds = RelatedClinicalNeeds.ToImmutableList().Add(e.RelatedClinicalNeedId.Value).ToArray();
+            }
 
             var userId = e.InitiatedBy.UserId;
             var leader = new ProjectLeader(userId);

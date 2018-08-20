@@ -1,41 +1,5 @@
 ﻿@model OverviewViewModel
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a asp-action="LandingPage" asp-controller="LandingPage">Clinical needs</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
-    </ol>
-</nav>
-
-<h1 class="d-inline-block">@ViewData["Title"]</h1>
-<div class="color-grey font-size-0-8 mb-3">
-    <img class="avatar avatar-author" src="@Model.IndicatorProfilePictureUrl" />
-    <span class="mx-xl-1 mx-md-2 my-1 d-xs-none"></span>
-    <a class="no-underline" asp-route-userId="@Model.IndicatorUserId" asp-action="@nameof(ProfileController.ViewProfile)" asp-controller="@nameof(ProfileController).RemoveSuffix()" asp-area="">
-        <span>Author: @Model.IndicatorFullName</span>
-    </a>
-    <span class="dot mx-xl-2 mx-md-2 my-1 d-xs-none"></span>
-    <span>@Model.IndicatedAt</span>
-</div>
-
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link active" asp-action="Overview" asp-controller="Overview">
-            Description
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" asp-action="Comments" asp-controller="Comments">
-            Comments
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" asp-action="RelatedProjects" asp-controller="RelatedProjects">
-            Related projects
-        </a>
-    </li>
-</ul>
-
 <div class="row mb-3">
     <div class="col-lg-8 pr-xl-5 border-right mb-lg-0 mb-sm-3">
         <div class="row">

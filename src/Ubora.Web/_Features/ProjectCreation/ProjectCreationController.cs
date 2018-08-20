@@ -45,6 +45,7 @@ namespace Ubora.Web._Features.ProjectCreation
             var projectId = Guid.NewGuid();
             ExecuteUserCommand(new CreateProjectCommand
             {
+                RelatedClinicalNeedId = model.ClinicalNeedId,
                 NewProjectId = projectId,
                 Title = model.Title,
                 ClinicalNeedTag = model.ClinicalNeedTag,

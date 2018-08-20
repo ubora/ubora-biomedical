@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.RelatedProjects.Queries;
 
 namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.RelatedProjects
 {
@@ -11,7 +8,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.RelatedProjects
         [HttpGet("related-projects")]
         public IActionResult RelatedProjects()
         {
-            return View();
+            return View(QueryProcessor.ExecuteQuery(new RelatedProjectsQuery { ClinicalNeedId = ClinicalNeed.Id }));
         }
     }
 }

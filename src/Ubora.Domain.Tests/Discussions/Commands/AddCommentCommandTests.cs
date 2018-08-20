@@ -25,13 +25,16 @@ namespace Ubora.Domain.Tests.Discussions.Commands
             Session.Events.Append(discussionCreatedEvent.DiscussionId, discussionCreatedEvent);
             //
 
+            var commentId = Guid.NewGuid();
+            var actor = new DummyUserInfo();
             var command = new AddCommentCommand
             {
-                Actor = new DummyUserInfo(),
+                Actor = actor,
                 CommentText = "testCommentText",
                 DiscussionId = discussionCreatedEvent.DiscussionId,
                 AdditionalCommentData = new Dictionary<string, object> { { "test", 123 } }.ToImmutableDictionary(),
-                ProjectId = default(Guid)
+                ProjectId = default(Guid),
+                CommentId = commentId
             };
 
             // Act
@@ -44,10 +47,17 @@ namespace Ubora.Domain.Tests.Discussions.Commands
             streamEvents.Should().HaveCount(2);
 
             var persistedEvent = (CommentAddedEvent)streamEvents.Select(martenEvent => martenEvent.Data).Last();
-            persistedEvent.InitiatedBy.ShouldBeEquivalentTo(command.Actor);
-            persistedEvent.CommentId.Should().NotBe(default(Guid));
+            persistedEvent.InitiatedBy.ShouldBeEquivalentTo(actor);
+            persistedEvent.CommentId.Should().Be(commentId);
             persistedEvent.ProjectId.Should().Be(command.ProjectId);
             persistedEvent.AdditionalCommentData.ShouldBeEquivalentTo(command.AdditionalCommentData);
+
+            var comment = Session.Load<Discussion>(discussionId).Comments.Single();
+            comment.Id.Should().Be(commentId);
+            comment.Text.Should().Be("testCommentText");
+            comment.LastEditedAt.Should().BeNull();
+            comment.AdditionalData.ShouldBeEquivalentTo(command.AdditionalCommentData);
+            comment.UserId.Should().Be(actor.UserId);
         }
     }
 }

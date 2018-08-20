@@ -12,6 +12,8 @@ namespace Ubora.Domain.Discussions
     {
         public Guid Id { get; private set; }
         public virtual ImmutableList<Comment> Comments { get; private set; } = ImmutableList.Create<Comment>();
+        public int CommentCount => Comments.Count;
+        public DateTimeOffset? LastCommentActivityAt => Comments.Any() ? Comments.Select(c => c.LastEditedAt ?? c.CommentedAt).Max() : (DateTimeOffset?)null; // TODO: test. Does it work without comments?
         public AttachedToEntity AttachedToEntity { get; private set; }
         public virtual ImmutableDictionary<string, object> AdditionalDiscussionData { get; private set; }
 

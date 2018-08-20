@@ -14,7 +14,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.LandingPage.Models
         public string Keywords { get; set; }
         public int NumberOfRelatedProjects { get; set; }
         public string IndicatorFullName { get; set; }
-        public string IndicatorUserId { get; set; }
+        public Guid IndicatorUserId { get; set; }
         public int NumberOfComments { get; set; }
         public DateTimeOffset IndicatedAt { get; set; }
     }

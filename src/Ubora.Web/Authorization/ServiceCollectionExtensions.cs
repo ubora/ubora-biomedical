@@ -214,7 +214,6 @@ namespace Ubora.Web.Authorization
 
                 options.AddPolicy(Policies.CanEditClinicalNeedComment, policyBuilder =>
                 {
-                    policyBuilder.RequireAuthenticatedUser();
                     policyBuilder.Requirements.Add(new IsCommentAuthorRequirement());
                 });
             });

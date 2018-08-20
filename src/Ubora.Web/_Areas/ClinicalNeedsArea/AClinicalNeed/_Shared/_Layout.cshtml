@@ -1,0 +1,51 @@
+﻿@using Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed._Shared
+
+@{
+    Layout = "~/_Areas/ClinicalNeedsArea/_Shared/_Layout.cshtml";
+    var viewModel = (LayoutViewModel)ViewData["LayoutViewModel"];
+}
+
+@section Body {
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="LandingPage" asp-controller="LandingPage">Clinical needs</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        </ol>
+    </nav>
+
+    <h1 class="d-inline-block">@ViewData["Title"]</h1>
+
+    <div class="color-grey font-size-0-8 mb-3">
+        <img class="avatar avatar-author" src="@viewModel.IndicatorProfilePictureUrl" />
+        <span class="mx-xl-1 mx-md-2 my-1 d-xs-none"></span>
+        <a class="no-underline" asp-route-userId="@viewModel.IndicatorUserId" asp-action="@nameof(ProfileController.ViewProfile)" asp-controller="@nameof(ProfileController).RemoveSuffix()" asp-area="">
+            <span>Author: @viewModel.IndicatorFullName</span>
+        </a>
+        <span class="dot mx-xl-2 mx-md-2 my-1 d-xs-none"></span>
+        <span>@viewModel.IndicatedAt</span>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link @(viewModel.ActiveTab == ActiveTabOfClinicalNeed.Description ? "active" : "")" asp-action="Overview" asp-controller="Overview">
+                Description
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(viewModel.ActiveTab == ActiveTabOfClinicalNeed.Comments ? "active" : "")" asp-action="Comments" asp-controller="Comments">
+                Comments (@viewModel.NumberOfComments)
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(viewModel.ActiveTab == ActiveTabOfClinicalNeed.RelatedProjects ? "active" : "")" asp-action="RelatedProjects" asp-controller="RelatedProjects">
+                Related projects (@viewModel.NumberOfRelatedProjects)
+            </a>
+        </li>
+    </ul>
+
+    @RenderBody()
+}
+
+@section Right {
+    @RenderSection("Right", required: false)
+}

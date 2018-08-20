@@ -19,6 +19,7 @@
     }
 
     <form asp-controller="ProjectCreation" asp-action="Create" method="post">
+        <input asp-for="ClinicalNeedId" type="hidden" />
         <div class="form-group">
             <label asp-for="Title">Project title</label>
             <input class="form-control" asp-for="Title" placeholder="Name your project">

@@ -33,6 +33,7 @@ namespace Ubora.Domain.Tests.ClinicalNeeds.Commands
             using (new AssertionScope())
             {
                 clinicalNeed.Id.Should().Be(command.ClinicalNeedId);
+                clinicalNeed.DiscussionId.Should().Be(command.ClinicalNeedId);
                 clinicalNeed.Title.Should().Be(command.Title);
                 clinicalNeed.Description.Should().Be(command.Description);
                 clinicalNeed.ClinicalNeedTag.Should().Be(command.ClinicalNeedTag);
