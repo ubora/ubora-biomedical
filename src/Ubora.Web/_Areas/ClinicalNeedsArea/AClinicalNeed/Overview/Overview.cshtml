@@ -9,22 +9,16 @@
         </div>
     </div>
     <div class="col-lg-4 pl-xl-5">
-        <p>
-            <span class="d-block font-weight-bold">Clinical need</span>
-            <span class="d-block">@Model.ClinicalNeedTag</span>
-        </p>
-        <p>
-            <span class="d-block font-weight-bold">Area</span>
-            <span class="d-block">@Model.AreaOfUsageTag</span>
-        </p>
-        <p>
-            <span class="d-block font-weight-bold">Technology</span>
-            <span class="d-block">@Model.PotentialTechnologyTag</span>
-        </p>
-        <p>
-            <span class="d-block font-weight-bold">Keywords</span>
-            <span class="d-block">@Model.Keywords</span>
-        </p>
+        <dl>
+            <dt>Clinical need</dt>
+            <dd class="mb-3">@Model.ClinicalNeedTag</dd>
+            <dt>Area</dt>
+            <dd class="mb-3">@Model.AreaOfUsageTag</dd>
+            <dt>Technology</dt>
+            <dd class="mb-3">@Model.PotentialTechnologyTag</dd>
+            <dt>Project keywords</dt>
+            <dd class="mb-3">@Model.Keywords</dd>
+        </dl>
     </div>
 </div>
 

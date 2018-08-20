@@ -1,7 +1,8 @@
 .header {
     background-color: $white;
 
-    .nav-link {
+    .nav-link, 
+    .btn-icon {
         @extend .px-3;
     }
 
@@ -23,6 +24,7 @@
 
     button {
         color: $blue;
+        outline: none;
     }
 
     img {

@@ -16,12 +16,6 @@
     object-fit: cover;
 }
 
-/*Avatar in comments section*/
-.avatar-comment {
-    height: 4em;
-    width: 4em;
-}
-
 .avatar-author {
     height: 2em;
     width: 2em;
@@ -65,8 +59,8 @@
     font-weight: 600;
 }
 
-.font-size-0-8{
-	font-size: 0.825rem;
+.font-size-0-8 {
+    font-size: 0.875rem;
 }
 
 .font-size-1 {
@@ -214,6 +208,9 @@ a.no-underline {
 }
 
 .dot {
+    @extend .mx-xl-2;
+    @extend .mx-md-2;
+    @extend .my-1;
     height: 3px;
     width: 3px;
     background-color: $primary-shade;
@@ -239,6 +236,10 @@ a.no-underline {
 
     .d-xs-none {
         display: none;
+    }
+
+    .pl-xs-0 {
+        padding-left: 0 !important;
     }
 }
 

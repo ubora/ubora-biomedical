@@ -2,48 +2,71 @@
 
 <div class="row mb-3">
     <div class="col">
-        <div class="card px-3 py-3 box-shadow">
+        <div class="card clinical-need-card px-3 py-3">
             <div class="row">
-                <div class="col-lg-7">
-                    <a asp-route-clinicalNeedId="@Model.Id" asp-action="@nameof(OverviewController.Overview)" asp-controller="@nameof(OverviewController).RemoveSuffix()">
-                        <h6 class="font-weight-bold">@Model.Title</h6>
+                <div class="col-12">
+                    <a class="color-dark" asp-route-clinicalNeedId="@Model.Id" asp-action="@nameof(OverviewController.Overview)" asp-controller="@nameof(OverviewController).RemoveSuffix()" >
+                        <h2 class="font-weight-light mb-0">@Model.Title</h2>
                     </a>
-                    <div>
-                        <p>@Model.Description</p>
-                    </div>
                 </div>
-                <div class="col-lg-2">
-                    <h6 class="font-weight-bold">Area</h6>
-                    <p>@Model.AreaOfUsageTag</p>
-                </div>
-                <div class="col-lg-3">
-                    <h6 class="font-weight-bold">Keywords</h6>
-                    <p>@Model.Keywords</p>
+                <div class="col-12 pb-3">
+                    <span class="color-grey">
+                        by
+                        <a asp-route-userId="@Model.IndicatorUserId" asp-action="@nameof(ProfileController.ViewProfile)" asp-controller="@nameof(ProfileController).RemoveSuffix()" asp-area="">
+                            @Model.IndicatorFullName
+                        </a>
+                    </span>
                 </div>
             </div>
-            <div class="row">
-                <div class="col color-grey font-size-0-8">
-                    <a asp-route-userId="@Model.IndicatorUserId" asp-action="@nameof(ProfileController.ViewProfile)" asp-controller="@nameof(ProfileController).RemoveSuffix()" asp-area="">
-                        <span class="d-xs-block">
-                            Author: @Model.IndicatorFullName
-                        </span>
-                    </a>
-                    <span class="dot mx-xl-2 mx-md-2 my-1 d-xs-none"></span>
-                    <span class="d-xs-block">Last activity @Html.TimeAgoHistorySpan(Model.IndicatedAt)</span>
-                    <span class="dot mx-xl-2 mx-md-2 my-1 d-xs-none"></span>
-                    <a asp-route-clinicalNeedId="@Model.Id" asp-action="@nameof(RelatedProjectsController.RelatedProjects)" asp-controller="@nameof(RelatedProjectsController).RemoveSuffix()">
-                        <span class="d-xs-block">
-                            @Model.NumberOfRelatedProjects related projects
-                        </span>
-                    </a>
-                    <span class="dot mx-xl-2 mx-md-2 my-1 d-xs-none"></span>
+
+            <div class="row font-size-0-8">
+                <div class="col-lg-3">
+                    <dl>
+                        <dt>Clinical need</dt>
+                        <dd class="mb-3">@Model.ClinicalNeedTag</dd>
+                    </dl>
+                </div>
+                <div class="col-lg-3">
+                    <dl>
+                        <dt>Area</dt>
+                        <dd class="mb-3">@Model.AreaOfUsageTag</dd>
+                    </dl>
+                </div>
+                <div class="col-lg-3">
+                    <dl>
+                        <dt>Technology</dt>
+                        <dd class="mb-3">@Model.PotentialTechnologyTag</dd>
+                    </dl>
+                </div>
+                <div class="col-lg-3">
+                    @if (!string.IsNullOrWhiteSpace(Model.Keywords))
+                    {
+                        <dl>
+                            <dt>Keywords</dt>
+                            <dd class="mb-3">@Model.Keywords</dd>
+                        </dl>
+                    }
+                </div>
+            </div>
+
+            <div class="row font-size-0-8">
+                <div class="col color-grey">
                     <a asp-route-clinicalNeedId="@Model.Id" asp-action="@nameof(CommentsController.Comments)" asp-controller="@nameof(CommentsController.Comments).RemoveSuffix()">
                         <span class="d-xs-block">
                             @Model.NumberOfComments comments
                         </span>
                     </a>
+                    <span class="dot d-xs-none"></span>
+                    <a asp-route-clinicalNeedId="@Model.Id" asp-action="@nameof(RelatedProjectsController.RelatedProjects)" asp-controller="@nameof(RelatedProjectsController).RemoveSuffix()">
+                        <span class="d-xs-block">
+                            @Model.NumberOfRelatedProjects related projects
+                        </span>
+                    </a>
+                    <span class="dot d-xs-none"></span>
+                    <span class="d-xs-block">Last activity @Html.TimeAgoHistorySpan(Model.IndicatedAt)</span>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
