@@ -33,17 +33,27 @@
         </li>
         <li class="nav-item">
             <a class="nav-link @(viewModel.ActiveTab == ActiveTabOfClinicalNeed.Comments ? "active" : "")" asp-action="Comments" asp-controller="Comments">
-                Comments <span class="badge badge-pill badge-dark-outline ml-1">@viewModel.NumberOfComments</span>
+                Comments
+                @if (@viewModel.NumberOfComments != 0)
+                {
+                    <span class="badge badge-pill badge-dark-outline ml-1">@viewModel.NumberOfComments</span>
+                }
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link @(viewModel.ActiveTab == ActiveTabOfClinicalNeed.RelatedProjects ? "active" : "")" asp-action="RelatedProjects" asp-controller="RelatedProjects">
-                Related projects <span class="badge badge-pill badge-dark-outline ml-1">@viewModel.NumberOfRelatedProjects</span>
+                Related projects
+                @if (@viewModel.NumberOfRelatedProjects != 0)
+                {
+                    <span class="badge badge-pill badge-dark-outline ml-1">@viewModel.NumberOfRelatedProjects</span>
+                }
             </a>
         </li>
     </ul>
 
-    @RenderBody()
+    <div class="pt-4">
+        @RenderBody()
+    </div>
 }
 
 @section Right {
