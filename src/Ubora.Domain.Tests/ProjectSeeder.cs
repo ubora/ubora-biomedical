@@ -21,6 +21,7 @@ namespace Ubora.Domain.Tests
         private bool? IsWp1Accepted { get; set; }
         private bool? IsWp3Unlocked { get; set; }
         private bool? IsWp4Unlocked { get; set; }
+        private bool IsDeleted { get; set; }
 
         public ProjectSeeder WithId(Guid projectId)
         {
@@ -70,6 +71,12 @@ namespace Ubora.Domain.Tests
             return this;
         }
 
+        public ProjectSeeder AsDeleted()
+        {
+            IsDeleted = true;
+            return this;
+        }
+
         public Project Seed(IntegrationFixture fixture)
         {
             CreateUserProfileIfNecessary(ProjectCreatorUserId, fixture);
@@ -115,6 +122,15 @@ namespace Ubora.Domain.Tests
                     ProjectId = ProjectId,
                     Actor = new DummyUserInfo()
                 }).OnFailure(result => throw new InvalidOperationException(result.ToString()));
+            }
+
+            if (IsDeleted)
+            {
+                fixture.Processor.Execute(new DeleteProjectCommand
+                {
+                    ProjectId = ProjectId,
+                    Actor = new DummyUserInfo()
+                });
             }
 
             return fixture.Processor.FindById<Project>(ProjectId);

@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Marten;
 using Ubora.Domain.ClinicalNeeds;
-using Ubora.Domain.Discussions;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 using Ubora.Web._Areas.ClinicalNeedsArea.LandingPage.Models;
 
