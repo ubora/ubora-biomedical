@@ -5,11 +5,11 @@
         <div class="card clinical-need-card px-3 py-3">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="font-weight-light mb-1">
+                    <h3 class="font-weight-light mb-1">
                         <a class="color-dark" asp-route-clinicalNeedId="@Model.Id" asp-action="@nameof(OverviewController.Overview)" asp-controller="@nameof(OverviewController).RemoveSuffix()">
                             @Model.Title
                         </a>
-                    </h2>
+                    </h3>
                 </div>
                 <div class="col-12 pb-3">
                     <span class="color-grey font-size-0-8">
@@ -23,22 +23,32 @@
 
             <div class="row font-size-0-8">
                 <div class="col-lg-3">
-                    <dl>
-                        <dt>Clinical need</dt>
-                        <dd class="mb-3">@Model.ClinicalNeedTag</dd>
-                    </dl>
+                    @if (!string.IsNullOrWhiteSpace(Model.ClinicalNeedTag))
+                    {
+                        <dl>
+                            <dt>Clinical need</dt>
+                            <dd class="mb-3">@Model.ClinicalNeedTag</dd>
+                        </dl>
+                    }
                 </div>
                 <div class="col-lg-3">
-                    <dl>
-                        <dt>Area</dt>
-                        <dd class="mb-3">@Model.AreaOfUsageTag</dd>
-                    </dl>
+                    @if (!string.IsNullOrWhiteSpace(Model.AreaOfUsageTag))
+                    {
+                        <dl>
+                            <dt>Area</dt>
+                            <dd class="mb-3">@Model.AreaOfUsageTag</dd>
+                        </dl>
+                    }
                 </div>
                 <div class="col-lg-3">
-                    <dl>
-                        <dt>Technology</dt>
-                        <dd class="mb-3">@Model.PotentialTechnologyTag</dd>
-                    </dl>
+                    @if (!string.IsNullOrWhiteSpace(Model.PotentialTechnologyTag))
+                    {
+                        <dl>
+                            <dt>Technology</dt>
+                            <dd class="mb-3">@Model.PotentialTechnologyTag</dd>
+                        </dl>
+                    }
+
                 </div>
                 <div class="col-lg-3">
                     @if (!string.IsNullOrWhiteSpace(Model.Keywords))

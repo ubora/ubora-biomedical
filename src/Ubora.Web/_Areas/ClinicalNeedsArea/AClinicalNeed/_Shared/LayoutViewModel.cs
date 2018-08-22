@@ -4,6 +4,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed._Shared
 {
     public class LayoutViewModel
     {
+        public string ClinicalNeedTitle { get; set; }
         public string IndicatorProfilePictureUrl { get; set; }
         public Guid IndicatorUserId { get; set; }
         public DateTimeOffset IndicatedAt { get; set; }

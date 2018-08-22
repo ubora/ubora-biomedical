@@ -2,7 +2,7 @@
 
 @model AddCommentModel
 
-<form action="@(Model.AddCommentActionPath)" method="post">
+<form action="@(Model.AddCommentActionPath)" method="post" class="js-onbeforeunload">
     @Html.AntiForgeryToken()
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group my-3">

@@ -2,7 +2,7 @@
 
 @model EditCommentModel
 
-<form action="@(Model.EditCommentActionPath)" method="post">
+<form action="@(Model.EditCommentActionPath)" method="post" class="js-onbeforeunload">
     @Html.AntiForgeryToken()
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="CommentId" />

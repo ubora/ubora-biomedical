@@ -1,27 +1,31 @@
-﻿@model StepTwoModel
+﻿@using Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Edit.Models
+
+@model EditClinicalNeedViewModel
 
 @{
-    ViewData["Title"] = "Indicate a clinical need";
+    ViewData["Title"] = "Edit";
+    var layoutViewModel = (LayoutViewModel)ViewData["LayoutViewModel"];
 }
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a asp-controller="" asp-action="">UBORA</a></li>
-        <li class="breadcrumb-item"><a href="#">Biomedical clinical needs</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Indicate new clinical need</li>
-    </ol>
-</nav>
+@section ClinicalNeedHeader {
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="LandingPage" asp-controller="LandingPage">Clinical needs</a></li>
+            <li class="breadcrumb-item"><a asp-action="Overview" asp-controller="Overview">@layoutViewModel.ClinicalNeedTitle</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        </ol>
+    </nav>
 
-<h1 class="d-inline-block">@ViewData["Title"]</h1>
-<p>
-    Following tags helps to specify your problem.
-</p>
+    <h1 class="d-inline-block">@ViewData["Title"]</h1>
+}
 
-<form class="js-onbeforeunload" asp-antiforgery="true">
-    <input asp-for="Title" type="hidden" />
-    <input asp-for="Description" type="hidden" />
-    
-    <div asp-validation-summary="ModelOnly"></div>
+<form asp-action="Edit" method="post" class="js-onbeforeunload">
+    <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input class="form-control" asp-for="Title" placeholder="Give a name to the clinical need." />
+        <span asp-validation-for="Title"></span>
+    </div>
+
     <div class="form-group">
         <label asp-for="ClinicalNeedTag">Clinical need type</label>
         <select asp-for="ClinicalNeedTag" class="form-control">
@@ -84,14 +88,26 @@
         <span asp-validation-for="Keywords"></span>
     </div>
 
-    <div class="d-flex justify-content-between align-items-center">
-        <button class="btn-icon" formaction="@Url.Action(nameof(IndicateClinicalNeedController.StepOne))" formmethod="post">
-            <i class="material-icons">keyboard_backspace</i>
-            <span>Back</span>
-        </button>
-        <div>
-            <span class="px-4 py-1">2/2</span>
-            <button class="btn btn-primary" type="submit" formaction="@Url.Action(nameof(IndicateClinicalNeedController.Finalize))">Indicate a new need</button>
-        </div>
+    <div class="form-group">
+        <label asp-for="DescriptionQuillDelta">Description</label>
+        <input asp-for="DescriptionQuillDelta" type="hidden" />
+        <span asp-validation-for="DescriptionQuillDelta"></span>
+        <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial", new QuillToolbarFormatOptionsForClinicalNeed())</div>
+        <div id="editor-container" style="display: none;"></div>
+    </div>
+
+    <div class="float-right">
+        <a class="btn btn-outline-primary" role="button" asp-action="Overview" asp-controller="Overview">Discard changes</a>
+        <button class="btn btn-primary" type="submit">Save changes</button>
     </div>
 </form>
+
+@section Scripts {
+    <script>
+        var contentInputSelector = "#@nameof(Model.DescriptionQuillDelta)";
+        var editorSelector = "#editor-container";
+        var toolbarSelector = "#toolbar-container";
+        var initialContent = @Html.Raw(Model.DescriptionQuillDelta);
+        UBORA.initEditor(editorSelector, toolbarSelector, contentInputSelector, initialContent);
+    </script>
+}

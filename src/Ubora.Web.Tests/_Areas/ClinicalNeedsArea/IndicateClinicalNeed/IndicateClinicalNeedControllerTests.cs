@@ -4,6 +4,7 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Ubora.Domain;
 using Ubora.Domain.ClinicalNeeds.Commands;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Web.Tests._Features;
@@ -77,7 +78,7 @@ namespace Ubora.Web.Tests._Areas.ClinicalNeedsArea.IndicateClinicalNeed
                 executedCommand.Title.Should().Be("title");
                 executedCommand.AreaOfUsageTag.Should().Be("area");
                 executedCommand.ClinicalNeedTag.Should().Be("clinical");
-                executedCommand.Description.Should().Be("description");
+                executedCommand.Description.Should().Be(new QuillDelta("description"));
                 executedCommand.Keywords.Should().Be("keywords");
                 executedCommand.PotentialTechnologyTag.Should().Be("tech");
             }

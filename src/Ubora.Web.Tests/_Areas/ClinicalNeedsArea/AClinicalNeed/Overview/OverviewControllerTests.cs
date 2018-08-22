@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.NodeServices;
 using Moq;
 using Ubora.Domain.ClinicalNeeds;
 using Ubora.Web.Tests._Features;
@@ -36,10 +37,10 @@ namespace Ubora.Web.Tests._Areas.ClinicalNeedsArea.AClinicalNeed.Overview
                     .Set(x => x.AreaOfUsageTag, "area")
                     .Set(x => x.ClinicalNeedTag, "clinical");
 
-            _controller.ClinicalNeed = clinicalNeed;
+            _controller.Set(c => c.ClinicalNeed, clinicalNeed);
 
             // Act
-            var result = (ViewResult) await _controller.Overview();
+            var result = (ViewResult) await _controller.Overview(Mock.Of<INodeServices>());
 
             // Assert
             var model = (OverviewViewModel) result.Model;

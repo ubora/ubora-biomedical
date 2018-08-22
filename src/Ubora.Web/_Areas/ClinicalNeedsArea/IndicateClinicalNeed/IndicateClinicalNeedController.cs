@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain;
 using Ubora.Domain.ClinicalNeeds.Commands;
 using Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Overview;
 using Ubora.Web._Areas.ClinicalNeedsArea.IndicateClinicalNeed.Models;
@@ -49,7 +50,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.IndicateClinicalNeed
             {
                 ClinicalNeedId = clinicalNeedId,
                 Title = model.Title,
-                Description = model.Description,
+                Description = new QuillDelta(model.Description),
                 ClinicalNeedTag = model.ClinicalNeedTag,
                 AreaOfUsageTag = model.AreaOfUsageTag,
                 PotentialTechnologyTag = model.PotentialTechnologyTag,

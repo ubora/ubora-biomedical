@@ -13,7 +13,7 @@ namespace Ubora.Domain.ClinicalNeeds.Commands
         public Guid ClinicalNeedId { get; set; }
 
         public string Title { get; set; }
-        public string Description { get; set; }
+        public QuillDelta Description { get; set; }
 
         public string ClinicalNeedTag { get; set; }
         public string AreaOfUsageTag { get; set; }

@@ -24,7 +24,7 @@
         <label asp-for="Body">Page content</label>
         <input asp-for="Body" type="hidden" />
         <span asp-validation-for="Body"></span>
-        <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial")</div>
+        <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial", new QuillToolbarFormatOptionsForResource())</div>
         <div id="editor-container" class="form-group" style="display: none;"></div>
     </div>
     <div class="form-group">
@@ -49,6 +49,6 @@
         var contentInputSelector = "#@nameof(Model.Body)";
         var editorSelector = "#editor-container";
         var toolbarSelector = "#toolbar-container";
-        UBORA.initAddOrEditResource(editorSelector, toolbarSelector, contentInputSelector);
+        UBORA.initEditor(editorSelector, toolbarSelector, contentInputSelector);
     </script>
 }

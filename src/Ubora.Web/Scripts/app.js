@@ -50,16 +50,12 @@ $(function () {
                 return;
             };
 
-            console.log('foo')
-
             possiblyChangedForms.push({ form: $form, initialSerialize: $form.serialize() })
         })
         .on('change', function () {
             window.onbeforeunload = null;
 
             possiblyChangedForms.forEach(function (item) {
-                console.log(item.form.serialize())
-
                 if (item.form.serialize() !== item.initialSerialize) {
                     window.onbeforeunload = function () { return "You may have unsaved changes. Do you really want to leave?" };
                     return;

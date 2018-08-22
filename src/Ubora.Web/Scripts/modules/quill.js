@@ -1,4 +1,4 @@
-﻿global.UBORA.initAddOrEditResource = function (editorSelector, toolbarSelector, contentInputSelector, initialContent) {
+﻿global.UBORA.initEditor = function (editorSelector, toolbarSelector, contentInputSelector, initialContent) {
     var quill = new Quill(editorSelector,
         {
             theme: 'snow',
@@ -13,8 +13,6 @@
 
     $(editorSelector).show();
     $(toolbarSelector).show();
-
-    console.log(JSON.stringify(quill.getContents()));
 
     quill.on('editor-change', function () {
         $(contentInputSelector).val(JSON.stringify(quill.getContents())).trigger('change');

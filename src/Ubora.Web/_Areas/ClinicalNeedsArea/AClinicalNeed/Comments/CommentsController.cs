@@ -103,7 +103,6 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
         }
 
         [HttpPost("add-comment")]
-        [SaveTempDataModelState]
         public async Task<IActionResult> AddComment(AddCommentModel model)
         {
             if (!ModelState.IsValid)
@@ -127,7 +126,6 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
         }
 
         [HttpPost("edit-comment")]
-        [SaveTempDataModelState]
         public async Task<IActionResult> EditComment(EditCommentModel model)
         {
             if (!ModelState.IsValid)
@@ -160,7 +158,6 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
         }
 
         [HttpPost("delete-comment")]
-        [SaveTempDataModelState]
         public async Task<IActionResult> RemoveComment(Guid commentId)
         {
             if (!ModelState.IsValid)

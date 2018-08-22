@@ -23,10 +23,10 @@ namespace Ubora.Domain.Tests.Projects._Commands
             {
                 ProjectId = projectId,
                 Title = "title",
-                ClinicalNeedTags = "clinicalNeedTags",
-                AreaOfUsageTags = "areaOfUsageTags",
-                PotentialTechnologyTags = "potentialTechnologyTags",
-                Gmdn = "gmdn",
+                ClinicalNeedTag = "clinicalNeedTags",
+                AreaOfUsageTag = "areaOfUsageTags",
+                PotentialTechnologyTag = "potentialTechnologyTags",
+                Keywords = "gmdn",
                 Actor = new UserInfo(Guid.NewGuid(), "")
             };
 

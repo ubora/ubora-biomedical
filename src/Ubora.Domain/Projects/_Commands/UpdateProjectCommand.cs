@@ -4,13 +4,13 @@ using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects._Commands
 {
-    public class UpdateProjectCommand : UserProjectCommand
+    public class UpdateProjectCommand : UserProjectCommand, ITagsAndKeywords
     {
         public string Title { get; set; }
-        public string ClinicalNeedTags { get; set; }
-        public string AreaOfUsageTags { get; set; }
-        public string PotentialTechnologyTags { get; set; }
-        public string Gmdn { get; set; }
+        public string ClinicalNeedTag { get; set; }
+        public string AreaOfUsageTag { get; set; }
+        public string PotentialTechnologyTag { get; set; }
+        public string Keywords { get; set; }
 
         internal class Handler : CommandHandler<UpdateProjectCommand>
         {
@@ -26,10 +26,10 @@ namespace Ubora.Domain.Projects._Commands
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
                     title: cmd.Title,
-                    clinicalNeedTags: cmd.ClinicalNeedTags,
-                    areaOfUsageTags: cmd.AreaOfUsageTags,
-                    potentialTechnologyTags: cmd.PotentialTechnologyTags,
-                    gmdn: cmd.Gmdn);
+                    clinicalNeedTags: cmd.ClinicalNeedTag,
+                    areaOfUsageTags: cmd.AreaOfUsageTag,
+                    potentialTechnologyTags: cmd.PotentialTechnologyTag,
+                    gmdn: cmd.Keywords);
 
                 DocumentSession.Events.Append(project.Id, @event);
                 DocumentSession.SaveChanges();

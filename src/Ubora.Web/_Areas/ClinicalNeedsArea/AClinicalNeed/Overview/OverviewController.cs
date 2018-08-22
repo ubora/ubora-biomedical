@@ -1,20 +1,19 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Web.Infrastructure;
+using Microsoft.AspNetCore.NodeServices;
 using Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Overview.Models;
 
 namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Overview
 {
     public class OverviewController : AClinicalNeedController
     {
-        [RestoreModelStateFromTempData]
-        public async Task<IActionResult> Overview()
+        public async Task<IActionResult> Overview([FromServices]INodeServices nodeServices)
         {
             var model = new OverviewViewModel
             {
                 Id = ClinicalNeed.Id,
                 Title = ClinicalNeed.Title,
-                Description = ClinicalNeed.Description,
+                Description = await nodeServices.InvokeAsync<string>("./Scripts/backend/ConvertQuillDeltaToHtml.js", ClinicalNeed.Description.Value),
                 AreaOfUsageTag = ClinicalNeed.AreaOfUsageTag,
                 ClinicalNeedTag = ClinicalNeed.ClinicalNeedTag,
                 PotentialTechnologyTag = ClinicalNeed.PotentialTechnologyTag,

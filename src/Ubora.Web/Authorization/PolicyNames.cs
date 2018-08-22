@@ -39,4 +39,5 @@
     public const string CanRemoveIsoStandardFromComplianceChecklist = nameof(CanRemoveIsoStandardFromComplianceChecklist);
     public const string CanIndicateClinicalNeeds = nameof(CanIndicateClinicalNeeds);
     public const string CanEditClinicalNeedComment = nameof(CanEditClinicalNeedComment);
+    public const string CanEditClinicalNeed = nameof(CanEditClinicalNeed);
 }

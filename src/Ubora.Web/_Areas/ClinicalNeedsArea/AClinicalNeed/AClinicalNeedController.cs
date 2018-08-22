@@ -14,7 +14,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed
     [Route("clinical-needs/{clinicalNeedId}")]
     public abstract class AClinicalNeedController : ClinicalNeedsAreaController
     {
-        public ClinicalNeed ClinicalNeed { get; set; }
+        public ClinicalNeed ClinicalNeed { get; private set; }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
@@ -29,11 +29,13 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed
 
             if (ClinicalNeed != null)
             {
-                var indicator = QueryProcessor.FindById<UserProfile>(ClinicalNeed.IndicatorUserId);
                 var imageStorageProvider = HttpContext.RequestServices.GetService<ImageStorageProvider>();
-                var urlTemplateParts = context.ActionDescriptor.AttributeRouteInfo.Template.Split("/");
+
+                var indicator = QueryProcessor.FindById<UserProfile>(ClinicalNeed.IndicatorUserId);
                 var quickInfo = QueryProcessor.FindById<ClinicalNeedQuickInfo>(ClinicalNeed.Id);
                 // TODO: batched query?
+
+                var urlTemplateParts = context.ActionDescriptor.AttributeRouteInfo.Template.Split("/");
 
                 ViewData["LayoutViewModel"] = new LayoutViewModel
                 {
@@ -43,7 +45,8 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed
                     IndicatedAt = ClinicalNeed.IndicatedAt,
                     IndicatorProfilePictureUrl = imageStorageProvider.GetDefaultOrBlobUrl(indicator),
                     NumberOfRelatedProjects = quickInfo.NumberOfRelatedProjects,
-                    NumberOfComments = quickInfo.NumberOfComments
+                    NumberOfComments = quickInfo.NumberOfComments,
+                    ClinicalNeedTitle = ClinicalNeed.Title
                 };
                 ViewData["Title"] = ClinicalNeed.Title;
             }

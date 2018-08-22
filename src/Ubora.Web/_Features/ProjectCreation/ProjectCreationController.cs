@@ -31,7 +31,7 @@ namespace Ubora.Web._Features.ProjectCreation
                 });
             }
 
-            return View();
+            return View(new CreateProjectViewModel());
         }
 
         [HttpPost]
