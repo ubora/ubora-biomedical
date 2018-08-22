@@ -52,7 +52,13 @@
 }
 
 
-.ql-editor {
+.ql-container, .ql-editor {
     min-height: 16rem;
-    max-height: 24em;
+    max-height: 24rem;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.ql-editor {
+    overflow-y: auto;
 }

@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
     @RenderSection("Head", required: false)
-    @{
-        Html.RenderPartial("_LayoutHead");
-    }
+
     <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"
           asp-fallback-test-class="ql-snow"
           asp-fallback-href="~/dist/quill.snow.css">
+    @{
+        Html.RenderPartial("_LayoutHead");
+    }
+
 </head>
 
 <body>
