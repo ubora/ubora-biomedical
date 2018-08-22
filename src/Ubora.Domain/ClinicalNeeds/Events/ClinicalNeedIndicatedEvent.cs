@@ -25,9 +25,6 @@ namespace Ubora.Domain.ClinicalNeeds.Events
         public string PotentialTechnologyTag { get; }
         public string Keywords { get; }
 
-        public override string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
+        public override string GetDescription() => "indicated clinical need.";
     }
 }
