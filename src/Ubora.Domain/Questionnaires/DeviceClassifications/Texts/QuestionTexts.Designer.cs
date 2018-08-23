@@ -682,7 +682,7 @@ namespace Ubora.Domain.Questionnaires.DeviceClassifications.Texts {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are the vital physiological processes such as the patient may be in immediate danger if the vary (example: variations in cardiac performance, respiration, activity of the central nervous system)?.
+        ///   Looks up a localized string similar to Is the patient in immediate danger if the vital parameters, that your device is influencing, monitoring or controlling, vary?.
         /// </summary>
         public static string q3_4_2_1 {
             get {

@@ -50,6 +50,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AnswerTexts.resx</DependentUpon>
     </Compile>
+    <Compile Update="Questionnaires\DeviceClassifications\Texts\NoteTexts.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NoteTexts.resx</DependentUpon>
+    </Compile>
     <Compile Update="Questionnaires\DeviceClassifications\Texts\QuestionTexts.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -80,6 +85,10 @@
     <EmbeddedResource Update="Questionnaires\DeviceClassifications\Texts\AnswerTexts.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AnswerTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Questionnaires\DeviceClassifications\Texts\NoteTexts.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>NoteTexts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Questionnaires\DeviceClassifications\Texts\QuestionTexts.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
