@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Projects\DeviceClassification\**" />
@@ -8,7 +8,7 @@
     <None Remove="Projects\DeviceClassification\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.6.2" />
+    <PackageReference Include="Autofac" Version="4.8.1" />
     <PackageReference Include="CSharpFunctionalExtensions" Version="1.10.0" />
     <PackageReference Include="dbup-core" Version="4.0.0-beta0004" />
     <PackageReference Include="dbup-postgresql" Version="4.0.0-beta0004" />
@@ -50,6 +50,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AnswerTexts.resx</DependentUpon>
     </Compile>
+    <Compile Update="Questionnaires\DeviceClassifications\Texts\NoteTexts.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NoteTexts.resx</DependentUpon>
+    </Compile>
     <Compile Update="Questionnaires\DeviceClassifications\Texts\QuestionTexts.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -80,6 +85,10 @@
     <EmbeddedResource Update="Questionnaires\DeviceClassifications\Texts\AnswerTexts.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AnswerTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Questionnaires\DeviceClassifications\Texts\NoteTexts.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>NoteTexts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Questionnaires\DeviceClassifications\Texts\QuestionTexts.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

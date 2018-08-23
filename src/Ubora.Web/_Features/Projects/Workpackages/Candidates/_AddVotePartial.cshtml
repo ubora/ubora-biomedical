@@ -1,119 +1,147 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages.Candidates
 @model Ubora.Web._Features.Projects.Workpackages.Candidates.AddVoteViewModel
 
-<div class="row">
-    <div class="col-lg-12">
-        <h2 class="mb-4">Cast your vote</h2>
-    </div>
-    <div class="col-lg-9 col-md-9">
+<h2 class="mb-4">Cast your vote</h2>
 
-        <form asp-action="AddVote" asp-controller="Candidates" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CandidateId" />
+<form asp-action="AddVote" asp-controller="Candidates" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="CandidateId" />
 
-            <table class="table table-add-vote">
-                <tbody>
-                    <tr class="rating">
-                        <td>
-                            <input asp-for="Functionality" id="rating15" type="radio" value="1" />
-                            <label for="rating15" class="circle vote-number  d-flex align-items-center justify-content-center">1</label>
-                        </td>
-                        <td>
-                            <input asp-for="Functionality" id="rating14" type="radio" value="2" />
-                            <label for="rating14" class="circle vote-number  d-flex align-items-center justify-content-center">2</label>
-                        </td>
-                        <td>
-                            <input asp-for="Functionality" id="rating13" type="radio" value="3" />
-                            <label for="rating13" class="circle vote-number  d-flex align-items-center justify-content-center">3</label>
-                        </td>
-                        <td>
-                            <input asp-for="Functionality" id="rating12" type="radio" value="4" />
-                            <label for="rating12" class="circle vote-number  d-flex align-items-center justify-content-center">4</label>
-                        </td>
-                        <td>
-                            <input asp-for="Functionality" id="rating11" type="radio" value="5" />
-                            <label for="rating11" class="circle vote-number  d-flex align-items-center justify-content-center">5</label>
-                        </td>
-                        <th scope="row"><div class="d-flex align-items-left">Functionality</div></th>
-                    </tr>
-                    <tr class="rating">
-                        <td>
-                            <input asp-for="Performace" id="rating25" type="radio" value="1" />
-                            <label for="rating25" class=" circle vote-number d-flex align-items-center justify-content-center">1</label>
-                        </td>
-                        <td>
-                            <input asp-for="Performace" id="rating24" type="radio" value="2" />
-                            <label for="rating24" class=" circle vote-number d-flex align-items-center justify-content-center">2</label>
-                        </td>
-                        <td>
-                            <input asp-for="Performace" id="rating23" type="radio" value="3" />
-                            <label for="rating23" class=" circle vote-number d-flex align-items-center justify-content-center">3</label>
-                        </td>
-                        <td>
-                            <input asp-for="Performace" id="rating22" type="radio" value="4" />
-                            <label for="rating22" class=" circle vote-number d-flex align-items-center justify-content-center">4</label>
-                        </td>
-                        <td>
-                            <input asp-for="Performace" id="rating21" type="radio" value="5" />
-                            <label for="rating21" class=" circle vote-number d-flex align-items-center justify-content-center">5</label>
-                        </td>
-                        <th scope="row"><div class="d-flex align-items-left">Performace</div></th>
-                    </tr>
-                    <tr class="rating">
-                        <td>
-                            <input asp-for="Usability" id="rating35" type="radio" value="1" />
-                            <label for="rating35" class=" circle vote-number d-flex align-items-center justify-content-center">1</label>
-                        </td>
-                        <td>
-                            <input asp-for="Usability" id="rating34" type="radio" value="2" />
-                            <label for="rating34" class=" circle vote-number d-flex align-items-center justify-content-center">2</label>
-                        </td>
-                        <td>
-                            <input asp-for="Usability" id="rating33" type="radio" value="3" />
-                            <label for="rating33" class=" circle vote-number d-flex align-items-center justify-content-center">3</label>
-                        </td>
-                        <td>
-                            <input asp-for="Usability" id="rating32" type="radio" value="4" />
-                            <label for="rating32" class=" circle vote-number d-flex align-items-center justify-content-center">4</label>
-                        </td>
-                        <td>
-                            <input asp-for="Usability" id="rating31" type="radio" value="5" />
-                            <label for="rating31" class=" circle vote-number d-flex align-items-center justify-content-center">5</label>
-                        </td>
-                        <th scope="row"><div class="d-flex align-items-left">Usability</div></th>
-                    </tr>
-                    <tr class="rating">
-                        <td>
-                            <input asp-for="Safety" id="rating45" type="radio" value="1" />
-                            <label for="rating45" class=" circle vote-number d-flex align-items-center justify-content-center">1</label>
-                        </td>
-                        <td>
-                            <input asp-for="Safety" id="rating44" type="radio" value="2" />
-                            <label for="rating44" class=" circle vote-number d-flex align-items-center justify-content-center">2</label>
-                        </td>
-                        <td>
-                            <input asp-for="Safety" id="rating43" type="radio" value="3" />
-                            <label for="rating43" class=" circle vote-number d-flex align-items-center justify-content-center">3</label>
-                        </td>
-                        <td>
-                            <input asp-for="Safety" id="rating42" type="radio" value="4" />
-                            <label for="rating42" class=" circle vote-number d-flex align-items-center justify-content-center">4</label>
-                        </td>
-                        <td>
-                            <input asp-for="Safety" id="rating41" type="radio" value="5" />
-                            <label for="rating41" class=" circle vote-number d-flex align-items-center justify-content-center">5</label>
-                        </td>
-                        <th scope="row"><div class="d-flex align-items-left">Safety</div></th>
-                    </tr>
-                </tbody>
-            </table>
-            <span asp-validation-for="Functionality"></span>
-            <span asp-validation-for="Performace"></span>
-            <span asp-validation-for="Usability"></span>
-            <span asp-validation-for="Safety"></span>
-            <span class="d-flex align-self-center">
-                <button class="btn btn-primary" type="submit">Vote</button>
-            </span>
-        </form>
-    </div>
-</div>
+    <table class="table table-add-vote">
+        <tbody>
+            <tr class="rating">
+                <td>
+                    <input asp-for="Functionality" id="rating15" type="radio" value="1" />
+                    <label for="rating15" class="circle vote-number  d-flex align-items-center justify-content-center">1</label>
+                </td>
+                <td>
+                    <input asp-for="Functionality" id="rating14" type="radio" value="2" />
+                    <label for="rating14" class="circle vote-number  d-flex align-items-center justify-content-center">2</label>
+                </td>
+                <td>
+                    <input asp-for="Functionality" id="rating13" type="radio" value="3" />
+                    <label for="rating13" class="circle vote-number  d-flex align-items-center justify-content-center">3</label>
+                </td>
+                <td>
+                    <input asp-for="Functionality" id="rating12" type="radio" value="4" />
+                    <label for="rating12" class="circle vote-number  d-flex align-items-center justify-content-center">4</label>
+                </td>
+                <td>
+                    <input asp-for="Functionality" id="rating11" type="radio" value="5" />
+                    <label for="rating11" class="circle vote-number  d-flex align-items-center justify-content-center">5</label>
+                </td>
+                <th scope="row" class="d-flex align-items-center">
+                    Feasibility
+                    <a tabindex="0" class="btn btn-icon py-0 color-grey" role="button" data-toggle="popover" data-trigger="focus" data-content="The feasibility criterion is related on the building phase of the device, and thus the following entries have to be taken into account (which includes cost (raw material and time), components and material availability, construction simplicity (equipment, and thus skills needed), procedures for quality check.)">
+                        <i class="material-icons">
+                            help
+                        </i>
+                    </a>
+                </th>
+            </tr>
+            <tr class="rating">
+                <td>
+                    <input asp-for="Performace" id="rating25" type="radio" value="1" />
+                    <label for="rating25" class=" circle vote-number d-flex align-items-center justify-content-center">1</label>
+                </td>
+                <td>
+                    <input asp-for="Performace" id="rating24" type="radio" value="2" />
+                    <label for="rating24" class=" circle vote-number d-flex align-items-center justify-content-center">2</label>
+                </td>
+                <td>
+                    <input asp-for="Performace" id="rating23" type="radio" value="3" />
+                    <label for="rating23" class=" circle vote-number d-flex align-items-center justify-content-center">3</label>
+                </td>
+                <td>
+                    <input asp-for="Performace" id="rating22" type="radio" value="4" />
+                    <label for="rating22" class=" circle vote-number d-flex align-items-center justify-content-center">4</label>
+                </td>
+                <td>
+                    <input asp-for="Performace" id="rating21" type="radio" value="5" />
+                    <label for="rating21" class=" circle vote-number d-flex align-items-center justify-content-center">5</label>
+                </td>
+                <th scope="row" class="d-flex align-items-center">
+                    Performace
+                    <a tabindex="0" class="btn btn-icon py-0 color-grey" role="button" data-toggle="popover" data-trigger="focus" data-content="Accuracy, resolution, ergonomics, aesthetics.">
+                        <i class="material-icons">
+                            help
+                        </i>
+                    </a>
+                </th>
+            </tr>
+            <tr class="rating">
+                <td>
+                    <input asp-for="Usability" id="rating35" type="radio" value="1" />
+                    <label for="rating35" class=" circle vote-number d-flex align-items-center justify-content-center">1</label>
+                </td>
+                <td>
+                    <input asp-for="Usability" id="rating34" type="radio" value="2" />
+                    <label for="rating34" class=" circle vote-number d-flex align-items-center justify-content-center">2</label>
+                </td>
+                <td>
+                    <input asp-for="Usability" id="rating33" type="radio" value="3" />
+                    <label for="rating33" class=" circle vote-number d-flex align-items-center justify-content-center">3</label>
+                </td>
+                <td>
+                    <input asp-for="Usability" id="rating32" type="radio" value="4" />
+                    <label for="rating32" class=" circle vote-number d-flex align-items-center justify-content-center">4</label>
+                </td>
+                <td>
+                    <input asp-for="Usability" id="rating31" type="radio" value="5" />
+                    <label for="rating31" class=" circle vote-number d-flex align-items-center justify-content-center">5</label>
+                </td>
+                <th scope="row" class="d-flex align-items-center">
+                    Usability
+                    <a tabindex="0" class="btn btn-icon py-0 color-grey" role="button" data-toggle="popover" data-trigger="focus" data-content="The usability and maintenance of the specific design solution refer to those features related to the operating performance and operating condition of the device: adaptability to various working conditions (e.g., salability of water, stable power supply), level of competences needed, easy of use, reusable/disposable, as well as the procedure needed to upkeep the device in optimal working condition: number and costs of maintenance interventions, necessity of specialized technicians.">
+                        <i class="material-icons">
+                            help
+                        </i>
+                    </a>
+                </th>
+            </tr>
+            <tr class="rating">
+                <td>
+                    <input asp-for="Safety" id="rating45" type="radio" value="1" />
+                    <label for="rating45" class=" circle vote-number d-flex align-items-center justify-content-center">1</label>
+                </td>
+                <td>
+                    <input asp-for="Safety" id="rating44" type="radio" value="2" />
+                    <label for="rating44" class=" circle vote-number d-flex align-items-center justify-content-center">2</label>
+                </td>
+                <td>
+                    <input asp-for="Safety" id="rating43" type="radio" value="3" />
+                    <label for="rating43" class=" circle vote-number d-flex align-items-center justify-content-center">3</label>
+                </td>
+                <td>
+                    <input asp-for="Safety" id="rating42" type="radio" value="4" />
+                    <label for="rating42" class=" circle vote-number d-flex align-items-center justify-content-center">4</label>
+                </td>
+                <td>
+                    <input asp-for="Safety" id="rating41" type="radio" value="5" />
+                    <label for="rating41" class=" circle vote-number d-flex align-items-center justify-content-center">5</label>
+                </td>
+                <th scope="row" class="d-flex align-items-center">
+                    Safety aspects
+                    <a tabindex="0" class="btn btn-icon py-0 color-grey" role="button" data-toggle="popover" data-trigger="focus" data-content="The safety aspect allows to highlight those candidates which use technologies/substances/energies less harmful to the patience.">
+                        <i class="material-icons">
+                            help
+                        </i>
+                    </a>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+    <span asp-validation-for="Functionality"></span>
+    <span asp-validation-for="Performace"></span>
+    <span asp-validation-for="Usability"></span>
+    <span asp-validation-for="Safety"></span>
+    <span class="d-flex align-self-center">
+        <button class="btn btn-primary" type="submit">Vote</button>
+    </span>
+</form>
+
+<script>
+    $('.popover-dismiss').popover({
+        trigger: 'focus'
+    })
+</script>

@@ -63,4 +63,12 @@
             </div>
         </form>
     }
+
+    @if (!string.IsNullOrEmpty(Model.NoteText))
+    {
+        <div class="mb-3 text-informative">
+            <p>Notes:</p>
+            <p>@Html.Raw(@Model.NoteText)</p>
+        </div>
+    }
 </div>
