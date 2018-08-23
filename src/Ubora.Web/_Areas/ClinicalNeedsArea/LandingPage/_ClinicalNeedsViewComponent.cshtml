@@ -1,0 +1,11 @@
+﻿@model ClinicalNeedCardsViewComponentViewModel
+
+@foreach (var clinicalNeed in Model.ClinicalNeedCards)
+{
+    @await Html.PartialAsync("_ClinicalNeedCardPartial.cshtml", clinicalNeed)
+}
+
+@if (Model.ShowPager && Model.Pager.PageCount > 1)
+{
+    @Html.Partial("~/_Features/_Shared/Paging/Pager.cshtml", Model.Pager)
+}

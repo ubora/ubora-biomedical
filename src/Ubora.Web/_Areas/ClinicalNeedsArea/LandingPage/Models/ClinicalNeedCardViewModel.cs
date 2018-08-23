@@ -3,7 +3,7 @@ using Ubora.Domain;
 
 namespace Ubora.Web._Areas.ClinicalNeedsArea.LandingPage.Models
 {
-    public class ClinicalNeedViewModel : ITagsAndKeywords
+    public class ClinicalNeedCardViewModel : ITagsAndKeywords
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

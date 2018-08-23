@@ -24,7 +24,4 @@
     </div>
 </div>
 
-@foreach (var clinicalNeed in Model.ClinicalNeeds)
-{
-    @await Html.PartialAsync("_ClinicalNeedPartial.cshtml", clinicalNeed)
-}
+@(await Component.InvokeAsync<ClinicalNeedCardsViewComponent>(new { pageSize = 10 }))

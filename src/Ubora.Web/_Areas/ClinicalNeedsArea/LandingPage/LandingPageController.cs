@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ubora.Web._Areas.ClinicalNeedsArea.LandingPage.Queries;
+using Ubora.Web._Areas.ClinicalNeedsArea.LandingPage.Models;
 
 namespace Ubora.Web._Areas.ClinicalNeedsArea.LandingPage
 {
@@ -8,7 +8,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.LandingPage
         [Route("/clinical-needs")]
         public IActionResult LandingPage()
         {
-            return View(QueryProcessor.ExecuteQuery(new ClinicalNeedsLandingPageQuery()));
+            return View(new LandingPageViewModel());
         }
     }
 }
