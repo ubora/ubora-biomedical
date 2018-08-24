@@ -6,6 +6,7 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">UBORA</a></li>
         <li class="breadcrumb-item"><a asp-action="LandingPage" asp-controller="LandingPage">Clinical needs</a></li>
         <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
     </ol>
@@ -13,8 +14,10 @@
 
 <h1 class="d-inline-block">@ViewData["Title"]</h1>
 
-TODO:
-<p>Before indicating new clinical need be sure that this has not been already created. You can also check out existing projects from <a href="#">here</a>.</p>
+TODO: When link opens show user 'All projects' view
+<p>
+    Before indicating new clinical need be sure that this has not been already created. You can also check out existing projects from  <a target="_blank" asp-controller="ProjectList" asp-action="Search" title="Projects">here</a>.
+</p>
 
 <form class="js-onbeforeunload" asp-action="@nameof(IndicateClinicalNeedController.StepTwo)">
     <input asp-for="ClinicalNeedTag" type="hidden" />
