@@ -2,7 +2,7 @@
 
 @foreach (var project in Model.RelatedProjects)
 {
-    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-7 px-xl-4 mb-4">
+    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-7 px-xl-4 py-4">
         @await Html.PartialAsync("~/_Components/ProjectCard.cshtml", model: project)
     </div>
 }
