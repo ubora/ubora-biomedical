@@ -28,15 +28,21 @@
                         }
                     }
                 </div>
-                <div class="col-xl-8 py-xl-3 px-xl-7 pb-3 order-xl-2 order-3">
+                <div class="py-xl-3 px-xl-7 pb-3 order-lg-1 order-2 @(IsSectionDefined("Rigth") ? "col-lg-8" : "col-xl-8")">
 
                     @RenderSection("Body", required: false)
                     @RenderBody()
 
                 </div>
-                <div class="col-xl-2 py-xl-3 order-xl-3 order-2 pb-3">
-                    @RenderSection("Right", required: false)
-                </div>
+                @{
+                    if (IsSectionDefined("right"))
+                    {
+                        <div class="col-xl-2 col-lg-4 py-xl-3 order-lg-2 order-1 pb-3">
+                            @RenderSection("Right", required: false)
+                        </div>
+
+                    }
+                }
             </div>
         </div>
     </main>
