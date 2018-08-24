@@ -25,10 +25,17 @@
     }
 }
 
-.btn-outline-primary .material-icons,
-.btn-outline-primary span {
-  vertical-align: middle;
+
+.btn-primary,
+.btn-outline-primary,
+.btn-icon {
+
+    .material-icons, 
+    span {
+        @extend .align-middle;
+    }
 }
+
 
 .btn-disabled[disabled] {
     background-color: $primary-shade;
@@ -47,7 +54,7 @@
 
 .btn[disabled]:focus,
 .btn[disabled]:hover {
-  cursor: not-allowed;
+    cursor: not-allowed;
 }
 
 .btn-light {
@@ -56,9 +63,9 @@
 }
 
 .btn-cta {
-  background-color: $orange;
-  border-color: $orange;
-  color: $white;
+    background-color: $orange;
+    border-color: $orange;
+    color: $white;
 }
 
 .btn-icon {
@@ -70,14 +77,10 @@
         cursor: pointer;
         box-shadow: none;
     }
-
-    .material-icons, span {
-        @extend .align-middle;
-    }
 }
 
 .btn-icon.dropdown-toggle::after {
-    display:none;
+    display: none;
 }
 
 a.btn-icon:hover {
