@@ -26,6 +26,9 @@
 @section Right {
     @if (await AuthorizationService.IsAuthorizedAsync(User, Model.Id, Policies.CanEditClinicalNeed))
     {
-        <a class="btn btn-outline-primary btn-action" asp-route-clinicalNeedId="@Model.Id" asp-action="@nameof(EditController.Edit)" asp-controller="@nameof(EditController).RemoveSuffix()">Edit</a>
+        <a class="btn btn-block btn-outline-primary" asp-route-clinicalNeedId="@Model.Id" asp-action="@nameof(EditController.Edit)" asp-controller="@nameof(EditController).RemoveSuffix()">
+            <i class="material-icons">edit</i>
+            <span>Edit</span>        
+        </a>
     }
 }
