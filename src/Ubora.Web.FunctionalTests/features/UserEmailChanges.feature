@@ -6,7 +6,7 @@ Background:
     Given I sign up as "email-change-test@agileworks.eu" and on first page
 
 Scenario: I change my email address
-    When I click on the element "span=Profile"
+    When I go to profile settings
         And I click on the element "a=Change email address"
         And I set value "email@change.eu" to the element "#NewEmail"
         And I set value "Test12345" to the element "#Password"

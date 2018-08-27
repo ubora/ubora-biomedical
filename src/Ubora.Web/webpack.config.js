@@ -34,7 +34,7 @@ module.exports = env => {
         externals: {
             jquery: 'jquery',
             marked: 'marked',
-            // bootstrap: 'bootstrap',
+            bootstrap: 'bootstrap',
             'popper.js': {
                 root: 'PopperJS',
                 commonjs2: 'popper.js',

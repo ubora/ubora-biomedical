@@ -44,8 +44,11 @@ module.exports = function () {
         browser.waitForVisible(value, ms)
     });
 
-    this.When(/^I sign out$/, () => {
-            browser.click('span=Log out');
+    this.When(/^I log out$/, () => {
+            clickOnProfileAvatar();
+            const logOutSelector = "#logout";
+            browser.waitForVisible(logOutSelector)
+            browser.click(logOutSelector);
         });
 
     this.When(/^I sign up as "([^"]*)?"$/, (email) => {
@@ -116,4 +119,24 @@ module.exports = function () {
         }
         browser.click("button=Answer")
     });
+
+    this.When(/^I go to profile settings$/, () => {
+        clickOnProfileAvatar();
+        
+        const profileSettingsSelector = "#profile-settings";
+        browser.waitForVisible(profileSettingsSelector);
+        browser.click(profileSettingsSelector);
+    });
+
+    this.When(/^I click on notifications$/, () => {
+        const notificationsSelector = "#notifications";
+        browser.waitForVisible(notificationsSelector);
+        browser.click(notificationsSelector);
+    });
+}
+
+function clickOnProfileAvatar() {
+    const avatarSelector = "#avatar-button";
+    browser.waitForVisible(avatarSelector)
+    browser.click(avatarSelector)
 }
