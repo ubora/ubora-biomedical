@@ -21,7 +21,7 @@ Scenario: I sign up an account and create my profile
     Then I expect the title of the page "Welcome - UBORA"
 
 Scenario: I check my created profile
-    When I click on the element "span=Profile"
+    When I go to profile settings
         And I click on the element "a=Edit profile"
     Then I expect the title of the page "Edit profile - UBORA"
         And I expect the element "#FirstName" to contain text "firstName"
@@ -40,7 +40,7 @@ Scenario: I check my created profile
     Then I expect the title of the page "Manage your account - UBORA"
 
 Scenario: I change my profile
-    When I click on the element "span=Profile"
+    When I go to profile settings
         And I click on the element "a=Edit profile"
         And I set value "NameFirst" to the element "#FirstName"
         And I set value "NameLast" to the element "#LastName"
@@ -57,7 +57,7 @@ Scenario: I change my profile
     Then I expect the title of the page "Manage your account - UBORA"
 
 Scenario: I check my profile if my changes have been saved
-    When I click on the element "span=Profile"
+    When I go to profile settings
         And I click on the element "a=Edit profile"
     Then I expect the title of the page "Edit profile - UBORA"
         And I expect the element "#FirstName" to contain text "NameFirst"
@@ -74,12 +74,12 @@ Scenario: I check my profile if my changes have been saved
         And I expect the element "#Role" to contain text "Mentor"  
 
 Scenario: I check terms of service
-    When I click on the element "span=Profile"
+    When I go to profile settings
         And I click on the element "a=Terms of Service"
     Then I expect the title of the page "Terms of Service - UBORA"
         And I expect the element "h1=UBORA e-infrastructure Terms of Service and Privacy Policy" is visible
         And I expect the element "a=http://e-infrastructure.ubora-biomedical.org" is visible
 
-Scenario: I sign out
-    When I sign out
+Scenario: I log out
+    When I log out
     Then I expect the title of the page "UBORA"

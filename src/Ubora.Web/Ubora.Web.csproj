@@ -76,6 +76,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Update="package.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Update="SuccessTexts.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SuccessTexts.Designer.cs</LastGenOutput>

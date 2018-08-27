@@ -204,7 +204,8 @@ namespace Ubora.Web
                 var domainMigrator = serviceProvider.GetService<DomainMigrator>();
 
                 domainMigrator.MigrateDomain(ConnectionString);
-                documentStore.Schema.WritePatchByType("Patches");
+                var patchFilename = DateTime.Now.ToString("dd-MM-yyyy") + "-marten-automatic-patch.sql";
+                documentStore.Schema.WritePatch(patchFilename);
 
                 var seeder = serviceProvider.GetService<ApplicationDataSeeder>();
                 seeder.SeedIfNecessary()
