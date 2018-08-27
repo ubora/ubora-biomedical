@@ -1,5 +1,7 @@
 ﻿@model RelatedProjectsViewModel
 
+<a class="btn btn-outline-primary" asp-area="" asp-route-clinicalNeedId="@ViewContext.RouteData.Values["clinicalNeedId"]" asp-action="@nameof(ProjectCreationController.Create)" asp-controller="@nameof(ProjectCreationController).RemoveSuffix()"><i class="material-icons">add</i>Create new project</a>
+
 @foreach (var project in Model.RelatedProjects)
 {
     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-7 px-xl-4 py-4">

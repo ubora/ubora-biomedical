@@ -34,7 +34,7 @@ namespace Ubora.Domain.ClinicalNeeds
             IndicatorUserId = @event.InitiatedBy.UserId;
         }
 
-        private void Apply(ClinicalNeedTagsAndOrKeywordsEditedEvent @event)
+        private void Apply(ClinicalNeedDesignTagsEditedEvent @event)
         {
             if (AreaOfUsageTag == @event.AreaOfUsageTag
                 && ClinicalNeedTag == @event.ClinicalNeedTag

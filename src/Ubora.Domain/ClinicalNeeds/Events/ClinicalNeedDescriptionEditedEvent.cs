@@ -12,9 +12,6 @@ namespace Ubora.Domain.ClinicalNeeds.Events
 
         public QuillDelta Description { get; }
 
-        public override string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
+        public override string GetDescription() => "edited description.";
     }
 }

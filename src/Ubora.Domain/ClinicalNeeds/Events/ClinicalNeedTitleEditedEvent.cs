@@ -12,9 +12,6 @@ namespace Ubora.Domain.ClinicalNeeds.Events
 
         public string Title { get; }
 
-        public override string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
+        public override string GetDescription() => "edited title.";
     }
 }

@@ -49,7 +49,7 @@ namespace Ubora.Domain.ClinicalNeeds.Commands
                     || clinicalNeed.PotentialTechnologyTag != cmd.PotentialTechnologyTag
                     || clinicalNeed.Keywords != cmd.Keywords)
                 {
-                    events.Add(new ClinicalNeedTagsAndOrKeywordsEditedEvent(cmd.Actor, cmd.ClinicalNeedTag, cmd.AreaOfUsageTag, cmd.PotentialTechnologyTag, cmd.Keywords));
+                    events.Add(new ClinicalNeedDesignTagsEditedEvent(cmd.Actor, cmd.ClinicalNeedTag, cmd.AreaOfUsageTag, cmd.PotentialTechnologyTag, cmd.Keywords));
                 }
 
                 if (events.Any())

@@ -119,7 +119,7 @@ namespace Ubora.Domain.Tests.ClinicalNeeds.Commands
 
             result.IsSuccess.Should().BeTrue();
             var lastEvent = Session.Events.FetchStream(clinicalNeedId).Select(x => x.Data).Last();
-            lastEvent.Should().BeOfType<ClinicalNeedTagsAndOrKeywordsEditedEvent>();
+            lastEvent.Should().BeOfType<ClinicalNeedDesignTagsEditedEvent>();
             clinicalNeed = Session.Load<ClinicalNeed>(clinicalNeedId);
             clinicalNeed.ClinicalNeedTag.Should().Be("newClinical");
 
@@ -138,7 +138,7 @@ namespace Ubora.Domain.Tests.ClinicalNeeds.Commands
 
             result.IsSuccess.Should().BeTrue();
             lastEvent = Session.Events.FetchStream(clinicalNeedId).Select(x => x.Data).Last();
-            lastEvent.Should().BeOfType<ClinicalNeedTagsAndOrKeywordsEditedEvent>();
+            lastEvent.Should().BeOfType<ClinicalNeedDesignTagsEditedEvent>();
             clinicalNeed = Session.Load<ClinicalNeed>(clinicalNeedId);
             clinicalNeed.AreaOfUsageTag.Should().Be("newArea");
 
@@ -157,7 +157,7 @@ namespace Ubora.Domain.Tests.ClinicalNeeds.Commands
 
             result.IsSuccess.Should().BeTrue();
             lastEvent = Session.Events.FetchStream(clinicalNeedId).Select(x => x.Data).Last();
-            lastEvent.Should().BeOfType<ClinicalNeedTagsAndOrKeywordsEditedEvent>();
+            lastEvent.Should().BeOfType<ClinicalNeedDesignTagsEditedEvent>();
             clinicalNeed = Session.Load<ClinicalNeed>(clinicalNeedId);
             clinicalNeed.PotentialTechnologyTag.Should().Be("newPotential");
 
@@ -176,7 +176,7 @@ namespace Ubora.Domain.Tests.ClinicalNeeds.Commands
 
             result.IsSuccess.Should().BeTrue();
             lastEvent = Session.Events.FetchStream(clinicalNeedId).Select(x => x.Data).Last();
-            lastEvent.Should().BeOfType<ClinicalNeedTagsAndOrKeywordsEditedEvent>();
+            lastEvent.Should().BeOfType<ClinicalNeedDesignTagsEditedEvent>();
             clinicalNeed = Session.Load<ClinicalNeed>(clinicalNeedId);
             clinicalNeed.Keywords.Should().Be("newKeywords");
         }
