@@ -14,8 +14,6 @@
     $(editorSelector).show();
     $(toolbarSelector).show();
 
-    console.log(JSON.stringify(quill.getContents()));
-
     quill.on('editor-change', function () {
         $(contentInputSelector).val(JSON.stringify(quill.getContents())).trigger('change');
     });
