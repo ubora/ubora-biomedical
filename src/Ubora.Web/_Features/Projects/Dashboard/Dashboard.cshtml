@@ -49,79 +49,81 @@
                 }
             </div>
         </div>
-
-            <div class="row mt-4">
-                <div class="col d-flex justify-content-between">
-                    <h2>Medical tags</h2>
-                    @if (Model.IsProjectMember)
-                    {
-                        <a class="btn-icon" asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@Url.Action("Dashboard","Dashboard")">
-                            <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
-                            <span>Edit</span>
-                        </a>
-                    }
-                </div>
+        <div class="row mt-4">
+            <div class="col d-flex justify-content-between">
+                <h2>Medical tags</h2>
+                @if (Model.IsProjectMember)
+                {
+                    <a class="btn-icon" asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@Url.Action("Dashboard","Dashboard")">
+                        <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
+                        <span>Edit</span>
+                    </a>
+                }
             </div>
-            <div class="row">
-                <div class="col">
-                    <dl>
-                        <dt>Clinical need</dt>
-                        <dd class="mb-3">@Model.ClinicalNeedTag</dd>
-                        <dt>Area</dt>
-                        <dd class="mb-3">@Model.AreaOfUsageTag</dd>
-                        <dt>Technology</dt>
-                        <dd class="mb-3">@Model.PotentialTechnologyTag</dd>
+        </div>
+        <div class="row">
+            <div class="col">
+                <dl>
+                    <dt>Clinical need</dt>
+                    <dd class="mb-3">@Model.ClinicalNeedTag</dd>
+                    <dt>Area</dt>
+                    <dd class="mb-3">@Model.AreaOfUsageTag</dd>
+                    <dt>Technology</dt>
+                    <dd class="mb-3">@Model.PotentialTechnologyTag</dd>
+                    @if (@Model.Keywords != null)
+                    {
                         <dt>Project keywords</dt>
                         <dd class="mb-3">@Model.Keywords</dd>
-                        <dt>Device classification</dt>
-                        @if (@Model.DeviceClassification != null)
-                        {
-                            <dd>@Model.DeviceClassification</dd>
-                        }
-                        else
-                        {
-                            <span class="text-informative">To obtain device classification go to </span>
-                            <a asp-action="Index" asp-controller="DeviceClassifications" class="font-italic"> device classification questionnaire</a>
-                        }
-                    </dl>
+                    }
+                    <dt>Device classification</dt>
+                    @if (@Model.DeviceClassification != null)
+                    {
+                        <dd>@Model.DeviceClassification</dd>
+                    }
+                    else
+                    {
+                        <span class="text-informative">To obtain device classification go to </span>
+                        <a asp-action="Index" asp-controller="DeviceClassifications" class="font-italic"> device classification questionnaire</a>
+                    }
+                </dl>
+            </div>
         </div>
     </div>
-</div>
-<div class="col-lg-7">
-    <div class="row">
-        <div class="col d-flex justify-content-between">
-            <h2>Project description</h2>
-            @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectTitleAndDescription))
-            {
-                <a class="btn-icon" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription">
-                    <i class="material-icons font-size-1-1">mode_edit</i>
-                    <span id="EditDescription">Edit</span>
-                </a>
-            }
-            @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanJoinProject))
-            {
-                <div class="d-flex justify-content-end align-self-start">
-                    <a class="btn btn-outline-primary" href="@Url.Action("Join", "Members")">
-                        <i class="material-icons align-middle">add</i>
-                        <span>Join project</span>
+    <div class="col-lg-7">
+        <div class="row">
+            <div class="col d-flex justify-content-between">
+                <h2>Project description</h2>
+                @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectTitleAndDescription))
+                {
+                    <a class="btn-icon" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription">
+                        <i class="material-icons font-size-1-1">mode_edit</i>
+                        <span id="EditDescription">Edit</span>
                     </a>
-                </div>
-            }
+                }
+                @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanJoinProject))
+                {
+                    <div class="d-flex justify-content-end align-self-start">
+                        <a class="btn btn-outline-primary" href="@Url.Action("Join", "Members")">
+                            <i class="material-icons align-middle">add</i>
+                            <span>Join project</span>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                @if (!string.IsNullOrWhiteSpace(Model.Description))
+                {
+                    <div class="text-markdown">@Model.Description</div>
+                }
+                else
+                {
+                    <p class="text_placeholder">No project description set yet.</p>
+                }
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            @if (!string.IsNullOrWhiteSpace(Model.Description))
-            {
-                <div class="text-markdown">@Model.Description</div>
-            }
-            else
-            {
-                <p class="text_placeholder">No project description set yet.</p>
-            }
-        </div>
-    </div>
-</div>
 </div>
 
 @{
@@ -131,8 +133,33 @@
 {
     <div class="my-4">
         <hr />
-        <div>
-            <a class="btn btn-outline-danger" asp-controller="DeleteProject" asp-action="DeleteProject"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete project</span></a>
+        <button class="btn btn-outline-danger" data-toggle="modal" data-target="#delete-project-modal">
+            <i class="material-icons">delete_forever</i>
+            <span>Delete resource page</span>
+        </button>
+    </div>
+
+    <div class="modal fade" id="delete-project-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete project</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form asp-controller="DeleteProject" asp-action="DeleteProject">
+                    <div class="modal-body">
+                        <p>
+                            Do you want to delete the project with title "@Model.Title"?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
