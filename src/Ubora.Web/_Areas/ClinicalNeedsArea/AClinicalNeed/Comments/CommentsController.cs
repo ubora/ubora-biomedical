@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain.Discussions;
 using Ubora.Domain.Discussions.Commands;
 using Ubora.Domain.Users;
-using Ubora.Web.Infrastructure;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments.Models;
@@ -18,13 +17,6 @@ using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
 {
-    public class CommentatorViewModel
-    {
-        public Guid UserId { get; set; }
-        public string FullName { get; set; }
-        public string ProfilePictureUrl { get; set; }
-    }
-
     public class CommentsController : AClinicalNeedController
     {
         private readonly IQuerySession _querySession;
@@ -51,30 +43,13 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
             var commentatorIds = Discussion.Comments.Select(c => c.UserId).Distinct().ToArray();
 
             var commentators = _querySession.LoadMany<UserProfile>(commentatorIds)
-                .Select(up => new CommentatorViewModel
+                .Select(up => new
                 {
-                    UserId = up.UserId,
-                    FullName = up.FullName,
+                    up.UserId,
+                    up.FullName,
                     ProfilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(up)
                 })
                 .ToDictionary(vm => vm.UserId, vm => vm);
-
-            //var commentators = _querySession.Query<UserProfile>() // or use loadmany?
-            //    .Where(up => up.UserId.IsOneOf(commentatorIds))
-            //    .Select(up => new
-            //    {
-            //        UserId = up.UserId,
-            //        FullName = up.FullName,
-            //        ProfilePictureBlobLocation = up.ProfilePictureBlobLocation
-            //    })
-            //    .ToList()
-            //    .Select(up => new CommentatorViewModel
-            //    {
-            //        UserId = up.UserId,
-            //        FullName = up.FullName,
-            //        ProfilePictureUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(up.ProfilePictureBlobLocation, ImageSize.Thumbnail400x300)
-            //    })
-            //    .ToDictionary(vm => vm.UserId, vm => vm);
 
             var model = new CommentsViewModel
             {
