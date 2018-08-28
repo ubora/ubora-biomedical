@@ -4,196 +4,299 @@
 @{
     ViewData["Title"] = "User and evironment";
 
-    var workpackageMenuOptionViewData = (string) ViewData["WorkpackageMenuOption"];
+    var workpackageMenuOptionViewData = (string)ViewData["WorkpackageMenuOption"];
     var wpControllerName = workpackageMenuOptionViewData == WorkpackageMenuOption.WP4StructuredInformationOnTheDevice
         ? "WorkpackageFour" : "WorkpackageTwo";
 }
 
-<div class="col-xl-7 col-lg-9">
+<div class="col">
     <form asp-controller="@wpControllerName" asp-action="UserAndEnvironment" class="js-onbeforeunload">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="DeviceStructuredInformationId">
         <div class="row">
-            <h1 class="col-lg-12 mb-4">@ViewData["Title"]</h1>
+            <div class="col">
+                <h1 class="mb-4">@ViewData["Title"]</h1>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <h5 class="col-lg-12">1. Who is the intended user?</h5>
+            <div class="col-lg-4">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="self-user_or_patient" />
+                        Self-user/patient
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="physician" />
+                        Physician
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="technician" />
+                        Technician
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-check ">
+                    <label class="form-check-label">
+                        <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="nurse" />
+                        Nurse
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="midwife" />
+                        Midwife
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="family_member" />
+                        Family member
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-check">
+                    <label class="form-check-label w-100">
+                        <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="other" />
+                        <span class="d-inline">Other:</span>
+                        <input asp-for="IntendedUserIfOther" class="form-control d-inline w-75" type="text" title="Other indended user" />
+                        <span asp-validation-for="IntendedUserIfOther"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <span asp-validation-for="IntendedUserTypeKey"></span>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <h5 class="col-lg-12">2. Is training required in addition to the expected skill level of the intended user? </h5>
             <div class="col-lg-12">
-
-                <div class="row mb-4">
-                    <h5 class="col-lg-12">1. Who is the intended user?</h5>
-                    <div class="col-lg-4">
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="self-user_or_patient"/>
-                                Self-user/patient
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="physician"/>
-                                Physician
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="technician"/>
-                                Technician
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-check ">
-                            <label class="form-check-label">
-                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="nurse"/>
-                                Nurse
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="midwife"/>
-                                Midwife
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="family_member"/>
-                                Family member
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-check">
-                            <label class="form-check-label w-100">
-                                <input asp-for="IntendedUserTypeKey" class="form-check-input" type="radio" value="other"/>
-                                <span class="d-inline">Other:</span>
-                                <input asp-for="IntendedUserIfOther" class="form-control d-inline w-75" type="text" title="Other indended user"/>
-                                <span asp-validation-for="IntendedUserIfOther"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <span asp-validation-for="IntendedUserTypeKey"></span>
-                    </div>
-
-
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                        <input asp-for="IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser" class="show-extra-fields-js form-check-input" type="radio" value="@true" data-target="#training-extra-field" />
+                        Yes
+                    </label>
                 </div>
-
-
-                <div class="row mb-4">
-                    <h5 class="col-lg-12">2. Is training required in addition to the expected skill level of the intended user? </h5>
-                    <div class="col-lg-12">
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label">
-                                <input asp-for="IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser" class="show-extra-fields-js form-check-input" type="radio" value="@true" data-target="#training-extra-field"/>
-                                Yes
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label">
-                                <input asp-for="IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser" class="hide-extra-fields-js form-check-input" type="radio" value="@false" data-target="#training-extra-field"/>
-                                No
-                            </label>
-                        </div>
-                        <span asp-validation-for="IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser"></span>
-                    </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                        <input asp-for="IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser" class="hide-extra-fields-js form-check-input" type="radio" value="@false" data-target="#training-extra-field" />
+                        No
+                    </label>
                 </div>
-
-                <div id="training-extra-field" class="hide row mb-4">
-                    <div class="col-lg-12">
-                        <h5>2.1 If training is required, please describe who will deliver the training and the materials and time required for the training.</h5>
-                        <div class="form-group">
-                            <textarea asp-for="IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining" class="form-control" rows="4" placeholder="Please describe..."></textarea>
-                            <span asp-validation-for="IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining"></span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="row mb-4">
-                    <h5 class="col-lg-12">3. Is any maintenance or calibration required by the user at the time of use?</h5>
-                    <div class="col-lg-12">
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label">
-                                <input asp-for="IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse" class="form-check-input" type="radio" value="@true"/>
-                                Yes
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label">
-                                <input asp-for="IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse" class="form-check-input" type="radio" value="@false"/>
-                                No
-                            </label>
-                        </div>
-                        <span asp-validation-for="IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse"></span>
-                    </div>
-                </div>
-
-                <div class="row mb-4">
-                    <h5 class="col-lg-12">4. Where will the technology be used?</h5>
-                    <div class="col-lg-4">
-                        <div class="form-check ">
-                            <label class="form-check-label">
-                                <input asp-for="WhereWillTechnologyBeUsed.RuralSettings" class="form-check-input" type="checkbox"/>
-                                Rural settings
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input asp-for="WhereWillTechnologyBeUsed.UrbanSettings" class="form-check-input" type="checkbox"/>
-                                Urban settings
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input asp-for="WhereWillTechnologyBeUsed.Outdoors" class="form-check-input" type="checkbox"/>
-                                Outdoors
-                            </label>
-                        </div>
-                        <div class="form-check ">
-                            <label class="form-check-label">
-                                <input asp-for="WhereWillTechnologyBeUsed.Indoors" class="form-check-input" type="checkbox"/>
-                                Indoors
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input asp-for="WhereWillTechnologyBeUsed.AtHome" class="form-check-input" type="checkbox"/>
-                                At home
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input asp-for="WhereWillTechnologyBeUsed.PrimaryLevel" class="form-check-input" type="checkbox"/>
-                                Primary level (health post, health center)
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input asp-for="WhereWillTechnologyBeUsed.SecondaryLevel" class="form-check-input" type="checkbox"/>
-                                Secondary level (general hospital)
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input asp-for="WhereWillTechnologyBeUsed.TertiaryLevel" class="form-check-input" type="checkbox"/>
-                                Tertiary level (specialist hospital)
-                            </label>
-                        </div>
-                    </div>
-                    <span asp-validation-for="WhereWillTechnologyBeUsed"></span>
+                <span asp-validation-for="IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser"></span>
+            </div>
+        </div>
+        <div id="training-extra-field" class="hide row mb-4">
+            <div class="col-lg-12">
+                <h5>2.1 If training is required, please describe who will deliver the training and the materials and time required for the training.</h5>
+                <div class="form-group">
+                    <textarea asp-for="IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining" class="form-control" rows="4" placeholder="Please describe..."></textarea>
+                    <span asp-validation-for="IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining"></span>
                 </div>
             </div>
         </div>
-
-        <hr class="mb-4">
-
-        <div class="row">
+        <div class="row mb-4">
+            <h5 class="col-lg-12">3. Is any maintenance or calibration required by the user at the time of use?</h5>
             <div class="col-lg-12">
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                        <input asp-for="IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse" class="form-check-input" type="radio" value="@true" />
+                        Yes
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                        <input asp-for="IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse" class="form-check-input" type="radio" value="@false" />
+                        No
+                    </label>
+                </div>
+                <span asp-validation-for="IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse"></span>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <h5 class="col-lg-12">4. Where will the technology be used?</h5>
+            <div class="col-lg-4">
+                <div class="form-check ">
+                    <label class="form-check-label">
+                        <input asp-for="WhereWillTechnologyBeUsed.RuralSettings" class="form-check-input" type="checkbox" />
+                        Rural settings
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input asp-for="WhereWillTechnologyBeUsed.UrbanSettings" class="form-check-input" type="checkbox" />
+                        Urban settings
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input asp-for="WhereWillTechnologyBeUsed.Outdoors" class="form-check-input" type="checkbox" />
+                        Outdoors
+                    </label>
+                </div>
+                <div class="form-check ">
+                    <label class="form-check-label">
+                        <input asp-for="WhereWillTechnologyBeUsed.Indoors" class="form-check-input" type="checkbox" />
+                        Indoors
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input asp-for="WhereWillTechnologyBeUsed.AtHome" class="form-check-input" type="checkbox" />
+                        At home
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input asp-for="WhereWillTechnologyBeUsed.PrimaryLevel" class="form-check-input" type="checkbox" />
+                        Primary level (health post, health center)
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input asp-for="WhereWillTechnologyBeUsed.SecondaryLevel" class="form-check-input" type="checkbox" />
+                        Secondary level (general hospital)
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input asp-for="WhereWillTechnologyBeUsed.TertiaryLevel" class="form-check-input" type="checkbox" />
+                        Tertiary level (specialist hospital)
+                    </label>
+                </div>
+            </div>
+            <span asp-validation-for="WhereWillTechnologyBeUsed"></span>
+        </div>
+        <hr class="mb-4">
+        <div class="row mb-4">
+            <div class="col">
                 <button class="btn btn-primary">Save</button>
             </div>
         </div>
     </form>
 </div>
+
+
+<div class="col">
+    <form>
+        <div class="row">
+            <div class="col">
+                <h1 class="mb-4">Commercial documentation</h1>
+                <p>This section will constitute the first user manual of the medical device, and will include the technical specifications available in future commercial documentation.</p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <h2>Commercial dossier</h2>
+                <div class="form-group">
+                    <label for="productName">Product name</label>
+                    <input type="text" id="productName" name="productName" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="commercialName">Commercial name</label>
+                    <input type="text" id="commercialName" name="commercialName" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="image">Logo</label>
+                    <input class="form-control" type="file" id="image" name="image" />
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="decription" rows="4" placeholder="Which need we address? Who we are? Discover our design, value proposal..."></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <h2>Intellectual property</h2>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="attribution" value="BY" />
+                    <label class="form-check-label" for="attribution">
+                        <span class="d-flex align-items-center mb-2">
+                            <img src="/images/icons/by.svg" class="w-2-rem mr-2" alt="Attribution icon">
+                            Attribution (BY)
+                        </span>
+                        <small class="d-block">
+                            Licensees may copy, distribute, display and perform the work and make
+                            derivative works and remixes based on it only if they give the author or licensor
+                            the credits (attribution) in the manner specified by these.
+                        </small>
+                    </label>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="shareAlike" value="SA" />
+                    <label class="form-check-label" for="shareAlike">
+                        <span class="d-flex align-items-center mb-2">
+                            <img src="/images/icons/sa.svg" class="w-2-rem mr-2" alt="Share-alike icon">
+                            Share-alike (SA)
+                        </span>
+                        <small class="d-block">
+                            Licensees may distribute derivative works only under a license identical ("not
+                            more restrictive") to the license that governs the original work. Without sharealike,
+                            derivative works might be sublicensed with compatible but more restrictive
+                            license clauses, e.g. CC BY to CC BY-NC.)
+                        </small>
+                    </label>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="nonCommercial" value="NC" />
+                    <label class="form-check-label" for="nonCommercial">
+                        <span class="d-flex align-items-center mb-2">
+                            <img src="/images/icons/nc.svg" class="w-2-rem mr-2" alt="Non-commercial icon">
+                            Non-commercial (NC)
+                        </span>
+                        <small class="d-block">
+                            Licensees may copy, distribute, display, and perform the work and make derivative works and remixes based on it only for non-commercial purposes.
+                        </small>
+                    </label>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="noDerivativeWorks" value="ND" />
+                    <label class="form-check-label" for="noDerivativeWorks">
+                        <span class="d-flex align-items-center mb-2">
+                            <img src="/images/icons/nd.svg" class="w-2-rem mr-2" alt="No Derivative Works icon">
+                            No Derivative Works (ND)
+                        </span>
+                        <small class="d-block">
+                            Licensees may copy, distribute, display and perform only verbatim copies of the
+                            work, not derivative works and remixes based on it.
+                        </small>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <h2>Legal issues</h2>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="decription" rows="4" placeholder="..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="declaimer">Declaimer</label>
+                    <input type="text" id="declaimer" name="declaimer" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <hr class="mb-4">
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
 
 @section Scripts {
     <script src="~/dist/toggle_formcheck_extra_fields.bundle.js"></script>
