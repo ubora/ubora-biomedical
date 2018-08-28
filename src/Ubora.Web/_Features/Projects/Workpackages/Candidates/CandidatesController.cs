@@ -107,7 +107,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             return RedirectToAction(nameof(Voting), "Candidates");
         }
 
-        [HttpPost("{candidateId}/delete")]
+        [HttpGet("{candidateId}/delete")]
         public async Task<IActionResult> RemoveCandidate()
         {
             var canRemoveCandidate = (await AuthorizationService.AuthorizeAsync(User, CurrentCandidate, Policies.CanRemoveCandidate)).Succeeded;
@@ -296,7 +296,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
                 CommentText = model.CommentText,
                 DiscussionId = CurrentCandidate.Id,
                 AdditionalCommentData = new Dictionary<string, object> { { "RoleKeys", roleKeys } }.ToImmutableDictionary()
-            }, Notice.Success(SuccessTexts.CandidateCommentAdded));
+            }, Notice.Success(SuccessTexts.CommentAdded));
             
             if (!ModelState.IsValid)
             {
@@ -335,7 +335,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
                 CommentText = model.CommentText,
                 CommentId = model.CommentId,
                 AdditionalCommentData = new Dictionary<string, object> { { "RoleKeys", roleKeys } }.ToImmutableDictionary()
-            }, Notice.Success(SuccessTexts.CandidateCommentEdited));
+            }, Notice.Success(SuccessTexts.CommentEdited));
 
             if (!ModelState.IsValid)
             {
@@ -365,7 +365,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             {
                 DiscussionId = CurrentCandidate.Id,
                 CommentId = commentId
-            }, Notice.Success(SuccessTexts.CandidateCommentRemoved));
+            }, Notice.Success(SuccessTexts.CommentDeleted));
 
             if (!ModelState.IsValid)
             {

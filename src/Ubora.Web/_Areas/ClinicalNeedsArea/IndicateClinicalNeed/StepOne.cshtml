@@ -1,4 +1,6 @@
-﻿@model StepOneModel
+﻿@using Ubora.Web._Features.ProjectList.Models
+
+@model StepOneModel
 
 @{
     ViewData["Title"] = "Indicate a new clinical need";
@@ -14,10 +16,7 @@
 
 <h1 class="d-inline-block">@ViewData["Title"]</h1>
 
-TODO: When link opens show user 'All projects' view
-<p>
-    Before indicating new clinical need be sure that this has not been already created. You can also check out existing projects from  <a target="_blank" asp-controller="ProjectList" asp-action="Search" title="Projects">here</a>.
-</p>
+<p>Please take a look at existing <a asp-action="LandingPage" asp-controller="LandingPage">clinical needs</a> and <a asp-route-Tab="@TabType.AllProjects" asp-action="Search" asp-controller="ProjectList">device projects</a> to make sure the clinical need has not already been indicated or solved.</p>
 
 <form class="js-onbeforeunload" asp-action="@nameof(IndicateClinicalNeedController.StepTwo)">
     <input asp-for="ClinicalNeedTag" type="hidden" />
@@ -44,6 +43,11 @@ TODO: When link opens show user 'All projects' view
 
 @section Scripts {
     <script>
+        @if (Model.RestoreStepOneUrl)
+        {
+            <text>history.replaceState({}, "@ViewData["Title"]", "@Url.Action(nameof(IndicateClinicalNeedController.StepOne))");</text>
+        }
+
         var contentInputSelector = "#@nameof(Model.Description)";
         var editorSelector = "#editor-container";
         var toolbarSelector = "#toolbar-container";

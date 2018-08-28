@@ -115,33 +115,6 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Comment added.
-        /// </summary>
-        public static string CandidateCommentAdded {
-            get {
-                return ResourceManager.GetString("CandidateCommentAdded", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Comment edited.
-        /// </summary>
-        public static string CandidateCommentEdited {
-            get {
-                return ResourceManager.GetString("CandidateCommentEdited", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Comment removed.
-        /// </summary>
-        public static string CandidateCommentRemoved {
-            get {
-                return ResourceManager.GetString("CandidateCommentRemoved", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Candidate edited.
         /// </summary>
         public static string CandidateEdited {
@@ -183,6 +156,33 @@ namespace Ubora.Web {
         public static string CandidateVoteAdded {
             get {
                 return ResourceManager.GetString("CandidateVoteAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comment added.
+        /// </summary>
+        public static string CommentAdded {
+            get {
+                return ResourceManager.GetString("CommentAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comment deleted.
+        /// </summary>
+        public static string CommentDeleted {
+            get {
+                return ResourceManager.GetString("CommentDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comment edited.
+        /// </summary>
+        public static string CommentEdited {
+            get {
+                return ResourceManager.GetString("CommentEdited", resourceCulture);
             }
         }
         
