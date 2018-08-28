@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.NodeServices;
 using Ubora.Domain;
@@ -20,9 +19,12 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Edit
             _nodeServices = nodeServices;
         }
 
-        [Authorize(Policies.CanEditClinicalNeed)]
         public virtual async Task<IActionResult> Edit()
         {
+            var isAuthorized = (await AuthorizationService.AuthorizeAsync(User, ClinicalNeed.Id, Policies.CanEditClinicalNeed)).Succeeded;
+            if (!isAuthorized)
+                return Forbid();
+
             var model = new EditClinicalNeedViewModel
             {
                 Title = ClinicalNeed.Title,

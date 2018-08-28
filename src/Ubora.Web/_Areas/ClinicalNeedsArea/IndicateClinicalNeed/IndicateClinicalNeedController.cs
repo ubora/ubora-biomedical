@@ -66,7 +66,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.IndicateClinicalNeed
                 AreaOfUsageTag = model.AreaOfUsageTag,
                 PotentialTechnologyTag = model.PotentialTechnologyTag,
                 Keywords = model.Keywords
-            }, Notice.Success("Clinical need indicated"));
+            }, Notice.None("Visual feedback obvious enough."));
 
             if (!ModelState.IsValid)
             {
