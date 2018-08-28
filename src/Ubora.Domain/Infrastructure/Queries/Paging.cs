@@ -30,5 +30,7 @@ namespace Ubora.Domain.Infrastructure.Queries
             get => _pageNumber ?? 1;
             set => _pageNumber = value;
         }
+
+        public int SkipCount => (PageNumber - 1) * PageSize;
     }
 }

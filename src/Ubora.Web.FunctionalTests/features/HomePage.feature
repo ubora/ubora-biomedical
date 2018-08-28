@@ -22,7 +22,7 @@ Scenario: Click on Community
 
 Scenario: Click on Search
     When I click on the element "span=Projects"
-    Then I expect the title of the page "Biomedical device projects - UBORA"
+    Then I expect the title of the page "Medical device projects - UBORA"
 
 Scenario: Check on console output
     Then I expect the console output to clear

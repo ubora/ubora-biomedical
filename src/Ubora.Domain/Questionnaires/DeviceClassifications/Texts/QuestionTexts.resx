@@ -295,7 +295,7 @@
     <value>Is it intended to allow direct diagnosis or monitoring of vital physiological processes?</value>
   </data>
   <data name="q3_4_2_1" xml:space="preserve">
-    <value>Are the vital physiological processes such as the patient may be in immediate danger if the vary (example: variations in cardiac performance, respiration, activity of the central nervous system)?</value>
+    <value>Is the patient in immediate danger if the vital parameters, that your device is influencing, monitoring or controlling, vary?</value>
   </data>
   <data name="q3_4_2_2" xml:space="preserve">
     <value>Is the device intended for diagnosis and monitoring?</value>
