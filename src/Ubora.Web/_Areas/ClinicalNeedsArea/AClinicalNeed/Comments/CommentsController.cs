@@ -55,9 +55,9 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
             {
                 Discussion = new DiscussionViewModel
                 {
-                    AddCommentActionPath = Url.Action(nameof(CommentsController.AddComment), "Comments"),
-                    EditCommentActionPath = Url.Action(nameof(CommentsController.EditComment), "Comments"),
-                    DeleteCommentActionPath = Url.Action(nameof(CommentsController.RemoveComment), "Comments"),
+                    AddCommentActionPath = Url.Action(nameof(AddComment), "Comments"),
+                    EditCommentActionPath = Url.Action(nameof(EditComment), "Comments"),
+                    DeleteCommentActionPath = Url.Action(nameof(DeleteComment), "Comments"),
                     Comments = Discussion.Comments.Select(async c => new CommentViewModel
                     {
                         Id = c.Id,
@@ -83,6 +83,12 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
             if (!ModelState.IsValid)
             {
                 return Comments();
+            }
+
+            var isAuthorized = (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanAddClinicalNeedComment)).Succeeded;
+            if (!isAuthorized)
+            {
+                return Forbid();
             }
 
             ExecuteUserCommand(new AddCommentCommand
@@ -133,7 +139,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
         }
 
         [HttpPost("delete-comment")]
-        public async Task<IActionResult> RemoveComment(Guid commentId)
+        public async Task<IActionResult> DeleteComment(Guid commentId)
         {
             if (!ModelState.IsValid)
             {
