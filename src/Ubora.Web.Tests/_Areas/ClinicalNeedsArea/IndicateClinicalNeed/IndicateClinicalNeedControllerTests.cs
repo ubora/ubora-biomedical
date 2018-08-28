@@ -27,26 +27,21 @@ namespace Ubora.Web.Tests._Areas.ClinicalNeedsArea.IndicateClinicalNeed
         }
 
         [Fact]
-        public async Task Finalize_Does_Not_Execute_Command_When_ModelState_Is_Invalid()
+        public void Finalize_Does_Not_Execute_Command_When_ModelState_Is_Invalid()
         {
-            var expectedResult = new ViewResult();
             var model = new StepTwoModel();
-
-            _controllerMock
-                .Setup(c => c.StepTwo(model, true))
-                .Returns(expectedResult);
 
             _controller.ModelState.AddModelError("", "dummy");
 
             // Act
-            var result = await _controller.Finalize(model);
+            var result = (ViewResult)_controller.Finalize(model);
 
             // Assert
-            result.Should().Be(expectedResult);
+            result.ViewName.Should().Be(nameof(_controller.StepTwo));
         }
 
         [Fact]
-        public async Task Finalize_Executes_Command_When_HappyPath()
+        public void Finalize_Executes_Command_When_HappyPath()
         {
             var model = new StepTwoModel
             {
@@ -65,7 +60,7 @@ namespace Ubora.Web.Tests._Areas.ClinicalNeedsArea.IndicateClinicalNeed
                 .Returns(CommandResult.Success);
 
             // Act
-            var result = await _controller.Finalize(model);
+            var result = _controller.Finalize(model);
 
             // Assert
             result.Should().BeOfType<RedirectToActionResult>();

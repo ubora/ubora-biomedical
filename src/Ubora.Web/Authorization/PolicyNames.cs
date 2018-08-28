@@ -38,6 +38,7 @@
     public const string CanManageResources = nameof(CanManageResources);
     public const string CanRemoveIsoStandardFromComplianceChecklist = nameof(CanRemoveIsoStandardFromComplianceChecklist);
     public const string CanIndicateClinicalNeeds = nameof(CanIndicateClinicalNeeds);
+    public const string CanAddClinicalNeedComment = nameof(CanAddClinicalNeedComment);
     public const string CanEditClinicalNeedComment = nameof(CanEditClinicalNeedComment);
     public const string CanEditClinicalNeed = nameof(CanEditClinicalNeed);
 }
