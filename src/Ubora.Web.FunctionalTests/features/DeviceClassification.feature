@@ -40,7 +40,7 @@ Scenario: I go through Device classification and pick always first option
         And I answer "Yes" to the question "Does it supply energy different than light in the visible spectrum?"
         And I answer "Yes" to the question "Is it intended to image in vivo distribution of radiopharmaceuticals?"
         And I answer "Yes" to the question "Is it intended to allow direct diagnosis or monitoring of vital physiological processes?"
-        And I answer "Yes" to the question "Are the vital physiological processes such as the patient may be in immediate danger if the vary (example: variations in cardiac performance, respiration, activity of the central nervous system)?"
+        And I answer "Yes" to the question "Is the patient in immediate danger if the vital parameters, that your device is influencing, monitoring or controlling, vary?"
         And I answer "Yes, and diagnosis and/or monitoring are done in a clinical situation while the patient is in immediate danger." to the question "Is the device intended for diagnosis and monitoring?"
         And I answer "Yes" to the question "Is it intended to emit ionizing radiation for diagnostics?"
         And I answer "Yes" to the question "Is it a software?"

@@ -94,7 +94,7 @@
                     </li>
                 }
                 <li class="nav-item notification-item d-none d-lg-block">
-                    <a class="nav-link nav-link-notification" asp-controller="Notifications" asp-action="Index" title="Notifications">
+                    <a id="notifications" class="nav-link nav-link-notification" asp-controller="Notifications" asp-action="Index" title="Notifications">
                         @await Component.InvokeAsync(typeof(UnreadNotificationsViewComponent))
                     </a>
                 </li>
@@ -113,7 +113,7 @@
         @if (SignInManager.IsSignedIn(User))
         {
             <div class="btn-group d-none d-lg-block">
-                <button type="button" class="btn-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button id="avatar-button" type="button" class="btn-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="@User.GetProfilePictureUrl()" class="avatar" />
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -122,11 +122,11 @@
                         <span class="d-block">@User.GetEmail()</span>
                     </p>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" asp-controller="Manage" asp-action="Index">
+                    <a id="profile-settings" class="dropdown-item" asp-controller="Manage" asp-action="Index">
                         Profile settings
                     </a>
                     <form asp-action="Logout" asp-controller="Account" method="post">
-                        <button class="btn btn-link dropdown-item" type="submit">
+                        <button id="logout" class="btn btn-link dropdown-item" type="submit">
                             Log out
                         </button>
                     </form>

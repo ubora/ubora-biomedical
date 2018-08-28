@@ -6,49 +6,49 @@
     ViewData["MenuOption"] = ProjectMenuOption.Overview;
 }
 
-    <div class="row">
-        <div class="col-lg-5">
-            <div class="row">
-                <div class="col-lg-12 col-sm-6">
-                    <div class="card">
-                        <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(Model.ImagePath)?"/images/project-default-image.png":Model.ImagePath)" alt="Illustrative project image">
-                        @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanChangeProjectImage))
-                        {
-                            <div class="card-img-overlay text-center">
-                                @if (Model.HasImage)
-                                {
-                                    <div class="flex-wrap">
-                                        <a class="btn-icon" asp-controller="Dashboard" asp-action="EditProjectImage">
-                                            <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
-                                            <span>Change image</span>
-                                        </a>
-                                        <a class="btn-icon" asp-controller="Dashboard" asp-action="RemoveProjectImage">
-                                            <i class="material-icons font-size-1-1 ">delete_forever</i>
-                                            <span>Remove image</span>
-                                        </a>
-                                    </div>
-                                }
-                                else
-                                {
+<div class="row">
+    <div class="col-lg-5">
+        <div class="row">
+            <div class="col-lg-12 col-sm-6">
+                <div class="card">
+                    <img class="card-img-top img-fluid w-100" src="@(string.IsNullOrEmpty(Model.ImagePath)?"/images/project-default-image.png":Model.ImagePath)" alt="Illustrative project image">
+                    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanChangeProjectImage))
+                    {
+                        <div class="card-img-overlay text-center">
+                            @if (Model.HasImage)
+                            {
+                                <div class="flex-wrap">
                                     <a class="btn-icon" asp-controller="Dashboard" asp-action="EditProjectImage">
                                         <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
-                                        <span>Add image</span>
+                                        <span>Change image</span>
                                     </a>
-                                }
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row mt-4">
-                <div class="col">
-                    @if (!Model.IsInDraft)
-                    {
-                    <span class="badge badge-pill badge-green font-size-1">WP1 accepted by UBORA formal review</span>
+                                    <a class="btn-icon" asp-controller="Dashboard" asp-action="RemoveProjectImage">
+                                        <i class="material-icons font-size-1-1 ">delete_forever</i>
+                                        <span>Remove image</span>
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <a class="btn-icon" asp-controller="Dashboard" asp-action="EditProjectImage">
+                                    <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
+                                    <span>Add image</span>
+                                </a>
+                            }
+                        </div>
                     }
                 </div>
             </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col">
+                @if (!Model.IsInDraft)
+                {
+                    <span class="badge badge-pill badge-green font-size-1">WP1 accepted by UBORA formal review</span>
+                }
+            </div>
+        </div>
 
             <div class="row mt-4">
                 <div class="col d-flex justify-content-between">
@@ -74,58 +74,66 @@
                         <dt>Project keywords</dt>
                         <dd class="mb-3">@Model.Keywords</dd>
                         <dt>Device classification</dt>
-                        <dd>@Model.DeviceClassification</dd>
+                        @if (@Model.DeviceClassification != null)
+                        {
+                            <dd>@Model.DeviceClassification</dd>
+                        }
+                        else
+                        {
+                            <span class="text-informative">To obtain device classification go to </span>
+                            <a asp-action="Index" asp-controller="DeviceClassifications" class="font-italic"> device classification questionnaire</a>
+                        }
                     </dl>
-                </div>
-            </div>
         </div>
-        <div class="col-lg-7">
-            <div class="row">
-                <div class="col d-flex justify-content-between">
-                    <h2>Project description</h2>
-                    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectTitleAndDescription))
-                    {
-                        <a class="btn-icon" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription">
-                            <i class="material-icons font-size-1-1">mode_edit</i>
-                            <span id="EditDescription">Edit</span>
-                        </a>
-                    }
-                    @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanJoinProject))
-                    {
-                        <div class="d-flex justify-content-end align-self-start">
-                            <a class="btn btn-outline-primary" href="@Url.Action("Join", "Members")">
-                                <i class="material-icons align-middle">add</i>
-                                <span>Join project</span>
-                            </a>
-                        </div>
-                    }
+    </div>
+</div>
+<div class="col-lg-7">
+    <div class="row">
+        <div class="col d-flex justify-content-between">
+            <h2>Project description</h2>
+            @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectTitleAndDescription))
+            {
+                <a class="btn-icon" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription">
+                    <i class="material-icons font-size-1-1">mode_edit</i>
+                    <span id="EditDescription">Edit</span>
+                </a>
+            }
+            @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanJoinProject))
+            {
+                <div class="d-flex justify-content-end align-self-start">
+                    <a class="btn btn-outline-primary" href="@Url.Action("Join", "Members")">
+                        <i class="material-icons align-middle">add</i>
+                        <span>Join project</span>
+                    </a>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    @if (!string.IsNullOrWhiteSpace(Model.Description))
-                    {
-                        <div class="text-markdown">@Model.Description</div>
-                    }
-                    else
-                    {
-                        <p class="text_placeholder">No project description set yet.</p>
-                    }
-                </div>
-            </div>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            @if (!string.IsNullOrWhiteSpace(Model.Description))
+            {
+                <div class="text-markdown">@Model.Description</div>
+            }
+            else
+            {
+                <p class="text_placeholder">No project description set yet.</p>
+            }
+        </div>
+    </div>
+</div>
+</div>
+
+@{
+    var canDeleteProject = (await AuthorizationService.AuthorizeAsync(User, Policies.CanDeleteProject)).Succeeded;
+}
+@if (canDeleteProject)
+{
+    <div class="my-4">
+        <hr />
+        <div>
+            <a class="btn btn-outline-danger" asp-controller="DeleteProject" asp-action="DeleteProject"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete project</span></a>
         </div>
     </div>
 
-    @{
-        var canDeleteProject = (await AuthorizationService.AuthorizeAsync(User, Policies.CanDeleteProject)).Succeeded;
-    }
-    @if (canDeleteProject)
-    {
-        <div class="my-4">
-            <hr />
-            <div>
-                <a class="btn btn-outline-danger" asp-controller="DeleteProject" asp-action="DeleteProject"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete project</span></a>
-            </div>
-        </div>
-
-    }
+}

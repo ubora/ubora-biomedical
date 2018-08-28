@@ -10,7 +10,7 @@
 <h1>Voting</h1>
 
 <div class="row mb-4">
-    <div class="col-xl-6 col-lg-8 col-md-6 col-sm-8 mb-xl-0 mb-sm-4">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-8 mb-xl-0 mb-sm-4">
         <div class="card">
             <img class="card-img-top img-fluid w-100" src="@Model.ImageUrl" alt="Illustrative project photo" />
             @if (canChangeProjectCandidateImage)
@@ -91,7 +91,7 @@
         </div>
     </div>
 
-    <div class="col-lg-6">
+    <div class="col-lg-6 col-md-9">
         @(Model.HasUserVoted ? Html.Partial("_VotePartial", Model.UserVotesViewModel) : Html.Partial("_AddVotePartial", Model.AddVoteViewModel))
     </div>
 

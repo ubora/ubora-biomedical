@@ -30,7 +30,7 @@ Scenario: I create a project
 
 Scenario: I click on My projects and open up TestProject
     When I click on the element "i=folder"
-    Then I expect the title of the page "Biomedical device projects - UBORA"
+    Then I expect the title of the page "Medical device projects - UBORA"
     When I click on the element "(//*[contains(text(),'TestProject')])"
     Then I expect the title of the page "Overview - UBORA"
 
@@ -50,7 +50,7 @@ Scenario: I click My projects
     When I click on the element "(//*[contains(text(),'TestProject')])"
     Then I expect the title of the page "Overview - UBORA"
     When I click on the element "i=folder"
-    Then I expect the title of the page "Biomedical device projects - UBORA"
+    Then I expect the title of the page "Medical device projects - UBORA"
 
 Scenario: I click Work packages
     When I click on the element "(//*[contains(text(),'TestProject')])"

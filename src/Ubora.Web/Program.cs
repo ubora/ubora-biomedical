@@ -17,7 +17,7 @@ namespace Ubora.Web
 
             try
             {
-                BuildWebHost(args).Run();
+                CreateWebHostBuilder(args).Build().Run();
             }
             catch (Exception e)
             {
@@ -33,7 +33,7 @@ namespace Ubora.Web
             }
         }
 
-        public static IWebHost BuildWebHost(string[] args)
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             var hostBuilder = WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
@@ -44,9 +44,7 @@ namespace Ubora.Web
                 hostBuilder.UseUrls(args[1]);
             }
 
-            var host = hostBuilder.Build();
-
-            return host;
+            return hostBuilder;
         }
     }
 }
