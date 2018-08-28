@@ -24,19 +24,21 @@
                         @Html.Partial("_LeftResourcePagesNavMenuPartial.cshtml")
                     </div>
                 </div>
-                <div class="col-xl-8 col-lg-8 order-lg-1 order-2 pt-xl-3 px-xl-7 px-3 pb-5">
+                <div class="order-lg-1 order-2 pt-xl-3 px-xl-7 px-3 pb-5  @(IsSectionDefined("Right") ? "col-lg-8 " : "col-xl-8")">
                     @RenderBody()
                 </div>
-                <div class="col-xl-2 col-lg-4 order-lg-2 order-1 py-xl-3 px-3 @(IsSectionDefined("Right") ? "border-left" : "")">
-                    @{
-                        if (IsSectionDefined("right"))
-                        {
+                @{
+                    if (IsSectionDefined("right"))
+                    {
+                        <div class="col-xl-2 col-lg-4 order-lg-2 order-1 py-xl-3 px-3 @(IsSectionDefined("Right") ? "border-left" : "")">
+
                             <div class="h-min-lg-100">
                                 @RenderSection("Right", required: false)
                             </div>
-                        }
+
+                        </div>
                     }
-                </div>
+                }
             </div>
         </div>
     </main>
