@@ -55,7 +55,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Edit
                 AreaOfUsageTag = model.AreaOfUsageTag,
                 PotentialTechnologyTag = model.PotentialTechnologyTag,
                 Keywords = model.Keywords
-            }, Notice.Success("TODO"));
+            }, Notice.Success("Clinical need edited"));
 
             if (!ModelState.IsValid)
                 return await Edit();

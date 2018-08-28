@@ -11,7 +11,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.IndicateClinicalNeed.Models
         public string Title { get; set; }
 
         [Required(ErrorMessage = "At least a short description is mandatory.")]
-        [MinLength(length: 25, ErrorMessage = "Please describe the clinical need in richer detail.")]
+        [MinLength(length: 50, ErrorMessage = "Please describe the clinical need in richer detail.")]
         public string Description { get; set; }
 
         #region Hidden "step two" input for back and forward functionality
@@ -22,6 +22,8 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.IndicateClinicalNeed.Models
         public string Keywords { get; set; }
 
         #endregion
+
+        public bool RestoreStepOneUrl { get; set; }
     }
 
     public class StepTwoModel : StepOneModel

@@ -27,33 +27,32 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed
                 ClinicalNeed = QueryProcessor.FindById<ClinicalNeed>(clinicalNeedId);
             }
 
-            if (ClinicalNeed != null)
-            {
-                var imageStorageProvider = HttpContext.RequestServices.GetService<ImageStorageProvider>();
-
-                var indicator = QueryProcessor.FindById<UserProfile>(ClinicalNeed.IndicatorUserId);
-                var quickInfo = QueryProcessor.FindById<ClinicalNeedQuickInfo>(ClinicalNeed.Id);
-                // TODO: batched query?
-
-                var urlTemplateParts = context.ActionDescriptor.AttributeRouteInfo.Template.Split("/");
-
-                ViewData["LayoutViewModel"] = new LayoutViewModel
-                {
-                    ActiveTab = GetCurrentTab(urlTemplateParts),
-                    IndicatorUserId = indicator.UserId,
-                    IndicatorFullName = indicator.FullName,
-                    IndicatedAt = ClinicalNeed.IndicatedAt,
-                    IndicatorProfilePictureUrl = imageStorageProvider.GetDefaultOrBlobUrl(indicator),
-                    NumberOfRelatedProjects = quickInfo.NumberOfRelatedProjects,
-                    NumberOfComments = quickInfo.NumberOfComments,
-                    ClinicalNeedTitle = ClinicalNeed.Title
-                };
-                ViewData["Title"] = ClinicalNeed.Title;
-            }
-            else
+            if (ClinicalNeed == null)
             {
                 context.Result = new NotFoundResult();
+                return;
             }
+
+            var imageStorageProvider = HttpContext.RequestServices.GetService<ImageStorageProvider>();
+
+            var indicator = QueryProcessor.FindById<UserProfile>(ClinicalNeed.IndicatorUserId);
+            var quickInfo = QueryProcessor.FindById<ClinicalNeedQuickInfo>(ClinicalNeed.Id);
+            // TODO: batched query?
+
+            var urlTemplateParts = context.ActionDescriptor.AttributeRouteInfo.Template.Split("/");
+
+            ViewData["LayoutViewModel"] = new LayoutViewModel
+            {
+                ActiveTab = GetCurrentTab(urlTemplateParts),
+                IndicatorUserId = indicator.UserId,
+                IndicatorFullName = indicator.FullName,
+                IndicatedAt = ClinicalNeed.IndicatedAt,
+                IndicatorProfilePictureUrl = imageStorageProvider.GetDefaultOrBlobUrl(indicator),
+                NumberOfRelatedProjects = quickInfo.NumberOfRelatedProjects,
+                NumberOfComments = quickInfo.NumberOfComments,
+                ClinicalNeedTitle = ClinicalNeed.Title
+            };
+            ViewData["Title"] = ClinicalNeed.Title;
         }
 
         private ActiveTabOfClinicalNeed GetCurrentTab(string[] urlTemplateParts)

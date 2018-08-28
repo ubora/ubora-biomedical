@@ -59,7 +59,7 @@ namespace Ubora.Web._Features.Users.Account
             return View();
         }
 
-        [HttpGet]
+        [HttpGet("login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
@@ -70,7 +70,7 @@ namespace Ubora.Web._Features.Users.Account
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
@@ -447,7 +447,7 @@ namespace Ubora.Web._Features.Users.Account
             }
         }
 
-        [HttpGet]
+        [HttpGet("access-denied")]
         public IActionResult AccessDenied()
         {
             return View();

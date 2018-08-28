@@ -115,7 +115,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
                 CommentText = model.CommentText,
                 DiscussionId = Discussion.Id,
                 AdditionalCommentData = new Dictionary<string, object>().ToImmutableDictionary()
-            }, Notice.Success("TODO"));
+            }, Notice.Success(SuccessTexts.CommentAdded));
 
             if (!ModelState.IsValid)
             {
@@ -147,7 +147,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
                 CommentText = model.CommentText,
                 CommentId = model.CommentId,
                 AdditionalCommentData = new Dictionary<string, object>().ToImmutableDictionary()
-            }, Notice.Success("TODO"));
+            }, Notice.Success(SuccessTexts.CommentEdited));
 
             if (!ModelState.IsValid)
             {
@@ -177,7 +177,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Comments
             {
                 DiscussionId = Discussion.Id,
                 CommentId = commentId
-            }, Notice.Success("TODO"));
+            }, Notice.Success(SuccessTexts.CommentDeleted));
 
             if (!ModelState.IsValid)
             {
