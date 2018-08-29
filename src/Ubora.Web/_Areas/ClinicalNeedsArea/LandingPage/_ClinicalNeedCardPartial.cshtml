@@ -63,19 +63,19 @@
 
             <div class="row font-size-0-8">
                 <div class="col color-grey">
-                    <a asp-route-clinicalNeedId="@Model.Id" asp-action="@nameof(CommentsController.Comments)" asp-controller="@nameof(CommentsController.Comments).RemoveSuffix()">
+                    <a asp-route-clinicalNeedId="@Model.Id" asp-area="@Areas.ClinicalNeedsArea" asp-action="@nameof(CommentsController.Comments)" asp-controller="@nameof(CommentsController.Comments).RemoveSuffix()">
                         <span class="d-xs-block">
                             @Model.NumberOfComments comments
                         </span>
                     </a>
                     <span class="dot d-xs-none"></span>
-                    <a asp-route-clinicalNeedId="@Model.Id" asp-action="@nameof(RelatedProjectsController.RelatedProjects)" asp-controller="@nameof(RelatedProjectsController).RemoveSuffix()">
+                    <a asp-route-clinicalNeedId="@Model.Id" asp-area="@Areas.ClinicalNeedsArea" asp-action="@nameof(RelatedProjectsController.RelatedProjects)" asp-controller="@nameof(RelatedProjectsController).RemoveSuffix()">
                         <span class="d-xs-block">
                             @Model.NumberOfRelatedProjects related projects
                         </span>
                     </a>
                     <span class="dot d-xs-none"></span>
-                    <span class="d-xs-block">Last activity @Html.TimeAgoHistorySpan(Model.IndicatedAt)</span>
+                    <span class="d-xs-block">Last activity @Html.TimeAgoHistorySpan(Model.LastActivityAt)</span>
                 </div>
             </div>
 

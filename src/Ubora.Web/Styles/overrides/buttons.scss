@@ -1,5 +1,4 @@
-.btn:not(.btn-icon),
-.btn:not(.btn-link) {
+.btn:not(.btn-icon):not(.btn-link) {
     min-width: 8rem;
 }
 
@@ -15,7 +14,6 @@
 
     &:focus,
     &:hover,
-    &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active,
     &:not(:disabled):not(.disabled):active:focus {
         background-color: $light-blue;
