@@ -15,6 +15,9 @@ namespace Ubora.Domain.Projects
     public class Project : Entity<Project>
     {
         public Guid Id { get; private set; }
+
+        public bool HasMarkdownBeenConvertedToQuillDelta { get; set; }
+
         public string Title { get; private set; }
         public string Gmdn { get; private set; }
         public string ClinicalNeedTags { get; private set; }
@@ -50,6 +53,11 @@ namespace Ubora.Domain.Projects
         public bool HasMember<T>(Guid userId) where T : ProjectMember
         {
             return DoesSatisfy(new HasMember<T>(userId));
+        }
+
+        private void Apply(WorkpackageOneStepEditedEventV2 @event)
+        {
+            HasMarkdownBeenConvertedToQuillDelta = true;
         }
 
         private void Apply(ProjectCreatedEvent e)

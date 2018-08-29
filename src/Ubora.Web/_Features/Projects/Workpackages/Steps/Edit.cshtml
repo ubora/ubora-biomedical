@@ -21,8 +21,10 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="form-group">
-        <textarea class="content_editable" asp-for="Content" rows="8"></textarea>
-        <span asp-validation-for="Content"></span>
+        <input asp-for="ContentQuillDelta" type="hidden" />
+        <span asp-validation-for="ContentQuillDelta"></span>
+        <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial")</div>
+        <div id="editor-container" class="form-group" style="display: none;"></div>
     </div>
     <div class="d-flex flex-wrap-reverse justify-content-center">
         <a class="btn btn-outline-primary" href="@Model.ReadStepUrl">Discard</a>
@@ -30,3 +32,14 @@
         <button class="btn btn-primary" type="submit">Save changes</button>
     </div>
 </form>
+
+@section Scripts {
+    <script>
+        var contentInputSelector = "#@(nameof(Model.ContentQuillDelta))";
+        var editorSelector = "#editor-container";
+        var toolbarSelector = "#toolbar-container";
+        var initialContent = @Html.Raw(Model.ContentQuillDelta);
+        UBORA.initAddOrEditResource(editorSelector, toolbarSelector, contentInputSelector, initialContent);
+
+    </script>
+}

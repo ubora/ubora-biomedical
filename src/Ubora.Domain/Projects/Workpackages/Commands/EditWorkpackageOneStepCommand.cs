@@ -9,7 +9,7 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
     public class EditWorkpackageOneStepCommand : UserProjectCommand
     {
         public string StepId { get; set; }
-        public string NewValue { get; set; }
+        public QuillDelta NewValue { get; set; }
 
         internal class Handler : CommandHandler<EditWorkpackageOneStepCommand>
         {
@@ -27,7 +27,7 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                     throw new InvalidOperationException($"{nameof(WorkpackageStep)} not found with id [{cmd.StepId}]");
                 }
 
-                var @event = new WorkpackageOneStepEditedEvent
+                var @event = new WorkpackageOneStepEditedEventV2
                 (
                     initiatedBy: cmd.Actor,
                     stepId: cmd.StepId,

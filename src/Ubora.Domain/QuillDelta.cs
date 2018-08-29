@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CSharpFunctionalExtensions;
 
 namespace Ubora.Domain
@@ -9,6 +10,11 @@ namespace Ubora.Domain
 
         public QuillDelta(string value = "{\"ops\":[{\"insert\":\"\\n\"}]}")
         {
+            if (!(value.StartsWith('{') && value.EndsWith('}')))
+            {
+                throw new ArgumentException("Not JSON");
+            }
+
             Value = value;
         }
 

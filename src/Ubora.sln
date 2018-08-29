@@ -19,7 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ubora.Web.Tests", "Ubora.Web.Tests\Ubora.Web.Tests.csproj", "{0E03B767-8A24-4205-89D9-E247116BEE90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ubora.ConsoleApp", "Ubora.ConsoleApp\Ubora.ConsoleApp.csproj", "{15ECACFE-CF86-41A5-8EF9-117B7539EB69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ubora.ConsoleApp", "Ubora.ConsoleApp\Ubora.ConsoleApp.csproj", "{15ECACFE-CF86-41A5-8EF9-117B7539EB69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ubora.MarkdownToQuillDeltaMigrator", "Ubora.MarkdownToQuillDeltaMigrator\Ubora.MarkdownToQuillDeltaMigrator.csproj", "{3B84EF1C-9D9D-4F62-B3B0-D813E4EF2403}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{15ECACFE-CF86-41A5-8EF9-117B7539EB69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15ECACFE-CF86-41A5-8EF9-117B7539EB69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15ECACFE-CF86-41A5-8EF9-117B7539EB69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B84EF1C-9D9D-4F62-B3B0-D813E4EF2403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B84EF1C-9D9D-4F62-B3B0-D813E4EF2403}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B84EF1C-9D9D-4F62-B3B0-D813E4EF2403}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B84EF1C-9D9D-4F62-B3B0-D813E4EF2403}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

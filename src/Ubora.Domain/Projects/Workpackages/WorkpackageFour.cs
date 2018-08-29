@@ -33,5 +33,14 @@ namespace Ubora.Domain.Projects.Workpackages
             step.Title = e.Title;
             step.Content = e.NewValue;
         }
+
+        [Obsolete]
+        private void Apply(WorkpackageFourStepEditedEventV2 e)
+        {
+            var step = _steps.Single(x => x.Id == e.StepId);
+
+            step.Title = e.Title;
+            step.ContentV2 = e.NewValue;
+        }
     }
 }

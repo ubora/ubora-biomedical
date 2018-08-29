@@ -46,11 +46,13 @@ namespace Ubora.Web._Features._Shared
             CreateMap<WorkpackageStep, EditStepViewModel>()
                 .ForMember(dest => dest.StepId, o => o.MapFrom(src => src.Id))
                 .ForMember(dest => dest.ReadStepUrl, o => o.Ignore())
-                .ForMember(dest => dest.EditStepUrl, o => o.Ignore());
+                .ForMember(dest => dest.EditStepUrl, o => o.Ignore())
+                .ForMember(dest => dest.ContentQuillDelta, o => o.Ignore());
 
             CreateMap<WorkpackageStep, ReadStepViewModel>()
                 .IncludeBase<WorkpackageStep, EditStepViewModel>()
-                .ForMember(dest => dest.EditButton, o => o.Ignore());
+                .ForMember(dest => dest.EditButton, o => o.Ignore())
+                .ForMember(dest => dest.ContentHtml, o => o.Ignore());
 
             CreateMap<UserProfile, UserListItemViewModel>()
                 .ForMember(dest => dest.ProfilePictureLink, o => o.Ignore())
