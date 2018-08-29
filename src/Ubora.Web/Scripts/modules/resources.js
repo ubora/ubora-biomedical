@@ -7,6 +7,8 @@
             }
         });
 
+    console.log('foo2')
+
     if (!!initialContent) {
         quill.setContents(initialContent, 'api');
     }

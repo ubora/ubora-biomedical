@@ -23,6 +23,7 @@ namespace Ubora.Domain.Tests
             autoFixture.Register<DeviceClassificationQuestionnaireTree>(() => new DeviceClassificationQuestionnaireTreeFactory().CreateDeviceClassificationVersionOne());
             autoFixture.Register<ApplicableRegulationsQuestionnaireTree>(() => ApplicableRegulationsQuestionnaireTreeFactory.Create());
             autoFixture.Register<IntendedUser>(() => new FamilyMember());
+            autoFixture.Register<QuillDelta>(() => new QuillDelta("{" + Guid.NewGuid() + "}"));
 
             var uboraEventTypes = DomainAutofacModule.FindDomainEventConcreteTypes();
 

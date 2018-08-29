@@ -12,8 +12,8 @@ namespace Ubora.Domain.Tests.Resources
         [Fact]
         public void Resource_Page_Content_Can_Be_Edited()
         {
-            var initialContent = new QuillDelta("initialBody");
-            var editedContent = new QuillDelta("editedBody");
+            var initialContent = new QuillDelta("{initialBody}");
+            var editedContent = new QuillDelta("{editedBody}");
             
             var resource = new ResourcePageSeeder()
                 .WithTitle("initialTitle")

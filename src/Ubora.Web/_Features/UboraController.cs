@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Infrastructure.Events;
@@ -10,6 +11,8 @@ using Ubora.Web._Features.Home;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.NodeServices;
+using Ubora.Domain;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features._Shared.Notices;
 
@@ -76,6 +79,20 @@ namespace Ubora.Web._Features
             {
                 Notices.Enqueue(successNotice);
             }
+        }
+
+        protected async Task<string> ConvertQuillDeltaToHtml(QuillDelta quillDelta)
+        {
+            var nodeServices = ServiceLocator.GetService<INodeServices>();
+
+            return await nodeServices.InvokeAsync<string>("./Scripts/backend/ConvertQuillDeltaToHtml.js", quillDelta?.Value);
+        }
+
+        protected async Task<string> SanitizeQuillDeltaForEditing(QuillDelta quillDelta)
+        {
+            var nodeServices = ServiceLocator.GetService<INodeServices>();
+
+            return await nodeServices.InvokeAsync<string>("./Scripts/backend/SanitizeQuillDelta.js", quillDelta?.Value);
         }
 
         protected IActionResult RedirectToLocal(string returnUrl)

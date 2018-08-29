@@ -36,7 +36,7 @@ namespace Ubora.Web.Tests._Areas.ResourcesArea.ResourcePages.CommandHandlers
             {
                 ResourcePageId = resourcePageId,
                 Title = "testTitle",
-                Body = new QuillDelta("testValue"),
+                Body = new QuillDelta("{testValue}"),
                 Actor = new DummyUserInfo(),
                 MenuPriority = 123
             });
