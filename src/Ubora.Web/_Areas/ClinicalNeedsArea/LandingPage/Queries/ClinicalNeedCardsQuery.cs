@@ -41,7 +41,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.LandingPage.Queries
                         ClinicalNeedTag = clinicalNeed.ClinicalNeedTag,
                         PotentialTechnologyTag = clinicalNeed.PotentialTechnologyTag,
                         Keywords = clinicalNeed.Keywords,
-                        IndicatedAt = clinicalNeed.IndicatedAt,
+                        LastActivityAt = clinicalNeed.IndicatedAt,
                         IndicatorUserId = clinicalNeed.IndicatorUserId
                     })
                     .Skip(query.Paging.SkipCount)
@@ -53,6 +53,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.LandingPage.Queries
                     cn.NumberOfComments = quickInfoes[cn.Id].NumberOfComments;
                     cn.NumberOfRelatedProjects = quickInfoes[cn.Id].NumberOfRelatedProjects;
                     cn.IndicatorFullName = userProfiles[cn.IndicatorUserId].FullName;
+                    cn.LastActivityAt = quickInfoes[cn.Id].LastActivityAt;
                     return cn;
                 }).ToList();
 

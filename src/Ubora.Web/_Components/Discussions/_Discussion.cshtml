@@ -39,8 +39,8 @@
                             @if (comment.CanBeEdited)
                             {
                                 <div class="comment-actions">
-                                    <button class="btn-link mr-2" role="button" data-toggle="collapse" data-target="#@comment.Id">Edit</button>
-                                    <button class="btn-link mr-2" role="button" data-toggle="modal" data-target="#removeCommentModal-@comment.Id">Delete</button>
+                                    <button class="btn btn-link mr-2 p-0" role="button" data-toggle="collapse" data-target="#edit-@comment.Id">Edit</button>
+                                    <button class="btn btn-link mr-2 p-0" role="button" data-toggle="modal" data-target="#removeCommentModal-@comment.Id">Delete</button>
                                 </div>
                                 @Html.Partial("_DeleteComment.cshtml", new DeleteCommentModel
                                     {
@@ -49,16 +49,13 @@
                                         DeleteCommentActionPath = Model.DeleteCommentActionPath
                                     })
 
-                                <div class="collapse" id="@comment.Id">
-                                    <div class="pt-3">
-                                        @Html.Partial("_EditComment.cshtml", model: new EditCommentModel
-                                       {
-                                           CommentId = comment.Id,
-                                           CommentText = comment.CommentText,
-                                           EditCommentActionPath = Model.EditCommentActionPath
-                                       })
-                                    </div>
-                                </div>
+                               @Html.Partial("_EditComment.cshtml", model: new EditCommentModel
+                               {
+                                   CommentId = comment.Id,
+                                   CommentText = comment.CommentText,
+                                   EditCommentActionPath = Model.EditCommentActionPath
+                               })
+
                             }
                             else
                             {

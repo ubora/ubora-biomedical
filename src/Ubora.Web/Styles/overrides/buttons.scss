@@ -1,5 +1,4 @@
-.btn:not(.btn-icon),
-.btn:not(.btn-link) {
+.btn:not(.btn-icon):not(.btn-link) {
     min-width: 8rem;
 }
 
@@ -15,7 +14,6 @@
 
     &:focus,
     &:hover,
-    &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active,
     &:not(:disabled):not(.disabled):active:focus {
         background-color: $light-blue;
@@ -27,7 +25,7 @@
 
 .btn-outline-primary .material-icons,
 .btn-outline-primary span {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 .btn-disabled[disabled] {
@@ -47,7 +45,7 @@
 
 .btn[disabled]:focus,
 .btn[disabled]:hover {
-  cursor: not-allowed;
+    cursor: not-allowed;
 }
 
 .btn-light {
@@ -56,9 +54,9 @@
 }
 
 .btn-cta {
-  background-color: $orange;
-  border-color: $orange;
-  color: $white;
+    background-color: $orange;
+    border-color: $orange;
+    color: $white;
 }
 
 .btn-icon {
@@ -77,7 +75,7 @@
 }
 
 .btn-icon.dropdown-toggle::after {
-    display:none;
+    display: none;
 }
 
 a.btn-icon:hover {
