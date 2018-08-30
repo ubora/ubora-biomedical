@@ -1,12 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using CSharpFunctionalExtensions;
+using Newtonsoft.Json;
 
 namespace Ubora.Domain
 {
     public class QuillDelta : ValueObject
     {
-        public string Value { get; }
+        private string _value;
+
+        [JsonIgnore]
+        public string Value => _value ?? (_value = CompressedValue != null ? CompressedValue.Decompress() : RawValue);
+
+        [JsonProperty(PropertyName = "Value", NullValueHandling = NullValueHandling.Ignore)]
+        protected string RawValue { get; set; }
+
+        [JsonProperty]
+        protected string CompressedValue { get; set; }
+
+        [JsonConstructor]
+        protected QuillDelta(string rawValue, string compressedValue)
+        {
+            RawValue = rawValue;
+            CompressedValue = compressedValue;
+        }
 
         public QuillDelta(string value = "{\"ops\":[{\"insert\":\"\\n\"}]}")
         {
@@ -15,7 +32,7 @@ namespace Ubora.Domain
                 throw new ArgumentException("Not JSON");
             }
 
-            Value = value;
+            CompressedValue = value.Compress();
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

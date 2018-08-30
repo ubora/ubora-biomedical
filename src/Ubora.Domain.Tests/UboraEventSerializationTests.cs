@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
 using AutoFixture;
 using AutoFixture.Kernel;
 using FluentAssertions;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Projects.StructuredInformations.IntendedUsers;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
