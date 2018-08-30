@@ -44,7 +44,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
                 Title = Project.Title
             };
 
-            return View(nameof(EditProjectTitleAndDescription),editProjectDescription);
+            return View(nameof(EditProjectTitleAndDescription), editProjectDescription);
         }
 
         [HttpPost("edit-project")]
@@ -87,16 +87,18 @@ namespace Ubora.Web._Features.Projects.Dashboard
                 return EditProjectImage();
             }
 
-            var imageStream = model.Image.OpenReadStream();
-            var blobLocation = BlobLocations.GetProjectImageBlobLocation(ProjectId);
-            await _imageStorage.SaveImageAsync(imageStream, blobLocation, SizeOptions.AllDefaultSizes);
-
-            ExecuteUserProjectCommand(new UpdateProjectImageCommand
+            using (var imageStream = model.Image.OpenReadStream())
             {
-                ProjectId = ProjectId,
-                BlobLocation = blobLocation,
-                Actor = UserInfo
-            }, Notice.Success(SuccessTexts.ProjectImageUploaded));
+                var blobLocation = BlobLocations.GetProjectImageBlobLocation(ProjectId);
+                await _imageStorage.SaveImageAsync(imageStream, blobLocation, SizeOptions.AllDefaultSizes);
+
+                ExecuteUserProjectCommand(new UpdateProjectImageCommand
+                {
+                    ProjectId = ProjectId,
+                    BlobLocation = blobLocation,
+                    Actor = UserInfo
+                }, Notice.Success(SuccessTexts.ProjectImageUploaded));
+            }
 
             if (!ModelState.IsValid)
             {
