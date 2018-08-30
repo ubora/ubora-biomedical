@@ -21,7 +21,8 @@ namespace Ubora.Domain.Projects.Workpackages
             _steps.Add(new WorkpackageStep("QualityCriteria", "Quality criteria"));
             _steps.Add(new WorkpackageStep("ResultsFromVitroOrVivo", "Results from vitro/vivo"));
         }
-      
+
+        [Obsolete]
         private void Apply(WorkpackageFourStepEdited e)
         {
             var step = GetSingleStep(e.StepId);
@@ -34,7 +35,6 @@ namespace Ubora.Domain.Projects.Workpackages
             step.Content = e.NewValue;
         }
 
-        [Obsolete]
         private void Apply(WorkpackageFourStepEditedEventV2 e)
         {
             var step = _steps.Single(x => x.Id == e.StepId);
