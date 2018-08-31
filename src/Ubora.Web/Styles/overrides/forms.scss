@@ -54,7 +54,7 @@ select.form-control:not([size]):not([multiple]) {
         }
 
         &.input-validation-error {
-            border: 1px solid $orange;
+            border: 1px solid $red;
 
             &:focus {
                 border: 2px solid $light-blue;
@@ -69,7 +69,6 @@ label.custom-file {
 }
 
 .validation-summary-errors {
-    color: $orange;
     font-size: 120%;
 }
 
@@ -84,7 +83,7 @@ label.custom-file {
 }
 
 .field-validation-error {
-    color: $orange;
+    color: $red;
     display: block;
 }
 
@@ -94,7 +93,7 @@ label.custom-file {
 }
 
 .form-group .form-control.input-validation-error {
-    border-bottom: 1px solid $orange;
+    border-bottom: 1px solid $red;
 }
 
 .form-group.search {
