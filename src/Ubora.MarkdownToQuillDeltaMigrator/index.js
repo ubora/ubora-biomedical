@@ -1,6 +1,6 @@
 ﻿module.exports = function (callback, markdown) {
     const marked = require('marked');
-    const { convertHtmlToDelta } = require('node-quill-converter');
+    const { convertHtmlToDelta } = require('./node-quill-converter.js');
 
     const renderer = new marked.Renderer();
     renderer.link = (href, title, text) => {
