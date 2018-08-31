@@ -23,7 +23,11 @@ namespace Ubora.Domain.Projects
         public string ClinicalNeedTags { get; private set; }
         public string AreaOfUsageTags { get; private set; }
         public string PotentialTechnologyTags { get; private set; }
+
+        [Obsolete]
         public string Description { get; private set; }
+        public QuillDelta DescriptionV2 { get; set; }
+
         public bool IsInDraft { get; private set; } = true;
         public BlobLocation ProjectImageBlobLocation { get; private set; }
         public DateTime ProjectImageLastUpdated { get; private set; }
@@ -128,9 +132,15 @@ namespace Ubora.Domain.Projects
             _members.Add(new ProjectLeader(e.UserId));
         }
 
+        [Obsolete]
         private void Apply(EditProjectDescriptionEvent e)
         {
             Description = e.Description;
+        }
+
+        private void Apply(ProjectDescriptionEditedEventV2 e)
+        {   
+            DescriptionV2 = e.Description;
         }
 
         private void Apply(ProjectTitleEditedEvent e)

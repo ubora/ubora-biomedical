@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TwentyTwenty.Storage;
+using Ubora.Domain;
 using Ubora.Domain.Projects._Commands;
-using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web._Features._Shared.Notices;
@@ -26,20 +26,21 @@ namespace Ubora.Web._Features.Projects.Dashboard
         }
 
         [AllowAnonymous]
-        public IActionResult Dashboard([FromServices]ProjectDashboardViewModel.Factory modelFactory)
+        public async Task<IActionResult> Dashboard([FromServices]ProjectDashboardViewModel.Factory modelFactory)
         {
             var model = modelFactory.Create(Project, User);
+            model.DescriptionHtml = await ConvertQuillDeltaToHtml(Project.DescriptionV2);
 
             return View(nameof(Dashboard), model);
         }
 
         [Route(nameof(EditProjectTitleAndDescription))]
         [Authorize(Policies.CanEditProjectTitleAndDescription)]
-        public IActionResult EditProjectTitleAndDescription()
+        public async Task<IActionResult> EditProjectTitleAndDescription()
         {
             var editProjectDescription = new EditProjectTitleAndDescriptionViewModel
             {
-                ProjectDescription = Project.Description,
+                DescriptionQuillDelta = await SanitizeQuillDeltaForEditing(Project.DescriptionV2),
                 Title = Project.Title
             };
 
@@ -49,23 +50,23 @@ namespace Ubora.Web._Features.Projects.Dashboard
         [HttpPost]
         [Route(nameof(EditProjectTitleAndDescription))]
         [Authorize(Policies.CanEditProjectTitleAndDescription)]
-        public IActionResult EditProjectTitleAndDescription(EditProjectTitleAndDescriptionViewModel model)
+        public async Task<IActionResult> EditProjectTitleAndDescription(EditProjectTitleAndDescriptionViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return EditProjectTitleAndDescription();
+                return await EditProjectTitleAndDescription();
             }
 
             ExecuteUserProjectCommand(new UpdateProjectTitleAndDescriptionCommand
             {
                 ProjectId = ProjectId,
-                Description = model.ProjectDescription,
+                Description = new QuillDelta(model.DescriptionQuillDelta),
                 Title = model.Title
             }, Notice.Success(SuccessTexts.ProjectTitleAndDescriptionUpdated));
 
             if (!ModelState.IsValid)
             {
-                return EditProjectTitleAndDescription();
+                return await EditProjectTitleAndDescription();
             }
 
             return RedirectToAction(nameof(Dashboard));

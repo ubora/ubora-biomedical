@@ -87,7 +87,7 @@ namespace Ubora.MarkdownToQuillDeltaMigrator
                                 .Execute(new ConvertProjectWpStepsFromMarkdownToQuillDeltaCommand
                                 {
                                     ProjectId = projectId,
-                                    Actor = new UserInfo(Guid.Empty, "System")
+                                    Actor = new UserInfo(Guid.Parse("52309cef-225a-4442-aa10-57f9fe03c8ed"), "Kaspar")
                                 });
                         }
                     }

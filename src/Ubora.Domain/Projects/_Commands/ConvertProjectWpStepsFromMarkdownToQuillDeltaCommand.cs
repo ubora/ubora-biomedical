@@ -5,6 +5,7 @@ using System.Linq;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Events;
+using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects._Commands
 {
@@ -41,6 +42,9 @@ namespace Ubora.Domain.Projects._Commands
                 var wp4 = _documentSession.Load<WorkpackageFour>(cmd.ProjectId);
 
                 var events = new List<object>();
+
+                var projectDescriptionQuillDelta = _markdownToQuillDeltaConverter.Convert(project.Description);
+                events.Add(new ProjectDescriptionEditedEventV2(cmd.Actor, project.Id, projectDescriptionQuillDelta));
 
                 if (wp1 != null)
                 {
