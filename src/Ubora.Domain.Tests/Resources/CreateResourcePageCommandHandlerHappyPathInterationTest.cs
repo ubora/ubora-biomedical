@@ -18,7 +18,7 @@ namespace Ubora.Domain.Tests.Resources
             {
                 ResourcePageId = resourceId,
                 Title = "Introduction page",
-                Body = new QuillDelta("Hello, and welcome!"),
+                Body = new QuillDelta("{Hello, and welcome!}"),
                 Actor = new DummyUserInfo(),
                 MenuPriority = 123,
                 ParentCategoryId = null
@@ -37,7 +37,7 @@ namespace Ubora.Domain.Tests.Resources
 
             resourcePage.Id.Should().Be(resourceId);
             resourcePage.Title.Should().Be("Introduction page");
-            resourcePage.Body.Should().Be(new QuillDelta("Hello, and welcome!"));
+            resourcePage.Body.Should().Be(new QuillDelta("{Hello, and welcome!}"));
             resourcePage.MenuPriority.Should().Be(123);
             resourcePage.CategoryId.Should().BeNull();
 

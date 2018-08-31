@@ -24,12 +24,21 @@ namespace Ubora.Domain.Projects.Workpackages
             _steps.Add(new WorkpackageStep("ProductRequirements", "Product requirements"));
         }
 
+        [Obsolete]
         private void Apply(WorkpackageOneStepEditedEvent e)
         {
             var step = _steps.Single(x => x.Id == e.StepId);
 
             step.Title = e.Title;
             step.Content = e.NewValue;
+        }
+
+        private void Apply(WorkpackageOneStepEditedEventV2 e)
+        {
+            var step = _steps.Single(x => x.Id == e.StepId);
+
+            step.Title = e.Title;
+            step.ContentV2 = e.NewValue;
         }
 
         private void Apply(WorkpackageOneSubmittedForReviewEvent e)
