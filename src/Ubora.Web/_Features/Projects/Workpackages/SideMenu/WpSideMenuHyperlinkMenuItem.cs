@@ -39,26 +39,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
         {
             get
             {
-                if (IsSelected && Status == WorkpackageStatus.Unlockable)
-                {
-                    return "active-status unlockable-status";
-                }
-
-                if (IsSelected)
-                {
-                    return "active-status";
-                }
+                var isSelected = IsSelected ? "active-status " : "";
 
                 switch (Status)
                 {
                     case WorkpackageStatus.Unlockable:
-                        return "unlockable-status";
+                        return isSelected + "unlockable-status";
                     case WorkpackageStatus.Accepted:
-                        return "checked-status";
+                        return isSelected + "checked-status";
                     case WorkpackageStatus.Closed:
-                        return "muted-status";
+                        return isSelected + "muted-status";
                     default:
-                        return "";
+                        return isSelected;
                 }
             }
         }
