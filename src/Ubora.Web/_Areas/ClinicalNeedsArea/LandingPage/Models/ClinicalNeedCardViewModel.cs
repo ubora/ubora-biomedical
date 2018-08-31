@@ -16,6 +16,6 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.LandingPage.Models
         public string IndicatorFullName { get; set; }
         public Guid IndicatorUserId { get; set; }
         public int NumberOfComments { get; set; }
-        public DateTimeOffset IndicatedAt { get; set; }
+        public DateTimeOffset LastActivityAt { get; set; }
     }
 }
