@@ -92,7 +92,7 @@ namespace Ubora.Web._Features
         {
             var nodeServices = ServiceLocator.GetService<INodeServices>();
 
-            return await nodeServices.InvokeAsync<string>("./Scripts/backend/SanitizeQuillDelta.js", quillDelta?.Value);
+            return await nodeServices.InvokeAsync<string>("./Scripts/backend/SanitizeQuillDelta.js", quillDelta?.Value ?? new QuillDelta().Value);
         }
 
         protected IActionResult RedirectToLocal(string returnUrl)

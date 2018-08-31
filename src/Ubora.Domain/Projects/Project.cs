@@ -26,13 +26,13 @@ namespace Ubora.Domain.Projects
 
         [Obsolete]
         public string Description { get; private set; }
-        public QuillDelta DescriptionV2 { get; set; }
+        public QuillDelta DescriptionV2 { get; private set; }
 
         public bool IsInDraft { get; private set; } = true;
         public BlobLocation ProjectImageBlobLocation { get; private set; }
         public DateTime ProjectImageLastUpdated { get; private set; }
         public bool IsDeleted { get; private set; }
-        public DateTime CreatedDateTime { get; set; }
+        public DateTime CreatedDateTime { get; private set; }
 
         [JsonIgnore]
         public bool HasImage => new HasImageSpec().IsSatisfiedBy(this);
@@ -73,6 +73,7 @@ namespace Ubora.Domain.Projects
             Gmdn = e.Gmdn;
             PotentialTechnologyTags = e.PotentialTechnology;
             CreatedDateTime = e.Timestamp.UtcDateTime;
+            DescriptionV2 = new QuillDelta();
 
             var userId = e.InitiatedBy.UserId;
             var leader = new ProjectLeader(userId);
