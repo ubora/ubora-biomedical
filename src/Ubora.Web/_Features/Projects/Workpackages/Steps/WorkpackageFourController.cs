@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.NodeServices;
+using Ubora.Domain;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.Specifications;
 using Ubora.Domain.Projects.Workpackages;
@@ -19,14 +22,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     public class WorkpackageFourController : ProjectController
     {
         private WorkpackageFour _workpackageFour;
-
         public WorkpackageFour WorkpackageFour =>
             _workpackageFour ?? (_workpackageFour = QueryProcessor.FindById<WorkpackageFour>(ProjectId));
-
-        public IActionResult FirstStep()
-        {
-            return RedirectToAction(nameof(Read), new { stepId = WorkpackageFour.Steps.First().Id });
-        }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
@@ -35,12 +32,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
         }
 
+        public IActionResult FirstStep()
+        {
+            return RedirectToAction(nameof(Read), new { stepId = WorkpackageFour.Steps.First().Id });
+        }
+
         [Route("{stepId}")]
         [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
-        public IActionResult Read(string stepId)
+        public async Task<IActionResult> Read(string stepId)
         {
             var step = WorkpackageFour.GetSingleStep(stepId);
             var model = AutoMapper.Map<ReadStepViewModel>(step);
+            model.ContentHtml = await ConvertQuillDeltaToHtml(step.ContentV2);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
             model.EditButton = UiElementVisibility.Visible();
@@ -50,11 +53,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         [Route("{stepId}/Edit")]
         [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
-        public IActionResult Edit(string stepId)
+        public async Task<IActionResult> Edit(string stepId)
         {
             var step = WorkpackageFour.GetSingleStep(stepId);
 
             var model = AutoMapper.Map<EditStepViewModel>(step);
+            model.ContentQuillDelta = await SanitizeQuillDeltaForEditing(step.ContentV2);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
 
@@ -64,22 +68,22 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [HttpPost]
         [Route("{stepId}/Edit")]
         [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
-        public IActionResult Edit(EditStepPostModel model)
+        public async Task<IActionResult> Edit(EditStepPostModel model)
         {
             if (!ModelState.IsValid)
             {
-                return Edit(model.StepId);
+                return await Edit(model.StepId);
             }
 
             ExecuteUserProjectCommand(new EditWorkpackageFourStepCommand
             {
                 StepId = model.StepId,
-                NewValue = model.Content
+                NewValue = new QuillDelta(model.ContentQuillDelta)
             }, Notice.Success("Changes saved"));
 
             if (!ModelState.IsValid)
             {
-                return Edit(model.StepId);
+                return await Edit(model.StepId);
             }
 
             return RedirectToAction(nameof(Read), new { stepId = model.StepId });
