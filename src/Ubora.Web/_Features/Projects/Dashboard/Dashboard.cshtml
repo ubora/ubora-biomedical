@@ -50,78 +50,74 @@
             </div>
         </div>
 
-            <div class="row mt-4">
-                <div class="col d-flex justify-content-between">
-                    <h2>Medical tags</h2>
-                    @if (Model.IsProjectMember)
+        <div class="row mt-4">
+            <div class="col d-flex justify-content-between">
+                <h2>Medical tags</h2>
+                @if (Model.IsProjectMember)
+                {
+                    <a class="btn-icon" asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@Url.Action("Dashboard","Dashboard")">
+                        <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
+                        <span>Edit</span>
+                    </a>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <dl>
+                    <dt>Clinical need</dt>
+                    <dd class="mb-3">@Model.ClinicalNeedTag</dd>
+                    <dt>Area</dt>
+                    <dd class="mb-3">@Model.AreaOfUsageTag</dd>
+                    <dt>Technology</dt>
+                    <dd class="mb-3">@Model.PotentialTechnologyTag</dd>
+                    <dt>Project keywords</dt>
+                    <dd class="mb-3">@Model.Keywords</dd>
+                    <dt>Device classification</dt>
+                    @if (@Model.DeviceClassification != null)
                     {
-                        <a class="btn-icon" asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@Url.Action("Dashboard","Dashboard")">
-                            <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
-                            <span>Edit</span>
-                        </a>
+                        <dd>@Model.DeviceClassification</dd>
                     }
+                    else
+                    {
+
+                        @: <span class="text-informative">To obtain device classification go to </span>
+                        <a asp-action="Index" asp-controller="DeviceClassifications" class="font-italic"> device classification questionnaire</a>
+                    }
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-7">
+        <div class="row">
+            <div class="col d-flex justify-content-between">
+                <h2>Project description</h2>
+                @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectTitleAndDescription))
+                {
+                    <a class="btn-icon" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription">
+                        <i class="material-icons font-size-1-1">mode_edit</i>
+                        <span id="EditDescription">Edit</span>
+                    </a>
+                }
+                @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanJoinProject))
+                {
+                    <div class="d-flex justify-content-end align-self-start">
+                        <a class="btn btn-outline-primary" href="@Url.Action("Join", "Members")">
+                            <i class="material-icons align-middle">add</i>
+                            <span>Join project</span>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div id="content-body">
+                    @Html.Raw(Model.DescriptionHtml)
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <dl>
-                        <dt>Clinical need</dt>
-                        <dd class="mb-3">@Model.ClinicalNeedTag</dd>
-                        <dt>Area</dt>
-                        <dd class="mb-3">@Model.AreaOfUsageTag</dd>
-                        <dt>Technology</dt>
-                        <dd class="mb-3">@Model.PotentialTechnologyTag</dd>
-                        <dt>Project keywords</dt>
-                        <dd class="mb-3">@Model.Keywords</dd>
-                        <dt>Device classification</dt>
-                        @if (@Model.DeviceClassification != null)
-                        {
-                            <dd>@Model.DeviceClassification</dd>
-                        }
-                        else
-                        {
-                            <span class="text-informative">To obtain device classification go to </span>
-                            <a asp-action="Index" asp-controller="DeviceClassifications" class="font-italic"> device classification questionnaire</a>
-                        }
-                    </dl>
         </div>
     </div>
-</div>
-<div class="col-lg-7">
-    <div class="row">
-        <div class="col d-flex justify-content-between">
-            <h2>Project description</h2>
-            @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectTitleAndDescription))
-            {
-                <a class="btn-icon" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription">
-                    <i class="material-icons font-size-1-1">mode_edit</i>
-                    <span id="EditDescription">Edit</span>
-                </a>
-            }
-            @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanJoinProject))
-            {
-                <div class="d-flex justify-content-end align-self-start">
-                    <a class="btn btn-outline-primary" href="@Url.Action("Join", "Members")">
-                        <i class="material-icons align-middle">add</i>
-                        <span>Join project</span>
-                    </a>
-                </div>
-            }
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            @if (!string.IsNullOrWhiteSpace(Model.Description))
-            {
-                <div class="text-markdown">@Model.Description</div>
-            }
-            else
-            {
-                <p class="text_placeholder">No project description set yet.</p>
-            }
-        </div>
-    </div>
-</div>
 </div>
 
 @{

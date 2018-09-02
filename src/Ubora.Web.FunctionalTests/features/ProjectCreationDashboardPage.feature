@@ -146,7 +146,7 @@ Scenario: I click Edit Project Description
     When I click on the element "#EditDescription"
         And I click on the element "span=Helpful tips"
     Then I expect the element "p=Describe in few words the device technology/intended use/and intended clinical benefits of the device. Describe who are the intended users. Describe if there are some limitation about the use of the device (for example need of continuous power supply) and if there are contraindications." is visible
-    When I click on the key "Tab"
+    When I click on the element ".ql-editor"
         And I click on keys "Welcome to my Project"
         And I click on the element "button=Save changes"
     Then I expect the element "div=Welcome to my Project" is visible

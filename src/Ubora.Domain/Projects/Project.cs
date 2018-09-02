@@ -16,12 +16,17 @@ namespace Ubora.Domain.Projects
     public class Project : Entity<Project>, ITagsAndKeywords
     {
         public Guid Id { get; private set; }
+
+        public bool HasMarkdownBeenConvertedToQuillDelta { get; set; }
+
         public string Title { get; private set; }
         public string Keywords { get; private set; }
         public string ClinicalNeedTag { get; private set; }
         public string AreaOfUsageTag { get; private set; }
         public string PotentialTechnologyTag { get; private set; }
         public string Description { get; private set; }
+        public QuillDelta DescriptionV2 { get; private set; }
+
         public bool IsInDraft { get; private set; } = true;
         public BlobLocation ProjectImageBlobLocation { get; private set; }
         public DateTime ProjectImageLastUpdated { get; private set; }
@@ -56,7 +61,12 @@ namespace Ubora.Domain.Projects
             return DoesSatisfy(new HasMember<T>(userId));
         }
 
-        protected virtual void Apply(ProjectCreatedEvent e)
+        private void Apply(WorkpackageOneStepEditedEventV2 @event)
+        {
+            HasMarkdownBeenConvertedToQuillDelta = true;
+        }
+
+        private void Apply(ProjectCreatedEvent e)
         {
             Id = e.ProjectId;
             Title = e.Title;
@@ -65,6 +75,7 @@ namespace Ubora.Domain.Projects
             Keywords = e.Gmdn;
             PotentialTechnologyTag = e.PotentialTechnology;
             CreatedDateTime = e.Timestamp.UtcDateTime;
+            DescriptionV2 = new QuillDelta();
 
             if (e.RelatedClinicalNeedId.HasValue)
             {
@@ -130,9 +141,15 @@ namespace Ubora.Domain.Projects
             _members.Add(new ProjectLeader(e.UserId));
         }
 
+        [Obsolete]
         private void Apply(EditProjectDescriptionEvent e)
         {
             Description = e.Description;
+        }
+
+        private void Apply(ProjectDescriptionEditedEventV2 e)
+        {   
+            DescriptionV2 = e.Description;
         }
 
         private void Apply(ProjectTitleEditedEvent e)

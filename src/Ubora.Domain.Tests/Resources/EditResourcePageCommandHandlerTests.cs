@@ -24,7 +24,7 @@ namespace Ubora.Domain.Tests.Resources
         {
             var resource = new ResourcePage()
                 .Set(x => x.Id, Guid.NewGuid())
-                .Set(x => x.Body, new QuillDelta("first"))
+                .Set(x => x.Body, new QuillDelta("{first}"))
                 .Set(x => x.BodyVersion, 1);
             
             _documentSessionMock
@@ -35,7 +35,7 @@ namespace Ubora.Domain.Tests.Resources
             var commandResult = _handlerUnderTest.Handle(new EditResourcePageCommand
             {
                 ResourcePageId = resource.Id,
-                Body = new QuillDelta("second"),
+                Body = new QuillDelta("{second}"),
                 PreviousContentVersion = 2,
                 Actor = new DummyUserInfo()
             });

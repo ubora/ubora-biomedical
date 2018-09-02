@@ -9,7 +9,7 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
     public class EditWorkpackageFourStepCommand : UserProjectCommand
     {
         public string StepId { get; set; }
-        public string NewValue { get; set; }
+        public QuillDelta NewValue { get; set; }
 
         internal class Handler : CommandHandler<EditWorkpackageFourStepCommand>
         {
@@ -23,7 +23,7 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
 
                 var step = workpackage.Steps.SingleOrDefault(x => x.Id == cmd.StepId);
 
-                var @event = new WorkpackageFourStepEdited
+                var @event = new WorkpackageFourStepEditedEventV2
                 (
                     initiatedBy: cmd.Actor,
                     stepId: cmd.StepId,

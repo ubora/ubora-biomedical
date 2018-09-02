@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Ubora.MarkdownToQuillDeltaMigrator": {
+      "commandName": "Project",
+      "commandLineArgs": "server=localhost;Port=5400;userid=postgres;password=ubora;database=postgres"
+    }
+  }
+}

@@ -8,6 +8,6 @@ namespace Ubora.Web._Features.Projects.Dashboard
         [Display(Name = "Project title")]
         [StringLength(100, ErrorMessage = "The {0} can be max {1} characters long.")]
         public string Title { get; set; }
-        public string ProjectDescription { get; set; }
+        public string DescriptionQuillDelta { get; set; }
     }
 }

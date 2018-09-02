@@ -20,4 +20,7 @@
 {
     <p class="text-informative">@Model.EditButton.HideReasonMessage</p>
 }
-<div class="text-markdown">@Model.Content</div>
+
+<div id="content-body">
+    @Html.Raw(Model.ContentHtml)
+</div>

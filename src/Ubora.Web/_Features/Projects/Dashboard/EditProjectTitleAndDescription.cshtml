@@ -24,7 +24,10 @@
         <p>Describe in few words the device technology/intended use/and intended clinical benefits of the device. Describe who are the intended users. Describe if there are some limitation about the use of the device (for example need of continuous power supply) and if there are contraindications.</p>
     </div>
     <div class="form-group">
-        <textarea class="content_editable" asp-for="ProjectDescription" rows="8"></textarea>
+        <input asp-for="DescriptionQuillDelta" type="hidden" />
+        <span asp-validation-for="DescriptionQuillDelta"></span>
+        <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial")</div>
+        <div id="editor-container" class="form-group" style="display: none;"></div>
     </div>
     <div class="text-center">
         <a class="btn btn-outline-primary" asp-controller="Dashboard" asp-action="Dashboard">Discard</a>
@@ -32,3 +35,14 @@
         <button class="btn btn-primary" type="submit">Save changes</button>
     </div>
 </form>
+
+@section Scripts {
+    <script>
+        var contentInputSelector = "#@(nameof(Model.DescriptionQuillDelta))";
+        var editorSelector = "#editor-container";
+        var toolbarSelector = "#toolbar-container";
+        var initialContent = @Html.Raw(Model.DescriptionQuillDelta);
+        UBORA.initAddOrEditResource(editorSelector, toolbarSelector, contentInputSelector, initialContent);
+
+    </script>
+}
