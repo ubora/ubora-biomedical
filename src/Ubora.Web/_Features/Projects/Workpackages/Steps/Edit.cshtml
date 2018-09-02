@@ -23,7 +23,7 @@
     <div class="form-group">
         <input asp-for="ContentQuillDelta" type="hidden" />
         <span asp-validation-for="ContentQuillDelta"></span>
-        <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial")</div>
+        <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial", new ProjectQuillToolbarFormatOptions())</div>
         <div id="editor-container" class="form-group" style="display: none;"></div>
     </div>
     <div class="d-flex flex-wrap-reverse justify-content-center">
@@ -39,7 +39,7 @@
         var editorSelector = "#editor-container";
         var toolbarSelector = "#toolbar-container";
         var initialContent = @Html.Raw(Model.ContentQuillDelta);
-        UBORA.initAddOrEditResource(editorSelector, toolbarSelector, contentInputSelector, initialContent);
+        UBORA.initEditor(editorSelector, toolbarSelector, contentInputSelector, initialContent);
 
     </script>
 }
