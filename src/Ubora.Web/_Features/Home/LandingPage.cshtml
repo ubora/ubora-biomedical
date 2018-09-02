@@ -1,6 +1,7 @@
 ﻿@using Ubora.Web._Areas.ClinicalNeedsArea.LandingPage
 @using Ubora.Web._Areas.ResourcesArea.ResourcesMenus
 @using Ubora.Web._Features.Home
+@using Ubora.Web._Features.ProjectList.Models
 
 @model Ubora.Web._Features.Users.Account.RegisterViewModel
 
@@ -50,9 +51,11 @@
             <div class="col-lg-6 needs-section">
                 <div class="row d-flex justify-content-center">
                     <div class="col-xl-7">
-                        <h2>
-                            Clinical needs
-                        </h2>
+                        <a class="no-underline" asp-area="@Areas.ClinicalNeedsArea" asp-action="LandingPage" asp-controller="LandingPage">
+                            <h2>
+                                Clinical needs
+                            </h2>
+                        </a>
                         <span class="divider border-white"></span>
                         <p class="mb-4">Find a suitable Bioengineering solution to healthcare problems through open discussion</p>
                         <ul>
@@ -83,9 +86,11 @@
             <div class="col-lg-6 projects-section">
                 <div class="row d-flex justify-content-center">
                     <div class="col-xl-7">
-                        <h2>
-                            Medical device projects
-                        </h2>
+                        <a class="no-underline" asp-route-Tab="@TabType.AllProjects" asp-action="Search" asp-controller="ProjectList">
+                            <h2>
+                                Medical device projects
+                            </h2>
+                        </a>
                         <span class="divider border-white"></span>
                         <p class="mb-4">Find materials on Regulations, Standards, Design selected by UBORA mentors.</p>
                         <ul>
@@ -175,7 +180,7 @@
                                         <dd>IIa</dd>
                                     </dl>
                                     <div class="row justify-content-end my-3">
-                                        <a href="http://ubora-kahawa.azurewebsites.net/Projects/695b13f0-266b-44a5-9e11-4a4ff509a779/Dashboard" class="btn-icon">
+                                        <a href="https://ubora-kahawa.azurewebsites.net/Projects/695b13f0-266b-44a5-9e11-4a4ff509a779" class="btn-icon">
                                             <span>View project</span>
                                             <i class="material-icons font-size-1-1">arrow_forward</i>
                                         </a>
@@ -197,7 +202,7 @@
                                         <dd>I</dd>
                                     </dl>
                                     <div class="row justify-content-end my-3">
-                                        <a href="http://ubora-kahawa.azurewebsites.net/Projects/d6534063-e380-48f8-a50e-f38c3aaddcb5/Dashboard" class="btn-icon">
+                                        <a href="https://ubora-kahawa.azurewebsites.net/Projects/d6534063-e380-48f8-a50e-f38c3aaddcb5" class="btn-icon">
                                             <span class="mr-1">View project</span>
                                             <i class="material-icons font-size-1-1">arrow_forward</i>
                                         </a>
@@ -219,7 +224,7 @@
                                         <dd>IIa</dd>
                                     </dl>
                                     <div class="row justify-content-end my-3">
-                                        <a href="http://ubora-kahawa.azurewebsites.net/Projects/753b19aa-266f-4e63-bc8b-9488d220a36f/Dashboard" class="btn-icon">
+                                        <a href="https://ubora-kahawa.azurewebsites.net/Projects/753b19aa-266f-4e63-bc8b-9488d220a36f" class="btn-icon">
                                             <span class="mr-1">View project</span>
                                             <i class="material-icons font-size-1-1">arrow_forward</i>
                                         </a>
