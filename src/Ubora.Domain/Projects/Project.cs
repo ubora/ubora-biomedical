@@ -34,7 +34,7 @@ namespace Ubora.Domain.Projects
         public DateTime CreatedDateTime { get; private set; }
 
         // TODO: Duplicate and immutable
-        public Guid[] RelatedClinicalNeeds { get; private set; } = new Guid[0];
+        public ImmutableArray<Guid> RelatedClinicalNeeds { get; private set; } = ImmutableArray<Guid>.Empty;
 
         [JsonIgnore]
         public bool HasImage => new HasImageSpec().IsSatisfiedBy(this);
@@ -79,8 +79,7 @@ namespace Ubora.Domain.Projects
 
             if (e.RelatedClinicalNeedId.HasValue)
             {
-                // TODO: Test
-                RelatedClinicalNeeds = RelatedClinicalNeeds.ToImmutableList().Add(e.RelatedClinicalNeedId.Value).ToArray();
+                RelatedClinicalNeeds = RelatedClinicalNeeds.Add(e.RelatedClinicalNeedId.Value);
             }
 
             var userId = e.InitiatedBy.UserId;
