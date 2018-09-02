@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoFixture;
 using Ubora.Domain.ClinicalNeeds.Commands;
+using Ubora.Domain.Infrastructure.Events;
 
 namespace Ubora.Domain.Tests.ClinicalNeeds
 {
@@ -16,10 +17,17 @@ namespace Ubora.Domain.Tests.ClinicalNeeds
 
         public Guid ClinicalNeedId { get; set; }
 
-        public ClinicalNeedSeeder IndicateTheClinicalNeed()
+        public ClinicalNeedSeeder IndicateTheClinicalNeed(Guid? indicatorId = null)
         {
+            if (indicatorId == null)
+            {
+                indicatorId = Guid.NewGuid();
+                _fixture.Create_User(indicatorId.Value);
+            }
+
             var command = _fixture.AutoFixture.Create<IndicateClinicalNeedCommand>();
             command.ClinicalNeedId = ClinicalNeedId;
+            command.Actor = new UserInfo(indicatorId.Value, "dummy");
 
             var commandResult = _fixture.Processor.Execute(command);
             if (commandResult.IsFailure)

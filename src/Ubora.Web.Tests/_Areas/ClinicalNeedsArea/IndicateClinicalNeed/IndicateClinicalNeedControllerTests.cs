@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Ubora.Domain;
@@ -27,6 +28,16 @@ namespace Ubora.Web.Tests._Areas.ClinicalNeedsArea.IndicateClinicalNeed
         }
 
         [Fact]
+        public void Controller_Has_Authorize_Attibute()
+        {
+            var authorizeAttribute =  typeof(IndicateClinicalNeedController)
+                .GetCustomAttributes(typeof(AuthorizeAttribute), inherit: false)
+                .Single() as AuthorizeAttribute;
+
+            authorizeAttribute.Policy.Should().Be(Policies.CanIndicateClinicalNeeds);
+        }
+
+        [Fact]
         public void Finalize_Does_Not_Execute_Command_When_ModelState_Is_Invalid()
         {
             var model = new StepTwoModel();
@@ -48,7 +59,7 @@ namespace Ubora.Web.Tests._Areas.ClinicalNeedsArea.IndicateClinicalNeed
                 Title = "title",
                 AreaOfUsageTag = "area",
                 ClinicalNeedTag = "clinical",
-                Description = "description",
+                Description = "{description}",
                 Keywords = "keywords",
                 PotentialTechnologyTag = "tech"
             };
@@ -73,7 +84,7 @@ namespace Ubora.Web.Tests._Areas.ClinicalNeedsArea.IndicateClinicalNeed
                 executedCommand.Title.Should().Be("title");
                 executedCommand.AreaOfUsageTag.Should().Be("area");
                 executedCommand.ClinicalNeedTag.Should().Be("clinical");
-                executedCommand.Description.Should().Be(new QuillDelta("description"));
+                executedCommand.Description.Should().Be(new QuillDelta("{description}"));
                 executedCommand.Keywords.Should().Be("keywords");
                 executedCommand.PotentialTechnologyTag.Should().Be("tech");
             }

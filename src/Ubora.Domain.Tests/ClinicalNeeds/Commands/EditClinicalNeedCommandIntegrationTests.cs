@@ -22,7 +22,7 @@ namespace Ubora.Domain.Tests.ClinicalNeeds.Commands
             {
                 ClinicalNeedId = clinicalNeedId,
                 Title = "testTitle",
-                Description = new QuillDelta("testDesc"),
+                Description = new QuillDelta("{testDesc}"),
                 ClinicalNeedTag = "testClinical",
                 AreaOfUsageTag = "testArea",
                 PotentialTechnologyTag = "testPotential",
@@ -41,7 +41,7 @@ namespace Ubora.Domain.Tests.ClinicalNeeds.Commands
             using (new AssertionScope())
             {
                 clinicalNeed.Title.Should().Be("testTitle");
-                clinicalNeed.Description.Should().Be(new QuillDelta("testDesc"));
+                clinicalNeed.Description.Should().Be(new QuillDelta("{testDesc}"));
                 clinicalNeed.ClinicalNeedTag.Should().Be("testClinical");
                 clinicalNeed.AreaOfUsageTag.Should().Be("testArea");
                 clinicalNeed.PotentialTechnologyTag.Should().Be("testPotential");
@@ -81,7 +81,7 @@ namespace Ubora.Domain.Tests.ClinicalNeeds.Commands
             {
                 ClinicalNeedId = clinicalNeedId,
                 Title = clinicalNeed.Title,
-                Description = new QuillDelta("newDescription"),
+                Description = new QuillDelta("{newDescription}"),
                 ClinicalNeedTag = clinicalNeed.ClinicalNeedTag,
                 AreaOfUsageTag = clinicalNeed.AreaOfUsageTag,
                 PotentialTechnologyTag = clinicalNeed.PotentialTechnologyTag,
@@ -93,7 +93,7 @@ namespace Ubora.Domain.Tests.ClinicalNeeds.Commands
             lastEvent = Session.Events.FetchStream(clinicalNeedId).Select(x => x.Data).Last();
             lastEvent.Should().BeOfType<ClinicalNeedDescriptionEditedEvent>();
             clinicalNeed = Session.Load<ClinicalNeed>(clinicalNeedId);
-            clinicalNeed.Description.Should().Be(new QuillDelta("newDescription"));
+            clinicalNeed.Description.Should().Be(new QuillDelta("{newDescription}"));
         }
 
         [Fact]

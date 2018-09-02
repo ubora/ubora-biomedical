@@ -88,6 +88,7 @@ namespace Ubora.Web.Tests._Areas.ClinicalNeedsArea.AClinicalNeed.Edit
                 .Returns(CommandResult.Success);
 
             var postModel = AutoFixture.Create<EditClinicalNeedPostModel>();
+            postModel.DescriptionQuillDelta = "{test}";
 
             // Act
             var result = await _controller.Edit(postModel);
