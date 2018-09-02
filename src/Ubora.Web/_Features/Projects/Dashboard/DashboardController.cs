@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TwentyTwenty.Storage;
+using Ubora.Domain;
 using Ubora.Domain.Projects._Commands;
-using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web._Features._Shared.Notices;
@@ -27,45 +27,46 @@ namespace Ubora.Web._Features.Projects.Dashboard
 
         [HttpGet("")]
         [AllowAnonymous]
-        public IActionResult Dashboard([FromServices]ProjectDashboardViewModel.Factory modelFactory)
+        public async Task<IActionResult> Dashboard([FromServices]ProjectDashboardViewModel.Factory modelFactory)
         {
             var model = modelFactory.Create(Project, User);
+            model.DescriptionHtml = await ConvertQuillDeltaToHtml(Project.DescriptionV2);
 
             return View(nameof(Dashboard), model);
         }
 
         [HttpGet("edit-project")]
         [Authorize(Policies.CanEditProjectTitleAndDescription)]
-        public IActionResult EditProjectTitleAndDescription()
+        public async Task<IActionResult> EditProjectTitleAndDescription()
         {
             var editProjectDescription = new EditProjectTitleAndDescriptionViewModel
             {
-                ProjectDescription = Project.Description,
+                DescriptionQuillDelta = await SanitizeQuillDeltaForEditing(Project.DescriptionV2),
                 Title = Project.Title
             };
 
-            return View(nameof(EditProjectTitleAndDescription),editProjectDescription);
+            return View(nameof(EditProjectTitleAndDescription), editProjectDescription);
         }
 
         [HttpPost("edit-project")]
         [Authorize(Policies.CanEditProjectTitleAndDescription)]
-        public IActionResult EditProjectTitleAndDescription(EditProjectTitleAndDescriptionViewModel model)
+        public async Task<IActionResult> EditProjectTitleAndDescription(EditProjectTitleAndDescriptionViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return EditProjectTitleAndDescription();
+                return await EditProjectTitleAndDescription();
             }
 
             ExecuteUserProjectCommand(new UpdateProjectTitleAndDescriptionCommand
             {
                 ProjectId = ProjectId,
-                Description = model.ProjectDescription,
+                Description = new QuillDelta(model.DescriptionQuillDelta),
                 Title = model.Title
             }, Notice.Success(SuccessTexts.ProjectTitleAndDescriptionUpdated));
 
             if (!ModelState.IsValid)
             {
-                return EditProjectTitleAndDescription();
+                return await EditProjectTitleAndDescription();
             }
 
             return RedirectToAction(nameof(Dashboard));
@@ -87,16 +88,18 @@ namespace Ubora.Web._Features.Projects.Dashboard
                 return EditProjectImage();
             }
 
-            var imageStream = model.Image.OpenReadStream();
-            var blobLocation = BlobLocations.GetProjectImageBlobLocation(ProjectId);
-            await _imageStorage.SaveImageAsync(imageStream, blobLocation, SizeOptions.AllDefaultSizes);
-
-            ExecuteUserProjectCommand(new UpdateProjectImageCommand
+            using (var imageStream = model.Image.OpenReadStream())
             {
-                ProjectId = ProjectId,
-                BlobLocation = blobLocation,
-                Actor = UserInfo
-            }, Notice.Success(SuccessTexts.ProjectImageUploaded));
+                var blobLocation = BlobLocations.GetProjectImageBlobLocation(ProjectId);
+                await _imageStorage.SaveImageAsync(imageStream, blobLocation, SizeOptions.AllDefaultSizes);
+
+                ExecuteUserProjectCommand(new UpdateProjectImageCommand
+                {
+                    ProjectId = ProjectId,
+                    BlobLocation = blobLocation,
+                    Actor = UserInfo
+                }, Notice.Success(SuccessTexts.ProjectImageUploaded));
+            }
 
             if (!ModelState.IsValid)
             {

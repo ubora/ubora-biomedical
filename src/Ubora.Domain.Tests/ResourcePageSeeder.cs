@@ -16,7 +16,7 @@ namespace Ubora.Domain.Tests
         public string Title { get; private set; } = Guid.NewGuid().ToString();
         public int MenuPriority { get; private set; }
         public Guid? ParentCategoryId { get; private set; }
-        public QuillDelta Body { get; private set; } = new QuillDelta(Guid.NewGuid().ToString());
+        public QuillDelta Body { get; private set; } = new QuillDelta("{" + Guid.NewGuid() + "}");
 
         public ResourcePageSeeder WithId(Guid resourcePageId)
         {
