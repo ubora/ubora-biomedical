@@ -37,7 +37,6 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed
 
             var indicator = QueryProcessor.FindById<UserProfile>(ClinicalNeed.IndicatorUserId);
             var quickInfo = QueryProcessor.FindById<ClinicalNeedQuickInfo>(ClinicalNeed.Id);
-            // TODO: batched query?
 
             var urlTemplateParts = context.ActionDescriptor.AttributeRouteInfo.Template.Split("/");
 

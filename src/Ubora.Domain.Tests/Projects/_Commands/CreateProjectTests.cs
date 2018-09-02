@@ -10,6 +10,8 @@ using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects._Commands;
 using Xunit;
+using AutoFixture;
+using Ubora.Domain.Tests.ClinicalNeeds;
 
 namespace Ubora.Domain.Tests.Projects._Commands
 {
@@ -36,6 +38,28 @@ namespace Ubora.Domain.Tests.Projects._Commands
                 .BDDfy();
         }
 
+        [Fact]
+        public void Handle_Marks_Related_Clinical_Need()
+        {
+            var clinicalNeedId = Guid.NewGuid();
+            new ClinicalNeedSeeder(this, clinicalNeedId)
+                .IndicateTheClinicalNeed();
+
+            var command = AutoFixture.Create<CreateProjectCommand>();
+            command.RelatedClinicalNeedId = clinicalNeedId;
+
+            // Act
+            var result = Processor.Execute(command);
+
+            // Assert
+            result.IsSuccess.Should().BeTrue();
+
+            var project = Processor.FindById<Project>(command.NewProjectId);
+
+            project.RelatedClinicalNeeds.Should().HaveCount(1);
+            project.RelatedClinicalNeeds.Should().Contain(clinicalNeedId);
+        }
+
         private void Given_Command_Is_Handled(CreateProjectCommand command)
         {
             var commandProcessor = Container.Resolve<ICommandProcessor>();
@@ -56,12 +80,11 @@ namespace Ubora.Domain.Tests.Projects._Commands
             project.Keywords.Should().Be("expectedGmdnTerm");
             project.PotentialTechnologyTag.Should().Be("expectedPotentialTechnology");
             project.CreatedDateTime.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            project.RelatedClinicalNeeds.Should().BeEmpty();
         }
 
         private void Then_Creator_Should_Be_First_Member(CreateProjectCommand command)
         {
-            RefreshSession();
-
             var project = Session.Load<Project>(command.NewProjectId);
 
             var onlyMember = project.Members.Single();
