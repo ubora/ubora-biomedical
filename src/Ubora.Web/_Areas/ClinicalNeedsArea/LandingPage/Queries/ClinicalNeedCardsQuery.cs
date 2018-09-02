@@ -31,8 +31,9 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.LandingPage.Queries
                 var clinicalNeedsPaged = _querySession
                     .Query<ClinicalNeed>()
                     .Stats(out var queryStats)
+                    .OrderByDescending(cn => cn.IndicatedAt)
                     .Include(cn => cn.Id, quickInfoes)
-                    .Include(cn => cn.IndicatorUserId, userProfiles) // Would actually prefer a "select" of full name (to optimize)
+                    .Include(cn => cn.IndicatorUserId, userProfiles) // For indicator's full name
                     .Select(clinicalNeed => new ClinicalNeedCardViewModel
                     {
                         Id = clinicalNeed.Id,
@@ -57,7 +58,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.LandingPage.Queries
                     return cn;
                 }).ToList();
 
-                return new InMemoryPagedList<ClinicalNeedCardViewModel>(clinicalNeeds, query.Paging, (int)queryStats.TotalResults);
+                return new Domain.Infrastructure.Queries.PagedList<ClinicalNeedCardViewModel>(clinicalNeeds, query.Paging, (int)queryStats.TotalResults);
             }
         }
     }

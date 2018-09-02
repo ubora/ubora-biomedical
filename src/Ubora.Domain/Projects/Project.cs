@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using Marten.Schema;
 using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Specifications;
@@ -33,7 +34,6 @@ namespace Ubora.Domain.Projects
         public bool IsDeleted { get; private set; }
         public DateTime CreatedDateTime { get; private set; }
 
-        // TODO: Duplicate and immutable
         public ImmutableArray<Guid> RelatedClinicalNeeds { get; private set; } = ImmutableArray<Guid>.Empty;
 
         [JsonIgnore]

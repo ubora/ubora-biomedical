@@ -12,14 +12,11 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Overview
             var model = new OverviewViewModel
             {
                 Id = ClinicalNeed.Id,
-                Title = ClinicalNeed.Title,
-                Description = await nodeServices.InvokeAsync<string>("./Scripts/backend/ConvertQuillDeltaToHtml.js", ClinicalNeed.Description.Value),
+                DescriptionQuillDelta = await ConvertQuillDeltaToHtml(ClinicalNeed.Description),
                 AreaOfUsageTag = ClinicalNeed.AreaOfUsageTag,
                 ClinicalNeedTag = ClinicalNeed.ClinicalNeedTag,
                 PotentialTechnologyTag = ClinicalNeed.PotentialTechnologyTag,
                 Keywords = ClinicalNeed.Keywords,
-                IndicatedAt = ClinicalNeed.IndicatedAt,
-                IndicatorUserId = ClinicalNeed.IndicatorUserId,
             };
 
             return View(model);
