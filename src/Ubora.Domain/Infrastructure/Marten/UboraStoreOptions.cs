@@ -57,7 +57,7 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<Assignment>();
 
                 options.Schema.For<Project>()
-                    .Duplicate(p => p.RelatedClinicalNeeds, pgType: "uuid[]")
+                    // .Duplicate(p => p.RelatedClinicalNeeds, pgType: "uuid[]") TODO(Kaspar Kallas)
                     .SoftDeleted();
                  
                 options.Schema.For<Candidate>().SoftDeleted();
