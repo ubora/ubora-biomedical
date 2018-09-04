@@ -1,16 +1,4 @@
-﻿@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
-
-@functions{
-    public string GetAntiXsrfRequestToken()
-    {
-        return Xsrf.GetAndStoreTokens(Context).RequestToken;
-    }
-}
-
-<input type="hidden" id="RequestVerificationToken"
-       name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()" />
-
-@if (User.Identity.IsAuthenticated)
+﻿@if (User.Identity.IsAuthenticated)
 {
     @Html.Partial("_FeedbackModal")
 }

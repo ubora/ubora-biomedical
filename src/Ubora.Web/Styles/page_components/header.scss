@@ -3,7 +3,8 @@
 
     .nav-link, 
     .btn-icon {
-        @extend .px-3;
+        padding-left: 1.125rem !important;
+        padding-right: 1.125rem !important;
     }
 
     .nav-link, a {
