@@ -1,6 +1,9 @@
-﻿@using Ubora.Web._Areas.ClinicalNeedsArea.LandingPage
+﻿@using Ubora.Web._Areas.ClinicalNeedsArea.IndicateClinicalNeed
+@using Ubora.Web._Areas.ClinicalNeedsArea.LandingPage
 @using Ubora.Web._Areas.ResourcesArea.ResourcesMenus
 @using Ubora.Web._Features.Home
+@using Ubora.Web._Features.ProjectCreation
+@using Ubora.Web._Features.ProjectList
 @using Ubora.Web._Features.ProjectList.Models
 
 @model Ubora.Web._Features.Users.Account.RegisterViewModel
@@ -37,26 +40,49 @@
     {
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-6 text-center landing-image-discussion">
-                    <p class="lead display-5">Have a need for a bioengineering solution?</p>
-                    <a class="btn btn-cta btn-primary" asp-area="@Areas.ClinicalNeedsArea" asp-action="StepOne" asp-controller="IndicateClinicalNeed">Indicate a clinical need</a>
+                <div class="col-lg-6 needs-section">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-xl-7">
+                            <h2>
+                                <a asp-action="@nameof(LandingPageController.LandingPage)" asp-controller="@nameof(LandingPageController).RemoveSuffix()" asp-area="@Areas.ClinicalNeedsArea">
+                                    Clinical needs
+                                    <i class="material-icons font-size-1-1">arrow_forward</i>
+                                </a>
+                            </h2>
+                            <span class="divider border-white"></span>
+                            <p class="text-faded mb-4">Have a need for a bioengineering solution?</p>
+                            <a tabindex="0" class="btn btn-outline-light btn-primary btn-lg" role="button" asp-action="@nameof(IndicateClinicalNeedController.StepOne)" asp-controller="@nameof(IndicateClinicalNeedController).RemoveSuffix()" asp-area="@Areas.ClinicalNeedsArea" >Indicate a need</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-6 text-center landing-image-solution">
-                    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
-                    {
+                <div class="col-lg-6 projects-section">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-xl-7">
+                            <h2>
+                                <a asp-action="@nameof(ProjectListController.Search)" asp-controller="@nameof(ProjectListController).RemoveSuffix()">
+                                    Device projects
+                                    <i class="material-icons font-size-1-1">arrow_forward</i>
+                                </a>
+                            </h2>
+                            <span class="divider border-white"></span>
+                            <p class="text-faded mb-4">Have a biomedical device idea?</p>
+                            
+                            
+                            @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
+                            {
+                                <a class="btn btn-outline-light btn-primary btn-lg" role="button" asp-action="@nameof(ProjectCreationController.Create)" asp-controller="@nameof(ProjectCreationController).RemoveSuffix()" asp-area="@Areas.ResourcesArea">Create a project</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-outline-light btn-primary btn-lg" role="button" disabled title="Your email must be confirmed to create a project!" data-toggle="tooltip" data-placement="bottom">Create a project</a>
+                            }
 
-                        <p class="lead display-5">Have an idea? Propose your biomedical device solution.</p>
-                        <a class="btn btn-primary btn-cta align-self-end box-shadow" asp-controller="ProjectCreation" asp-action="Create" role="button">Create a medical device project</a>
-                    }
-                    else
-                    {
-                        <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
-                        <a class="btn btn-cta btn-disabled align-self-end box-shadow" role="button" disabled title="Your email must be confirmed to create a project!" data-toggle="tooltip" data-placement="bottom">Create a medical device project</a>
-                    }
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    }
+   }
 
     <section class="bg-dark text-center py-5">
         <div class="container py-2">
@@ -213,10 +239,14 @@
             <div class="col resources-section">
                 <div class="row d-flex justify-content-center">
                     <div class="col-xl-7">
-                        <h2>Design resources</h2>
+                        <a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()" asp-area="@Areas.ResourcesArea">
+                            <h2>
+                                Medical resources
+                                <i class="material-icons font-size-1-1">arrow_forward</i>
+                            </h2>
+                        </a>
                         <span class="divider border-white"></span>
-                        <p class="mb-4">Find materials on Regulations, Standards, Design selected by UBORA mentors.</p>
-                        <a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()" asp-area="@Areas.ResourcesArea" tabindex="0" class="btn btn-outline-light btn-primary btn-lg" role="button">Medical resources</a>
+                        <p class="mb-4">Materials on Regulations, Standards & Design selected by UBORA mentors.</p>
                     </div>
                 </div>
             </div>
