@@ -27,7 +27,6 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Npgsql;
 using Ubora.Web.Infrastructure.Storage;
 using Microsoft.AspNetCore.Mvc;
-using StackExchange.Profiling;
 
 namespace Ubora.Web
 {
@@ -105,6 +104,7 @@ namespace Ubora.Web
 
             services.ConfigureApplicationCookie(options =>
             {
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
                 options.Cookie.HttpOnly = true;
                 options.LoginPath = "/login";
                 options.AccessDeniedPath = "/access-denied";

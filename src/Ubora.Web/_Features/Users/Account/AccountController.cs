@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -60,6 +61,7 @@ namespace Ubora.Web._Features.Users.Account
         }
 
         [HttpGet("login")]
+        [Route("Account/Login", Order = 1)]
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
@@ -322,9 +324,12 @@ namespace Ubora.Web._Features.Users.Account
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ResetPassword(string code = null)
+        public IActionResult ResetPassword(string code)
         {
-            return code == null ? View("Error") : View();
+            return View(new ResetPasswordViewModel
+            {
+                Code = code
+            });
         }
 
         [HttpPost]
@@ -342,7 +347,7 @@ namespace Ubora.Web._Features.Users.Account
                 // Don't reveal that the user does not exist
                 return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
             }
-            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+            var result = await _userManager.ResetPasswordAsync(user, Encoding.UTF8.GetString(Base64UrlTextEncoder.Decode(model.Code)), model.Password);
             if (result.Succeeded)
             {
                 return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
