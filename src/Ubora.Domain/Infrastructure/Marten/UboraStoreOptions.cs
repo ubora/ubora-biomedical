@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Marten;
+using Marten.Schema;
 using Marten.Services;
 using Marten.Services.Events;
 using Newtonsoft.Json;
@@ -57,7 +58,6 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<Assignment>();
 
                 options.Schema.For<Project>()
-                    // .Duplicate(p => p.RelatedClinicalNeeds, pgType: "uuid[]") TODO(Kaspar Kallas)
                     .SoftDeleted();
                  
                 options.Schema.For<Candidate>().SoftDeleted();
