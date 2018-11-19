@@ -23,7 +23,12 @@ namespace Ubora.Domain.Tests.ClinicalNeeds
             new DiscussionSeeder(this, discussionId: clinicalNeedId)
                 .AddComment()
                 .AddComment(deletedCommentId)
-                .DeleteComment(deletedCommentId);
+                .DeleteComment(deletedCommentId)
+                .AddComment();
+
+            new ProjectSeeder()
+                .WithRelatedClinicalNeed(clinicalNeedId)
+                .Seed(this);
 
             new ProjectSeeder()
                 .WithRelatedClinicalNeed(clinicalNeedId)
@@ -39,8 +44,8 @@ namespace Ubora.Domain.Tests.ClinicalNeeds
 
             using (new AssertionScope())
             {
-                projection.NumberOfRelatedProjects.Should().Be(1);
-                projection.NumberOfComments.Should().Be(1);
+                projection.NumberOfRelatedProjects.Should().Be(2);
+                projection.NumberOfComments.Should().Be(2);
             }
         }
 

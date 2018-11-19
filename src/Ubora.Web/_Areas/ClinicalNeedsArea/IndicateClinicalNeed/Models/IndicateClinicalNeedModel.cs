@@ -28,9 +28,13 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.IndicateClinicalNeed.Models
 
     public class StepTwoModel : StepOneModel
     {
+        [MaxLength(125)]
         public new string ClinicalNeedTag { get; set; }
+        [MaxLength(125)]
         public new string AreaOfUsageTag { get; set; }
+        [MaxLength(125)]
         public new string PotentialTechnologyTag { get; set; }
+        [MaxLength(125)]
         public new string Keywords { get; set; }
     }
 }
