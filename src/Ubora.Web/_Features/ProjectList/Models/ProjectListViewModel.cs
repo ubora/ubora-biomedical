@@ -86,7 +86,7 @@ namespace Ubora.Web._Features.ProjectList.Models
             {
                 var specifications = new List<Specification<Project>>();
 
-                if (!string.IsNullOrWhiteSpace(searchModel.Title))
+                if (!string.IsNullOrEmpty(searchModel.Title))
                 {
                     specifications.Add(new BySearchPhrase(searchModel.Title));
                 }
