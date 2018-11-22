@@ -1,16 +1,11 @@
 ﻿.landing-page {
 
-    hr {
-        max-width: 50px;
-        border-width: 3px;
+    .btn-primary {
+        min-width: 7rem;
+    }
 
-        &.light {
-            border-color: $white;
-        }
-
-        &.dark {
-            border-color: $black;
-        }
+    .divider {
+        @extend .my-4;
     }
 
     header {
@@ -36,10 +31,10 @@
         }
 
 
+
         .container-fluid {
             z-index: 1;
         }
-
 
         .pull-down {
             position: absolute;
@@ -56,118 +51,42 @@
         }
     }
 
-    .carousel {
-
-        .carousel-item {
-            border: 1px solid $light;
-
-
-            .carousel-image-1,
-            .carousel-image-2,
-            .carousel-image-3 {
-                width: 1108px;
-                height: 400px;
-                background-repeat: no-repeat;
-                background-color: white;
-                background-position: left center;
-                background-size: contain;
-            }
-
-            .carousel-image-1 {
-                background-image: url("/images/slide1.png");
-            }
-
-            .carousel-image-2 {
-                background-image: url("/images/slide2.png");
-            }
-
-            .carousel-image-3 {
-                background-image: url("/images/slide3.png");
-            }
-
-            .carousel-caption {
-                background-color: $white;
-                color: $text-color;
-                right: 0;
-                bottom: 0;
-                left: auto;
-                padding: 4rem;
-                text-align: left;
-                height: 100%;
-                width: 65%;
-
-                .btn-icon {
-                    position: absolute;
-                    bottom: 72px;
-                    right: 82px;
-                }
-
-                dl {
-                    width: 100%;
-                    overflow: hidden;
-
-                    dt {
-                        float: left;
-                        width: 28%;
-                    }
-
-                    dd {
-                        float: left;
-                        width: 72%;
-                    }
-                }
-            }
-        }
-
-
-        .carousel-indicators li {
-            background-color: rgba(0, 0, 0, 0.2);
-
-            &.active {
-                background-color: $text-color;
-            }
-        }
-
-        .carousel-control-prev, .carousel-control-next {
-            width: 5%;
-        }
-    }
-
-
-    .card {
-        border: 1px solid $light;
-
-        a h5 {
-            color: $text-color;
-        }
-    }
-    
     section {
-        padding: 8rem 0;
+        padding-top: 8rem;
+        padding-bottom: 8rem;
     }
 
-    .section-heading {
-        margin-top: 0;
-    }
+    .projects-section,
+    .needs-section,
+    .resources-section {
+        padding-top: 8rem;
+        padding-bottom: 8rem;
+        @extend .px-lg-5;
+        @extend .text-center;
+        @extend .text-lg-left;
+
+        .divider {
+            @extend .mx-lg-0;
+            @extend .mx-auto;
+        }
+
+        p, ul {
+            @extend .text-faded;
+        }
 
 
-
-    .discussion-section {
-        @include bg-size-cover;
-        background-image: url("../images/discussion.jpg");
-        background-position: center center;
-        position: relative;
-
-        .btn-primary {
-            min-width: 7rem;
+        h2 {
+            color: white;
         }
     }
 
-    .discussion-section,
-    .resources-section {
-        padding: 8rem 0;
+    .projects-section {
+        @extend .bg-blue;
     }
 
+    .needs-section {
+        @extend .bg-dark-blue;
+    }
 
     section.footer {
         padding: 2.5rem 0;
@@ -176,7 +95,13 @@
     }
 }
 
-/*media queries*/
+.resources-img {
+    /*Photo by Štefan Štefančík on Unsplash*/
+    background-image: url("../images/discussion.jpg");
+    background-repeat: no-repeat;
+    box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.5);
+}
+
 @include media-breakpoint-up(xl) {
     header.masthead h1 {
         font-size: 4rem;
@@ -204,55 +129,6 @@
     header.masthead h1 {
         font-size: 2rem;
     }
-
-    .landing-page {
-        .carousel {
-            .carousel-item {
-                .carousel-image-1,
-                .carousel-image-2,
-                .carousel-image-3 {
-                    background-image: none;
-                    height: 750px;
-                }
-
-                .carousel-caption {
-                    padding: 2rem;
-                    width: 100%;
-
-                    .carousel-image-1-mobile,
-                    .carousel-image-2-mobile,
-                    .carousel-image-3-mobile {
-                        height: 300px;
-                        margin-bottom: 1rem;
-                        background-repeat: no-repeat;
-                        background-position: center;
-                    }
-
-                    .carousel-image-1-mobile {
-                        background-image: url("/images/slide1.png");
-                    }
-
-                    .carousel-image-2-mobile {
-                        background-image: url("/images/slide2.png");
-                    }
-
-                    .carousel-image-3-mobile {
-                        background-image: url("/images/slide3.png");
-                    }
-
-                    .btn-icon {
-                        position: absolute;
-                        right: 0;
-                        bottom: 72px;
-                        left: 0;
-                        justify-content: center;
-                        margin-right: 15%;
-                        margin-left: 15%;
-                    }
-                }
-            }
-        }
-    }
 }
 
 
@@ -270,7 +146,10 @@
 
 @include media-breakpoint-down(xs) {
     .landing-page {
-        section, .discussion-section, .resources-section {
+        section, 
+        .projects-section,
+        .needs-section,
+        .resources-section {
             padding-top: 5rem;
             padding-bottom: 5rem;
         }
@@ -279,31 +158,6 @@
         header.masthead {
             padding-top: 5rem;
             padding-bottom: 7rem;
-        }
-
-        .carousel {
-            .carousel-item {
-                .carousel-image-1,
-                .carousel-image-2,
-                .carousel-image-3 {
-                    height: 690px;
-                }
-
-                .carousel-caption {
-                    padding: 1rem;
-
-                    dl {
-
-                        dt {
-                            width: 100%;
-                        }
-
-                        dd {
-                            width: 100%;
-                        }
-                    }
-                }
-            }
         }
     }
 }

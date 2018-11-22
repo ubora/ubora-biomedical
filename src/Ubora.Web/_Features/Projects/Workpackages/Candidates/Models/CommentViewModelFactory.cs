@@ -34,7 +34,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             var roleKeys = (string[])comment.AdditionalData["RoleKeys"];
             var isLeader = roleKeys.Any(x => x == "project-leader");
             var isMentor = roleKeys.Any(x => x == "project-mentor");
-            var isEditable = (await _authorizationService.AuthorizeAsync(user, comment, Policies.CanEditComment)).Succeeded;
+            var isEditable = (await _authorizationService.AuthorizeAsync(user, comment, Policies.CanEditCandidateComment)).Succeeded;
 
             var userProfile = _queryProcessor.FindById<UserProfile>(comment.UserId);
 

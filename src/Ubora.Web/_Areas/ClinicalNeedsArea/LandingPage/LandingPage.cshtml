@@ -1,0 +1,27 @@
+﻿@model LandingPageViewModel
+
+@{
+    ViewData["Title"] = "Clinical needs";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-lg-8 order-lg-1 order-2">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col d-flex justify-content-end order-lg-2 order-1">
+        <a asp-action="@nameof(IndicateClinicalNeedController.StepOne)" asp-controller="@nameof(IndicateClinicalNeedController).RemoveSuffix()" class="btn btn-outline-primary btn-md-block my-lg-0 my-3 align-self-start">
+        <i class="material-icons">add</i>
+        <span>
+            Indicate a need
+        </span>        
+        </a>
+    </div>
+</div>
+
+@(await Component.InvokeAsync<ClinicalNeedCardsViewComponent>(new { pageSize = 10 }))

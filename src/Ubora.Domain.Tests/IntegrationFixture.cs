@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Security;
 using Autofac;
 using AutoFixture;
 using Marten;
@@ -32,6 +34,8 @@ namespace Ubora.Domain.Tests
 
         protected IntegrationFixture()
         {
+            AutoFixture.Register<QuillDelta>(() => new QuillDelta("{" + Guid.NewGuid() + "}"));
+
             _domainAutofacModule = new DomainAutofacModule(ConnectionSource.ConnectionString, Mock.Of<IStorageProvider>());
             var eventTypes = DomainAutofacModule.FindDomainEventConcreteTypes();
             var notificationTypes = DomainAutofacModule.FindDomainNotificationConcreteTypes();

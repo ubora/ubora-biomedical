@@ -1,4 +1,4 @@
-﻿global.UBORA.initAddOrEditResource = function (editorSelector, toolbarSelector, contentInputSelector, initialContent) {
+﻿global.UBORA.initEditor = function (editorSelector, toolbarSelector, contentInputSelector, initialContent) {
     var quill = new Quill(editorSelector,
         {
             theme: 'snow',
@@ -6,8 +6,6 @@
                 toolbar: toolbarSelector
             }
         });
-
-    console.log('foo2')
 
     if (!!initialContent) {
         quill.setContents(initialContent, 'api');

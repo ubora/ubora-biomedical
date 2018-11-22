@@ -166,10 +166,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var potentialTechnologyTags = "PotentialTechnologyTags";
             var projectOverViewModel = new ProjectOverviewViewModel
             {
-                AreaOfUsageTags = areaOfUsageTags,
-                ClinicalNeedTags = clinicalNeedTags,
-                Gmdn = gmdn,
-                PotentialTechnologyTags = potentialTechnologyTags,
+                AreaOfUsageTag = areaOfUsageTags,
+                ClinicalNeedTag = clinicalNeedTags,
+                Keywords = gmdn,
+                PotentialTechnologyTag = potentialTechnologyTags,
             };
 
             var project = new Project().Set(x => x.Title, projectTitle);
@@ -180,10 +180,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var result = (ViewResult)_workpackageOneController.ProjectOverview(projectOverViewModel);
 
             // Assert
-            executedCommand.PotentialTechnologyTags.Should().Be(potentialTechnologyTags);
-            executedCommand.Gmdn.Should().Be(gmdn);
-            executedCommand.AreaOfUsageTags.Should().Be(areaOfUsageTags);
-            executedCommand.ClinicalNeedTags.Should().Be(clinicalNeedTags);
+            executedCommand.PotentialTechnologyTag.Should().Be(potentialTechnologyTags);
+            executedCommand.Keywords.Should().Be(gmdn);
+            executedCommand.AreaOfUsageTag.Should().Be(areaOfUsageTags);
+            executedCommand.ClinicalNeedTag.Should().Be(clinicalNeedTags);
             executedCommand.Title.Should().Be(projectTitle);
 
             var successNotice = _workpackageOneController.Notices.Dequeue();
@@ -207,10 +207,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var potentialTechnologyTags = "PotentialTechnologyTags";
             var projectOverViewModel = new ProjectOverviewViewModel
             {
-                AreaOfUsageTags = areaOfUsageTags,
-                ClinicalNeedTags = clinicalNeedTags,
-                Gmdn = gmdn,
-                PotentialTechnologyTags = potentialTechnologyTags,
+                AreaOfUsageTag = areaOfUsageTags,
+                ClinicalNeedTag = clinicalNeedTags,
+                Keywords = gmdn,
+                PotentialTechnologyTag = potentialTechnologyTags,
             };
 
             var project = new Project().Set(x => x.Title, projectTitle);
@@ -223,10 +223,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var result = (RedirectToActionResult)_workpackageOneController.ProjectOverview(projectOverViewModel, returnUrl);
 
             // Assert
-            executedCommand.PotentialTechnologyTags.Should().Be(potentialTechnologyTags);
-            executedCommand.Gmdn.Should().Be(gmdn);
-            executedCommand.AreaOfUsageTags.Should().Be(areaOfUsageTags);
-            executedCommand.ClinicalNeedTags.Should().Be(clinicalNeedTags);
+            executedCommand.PotentialTechnologyTag.Should().Be(potentialTechnologyTags);
+            executedCommand.Keywords.Should().Be(gmdn);
+            executedCommand.AreaOfUsageTag.Should().Be(areaOfUsageTags);
+            executedCommand.ClinicalNeedTag.Should().Be(clinicalNeedTags);
             executedCommand.Title.Should().Be(projectTitle);
 
             var successNotice = _workpackageOneController.Notices.Dequeue();
@@ -253,10 +253,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var potentialTechnologyTags = "PotentialTechnologyTags";
             var projectOverViewModel = new ProjectOverviewViewModel
             {
-                AreaOfUsageTags = areaOfUsageTags,
-                ClinicalNeedTags = clinicalNeedTags,
-                Gmdn = gmdn,
-                PotentialTechnologyTags = potentialTechnologyTags,
+                AreaOfUsageTag = areaOfUsageTags,
+                ClinicalNeedTag = clinicalNeedTags,
+                Keywords = gmdn,
+                PotentialTechnologyTag = potentialTechnologyTags,
             };
 
             var project = new Project().Set(x => x.Title, projectTitle);
@@ -267,10 +267,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var result = (ViewResult)_workpackageOneController.ProjectOverview(projectOverViewModel);
 
             // Assert
-            executedCommand.PotentialTechnologyTags.Should().Be(potentialTechnologyTags);
-            executedCommand.Gmdn.Should().Be(gmdn);
-            executedCommand.AreaOfUsageTags.Should().Be(areaOfUsageTags);
-            executedCommand.ClinicalNeedTags.Should().Be(clinicalNeedTags);
+            executedCommand.PotentialTechnologyTag.Should().Be(potentialTechnologyTags);
+            executedCommand.Keywords.Should().Be(gmdn);
+            executedCommand.AreaOfUsageTag.Should().Be(areaOfUsageTags);
+            executedCommand.ClinicalNeedTag.Should().Be(clinicalNeedTags);
             executedCommand.Title.Should().Be(projectTitle);
 
             var successNotice = _workpackageOneController.Notices.Dequeue();
@@ -294,10 +294,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var potentialTechnologyTags = "PotentialTechnologyTags";
             var projectOverViewModel = new ProjectOverviewViewModel
             {
-                AreaOfUsageTags = areaOfUsageTags,
-                ClinicalNeedTags = clinicalNeedTags,
-                Gmdn = gmdn,
-                PotentialTechnologyTags = potentialTechnologyTags,
+                AreaOfUsageTag = areaOfUsageTags,
+                ClinicalNeedTag = clinicalNeedTags,
+                Keywords = gmdn,
+                PotentialTechnologyTag = potentialTechnologyTags,
             };
 
             var project = new Project().Set(x => x.Title, projectTitle);
@@ -310,10 +310,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var result = (ViewResult)_workpackageOneController.ProjectOverview(projectOverViewModel, returnUrl);
 
             // Assert
-            executedCommand.PotentialTechnologyTags.Should().Be(potentialTechnologyTags);
-            executedCommand.Gmdn.Should().Be(gmdn);
-            executedCommand.AreaOfUsageTags.Should().Be(areaOfUsageTags);
-            executedCommand.ClinicalNeedTags.Should().Be(clinicalNeedTags);
+            executedCommand.PotentialTechnologyTag.Should().Be(potentialTechnologyTags);
+            executedCommand.Keywords.Should().Be(gmdn);
+            executedCommand.AreaOfUsageTag.Should().Be(areaOfUsageTags);
+            executedCommand.ClinicalNeedTag.Should().Be(clinicalNeedTags);
             executedCommand.Title.Should().Be(projectTitle);
 
             var successNotice = _workpackageOneController.Notices.Dequeue();

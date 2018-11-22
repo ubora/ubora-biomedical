@@ -21,8 +21,8 @@ namespace Ubora.Domain.Tests.Projects._Specifications
             {
                 NewProjectId = Guid.NewGuid(),
                 Title = searchPhrase,
-                AreaOfUsage = searchPhrase,
-                PotentialTechnology = searchPhrase,
+                AreaOfUsageTag = searchPhrase,
+                PotentialTechnologyTag = searchPhrase,
                 Actor = new UserInfo(Guid.NewGuid(), "")
             });
 
@@ -50,14 +50,14 @@ namespace Ubora.Domain.Tests.Projects._Specifications
             Processor.Execute(new CreateProjectCommand
             {
                 NewProjectId = Guid.NewGuid(),
-                ClinicalNeed = $"testTestTiTlelast",
+                ClinicalNeedTag = $"testTestTiTlelast",
                 Actor = new UserInfo(Guid.NewGuid(), "")
             });
 
             Processor.Execute(new CreateProjectCommand
             {
                 NewProjectId = Guid.NewGuid(),
-                Gmdn = $"test{searchPhrase}last",
+                Keywords = $"test{searchPhrase}last",
                 Actor = new UserInfo(Guid.NewGuid(), "")
             });
 

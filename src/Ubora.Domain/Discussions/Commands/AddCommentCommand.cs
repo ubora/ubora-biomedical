@@ -12,6 +12,7 @@ namespace Ubora.Domain.Discussions.Commands
     public class AddCommentCommand : UserProjectCommand
     {
         public Guid DiscussionId { get; set; }
+        public Guid CommentId { get; set; } = Guid.NewGuid();
         public string CommentText { get; set; }
         public ImmutableDictionary<string, object> AdditionalCommentData { get; set; }
 
@@ -28,7 +29,7 @@ namespace Ubora.Domain.Discussions.Commands
             {
                 var @event = new CommentAddedEvent(
                     initiatedBy: cmd.Actor,
-                    commentId: Guid.NewGuid(),
+                    commentId: cmd.CommentId,
                     commentText: cmd.CommentText,
                     projectId: cmd.ProjectId,
                     additionalCommentData: cmd.AdditionalCommentData);

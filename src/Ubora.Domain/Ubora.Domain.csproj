@@ -16,9 +16,6 @@
     <PackageReference Include="TwentyTwenty.Storage" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Projects\History\Specifications\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Update="Projects\Workpackages\Placeholders.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

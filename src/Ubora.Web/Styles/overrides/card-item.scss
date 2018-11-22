@@ -1,5 +1,4 @@
 .card {
-    height: 100%;
 
     a h5 {
         color: $text-color;
@@ -46,6 +45,7 @@
 
 .user-card {
     @extend .text-center;
+    @extend .h-100;
 
     .avatar {
         height: 120px;
@@ -59,6 +59,20 @@
             border-top-left-radius: 0;
             border-top-right-radius: 0;
         }
+
+        .btn-group a {
+            width: 100%;
+        }
+    }
+}
+
+
+.project-card,
+.user-card,
+.clinical-need-card {
+
+    &:hover {
+        @extend .box-shadow;
     }
 }
 

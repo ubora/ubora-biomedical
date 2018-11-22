@@ -64,7 +64,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 .Returns(profilePictureUrl);
 
             var claimsPrincipal = FakeClaimsPrincipalFactory.CreateAuthenticatedUser();
-            _authorizationService.Setup(x => x.AuthorizeAsync(claimsPrincipal, comment, Policies.CanEditComment))
+            _authorizationService.Setup(x => x.AuthorizeAsync(claimsPrincipal, comment, Policies.CanEditCandidateComment))
                 .ReturnsAsync(AuthorizationResult.Success);
 
             var expectedModel = new CommentViewModel

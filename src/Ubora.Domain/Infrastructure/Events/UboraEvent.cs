@@ -13,7 +13,7 @@ namespace Ubora.Domain.Infrastructure.Events
 
         public UserInfo InitiatedBy { get; }
 
-        public DateTimeOffset Timestamp { get; private set; }
+        public DateTimeOffset Timestamp { get; internal set; }
 
         public abstract string GetDescription();
 

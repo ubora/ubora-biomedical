@@ -1,10 +1,12 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
+using System.Collections.Generic;
+using CSharpFunctionalExtensions;
 
 namespace Ubora.Domain.Discussions
 {
-    public class AttachedToEntity
+    public class AttachedToEntity : ValueObject
     {
         [JsonConverter(typeof(StringEnumConverter))]
         public EntityName EntityName { get; }
@@ -16,10 +18,16 @@ namespace Ubora.Domain.Discussions
             EntityId = entityId;
         }
 
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return EntityName;
+            yield return EntityId;
+        }
     }
 
     public enum EntityName
     {
-        Candidate
+        Candidate,
+        ClinicalNeed
     }
 }

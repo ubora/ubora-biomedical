@@ -14,7 +14,7 @@ namespace Ubora.Web.Authorization.Requirements
                 IsCommentAuthorRequirement requirement,
                 Comment comment)
             {
-                if (context.User.GetId() == comment.UserId)
+                if (context.User.Identity.IsAuthenticated && context.User.GetId() == comment.UserId)
                 {
                     context.Succeed(requirement);
                 }
