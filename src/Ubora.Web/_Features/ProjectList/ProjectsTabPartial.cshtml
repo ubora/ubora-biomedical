@@ -18,7 +18,7 @@
         {
             <div class="tab-pane fade show active" id="myProjects">
                 <div class="my-4">
-                    @await Component.InvokeAsync(typeof(MyProjectListViewComponent), new { hideHeading = true})
+                    @await Component.InvokeAsync(typeof(MyProjectListViewComponent), new { hideHeading = true })
                 </div>
             </div>
 
@@ -43,32 +43,32 @@
                         </a>
                         <div>
                             <form method="get">
-                                <input type="hidden" value="@commaSeparatedAreas" name="@nameof(Model.ByArea)"/>
-                                <input type="hidden" value="@commaSeparatedClinicalNeeds" name="@nameof(Model.ByClinicalNeedTags)"/>
-                                <input type="hidden" value="@commaSeparatedPotentialTechnologies" name="@nameof(Model.ByPotentialTechnologyTags)"/>
-                                <input asp-for="Tab" type="hidden"/>
-                                <input asp-for="Title" type="hidden"/>
-                                <input asp-for="ByStatus" type="hidden"/>
+                                <input type="hidden" value="@commaSeparatedAreas" name="@nameof(Model.ByArea)" />
+                                <input type="hidden" value="@commaSeparatedClinicalNeeds" name="@nameof(Model.ByClinicalNeedTags)" />
+                                <input type="hidden" value="@commaSeparatedPotentialTechnologies" name="@nameof(Model.ByPotentialTechnologyTags)" />
+                                <input asp-for="Tab" type="hidden" />
+                                <input asp-for="Title" type="hidden" />
+                                <input asp-for="ByStatus" type="hidden" />
                                 <div id="sortByParamethers" class="dropdown d-inline-block">
                                     <span class="align-middle px-2">Sort by</span>
                                     @if (Model.SortBy == SortBy.Newest)
                                     {
                                         <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
-                                            Newest
+                                            Oldest
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="sortBy">
-                                            <input name="@nameof(SearchViewModel.SortBy)" value="@SortBy.Oldest" type="hidden"/>
-                                            <button class="dropdown-item" type="submit">Oldest</button>
+                                            <input name="@nameof(SearchViewModel.SortBy)" value="@SortBy.Oldest" type="hidden" />
+                                            <button class="dropdown-item" type="submit">Newest</button>
                                         </div>
                                     }
                                     else
                                     {
                                         <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
-                                            Oldest
+                                            Newest
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="sortBy">
-                                            <input name="@nameof(SearchViewModel.SortBy)" value="@SortBy.Newest" type="hidden"/>
-                                            <button class="dropdown-item" type="submit">Newest</button>
+                                            <input name="@nameof(SearchViewModel.SortBy)" value="@SortBy.Newest" type="hidden" />
+                                            <button class="dropdown-item" type="submit">Oldest</button>
                                         </div>
                                     }
                                 </div>

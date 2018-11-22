@@ -1,19 +1,21 @@
 ﻿@model RelatedProjectsViewModel
 
-@if (Model.RelatedProjects.Any())
-{
-    <p>Here is the list of projects that have been marked as a possible solution to this clinical need. <a asp-area="" asp-route-clinicalNeedId="@ViewContext.RouteData.Values["clinicalNeedId"]" asp-action="@nameof(ProjectCreationController.Create)" asp-controller="@nameof(ProjectCreationController).RemoveSuffix()">Click here to create another related project.</a></p>
+<div class="py-4">
+    @if (Model.RelatedProjects.Any())
+    {
+        <p>Here is the list of projects that have been marked as a possible solution to this clinical need. <a asp-area="" asp-route-clinicalNeedId="@ViewContext.RouteData.Values["clinicalNeedId"]" asp-action="@nameof(ProjectCreationController.Create)" asp-controller="@nameof(ProjectCreationController).RemoveSuffix()">Click here to create another related project.</a></p>
 
-    <div class="row">
-        @foreach (var project in Model.RelatedProjects)
-        {
-            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-7 px-xl-4 mb-4">
-                @await Html.PartialAsync("~/_Components/ProjectCard.cshtml", model: project)
-            </div>
-        }
-    </div>
-}
-else
-{
-    <p>There currently aren't any device projects that have been marked as a possible solution to this clinical need. <a asp-area="" asp-route-clinicalNeedId="@ViewContext.RouteData.Values["clinicalNeedId"]" asp-action="@nameof(ProjectCreationController.Create)" asp-controller="@nameof(ProjectCreationController).RemoveSuffix()">Be the first one to create a related project.</a></p>
-}
+        <div class="row">
+            @foreach (var project in Model.RelatedProjects)
+            {
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-7 px-xl-4 py-4">
+                    @await Html.PartialAsync("~/_Components/ProjectCard.cshtml", model: project)
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>There currently aren't any device projects that have been marked as a possible solution to this clinical need. <a asp-area="" asp-route-clinicalNeedId="@ViewContext.RouteData.Values["clinicalNeedId"]" asp-action="@nameof(ProjectCreationController.Create)" asp-controller="@nameof(ProjectCreationController).RemoveSuffix()">Be the first one to create a related project.</a></p>
+    }
+</div>

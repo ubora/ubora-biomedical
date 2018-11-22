@@ -16,6 +16,7 @@ $breadcrumb-padding-x: 0;
 $nav-tabs-link-active-color: $blue;
 
 @mixin modal-left-nav {
+
     &.modal-left-pane {
         &.show .modal-dialog {
             transform: translate(0, 0);
@@ -40,6 +41,34 @@ $nav-tabs-link-active-color: $blue;
 
                 .modal-body {
                     padding-top: 0;
+
+                    ul.list-sidebar {
+                        padding-left: 1rem;
+                        font-size: 14px;
+
+                        li {
+                            margin-top: .75rem;
+                            margin-bottom: .75rem;
+                        }
+
+                        .side-menu-secondary li {
+                            font-weight: normal;
+                            margin-top: .5rem;
+                            margin-bottom: .5rem;
+                        }
+
+                        .side-menu-secondary span {
+                            margin-left: .6rem;
+                        }
+
+                        .side-menu-tertiary {
+                            padding-left: 1.6rem;
+                        }
+
+                        .side-menu-quaternary {
+                            padding-left: 1.6rem;
+                        }
+                    }
                 }
             }
         }

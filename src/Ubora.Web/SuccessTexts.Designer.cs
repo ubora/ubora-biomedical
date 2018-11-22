@@ -142,7 +142,7 @@ namespace Ubora.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Candidate removed.
+        ///   Looks up a localized string similar to Candidate deleted.
         /// </summary>
         public static string CandidateRemoved {
             get {

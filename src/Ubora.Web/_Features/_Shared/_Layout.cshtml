@@ -1,11 +1,4 @@
-﻿@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
-@functions{
-    public string GetAntiXsrfRequestToken()
-    {
-        return Xsrf.GetAndStoreTokens(Context).RequestToken;
-    }
-}
-
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,9 +21,6 @@
 
         Html.RenderPartial("_LayoutBody");
     }
-
-    <input type="hidden" id="RequestVerificationToken"
-           name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()" />
 
     @RenderSection("Scripts", required: false)
 

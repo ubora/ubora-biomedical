@@ -1,6 +1,7 @@
 ﻿@using Ubora.Web._Areas.ClinicalNeedsArea.LandingPage
 @using Ubora.Web._Areas.ResourcesArea.ResourcesMenus
 @using Ubora.Web._Features.Home
+@using Ubora.Web._Features.ProjectList.Models
 
 @model Ubora.Web._Features.Users.Account.RegisterViewModel
 
@@ -32,94 +33,161 @@
             </div>
         </header>
     }
+    else
+    {
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6 text-center landing-image-discussion">
+                    <p class="lead display-5">Have a need for a bioengineering solution?</p>
+                    <a class="btn btn-cta btn-primary" asp-area="@Areas.ClinicalNeedsArea" asp-action="StepOne" asp-controller="IndicateClinicalNeed">Indicate a clinical need</a>
+                </div>
+                <div class="col-lg-6 text-center landing-image-solution">
+                    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
+                    {
 
-    <section class="bg-light text-center py-5">
-        <div class="container">
+                        <p class="lead display-5">Have an idea? Propose your biomedical device solution.</p>
+                        <a class="btn btn-primary btn-cta align-self-end box-shadow" asp-controller="ProjectCreation" asp-action="Create" role="button">Create a medical device project</a>
+                    }
+                    else
+                    {
+                        <p class="lead display-5">Have an idea? Propose your biomedical solution.</p>
+                        <a class="btn btn-cta btn-disabled align-self-end box-shadow" role="button" disabled title="Your email must be confirmed to create a project!" data-toggle="tooltip" data-placement="bottom">Create a medical device project</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+    <section class="bg-dark text-center py-5">
+        <div class="container py-2">
             <div class="row">
                 <div class="col">
-                    <h1>
-                        UBORA e-infrastructure connects the need to the solution.
-                    </h1>
+                    <h2 class="text-white display-4 py-0">
+                        UBORA e-infrastructure connects the clinical need to the medical device solution.
+                    </h2>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-6 needs-section">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-xl-7">
-                        <h2>
-                            Biomedical device needs
-                        </h2>
-                        <span class="divider border-white"></span>
-                        <p class="mb-4">Find a suitable Bioengineering solution to healthcare problems through open discussion</p>
-                        <ul>
-                            <li>
-                                Find serious problems to solve
-                            </li>
-                            <li>
-                                Discuss on important issues
-                            </li>
-                            <li>
-                                Share your experiences
-                            </li>
-                        </ul>
-                    </div>
+    <section id="publicProjects" class="bg-light-grey">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>Projects collaborated on UBORA e-platform</h2>
+                    <span class="divider border-dark mx-auto"></span>
+                    <p class="text-faded-dark mb-4">UBORA features a project collaboration tool to guide the process of developing a biomedical device in an open-source manner that is in accordance with the international safety standards. All projects are overlooked by the UBORA certified mentors. You can freely create a new project or join existing ones to start collaborating with the community.</p>
                 </div>
-                <div class="row d-flex justify-content-center">
-                    <div class="col-xl-7 d-flex justify-content-end">
-                        <a tabindex="0" class="btn btn-icon color-white" role="button">
-                            <span>
-                                Read more
-                            </span>
-                            <i class="material-icons">arrow_forward</i>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div id="carouselIndicators" class="carousel slide w-100" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="carousel-image-1"></div>
+                                <div class="carousel-caption">
+                                    <div class="carousel-image-1-mobile"></div>
+                                    <h3>Breast Pump</h3>
+                                    <p>Economic and Ecological Breast Pump with Cooling and Preservation System of the Breastmilk. The project consists in a manual breast pump with an air-water cooling system.</p>
+                                    <dl class="my-3 d-none d-md-block">
+                                        <dt>Clinical need:</dt>
+                                        <dd>Prevention of pathology or disease</dd>
+                                        <dt>Area:</dt>
+                                        <dd>Pediatrics</dd>
+                                        <dt>Device classification:</dt>
+                                        <dd>IIa</dd>
+                                    </dl>
+                                    <div class="row justify-content-end my-3">
+                                        <a href="https://ubora-kahawa.azurewebsites.net/Projects/695b13f0-266b-44a5-9e11-4a4ff509a779" class="btn-icon">
+                                            <span>View project</span>
+                                            <i class="material-icons font-size-1-1">arrow_forward</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="carousel-image-2"></div>
+                                <div class="carousel-caption">
+                                    <div class="carousel-image-2-mobile"></div>
+                                    <h3>Protective Mask</h3>
+                                    <p>Different masks designed to help patients with broken nose. In addition, the mask will cover faces with burns and landmine injury from solar radiation and exterior agents. It's apparel is aesthetically pleasing in order to give children more confidence to play with their friends.</p>
+                                    <dl class="my-3 d-none d-md-block">
+                                        <dt>Clinical need:</dt>
+                                        <dd>Rehabilitation</dd>
+                                        <dt>Area:</dt>
+                                        <dd>Rehabilitation</dd>
+                                        <dt>Device classification:</dt>
+                                        <dd>I</dd>
+                                    </dl>
+                                    <div class="row justify-content-end my-3">
+                                        <a href="https://ubora-kahawa.azurewebsites.net/Projects/d6534063-e380-48f8-a50e-f38c3aaddcb5" class="btn-icon">
+                                            <span class="mr-1">View project</span>
+                                            <i class="material-icons font-size-1-1">arrow_forward</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="carousel-image-3"></div>
+                                <div class="carousel-caption">
+                                    <div class="carousel-image-3-mobile"></div>
+                                    <h3>Portable neonatal warmer</h3>
+                                    <p>Portable Neonate Warmer (PNW) provides the appropriate thermal protection and temperature monitoring for neonates with hypothermia that are being transported to a health facility from home.</p>
+                                    <dl class="my-3 d-none d-md-block">
+                                        <dt>Clinical need:</dt>
+                                        <dd>Monitoring purpose</dd>
+                                        <dt>Area:</dt>
+                                        <dd>Pediatrics</dd>
+                                        <dt>Device classification:</dt>
+                                        <dd>IIa</dd>
+                                    </dl>
+                                    <div class="row justify-content-end my-3">
+                                        <a href="https://ubora-kahawa.azurewebsites.net/Projects/753b19aa-266f-4e63-bc8b-9488d220a36f" class="btn-icon">
+                                            <span class="mr-1">View project</span>
+                                            <i class="material-icons font-size-1-1">arrow_forward</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
                         </a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 projects-section">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-xl-7">
-                        <h2>
-                            Biomedical device projects
-                        </h2>
-                        <span class="divider border-white"></span>
-                        <p class="mb-4">Find materials on Regulations, Standards, Design selected by UBORA mentors.</p>
-                        <ul>
-                            <li>
-                                Work on achieving great results
-                            </li>
-                            <li>
-                                Get guidance and mentoring
-                            </li>
-                            <li>
-                                Follow certified workflow
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row d-flex justify-content-center">
-                    <div class="col-xl-7 d-flex justify-content-end">
-                        <a tabindex="0" class="btn btn-icon color-white" role="button">
-                            <span>
-                                Read more
-                            </span>
-                            <i class="material-icons">arrow_forward</i>
-                        </a>
-                    </div>
+            <cache expires-after="@TimeSpan.FromMinutes(15)">
+                @(await Component.InvokeAsync<LandingPageRandomProjectsRow>())
+            </cache>
+            <div class="row">
+                <div class="col d-flex justify-content-end mt-3">
+                    <a class="btn-icon" asp-controller="ProjectList" asp-action="Search">
+                        <span>View all</span>
+                        <i class="material-icons font-size-1-1">arrow_forward</i>
+                    </a>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <section class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2>Needs looking for solution</h2>
                 <span class="divider border-dark mx-auto"></span>
-                <p class="mb-4">UBORA features a project collaboration tool to guide the process of developing a biomedical device in an open-source manner that is in accordance with the international safety standards. All projects are overlooked by the UBORA certified mentors. You can freely create a new project or join existing ones to start collaborating with the community.</p>
+                <p class="mb-4">
+                    UBORA connects needs to solutions. You can share your ideas and find collaborators on a forum in the form of a discussion. Forum connects the people with real needs to people with ideas how to solve them. Every need can grow out as a useful project to help many people.
+                </p>
             </div>
         </div>
 
@@ -136,29 +204,6 @@
             </div>
         </div>
 
-    </section>
-
-    <section id="publicProjects" class="bg-light-grey">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2>Projects collaborated on UBORA e-platform</h2>
-                    <span class="divider border-dark mx-auto"></span>
-                    <p class="text-faded-dark mb-4">UBORA features a project collaboration tool to guide the process of developing a biomedical device in an open-source manner that is in accordance with the international safety standards. All projects are overlooked by the UBORA certified mentors. You can freely create a new project or join existing ones to start collaborating with the community.</p>
-                </div>
-            </div>
-            <cache expires-after="@TimeSpan.FromMinutes(15)">
-                @(await Component.InvokeAsync<LandingPageRandomProjectsRow>())
-            </cache>
-            <div class="row">
-                <div class="col d-flex justify-content-end mt-3">
-                    <a class="btn-icon" asp-controller="ProjectList" asp-action="Search">
-                        <span>View all</span>
-                        <i class="material-icons font-size-1-1">arrow_forward</i>
-                    </a>
-                </div>
-            </div>
-        </div>
     </section>
 
     <div class="container-fluid bg-dark">
@@ -282,6 +327,7 @@
     }
 </script>
 
+@*TODO: remove when donate link works*@
 <script>
     $('.popover-dismiss').popover({
         trigger: 'focus'
