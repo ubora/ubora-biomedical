@@ -11,7 +11,7 @@ using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Dashboard
 {
-    [ProjectRoute("[controller]")]
+    [ProjectRoute("")]
     public class DashboardController : ProjectController
     {
         private readonly IStorageProvider _storageProvider;
@@ -25,6 +25,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
             _imageStorage = imageStorage;
         }
 
+        [HttpGet("")]
         [AllowAnonymous]
         public async Task<IActionResult> Dashboard([FromServices]ProjectDashboardViewModel.Factory modelFactory)
         {
@@ -34,7 +35,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
             return View(nameof(Dashboard), model);
         }
 
-        [Route(nameof(EditProjectTitleAndDescription))]
+        [HttpGet("edit-project")]
         [Authorize(Policies.CanEditProjectTitleAndDescription)]
         public async Task<IActionResult> EditProjectTitleAndDescription()
         {
@@ -47,8 +48,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
             return View(nameof(EditProjectTitleAndDescription), editProjectDescription);
         }
 
-        [HttpPost]
-        [Route(nameof(EditProjectTitleAndDescription))]
+        [HttpPost("edit-project")]
         [Authorize(Policies.CanEditProjectTitleAndDescription)]
         public async Task<IActionResult> EditProjectTitleAndDescription(EditProjectTitleAndDescriptionViewModel model)
         {
@@ -72,15 +72,14 @@ namespace Ubora.Web._Features.Projects.Dashboard
             return RedirectToAction(nameof(Dashboard));
         }
 
-        [Route(nameof(EditProjectImage))]
+        [HttpGet("change-image")]
         [Authorize(Policies.CanChangeProjectImage)]
         public IActionResult EditProjectImage()
         {
             return View();
         }
 
-        [HttpPost]
-        [Route(nameof(EditProjectImage))]
+        [HttpPost("change-image")]
         [Authorize(Policies.CanChangeProjectImage)]
         public async Task<IActionResult> EditProjectImage(EditProjectImageViewModel model)
         {
@@ -110,7 +109,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
             return RedirectToAction(nameof(Dashboard));
         }
 
-        [Route(nameof(RemoveProjectImage))]
+        [HttpGet("remove-image")]
         public IActionResult RemoveProjectImage()
         {
             var model = new RemoveProjectImageViewModel
@@ -121,8 +120,7 @@ namespace Ubora.Web._Features.Projects.Dashboard
             return View(model);
         }
 
-        [HttpPost]
-
+        [HttpPost("remove-image")]
         [Route(nameof(RemoveProjectImage))]
         public async Task<IActionResult> RemoveProjectImage(RemoveProjectImageViewModel model)
         {

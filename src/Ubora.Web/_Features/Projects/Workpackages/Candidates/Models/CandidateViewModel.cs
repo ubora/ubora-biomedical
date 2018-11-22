@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Ubora.Domain.Discussions;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Extensions;
@@ -32,18 +33,17 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
         public bool CanRemoveProjectCandidateImage { get; set; }
         public bool CanRemoveCandidate { get; set; }
 
-        public AddCommentViewModel AddCommentViewModel { get; set; }
-        public IEnumerable<CommentViewModel> Comments { get; set; }
+        public IEnumerable<Ubora.Web._Components.Discussions.Models.CommentViewModel> Comments { get; set; }
         public AddVoteViewModel AddVoteViewModel { get; set; }
         public UserVotesViewModel UserVotesViewModel { get; set; }
 
         public class Factory
         {
             private readonly ImageStorageProvider _imageStorageProvider;
-            private readonly CommentViewModel.Factory _commentFactory;
+            private readonly CommentViewModelFactory _commentFactory;
             private readonly IAuthorizationService _authorizationService;
 
-            public Factory(ImageStorageProvider imageStorageProvider, CommentViewModel.Factory commentFactory, IAuthorizationService authorizationService)
+            public Factory(ImageStorageProvider imageStorageProvider, CommentViewModelFactory commentFactory, IAuthorizationService authorizationService)
             {
                 _imageStorageProvider = imageStorageProvider;
                 _commentFactory = commentFactory;
@@ -54,7 +54,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             {
             }
 
-            public virtual async Task<CandidateViewModel> Create(Candidate candidate, ClaimsPrincipal user)
+            public virtual async Task<CandidateViewModel> Create(Candidate candidate, Discussion candidateDiscussion, ClaimsPrincipal user)
             {
                 var model = new CandidateViewModel();
 
@@ -66,10 +66,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
                 model.HasImage = candidate.HasImage;
 
                 model.ImageUrl = _imageStorageProvider.GetDefaultOrBlobImageUrl(candidate.ImageLocation, ImageSize.Thumbnail400x300);
-                model.AddCommentViewModel = new AddCommentViewModel
-                {
-                    CandidateId = candidate.Id
-                };
+
                 model.AddVoteViewModel = new AddVoteViewModel
                 {
                     CandidateId = candidate.Id
@@ -77,7 +74,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 
                 CalculateScorePercentages(model, candidate);
 
-                var comments = candidate.Comments.Select(async comment => await _commentFactory.Create(user, comment, candidate.Id));
+                var comments = candidateDiscussion.Comments.Select(async comment => await _commentFactory.Create(user, comment, candidate.Id));
                 model.Comments = await Task.WhenAll(comments);
 
                 model.IsVotingAllowed = await _authorizationService.IsAuthorizedAsync(user, candidate, Policies.CanVoteCandidate);

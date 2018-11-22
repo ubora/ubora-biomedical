@@ -5,8 +5,7 @@
     <form asp-controller="Candidates" asp-action="RemoveCandidate" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <input name="CandidateId" type="hidden" value="@Model.CandidateId" />
-            <a class="btn btn-outline-primary" asp-controller="Candidates" asp-action="Candidate" asp-route-candidateId="@Model.CandidateId">Cancel</a>
+            <a class="btn btn-outline-primary" asp-controller="Candidates" asp-action="Candidate">Cancel</a>
             <span class="mx-1"></span>
             <button class="btn btn-primary" type="submit">Remove</button>
         </div>

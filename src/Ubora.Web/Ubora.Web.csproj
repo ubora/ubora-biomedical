@@ -103,4 +103,16 @@
       </ResolvedFileToPublish>
     </ItemGroup>
   </Target>
+  <ItemGroup>
+    <Compile Remove="_Features\Projects\Workpackages\CandidateDiscussions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="_Features\Projects\Workpackages\CandidateDiscussions\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="_Features\Projects\Workpackages\CandidateDiscussions\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="_Features\Projects\Workpackages\CandidateDiscussions\**" />
+  </ItemGroup>
 </Project>

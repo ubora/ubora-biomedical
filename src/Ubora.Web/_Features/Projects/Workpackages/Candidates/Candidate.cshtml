@@ -1,4 +1,6 @@
-﻿@model Ubora.Web._Features.Projects.Workpackages.Candidates.CandidateViewModel
+﻿@using Ubora.Web._Features.Projects.Workpackages.Candidates
+
+@model CandidateViewModel
 
 @{
     var canChangeProjectCandidateImage = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanChangeProjectCandidateImage);
@@ -13,23 +15,23 @@
             <img class="card-img-top img-fluid w-100" src="@Model.ImageUrl" alt="Illustrative project photo" />
             @if (canChangeProjectCandidateImage)
             {
-            <div class="card-img-overlay text-center">
-                @if (canChangeProjectCandidateImage)
-                {
-                <a class="btn-icon" href="@Url.Action("EditCandidateImage", "Candidates" , new { candidateId=Model.Id })">
-                    <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
-                    <span>Change image</span>
-                </a>
-                }
+                <div class="card-img-overlay text-center">
+                    @if (canChangeProjectCandidateImage)
+                    {
+                        <a class="btn-icon" href="@Url.Action("EditCandidateImage", "Candidates" , new { candidateId=Model.Id })">
+                            <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
+                            <span>Change image</span>
+                        </a>
+                    }
 
-                @if (Model.HasImage && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectCandidateImage))
-                {
-                <a class="btn-icon" href="@Url.Action("RemoveCandidateImage", "Candidates" , new { candidateId=Model.Id })">
-                    <i class="material-icons font-size-1-1 ">delete_forever</i>
-                    <span>Remove image</span>
-                </a>
-                }
-            </div>
+                    @if (Model.HasImage && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectCandidateImage))
+                    {
+                        <a class="btn-icon" href="@Url.Action("RemoveCandidateImage", "Candidates" , new { candidateId=Model.Id })">
+                            <i class="material-icons font-size-1-1 ">delete_forever</i>
+                            <span>Remove image</span>
+                        </a>
+                    }
+                </div>
 
             }
         </div>
@@ -42,10 +44,10 @@
             <div class="col-lg-3 d-flex justify-content-end">
                 @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectCandidate))
                 {
-                <a class="btn-icon" href="@Url.Action("EditCandidate", "Candidates" , new { candidateId=Model.Id })">
-                    <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
-                    <span>Edit</span>
-                </a>
+                    <a class="btn-icon" href="@Url.Action("EditCandidate", "Candidates" , new { candidateId=Model.Id })">
+                        <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
+                        <span>Edit</span>
+                    </a>
                 }
             </div>
         </div>
@@ -95,79 +97,24 @@
 
 </div>
 
-<div class="row mb-4">
-    <div class="col-sm-12 col-lg-6">
-        <div class="row">
-            <div class="col-lg-12">
-                <h2 class="mb-4">All comments</h2>
-            </div>
-            <div class="col-lg-12">
-                <div class="row">
-                    @foreach (var comment in Model.Comments)
-                    {
-                    <div class="col-xl-2">
-                        <img class="avatar avatar-comment" src="@comment.ProfilePictureUrl" />
-                    </div>
-                    <div class="col-xl-10 mb-4">
-                        <span class="d-block">
-                            <strong><a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@comment.CommentatorId">@comment.CommentatorName</a></strong>
-                            @if (comment.IsLeader)
-                            {
-                            <i class="material-icons align-middle" title="Project leader">supervisor_account</i>
-                            }
-                            @if (comment.IsMentor)
-                            {
-                            <i class="material-icons align-middle" title="Project mentor">school</i>
-                            }
-                        </span>
-                        <span class="comment more">
-                            @comment.CommentText
-
-                        </span>
-                        @if (comment.IsEdited)
-                        {
-                        <span class="color-grey">(edited)</span>
-                        }
-                        <span class="d-block mt-2 comment-section">
-                            @if (comment.CanBeEdited)
-                            {
-                            <div class="d-flex align-items-center">
-                                <button class="btn btn-link mr-2" role="button" data-toggle="collapse" data-target="#@comment.Id">Edit</button>
-                                <button class="btn btn-link mr-2" role="button" data-toggle="modal" data-target="#removeCommentModal-@comment.Id">Delete</button>
-                                <span class="timeago" title="@(comment.CommentEditedAt.ToString(" o"))">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
-                            </div>
-                            @Html.Partial("RemoveCommentModal", comment.EditCommentViewModel)
-                            <div class="collapse mt-2" id="@comment.Id">@Html.Partial("_EditCommentPartial", comment.EditCommentViewModel)</div>
-
-                            }
-                            else
-                            {
-                            <span class="timeago" title="@(comment.CommentEditedAt.ToString(" o"))">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
-                            }
-                        </span>
-                    </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-12 col-lg-6">
-        <div>
-            @Html.Partial("_AddCommentPartial", Model.AddCommentViewModel)
-        </div>
-    </div>
-</div>
-
-@if (Model.CanRemoveCandidate)
+@Html.Partial("~/_Components/Discussions/_Discussion.cshtml", new Ubora.Web._Components.Discussions.Models.DiscussionViewModel
 {
-<div class="my-4">
-    <hr />
-    <div>
-        <a asp-controller="Candidates" asp-action="RemoveCandidate" asp-route-candidateId="@Model.Id" class="btn btn-outline-danger"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete candidate</span></a>
-    </div>
-</div>
-}
+    Comments = Model.Comments.ToList(),
+    AddCommentActionPath = Url.Action(nameof(CandidatesController.AddComment)),
+    EditCommentActionPath = Url.Action(nameof(CandidatesController.EditComment)),
+    DeleteCommentActionPath = Url.Action(nameof(CandidatesController.RemoveComment))
+})
 
+
+@if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveCandidate))
+{
+    <div class="my-4">
+        <hr />
+        <div>
+            <a asp-controller="Candidates" asp-action="RemoveCandidate" asp-route-candidateId="@Model.Id" class="btn btn-outline-danger"><i class="material-icons align-middle">delete_forever</i><span class="align-middle">Delete candidate</span></a>
+        </div>
+    </div>
+}
 
 @section Scripts {
 <script src="~/dist/voting.bundle.js"></script>
