@@ -12,7 +12,7 @@ namespace Ubora.Web._Features.ProjectList
         [Route("projects/search", Order = 1, Name = "ProjectsSearch")]
         public IActionResult Search([FromServices]ProjectListViewModel.Factory modelFactory, SearchModel model, int page = 1)
         {
-            var projectListViewModel = modelFactory.CreateForSearch(model, page);
+            var projectListViewModel = modelFactory.CreatePagedProjectListViewModel(model, "", page);
 
             var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
 

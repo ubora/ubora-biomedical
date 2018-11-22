@@ -45,15 +45,15 @@ namespace Ubora.Web._Features.ProjectList.Models
                 switch (searchModel.SortBy)
                 {
                     case SortBy.Newest:
-                        sortSpecifications.Add(new SortByCreatedDateTimeSpecfication(SortOrder.Ascending));
+                        sortSpecifications.Add(new SortByCreatedDateTimeSpecfication(SortOrder.Descending));
                         break;
                     case SortBy.Oldest:
-                        sortSpecifications.Add(new SortByCreatedDateTimeSpecfication(SortOrder.Descending));
+                        sortSpecifications.Add(new SortByCreatedDateTimeSpecfication(SortOrder.Ascending));
                         break;
                 }
                 var sortByMultipleSpecification = new SortByMultipleSpecification<Project>(sortSpecifications);
                 
-                var combinedSpecification = CombineSpecificationMethods(false, searchModel);
+                var combinedSpecification = CombineSpecificationMethods(searchModel);
                 
                 var projects = _queryProcessor.Find<Project>(combinedSpecification, sortByMultipleSpecification, 24, page);
 
@@ -61,7 +61,8 @@ namespace Ubora.Web._Features.ProjectList.Models
                 {
                     Header = header,
                     Pager = Pager.From(projects),
-                    Projects = projects.Select(project => _projectCardViewModelFactory.Create(project))
+                    Projects = projects.Select(project => _projectCardViewModelFactory.Create(project)),
+                    ShowProjectsNotFoundMessage = !projects.Any()
                 };
 
                 return model;
@@ -81,46 +82,11 @@ namespace Ubora.Web._Features.ProjectList.Models
                 return model;
             }
 
-            public ProjectListViewModel CreateForSearch(SearchModel searchModel, int page)
-            {
-                if (string.IsNullOrEmpty(searchModel.Title))
-                {
-                    return CreatePagedProjectListViewModel(searchModel: searchModel, header: "",
-                        page: page);
-                }
-
-                var sortSpecifications = new List<ISortSpecification<Project>>();
-                switch (searchModel.SortBy)
-                {
-                    case SortBy.Newest:
-                        sortSpecifications.Add(new SortByCreatedDateTimeSpecfication(SortOrder.Ascending));
-                        break;
-                    case SortBy.Oldest:
-                        sortSpecifications.Add(new SortByCreatedDateTimeSpecfication(SortOrder.Descending));
-                        break;
-                }
-
-                var specification = CombineSpecificationMethods(true, searchModel);
-                var projects = _queryProcessor.Find(specification,
-                    new SortByMultipleSpecification<Project>(sortSpecifications), 24, page);
-
-                var model = new ProjectListViewModel();
-                if (!projects.Any())
-                {
-                    model.ShowProjectsNotFoundMessage = true;
-                }
-
-                model.Pager = Pager.From(projects);
-                model.Projects = projects.Select(project => _projectCardViewModelFactory.Create(project));
-
-                return model;
-            }
-
-            private AndSpecification<Project> CombineSpecificationMethods(bool isSearching, SearchModel searchModel)
+            private AndSpecification<Project> CombineSpecificationMethods(SearchModel searchModel)
             {
                 var specifications = new List<Specification<Project>>();
 
-                if (isSearching)
+                if (!string.IsNullOrWhiteSpace(searchModel.Title))
                 {
                     specifications.Add(new BySearchPhrase(searchModel.Title));
                 }
