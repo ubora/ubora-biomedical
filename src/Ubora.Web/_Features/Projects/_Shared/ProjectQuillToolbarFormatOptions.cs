@@ -13,6 +13,7 @@ namespace Ubora.Web._Features.Projects._Shared
             Hyperlinks = true;
             Images = true;
             Videos = true;
+            TextAlignment = true;
         }
     }
 }
