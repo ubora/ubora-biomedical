@@ -68,6 +68,11 @@
             @extend .mx-auto;
         }
 
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
         p, ul {
             @extend .text-faded;
         }
