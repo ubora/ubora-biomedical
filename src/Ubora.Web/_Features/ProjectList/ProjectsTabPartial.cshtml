@@ -54,21 +54,21 @@
                                     @if (Model.SortBy == SortBy.Newest)
                                     {
                                         <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
-                                            Oldest
+                                            Newest
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="sortBy">
                                             <input name="@nameof(SearchViewModel.SortBy)" value="@SortBy.Oldest" type="hidden" />
-                                            <button class="dropdown-item" type="submit">Newest</button>
+                                            <button class="dropdown-item" type="submit">Oldest</button>
                                         </div>
                                     }
                                     else
                                     {
                                         <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
-                                            Newest
+                                            Oldest
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="sortBy">
                                             <input name="@nameof(SearchViewModel.SortBy)" value="@SortBy.Newest" type="hidden" />
-                                            <button class="dropdown-item" type="submit">Oldest</button>
+                                            <button class="dropdown-item" type="submit">Newest</button>
                                         </div>
                                     }
                                 </div>
