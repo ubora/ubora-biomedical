@@ -1,16 +1,17 @@
-
-/*Markdown editor preview style*/
-.CodeMirror,
-.CodeMirror-scroll {
-    max-height: 24em;
+.ql-container {
+    font-family: inherit;
 }
 
-.CodeMirror-lines {
-    padding: 4px 0 20px 0 !important;
+.ql-container, .ql-editor {
+    min-height: 16rem;
+    max-height: 24rem;
+    font-family: inherit;
+    font-size: 1rem;
 }
 
-.CodeMirror,
-.text-markdown {
+.ql-editor {
+    overflow-y: auto;
+
     h1, h2, h3, h4, h5, h6 {
         font-weight: 500;
     }
@@ -37,34 +38,17 @@
 
     h6 {
         font-size: .75rem;
-    }
-}
-
-
-.text-markdown {
-    font-family: inherit;
-    text-align: justify;
-
-    img {
-        max-width: 100%;
-        object-fit: contain;
-    }
-}
-
-
-.ql-container, .ql-editor {
-    min-height: 16rem;
-    max-height: 24rem;
-    font-family: inherit;
-    font-size: 1rem;
-}
-
-.ql-editor {
-    overflow-y: auto;
+    }   
 }
 
 .user-content {
     img {
         max-width: 100%;
+    }
+
+    &.ql-editor {
+        overflow-y: unset;
+        padding: 0;
+        white-space: unset;
     }
 }
