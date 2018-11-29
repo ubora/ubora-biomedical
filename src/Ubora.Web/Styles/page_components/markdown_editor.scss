@@ -1,17 +1,19 @@
-.ql-container {
-    font-family: inherit;
+.ql-container, .ql-container > .ql-editor {
+    min-height: 16rem;
+    max-height: 24rem;
 }
 
 .ql-container, .ql-editor {
-    min-height: 16rem;
-    max-height: 24rem;
     font-family: inherit;
     font-size: 1rem;
 }
 
-.ql-editor {
-    overflow-y: visible;
+/* Note that whan "ql-editor" is inside "ql-container" then we have the editing view. */
+.ql-container > .ql-editor {
+    overflow-y: auto;
+}
 
+.ql-editor {
     h1, h2, h3, h4, h5, h6 {
         font-weight: 500;
     }
@@ -47,7 +49,6 @@
     }
 
     &.ql-editor {
-        overflow-y: visible;
         padding: 0;
         white-space: normal;
     }
