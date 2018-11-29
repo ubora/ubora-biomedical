@@ -10,7 +10,7 @@
 }
 
 .ql-editor {
-    overflow-y: auto;
+    overflow-y: visible;
 
     h1, h2, h3, h4, h5, h6 {
         font-weight: 500;
@@ -38,7 +38,7 @@
 
     h6 {
         font-size: .75rem;
-    }   
+    }
 }
 
 .user-content {
@@ -47,8 +47,8 @@
     }
 
     &.ql-editor {
-        overflow-y: unset;
+        overflow-y: visible;
         padding: 0;
-        white-space: unset;
+        white-space: normal;
     }
 }
