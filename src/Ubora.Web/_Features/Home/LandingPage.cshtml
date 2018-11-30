@@ -11,30 +11,30 @@
 <div class="landing-page">
     @if (!User.Identity.IsAuthenticated)
     {
-        <header class="masthead text-center d-flex">
-            <div class="container-fluid my-auto">
-                <div class="row">
-                    <div class="col-xl-8 col-lg-10 px-5 mx-auto">
-                        <h1>
-                            <strong>UBORA: Euro-African Open Biomedical Engineering e-platform for Innovation through Education</strong>
-                        </h1>
-                        <span class="divider border-white mx-auto"></span>
-                    </div>
-                    <div class="col-xl-6 col-lg-8 mx-auto">
-                        <p class="text-faded mb-5">The EU funded project aims at creating an e-platform – UBORA – for open-source co-design of new solutions to face the current and future healthcare challenges of Europe and Africa; by exploiting networking, knowledge on rapid prototyping of new ideas and sharing of safety criteria and performance data.</p>
-                    </div>
-                    <div class="col-lg-8 mx-auto">
-                        <a class="btn btn-outline-light btn-primary btn-lg mx-lg-1" href="http://ubora-biomedical.org/" target="_blank">Read latest news on our blog</a>
-                        <a class="btn btn-cta btn-primary btn-lg mx-lg-1 js-animate-scroll" role="button" href="#signUpToUbora">Sign up to UBORA e-platform</a>
-                    </div>
+    <header class="masthead text-center d-flex">
+        <div class="container-fluid my-auto">
+            <div class="row">
+                <div class="col-xl-8 col-lg-10 px-md-5 px-3 mx-auto">
+                    <h1>
+                        <strong>UBORA: Euro-African Open Biomedical Engineering e-platform for Innovation through Education</strong>
+                    </h1>
+                    <span class="divider border-white mx-auto"></span>
+                </div>
+                <div class="col-xl-6 col-lg-8 mx-auto">
+                    <p class="text-faded mb-5">The EU funded project aims at creating an e-platform – UBORA – for open-source co-design of new solutions to face the current and future healthcare challenges of Europe and Africa; by exploiting networking, knowledge on rapid prototyping of new ideas and sharing of safety criteria and performance data.</p>
+                </div>
+                <div class="col-lg-8 mx-auto">
+                    <a class="btn btn-outline-light btn-primary btn-lg mx-lg-1" href="http://ubora-biomedical.org/" target="_blank">Read latest news on our blog</a>
+                    <a class="btn btn-cta btn-primary btn-lg mx-lg-1 js-animate-scroll" role="button" href="#signUpToUbora">Sign up to UBORA e-platform</a>
                 </div>
             </div>
-            <div class="pull-down">
-                <a class="ct-js-btn-scroll js-animate-scroll" href="#publicProjects">
-                    <i class="material-icons text-faded">keyboard_arrow_down</i>
-                </a>
+        </div>
+        <div class="pull-down">
+            <div class="scroll-indicator">
+                <a class="ct-js-btn-scroll js-animate-scroll" href="#publicProjects"><span></span></a>
             </div>
-        </header>
+        </div>
+    </header>
     }
     else
     {
@@ -118,18 +118,18 @@
                                 <div class="carousel-image-1"></div>
                                 <div class="carousel-caption">
                                     <div class="carousel-image-1-mobile"></div>
-                                    <h3>Breast Pump</h3>
-                                    <p>Economic and Ecological Breast Pump with Cooling and Preservation System of the Breastmilk. The project consists in a manual breast pump with an air-water cooling system.</p>
+                                    <h3>Palpreast</h3>
+                                    <p>Palpreast is a wearable stretchy top with a pressure sensing textile that is adapted to breast with an inflation system. This system applies an external pressure to simulate hand movement that detects the presence of nodules, which are stiffer than the breast tissue.</p>
                                     <dl class="my-3 d-none d-md-block">
                                         <dt>Clinical need:</dt>
-                                        <dd>Prevention of pathology or disease</dd>
+                                        <dd>
+                                            Remote or self-diagnosis
+                                        </dd>
                                         <dt>Area:</dt>
-                                        <dd>Pediatrics</dd>
-                                        <dt>Device classification:</dt>
-                                        <dd>IIa</dd>
+                                        <dd>Oncology</dd>
                                     </dl>
                                     <div class="row justify-content-end my-3">
-                                        <a href="https://ubora-kahawa.azurewebsites.net/Projects/695b13f0-266b-44a5-9e11-4a4ff509a779" class="btn-icon">
+                                        <a href="https://ubora-kahawa.azurewebsites.net/projects/eb95b284-014c-4709-90f4-87a1f07968b9" class="btn-icon">
                                             <span>View project</span>
                                             <i class="material-icons font-size-1-1">arrow_forward</i>
                                         </a>
@@ -175,6 +175,28 @@
                                     <div class="row justify-content-end my-3">
                                         <a href="https://ubora-kahawa.azurewebsites.net/Projects/753b19aa-266f-4e63-bc8b-9488d220a36f" class="btn-icon">
                                             <span class="mr-1">View project</span>
+                                            <i class="material-icons font-size-1-1">arrow_forward</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="carousel-image-4"></div>
+                                <div class="carousel-caption">
+                                    <div class="carousel-image-4-mobile"></div>
+                                    <h3>Breast Pump</h3>
+                                    <p>Economic and Ecological Breast Pump with Cooling and Preservation System of the Breastmilk. The project consists in a manual breast pump with an air-water cooling system.</p>
+                                    <dl class="my-3 d-none d-md-block">
+                                        <dt>Clinical need:</dt>
+                                        <dd>Prevention of pathology or disease</dd>
+                                        <dt>Area:</dt>
+                                        <dd>Pediatrics</dd>
+                                        <dt>Device classification:</dt>
+                                        <dd>IIa</dd>
+                                    </dl>
+                                    <div class="row justify-content-end my-3">
+                                        <a href="https://ubora-kahawa.azurewebsites.net/Projects/695b13f0-266b-44a5-9e11-4a4ff509a779" class="btn-icon">
+                                            <span>View project</span>
                                             <i class="material-icons font-size-1-1">arrow_forward</i>
                                         </a>
                                     </div>

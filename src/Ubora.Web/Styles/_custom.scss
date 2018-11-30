@@ -32,6 +32,7 @@
 @import 'page_components/nav_sidemenu.scss';
 @import 'page_components/nav_tabs.scss';
 @import 'page_components/comments.scss';
+@import 'page_components/scroll_indicator.scss';
 
 body {
     color: $text-color;
@@ -47,13 +48,4 @@ main {
     min-height: 70vh;
 }
 
-@mixin form-field-border {
-    border-bottom: 1px solid $secondary-shade;
-}
 
-@mixin bg-size-cover {
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
