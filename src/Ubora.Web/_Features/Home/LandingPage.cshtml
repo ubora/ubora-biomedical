@@ -11,30 +11,30 @@
 <div class="landing-page">
     @if (!User.Identity.IsAuthenticated)
     {
-    <header class="masthead text-center d-flex">
-        <div class="container-fluid my-auto">
-            <div class="row">
-                <div class="col-xl-8 col-lg-10 px-md-5 px-3 mx-auto">
-                    <h1>
-                        <strong>UBORA: Euro-African Open Biomedical Engineering e-platform for Innovation through Education</strong>
-                    </h1>
-                    <span class="divider border-white mx-auto"></span>
-                </div>
-                <div class="col-xl-6 col-lg-8 mx-auto">
-                    <p class="text-faded mb-5">The EU funded project aims at creating an e-platform – UBORA – for open-source co-design of new solutions to face the current and future healthcare challenges of Europe and Africa; by exploiting networking, knowledge on rapid prototyping of new ideas and sharing of safety criteria and performance data.</p>
-                </div>
-                <div class="col-lg-8 mx-auto">
-                    <a class="btn btn-outline-light btn-primary btn-lg mx-lg-1" href="http://ubora-biomedical.org/" target="_blank">Read latest news on our blog</a>
-                    <a class="btn btn-cta btn-primary btn-lg mx-lg-1 js-animate-scroll" role="button" href="#signUpToUbora">Sign up to UBORA e-platform</a>
+        <header id="masthead" class="masthead text-center d-flex">
+            <div class="container-fluid my-auto">
+                <div class="row">
+                    <div class="col-xl-8 col-lg-10 px-md-5 px-3 mx-auto">
+                        <h1>
+                            <strong>UBORA: Euro-African Open Biomedical Engineering e-platform for Innovation through Education</strong>
+                        </h1>
+                        <span class="divider border-white mx-auto"></span>
+                    </div>
+                    <div class="col-xl-6 col-lg-8 mx-auto">
+                        <p class="text-faded mb-5">The EU funded project aims at creating an e-platform – UBORA – for open-source co-design of new solutions to face the current and future healthcare challenges of Europe and Africa; by exploiting networking, knowledge on rapid prototyping of new ideas and sharing of safety criteria and performance data.</p>
+                    </div>
+                    <div class="col-lg-8 mx-auto">
+                        <a class="btn btn-outline-light btn-primary btn-lg mx-lg-1" href="http://ubora-biomedical.org/" target="_blank">Read latest news on our blog</a>
+                        <a class="btn btn-cta btn-primary btn-lg mx-lg-1 js-animate-scroll" role="button" href="#signUpToUbora">Sign up to UBORA e-platform</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="pull-down">
-            <div class="scroll-indicator">
-                <a class="ct-js-btn-scroll js-animate-scroll" href="#publicProjects"><span></span></a>
+            <div id="pull-down" class="pull-down">
+                <div class="scroll-indicator">
+                    <a class="ct-js-btn-scroll js-animate-scroll" href="#publicProjects"><span></span></a>
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
     }
     else
     {
@@ -51,7 +51,7 @@
                             </h2>
                             <span class="divider border-white"></span>
                             <p class="text-faded mb-4">Have a need for a bioengineering solution?</p>
-                            <a tabindex="0" class="btn btn-outline-light btn-primary btn-lg" role="button" asp-action="@nameof(IndicateClinicalNeedController.StepOne)" asp-controller="@nameof(IndicateClinicalNeedController).RemoveSuffix()" asp-area="@Areas.ClinicalNeedsArea" >Indicate a need</a>
+                            <a tabindex="0" class="btn btn-outline-light btn-primary btn-lg" role="button" asp-action="@nameof(IndicateClinicalNeedController.StepOne)" asp-controller="@nameof(IndicateClinicalNeedController).RemoveSuffix()" asp-area="@Areas.ClinicalNeedsArea">Indicate a need</a>
                         </div>
                     </div>
                 </div>
@@ -66,8 +66,8 @@
                             </h2>
                             <span class="divider border-white"></span>
                             <p class="text-faded mb-4">Have a biomedical device idea?</p>
-                            
-                            
+
+
                             @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
                             {
                                 <a class="btn btn-outline-light btn-primary btn-lg" role="button" asp-action="@nameof(ProjectCreationController.Create)" asp-controller="@nameof(ProjectCreationController).RemoveSuffix()" asp-area="@Areas.ResourcesArea">Create a project</a>
@@ -82,7 +82,7 @@
                 </div>
             </div>
         </div>
-   }
+    }
 
     <section class="bg-dark text-center py-5">
         <div class="container py-2">
@@ -387,7 +387,7 @@
 </script>
 
 <script>
-    $(document).on('click', 'a[class*="js-animate-scroll"]', function (e) {
+    $().on('click', 'a[class*="js-animate-scroll"]', function (e) {
         // target element id
         var id = $(this).attr('href');
 
@@ -405,5 +405,17 @@
 
         // animated top scrolling
         $('body, html').animate({ scrollTop: pos });
+    });
+
+    // Hide pull-down when scrolled down enough
+    var $pulldown = $('#pull-down');
+    var $masthead = $('#masthead');
+    var $window = $(window);
+    $window.scroll(function () {
+        if ($window.scrollTop() > $masthead.prop('scrollHeight')) {
+            $pulldown.fadeOut(200);
+        } else {
+            $pulldown.fadeIn(200);
+        }
     });
 </script>
