@@ -72,18 +72,20 @@
                     <dd class="mb-3">@Model.PotentialTechnologyTag</dd>
                     @if (@Model.Keywords != null)
                     {
-                        <dt>Project keywords</dt>
-                        <dd class="mb-3">@Model.Keywords</dd>
+                    <dt>Project keywords</dt>
+                    <dd class="mb-3">@Model.Keywords</dd>
                     }
-                    @if (Model.IsProjectMember)
+
+                    @if (Model.DeviceClassification != null)
                     {
                         <dt>Device classification</dt>
-                        @if (@Model.DeviceClassification != null)
+                        <dd>@Model.DeviceClassification</dd>
+                    } 
+                    else
+                    {
+                        if (Model.IsProjectMember)
                         {
-                            <dd>@Model.DeviceClassification</dd>
-                        }
-                        else
-                        {
+                            <dt>Device classification</dt>
                             <span class="text-informative">To obtain device classification go to </span>
                             <a asp-action="Index" asp-controller="DeviceClassifications" class="font-italic"> device classification questionnaire</a>
                         }

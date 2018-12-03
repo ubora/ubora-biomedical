@@ -33,20 +33,6 @@
         .container-fluid {
             z-index: 1;
         }
-
-        .pull-down {
-            position: absolute;
-            bottom: 2%;
-            z-index: 1;
-            left: -moz-calc(50% - 32px);
-            left: -webkit-calc(50% - 32px);
-            left: -o-calc(50% - 32px);
-            left: calc(50% - 32px);
-
-            .material-icons {
-                font-size: 4rem;
-            }
-        }
     }
 
     section {
@@ -105,7 +91,8 @@
 
             .carousel-image-1,
             .carousel-image-2,
-            .carousel-image-3 {
+            .carousel-image-3,
+            .carousel-image-4 {
                 width: 1108px;
                 height: 400px;
                 background-repeat: no-repeat;
@@ -115,15 +102,19 @@
             }
 
             .carousel-image-1 {
-                background-image: url("/images/slide1.png");
+                background-image: url("/images/carousel/palpreast.jpg");
             }
 
             .carousel-image-2 {
-                background-image: url("/images/slide2.png");
+                background-image: url("/images/carousel/protectivemask.png");
             }
 
             .carousel-image-3 {
-                background-image: url("/images/slide3.png");
+                background-image: url("/images/carousel/neonatalwarmer.png");
+            }
+
+            .carousel-image-4 {
+                background-image: url("/images/carousel/breastpump.png");
             }
 
             .carousel-caption {
@@ -174,7 +165,24 @@
     background-image: url("../images/discussion.jpg");
     background-repeat: no-repeat;
     box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.5);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: center;
 }
+
+
+.pull-down {
+    position: absolute;
+    bottom: 11%;
+    z-index: 1;
+    left: -moz-calc(50%);
+    left: -webkit-calc(50%);
+    left: -o-calc(50%);
+    left: calc(50%);
+}
+
 
 @include media-breakpoint-up(xl) {
     header.masthead h1 {
@@ -209,7 +217,8 @@
             .carousel-item {
                 .carousel-image-1,
                 .carousel-image-2,
-                .carousel-image-3 {
+                .carousel-image-3,
+                .carousel-image-4 {
                     background-image: none;
                     height: 700px;
                     width: 100%;
@@ -221,7 +230,8 @@
 
                     .carousel-image-1-mobile,
                     .carousel-image-2-mobile,
-                    .carousel-image-3-mobile {
+                    .carousel-image-3-mobile,
+                    .carousel-image-4-mobile {
                         height: 300px;
                         margin-bottom: 1rem;
                         background-repeat: no-repeat;
@@ -229,15 +239,19 @@
                     }
 
                     .carousel-image-1-mobile {
-                        background-image: url("/images/slide1.png");
+                        background-image: url("/images/carousel/palpreast.jpg");
                     }
 
                     .carousel-image-2-mobile {
-                        background-image: url("/images/slide2.png");
+                        background-image: url("/images/carousel/protectivemask.png");
                     }
 
                     .carousel-image-3-mobile {
-                        background-image: url("/images/slide3.png");
+                        background-image: url("/images/carousel/neonatalwarmer.png");
+                    }
+
+                    .carousel-image-4-mobile {
+                        background-image: url("/images/carousel/breastpump.png");
                     }
                 }
             }
@@ -266,8 +280,18 @@
                 }
             }
         }
+
+        .pull-down {
+            position: fixed;
+            bottom: 11%;
+            left: -moz-calc(10%);
+            left: -webkit-calc(10%);
+            left: -o-calc(10%);
+            left: calc(10%);
+        }
     }
 }
+
 
 @include media-breakpoint-down(xs) {
     .landing-page {
@@ -286,6 +310,8 @@
         }
     }
 }
+
+
 /*IE style*/
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
 
