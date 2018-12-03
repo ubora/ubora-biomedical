@@ -112,6 +112,7 @@
                             <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
                             <li data-target="#carouselIndicators" data-slide-to="1"></li>
                             <li data-target="#carouselIndicators" data-slide-to="2"></li>
+                            <li data-target="#carouselIndicators" data-slide-to="3"></li>
                         </ol>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
@@ -387,35 +388,41 @@
 </script>
 
 <script>
-    $().on('click', 'a[class*="js-animate-scroll"]', function (e) {
-        // target element id
-        var id = $(this).attr('href');
+    initSmoothLinkScrolling();
+    initHidingAndShowingOfPulldownArrow();
 
-        // target element
-        var $id = $(id);
-        if ($id.length === 0) {
-            return;
-        }
+    function initSmoothLinkScrolling() {
+        $('a[class*="js-animate-scroll"]').on('click', function (e) {
+            // target element id
+            var id = $(this).attr('href');
 
-        // prevent standard hash navigation (avoid blinking in IE)
-        e.preventDefault();
+            // target element
+            var $id = $(id);
+            if ($id.length === 0) {
+                return;
+            }
 
-        // top position relative to the document
-        var pos = $id.offset().top;
+            // prevent standard hash navigation (avoid blinking in IE)
+            e.preventDefault();
 
-        // animated top scrolling
-        $('body, html').animate({ scrollTop: pos });
-    });
+            // top position relative to the document
+            var pos = $id.offset().top;
 
-    // Hide pull-down when scrolled down enough
-    var $pulldown = $('#pull-down');
-    var $masthead = $('#masthead');
-    var $window = $(window);
-    $window.scroll(function () {
-        if ($window.scrollTop() > $masthead.prop('scrollHeight')) {
-            $pulldown.fadeOut(200);
-        } else {
-            $pulldown.fadeIn(200);
-        }
-    });
+            // animated top scrolling
+            $('body, html').animate({ scrollTop: pos });
+        });
+    }
+
+    function initHidingAndShowingOfPulldownArrow() {
+        var $pulldown = $('#pull-down');
+        var $masthead = $('#masthead');
+        var $window = $(window);
+        $window.scroll(function () {
+            if ($window.scrollTop() > $masthead.prop('scrollHeight')) {
+                $pulldown.fadeOut(200);
+            } else {
+                $pulldown.fadeIn(200);
+            }
+        });
+    }
 </script>
