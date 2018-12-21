@@ -45,7 +45,7 @@
             <div class="col">
                 @if (!Model.IsInDraft)
                 {
-                    <span class="badge badge-pill badge-green font-size-1">WP1 accepted by UBORA formal review</span>
+                    <span class="badge badge-pill badge-green font-size-1">Approved by mentor</span>
                 }
             </div>
         </div>
@@ -100,19 +100,19 @@
                 <h2>Project description</h2>
                 @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectTitleAndDescription))
                 {
-                <a class="btn-icon" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription">
-                    <i class="material-icons font-size-1-1">mode_edit</i>
-                    <span id="EditDescription">Edit</span>
-                </a>
+                    <a class="btn-icon" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription">
+                        <i class="material-icons font-size-1-1">mode_edit</i>
+                        <span id="EditDescription">Edit</span>
+                    </a>
                 }
                 @if (!Model.IsProjectMember && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanJoinProject))
                 {
-                <div class="d-flex justify-content-end align-self-start">
-                    <a class="btn btn-outline-primary" href="@Url.Action("Join", "Members" )">
-                        <i class="material-icons align-middle">add</i>
-                        <span>Join project</span>
-                    </a>
-                </div>
+                    <div class="d-flex justify-content-end align-self-start">
+                        <a class="btn btn-outline-primary" href="@Url.Action("Join", "Members" )">
+                            <i class="material-icons align-middle">add</i>
+                            <span>Join project</span>
+                        </a>
+                    </div>
                 }
             </div>
         </div>
