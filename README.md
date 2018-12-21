@@ -3,7 +3,8 @@
 Documents are under `Documents` folder.
 
 ## Starting project
-You need:  
+You need:
+
 * Docker
 * Node
 
