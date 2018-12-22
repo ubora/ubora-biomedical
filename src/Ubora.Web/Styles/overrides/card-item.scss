@@ -47,6 +47,14 @@
     @extend .text-center;
     @extend .h-100;
 
+    .card-title {
+        color: $text-color;
+
+        a {
+            color: $text-color;
+        }
+    }
+
     .avatar {
         height: 120px;
         width: 120px;
@@ -80,6 +88,18 @@
     .card {
         img.project-img {
             height: 274px;
+        }
+    }
+}
+
+@media (max-width: 1600px) {
+    .project-card-list {
+        padding-right: .5rem !important;
+        padding-left: .5rem !important;
+
+        > [class*="col-"] {
+            padding-right: .5rem !important;
+            padding-left: .5rem !important;
         }
     }
 }
