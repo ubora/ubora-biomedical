@@ -94,12 +94,12 @@
 
 @media (max-width: 1600px) {
     .project-card-list {
-        padding-right: .5rem !important;
-        padding-left: .5rem !important;
+        padding-right: .5rem;
+        padding-left: .5rem;
 
         > [class*="col-"] {
-            padding-right: .5rem !important;
-            padding-left: .5rem !important;
+            padding-right: .5rem;
+            padding-left: .5rem;
         }
     }
 }
