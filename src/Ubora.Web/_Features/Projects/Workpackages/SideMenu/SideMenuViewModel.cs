@@ -149,6 +149,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "ResultsFromVitroOrVivo","Results from vitro/vivo", href: Wp4StepLink("ResultsFromVitroOrVivo")),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "WP4StructuredInformationOnTheDevice","Structured information on the device", href: _urlHelper.Action("StructuredInformationOnTheDevice", "WorkpackageFour")),
                         //new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "PreproductionDocuments","Preproduction documents", href: "#"),
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "protostep","protostep", href: _urlHelper.Action("protostep", "workpackagefour"))
                     }).SetStatus(workpackageStatus);
                 }
 
