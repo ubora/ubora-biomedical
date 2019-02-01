@@ -22,7 +22,7 @@ namespace Ubora.Domain.Tests.Projects._Commands
                 Title = "title"
             });
 
-            var newDescription = "newDescription";
+            var newDescription = new QuillDelta("{newDescription}");
             var newTitle = "newtitle";
             var command = new UpdateProjectTitleAndDescriptionCommand
             {
@@ -38,10 +38,10 @@ namespace Ubora.Domain.Tests.Projects._Commands
             // Assert
             var project = Session.Load<Project>(projectId);
 
-            project.Description.Should().Be(newDescription);
+            project.DescriptionV2.Should().Be(newDescription);
             project.Title.Should().Be(newTitle);
 
-            var projectDescriptionEditedEvents = Session.Events.QueryRawEventDataOnly<EditProjectDescriptionEvent>();
+            var projectDescriptionEditedEvents = Session.Events.QueryRawEventDataOnly<ProjectDescriptionEditedEventV2>();
             projectDescriptionEditedEvents.Count().Should().Be(1);
             projectDescriptionEditedEvents.First().Description.Should().Be(newDescription);
             projectDescriptionEditedEvents.First().ProjectId.Should().Be(projectId);
@@ -63,7 +63,7 @@ namespace Ubora.Domain.Tests.Projects._Commands
                 Title = "title"
             });
 
-            var newDescription = "newDescription";
+            var newDescription = new QuillDelta("{newDescription}");
             var command = new UpdateProjectTitleAndDescriptionCommand
             {
                 ProjectId = projectId,
@@ -78,10 +78,10 @@ namespace Ubora.Domain.Tests.Projects._Commands
             // Assert
             var project = Session.Load<Project>(projectId);
 
-            project.Description.Should().Be(newDescription);
+            project.DescriptionV2.Should().Be(newDescription);
             project.Title.Should().Be("title");
 
-            var projectDescriptionEditedEvents = Session.Events.QueryRawEventDataOnly<EditProjectDescriptionEvent>();
+            var projectDescriptionEditedEvents = Session.Events.QueryRawEventDataOnly<ProjectDescriptionEditedEventV2>();
             projectDescriptionEditedEvents.Count().Should().Be(1);
             projectDescriptionEditedEvents.First().Description.Should().Be(newDescription);
             projectDescriptionEditedEvents.First().ProjectId.Should().Be(projectId);

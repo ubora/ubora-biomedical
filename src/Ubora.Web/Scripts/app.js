@@ -23,13 +23,6 @@ $(function () {
         e.clearSelection();
     });
 
-    function showMomentaryTooltipMessage(e, message) {
-        const $trigger = $(e.trigger);
-        const initialTitle = $trigger.attr('data-original-title');
-        $trigger.attr('data-original-title', message).tooltip('show');
-        $trigger.attr('data-original-title', initialTitle);
-    }
-
     // Disable form button when submitted & and don't ask confirmation about navigating away
     $('form').on('submit', function () {
         const $this = $(this);
@@ -50,22 +43,36 @@ $(function () {
                 return;
             };
 
-            console.log('foo')
-
             possiblyChangedForms.push({ form: $form, initialSerialize: $form.serialize() })
         })
         .on('change', function () {
-            window.onbeforeunload = null;
-
-            possiblyChangedForms.forEach(function (item) {
-                console.log(item.form.serialize())
-
-                if (item.form.serialize() !== item.initialSerialize) {
-                    window.onbeforeunload = function () { return "You may have unsaved changes. Do you really want to leave?" };
-                    return;
-                }
-            });
+            refreshLeavingPageWithUnsavedChangesWarningMessage(possiblyChangedForms);
         })
+        .on('reset', function () {
+            // Execute with a small delay because the 'reset' does not take effect on the form values immediately.
+            setTimeout(function () {
+                refreshLeavingPageWithUnsavedChangesWarningMessage(possiblyChangedForms);
+            }, 250)
+        });
+
 });
 
 global.UBORA = {};
+
+function showMomentaryTooltipMessage(e, message) {
+    const $trigger = $(e.trigger);
+    const initialTitle = $trigger.attr('data-original-title');
+    $trigger.attr('data-original-title', message).tooltip('show');
+    $trigger.attr('data-original-title', initialTitle);
+}
+
+function refreshLeavingPageWithUnsavedChangesWarningMessage(possiblyChangedForms) {
+    window.onbeforeunload = null;
+
+    possiblyChangedForms.forEach(function (item) {
+        if (item.form.serialize() !== item.initialSerialize) {
+            window.onbeforeunload = function () { return "You may have unsaved changes. Do you really want to leave?"; };
+            return;
+        }
+    });
+}

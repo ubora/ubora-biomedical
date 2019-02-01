@@ -6,6 +6,7 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">UBORA</a></li>
         <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Resources</a></li>
         <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
     </ol>
@@ -26,7 +27,7 @@
         <label asp-for="Body">Content</label>
         <input asp-for="Body" type="hidden" />
         <span asp-validation-for="Body"></span>
-        <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial")</div>
+        <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial", new QuillToolbarFormatOptionsForResource())</div>
         <div id="editor-container" class="form-group" style="display: none;"></div>
     </div>
     <div class="form-group">
@@ -86,7 +87,6 @@
         var editorSelector = "#editor-container";
         var toolbarSelector = "#toolbar-container";
         var initialContent = @Html.Raw(Model.Body);
-        UBORA.initAddOrEditResource(editorSelector, toolbarSelector, contentInputSelector, initialContent);
-
+        UBORA.initEditor(editorSelector, toolbarSelector, contentInputSelector, initialContent);
     </script>
 }

@@ -1,0 +1,99 @@
+﻿@model StepTwoModel
+
+@{
+    ViewData["Title"] = "Indicate a new clinical need";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">UBORA</a></li>
+        <li class="breadcrumb-item"><a asp-action="LandingPage" asp-controller="LandingPage">Clinical needs</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+    </ol>
+</nav>
+
+<h1 class="d-inline-block">@ViewData["Title"]</h1>
+<span class="color-grey ml-2">(Optional fields)</span>
+
+<p>
+    Following tags helps to specify your problem.
+</p>
+
+<form class="js-onbeforeunload" asp-antiforgery="true">
+    <input asp-for="Title" type="hidden" />
+    <input asp-for="Description" type="hidden" />
+
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-group">
+        <label asp-for="ClinicalNeedTag">Clinical need type</label>
+        <select asp-for="ClinicalNeedTag" class="form-control">
+            <option selected disabled>Select a clinical need type</option>
+            @foreach (var tag in Tags.ClinicalNeeds)
+            {
+                <option value="@tag">@tag</option>
+            }
+        </select>
+        <span asp-validation-for="ClinicalNeedTag"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AreaOfUsageTag">Area</label>
+        <select asp-for="AreaOfUsageTag" class="form-control">
+            <option selected disabled>Select an area of usage</option>
+            <optgroup label="From surgical fields">
+                @foreach (var tag in Tags.SurgicalFieldAreas)
+                {
+                    <option value="@tag">@tag</option>
+                }
+            </optgroup>
+            <optgroup label="From internal medicine">
+                @foreach (var tag in Tags.InternalMedicineAreas)
+                {
+                    <option value="@tag">@tag</option>
+                }
+            </optgroup>
+            <optgroup label="From diagnostic medicine">
+                @foreach (var tag in Tags.DiagnosticMedicineAreas)
+                {
+                    <option value="@tag">@tag</option>
+                }
+            </optgroup>
+            <optgroup label="From other major disciplines">
+                @foreach (var tag in Tags.OtherMajorDisciplineAreas)
+                {
+                    <option value="@tag">@tag</option>
+                }
+            </optgroup>
+        </select>
+        <span asp-validation-for="AreaOfUsageTag"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PotentialTechnologyTag">Technology</label>
+        <select asp-for="PotentialTechnologyTag" class="form-control">
+            <option selected disabled>Select potential technology</option>
+            @foreach (var tag in Tags.PotentialTechnologies)
+            {
+                <option value="@tag">@tag</option>
+            }
+        </select>
+        <span asp-validation-for="PotentialTechnologyTag"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Keywords">Clinical need keywords</label>
+        <input asp-for="Keywords" class="form-control" placeholder="Describe the clinical need with a few keywords (for example: limited articular mobility, signal acquisition, tumor diagnosis)" />
+        <span asp-validation-for="Keywords"></span>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center">
+        <button class="btn-icon" formaction="@Url.Action(nameof(IndicateClinicalNeedController.StepOne))" formmethod="post">
+            <i class="material-icons">keyboard_backspace</i>
+            <span>Back</span>
+        </button>
+        <div>
+            <span class="px-4 py-1">2/2</span>
+            <button class="btn btn-primary" type="submit" formaction="@Url.Action(nameof(IndicateClinicalNeedController.Finalize))">Indicate a new need</button>
+        </div>
+    </div>
+</form>

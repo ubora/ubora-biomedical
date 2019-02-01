@@ -14,15 +14,31 @@
 
 <div class="container-fluid">
     <div class="row">
-
         @if (Model.Tab == TabType.AllProjects)
         {
-        <div class="col-xl-2 col-lg-3 py-5 pb-4 border-right h-min-lg-100-footer">
-            @Html.Partial("_ProjectSearchFiltersForm.cshtml", Model)
+        <div class="col-xl-2 col-lg-3 py-lg-5 py-3 pb-4 border-right h-min-lg-100-footer">
+            <div class="pt-lg-7">
+                @Html.Partial("_ProjectSearchFiltersForm.cshtml", Model)
+            </div>        
         </div>
         }
-        <div class="@(Model.Tab == TabType.AllProjects ? "col-xl-8 col-lg-9 px-xl-7 py-5" : "col-xl-8 col-lg-9 px-xl-7 py-5 offset-xl-2 offset-lg-1")">
-            <h1>@ViewData["Title"]</h1>
+        <div class="@(Model.Tab == TabType.AllProjects ? "col-xl-8 col-lg-9 px-xl-7 py-lg-5 py-3" : "container py-lg-5 py-3")">
+            <div class="row">
+                <div class="col-lg-8 order-lg-1 order-2">
+                    <h1>@ViewData["Title"]</h1>
+                </div>               
+                <div class="col d-flex justify-content-end order-lg-2 order-1">
+                    @if (isSignedIn)
+                    {
+                        <a class="btn btn-outline-primary btn-md-block my-lg-0 my-3 align-self-start" asp-controller="ProjectCreation" asp-action="Create" role="button">
+                            <i class="material-icons">add</i>
+                            <span>
+                                Create project
+                            </span>
+                        </a>
+                    }
+                </div>
+            </div>
             <ul class="nav nav-tabs" id="projectsTab">
                 @if (isSignedIn)
                 {
@@ -37,24 +53,12 @@
                         All projects
                     </a>
                 </li>
-
-                @if(isSignedIn){
-                    <li class="ml-sm-auto d-xs-block">
-                        <a class="btn btn-sm btn-outline-primary d-xs-block my-xs-2" asp-controller="ProjectCreation" asp-action="Create" role="button">
-                            <i class="material-icons">add</i>
-                            <span>
-                                Create project
-                            </span>
-                        </a>
-                    </li>
-                }
-
             </ul>
 
             @await Html.PartialAsync("ProjectsTabPartial.cshtml", Model)
 
         </div>
-        <div class="col-xl-2 py-5"></div>
+        <div class="@(Model.Tab == TabType.AllProjects ? "col-xl-2" : " ")"></div>
     </div>
 </div>
 

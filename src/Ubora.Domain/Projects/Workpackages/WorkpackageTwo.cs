@@ -37,12 +37,21 @@ namespace Ubora.Domain.Projects.Workpackages
             HasWp1BeenReopened = true;
         }
 
+        [Obsolete]
         private void Apply(WorkpackageTwoStepEdited e)
         {
             var step = _steps.Single(x => x.Id == e.StepId);
 
             step.Title = e.Title;
             step.Content = e.NewValue;
+        }
+
+        private void Apply(WorkpackageTwoStepEditedEventV2 e)
+        {
+            var step = _steps.Single(x => x.Id == e.StepId);
+
+            step.Title = e.Title;
+            step.ContentV2 = e.NewValue;
         }
 
         private void Apply(WorkpackageTwoSubmittedForReviewEvent e)

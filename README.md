@@ -2,25 +2,19 @@
 
 Documents are under `Documents` folder.
 
-Important documents are found [here](https://www.dropbox.com/home/UBORA%20consortium/e-infrastructure/project%20managment%20architecture?preview=project+structure+proposal.doc).
-*Best of luck finding the right one!*
-
 ## Starting project
-You need:  
-* Visual Studio 2017 (*required*)
+You need:
+
 * Docker
-* Node (`LTS` is minimal, best is `Current`)
+* Node
 
-Recipe:  
-1. set `docker-compose` as start-up project  
-2. ensure that these steps are done in case of errors:  
-  - *Hyper-V > MobyLinuxVm State on*  
-  - *Switch to Linux containers*  
-  - *Shared Docker Drives (project's)*
+Simplest way to run UBORA locally (_updated 21 December 2018_):
 
-## Running UBORA on Atom *under Windows*
-Navigate to `src\Ubora.Web` in Explorer and run `Install dependencies.ps1`. This makes sure that all necessary Node modules have been installed and Webpack has compiled necessary bundles/run tasks.  
-Next, run `Run Web.ps1` Server should be up and running on `http://localhost:5000` 😊  
+ 1. Run `./Ubora.Web/InitializeDependencies.[bat/ps1]`.
+ 2. Run `./Ubora.Web/RunWeb.[bat/ps1]`.
+ 3. That's it! Navigate to "http**s**://localhost:5001" on your browser.
+
+NOTE: Don't forget to `git pull` latest changes! :)
 
 ## Running Functional tests locally: ##
 * You need **Visual Studio Code** installed

@@ -24,10 +24,10 @@ namespace Ubora.Web.Infrastructure.DataSeeding
                 Actor = userInfo,
                 NewProjectId = Guid.NewGuid(),
                 Title = "Test title",
-                ClinicalNeed = "Test ClinicalNeedTags",
-                AreaOfUsage = "Test AreaOfUsageTags",
-                PotentialTechnology = "Test PotentialTechnology",
-                Gmdn = "Test Gmdn"
+                ClinicalNeedTag = "Test ClinicalNeedTags",
+                AreaOfUsageTag = "Test AreaOfUsageTags",
+                PotentialTechnologyTag = "Test PotentialTechnology",
+                Keywords = "Test Gmdn"
             });
 
             if (commandResult.IsFailure)

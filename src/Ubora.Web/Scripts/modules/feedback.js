@@ -29,7 +29,7 @@ export class Feedback {
 
     static _sendFeedback(data) {
         $.ajax({
-            url: `Feedback/Send`,
+            url: `/Feedback/Send`,
             type: 'POST',
             data: JSON.stringify(data),
             contentType: 'application/json; charset=utf-8',

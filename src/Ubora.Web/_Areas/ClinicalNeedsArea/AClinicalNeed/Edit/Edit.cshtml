@@ -1,0 +1,114 @@
+﻿@using Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Edit.Models
+
+@model EditClinicalNeedViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    var layoutViewModel = (LayoutViewModel)ViewData["LayoutViewModel"];
+}
+
+@section ClinicalNeedHeader {
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">UBORA</a></li>
+            <li class="breadcrumb-item"><a asp-action="LandingPage" asp-controller="LandingPage">Clinical needs</a></li>
+            <li class="breadcrumb-item"><a asp-action="Overview" asp-controller="Overview">@layoutViewModel.ClinicalNeedTitle</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        </ol>
+    </nav>
+
+    <h1 class="d-inline-block">@ViewData["Title"]</h1>
+}
+
+<form asp-action="Edit" method="post" class="js-onbeforeunload">
+    <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input class="form-control" asp-for="Title" placeholder="Give a name to the clinical need." />
+        <span asp-validation-for="Title"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ClinicalNeedTag">Clinical need type</label>
+        <select asp-for="ClinicalNeedTag" class="form-control">
+            <option selected disabled>Select a clinical need type</option>
+            @foreach (var tag in Tags.ClinicalNeeds)
+            {
+                <option value="@tag">@tag</option>
+            }
+        </select>
+        <span asp-validation-for="ClinicalNeedTag"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AreaOfUsageTag">Area</label>
+        <select asp-for="AreaOfUsageTag" class="form-control">
+            <option selected disabled>Select an area of usage</option>
+            <optgroup label="From surgical fields">
+                @foreach (var tag in Tags.SurgicalFieldAreas)
+                {
+                    <option value="@tag">@tag</option>
+                }
+            </optgroup>
+            <optgroup label="From internal medicine">
+                @foreach (var tag in Tags.InternalMedicineAreas)
+                {
+                    <option value="@tag">@tag</option>
+                }
+            </optgroup>
+            <optgroup label="From diagnostic medicine">
+                @foreach (var tag in Tags.DiagnosticMedicineAreas)
+                {
+                    <option value="@tag">@tag</option>
+                }
+            </optgroup>
+            <optgroup label="From other major disciplines">
+                @foreach (var tag in Tags.OtherMajorDisciplineAreas)
+                {
+                    <option value="@tag">@tag</option>
+                }
+            </optgroup>
+        </select>
+        <span asp-validation-for="AreaOfUsageTag"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PotentialTechnologyTag">Technology</label>
+        <select asp-for="PotentialTechnologyTag" class="form-control">
+            <option selected disabled>Select potential technology</option>
+            @foreach (var tag in Tags.PotentialTechnologies)
+            {
+                <option value="@tag">@tag</option>
+            }
+        </select>
+        <span asp-validation-for="PotentialTechnologyTag"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Keywords">Project keywords</label>
+        <input asp-for="Keywords" class="form-control" placeholder="Describe your project with a few keywords (for example: 3D printing, ecologic, sterilization.. )" />
+        <span asp-validation-for="Keywords"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DescriptionQuillDelta">Description</label>
+        <input asp-for="DescriptionQuillDelta" type="hidden" />
+        <span asp-validation-for="DescriptionQuillDelta"></span>
+        <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial", new QuillToolbarFormatOptionsForClinicalNeed())</div>
+        <div id="editor-container" style="display: none;"></div>
+    </div>
+
+    <div class="float-right">
+        <a class="btn btn-outline-primary" role="button" asp-action="Overview" asp-controller="Overview">Discard changes</a>
+        <button class="btn btn-primary" type="submit">Save changes</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        var contentInputSelector = "#@nameof(Model.DescriptionQuillDelta)";
+        var editorSelector = "#editor-container";
+        var toolbarSelector = "#toolbar-container";
+        var initialContent = @Html.Raw(Model.DescriptionQuillDelta);
+        UBORA.initEditor(editorSelector, toolbarSelector, contentInputSelector, initialContent);
+    </script>
+}

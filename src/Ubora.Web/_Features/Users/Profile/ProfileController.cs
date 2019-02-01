@@ -157,7 +157,10 @@ namespace Ubora.Web._Features.Users.Profile
 
             var blobLocation = BlobLocations.GetUserProfilePictureLocation(UserId, model.ImageName);
 
-            await _imageStorageProvider.SaveImageAsync(model.ProfilePicture.OpenReadStream(), blobLocation);
+            using (var profilePictureStream = model.ProfilePicture.OpenReadStream())
+            {
+                await _imageStorageProvider.SaveImageAsync(profilePictureStream, blobLocation);
+            }
 
             ExecuteUserCommand(new ChangeUserProfilePictureCommand
             {

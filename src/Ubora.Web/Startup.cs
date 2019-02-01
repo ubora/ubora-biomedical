@@ -27,7 +27,6 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Npgsql;
 using Ubora.Web.Infrastructure.Storage;
 using Microsoft.AspNetCore.Mvc;
-using StackExchange.Profiling;
 
 namespace Ubora.Web
 {
@@ -82,7 +81,7 @@ namespace Ubora.Web
                 })
                 .AddUboraFeatureFolders(new FeatureFolderOptions {FeatureFolderName = "_Features"})
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-                       
+
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
@@ -90,14 +89,27 @@ namespace Ubora.Web
             var useSpecifiedPickupDirectory =
                 Convert.ToBoolean(Configuration["SmtpSettings:UseSpecifiedPickupDirectory"]);
 
-            services.AddDefaultIdentity<ApplicationUser>(o => { o.Password.RequireNonAlphanumeric = false; })
-                .AddRoles<ApplicationRole>()
+            services
+                .AddIdentity<ApplicationUser, ApplicationRole>(options =>
+                {
+                    options.User.RequireUniqueEmail = true;
+                    options.Password.RequireNonAlphanumeric = false;
+                })
                 .AddUserManager<ApplicationUserManager>()
                 .AddSignInManager<ApplicationSignInManager>()
                 .AddClaimsPrincipalFactory<ApplicationClaimsPrincipalFactory>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddRoleManager<ApplicationRoleManager>()
                 .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                options.Cookie.HttpOnly = true;
+                options.LoginPath = "/login";
+                options.AccessDeniedPath = "/access-denied";
+                options.SlidingExpiration = true;
+            });
 
             services.AddAutoMapper();
             services.AddUboraPolicyBasedAuthorization();

@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain.ClinicalNeeds;
 using Ubora.Domain.Projects._Commands;
-using Ubora.Web.Authorization;
 using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.ProjectCreation
@@ -10,9 +10,28 @@ namespace Ubora.Web._Features.ProjectCreation
     [Authorize(Policy = nameof(Policies.CanCreateProject))]
     public class ProjectCreationController : UboraController
     {
-        public IActionResult Create()
+        public IActionResult Create(Guid? clinicalNeedId = null)
         {
-            return View();
+            if (clinicalNeedId.HasValue)
+            {
+                var clinicalNeed = QueryProcessor.FindById<ClinicalNeed>(clinicalNeedId.Value);
+                if (clinicalNeed == null)
+                {
+                    return NotFound();
+                }
+
+                return View(new CreateProjectViewModel
+                {
+                    ClinicalNeedId = clinicalNeedId,
+                    ClinicalNeedTitle = clinicalNeed.Title,
+                    PotentialTechnologyTag = clinicalNeed.PotentialTechnologyTag,
+                    AreaOfUsageTag = clinicalNeed.AreaOfUsageTag,
+                    ClinicalNeedTag = clinicalNeed.ClinicalNeedTag,
+                    Keywords = clinicalNeed.Keywords
+                });
+            }
+
+            return View(new CreateProjectViewModel());
         }
 
         [HttpPost]
@@ -26,12 +45,13 @@ namespace Ubora.Web._Features.ProjectCreation
             var projectId = Guid.NewGuid();
             ExecuteUserCommand(new CreateProjectCommand
             {
+                RelatedClinicalNeedId = model.ClinicalNeedId,
                 NewProjectId = projectId,
                 Title = model.Title,
-                ClinicalNeed = model.ClinicalNeedTags,
-                AreaOfUsage = model.AreaOfUsageTags,
-                PotentialTechnology = model.PotentialTechnologyTags,
-                Gmdn = model.Gmdn
+                ClinicalNeedTag = model.ClinicalNeedTag,
+                AreaOfUsageTag = model.AreaOfUsageTag,
+                PotentialTechnologyTag = model.PotentialTechnologyTag,
+                Keywords = model.Keywords
             }, Notice.None("Visual feedback obvious enough."));
 
             if (!ModelState.IsValid)

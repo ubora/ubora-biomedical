@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using SixLabors.ImageSharp.Processing;
 using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Web.Infrastructure.Storage;

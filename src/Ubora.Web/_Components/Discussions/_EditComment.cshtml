@@ -1,0 +1,26 @@
+﻿@using Ubora.Web._Components.Discussions.Models
+
+@model EditCommentModel
+
+@{
+    var divId = "edit-" + @Model.CommentId;
+}
+
+<div class="collapse" id="@divId">
+    <div class="pt-3">
+        <form action="@(Model.EditCommentActionPath)" method="post" class="js-onbeforeunload">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CommentId" />
+            <div class="form-group">
+                <textarea class="form-control" asp-for="CommentText" placeholder="Add comment" rows="6"></textarea>
+                <span asp-validation-for="CommentText"></span>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-outline-primary btn-sm" type="reset" data-toggle="collapse" data-target="#@divId">Discard</button>
+                <span class="mx-1"></span>
+                <button class="btn btn-primary btn-sm" type="submit">Save changes</button>
+            </div>
+        </form>
+    </div>
+</div>

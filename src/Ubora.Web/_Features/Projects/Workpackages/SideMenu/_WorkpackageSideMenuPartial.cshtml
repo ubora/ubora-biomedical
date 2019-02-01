@@ -8,3 +8,10 @@
         }
     </ul>
 </aside>
+
+<script>
+    $('ul.list-sidebar').last()
+        .find('a.checked-status > span').append('<i class="material-icons color-green font-weight-bold font-size-1 ml-1">check</i>')
+        .end()
+        .find('a.unlockable-status > span').append('<i class="material-icons color-blue font-size-1 ml-1">lock</i>');
+</script>

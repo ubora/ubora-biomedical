@@ -75,6 +75,8 @@
                             Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
                                 userId: user.UserId,
                                 name: user.FullName,
+                                country: user.Country,
+                                university: user.University,
                                 roles: user.Role,
                                 profilePictureUrl: user.ProfilePictureLink)
                             );

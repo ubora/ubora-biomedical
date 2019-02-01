@@ -16,10 +16,6 @@
     <PackageReference Include="TwentyTwenty.Storage" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Projects\History\Specifications\" />
-    <Folder Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Update="Projects\Workpackages\Placeholders.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -94,5 +90,14 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>QuestionTexts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Properties\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Properties\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Properties\**" />
   </ItemGroup>
 </Project>

@@ -135,15 +135,6 @@
   <data name="CandidateAdded" xml:space="preserve">
     <value>Candidate added</value>
   </data>
-  <data name="CandidateCommentAdded" xml:space="preserve">
-    <value>Comment added</value>
-  </data>
-  <data name="CandidateCommentEdited" xml:space="preserve">
-    <value>Comment edited</value>
-  </data>
-  <data name="CandidateCommentRemoved" xml:space="preserve">
-    <value>Comment removed</value>
-  </data>
   <data name="CandidateEdited" xml:space="preserve">
     <value>Candidate edited</value>
   </data>
@@ -154,10 +145,19 @@
     <value>Image uploaded</value>
   </data>
   <data name="CandidateRemoved" xml:space="preserve">
-    <value>Candidate removed</value>
+    <value>Candidate deleted</value>
   </data>
   <data name="CandidateVoteAdded" xml:space="preserve">
     <value>Vote added</value>
+  </data>
+  <data name="CommentAdded" xml:space="preserve">
+    <value>Comment added</value>
+  </data>
+  <data name="CommentDeleted" xml:space="preserve">
+    <value>Comment deleted</value>
+  </data>
+  <data name="CommentEdited" xml:space="preserve">
+    <value>Comment edited</value>
   </data>
   <data name="DeviceClassificationRetaken" xml:space="preserve">
     <value>Questionnaire retaken</value>

@@ -1,38 +1,88 @@
-﻿<span class="ql-formats">
-    <button class="ql-bold"></button>
-    <button class="ql-italic"></button>
-    <button class="ql-underline"></button>
-    <button class="ql-strike"></button>
-</span>
-<span class="ql-formats">
-    <select class="ql-color"></select>
-    <select class="ql-background"></select>
-</span>
-<span class="ql-formats">
-    <button class="ql-script" value="sub"></button>
-    <button class="ql-script" value="super"></button>
-</span>
-<span class="ql-formats">
-    <button class="ql-header" value="1"></button>
-    <button class="ql-header" value="2"></button>
-    <button class="ql-blockquote"></button>
-    <button class="ql-code-block"></button>
-</span>
-<span class="ql-formats">
-    <button class="ql-list" value="ordered"></button>
-    <button class="ql-list" value="bullet"></button>
-    <button class="ql-indent" value="-1"></button>
-    <button class="ql-indent" value="+1"></button>
-</span>
-<span class="ql-formats">
-    <button class="ql-direction" value="rtl"></button>
-    <select class="ql-align"></select>
-</span>
-<span class="ql-formats">
-    <button class="ql-link"></button>
-    <button class="ql-image"></button>
-    <button class="ql-video"></button>
-</span>
-<span class="ql-formats">
-    <button class="ql-clean"></button>
-</span>
+﻿@model QuillToolbarFormatOptions
+
+@if (Model.TextDecorations)
+{
+    <span class="ql-formats">
+        <button class="ql-bold"></button>
+        <button class="ql-italic"></button>
+        <button class="ql-underline"></button>
+        <button class="ql-strike"></button>
+    </span>
+}
+@if (Model.TextColorAndBackground)
+{
+    <span class="ql-formats">
+        <select class="ql-color"></select>
+        <select class="ql-background"></select>
+    </span>
+}
+@if (Model.TextSubAndSuperScript)
+{
+    <span class="ql-formats">
+        <button class="ql-script" value="sub"></button>
+        <button class="ql-script" value="super"></button>
+    </span>
+}
+@if (Model.Headers || Model.Blockquote || Model.CodeBlock)
+{
+    <span class="ql-formats">
+        @if (Model.Headers)
+        {
+            <button class="ql-header" value="1"></button>
+            <button class="ql-header" value="2"></button>
+        }
+        @if (Model.Blockquote)
+        {
+            <button class="ql-blockquote"></button>
+        }
+        @if (Model.CodeBlock)
+        {
+            <button class="ql-code-block"></button>
+        }
+    </span>
+}
+@if (Model.Lists)
+{
+    <span class="ql-formats">
+        <button class="ql-list" value="ordered"></button>
+        <button class="ql-list" value="bullet"></button>
+        <button class="ql-indent" value="-1"></button>
+        <button class="ql-indent" value="+1"></button>
+    </span>
+}
+@if (Model.TextDirection || Model.TextAlignment)
+{
+    <span class="ql-formats">
+        @if (Model.TextDirection)
+        {
+            <button class="ql-direction" value="rtl"></button>
+        }
+        @if (Model.TextAlignment)
+        {
+            <select class="ql-align"></select>
+        }
+    </span>
+}
+@if (Model.Hyperlinks || Model.Images || Model.Videos)
+{
+    <span class="ql-formats">
+        @if (Model.Hyperlinks)
+        {
+            <button class="ql-link"></button>
+        }
+        @if (Model.Images)
+        {
+            <button class="ql-image"></button>
+        }
+        @if (Model.Videos)
+        {
+            <button class="ql-video"></button>
+        }
+    </span>
+}
+@if (Model.CleanFormats)
+{
+    <span class="ql-formats">
+        <button class="ql-clean"></button>
+    </span>
+}

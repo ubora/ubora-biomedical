@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Ubora.Domain.Projects.Candidates;
 using Ubora.Web.Services;
+using Ubora.Domain.Discussions;
 
 namespace Ubora.Web.Authorization.Requirements
 {
@@ -14,7 +14,7 @@ namespace Ubora.Web.Authorization.Requirements
                 IsCommentAuthorRequirement requirement,
                 Comment comment)
             {
-                if (context.User.GetId() == comment.UserId)
+                if (context.User.Identity.IsAuthenticated && context.User.GetId() == comment.UserId)
                 {
                     context.Succeed(requirement);
                 }
