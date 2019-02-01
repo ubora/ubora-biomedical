@@ -12,7 +12,7 @@ namespace Ubora.Domain.Tests.Projects._Specifications
         public void Returns_True_When_Project_Is_Software()
         {
             var potentialTechnologyTags = "Software";
-            var project = new Project().Set(x => x.PotentialTechnologyTags, potentialTechnologyTags);
+            var project = new Project().Set(x => x.PotentialTechnologyTag, potentialTechnologyTags);
 
             // Act
             var result = new IsPotentialTechnologyTagsSpec(potentialTechnologyTags).IsSatisfiedBy(project);
@@ -24,7 +24,7 @@ namespace Ubora.Domain.Tests.Projects._Specifications
         [Fact]
         public void Returns_False_When_Project_Isnt_Software()
         {
-            var project = new Project().Set(x => x.PotentialTechnologyTags, "");
+            var project = new Project().Set(x => x.PotentialTechnologyTag, "");
 
             // Act
             var result = new IsPotentialTechnologyTagsSpec("Software").IsSatisfiedBy(project);

@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Marten;
+using Marten.Schema;
 using Marten.Services;
 using Marten.Services.Events;
 using Newtonsoft.Json;
+using Ubora.Domain.ClinicalNeeds;
+using Ubora.Domain.Discussions;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects.Workpackages;
@@ -17,7 +20,6 @@ using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Users;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.History;
-using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects._Events;
 using Ubora.Domain.Projects.IsoStandardsComplianceChecklists;
 using Ubora.Domain.Projects.StructuredInformations.Events;
@@ -54,7 +56,10 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<UserProfile>().SoftDeleted();
                 options.Schema.For<ProjectFile>();
                 options.Schema.For<Assignment>();
-                options.Schema.For<Project>().SoftDeleted();
+
+                options.Schema.For<Project>()
+                    .SoftDeleted();
+                 
                 options.Schema.For<Candidate>().SoftDeleted();
                 options.Schema.For<EventLogEntry>()
                     .Duplicate(l => l.ProjectId)
@@ -73,6 +78,10 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<IsoStandardsComplianceChecklist>()
                     .Duplicate(checklist => checklist.ProjectId);
 
+                options.Schema.For<Discussion>()
+                    .Duplicate(d => d.AttachedToEntity.EntityId)
+                    .Duplicate(d => d.AttachedToEntity.EntityName);
+
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
@@ -89,6 +98,9 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.Add(new ResourcesMenuViewProjection());
                 options.Events.InlineProjections.AggregateStreamsWith<IsoStandardsComplianceChecklist>();
                 options.Events.InlineProjections.Add(new DeviceStructuredInformationProjection<IDeviceStructuredInformationEvent>());
+                options.Events.InlineProjections.AggregateStreamsWith<Discussion>();
+                options.Events.InlineProjections.AggregateStreamsWith<ClinicalNeed>();
+                options.Events.InlineProjections.Add(new ClinicalNeedQuickInfo.ViewProjection());
 
                 options.Events.AddEventTypes(eventTypes);
 

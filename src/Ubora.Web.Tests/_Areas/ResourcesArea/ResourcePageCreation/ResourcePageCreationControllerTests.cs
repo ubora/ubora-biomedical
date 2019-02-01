@@ -92,7 +92,7 @@ namespace Ubora.Web.Tests._Areas.ResourcesArea.ResourcePageCreation
         {
             var postModel = new CreateResourcePagePostModel
             {
-                Body = "testBody",
+                Body = "{testBody}",
                 Title = "testTitle"
             };
 
@@ -114,7 +114,7 @@ namespace Ubora.Web.Tests._Areas.ResourcesArea.ResourcePageCreation
             result.ControllerName.Should().Be(nameof(ResourcePagesController).RemoveSuffix());
 
             executedCommand.ResourcePageId.Should().NotBe(default(Guid));
-            executedCommand.Body.Value.Should().Be("testBody");
+            executedCommand.Body.Value.Should().Be("{testBody}");
             executedCommand.Title.Should().Be("testTitle");
         }
     }

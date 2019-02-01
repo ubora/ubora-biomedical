@@ -59,6 +59,8 @@ namespace Ubora.Web._Features.Users.UserList
                 UserId = userProfile.UserId,
                 Email = userProfile.Email,
                 FullName = userProfile.FullName,
+                Country = userProfile.Country.DisplayName,
+                University = userProfile.University,
                 Role = userProfile.Role,
                 ProfilePictureLink = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile)
             });

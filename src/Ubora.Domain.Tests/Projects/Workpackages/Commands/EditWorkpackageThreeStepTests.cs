@@ -29,7 +29,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
             {
                 ProjectId = projectId,
                 StepId = randomStepToEdit.Id,
-                NewValue = "testValue",
+                NewValue = new QuillDelta("{test}"),
                 Actor = new DummyUserInfo()
             };
 
@@ -42,7 +42,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
             workpackage = Session.Load<WorkpackageOne>(projectId);
             var editedStep = workpackage.Steps.Single(x => x.Id == randomStepToEdit.Id);
 
-            editedStep.Content.Should().Be("testValue");
+            editedStep.ContentV2.Should().Be(new QuillDelta("{test}"));
             editedStep.Title.Should().Be(initialTitle);
         }
     }

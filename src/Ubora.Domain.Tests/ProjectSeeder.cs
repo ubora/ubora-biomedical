@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Domain.Projects._Commands;
 using Ubora.Domain.Users;
 
 namespace Ubora.Domain.Tests
@@ -13,11 +15,13 @@ namespace Ubora.Domain.Tests
     {
         private Guid ProjectId { get; set; } = Guid.NewGuid();
         private Guid ProjectCreatorUserId { get; set; } = Guid.NewGuid();
+        private Guid? RelatedClinicalNeed { get; set; }
         private List<Guid> MentorUserIds { get; } = new List<Guid>();
         private List<Guid> MemberUserIds { get; } = new List<Guid>();
         private bool? IsWp1Accepted { get; set; }
         private bool? IsWp3Unlocked { get; set; }
         private bool? IsWp4Unlocked { get; set; }
+        private bool IsDeleted { get; set; }
 
         public ProjectSeeder WithId(Guid projectId)
         {
@@ -61,10 +65,28 @@ namespace Ubora.Domain.Tests
             return this;
         }
 
+        public ProjectSeeder WithRelatedClinicalNeed(Guid clinicalNeedId)
+        {
+            RelatedClinicalNeed = clinicalNeedId;
+            return this;
+        }
+
+        public ProjectSeeder AsDeleted()
+        {
+            IsDeleted = true;
+            return this;
+        }
+
         public Project Seed(IntegrationFixture fixture)
         {
             CreateUserProfileIfNecessary(ProjectCreatorUserId, fixture);
-            fixture.Create_Project(ProjectId, ProjectCreatorUserId);
+
+            fixture.Processor.Execute(new CreateProjectCommand
+            {
+                NewProjectId = ProjectId,
+                RelatedClinicalNeedId = RelatedClinicalNeed,
+                Actor = new UserInfo(ProjectCreatorUserId, "Mr. Project Leader")
+            });
 
             foreach (var memberUserId in MemberUserIds)
             {
@@ -100,6 +122,15 @@ namespace Ubora.Domain.Tests
                     ProjectId = ProjectId,
                     Actor = new DummyUserInfo()
                 }).OnFailure(result => throw new InvalidOperationException(result.ToString()));
+            }
+
+            if (IsDeleted)
+            {
+                fixture.Processor.Execute(new DeleteProjectCommand
+                {
+                    ProjectId = ProjectId,
+                    Actor = new DummyUserInfo()
+                });
             }
 
             return fixture.Processor.FindById<Project>(ProjectId);

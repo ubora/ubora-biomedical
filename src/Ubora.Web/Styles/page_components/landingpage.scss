@@ -1,16 +1,11 @@
 ﻿.landing-page {
 
-    hr {
-        max-width: 50px;
-        border-width: 3px;
+    .btn-primary {
+        min-width: 7rem;
+    }
 
-        &.light {
-            border-color: $white;
-        }
-
-        &.dark {
-            border-color: $black;
-        }
+    .divider {
+        @extend .my-4;
     }
 
     header {
@@ -35,36 +30,69 @@
             }
         }
 
-
         .container-fluid {
             z-index: 1;
         }
+    }
+
+    section {
+        padding-top: 8rem;
+        padding-bottom: 8rem;
+    }
+
+    .projects-section,
+    .needs-section,
+    .resources-section {
+        padding-top: 8rem;
+        padding-bottom: 8rem;
+        @extend .px-lg-5;
+        @extend .text-center;
+        @extend .text-lg-left;
+
+        .divider {
+            @extend .mx-lg-0;
+            @extend .mx-auto;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        p, ul {
+            @extend .text-faded;
+        }
 
 
-        .pull-down {
-            position: absolute;
-            bottom: 2%;
-            z-index: 1;
-            left: -moz-calc(50% - 32px);
-            left: -webkit-calc(50% - 32px);
-            left: -o-calc(50% - 32px);
-            left: calc(50% - 32px);
-
-            .material-icons {
-                font-size: 4rem;
-            }
+        h2 {
+            color: white;
         }
     }
+
+    .projects-section {
+        @extend .bg-blue;
+    }
+
+    .needs-section {
+        @extend .bg-dark-blue;
+    }
+
+    section.footer {
+        padding: 2.5rem 0;
+        font-size: 80%;
+        font-style: italic;
+    }
+
 
     .carousel {
 
         .carousel-item {
-            border: 1px solid $light;
-
+            border: 1px solid rgba(0, 0, 0, 0.125);
 
             .carousel-image-1,
             .carousel-image-2,
-            .carousel-image-3 {
+            .carousel-image-3,
+            .carousel-image-4 {
                 width: 1108px;
                 height: 400px;
                 background-repeat: no-repeat;
@@ -74,15 +102,19 @@
             }
 
             .carousel-image-1 {
-                background-image: url("/images/slide1.png");
+                background-image: url("/images/carousel/palpreast.jpg");
             }
 
             .carousel-image-2 {
-                background-image: url("/images/slide2.png");
+                background-image: url("/images/carousel/protectivemask.png");
             }
 
             .carousel-image-3 {
-                background-image: url("/images/slide3.png");
+                background-image: url("/images/carousel/neonatalwarmer.png");
+            }
+
+            .carousel-image-4 {
+                background-image: url("/images/carousel/breastpump.png");
             }
 
             .carousel-caption {
@@ -95,12 +127,6 @@
                 text-align: left;
                 height: 100%;
                 width: 65%;
-
-                .btn-icon {
-                    position: absolute;
-                    bottom: 72px;
-                    right: 82px;
-                }
 
                 dl {
                     width: 100%;
@@ -132,51 +158,32 @@
             width: 5%;
         }
     }
-
-
-    .card {
-        border: 1px solid $light;
-
-        a h5 {
-            color: $text-color;
-        }
-    }
-    
-    section {
-        padding: 8rem 0;
-    }
-
-    .section-heading {
-        margin-top: 0;
-    }
-
-
-
-    .discussion-section {
-        @include bg-size-cover;
-        background-image: url("../images/discussion.jpg");
-        background-position: center center;
-        position: relative;
-
-        .btn-primary {
-            min-width: 7rem;
-        }
-    }
-
-    .discussion-section,
-    .resources-section {
-        padding: 8rem 0;
-    }
-
-
-    section.footer {
-        padding: 2.5rem 0;
-        font-size: 80%;
-        font-style: italic;
-    }
 }
 
-/*media queries*/
+.resources-img {
+    /*Photo by Štefan Štefančík on Unsplash*/
+    background-image: url("../images/discussion.jpg");
+    background-repeat: no-repeat;
+    box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.5);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: center;
+}
+
+
+.pull-down {
+    position: absolute;
+    bottom: 11%;
+    z-index: 1;
+    left: -moz-calc(50%);
+    left: -webkit-calc(50%);
+    left: -o-calc(50%);
+    left: calc(50%);
+}
+
+
 @include media-breakpoint-up(xl) {
     header.masthead h1 {
         font-size: 4rem;
@@ -210,9 +217,11 @@
             .carousel-item {
                 .carousel-image-1,
                 .carousel-image-2,
-                .carousel-image-3 {
+                .carousel-image-3,
+                .carousel-image-4 {
                     background-image: none;
-                    height: 750px;
+                    height: 700px;
+                    width: 100%;
                 }
 
                 .carousel-caption {
@@ -221,7 +230,8 @@
 
                     .carousel-image-1-mobile,
                     .carousel-image-2-mobile,
-                    .carousel-image-3-mobile {
+                    .carousel-image-3-mobile,
+                    .carousel-image-4-mobile {
                         height: 300px;
                         margin-bottom: 1rem;
                         background-repeat: no-repeat;
@@ -229,25 +239,19 @@
                     }
 
                     .carousel-image-1-mobile {
-                        background-image: url("/images/slide1.png");
+                        background-image: url("/images/carousel/palpreast.jpg");
                     }
 
                     .carousel-image-2-mobile {
-                        background-image: url("/images/slide2.png");
+                        background-image: url("/images/carousel/protectivemask.png");
                     }
 
                     .carousel-image-3-mobile {
-                        background-image: url("/images/slide3.png");
+                        background-image: url("/images/carousel/neonatalwarmer.png");
                     }
 
-                    .btn-icon {
-                        position: absolute;
-                        right: 0;
-                        bottom: 72px;
-                        left: 0;
-                        justify-content: center;
-                        margin-right: 15%;
-                        margin-left: 15%;
+                    .carousel-image-4-mobile {
+                        background-image: url("/images/carousel/breastpump.png");
                     }
                 }
             }
@@ -264,13 +268,37 @@
                 margin-bottom: .5rem;
             }
         }
+
+
+        .carousel {
+            .carousel-item {
+                .carousel-image-1,
+                .carousel-image-2,
+                .carousel-image-3 {
+                    background-image: none;
+                    height: 650px;
+                }
+            }
+        }
+
+        .pull-down {
+            position: fixed;
+            bottom: 11%;
+            left: -moz-calc(10%);
+            left: -webkit-calc(10%);
+            left: -o-calc(10%);
+            left: calc(10%);
+        }
     }
 }
 
 
 @include media-breakpoint-down(xs) {
     .landing-page {
-        section, .discussion-section, .resources-section {
+        section,
+        .projects-section,
+        .needs-section,
+        .resources-section {
             padding-top: 5rem;
             padding-bottom: 5rem;
         }
@@ -280,33 +308,9 @@
             padding-top: 5rem;
             padding-bottom: 7rem;
         }
-
-        .carousel {
-            .carousel-item {
-                .carousel-image-1,
-                .carousel-image-2,
-                .carousel-image-3 {
-                    height: 690px;
-                }
-
-                .carousel-caption {
-                    padding: 1rem;
-
-                    dl {
-
-                        dt {
-                            width: 100%;
-                        }
-
-                        dd {
-                            width: 100%;
-                        }
-                    }
-                }
-            }
-        }
     }
 }
+
 
 /*IE style*/
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {

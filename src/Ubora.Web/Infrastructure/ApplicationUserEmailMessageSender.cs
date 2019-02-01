@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure.PreMailers;
@@ -6,6 +7,7 @@ using Ubora.Web.Services;
 using Ubora.Web._Features.Users.Account;
 using Ubora.Web._Features._Shared.Emails;
 using Ubora.Web._Features.Users.Manage;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -50,7 +52,7 @@ namespace Ubora.Web.Infrastructure
             var viewModel = new ForgotPasswordEmailViewModel
             {
                 UserId = user.Id,
-                Code = code
+                Code = Base64UrlTextEncoder.Encode(Encoding.UTF8.GetBytes(code))
             };
 
             var view = _viewRender.Render("/_Features/_Shared/Emails/", "ForgotPasswordMessageTemplate.cshtml", viewModel);

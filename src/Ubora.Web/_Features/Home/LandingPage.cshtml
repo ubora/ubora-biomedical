@@ -1,72 +1,140 @@
-﻿@using Ubora.Web._Areas.ResourcesArea.ResourcesMenus
+﻿@using Ubora.Web._Areas.ClinicalNeedsArea.IndicateClinicalNeed
+@using Ubora.Web._Areas.ClinicalNeedsArea.LandingPage
+@using Ubora.Web._Areas.ResourcesArea.ResourcesMenus
 @using Ubora.Web._Features.Home
+@using Ubora.Web._Features.ProjectCreation
+@using Ubora.Web._Features.ProjectList
+@using Ubora.Web._Features.ProjectList.Models
+
 @model Ubora.Web._Features.Users.Account.RegisterViewModel
 
-
 <div class="landing-page">
-    <header class="masthead text-center d-flex ">
-        <div class="container-fluid my-auto">
-
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <header id="masthead" class="masthead text-center d-flex">
+            <div class="container-fluid my-auto">
+                <div class="row">
+                    <div class="col-xl-8 col-lg-10 px-md-5 px-3 mx-auto">
+                        <h1>
+                            <strong>UBORA: Euro-African Open Biomedical Engineering e-platform for Innovation through Education</strong>
+                        </h1>
+                        <span class="divider border-white mx-auto"></span>
+                    </div>
+                    <div class="col-xl-6 col-lg-8 mx-auto">
+                        <p class="text-faded mb-5">The EU funded project aims at creating an e-platform – UBORA – for open-source co-design of new solutions to face the current and future healthcare challenges of Europe and Africa; by exploiting networking, knowledge on rapid prototyping of new ideas and sharing of safety criteria and performance data.</p>
+                    </div>
+                    <div class="col-lg-8 mx-auto">
+                        <a class="btn btn-outline-light btn-primary btn-lg mx-lg-1" href="http://ubora-biomedical.org/" target="_blank">Read latest news on our blog</a>
+                        <a class="btn btn-cta btn-primary btn-lg mx-lg-1 js-animate-scroll" role="button" href="#signUpToUbora">Sign up to UBORA e-platform</a>
+                    </div>
+                </div>
+            </div>
+            <div id="pull-down" class="pull-down">
+                <div class="scroll-indicator">
+                    <a class="ct-js-btn-scroll js-animate-scroll" href="#publicProjects"><span></span></a>
+                </div>
+            </div>
+        </header>
+    }
+    else
+    {
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-xl-8 col-lg-10 px-5 mx-auto">
-                    <h1 class="section-heading">
-                        <strong>UBORA: Euro-African Open Biomedical Engineering e-platform for Innovation through Education</strong>
-                    </h1>
-                    <hr class="light">
+                <div class="col-md-6 needs-section">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-xl-7">
+                            <h2>
+                                <a asp-action="@nameof(LandingPageController.LandingPage)" asp-controller="@nameof(LandingPageController).RemoveSuffix()" asp-area="@Areas.ClinicalNeedsArea">
+                                    Clinical needs
+                                    <i class="material-icons font-size-1-1">arrow_forward</i>
+                                </a>
+                            </h2>
+                            <span class="divider border-white"></span>
+                            <p class="text-faded mb-4">Have a need for a bioengineering solution?</p>
+                            <a tabindex="0" class="btn btn-outline-light btn-primary btn-lg" role="button" asp-action="@nameof(IndicateClinicalNeedController.StepOne)" asp-controller="@nameof(IndicateClinicalNeedController).RemoveSuffix()" asp-area="@Areas.ClinicalNeedsArea">Indicate a need</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-xl-6 col-lg-8 mx-auto">
-                    <p class="text-faded mb-5">The EU funded project aims at creating an e-platform – UBORA – for open-source co-design of new solutions to face the current and future healthcare challenges of Europe and Africa; by exploiting networking, knowledge on rapid prototyping of new ideas and sharing of safety criteria and performance data.</p>
-                </div>
-                <div class="col-lg-8 mx-auto">
-                    <a class="btn btn-outline-light btn-primary btn-lg mx-lg-1" href="http://ubora-biomedical.org/" target="_blank">Read latest news on our blog</a>
-                    <a class="btn btn-cta btn-primary btn-lg mx-lg-1 js-animate-scroll" role="button" href="#signUpToUbora">Sign up to UBORA e-platform</a>
+                <div class="col-md-6 projects-section">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-xl-7">
+                            <h2>
+                                <a asp-action="@nameof(ProjectListController.Search)" asp-controller="@nameof(ProjectListController).RemoveSuffix()">
+                                    Device projects
+                                    <i class="material-icons font-size-1-1">arrow_forward</i>
+                                </a>
+                            </h2>
+                            <span class="divider border-white"></span>
+                            <p class="text-faded mb-4">Have a biomedical device idea?</p>
+
+
+                            @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
+                            {
+                                <a class="btn btn-outline-light btn-primary btn-lg" role="button" asp-action="@nameof(ProjectCreationController.Create)" asp-controller="@nameof(ProjectCreationController).RemoveSuffix()" asp-area="@Areas.ResourcesArea">Create a project</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-outline-light btn-primary btn-lg" role="button" disabled title="Your email must be confirmed to create a project!" data-toggle="tooltip" data-placement="bottom">Create a project</a>
+                            }
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="pull-down">
-            <a class="ct-js-btn-scroll js-animate-scroll" href="#publicProjects">
-                <i class="material-icons text-faded">keyboard_arrow_down</i>
-            </a>
+    }
+
+    <section class="bg-dark text-center py-5">
+        <div class="container py-2">
+            <div class="row">
+                <div class="col">
+                    <h2 class="text-white display-4 py-0">
+                        UBORA e-infrastructure connects the clinical need to the medical device solution.
+                    </h2>
+                </div>
+            </div>
         </div>
-    </header>
+    </section>
 
     <section id="publicProjects" class="bg-light-grey">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2 class="section-heading text-dark">Projects collaborated on UBORA e-platform</h2>
-                    <hr class="dark my-4">
+                    <h2>Projects collaborated on UBORA e-platform</h2>
+                    <span class="divider border-dark mx-auto"></span>
                     <p class="text-faded-dark mb-4">UBORA features a project collaboration tool to guide the process of developing a biomedical device in an open-source manner that is in accordance with the international safety standards. All projects are overlooked by the UBORA certified mentors. You can freely create a new project or join existing ones to start collaborating with the community.</p>
                 </div>
             </div>
-
-            <div class="row mt-3">
+            <div class="row">
                 <div class="col">
                     <div id="carouselIndicators" class="carousel slide w-100" data-ride="carousel">
                         <ol class="carousel-indicators">
                             <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
                             <li data-target="#carouselIndicators" data-slide-to="1"></li>
                             <li data-target="#carouselIndicators" data-slide-to="2"></li>
+                            <li data-target="#carouselIndicators" data-slide-to="3"></li>
                         </ol>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <div class="carousel-image-1"></div>
                                 <div class="carousel-caption">
                                     <div class="carousel-image-1-mobile"></div>
-                                    <h3>Breast Pump</h3>
-                                    <p>Economic and Ecological Breast Pump with Cooling and Preservation System of the Breastmilk. The project consists in a manual breast pump with an air-water cooling system.</p>
+                                    <h3>Palpreast</h3>
+                                    <p>Palpreast is a wearable stretchy top with a pressure sensing textile that is adapted to breast with an inflation system. This system applies an external pressure to simulate hand movement that detects the presence of nodules, which are stiffer than the breast tissue.</p>
                                     <dl class="my-3 d-none d-md-block">
                                         <dt>Clinical need:</dt>
-                                        <dd>Prevention of pathology or disease</dd>
+                                        <dd>
+                                            Remote or self-diagnosis
+                                        </dd>
                                         <dt>Area:</dt>
-                                        <dd>Pediatrics</dd>
-                                        <dt>Device classification:</dt>
-                                        <dd>IIa</dd>
+                                        <dd>Oncology</dd>
                                     </dl>
-                                    <a href="http://ubora-kahawa.azurewebsites.net/Projects/695b13f0-266b-44a5-9e11-4a4ff509a779/Dashboard" class="btn-icon">
-                                        <span>View project</span>
-                                        <i class="material-icons font-size-1-1">arrow_forward</i>
-                                    </a>
+                                    <div class="row justify-content-end my-3">
+                                        <a href="https://ubora-kahawa.azurewebsites.net/projects/eb95b284-014c-4709-90f4-87a1f07968b9" class="btn-icon">
+                                            <span>View project</span>
+                                            <i class="material-icons font-size-1-1">arrow_forward</i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="carousel-item">
@@ -83,10 +151,12 @@
                                         <dt>Device classification:</dt>
                                         <dd>I</dd>
                                     </dl>
-                                    <a href="http://ubora-kahawa.azurewebsites.net/Projects/d6534063-e380-48f8-a50e-f38c3aaddcb5/Dashboard" class="btn-icon">
-                                        <span class="mr-1">View project</span>
-                                        <i class="material-icons font-size-1-1">arrow_forward</i>
-                                    </a>
+                                    <div class="row justify-content-end my-3">
+                                        <a href="https://ubora-kahawa.azurewebsites.net/Projects/d6534063-e380-48f8-a50e-f38c3aaddcb5" class="btn-icon">
+                                            <span class="mr-1">View project</span>
+                                            <i class="material-icons font-size-1-1">arrow_forward</i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="carousel-item">
@@ -103,10 +173,34 @@
                                         <dt>Device classification:</dt>
                                         <dd>IIa</dd>
                                     </dl>
-                                    <a href="http://ubora-kahawa.azurewebsites.net/Projects/753b19aa-266f-4e63-bc8b-9488d220a36f/Dashboard" class="btn-icon">
-                                        <span class="mr-1">View project</span>
-                                        <i class="material-icons font-size-1-1">arrow_forward</i>
-                                    </a>
+                                    <div class="row justify-content-end my-3">
+                                        <a href="https://ubora-kahawa.azurewebsites.net/Projects/753b19aa-266f-4e63-bc8b-9488d220a36f" class="btn-icon">
+                                            <span class="mr-1">View project</span>
+                                            <i class="material-icons font-size-1-1">arrow_forward</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="carousel-image-4"></div>
+                                <div class="carousel-caption">
+                                    <div class="carousel-image-4-mobile"></div>
+                                    <h3>Breast Pump</h3>
+                                    <p>Economic and Ecological Breast Pump with Cooling and Preservation System of the Breastmilk. The project consists in a manual breast pump with an air-water cooling system.</p>
+                                    <dl class="my-3 d-none d-md-block">
+                                        <dt>Clinical need:</dt>
+                                        <dd>Prevention of pathology or disease</dd>
+                                        <dt>Area:</dt>
+                                        <dd>Pediatrics</dd>
+                                        <dt>Device classification:</dt>
+                                        <dd>IIa</dd>
+                                    </dl>
+                                    <div class="row justify-content-end my-3">
+                                        <a href="https://ubora-kahawa.azurewebsites.net/Projects/695b13f0-266b-44a5-9e11-4a4ff509a779" class="btn-icon">
+                                            <span>View project</span>
+                                            <i class="material-icons font-size-1-1">arrow_forward</i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -121,136 +215,163 @@
                     </div>
                 </div>
             </div>
-
-            <div class="d-none d-lg-block">
-                <cache expires-after="@TimeSpan.FromMinutes(15)">
-                    @(await Component.InvokeAsync<LandingPageRandomProjectsRow>())
-                </cache>
-            </div>
+            <cache expires-after="@TimeSpan.FromMinutes(15)">
+                @(await Component.InvokeAsync<LandingPageRandomProjectsRow>())
+            </cache>
             <div class="row">
                 <div class="col d-flex justify-content-end mt-3">
                     <a class="btn-icon" asp-controller="ProjectList" asp-action="Search">
-                        <span class="nav-link-description">View all</span>
+                        <span>View all</span>
                         <i class="material-icons font-size-1-1">arrow_forward</i>
                     </a>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <div class="container-fluid">
+    <section class="container">
         <div class="row">
-            <div class="col-lg-6 discussion-section mx-auto px-1 text-center">
-                <div class="text-center">
-                    <h2 class="section-heading text-white">Have a need for a Bioengineering Solution?</h2>
-                    <hr class="light my-4">
-                    <p class="text-faded mb-4">Find a suitable Bioengineering solution to healthcare problems through open discussion</p>
-                    <a tabindex="0" class="btn btn-outline-light btn-primary btn-lg popover-dismiss" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="Coming soon">Forum</a>
-                </div>
+            <div class="col-lg-12 text-center">
+                <h2>Needs looking for solution</h2>
+                <span class="divider border-dark mx-auto"></span>
+                <p class="mb-4">
+                    UBORA connects needs to solutions. You can share your ideas and find collaborators on a forum in the form of a discussion. Forum connects the people with real needs to people with ideas how to solve them. Every need can grow out as a useful project to help many people.
+                </p>
             </div>
-            <div class="col-lg-6 resources-section bg-dark mx-auto px-1 text-center">
-                <div class="text-center">
-                    <h2 class="section-heading text-white">Looking for design resources?</h2>
-                    <hr class="light my-4">
-                    <p class="text-faded mb-4">Find materials on Regulations, Standards, Design selected by UBORA mentors.</p>
-                    <a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()" asp-area="@Areas.ResourcesArea" tabindex="0" class="btn btn-outline-light btn-primary btn-lg" role="button">Medical resources</a>
+        </div>
+
+        <p class="color-grey">Latest needs:</p>
+
+        @(await Component.InvokeAsync<ClinicalNeedCardsViewComponent>(new { pageSize = 3, showPager = false }))
+
+        <div class="row">
+            <div class="col d-flex justify-content-end mt-3">
+                <a class="btn-icon" asp-area="@Areas.ClinicalNeedsArea" asp-controller="LandingPage" asp-action="LandingPage">
+                    <span>View all</span>
+                    <i class="material-icons font-size-1-1">arrow_forward</i>
+                </a>
+            </div>
+        </div>
+
+    </section>
+
+    <div class="container-fluid bg-dark">
+        <div class="row">
+            <div class="col resources-img d-lg-block d-none">
+            </div>
+            <div class="col resources-section">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-xl-7">
+                        <a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()" asp-area="@Areas.ResourcesArea">
+                            <h2>
+                                Medical resources
+                                <i class="material-icons font-size-1-1">arrow_forward</i>
+                            </h2>
+                        </a>
+                        <span class="divider border-white"></span>
+                        <p class="mb-4">Materials on Regulations, Standards & Design selected by UBORA mentors.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <section class="bg-blue">
-        <div class="container text-center">
-            <h2 class="section-heading text-white">Support UBORA</h2>
-            <hr class="light my-4">
-            <p class="text-faded mb-4">You can support UBORA by spreading the word, by collaborating on open-source projects or by supporting financially.</p>
-            <a tabindex="0" class="btn btn-light btn-primary btn-lg popover-dismiss" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="Coming soon">
-                <i class="material-icons align-middle">favorite_border</i>
-                <span class="align-middle">Donate</span>
-            </a>
-        </div>
-    </section>
-
-    <section>
-        <div id="signUpToUbora" class="container">
-            <div class="text-center">
-                <h2 class="section-heading text-dark">Sign up to UBORA e-platform</h2>
-                <hr class="dark my-4">
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <h2 class="text-white">Support UBORA</h2>
+                    <span class="divider border-white mx-auto"></span>
+                    <p class="text-faded mb-4">You can support UBORA by spreading the word, by collaborating on open-source projects or by supporting financially.</p>
+                    <a tabindex="0" class="btn btn-light btn-primary btn-lg popover-dismiss" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="Coming soon">
+                        <i class="material-icons align-middle">favorite_border</i>
+                        <span class="align-middle">Support</span>
+                    </a>
+                </div>
             </div>
-            <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="form-register" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="form-group">
-                            <label asp-for="Email">Email address</label>
-                            <input class="form-control" asp-for="Email" placeholder="email@example.com">
-                            <span asp-validation-for="Email"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label asp-for="FirstName">First name</label>
-                            <input class="form-control" asp-for="FirstName" placeholder="First name">
-                            <span asp-validation-for="FirstName"></span>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label asp-for="LastName">Last name</label>
-                            <input class="form-control" asp-for="LastName" placeholder="Last name">
-                            <span asp-validation-for="LastName"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row justify-content-center">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label asp-for="Password">Password</label>
-                            <input class="form-control password-input" asp-for="Password" placeholder="Password" onfocus="show()">
-                            <ul class="pl-4 pt-1 text-muted hide" id="passwordHelper">
-                                <li><small>Password must have at least one digit ('0'-'9')</small></li>
-                                <li><small>Must contain one uppercase character ('A'-'Z')</small></li>
-                                <li><small>Must be at least 6 and at max 100 characters long</small></li>
-                            </ul>
-                            <span asp-validation-for="Password"></span>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label asp-for="ConfirmPassword">Confirm password</label>
-                            <input class="form-control" asp-for="ConfirmPassword" placeholder="Confirm password">
-                            <span asp-validation-for="ConfirmPassword"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="custom-control custom-checkbox my-4">
-                            <input type="checkbox" class="custom-control-input" asp-for="IsAgreedToTermsOfService" required>
-                            <label class="custom-control-label" asp-for="IsAgreedToTermsOfService">
-                                <span class="custom-control-description">I agree to </span>
-                                <a asp-controller="Account" asp-action="TermsOfService" target="_blank">Terms of Service</a>
-                            </label>
-                            <span asp-validation-for="IsAgreedToTermsOfService"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-lg">Sign up</button>
-                </div>
-                <div class="mt-4 text-center">
-                    <span>Already signed up?</span>
-                    <a asp-controller="Account" asp-action="Login">Log in</a>
-                </div>
-            </form>
         </div>
     </section>
+
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <section>
+            <div id="signUpToUbora" class="container">
+                <div class="text-center">
+                    <h2>Sign up to UBORA e-platform</h2>
+                    <span class="divider border-dark mx-auto"></span>
+                </div>
+                <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="form-register js-disable-onbeforeunload" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="form-group">
+                                <label asp-for="Email">Email address</label>
+                                <input class="form-control" asp-for="Email" placeholder="email@example.com">
+                                <span asp-validation-for="Email"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label asp-for="FirstName">First name</label>
+                                <input class="form-control" asp-for="FirstName" placeholder="First name">
+                                <span asp-validation-for="FirstName"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label asp-for="LastName">Last name</label>
+                                <input class="form-control" asp-for="LastName" placeholder="Last name">
+                                <span asp-validation-for="LastName"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label asp-for="Password">Password</label>
+                                <input class="form-control password-input" asp-for="Password" placeholder="Password" onfocus="show()">
+                                <ul class="pl-4 pt-1 text-muted hide" id="passwordHelper">
+                                    <li><small>Password must have at least one digit ('0'-'9')</small></li>
+                                    <li><small>Must contain one uppercase character ('A'-'Z')</small></li>
+                                    <li><small>Must be at least 6 and at max 100 characters long</small></li>
+                                </ul>
+                                <span asp-validation-for="Password"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label asp-for="ConfirmPassword">Confirm password</label>
+                                <input class="form-control" asp-for="ConfirmPassword" placeholder="Confirm password">
+                                <span asp-validation-for="ConfirmPassword"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="custom-control custom-checkbox my-4">
+                                <input type="checkbox" class="custom-control-input" asp-for="IsAgreedToTermsOfService" required>
+                                <label class="custom-control-label" asp-for="IsAgreedToTermsOfService">
+                                    <span class="custom-control-description">I agree to </span>
+                                    <a asp-controller="Account" asp-action="TermsOfService" target="_blank">Terms of Service</a>
+                                </label>
+                                <span asp-validation-for="IsAgreedToTermsOfService"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">Sign up</button>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <span>Already signed up?</span>
+                        <a asp-controller="Account" asp-action="Login">Log in</a>
+                    </div>
+                </form>
+            </div>
+        </section>
+    }
+
 </div>
 
 <script>
@@ -259,6 +380,7 @@
     }
 </script>
 
+@*TODO: remove when donate link works*@
 <script>
     $('.popover-dismiss').popover({
         trigger: 'focus'
@@ -266,23 +388,41 @@
 </script>
 
 <script>
-    $(document).on('click', 'a[class*="js-animate-scroll"]', function (e) {
-        // target element id
-        var id = $(this).attr('href');
+    initSmoothLinkScrolling();
+    initHidingAndShowingOfPulldownArrow();
 
-        // target element
-        var $id = $(id);
-        if ($id.length === 0) {
-            return;
-        }
+    function initSmoothLinkScrolling() {
+        $('a[class*="js-animate-scroll"]').on('click', function (e) {
+            // target element id
+            var id = $(this).attr('href');
 
-        // prevent standard hash navigation (avoid blinking in IE)
-        e.preventDefault();
+            // target element
+            var $id = $(id);
+            if ($id.length === 0) {
+                return;
+            }
 
-        // top position relative to the document
-        var pos = $id.offset().top;
+            // prevent standard hash navigation (avoid blinking in IE)
+            e.preventDefault();
 
-        // animated top scrolling
-        $('body, html').animate({ scrollTop: pos });
-    });
+            // top position relative to the document
+            var pos = $id.offset().top;
+
+            // animated top scrolling
+            $('body, html').animate({ scrollTop: pos });
+        });
+    }
+
+    function initHidingAndShowingOfPulldownArrow() {
+        var $pulldown = $('#pull-down');
+        var $masthead = $('#masthead');
+        var $window = $(window);
+        $window.scroll(function () {
+            if ($window.scrollTop() > $masthead.prop('scrollHeight')) {
+                $pulldown.fadeOut(200);
+            } else {
+                $pulldown.fadeIn(200);
+            }
+        });
+    }
 </script>

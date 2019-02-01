@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
     @RenderSection("Head", required: false)
-    @{
-        Html.RenderPartial("_LayoutHead");
-    }
     <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"
           asp-fallback-test-class="ql-snow"
           asp-fallback-href="~/dist/quill.snow.css">
+    @{
+        Html.RenderPartial("_LayoutHead");
+    }
+
 </head>
 
 <body>
@@ -18,35 +19,34 @@
     <main>
         <div class="container-fluid px-0">
             <div class="row no-gutters">
-                <div class="col-xl-2 py-xl-3 px-xl-3 px-sm-0 bg-blue color-white">
+                <div class="col-xl-2 py-xl-3 px-xl-3 bg-blue color-white">
                     <div class="h-min-xl-100">
                         @Html.Partial("_LeftResourcePagesNavMenuPartial.cshtml")
                     </div>
-
                 </div>
-                <div class="col-xl-8 col-lg-8 order-lg-1 order-2 py-xl-3 px-xl-7 px-3">
+                <div class="order-lg-1 order-2 pt-xl-3 px-xl-7 px-3 pb-5  @(IsSectionDefined("Right") ? "col-lg-8 " : "col-xl-8")">
                     @RenderBody()
                 </div>
-                <div class="col-xl-2 col-lg-4 order-lg-2 order-1 py-xl-3 px-3 @(IsSectionDefined("Right") ? "border-left" : "")">
-                    @{
-                        if (IsSectionDefined("right"))
-                        {
-                            <div class="h-min-lg-100-footer">
+                @{
+                    if (IsSectionDefined("right"))
+                    {
+                        <div class="col-xl-2 col-lg-4 order-lg-2 order-1 py-xl-3 px-3 @(IsSectionDefined("Right") ? "border-left" : "")">
+
+                            <div class="h-min-lg-100">
                                 @RenderSection("Right", required: false)
                             </div>
-                        }
+
+                        </div>
                     }
-                </div>
+                }
             </div>
         </div>
     </main>
 
     @{
-        if ((bool?)ViewData["DisableFooter"] != true)
-        {
-            Html.RenderPartial("_Footer");
-        };
+
         Html.RenderPartial("_LayoutBody");
+        Html.RenderPartial("_Footer");
     }
 
     <script src="//cdn.quilljs.com/1.3.6/quill.js"
@@ -55,7 +55,7 @@
     <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.js"
             asp-fallback-test="Toc"
             asp-fallback-src="~/dist/libs/bootstrap-toc.min.js"></script>
-    <script src="~/dist/resources.bundle.js"></script>
+    <script src="~/dist/quill.bundle.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

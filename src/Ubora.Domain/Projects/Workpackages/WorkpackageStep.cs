@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 
 namespace Ubora.Domain.Projects.Workpackages
@@ -12,7 +13,10 @@ namespace Ubora.Domain.Projects.Workpackages
         [JsonIgnore]
         public string Description => Placeholders.ResourceManager.GetString(Id);
 
-        public string Content { get; set; }
+        [Obsolete]
+        public string Content { get; internal set; }
+
+        public QuillDelta ContentV2 { get; internal set; }
 
         [JsonConstructor]
         protected WorkpackageStep()
@@ -23,6 +27,7 @@ namespace Ubora.Domain.Projects.Workpackages
         {
             Id = id;
             Title = title;
+            ContentV2 = new QuillDelta();
         }
     }
 }

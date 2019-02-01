@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using OdeToCode.AddFeatureFolders;
 
 // ReSharper disable once CheckNamespace
@@ -24,23 +27,37 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddMvcOptions(o =>
                 {
-                    o.Conventions.Add(new FeatureControllerModelConvention(options));
+                    o.Conventions.Add(new FeatureControllerModelConvention(new FeatureFolderOptions
+                    {
+                        DeriveFeatureFolderName = DeriveFeatureFolderName
+                    }));
                 })
                 .AddRazorOptions(o =>
                 {
                     o.ViewLocationFormats.Clear();
-
                     o.ViewLocationFormats.Add(options.FeatureNamePlaceholder + @"\{0}.cshtml");
                     o.ViewLocationFormats.Add(options.FeatureFolderName + @"\_Shared\{0}.cshtml");
                     o.ViewLocationFormats.Add(@"_Components\{0}.cshtml");
                     o.ViewLocationExpanders.Add(expander);
-
+                    
+                    o.AreaViewLocationFormats.Clear();
                     o.AreaViewLocationFormats.Add(@"_Areas\{2}\{1}\{0}.cshtml");
+                    o.AreaViewLocationFormats.Add(options.FeatureNamePlaceholder + @"\{0}.cshtml");
                     o.AreaViewLocationFormats.Add(@"_Areas\{2}\_Shared\{0}.cshtml");
                     o.AreaViewLocationFormats.Add(@"_Features\_Shared\{0}.cshtml");
                 });
 
             return services;
+
+            string DeriveFeatureFolderName(ControllerModel model)
+            {
+                var @namespace = model.ControllerType.Namespace;
+                var result = @namespace.Split('.')
+                    .SkipWhile(s => s != "_Features" && s != "_Areas")
+                    .Aggregate("", Path.Combine);
+
+                return result;
+            }
         }
 
         /// <summary>

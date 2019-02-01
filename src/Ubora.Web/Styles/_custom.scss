@@ -24,15 +24,16 @@
 @import 'page_components/autocomplete.scss';
 @import 'page_components/landing_jumbotron.scss';
 @import 'page_components/repository.scss';
-@import 'page_components/nav_workpackages.scss';
 @import 'page_components/markdown_editor.scss';
 @import 'page_components/landingpage.scss';
 @import 'page_components/header_project.scss';
 @import 'page_components/3dviewer.scss';
 @import 'page_components/nav_rightside.scss';
-@import 'page_components/nav_resources.scss';
 @import 'page_components/nav_sidemenu.scss';
 @import 'page_components/project_closure.scss';
+@import 'page_components/nav_tabs.scss';
+@import 'page_components/comments.scss';
+@import 'page_components/scroll_indicator.scss';
 
 body {
     color: $text-color;
@@ -48,14 +49,4 @@ main {
     min-height: 70vh;
 }
 
-@mixin form-field-border {
-    border-bottom: 1px solid $secondary-shade;
-}
-
-@mixin bg-size-cover {
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
 

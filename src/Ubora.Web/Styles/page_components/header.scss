@@ -1,6 +1,12 @@
 .header {
     background-color: $white;
 
+    .nav-link, 
+    .btn-icon {
+        padding-left: 1.125rem !important;
+        padding-right: 1.125rem !important;
+    }
+
     .nav-link, a {
         color: $blue;
         transition: color 100ms ease-in;
@@ -13,17 +19,18 @@
         }
     }
 
+    .avatar:hover {
+        @extend .box-shadow;
+    }
+
     button {
         color: $blue;
+        outline: none;
     }
 
     img {
         height: 2.5rem;
         width: 2.5rem;
-    }
-
-    .material-icons {
-        margin: 0 0 0 .5rem;
     }
 
     .nav-link-notification {
@@ -32,7 +39,7 @@
         .nav-link-notification-count {
             background-color: $orange;
             border-radius: 50%;
-            top: -.6rem;
+            top: -.3rem;
             color: $white;
             font-size: .8rem;
             height: 1.2rem;
@@ -41,6 +48,10 @@
             right: -.6rem;
             text-align: center;
             width: 1.2rem;
+        }
+
+        .material-icons {
+            font-size: 1.5rem;
         }
     }
 
@@ -103,23 +114,5 @@
 
     .dropdown-toggle::after {
         display: none;
-    }
-}
-
-// Medium devices (tablets, less than 992px)
-@include media-breakpoint-down(md) {
-
-    .header {
-        .nav-link-notification .nav-link-notification-count {
-            top: -.1rem;
-            height: 1rem;
-            line-height: 1.8;
-            right: -.4rem;
-            width: 1rem;
-        }
-
-        .navbar-nav .nav-item.notification-item {
-            display: none;
-        }
     }
 }

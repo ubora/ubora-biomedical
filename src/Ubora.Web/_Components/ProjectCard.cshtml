@@ -1,7 +1,7 @@
 ﻿@model ProjectCardViewModel
 
 @{
-    var cardClass = "card" + (Model.ShowCardShadow ? " box-shadow-2" : "");
+    var cardClass = "card";
     var projectHref = Url.Action("Dashboard", "Dashboard", new { projectId = Model.ProjectId });
     var projectImageSrc = string.IsNullOrEmpty(Model.ProjectImageUrl) ? "/images/project-default-image.png" : Model.ProjectImageUrl;
 }
@@ -21,7 +21,7 @@
             </dl>
             @if (!Model.IsDraftProject)
             {
-            <span class="badge badge-pill badge-green font-size-0-8 align-middle py-1 px-2">WP1 accepted by UBORA formal review</span>
+                <span class="badge badge-pill badge-green font-size-0-8 align-middle py-1 px-2">Approved by mentor</span>
             }
         </div>
     </a>
