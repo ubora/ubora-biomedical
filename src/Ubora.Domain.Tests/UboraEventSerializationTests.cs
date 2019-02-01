@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using AutoFixture;
 using AutoFixture.Kernel;
 using FluentAssertions;
 using Ubora.Domain.Infrastructure;
-using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Projects.StructuredInformations.IntendedUsers;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
@@ -23,6 +24,8 @@ namespace Ubora.Domain.Tests
             autoFixture.Register<DeviceClassificationQuestionnaireTree>(() => new DeviceClassificationQuestionnaireTreeFactory().CreateDeviceClassificationVersionOne());
             autoFixture.Register<ApplicableRegulationsQuestionnaireTree>(() => ApplicableRegulationsQuestionnaireTreeFactory.Create());
             autoFixture.Register<IntendedUser>(() => new FamilyMember());
+            autoFixture.Register<ImmutableDictionary<string, object>>(() => new Dictionary<string, object> { {"test", "test"}}.ToImmutableDictionary());
+            autoFixture.Register<QuillDelta>(() => new QuillDelta("{" + Guid.NewGuid() + "}"));
 
             var uboraEventTypes = DomainAutofacModule.FindDomainEventConcreteTypes();
 

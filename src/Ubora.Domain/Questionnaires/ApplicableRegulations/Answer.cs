@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace Ubora.Domain.Questionnaires.ApplicableRegulations
 {
@@ -13,6 +14,16 @@ namespace Ubora.Domain.Questionnaires.ApplicableRegulations
         [JsonConstructor]
         protected Answer()
         {
+        }
+
+        public bool IsYes()
+        {
+            return Id.Equals("y", StringComparison.OrdinalIgnoreCase);
+        }
+
+        public bool IsNo()
+        {
+            return Id.Equals("n", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

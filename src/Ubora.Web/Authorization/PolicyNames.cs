@@ -19,7 +19,7 @@
     public const string CanEditProjectCandidate = nameof(CanEditProjectCandidate);
     public const string CanChangeProjectCandidateImage = nameof(CanChangeProjectCandidateImage);
     public const string CanRemoveProjectCandidateImage = nameof(CanRemoveProjectCandidateImage);
-    public const string CanEditComment = nameof(CanEditComment);
+    public const string CanEditCandidateComment = nameof(CanEditCandidateComment);
     public const string CanVoteCandidate = nameof(CanVoteCandidate);
     public const string CanEditDesignPlanning = nameof(CanEditDesignPlanning);
     public const string CanOpenWorkpackageThree = nameof(CanOpenWorkpackageThree);
@@ -32,5 +32,13 @@
     public const string CanAddFileRepository = nameof(CanAddFileRepository);
     public const string CanUpdateFileRepository = nameof(CanUpdateFileRepository);
     public const string CanPromoteMember = nameof(CanPromoteMember);
+    public const string CanUnlockWorkpackages = nameof(CanUnlockWorkpackages);
+    public const string CanEditAndViewUnlockedWorkPackageThree = nameof(CanEditAndViewUnlockedWorkPackageThree);
+    public const string CanEditAndViewUnlockedWorkPackageFour = nameof(CanEditAndViewUnlockedWorkPackageFour);
     public const string CanManageResources = nameof(CanManageResources);
+    public const string CanRemoveIsoStandardFromComplianceChecklist = nameof(CanRemoveIsoStandardFromComplianceChecklist);
+    public const string CanIndicateClinicalNeeds = nameof(CanIndicateClinicalNeeds);
+    public const string CanAddClinicalNeedComment = nameof(CanAddClinicalNeedComment);
+    public const string CanEditClinicalNeedComment = nameof(CanEditClinicalNeedComment);
+    public const string CanEditClinicalNeed = nameof(CanEditClinicalNeed);
 }

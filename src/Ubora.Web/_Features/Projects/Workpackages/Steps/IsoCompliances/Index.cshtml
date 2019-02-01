@@ -1,0 +1,31 @@
+﻿@using Ubora.Web._Features.Projects._Shared
+
+@model IndexViewModel
+
+@{
+    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+}
+
+<div class="col">
+    <div class="d-flex justify-content-between">
+        <h1>ISO compliance</h1>
+        @Html.Partial("_AddIsoStandardButtonAndModal.cshtml", new AddIsoStandardPostModel())
+    </div>
+    <div asp-validation-summary="All"></div>
+    <div class="pl-3">
+        @foreach (var isoStandard in Model.IsoStandards)
+        {
+            @Html.Partial("_IsoStandardWithCheckbox.cshtml", isoStandard)
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(".js-iso-checkbox").click(function (event) {
+            var $target = $(event.target);
+            var $form = $target.closest('form');
+            $form.submit()
+        });
+    </script>
+}

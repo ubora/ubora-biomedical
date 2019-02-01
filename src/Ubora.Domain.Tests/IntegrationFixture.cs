@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Security;
 using Autofac;
+using AutoFixture;
 using Marten;
 using Moq;
 using TwentyTwenty.Storage;
@@ -21,6 +25,8 @@ namespace Ubora.Domain.Tests
 
         private readonly DomainAutofacModule _domainAutofacModule;
 
+        public IFixture AutoFixture { get; } = new Fixture();
+
         static IntegrationFixture()
         {
             DomainAutofacModule.ShouldInitializeAndRegisterDocumentStoreOnLoad = false;
@@ -28,10 +34,12 @@ namespace Ubora.Domain.Tests
 
         protected IntegrationFixture()
         {
+            AutoFixture.Register<QuillDelta>(() => new QuillDelta("{" + Guid.NewGuid() + "}"));
+
             _domainAutofacModule = new DomainAutofacModule(ConnectionSource.ConnectionString, Mock.Of<IStorageProvider>());
             var eventTypes = DomainAutofacModule.FindDomainEventConcreteTypes();
             var notificationTypes = DomainAutofacModule.FindDomainNotificationConcreteTypes();
-            StoreOptions(new UboraStoreOptionsConfigurer().CreateConfigureAction(eventTypes, notificationTypes, AutoCreate.CreateOnly));
+            StoreOptions(new UboraStoreOptionsConfigurer().CreateConfigureAction(eventTypes.ToList(), notificationTypes.ToList(), AutoCreate.CreateOnly));
             InitializeContainer();
         }
 
@@ -48,7 +56,6 @@ namespace Ubora.Domain.Tests
             builder.RegisterType<TestFindUboraManagementGroupHandler>()
                 .As<IQueryHandler<FindUboraManagementGroupQuery, IReadOnlyCollection<UserProfile>>>()
                 .InstancePerLifetimeScope();
-
 
             builder.RegisterType<TestFindUboraAdministratorsQueryHandler>().As<IQueryHandler<FindUboraAdministratorsQuery, IReadOnlyCollection<UserProfile>>>()
                 .InstancePerLifetimeScope();

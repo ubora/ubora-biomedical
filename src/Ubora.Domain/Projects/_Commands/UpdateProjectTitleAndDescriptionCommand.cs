@@ -6,7 +6,7 @@ namespace Ubora.Domain.Projects._Commands
 {
     public class UpdateProjectTitleAndDescriptionCommand : UserProjectCommand
     {
-        public string Description { get; set; }
+        public QuillDelta Description { get; set; }
         public string Title { get; set; }
 
         internal class Handler : CommandHandler<UpdateProjectTitleAndDescriptionCommand>
@@ -19,9 +19,9 @@ namespace Ubora.Domain.Projects._Commands
             {
                 var project = DocumentSession.LoadOrThrow<Project>(cmd.ProjectId);
 
-                if (project.Description != cmd.Description)
+                if (project.DescriptionV2 != cmd.Description)
                 {
-                    var editProjectDescriptionEvent = new EditProjectDescriptionEvent(
+                    var editProjectDescriptionEvent = new ProjectDescriptionEditedEventV2(
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
                     description: cmd.Description);

@@ -67,20 +67,20 @@ Scenario: I click different Workpackages and try to edit them
 Scenario: I Submit Request mentoring for WP1 review
     When I click on the element "*=Formal review"
         And I click on the element "button=Request mentoring"
-    Then I expect the element "i=Requested mentoring. Please wait" is visible
+    Then I expect the element "i=You have requested a mentor. Please wait until one is appointed to your project." is visible
         And I expect the title of the page "Formal review - UBORA"
 
 Scenario: I check again the Request mentoring for WP1 review
     When I click on the element "*=Formal review"
-    Then I expect the element "i=Requested mentoring. Please wait" is visible
+    Then I expect the element "i=You have requested a mentor. Please wait until one is appointed to your project." is visible
         And I expect the title of the page "Formal review - UBORA"  
 
 Scenario: System administrator gets the notification and adds Mentor to the project
-    When I sign out
+    When I log out
     Then I expect the title of the page "UBORA"
     When I sign in as administrator
-        And I click on the element "span=Notifications"
-        Then I expect the element "p*=Requested mentoring" is visible
+        And I click on notifications
+        Then I expect the element "p*=requested mentoring" is visible
     When I go back to last page
         And I click on the element "span=Projects"
         And I click on the element "a*=All projects"
@@ -91,18 +91,18 @@ Scenario: System administrator gets the notification and adds Mentor to the proj
     Then I expect the title of the page "Project mentors - UBORA"
     When I click on the element "button=Invite mentor"
     Then I expect the element "p=Invitation sent" is visible
-    When I sign out
+    When I log out
     Then I expect the title of the page "UBORA"
 
 Scenario: Mentor accepts the mentor invitation
-    When I sign out
+    When I log out
         And I sign in as mentor
-        And I click on the element "*=Notifications"
+        And I click on notifications
         And I click on the element "button=Accept"
     Then I expect the title of the page "Notifications - UBORA"
     When I click on the element "*=Projects"
     Then I expect the element "*=Test title" is visible
-        And I expect the title of the page "Biomedical device projects - UBORA"
+        And I expect the title of the page "Medical device projects - UBORA"
 
 Scenario: I Submit project for WP1 review but cancel it
     When I click on the element "*=Formal review"
@@ -123,7 +123,7 @@ Scenario: I Submit project for WP1 review
         And I expect the element "dd=InProcess" is visible
 
 Scenario: Project mentor rejects WP1 formal review
-    When I sign out
+    When I log out
         And I sign in as mentor
         And I click on the element "*=Test title"
         And I click on the element "=Work packages"
@@ -135,7 +135,7 @@ Scenario: Project mentor rejects WP1 formal review
         And I click on the element "button=Reject"
         And I click on the element "(//button[contains(text(),'Reject')])[last()]"
     Then I expect the element "dd=Rejected" is visible
-    When I sign out
+    When I log out
 
 Scenario: I submit my rejected WP1 again for formal review
     When I click on the element "*=Formal review"
@@ -145,7 +145,7 @@ Scenario: I submit my rejected WP1 again for formal review
         And I expect the element "dd=InProcess" is visible
 
 Scenario: Project mentor accepts WP1 formal review
-    When I sign out
+    When I log out
         And I sign in as mentor
         And I click on the element "*=Test title"
         And I click on the element "=Work packages"
@@ -157,7 +157,7 @@ Scenario: Project mentor accepts WP1 formal review
         And I click on the element "(//button[contains(text(),'Accept')])[last()]"
     Then I expect the element "dd=Accepted" is visible
         And I expect the element "dd=Good project man!" is visible
-    When I sign out
+    When I log out
 
 Scenario: I click on WP2 work packages and try to edit them
     When I click on the element "=Design planning"
@@ -243,7 +243,7 @@ Scenario: I edit Health technology specifications form
     When I click on the element "=Design planning"
         And I click on the element "=WP 2: Conceptual design"
         And I click on the element "=Structured information on the device"
-        And I click on the element "/html/body/main/div[2]/div/div[2]/div[2]/div/div/a/span"
+        And I click on the element "(//span[contains(text(),'Edit')])[last()]"
     Then I expect the title of the page "Health technology specifications - UBORA"
     When I set value "111" to the element "#DeviceMeasurementsViewModel_DimensionsHeight"
         And I set value "222" to the element "#DeviceMeasurementsViewModel_DimensionsLength"
@@ -341,19 +341,11 @@ Scenario: I edit Health technology specifications form
         And I expect the element "p=Additional sound / light control facilities" is visible
         And I expect the element "p=There are some more facility requirements!" is visible
         And I expect the title of the page "Structured information on the device - UBORA"
-
-Scenario: I open WP3
-    When I click on the element "=Design planning"
-        And I click on the element "=WP 2: Conceptual design"
-        And I click on the element "=Voting"
-        And I click on the element "span=Open “WP3: Design and prototyping”"
-    Then I expect the element "h5=Open “Work package 3: design and prototyping”" is visible
-    When I click on the element "button=Open"
-    Then I expect the element "p=WP3 opened successfully" is visible
     
 Scenario: I click and edit two last WP3 work packages
     When I click on the element "=Design planning"
         And I click on the element "=WP 3: Design and prototyping"
+        And I click on the element "(//span[contains(text(),'Open WP 3: Design and prototyping')])[last()]"
         And I click on the element "=Design for ISO testing compliance"
     Then I expect the title of the page "Design for ISO testing compliance - UBORA"
         And I expect the element "=Design for ISO testing compliance" is visible

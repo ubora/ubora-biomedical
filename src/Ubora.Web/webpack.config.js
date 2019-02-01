@@ -19,7 +19,7 @@ module.exports = env => {
             voting: './Scripts/modules/voting.js',
             threeDimensional_file_viewer: './Scripts/modules/3D_file_viewer.js',
             infinite_scroll: './Scripts/modules/infinite_scroll.js',
-            resources: './Scripts/modules/resources.js'
+            quill: './Scripts/modules/quill.js'
         },
         // https://webpack.js.org/configuration/output/
         output: {
@@ -34,7 +34,7 @@ module.exports = env => {
         externals: {
             jquery: 'jquery',
             marked: 'marked',
-            // bootstrap: 'bootstrap',
+            bootstrap: 'bootstrap',
             'popper.js': {
                 root: 'PopperJS',
                 commonjs2: 'popper.js',

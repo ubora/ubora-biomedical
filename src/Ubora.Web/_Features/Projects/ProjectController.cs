@@ -11,7 +11,7 @@ namespace Ubora.Web._Features.Projects
 {
     public class ProjectRouteAttribute : RouteAttribute
     {
-        public ProjectRouteAttribute(string template) : base("Projects/{projectId:Guid}/" + template)
+        public ProjectRouteAttribute(string template) : base("projects/{projectId:Guid}/" + template)
         {
         }
     }
@@ -33,10 +33,9 @@ namespace Ubora.Web._Features.Projects
             base.ExecuteUserCommand(command, successNotice);
         }
 
-        [Obsolete]
-        protected new void ExecuteUserCommand<T>(T command, Notice successNotice) where T : IUserCommand
+        protected new void ExecuteUserCommand<T>(T command, Notice successNotice) where T : UserCommand
         {
-            throw new NotSupportedException($"Use {nameof(ExecuteUserProjectCommand)} instead.");
+            base.ExecuteUserCommand(command, successNotice);
         }
 
         /// <summary>

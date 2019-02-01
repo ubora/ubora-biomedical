@@ -113,6 +113,7 @@ namespace Ubora.Web.Tests._Features.Projects.History
         private void AcceptWorkPackageOneByReview()
         {
             var workPackageOneReviewAcceptedEvent = new WorkpackageOneReviewAcceptedEvent(
+                deviceStructuredInformationId: Guid.NewGuid(),
                 initiatedBy: _userInfo,
                 projectId: _projectId,
                 acceptedAt: DateTimeOffset.Now,

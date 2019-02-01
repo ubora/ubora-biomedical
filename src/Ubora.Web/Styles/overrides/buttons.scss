@@ -1,4 +1,4 @@
-.btn:not(.btn-icon) {
+.btn:not(.btn-icon):not(.btn-link) {
     min-width: 8rem;
 }
 
@@ -14,7 +14,6 @@
 
     &:focus,
     &:hover,
-    &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active,
     &:not(:disabled):not(.disabled):active:focus {
         background-color: $light-blue;
@@ -24,10 +23,16 @@
     }
 }
 
-.btn-outline-primary .material-icons,
-.btn-outline-primary span {
-  vertical-align: middle;
+
+.btn,
+.btn-icon {
+
+    .material-icons, 
+    span {
+        @extend .align-middle;
+    }
 }
+
 
 .btn-disabled[disabled] {
     background-color: $primary-shade;
@@ -46,7 +51,7 @@
 
 .btn[disabled]:focus,
 .btn[disabled]:hover {
-  cursor: not-allowed;
+    cursor: not-allowed;
 }
 
 .btn-light {
@@ -55,9 +60,9 @@
 }
 
 .btn-cta {
-  background-color: $orange;
-  border-color: $orange;
-  color: $white;
+    background-color: $orange;
+    border-color: $orange;
+    color: $white;
 }
 
 .btn-icon {
@@ -68,14 +73,6 @@
     &:hover {
         cursor: pointer;
         box-shadow: none;
-    }
-
-    .material-icons, span {
-        @extend .align-middle;
-    }
-
-    .material-icons, span {
-        @extend .align-middle;
     }
 }
 
@@ -96,3 +93,10 @@ a.btn-icon:hover {
 }
 
 
+.btn-action {
+    @extend .d-flex;
+    @extend .align-items-center;
+    @extend .justify-content-center;
+    @extend .my-2;
+    @extend .w-100;
+}

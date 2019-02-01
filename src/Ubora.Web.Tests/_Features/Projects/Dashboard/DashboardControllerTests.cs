@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using TwentyTwenty.Storage;
+using Ubora.Domain;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects;
@@ -114,23 +115,27 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
         }
 
         [Fact]
-        public void EditProjectTitleAndDescription_Returns_EditProjectTitleAndDescription_View_With_Expected_Model()
+        public async Task EditProjectTitleAndDescription_Returns_EditProjectTitleAndDescription_View_With_Expected_Model()
         {
             var project = new Project();
             project.Set(x => x.Title, "title");
-            project.Set(x => x.Description, "description");
+            project.Set(x => x.DescriptionV2, new QuillDelta("{description}"));
 
             QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);
 
+            NodeServicesMock
+                .Setup(ns => ns.InvokeAsync<string>("./Scripts/backend/SanitizeQuillDelta.js", project.DescriptionV2.Value))
+                .ReturnsAsync("DescriptionQuillDelta");
+
             var expectedModel = new EditProjectTitleAndDescriptionViewModel()
             {
-                ProjectDescription = project.Description,
+                DescriptionQuillDelta = "DescriptionQuillDelta",
                 Title = project.Title
             };
 
             // Act
-            var result = (ViewResult) _dashboardController.EditProjectTitleAndDescription();
+            var result = (ViewResult) await _dashboardController.EditProjectTitleAndDescription();
 
             // Assert
             result.ViewName.Should().Be(nameof(DashboardController.EditProjectTitleAndDescription));
@@ -138,11 +143,11 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
         }
 
         [Fact]
-        public void EditProjectTitleAndDescription_Returns_EditProjectTitleAndDescription_View_With_ModelState_Errors_When_Model_Is_Invalid()
+        public async Task EditProjectTitleAndDescription_Returns_EditProjectTitleAndDescription_View_With_ModelState_Errors_When_Model_Is_Invalid()
         {
             var project = new Project();
             project.Set(x => x.Title, "title");
-            project.Set(x => x.Description, "description");
+            project.Set(x => x.DescriptionV2, new QuillDelta("{description}"));
 
             QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);
@@ -153,11 +158,11 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
             var model = new EditProjectTitleAndDescriptionViewModel
             {
                 Title = "newTitle",
-                ProjectDescription = "newDescription"
+                DescriptionQuillDelta = "{newDescription}"
             };
 
             // Act
-            var result = (ViewResult)_dashboardController.EditProjectTitleAndDescription(model);
+            var result = (ViewResult)await _dashboardController.EditProjectTitleAndDescription(model);
 
             // Assert
             result.ViewName.Should().Be(nameof(DashboardController.EditProjectTitleAndDescription));
@@ -167,11 +172,11 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
         }
 
         [Fact]
-        public void EditProjectTitleAndDescription_Returns_EditProjectTitleAndDescription_View_With_ModelState_Errors_When_Command_Not_Executed_Successfully()
+        public async Task EditProjectTitleAndDescription_Returns_EditProjectTitleAndDescription_View_With_ModelState_Errors_When_Command_Not_Executed_Successfully()
         {
             var project = new Project();
             project.Set(x => x.Title, "title");
-            project.Set(x => x.Description, "description");
+            project.Set(x => x.DescriptionV2, new QuillDelta("{description}"));
 
             QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);
@@ -183,11 +188,11 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
             var model = new EditProjectTitleAndDescriptionViewModel
             {
                 Title = "newTitle",
-                ProjectDescription = "newDescription"
+                DescriptionQuillDelta = "{newDescription}"
             };
 
             // Act
-            var result = (ViewResult)_dashboardController.EditProjectTitleAndDescription(model);
+            var result = (ViewResult)await _dashboardController.EditProjectTitleAndDescription(model);
 
             // Assert
             result.ViewName.Should().Be(nameof(DashboardController.EditProjectTitleAndDescription));
@@ -195,7 +200,7 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
         }
 
         [Fact]
-        public void EditProjectTitleAndDescription_Redirects_To_Dashboard_When_Command_Executed_Successfully()
+        public async Task EditProjectTitleAndDescription_Redirects_To_Dashboard_When_Command_Executed_Successfully()
         {
             var executedCommand = new UpdateProjectTitleAndDescriptionCommand();
             CommandProcessorMock.Setup(p => p.Execute(It.IsAny<UpdateProjectTitleAndDescriptionCommand>()))
@@ -205,17 +210,17 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
             var model = new EditProjectTitleAndDescriptionViewModel
             {
                 Title = "title",
-                ProjectDescription = "description"
+                DescriptionQuillDelta = "{description}"
             };
 
             // Act
-            var result = (RedirectToActionResult)_dashboardController.EditProjectTitleAndDescription(model);
+            var result = (RedirectToActionResult)await _dashboardController.EditProjectTitleAndDescription(model);
 
             // Assert
             result.ActionName.Should().Be(nameof(DashboardController.Dashboard));
 
             executedCommand.ProjectId.Should().Be(ProjectId);
-            executedCommand.Description.Should().Be(model.ProjectDescription);
+            executedCommand.Description.Should().Be(new QuillDelta(model.DescriptionQuillDelta));
             executedCommand.Title.Should().Be(model.Title);
         }
     }

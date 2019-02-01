@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.Members;
 using Ubora.Web.Authorization.Requirements;
 using Ubora.Web.Data;
@@ -34,7 +35,11 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsVoteNotGivenRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, HasProjectMemberOfTypeRequirement<ProjectMentor>.Handler>();
             services.AddSingleton<IAuthorizationHandler, OrRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, IsWorkpackageRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, AndRequirement.Handler>();
+
+            services.AddSingleton<IAuthorizationHandler, IsClinicalNeedIndicatorRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<IsClinicalNeedIndicatorRequirement>>();
         }
 
         private static void AddPolicies(IServiceCollection services)
@@ -148,7 +153,7 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsCandidateCreatorRequirement()));
                 });
-                options.AddPolicy(Policies.CanEditComment, policyBuilder =>
+                options.AddPolicy(Policies.CanEditCandidateComment, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsCommentAuthorRequirement());
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
@@ -185,7 +190,44 @@ namespace Ubora.Web.Authorization
 
                 options.AddPolicy(Policies.CanManageResources, policyBuilder =>
                 {
-                    policyBuilder.RequireRole(ApplicationRole.ManagementGroup);
+                    policyBuilder.AddRequirements(new OrRequirement(new RolesAuthorizationRequirement(new[] { ApplicationRole.ManagementGroup }), new RolesAuthorizationRequirement(new[] { ApplicationRole.Admin })));
+                });
+                options.AddPolicy(Policies.CanUnlockWorkpackages, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement()); 
+                });
+                options.AddPolicy(Policies.CanEditAndViewUnlockedWorkPackageThree, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsWorkpackageRequirement(DeviceStructuredInformationWorkpackageTypes.Three));
+                });
+                options.AddPolicy(Policies.CanEditAndViewUnlockedWorkPackageFour, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsWorkpackageRequirement(DeviceStructuredInformationWorkpackageTypes.Four));
+                });
+
+                options.AddPolicy(Policies.CanRemoveIsoStandardFromComplianceChecklist, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+
+                options.AddPolicy(Policies.CanIndicateClinicalNeeds, policyBuilder =>
+                {
+                    policyBuilder.RequireAuthenticatedUser();
+                });
+
+                options.AddPolicy(Policies.CanAddClinicalNeedComment, policyBuilder =>
+                {
+                    policyBuilder.RequireAuthenticatedUser();
+                });
+
+                options.AddPolicy(Policies.CanEditClinicalNeedComment, policyBuilder =>
+                {
+                    policyBuilder.Requirements.Add(new IsCommentAuthorRequirement());
+                });
+
+                options.AddPolicy(Policies.CanEditClinicalNeed, policyBuilder =>
+                {
+                    policyBuilder.Requirements.Add(new IsClinicalNeedIndicatorRequirement());
                 });
             });
         }

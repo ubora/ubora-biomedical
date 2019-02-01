@@ -13,17 +13,19 @@
             <div class="text-center">
                 <img class="avatar mb-4" src="@Model.ProfilePictureLink" width="250" height="250" />
                 <h2>@Model.FullName</h2>
-                <p>
+                <span class="d-block mb-1">
                     @Model.Role
+                </span>
+                <span class="d-block">
                     @if (Model.IsVerifiedMentor)
                     {
                         <span class="badge badge-pill badge-green py-1 px-2">verified UBORA mentor</span>
                     }
                     @if (Model.IsUnverifedMentor)
-                    {
+                    {   
                         <span class="badge badge-pill badge-orange py-1 px-2">unverified</span>
                     }
-                </p>
+                </span>
             </div>
 
             <div class="my-5">

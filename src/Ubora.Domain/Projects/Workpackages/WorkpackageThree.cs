@@ -6,6 +6,8 @@ namespace Ubora.Domain.Projects.Workpackages
 {
     public class WorkpackageThree : Workpackage<WorkpackageThree>
     {
+        public bool HasBeenOpened { get; private set ; }
+        
         private void Apply(WorkpackageThreeOpenedEvent e)
         {
             if (_steps.Any())
@@ -14,8 +16,8 @@ namespace Ubora.Domain.Projects.Workpackages
             }
 
             ProjectId = e.ProjectId;
-
             Title = "Design and prototyping";
+            HasBeenOpened = true;
 
             _steps.Add(new WorkpackageStep("GeneralProductDescription_Hardware_CommercialParts", "Commercial parts"));
             _steps.Add(new WorkpackageStep("GeneralProductDescription_Hardware_PurposelyDesignedParts", "Purposely designed parts"));
@@ -35,12 +37,21 @@ namespace Ubora.Domain.Projects.Workpackages
             _steps.Add(new WorkpackageStep("InstructionsForFabricationOfPrototypes", "Instructions for fabrication of prototypes"));
         }
 
+        [Obsolete]
         private void Apply(WorkpackageThreeStepEdited e)
         {
             var step = GetSingleStep(e.StepId);
 
             step.Title = e.Title;
             step.Content = e.NewValue;
+        }
+
+        private void Apply(WorkpackageThreeStepEditedEventV2 e)
+        {
+            var step = _steps.Single(x => x.Id == e.StepId);
+
+            step.Title = e.Title;
+            step.ContentV2 = e.NewValue;
         }
     }
 }

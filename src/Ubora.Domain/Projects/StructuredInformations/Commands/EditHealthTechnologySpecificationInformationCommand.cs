@@ -1,12 +1,14 @@
-﻿using Marten;
+﻿using System;
+using Marten;
 using Ubora.Domain.Infrastructure.Commands;
 using Ubora.Domain.Projects.StructuredInformations.Events;
-using Ubora.Domain.Projects.Workpackages;
 
 namespace Ubora.Domain.Projects.StructuredInformations.Commands
 {
     public class EditHealthTechnologySpecificationInformationCommand : UserProjectCommand
     {
+        public Guid DeviceStructuredInformationId { get; set; }
+        public DeviceStructuredInformationWorkpackageTypes WorkpackageType { get; set; }
         public HealthTechnologySpecificationsInformation HealthTechnologySpecificationsInformation { get; set; }
 
         internal class Handler : CommandHandler<EditHealthTechnologySpecificationInformationCommand>
@@ -18,14 +20,13 @@ namespace Ubora.Domain.Projects.StructuredInformations.Commands
             public override ICommandResult Handle(EditHealthTechnologySpecificationInformationCommand cmd)
             {
                 var project = DocumentSession.LoadOrThrow<Project>(cmd.ProjectId);
-                var wp2 = DocumentSession.LoadOrThrow<WorkpackageTwo>(cmd.ProjectId);
+                var deviceStructuredInformation = DocumentSession.LoadOrThrow<DeviceStructuredInformation>(cmd.DeviceStructuredInformationId);
 
-                var @event = new HealthTechnologySpecificationInformationWasEditedEvent(
-                    initiatedBy: cmd.Actor,
+                var @event = new HealthTechnologySpecificationInformationWasEditedEvent(initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
-                    healthTechnologySpecificationsInformation: cmd.HealthTechnologySpecificationsInformation);
+                    deviceStructuredInformationId: cmd.DeviceStructuredInformationId, workpackageType: cmd.WorkpackageType, healthTechnologySpecificationsInformation: cmd.HealthTechnologySpecificationsInformation);
 
-                DocumentSession.Events.Append(cmd.ProjectId, @event);
+                DocumentSession.Events.Append(cmd.DeviceStructuredInformationId, @event);
                 DocumentSession.SaveChanges();
 
                 return CommandResult.Success;

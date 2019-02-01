@@ -27,7 +27,6 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Npgsql;
 using Ubora.Web.Infrastructure.Storage;
 using Microsoft.AspNetCore.Mvc;
-using StackExchange.Profiling;
 
 namespace Ubora.Web
 {
@@ -59,7 +58,7 @@ namespace Ubora.Web
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
-        {
+        {          
             services.AddApplicationInsightsTelemetry(Configuration);
 
             var npgSqlConnectionString = new NpgsqlConnectionStringBuilder(ConnectionString);
@@ -80,7 +79,9 @@ namespace Ubora.Web
                     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     options.AddStringTrimmingProvider();
                 })
-                .AddUboraFeatureFolders(new FeatureFolderOptions {FeatureFolderName = "_Features"});
+                .AddUboraFeatureFolders(new FeatureFolderOptions {FeatureFolderName = "_Features"})
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
@@ -88,13 +89,27 @@ namespace Ubora.Web
             var useSpecifiedPickupDirectory =
                 Convert.ToBoolean(Configuration["SmtpSettings:UseSpecifiedPickupDirectory"]);
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>(o => { o.Password.RequireNonAlphanumeric = false; })
+            services
+                .AddIdentity<ApplicationUser, ApplicationRole>(options =>
+                {
+                    options.User.RequireUniqueEmail = true;
+                    options.Password.RequireNonAlphanumeric = false;
+                })
                 .AddUserManager<ApplicationUserManager>()
                 .AddSignInManager<ApplicationSignInManager>()
                 .AddClaimsPrincipalFactory<ApplicationClaimsPrincipalFactory>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddRoleManager<ApplicationRoleManager>()
                 .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                options.Cookie.HttpOnly = true;
+                options.LoginPath = "/login";
+                options.AccessDeniedPath = "/access-denied";
+                options.SlidingExpiration = true;
+            });
 
             services.AddAutoMapper();
             services.AddUboraPolicyBasedAuthorization();
@@ -111,6 +126,7 @@ namespace Ubora.Web
                 services.AddMiniProfiler(options =>
                 {
                     options.IgnoredPaths.Add("dist");
+                    options.IgnoredPaths.Add("images");
                 }).AddEntityFramework();
             }
 
@@ -166,10 +182,12 @@ namespace Ubora.Web
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
 
             app.UseStatusCodePagesWithReExecute("/Home/Error/");
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseAuthentication();
@@ -198,7 +216,8 @@ namespace Ubora.Web
                 var domainMigrator = serviceProvider.GetService<DomainMigrator>();
 
                 domainMigrator.MigrateDomain(ConnectionString);
-                documentStore.Schema.WritePatchByType("Patches");
+                var patchFilename = DateTime.Now.ToString("dd-MM-yyyy") + "-marten-automatic-patch.sql";
+                documentStore.Schema.WritePatch(patchFilename);
 
                 var seeder = serviceProvider.GetService<ApplicationDataSeeder>();
                 seeder.SeedIfNecessary()

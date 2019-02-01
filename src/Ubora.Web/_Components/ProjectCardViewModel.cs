@@ -32,9 +32,9 @@ namespace Ubora.Web._Components
                     ProjectTitle = project.Title,
                     IsDraftProject = project.IsInDraft,
                     ShowCardShadow = showCardShadow,
-                    AreaTags = project.AreaOfUsageTags,
-                    ClinicalNeedTags = project.ClinicalNeedTags,
-                    TechnologyTags = project.PotentialTechnologyTags
+                    AreaTags = project.AreaOfUsageTag,
+                    ClinicalNeedTags = project.ClinicalNeedTag,
+                    TechnologyTags = project.PotentialTechnologyTag
                 };
 
                 if (project.HasImage)

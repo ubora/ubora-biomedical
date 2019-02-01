@@ -89,7 +89,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
                 {
                     return UiElementVisibility.Visible();
                 }
-                return UiElementVisibility.HiddenWithMessage("Requested mentoring. Please wait");
+                return UiElementVisibility.HiddenWithMessage("You have requested a mentor. Please wait until one is appointed to your project.");
             }
 
             return UiElementVisibility.HiddenCompletely();

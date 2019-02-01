@@ -29,13 +29,16 @@ export class Feedback {
 
     static _sendFeedback(data) {
         $.ajax({
-            url: `${window.top.location.origin}/Feedback/Send`,
+            url: `/Feedback/Send`,
             type: 'POST',
             data: JSON.stringify(data),
             contentType: 'application/json; charset=utf-8',
             headers: { 'RequestVerificationToken': document.getElementById('RequestVerificationToken').value },
             success: () => {
                 $("#feedback-success").show();
+                setTimeout(function () {
+                    $("#feedback-success").fadeOut('slow');
+                }, 3000);
                 return this._closeModal();
             }
         });

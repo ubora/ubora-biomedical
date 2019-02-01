@@ -12,7 +12,7 @@ namespace Ubora.Domain.Projects._Events
 {
     public class ProjectCreatedEvent : ProjectEvent 
     {
-        public ProjectCreatedEvent(UserInfo initiatedBy, Guid projectId, string title, string clinicalNeed, string areaOfUsage, string potentialTechnology, string gmdn) 
+        public ProjectCreatedEvent(UserInfo initiatedBy, Guid projectId, string title, string clinicalNeed, string areaOfUsage, string potentialTechnology, string gmdn, Guid? relatedClinicalNeedId = null) 
             : base(initiatedBy, projectId)
         {
             Title = title;
@@ -20,6 +20,7 @@ namespace Ubora.Domain.Projects._Events
             AreaOfUsage = areaOfUsage;
             PotentialTechnology = potentialTechnology;
             Gmdn = gmdn;
+            RelatedClinicalNeedId = relatedClinicalNeedId;
         }
 
         public string Title { get; private set; }
@@ -27,6 +28,7 @@ namespace Ubora.Domain.Projects._Events
         public string AreaOfUsage { get; private set; }
         public string PotentialTechnology { get; private set; }
         public string Gmdn { get; private set; }
+        public Guid? RelatedClinicalNeedId  { get; private set; }
 
         public override string GetDescription()
         {
@@ -46,6 +48,8 @@ namespace Ubora.Domain.Projects._Events
             
             protected override void HandleCore(ProjectCreatedEvent @event, IEvent eventWithMetadata)
             {
+                // TODO: Notification to the owner of clinical need?
+
                 var notifications = _queryProcessor
                     .ExecuteQuery(new FindUboraMentorProfilesQuery())
                     .Select(mentorUserProfile => EventNotification.Create(@event, eventWithMetadata.Id, mentorUserProfile.UserId));

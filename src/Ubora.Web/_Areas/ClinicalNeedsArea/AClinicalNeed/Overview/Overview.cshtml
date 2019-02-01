@@ -1,0 +1,35 @@
+﻿@using Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed.Edit
+
+@model OverviewViewModel
+
+<div class="row py-4">
+    <div class="col-lg-8 pr-xl-5 border-right mb-lg-0 mb-sm-3">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="user-content ql-editor">@Html.Raw(Model.DescriptionQuillDelta)</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 pl-xl-5">
+        <dl>
+            <dt>Clinical need</dt>
+            <dd class="mb-3">@Model.ClinicalNeedTag</dd>
+            <dt>Area</dt>
+            <dd class="mb-3">@Model.AreaOfUsageTag</dd>
+            <dt>Technology</dt>
+            <dd class="mb-3">@Model.PotentialTechnologyTag</dd>
+            <dt>Keywords</dt>
+            <dd class="mb-3">@Model.Keywords</dd>
+        </dl>
+    </div>
+</div>
+
+@section Right {
+    @if (await AuthorizationService.IsAuthorizedAsync(User, Model.Id, Policies.CanEditClinicalNeed))
+    {
+        <a class="btn btn-block btn-outline-primary" asp-route-clinicalNeedId="@Model.Id" asp-action="@nameof(EditController.Edit)" asp-controller="@nameof(EditController).RemoveSuffix()">
+            <i class="material-icons">edit</i>
+            <span>Edit</span>        
+        </a>
+    }
+}

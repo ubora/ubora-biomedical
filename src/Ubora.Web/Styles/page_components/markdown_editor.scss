@@ -1,16 +1,19 @@
-
-/*Markdown editor preview style*/
-.CodeMirror,
-.CodeMirror-scroll {
-    max-height: 24em;
+.ql-container, .ql-container > .ql-editor {
+    min-height: 16rem;
+    max-height: 24rem;
 }
 
-.CodeMirror-lines {
-    padding: 4px 0 20px 0 !important;
+.ql-container, .ql-editor {
+    font-family: inherit;
+    font-size: 1rem;
 }
 
-.CodeMirror,
-.text-markdown {
+/* Note that whan "ql-editor" is inside "ql-container" then we have the editing view. */
+.ql-container > .ql-editor {
+    overflow-y: auto;
+}
+
+.ql-editor {
     h1, h2, h3, h4, h5, h6 {
         font-weight: 500;
     }
@@ -40,19 +43,13 @@
     }
 }
 
-
-.text-markdown {
-    font-family: inherit;
-    text-align: justify;
-
+.user-content {
     img {
         max-width: 100%;
-        object-fit: contain;
     }
-}
 
-
-.ql-editor {
-    min-height: 16rem;
-    max-height: 24em;
+    &.ql-editor {
+        padding: 0;
+        white-space: normal;
+    }
 }
