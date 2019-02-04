@@ -7,9 +7,6 @@
     ViewData[nameof(WorkpackageMenuOption)] = "PROTOSTEP";
 }
 
-<h1>Tere</h1>
-
-
 <div class="col">
     <form>
         <div class="row">
@@ -37,14 +34,20 @@
                     <label for="description">Description</label>
                     <textarea class="form-control" id="decription" rows="4" placeholder="Which need we address? Who we are? Discover our design, value proposal..."></textarea>
                 </div>
+                <div class="form-group">
+                    <label for="manual">User manual</label>
+                    <input class="form-control" type="file" id="manual" aria-describedby="formats" name="manual" />
+                    <small id="formats" class="form-text text-muted">Supported formats: .docx, .pdf, .odt, .txt</small>
+                </div>
             </div>
         </div>
         <div class="row mb-4">
             <div class="col">
                 <h2>Intellectual property</h2>
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" id="attribution" value="BY" />
-                    <label class="form-check-label" for="attribution">
+                <p>Selecting licence is mandatory.</p>
+                <div class="custom-control custom-checkbox mb-3">
+                    <input class="custom-control-input" type="checkbox" id="attributionBY" value="BY" />
+                    <label class="custom-control-label" for="attributionBY">
                         <span class="d-flex align-items-center mb-2">
                             <img src="/images/icons/by.svg" class="w-2-rem mr-2" alt="Attribution icon">
                             Attribution (BY)
@@ -56,9 +59,9 @@
                         </small>
                     </label>
                 </div>
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" id="shareAlike" value="SA" />
-                    <label class="form-check-label" for="shareAlike">
+                <div class="custom-control custom-checkbox mb-3">
+                    <input class="custom-control-input" type="checkbox" id="shareAlike" value="SA" />
+                    <label class="custom-control-label" for="shareAlike">
                         <span class="d-flex align-items-center mb-2">
                             <img src="/images/icons/sa.svg" class="w-2-rem mr-2" alt="Share-alike icon">
                             Share-alike (SA)
@@ -71,9 +74,9 @@
                         </small>
                     </label>
                 </div>
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" id="nonCommercial" value="NC" />
-                    <label class="form-check-label" for="nonCommercial">
+                <div class="custom-control custom-checkbox mb-3">
+                    <input class="custom-control-input" type="checkbox" id="nonCommercial" value="NC" />
+                    <label class="custom-control-label" for="nonCommercial">
                         <span class="d-flex align-items-center mb-2">
                             <img src="/images/icons/nc.svg" class="w-2-rem mr-2" alt="Non-commercial icon">
                             Non-commercial (NC)
@@ -83,9 +86,9 @@
                         </small>
                     </label>
                 </div>
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" id="noDerivativeWorks" value="ND" />
-                    <label class="form-check-label" for="noDerivativeWorks">
+                <div class="custom-control custom-checkbox mb-3">
+                    <input class="custom-control-input" type="checkbox" id="noDerivativeWorks" value="ND"/>
+                    <label class="custom-control-label" for="noDerivativeWorks">
                         <span class="d-flex align-items-center mb-2">
                             <img src="/images/icons/nd.svg" class="w-2-rem mr-2" alt="No Derivative Works icon">
                             No Derivative Works (ND)
@@ -96,18 +99,32 @@
                         </small>
                     </label>
                 </div>
-            </div>
-        </div>
-        <div class="row mb-4">
-            <div class="col">
-                <h2>Legal issues</h2>
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea class="form-control" id="decription" rows="4" placeholder="..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="declaimer">Declaimer</label>
-                    <input type="text" id="declaimer" name="declaimer" class="form-control" />
+                <div class="custom-control custom-checkbox mb-3">
+                    <input class="custom-control-input" type="checkbox" id="uboraLicence" value="uboraLicence"/>
+                    <label class="custom-control-label" for="uboraLicence">
+                        <span class="d-flex align-items-center mb-2">
+                            Ubora licence
+                        </span>
+                        <small class="d-block">
+                            No responsibility
+                            <span class="dot"></span>
+                            No liability
+                            <span class="dot"></span>
+                            Attribution
+                            <span class="dot"></span>
+                            Ask to use the company logo on our e-platform and on the project page
+                            <span class="dot"></span>
+                            Acknowledgment to UBORA in the product page description
+                            <span class="dot"></span>
+                            No endorsement
+                            <span class="dot"></span>
+                            Derivative work with attribution
+                            <span class="dot"></span>
+                            Free and perpetual use
+                            <span class="dot"></span>
+                            No exclusivity
+                        </small>
+                    </label>
                 </div>
             </div>
         </div>
