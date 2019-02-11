@@ -90,7 +90,6 @@
     a {
         color: $primary-shade;
     }
-
 }
 
 .color-dark {
@@ -158,6 +157,14 @@ hr {
     background-color: $quartinary-shade;
 }
 
+.bg-icon {
+    position: absolute;
+    z-index: -10;
+    font-size: 7rem;
+    color: #f3f3f3;
+    right: 1rem;
+}
+
 .color-white {
     color: white;
 }
@@ -198,6 +205,10 @@ hr {
 
 .h-min-45 {
     min-height: 45rem;
+}
+
+.h-min-10 {
+    min-height: 10rem;
 }
 
 /*Breaks word at any character*/
@@ -388,11 +399,11 @@ a.no-underline {
         min-height: -moz-calc(100vh - 57px); /* firefox */
     }
 
-     .h-min-lg-100-footer {
-         min-height: calc(100vh - 246px);
-         min-height: -o-calc(100vh - 246px); /* opera */
-         min-height: -webkit-calc(100vh - 246px); /* google, safari */
-         min-height: -moz-calc(100vh - 246px); /* firefox */
+    .h-min-lg-100-footer {
+        min-height: calc(100vh - 246px);
+        min-height: -o-calc(100vh - 246px); /* opera */
+        min-height: -webkit-calc(100vh - 246px); /* google, safari */
+        min-height: -moz-calc(100vh - 246px); /* firefox */
     }
 }
 
@@ -402,8 +413,3 @@ a.no-underline {
         width: 100%;
     }
 }
-
-
-
-
-
