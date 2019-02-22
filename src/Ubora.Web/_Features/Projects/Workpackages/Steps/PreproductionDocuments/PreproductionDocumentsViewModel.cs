@@ -11,6 +11,5 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
     {
         public string Name { get; set; }
         public bool IsExportable { get; set; }
-        public bool IsChecked { get; set; }
     }
 }

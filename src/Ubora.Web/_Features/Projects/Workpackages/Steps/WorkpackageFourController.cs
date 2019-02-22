@@ -235,8 +235,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return RedirectToAction(nameof(FirstStep));
         }
         
-        [Route(nameof(PreproductionDocuments))]
-        public IActionResult PreproductionDocuments()
+        [Route("preproduction-document")]
+        public IActionResult PreproductionDocument()
         {
             ViewBag.Title = "WP 4: Implementation";
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
@@ -255,14 +255,14 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 }
             };
             
-            return View("PreproductionDocuments/PreproductionDocuments", model);
+            return View("PreproductionDocuments/PreproductionDocument", model);
         }
         
         [HttpPost]
-        [Route(nameof(DownloadPreproductionDocument))]
+        [Route("preproduction-document")]
         public async Task<IActionResult> DownloadPreproductionDocument(PreproductionDocumentsViewModel model, [FromServices] PreproductionDocumentTemplateViewModel.Factory modelFactory)
         {
-            var preproductionDocumentTemplateViewModel = await modelFactory.Create(Project, model.WorkpackageCheckBoxListItems);
+            var preproductionDocumentTemplateViewModel = await modelFactory.Create(Project);
 
             var view = _viewRender.Render("/_Features/Projects/Workpackages/Steps/PreproductionDocuments/", "PreproductionDocumentTemplate.cshtml", preproductionDocumentTemplateViewModel);
             var documentStream = await _wordProcessingDocumentConverter.GetDocumentStreamAsync(view);
