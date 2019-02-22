@@ -17,6 +17,7 @@ using Ubora.Domain.Projects.StructuredInformations.Specifications;
 using Ubora.Domain.Projects.IsoStandardsComplianceChecklists;
 using Ubora.Domain.Projects;
 using Ubora.Domain;
+using Ubora.Domain.Projects.Workpackages.Queries;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
 {
@@ -95,23 +96,31 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
             {
             }
 
-            public virtual async Task<PreproductionDocumentTemplateViewModel> Create(Project project, List<WorkpackageCheckBoxListItem> workpackageCheckListItems)
+            public virtual async Task<PreproductionDocumentTemplateViewModel> Create(Project project)
             {
-                var model = new PreproductionDocumentTemplateViewModel();
-                model.Title = project.Title;
-                model.ProjectDescription = project.Description;
-                model.AreaOfUsageTag = project.AreaOfUsageTag;
-                model.ClinicalNeedTag = project.ClinicalNeedTag;
-                model.PotentialTechnologyTag = project.PotentialTechnologyTag;
-                model.Keywords = project.Keywords;
-                model.Members = GetMembers(project);
+                var model = new PreproductionDocumentTemplateViewModel
+                {
+                    Title = project.Title,
+                    ProjectDescription = project.Description,
+                    AreaOfUsageTag = project.AreaOfUsageTag,
+                    ClinicalNeedTag = project.ClinicalNeedTag,
+                    PotentialTechnologyTag = project.PotentialTechnologyTag,
+                    Keywords = project.Keywords,
+                    Members = GetMembers(project)
+                };
+
                 if (project.HasImage)
                 {
                     model.ImagePath = _storageProvider.GetUrl(project.ProjectImageBlobLocation, ImageSize.Thumbnail400x300); 
                 }
 
-                var isCheckedWp1 = workpackageCheckListItems[0].IsChecked;
-                if (isCheckedWp1)
+                var wpStatuses = _queryProcessor.ExecuteQuery(new GetStatusesOfProjectWorkpackagesQuery(project.Id));
+                var isWp1Exportable = wpStatuses.Wp1Status == WorkpackageStatus.Opened || wpStatuses.Wp1Status == WorkpackageStatus.Accepted;
+                var isWp2Exportable = wpStatuses.Wp2Status == WorkpackageStatus.Opened || wpStatuses.Wp2Status == WorkpackageStatus.Accepted;
+                var isWp3Exportable = wpStatuses.Wp3Status == WorkpackageStatus.Opened || wpStatuses.Wp3Status == WorkpackageStatus.Accepted;
+                var isWp4Exportable = wpStatuses.Wp4Status == WorkpackageStatus.Opened || wpStatuses.Wp4Status == WorkpackageStatus.Accepted;
+
+                if (isWp1Exportable)
                 {
                     var workpackageOne = _queryProcessor.FindById<WorkpackageOne>(project.Id);
 
@@ -122,8 +131,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                     };
                 }
 
-                var isCheckedWp2 = workpackageCheckListItems[1].IsChecked;
-                if (isCheckedWp2)
+                if (isWp2Exportable)
                 {
                     var workspackageTwo = _queryProcessor.FindById<WorkpackageTwo>(project.Id);
      
@@ -138,8 +146,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                     };
                 }
                 
-                var isCheckedWp3 = workpackageCheckListItems[2].IsChecked;
-                if (isCheckedWp3)
+                if (isWp3Exportable)
                 {
                     var workspackageThree = _queryProcessor.FindById<WorkpackageThree>(project.Id);
                     model.Wp3TemplatePartialViewModel = new WP3TemplatePartialViewModel
@@ -148,8 +155,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                     };
                 }
 
-                var isCheckedWp4 = workpackageCheckListItems[3].IsChecked;
-                if (isCheckedWp4)
+                if (isWp4Exportable)
                 {
                     var workspackageFour = _queryProcessor.FindById<WorkpackageFour>(project.Id);
                     var deviceStructuredInformation = _queryProcessor
