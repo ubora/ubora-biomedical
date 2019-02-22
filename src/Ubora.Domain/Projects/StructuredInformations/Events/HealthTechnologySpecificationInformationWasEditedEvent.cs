@@ -4,16 +4,24 @@ using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.StructuredInformations.Events
 {
-    public class HealthTechnologySpecificationInformationWasEditedEvent : ProjectEvent
+    public class HealthTechnologySpecificationInformationWasEditedEvent : ProjectEvent, IDeviceStructuredInformationEvent
     {
-        public HealthTechnologySpecificationInformationWasEditedEvent(DeviceStructuredInformationWorkpackageTypes workpackageType, UserInfo initiatedBy, Guid projectId, HealthTechnologySpecificationsInformation healthTechnologySpecificationsInformation) : base(initiatedBy, projectId)
+        public HealthTechnologySpecificationInformationWasEditedEvent(
+            UserInfo initiatedBy,
+            Guid projectId,
+            Guid deviceStructuredInformationId,
+            DeviceStructuredInformationWorkpackageTypes workpackageType,
+            HealthTechnologySpecificationsInformation healthTechnologySpecificationsInformation) 
+            : base(initiatedBy, projectId)
         {
+            DeviceStructuredInformationId = (deviceStructuredInformationId == default(Guid)) ? projectId : deviceStructuredInformationId; // Warning: backwards-compatibility (ubora-kahawa)
             WorkpackageType = workpackageType;
             HealthTechnologySpecificationsInformation = healthTechnologySpecificationsInformation;
         }
 
-        public DeviceStructuredInformationWorkpackageTypes WorkpackageType { get; private set; }
-        public HealthTechnologySpecificationsInformation HealthTechnologySpecificationsInformation { get; private set; }
+        public Guid DeviceStructuredInformationId { get; }
+        public DeviceStructuredInformationWorkpackageTypes WorkpackageType { get; }
+        public HealthTechnologySpecificationsInformation HealthTechnologySpecificationsInformation { get; }
 
         public override string GetDescription() => "edited device structured information.";
     }

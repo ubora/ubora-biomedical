@@ -12,12 +12,16 @@ using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Tests.Fakes;
 using Ubora.Web._Features.Projects.Workpackages.Candidates;
 using Xunit;
+using Ubora.Domain.Discussions;
+using Ubora.Web._Components.Discussions.Models;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
 {
     public class CommentViewModelFactoryTests
     {
-        private readonly CommentViewModel.Factory _factory;
+        private readonly CommentViewModelFactory _factory;
         private readonly Mock<ImageStorageProvider> _imageStorageProvider;
         private readonly Mock<IQueryProcessor> _queryProcessor;
         private readonly Mock<IAuthorizationService> _authorizationService;
@@ -27,7 +31,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
             _imageStorageProvider = new Mock<ImageStorageProvider>();
             _queryProcessor = new Mock<IQueryProcessor>();
             _authorizationService = new Mock<IAuthorizationService>();
-            _factory = new CommentViewModel.Factory(_queryProcessor.Object, _imageStorageProvider.Object, _authorizationService.Object);
+            _factory = new CommentViewModelFactory(_queryProcessor.Object, _imageStorageProvider.Object, _authorizationService.Object);
         }
 
         [Fact]
@@ -37,7 +41,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
             var commentText = "commentText";
             var commentedAt = DateTime.UtcNow;
             var commentId = Guid.NewGuid();
-            var comment = new Comment(userId, commentText, commentId, commentedAt, new[] { "project-mentor" });
+            var comment = Comment.Create(commentId, userId, commentText, commentedAt, new Dictionary<string, object> { { "RoleKeys", new [] { "project-mentor" } } }.ToImmutableDictionary());
 
             var projectId = Guid.NewGuid();
             var candidateId = Guid.NewGuid();
@@ -60,15 +64,9 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 .Returns(profilePictureUrl);
 
             var claimsPrincipal = FakeClaimsPrincipalFactory.CreateAuthenticatedUser();
-            _authorizationService.Setup(x => x.AuthorizeAsync(claimsPrincipal, comment, Policies.CanEditComment))
+            _authorizationService.Setup(x => x.AuthorizeAsync(claimsPrincipal, comment, Policies.CanEditCandidateComment))
                 .ReturnsAsync(AuthorizationResult.Success);
 
-            var editCommentViewModel = new EditCommentViewModel
-            {
-                CandidateId = candidateId,
-                Id = comment.Id,
-                CommentText = comment.Text
-            };
             var expectedModel = new CommentViewModel
             {
                 Id = commentId,
@@ -77,7 +75,6 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 CommentatorName = "FirstName LastName",
                 ProfilePictureUrl = profilePictureUrl,
                 CommentedAt = commentedAt,
-                EditCommentViewModel = editCommentViewModel,
                 CanBeEdited = true,
                 IsLeader = false,
                 IsMentor = true

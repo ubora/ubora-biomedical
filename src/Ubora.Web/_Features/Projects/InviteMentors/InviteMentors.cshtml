@@ -9,9 +9,8 @@
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a asp-controller="Members" asp-action="Members">Members</a>
-        </li>
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">UBORA</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Members" asp-action="Members">Members</a></li>
         <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
     </ol>
 </nav>
@@ -28,7 +27,7 @@
                     </div>
                     <div class="card-body">
                         <h4 class="card-title">
-                            <a asp-action="ViewProfile" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a>
+                            <a asp-action="ViewProfile" asp-controller="Profile" asp-route-userId="@mentor.UserId">@mentor.FullName</a>
                         </h4>
                         @*TODO: show all roles*@
                         <p>Mentor&nbsp;</p>
@@ -53,7 +52,7 @@
                 </div>
                 <div class="card-body pb-0">
                     <h4 class="card-title">
-                        <a asp-action="ViewProfile" asp-controller="Profile" asp-route-userId="@mentor.UserId" class="user-card--name">@mentor.FullName</a>
+                        <a asp-action="ViewProfile" asp-controller="Profile" asp-route-userId="@mentor.UserId">@mentor.FullName</a>
                     </h4>
                 </div>
                 <form class="form-group py-2" asp-action="InviteMentor">

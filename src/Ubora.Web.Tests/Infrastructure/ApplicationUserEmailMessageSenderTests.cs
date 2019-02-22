@@ -90,7 +90,7 @@ namespace Ubora.Web.Tests.Infrastructure
 
             // Assert
             viewModel.UserId.Should().Be(user.Id);
-            viewModel.Code.Should().Be("expectedCode");
+            viewModel.Code.Should().Be("ZXhwZWN0ZWRDb2Rl");
 
             _emailSenderMock.Verify(x => x.SendEmailAsync("test@agileworks.eu", "UBORA: Password reset", "finalHtml", null, EmailLayoutViewModel.AddLayoutAttachments));
         }

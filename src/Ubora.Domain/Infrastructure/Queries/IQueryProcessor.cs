@@ -36,6 +36,6 @@ namespace Ubora.Domain.Infrastructure.Queries
             int pageSize, 
             int pageNumber);
 
-        T FindById<T>(Guid id); // Replace calls with specification?
+        T FindById<T>(Guid id);
     }
 }

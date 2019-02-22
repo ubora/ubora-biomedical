@@ -22,6 +22,7 @@ using Ubora.Web._Features.Projects.DeviceClassifications;
 using Ubora.Web._Features.Projects.History._Base;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Ubora.Web._Features.Users.Manage;
+using Ubora.Web._Features.Projects.Workpackages.Candidates;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages.CommandHandlers;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages.Services;
 using Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments;
@@ -123,6 +124,8 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterType<QuestionnaireIndexViewModel.QuestionnaireListItemProjection>()
                 .As<IProjection<ApplicableRegulationsQuestionnaireAggregate, QuestionnaireIndexViewModel.QuestionnaireListItem>>()
                 .SingleInstance();
+
+            builder.RegisterType<CommentViewModelFactory>().AsSelf().InstancePerLifetimeScope();
 
             builder.RegisterType<ResourceBlobDeleter>().As<IResourceBlobDeleter>().InstancePerLifetimeScope();
         }

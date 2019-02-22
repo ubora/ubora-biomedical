@@ -3,17 +3,19 @@
 @using Ubora.Web._Features.Projects.Workpackages
 @using Ubora.Web._Features.Projects.Workpackages.SideMenu
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet"
-          href="//cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.css"
-          asp-fallback-href="~/dist/libs/simplemde.min.css">
     @RenderSection("Head", required: false)
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"
+          asp-fallback-test-class="ql-snow"
+          asp-fallback-href="~/dist/quill.snow.css">
     @{
         Html.RenderPartial("_LayoutHead");
     }
 </head>
+
 
 <body>
     @{
@@ -89,19 +91,19 @@
                 </div>
             </div>
         </main>
+
     }
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"
-            asp-fallback-src="~/dist/libs/marked.min.js"
-            asp-fallback-test="window.marked">
-    </script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.js"
-            asp-fallback-src="~/dist/libs/simplemde.min.js"
-            asp-fallback-test="window.SimpleMDE">
-    </script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.js"
+            asp-fallback-test="Quill"
+            asp-fallback-src="~/dist/quill.min.js"></script>
+
     @{
         Html.RenderPartial("_LayoutBody");
     }
+
+    <script src="~/dist/quill.bundle.js"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

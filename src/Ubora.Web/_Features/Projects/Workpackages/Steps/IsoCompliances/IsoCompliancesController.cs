@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Ubora.Domain.Projects.IsoStandardsCompliances;
-using Ubora.Domain.Projects.IsoStandardsCompliances.Commands;
+using Ubora.Domain.Projects.IsoStandardsComplianceChecklists;
+using Ubora.Domain.Projects.IsoStandardsComplianceChecklists.Commands;
 using Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances.Models;
 using Ubora.Web._Features._Shared.Notices;
 
@@ -14,13 +14,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances
     {
         private readonly IndexViewModel.Factory _indexViewModelFactory;
 
-        public IsoStandardsComplianceAggregate IsoStandardsComplianceAggregate { get; set; }
+        public IsoStandardsComplianceChecklist IsoStandardsComplianceAggregate { get; set; }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
 
-            IsoStandardsComplianceAggregate = QueryProcessor.FindById<IsoStandardsComplianceAggregate>(ProjectId);
+            IsoStandardsComplianceAggregate = QueryProcessor.FindById<IsoStandardsComplianceChecklist>(ProjectId);
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.IsoCompliance;
         }
 

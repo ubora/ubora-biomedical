@@ -4,7 +4,7 @@ using System.Linq;
 using AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using Ubora.Domain.Projects.IsoStandardsCompliances;
+using Ubora.Domain.Projects.IsoStandardsComplianceChecklists;
 using Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances.Models;
 using Xunit;
 
@@ -23,7 +23,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.IsoCompliances.Models
                 AutoFixture.Create<IsoStandard>()
             }.ToImmutableList();
 
-            var aggregate = new IsoStandardsComplianceAggregate()
+            var aggregate = new IsoStandardsComplianceChecklist()
                 .Set(x => x.IsoStandards, isoStandards);
 
             var factoryUnderTest = new IndexViewModel.Factory();

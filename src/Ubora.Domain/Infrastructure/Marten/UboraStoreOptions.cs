@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Marten;
+using Marten.Schema;
 using Marten.Services;
 using Marten.Services.Events;
 using Newtonsoft.Json;
+using Ubora.Domain.ClinicalNeeds;
+using Ubora.Domain.Discussions;
 using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects.Workpackages;
@@ -17,10 +20,9 @@ using Ubora.Domain.Questionnaires.DeviceClassifications;
 using Ubora.Domain.Users;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Domain.Projects.History;
-using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects._Events;
-using System.Reflection;
-using Ubora.Domain.Projects.IsoStandardsCompliances;
+using Ubora.Domain.Projects.IsoStandardsComplianceChecklists;
+using Ubora.Domain.Projects.StructuredInformations.Events;
 using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Events;
 
@@ -54,7 +56,10 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<UserProfile>().SoftDeleted();
                 options.Schema.For<ProjectFile>();
                 options.Schema.For<Assignment>();
-                options.Schema.For<Project>().SoftDeleted();
+
+                options.Schema.For<Project>()
+                    .SoftDeleted();
+                 
                 options.Schema.For<Candidate>().SoftDeleted();
                 options.Schema.For<EventLogEntry>()
                     .Duplicate(l => l.ProjectId)
@@ -70,6 +75,13 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Schema.For<ResourceFile>()
                     .Duplicate(file => file.ResourcePageId);
 
+                options.Schema.For<IsoStandardsComplianceChecklist>()
+                    .Duplicate(checklist => checklist.ProjectId);
+
+                options.Schema.For<Discussion>()
+                    .Duplicate(d => d.AttachedToEntity.EntityId)
+                    .Duplicate(d => d.AttachedToEntity.EntityName);
+
                 options.Events.InlineProjections.AggregateStreamsWith<Project>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageOne>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
@@ -77,7 +89,6 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageFour>();
                 options.Events.InlineProjections.AggregateStreamsWith<ApplicableRegulationsQuestionnaireAggregate>();
                 options.Events.InlineProjections.AggregateStreamsWith<DeviceClassificationAggregate>();
-                options.Events.InlineProjections.AggregateStreamsWith<DeviceStructuredInformation>();
                 options.Events.InlineProjections.AggregateStreamsWith<ResourcePage>();
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<Assignment, IAssignmentEvent>());
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());
@@ -85,7 +96,11 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<Candidate>();
                 options.Events.InlineProjections.AggregateStreamsWith<ResourceCategory>();
                 options.Events.InlineProjections.Add(new ResourcesMenuViewProjection());
-                options.Events.InlineProjections.AggregateStreamsWith<IsoStandardsComplianceAggregate>();
+                options.Events.InlineProjections.AggregateStreamsWith<IsoStandardsComplianceChecklist>();
+                options.Events.InlineProjections.Add(new DeviceStructuredInformationProjection<IDeviceStructuredInformationEvent>());
+                options.Events.InlineProjections.AggregateStreamsWith<Discussion>();
+                options.Events.InlineProjections.AggregateStreamsWith<ClinicalNeed>();
+                options.Events.InlineProjections.Add(new ClinicalNeedQuickInfo.ViewProjection());
 
                 options.Events.AddEventTypes(eventTypes);
 
@@ -110,19 +125,6 @@ namespace Ubora.Domain.Infrastructure.Marten
                 c.ContractResolver = new PrivateSetterResolver();
             });
             return serializer;
-        }
-
-        private static bool IsApplyMethodForType(MethodInfo methodInfo, Type type)
-        {
-            var methodParameters = methodInfo.GetParameters();
-            var isApplyMethod = (methodInfo.Name == "Apply" && methodParameters.Length == 1);
-
-            if (!isApplyMethod)
-            {
-                return false;
-            }
-
-            return methodParameters.Single().ParameterType == type;
         }
     }
 }

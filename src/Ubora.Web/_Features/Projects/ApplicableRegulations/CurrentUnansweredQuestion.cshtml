@@ -47,5 +47,8 @@ else
 
 @if (!string.IsNullOrEmpty(Model.Note))
 {
-    <p class="text-informative">Notes: @Model.Note</p>
+    <div class="mb-3 text-informative">
+        <p>Notes:</p>
+        <p>@Model.Note</p>
+    </div>
 }

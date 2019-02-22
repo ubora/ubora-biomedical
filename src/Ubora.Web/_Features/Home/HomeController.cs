@@ -18,7 +18,7 @@ namespace Ubora.Web._Features.Home
                 return RedirectToLocal(returnUrl);
             }
 
-            return View("Index");
+            return View("LandingPage");
         }
 
         public IActionResult Error()

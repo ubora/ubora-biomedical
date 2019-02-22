@@ -6,21 +6,21 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Events;
 using Ubora.Domain.Notifications;
 using Ubora.Domain.Projects.Members.Specifications;
+using Ubora.Domain.Projects.StructuredInformations.Events;
 using Ubora.Domain.Projects._Events;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
 
 namespace Ubora.Domain.Projects.Workpackages.Events
 {
-    public class WorkpackageFourOpenedEvent : ProjectEvent
+    public class WorkpackageFourOpenedEvent : ProjectEvent, IDeviceStructuredInformationEvent
     {
-        public WorkpackageFourOpenedEvent(Guid deviceStructuredInformationId, UserInfo initiatedBy, Guid projectId, ApplicableRegulationsQuestionnaireTree latestFinishedApplicableRegulationsQuestionnaire) : base(initiatedBy, projectId)
+        public WorkpackageFourOpenedEvent(UserInfo initiatedBy, Guid projectId, Guid deviceStructuredInformationId, ApplicableRegulationsQuestionnaireTree latestFinishedApplicableRegulationsQuestionnaire) : base(initiatedBy, projectId)
         {
             DeviceStructuredInformationId = deviceStructuredInformationId;
             LatestFinishedApplicableRegulationsQuestionnaire = latestFinishedApplicableRegulationsQuestionnaire;
         }
 
         public Guid DeviceStructuredInformationId { get; private set; }
-        
         public ApplicableRegulationsQuestionnaireTree LatestFinishedApplicableRegulationsQuestionnaire { get; }
 
         public override string GetDescription() => $"opened work package 4: Implementation.";

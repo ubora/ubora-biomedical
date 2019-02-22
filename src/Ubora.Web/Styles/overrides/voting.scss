@@ -45,30 +45,3 @@
 .table.table-votes th {
   border-top: none;
 }
-
-
-
-/*overrides*/
-.comment-section {
-    @extend .font-size-0-8;
-    @extend .color-grey;
-
-    .btn-link {
-        font-size: inherit;
-        color: $primary-shade;
-        border: none;
-        padding: 0;
-
-        &:hover,
-        &:active,
-        &:focus {
-            color: $light-blue;
-        }
-    }
-}
-
-/*for comments*/
-a.show-more-link {
-	text-decoration:none;
-	outline: none;
-}

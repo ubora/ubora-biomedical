@@ -21,6 +21,7 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">UBORA</a></li>
         <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Resources</a></li>
         <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
     </ol>
@@ -41,7 +42,7 @@
         <div class="mb-3">
             <a asp-action="@nameof(ResourceCategoriesController.Create)" asp-controller="ResourceCategories" class="my-2 btn btn-block btn-outline-primary">
                 <i class="material-icons">add</i>
-                <span>Create new resource category</span>
+                <span>Create new category</span>
             </a>
         </div>
     }

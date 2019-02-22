@@ -33,7 +33,8 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
                     initiatedBy: cmd.Actor,
                     projectId: cmd.ProjectId,
                     concludingComment: cmd.ConcludingComment,
-                    acceptedAt: DateTimeOffset.Now);
+                    acceptedAt: DateTimeOffset.Now,
+                    deviceStructuredInformationId: cmd.ProjectId);
 
                 DocumentSession.Events.Append(cmd.ProjectId, @event);
                 DocumentSession.SaveChanges();

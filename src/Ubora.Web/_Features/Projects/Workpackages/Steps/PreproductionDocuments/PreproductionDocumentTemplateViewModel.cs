@@ -4,10 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Projects.IsoStandardsCompliances;
-using Ubora.Domain.Projects.Members.Queries;
 using Ubora.Domain.Projects.StructuredInformations;
-using Ubora.Domain.Projects.StructuredInformations.Specifications;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Questionnaires.ApplicableRegulations.Queries;
@@ -16,19 +13,22 @@ using Ubora.Domain.Users.Queries;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web._Features.Projects.ApplicableRegulations;
 using Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances.Models;
-using Project = Ubora.Domain.Projects.Project;
+using Ubora.Domain.Projects.StructuredInformations.Specifications;
+using Ubora.Domain.Projects.IsoStandardsComplianceChecklists;
+using Ubora.Domain.Projects;
+using Ubora.Domain;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
 {
-    public class PreproductionDocumentTemplateViewModel
+    public class PreproductionDocumentTemplateViewModel : ITagsAndKeywords
     {
         public string Title { get; set; }
         public string ProjectDescription { get; set; }
         public string DeviceClassification { get; set; }
-        public string ClinicalNeedTags { get; set; }
-        public string AreaOfUsageTags { get; set; }
-        public string PotentialTechnologyTags { get; set; }
-        public string Gmdn { get; set; }
+        public string ClinicalNeedTag { get; set; }
+        public string AreaOfUsageTag { get; set; }
+        public string PotentialTechnologyTag { get; set; }
+        public string Keywords { get; set; }
         public string ImagePath { get; set; }
         public IEnumerable<Member> Members { get; set; }
         public WP1TemplatePartialViewModel Wp1TemplatePartialViewModel { get; set; }
@@ -100,10 +100,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                 var model = new PreproductionDocumentTemplateViewModel();
                 model.Title = project.Title;
                 model.ProjectDescription = project.Description;
-                model.AreaOfUsageTags = project.AreaOfUsageTags;
-                model.ClinicalNeedTags = project.ClinicalNeedTags;
-                model.PotentialTechnologyTags = project.PotentialTechnologyTags;
-                model.Gmdn = project.Gmdn;
+                model.AreaOfUsageTag = project.AreaOfUsageTag;
+                model.ClinicalNeedTag = project.ClinicalNeedTag;
+                model.PotentialTechnologyTag = project.PotentialTechnologyTag;
+                model.Keywords = project.Keywords;
                 model.Members = GetMembers(project);
                 if (project.HasImage)
                 {
@@ -128,7 +128,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                     var workspackageTwo = _queryProcessor.FindById<WorkpackageTwo>(project.Id);
      
                     var deviceStructuredInformation = _queryProcessor
-                        .Find(new IsFromWhichWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = project.Id })
+                        .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = project.Id })
                         .FirstOrDefault();
 
                     model.Wp2TemplatePartialViewModel = new WP2TemplatePartialViewModel
@@ -153,16 +153,16 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                 {
                     var workspackageFour = _queryProcessor.FindById<WorkpackageFour>(project.Id);
                     var deviceStructuredInformation = _queryProcessor
-                        .Find(new IsFromWhichWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four)&& new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = project.Id })
+                        .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four)&& new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = project.Id })
                         .FirstOrDefault();
-                    var isoStandardsComplianceAggregate = _queryProcessor.FindById<IsoStandardsComplianceAggregate>(project.Id);
+                    var isoStandardsComplianceAggregate = _queryProcessor.FindById<IsoStandardsComplianceChecklist>(project.Id);
                     
                     model.Wp4TemplatePartialViewModel = new WP4TemplatePartialViewModel
                     {
                         WorkpackageStepViewModels = await GetWorkpackageStepViewModels(workspackageFour),
                         StructuredInformationResultViewModel = _structuredInformationResultViewModel.Create(deviceStructuredInformation),
                         IsoStandardIndexListViewModel = _indexViewModelFactory.Create(isoStandardsComplianceAggregate)
-                    };;
+                    };
                 }
 
                 var deviceClassificationAggregate = _queryProcessor.ExecuteQuery(new LatestFinishedProjectDeviceClassificationQuery(project.Id));

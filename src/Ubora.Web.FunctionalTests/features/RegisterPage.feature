@@ -13,9 +13,9 @@ Scenario: I am on Register page
 Scenario: I submit valid registration form then user is logged in and full name displayed
     When I click on the element "span=Log in"
         And I sign up as "email@email.com"
-        And I click on the element "span=Profile"
+        And I go to profile settings
     Then I expect the element "h2=firstName lastName" is visible
-    When I click on the element "span=Log out"
+    When I log out
     Then I expect the title of the page "UBORA"
 
 Scenario: I sumbit empty registration form and try to create an account

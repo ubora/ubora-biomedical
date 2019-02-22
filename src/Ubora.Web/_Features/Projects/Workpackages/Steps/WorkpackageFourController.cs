@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.NodeServices;
+using Ubora.Domain;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.Specifications;
 using Ubora.Domain.Projects.Workpackages;
@@ -16,6 +17,7 @@ using Ubora.Web.Infrastructure;
 using Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features._Shared.Notices;
+using System.Collections.Generic;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -24,7 +26,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     public class WorkpackageFourController : ProjectController
     {
         private WorkpackageFour _workpackageFour;
-
         public WorkpackageFour WorkpackageFour =>
             _workpackageFour ?? (_workpackageFour = QueryProcessor.FindById<WorkpackageFour>(ProjectId));
 
@@ -53,10 +54,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         [Route("{stepId}")]
         [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
-        public IActionResult Read(string stepId)
+        public async Task<IActionResult> Read(string stepId)
         {
             var step = WorkpackageFour.GetSingleStep(stepId);
             var model = AutoMapper.Map<ReadStepViewModel>(step);
+            model.ContentHtml = await ConvertQuillDeltaToHtml(step.ContentV2);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
             model.EditButton = UiElementVisibility.Visible();
@@ -66,11 +68,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         [Route("{stepId}/Edit")]
         [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
-        public IActionResult Edit(string stepId)
+        public async Task<IActionResult> Edit(string stepId)
         {
             var step = WorkpackageFour.GetSingleStep(stepId);
 
             var model = AutoMapper.Map<EditStepViewModel>(step);
+            model.ContentQuillDelta = await SanitizeQuillDeltaForEditing(step.ContentV2);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
 
@@ -80,22 +83,22 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [HttpPost]
         [Route("{stepId}/Edit")]
         [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
-        public IActionResult Edit(EditStepPostModel model)
+        public async Task<IActionResult> Edit(EditStepPostModel model)
         {
             if (!ModelState.IsValid)
             {
-                return Edit(model.StepId);
+                return await Edit(model.StepId);
             }
 
             ExecuteUserProjectCommand(new EditWorkpackageFourStepCommand
             {
                 StepId = model.StepId,
-                NewValue = model.Content
-            }, Notice.Success("WP4StepEdited"));
+                NewValue = new QuillDelta(model.ContentQuillDelta)
+            }, Notice.Success("Changes saved"));
 
             if (!ModelState.IsValid)
             {
-                return Edit(model.StepId);
+                return await Edit(model.StepId);
             }
 
             return RedirectToAction(nameof(Read), new { stepId = model.StepId });
@@ -108,7 +111,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
-                .Find(new IsFromWhichWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four)&& new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
+                .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four)&& new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
                 .FirstOrDefault();
             var model = modelFactory.Create(deviceStructuredInformation);
 
@@ -122,7 +125,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
-                .Find(new IsFromWhichWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
+                .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
                 .FirstOrDefault();
             if (deviceStructuredInformation == null)
             {
@@ -169,7 +172,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
-                .Find(new IsFromWhichWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
+                .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
                 .FirstOrDefault();
             if (deviceStructuredInformation == null)
             {
@@ -208,24 +211,21 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return RedirectToAction(nameof(StructuredInformationOnTheDevice));
         }
 
-        [Route(nameof(Unlocking))]
+        [HttpGet("unlock")]
+        [Authorize(Policy = nameof(Policies.CanUnlockWorkpackages))]
         public IActionResult Unlocking()
         {
             ViewBag.Title = "WP 4: Implementation";
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.WorkpackageFourLocked;
 
-            return View(nameof(Unlocking));
+            return View("UnlockWp4");
         }
 
-        [HttpPost]
-        [Route(nameof(Unlock))]
+        [HttpPost("unlock")]
         [Authorize(Policy = nameof(Policies.CanUnlockWorkpackages))]
         public IActionResult Unlock()
         {
-            ExecuteUserProjectCommand(new OpenWorkpackageFourCommand
-            {
-                DeviceStructuredInformationId = Guid.NewGuid()
-            }, Notice.Success("Work package unlocked"));
+            ExecuteUserProjectCommand(new OpenWorkpackageFourCommand(), Notice.Success("Work package unlocked"));
 
             if (!ModelState.IsValid)
             {

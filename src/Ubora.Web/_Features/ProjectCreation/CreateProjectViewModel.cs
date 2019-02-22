@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
 
 namespace Ubora.Web._Features.ProjectCreation
@@ -9,5 +10,8 @@ namespace Ubora.Web._Features.ProjectCreation
         [Display(Name = "Project title")]
         [StringLength(100, ErrorMessage = "The {0} can be max {1} characters long.")]
         public string Title { get; set; }
+
+        public Guid? ClinicalNeedId { get; set; }
+        public string ClinicalNeedTitle { get; set; }
     }
 }

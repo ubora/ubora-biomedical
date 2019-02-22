@@ -19,10 +19,10 @@ namespace Ubora.Domain.Projects._Specifications
         {
             return p =>
                 p.Title.Contains(SearchPhrase, StringComparison.OrdinalIgnoreCase) ||
-                p.ClinicalNeedTags.Contains(SearchPhrase, StringComparison.OrdinalIgnoreCase) ||
-                p.AreaOfUsageTags.Contains(SearchPhrase, StringComparison.OrdinalIgnoreCase) ||
-                p.PotentialTechnologyTags.Contains(SearchPhrase, StringComparison.OrdinalIgnoreCase) ||
-                p.Gmdn.Contains(SearchPhrase, StringComparison.OrdinalIgnoreCase);
+                p.ClinicalNeedTag.Contains(SearchPhrase, StringComparison.OrdinalIgnoreCase) ||
+                p.AreaOfUsageTag.Contains(SearchPhrase, StringComparison.OrdinalIgnoreCase) ||
+                p.PotentialTechnologyTag.Contains(SearchPhrase, StringComparison.OrdinalIgnoreCase) ||
+                p.Keywords.Contains(SearchPhrase, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

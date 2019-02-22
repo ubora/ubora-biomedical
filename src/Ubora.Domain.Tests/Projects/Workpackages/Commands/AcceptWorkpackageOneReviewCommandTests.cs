@@ -52,17 +52,16 @@ namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
 
         private void Assert_Project_Device_Structured_Information_Aggregate_Was_Created()
         {
-            var aggregate = Processor.FindById<DeviceStructuredInformation>(_projectId);
+            var aggregate = Session.Query<DeviceStructuredInformation>().SingleOrDefault(x => x.ProjectId == _projectId);
 
             var expectedAggregate = new DeviceStructuredInformation()
-                .Set(x => x.Id, _projectId)
                 .Set(x => x.ProjectId, _projectId)
                 .Set(x => x.WorkpackageType, DeviceStructuredInformationWorkpackageTypes.Two)
                 .Set(x => x.UserAndEnvironment, UserAndEnvironmentInformation.CreateEmpty())
                 .Set(x => x.HealthTechnologySpecification, new HealthTechnologySpecificationsInformation());
 
             aggregate.Should().NotBeNull();
-            aggregate.ShouldBeEquivalentTo(expectedAggregate);
+            aggregate.ShouldBeEquivalentTo(expectedAggregate, opt => opt.Excluding(x => x.Id));
         }
     }
 }

@@ -38,6 +38,8 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsWorkpackageRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, AndRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, PandocServiceIpRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, IsClinicalNeedIndicatorRequirement.Handler>();
+            services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<IsClinicalNeedIndicatorRequirement>>();
         }
 
         private static void AddPolicies(IServiceCollection services)
@@ -151,7 +153,7 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsCandidateCreatorRequirement()));
                 });
-                options.AddPolicy(Policies.CanEditComment, policyBuilder =>
+                options.AddPolicy(Policies.CanEditCandidateComment, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsCommentAuthorRequirement());
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
@@ -211,6 +213,26 @@ namespace Ubora.Web.Authorization
                 options.AddPolicy(Policies.CanDownloadFile, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new OrRequirement(new IsProjectMemberRequirement(), new PandocServiceIpRequirement()));
+                });
+
+                options.AddPolicy(Policies.CanIndicateClinicalNeeds, policyBuilder =>
+                {
+                    policyBuilder.RequireAuthenticatedUser();
+                });
+
+                options.AddPolicy(Policies.CanAddClinicalNeedComment, policyBuilder =>
+                {
+                    policyBuilder.RequireAuthenticatedUser();
+                });
+
+                options.AddPolicy(Policies.CanEditClinicalNeedComment, policyBuilder =>
+                {
+                    policyBuilder.Requirements.Add(new IsCommentAuthorRequirement());
+                });
+
+                options.AddPolicy(Policies.CanEditClinicalNeed, policyBuilder =>
+                {
+                    policyBuilder.Requirements.Add(new IsClinicalNeedIndicatorRequirement());
                 });
             });
         }

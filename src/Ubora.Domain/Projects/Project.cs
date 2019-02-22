@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using Newtonsoft.Json;
 using Ubora.Domain.Infrastructure;
@@ -12,20 +13,27 @@ using Ubora.Domain.Projects._Specifications;
 
 namespace Ubora.Domain.Projects
 {
-    public class Project : Entity<Project>
+    public class Project : Entity<Project>, ITagsAndKeywords
     {
         public Guid Id { get; private set; }
+
+        public bool HasMarkdownBeenConvertedToQuillDelta { get; set; }
+
         public string Title { get; private set; }
-        public string Gmdn { get; private set; }
-        public string ClinicalNeedTags { get; private set; }
-        public string AreaOfUsageTags { get; private set; }
-        public string PotentialTechnologyTags { get; private set; }
+        public string Keywords { get; private set; }
+        public string ClinicalNeedTag { get; private set; }
+        public string AreaOfUsageTag { get; private set; }
+        public string PotentialTechnologyTag { get; private set; }
         public string Description { get; private set; }
+        public QuillDelta DescriptionV2 { get; private set; }
+
         public bool IsInDraft { get; private set; } = true;
         public BlobLocation ProjectImageBlobLocation { get; private set; }
         public DateTime ProjectImageLastUpdated { get; private set; }
         public bool IsDeleted { get; private set; }
-        public DateTime CreatedDateTime { get; set; }
+        public DateTime CreatedDateTime { get; private set; }
+
+        public ImmutableArray<Guid> RelatedClinicalNeeds { get; private set; } = ImmutableArray<Guid>.Empty;
 
         [JsonIgnore]
         public bool HasImage => new HasImageSpec().IsSatisfiedBy(this);
@@ -52,15 +60,26 @@ namespace Ubora.Domain.Projects
             return DoesSatisfy(new HasMember<T>(userId));
         }
 
+        private void Apply(WorkpackageOneStepEditedEventV2 @event)
+        {
+            HasMarkdownBeenConvertedToQuillDelta = true;
+        }
+
         private void Apply(ProjectCreatedEvent e)
         {
             Id = e.ProjectId;
             Title = e.Title;
-            AreaOfUsageTags = e.AreaOfUsage;
-            ClinicalNeedTags = e.ClinicalNeed;
-            Gmdn = e.Gmdn;
-            PotentialTechnologyTags = e.PotentialTechnology;
+            AreaOfUsageTag = e.AreaOfUsage;
+            ClinicalNeedTag = e.ClinicalNeed;
+            Keywords = e.Gmdn;
+            PotentialTechnologyTag = e.PotentialTechnology;
             CreatedDateTime = e.Timestamp.UtcDateTime;
+            DescriptionV2 = new QuillDelta();
+
+            if (e.RelatedClinicalNeedId.HasValue)
+            {
+                RelatedClinicalNeeds = RelatedClinicalNeeds.Add(e.RelatedClinicalNeedId.Value);
+            }
 
             var userId = e.InitiatedBy.UserId;
             var leader = new ProjectLeader(userId);
@@ -71,10 +90,10 @@ namespace Ubora.Domain.Projects
         private void Apply(ProjectUpdatedEvent e)
         {
             Title = e.Title;
-            ClinicalNeedTags = e.ClinicalNeedTags;
-            AreaOfUsageTags = e.AreaOfUsageTags;
-            PotentialTechnologyTags = e.PotentialTechnologyTags;
-            Gmdn = e.Gmdn;
+            ClinicalNeedTag = e.ClinicalNeedTags;
+            AreaOfUsageTag = e.AreaOfUsageTags;
+            PotentialTechnologyTag = e.PotentialTechnologyTags;
+            Keywords = e.Gmdn;
         }
 
         private void Apply(MemberAddedToProjectEvent e)
@@ -120,9 +139,15 @@ namespace Ubora.Domain.Projects
             _members.Add(new ProjectLeader(e.UserId));
         }
 
+        [Obsolete]
         private void Apply(EditProjectDescriptionEvent e)
         {
             Description = e.Description;
+        }
+
+        private void Apply(ProjectDescriptionEditedEventV2 e)
+        {   
+            DescriptionV2 = e.Description;
         }
 
         private void Apply(ProjectTitleEditedEvent e)

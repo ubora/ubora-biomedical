@@ -35,7 +35,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             
             QueryProcessorMock
                 .Setup(x => x.Find<DeviceStructuredInformation>(
-                    new IsFromWhichWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) &&
+                    new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) &&
                     new IsFromProjectSpec<DeviceStructuredInformation> {ProjectId = ProjectId})).Returns(
                     new PagedList<DeviceStructuredInformation>(deviceStructuredInformations.AsQueryable(), 1, 10));
             

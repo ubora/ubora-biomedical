@@ -1,18 +1,23 @@
 ﻿@model IsoStandardIndexVieModel
 
+@{
+    var modalId = "modal-remove-standard-" + Model.IsoStandardId;
+}
+
 <span data-toggle="tooltip" title="Remove ISO standard">
-    <button class="btn btn-icon align-self-start py-0" type="button" data-toggle="modal" data-target="#removeStandardModal">
+    <button class="btn btn-light border-0 btn-sm py-1 align-self-start ml-2" type="button" data-toggle="modal" data-target="#@modalId">
         <i class="material-icons">
             delete_forever
         </i>
+        <span>Remove</span>
     </button>
 </span>
 
-<div class="modal fade" id="removeStandardModal" tabindex="-1" role="dialog" aria-labelledby="removeStandardModal" aria-hidden="true">
+<div class="modal fade" id="@modalId" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="removeStandardModalLabel">Remove ISO standard</h5>
+                <h5 class="modal-title">Remove ISO standard</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -26,7 +31,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Yes, remove</button>
+                    <button type="submit" class="btn btn-primary">Remove</button>
                 </div>
             </form>
         </div>
