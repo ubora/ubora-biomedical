@@ -31,19 +31,14 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             base.OnActionExecuting(context);
 
-            if (WorkpackageFive == null
-                && RouteData.Values["action"] as string != nameof(Unlocking)) 
-            {
-                context.Result = new RedirectToActionResult(nameof(Unlocking), Name, routeValues: null);
-                return;
-            }
-
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
         }
 
         [HttpGet("")]
         public IActionResult Index()
         {
+            if (WorkpackageFive == null)
+                return RedirectToAction(nameof(Unlocking));
             return RedirectToAction(nameof(Read), new { stepId = WorkpackageFive.Steps.First().Id });
         }
 
