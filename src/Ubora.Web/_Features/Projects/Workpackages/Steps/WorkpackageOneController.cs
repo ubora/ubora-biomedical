@@ -29,7 +29,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         public IActionResult DiscardDesignPlanningChanges(string returnUrl = null)
         {
-            if(returnUrl != null)
+            if (returnUrl != null)
             {
                 return RedirectToLocal(returnUrl);
             }
@@ -63,7 +63,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return ProjectOverview(returnUrl);
             }
 
-            if(returnUrl != null)
+            if (returnUrl != null)
             {
                 return RedirectToLocal(returnUrl);
             }
@@ -130,13 +130,5 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             return RedirectToAction(nameof(Read), new { stepId = model.StepId });
         }
-
-        
-        [Route("businessModel")]
-        public IActionResult BusinessModel()
-        {
-            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.DesignPlanning;
-            return View();
-        }
-}
+    }
 }

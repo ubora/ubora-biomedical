@@ -9,13 +9,18 @@ using Ubora.Web._Features._Shared;
 using Ubora.Web._Features._Shared.Notices;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain;
+using Newtonsoft.Json;
+using System;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     [ProjectRoute("WP3")]
     [WorkpackageStepIdFromRouteToViewData]
+    [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageThree))]
     public class WorkpackageThreeController : ProjectController
     {
+        public const string Name = "WorkpackageThree";
+
         private WorkpackageThree _workpackageThree;
         public WorkpackageThree WorkpackageThree => _workpackageThree ?? (_workpackageThree = QueryProcessor.FindById<WorkpackageThree>(ProjectId));
 
@@ -23,16 +28,23 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             base.OnActionExecuting(context);
 
+            if (WorkpackageThree == null 
+                && RouteData.Values["action"] as string != nameof(Unlocking)) 
+            {
+                context.Result = new RedirectToActionResult(nameof(Unlocking), Name, routeValues: null);
+                return;
+            }
+
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
         }
 
-        public IActionResult FirstStep()
+        [HttpGet("")]
+        public IActionResult Index()
         {
             return RedirectToAction(nameof(Read), new { stepId = WorkpackageThree.Steps.First().Id });
         }
 
-        [Route("{stepId}")]
-        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageThree))]
+        [HttpGet("{stepId}")]
         public async Task<IActionResult> Read(string stepId)
         {
             var step = WorkpackageThree.GetSingleStep(stepId);
@@ -45,8 +57,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View(model);
         }
 
-        [Route("{stepId}/Edit")]
-        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageThree))]
+        [HttpGet("{stepId}/Edit")]
         public async Task<IActionResult> Edit(string stepId)
         {
             var step = WorkpackageThree.GetSingleStep(stepId);
@@ -59,9 +70,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View(model);
         }
 
-        [HttpPost]
-        [Route("{stepId}/Edit")]
-        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageThree))]
+        [HttpPost("{stepId}/Edit")]
         public async Task<IActionResult> Edit(EditStepPostModel model)
         {
             if (!ModelState.IsValid)
@@ -83,7 +92,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return RedirectToAction(nameof(Read), new { stepId = model.StepId });
         }
 
-        [Route(nameof(Unlocking))]
+        [HttpGet(nameof(Unlocking))]
         [Authorize(Policy = nameof(Policies.CanUnlockWorkpackages))]
         public IActionResult Unlocking()
         {
@@ -93,8 +102,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View("UnlockWp3");
         }
 
-        [HttpPost]
-        [Route(nameof(Unlock))]
+        [HttpPost(nameof(Unlock))]
         [Authorize(Policy = nameof(Policies.CanUnlockWorkpackages))]
         public IActionResult Unlock()
         {
@@ -105,7 +113,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return Unlocking();
             }
 
-            return RedirectToAction(nameof(FirstStep));
+            return RedirectToAction(nameof(Index));
         }
     }
 }
