@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.NodeServices;
 using Ubora.Domain;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.Specifications;
@@ -19,8 +17,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     [ProjectRoute("WP4")]
     [WorkpackageStepIdFromRouteToViewData]
+    [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
     public class WorkpackageFourController : ProjectController
     {
+        public const string Name = "WorkpackageFour";
+
         private WorkpackageFour _workpackageFour;
         public WorkpackageFour WorkpackageFour =>
             _workpackageFour ?? (_workpackageFour = QueryProcessor.FindById<WorkpackageFour>(ProjectId));
@@ -29,10 +30,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             base.OnActionExecuting(context);
 
+            if (WorkpackageFour == null
+                && RouteData.Values["action"] as string != nameof(Unlocking)) 
+            {
+                context.Result = new RedirectToActionResult(nameof(Unlocking), Name, routeValues: null);
+                return;
+            }
+
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
         }
 
-        public IActionResult FirstStep()
+        [HttpGet("")]
+        public IActionResult Index()
         {
             return RedirectToAction(nameof(Read), new { stepId = WorkpackageFour.Steps.First().Id });
         }
@@ -43,8 +52,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View();
         }
 
-        [Route("{stepId}")]
-        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
+        [HttpGet("{stepId}")]
         public async Task<IActionResult> Read(string stepId)
         {
             var step = WorkpackageFour.GetSingleStep(stepId);
@@ -57,8 +65,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View(model);
         }
 
-        [Route("{stepId}/Edit")]
-        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
+        [HttpGet("{stepId}/Edit")]
         public async Task<IActionResult> Edit(string stepId)
         {
             var step = WorkpackageFour.GetSingleStep(stepId);
@@ -71,9 +78,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View(model);
         }
 
-        [HttpPost]
-        [Route("{stepId}/Edit")]
-        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
+        [HttpPost("{stepId}/Edit")]
         public async Task<IActionResult> Edit(EditStepPostModel model)
         {
             if (!ModelState.IsValid)
@@ -95,8 +100,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return RedirectToAction(nameof(Read), new { stepId = model.StepId });
         }
 
-        [Route(nameof(StructuredInformationOnTheDevice))]
-        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
+        [HttpGet(nameof(StructuredInformationOnTheDevice))]
         public IActionResult StructuredInformationOnTheDevice([FromServices] StructuredInformationResultViewModel.Factory modelFactory)
         {
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
@@ -109,8 +113,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View(model);
         }
 
-        [Route(nameof(HealthTechnologySpecifications))]
-        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
+        [HttpGet(nameof(HealthTechnologySpecifications))]
         public virtual IActionResult HealthTechnologySpecifications([FromServices] HealthTechnologySpecificationsViewModel.Factory modelFactory)
         {
             ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
@@ -129,9 +132,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View(nameof(HealthTechnologySpecifications), model);
         }
 
-        [HttpPost]
-        [Route(nameof(HealthTechnologySpecifications))]
-        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
+        [HttpPost(nameof(HealthTechnologySpecifications))]
         public IActionResult EditHealthTechnologySpecifications(
             HealthTechnologySpecificationsViewModel model,
             [FromServices] HealthTechnologySpecificationsViewModel.Mapper modelMapper,
@@ -176,9 +177,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View(nameof(UserAndEnvironment), model);
         }
 
-        [HttpPost]
-        [Route(nameof(UserAndEnvironment))]
-        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
+        [HttpPost(nameof(UserAndEnvironment))]
         public IActionResult EditUserAndEnvironment(
             UserAndEnvironmentInformationViewModel model,
             [FromServices] UserAndEnvironmentInformationViewModel.Mapper modelMapper,
@@ -223,7 +222,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return Unlocking();
             }
 
-            return RedirectToAction(nameof(FirstStep));
+            return RedirectToAction(nameof(Index));
         }
     }
 }

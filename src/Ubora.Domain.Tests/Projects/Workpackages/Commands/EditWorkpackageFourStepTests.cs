@@ -8,38 +8,37 @@ using Xunit;
 
 namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
 {
-    public class EditWorkpackageOneStepTests : IntegrationFixture
+    public class EditWorkpackageFourStepTests : IntegrationFixture
     {
         [Fact]
-        public void Workpackage_One_Step_Can_Be_Edited()
+        public void Workpackage_Four_Step_Can_Be_Edited()
         {
-            var projectId = Guid.NewGuid();
-            Processor.Execute(new CreateProjectCommand
-            {
-                NewProjectId = projectId,
-                Actor = new DummyUserInfo()
-            });
+            var project = new ProjectSeeder()
+                .WithWp1Accepted()
+                .WithWp3Unlocked()
+                .WithWp4Unlocked()
+                .Seed(this);
 
-            var workpackage = Session.Load<WorkpackageOne>(projectId);
+            var workpackage = Session.Load<WorkpackageFour>(project.Id);
 
             var randomStepToEdit = workpackage.Steps.Skip(1).First();
             var initialTitle = randomStepToEdit.Title;
 
-            var editWorkpackageOneStepCommand = new EditWorkpackageOneStepCommand
+            var command = new EditWorkpackageFourStepCommand
             {
-                ProjectId = projectId,
+                ProjectId = project.Id,
                 StepId = randomStepToEdit.Id,
                 NewValue = new QuillDelta("{test}"),
                 Actor = new DummyUserInfo()
             };
 
             // Act
-            Processor.Execute(editWorkpackageOneStepCommand);
+            Processor.Execute(command);
 
             // Assert
             RefreshSession();
 
-            workpackage = Session.Load<WorkpackageOne>(projectId);
+            workpackage = Session.Load<WorkpackageFour>(project.Id);
             var editedStep = workpackage.Steps.Single(x => x.Id == randomStepToEdit.Id);
 
             editedStep.ContentV2.Should().Be(new QuillDelta("{test}"));
