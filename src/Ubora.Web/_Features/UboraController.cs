@@ -65,6 +65,8 @@ namespace Ubora.Web._Features
             get => _notices ?? (_notices = new NoticeQueue(TempData));
         }
 
+        public string ExecutingActionName => (string)RouteData.Values["action"];
+
         protected void ExecuteUserCommand<T>(T command, Notice successNotice) where T : IUserCommand
         {
             command.Actor = UserInfo;
