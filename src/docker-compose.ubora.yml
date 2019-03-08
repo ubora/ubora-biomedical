@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  ubora.web:
+    container_name: 'ubora.web'
+    image: martinbetlem/ubora-web:3
+    environment:
+      ConnectionStrings__ApplicationDbConnection: "server=postgres;Port=5432;userid=postgres;password=ubora;database=ubora"
+      Pandoc__Ip: "ubora.pandoc"
+      Pandoc__Url: "http://ubora.pandoc:1337"
+      Pandoc__Key: "testapikey"
+    depends_on:
+      - "postgres"
+      - "ubora.pandoc"
+    networks:
+      - ubora-network      
+
+  postgres:
+    container_name: 'ubora.postgres'
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: ubora
+      POSTGRES_DB: ubora
+    networks:
+      - ubora-network
+
+  ubora.pandoc:
+    container_name: 'ubora.pandoc'
+    image: ubora/pandoc:latest
+    environment:
+      CONVERTER_API_KEY: "testapikey"
+    volumes:
+      - ./Ubora.UniversalDocumentConverter:/app
+      - /app/node_modules
+    networks:
+      - ubora-network
+
+networks:
+  ubora-network:
+    driver: bridge
+
+volumes:
+  psqlvolumes:
+    driver: local
