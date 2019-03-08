@@ -96,6 +96,8 @@
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <Exec Command="npm install ajv@6.2.1 --no-save" />
     <Exec Command="npm install" />
+    <Exec Command="npm install --global node-gyp" />
+    <Exec Command="npm rebuild node-sass" />
     <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
     <ItemGroup>
       <DistFiles Include="wwwroot\dist\**" />
