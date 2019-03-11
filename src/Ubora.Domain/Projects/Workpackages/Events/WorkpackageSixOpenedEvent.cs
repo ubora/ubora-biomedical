@@ -6,13 +6,13 @@ using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.Workpackages.Events
 {
-    public class WorkpackageFiveOpenedEvent : ProjectEvent
+    public class WorkpackageSixOpenedEvent : ProjectEvent
     {
-        public WorkpackageFiveOpenedEvent(UserInfo initiatedBy, Guid projectId)
+        public WorkpackageSixOpenedEvent(UserInfo initiatedBy, Guid projectId)
             : base(initiatedBy, projectId)
         {
         }
 
-        public override string GetDescription() => "opened work package 5: Operation.";
+        public override string GetDescription() => "opened work package 6: Operation.";
     }
 }

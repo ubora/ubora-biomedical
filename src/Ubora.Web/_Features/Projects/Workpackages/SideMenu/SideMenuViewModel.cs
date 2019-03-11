@@ -42,8 +42,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                     CreateWp3(wpStatuses.Wp3Status),
                     CreateWp4(wpStatuses.Wp4Status),
                     CreateWp5(wpStatuses.Wp5Status),
-                    /*wp6*/ new WpSideMenuHyperlinkMenuItem(NestingLevel.None, "workpackageSix", "WP 6: Project closure", "#")
-                        .SetStatus(wpStatuses.Wp6Status)
+                    CreateWp6(wpStatuses.Wp6Status)
                 };
 
                 if (!MarkSelected(items, selectedId))
@@ -171,6 +170,24 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "ProductionDocumentation", "Production documentation", href: Wp5StepLink("ProductionDocumentation")),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, WorkpackageMenuOption.BusinessModelCanvas, "Business model canvas", href: _urlHelper.Action(nameof(WorkpackageFiveController.BusinessModelCanvas), WorkpackageFiveController.Name)),
                     }).SetStatus(workpackageStatus);
+                }
+
+                IWorkpackageSideMenuItem CreateWp6(WorkpackageStatus workpackageStatus)
+                {
+                    var wpName = "WP 6: Project closure";
+                    if (workpackageStatus == WorkpackageStatus.Unlockable)
+                    {
+                        if (!_authorizationService.IsAuthorized(user, Policies.CanUnlockWorkpackages))
+                        {
+                            workpackageStatus = WorkpackageStatus.Closed;
+                        }
+
+                        return new WpSideMenuHyperlinkMenuItem(NestingLevel.One, WorkpackageMenuOption.WorkpackageSixLocked,
+                            wpName, href: _urlHelper.Action(nameof(WorkpackageSixController.Unlocking), WorkpackageSixController.Name)).SetStatus(workpackageStatus);
+                    }
+
+                    return new WpSideMenuHyperlinkMenuItem(NestingLevel.One, WorkpackageMenuOption.ProjectClosure,
+                            wpName, href: _urlHelper.Action(nameof(WorkpackageSixController.Index), WorkpackageSixController.Name)).SetStatus(workpackageStatus);
                 }
 
                 string Wp5StepLink(string stepId)

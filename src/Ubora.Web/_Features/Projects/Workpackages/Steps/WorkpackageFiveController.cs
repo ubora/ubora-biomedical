@@ -32,6 +32,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             base.OnActionExecuting(context);
 
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+            ViewData["Title"] = "WP 5: Operation";
         }
 
         [HttpGet("")]

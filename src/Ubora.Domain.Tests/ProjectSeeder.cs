@@ -22,6 +22,7 @@ namespace Ubora.Domain.Tests
         private bool? IsWp3Unlocked { get; set; }
         private bool? IsWp4Unlocked { get; set; }
         private bool? IsWp5Unlocked { get; set; }
+        private bool? IsWp6Unlocked { get; set; }
         private bool IsDeleted { get; set; }
 
         public ProjectSeeder WithId(Guid projectId)
@@ -69,6 +70,12 @@ namespace Ubora.Domain.Tests
         public ProjectSeeder WithWp5Unlocked()
         {
             IsWp5Unlocked = true;
+            return this;
+        }
+
+        public ProjectSeeder WithWp6Unlocked()
+        {
+            IsWp6Unlocked = true;
             return this;
         }
 
@@ -134,6 +141,15 @@ namespace Ubora.Domain.Tests
             if (IsWp5Unlocked == true)
             {
                 fixture.Processor.Execute(new OpenWorkpackageFiveCommand
+                {
+                    ProjectId = ProjectId,
+                    Actor = new DummyUserInfo()
+                }).OnFailure(result => throw new InvalidOperationException(result.ToString()));
+            }
+
+            if (IsWp6Unlocked == true)
+            {
+                fixture.Processor.Execute(new OpenWorkpackageSixCommand
                 {
                     ProjectId = ProjectId,
                     Actor = new DummyUserInfo()

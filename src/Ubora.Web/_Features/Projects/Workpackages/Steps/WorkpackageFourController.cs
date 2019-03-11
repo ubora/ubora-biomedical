@@ -30,6 +30,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             base.OnActionExecuting(context);
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+            ViewData["Title"] = "WP 4: Implementation";
         }
 
         [HttpGet("")]
@@ -38,12 +39,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             if (WorkpackageFour == null) 
                 return RedirectToAction(nameof(Unlocking));
             return RedirectToAction(nameof(Read), new { stepId = WorkpackageFour.Steps.First().Id });
-        }
-
-        [Route("protostep")]
-        public IActionResult ProtoStep()
-        {
-            return View();
         }
 
         [HttpGet("{stepId}")]

@@ -20,6 +20,8 @@ namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
                     .WithWp4Unlocked()
                     .Seed(this);
 
+            Session.Load<WorkpackageFive>(project.Id).Should().BeNull();
+
             // Act
             var result = Processor.Execute(new OpenWorkpackageFiveCommand
             {
@@ -30,7 +32,7 @@ namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
             // Assert
             result.IsSuccess.Should().BeTrue();
 
-            // Assert WP4
+            // Assert WP5
             var wp5 = Session.Load<WorkpackageFive>(project.Id);
 
             using (new AssertionScope())
