@@ -1,0 +1,65 @@
+@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
+@using Ubora.Web._Features._Shared
+@using Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentations
+
+@model CommercialDossierViewModel
+
+<div class="col">
+    <form enctype="multipart/form-data" asp-action="@nameof(CommercialDocumentationsController.EditCommercialDossier)" method="post">
+        <div class="row">
+            <div class="col">
+                <h1 class="mb-4">Commercial documentation</h1>
+                <p>This section will constitute the first user manual of the medical device, and will include the technical specifications available in future commercial documentation.</p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <h2>Commercial dossier</h2>
+                <div class="form-group">
+                    <label asp-for="ProductName">Product name</label>
+                    <input class="form-control" asp-for="ProductName" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="CommercialName">Commercial name</label>
+                    <input class="form-control" asp-for="CommercialName" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Logo">Logo</label>
+                    <input class="form-control" asp-for="Logo" />
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <p><small>Which need we address? Who we are? Discover our design, value proposal...</small></p>
+                    <input asp-for="DescriptionQuillDelta" type="hidden" />
+                    <span asp-validation-for="DescriptionQuillDelta"></span>
+                    <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial", new ProjectQuillToolbarFormatOptions())</div>
+                    <div id="editor-container" class="form-group" style="display: none;"></div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserManual">User manual</label>
+                    <input class="form-control" aria-describedby="formats" asp-for="UserManual"/>
+                    <small id="formats" class="form-text text-muted">Supported formats: .docx, .pdf, .odt, .txt</small>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-outline-primary" asp-action="@nameof(CommercialDocumentationsController.Index)">Discard</a>
+                <span class="mx-1"></span>
+                <button class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts
+{
+    <script>
+        var contentInputSelector = "#@(nameof(Model.DescriptionQuillDelta))";
+        var editorSelector = "#editor-container";
+        var toolbarSelector = "#toolbar-container";
+        var initialContent = @Html.Raw(Model.DescriptionQuillDelta);
+        UBORA.initEditor(editorSelector, toolbarSelector, contentInputSelector, initialContent);
+    </script>
+}   

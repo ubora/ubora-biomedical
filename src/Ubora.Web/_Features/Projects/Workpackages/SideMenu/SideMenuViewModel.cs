@@ -9,6 +9,7 @@ using Ubora.Domain.Projects.Workpackages.Queries;
 using Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
 using Ubora.Web._Features._Shared.LeftSideMenu;
+using Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentations;
 
 namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
 {
@@ -147,8 +148,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "IsoCompliance","ISO compliance", href: _urlHelper.Action(nameof(IsoCompliancesController.Index), nameof(IsoCompliancesController).RemoveSuffix())),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "ResultsFromVitroOrVivo","Results from vitro/vivo", href: Wp4StepLink("ResultsFromVitroOrVivo")),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "WP4StructuredInformationOnTheDevice","Structured information on the device", href: _urlHelper.Action("StructuredInformationOnTheDevice", "WorkpackageFour")),
-                        //new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "PreproductionDocuments","Preproduction documents", href: "#"),
-                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "protostep","protostep", href: _urlHelper.Action("protostep", "workpackagefour"))
+                        //new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "PreproductionDocuments","Preproduction documents", href: "#")
                     }).SetStatus(workpackageStatus);
                 }
 
@@ -169,6 +169,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                     return new WpSideMenuCollapseMenuItem(NestingLevel.None, "workpackageFive", wpName, new[]
                     {
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "ProductionDocumentation", "Production documentation", href: Wp5StepLink("ProductionDocumentation")),
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, WorkpackageMenuOption.CommercialDocumentation, "Commercial documentation", href: _urlHelper.Action(nameof(CommercialDocumentationsController.Index), CommercialDocumentationsController.Name)),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, WorkpackageMenuOption.BusinessModelCanvas, "Business model canvas", href: _urlHelper.Action(nameof(WorkpackageFiveController.BusinessModelCanvas), WorkpackageFiveController.Name)),
                     }).SetStatus(workpackageStatus);
                 }

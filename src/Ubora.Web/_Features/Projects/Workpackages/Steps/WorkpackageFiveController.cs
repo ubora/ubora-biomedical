@@ -88,7 +88,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public async Task<IActionResult> Edit(string stepId)
         {
             var step = WorkpackageFive.GetSingleStep(stepId);
-
             var model = AutoMapper.Map<EditStepViewModel>(step);
             model.ContentQuillDelta = await SanitizeQuillDeltaForEditing(step.ContentV2);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });

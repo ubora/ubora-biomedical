@@ -40,12 +40,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return RedirectToAction(nameof(Read), new { stepId = WorkpackageFour.Steps.First().Id });
         }
 
-        [Route("protostep")]
-        public IActionResult ProtoStep()
-        {
-            return View();
-        }
-
         [HttpGet("{stepId}")]
         public async Task<IActionResult> Read(string stepId)
         {

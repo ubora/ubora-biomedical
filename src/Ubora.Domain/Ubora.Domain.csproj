@@ -9,7 +9,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
-    <PackageReference Include="CSharpFunctionalExtensions" Version="1.10.0" />
+    <PackageReference Include="CSharpFunctionalExtensions" Version="1.17.0" />
     <PackageReference Include="dbup-core" Version="4.0.0-beta0004" />
     <PackageReference Include="dbup-postgresql" Version="4.0.0-beta0004" />
     <PackageReference Include="Marten" Version="2.9.0" />

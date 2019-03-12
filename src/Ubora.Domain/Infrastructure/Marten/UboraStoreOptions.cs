@@ -25,6 +25,8 @@ using Ubora.Domain.Projects.StructuredInformations.Events;
 using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Events;
 using Ubora.Domain.Projects.BusinessModelCanvases;
+using Ubora.Domain.Projects.CommercialDossiers;
+using Ubora.Domain.Projects.IntellectualProperties;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
@@ -91,6 +93,8 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<ApplicableRegulationsQuestionnaireAggregate>();
                 options.Events.InlineProjections.AggregateStreamsWith<DeviceClassificationAggregate>();
                 options.Events.InlineProjections.AggregateStreamsWith<BusinessModelCanvas>();
+                options.Events.InlineProjections.AggregateStreamsWith<CommercialDossier>();
+                options.Events.InlineProjections.AggregateStreamsWith<IntellectualProperty>();
                 options.Events.InlineProjections.AggregateStreamsWith<ResourcePage>();
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<Assignment, IAssignmentEvent>());
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());

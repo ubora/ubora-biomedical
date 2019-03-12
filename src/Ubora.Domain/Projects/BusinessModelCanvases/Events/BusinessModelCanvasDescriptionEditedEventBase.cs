@@ -6,7 +6,7 @@ namespace Ubora.Domain.Projects.BusinessModelCanvases.Events
 {
     public abstract class BusinessModelCanvasDescriptionEditedEventBase : ProjectEvent
     {
-        public BusinessModelCanvasDescriptionEditedEventBase(UserInfo initiatedBy, Guid projectId, Guid aggregateId, QuillDelta value)
+        protected BusinessModelCanvasDescriptionEditedEventBase(UserInfo initiatedBy, Guid projectId, Guid aggregateId, QuillDelta value)
             : base(initiatedBy, projectId)
         {
             AggregateId = aggregateId;

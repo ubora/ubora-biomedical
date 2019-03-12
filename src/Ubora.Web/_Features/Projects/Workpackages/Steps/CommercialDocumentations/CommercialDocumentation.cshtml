@@ -1,0 +1,144 @@
+@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
+@using Ubora.Web._Features._Shared
+@using Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentations
+
+@model CommercialDocumentationViewModel
+
+<div class="col">
+    <div class="row">
+        <div class="col">
+            <h1 class="mb-4">Commercial documentation</h1>
+            <p>This section will constitute the first user manual of the medical device, and will include the technical specifications available in future commercial documentation.</p>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col">
+            <h2>Commercial dossier</h2>
+            <a class="btn btn-outline-primary align-self-start" 
+                asp-action="@nameof(CommercialDocumentationsController.EditCommercialDossier)" 
+                asp-controller="@CommercialDocumentationsController.Name">
+                <i class="material-icons">mode_edit</i>
+                <span>Edit</span>
+            </a>
+            <div class="form-group">
+                <label asp-for="CommercialDossier.ProductName">Product name</label>
+                <input class="form-control" asp-for="CommercialDossier.ProductName" />
+            </div>
+            <div class="form-group">
+                <label asp-for="CommercialDossier.CommercialName">Commercial name</label>
+                <input class="form-control" asp-for="CommercialDossier.CommercialName" />
+            </div>
+            <div class="form-group">
+                <label for="image">Logo</label>
+                @if (Model.CommercialDossier.LogoUrl != null) 
+                {
+                    <img class="card-img-top img-fluid w-100" src="@Model.CommercialDossier.LogoUrl">
+                }
+                <input class="form-control" type="file" id="image" name="image" />
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <p>@Html.Raw(@Model.CommercialDossier.DescriptionHtml)</p>
+            </div>
+            <div class="form-group">
+                <label for="manual">User manual</label>
+                <input class="form-control" type="file" id="manual" aria-describedby="formats" name="manual" />
+                <small id="formats" class="form-text text-muted">Supported formats: .docx, .pdf, .odt, .txt</small>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col">
+            <h2>Intellectual property</h2>
+            <a class="btn btn-outline-primary align-self-start" 
+                asp-action="@nameof(CommercialDocumentationsController.EditIntellectualProperty)" 
+                asp-controller="@CommercialDocumentationsController.Name">
+                <i class="material-icons">mode_edit</i>
+                <span>Edit</span>
+            </a>
+            <p>Selecting licence is mandatory.</p>
+            <div class="custom-control custom-checkbox mb-3">
+                <input class="custom-control-input" asp-for="IntellectualProperty.Attribution" />
+                <label class="custom-control-label" asp-for="IntellectualProperty.Attribution" >
+                    <span class="d-flex align-items-center mb-2">
+                        <img src="/images/icons/by.svg" class="w-2-rem mr-2" alt="Attribution icon">
+                        Attribution (BY)
+                    </span>
+                    <small class="d-block">
+                        Licensees may copy, distribute, display and perform the work and make
+                        derivative works and remixes based on it only if they give the author or licensor
+                        the credits (attribution) in the manner specified by these.
+                    </small>
+                </label>
+            </div>
+            <div class="custom-control custom-checkbox mb-3">
+                <input class="custom-control-input" asp-for="IntellectualProperty.ShareAlike" />
+                <label class="custom-control-label" asp-for="IntellectualProperty.ShareAlike">
+                    <span class="d-flex align-items-center mb-2">
+                        <img src="/images/icons/sa.svg" class="w-2-rem mr-2" alt="Share-alike icon">
+                        Share-alike (SA)
+                    </span>
+                    <small class="d-block">
+                        Licensees may distribute derivative works only under a license identical ("not
+                        more restrictive") to the license that governs the original work. Without sharealike,
+                        derivative works might be sublicensed with compatible but more restrictive
+                        license clauses, e.g. CC BY to CC BY-NC.)
+                    </small>
+                </label>
+            </div>
+            <div class="custom-control custom-checkbox mb-3">
+                <input class="custom-control-input" asp-for="IntellectualProperty.NonCommercial" />
+                <label class="custom-control-label" asp-for="IntellectualProperty.NonCommercial">
+                    <span class="d-flex align-items-center mb-2">
+                        <img src="/images/icons/nc.svg" class="w-2-rem mr-2" alt="Non-commercial icon">
+                        Non-commercial (NC)
+                    </span>
+                    <small class="d-block">
+                        Licensees may copy, distribute, display, and perform the work and make derivative works and remixes based on it only for non-commercial purposes.
+                    </small>
+                </label>
+            </div>
+            <div class="custom-control custom-checkbox mb-3">
+                <input class="custom-control-input" asp-for="IntellectualProperty.NoDerivativeWorks" />
+                <label class="custom-control-label" asp-for="IntellectualProperty.NoDerivativeWorks">
+                    <span class="d-flex align-items-center mb-2">
+                        <img src="/images/icons/nd.svg" class="w-2-rem mr-2" alt="No Derivative Works icon">
+                        No Derivative Works (ND)
+                    </span>
+                    <small class="d-block">
+                        Licensees may copy, distribute, display and perform only verbatim copies of the
+                        work, not derivative works and remixes based on it.
+                    </small>
+                </label>
+            </div>
+            <div class="custom-control custom-checkbox mb-3">
+                <input class="custom-control-input" asp-for="IntellectualProperty.UboraLicense" />
+                <label class="custom-control-label" asp-for="IntellectualProperty.UboraLicense">
+                    <span class="d-flex align-items-center mb-2">
+                        Ubora licence
+                    </span>
+                    <small class="d-block">
+                        No responsibility
+                        <span class="dot"></span>
+                        No liability
+                        <span class="dot"></span>
+                        Attribution
+                        <span class="dot"></span>
+                        Ask to use the company logo on our e-platform and on the project page
+                        <span class="dot"></span>
+                        Acknowledgment to UBORA in the product page description
+                        <span class="dot"></span>
+                        No endorsement
+                        <span class="dot"></span>
+                        Derivative work with attribution
+                        <span class="dot"></span>
+                        Free and perpetual use
+                        <span class="dot"></span>
+                        No exclusivity
+                    </small>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

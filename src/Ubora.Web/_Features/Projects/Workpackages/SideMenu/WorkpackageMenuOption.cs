@@ -3,6 +3,7 @@
     public static class WorkpackageMenuOption
     {
         public static string BusinessModelCanvas => "BusinessModelCanvas";
+        public static string CommercialDocumentation => "CommercialDocumentation";
         public static string DeviceClassification => "DeviceClassification";
         public static string RegulationChecklist => "RegulationChecklist";
         public static string Wp1MentorReview => "WorkpackageOneReview";
