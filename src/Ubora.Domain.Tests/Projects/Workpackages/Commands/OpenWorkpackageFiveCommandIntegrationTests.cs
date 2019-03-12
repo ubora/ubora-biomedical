@@ -2,6 +2,8 @@
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Ubora.Domain.Projects.BusinessModelCanvases;
+using Ubora.Domain.Projects.CommercialDossiers;
+using Ubora.Domain.Projects.IntellectualProperties;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Xunit;
@@ -44,20 +46,38 @@ namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
             }
 
             // Assert business model canvas
-            var businessModelCanvas = 
-                Session
-                    .Query<BusinessModelCanvas>()
-                    .Where(x => x.ProjectId == project.Id)
-                    .SingleOrDefault();
+            var businessModelCanvas = Session.Load<BusinessModelCanvas>(project.Id);
+
             using (new AssertionScope())
             {
                 businessModelCanvas.Should().NotBeNull();
+                businessModelCanvas.ProjectId.Should().Be(project.Id);
                 businessModelCanvas.KeyResourcesAndPartnersDescription.Should().Be(new QuillDelta());
                 businessModelCanvas.PotentialClientsAndUsersAndChannelsDescription.Should().Be(new QuillDelta());
                 businessModelCanvas.RelevantDocumentationForProductionAndUseDescription.Should().Be(new QuillDelta());
                 businessModelCanvas.ValueProposalDescription.Should().Be(new QuillDelta());
                 businessModelCanvas.GrowthStrategyDescription.Should().Be(new QuillDelta());
                 businessModelCanvas.AnalysisOfCostsAndProductionAndSupplyChainAndServicesToClientsDescription.Should().Be(new QuillDelta());
+            }
+
+            // Assert commercial dossier
+            var commercialDossier = Session.Load<CommercialDossier>(project.Id);
+            using (new AssertionScope()) 
+            {
+                commercialDossier.Should().NotBeNull();
+                commercialDossier.ProjectId.Should().Be(project.Id);
+                commercialDossier.ProductName.Should().Be("");
+                commercialDossier.CommercialName.Should().Be("");
+                commercialDossier.Description.Should().Be(new QuillDelta());
+            }
+
+            // Assert intellectual property
+            var intellectualProperty = Session.Load<IntellectualProperty>(project.Id);
+            using (new AssertionScope()) 
+            {
+                intellectualProperty.Should().NotBeNull();
+                intellectualProperty.ProjectId.Should().Be(project.Id);
+                intellectualProperty.ProjectId.Should().Be(project.Id);
             }
         }
     }
