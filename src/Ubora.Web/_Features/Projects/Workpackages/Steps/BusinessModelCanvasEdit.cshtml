@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col">
         <div class="d-flex justify-content-between">
-            <h1>Business model</h1>
+            <h1>Business model canvas</h1>
         </div>
     </div>
 </div>
@@ -137,7 +137,7 @@
             var contentInputSelector = "#@id";
             var editorSelector = ".@id" + " .editor-container";
             var toolbarSelector = ".@id" + " .toolbar-container";
-            var initialContent = @Html.Raw(Model.ValueProposalDescriptionQuillDelta);
+            var initialContent = @Html.Raw(Model.GetPropertyByName(id));
             UBORA.initEditor(editorSelector, toolbarSelector, contentInputSelector, initialContent);
         </script>
     }
