@@ -15,6 +15,7 @@ using Ubora.Web._Features.Projects._Shared;
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     [ProjectRoute("WP6")]
+    [WorkpackageStepIdFromRouteToViewData]
     [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageSix))]
     public class WorkpackageSixController : ProjectController
     {
@@ -37,14 +38,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             if (WorkpackageSix == null)
                 return RedirectToAction(nameof(Unlocking));
-
-            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.ProjectClosure;
-            return View("Wp6Index", new Wp6IndexViewModel 
-            {
-                DoesInfoForGeneralPublicHaveContent = WorkpackageSix.Steps.First(x => x.Id == "InfoForGeneralPublic").ContentV2 != new QuillDelta(),
-                DoesRealLifeUserOrSimulationHaveContent = WorkpackageSix.Steps.First(x => x.Id == "RealLifeUseOrSimulation").ContentV2 != new QuillDelta(),
-                DoesPresentationForPressHaveContent = WorkpackageSix.Steps.First(x => x.Id == "PresentationForPress").ContentV2 != new QuillDelta()
-            });
+            return RedirectToAction(nameof(Read), new { stepId = WorkpackageSix.Steps.First().Id });
         }
 
         [HttpGet("unlock")]
@@ -81,8 +75,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
             model.EditButton = UiElementVisibility.Visible();
-
-            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.ProjectClosure;
             return View(model);
         }
 
@@ -94,8 +86,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             model.ContentQuillDelta = await SanitizeQuillDeltaForEditing(step.ContentV2);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
-
-            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.ProjectClosure;
             return View(model);
         }
 

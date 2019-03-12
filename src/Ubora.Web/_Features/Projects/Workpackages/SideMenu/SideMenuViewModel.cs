@@ -187,8 +187,17 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                             wpName, href: _urlHelper.Action(nameof(WorkpackageSixController.Unlocking), WorkpackageSixController.Name)).SetStatus(workpackageStatus);
                     }
 
-                    return new WpSideMenuHyperlinkMenuItem(NestingLevel.One, WorkpackageMenuOption.ProjectClosure,
-                            wpName, href: _urlHelper.Action(nameof(WorkpackageSixController.Index), WorkpackageSixController.Name)).SetStatus(workpackageStatus);
+                    return new WpSideMenuCollapseMenuItem(NestingLevel.None, "workpackageSix", wpName, new[]
+                    {
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "InfoForGeneralPublic", "Info for general public", href: Wp6StepLink("InfoForGeneralPublic")),
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "RealLifeUseOrSimulation", "Real life use or simulation", href: Wp6StepLink("RealLifeUseOrSimulation")),
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "PresentationForPress", "Presentation for press", href: Wp6StepLink("PresentationForPress"))
+                    }).SetStatus(workpackageStatus);
+                }
+
+                string Wp6StepLink(string stepId)
+                {
+                    return _urlHelper.Action("Read", "WorkpackageSix", new { projectId = projectId, stepId = stepId });
                 }
 
                 string Wp5StepLink(string stepId)
