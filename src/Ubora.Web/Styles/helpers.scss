@@ -207,6 +207,10 @@ hr {
     width: 2rem;
 }
 
+.w-max-15-rem {
+    width: 15rem;
+}
+
 .h-min-45 {
     min-height: 45rem;
 }
@@ -314,7 +318,13 @@ a.no-underline {
     position: absolute;
 }
 
-
+.form-info {
+    label {
+        font-weight: 600;
+        display:block;
+        margin-bottom: 0;
+    }
+}
 
 @include media-breakpoint-down(xs) {
     .mt-xs-2 {
