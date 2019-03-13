@@ -262,6 +262,7 @@ _Pvt_Extensions
 .gulp
 node_modules/
 bower_components
+.vscode/
 # npm generated file
 
 # JetBrains Rider
