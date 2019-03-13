@@ -26,24 +26,24 @@
             <div class="col-md-6">
                 @if (!string.IsNullOrWhiteSpace(Model.CommercialDossier.ProductName))
                 {
-                <div class="mb-3">
-                    <label>Product name</label>
-                    @Model.CommercialDossier.ProductName
-                </div>
+                    <div class="mb-3">
+                        <label>Product name</label>
+                        @Model.CommercialDossier.ProductName
+                    </div>
                 }
                 @if (!string.IsNullOrWhiteSpace(Model.CommercialDossier.CommercialName))
                 {
-                <div class="mb-3">
-                    <label>Commercial name</label>
-                    @Model.CommercialDossier.CommercialName
-                </div>
+                    <div class="mb-3">
+                        <label>Commercial name</label>
+                        @Model.CommercialDossier.CommercialName
+                    </div>
                 }
                 @if (Model.CommercialDossier.DoesDescriptionHaveContent)
                 {
-                <div class="mb-3">
-                    <label>Description</label>
-                    @Html.Raw(@Model.CommercialDossier.DescriptionHtml)
-                </div>
+                    <div class="mb-3">
+                        <label>Description</label>
+                        @Html.Raw(@Model.CommercialDossier.DescriptionHtml)
+                    </div>
                 }
                 // TODO
                 <div class="mb-3">
@@ -53,10 +53,10 @@
             <div class="col-md-6">
                 @if (Model.CommercialDossier.LogoUrl != null)
                 {
-                <div class="mb-3">
-                    <label>Logo</label>
-                    <img class="w-max-15-rem" src="@Model.CommercialDossier.LogoUrl">
-                </div>
+                    <div class="mb-3">
+                        <label>Logo</label>
+                        <img class="w-max-15-rem" src="@Model.CommercialDossier.LogoUrl">
+                    </div>
                 }
             </div>
         </div>
@@ -67,7 +67,7 @@
         <div class="d-flex justify-content-between">
             <h2>Intellectual property</h2>
             <a class="btn btn-outline-primary align-self-start" asp-action="@nameof(CommercialDocumentationsController.EditIntellectualProperty)"
-                asp-controller="@CommercialDocumentationsController.Name">
+               asp-controller="@CommercialDocumentationsController.Name">
                 <i class="material-icons">mode_edit</i>
                 <span>Edit</span>
             </a>
@@ -134,56 +134,66 @@
                 </div>
                 break;
             case LicenseType.CreativeCommons:
-                <p>
+                <div class="d-flex align-items-center mb-2">
                     <img src="/images/icons/cc.png" class="w-2-rem mr-2" alt="Creative Commons icon">
                     Creative Commons licence:
-                </p>
-                @if(Model.IntellectualProperty.Attribution)
+                </div>
+                @if (Model.IntellectualProperty.Attribution)
                 {
-                    <span class="d-flex align-items-center mb-2">
+                    <div class="d-flex align-items-start mb-2">
                         <img src="/images/icons/by.svg" class="w-2-rem mr-2" alt="Attribution icon">
-                        Attribution (BY)
-                    </span>
-                    <small class="d-block">
-                        Licensees may copy, distribute, display and perform the work and make
-                        derivative works and remixes based on it only if they give the author or licensor
-                        the credits (attribution) in the manner specified by these.
-                    </small>
+                        <span>
+                            Attribution (BY)
+                            <small class="d-block">
+                                Licensees may copy, distribute, display and perform the work and make
+                                derivative works and remixes based on it only if they give the author or licensor
+                                the credits (attribution) in the manner specified by these.
+                            </small>
+                        </span>
+                    </div>
+
                 }
-                @if(Model.IntellectualProperty.ShareAlike)
+                @if (Model.IntellectualProperty.ShareAlike)
                 {
-                    <span class="d-flex align-items-center mb-2">
+                    <div class="d-flex align-items-start mb-2">
                         <img src="/images/icons/sa.svg" class="w-2-rem mr-2" alt="Share-alike icon">
-                        Share-alike (SA)
-                    </span>
-                    <small class="d-block">
-                        Licensees may distribute derivative works only under a license identical ("not
-                        more restrictive") to the license that governs the original work. Without sharealike,
-                        derivative works might be sublicensed with compatible but more restrictive
-                        license clauses, e.g. CC BY to CC BY-NC.)
-                    </small>
+                        <span>
+                            Share-alike (SA)
+                            <small class="d-block">
+                                Licensees may distribute derivative works only under a license identical ("not
+                                more restrictive") to the license that governs the original work. Without sharealike,
+                                derivative works might be sublicensed with compatible but more restrictive
+                                license clauses, e.g. CC BY to CC BY-NC.)
+                            </small>
+                        </span>
+                    </div>
+
                 }
-                @if(Model.IntellectualProperty.NonCommercial) 
+                @if (Model.IntellectualProperty.NonCommercial)
                 {
-                    <span class="d-flex align-items-center mb-2">
+                    <div class="d-flex align-items-start mb-2">
                         <img src="/images/icons/nc.svg" class="w-2-rem mr-2" alt="Non-commercial icon">
-                        Non-commercial (NC)
-                    </span>
-                    <small class="d-block">
-                        Licensees may copy, distribute, display, and perform the work and make derivative works
-                        and remixes based on it only for non-commercial purposes.
-                    </small>
+                        <span>
+                            Non-commercial (NC)
+                            <small class="d-block">
+                                Licensees may copy, distribute, display, and perform the work and make derivative works
+                                and remixes based on it only for non-commercial purposes.
+                            </small>
+                        </span>
+                    </div>
                 }
-                @if(Model.IntellectualProperty.NoDerivativeWorks)
+                @if (Model.IntellectualProperty.NoDerivativeWorks)
                 {
-                    <span class="d-flex align-items-center mb-2">
+                    <div class="d-flex align-items-start mb-2">
                         <img src="/images/icons/nd.svg" class="w-2-rem mr-2" alt="No Derivative Works icon">
-                        No Derivative Works (ND)
-                    </span>
-                    <small class="d-block">
-                        Licensees may copy, distribute, display and perform only verbatim copies of the
-                        work, not derivative works and remixes based on it.
-                    </small>
+                        <span>
+                            No Derivative Works (ND)
+                            <small class="d-block">
+                                Licensees may copy, distribute, display and perform only verbatim copies of the
+                                work, not derivative works and remixes based on it.
+                            </small>
+                        </span>
+                    </div>
                 }
                 break;
         }
