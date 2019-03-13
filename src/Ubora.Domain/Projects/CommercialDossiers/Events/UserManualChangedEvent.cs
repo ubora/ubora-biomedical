@@ -14,9 +14,6 @@ namespace Ubora.Domain.Projects.CommercialDossiers.Events
 
         public BlobLocation Value { get; }
 
-        public override string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
+        public override string GetDescription() => "uploaded new user manual.";
     }
 }

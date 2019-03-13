@@ -130,26 +130,40 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
 
         private IntellectualPropertyViewModel MapToViewModel(IntellectualProperty intellectualProperty) 
         {
-            var creativeCommonsLicense = (IntellectualProperty.License as CreativeCommonsLicense);
-            
-            return new IntellectualPropertyViewModel
+            switch (IntellectualProperty.License) 
             {
-                Attribution = creativeCommonsLicense?.Attribution ?? false,
-                NonCommercial = creativeCommonsLicense?.NonCommercial ?? false,
-                ShareAlike = creativeCommonsLicense?.ShareAlike ?? false,
-                NoDerivativeWorks = creativeCommonsLicense?.NoDerivativeWorks ?? false,
-                UboraLicense = (IntellectualProperty.License as UboraLicense) != null
-            };
+                case CreativeCommonsLicense creativeCommonsLicense:
+                    return new IntellectualPropertyViewModel
+                    {
+                        License = LicenseType.CreativeCommons,
+                        Attribution = creativeCommonsLicense.Attribution,
+                        NonCommercial = creativeCommonsLicense.NonCommercial,
+                        ShareAlike = creativeCommonsLicense.ShareAlike,
+                        NoDerivativeWorks = creativeCommonsLicense.NoDerivativeWorks,
+                    };
+                case UboraLicense uboraLicense:
+                    return new IntellectualPropertyViewModel
+                    {
+                        License = LicenseType.Ubora,
+                        UboraLicense = true
+                    };
+                default:
+                    return new IntellectualPropertyViewModel 
+                    {
+                        License = LicenseType.None
+                    };
+            }
         }
         
         private async Task<CommercialDossierViewModel> MapToViewModel(CommercialDossier commercialDossier) 
-        {
+        { 
             return new CommercialDossierViewModel 
             {
                 ProductName = commercialDossier.ProductName,
                 CommercialName = commercialDossier.CommercialName,
                 DescriptionHtml = await ConvertQuillDeltaToHtml(commercialDossier.Description),
                 DescriptionQuillDelta = await SanitizeQuillDeltaForEditing(commercialDossier.Description),
+                DoesDescriptionHaveContent = commercialDossier.Description != new QuillDelta(),
                 LogoUrl = commercialDossier.Logo != null ? _storageProvider.GetReadUrl(commercialDossier.Logo, DateTime.UtcNow.AddSeconds(10)) : null
             };
         }

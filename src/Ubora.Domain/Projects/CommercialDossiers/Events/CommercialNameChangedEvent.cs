@@ -13,9 +13,6 @@ namespace Ubora.Domain.Projects.CommercialDossiers.Events
 
         public string Value  { get; }
 
-        public override string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
+        public override string GetDescription() => $"changed commercial name to \"{Value}\".";
     }
 }
