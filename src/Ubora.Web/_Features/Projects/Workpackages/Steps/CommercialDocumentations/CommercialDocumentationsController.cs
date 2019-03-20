@@ -70,7 +70,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
                 Attribution = model.Attribution,
                 NoDerivativeWorks = model.NoDerivativeWorks,
                 ShareAlike = model.ShareAlike,
-                UboraLicense = model.UboraLicense,
+                UboraLicense = model.IsUboraLicense,
                 NonCommercial = model.NonCommercial 
             }, Notice.Success("Successfully edited"));
 
@@ -145,7 +145,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
                     return new IntellectualPropertyViewModel
                     {
                         License = LicenseType.Ubora,
-                        UboraLicense = true
+                        IsUboraLicense = true
                     };
                 default:
                     return new IntellectualPropertyViewModel 

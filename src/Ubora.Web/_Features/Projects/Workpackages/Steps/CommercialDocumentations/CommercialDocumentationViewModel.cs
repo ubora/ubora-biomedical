@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentations
@@ -17,17 +20,35 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
         public bool DoesDescriptionHaveContent { get; set; }
         public IFormFile UserManual { get; set; }
         public IFormFile Logo { get; set; }
-        public string LogoUrl { get; set; }
+        public string LogoUrl { get; set; } 
     }
 
-    public class IntellectualPropertyViewModel 
+    public class IntellectualPropertyViewModel : IValidatableObject
     {
-        public LicenseType License { get; set; }
+        [Required]
+        public LicenseType? License { get; set; }
+
         public bool Attribution { get; set; }
         public bool ShareAlike { get; set; }
         public bool NonCommercial { get; set; } 
         public bool NoDerivativeWorks { get; set; }
-        public bool UboraLicense { get; set; }
+
+        public bool IsCreativeCommonsLicense { get; set; }
+        public bool IsUboraLicense { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (License.HasValue && License == LicenseType.CreativeCommons) 
+            {
+                if (!Attribution
+                    && !ShareAlike
+                    && !NonCommercial
+                    && !NoDerivativeWorks) 
+                {
+                    yield return new ValidationResult("Please specify Creative Commons license further.");
+                }
+            }
+        }
     }
     
     public enum LicenseType 

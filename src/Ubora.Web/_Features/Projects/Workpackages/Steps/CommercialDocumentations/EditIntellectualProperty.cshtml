@@ -11,16 +11,15 @@
             <div class="col">
                 <h2>Intellectual property</h2>
                 <p>Selecting licence is mandatory. You can choose between Creative Commons licence and UBORA licence.</p>
-
+                <div asp-validation-summary="All"></div>
                 <div class="creative-commons-license">
                     <div class="custom-control custom-radio mb-3">
-                        <input type="radio" id="creativeCommons" name="creativeCommons" class="custom-control-input" />
-                        <label class="custom-control-label" for="creativeCommons">
+                        <input id="creative-commons-license-radio" class="custom-control-input" value="@LicenseType.CreativeCommons" type="radio" asp-for="License" />
+                        <label class="custom-control-label" for="creative-commons-license-radio">
                             <img src="/images/icons/cc.png" class="w-2-rem mr-2" alt="Creative Commons icon">
                             Creative Commons licence:
                         </label>
                     </div>
-
 
                     <div class="ml-5">
                         <div class="custom-control custom-checkbox mb-3">
@@ -91,8 +90,8 @@
                 </div>
 
                 <div class="ubora-license custom-control custom-radio mb-3 mt-5">
-                    <input class="custom-control-input" asp-for="UboraLicense" />
-                    <label class="custom-control-label" asp-for="UboraLicense">
+                    <input id="ubora-license-radio" class="custom-control-input" type="radio" value="@LicenseType.Ubora" asp-for="License" />
+                    <label class="custom-control-label" for="ubora-license-radio">
                         <span class="d-flex align-items-center mb-2">
                             <img src="/images/icons/ubora_black.svg" class="w-2-rem mr-2" alt="Share-alike icon">
                             UBORA licence
@@ -173,6 +172,7 @@
             $('.ubora-license').find('input').each(function (index, item) {
                 $(item).prop('checked', false)
             });
+            $('#@nameof(Model.IsCreativeCommonsLicense)').prop('checked', true);
         });
     </script>
 }
