@@ -5,6 +5,20 @@ using Ubora.Domain.Projects.Workpackages.Events;
 
 namespace Ubora.Domain.Projects.CommercialDossiers
 {
+    public class UserManual 
+    {
+        public UserManual(BlobLocation location, string fileName, long fileSize)
+        {
+            Location = location;
+            FileName = fileName;
+            FileSize = fileSize;
+        }
+
+        public BlobLocation Location { get; }
+        public string FileName { get; }
+        public long FileSize { get; }
+    }
+
     public class CommercialDossier : Entity<CommercialDossier>, IProjectEntity
     {
         public Guid Id { get; private set; }
@@ -13,7 +27,7 @@ namespace Ubora.Domain.Projects.CommercialDossiers
         public string ProductName { get; private set; }
         public string CommercialName { get; private set; }
         public QuillDelta Description { get; private set; }
-        public BlobLocation UserManual { get; private set; }
+        public UserManual UserManual { get; private set; }
         public BlobLocation Logo { get; private set; }
 
         private void Apply(WorkpackageFiveOpenedEvent e)
@@ -54,9 +68,9 @@ namespace Ubora.Domain.Projects.CommercialDossiers
 
         private void Apply(UserManualChangedEvent e) 
         {
-            if (Logo == e.Value)
+            if (UserManual?.Location == e.Location)
                 throw new InvalidOperationException("Was not actually changed.");
-            UserManual = e.Value;
+            UserManual = new UserManual(e.Location, e.FileName, e.FileSize);
         }
     }
 }

@@ -5,6 +5,11 @@
 
 @model CommercialDossierViewModel
 
+@section Head 
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
+}
+
 <div class="col">
     <form enctype="multipart/form-data" asp-action="@nameof(CommercialDocumentationsController.EditCommercialDossier)" method="post">
         <div class="row">
@@ -25,10 +30,32 @@
                     <label asp-for="CommercialName">Commercial name</label>
                     <input class="form-control" asp-for="CommercialName" />
                 </div>
-                <div class="form-group">
+
+                <div id="logo-component" class="form-group">
                     <label asp-for="Logo">Logo</label>
-                    <input class="form-control" asp-for="Logo" />
+                    <input type="hidden" asp-for="HasOldLogoBeenDeleted" :value="isLogoRemoved"/>
+                    <template v-if="isLogoPresent">
+                        <img class="w-max-15-rem" :src="logoUrl">
+                        <button type="button" v-on:click="isLogoRemoved = true;">Remove</button>
+                    </template>
+                    <input class="form-control" v-if="!isLogoPresent" asp-for="Logo" />
                 </div>
+
+                <script>
+                    new Vue({
+                        el: '#logo-component',
+                        data: {
+                            logoUrl: '@Model.LogoUrl',
+                            isLogoRemoved: false
+                        },
+                        computed: {
+                            isLogoPresent: function() {
+                                return this.logoUrl && !this.isLogoRemoved;
+                            }
+                        }
+                    });
+                </script>
+
                 <div class="form-group">
                     <label for="description">Description</label>
                     <p><small>Which need we address? Who we are? Discover our design, value proposal...</small></p>
@@ -37,11 +64,36 @@
                     <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial", new ProjectQuillToolbarFormatOptions())</div>
                     <div id="editor-container" class="form-group" style="display: none;"></div>
                 </div>
-                <div class="form-group">
+
+                <div id="user-manual-component" class="form-group">
                     <label asp-for="UserManual">User manual</label>
-                    <input class="form-control" aria-describedby="formats" asp-for="UserManual"/>
-                    <small id="formats" class="form-text text-muted">Supported formats: .docx, .pdf, .odt, .txt</small>
+                    <input type="hidden" asp-for="HasOldUserManualBeenRemoved" :value="isUserManualRemoved" />
+                    <template v-if="isUserManualPresent">
+                        <a asp-action="@nameof(CommercialDocumentationsController.DownloadUserManual)">Download @Model.UserManualName</a>
+                        <button type="button" v-on:click="isUserManualRemoved = true;">Remove</button>
+                    </template>
+                    <template v-if="!isUserManualPresent">
+                        <input class="form-control" aria-describedby="formats" asp-for="UserManual"/>
+                        <small id="formats" class="form-text text-muted">Supported formats: .docx, .pdf, .odt, .txt</small>
+                    </template>
                 </div>
+                
+                <script>
+                    new Vue({
+                        el: '#user-manual-component',
+                        data: {
+                            userManualName: '@Model.UserManualName',
+                            isUserManualRemoved: false
+                        },
+                        computed: {
+                            isUserManualPresent: function() {
+                                return this.userManualName && !this.isUserManualRemoved;
+                            }
+                        }
+                    });
+                </script>
+
+
             </div>
         </div>
         <div class="row">
@@ -63,4 +115,4 @@
         var initialContent = @Html.Raw(Model.DescriptionQuillDelta);
         UBORA.initEditor(editorSelector, toolbarSelector, contentInputSelector, initialContent);
     </script>
-}   
+}

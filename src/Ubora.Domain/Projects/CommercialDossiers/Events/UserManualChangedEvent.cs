@@ -6,13 +6,17 @@ namespace Ubora.Domain.Projects.CommercialDossiers.Events
 {
     public class UserManualChangedEvent : CommercialDossierEventBase
     {
-        public UserManualChangedEvent(UserInfo initiatedBy, Guid projectId, Guid aggregateId, BlobLocation value)
+        public UserManualChangedEvent(UserInfo initiatedBy, Guid projectId, Guid aggregateId, BlobLocation location, string fileName, long fileSize)
             : base(initiatedBy, projectId, aggregateId)
         {
-            Value = value;
+            Location = location;
+            FileName = fileName;
+            FileSize = fileSize;
         }
 
-        public BlobLocation Value { get; }
+        public BlobLocation Location { get; }
+        public string FileName { get; }
+        public long FileSize { get; }
 
         public override string GetDescription() => "uploaded new user manual.";
     }

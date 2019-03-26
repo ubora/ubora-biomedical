@@ -45,10 +45,13 @@
                         @Html.Raw(@Model.CommercialDossier.DescriptionHtml)
                     </div>
                 }
-                // TODO
-                <div class="mb-3">
-                    <label>User manual</label>
-                </div>
+                @if (!string.IsNullOrWhiteSpace(Model.CommercialDossier.UserManualName))
+                {
+                    <div class="mb-3">
+                        <label>User manual</label>
+                        <a asp-action="@nameof(CommercialDocumentationsController.DownloadUserManual)">Download @Model.CommercialDossier.UserManualName</a>
+                    </div>
+                }
             </div>
             <div class="col-md-6">
                 @if (Model.CommercialDossier.LogoUrl != null)

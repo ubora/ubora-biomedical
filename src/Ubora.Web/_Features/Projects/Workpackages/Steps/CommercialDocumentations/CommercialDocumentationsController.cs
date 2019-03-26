@@ -97,13 +97,37 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
                 return await EditCommercialDossier();
             }
 
-            ExecuteUserProjectCommand(new EditCommercialDossierCommand 
+            EditCommercialDossierCommand command = new EditCommercialDossierCommand
             {
                 CommercialName = model.CommercialName ?? "",
                 ProductName = model.ProductName ?? "",
                 Description = new QuillDelta(model.DescriptionQuillDelta),
-                Logo = await GetLogoBlobLocation(model.Logo)
-            }, Notice.Success("Successfully edited"));
+                LogoLocation = await GetLogoBlobLocation(model.Logo) ?? (model.HasOldLogoBeenDeleted ? null : CommercialDossier.Logo)
+            };
+
+            
+            if (model.UserManual != null) 
+            {
+                BlobLocation blobLocation;
+                using (var userManualStream = model.UserManual.OpenReadStream())
+                {
+                    blobLocation = BlobLocations.GetCommercialDossierBlobLocation(ProjectId, model.UserManual.GetFileName());
+                    await _storageProvider.SavePrivate(blobLocation, userManualStream);
+                }
+                command.UserManualLocation = blobLocation;
+                command.UserManualFileName = model.UserManual.GetFileName();
+                command.UserManualFileSize = model.UserManual.Length;
+            } else 
+            {
+                if (!model.HasOldUserManualBeenRemoved) 
+                {
+                    command.UserManualLocation = CommercialDossier.UserManual.Location;
+                    command.UserManualFileName = CommercialDossier.UserManual.FileName;
+                    command.UserManualFileSize = CommercialDossier.UserManual.FileSize;  
+                }
+            }
+
+            ExecuteUserProjectCommand(command, Notice.Success("Successfully edited"));
 
             if (!ModelState.IsValid) 
             {
@@ -111,6 +135,14 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet("DownloadUserManual")]
+        public IActionResult DownloadUserManual() 
+        {
+            var blobSasUrl = _storageProvider.GetReadUrl(CommercialDossier.UserManual.Location, DateTime.UtcNow.AddSeconds(5));
+
+            return Redirect(blobSasUrl);
         }
 
         private async Task<BlobLocation> GetLogoBlobLocation(IFormFile logoFormFile)
@@ -164,7 +196,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
                 DescriptionHtml = await ConvertQuillDeltaToHtml(commercialDossier.Description),
                 DescriptionQuillDelta = await SanitizeQuillDeltaForEditing(commercialDossier.Description),
                 DoesDescriptionHaveContent = commercialDossier.Description != new QuillDelta(),
-                LogoUrl = commercialDossier.Logo != null ? _storageProvider.GetReadUrl(commercialDossier.Logo, DateTime.UtcNow.AddSeconds(10)) : null
+                LogoUrl = commercialDossier.Logo != null ? _storageProvider.GetReadUrl(commercialDossier.Logo, DateTime.UtcNow.AddSeconds(10)) : null,
+                UserManualName = commercialDossier.UserManual.FileName
             };
         }
     }
