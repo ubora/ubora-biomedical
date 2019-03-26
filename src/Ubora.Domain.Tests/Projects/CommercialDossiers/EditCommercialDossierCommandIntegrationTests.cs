@@ -23,7 +23,7 @@ namespace Ubora.Domain.Tests.Projects.CommercialDossiers
             var actor = new DummyUserInfo();
             var description = new QuillDelta("{Description}");
             var logo = new BlobLocation("logo", "logo");
-            var userManual = new BlobLocation("userManual", "userManual");
+            var userManualLocation = new BlobLocation("userManual", "userManual");
 
             var command = new EditCommercialDossierCommand
             {
@@ -32,8 +32,10 @@ namespace Ubora.Domain.Tests.Projects.CommercialDossiers
                 ProductName = "productName",
                 CommercialName = "commercialName",
                 Description = description,
-                Logo = logo,
-                UserManual = userManual
+                LogoLocation = logo,
+                UserManualLocation = userManualLocation,
+                UserManualFileName = "userManualFileName",
+                UserManualFileSize = 111
             };
 
             // Act
@@ -56,7 +58,10 @@ namespace Ubora.Domain.Tests.Projects.CommercialDossiers
             commercialDossier.CommercialName.Should().Be("commercialName");
             commercialDossier.Description.Should().Be(description);
             commercialDossier.Logo.Should().Be(logo);
-            commercialDossier.UserManual.Should().Be(userManual);
+            
+            commercialDossier.UserManual.Location.Should().Be(userManualLocation);
+            commercialDossier.UserManual.FileName.Should().Be("userManualFileName");
+            commercialDossier.UserManual.FileSize.Should().Be(111);
         }
 
         [Fact]
@@ -69,6 +74,7 @@ namespace Ubora.Domain.Tests.Projects.CommercialDossiers
                     .WithWp4Unlocked()
                     .WithWp5Unlocked()
                     .Seed(this);
+
             var commercialDossier = Session.Load<CommercialDossier>(project.Id);
 
             var command = new EditCommercialDossierCommand
@@ -77,9 +83,9 @@ namespace Ubora.Domain.Tests.Projects.CommercialDossiers
                 ProjectId = project.Id,
                 CommercialName = commercialDossier.CommercialName,
                 Description = commercialDossier.Description,
-                Logo = commercialDossier.Logo,
+                LogoLocation = commercialDossier.Logo,
                 ProductName = commercialDossier.ProductName,
-                UserManual = commercialDossier.UserManual
+                UserManualLocation = commercialDossier.UserManual?.Location
             };
 
             // Act

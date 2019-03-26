@@ -13,8 +13,12 @@ namespace Ubora.Domain.Projects.CommercialDossiers.Commands
         public string ProductName { get; set; }
         public string CommercialName { get; set; }
         public QuillDelta Description { get; set; }
-        public BlobLocation UserManual { get; set; }
-        public BlobLocation Logo { get; set; }
+
+        public BlobLocation LogoLocation { get; set; }
+
+        public BlobLocation UserManualLocation { get; set; }
+        public string UserManualFileName { get; set; }
+        public long UserManualFileSize { get; set; }
 
         public class Handler : ICommandHandler<EditCommercialDossierCommand>
         {
@@ -40,11 +44,11 @@ namespace Ubora.Domain.Projects.CommercialDossiers.Commands
                 if (commercialDossier.Description != cmd.Description)
                     events.Add(new DescriptionEditedEvent(cmd.Actor, cmd.ProjectId, cmd.ProjectId, cmd.Description));
                     
-                if (commercialDossier.Logo != cmd.Logo)
-                    events.Add(new LogoChangedEvent(cmd.Actor, cmd.ProjectId, cmd.ProjectId, cmd.Logo));
+                if (commercialDossier.Logo != cmd.LogoLocation)
+                    events.Add(new LogoChangedEvent(cmd.Actor, cmd.ProjectId, cmd.ProjectId, cmd.LogoLocation));
 
-                if (commercialDossier.UserManual != cmd.UserManual)
-                    events.Add(new UserManualChangedEvent(cmd.Actor, cmd.ProjectId, cmd.ProjectId, cmd.UserManual));
+                if (commercialDossier.UserManual?.Location != cmd.UserManualLocation)
+                    events.Add(new UserManualChangedEvent(cmd.Actor, cmd.ProjectId, cmd.ProjectId, cmd.UserManualLocation, cmd.UserManualFileName, cmd.UserManualFileSize));
 
                 if (events.Any()) 
                 {
@@ -56,4 +60,4 @@ namespace Ubora.Domain.Projects.CommercialDossiers.Commands
             }
         }
     }
-}
+} 

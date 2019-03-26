@@ -16,8 +16,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
         public string DescriptionQuillDelta { get; set; }
         public bool DoesDescriptionHaveContent { get; set; }
         public IFormFile UserManual { get; set; }
+        public string UserManualName { get; set; }
         public IFormFile Logo { get; set; }
         public string LogoUrl { get; set; }
+        public bool HasOldLogoBeenDeleted { get; set; }
+        public bool HasOldUserManualBeenRemoved { get; set; }
     }
 
     public class IntellectualPropertyViewModel 
