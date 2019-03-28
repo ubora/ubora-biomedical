@@ -49,7 +49,7 @@
                 {
                     <div class="mb-3">
                         <label>User manual</label>
-                        <a asp-action="@nameof(CommercialDocumentationsController.DownloadUserManual)">Download @Model.CommercialDossier.UserManualName</a>
+                        <a asp-action="@nameof(CommercialDocumentationsController.DownloadUserManual)" title="Download user manual" class="no-underline d-flex align-items-center"><i class="mr-2 file-list--item-control material-icons">file_download</i>@Model.CommercialDossier.UserManualName</a>
                     </div>
                 }
             </div>
@@ -139,7 +139,7 @@
             case LicenseType.CreativeCommons:
                 <div class="d-flex align-items-center mb-2">
                     <img src="/images/icons/cc.png" class="w-2-rem mr-2" alt="Creative Commons icon">
-                    Creative Commons licence:
+                    Creative Commons:
                 </div>
                 @if (Model.IntellectualProperty.Attribution)
                 {
