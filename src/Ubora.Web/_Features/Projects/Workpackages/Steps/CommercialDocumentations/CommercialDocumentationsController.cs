@@ -197,7 +197,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
                 DescriptionQuillDelta = await SanitizeQuillDeltaForEditing(commercialDossier.Description),
                 DoesDescriptionHaveContent = commercialDossier.Description != new QuillDelta(),
                 LogoUrl = commercialDossier.Logo != null ? _storageProvider.GetReadUrl(commercialDossier.Logo, DateTime.UtcNow.AddSeconds(10)) : null,
-                UserManualName = commercialDossier.UserManual.FileName
+                UserManualName = commercialDossier.UserManual?.FileName
             };
         }
     }
