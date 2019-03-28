@@ -10,8 +10,10 @@
         <div class="row">
             <div class="col">
                 <h2>Intellectual property</h2>
-                <p>Selecting licence is mandatory. You can choose between Creative Commons licence and UBORA licence.</p>
-                <div asp-validation-summary="All"></div>
+                <p>Selecting licence terms is mandatory. You can choose between Creative Commons licence and UBORA licence.</p>
+
+                <div asp-validation-summary="All" class="text-danger"></div>
+
                 <div class="creative-commons-license">
                     <div class="custom-control custom-radio mb-3">
                         <input id="creative-commons-license-radio" class="custom-control-input" value="@LicenseType.CreativeCommons" type="radio" asp-for="License" />
