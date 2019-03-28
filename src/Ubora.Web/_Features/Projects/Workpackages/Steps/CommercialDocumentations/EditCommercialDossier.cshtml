@@ -36,7 +36,7 @@
                     <input type="hidden" asp-for="HasOldLogoBeenDeleted" :value="isLogoRemoved"/>
                     <template v-if="isLogoPresent">
                         <img class="w-max-15-rem" :src="logoUrl">
-                        <button type="button" v-on:click="isLogoRemoved = true;">Remove</button>
+                        <button type="button" class="btn btn-sm btn-light" v-on:click="isLogoRemoved = true;">Remove</button>
                     </template>
                     <input class="form-control" v-if="!isLogoPresent" asp-for="Logo" />
                 </div>
@@ -70,11 +70,13 @@
                     <input type="hidden" asp-for="HasOldUserManualBeenRemoved" :value="isUserManualRemoved" />
                     <template v-if="isUserManualPresent">
                         <a asp-action="@nameof(CommercialDocumentationsController.DownloadUserManual)">Download @Model.UserManualName</a>
-                        <button type="button" v-on:click="isUserManualRemoved = true;">Remove</button>
+                        <button type="button"  class="btn btn-sm btn-light" v-on:click="isUserManualRemoved = true;">
+                        Remove
+                        </button>
                     </template>
                     <template v-if="!isUserManualPresent">
                         <input class="form-control" aria-describedby="formats" asp-for="UserManual"/>
-                        <small id="formats" class="form-text text-muted">Supported formats: .docx, .pdf, .odt, .txt</small>
+                        <small id="formats" class="form-text text-muted">Maximum file size can be 2 MB</small>
                     </template>
                 </div>
                 
