@@ -5,6 +5,9 @@ RUN mkdir -p /usr/src/app
 COPY . /usr/src/app
 WORKDIR /usr/src/app
 
+# Failed to fetch http://deb.debian.org/debian/dists/jessie-updates/InRelease  Unable to find expected entry 'main/binary-amd64/Packages' in Release file 
+RUN sed -i '/jessie-updates/d' /etc/apt/sources.list
+
 # Install packages
 RUN apt-get update --fix-missing \
   && wget https://github.com/jgm/pandoc/releases/download/2.2.2.1/pandoc-2.2.2.1-1-amd64.deb \
