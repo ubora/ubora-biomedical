@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = Model.Title;
-    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+    ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
 }
 
 <h1>@Model.Title</h1>

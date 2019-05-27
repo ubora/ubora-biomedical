@@ -41,7 +41,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
             }
 
             ViewData["Title"] = "Voting";
-            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.Voting;
         }
 
