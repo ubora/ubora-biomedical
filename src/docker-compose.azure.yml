@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  ubora.web:
+    container_name: 'ubora.web'
+    image: ubora/web:latest
+    environment:
+      Pandoc__Ip: "ubora.pandoc"
+      Pandoc__Url: "http://ubora.pandoc:1337"
+      Pandoc__Key: ${CONVERTER_API_KEY}
+    depends_on:
+      - "ubora.pandoc"
+    networks:
+      - ubora-network
+
+  ubora.pandoc:
+    container_name: 'ubora.pandoc'
+    image: ubora/pandoc:latest
+    environment:
+      CONVERTER_API_KEY: ${CONVERTER_API_KEY}
+    volumes:
+      - ${WEBAPP_STORAGE_HOME}/node_modules
+    networks:
+      - ubora-network
+
+networks:
+  ubora-network:
+    driver: bridge
