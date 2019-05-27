@@ -5,13 +5,13 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @{
-    ViewData["Title"] = "Assignments";
-    ViewData["MenuOption"] = ProjectMenuOption.Assignments;
+    ViewData[nameof(PageTitle)] = "Assignments";
+    ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Assignments;
 }
 
 <div class="row">
     <div class="col-lg-9">
-        <h1>@ViewData["Title"]</h1>
+        <h1>@ViewData[nameof(PageTitle)]</h1>
     </div>
     <div class="col-lg-3 d-flex justify-content-end">
         <a class="btn btn-outline-primary align-self-start" asp-controller="Assignments" asp-action="Add" asp-route-projectId="@Model.ProjectId">

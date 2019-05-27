@@ -1,7 +1,7 @@
 ﻿@model CreateResourceCategoryPostModel
 
 @{
-    ViewData["Title"] = "Create new resource category";
+    ViewData[nameof(PageTitle)] = "Create new resource category";
 }
 
 <nav aria-label="breadcrumb">
@@ -9,11 +9,11 @@
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">UBORA</a></li>
         <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Resources</a></li>
         <li class="breadcrumb-item"><a asp-action="@nameof(ResourceCategoriesController.List)">Resource categories</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData[nameof(PageTitle)]</li>
     </ol>
 </nav>
 
-<h1>@ViewData["Title"]</h1>
+<h1>@ViewData[nameof(PageTitle)]</h1>
 
 <form asp-action="Create">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>

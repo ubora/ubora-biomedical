@@ -1,5 +1,5 @@
 ﻿<div class="container my-5 text-center">
-    <h1>@ViewData["Title"]</h1>
+    <h1>@ViewData[nameof(PageTitle)]</h1>
     <div class="row justify-content-center my-2">
         <div class="col-lg-4 col-md-6">
             <a class="btn btn-outline-primary btn-block" asp-controller="Admin" asp-action="ManageUsers" role="button">Manage users</a>

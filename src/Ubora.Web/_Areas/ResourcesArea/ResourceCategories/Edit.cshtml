@@ -1,7 +1,7 @@
 ﻿@model EditResourceCategoryPostModel
 
 @{
-    ViewData["Title"] = "Edit resource category";
+    ViewData[nameof(PageTitle)] = "Edit resource category";
 }
 
 <nav aria-label="breadcrumb">
@@ -9,7 +9,7 @@
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">UBORA</a></li>
         <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Resources</a></li>
         <li class="breadcrumb-item"><a asp-action="@nameof(ResourceCategoriesController.List)">Resource categories</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData[nameof(PageTitle)]</li>
     </ol>
 </nav>
 

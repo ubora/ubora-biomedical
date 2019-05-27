@@ -1,11 +1,11 @@
 ﻿@using Ubora.Web._Features.Users.Manage
 @model Ubora.Web._Features.Users.Manage.IndexViewModel
 @{
-    ViewData["Title"] = "Manage your account";
+    ViewData[nameof(PageTitle)] = "Manage your account";
 }
 
 <div class="container my-5 text-center">
-    <h1>@ViewData["Title"]</h1>
+    <h1>@ViewData[nameof(PageTitle)]</h1>
     <div class="row justify-content-center my-2">
         <div class="col-sm-4">
             <img class="avatar mb-4" src="@User.GetProfilePictureUrl()" alt="Profile picture" height="250" width="250">

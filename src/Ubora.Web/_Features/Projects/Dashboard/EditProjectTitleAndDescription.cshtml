@@ -4,8 +4,8 @@
 @model EditProjectTitleAndDescriptionViewModel
 
 @{
-    ViewData["Title"] = "Dashboard";
-    ViewData["MenuOption"] = ProjectMenuOption.Overview;
+    ViewData[nameof(PageTitle)] = "Dashboard";
+    ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Overview;
 }
 
 <form action="" method="post">

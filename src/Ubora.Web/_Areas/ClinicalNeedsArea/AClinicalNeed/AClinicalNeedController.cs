@@ -51,7 +51,7 @@ namespace Ubora.Web._Areas.ClinicalNeedsArea.AClinicalNeed
                 NumberOfComments = quickInfo.NumberOfComments,
                 ClinicalNeedTitle = ClinicalNeed.Title
             };
-            ViewData["Title"] = ClinicalNeed.Title;
+            ViewData[nameof(PageTitle)] = ClinicalNeed.Title;
         }
 
         private ActiveTabOfClinicalNeed GetCurrentTab(string[] urlTemplateParts)

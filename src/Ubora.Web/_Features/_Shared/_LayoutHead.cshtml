@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="~/images/favicon.png" rel="icon" type="image/png">
 
-@if (!string.IsNullOrWhiteSpace(ViewData["Title"] as string))
+@if (!string.IsNullOrWhiteSpace(ViewData[nameof(PageTitle)] as string))
 {
-    <title>@ViewData["Title"] - UBORA</title>
+    <title>@ViewData[nameof(PageTitle)] - UBORA</title>
 }
 else
 {

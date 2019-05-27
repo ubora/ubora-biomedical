@@ -1,10 +1,10 @@
 ﻿@using Ubora.Web._Features.Users.Manage
 @model Ubora.Web._Features.Users.Manage.VerifyPhoneNumberViewModel
 @{
-    ViewData["Title"] = "Verify Phone Number";
+    ViewData[nameof(PageTitle)] = "Verify Phone Number";
 }
 
-<h2>@ViewData["Title"].</h2>
+<h2>@ViewData[nameof(PageTitle)].</h2>
 
 <form asp-controller="Manage" asp-action="VerifyPhoneNumber" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
     <input asp-for="PhoneNumber" type="hidden" />

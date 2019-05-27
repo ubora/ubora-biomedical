@@ -21,7 +21,7 @@
     @{
         Html.RenderPartial("_Header");
 
-        var projectMenuOption = ViewData["MenuOption"];
+        var projectMenuOption = ViewData[nameof(ProjectMenuOption)];
         if (projectMenuOption != null) // TODO: All views should have project menu?
         {
             <div class="container-fluid">

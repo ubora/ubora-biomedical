@@ -1,11 +1,11 @@
 ﻿@model Ubora.Web._Features.Admin.ProjectsUnderReviewViewModel
 
 @{
-    ViewData["Title"] = "All projects under review";
+    ViewData[nameof(PageTitle)] = "All projects under review";
 }
 
 <div class="container my-5">
-    <h1>@ViewData["Title"]</h1>
+    <h1>@ViewData[nameof(PageTitle)]</h1>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="d-lg-block d-none">
         <div class="row mx-0 py-2 border-bottom">
