@@ -1,11 +1,11 @@
 ﻿@{
-    ViewData["Title"] = "Email confirmation";
+    ViewData[nameof(PageTitle)] = "Email confirmation";
 }
 
 
 <div class="container my-5">
     <div class="text-center">
-        <h1>@ViewData["Title"]</h1>
+        <h1>@ViewData[nameof(PageTitle)]</h1>
         <p>The confirmation link has been resent to your email account.</p>
     </div>
 </div>

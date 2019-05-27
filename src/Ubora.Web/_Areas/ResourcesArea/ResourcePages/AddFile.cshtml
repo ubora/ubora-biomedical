@@ -1,22 +1,22 @@
 ﻿@model AddResourceFileViewModel
 
 @{
-    ViewData["Title"] = "Upload new file(s)";
+    ViewData[nameof(PageTitle)] = "Upload new file(s)";
 }
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">UBORA</a></li>
         <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Resources</a></li>
-        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcePagesController.Read)">@ViewData["ResourcePageTitle"]</a></li>
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcePagesController.Read)">@ViewData[nameof(ResourcePageTitle)]</a></li>
         <li class="breadcrumb-item"><a asp-action="@nameof(ResourcePagesController.Repository)">Files</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData[nameof(PageTitle)]</li>
     </ol>
 </nav>
 
 @Html.Partial("_ResourcePageTabsPartial.cshtml")
 
-<h1>@ViewData["Title"]</h1>
+<h1>@ViewData[nameof(PageTitle)]</h1>
 
 <form id="my-dropzone" class="w-100" asp-action="@nameof(ResourcePagesController.AddFile)" method="post" enctype="multipart/form-data">
 

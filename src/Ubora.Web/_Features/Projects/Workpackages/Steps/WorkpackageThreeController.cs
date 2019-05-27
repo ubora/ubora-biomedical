@@ -27,8 +27,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
-            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
-            ViewData["Title"] = "WP 3: Design and prototyping";
+
+            ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(PageTitle)] = "WP 3: Design and prototyping";
         }
 
         [HttpGet("")]
@@ -91,7 +92,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Authorize(Policy = nameof(Policies.CanUnlockWorkpackages))]
         public IActionResult Unlocking()
         {
-            ViewBag.Title = "WP 3: Design and prototyping";
+            ViewData[nameof(PageTitle)] = "WP 3: Design and prototyping";
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.WorkpackageThreeLocked;
 
             return View("UnlockWp3");

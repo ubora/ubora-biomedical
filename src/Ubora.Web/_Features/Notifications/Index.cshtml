@@ -3,12 +3,12 @@
 @model Ubora.Web._Features.Notifications.NotificationListViewModel
 
 @{
-    ViewData["Title"] = "Notifications";
+    ViewData[nameof(PageTitle)] = "Notifications";
 }
 
 <div class="container my-5">
     <div class="infinite-scroll">
-        <h1>@ViewData["Title"]</h1>
+        <h1>@ViewData[nameof(PageTitle)]</h1>
         <div class="post">
 
             @if (Model.Notifications.Any())

@@ -3,8 +3,8 @@
 @model Ubora.Web._Features.Projects.Repository.ProjectRepositoryViewModel
 
 @{
-    ViewData["Title"] = "Repository";
-    ViewData["MenuOption"] = ProjectMenuOption.Repository;
+    ViewData[nameof(PageTitle)] = "Repository";
+    ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Repository;
 }
 
 @section Left {

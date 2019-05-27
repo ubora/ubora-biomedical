@@ -2,8 +2,8 @@
 @model Ubora.Web._Features.Projects.Dashboard.ProjectDashboardViewModel
 
 @{
-    ViewData["Title"] = "Overview";
-    ViewData["MenuOption"] = ProjectMenuOption.Overview;
+    ViewData[nameof(PageTitle)] = "Overview";
+    ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Overview;
 }
 
 <div class="row">

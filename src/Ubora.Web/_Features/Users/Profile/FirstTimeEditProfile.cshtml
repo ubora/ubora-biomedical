@@ -2,13 +2,13 @@
 @model Ubora.Web._Features.Users.Profile.FirstTimeEditProfileModel
 
 @{
-    ViewData["Title"] = "Create a profile";
+    ViewData[nameof(PageTitle)] = "Create a profile";
 }
 
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">
-            <h1 class="text-center">@ViewData["Title"]</h1>
+            <h1 class="text-center">@ViewData[nameof(PageTitle)]</h1>
             @Html.Partial("ChangeProfilePicturePartial", @Model.ProfilePictureViewModel)
             @Html.Partial("FirstTimeEditProfilePartial", @Model.FirstTimeUserProfileViewModel)
         </div>

@@ -1,10 +1,10 @@
 ﻿@using Ubora.Web._Features.Users.Account
 @model Ubora.Web._Features.Users.Account.VerifyCodeViewModel
 @{
-    ViewData["Title"] = "Verify";
+    ViewData[nameof(PageTitle)] = "Verify";
 }
 
-<h2>@ViewData["Title"].</h2>
+<h2>@ViewData[nameof(PageTitle)].</h2>
 
 <form asp-controller="Account" asp-action="VerifyCode" asp-route-returnurl="@Model.ReturnUrl" method="post" class="form-horizontal">
     <div asp-validation-summary="All" class="text-danger"></div>

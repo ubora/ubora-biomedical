@@ -3,7 +3,7 @@
 @model EditClinicalNeedViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData[nameof(PageTitle)] = "Edit";
     var layoutViewModel = (LayoutViewModel)ViewData["LayoutViewModel"];
 }
 
@@ -13,11 +13,11 @@
             <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">UBORA</a></li>
             <li class="breadcrumb-item"><a asp-action="LandingPage" asp-controller="LandingPage">Clinical needs</a></li>
             <li class="breadcrumb-item"><a asp-action="Overview" asp-controller="Overview">@layoutViewModel.ClinicalNeedTitle</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewData[nameof(PageTitle)]</li>
         </ol>
     </nav>
 
-    <h1 class="d-inline-block">@ViewData["Title"]</h1>
+    <h1 class="d-inline-block">@ViewData[nameof(PageTitle)]</h1>
 }
 
 <form asp-action="Edit" method="post" class="js-onbeforeunload">

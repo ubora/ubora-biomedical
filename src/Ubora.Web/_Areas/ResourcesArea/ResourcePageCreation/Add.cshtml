@@ -1,18 +1,18 @@
 ﻿@model CreateResourcePagePostModel
 
 @{
-    ViewData["Title"] = "Create new resource page";
+    ViewData[nameof(PageTitle)] = "Create new resource page";
 }
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">UBORA</a></li>
         <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Resources</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData[nameof(PageTitle)]</li>
     </ol>
 </nav>
 
-<h1>@ViewData["Title"]</h1>
+<h1>@ViewData[nameof(PageTitle)]</h1>
 
 <form asp-action="@nameof(ResourcePageCreationController.Add)" class="js-onbeforeunload">
     <div asp-validation-summary="ModelOnly"></div>
