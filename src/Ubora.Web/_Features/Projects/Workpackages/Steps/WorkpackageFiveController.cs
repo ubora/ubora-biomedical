@@ -51,7 +51,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.Title = "WP 5: Operation";
+            ViewData[nameof(PageTitle)] = "WP 5: Operation";
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.WorkpackageFiveLocked;
 
             return View("UnlockWp5");

@@ -40,8 +40,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
                 CurrentCandidate = QueryProcessor.FindById<Candidate>(CandidateId);
             }
 
-            ViewData["Title"] = "Voting";
-            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(PageTitle)] = "Voting";
+            ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.Voting;
         }
 

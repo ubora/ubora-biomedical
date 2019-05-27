@@ -2,20 +2,20 @@
 @model Ubora.Web._Features.Projects.Assignments.AddAssignmentViewModel
 
 @{
-    ViewData["Title"] = "Add assignment";
-    ViewData["MenuOption"] = ProjectMenuOption.Assignments;
+    ViewData[nameof(PageTitle)] = "Add assignment";
+    ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Assignments;
 }
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">UBORA</a></li>
         <li class="breadcrumb-item"><a asp-controller="Assignments" asp-action="Assignments">Assignments</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData[nameof(PageTitle)]</li>
     </ol>
 </nav>
 <div class="row">
     <div class="col">
-        <h1>@ViewData["Title"]</h1>
+        <h1>@ViewData[nameof(PageTitle)]</h1>
         <form asp-controller="Assignments" enctype="multipart/form-data" asp-action="Add" method="post">
             <input asp-for="ProjectId" type="hidden">
 

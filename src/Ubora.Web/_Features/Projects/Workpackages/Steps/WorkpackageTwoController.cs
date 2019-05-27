@@ -26,7 +26,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             base.OnActionExecuting(context);
 
-            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
         }
 
         [Route("{stepId}")]

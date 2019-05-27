@@ -3,11 +3,11 @@
 @using Ubora.Web._Features.Users.UserList
 
 @{
-    ViewData["Title"] = "Community";
+    ViewData[nameof(PageTitle)] = "Community";
 }
 
 <div class="container my-5">
-    <h1>@ViewData["Title"]</h1>
+    <h1>@ViewData[nameof(PageTitle)]</h1>
 
     <ul class="nav nav-tabs" id="communityTab">
         @{

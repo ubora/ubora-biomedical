@@ -7,7 +7,7 @@
 @inject SignInManager<ApplicationUser> SignInManager
 
 @{
-    ViewData["Title"] = "Medical device projects";
+    ViewData[nameof(PageTitle)] = "Medical device projects";
 
     var isSignedIn = SignInManager.IsSignedIn(User);
 }
@@ -25,7 +25,7 @@
         <div class="@(Model.Tab == TabType.AllProjects ? "col-xl-8 col-lg-9 px-xl-7 py-lg-5 py-3" : "container py-lg-5 py-3")">
             <div class="row">
                 <div class="col-lg-8 order-lg-1 order-2">
-                    <h1>@ViewData["Title"]</h1>
+                    <h1>@ViewData[nameof(PageTitle)]</h1>
                 </div>               
                 <div class="col d-flex justify-content-end order-lg-2 order-1">
                     @if (isSignedIn)

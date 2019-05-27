@@ -32,7 +32,7 @@ namespace Ubora.Web._Features.Admin
         {
             base.OnActionExecuting(context);
 
-            ViewData["Title"] = "Administer UBORA";
+            ViewData[nameof(PageTitle)] = "Administer UBORA";
         }
 
         [Authorize(Roles = ApplicationRole.Admin)]

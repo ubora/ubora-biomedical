@@ -1,11 +1,11 @@
 ﻿@model Ubora.Web._Features.Admin.AdminController.ManageUsersViewModel
 
 @{
-    ViewData["Title"] = "Manage users";
+    ViewData[nameof(PageTitle)] = "Manage users";
 }
 
 <div class="container h-min-45 my-5">
-    <h1>@ViewData["Title"]</h1>
+    <h1>@ViewData[nameof(PageTitle)]</h1>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     @foreach (var user in Model.Items)
     {

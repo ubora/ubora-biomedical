@@ -3,8 +3,8 @@
 @model Ubora.Web._Features.Projects.Workpackages.Reviews.WorkpackageReviewDecisionPostModel
 
 @{
-    ViewData["Title"] = "Write a review";
-    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+    ViewData[nameof(PageTitle)] = "Write a review";
+    ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
 }
 
 <form method="post">

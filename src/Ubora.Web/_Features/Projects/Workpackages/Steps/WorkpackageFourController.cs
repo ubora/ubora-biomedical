@@ -29,7 +29,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
-            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+
+            ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
         }
 
         [HttpGet("")]
@@ -193,7 +194,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Authorize(Policy = nameof(Policies.CanUnlockWorkpackages))]
         public IActionResult Unlocking()
         {
-            ViewBag.Title = "WP 4: Implementation";
+            ViewData[nameof(PageTitle)] = "WP 4: Implementation";
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.WorkpackageFourLocked;
 
             return View("UnlockWp4");

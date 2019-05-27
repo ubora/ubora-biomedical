@@ -2,7 +2,7 @@
 @model Ubora.Web._Features.Users.Profile.ProfileViewModel
 
 @{
-    ViewData["Title"] = "View profile";
+    ViewData[nameof(PageTitle)] = "View profile";
 }
 
 @inject SignInManager<ApplicationUser> SignInManager

@@ -2,8 +2,8 @@
 @model Ubora.Web._Features.Projects.Repository.FileHistoryViewModel
 
 @{
-    ViewData["Title"] = "File history";
-    ViewData["MenuOption"] = ProjectMenuOption.Repository;
+    ViewData[nameof(PageTitle)] = "File history";
+    ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Repository;
 }
 
 <nav aria-label="breadcrumb">

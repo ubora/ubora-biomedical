@@ -5,7 +5,7 @@
 @model Ubora.Web._Features.Projects.Workpackages.Steps.StructuredInformationResultViewModel
 
 @{
-    ViewData["Title"] = "Structured information on the device";
+    ViewData[nameof(PageTitle)] = "Structured information on the device";
 
     var workpackageMenuOptionViewData = (string) ViewData["WorkpackageMenuOption"];
 
@@ -16,7 +16,7 @@
 <div class="row">
     <div class="col">
         <div class="d-flex justify-content-between">
-            <h1>@ViewData["Title"]</h1>
+            <h1>@ViewData[nameof(PageTitle)]</h1>
         </div>
         @if (workpackageMenuOptionViewData == WorkpackageMenuOption.WP4StructuredInformationOnTheDevice)
         {

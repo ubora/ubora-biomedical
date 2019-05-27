@@ -19,7 +19,7 @@ namespace Ubora.Web._Features.Admin.Tests
     {
         public IActionResult RunTests()
         {
-            ViewData["Title"] = "Manage UBORA";
+            ViewData[nameof(PageTitle)] = "Manage UBORA";
 
             var testActions = typeof(TestsController)
                 .GetMethods()
