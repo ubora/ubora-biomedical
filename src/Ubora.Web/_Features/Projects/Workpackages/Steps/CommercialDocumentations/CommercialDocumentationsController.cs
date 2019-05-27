@@ -10,7 +10,6 @@ using Ubora.Domain.Projects.CommercialDossiers.Commands;
 using Ubora.Domain.Projects.IntellectualProperties;
 using Ubora.Web._Features._Shared.Notices;
 using Ubora.Web._Features.Projects._Shared;
-using Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentations;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.Storage;
 
@@ -121,9 +120,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
             {
                 if (!model.HasOldUserManualBeenRemoved) 
                 {
-                    command.UserManualLocation = CommercialDossier.UserManual.Location;
-                    command.UserManualFileName = CommercialDossier.UserManual.FileName;
-                    command.UserManualFileSize = CommercialDossier.UserManual.FileSize;  
+                    command.UserManualLocation = CommercialDossier.UserManual?.Location;
+                    command.UserManualFileName = CommercialDossier.UserManual?.FileName;
+                    command.UserManualFileSize = CommercialDossier.UserManual?.FileSize ?? 0;  
                 }
             }
 

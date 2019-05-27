@@ -70,7 +70,14 @@ namespace Ubora.Domain.Projects.CommercialDossiers
         {
             if (UserManual?.Location == e.Location)
                 throw new InvalidOperationException("Was not actually changed.");
-            UserManual = new UserManual(e.Location, e.FileName, e.FileSize);
+
+            if (e.Location == null) 
+            {
+                UserManual = null;
+            } else
+            {
+                UserManual = new UserManual(e.Location, e.FileName, e.FileSize);
+            }
         }
     }
 }

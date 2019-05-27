@@ -48,7 +48,7 @@ namespace Ubora.Domain.Projects.CommercialDossiers.Commands
                     events.Add(new LogoChangedEvent(cmd.Actor, cmd.ProjectId, cmd.ProjectId, cmd.LogoLocation));
 
                 if (commercialDossier.UserManual?.Location != cmd.UserManualLocation)
-                    events.Add(new UserManualChangedEvent(cmd.Actor, cmd.ProjectId, cmd.ProjectId, cmd.UserManualLocation, cmd.UserManualFileName, cmd.UserManualFileSize));
+                    events.Add(new UserManualChangedEvent(cmd.Actor, cmd.ProjectId, cmd.ProjectId, cmd.UserManualLocation, cmd.UserManualFileName, cmd.UserManualFileSize.HasValue ? cmd.UserManualFileSize.Value : 0));
 
                 if (events.Any()) 
                 {
