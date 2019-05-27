@@ -1,10 +1,10 @@
 ﻿@model Ubora.Web._Features.Users.Account.RegisterViewModel
 @{
-    ViewData["Title"] = "Sign up to UBORA";
+    ViewData[nameof(PageTitle)] = "Sign up to UBORA";
 }
 
 <div class="container my-5">
-    <h1 class="text-center">@ViewData["Title"]</h1>
+    <h1 class="text-center">@ViewData[nameof(PageTitle)]</h1>
     <div class="row justify-content-center">
         <div class="col-lg-5 col-md-8">
             <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="form-register" method="post">

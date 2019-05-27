@@ -1,10 +1,10 @@
 ﻿@using Ubora.Web._Features.Users.Account
 @model Ubora.Web._Features.Users.Account.SendCodeViewModel
 @{
-    ViewData["Title"] = "Send Verification Code";
+    ViewData[nameof(PageTitle)] = "Send Verification Code";
 }
 
-<h2>@ViewData["Title"].</h2>
+<h2>@ViewData[nameof(PageTitle)].</h2>
 
 <form asp-controller="Account" asp-action="SendCode" asp-route-returnurl="@Model.ReturnUrl" method="post" class="form-horizontal">
     <input asp-for="RememberMe" type="hidden" />

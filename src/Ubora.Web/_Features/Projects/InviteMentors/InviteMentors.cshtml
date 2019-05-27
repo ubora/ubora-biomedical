@@ -1,7 +1,7 @@
 ﻿@using Ubora.Web._Features.Projects._Shared
 @model Ubora.Web._Features.Projects.InviteMentors.MentorsViewModel
 @{
-    ViewData["Title"] = "Project mentors";
+    ViewData[nameof(PageTitle)] = "Project mentors";
     ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Members;
 }
 
@@ -11,12 +11,12 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">UBORA</a></li>
         <li class="breadcrumb-item"><a asp-controller="Members" asp-action="Members">Members</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData[nameof(PageTitle)]</li>
     </ol>
 </nav>
 @if (Model.ProjectMentors.Any())
 {
-    <h1>@ViewData["Title"]</h1>
+    <h1>@ViewData[nameof(PageTitle)]</h1>
     <div class="row my-4">
         @foreach (var mentor in Model.ProjectMentors)
         {

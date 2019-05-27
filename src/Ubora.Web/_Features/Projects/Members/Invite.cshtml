@@ -1,7 +1,7 @@
 ﻿@model InviteProjectMemberViewModel
 
 @{
-    ViewData["Title"] = "Invite member";
+    ViewData[nameof(PageTitle)] = "Invite member";
     ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Members;
 }
 
@@ -9,12 +9,12 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">UBORA</a></li>
         <li class="breadcrumb-item"><a asp-controller="Members" asp-action="Members">Members</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData[nameof(PageTitle)]</li>
     </ol>
 </nav>
 <div class="row">
     <div class="col">
-        <h1>@ViewData["Title"]</h1>
+        <h1>@ViewData[nameof(PageTitle)]</h1>
 
         <input type="hidden" name="searchUsersUrl" value="@Url.Action("SearchUsers","UserList")" />
         <form asp-controller="Members" asp-action="Invite" method="post">

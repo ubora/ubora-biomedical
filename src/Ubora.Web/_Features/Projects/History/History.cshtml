@@ -2,12 +2,12 @@
 @model Ubora.Web._Features.Projects.History.HistoryViewModel
 
 @{
-    ViewData["Title"] = "History";
+    ViewData[nameof(PageTitle)] = "History";
     ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.History;
 }
 
 <div class="h-min-45">
-    <h1>@ViewData["Title"]</h1>
+    <h1>@ViewData[nameof(PageTitle)]</h1>
     @if (Model.Pager.TotalItemCount > 0)
     {
         foreach (var uboraEvent in Model.Logs)

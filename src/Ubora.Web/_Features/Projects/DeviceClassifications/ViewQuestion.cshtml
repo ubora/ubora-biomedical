@@ -2,11 +2,11 @@
 @model IEnumerable<Ubora.Web._Features.Projects.DeviceClassifications.DeviceClassificationQuestionViewModel>
 
 @{
-    ViewData["Title"] = "Device classification";
+    ViewData[nameof(PageTitle)] = "Device classification";
     ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>@ViewData[nameof(PageTitle)]</h1>
 <div id="device-classification-carousel" class="carousel slide d-flex " data-ride="carousel">
     <div class="carousel-inner" style="min-height: 500px;" role="listbox">
         @foreach (var question in Model)

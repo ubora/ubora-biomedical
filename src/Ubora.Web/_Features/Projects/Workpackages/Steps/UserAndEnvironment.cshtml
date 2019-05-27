@@ -2,7 +2,7 @@
 @model Ubora.Web._Features.Projects.Workpackages.Steps.UserAndEnvironmentInformationViewModel
 
 @{
-    ViewData["Title"] = "User and evironment";
+    ViewData[nameof(PageTitle)] = "User and evironment";
 
     var workpackageMenuOptionViewData = (string) ViewData["WorkpackageMenuOption"];
     var wpControllerName = workpackageMenuOptionViewData == WorkpackageMenuOption.WP4StructuredInformationOnTheDevice
@@ -14,7 +14,7 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="DeviceStructuredInformationId">
         <div class="row">
-            <h1 class="col-lg-12 mb-4">@ViewData["Title"]</h1>
+            <h1 class="col-lg-12 mb-4">@ViewData[nameof(PageTitle)]</h1>
             <div class="col-lg-12">
 
                 <div class="row mb-4">

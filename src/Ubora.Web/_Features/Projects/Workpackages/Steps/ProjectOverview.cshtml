@@ -4,12 +4,12 @@
 @model Ubora.Web._Features.Projects.Workpackages.Steps.ProjectOverviewViewModel
 
 @{
-    ViewData["Title"] = "Design planning";
+    ViewData[nameof(PageTitle)] = "Design planning";
     ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
     ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.DesignPlanning;
 }
 
-    <h1>@ViewData["Title"]</h1>
+    <h1>@ViewData[nameof(PageTitle)]</h1>
 
 <form asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>

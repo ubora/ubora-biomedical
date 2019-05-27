@@ -2,7 +2,7 @@
 @model Ubora.Web._Features.Projects.Workpackages.Steps.ReadStepViewModel
 
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData[nameof(PageTitle)] = Model.Title;
     ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
 }
 

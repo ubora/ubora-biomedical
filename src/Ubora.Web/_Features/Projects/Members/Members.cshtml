@@ -3,13 +3,13 @@
 @model ProjectMemberListViewModel
 
 @{
-    ViewData["Title"] = "Members";
+    ViewData[nameof(PageTitle)] = "Members";
     ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Members;
 }
 
 <div class="row">
     <div class="col-lg-5">
-        <h1>@ViewData["Title"]</h1>
+        <h1>@ViewData[nameof(PageTitle)]</h1>
     </div>
     <div class="col-lg-7 d-flex justify-content-end">
         @if (Model.IsProjectMember)

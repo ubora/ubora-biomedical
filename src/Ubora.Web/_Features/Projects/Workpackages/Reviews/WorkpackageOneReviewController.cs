@@ -19,7 +19,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Reviews
         {
             base.OnActionExecuting(context);
 
-            ViewData["Title"] = "Workpackage one review";
+            ViewData[nameof(PageTitle)] = "Workpackage one review";
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.Wp1MentorReview;
         }
 

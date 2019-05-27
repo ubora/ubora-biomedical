@@ -1,10 +1,10 @@
 ﻿@model Ubora.Web._Features.Users.Manage.ChangeEmailViewModel
 @{
-    ViewData["Title"] = "Change email address";
+    ViewData[nameof(PageTitle)] = "Change email address";
 }
 
 <div class="container my-5">
-    <h1 class="text-center">@ViewData["Title"]</h1>
+    <h1 class="text-center">@ViewData[nameof(PageTitle)]</h1>
 
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">
