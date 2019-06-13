@@ -18,6 +18,7 @@ using Ubora.Domain.Projects.IsoStandardsComplianceChecklists;
 using Ubora.Domain.Projects;
 using Ubora.Domain;
 using Ubora.Domain.Projects.Workpackages.Queries;
+using Microsoft.AspNetCore.NodeServices;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
 {
@@ -25,17 +26,26 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
     {
         public string Title { get; set; }
         public string ProjectDescription { get; set; }
-        public string DeviceClassification { get; set; }
+        public string DeviceClassification { get; set; } 
         public string ClinicalNeedTag { get; set; }
-        public string AreaOfUsageTag { get; set; }
-        public string PotentialTechnologyTag { get; set; }
+        public string AreaOfUsageTag { get; set; } 
+        public string PotentialTechnologyTag { get; set; } 
         public string Keywords { get; set; }
-        public string ImagePath { get; set; }
+        public string ImagePath { get; set; } 
         public IEnumerable<Member> Members { get; set; }
         public WP1TemplatePartialViewModel Wp1TemplatePartialViewModel { get; set; }
         public WP2TemplatePartialViewModel Wp2TemplatePartialViewModel { get; set; }
         public WP3TemplatePartialViewModel Wp3TemplatePartialViewModel { get; set; }
         public WP4TemplatePartialViewModel Wp4TemplatePartialViewModel { get; set; }
+
+        public string ClinicalNeeds => Wp1TemplatePartialViewModel.WorkpackageStepViewModels.Single(s => s.Id == "ClinicalNeeds").Content;
+        public string ExistingSolutions => Wp1TemplatePartialViewModel.WorkpackageStepViewModels.Single(s => s.Id == "ExistingSolutions").Content;
+        public string ConceptDescription => Wp2TemplatePartialViewModel.WorkpackageStepViewModels.Single(s => s.Id == "ConceptDescription").Content;
+        public string IntendedUsers => Wp1TemplatePartialViewModel.WorkpackageStepViewModels.Single(s => s.Id == "IntendedUsers").Content;
+        public IsoCompliances.Models.IndexViewModel IsoCompliance => Wp4TemplatePartialViewModel.IsoStandardIndexListViewModel;
+        public StructuredInformationResultViewModel StructuredInformationResult => Wp4TemplatePartialViewModel.StructuredInformationResultViewModel;
+        public string QualityCriteria => Wp4TemplatePartialViewModel.WorkpackageStepViewModels.Single(s => s.Id == "QualityCriteria").Content;
+        public string PrototypesAndConsiderationsForSafetyAssessment => Wp4TemplatePartialViewModel.WorkpackageStepViewModels.Single(s => s.Id == "PrototypesAndConsiderationsForSafetyAssessment").Content;
 
         public class Member
         {
@@ -44,18 +54,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
             public bool IsProjectLeader { get; set; }
             public bool IsCurrentUser { get; set; }
             public bool IsProjectMentor { get; set; }
-            
+
             public string Roles
             {
                 get
                 {
                     var roles = new List<string>();
-                    
+
                     if (IsProjectLeader)
                     {
                         roles.Add("leader");
                     }
-                    
+
                     if (IsProjectMentor)
                     {
                         roles.Add("mentor");
@@ -65,7 +75,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                 }
             }
         }
-        
+
         public class Factory
         {
             private readonly IQueryProcessor _queryProcessor;
@@ -76,11 +86,17 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
             private readonly ReviewQuestionnaireViewModel.Factory _reviewQuestionnaireViewModelFactory;
             private readonly ImageStorageProvider _storageProvider;
             private readonly IConfiguration _configuration;
-     
-            public Factory(IQueryProcessor queryProcessor, IMarkdownConverter markdownConverter, 
-                StructuredInformationResultViewModel.Factory structuredInformationResultViewModel, 
-                IndexViewModel.Factory indexViewModelFactory, 
-                QuestionnaireIndexViewModel.Factory questionnaireIndexViewModelFactory, ReviewQuestionnaireViewModel.Factory reviewQuestionnaireViewModelFactory, ImageStorageProvider storageProvider, IConfiguration Configuration)
+            private readonly INodeServices _nodeServices;
+
+            public Factory(IQueryProcessor queryProcessor,
+                IMarkdownConverter markdownConverter,
+                StructuredInformationResultViewModel.Factory structuredInformationResultViewModel,
+                IndexViewModel.Factory indexViewModelFactory,
+                QuestionnaireIndexViewModel.Factory questionnaireIndexViewModelFactory,
+                ReviewQuestionnaireViewModel.Factory reviewQuestionnaireViewModelFactory,
+                ImageStorageProvider storageProvider,
+                IConfiguration Configuration,
+                INodeServices nodeServices)
             {
                 _queryProcessor = queryProcessor;
                 _markdownConverter = markdownConverter;
@@ -90,8 +106,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                 _reviewQuestionnaireViewModelFactory = reviewQuestionnaireViewModelFactory;
                 _storageProvider = storageProvider;
                 _configuration = Configuration;
+                _nodeServices = nodeServices;
             }
-            
+
             protected Factory()
             {
             }
@@ -111,7 +128,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
 
                 if (project.HasImage)
                 {
-                    model.ImagePath = _storageProvider.GetUrl(project.ProjectImageBlobLocation, ImageSize.Thumbnail400x300); 
+                    model.ImagePath = _storageProvider.GetUrl(project.ProjectImageBlobLocation, ImageSize.Thumbnail400x300);
                 }
 
                 var wpStatuses = _queryProcessor.ExecuteQuery(new GetStatusesOfProjectWorkpackagesQuery(project.Id));
@@ -134,7 +151,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                 if (isWp2Exportable)
                 {
                     var workspackageTwo = _queryProcessor.FindById<WorkpackageTwo>(project.Id);
-     
+
                     var deviceStructuredInformation = _queryProcessor
                         .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = project.Id })
                         .FirstOrDefault();
@@ -145,7 +162,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                         StructuredInformationResultViewModel = _structuredInformationResultViewModel.Create(deviceStructuredInformation)
                     };
                 }
-                
+
                 if (isWp3Exportable)
                 {
                     var workspackageThree = _queryProcessor.FindById<WorkpackageThree>(project.Id);
@@ -159,10 +176,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                 {
                     var workspackageFour = _queryProcessor.FindById<WorkpackageFour>(project.Id);
                     var deviceStructuredInformation = _queryProcessor
-                        .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four)&& new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = project.Id })
+                        .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = project.Id })
                         .FirstOrDefault();
                     var isoStandardsComplianceAggregate = _queryProcessor.FindById<IsoStandardsComplianceChecklist>(project.Id);
-                    
+
                     model.Wp4TemplatePartialViewModel = new WP4TemplatePartialViewModel
                     {
                         WorkpackageStepViewModels = await GetWorkpackageStepViewModels(workspackageFour),
@@ -191,7 +208,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                 }
 
                 var applicableRegulationsQuestionnaireAggregates = _queryProcessor.ExecuteQuery(
-                    new FindApplicableRegulationsQuestionnaireAggregatesByIdsQuery {QuestionnaireIds = questionnaireIds.ToArray()});
+                    new FindApplicableRegulationsQuestionnaireAggregatesByIdsQuery { QuestionnaireIds = questionnaireIds.ToArray() });
                 var reviewQuestionnaireViewModels =
                     applicableRegulationsQuestionnaireAggregates.Select(q =>
                         _reviewQuestionnaireViewModelFactory.Create(q.Questionnaire));
@@ -202,7 +219,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
             {
                 var members = new List<Member>();
                 var projectMemberGroups = project.Members.GroupBy(m => m.UserId);
-                var projectMemberUserProfiles = _queryProcessor.ExecuteQuery(new GetProjectUserProfiles { ProjectId = project.Id});
+                var projectMemberUserProfiles = _queryProcessor.ExecuteQuery(new GetProjectUserProfiles { ProjectId = project.Id });
                 foreach (var userProfile in projectMemberUserProfiles)
                 {
                     var projectMemberGroup = projectMemberGroups.FirstOrDefault(g => g.Key == userProfile.UserId);
@@ -223,11 +240,16 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
             private async Task<List<WorkpackageStepViewModel>> GetWorkpackageStepViewModels<T>(Workpackage<T> workpackage) where T : Workpackage<T>
             {
                 var workpackageStepViewModels = new List<WorkpackageStepViewModel>();
-                
+
                 foreach (var step in workpackage.Steps)
                 {
-                    var workpackageStepView = new WorkpackageStepViewModel {Title = step.Title, Content = await _markdownConverter.GetHtmlAsync(step.Content ?? "")};
-                    
+                    var workpackageStepView = new WorkpackageStepViewModel
+                    {
+                        Id = step.Id,
+                        Title = step.Title,
+                        Content = await _nodeServices.InvokeAsync<string>("./Scripts/backend/ConvertQuillDeltaToHtml.js", step.ContentV2?.Value)
+                    };
+
                     workpackageStepViewModels.Add(workpackageStepView);
                 }
 

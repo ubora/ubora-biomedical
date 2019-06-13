@@ -4,14 +4,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.NodeServices;
 using Ubora.Domain;
 using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.Specifications;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Domain.Projects.Workpackages.Queries;
-using Ubora.Web._Features.Projects._Shared;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Infrastructure;
 using Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments;
@@ -237,7 +235,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         
         [Route("preproduction-document")]
         public IActionResult PreproductionDocument()
-        {
+        { 
             ViewBag.Title = "WP 4: Implementation";
             ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.PreproductionDocuments;

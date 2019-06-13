@@ -10,8 +10,8 @@ RUN sed -i '/jessie-updates/d' /etc/apt/sources.list
 
 # Install packages
 RUN apt-get update --fix-missing \
-  && wget https://github.com/jgm/pandoc/releases/download/2.2.2.1/pandoc-2.2.2.1-1-amd64.deb \
-  && dpkg -i pandoc-2.2.2.1-1-amd64.deb \
+  && wget https://github.com/jgm/pandoc/releases/download/2.7.2/pandoc-2.7.2-1-amd64.deb \
+  && dpkg -i pandoc-2.7.2-1-amd64.deb \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && npm install
