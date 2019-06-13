@@ -79,7 +79,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
                 StepId = model.StepId,
                 NewValue = new QuillDelta(model.ContentQuillDelta)
-            }, Notice.Success("Changes saved"));
+            }, Notice.Success(SuccessTexts.WP4StepEdited));
 
             if (!ModelState.IsValid)
             {
@@ -136,7 +136,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             command.DeviceStructuredInformationId = model.DeviceStructuredInformationId;
             command.WorkpackageType = DeviceStructuredInformationWorkpackageTypes.Four;
             
-            ExecuteUserProjectCommand(command, Notice.Success("WP4HealthTechnologySpecificationsEdited"));
+            ExecuteUserProjectCommand(command, Notice.Success(SuccessTexts.WP4HealthTechnologySpecificationsEdited));
 
             if (!ModelState.IsValid)
             {
@@ -180,7 +180,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             var command = modelMapper.MapToCommand(model);
             command.DeviceStructuredInformationId = model.DeviceStructuredInformationId;
             command.WorkpackageType = DeviceStructuredInformationWorkpackageTypes.Four;
-            ExecuteUserProjectCommand(command , Notice.Success("WP4UserAndEnvironmentEdited"));
+            ExecuteUserProjectCommand(command , Notice.Success(SuccessTexts.WP4UserAndEnvironmentEdited));
 
             if (!ModelState.IsValid)
             {
@@ -204,7 +204,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Authorize(Policy = nameof(Policies.CanUnlockWorkpackages))]
         public IActionResult Unlock()
         {
-            ExecuteUserProjectCommand(new OpenWorkpackageFourCommand(), Notice.Success("Work package unlocked"));
+            ExecuteUserProjectCommand(new OpenWorkpackageFourCommand(), Notice.Success(SuccessTexts.WPUnlocked));
 
             if (!ModelState.IsValid)
             {
