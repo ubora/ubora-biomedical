@@ -98,7 +98,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Authorize(Policy = nameof(Policies.CanUnlockWorkpackages))]
         public IActionResult Unlock()
         {
-            ExecuteUserProjectCommand(new OpenWorkpackageThreeCommand(), Notice.Success("Work package unlocked"));
+            ExecuteUserProjectCommand(new OpenWorkpackageThreeCommand(), Notice.Success(SuccessTexts.WPUnlocked));
 
             if (!ModelState.IsValid)
             {

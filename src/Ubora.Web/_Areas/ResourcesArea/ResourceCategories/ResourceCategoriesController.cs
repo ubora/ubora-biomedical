@@ -48,7 +48,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourceCategories
                 Description = model.Description,
                 MenuPriority = model.MenuPriority,
                 ParentCategoryId = model.ParentCategoryId
-            }, Notice.Success("Resource category created"));
+            }, Notice.Success(SuccessTexts.ResourceCategoryCreated));
 
             if (!ModelState.IsValid)
             {
@@ -109,7 +109,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourceCategories
                 MenuPriority = model.MenuPriority,
                 ParentCategoryId = model.ParentCategoryId,
                 Title = model.Title
-            }, Notice.Success("Resource category edited"));
+            }, Notice.Success(SuccessTexts.ResourceCategoryEdited));
 
             if (!ModelState.IsValid)
             {
@@ -136,7 +136,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourceCategories
             ExecuteUserCommand(new DeleteResourceCategoryCommand
             {
                 ResourceCategoryId = model.ResourceCategoryId
-            }, Notice.Success("Resource category deleted"));
+            }, Notice.Success(SuccessTexts.ResourceCategoryDeleted));
 
             if (!ModelState.IsValid)
             {

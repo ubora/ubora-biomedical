@@ -19,7 +19,7 @@ namespace Ubora.Web {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class SuccessTexts {
@@ -160,6 +160,15 @@ namespace Ubora.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clinical need edited.
+        /// </summary>
+        public static string ClinicalNeedEdited {
+            get {
+                return ResourceManager.GetString("ClinicalNeedEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comment added.
         /// </summary>
         public static string CommentAdded {
@@ -210,6 +219,42 @@ namespace Ubora.Web {
         public static string EmailConfirmed {
             get {
                 return ResourceManager.GetString("EmailConfirmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ISO standard added.
+        /// </summary>
+        public static string IsoStandardAdded {
+            get {
+                return ResourceManager.GetString("IsoStandardAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ISO standard marked as compliant.
+        /// </summary>
+        public static string IsoStandardMarkedAsCompliant {
+            get {
+                return ResourceManager.GetString("IsoStandardMarkedAsCompliant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ISO standard marked as non-compliant.
+        /// </summary>
+        public static string IsoStandardMarkedAsNonCompliant {
+            get {
+                return ResourceManager.GetString("IsoStandardMarkedAsNonCompliant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ISO standard removed.
+        /// </summary>
+        public static string IsoStandardRemoved {
+            get {
+                return ResourceManager.GetString("IsoStandardRemoved", resourceCulture);
             }
         }
         
@@ -439,6 +484,60 @@ namespace Ubora.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resource category created.
+        /// </summary>
+        public static string ResourceCategoryCreated {
+            get {
+                return ResourceManager.GetString("ResourceCategoryCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource category deleted.
+        /// </summary>
+        public static string ResourceCategoryDeleted {
+            get {
+                return ResourceManager.GetString("ResourceCategoryDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource category edited.
+        /// </summary>
+        public static string ResourceCategoryEdited {
+            get {
+                return ResourceManager.GetString("ResourceCategoryEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource page created.
+        /// </summary>
+        public static string ResourcePageCreated {
+            get {
+                return ResourceManager.GetString("ResourcePageCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resoure page deleted.
+        /// </summary>
+        public static string ResourcePageDeleted {
+            get {
+                return ResourceManager.GetString("ResourcePageDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource page edited.
+        /// </summary>
+        public static string ResourcePageEdited {
+            get {
+                return ResourceManager.GetString("ResourcePageEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User deleted.
         /// </summary>
         public static string UserDeleted {
@@ -552,6 +651,42 @@ namespace Ubora.Web {
         public static string WP3UserAndEnvironmentEdited {
             get {
                 return ResourceManager.GetString("WP3UserAndEnvironmentEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes saved.
+        /// </summary>
+        public static string WP4HealthTechnologySpecificationsEdited {
+            get {
+                return ResourceManager.GetString("WP4HealthTechnologySpecificationsEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes saved.
+        /// </summary>
+        public static string WP4StepEdited {
+            get {
+                return ResourceManager.GetString("WP4StepEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes saved.
+        /// </summary>
+        public static string WP4UserAndEnvironmentEdited {
+            get {
+                return ResourceManager.GetString("WP4UserAndEnvironmentEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Work package unlocked.
+        /// </summary>
+        public static string WPUnlocked {
+            get {
+                return ResourceManager.GetString("WPUnlocked", resourceCulture);
             }
         }
     }

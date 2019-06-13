@@ -48,7 +48,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances
                 Title = model.Title,
                 ShortDescription = model.ShortDescription,
                 Link = new Uri(model.Link)
-            }, Notice.Success("ISO standard added"));
+            }, Notice.Success(SuccessTexts.IsoStandardAdded));
 
             if (!ModelState.IsValid)
             {
@@ -71,7 +71,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances
                 return Index();
             }
 
-            ExecuteUserProjectCommand(model, Notice.Success("ISO standard removed"));
+            ExecuteUserProjectCommand(model, Notice.Success(SuccessTexts.IsoStandardRemoved));
 
             if (!ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances
                 return Index();
             }
 
-            ExecuteUserProjectCommand(model, Notice.Success("ISO standard marked as compliant"));
+            ExecuteUserProjectCommand(model, Notice.Success(SuccessTexts.IsoStandardMarkedAsCompliant));
 
             if (!ModelState.IsValid)
             {
@@ -107,7 +107,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances
                 return Index();
             }
 
-            ExecuteUserProjectCommand(model, Notice.Success("ISO standard marked as non-compliant"));
+            ExecuteUserProjectCommand(model, Notice.Success(SuccessTexts.IsoStandardMarkedAsNonCompliant));
 
             if (!ModelState.IsValid)
             {

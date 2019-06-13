@@ -150,6 +150,9 @@
   <data name="CandidateVoteAdded" xml:space="preserve">
     <value>Vote added</value>
   </data>
+  <data name="ClinicalNeedEdited" xml:space="preserve">
+    <value>Clinical need edited</value>
+  </data>
   <data name="CommentAdded" xml:space="preserve">
     <value>Comment added</value>
   </data>
@@ -167,6 +170,18 @@
   </data>
   <data name="EmailConfirmed" xml:space="preserve">
     <value>Email confirmed successfully</value>
+  </data>
+  <data name="IsoStandardAdded" xml:space="preserve">
+    <value>ISO standard added</value>
+  </data>
+  <data name="IsoStandardMarkedAsCompliant" xml:space="preserve">
+    <value>ISO standard marked as compliant</value>
+  </data>
+  <data name="IsoStandardMarkedAsNonCompliant" xml:space="preserve">
+    <value>ISO standard marked as non-compliant</value>
+  </data>
+  <data name="IsoStandardRemoved" xml:space="preserve">
+    <value>ISO standard removed</value>
   </data>
   <data name="LeftFromProject" xml:space="preserve">
     <value>Left project successfully</value>
@@ -243,6 +258,24 @@
   <data name="RequestToJoinProjectSent" xml:space="preserve">
     <value>Request sent</value>
   </data>
+  <data name="ResourceCategoryCreated" xml:space="preserve">
+    <value>Resource category created</value>
+  </data>
+  <data name="ResourceCategoryDeleted" xml:space="preserve">
+    <value>Resource category deleted</value>
+  </data>
+  <data name="ResourceCategoryEdited" xml:space="preserve">
+    <value>Resource category edited</value>
+  </data>
+  <data name="ResourcePageCreated" xml:space="preserve">
+    <value>Resource page created</value>
+  </data>
+  <data name="ResourcePageDeleted" xml:space="preserve">
+    <value>Resoure page deleted</value>
+  </data>
+  <data name="ResourcePageEdited" xml:space="preserve">
+    <value>Resource page edited</value>
+  </data>
   <data name="UserDeleted" xml:space="preserve">
     <value>User deleted</value>
   </data>
@@ -281,5 +314,17 @@
   </data>
   <data name="WP3UserAndEnvironmentEdited" xml:space="preserve">
     <value>Changes saved</value>
+  </data>
+  <data name="WP4HealthTechnologySpecificationsEdited" xml:space="preserve">
+    <value>Changes saved</value>
+  </data>
+  <data name="WP4StepEdited" xml:space="preserve">
+    <value>Changes saved</value>
+  </data>
+  <data name="WP4UserAndEnvironmentEdited" xml:space="preserve">
+    <value>Changes saved</value>
+  </data>
+  <data name="WPUnlocked" xml:space="preserve">
+    <value>Work package unlocked</value>
   </data>
 </root>
