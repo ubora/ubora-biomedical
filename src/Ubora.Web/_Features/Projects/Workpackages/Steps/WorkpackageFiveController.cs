@@ -62,7 +62,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Authorize(Policy = nameof(Policies.CanUnlockWorkpackages))]
         public IActionResult Unlock()
         {
-            ExecuteUserProjectCommand(new OpenWorkpackageFiveCommand(), Notice.Success("Work package unlocked"));
+            ExecuteUserProjectCommand(new OpenWorkpackageFiveCommand(), Notice.Success(SuccessTexts.WPUnlocked));
 
             if (!ModelState.IsValid)
             {
@@ -109,7 +109,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
                 StepId = model.StepId,
                 NewValue = new QuillDelta(model.ContentQuillDelta)
-            }, Notice.Success("Changes saved"));
+            }, Notice.Success(SuccessTexts.WP5StepEdited));
 
             if (!ModelState.IsValid)
             {
@@ -167,7 +167,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 PotentialClientsAndUsersAndChannelsDescription = new QuillDelta(model.PotentialClientsAndUsersAndChannelsDescriptionQuillDelta),
                 RelevantDocumentationForProductionAndUseDescription = new QuillDelta(model.RelevantDocumentationForProductionAndUseDescriptionQuillDelta),
                 AnalysisOfCostsAndProductionAndSupplyChainAndServicesToClientsDescription = new QuillDelta(model.AnalysisOfCostsAndProductionAndSupplyChainAndServicesToClientsDescriptionQuillDelta),
-            }, Notice.Success("Business model canvas edited"));
+            }, Notice.Success(SuccessTexts.WP5BusinessModelCanvasEdited));
 
             if (!ModelState.IsValid)
             {

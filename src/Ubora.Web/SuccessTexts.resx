@@ -324,6 +324,21 @@
   <data name="WP4UserAndEnvironmentEdited" xml:space="preserve">
     <value>Changes saved</value>
   </data>
+  <data name="WP5BusinessModelCanvasEdited" xml:space="preserve">
+    <value>Business model canvas edited</value>
+  </data>
+  <data name="WP5CommercialDossierEdited" xml:space="preserve">
+    <value>Changes saved</value>
+  </data>
+  <data name="WP5LicenseEdited" xml:space="preserve">
+    <value>License has been changed</value>
+  </data>
+  <data name="WP5StepEdited" xml:space="preserve">
+    <value>Changes saved</value>
+  </data>
+  <data name="WP6StepEdited" xml:space="preserve">
+    <value>Changes saved</value>
+  </data>
   <data name="WPUnlocked" xml:space="preserve">
     <value>Work package unlocked</value>
   </data>

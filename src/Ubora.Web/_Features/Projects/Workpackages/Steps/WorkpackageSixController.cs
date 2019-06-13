@@ -56,7 +56,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Authorize(Policy = nameof(Policies.CanUnlockWorkpackages))]
         public IActionResult Unlock()
         {
-            ExecuteUserProjectCommand(new OpenWorkpackageSixCommand(), Notice.Success("Work package unlocked"));
+            ExecuteUserProjectCommand(new OpenWorkpackageSixCommand(), Notice.Success(SuccessTexts.WPUnlocked));
 
             if (!ModelState.IsValid)
             {
@@ -101,7 +101,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
                 StepId = model.StepId,
                 NewValue = new QuillDelta(model.ContentQuillDelta)
-            }, Notice.Success("Changes saved"));
+            }, Notice.Success(SuccessTexts.WP6StepEdited));
 
             if (!ModelState.IsValid)
             {

@@ -71,7 +71,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
                 ShareAlike = model.ShareAlike,
                 UboraLicense = model.IsUboraLicense,
                 NonCommercial = model.NonCommercial 
-            }, Notice.Success("Successfully edited"));
+            }, Notice.Success(SuccessTexts.WP5LicenseEdited));
 
             if (!ModelState.IsValid) 
             {
@@ -126,7 +126,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
                 }
             }
 
-            ExecuteUserProjectCommand(command, Notice.Success("Successfully edited"));
+            ExecuteUserProjectCommand(command, Notice.Success(SuccessTexts.WP5CommercialDossierEdited));
 
             if (!ModelState.IsValid) 
             {
