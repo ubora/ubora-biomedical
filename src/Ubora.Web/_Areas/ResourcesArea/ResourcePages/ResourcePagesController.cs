@@ -155,7 +155,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
                     MenuPriority = model.MenuPriority,
                     ParentCategoryId = model.ParentCategoryId
                 },
-                successNotice: Notice.Success("Resource edited"));
+                successNotice: Notice.Success(SuccessTexts.ResourcePageEdited));
 
             if (!ModelState.IsValid)
                 return await Edit(modelFactory);
@@ -177,7 +177,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePages
             ExecuteUserCommand(new DeleteResourcePageCommand
             {
                 ResourcePageId = ResourcePage.Id
-            }, Notice.Success("Resource page deleted"));
+            }, Notice.Success(SuccessTexts.ResourcePageDeleted));
 
             if (!ModelState.IsValid)
                 return await Edit(modelFactory);
