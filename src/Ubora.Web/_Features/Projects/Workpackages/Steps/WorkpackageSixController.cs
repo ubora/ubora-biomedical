@@ -29,8 +29,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             base.OnActionExecuting(context);
 
-            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
-            ViewData["Title"] = "WP 6: Project closure";
+            ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(PageTitle)] = "WP 6: Project closure";
         }
 
         [HttpGet("")]

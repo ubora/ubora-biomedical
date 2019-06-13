@@ -37,7 +37,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
             CommercialDossier = QueryProcessor.FindById<CommercialDossier>(ProjectId);
             IntellectualProperty = QueryProcessor.FindById<IntellectualProperty>(ProjectId);
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.CommercialDocumentation;
-            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
         }
 
         [HttpGet("")]

@@ -31,8 +31,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             base.OnActionExecuting(context);
 
-            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
-            ViewData["Title"] = "WP 5: Operation";
+            ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(PageTitle)] = "WP 5: Operation";
         }
 
         [HttpGet("")]

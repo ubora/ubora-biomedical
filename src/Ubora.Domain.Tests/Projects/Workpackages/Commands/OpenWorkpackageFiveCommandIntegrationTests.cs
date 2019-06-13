@@ -77,7 +77,6 @@ namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
             {
                 intellectualProperty.Should().NotBeNull();
                 intellectualProperty.ProjectId.Should().Be(project.Id);
-                intellectualProperty.ProjectId.Should().Be(project.Id);
             }
         }
     }

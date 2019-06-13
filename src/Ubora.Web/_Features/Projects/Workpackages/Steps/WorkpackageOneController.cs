@@ -22,8 +22,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
-            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
-            ViewData["Title"] = "WP 1: Medical need and product specification";
+            ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(PageTitle)] = "WP 1: Medical need and product specification";
         }
 
         [Route(nameof(ProjectOverview))]
