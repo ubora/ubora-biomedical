@@ -1,16 +1,12 @@
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain;
-using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Projects.CommercialDossiers;
 using Ubora.Domain.Projects.CommercialDossiers.Commands;
 using Ubora.Domain.Projects.IntellectualProperties;
 using Ubora.Web._Features._Shared.Notices;
-using Ubora.Web._Features.Projects._Shared;
-using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.Storage;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentations
@@ -21,13 +17,23 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
         public const string Name = "CommercialDocumentations";
         
         private readonly IUboraStorageProvider _storageProvider;
+        private readonly CommercialDossierViewModel.Factory _commercialDossierViewModelFactory;
+        private readonly CommercialDossierViewModel.Helper _commercialDossierViewModelHelper;
+        private readonly IntellectualPropertyViewModel.Factory _intellectualPropertyViewModelFactory;
 
         public CommercialDossier CommercialDossier { get; private set; }
         public IntellectualProperty IntellectualProperty { get; private set; }
 
-        public CommercialDocumentationsController(IUboraStorageProvider storageProvider) 
+        public CommercialDocumentationsController(
+            IUboraStorageProvider storageProvider,
+            CommercialDossierViewModel.Factory commercialDossierViewModelFactory,
+            CommercialDossierViewModel.Helper commercialDossierViewModelHelper,
+            IntellectualPropertyViewModel.Factory intellectualPropertyViewModelFactory) 
         {
             _storageProvider = storageProvider;
+            _commercialDossierViewModelFactory = commercialDossierViewModelFactory;
+            _commercialDossierViewModelHelper = commercialDossierViewModelHelper;
+            _intellectualPropertyViewModelFactory = intellectualPropertyViewModelFactory;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -43,17 +49,19 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
         [HttpGet("")]
         public async Task<IActionResult> Index() 
         {
-            return View("CommercialDocumentation", new CommercialDocumentationViewModel 
+            var model = new CommercialDocumentationViewModel
             {
-                CommercialDossier = await MapToViewModel(CommercialDossier),
-                IntellectualProperty = MapToViewModel(IntellectualProperty)
-            });
+                CommercialDossier = await _commercialDossierViewModelFactory.Create(CommercialDossier),
+                IntellectualProperty = _intellectualPropertyViewModelFactory.Create(IntellectualProperty)
+            };
+            return View("CommercialDocumentation", model);
         }
 
         [HttpGet("EditIntellectualProperty")]
         public IActionResult EditIntellectualProperty() 
         {
-            return View(MapToViewModel(IntellectualProperty)); 
+            var model = _intellectualPropertyViewModelFactory.Create(IntellectualProperty);
+            return View(model); 
         }
 
         [HttpPost("EditIntellectualProperty")]
@@ -66,11 +74,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
 
             ExecuteUserProjectCommand(new EditLicenseCommand 
             {
-                Attribution = model.Attribution,
-                NoDerivativeWorks = model.NoDerivativeWorks,
-                ShareAlike = model.ShareAlike,
-                UboraLicense = model.IsUboraLicense,
-                NonCommercial = model.NonCommercial 
+                Attribution = model.Attribution && model.IsCreativeCommonsLicense,
+                NoDerivativeWorks = model.NoDerivativeWorks && model.IsCreativeCommonsLicense,
+                ShareAlike = model.ShareAlike && model.IsCreativeCommonsLicense,
+                NonCommercial = model.NonCommercial && model.IsCreativeCommonsLicense,
+                UboraLicense = model.IsUboraLicense
             }, Notice.Success(SuccessTexts.WP5LicenseEdited));
 
             if (!ModelState.IsValid) 
@@ -84,51 +92,28 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
         [HttpGet("EditCommercialDossier")]
         public async Task<IActionResult> EditCommercialDossier() 
         {
-            CommercialDossierViewModel model = await MapToViewModel(CommercialDossier);
+            var model = await _commercialDossierViewModelFactory.Create(CommercialDossier);
             return View(model);
         }
 
         [HttpPost("EditCommercialDossier")]
-        public async Task<IActionResult> EditCommercialDossier(CommercialDossierViewModel model) 
+        public async Task<IActionResult> EditCommercialDossier(CommercialDossierViewModel model)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 return await EditCommercialDossier();
             }
 
-            EditCommercialDossierCommand command = new EditCommercialDossierCommand
+            ExecuteUserProjectCommand(new EditCommercialDossierCommand
             {
                 CommercialName = model.CommercialName ?? "",
                 ProductName = model.ProductName ?? "",
                 Description = new QuillDelta(model.DescriptionQuillDelta),
-                LogoLocation = await GetLogoBlobLocation(model.Logo) ?? (model.HasOldLogoBeenDeleted ? null : CommercialDossier.Logo)
-            };
+                LogoLocation = await _commercialDossierViewModelHelper.GetLogoBlobLocation(model, ProjectId, CommercialDossier.Logo),
+                UserManualInfo = await _commercialDossierViewModelHelper.GetUserManualInfo(model, ProjectId, CommercialDossier.UserManual)
+            }, Notice.Success(SuccessTexts.WP5CommercialDossierEdited));
 
-            
-            if (model.UserManual != null) 
-            {
-                BlobLocation blobLocation;
-                using (var userManualStream = model.UserManual.OpenReadStream())
-                {
-                    blobLocation = BlobLocations.GetCommercialDossierBlobLocation(ProjectId, model.UserManual.GetFileName());
-                    await _storageProvider.SavePrivate(blobLocation, userManualStream);
-                }
-                command.UserManualLocation = blobLocation;
-                command.UserManualFileName = model.UserManual.GetFileName();
-                command.UserManualFileSize = model.UserManual.Length;
-            } else 
-            {
-                if (!model.HasOldUserManualBeenRemoved) 
-                {
-                    command.UserManualLocation = CommercialDossier.UserManual?.Location;
-                    command.UserManualFileName = CommercialDossier.UserManual?.FileName;
-                    command.UserManualFileSize = CommercialDossier.UserManual?.FileSize ?? 0;  
-                }
-            }
-
-            ExecuteUserProjectCommand(command, Notice.Success(SuccessTexts.WP5CommercialDossierEdited));
-
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 return await EditCommercialDossier();
             }
@@ -140,64 +125,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
         public IActionResult DownloadUserManual() 
         {
             var blobSasUrl = _storageProvider.GetReadUrl(CommercialDossier.UserManual.Location, DateTime.UtcNow.AddSeconds(5));
-
             return Redirect(blobSasUrl);
-        }
-
-        private async Task<BlobLocation> GetLogoBlobLocation(IFormFile logoFormFile)
-        {
-            if (logoFormFile == null) 
-            {
-                return null;
-            }
-
-            using (var imageStream = logoFormFile.OpenReadStream())
-            {
-                var blobLocation = BlobLocations.GetCommercialDossierBlobLocation(ProjectId, logoFormFile.GetFileName());
-                await _storageProvider.SavePrivate(blobLocation, imageStream);
-                return blobLocation;
-            }
-        }
-
-        private IntellectualPropertyViewModel MapToViewModel(IntellectualProperty intellectualProperty) 
-        {
-            switch (IntellectualProperty.License) 
-            {
-                case CreativeCommonsLicense creativeCommonsLicense:
-                    return new IntellectualPropertyViewModel
-                    {
-                        License = LicenseType.CreativeCommons,
-                        Attribution = creativeCommonsLicense.Attribution,
-                        NonCommercial = creativeCommonsLicense.NonCommercial,
-                        ShareAlike = creativeCommonsLicense.ShareAlike,
-                        NoDerivativeWorks = creativeCommonsLicense.NoDerivativeWorks,
-                    };
-                case UboraLicense uboraLicense:
-                    return new IntellectualPropertyViewModel
-                    {
-                        License = LicenseType.Ubora,
-                        IsUboraLicense = true
-                    };
-                default:
-                    return new IntellectualPropertyViewModel 
-                    {
-                        License = LicenseType.None
-                    };
-            }
-        }
-        
-        private async Task<CommercialDossierViewModel> MapToViewModel(CommercialDossier commercialDossier) 
-        { 
-            return new CommercialDossierViewModel 
-            {
-                ProductName = commercialDossier.ProductName,
-                CommercialName = commercialDossier.CommercialName,
-                DescriptionHtml = await ConvertQuillDeltaToHtml(commercialDossier.Description),
-                DescriptionQuillDelta = await SanitizeQuillDeltaForEditing(commercialDossier.Description),
-                DoesDescriptionHaveContent = commercialDossier.Description != new QuillDelta(),
-                LogoUrl = commercialDossier.Logo != null ? _storageProvider.GetReadUrl(commercialDossier.Logo, DateTime.UtcNow.AddSeconds(10)) : null,
-                UserManualName = commercialDossier.UserManual?.FileName
-            };
         }
     }
 }

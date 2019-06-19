@@ -33,9 +33,7 @@ namespace Ubora.Domain.Tests.Projects.CommercialDossiers
                 CommercialName = "commercialName",
                 Description = description,
                 LogoLocation = logo,
-                UserManualLocation = userManualLocation,
-                UserManualFileName = "userManualFileName",
-                UserManualFileSize = 111
+                UserManualInfo = (userManualLocation, "userManualFileName", 111)
             };
 
             // Act
@@ -85,7 +83,7 @@ namespace Ubora.Domain.Tests.Projects.CommercialDossiers
                 Description = commercialDossier.Description,
                 LogoLocation = commercialDossier.Logo,
                 ProductName = commercialDossier.ProductName,
-                UserManualLocation = commercialDossier.UserManual?.Location
+                UserManualInfo = (commercialDossier.UserManual?.Location, commercialDossier.UserManual?.FileName, commercialDossier.UserManual?.FileSize ?? 0)
             };
 
             // Act

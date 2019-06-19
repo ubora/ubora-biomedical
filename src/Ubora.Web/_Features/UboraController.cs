@@ -11,10 +11,10 @@ using Ubora.Web._Features.Home;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.NodeServices;
 using Ubora.Domain;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features._Shared.Notices;
+using Ubora.Web.Infrastructure;
 
 // ReSharper disable ArrangeAccessorOwnerBody
 
@@ -85,16 +85,14 @@ namespace Ubora.Web._Features
 
         protected async Task<string> ConvertQuillDeltaToHtml(QuillDelta quillDelta)
         {
-            var nodeServices = ServiceLocator.GetService<INodeServices>();
-
-            return await nodeServices.InvokeAsync<string>("./Scripts/backend/ConvertQuillDeltaToHtml.js", quillDelta?.Value);
+            return await ServiceLocator.GetRequiredService<QuillDeltaTransformer>()
+                .ConvertQuillDeltaToHtml(quillDelta);
         }
 
         protected async Task<string> SanitizeQuillDeltaForEditing(QuillDelta quillDelta)
         {
-            var nodeServices = ServiceLocator.GetService<INodeServices>();
-
-            return await nodeServices.InvokeAsync<string>("./Scripts/backend/SanitizeQuillDelta.js", quillDelta?.Value ?? new QuillDelta().Value);
+            return await ServiceLocator.GetRequiredService<QuillDeltaTransformer>()
+                .SanitizeQuillDeltaForEditing(quillDelta);
         }
 
         protected IActionResult RedirectToLocal(string returnUrl)

@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.NodeServices;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Web.Tests.Helper;
+using Ubora.Web.Infrastructure;
 
 namespace Ubora.Web.Tests._Features
 {
@@ -38,6 +39,9 @@ namespace Ubora.Web.Tests._Features
 
         public Mock<INodeServices> NodeServicesMock { get; private set; } =
             new Mock<INodeServices>();
+
+        public Mock<QuillDeltaTransformer> QuillDeltaTransformerMock { get; private set; } =
+            new Mock<QuillDeltaTransformer>();
 
         protected UboraControllerTestsBase()
         {
@@ -69,6 +73,9 @@ namespace Ubora.Web.Tests._Features
 
             serviceProviderMock.Setup(x => x.GetService(typeof(INodeServices)))
                 .Returns(NodeServicesMock.Object);
+
+            serviceProviderMock.Setup(x => x.GetService(typeof(QuillDeltaTransformer)))
+                .Returns(QuillDeltaTransformerMock.Object);
 
             // Stub ASP.NET MVC services
             serviceProviderMock.Setup(x => x.GetService(typeof(IUrlHelperFactory)))
