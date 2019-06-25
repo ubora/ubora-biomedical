@@ -18,7 +18,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
         
         private readonly IUboraStorageProvider _storageProvider;
         private readonly CommercialDossierViewModel.Factory _commercialDossierViewModelFactory;
-        private readonly CommercialDossierViewModel.Helper _commercialDossierViewModelHelper;
+        private readonly CommercialDossierPostModel.Helper _commercialDossierViewModelHelper;
         private readonly IntellectualPropertyViewModel.Factory _intellectualPropertyViewModelFactory;
 
         public CommercialDossier CommercialDossier { get; private set; }
@@ -27,7 +27,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
         public CommercialDocumentationsController(
             IUboraStorageProvider storageProvider,
             CommercialDossierViewModel.Factory commercialDossierViewModelFactory,
-            CommercialDossierViewModel.Helper commercialDossierViewModelHelper,
+            CommercialDossierPostModel.Helper commercialDossierViewModelHelper,
             IntellectualPropertyViewModel.Factory intellectualPropertyViewModelFactory) 
         {
             _storageProvider = storageProvider;
@@ -97,7 +97,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentatio
         }
 
         [HttpPost("EditCommercialDossier")]
-        public async Task<IActionResult> EditCommercialDossier(CommercialDossierViewModel model)
+        public async Task<IActionResult> EditCommercialDossier(CommercialDossierPostModel model)
         {
             if (!ModelState.IsValid)
             {
