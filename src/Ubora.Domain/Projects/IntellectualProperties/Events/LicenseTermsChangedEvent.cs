@@ -35,9 +35,6 @@ namespace Ubora.Domain.Projects.IntellectualProperties.Events
         public CreativeCommonsLicense CreativeCommonsLicense { get; }
         public UboraLicense UboraLicense { get; }
 
-        public override string GetDescription()
-        {
-            throw new NotImplementedException();
-        }
+        public override string GetDescription() => "changed license terms.";
     }
 }
