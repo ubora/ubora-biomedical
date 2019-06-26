@@ -12,7 +12,6 @@ using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features._Shared.Notices;
-using Ubora.Web._Features.Projects._Shared;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
