@@ -259,7 +259,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             var view = _viewRender.Render("/_Features/Projects/Workpackages/Steps/PreproductionDocuments/", "PreproductionDocumentTemplate.cshtml", preproductionDocumentTemplateViewModel);
             var documentStream = await _wordProcessingDocumentConverter.GetDocumentStreamAsync(view);
             
-            return File(documentStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", $"Preproduction_document_{DateTime.UtcNow.Date}.docx");
+            return File(documentStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", $"Preproduction_document_{DateTime.UtcNow}.docx");
         }
     }
 }
