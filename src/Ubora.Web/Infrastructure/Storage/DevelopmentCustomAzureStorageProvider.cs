@@ -6,15 +6,24 @@ namespace Ubora.Web.Infrastructure.Storage
 {
     public class CustomDevelopmentAzureStorageProvider : CustomAzureStorageProvider
     {
-        public CustomDevelopmentAzureStorageProvider(AzureProviderOptions options, AzureStorageProvider azureStorageProvider) : base(options, azureStorageProvider)
+        private readonly string _linkLocalIpAddress;
+        
+        public CustomDevelopmentAzureStorageProvider(AzureProviderOptions options, AzureStorageProvider azureStorageProvider, string linkLocalIpAddress) : base(options, azureStorageProvider)
         {
+            _linkLocalIpAddress = linkLocalIpAddress;
         }
 
         public override string GetBlobUrl(string containerName, string blobName)
         {
             var blobUrl = base.GetBlobUrl(containerName, blobName);
-
-            return blobUrl.Replace("http://azurite:10000/devstoreaccount1", "http://localhost:32500/devstoreaccount1");
+            
+            var isLinked = !String.IsNullOrEmpty(_linkLocalIpAddress);
+            if (isLinked)
+            {
+                return blobUrl.Replace("http://127.0.0.1:32500/devstoreaccount1", $"http://{_linkLocalIpAddress}:32500/devstoreaccount1"); 
+            }
+            
+            return blobUrl.Replace("http://azurite:10000/devstoreaccount1", "http://localhost:32500/devstoreaccount1"); 
         }
 
         // For development because azurite does not support this yet!

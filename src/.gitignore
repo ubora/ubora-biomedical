@@ -267,3 +267,5 @@ bower_components
 
 # JetBrains Rider
 .idea/
+
+package-lock.json
