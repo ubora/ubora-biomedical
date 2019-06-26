@@ -170,6 +170,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "ProductionDocumentation", "Production documentation", href: Wp5StepLink("ProductionDocumentation")),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, WorkpackageMenuOption.CommercialDocumentation, "Commercial documentation", href: _urlHelper.Action(nameof(CommercialDocumentationsController.Index), CommercialDocumentationsController.Name)),
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, WorkpackageMenuOption.BusinessModelCanvas, "Business model canvas", href: _urlHelper.Action(nameof(WorkpackageFiveController.BusinessModelCanvas), WorkpackageFiveController.Name)),
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, WorkpackageMenuOption.AgreeToTermsOfUbora, "Agree to terms of Ubora", href: _urlHelper.Action(nameof(WorkpackageFiveController.AgreeToTermsOfUbora), WorkpackageFiveController.Name)),
                     }).SetStatus(workpackageStatus);
                 }
 

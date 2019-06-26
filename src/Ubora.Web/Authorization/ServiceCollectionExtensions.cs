@@ -240,6 +240,11 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.Requirements.Add(new IsClinicalNeedIndicatorRequirement());
                 });
+
+                options.AddPolicy(Policies.CanChangeAgreementToTermsOfUbora, policyBuilder =>
+                {
+                    policyBuilder.Requirements.Add(new IsProjectLeaderRequirement());
+                });
             });
         }
     }

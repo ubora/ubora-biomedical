@@ -682,6 +682,15 @@ namespace Ubora.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Agreement to terms of UBORA changed.
+        /// </summary>
+        public static string WP5AgreementToTermsOfUboraChanged {
+            get {
+                return ResourceManager.GetString("WP5AgreementToTermsOfUboraChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Business model canvas edited.
         /// </summary>
         public static string WP5BusinessModelCanvasEdited {
