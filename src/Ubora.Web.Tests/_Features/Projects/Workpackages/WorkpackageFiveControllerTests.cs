@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿﻿using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -60,7 +60,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 };
 
                 // Act
-                var result = (ViewResult)_controller.AgreeToTermsOfUbora(postModel);
+                var result = _controller.AgreeToTermsOfUbora(postModel);
 
                 // Assert
                 executedCommand.IsAgreed.Should().BeTrue();
@@ -76,7 +76,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 };
 
                 // Act
-                var result = (ViewResult)_controller.AgreeToTermsOfUbora(postModel);
+                var result = _controller.AgreeToTermsOfUbora(postModel);
 
                 // Assert
                 executedCommand.IsAgreed.Should().BeFalse();
