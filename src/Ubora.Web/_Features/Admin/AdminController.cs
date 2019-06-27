@@ -15,6 +15,7 @@ using Ubora.Domain.Users.SortSpecifications;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Users;
 using Ubora.Web._Features._Shared.Paging;
+using Ubora.Domain.Users.Specifications;
 
 namespace Ubora.Web._Features.Admin
 {
@@ -42,9 +43,18 @@ namespace Ubora.Web._Features.Admin
         }
 
         [Authorize(Roles = ApplicationRole.Admin)]
-        public virtual async Task<IActionResult> ManageUsers(int page = 1)
+        public virtual async Task<IActionResult> ManageUsers(int page = 1, string searchName = null)
         {
-            var userProfiles = QueryProcessor.Find(new MatchAll<UserProfile>(), new SortByFullNameAscendingSpecification(), 10, page);
+            var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+
+            if (isAjax)
+            {
+                page = 1;
+            }
+
+            var userProfiles = string.IsNullOrWhiteSpace(searchName) ?
+                    QueryProcessor.Find(new MatchAll<UserProfile>(), new SortByFullNameAscendingSpecification(), 10, page)
+                    : QueryProcessor.Find(new UserFullNameContainsPhraseSpec(searchName), new SortByFullNameAscendingSpecification(), 10, page);
 
             IReadOnlyDictionary<Guid, string> userFullNames = userProfiles.Select(userProfile => new
             {
@@ -74,7 +84,8 @@ namespace Ubora.Web._Features.Admin
             var manageUsersViewModel = new ManageUsersViewModel
             {
                 Pager = Pager.From(userProfiles),
-                Items = orderedViewModel
+                Items = orderedViewModel,
+                SearchName = searchName
             };
 
             return View(nameof(ManageUsers), manageUsersViewModel);
@@ -250,6 +261,7 @@ namespace Ubora.Web._Features.Admin
         {
             public Pager Pager { get; set; }
             public List<UserViewModel> Items { get; set; }
+            public string SearchName { get; set; }
         }
 
         private void AddIdentityErrorsToModelState(IdentityResult result)

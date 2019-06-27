@@ -51,7 +51,7 @@ namespace Ubora.Web.Tests._Features.Admin
             // Act
             var result = (RedirectToActionResult)await _controller.AddManagementGroupRole(userId, page);
 
-            //Assert
+            // Assert
             result.ActionName.Should().Be("ManageUsers");
             result.RouteValues.Last().Value.Should().Be(page);
         }
@@ -68,7 +68,7 @@ namespace Ubora.Web.Tests._Features.Admin
 
             var expectedResult = new ViewResult();
             _controllerMock
-                .Setup(c => c.ManageUsers(It.IsAny<int>()))
+                .Setup(c => c.ManageUsers(It.IsAny<int>(), It.IsAny<string>()))
                 .ReturnsAsync(expectedResult);
 
             // Act
@@ -108,7 +108,7 @@ namespace Ubora.Web.Tests._Features.Admin
 
             var expectedResult = new ViewResult();
             _controllerMock
-                .Setup(c => c.ManageUsers(It.IsAny<int>()))
+                .Setup(c => c.ManageUsers(It.IsAny<int>(), It.IsAny<string>()))
                 .ReturnsAsync(expectedResult);
 
             // Act
