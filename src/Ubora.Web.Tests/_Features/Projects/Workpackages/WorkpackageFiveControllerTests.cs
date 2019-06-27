@@ -26,13 +26,13 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         private WorkpackageFive WorkpackageFive { get; set; } = new WorkpackageFive();
 
         [Fact]
-        public void AgreeToTermsOfUbora_Post_Can_Return_Unauthorized()
+        public void AgreeToTermsOfUbora_Post_Returns_Forbid_When_Unauthorized()
         {
             // Act
             var result = _controller.AgreeToTermsOfUbora(new AgreeToTermsOfUboraPostModel());
 
             // Assert
-            result.Should().BeOfType<UnauthorizedResult>();
+            result.Should().BeOfType<ForbidResult>();
         }
 
         [Fact]
