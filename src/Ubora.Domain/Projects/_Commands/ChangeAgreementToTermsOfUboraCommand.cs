@@ -27,6 +27,7 @@ namespace Ubora.Domain.Projects._Commands
                     return CommandResult.Failed("WP5 must be open to change the agreement.");
                 }
 
+                // No need to apply event again when already of correct agreement boolean.
                 if (project.IsAgreedToTermsOfUbora != cmd.IsAgreed)
                 {
                     _documentSession.Events.Append(project.Id, new AgreementWithTermsOfUboraChangedEvent(cmd.Actor, cmd.ProjectId, cmd.IsAgreed));

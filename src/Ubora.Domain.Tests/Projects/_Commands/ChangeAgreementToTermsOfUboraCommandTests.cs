@@ -48,6 +48,7 @@ namespace Ubora.Domain.Tests.Projects._Commands
                 result2.IsSuccess.Should().BeTrue();
                 project = Session.Load<Project>(project.Id);
                 project.IsAgreedToTermsOfUbora.Should().BeTrue();
+                Session.Events.FetchStream(project.Id).Select(x => x.Data).OfType<AgreementWithTermsOfUboraChangedEvent>().ToList().Should().HaveCount(1);
                 var @event = (AgreementWithTermsOfUboraChangedEvent)Session.Events.FetchStream(project.Id).Select(x => x.Data).ToList().Last();
                 @event.InitiatedBy.Should().Be(actor);
             }

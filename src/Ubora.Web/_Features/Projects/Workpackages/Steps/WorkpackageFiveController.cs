@@ -183,7 +183,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             {
                 IsAgreed = Project.IsAgreedToTermsOfUbora
             };
-
             
             return View("AgreeToTermsOfUbora", model);
         }
@@ -193,7 +192,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             if (!AuthorizationService.IsAuthorized(User, Policies.CanChangeAgreementToTermsOfUbora))
             {
-                return Unauthorized();
+                return Forbid();
             }
             
             if (!ModelState.IsValid)
