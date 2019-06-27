@@ -6,58 +6,35 @@
 <head>
     <title>@Model.Title</title>
 </head>
-<p></p>
+
 <h1>Medical tags</h1>
-<p></p>
+
+<dl>
+    <dt>Clinical need</dt>
+    <dd>@Model.ClinicalNeedTag</dd>
+    <dt>Area</dt>
+    <dd>@Model.AreaOfUsageTag</dd>
+    <dt>Technology</dt>
+    <dd>@Model.PotentialTechnologyTag</dd>
+    <dt>Project keywords</dt>
+    <dd>@Model.Keywords</dd>
+    <dt>Device classification</dt>
+    <dd>@Model.DeviceClassification</dd>
+</dl>
+
 <img src="@Model.ImagePath">
-<p>
-    <strong>Clinical need</strong>
-</p>
-<p>@Model.ClinicalNeedTag</p>
-<p></p>
-<p>
-    <strong>Area</strong>
-</p>
-<p>@Model.AreaOfUsageTag</p>
-<p></p>
-<p>
-    <strong>Technology</strong>
-</p>
-<p>@Model.PotentialTechnologyTag</p>
-<p></p>
-<p>
-    <strong>Project keywords</strong>
-</p>
-<p>@Model.Keywords</p>
-<p></p>
-<p>
-    <strong>Device classification</strong>
-</p>
-<p>@Model.DeviceClassification</p>
-<p></p>
 
 <h1>Project description</h1>
-<p></p>
-<p>
-    @Model.ProjectDescription
-</p>
-<p></p>
+@Html.Raw(Model.ProjectDescription)
 
 <h1>Members</h1>
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Role</th>
-    </tr>
+
+<ul>
     @foreach (var member in Model.Members)
     {
-    <tr>
-        <td>@member.FullName</td>
-        <td>@member.Roles</td>
-    </tr>
+        <li>@member.FullName (@member.Roles)</li>
     }
-</table>
-
+</ul>
 
 <h1>Project context</h1>
 
@@ -73,260 +50,205 @@
 <h2>Intended users</h2>
 @Html.Raw(Model.IntendedUsers)
 
-<div>
-    <div>
-        <h1>ISO compliance</h1>
-    </div>
-    <div>
-        @foreach (var isoStandard in Model.IsoCompliance.IsoStandards.Select(x => x.IsoStandard).ToList())
+<h1>ISO compliance</h1>
+@foreach (var isoStandard in Model.IsoCompliance.IsoStandards.Select(x => x.IsoStandard).ToList())
+{
+    if (isoStandard.IsMarkedAsCompliant)
+    {
+        <a href="@isoStandard.Link">@isoStandard.Title</a>
+        @if (!string.IsNullOrWhiteSpace(isoStandard.ShortDescription))
         {
-            if (isoStandard.IsMarkedAsCompliant)
-            {
-                <div>
-                    <div>
-                        <input type="checkbox"/>
-                        <label>
-                            <a href="@isoStandard.Link">@isoStandard.Title</a>
-                        </label>
-                    </div>
-                </div>
-
-                if (!string.IsNullOrWhiteSpace(isoStandard.ShortDescription))
-                {
-                    <p>
-                        @isoStandard.ShortDescription
-                    </p>
-                }
-            }
+            <p>@isoStandard.ShortDescription</p>
         }
-    </div>
-</div>
+    }
+}
 
 <h1>Design and prototyping</h1>
 
 <h2>User and evironment</h2>
 @if (Model.StructuredInformationResult.IsUserAndEnvironmentEdited)
-{    
-    <table>
-        <tbody>
-        <tr>
-            <td>Who is the intended user?</td>
-            <td>
-                @if (!string.IsNullOrEmpty(Model.StructuredInformationResult.UserAndEnvironment.IntendedUser))
-                {
-                    @Model.StructuredInformationResult.UserAndEnvironment.IntendedUser
-                }
-            </td>
-        </tr>
-        <tr>
-            <td>Is training required in addition to the expected skill level of the intended user?</td>
-            <td>@Model.StructuredInformationResult.UserAndEnvironment.IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser.ToYesNo()</td>
-        </tr>
+{
+    <dl>
+        <dt>Who is the intended user?</dt>
+        <dd>
+            @if (!string.IsNullOrEmpty(Model.StructuredInformationResult.UserAndEnvironment.IntendedUser))
+            {
+                @Model.StructuredInformationResult.UserAndEnvironment.IntendedUser
+            }
+        </dd>
+        <dt>Is training required in addition to the expected skill level of the intended user?</dt>
+        <dd>@Model.StructuredInformationResult.UserAndEnvironment.IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser.ToYesNo()</dd>
         @if (Model.StructuredInformationResult.UserAndEnvironment.IsTrainingRequiredInAdditionToExpectedSkillLevelOfIntentedUser)
         {
-            <tr>
-                <th>If training is required, please describe who will deliver the training and the materials and time required for the training.</th>
-                <td>@Model.StructuredInformationResult.UserAndEnvironment.IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining</td>
-            </tr>
+            <dt>If training is required, please describe who will deliver the training and the materials and time required for the training.</dt>
+            <dd>@Model.StructuredInformationResult.UserAndEnvironment.IfTrainingIsRequiredPleaseDescribeWhoWillDeliverTrainingAndMaterialsAndTimeRequiredForTraining</dd>
         }
-        <tr>
-            <td>Is any maintenance or calibration required by the user at the time of use?</td>
-            <td>@Model.StructuredInformationResult.UserAndEnvironment.IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse.ToYesNo()</td>
-        </tr>
+        <dt>Is any maintenance or calibration required by the user at the time of use?</dt>
+        <dd>@Model.StructuredInformationResult.UserAndEnvironment.IsAnyMaintenanceOrCalibrationRequiredByUserAtTimeOfUse.ToYesNo()</dd>
 
-        <tr>
-            <td>Where will the technology be used?</td>
-            <td>
-                @if (Model.StructuredInformationResult.UserAndEnvironment.WhereWillTechnologyBeUsed.GetResult().Any())
-                {
-                    @string.Join(", ", Model.StructuredInformationResult.UserAndEnvironment.WhereWillTechnologyBeUsed.GetResult())
-                }
-            </td>
-        </tr>
-        </tbody>
-    </table>
+        <dt>Where will the technology be used?</dt>
+        <dd>
+            @if (Model.StructuredInformationResult.UserAndEnvironment.WhereWillTechnologyBeUsed.GetResult().Any())
+            {
+                @string.Join(", ", Model.StructuredInformationResult.UserAndEnvironment.WhereWillTechnologyBeUsed.GetResult())
+            }
+        </dd>
+    </dl>
 }
-
-<div style="page-break-before: always;"></div>
 
 <h2>Health technology specifications</h2>
 @if (Model.StructuredInformationResult.IsHealthTechnologySpecificationEdited)
-{    
-    <table>
-        <tbody>
-        <tr>
-            <th>Dimensions (mm<sup>3</sup>)</th>
-            <td>
-                @if (Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceMeasurementsViewModel.IsAllDimensionsSet)
-                {
-                    @Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsLength
-                    <span>mm x</span>
-                    @Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsWidth
-                    <span>mm x</span>
-                    @Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsHeight
-                    <span>mm</span>
-                }
-            </td>
-        </tr>
-        <tr>
-            <th>Weight (kg)</th>
-            <td>
-                @if (Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceMeasurementsViewModel.WeightInKilograms != 0)
-                {
-                    @(Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceMeasurementsViewModel.WeightInKilograms)
-                    <span>kg</span>
-                }
-            </td>
-        </tr>
-        <tr>
-            <th>Does it require the use of consumables? For example, disposable batteries, disposable electrodes, etc.</th>
-            @if (Model.StructuredInformationResult.HealthTechnologySpecifications.DoesItRequireUseOfConsumables == true)
+{
+    <dl>
+        <dt>Dimensions (mm<sup>3</sup>)</dt>
+        <dd>
+            @if (Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceMeasurementsViewModel.IsAllDimensionsSet)
             {
-                <td>Yes. @Model.StructuredInformationResult.HealthTechnologySpecifications.IfRequiresConsumablesListConsumables</td>
+                <text>@Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsLength mm x</text>
+                <text>@Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsWidth mm x</text>
+                <text>@Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceMeasurementsViewModel.DimensionsHeight mm</text>
             }
-            else
+        </dd>
+
+        <dt>Weight (kg)</dt>
+        <dd>
+            @if (Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceMeasurementsViewModel.WeightInKilograms != 0)
             {
-                <td>@Model.StructuredInformationResult.HealthTechnologySpecifications.DoesItRequireUseOfConsumables?.ToYesNo()</td>
+                <text>@Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceMeasurementsViewModel.WeightInKilograms kg</text>
             }
-        </tr>
-        <tr>
-            <th>Estimated life time</th>
-            <td>
-                @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedLifeTimeInDays != 0)
-                {
-                    @Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedLifeTimeInDays
-                    <span>Days</span>
-                }
-                @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedLifeTimeInMonths != 0)
-                {
-                    @Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedLifeTimeInMonths
-                    <span>Months</span>
-                }
-                @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedLifeTimeInYears != 0)
-                {
-                    @Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedLifeTimeInYears
-                    <span>Years</span>
-                }
-            </td>
-        </tr>
-        <tr>
-            <th>Estimated shelf life</th>
-            <td>
-                @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedShelfLifeInDays != 0)
-                {
-                    @Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedShelfLifeInDays
-                    <span>Days</span>
-                }
-                @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedShelfLifeInMonths != 0)
-                {
-                    @Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedShelfLifeInMonths
-                    <span>Months</span>
-                }
-                @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedShelfLifeInYears != 0)
-                {
-                    @Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedShelfLifeInYears
-                    <span>Years</span>
-                }
-            </td>
-        </tr>
-        <tr>
-            <th>Can it have a telemedicine or eHealth application?</th>
-            <td>@Model.StructuredInformationResult.HealthTechnologySpecifications.CanItHaveATelemedicineOrEHealthApplication.ToYesNo()</td>
-        </tr>
-        <tr>
-            <th>Does it use any kind of software?</th>
-            <td>@Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.DoesItUseAnyKindOfSoftware.ToYesNo()</td>
-        </tr>
+        </dd>
+
+
+        <dt>Does it require the use of consumables? For example, disposable batteries, disposable electrodes, etc.</dt>
+        @if (Model.StructuredInformationResult.HealthTechnologySpecifications.DoesItRequireUseOfConsumables == true)
+        {
+            <dd>Yes. @Model.StructuredInformationResult.HealthTechnologySpecifications.IfRequiresConsumablesListConsumables</dd>
+        }
+        else
+        {
+            <dd>@Model.StructuredInformationResult.HealthTechnologySpecifications.DoesItRequireUseOfConsumables?.ToYesNo()</dd>
+        }
+
+        <dt>Estimated life time</dt>
+        <dd>
+            @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedLifeTimeInDays != 0)
+            {
+                <text>@Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedLifeTimeInDays Days</text>
+            }
+            @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedLifeTimeInMonths != 0)
+            {
+                <text>@Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedLifeTimeInMonths Months</text>
+            }
+            @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedLifeTimeInYears != 0)
+            {
+                <text>@Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedLifeTimeInYears Years</text>
+            }
+        </dd>
+
+        <dt>Estimated shelf life</dt>
+        <dd>
+            @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedShelfLifeInDays != 0)
+            {
+                <text>@Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedShelfLifeInDays Days</text>
+            }
+            @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedShelfLifeInMonths != 0)
+            {
+                <text>@Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedShelfLifeInMonths Months</text>
+            }
+            @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedShelfLifeInYears != 0)
+            {
+                <text>@Model.StructuredInformationResult.HealthTechnologySpecifications.EstimatedShelfLifeInYears Years</text>
+            }
+        </dd>
+
+        <dt>Can it have a telemedicine or eHealth application?</dt>
+        <dd>@Model.StructuredInformationResult.HealthTechnologySpecifications.CanItHaveATelemedicineOrEHealthApplication.ToYesNo()</dd>
+
+        <dt>Does it use any kind of software?</dt>
+        <dd>@Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.DoesItUseAnyKindOfSoftware.ToYesNo()</dd>
+
         @if (Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.DoesItUseAnyKindOfSoftware)
         {
-            <tr>
-                <th>If yes, please describe the software, whether it is open source or proprietary, its use and/or license fee, etc. (10-70 words).</th>
-                <td>@Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.IfUsesSoftwareDescribeSoftware</td>
-            </tr>
-            <tr>
-                <th>If yes, can the software be customized for local use? Please explain (10-70 words). Include languages available.</th>
-                <td>@Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse</td>
-            </tr>
+            <dt>If yes, please describe the software, whether it is open source or proprietary, its use and/or license fee, etc. (10-70 words).</dt>
+            <dd><p>@Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.IfUsesSoftwareDescribeSoftware</p></dd>
+
+            <dt>If yes, can the software be customized for local use? Please explain (10-70 words). Include languages available.</dt>
+            <dd><p>@Model.StructuredInformationResult.HealthTechnologySpecifications.DeviceSoftwareUsageViewModel.IfUsesSoftwareCanSoftwareBeCustomizedForLocalUse</p></dd>
         }
-        <tr>
-            <th>Is it portable?</th>
-            <td>@Model.StructuredInformationResult.HealthTechnologySpecifications.Portability</td>
-        </tr>
-        <tr>
-            <th>Type of use</th>
-            <td>@Model.StructuredInformationResult.HealthTechnologySpecifications.TypeOfUse</td>
-        </tr>
-        <tr>
-            <th>Does the technology require maintenance?</th>
-            <td>
-                <p>@Model.StructuredInformationResult.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance.ToYesNo()</p>
-                @if (Model.StructuredInformationResult.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance)
-                {
-                    <p>Type: @Model.StructuredInformationResult.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceSpecifyType</p>
-                    <p>Frequency: @Model.StructuredInformationResult.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceSpecifyFrequency</p>
-                    <p>Can it be done on-site / home / community?: @Model.StructuredInformationResult.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceCanItBeDoneOnSiteOrHomeOrCommunity.ToYesNo()</p>
-                }
-            </td>
-        </tr>
+
+        <dt>Is it portable?</dt>
+        <dd>@Model.StructuredInformationResult.HealthTechnologySpecifications.Portability</dd>
+
+        <dt>Type of use</dt>
+        <dd>@Model.StructuredInformationResult.HealthTechnologySpecifications.TypeOfUse</dd>
+
+        <dt>Does the technology require maintenance?</dt>
+        <dd>
+            @Model.StructuredInformationResult.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance.ToYesNo()
+            @if (Model.StructuredInformationResult.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance)
+            {
+                <p>
+                    Type: @Model.StructuredInformationResult.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceSpecifyType<br>
+                    Frequency: @Model.StructuredInformationResult.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceSpecifyFrequency<br>
+                    Can it be done on-site / home / community?: @Model.StructuredInformationResult.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceCanItBeDoneOnSiteOrHomeOrCommunity.ToYesNo()
+                </p>
+            }
+        </dd>
+
         @if (Model.StructuredInformationResult.HealthTechnologySpecifications.DoesTechnologyRequireMaintenance)
         {
-            <tr>
-                <th>If yes, who should provide maintenance?</th>
-                <td>@Model.StructuredInformationResult.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance</td>
-            </tr>
+            <dt>If yes, who should provide maintenance?</dt>
+            <dd>@Model.StructuredInformationResult.HealthTechnologySpecifications.IfTechnologyRequiresMaintenanceWhoShouldProvideMaintenance</dd>
         }
-        <tr>
-            <th>Energy requirements</th>
-            <td>
-                @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.MechanicalEnergy)
-                {
-                    <p>Mechanical energy (e.g. manually powered)</p>
-                }
-                @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.Batteries)
-                {
-                    <p>Batteries</p>
-                }
-                @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.PowerSupplyForRecharging)
-                {
-                    <p>
-                        <span>Power supply for recharging</span>
-                        <span>Voltage required: @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredVoltage V</span>
-                        <span>Time required to recharge: @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours hours @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes minutes</span>
-                        <span>Battery life with full charge: @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours hours @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes minutes</span>
-                    </p>
-                }
-                @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.ContinuousPowerSupply)
-                {
-                    <p>
-                        <span>Continuous power supply</span>
-                        <span>Voltage required: @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfContinuousPowerSupplyThenRequiredVoltage V</span>
-                    </p>
-                }
-                @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.SolarPower)
-                {
-                    <p>
-                        <span>Solar power</span>
-                        <span>Time in sunlight required to charge: @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours hours @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes minutes</span>
-                        <span>Battery life with full charge: @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenBatteryLifeInHours hours @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenBatteryLifeInMinutes minutes</span>
-                    </p>
-                }
-                @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.Other)
-                {
-                    <p>@Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.OtherText</p>
-                }
-            </td>
-        </tr>
-        <tr>
-            <th>Facility requirements</th>
-            <td>
-                @foreach (var item in Model.StructuredInformationResult.HealthTechnologySpecifications.FacilityRequirementsViewModel.GetResult())
-                {
-                    <p>@item</p>
-                }
-            </td>
-        </tr>
-        </tbody>
-    </table>
+
+        <dt>Energy requirements</dt>
+        <dd>
+            @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.MechanicalEnergy)
+            {
+                <p>Mechanical energy (e.g. manually powered)</p>
+            }
+            @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.Batteries)
+            {
+                <p>Batteries</p>
+            }
+            @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.PowerSupplyForRecharging)
+            {
+                <p>
+                    Power supply for recharging
+                    Voltage required: @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredVoltage V<br>
+                    Time required to recharge: @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInHours hours @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredTimeToRechargeInMinutes minutes<br>
+                    Battery life with full charge: @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredBatteryLifeInHours hours @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfPowerSupplyForRechargingThenRequiredBatteryLifeInMinutes minutes
+                </p>
+            }
+            @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.ContinuousPowerSupply)
+            {
+                <p>
+                    Continuous power supply<br>
+                    Voltage required: @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfContinuousPowerSupplyThenRequiredVoltage V
+                </p>
+            }
+            @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.SolarPower)
+            {
+                <p>
+                    Solar power<br>
+                    Time in sunlight required to charge: @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenTimeInSunlightRequiredToChargeInHours hours @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenTimeInSunlightRequiredToChargeInMinutes minutes<br>
+                    Battery life with full charge: @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenBatteryLifeInHours hours @Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.IfSolarPowerThenBatteryLifeInMinutes minutes
+                </p>
+            }
+            @if (Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.Other)
+            {
+                <p>@Model.StructuredInformationResult.HealthTechnologySpecifications.EnergyRequirementsViewModel.OtherText</p>
+            }
+        </dd>
+
+        <dt>Facility requirements</dt>
+        <dd>
+            @foreach (var item in Model.StructuredInformationResult.HealthTechnologySpecifications.FacilityRequirementsViewModel.GetResult())
+            {
+                <p>@item</p>
+            }
+        </dd>
+    </dl>
 }
 
 <h1>Design prototyping</h1>
@@ -334,5 +256,6 @@
 
 <h1>Quality criteria and validation test</h1>
 @Html.Raw(Model.QualityCriteria)
+
 </body>
-</html>
+</html> 

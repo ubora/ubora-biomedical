@@ -111,20 +111,20 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
             }
 
             protected Factory()
-            {
-            }
+            { 
+            }    
 
             public virtual async Task<PreproductionDocumentTemplateViewModel> Create(Project project)
             {
                 var model = new PreproductionDocumentTemplateViewModel
                 {
                     Title = project.Title,
-                    ProjectDescription = project.Description,
+                    ProjectDescription = await _nodeServices.InvokeAsync<string>("./Scripts/backend/ConvertQuillDeltaToHtml.js", project.DescriptionV2?.Value ?? new QuillDelta().Value), // TODO: Use QuillDeltaTransformer/Converter which is in another branch currently.
                     AreaOfUsageTag = project.AreaOfUsageTag,
                     ClinicalNeedTag = project.ClinicalNeedTag,
                     PotentialTechnologyTag = project.PotentialTechnologyTag,
                     Keywords = project.Keywords,
-                    Members = GetMembers(project)
+                    Members = GetMembers(project) 
                 };
 
                 if (project.HasImage)
@@ -210,7 +210,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
 
                 var applicableRegulationsQuestionnaireAggregates = _queryProcessor.ExecuteQuery(
                     new FindApplicableRegulationsQuestionnaireAggregatesByIdsQuery { QuestionnaireIds = questionnaireIds.ToArray() });
-                var reviewQuestionnaireViewModels =
+                var reviewQuestionnaireViewModels = 
                     applicableRegulationsQuestionnaireAggregates.Select(q =>
                         _reviewQuestionnaireViewModelFactory.Create(q.Questionnaire));
                 return reviewQuestionnaireViewModels;
@@ -231,7 +231,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                         IsProjectLeader = projectMemberGroup.Any(x => x.IsLeader),
                         IsProjectMentor = projectMemberGroup.Any(x => x.IsMentor),
                         FullName = userProfile.FullName
-                    };
+                    }; 
                     members.Add(member);
                 }
 
