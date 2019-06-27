@@ -67,7 +67,10 @@
                     </div>
                 }
 
-                @Html.Partial("_AddComment.cshtml", new AddCommentModel { AddCommentActionPath = Model.AddCommentActionPath })
+                @if (!Model.HideAddComment) 
+                {
+                    @Html.Partial("_AddComment.cshtml", new AddCommentModel { AddCommentActionPath = Model.AddCommentActionPath })
+                }
 
             </div>
         </div>

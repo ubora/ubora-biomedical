@@ -4,19 +4,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
-using Ubora.Web._Features.Projects._Shared;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features._Shared.Notices;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ubora.Domain;
-using Newtonsoft.Json;
-using System;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     [ProjectRoute("WP3")]
     [WorkpackageStepIdFromRouteToViewData]
-    [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageThree))]
     public class WorkpackageThreeController : ProjectController
     {
         public const string Name = "WorkpackageThree";

@@ -16,7 +16,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     [ProjectRoute("WP5")]
     [WorkpackageStepIdFromRouteToViewData]
-    [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFive))]
     public class WorkpackageFiveController : ProjectController
     {
         public const string Name = "WorkpackageFive";

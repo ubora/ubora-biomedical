@@ -8,5 +8,6 @@ namespace Ubora.Web._Components.Discussions.Models
         public string EditCommentActionPath { get; set; }
         public string DeleteCommentActionPath { get; set; }
         public string AddCommentActionPath { get; set; }
+        public bool HideAddComment { get; set; }
     }
 }

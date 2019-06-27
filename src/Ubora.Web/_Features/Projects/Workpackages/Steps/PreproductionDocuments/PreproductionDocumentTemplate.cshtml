@@ -78,7 +78,7 @@
         <h1>ISO compliance</h1>
     </div>
     <div>
-        @foreach (var isoStandard in Model.IsoCompliance.IsoStandards)
+        @foreach (var isoStandard in Model.IsoCompliance.IsoStandards.Select(x => x.IsoStandard).ToList())
         {
             if (isoStandard.IsMarkedAsCompliant)
             {

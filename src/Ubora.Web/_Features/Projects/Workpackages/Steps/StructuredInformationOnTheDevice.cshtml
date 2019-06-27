@@ -7,10 +7,12 @@
 @{
     ViewData[nameof(PageTitle)] = "Structured information on the device";
 
-    var workpackageMenuOptionViewData = (string) ViewData["WorkpackageMenuOption"];
+    var workpackageMenuOptionViewData = (string) ViewData[nameof(WorkpackageMenuOption)];
 
     var wpControllerName = workpackageMenuOptionViewData == WorkpackageMenuOption.WP4StructuredInformationOnTheDevice
         ? "WorkpackageFour" : "WorkpackageTwo";
+
+    var canWorkOnProjectContent = (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanWorkOnProjectContent)).Succeeded;
 }
 
 <div class="row">
@@ -28,10 +30,15 @@
     <div class="col">
         <div class="d-flex justify-content-between">
             <h2 class="mb-4">User and evironment</h2>
-            <a class="btn btn-outline-primary align-self-start" asp-action="UserAndEnvironment" asp-controller="@wpControllerName">
-                <i class="material-icons">mode_edit</i>
-                <span>Edit</span>
-            </a>
+
+            @if (canWorkOnProjectContent)
+            {
+                <a class="btn btn-outline-primary align-self-start" asp-action="UserAndEnvironment" asp-controller="@wpControllerName">
+                    <i class="material-icons">mode_edit</i>
+                    <span>Edit</span>
+                </a>
+            }
+
         </div>
         @if (Model.IsUserAndEnvironmentEdited)
         {
@@ -86,10 +93,15 @@
     <div class="col">
         <div class="d-flex justify-content-between">
             <h2 class="mb-4">Health technology specifications</h2>
-            <a class="btn btn-outline-primary align-self-start" asp-action="HealthTechnologySpecifications" asp-controller="@wpControllerName">
-                <i class="material-icons">mode_edit</i>
-                <span>Edit</span>
-            </a>
+
+            @if (canWorkOnProjectContent)
+            {
+                <a class="btn btn-outline-primary align-self-start" asp-action="HealthTechnologySpecifications" asp-controller="@wpControllerName">
+                    <i class="material-icons">mode_edit</i>
+                    <span>Edit</span>
+                </a>
+            }
+
         </div>
 
         @if (Model.IsHealthTechnologySpecificationEdited)

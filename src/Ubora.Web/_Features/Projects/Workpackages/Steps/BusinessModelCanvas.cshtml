@@ -1,15 +1,25 @@
 ﻿@using Ubora.Web._Features.Projects._Shared
 @using Ubora.Web._Features.Projects.Workpackages.Steps
+
 @model BusinessModelCanvasReadViewModel
+
+@{
+    var canWorkOnProjectContent = (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanWorkOnProjectContent)).Succeeded;
+}
 
 <div class="row">
         <div class="col">
             <div class="d-flex justify-content-between">
                 <h1>Business model</h1>
-                <a class="btn btn-outline-primary align-self-start" asp-action="@nameof(WorkpackageFiveController.EditBusinessModelCanvas)" >
-                    <i class="material-icons">mode_edit</i>
-                    <span>Edit</span>
-                </a>
+
+                @if (canWorkOnProjectContent) 
+                {
+                    <a class="btn btn-outline-primary align-self-start" asp-action="@nameof(WorkpackageFiveController.EditBusinessModelCanvas)" >
+                        <i class="material-icons">mode_edit</i>
+                        <span>Edit</span>
+                    </a>
+                }
+
             </div>
         </div>
     </div>

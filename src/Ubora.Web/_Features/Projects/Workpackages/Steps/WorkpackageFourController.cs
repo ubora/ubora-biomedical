@@ -21,7 +21,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     [ProjectRoute("WP4")]
     [WorkpackageStepIdFromRouteToViewData]
-    [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
     public class WorkpackageFourController : ProjectController
     {
         public const string Name = "WorkpackageFour";
@@ -105,7 +104,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [HttpGet(nameof(StructuredInformationOnTheDevice))]
         public IActionResult StructuredInformationOnTheDevice([FromServices] StructuredInformationResultViewModel.Factory modelFactory)
         {
-            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
                 .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four)&& new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
@@ -118,7 +117,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [HttpGet(nameof(HealthTechnologySpecifications))]
         public virtual IActionResult HealthTechnologySpecifications([FromServices] HealthTechnologySpecificationsViewModel.Factory modelFactory)
         {
-            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
                 .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
@@ -160,10 +159,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [Route(nameof(UserAndEnvironment))]
-        [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFour))]
         public virtual IActionResult UserAndEnvironment([FromServices] UserAndEnvironmentInformationViewModel.Factory modelFactory)
         {
-            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.WP4StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
                 .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Four) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
