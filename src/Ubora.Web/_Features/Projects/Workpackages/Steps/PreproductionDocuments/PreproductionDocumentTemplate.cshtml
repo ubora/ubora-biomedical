@@ -28,11 +28,10 @@
 @Html.Raw(Model.ProjectDescription)
 
 <h1>Members</h1>
-
 <ul>
     @foreach (var member in Model.Members)
     {
-        <li>@member.FullName (@member.Roles)</li>
+        <li>@member.FullName @(!string.IsNullOrWhiteSpace(member.Roles) ? $"({member.Roles})" : "")</li>
     }
 </ul>
 
