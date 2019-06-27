@@ -185,7 +185,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                     {
                         WorkpackageStepViewModels = await GetWorkpackageStepViewModels(workspackageFour),
                         StructuredInformationResultViewModel = _structuredInformationResultViewModel.Create(deviceStructuredInformation),
-                        IsoStandardIndexListViewModel = await _indexViewModelFactory.Create(new ClaimsPrincipal(), isoStandardsComplianceAggregate)
+                        IsoStandardIndexListViewModel = await _indexViewModelFactory.Create(null, isoStandardsComplianceAggregate)
                     };
                 }
 

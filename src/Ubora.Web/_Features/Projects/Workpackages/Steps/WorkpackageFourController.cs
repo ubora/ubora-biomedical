@@ -248,8 +248,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View("PreproductionDocuments/PreproductionDocument", model);
         }
         
-        [HttpPost]
-        [Route("preproduction-document")]
+        [Route("download-preproduction-document")]
         public async Task<IActionResult> DownloadPreproductionDocument(PreproductionDocumentsViewModel model, [FromServices] PreproductionDocumentTemplateViewModel.Factory modelFactory)
         {
             var preproductionDocumentTemplateViewModel = await modelFactory.Create(Project);
