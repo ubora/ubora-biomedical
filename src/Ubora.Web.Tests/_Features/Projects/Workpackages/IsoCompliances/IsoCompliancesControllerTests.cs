@@ -29,19 +29,20 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.IsoCompliances
         }
 
         [Fact]
-        public void AddIsoStandard_HttpPost_Invalid_ModelState()
+        public async Task AddIsoStandard_HttpPost_Invalid_ModelState()
         {
             _controller.ModelState.AddModelError("", "dummy");
 
             // Act
-            var result = _controller.AddIsoStandard(new AddIsoStandardPostModel());
+            var result = await _controller.AddIsoStandard(new AddIsoStandardPostModel());
 
             // Assert
             result.Should().NotBeOfType<RedirectToActionResult>();
+            result.Should().BeOfType<ViewResult>();
         }
 
         [Fact]
-        public void AddIsoStandard_HttpPost_HappyPath()
+        public async Task AddIsoStandard_HttpPost_HappyPath()
         {
             var model = new AddIsoStandardPostModel
             {
@@ -57,7 +58,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.IsoCompliances
                 .Returns(CommandResult.Success);
 
             // Act
-            var result = _controller.AddIsoStandard(model);
+            var result = await _controller.AddIsoStandard(model);
 
             // Assert
             result.Should().BeOfType<RedirectToActionResult>();
@@ -71,20 +72,21 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.IsoCompliances
         }
 
         [Fact]
-        public void RemoveIsoStandard_HttpPost_Invalid_ModelState()
+        public async Task RemoveIsoStandard_HttpPost_Invalid_ModelState()
         {
             AuthorizationServiceMock.SetReturnsDefault(Task.FromResult(AuthorizationResult.Success()));
             _controller.ModelState.AddModelError("", "dummy");
 
             // Act
-            var result = _controller.RemoveIsoStandard(new RemoveIsoStandardCommand());
+            var result = await _controller.RemoveIsoStandard(new RemoveIsoStandardCommand());
 
             // Assert
             result.Should().NotBeOfType<RedirectToActionResult>();
+            result.Should().BeOfType<ViewResult>();
         }
 
         [Fact]
-        public void RemoveIsoStandard_HttpPost_HappyPath()
+        public async Task RemoveIsoStandard_HttpPost_HappyPath()
         {
             var isoStandardId = Guid.NewGuid();
 
@@ -101,27 +103,27 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.IsoCompliances
                 .Returns(CommandResult.Success);
 
             // Act
-            var result = _controller.RemoveIsoStandard(expectedExecutedCommand);
+            var result = await _controller.RemoveIsoStandard(expectedExecutedCommand);
 
             // Assert
-
             result.Should().BeOfType<RedirectToActionResult>();
         }
 
         [Fact]
-        public void MarkAsCompliant_HttpPost_Invalid_ModelState()
+        public async Task MarkAsCompliant_HttpPost_Invalid_ModelState()
         {
             _controller.ModelState.AddModelError("", "dummy");
 
             // Act
-            var result = _controller.MarkAsCompliant(new MarkIsoStandardAsCompliantCommand());
+            var result = await _controller.MarkAsCompliant(new MarkIsoStandardAsCompliantCommand());
 
             // Assert
+            result.Should().BeOfType<ViewResult>();
             result.Should().NotBeOfType<RedirectToActionResult>();
         }
 
         [Fact]
-        public void MarkAsCompliant_HttpPost_HappyPath()
+        public async Task MarkAsCompliant_HttpPost_HappyPath()
         {
             var expectedExecutedCommand = new MarkIsoStandardAsCompliantCommand();
             CommandProcessorMock
@@ -129,26 +131,27 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.IsoCompliances
                 .Returns(CommandResult.Success);
 
             // Act
-            var result = _controller.MarkAsCompliant(expectedExecutedCommand);
+            var result = await _controller.MarkAsCompliant(expectedExecutedCommand);
 
             // Assert
             result.Should().BeOfType<RedirectToActionResult>();
         }
 
         [Fact]
-        public void MarkAsNoncompliant_HttpPost_Invalid_ModelState()
+        public async Task MarkAsNoncompliant_HttpPost_Invalid_ModelState()
         {
             _controller.ModelState.AddModelError("", "dummy");
 
             // Act
-            var result = _controller.MarkAsNoncompliant(new MarkIsoStandardAsNoncompliantCommand());
+            var result = await _controller.MarkAsNoncompliant(new MarkIsoStandardAsNoncompliantCommand());
 
             // Assert
+            result.Should().BeOfType<ViewResult>();
             result.Should().NotBeOfType<RedirectToActionResult>();
         }
 
         [Fact]
-        public void MarkAsNoncompliant_HttpPost_HappyPath()
+        public async Task MarkAsNoncompliant_HttpPost_HappyPath()
         {
             var expectedExecutedCommand = new MarkIsoStandardAsNoncompliantCommand();
             CommandProcessorMock
@@ -156,7 +159,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.IsoCompliances
                 .Returns(CommandResult.Success);
 
             // Act
-            var result = _controller.MarkAsNoncompliant(expectedExecutedCommand);
+            var result = await _controller.MarkAsNoncompliant(expectedExecutedCommand);
 
             // Assert
             result.Should().BeOfType<RedirectToActionResult>();

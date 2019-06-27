@@ -4,7 +4,7 @@
 @{
     ViewData[nameof(PageTitle)] = "User and evironment";
 
-    var workpackageMenuOptionViewData = (string)ViewData["WorkpackageMenuOption"];
+    var workpackageMenuOptionViewData = (string)ViewData[nameof(WorkpackageMenuOption)];
     var wpControllerName = workpackageMenuOptionViewData == WorkpackageMenuOption.WP4StructuredInformationOnTheDevice
         ? "WorkpackageFour" : "WorkpackageTwo";
 }
@@ -183,11 +183,6 @@
         </div>
     </form>
 </div>
-
-
-
-
-
 
 @section Scripts {
     <script src="~/dist/toggle_formcheck_extra_fields.bundle.js"></script>

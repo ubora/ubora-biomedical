@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Ubora.Domain;
@@ -17,7 +15,6 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     [ProjectRoute("WP5")]
     [WorkpackageStepIdFromRouteToViewData]
-    [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageFive))]
     public class WorkpackageFiveController : ProjectController
     {
         public const string Name = "WorkpackageFive";

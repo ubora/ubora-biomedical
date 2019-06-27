@@ -1,58 +1,50 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using Ubora.Domain.Infrastructure;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Ubora.Domain.Projects.IsoStandardsComplianceChecklists;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances.Models
 {
     public class IndexViewModel
     {
-        public IReadOnlyCollection<IsoStandardIndexVieModel> IsoStandards { get; set; }
+        public IReadOnlyCollection<IsoStandardWithCheckboxViewModel> IsoStandards { get; set; }
+        public bool CanEditIsoStandard { get; set; }
+        public bool CanRemoveIsoStandardFromComplianceChecklist { get; set; }
 
         public class Factory
         {
-            public IndexViewModel Create(IsoStandardsComplianceChecklist aggregate = null)
+            private readonly IAuthorizationService _authorizationService;
+
+            public Factory(IAuthorizationService authorizationService)
             {
-                if (aggregate == null)
-                {
-                    return new IndexViewModel
-                    {
-                        IsoStandards = new List<IsoStandardIndexVieModel>()
-                    };
-                }
+                _authorizationService = authorizationService;
+            }
+
+            protected Factory()
+            {
+            }
+
+            public virtual async Task<IndexViewModel> Create(ClaimsPrincipal user, IsoStandardsComplianceChecklist aggregate = null)
+            {
+                var canEditIsoStandards = await _authorizationService.IsAuthorizedAsync(user, Policies.CanWorkOnProjectContent);
+                var canRemoveIsoStandardFromComplianceChecklist = await _authorizationService.IsAuthorizedAsync(user, Policies.CanRemoveIsoStandardFromComplianceChecklist);
 
                 return new IndexViewModel
                 {
-                    IsoStandards = new IsoStandardIndexVieModel.Projection().Apply(aggregate.IsoStandards).ToList()
+                    CanEditIsoStandard = canEditIsoStandards,
+                    CanRemoveIsoStandardFromComplianceChecklist = canRemoveIsoStandardFromComplianceChecklist,
+
+                    IsoStandards = new IsoStandardViewModel.Projection()
+                        .Apply(aggregate?.IsoStandards != null ? (IEnumerable<IsoStandard>)aggregate.IsoStandards : new List<IsoStandard>())
+                        .Select(isoStandard => new IsoStandardWithCheckboxViewModel
+                        {
+                            IsoStandard = isoStandard,
+                            CanEditIsoStandard = canEditIsoStandards,
+                            CanRemoveIsoStandardFromComplianceChecklist = canRemoveIsoStandardFromComplianceChecklist
+                        }).ToList()
                 };
-            }
-        }
-    }
-
-    public class IsoStandardIndexVieModel
-    {
-        public IsoStandardIndexVieModel(Guid id, string title, string shortDescription, Uri link, bool isMarkedAsCompliant)
-        {
-            IsoStandardId = id;
-            Title = title;
-            ShortDescription = shortDescription;
-            Link = link;
-            IsMarkedAsCompliant = isMarkedAsCompliant;
-        }
-
-        public Guid IsoStandardId { get; }
-        public string Title { get; }
-        public string ShortDescription { get; }
-        public Uri Link { get; }
-        public bool IsMarkedAsCompliant { get; }
-
-        public class Projection : Projection<IsoStandard, IsoStandardIndexVieModel>
-        {
-            protected override Expression<Func<IsoStandard, IsoStandardIndexVieModel>> ToSelector()
-            {
-                return document => new IsoStandardIndexVieModel(document.Id, document.Title, document.ShortDescription, document.Link, document.IsMarkedAsCompliant);
             }
         }
     }
