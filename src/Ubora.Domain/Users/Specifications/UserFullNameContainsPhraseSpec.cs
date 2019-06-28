@@ -11,12 +11,16 @@ namespace Ubora.Domain.Users.Specifications
 
         public UserFullNameContainsPhraseSpec(string searchPhrase)
         {
-            SearchPhrase = searchPhrase.ToLower();
+            SearchPhrase = searchPhrase;
         }
 
         internal override Expression<Func<UserProfile, bool>> ToExpression()
         {
-            return user => user.FullName.Contains(SearchPhrase, StringComparison.OrdinalIgnoreCase);
+            if(string.IsNullOrEmpty(SearchPhrase))
+            {
+                return user => true;
+            }
+            return user => user.FullName.Contains(SearchPhrase.ToLower(), StringComparison.OrdinalIgnoreCase);
         }
     }
 }

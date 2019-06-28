@@ -16,17 +16,21 @@ using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Users;
 using Ubora.Web._Features._Shared.Paging;
 using Ubora.Domain.Users.Specifications;
+using Ubora.Domain.Users.Queries;
+using Ubora.Domain.Infrastructure.Queries;
 
 namespace Ubora.Web._Features.Admin
 {
     [Authorize(Roles = ApplicationRole.Admin)]
-    public class AdminController : UboraController
+    public partial class AdminController : UboraController
     {
         private readonly IApplicationUserManager _userManager;
+        private readonly ManageUsersViewModel.Factory _manageUserViewModelFactory;
 
-        public AdminController(IApplicationUserManager userManager)
+        public AdminController(IApplicationUserManager userManager, ManageUsersViewModel.Factory manageUserViewModelFactory)
         {
             _userManager = userManager;
+            _manageUserViewModelFactory = manageUserViewModelFactory;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -52,43 +56,14 @@ namespace Ubora.Web._Features.Admin
                 page = 1;
             }
 
-            var userProfiles = string.IsNullOrWhiteSpace(searchName) ?
-                    QueryProcessor.Find(new MatchAll<UserProfile>(), new SortByFullNameAscendingSpecification(), 10, page)
-                    : QueryProcessor.Find(new UserFullNameContainsPhraseSpec(searchName), new SortByFullNameAscendingSpecification(), 10, page);
-
-            IReadOnlyDictionary<Guid, string> userFullNames = userProfiles.Select(userProfile => new
+            var userProfiles = QueryProcessor.ExecuteQuery(new SearchUserProfilesQuery
             {
-                UserId = userProfile.UserId,
-                FullName = userProfile.FullName
-            })
-            .ToDictionary(x => x.UserId, x => x.FullName);
+                SearchFullName = searchName,
+                Paging = new Paging(page, 15)
+            });
 
-            var userViewModels = new List<UserViewModel>();
-
-            foreach (var user in _userManager.Users.ToList())
-            {
-                if (userFullNames.ContainsKey(user.Id))
-                {
-                    userViewModels.Add(new UserViewModel
-                    {
-                        UserId = user.Id,
-                        UserEmail = user.Email,
-                        FullName = userFullNames[user.Id],
-                        Roles = await _userManager.GetRolesAsync(user)
-                    });
-                }
-            }
-
-            var orderedViewModel = userViewModels.OrderBy(x => x.FullName).ToList();
-
-            var manageUsersViewModel = new ManageUsersViewModel
-            {
-                Pager = Pager.From(userProfiles),
-                Items = orderedViewModel,
-                SearchName = searchName
-            };
-
-            return View(nameof(ManageUsers), manageUsersViewModel);
+            var viewModel = await _manageUserViewModelFactory.Create(userProfiles.ToList(), searchName, Pager.From(userProfiles));
+           return View(nameof(ManageUsers), viewModel);
         }
 
         [Authorize(Roles = ApplicationRole.Admin)]
@@ -255,13 +230,6 @@ namespace Ubora.Web._Features.Admin
 
             Notices.NotifyOfSuccess($"User {user.Email} successfully deleted");
             return RedirectToAction(nameof(ManageUsers), new { page });
-        }
-
-        public class ManageUsersViewModel
-        {
-            public Pager Pager { get; set; }
-            public List<UserViewModel> Items { get; set; }
-            public string SearchName { get; set; }
         }
 
         private void AddIdentityErrorsToModelState(IdentityResult result)

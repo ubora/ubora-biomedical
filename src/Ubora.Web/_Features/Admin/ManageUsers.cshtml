@@ -1,4 +1,4 @@
-﻿@model Ubora.Web._Features.Admin.AdminController.ManageUsersViewModel
+﻿@model Ubora.Web._Features.Admin.ManageUsersViewModel
 
 @{
     ViewData[nameof(PageTitle)] = "Manage users";
@@ -91,6 +91,9 @@
                     method: 'get',
                     data:  { searchName: $('#SearchName')[0].value },
                     success: function (response) {
+                        history.replaceState({},
+                            '',
+                            this.url); // https://developer.mozilla.org/en-US/docs/Web/API/History_API
                         var responseHtml = $(response).find('#usersTab').html();
                         $('#usersTab').html(responseHtml);
                         var responsePaging = $(response).find('.pagination').html();

@@ -17,6 +17,7 @@ using Ubora.Domain.Users;
 using Ubora.Domain.Users.SortSpecifications;
 using Ubora.Domain.Infrastructure.Specifications;
 using System.Linq;
+using Marten.Pagination;
 
 namespace Ubora.Web.Tests._Features.Admin
 {
@@ -29,13 +30,17 @@ namespace Ubora.Web.Tests._Features.Admin
         public AdminControllerTests()
         {
             _userManagerMock = new Mock<IApplicationUserManager>();
-            _controllerMock = new Mock<AdminController>(_userManagerMock.Object)
+            var manageUsersViewModelFactoryMock = new Mock<ManageUsersViewModel.Factory>();
+            _controllerMock = new Mock<AdminController>(_userManagerMock.Object, manageUsersViewModelFactoryMock.Object)
             {
                 CallBase = true
             };
             _controller = _controllerMock.Object;
 
             SetUpForTest(_controller);
+
+            manageUsersViewModelFactoryMock.SetReturnsDefault<ManageUsersViewModel>(new ManageUsersViewModel());
+            QueryProcessorMock.SetReturnsDefault<IPagedList<UserProfile>>(new PagedListStub<UserProfile>());
         }
 
         [Fact]

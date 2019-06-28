@@ -3,6 +3,11 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Users\NewFolder\**" />
+    <EmbeddedResource Remove="Users\NewFolder\**" />
+    <None Remove="Users\NewFolder\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.2.0" />
     <PackageReference Include="FluentAssertions" Version="4.19.4" />
     <PackageReference Include="Marten" Version="2.9.0" />
@@ -24,8 +29,5 @@
     <None Update="xunit.runner.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Users\NewFolder\" />
   </ItemGroup>
 </Project>
