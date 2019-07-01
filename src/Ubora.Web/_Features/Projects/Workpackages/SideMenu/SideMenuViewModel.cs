@@ -41,8 +41,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                     CreateWp2(wpStatuses.Wp2Status),
                     CreateWp3(wpStatuses.Wp3Status),
                     CreateWp4(wpStatuses.Wp4Status),
-                    /*wp5*/ new WpSideMenuHyperlinkMenuItem(NestingLevel.None, "workpackageFive", "WP 5: Operation", "#")
-                        .SetStatus(wpStatuses.Wp5Status),
+                    CreateWp5(wpStatuses.Wp5Status),
                     /*wp6*/ new WpSideMenuHyperlinkMenuItem(NestingLevel.None, "workpackageSix", "WP 6: Project closure", "#")
                         .SetStatus(wpStatuses.Wp6Status)
                 };
@@ -150,6 +149,32 @@ namespace Ubora.Web._Features.Projects.Workpackages.SideMenu
                         new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "WP4StructuredInformationOnTheDevice","Structured information on the device", href: _urlHelper.Action("StructuredInformationOnTheDevice", "WorkpackageFour")),
                         //new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "PreproductionDocuments","Preproduction documents", href: "#"),
                     }).SetStatus(workpackageStatus);
+                }
+
+                IWorkpackageSideMenuItem CreateWp5(WorkpackageStatus workpackageStatus)
+                {
+                    var wpName = "WP 5: Operation";
+                    if (workpackageStatus == WorkpackageStatus.Unlockable)
+                    {
+                        if (!_authorizationService.IsAuthorized(user, Policies.CanUnlockWorkpackages))
+                        {
+                            workpackageStatus = WorkpackageStatus.Closed;
+                        }
+
+                        return new WpSideMenuHyperlinkMenuItem(NestingLevel.One, WorkpackageMenuOption.WorkpackageFiveLocked,
+                            wpName, href: _urlHelper.Action(nameof(WorkpackageFiveController.Unlocking), WorkpackageFiveController.Name)).SetStatus(workpackageStatus);
+                    }
+
+                    return new WpSideMenuCollapseMenuItem(NestingLevel.None, "workpackageFive", wpName, new[]
+                    {
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, "ProductionDocumentation", "Production documentation", href: Wp5StepLink("ProductionDocumentation")),
+                        new WpSideMenuHyperlinkMenuItem(NestingLevel.One, WorkpackageMenuOption.BusinessModelCanvas, "Business model canvas", href: _urlHelper.Action(nameof(WorkpackageFiveController.BusinessModelCanvas), WorkpackageFiveController.Name)),
+                    }).SetStatus(workpackageStatus);
+                }
+
+                string Wp5StepLink(string stepId)
+                {
+                    return _urlHelper.Action("Read", "WorkpackageFive", new { projectId = projectId, stepId = stepId });
                 }
 
                 string Wp4StepLink(string stepId)

@@ -1,6 +1,7 @@
 ﻿// ReSharper disable once CheckNamespace
 public static class WorkpackageMenuOption
 {
+    public static string BusinessModelCanvas => "BusinessModelCanvas";
     public static string DeviceClassification => "DeviceClassification";
     public static string RegulationChecklist => "RegulationChecklist";
     public static string Wp1MentorReview => "WorkpackageOneReview";
@@ -11,5 +12,6 @@ public static class WorkpackageMenuOption
     public static string WP4StructuredInformationOnTheDevice => "WP4StructuredInformationOnTheDevice";
     public static string WorkpackageThreeLocked => "workpackageThreeLocked";
     public static string WorkpackageFourLocked => "workpackageFourLocked";
+    public static string WorkpackageFiveLocked => "workpackageFiveLocked";
     public static string Step(string stepId) => stepId;
 }
