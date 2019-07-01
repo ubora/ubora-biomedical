@@ -27,7 +27,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePageCreation
         public async Task<IActionResult> Add(CreateResourcePagePostModel model)
         {
             if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
-                return Unauthorized();
+                return Forbid();
 
             if (!ModelState.IsValid)
                 return Add();

@@ -1,6 +1,6 @@
 ﻿@using Ubora.Web._Features.Projects.Workpackages.Steps
 
-<h1>@ViewBag.Title</h1>
+<h1>@ViewData[nameof(PageTitle)]</h1>
 
 <div asp-validation-summary="All"></div>
 
@@ -9,6 +9,6 @@
 <form asp-controller="@WorkpackageSixController.Name" asp-action="@nameof(WorkpackageSixController.Unlock)">
     <button type="submit" class="btn btn-outline-primary">
         <i class="material-icons">lock_open</i>
-        <span>Open @ViewBag.Title</span>
+        <span>Open @ViewData[nameof(PageTitle)]</span>
     </button>
 </form>

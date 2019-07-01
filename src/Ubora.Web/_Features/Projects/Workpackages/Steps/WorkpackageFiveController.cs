@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System.Linq;
 using System.Threading.Tasks;
 using Ubora.Domain;
+using Ubora.Domain.Projects._Commands;
 using Ubora.Domain.Projects.BusinessModelCanvases;
 using Ubora.Domain.Projects.BusinessModelCanvases.Command;
 using Ubora.Domain.Projects.Workpackages;
@@ -43,7 +44,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Authorize(Policy = nameof(Policies.CanUnlockWorkpackages))]
         public IActionResult Unlocking()
         {
-            if (WorkpackageFive != null) 
+            if (WorkpackageFive != null)
             {
                 return RedirectToAction(nameof(Index));
             }
@@ -120,7 +121,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         {
             var businessModelCanvas = QueryProcessor.FindById<BusinessModelCanvas>(ProjectId);
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.BusinessModelCanvas;
-            return View(new BusinessModelCanvasReadViewModel 
+            return View(new BusinessModelCanvasReadViewModel
             {
                 ValueProposalDescriptionHtml = await ConvertQuillDeltaToHtml(businessModelCanvas.ValueProposalDescription),
                 GrowthStrategyDescriptionHtml = await ConvertQuillDeltaToHtml(businessModelCanvas.GrowthStrategyDescription),
@@ -137,7 +138,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             var businessModelCanvas = QueryProcessor.FindById<BusinessModelCanvas>(ProjectId);
 
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.BusinessModelCanvas;
-            return View("BusinessModelCanvasEdit", new BusinessModelCanvasEditPostModel 
+            return View("BusinessModelCanvasEdit", new BusinessModelCanvasEditPostModel
             {
                 ValueProposalDescriptionQuillDelta = businessModelCanvas.ValueProposalDescription.Value,
                 GrowthStrategyDescriptionQuillDelta = businessModelCanvas.GrowthStrategyDescription.Value,
@@ -147,7 +148,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 AnalysisOfCostsAndProductionAndSupplyChainAndServicesToClientsDescriptionQuillDelta = businessModelCanvas.AnalysisOfCostsAndProductionAndSupplyChainAndServicesToClientsDescription.Value
             });
         }
-        
+
         [HttpPost("BusinessModelCanvas/Edit")]
         public IActionResult EditBusinessModelCanvas(BusinessModelCanvasEditPostModel model)
         {
@@ -156,7 +157,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return EditBusinessModelCanvas();
             }
 
-            ExecuteUserProjectCommand(new EditBusinessModelCanvasCommand {
+            ExecuteUserProjectCommand(new EditBusinessModelCanvasCommand
+            {
                 ValueProposalDescription = new QuillDelta(model.ValueProposalDescriptionQuillDelta),
                 GrowthStrategyDescription = new QuillDelta(model.GrowthStrategyDescriptionQuillDelta),
                 KeyResourcesAndPartnersDescription = new QuillDelta(model.KeyResourcesAndPartnersDescriptionQuillDelta),
@@ -171,6 +173,38 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             return RedirectToAction(nameof(BusinessModelCanvas));
+        }
+
+        [HttpGet("AgreeToTermsOfUbora")]
+        public IActionResult AgreeToTermsOfUbora()
+        {
+            var model = new AgreeToTermsOfUboraViewModel
+            {
+                IsAgreed = Project.IsAgreedToTermsOfUbora
+            };
+            
+            return View("AgreeToTermsOfUbora", model);
+        }
+
+        [HttpPost("AgreeToTermsOfUbora")]
+        public IActionResult AgreeToTermsOfUbora(AgreeToTermsOfUboraPostModel model)
+        {
+            if (!AuthorizationService.IsAuthorized(User, Policies.CanChangeAgreementToTermsOfUbora))
+            {
+                return Forbid();
+            }
+            
+            if (!ModelState.IsValid)
+            {
+                return AgreeToTermsOfUbora();
+            }
+
+            ExecuteUserProjectCommand(new ChangeAgreementToTermsOfUboraCommand
+            {
+                IsAgreed = model.IsAgreed
+            }, Notice.Success(SuccessTexts.WP5AgreementToTermsOfUboraChanged));
+
+            return RedirectToAction(nameof(AgreeToTermsOfUbora));
         }
     }
 }

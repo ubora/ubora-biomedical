@@ -16,5 +16,6 @@ public static class WorkpackageMenuOption
     public static string WorkpackageFourLocked => "workpackageFourLocked";
     public static string WorkpackageFiveLocked => "workpackageFiveLocked";
     public static string WorkpackageSixLocked => "workpackageSixLocked";
+    public static string AgreeToTermsOfUbora => "AgreeToTermsOfUbora";
     public static string Step(string stepId) => stepId;
 }

@@ -4,6 +4,7 @@ namespace Ubora.Web.Infrastructure.TagHelpers
 {
     [HtmlTargetElement("input")]
     [HtmlTargetElement("select")]
+    [HtmlTargetElement("button")]
     public class DisableInputTagHelper : TagHelper
     {
         [HtmlAttributeName("ubora-disable")]

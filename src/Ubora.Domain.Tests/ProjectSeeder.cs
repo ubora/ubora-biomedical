@@ -24,6 +24,7 @@ namespace Ubora.Domain.Tests
         private bool? IsWp5Unlocked { get; set; }
         private bool? IsWp6Unlocked { get; set; }
         private bool IsDeleted { get; set; }
+        private bool IsAgreedToTermsOfUbora { get; set; }
 
         public ProjectSeeder WithId(Guid projectId)
         {
@@ -88,6 +89,12 @@ namespace Ubora.Domain.Tests
         public ProjectSeeder AsDeleted()
         {
             IsDeleted = true;
+            return this;
+        }
+
+        public ProjectSeeder WithAgreementToTermsOfUbora(bool isAgreed)
+        {
+            IsAgreedToTermsOfUbora = isAgreed;
             return this;
         }
 
@@ -162,6 +169,16 @@ namespace Ubora.Domain.Tests
                 {
                     ProjectId = ProjectId,
                     Actor = new DummyUserInfo()
+                });
+            }
+
+            if (IsAgreedToTermsOfUbora)
+            {
+                fixture.Processor.Execute(new ChangeAgreementToTermsOfUboraCommand
+                {
+                    ProjectId = ProjectId,
+                    Actor = new DummyUserInfo(),
+                    IsAgreed = true
                 });
             }
 
