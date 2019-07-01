@@ -29,6 +29,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             base.OnActionExecuting(context);
 
             ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(PageTitle)] = "WP 3: Design and prototyping";
         }
 
         [HttpGet("")]

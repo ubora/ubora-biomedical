@@ -24,8 +24,8 @@
                         <p class="text-faded mb-5">The EU funded project aims at creating an e-platform – UBORA – for open-source co-design of new solutions to face the current and future healthcare challenges of Europe and Africa; by exploiting networking, knowledge on rapid prototyping of new ideas and sharing of safety criteria and performance data.</p>
                     </div>
                     <div class="col-lg-8 mx-auto">
-                        <a class="btn btn-outline-light btn-primary btn-lg mx-lg-1" href="http://ubora-biomedical.org/" target="_blank">Read latest news on our blog</a>
-                        <a class="btn btn-cta btn-primary btn-lg mx-lg-1 js-animate-scroll" role="button" href="#signUpToUbora">Sign up to UBORA e-platform</a>
+                        <a class="btn btn-outline-light btn-primary mx-lg-1" href="http://ubora-biomedical.org/" target="_blank">Read latest news on our blog</a>
+                        <a class="btn btn-cta btn-primary mx-lg-1 js-animate-scroll" role="button" href="#signUpToUbora">Sign up to UBORA e-platform</a>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                             </h2>
                             <span class="divider border-white"></span>
                             <p class="text-faded mb-4">Have a need for a bioengineering solution?</p>
-                            <a tabindex="0" class="btn btn-outline-light btn-primary btn-lg" role="button" asp-action="@nameof(IndicateClinicalNeedController.StepOne)" asp-controller="@nameof(IndicateClinicalNeedController).RemoveSuffix()" asp-area="@Areas.ClinicalNeedsArea">Indicate a need</a>
+                            <a tabindex="0" class="btn btn-outline-light btn-primary" role="button" asp-action="@nameof(IndicateClinicalNeedController.StepOne)" asp-controller="@nameof(IndicateClinicalNeedController).RemoveSuffix()" asp-area="@Areas.ClinicalNeedsArea">Indicate a need</a>
                         </div>
                     </div>
                 </div>
@@ -70,11 +70,11 @@
 
                             @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanCreateProject))
                             {
-                                <a class="btn btn-outline-light btn-primary btn-lg" role="button" asp-action="@nameof(ProjectCreationController.Create)" asp-controller="@nameof(ProjectCreationController).RemoveSuffix()" asp-area="@Areas.ResourcesArea">Create a project</a>
+                                <a class="btn btn-outline-light btn-primary" role="button" asp-action="@nameof(ProjectCreationController.Create)" asp-controller="@nameof(ProjectCreationController).RemoveSuffix()" asp-area="@Areas.ResourcesArea">Create a project</a>
                             }
                             else
                             {
-                                <a class="btn btn-outline-light btn-primary btn-lg" role="button" disabled title="Your email must be confirmed to create a project!" data-toggle="tooltip" data-placement="bottom">Create a project</a>
+                                <a class="btn btn-outline-light btn-primary" role="button" disabled title="Your email must be confirmed to create a project!" data-toggle="tooltip" data-placement="bottom">Create a project</a>
                             }
 
                         </div>
@@ -283,7 +283,7 @@
                     <h2 class="text-white">Support UBORA</h2>
                     <span class="divider border-white mx-auto"></span>
                     <p class="text-faded mb-4">You can support UBORA by spreading the word, by collaborating on open-source projects or by supporting financially.</p>
-                    <a tabindex="0" class="btn btn-light btn-primary btn-lg popover-dismiss" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="Coming soon">
+                    <a tabindex="0" class="btn btn-light btn-primary popover-dismiss" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="Coming soon">
                         <i class="material-icons align-middle">favorite_border</i>
                         <span class="align-middle">Support</span>
                     </a>
@@ -361,7 +361,7 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary btn-lg">Sign up</button>
+                        <button type="submit" class="btn btn-primary">Sign up</button>
                     </div>
                     <div class="mt-4 text-center">
                         <span>Already signed up?</span>

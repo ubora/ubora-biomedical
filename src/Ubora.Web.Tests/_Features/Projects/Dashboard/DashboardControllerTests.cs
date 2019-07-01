@@ -124,8 +124,8 @@ namespace Ubora.Web.Tests._Features.Projects.Dashboard
             QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);
 
-            NodeServicesMock
-                .Setup(ns => ns.InvokeAsync<string>("./Scripts/backend/SanitizeQuillDelta.js", project.DescriptionV2.Value))
+            QuillDeltaTransformerMock
+                .Setup(t => t.SanitizeQuillDeltaForEditing(project.DescriptionV2))
                 .ReturnsAsync("DescriptionQuillDelta");
 
             var expectedModel = new EditProjectTitleAndDescriptionViewModel()

@@ -211,6 +211,11 @@ namespace Ubora.Web.Authorization
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                 });
 
+                options.AddPolicy(Policies.CanEditAndViewUnlockedWorkPackageSix, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
+                }); 
+
                 options.AddPolicy(Policies.CanRemoveIsoStandardFromComplianceChecklist, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());

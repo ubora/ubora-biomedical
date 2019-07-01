@@ -103,7 +103,7 @@
                 <input asp-for="GrowthStrategyDescriptionQuillDelta" type="hidden" />
                 <span asp-validation-for="GrowthStrategyDescriptionQuillDelta"></span>
                 <div class="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial", new BusinessModelCanvasQuillToolbarFormatOptions())</div>
-                <div class="editor-container form-group" style="display: none;"></div> 
+                <div class="editor-container form-group" style="display: none;"></div>
             </div>
         </div>
     </div>
@@ -111,27 +111,27 @@
     <div class="row">
         <div class="col-12 form-group">
             <div class="d-flex flex-wrap-reverse justify-content-center">
-            <a class="btn btn-outline-primary" asp-action="@nameof(WorkpackageFiveController.BusinessModelCanvas)">Discard</a>
-            <span class="mx-1"></span>
-            <button class="btn btn-primary" type="submit">Save changes</button>
+                <a class="btn btn-outline-primary" asp-action="@nameof(WorkpackageFiveController.BusinessModelCanvas)">Discard</a>
+                <span class="mx-1"></span>
+                <button class="btn btn-primary" type="submit">Save changes</button>
+            </div>
         </div>
-    </div>
-        
+
 </form>
 
 @section Scripts {
     @{
-        var ids = new string[] 
+        var ids = new string[]
         {
-            nameof(Model.ValueProposalDescriptionQuillDelta),
-            nameof(Model.KeyResourcesAndPartnersDescriptionQuillDelta),
-            nameof(Model.PotentialClientsAndUsersAndChannelsDescriptionQuillDelta),
-            nameof(Model.RelevantDocumentationForProductionAndUseDescriptionQuillDelta),
-            nameof(Model.AnalysisOfCostsAndProductionAndSupplyChainAndServicesToClientsDescriptionQuillDelta),
-            nameof(Model.GrowthStrategyDescriptionQuillDelta),
+    nameof(Model.ValueProposalDescriptionQuillDelta),
+    nameof(Model.KeyResourcesAndPartnersDescriptionQuillDelta),
+    nameof(Model.PotentialClientsAndUsersAndChannelsDescriptionQuillDelta),
+    nameof(Model.RelevantDocumentationForProductionAndUseDescriptionQuillDelta),
+    nameof(Model.AnalysisOfCostsAndProductionAndSupplyChainAndServicesToClientsDescriptionQuillDelta),
+    nameof(Model.GrowthStrategyDescriptionQuillDelta),
         };
     }
-    @foreach(var id in ids) 
+    @foreach (var id in ids)
     {
         <script>
             var contentInputSelector = "#@id";

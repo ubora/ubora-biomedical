@@ -29,8 +29,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
-
             ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(PageTitle)] = "WP 4: Implementation";
         }
 
         [HttpGet("")]
