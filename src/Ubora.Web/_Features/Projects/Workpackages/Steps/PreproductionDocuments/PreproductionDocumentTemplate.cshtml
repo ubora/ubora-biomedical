@@ -50,7 +50,7 @@
 @Html.Raw(Model.IntendedUsers)
 
 <h1>ISO compliance</h1>
-@foreach (var isoStandard in Model.IsoCompliance.IsoStandards)
+@foreach (var isoStandard in Model.IsoCompliance.IsoStandards.Select(x => x.IsoStandard).ToList())
 {
     if (isoStandard.IsMarkedAsCompliant)
     {

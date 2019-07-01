@@ -227,9 +227,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         
         [Route("preproduction-document")]
         public IActionResult PreproductionDocument()
-        { 
-            ViewBag.Title = "WP 4: Implementation";
-            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+        {
+            ViewData[nameof(PageTitle)] = "WP 4: Implementation";
+            ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.PreproductionDocuments;
 
             var wpStatuses = QueryProcessor.ExecuteQuery(new GetStatusesOfProjectWorkpackagesQuery(ProjectId));
@@ -248,8 +248,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             return View("PreproductionDocuments/PreproductionDocument", model);
         }
         
-        [HttpPost]
-        [Route("preproduction-document")]
+        [Route("download-preproduction-document")]
         public async Task<IActionResult> DownloadPreproductionDocument(PreproductionDocumentsViewModel model, [FromServices] PreproductionDocumentTemplateViewModel.Factory modelFactory)
         {
             var preproductionDocumentTemplateViewModel = await modelFactory.Create(Project);

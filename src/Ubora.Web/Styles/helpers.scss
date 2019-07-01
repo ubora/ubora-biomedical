@@ -186,7 +186,7 @@ hr {
     display: none;
 }
 
-/*Different widths*/
+/* Widths */
 .w-8 {
     width: 8%;
 }
@@ -219,12 +219,18 @@ hr {
     width: 15rem;
 }
 
+/* Heights */
+
 .h-min-45 {
     min-height: 45rem;
 }
 
 .h-min-10 {
     min-height: 10rem;
+}
+
+.h-2-rem {
+    height: 2rem;
 }
 
 /*Breaks word at any character*/

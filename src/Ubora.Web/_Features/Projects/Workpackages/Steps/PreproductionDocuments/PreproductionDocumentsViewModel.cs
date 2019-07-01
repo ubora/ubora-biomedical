@@ -9,7 +9,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
 
     public class WorkpackageCheckBoxListItem
     {
-        public string Name { get; set; }
+        public string Name { get; set; } 
         public bool IsExportable { get; set; }
     }
 }

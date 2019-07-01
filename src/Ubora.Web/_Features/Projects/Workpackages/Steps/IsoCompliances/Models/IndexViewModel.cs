@@ -26,10 +26,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances.Models
             {
             }
 
-            public virtual async Task<IndexViewModel> Create(ClaimsPrincipal user, IsoStandardsComplianceChecklist aggregate = null)
+            public virtual async Task<IndexViewModel> Create(ClaimsPrincipal user = null, IsoStandardsComplianceChecklist aggregate = null)
             {
-                var canEditIsoStandards = await _authorizationService.IsAuthorizedAsync(user, Policies.CanWorkOnProjectContent);
-                var canRemoveIsoStandardFromComplianceChecklist = await _authorizationService.IsAuthorizedAsync(user, Policies.CanRemoveIsoStandardFromComplianceChecklist);
+                var canEditIsoStandards = user == null ? false : await _authorizationService.IsAuthorizedAsync(user, Policies.CanWorkOnProjectContent);
+                var canRemoveIsoStandardFromComplianceChecklist = user == null ? false : await _authorizationService.IsAuthorizedAsync(user, Policies.CanRemoveIsoStandardFromComplianceChecklist);
 
                 return new IndexViewModel
                 {
