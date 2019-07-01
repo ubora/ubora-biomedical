@@ -4,12 +4,16 @@
 
 @{
     ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
+    var canWorkOnProjectContent = (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanWorkOnProjectContent)).Succeeded;
 }
 
 <div class="col">
     <div class="d-flex justify-content-between">
         <h1>ISO compliance</h1>
-        @Html.Partial("_AddIsoStandardButtonAndModal.cshtml", new AddIsoStandardPostModel())
+        @if (canWorkOnProjectContent)
+        {
+            @Html.Partial("_AddIsoStandardButtonAndModal.cshtml", new AddIsoStandardPostModel())
+        }
     </div>
     <div asp-validation-summary="All"></div>
     <div class="pl-3">

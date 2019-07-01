@@ -35,7 +35,6 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, IsVoteNotGivenRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, HasProjectMemberOfTypeRequirement<ProjectMentor>.Handler>();
             services.AddSingleton<IAuthorizationHandler, OrRequirement.Handler>();
-            services.AddSingleton<IAuthorizationHandler, IsWorkpackageRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, AndRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, PandocServiceIpRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsClinicalNeedIndicatorRequirement.Handler>();
@@ -106,6 +105,7 @@ namespace Ubora.Web.Authorization
                 options.AddPolicy(Policies.CanEditDesignPlanning, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
+                    policyBuilder.AddRequirements(new IsWorkpackageOneNotLockedRequirement());
                 });
 
                 options.AddPolicy(Policies.CanEditWorkpackageOne, policyBuilder =>
@@ -192,17 +192,10 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new OrRequirement(new RolesAuthorizationRequirement(new[] { ApplicationRole.ManagementGroup }), new RolesAuthorizationRequirement(new[] { ApplicationRole.Admin })));
                 });
+
                 options.AddPolicy(Policies.CanUnlockWorkpackages, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement()); 
-                });
-                options.AddPolicy(Policies.CanEditAndViewUnlockedWorkPackageThree, policyBuilder =>
-                {
-                    policyBuilder.AddRequirements(new IsWorkpackageRequirement(DeviceStructuredInformationWorkpackageTypes.Three));
-                });
-                options.AddPolicy(Policies.CanEditAndViewUnlockedWorkPackageFour, policyBuilder =>
-                {
-                    policyBuilder.AddRequirements(new IsWorkpackageRequirement(DeviceStructuredInformationWorkpackageTypes.Four));
                 });
 
                 options.AddPolicy(Policies.CanRemoveIsoStandardFromComplianceChecklist, policyBuilder =>
@@ -233,6 +226,11 @@ namespace Ubora.Web.Authorization
                 options.AddPolicy(Policies.CanEditClinicalNeed, policyBuilder =>
                 {
                     policyBuilder.Requirements.Add(new IsClinicalNeedIndicatorRequirement());
+                });
+
+                options.AddPolicy(Policies.CanChangeAgreementToTermsOfUbora, policyBuilder =>
+                {
+                    policyBuilder.Requirements.Add(new IsProjectLeaderRequirement());
                 });
             });
         }

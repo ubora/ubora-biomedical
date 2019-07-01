@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Npgsql;
 using Ubora.Web.Infrastructure.Storage;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Web._Features;
 
 namespace Ubora.Web
 {
@@ -115,6 +116,7 @@ namespace Ubora.Web
             services.AddAutoMapper();
             services.AddUboraPolicyBasedAuthorization();
             services.AddNodeServices(setupAction => setupAction.InvocationTimeoutMilliseconds = 300000);
+            services.AddSingleton<QuillDeltaTransformer>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Marten;
-using Marten.Schema;
 using Marten.Services;
 using Marten.Services.Events;
 using Newtonsoft.Json;
@@ -25,6 +24,9 @@ using Ubora.Domain.Projects.IsoStandardsComplianceChecklists;
 using Ubora.Domain.Projects.StructuredInformations.Events;
 using Ubora.Domain.Resources;
 using Ubora.Domain.Resources.Events;
+using Ubora.Domain.Projects.BusinessModelCanvases;
+using Ubora.Domain.Projects.CommercialDossiers;
+using Ubora.Domain.Projects.IntellectualProperties;
 
 namespace Ubora.Domain.Infrastructure.Marten
 {
@@ -87,8 +89,13 @@ namespace Ubora.Domain.Infrastructure.Marten
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageTwo>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageThree>();
                 options.Events.InlineProjections.AggregateStreamsWith<WorkpackageFour>();
+                options.Events.InlineProjections.AggregateStreamsWith<WorkpackageFive>();
+                options.Events.InlineProjections.AggregateStreamsWith<WorkpackageSix>();
                 options.Events.InlineProjections.AggregateStreamsWith<ApplicableRegulationsQuestionnaireAggregate>();
                 options.Events.InlineProjections.AggregateStreamsWith<DeviceClassificationAggregate>();
+                options.Events.InlineProjections.AggregateStreamsWith<BusinessModelCanvas>();
+                options.Events.InlineProjections.AggregateStreamsWith<CommercialDossier>();
+                options.Events.InlineProjections.AggregateStreamsWith<IntellectualProperty>();
                 options.Events.InlineProjections.AggregateStreamsWith<ResourcePage>();
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<Assignment, IAssignmentEvent>());
                 options.Events.InlineProjections.Add(new AggregateMemberProjection<ProjectFile, IFileEvent>());

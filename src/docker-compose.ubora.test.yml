@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  ubora.web:
+    container_name: 'uboratest.web'
+    image: martinbetlem/uboratest:3001
+    environment:
+      ConnectionStrings__ApplicationDbConnection: "server=postgres;Port=5432;userid=postgres;password=ubora;database=ubora"
+    depends_on:
+      - "postgres"
+    networks:
+      - ubora-testnetwork      
+
+  postgres:
+    container_name: 'uboratest.postgres'
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: ubora
+      POSTGRES_DB: ubora
+    networks:
+      - ubora-testnetwork
+    volumes:
+      - psqlvolumes:/var/lib/postgresql/data
+  
+networks:
+  ubora-testnetwork:
+    driver: bridge
+
+volumes:
+  psqlvolumes:
+    driver: local

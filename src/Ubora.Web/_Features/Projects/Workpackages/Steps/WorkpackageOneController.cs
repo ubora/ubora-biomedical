@@ -7,6 +7,8 @@ using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features._Shared.Notices;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Ubora.Web._Features.Projects._Shared;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -16,6 +18,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     {
         private WorkpackageOne _workpackageOne;
         public WorkpackageOne WorkpackageOne => _workpackageOne ?? (_workpackageOne = QueryProcessor.FindById<WorkpackageOne>(ProjectId));
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+            ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(PageTitle)] = "WP 1: Medical need and product specification";
+        }
 
         [Route(nameof(ProjectOverview))]
         public IActionResult ProjectOverview(string returnUrl = null)
@@ -29,7 +38,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         public IActionResult DiscardDesignPlanningChanges(string returnUrl = null)
         {
-            if(returnUrl != null)
+            if (returnUrl != null)
             {
                 return RedirectToLocal(returnUrl);
             }
@@ -63,12 +72,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return ProjectOverview(returnUrl);
             }
 
-            if(returnUrl != null)
+            if (returnUrl != null)
             {
                 return RedirectToLocal(returnUrl);
             }
 
-            return View();
+            return RedirectToAction(nameof(ProjectOverview));
         }
 
         [Route("{stepId}")]

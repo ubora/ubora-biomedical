@@ -6,10 +6,11 @@ using Ubora.Domain.Projects.IsoStandardsComplianceChecklists;
 using Ubora.Domain.Projects.IsoStandardsComplianceChecklists.Commands;
 using Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances.Models;
 using Ubora.Web._Features._Shared.Notices;
+using System.Threading.Tasks;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances
 {
-    [ProjectRoute("WP4/ISO-compliance")]
+    [ProjectRoute("WP4/ISO-compliance")] 
     public class IsoCompliancesController : ProjectController
     {
         private readonly IndexViewModel.Factory _indexViewModelFactory;
@@ -19,7 +20,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
-
+            
             IsoStandardsComplianceAggregate = QueryProcessor.FindById<IsoStandardsComplianceChecklist>(ProjectId);
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.IsoCompliance;
         }
@@ -30,17 +31,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances
         }
 
         [HttpGet("")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View("Index", _indexViewModelFactory.Create(IsoStandardsComplianceAggregate));
+            var viewModel = await _indexViewModelFactory.Create(User, IsoStandardsComplianceAggregate);
+            return View("Index", viewModel);
         }
 
         [HttpPost("add-standard")]
-        public IActionResult AddIsoStandard(AddIsoStandardPostModel model)
+        public async Task<IActionResult> AddIsoStandard(AddIsoStandardPostModel model)
         {
             if (!ModelState.IsValid)
             {
-                return Index();
+                return await Index();
             }
 
             ExecuteUserProjectCommand(new AddIsoStandardCommand
@@ -48,18 +50,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances
                 Title = model.Title,
                 ShortDescription = model.ShortDescription,
                 Link = new Uri(model.Link)
-            }, Notice.Success("ISO standard added"));
+            }, Notice.Success(SuccessTexts.IsoStandardAdded));
 
             if (!ModelState.IsValid)
             {
-                return Index();
+                return await Index();
             }
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost("remove-standard")]
-        public IActionResult RemoveIsoStandard(RemoveIsoStandardCommand model)
+        public async Task<IActionResult> RemoveIsoStandard(RemoveIsoStandardCommand model)
         {
             if (!AuthorizationService.IsAuthorized(User, model.IsoStandardId, Policies.CanRemoveIsoStandardFromComplianceChecklist))
             {
@@ -68,50 +70,50 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.IsoCompliances
 
             if (!ModelState.IsValid)
             {
-                return Index();
+                return await Index();
             }
 
-            ExecuteUserProjectCommand(model, Notice.Success("ISO standard removed"));
+            ExecuteUserProjectCommand(model, Notice.Success(SuccessTexts.IsoStandardRemoved));
 
             if (!ModelState.IsValid)
             {
-                return Index();
+                return await Index();
             }
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost("mark-as-compliant")]
-        public IActionResult MarkAsCompliant(MarkIsoStandardAsCompliantCommand model)
+        public async Task<IActionResult> MarkAsCompliant(MarkIsoStandardAsCompliantCommand model)
         {
             if (!ModelState.IsValid)
             {
-                return Index();
+                return await Index();
             }
 
-            ExecuteUserProjectCommand(model, Notice.Success("ISO standard marked as compliant"));
+            ExecuteUserProjectCommand(model, Notice.Success(SuccessTexts.IsoStandardMarkedAsCompliant));
 
             if (!ModelState.IsValid)
             {
-                return Index();
+                return await Index();
             }
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost("mark-as-noncompliant")]
-        public IActionResult MarkAsNoncompliant(MarkIsoStandardAsNoncompliantCommand model)
+        public async Task<IActionResult> MarkAsNoncompliant(MarkIsoStandardAsNoncompliantCommand model)
         {
             if (!ModelState.IsValid)
             {
-                return Index();
+                return await Index();
             }
 
-            ExecuteUserProjectCommand(model, Notice.Success("ISO standard marked as non-compliant"));
+            ExecuteUserProjectCommand(model, Notice.Success(SuccessTexts.IsoStandardMarkedAsNonCompliant));
 
             if (!ModelState.IsValid)
             {
-                return Index();
+                return await Index();
             }
 
             return RedirectToAction(nameof(Index));

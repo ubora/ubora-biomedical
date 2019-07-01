@@ -32,8 +32,16 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
             _factory = new CandidateViewModel.Factory(_imageStorageProvider.Object, _commentFactory.Object, _authorizationService.Object);
         }
 
-        [Fact]
-        public async Task Create_Returns_Expected_ViewModel()
+        [Theory]
+        [InlineData(true, true, true, true, true, true)]
+        [InlineData(false, false, false, false, false, false)]
+        public async Task Create_Returns_Expected_ViewModel(
+            bool canVoteCandidate,
+            bool canEditProjectCandidate,
+            bool canChangeProjectCandidateImage,
+            bool canRemoveProjectCandidateImage,
+            bool canRemoveCandidate,
+            bool canWorkOnProjectContent)
         {
             var candidateMock = new Mock<Candidate>();
             var discussionMock = new Mock<Discussion>();
@@ -81,15 +89,22 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 .ReturnsAsync(comment2ViewModel);
 
             _authorizationService.Setup(x => x.AuthorizeAsync(user, candidateMock.Object, Policies.CanVoteCandidate))
-                .ReturnsAsync(AuthorizationResult.Success);
+                .ReturnsAsync(canVoteCandidate ? AuthorizationResult.Success() : AuthorizationResult.Failed());
+
             _authorizationService.Setup(x => x.AuthorizeAsync(user, candidateMock.Object, Policies.CanEditProjectCandidate))
-                .ReturnsAsync(AuthorizationResult.Success);
+                .ReturnsAsync(canEditProjectCandidate ? AuthorizationResult.Success() : AuthorizationResult.Failed());
+
             _authorizationService.Setup(x => x.AuthorizeAsync(user, candidateMock.Object, Policies.CanChangeProjectCandidateImage))
-                .ReturnsAsync(AuthorizationResult.Success);
+                .ReturnsAsync(canChangeProjectCandidateImage ? AuthorizationResult.Success() : AuthorizationResult.Failed());
+
             _authorizationService.Setup(x => x.AuthorizeAsync(user, candidateMock.Object, Policies.CanRemoveProjectCandidateImage))
-                .ReturnsAsync(AuthorizationResult.Success);
+                .ReturnsAsync(canRemoveProjectCandidateImage ? AuthorizationResult.Success() : AuthorizationResult.Failed());
+
             _authorizationService.Setup(x => x.AuthorizeAsync(user, candidateMock.Object, Policies.CanRemoveCandidate))
-                .ReturnsAsync(AuthorizationResult.Success);
+                .ReturnsAsync(canRemoveCandidate ? AuthorizationResult.Success() : AuthorizationResult.Failed());
+
+            _authorizationService.Setup(x => x.AuthorizeAsync(user, candidateMock.Object, Policies.CanWorkOnProjectContent))
+                .ReturnsAsync(canWorkOnProjectContent ? AuthorizationResult.Success() : AuthorizationResult.Failed());
 
             // Act
             var result = await _factory.Create(candidateMock.Object, discussionMock.Object, user);
@@ -113,11 +128,12 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages.Candidates
                 ScorePercentageGood = 20,
                 ScorePercentageMediocre = 20,
                 ScorePercentagePoor = 40,
-                IsVotingAllowed = true,
-                CanEditProjectCandidate = true,
-                CanChangeProjectCandidateImage = true,
-                CanRemoveProjectCandidateImage = true,
-                CanRemoveCandidate = true,
+                IsVotingAllowed = canVoteCandidate,
+                CanEditProjectCandidate = canEditProjectCandidate,
+                CanChangeProjectCandidateImage = canChangeProjectCandidateImage,
+                CanRemoveProjectCandidateImage = canRemoveProjectCandidateImage,
+                CanRemoveCandidate = canRemoveCandidate,
+                CanAddComment = canWorkOnProjectContent,
                 UserVotesViewModel = new UserVotesViewModel
                 {
                     Functionality = userVoteFunctionality,

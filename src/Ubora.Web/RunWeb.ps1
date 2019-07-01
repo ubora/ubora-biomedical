@@ -12,7 +12,7 @@ Write-Host "Building project..."
 dotnet build
 
 Write-Host "Webpack watching files..."
-start powershell ./Webpack_using_watch_mode.ps1
+start powershell "npm run webpack-watch"
 
 Write-Host "Starting project..."
 dotnet watch run --urls "https://localhost:5001"

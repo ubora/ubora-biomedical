@@ -12,7 +12,6 @@ using Ubora.Domain.Projects._Commands;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
-using Ubora.Web._Features.Projects._Shared;
 using Ubora.Web._Features._Shared.Notices;
 using Ubora.Web._Components.Discussions.Models;
 using Ubora.Domain.Projects;
@@ -374,7 +373,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Candidates
 
             return RedirectToAction(nameof(Candidate));
         }
-
+         
         [HttpPost("{candidateId}/vote")]
         public async Task<IActionResult> AddVote(AddVoteViewModel model, [FromServices] CandidateViewModel.Factory candidateViewModelFactory)
         {

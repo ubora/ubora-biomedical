@@ -4,11 +4,11 @@
     // Sanitize from '<' to '>' so not to HTML escape Quill's Delta JSON.
 
     var sanitizedDeltaString = deltaString.replace(/<(.*?)>/g, function (val) {
-        return sanitizeHtml(deltaString, {
+        return sanitizeHtml(val, {
             allowedTags: [],
             allowedAttributes: []
         });
     });
 
-    callback(null, deltaString);
+    callback(null, sanitizedDeltaString);
 };

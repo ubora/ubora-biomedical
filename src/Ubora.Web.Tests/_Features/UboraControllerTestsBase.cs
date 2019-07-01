@@ -15,9 +15,11 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.NodeServices;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Web.Tests.Helper;
+using Ubora.Web.Infrastructure;
+using Ubora.Domain;
+using Ubora.Domain.Tests;
 
 namespace Ubora.Web.Tests._Features
 {
@@ -36,15 +38,14 @@ namespace Ubora.Web.Tests._Features
 
         public IFixture AutoFixture { get; } = new Fixture();
 
-        public Mock<INodeServices> NodeServicesMock { get; private set; } =
-            new Mock<INodeServices>();
+        public Mock<QuillDeltaTransformer> QuillDeltaTransformerMock { get; private set; } =
+            new Mock<QuillDeltaTransformer>();
 
         protected UboraControllerTestsBase()
         {
             UserId = Guid.NewGuid();
             User = CreateUser(UserId);
             AuthorizationServiceMock.SetReturnsDefault(Task.FromResult(AuthorizationResult.Failed()));
-            NodeServicesMock.SetReturnsDefault(Task.FromResult(""));
         }
 
         protected virtual void SetUpForTest(UboraController controller)
@@ -67,8 +68,12 @@ namespace Ubora.Web.Tests._Features
             serviceProviderMock.Setup(x => x.GetService(typeof(IAuthorizationService)))
                 .Returns(AuthorizationServiceMock.Object);
 
-            serviceProviderMock.Setup(x => x.GetService(typeof(INodeServices)))
-                .Returns(NodeServicesMock.Object);
+            QuillDeltaTransformerMock.Setup(t => t.SanitizeQuillDeltaForEditing(It.IsAny<QuillDelta>()))
+                .ReturnsAsync(TestQuillDeltas.CreateRandom().Value);
+            QuillDeltaTransformerMock.Setup(t => t.ConvertQuillDeltaToHtml(It.IsAny<QuillDelta>()))
+                .ReturnsAsync(TestQuillDeltas.CreateRandom().Value);
+            serviceProviderMock.Setup(x => x.GetService(typeof(QuillDeltaTransformer)))
+                .Returns(QuillDeltaTransformerMock.Object);
 
             // Stub ASP.NET MVC services
             serviceProviderMock.Setup(x => x.GetService(typeof(IUrlHelperFactory)))

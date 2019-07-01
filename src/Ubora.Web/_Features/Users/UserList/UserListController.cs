@@ -47,11 +47,11 @@ namespace Ubora.Web._Features.Users.UserList
             IPagedList<UserProfile> userProfiles;
             if (searchModel.Tab == TabType.AllMembers)
             {
-                userProfiles = QueryProcessor.Find(new MatchAll<UserProfile>(), new SortByMultipleUserProfileSortSpecification(sortSpecifications), 24, page);
+                userProfiles = QueryProcessor.Find(new MatchAll<UserProfile>(), new SortByMultipleUserProfileSortSpecification(sortSpecifications), 40, page);
             }
             else
             {
-                userProfiles = QueryProcessor.ExecuteQuery(new SortByMultipleUboraMentorProfilesQuery(sortSpecifications, 24, page));
+                userProfiles = QueryProcessor.ExecuteQuery(new SortByMultipleUboraMentorProfilesQuery(sortSpecifications, 40, page));
             }
 
             var userListItemViewModel = userProfiles.Select(userProfile => new UserListItemViewModel

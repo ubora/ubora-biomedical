@@ -11,12 +11,12 @@
 @import 'overrides/card-item.scss';
 @import 'overrides/feedback.scss';
 @import 'overrides/drag_and_drop_file_uploads.scss';
-@import 'overrides/voting.scss';
 @import 'overrides/profile_view.scss';
 @import 'overrides/breadcrumb.scss';
 @import 'overrides/pagination.scss';
 @import 'overrides/infinite_scroll.scss';
 
+@import 'page_components/voting.scss';
 @import 'page_components/header.scss';
 @import 'page_components/footer.scss';
 @import 'page_components/notices.scss';
@@ -30,6 +30,7 @@
 @import 'page_components/3dviewer.scss';
 @import 'page_components/nav_rightside.scss';
 @import 'page_components/nav_sidemenu.scss';
+@import 'page_components/project_closure.scss';
 @import 'page_components/nav_tabs.scss';
 @import 'page_components/comments.scss';
 @import 'page_components/scroll_indicator.scss';

@@ -19,6 +19,7 @@ using Ubora.Domain.Projects;
 using Ubora.Domain;
 using Ubora.Domain.Projects.Workpackages.Queries;
 using Microsoft.AspNetCore.NodeServices;
+using System.Security.Claims;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
 {
@@ -184,7 +185,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments
                     {
                         WorkpackageStepViewModels = await GetWorkpackageStepViewModels(workspackageFour),
                         StructuredInformationResultViewModel = _structuredInformationResultViewModel.Create(deviceStructuredInformation),
-                        IsoStandardIndexListViewModel = _indexViewModelFactory.Create(isoStandardsComplianceAggregate)
+                        IsoStandardIndexListViewModel = await _indexViewModelFactory.Create(new ClaimsPrincipal(), isoStandardsComplianceAggregate) // TODO: next merge
                     };
                 }
 

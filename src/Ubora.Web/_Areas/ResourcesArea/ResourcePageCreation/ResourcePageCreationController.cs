@@ -27,7 +27,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePageCreation
         public async Task<IActionResult> Add(CreateResourcePagePostModel model)
         {
             if (!await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
-                return Unauthorized();
+                return Forbid();
 
             if (!ModelState.IsValid)
                 return Add();
@@ -42,7 +42,7 @@ namespace Ubora.Web._Areas.ResourcesArea.ResourcePageCreation
                     MenuPriority = model.MenuPriority,
                     ParentCategoryId = model.ParentCategoryId
                 },
-                successNotice: Notice.Success("Resource page created"));
+                successNotice: Notice.Success(SuccessTexts.ResourcePageCreated));
 
             if (!ModelState.IsValid)
                 return Add();

@@ -1,0 +1,39 @@
+﻿@using Ubora.Web._Features.Projects.Workpackages.Steps
+
+@model AgreeToTermsOfUboraViewModel
+
+@{
+    ViewData[nameof(PageTitle)] = "Agree to terms of UBORA";
+    ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.AgreeToTermsOfUbora;
+}
+
+<h1>@ViewData[nameof(PageTitle)]</h1>
+
+@{
+    var isAuthorized = (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanChangeAgreementToTermsOfUbora)).Succeeded;
+}
+
+@if (isAuthorized) 
+{
+    <p class="text-informative">You can change the agreement because you are the project leader.</p>
+} 
+else 
+{
+    <p class="text-informative">You can not change the agreement because you are not the project leader.</p>
+}
+
+
+<form asp-controller="@WorkpackageFiveController.Name" asp-action="@nameof(WorkpackageFiveController.AgreeToTermsOfUbora)">
+    <div class="custom-control custom-checkbox my-4">
+        <input type="checkbox" class="custom-control-input" asp-for="IsAgreed" ubora-disable="!isAuthorized">
+        <label class="custom-control-label" asp-for="IsAgreed">
+            <span class="custom-control-description">I acknowledge and confirm that the project is in accordance with </span>
+            <a href="http://ubora-biomedical.org/privacy-policies/" target="_blank">UBORA Privacy Policy</a><span class="custom-control-description">.</span>
+        </label>
+        <span asp-validation-for="IsAgreed"></span>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary" ubora-disable="!isAuthorized">Save changes</button>
+    </div>
+</form>

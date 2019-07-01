@@ -86,6 +86,9 @@
     <Content Update="package.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Update="_Features\Projects\Workpackages\Steps\ProtoStep.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="SuccessTexts.resx">

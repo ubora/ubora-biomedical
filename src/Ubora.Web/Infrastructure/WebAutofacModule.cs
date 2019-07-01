@@ -26,6 +26,7 @@ using Ubora.Web._Features.Projects.Workpackages.Candidates;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages.CommandHandlers;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages.Services;
 using Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments;
+using Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentations;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -128,6 +129,7 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterType<CommentViewModelFactory>().AsSelf().InstancePerLifetimeScope();
 
             builder.RegisterType<ResourceBlobDeleter>().As<IResourceBlobDeleter>().InstancePerLifetimeScope();
+            builder.RegisterType<CommercialDossierViewModel.Helper>().AsSelf().InstancePerLifetimeScope();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)

@@ -177,9 +177,11 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Returns(project);
 
             // Act
-            var result = (ViewResult)_workpackageOneController.ProjectOverview(projectOverViewModel);
+            var result = (RedirectToActionResult)_workpackageOneController.ProjectOverview(projectOverViewModel);
 
             // Assert
+            result.ActionName.Should().Be(nameof(_workpackageOneController.ProjectOverview));
+
             executedCommand.PotentialTechnologyTag.Should().Be(potentialTechnologyTags);
             executedCommand.Keywords.Should().Be(gmdn);
             executedCommand.AreaOfUsageTag.Should().Be(areaOfUsageTags);

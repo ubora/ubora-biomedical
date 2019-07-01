@@ -1,41 +1,49 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
-using TestStack.BDDfy;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Domain.Projects._Commands;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
 {
-    public class EditWorkpackageThreeStepTests : IntegrationFixture
+    public class EditWorkpackageOneStepTests : IntegrationFixture
     {
         [Fact]
-        public void Workpackage_Three_Step_Can_Be_Edited()
+        public void Workpackage_One_Step_Can_Be_Edited()
         {
             var projectId = Guid.NewGuid();
-            var editCommand = new EditWorkpackageThreeStepCommand
+            Processor.Execute(new CreateProjectCommand
+            {
+                NewProjectId = projectId,
+                Actor = new DummyUserInfo()
+            });
+
+            var workpackage = Session.Load<WorkpackageOne>(projectId);
+
+            var randomStepToEdit = workpackage.Steps.Skip(1).First();
+            var initialTitle = randomStepToEdit.Title;
+
+            var editWorkpackageOneStepCommand = new EditWorkpackageOneStepCommand
             {
                 ProjectId = projectId,
-                StepId = "GeneralProductDescription_ElectronicAndFirmware_PurposelyDesignedParts",
+                StepId = randomStepToEdit.Id,
                 NewValue = new QuillDelta("{test}"),
                 Actor = new DummyUserInfo()
             };
 
-            this.Given(_ => this.Create_Project(projectId))
-                    .And(_ => this.Submit_Workpackage_One_For_Review(projectId))
-                    .And(_ => this.Accept_Workpackage_One_Review(projectId))
-                    .And(_ => this.Open_Workpackage_Three(projectId))
-                .When(_ => Processor.Execute(editCommand))
-                .Then(_ => Assert_WP3_Step_Has_Value(projectId, editCommand.StepId, editCommand.NewValue))
-                .BDDfy();
-        }
+            // Act
+            Processor.Execute(editWorkpackageOneStepCommand);
 
-        private void Assert_WP3_Step_Has_Value(Guid projectId, string stepId, QuillDelta contentValue)
-        {
-            var wp3 = Processor.FindById<WorkpackageThree>(projectId);
+            // Assert
+            RefreshSession();
 
-            wp3.Steps.Single(s => s.Id == stepId).ContentV2.Should().Be(contentValue);
+            workpackage = Session.Load<WorkpackageOne>(projectId);
+            var editedStep = workpackage.Steps.Single(x => x.Id == randomStepToEdit.Id);
+
+            editedStep.ContentV2.Should().Be(new QuillDelta("{test}"));
+            editedStep.Title.Should().Be(initialTitle);
         }
     }
 }
