@@ -5,7 +5,7 @@
     <ul>
         @foreach (var feedback in Model)
         {
-            <li><p><q>@feedback.Value</q> @feedback.By.Name (@feedback.FromPath)</p></li>
+            <li><p><q>@feedback.Value</q> @feedback.By.Name - @feedback.SentAt (@feedback.FromPath)</p></li>
         }
     </ul>
 </section>
