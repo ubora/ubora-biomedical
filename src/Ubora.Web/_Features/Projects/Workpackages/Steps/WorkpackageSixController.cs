@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Ubora.Domain;
@@ -10,13 +8,11 @@ using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features._Shared.Notices;
-using Ubora.Web._Features.Projects._Shared;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
     [ProjectRoute("WP6")]
     [WorkpackageStepIdFromRouteToViewData]
-    [Authorize(Policy = nameof(Policies.CanEditAndViewUnlockedWorkPackageSix))]
     public class WorkpackageSixController : ProjectController
     {
         public const string Name = "WorkpackageSix";

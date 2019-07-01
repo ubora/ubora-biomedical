@@ -77,7 +77,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
                 return RedirectToLocal(returnUrl);
             }
 
-            return View();
+            return RedirectToAction(nameof(ProjectOverview));
         }
 
         [Route("{stepId}")]

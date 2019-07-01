@@ -105,6 +105,7 @@ namespace Ubora.Web.Authorization
                 options.AddPolicy(Policies.CanEditDesignPlanning, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
+                    policyBuilder.AddRequirements(new IsWorkpackageOneNotLockedRequirement());
                 });
 
                 options.AddPolicy(Policies.CanEditWorkpackageOne, policyBuilder =>
@@ -196,25 +197,6 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement()); 
                 });
-
-                options.AddPolicy(Policies.CanEditAndViewUnlockedWorkPackageThree, policyBuilder =>
-                {
-                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
-                });
-                options.AddPolicy(Policies.CanEditAndViewUnlockedWorkPackageFour, policyBuilder =>
-                {
-                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
-                });
-                
-                options.AddPolicy(Policies.CanEditAndViewUnlockedWorkPackageFive, policyBuilder =>
-                {
-                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
-                });
-
-                options.AddPolicy(Policies.CanEditAndViewUnlockedWorkPackageSix, policyBuilder =>
-                {
-                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
-                }); 
 
                 options.AddPolicy(Policies.CanRemoveIsoStandardFromComplianceChecklist, policyBuilder =>
                 {
