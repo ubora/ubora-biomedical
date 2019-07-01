@@ -36,7 +36,7 @@ namespace Ubora.Web.Authorization
             services.AddSingleton<IAuthorizationHandler, HasProjectMemberOfTypeRequirement<ProjectMentor>.Handler>();
             services.AddSingleton<IAuthorizationHandler, OrRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, AndRequirement.Handler>();
-
+            services.AddSingleton<IAuthorizationHandler, PandocServiceIpRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsClinicalNeedIndicatorRequirement.Handler>();
             services.AddSingleton<IAuthorizationHandler, IsUboraAdminGenericRequirementHandler<IsClinicalNeedIndicatorRequirement>>();
         }
@@ -201,6 +201,11 @@ namespace Ubora.Web.Authorization
                 options.AddPolicy(Policies.CanRemoveIsoStandardFromComplianceChecklist, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
+                });
+                
+                options.AddPolicy(Policies.CanDownloadFile, policyBuilder =>
+                {
+                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectMemberRequirement(), new PandocServiceIpRequirement()));
                 });
 
                 options.AddPolicy(Policies.CanIndicateClinicalNeeds, policyBuilder =>

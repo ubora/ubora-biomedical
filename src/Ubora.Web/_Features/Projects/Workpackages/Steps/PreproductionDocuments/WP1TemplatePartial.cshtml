@@ -1,0 +1,16 @@
+﻿@model Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments.WP1TemplatePartialViewModel
+
+@if (Model.WorkpackageStepViewModels.Count != 0)
+{
+    <h1>Project context</h1>
+}
+
+@foreach (var workpackageStepViewModel in Model.WorkpackageStepViewModels)
+{
+    if (!string.IsNullOrEmpty(workpackageStepViewModel.Content))
+    {
+         <h2>@workpackageStepViewModel.Title</h2>
+
+         @Html.Raw(workpackageStepViewModel.Content)
+    }
+}

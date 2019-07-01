@@ -86,6 +86,7 @@ namespace Ubora.Web
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
+            services.Configure<Pandoc>(Configuration.GetSection("Pandoc"));
 
             var useSpecifiedPickupDirectory =
                 Convert.ToBoolean(Configuration["SmtpSettings:UseSpecifiedPickupDirectory"]);
@@ -150,7 +151,8 @@ namespace Ubora.Web
 
             if (isLocalStorage)
             {
-                storageProvider = new CustomDevelopmentAzureStorageProvider(azOptions, azureStorageProvider);
+                var linkLocalIpAddress = Configuration.GetValue<string>("Storage:LinkLocalIpAddress");
+                storageProvider = new CustomDevelopmentAzureStorageProvider(azOptions, azureStorageProvider, linkLocalIpAddress);
             }
             else
             {

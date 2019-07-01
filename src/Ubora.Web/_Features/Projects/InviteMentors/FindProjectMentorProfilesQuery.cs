@@ -6,6 +6,7 @@ using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Queries;
 using Ubora.Domain.Users;
+using UserProfile = Ubora.Domain.Users.UserProfile;
 
 namespace Ubora.Web._Features.Projects.InviteMentors
 {

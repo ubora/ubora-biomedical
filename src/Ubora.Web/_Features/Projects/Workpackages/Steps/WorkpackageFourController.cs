@@ -8,9 +8,14 @@ using Ubora.Domain.Projects.StructuredInformations;
 using Ubora.Domain.Projects.StructuredInformations.Specifications;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Domain.Projects.Workpackages.Queries;
 using Ubora.Domain.Projects._Specifications;
+using Ubora.Web.Infrastructure;
+using Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features._Shared.Notices;
+using System.Collections.Generic;
+using System;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -29,6 +34,15 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             base.OnActionExecuting(context);
             ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
             ViewData[nameof(PageTitle)] = "WP 4: Implementation";
+        }
+
+        private readonly ViewRender _viewRender;
+        private readonly IWordProcessingDocumentConverter _wordProcessingDocumentConverter;
+        
+        public WorkpackageFourController(ViewRender viewRender, IWordProcessingDocumentConverter wordProcessingDocumentConverter)
+        {
+            _viewRender = viewRender;
+            _wordProcessingDocumentConverter = wordProcessingDocumentConverter;
         }
 
         [HttpGet("")]
@@ -209,6 +223,41 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             return RedirectToAction(nameof(Index));
+        }
+        
+        [Route("preproduction-document")]
+        public IActionResult PreproductionDocument()
+        { 
+            ViewBag.Title = "WP 4: Implementation";
+            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.PreproductionDocuments;
+
+            var wpStatuses = QueryProcessor.ExecuteQuery(new GetStatusesOfProjectWorkpackagesQuery(ProjectId));
+            
+            var model = new PreproductionDocumentsViewModel
+            {
+                WorkpackageCheckBoxListItems = new List<WorkpackageCheckBoxListItem>
+                {
+                    new WorkpackageCheckBoxListItem { Name = "WP1", IsExportable = wpStatuses.Wp1Status == WorkpackageStatus.Opened || wpStatuses.Wp1Status == WorkpackageStatus.Accepted},
+                    new WorkpackageCheckBoxListItem { Name = "WP2", IsExportable = wpStatuses.Wp2Status == WorkpackageStatus.Opened || wpStatuses.Wp2Status == WorkpackageStatus.Accepted},
+                    new WorkpackageCheckBoxListItem { Name = "WP3", IsExportable = wpStatuses.Wp3Status == WorkpackageStatus.Opened || wpStatuses.Wp3Status == WorkpackageStatus.Accepted},
+                    new WorkpackageCheckBoxListItem { Name = "WP4", IsExportable = wpStatuses.Wp4Status == WorkpackageStatus.Opened || wpStatuses.Wp4Status == WorkpackageStatus.Accepted}
+                }
+            };
+            
+            return View("PreproductionDocuments/PreproductionDocument", model);
+        }
+        
+        [HttpPost]
+        [Route("preproduction-document")]
+        public async Task<IActionResult> DownloadPreproductionDocument(PreproductionDocumentsViewModel model, [FromServices] PreproductionDocumentTemplateViewModel.Factory modelFactory)
+        {
+            var preproductionDocumentTemplateViewModel = await modelFactory.Create(Project);
+
+            var view = _viewRender.Render("/_Features/Projects/Workpackages/Steps/PreproductionDocuments/", "PreproductionDocumentTemplate.cshtml", preproductionDocumentTemplateViewModel);
+            var documentStream = await _wordProcessingDocumentConverter.GetDocumentStreamAsync(view);
+            
+            return File(documentStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", $"Preproduction_document_{DateTime.UtcNow}.docx");
         }
     }
 }

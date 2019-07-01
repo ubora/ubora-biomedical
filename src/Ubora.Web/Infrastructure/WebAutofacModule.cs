@@ -25,6 +25,7 @@ using Ubora.Web._Features.Users.Manage;
 using Ubora.Web._Features.Projects.Workpackages.Candidates;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages.CommandHandlers;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages.Services;
+using Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments;
 using Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentations;
 
 namespace Ubora.Web.Infrastructure
@@ -50,6 +51,13 @@ namespace Ubora.Web.Infrastructure
                 builder.RegisterType<SpecifiedPickupDirectoryEmailSender>().As<EmailSender>()
                     .InstancePerLifetimeScope();
             }
+            
+            builder.RegisterType<PandocService>().As<PandocService>().InstancePerLifetimeScope();
+            
+            builder.RegisterType<UniversalDocumentConverter>()
+                .As<IWordProcessingDocumentConverter>()
+                .As<IMarkdownConverter>()
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().SingleInstance();
             builder.RegisterType<UrlHelperFactory>().As<IUrlHelperFactory>().SingleInstance();
