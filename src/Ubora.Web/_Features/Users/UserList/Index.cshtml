@@ -6,75 +6,75 @@
     ViewData[nameof(PageTitle)] = "Community";
 }
 
-    <div class="container my-5">
+<div class="container my-5">
 
-        <div class="row">
-            <div class="col-lg col-12">
-                <h1>@ViewData[nameof(PageTitle)]</h1>
-            </div>
-            <div class="col-xl-4 col-lg-6 col">
-                <div class="form-group search">
-                    <input class="form-control" placeholder="Search projects..." aria-describedby="btnGroupAddon" />
-                </div>
+    <div class="row">
+        <div class="col-lg col-12">
+            <h1>@ViewData[nameof(PageTitle)]</h1>
+        </div>
+        <div class="col-xl-4 col-lg-6 col">
+            <div class="form-group search">
+                <input class="form-control" asp-for="SearchName" placeholder="Search members..." aria-describedby="btnGroupAddon" />
             </div>
         </div>
+    </div>
 
-        <ul class="nav nav-tabs" id="communityTab">
-            @{
-                if (Model.Tab == TabType.Mentors)
+    <ul class="nav nav-tabs" id="communityTab">
+        @{
+            if (Model.Tab == TabType.Mentors)
+            {
+                <li class="nav-item">
+                    <a id="all-members-tab" class="nav-link d-flex align-items-center" href="/community/search?Tab=AllMembers&Ordering=@Model.Ordering">
+                        All members
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="mentors-tab" class="nav-link active d-flex align-items-center" href="/community/search?Tab=Mentors&Ordering=@Model.Ordering">
+                        Mentors
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a id="all-members-tab" class="nav-link active d-flex align-items-center" href="/community/search?Tab=AllMembers&Ordering=@Model.Ordering">
+                        All members
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="mentors-tab" class="nav-link d-flex align-items-center" href="/community/search?Tab=Mentors&Ordering=@Model.Ordering">
+                        Mentors
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+
+    <div class="row py-2">
+        <div class="col d-flex justify-content-end">
+            <div id="sortBy" class="dropdown d-inline-block">
+                <span class="align-middle px-2">Sort by</span>
+
+                @if (Model.Ordering == OrderingMethod.Lastname)
                 {
-                    <li class="nav-item">
-                        <a id="all-members-tab" class="nav-link d-flex align-items-center" href="/community/search?Tab=AllMembers&Ordering=@Model.Ordering">
-                            All members
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a id="mentors-tab" class="nav-link active d-flex align-items-center" href="/community/search?Tab=Mentors&Ordering=@Model.Ordering">
-                            Mentors
-                        </a>
-                    </li>
+                    <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
+                        Last name
+                    </button>
                 }
                 else
                 {
-                    <li class="nav-item">
-                        <a id="all-members-tab" class="nav-link active d-flex align-items-center" href="/community/search?Tab=AllMembers&Ordering=@Model.Ordering">
-                            All members
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a id="mentors-tab" class="nav-link d-flex align-items-center" href="/community/search?Tab=Mentors&Ordering=@Model.Ordering">
-                            Mentors
-                        </a>
-                    </li>
+                    <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
+                        First name
+                    </button>
                 }
-            }
-        </ul>
-
-        <div class="row py-2">
-            <div class="col d-flex justify-content-end">
-                <div id="sortBy" class="dropdown d-inline-block">
-                    <span class="align-middle px-2">Sort by</span>
-
-                    @if (Model.Ordering == OrderingMethod.Lastname)
-                    {
-                        <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
-                            Last name
-                        </button>
-                    }
-                    else
-                    {
-                        <button class="btn btn-icon dropdown-toggle px-0" type="button" data-toggle="dropdown">
-                            First name
-                        </button>
-                    }
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/community/search?Tab=@Model.Tab&Ordering=LastName">Last name</a>
-                        <a class="dropdown-item" href="/community/search?Tab=@Model.Tab&Ordering=FirstName">First name</a>
-                    </div>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/community/search?Tab=@Model.Tab&Ordering=LastName">Last name</a>
+                    <a class="dropdown-item" href="/community/search?Tab=@Model.Tab&Ordering=FirstName">First name</a>
                 </div>
             </div>
         </div>
-
+    </div>
+    <div class="communitySearchResult">
         <div class="tab-content" id="communityContent">
             <div class="tab-pane fade show active">
                 <div class="infinite-scroll">
@@ -96,7 +96,6 @@
                 </div>
             </div>
         </div>
-
         @if (Model.Pager.PageCount > 1)
         {
             @if (Model.Pager.IsFirstPage)
@@ -126,10 +125,32 @@
             }
         }
     </div>
+</div>
 
 @section Scripts {
     <script src="~/dist/infinite_scroll.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
     <script>
-        UBORA.initInfiniteScroll('@Html.Raw(Url.RouteUrl("CommunitySearch", new { Tab = Model.Tab, Ordering = Model.Ordering }))');
+        UBORA.initInfiniteScroll(window.location.href);
+        function filterUsers() {
+           $.ajax('/community/search',
+                {
+                    method: 'get',
+                    data:  { SearchName: $('#SearchName')[0].value, Tab: '@Model.Tab', Ordering: '@Model.Ordering' },
+                    success: function (response) {
+                        history.replaceState({},
+                            '',
+                            this.url); // https://developer.mozilla.org/en-US/docs/Web/API/History_API
+                        var responseHtml = $(response).find('.communitySearchResult').html();
+                        $('.communitySearchResult').html(responseHtml);
+                        UBORA.initInfiniteScroll(window.location.href);
+                    }
+                });
+        }
+
+        $('#SearchName').on('input', $.debounce(250,
+            function () {
+                filterUsers();
+            }));
     </script>
 }
