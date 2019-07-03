@@ -26,38 +26,24 @@
             @foreach (var assignment in Model.Assignments)
             {
                 <li>
-                    <label class="custom-control custom-checkbox d-block custom-control-label" for="@assignment.Id" >
-                    <input id="@assignment.Id" type="checkbox" class="js-assignment-checkbox custom-control-input" />
-                    <span class="custom-control-indicator"></span>
-                    @if (assignment.CreatedByUserId == UserManager.GetUserAsync(User).Result.Id 
-                        || await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditAssignment))
-                    {
-                        <span class="custom-control-description"><a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a></span>
-                    }
-                    else
-                    {
-                        <span class="custom-control-description"><a asp-controller="Assignments" asp-action="View" asp-route-id="@assignment.Id">@assignment.Title</a></span>
-                    }
-                    </label>
+                    <div class="custom-control custom-checkbox">
+                        <input id="@assignment.Id" type="checkbox" class="js-assignment-checkbox custom-control-input" />
+                        <label class="d-block custom-control-label" for="@assignment.Id" >
+                        <span class="custom-control-indicator"></span>
+                        </label>
+                        @if (assignment.CreatedByUserId == UserManager.GetUserAsync(User).Result.Id 
+                            || await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditAssignment))
+                        {
+                            // Add "assignment-done" class when done
+                            <span class="custom-control-description"><a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a></span>
+                        }
+                        else
+                        {
+                            <span class="custom-control-description"><a asp-controller="Assignments" asp-action="View" asp-route-id="@assignment.Id">@assignment.Title</a></span>
+                        }
+                    </div>
                 </li>
             }
         </ol>
     </div>
 </div>
-
-<script>
-
-$('.js-assignment-checkbox').click(function(e) {
-  var assignmentStates = JSON.parse(window.localStorage.assignmentStates || "{}");
-  assignmentStates[this.id] = this.checked;
-  window.localStorage.assignmentStates = JSON.stringify(assignmentStates);
-});
-
-$( document ).ready(function() {
-  var assignmentStates = JSON.parse(window.localStorage.assignmentStates || "{}");
-  $('.js-assignment-checkbox').each(function() {
-    this.checked = assignmentStates[this.id];
-  })
-});
-
-</script>

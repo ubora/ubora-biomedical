@@ -442,16 +442,6 @@ a.no-underline {
     }
 }
 
-/*Assignments checkbox style*/
-.custom-control-input:checked ~ .custom-control-indicator {
-    background-color: $green;
-    box-shadow: none;
-}
-
-.custom-control-input.custom-control-indicator {
-    box-shadow: none;
-}
-
-.custom-control-input:checked ~ .custom-control-description {
+.assignment-done {
     text-decoration: line-through;
 }
