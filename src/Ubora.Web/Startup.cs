@@ -125,6 +125,7 @@ namespace Ubora.Web
                 services.AddSingleton<TestUserSeeder>();
                 services.AddSingleton<TestProjectSeeder>();
                 services.AddSingleton<TestMentorSeeder>();
+                services.AddSingleton<TestClinicalNeedSeeder>();
                 services.AddMiniProfiler(options =>
                 {
                     options.IgnoredPaths.Add("dist");
