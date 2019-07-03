@@ -1,0 +1,49 @@
+﻿@model ListResourceCategoryViewModel
+
+@{
+    ViewData[nameof(PageTitle)] = "Resource categories";
+
+    RazorDelegate<ListItemResourceCategoryViewModel> renderCategoryWithChildren = null;
+    renderCategoryWithChildren =
+    @<li>
+        <a asp-action="@nameof(ResourceCategoriesController.Edit)" asp-route-resourceCategoryId="@item.CategoryId">@item.Title</a>
+        @{
+            var children = Model.Categories.Where(c => c.ParentCategoryId == item.CategoryId);
+        }
+        <ul>
+            @foreach (var child in children)
+            {
+                @renderCategoryWithChildren.Invoke(child);
+            }
+        </ul>
+    </li>;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">UBORA</a></li>
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Resources</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData[nameof(PageTitle)]</li>
+    </ol>
+</nav>
+
+<h1>@ViewData[nameof(PageTitle)]</h1>
+
+<ul>
+    @foreach (var category in Model.Categories.Where(c => c.ParentCategoryId == null))
+    {
+        @renderCategoryWithChildren(category);
+    }
+</ul>
+
+@section Right {
+    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
+    {
+        <div class="mb-3">
+            <a asp-action="@nameof(ResourceCategoriesController.Create)" asp-controller="ResourceCategories" class="my-2 btn btn-block btn-outline-primary">
+                <i class="material-icons">add</i>
+                <span>Create new category</span>
+            </a>
+        </div>
+    }
+}

@@ -11,6 +11,7 @@ using Ubora.Domain.Projects;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Web._Features._Shared.Notices;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Ubora.Web.Tests._Features.Projects.Workpackages
 {
@@ -28,7 +29,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         }
 
         [Fact]
-        public void Returns_View_With_ModelState_Errors_When_Form_Post_Is_Not_Valid()
+        public async Task Returns_View_With_ModelState_Errors_When_Form_Post_Is_Not_Valid()
         {
             var stepId = Guid.NewGuid().ToString();
             var step = Mock.Of<WorkpackageStep>();
@@ -46,7 +47,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var postModel = new EditStepViewModel { StepId = stepId };
 
             // Act
-            var result = (ViewResult)_workpackageOneController.Edit(postModel);
+            var result = (ViewResult)await _workpackageOneController.Edit(postModel);
 
             // Assert
             result.Model.Should().BeSameAs(expectedModel);
@@ -55,7 +56,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
         }
 
         [Fact]
-        public void Returns_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful()
+        public async Task Returns_View_With_ModelState_Errors_When_Handling_Of_Command_Is_Not_Successful()
         {
             var stepId = Guid.NewGuid().ToString();
             var step = Mock.Of<WorkpackageStep>();
@@ -71,17 +72,17 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             CommandProcessorMock.Setup(x => x.Execute(It.IsAny<ICommand>()))
                 .Returns(CommandResult.Failed("dummyError"));
 
-            var postModel = new EditStepViewModel { StepId = stepId };
+            var postModel = new EditStepViewModel { StepId = stepId, ContentQuillDelta = "{test}" };
 
             // Act
-            var result = (ViewResult)_workpackageOneController.Edit(postModel);
+            var result = (ViewResult)await _workpackageOneController.Edit(postModel);
 
             // Assert
             result.Model.Should().BeSameAs(expectedModel);
         }
 
         [Fact]
-        public void Redirects_When_Command_Is_Executed_Successfully()
+        public async Task Redirects_When_Command_Is_Executed_Successfully()
         {
             EditWorkpackageOneStepCommand executedCommand = null;
             CommandProcessorMock
@@ -93,22 +94,22 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var postModel = new EditStepViewModel
             {
                 StepId = stepId,
-                Content = "expectedValue"
+                ContentQuillDelta = "{expectedValue}"
             };
 
             // Act
-            var result = (RedirectToActionResult)_workpackageOneController.Edit(postModel);
+            var result = (RedirectToActionResult)await _workpackageOneController.Edit(postModel);
 
             // Assert
             executedCommand.StepId.Should().Be(stepId);
             executedCommand.ProjectId.Should().Be(ProjectId);
-            executedCommand.NewValue.Should().Be("expectedValue");
+            executedCommand.NewValue.Value.Should().Be("{expectedValue}");
 
             result.ActionName.Should().Be(nameof(WorkpackageOneController.Read));
         }
 
         [Fact]
-        public void Returns_View_Without_Editing_For_Workpackage_One_Step()
+        public async Task Returns_View_Without_Editing_For_Workpackage_One_Step()
         {
             var stepId = Guid.NewGuid().ToString();
             var step = Mock.Of<WorkpackageStep>();
@@ -122,14 +123,14 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Returns(expectedModel);
 
             // Act
-            var result = (ViewResult)_workpackageOneController.Read(stepId);
+            var result = (ViewResult)await _workpackageOneController.Read(stepId);
 
             // Assert
             result.Model.Should().BeSameAs(expectedModel);
         }
 
         [Fact]
-        public void Returns_View_With_Editing_For_Workpackage_One_Step()
+        public async Task Returns_View_With_Editing_For_Workpackage_One_Step()
         {
             var stepId = Guid.NewGuid().ToString();
             var step = Mock.Of<WorkpackageStep>();
@@ -143,7 +144,7 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Returns(expectedModel);
 
             // Act
-            var result = (ViewResult)_workpackageOneController.Read(stepId);
+            var result = (ViewResult)await _workpackageOneController.Read(stepId);
 
             // Assert
             result.Model.Should().BeSameAs(expectedModel);
@@ -165,10 +166,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var potentialTechnologyTags = "PotentialTechnologyTags";
             var projectOverViewModel = new ProjectOverviewViewModel
             {
-                AreaOfUsageTags = areaOfUsageTags,
-                ClinicalNeedTags = clinicalNeedTags,
-                Gmdn = gmdn,
-                PotentialTechnologyTags = potentialTechnologyTags,
+                AreaOfUsageTag = areaOfUsageTags,
+                ClinicalNeedTag = clinicalNeedTags,
+                Keywords = gmdn,
+                PotentialTechnologyTag = potentialTechnologyTags,
             };
 
             var project = new Project().Set(x => x.Title, projectTitle);
@@ -176,17 +177,19 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
                 .Returns(project);
 
             // Act
-            var result = (ViewResult)_workpackageOneController.ProjectOverview(projectOverViewModel);
+            var result = (RedirectToActionResult)_workpackageOneController.ProjectOverview(projectOverViewModel);
 
             // Assert
-            executedCommand.PotentialTechnologyTags.Should().Be(potentialTechnologyTags);
-            executedCommand.Gmdn.Should().Be(gmdn);
-            executedCommand.AreaOfUsageTags.Should().Be(areaOfUsageTags);
-            executedCommand.ClinicalNeedTags.Should().Be(clinicalNeedTags);
+            result.ActionName.Should().Be(nameof(_workpackageOneController.ProjectOverview));
+
+            executedCommand.PotentialTechnologyTag.Should().Be(potentialTechnologyTags);
+            executedCommand.Keywords.Should().Be(gmdn);
+            executedCommand.AreaOfUsageTag.Should().Be(areaOfUsageTags);
+            executedCommand.ClinicalNeedTag.Should().Be(clinicalNeedTags);
             executedCommand.Title.Should().Be(projectTitle);
 
             var successNotice = _workpackageOneController.Notices.Dequeue();
-            successNotice.Text.Should().Be("Project overview changed successfully!");
+            successNotice.Text.Should().Be(SuccessTexts.ProjectUpdated);
             successNotice.Type.Should().Be(NoticeType.Success);
         }
 
@@ -206,10 +209,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var potentialTechnologyTags = "PotentialTechnologyTags";
             var projectOverViewModel = new ProjectOverviewViewModel
             {
-                AreaOfUsageTags = areaOfUsageTags,
-                ClinicalNeedTags = clinicalNeedTags,
-                Gmdn = gmdn,
-                PotentialTechnologyTags = potentialTechnologyTags,
+                AreaOfUsageTag = areaOfUsageTags,
+                ClinicalNeedTag = clinicalNeedTags,
+                Keywords = gmdn,
+                PotentialTechnologyTag = potentialTechnologyTags,
             };
 
             var project = new Project().Set(x => x.Title, projectTitle);
@@ -222,14 +225,14 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var result = (RedirectToActionResult)_workpackageOneController.ProjectOverview(projectOverViewModel, returnUrl);
 
             // Assert
-            executedCommand.PotentialTechnologyTags.Should().Be(potentialTechnologyTags);
-            executedCommand.Gmdn.Should().Be(gmdn);
-            executedCommand.AreaOfUsageTags.Should().Be(areaOfUsageTags);
-            executedCommand.ClinicalNeedTags.Should().Be(clinicalNeedTags);
+            executedCommand.PotentialTechnologyTag.Should().Be(potentialTechnologyTags);
+            executedCommand.Keywords.Should().Be(gmdn);
+            executedCommand.AreaOfUsageTag.Should().Be(areaOfUsageTags);
+            executedCommand.ClinicalNeedTag.Should().Be(clinicalNeedTags);
             executedCommand.Title.Should().Be(projectTitle);
 
             var successNotice = _workpackageOneController.Notices.Dequeue();
-            successNotice.Text.Should().Be("Project overview changed successfully!");
+            successNotice.Text.Should().Be(SuccessTexts.ProjectUpdated);
             successNotice.Type.Should().Be(NoticeType.Success);
 
             result.ActionName.Should().Be("Index");
@@ -252,10 +255,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var potentialTechnologyTags = "PotentialTechnologyTags";
             var projectOverViewModel = new ProjectOverviewViewModel
             {
-                AreaOfUsageTags = areaOfUsageTags,
-                ClinicalNeedTags = clinicalNeedTags,
-                Gmdn = gmdn,
-                PotentialTechnologyTags = potentialTechnologyTags,
+                AreaOfUsageTag = areaOfUsageTags,
+                ClinicalNeedTag = clinicalNeedTags,
+                Keywords = gmdn,
+                PotentialTechnologyTag = potentialTechnologyTags,
             };
 
             var project = new Project().Set(x => x.Title, projectTitle);
@@ -266,10 +269,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var result = (ViewResult)_workpackageOneController.ProjectOverview(projectOverViewModel);
 
             // Assert
-            executedCommand.PotentialTechnologyTags.Should().Be(potentialTechnologyTags);
-            executedCommand.Gmdn.Should().Be(gmdn);
-            executedCommand.AreaOfUsageTags.Should().Be(areaOfUsageTags);
-            executedCommand.ClinicalNeedTags.Should().Be(clinicalNeedTags);
+            executedCommand.PotentialTechnologyTag.Should().Be(potentialTechnologyTags);
+            executedCommand.Keywords.Should().Be(gmdn);
+            executedCommand.AreaOfUsageTag.Should().Be(areaOfUsageTags);
+            executedCommand.ClinicalNeedTag.Should().Be(clinicalNeedTags);
             executedCommand.Title.Should().Be(projectTitle);
 
             var successNotice = _workpackageOneController.Notices.Dequeue();
@@ -293,10 +296,10 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var potentialTechnologyTags = "PotentialTechnologyTags";
             var projectOverViewModel = new ProjectOverviewViewModel
             {
-                AreaOfUsageTags = areaOfUsageTags,
-                ClinicalNeedTags = clinicalNeedTags,
-                Gmdn = gmdn,
-                PotentialTechnologyTags = potentialTechnologyTags,
+                AreaOfUsageTag = areaOfUsageTags,
+                ClinicalNeedTag = clinicalNeedTags,
+                Keywords = gmdn,
+                PotentialTechnologyTag = potentialTechnologyTags,
             };
 
             var project = new Project().Set(x => x.Title, projectTitle);
@@ -309,16 +312,16 @@ namespace Ubora.Web.Tests._Features.Projects.Workpackages
             var result = (ViewResult)_workpackageOneController.ProjectOverview(projectOverViewModel, returnUrl);
 
             // Assert
-            executedCommand.PotentialTechnologyTags.Should().Be(potentialTechnologyTags);
-            executedCommand.Gmdn.Should().Be(gmdn);
-            executedCommand.AreaOfUsageTags.Should().Be(areaOfUsageTags);
-            executedCommand.ClinicalNeedTags.Should().Be(clinicalNeedTags);
+            executedCommand.PotentialTechnologyTag.Should().Be(potentialTechnologyTags);
+            executedCommand.Keywords.Should().Be(gmdn);
+            executedCommand.AreaOfUsageTag.Should().Be(areaOfUsageTags);
+            executedCommand.ClinicalNeedTag.Should().Be(clinicalNeedTags);
             executedCommand.Title.Should().Be(projectTitle);
 
             var successNotice = _workpackageOneController.Notices.Dequeue();
             successNotice.Text.Should().Be("Failed to change project overview!");
             successNotice.Type.Should().Be(NoticeType.Error);
-            
+
             result.ViewData.Values.Last().Should().Be(returnUrl);
         }
 

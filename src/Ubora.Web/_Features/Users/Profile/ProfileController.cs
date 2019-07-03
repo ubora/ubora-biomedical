@@ -8,6 +8,7 @@ using Ubora.Domain.Users.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Users.Profile
 {
@@ -65,7 +66,7 @@ namespace Ubora.Web._Features.Users.Profile
                 return RedirectToAction("Index", "Manage");
             }
 
-            var command = new EditUserProfileCommand
+            ExecuteUserCommand(new EditUserProfileCommand
             {
                 UserId = this.UserId,
                 FirstName = model.FirstName,
@@ -79,20 +80,17 @@ namespace Ubora.Web._Features.Users.Profile
                 Institution = model.Institution,
                 Skills = model.Skills,
                 Role = model.Role
-            };
-            ExecuteUserCommand(command);
+            }, Notice.Success(SuccessTexts.ProfileEdited));
 
             if (!ModelState.IsValid)
             {
-                Notices.Error("Failed to change profile!");
+                Notices.NotifyOfError("Failed to change profile!");
 
                 return RedirectToAction("Index", "Manage");
             }
 
             var user = await _userManager.FindByIdAsync(UserId.ToString());
             await _signInManager.RefreshSignInAsync(user);
-
-            Notices.Success("Profile changed successfully!");
 
             return RedirectToAction("Index", "Manage");
         }
@@ -138,7 +136,7 @@ namespace Ubora.Web._Features.Users.Profile
                 Institution = model.Institution,
                 Skills = model.Skills,
                 Role = model.Role
-            });
+            }, Notice.None("Probably no reason to show notice here because it's just one of the many steps of the registration process."));
 
             if (!ModelState.IsValid)
             {
@@ -159,12 +157,15 @@ namespace Ubora.Web._Features.Users.Profile
 
             var blobLocation = BlobLocations.GetUserProfilePictureLocation(UserId, model.ImageName);
 
-            await _imageStorageProvider.SaveImageAsync(model.ProfilePicture.OpenReadStream(), blobLocation);
+            using (var profilePictureStream = model.ProfilePicture.OpenReadStream())
+            {
+                await _imageStorageProvider.SaveImageAsync(profilePictureStream, blobLocation);
+            }
 
             ExecuteUserCommand(new ChangeUserProfilePictureCommand
             {
                 BlobLocation = blobLocation
-            });
+            }, Notice.Success(SuccessTexts.ProfilePictureUploaded));
 
             if (!ModelState.IsValid)
             {
@@ -173,8 +174,6 @@ namespace Ubora.Web._Features.Users.Profile
 
             var user = await _userManager.FindByIdAsync(UserId.ToString());
             await _signInManager.RefreshSignInAsync(user);
-
-            Notices.Success("Profile image uploaded successfully!"); 
 
             return RedirectToAction(model.IsFirstTimeEditProfile ? nameof(FirstTimeEditProfile) : nameof(EditProfile));
         }

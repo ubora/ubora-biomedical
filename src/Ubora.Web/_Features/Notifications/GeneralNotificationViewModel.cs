@@ -11,9 +11,10 @@ namespace Ubora.Web._Features.Notifications
     public class GeneralNotificationViewModel : INotificationViewModel<GeneralNotification>
     {
         public bool IsUnread { get; set; }
+        public DateTime CreatedAt { get; set; }
         public IHtmlContent Message { get; set; }
 
-        public IHtmlContent GetPartialView(IHtmlHelper htmlHelper, bool isHistory)
+        public IHtmlContent GetPartialView(IHtmlHelper htmlHelper)
         {
             return htmlHelper.Partial("~/_Features/Notifications/_GeneralNotificationPartial.cshtml", this);
         }
@@ -37,7 +38,8 @@ namespace Ubora.Web._Features.Notifications
                 return new GeneralNotificationViewModel
                 {
                     IsUnread = !notification.HasBeenViewed,
-                    Message = _tokenReplacerMediator.EncodeAndReplaceAllTokens(notification.GetDescription())
+                    Message = _tokenReplacerMediator.EncodeAndReplaceAllTokens(notification.GetDescription()),
+                    CreatedAt = notification.CreatedAt
                 };
             }
         }

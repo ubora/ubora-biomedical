@@ -1,12 +1,10 @@
 ﻿@{
-    ViewData["Title"] = "Error";
+    ViewData[nameof(PageTitle)] = "Error";
 }
 
-<div class="container-fluid">
-  <div class="row justify-content-center">
+<div class="container my-5 text-center">
     <div class="danger-notice">
-      <h1 class="danger-notice-header">Error @ViewData["statusCode"]</h1>
-      <p>Sorry, this page isn't available. Please try again!</p>
+        <h1 class="danger-notice-header">Error @ViewData["statusCode"]</h1>
+        <p>Sorry, this page isn't available. Please try again!</p>
     </div>
-  </div>
 </div>

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.Members;
 using Ubora.Domain.Projects.Members.Commands;
@@ -7,6 +8,7 @@ using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Domain.Projects._Commands;
 using Ubora.Domain.Users.Commands;
 using Ubora.Domain.Infrastructure.Events;
+using Ubora.Domain.Users;
 
 namespace Ubora.Domain.Tests
 {
@@ -42,6 +44,38 @@ namespace Ubora.Domain.Tests
                 Actor = new DummyUserInfo()
             });
         }
+        
+        public static void Create_UserProfiles(this IntegrationFixture fixture, params Guid[] userIds)
+        {
+            foreach (var userId in userIds)
+            {
+                fixture.Create_User(userId);
+            }
+        }
+
+        public static void Add_Project_Member(this IntegrationFixture fixture, Guid projectId, Guid userId)
+        {
+            var userProfile = fixture.Processor.FindById<UserProfile>(userId);
+            if (userProfile == null)
+            {
+                fixture.Create_User(userId);
+            }
+
+            fixture.Processor.Execute(new JoinProjectCommand
+            {
+                ProjectId = projectId,
+                Actor = new UserInfo(userId, "dummyName")
+            });
+
+            var request = fixture.Processor.Find<RequestToJoinProject>(new MatchAll<RequestToJoinProject>())
+                .Last(x => x.AskingToJoinMemberId == userId);
+
+            fixture.Processor.Execute(new AcceptRequestToJoinProjectCommand
+            {
+                Actor = new DummyUserInfo(),
+                RequestId = request.Id
+            });
+        }
 
         public static void Assign_Project_Mentor(this IntegrationFixture fixture, Guid projectId, Guid userId)
         {
@@ -65,6 +99,15 @@ namespace Ubora.Domain.Tests
         public static void Submit_Workpackage_One_For_Review(this IntegrationFixture fixture, Guid projectId)
         {
             fixture.Processor.Execute(new SubmitWorkpackageOneForReviewCommand
+            {
+                ProjectId = projectId,
+                Actor = new DummyUserInfo()
+            });
+        }
+
+        public static void Request_Mentoring(this IntegrationFixture fixture, Guid projectId)
+        {
+            fixture.Processor.Execute(new RequestMentoringWorkpackageOneReviewCommand
             {
                 ProjectId = projectId,
                 Actor = new DummyUserInfo()
@@ -121,6 +164,16 @@ namespace Ubora.Domain.Tests
             fixture.Processor.Execute(new OpenWorkpackageThreeCommand
             {
                 ProjectId = projectId,
+                Actor = new DummyUserInfo()
+            });
+        }
+
+        public static void Upload_Dummy_Project_Image(this IntegrationFixture fixture, Guid projectId)
+        {
+            fixture.Processor.Execute(new UpdateProjectImageCommand
+            {
+                ProjectId = projectId,
+                BlobLocation = new BlobLocation("testContainerName", "testBlobPath"),
                 Actor = new DummyUserInfo()
             });
         }

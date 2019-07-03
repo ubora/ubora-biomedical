@@ -1,34 +1,45 @@
 ﻿@using Ubora.Web._Features._Shared.Notices
 @model dynamic
 
-@while (Notices.Any())
-{
-    var notice = Notices.Dequeue();
-    switch (notice.Type)
-    {
-        case NoticeType.Info:
-          <div class="alert alert-info alert-dismissible fade show" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <p>@notice.Text</p>
-          </div>
-          break;
-        case NoticeType.Success:
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <p>@notice.Text</p>
-          </div>
-          break;
-        case NoticeType.Error:
-          <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <p>@notice.Text</p>
-          </div>
-          break;
-    }
-}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            @while (Notices.Any())
+            {
+                var notice = Notices.Dequeue();
+                switch (notice.Type)
+                {
+                    case NoticeType.Info:
+                        <div class="alert alert-info alert-dismissible fade-out" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <p>@notice.Text</p>
+                        </div>
+                        break;
+                    case NoticeType.Success:
+                        <div class="alert alert-success fade-out" role="alert">
+                            <p>@notice.Text</p>
+                        </div>
+                        break;
+                    case NoticeType.Error:
+                        <div class="alert alert-danger alert-dismissible fade-out" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <p>@notice.Text</p>
+                        </div>
+                        break;
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        setTimeout(function () {
+            $(".fade-out").fadeOut('slow');
+        }, 3000);
+    });
+</script>

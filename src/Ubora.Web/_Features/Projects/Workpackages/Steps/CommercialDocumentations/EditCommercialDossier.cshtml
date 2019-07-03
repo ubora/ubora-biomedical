@@ -1,0 +1,118 @@
+@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
+@using Ubora.Web._Features._Shared
+@using Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentations
+
+@model CommercialDossierViewModel
+
+<div class="col">
+    <form enctype="multipart/form-data" asp-action="@nameof(CommercialDocumentationsController.EditCommercialDossier)" method="post">
+        <div class="row">
+            <div class="col">
+                <h1 class="mb-4">Commercial documentation</h1>
+                <p>This section will constitute the first user manual of the medical device, and will include the technical specifications available in future commercial documentation.</p>
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <h2>Commercial dossier</h2>
+                <div class="form-group">
+                    <label asp-for="ProductName">Product name</label>
+                    <input class="form-control" asp-for="ProductName" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="CommercialName">Commercial name</label>
+                    <input class="form-control" asp-for="CommercialName" />
+                </div>
+
+                <div id="logo-component" class="form-group">
+                    <label  asp-for="Logo">Logo</label>
+                    <input type="hidden" asp-for="HasOldLogoBeenDeleted" :value="isLogoRemoved"/>
+                    <template v-if="isLogoPresent">
+                        <img class="d-block w-max-15-rem" :src="logoUrl">
+                        <button type="button" class="btn btn-sm btn-link p-0" v-on:click="isLogoRemoved = true;">Remove logo</button>
+                    </template>
+                    <input class="form-control" v-if="!isLogoPresent" asp-for="Logo" />
+                </div>
+
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
+                <script>
+                    new Vue({
+                        el: '#logo-component',
+                        data: {
+                            logoUrl: '@Model.LogoUrl',
+                            isLogoRemoved: false
+                        },
+                        computed: {
+                            isLogoPresent: function() {
+                                return this.logoUrl && !this.isLogoRemoved;
+                            }
+                        }
+                    });
+                </script>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <p><small>Which need we address? Who we are? Discover our design, value proposal...</small></p>
+                    <input asp-for="DescriptionQuillDelta" type="hidden" />
+                    <span asp-validation-for="DescriptionQuillDelta"></span>
+                    <div id="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial", new ProjectQuillToolbarFormatOptions())</div>
+                    <div id="editor-container" class="form-group" style="display: none;"></div>
+                </div>
+
+                <div id="user-manual-component" class="form-group">
+                    <label asp-for="UserManual">User manual</label>
+                    <input type="hidden" asp-for="HasOldUserManualBeenRemoved" :value="isUserManualRemoved" />
+                    <template v-if="isUserManualPresent">
+                        <div class="d-flex align-items-center">
+                            <span>@Model.UserManualName</span>
+                            <a asp-action="@nameof(CommercialDocumentationsController.DownloadUserManual)" title="Download file" aria-label="Download file" class="ml-2" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">file_download</i></a>
+                            <button type="button" v-on:click="isUserManualRemoved = true;" title="Remove user manual" aria-label="Remove user manual" class="btn btn-link p-0 mb-1" data-toggle="tooltip" data-placement="bottom">
+                                <i class="file-list--item-control material-icons">delete_forever</i>
+                            </button>
+                        </div>
+                    </template>
+                    <template v-if="!isUserManualPresent">
+                        <input class="form-control" aria-describedby="formats" asp-for="UserManual"/>
+                        <small id="formats" class="form-text text-muted">Maximum file size can be 2 MB</small>
+                    </template>
+                </div>
+                
+                <script>
+                    new Vue({
+                        el: '#user-manual-component',
+                        data: {
+                            userManualName: '@Model.UserManualName',
+                            isUserManualRemoved: false
+                        },
+                        computed: {
+                            isUserManualPresent: function() {
+                                return this.userManualName && !this.isUserManualRemoved;
+                            }
+                        }
+                    });
+                </script>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-outline-primary" asp-action="@nameof(CommercialDocumentationsController.Index)">Discard</a>
+                <span class="mx-1"></span>
+                <button class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts
+{
+    <script>
+        var contentInputSelector = "#@(nameof(Model.DescriptionQuillDelta))";
+        var editorSelector = "#editor-container";
+        var toolbarSelector = "#toolbar-container";
+        var initialContent = @Html.Raw(Model.DescriptionQuillDelta);
+        UBORA.initEditor(editorSelector, toolbarSelector, contentInputSelector, initialContent);
+    </script>
+}

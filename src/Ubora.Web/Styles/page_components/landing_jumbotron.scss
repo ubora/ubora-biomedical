@@ -1,0 +1,21 @@
+
+.landing-image-discussion,
+.landing-image-solution {
+    padding: 5rem 4rem;
+
+    p.lead {
+        color: $white;
+    }
+}
+
+.landing-image-discussion {
+    background: url('../images/discussion.jpg') no-repeat center center;
+    background-size: cover;
+    box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.625);
+}
+
+.landing-image-solution {
+    background: url('../images/solution.jpg') no-repeat center center;
+    background-size: cover;
+    box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.25);
+}

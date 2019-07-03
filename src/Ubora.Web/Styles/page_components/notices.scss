@@ -1,0 +1,27 @@
+.notice-indev {
+	background-color: $blue;
+	color:$white;
+	padding:.5em 0;
+	margin: 0;
+	text-align: center;
+	font-size: .8em;
+}
+
+.notice-account-confirmation {
+		background-color: $orange;
+		color: $white;
+		margin: 0;
+		padding: .5em 0;
+		text-align: center;
+}
+
+.notice-account-confirmation-link {
+	color: $white;
+	text-decoration: underline;
+}
+
+.notice-account-confirmation-link:active,
+.notice-account-confirmation-link:focus,
+.notice-account-confirmation-link:hover {
+	color: $text-color;
+}

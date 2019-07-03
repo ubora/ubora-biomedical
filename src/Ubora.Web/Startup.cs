@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +26,8 @@ using TwentyTwenty.Storage.Azure;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Npgsql;
 using Ubora.Web.Infrastructure.Storage;
-using Ubora.Web._Features.Projects.Workpackages.Steps;
+using Microsoft.AspNetCore.Mvc;
+using Ubora.Web._Features;
 
 namespace Ubora.Web
 {
@@ -59,7 +59,7 @@ namespace Ubora.Web
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
-        {
+        {          
             services.AddApplicationInsightsTelemetry(Configuration);
 
             var npgSqlConnectionString = new NpgsqlConnectionStringBuilder(ConnectionString);
@@ -77,18 +77,26 @@ namespace Ubora.Web
             services
                 .AddMvc(options =>
                 {
-                    // TODO: Kaspar: Should definitely add but not right before Design School (might break some functionality)
-                    //options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                    options.AddStringTrimmingProvider();
                 })
-                .AddUboraFeatureFolders(new FeatureFolderOptions {FeatureFolderName = "_Features"});
+                .AddUboraFeatureFolders(new FeatureFolderOptions {FeatureFolderName = "_Features"})
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
+            services.Configure<Pandoc>(Configuration.GetSection("Pandoc"));
 
             var useSpecifiedPickupDirectory =
                 Convert.ToBoolean(Configuration["SmtpSettings:UseSpecifiedPickupDirectory"]);
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>(o => { o.Password.RequireNonAlphanumeric = false; })
+            services
+                .AddIdentity<ApplicationUser, ApplicationRole>(options =>
+                {
+                    options.User.RequireUniqueEmail = true;
+                    options.Password.RequireNonAlphanumeric = false;
+                })
                 .AddUserManager<ApplicationUserManager>()
                 .AddSignInManager<ApplicationSignInManager>()
                 .AddClaimsPrincipalFactory<ApplicationClaimsPrincipalFactory>()
@@ -96,8 +104,19 @@ namespace Ubora.Web
                 .AddRoleManager<ApplicationRoleManager>()
                 .AddDefaultTokenProviders();
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                options.Cookie.HttpOnly = true;
+                options.LoginPath = "/login";
+                options.AccessDeniedPath = "/access-denied";
+                options.SlidingExpiration = true;
+            });
+
             services.AddAutoMapper();
             services.AddUboraPolicyBasedAuthorization();
+            services.AddNodeServices(setupAction => setupAction.InvocationTimeoutMilliseconds = 300000);
+            services.AddSingleton<QuillDeltaTransformer>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -107,6 +126,11 @@ namespace Ubora.Web
                 services.AddSingleton<TestUserSeeder>();
                 services.AddSingleton<TestProjectSeeder>();
                 services.AddSingleton<TestMentorSeeder>();
+                services.AddMiniProfiler(options =>
+                {
+                    options.IgnoredPaths.Add("dist");
+                    options.IgnoredPaths.Add("images");
+                }).AddEntityFramework();
             }
 
             services.AddSingleton<ApplicationDataSeeder>();
@@ -114,7 +138,6 @@ namespace Ubora.Web
             services.Configure<AdminSeeder.Options>(Configuration.GetSection("InitialAdminOptions"));
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
-
 
             var azureBlobConnectionString = Configuration.GetConnectionString("AzureBlobConnectionString");
             var autofacContainerBuilder = new ContainerBuilder();
@@ -128,7 +151,8 @@ namespace Ubora.Web
 
             if (isLocalStorage)
             {
-                storageProvider = new CustomDevelopmentAzureStorageProvider(azOptions, azureStorageProvider);
+                var linkLocalIpAddress = Configuration.GetValue<string>("Storage:LinkLocalIpAddress");
+                storageProvider = new CustomDevelopmentAzureStorageProvider(azOptions, azureStorageProvider, linkLocalIpAddress);
             }
             else
             {
@@ -156,14 +180,18 @@ namespace Ubora.Web
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
+                //For more details on using MiniProfiler https://miniprofiler.com/dotnet/AspDotNetCore
+                app.UseMiniProfiler();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
 
             app.UseStatusCodePagesWithReExecute("/Home/Error/");
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseAuthentication();
@@ -176,9 +204,9 @@ namespace Ubora.Web
                     name: "default",
                     template: "{controller}/{action}/{id?}");
 
-                routes.MapRoute(
-                    name: "areaRoute",
-                    template: "{area:exists}/{controller}/{action}");
+                //routes.MapRoute(
+                //    name: "areaRoute",
+                //    template: "{area:exists}/{controller}/{action}");
             });
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
@@ -188,11 +216,12 @@ namespace Ubora.Web
                 var applicationDbContext = serviceProvider.GetService<ApplicationDbContext>();
                 applicationDbContext.Database.Migrate();
 
-                var domainMigrator = serviceProvider.GetService<DomainMigrator>();
-                domainMigrator.MigrateDomain(ConnectionString);
-
                 var documentStore = serviceProvider.GetService<IDocumentStore>();
-                documentStore.Schema.WritePatchByType("Patches");
+                var domainMigrator = serviceProvider.GetService<DomainMigrator>();
+
+                domainMigrator.MigrateDomain(ConnectionString);
+                var patchFilename = DateTime.Now.ToString("dd-MM-yyyy") + "-marten-automatic-patch.sql";
+                documentStore.Schema.WritePatch(patchFilename);
 
                 var seeder = serviceProvider.GetService<ApplicationDataSeeder>();
                 seeder.SeedIfNecessary()

@@ -14,6 +14,8 @@ namespace Ubora.Web._Features.Admin.Events
         [Route("Admin/Events")]
         public IActionResult Events(EventFilter filter = EventFilter.Namespace)
         {
+            ViewData[nameof(PageTitle)] = "Manage UBORA";
+
             var events = DomainAutofacModule.FindDomainEventConcreteTypes();
 
             var eventViewModels = GetEventViewModels(events);

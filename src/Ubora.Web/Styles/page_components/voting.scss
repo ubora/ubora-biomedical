@@ -1,0 +1,47 @@
+/*for voting*/
+.circle {
+    background: $tertiary-shade;
+    color: $white;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+}
+
+.average-number {
+    font-size: 3rem;
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+
+    span {
+        float: left;
+        width: 100%;
+        padding-top: 50%;
+        line-height: 3rem;
+        margin-top: -0.5em;
+        text-align: center;
+    }
+}
+
+.vote-number {
+    font-size: 1em;
+    width: 2.5em;
+    height: 2.5em;
+    line-height: 2.5em;
+    cursor: pointer;
+    color: #fff;
+}
+
+
+.voted {
+    background: $blue;
+}
+
+.table-add-vote input[type="radio"]{
+  display : none;
+}
+
+.table.table-votes td,
+.table.table-votes th {
+  border-top: none;
+}

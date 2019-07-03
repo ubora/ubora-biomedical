@@ -1,0 +1,109 @@
+﻿@using Microsoft.AspNetCore.Html;
+@using Ubora.Web._Features.Projects._Shared
+@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects.Workpackages.SideMenu
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @RenderSection("Head", required: false)
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"
+          asp-fallback-test-class="ql-snow"
+          asp-fallback-href="~/dist/quill.snow.css">
+    @{
+        Html.RenderPartial("_LayoutHead");
+    }
+</head>
+
+
+<body>
+    @{
+        Html.RenderPartial("_Header");
+
+        var projectMenuOption = ViewData[nameof(ProjectMenuOption)];
+        if (projectMenuOption != null) // TODO: All views should have project menu?
+        {
+            <div class="container-fluid">
+                <div class="row project-header-container">
+                    <div class="col-xl-3"></div>
+                    <div class="col-xl-8">
+                        @{
+                            Html.RenderPartial("~/_Features/Projects/_Shared/_ProjectMenu.cshtml", new ProjectMenuViewModel((ProjectMenuOption)projectMenuOption));
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+    @{
+        var workpackageMenuOption = ViewData[nameof(WorkpackageMenuOption)];
+        IHtmlContent wpSideMenuComponent = null;
+        if (workpackageMenuOption != null)
+        {
+            wpSideMenuComponent = await Component.InvokeAsync<WorkpackageSideMenuViewComponent>();
+        }
+
+        <main>
+            @if (wpSideMenuComponent != null)
+            {
+                <div class="wp-sidemenu-lg">
+                    <button type="button" class="btn btn-icon d-flex align-items-center pl-0" data-toggle="modal" data-target="#wpSidemenuModal">
+                        <i class="material-icons mr-2">format_list_numbered</i>
+                        <span>WP menu</span>
+                    </button>
+                    <div class="modal fade modal-left-pane" id="wpSidemenuModal" tabindex="-1" role="dialog" aria-labelledby="wpModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    @{ wpSideMenuComponent.WriteTo(Output, HtmlEncoder); }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+            <div class="container-fluid my-4">
+                <div class="row">
+                    <div class="col-xl-3">
+                        @if (wpSideMenuComponent != null)
+                        {
+                            <div class="wp-sidemenu">
+                                @{ wpSideMenuComponent.WriteTo(Output, HtmlEncoder); }
+                            </div>
+                        }
+                        else
+                        {
+                            @RenderSection("Left", required: false)
+                        }
+                    </div>
+                    <div class="col-xl-7 no-gutters">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    }
+
+    <script src="//cdn.quilljs.com/1.3.6/quill.js"
+            asp-fallback-test="Quill"
+            asp-fallback-src="~/dist/quill.min.js"></script>
+
+    @{
+        Html.RenderPartial("_LayoutBody");
+    }
+
+    <script src="~/dist/quill.bundle.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

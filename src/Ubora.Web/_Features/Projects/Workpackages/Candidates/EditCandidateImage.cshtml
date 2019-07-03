@@ -1,21 +1,19 @@
 ﻿@model Ubora.Web._Features.Projects.Workpackages.Candidates.EditCandidateImageViewModel
 
-<div class="col-lg-9 pr-5 text-center">
-    <form asp-controller="Candidates" asp-action="EditCandidateImage" method="post" enctype="multipart/form-data">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @Html.HiddenFor(m => m.Id)
-
-        <div class="form-group">
-            <label class="text-muted">Recommended image size is 1920x1285 px. The given image will be cropped and resized to 1500x1125 and 400x300 pixel images. Image has to be less than 4 MB</label>
-            <label asp-for="Image" class="custom-file">
-                <input class="form-control" type="file" asp-for="Image">
-            </label>
-            <span asp-validation-for="Image"></span>
-        </div>
-        <div class="form-group">
-            <a class="btn btn-secondary-ghost" asp-controller="Candidates" asp-action="Candidate" asp-route-candidateId="@Model.Id">Discard</a>
-            <span class="mx-1"></span>
-            <button class="btn btn-primary" type="submit">Upload image</button>
-        </div>
-    </form>
-</div>
+<h1>Candidate image</h1>
+<form asp-controller="Candidates" asp-action="EditCandidateImage" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @Html.HiddenFor(m => m.Id)
+    <div class="form-group">
+        <label asp-for="Image" class="custom-file">
+            <input class="form-control" type="file" asp-for="Image">
+        </label>
+        <small class="text-muted">Recommended image size is 1920x1285 px. The given image will be cropped and resized to 1500x1125 and 400x300 pixel images. Image has to be less than 4 MB</small>
+        <span asp-validation-for="Image"></span>
+    </div>
+    <div class="form-group text-center">
+        <a class="btn btn-outline-primary" asp-controller="Candidates" asp-action="Candidate" asp-route-candidateId="@Model.Id">Discard</a>
+        <span class="mx-1"></span>
+        <button class="btn btn-primary" type="submit">Upload image</button>
+    </div>
+</form>

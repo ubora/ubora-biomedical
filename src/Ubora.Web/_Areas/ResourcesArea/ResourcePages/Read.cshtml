@@ -1,0 +1,48 @@
+﻿@model ResourceReadViewModel
+
+@{
+    ViewData[nameof(PageTitle)] = ViewData[nameof(ResourcePageTitle)];
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">UBORA</a></li>
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Resources</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData[nameof(PageTitle)]</li>
+    </ol>
+</nav>
+
+@Html.Partial("_ResourcePageTabsPartial.cshtml")
+
+<h1>@Model.Title</h1>
+
+<div id="content-body" class="user-content ql-editor py-3">
+    @Html.Raw(Model.ContentHtml)
+</div>
+
+
+@section Right {
+    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
+    {
+        <div class="mb-3">
+            <a asp-action="@nameof(ResourcePageCreationController.Add)" asp-controller="ResourcePageCreation" class="my-2 btn btn-block btn-outline-primary">
+                <i class="material-icons">add</i>
+                <span>Create new page</span>
+            </a>
+        </div>
+    }
+
+    <nav id="table-of-contents" class="nav-right-sticky d-none d-lg-block">
+    </nav>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            Toc.init({
+                $scope: $('#content-body'),
+                $nav: $('#table-of-contents'),
+            });
+        });
+    </script>
+}

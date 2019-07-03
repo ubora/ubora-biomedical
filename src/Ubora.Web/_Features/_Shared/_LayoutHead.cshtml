@@ -1,0 +1,76 @@
+﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+
+<meta charset="utf-8">
+<meta name="description" content="The biomedical engineering open design platform">
+<meta name="author" content="AgileWorks Ltd.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="~/images/favicon.png" rel="icon" type="image/png">
+
+@if (!string.IsNullOrWhiteSpace(ViewData[nameof(PageTitle)] as string))
+{
+    <title>@ViewData[nameof(PageTitle)] - UBORA</title>
+}
+else
+{
+    <title>UBORA</title>
+}
+
+<link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<environment names="Staging,Production">
+    <link rel="stylesheet" href="~/dist/app.bundle.css" asp-append-version="true">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+            asp-fallback-src="~/dist/libs/tether.min.js" integrity="" crossorigin="anonymous"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+            asp-fallback-src="~/dist/libs/jquery.min.js"
+            asp-fallback-test="window.jQuery"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.js"
+            asp-fallback-src="~/dist/libs/umd/popper.min.js"
+            asp-fallback-test="window.Popper"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"
+            asp-fallback-src="~/dist/libs/bootstrap.min.js"
+            asp-fallback-test="window.jQuery"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"
+            asp-fallback-src="~/dist/libs/clipboard.min.js"></script>
+</environment>
+
+<environment names="Development">
+    <link rel="stylesheet" href="~/dist/app.bundle.css">
+    <script src="~/dist/libs/tether.min.js" integrity="" crossorigin="anonymous"></script>
+    <script src="~/dist/libs/jquery.min.js"></script>
+    <script src="~/dist/libs/umd/popper.min.js"></script>
+    <script src="~/dist/libs/bootstrap.min.js"></script>
+    <script src="~/dist/libs/clipboard.min.js"></script>
+</environment>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.6.1/jquery.timeago.min.js"
+        asp-fallback-src="~/dist/libs/jquery.timeago.js"
+        asp-fallback-test="window.jQuery">
+</script>
+
+<script>
+    jQuery(document).ready(function () {
+        jQuery.timeago.settings.cutoff = 1000 * 60 * 60 * 24 * 7; // cutoff when older than 7 days
+        jQuery(".timeago").timeago();
+    });
+</script>
+
+@Html.Raw(JavaScriptSnippet.FullScript)
+
+
+@functions{
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<input type="hidden" id="RequestVerificationToken"
+       name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()" />

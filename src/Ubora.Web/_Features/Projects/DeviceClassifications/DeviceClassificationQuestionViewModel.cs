@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
 
 namespace Ubora.Web._Features.Projects.DeviceClassifications
@@ -7,6 +8,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
     public class DeviceClassificationQuestionViewModel : AnswerDeviceClassificationQuestionPostModel
     {
         public string QuestionText { get; set; }
+        public string NoteText { get; set; }
         public IEnumerable<DeviceClassificationAnswerViewModel> Answers { get; set; } = Enumerable.Empty<DeviceClassificationAnswerViewModel>();
         public bool IsSelected { get; set; }
         public bool IsAnswered { get; set; }
@@ -32,6 +34,7 @@ namespace Ubora.Web._Features.Projects.DeviceClassifications
                     QuestionId = q.Id,
                     QuestionnaireId = aggregate.Id,
                     QuestionText = q.Text,
+                    NoteText = q.NoteText,
                     Answers = q.Answers.Select(answer => new DeviceClassificationAnswerViewModel
                     {
                         AnswerId = answer.Id,

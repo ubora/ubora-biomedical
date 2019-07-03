@@ -4,34 +4,24 @@
 @model EditProjectImageViewModel
 
 @{
-    ViewData["Title"] = "Dashboard";
-    ViewData["MenuOption"] = ProjectMenuOption.Overview;
+    ViewData[nameof(PageTitle)] = "Dashboard";
+    ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Overview;
 }
 
-<div class="container-fluid my-4">
-    <div class="row">
-        <div class="col text-center">
-            <form method="post" enctype="multipart/form-data" asp-controller="Dashboard" asp-action="EditProjectImage">
-                <h2>Project image</h2>
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <div class="form-group">
-                    <div>
-                        <label class="text-muted">All pictures will be set to 4:3 ratio.</label>
-                        <label class="text-muted">Image has to be less than 4 MB</label>
-                    </div>
-                    <span asp-validation-for="Image"></span>
-                    <label asp-for="Image" class="custom-file">
-                        <input class="form-control" type="file" asp-for="Image">
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    <a class="btn btn-secondary-ghost" asp-controller="Dashboard" asp-action="Dashboard">Discard</a>
-                    <span class="mx-1"></span>
-                    <button class="btn btn-primary" type="submit">Upload image</button>
-                </div>
-            </form>
-        </div>
+<h1>Project image</h1>
+<form method="post" enctype="multipart/form-data" asp-controller="Dashboard" asp-action="EditProjectImage">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group ">
+        <label asp-for="Image" class="custom-file">
+            <input class="form-control" type="file" asp-for="Image">
+        </label>
+        <small class="text-muted">All pictures will be set to 4:3 ratio. Image has to be less than 4 MB</small>
+        <span asp-validation-for="Image"></span>
     </div>
-</div>
+    <div class="form-group text-center">
+        <a class="btn btn-outline-primary" asp-controller="Dashboard" asp-action="Dashboard">Discard</a>
+        <span class="mx-1"></span>
+        <button class="btn btn-primary" type="submit">Upload image</button>
+    </div>
+</form>

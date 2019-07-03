@@ -1,0 +1,64 @@
+﻿@model IndexResourceFilesViewModel
+
+@{
+    ViewData[nameof(PageTitle)] = ViewData[nameof(ResourcePageTitle)];
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">UBORA</a></li>
+        <li class="breadcrumb-item"><a asp-action="@nameof(ResourcesMenusController.HighestPriorityResourcePage)" asp-controller="@nameof(ResourcesMenusController).RemoveSuffix()">Resources</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@ViewData[nameof(PageTitle)]</li>
+    </ol>
+</nav>
+
+@Html.Partial("_ResourcePageTabsPartial.cshtml")
+
+@if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanManageResources))
+{
+    @section Right {
+
+        <div class="mb-3">
+            <a asp-action="@nameof(ResourcePagesController.AddFile)" class="my-2 btn btn-outline-primary btn-block">
+                <i class="material-icons">add</i>
+                <span> Upload new file(s)</span>
+            </a>
+        </div>
+    }
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="w-12"></th>
+                <th class="w-36">File name</th>
+                <th class="w-8">Size (kB)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var file in Model.Files)
+            {
+                // Note: Please keep the a-element and i-element on same line because otherwise a strange "little line" appears next to the icon when link is hovered.
+                <tr>
+                    <td>
+
+                        <a href="@Url.Action(nameof(ResourcePagesController.DownloadFile), nameof(ResourcePagesController).RemoveSuffix(), new { fileId = file.FileId, resourcePageId = Model.ResourcePageId })" title="Download file" aria-label="Download file" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">file_download</i></a>
+
+                        <i class="file-list--item-control material-icons js-clipboard"
+                           title="Copy file path to clipboard"
+                           aria-label="Copy file"
+                           data-toggle="tooltip"
+                           data-placement="bottom"
+                           data-clipboard-text="@Url.Action(nameof(ResourcePagesController.DownloadFile), nameof(ResourcePagesController).RemoveSuffix(), new { fileId = file.FileId, resourcePageId = Model.ResourcePageId }, Context.Request.Scheme)">
+                            content_copy
+                        </i>
+
+                    </td>
+                    <td class="break-word-all">@file.FileName</td>
+                    <td>@file.FileSizeInKbs</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

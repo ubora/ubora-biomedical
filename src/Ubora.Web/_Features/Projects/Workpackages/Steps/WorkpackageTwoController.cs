@@ -1,10 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.NodeServices;
+using Ubora.Domain;
 using Ubora.Domain.Projects.StructuredInformations;
+using Ubora.Domain.Projects.StructuredInformations.Specifications;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
+using Ubora.Domain.Projects._Specifications;
 using Ubora.Web._Features._Shared;
 using Ubora.Web._Features.Projects._Shared;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -13,22 +20,22 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     public class WorkpackageTwoController : ProjectController
     {
         private WorkpackageTwo _workpackageTwo;
-
         public WorkpackageTwo WorkpackageTwo => _workpackageTwo ?? (_workpackageTwo = QueryProcessor.FindById<WorkpackageTwo>(ProjectId));
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
-
-            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(PageTitle)] = "WP 2: Conceptual design";
         }
 
         [Route("{stepId}")]
-        public IActionResult Read(string stepId)
+        public async Task<IActionResult> Read(string stepId)
         {
             var step = WorkpackageTwo.GetSingleStep(stepId);
 
             var model = AutoMapper.Map<ReadStepViewModel>(step);
+            model.ContentHtml = await ConvertQuillDeltaToHtml(step.ContentV2);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
             model.EditButton = UiElementVisibility.Visible();
@@ -37,11 +44,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [Route("{stepId}/Edit")]
-        public IActionResult Edit(string stepId)
+        public async Task<IActionResult> Edit(string stepId)
         {
             var step = WorkpackageTwo.GetSingleStep(stepId);
 
             var model = AutoMapper.Map<EditStepViewModel>(step);
+            model.ContentQuillDelta = await SanitizeQuillDeltaForEditing(step.ContentV2);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
 
@@ -49,22 +57,22 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         }
 
         [HttpPost("{stepId}/Edit")]
-        public IActionResult Edit(EditStepPostModel model)
+        public async Task<IActionResult> Edit(EditStepPostModel model)
         {
             if (!ModelState.IsValid)
             {
-                return Edit(model.StepId);
+                return await Edit(model.StepId);
             }
 
             ExecuteUserProjectCommand(new EditWorkpackageTwoStepCommand
             {
                 StepId = model.StepId,
-                NewValue = model.Content
-            });
+                NewValue = new QuillDelta(model.ContentQuillDelta)
+            }, Notice.Success(SuccessTexts.WP2StepEdited));
 
             if (!ModelState.IsValid)
             {
-                return Edit(model.StepId);
+                return await Edit(model.StepId);
             }
 
             return RedirectToAction(nameof(Read), new { stepId = model.StepId });
@@ -73,9 +81,11 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Route(nameof(StructuredInformationOnTheDevice))]
         public IActionResult StructuredInformationOnTheDevice([FromServices] StructuredInformationResultViewModel.Factory modelFactory)
         {
-            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
-            var deviceStructuredInformation = QueryProcessor.FindById<DeviceStructuredInformation>(ProjectId);
+            var deviceStructuredInformation = QueryProcessor
+                .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
+                .FirstOrDefault();
 
             var model = modelFactory.Create(deviceStructuredInformation);
 
@@ -85,15 +95,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Route(nameof(HealthTechnologySpecifications))]
         public virtual IActionResult HealthTechnologySpecifications([FromServices] HealthTechnologySpecificationsViewModel.Factory modelFactory)
         {
-            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
-            var deviceStructuredInformation = QueryProcessor.FindById<DeviceStructuredInformation>(ProjectId);
+            var deviceStructuredInformation = QueryProcessor
+                .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
+                .FirstOrDefault();
             if (deviceStructuredInformation == null)
             {
                 return View(nameof(HealthTechnologySpecifications));
             }
 
             var model = modelFactory.Create(deviceStructuredInformation.HealthTechnologySpecification);
+            model.DeviceStructuredInformationId = deviceStructuredInformation.Id;
 
             return View(nameof(HealthTechnologySpecifications),model);
         }
@@ -111,7 +124,10 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             var command = modelMapper.MapToCommand(model);
-            ExecuteUserProjectCommand(command);
+            command.DeviceStructuredInformationId = model.DeviceStructuredInformationId;
+            command.WorkpackageType = DeviceStructuredInformationWorkpackageTypes.Two;
+            
+            ExecuteUserProjectCommand(command, Notice.Success(SuccessTexts.WP3HealthTechnologySpecificationsEdited));
 
             if (!ModelState.IsValid)
             {
@@ -124,15 +140,18 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Route(nameof(UserAndEnvironment))]
         public virtual IActionResult UserAndEnvironment([FromServices] UserAndEnvironmentInformationViewModel.Factory modelFactory)
         {
-            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
-            var deviceStructuredInformation = QueryProcessor.FindById<DeviceStructuredInformation>(ProjectId);
+            var deviceStructuredInformation = QueryProcessor
+                .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
+                .FirstOrDefault();
             if (deviceStructuredInformation == null)
             {
                 return View(nameof(UserAndEnvironment));
             }
 
             var model = modelFactory.Create(deviceStructuredInformation.UserAndEnvironment);
+            model.DeviceStructuredInformationId = deviceStructuredInformation.Id;
 
             return View(nameof(UserAndEnvironment),model);
         }
@@ -150,7 +169,9 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
             }
 
             var command = modelMapper.MapToCommand(model);
-            ExecuteUserProjectCommand(command);
+            command.DeviceStructuredInformationId = model.DeviceStructuredInformationId;
+            command.WorkpackageType = DeviceStructuredInformationWorkpackageTypes.Two;
+            ExecuteUserProjectCommand(command, Notice.Success(SuccessTexts.WP3UserAndEnvironmentEdited));
 
             if (!ModelState.IsValid)
             {

@@ -1,0 +1,140 @@
+﻿@using Ubora.Web._Features.ProjectList
+@using Ubora.Web._Features.ProjectList.Models
+@using Ubora.Web._Features._Shared
+
+@model SearchViewModel
+
+<form id="filters" asp-controller="ProjectList" asp-action="Search" method="get">
+    <input asp-for="Tab" type="hidden" />
+    <input asp-for="SortBy" type="hidden" />
+
+    <div class="form-group search">
+        <input class="form-control" asp-for="Title" placeholder="Search projects..." aria-describedby="btnGroupAddon">
+        <span asp-validation-for="Title"></span>
+    </div>
+
+    <div class="py-3">
+        <span>Status</span>
+        <div class="custom-control custom-radio mx-1 my-1">
+            <input id="statusAll" type="radio" asp-for="ByStatus" class="custom-control-input" value="@ByStatusFilteringMethod.All" />
+            <label for="statusAll" class="custom-control-label">All</label>
+        </div>
+
+        <div class="custom-control custom-radio mx-1 my-1">
+            <input id="statusDraft" type="radio" asp-for="ByStatus" class="custom-control-input" value="@ByStatusFilteringMethod.Draft" />
+            <label for="statusDraft" class="custom-control-label">Draft</label>
+        </div>
+
+        <div class="custom-control custom-radio mx-1 my-1">
+            <input id="statusApproved" type="radio" asp-for="ByStatus" class="custom-control-input" value="@ByStatusFilteringMethod.NotDraft" />
+            <label for="statusApproved" class="custom-control-label">Approved</label>
+        </div>
+    </div>
+    <hr class="my-0" />
+    <div>
+        <button class="btn btn-icon px-0 w-100 py-3" type="button" data-toggle="collapse" data-target="#collapseArea" aria-expanded="false" aria-controls="collapseArea">
+            <div class="d-flex justify-content-between">
+                <span>Area</span>
+                <i class="material-icons">keyboard_arrow_down</i>
+            </div>
+        </button>
+        <div class="collapse @(Model.ByArea.Any() ? "show" : "")" id="collapseArea">
+            <div class="filter-group">
+                @{
+                    var index = 0;
+
+                    <span class="color-grey font-size-0-8">Surgery</span>
+                    foreach (var area in Tags.SurgicalFieldAreas)
+                    {
+                        var id = nameof(Model.ByArea) + index;
+                        <div class="custom-control custom-checkbox mx-1 my-1">
+                            <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByArea)" value="@index" checked="@Model.ByArea.Contains(index)" />
+                            <label class="custom-control-label" for="@id">@area</label>
+                        </div>
+                        index++;
+                    }
+
+                    <span class="color-grey font-size-0-8">Internal Medicine</span>
+                    foreach (var area in Tags.InternalMedicineAreas)
+                    {
+                        var id = nameof(Model.ByArea) + index;
+                        <div class="custom-control custom-checkbox mx-1 my-1">
+                            <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByArea)" value="@index" checked="@Model.ByArea.Contains(index)" />
+                            <label class="custom-control-label" for="@id">@area</label>
+                        </div>
+                        index++;
+                    }
+
+                    <span class="color-grey font-size-0-8">Diagnostic medicine</span>
+                    foreach (var area in Tags.DiagnosticMedicineAreas)
+                    {
+                        var id = nameof(Model.ByArea) + index;
+                        <div class="custom-control custom-checkbox mx-1 my-1">
+                            <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByArea)" value="@index" checked="@Model.ByArea.Contains(index)" />
+                            <label class="custom-control-label" for="@id">@area</label>
+                        </div>
+                        index++;
+                    }
+
+                    <span class="color-grey font-size-0-8">Other major disciplines</span>
+                    foreach (var area in Tags.OtherMajorDisciplineAreas)
+                    {
+                        var id = nameof(Model.ByArea) + index;
+                        <div class="custom-control custom-checkbox mx-1 my-1">
+                            <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByArea)" value="@index" checked="@Model.ByArea.Contains(index)" />
+                            <label class="custom-control-label" for="@id">@area</label>
+                        </div>
+                        index++;
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <hr class="my-0" />
+    <div>
+        <button class="btn btn-icon px-0 w-100 py-3" type="button" data-toggle="collapse" data-target="#collapseClinicalNeeds" aria-expanded="false" aria-controls="collapseClinicalNeeds">
+            <div class="d-flex justify-content-between">
+                <span>Clinical needs</span>
+                <i class="material-icons">keyboard_arrow_down</i>
+            </div>
+        </button>
+        <div class="collapse @(@Model.ByClinicalNeedTags.Any() ? "show" : "")" id="collapseClinicalNeeds">
+            <div class="filter-group">
+                @{
+                    for (int i = 0; i < Tags.ClinicalNeeds.Count; i++)
+                    {
+                        var id = nameof(Model.ByClinicalNeedTags) + i;
+                        <div class="custom-control custom-checkbox mx-1 my-1">
+                            <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByClinicalNeedTags)" value="@i" checked="@Model.ByClinicalNeedTags.Contains(i)" />
+                            <label class="custom-control-label" for="@id">@Tags.ClinicalNeeds[i]</label>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <hr class="my-0" />
+    <div>
+        <button class="btn btn-icon px-0 w-100 py-3" type="button" data-toggle="collapse" data-target="#collapseTechnology" aria-expanded="false" aria-controls="collapseTechnology">
+            <div class="d-flex justify-content-between">
+                <span>Technology</span>
+                <i class="material-icons">keyboard_arrow_down</i>
+            </div>
+        </button>
+        <div class="collapse @(Model.ByPotentialTechnologyTags.Any() ? "show" : "")" id="collapseTechnology">
+            <div class="filter-group">
+                @{
+                    for (int i = 0; i < Tags.PotentialTechnologies.Count; i++)
+                    {
+                        var id = nameof(Model.ByPotentialTechnologyTags) + i;
+                        <div class="custom-control custom-checkbox mx-1 my-1">
+                            <input type="checkbox" class="custom-control-input" id="@id" name="@nameof(SearchModel.ByPotentialTechnologyTags)" value="@i" checked="@Model.ByPotentialTechnologyTags.Contains(i)" />
+                            <label class="custom-control-label" for="@id">@Tags.PotentialTechnologies[i]</label>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <hr class="my-0" />
+</form>

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
@@ -6,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Ubora.Web.Data;
+using Ubora.Web.Infrastructure;
 using Ubora.Web._Features.Notifications._Base;
 using Ubora.Web._Features.Projects.History._Base;
 
@@ -16,6 +19,8 @@ namespace Ubora.Web._Features.Admin.Tests
     {
         public IActionResult RunTests()
         {
+            ViewData[nameof(PageTitle)] = "Manage UBORA";
+
             var testActions = typeof(TestsController)
                 .GetMethods()
                 .Where(m => m.GetCustomAttributes(typeof(DiagnosticsTestAttribute), inherit: false).Any())
@@ -76,8 +81,7 @@ namespace Ubora.Web._Features.Admin.Tests
                     var viewModel = (INotificationViewModel)Activator.CreateInstance(type);
                     try
                     {
-                        viewModel.GetPartialView(htmlHelper, true);
-                        viewModel.GetPartialView(htmlHelper, false);
+                        viewModel.GetPartialView(htmlHelper);
                     }
                     catch (InvalidOperationException)
                     {
@@ -127,6 +131,70 @@ namespace Ubora.Web._Features.Admin.Tests
                 }
                 return "OK";
             });
+        }
+
+        /// <summary>
+        /// This test should help find Razor compilation errors and "unresolvable partial view" errors.
+        /// </summary>
+        [DiagnosticsTest]
+        public JsonResult AllRazorViewsAreCompilableSmokeTest([FromServices]ViewRender viewRender)
+        {
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var cshtmlFilePaths = FindCshtmlFilePathsFromDirectory(currentDirectory);
+
+            return RunTest(() =>
+            {
+                foreach (var cshtmlFilePath in cshtmlFilePaths)
+                {
+                    try
+                    {
+                        var fileName = Path.GetFileName(cshtmlFilePath);
+
+                        var cshtmlFilePathWithoutRootAndFileName = cshtmlFilePath
+                            .Replace(currentDirectory, "/")
+                            .Replace(@"\", "/")
+                            .Replace("//", "/")
+                            .Replace(fileName, "");
+
+                        viewRender.Render<dynamic>(cshtmlFilePathWithoutRootAndFileName, fileName, null);
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        if (ex.Message.Contains("can only be called from a layout page.") || ex.Message.Contains("The layout view"))
+                        {
+                            // Swallow exceptions regarding layout pages.
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    // Swallow null exceptions (there are a bunch because of NULL model being entered)
+                    catch (NullReferenceException)
+                    {
+                    }
+                    catch (ArgumentNullException)
+                    {
+                    }
+                }
+                return "OK";
+            });
+        }
+
+        static IEnumerable<string> FindCshtmlFilePathsFromDirectory(string rootDirectory)
+        {
+            foreach (string directory in Directory.GetDirectories(rootDirectory))
+            {
+                foreach (string filePath in Directory.GetFiles(directory, "*.cshtml"))
+                {
+                    yield return filePath;
+                }
+
+                foreach (string filePath in FindCshtmlFilePathsFromDirectory(directory))
+                {
+                    yield return filePath;
+                };
+            }
         }
     }
 }

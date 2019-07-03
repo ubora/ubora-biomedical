@@ -1,14 +1,17 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Ubora.Web.Data;
 using Ubora.Web.Infrastructure.PreMailers;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Users.Account;
 using Ubora.Web._Features._Shared.Emails;
+using Ubora.Web._Features.Users.Manage;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Ubora.Web.Infrastructure
 {
-    public class ApplicationUserEmailMessageSender : IPasswordRecoveryMessageSender, IEmailConfirmationMessageSender
+    public class ApplicationUserEmailMessageSender : IEmailChangeMessageSender, IPasswordRecoveryMessageSender, IEmailConfirmationMessageSender
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly EmailSender _emailSender;
@@ -49,7 +52,7 @@ namespace Ubora.Web.Infrastructure
             var viewModel = new ForgotPasswordEmailViewModel
             {
                 UserId = user.Id,
-                Code = code
+                Code = Base64UrlTextEncoder.Encode(Encoding.UTF8.GetBytes(code))
             };
 
             var view = _viewRender.Render("/_Features/_Shared/Emails/", "ForgotPasswordMessageTemplate.cshtml", viewModel);
@@ -59,6 +62,42 @@ namespace Ubora.Web.Infrastructure
                 .Html;
 
             await _emailSender.SendEmailAsync(user.Email, "UBORA: Password reset", messageFinalHtml, handleLinkedResources: EmailLayoutViewModel.AddLayoutAttachments);
+        }
+
+        public async Task SendChangedEmailMessage(ApplicationUser user, string oldEmail)
+        {
+            var viewModel = new ChangedEmailMessageTemplateViewModel
+            {
+                Email = user.Email
+            };
+
+            var view = _viewRender.Render("/_Features/_Shared/Emails/", "ChangedEmailMessageTemplate.cshtml", viewModel);
+
+            var messageFinalHtml = _preMailerFactory.Create(view)
+                .MoveCssInline(removeStyleElements: true, ignoreElements: ".ignore-premailer")
+                .Html;
+
+            await _emailSender.SendEmailAsync(oldEmail, "UBORA: Email changed", messageFinalHtml, handleLinkedResources: EmailLayoutViewModel.AddLayoutAttachments);
+        }
+
+        public async Task SendEmailChangeConfirmationMessage(ApplicationUser user, string newEmail)
+        {
+            var code = await _userManager.GenerateUserTokenAsync(user, "Default", "ChangeEmail");
+
+            var viewModel = new ChangeEmailConfirmationViewModel
+            {
+                UserId = user.Id,
+                Code = code,
+                NewEmail = newEmail
+            };
+
+            var view = _viewRender.Render("/_Features/_Shared/Emails/", "ChangeEmailConfirmationMessageTemplate.cshtml", viewModel);
+
+            var messageFinalHtml = _preMailerFactory.Create(view)
+                .MoveCssInline(removeStyleElements: true, ignoreElements: ".ignore-premailer")
+                .Html;
+
+            await _emailSender.SendEmailAsync(newEmail, "UBORA: Confirm the email change", messageFinalHtml, handleLinkedResources: EmailLayoutViewModel.AddLayoutAttachments);
         }
     }
 }

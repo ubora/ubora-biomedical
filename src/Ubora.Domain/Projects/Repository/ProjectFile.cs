@@ -8,13 +8,15 @@ namespace Ubora.Domain.Projects.Repository
     {
         public Guid Id { get; private set; }
         public Guid ProjectId { get; private set; }
+
         public string FileName { get; private set; }
         public BlobLocation Location { get; private set; }
-        public bool IsHidden { get; private set; }
         public string Comment { get; private set; }
         public long FileSize { get; private set; }
         public string FolderName { get; private set; }
         public int RevisionNumber { get; private set; }
+
+        public bool IsHidden { get; private set; }
 
         private void Apply(FileAddedEvent e)
         {
@@ -36,6 +38,7 @@ namespace Ubora.Domain.Projects.Repository
 
         private void Apply(FileUpdatedEvent e)
         {
+            FileName = e.FileName;
             Location = e.Location;
             FileSize = e.FileSize;
             Comment = e.Comment;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using Ubora.Domain.Infrastructure;
 
 namespace Ubora.Web.Infrastructure.Storage
@@ -10,6 +9,14 @@ namespace Ubora.Web.Infrastructure.Storage
         {
             var containerName = BlobLocation.ContainerNames.Projects;
             var blobPath = $"{projectId}/project-image/";
+
+            return new BlobLocation(containerName, blobPath);
+        }
+
+        public static BlobLocation GetCommercialDossierBlobLocation(Guid projectId, string fileName)
+        {
+            var containerName = BlobLocation.ContainerNames.Projects;
+            var blobPath = $"{projectId}/commercial-dossier/{fileName}";
 
             return new BlobLocation(containerName, blobPath);
         }

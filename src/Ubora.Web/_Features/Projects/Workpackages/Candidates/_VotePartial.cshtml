@@ -2,41 +2,24 @@
 @model Ubora.Web._Features.Projects.Workpackages.Candidates.UserVotesViewModel
 
 <div class="row">
-    <div class="col-lg-12">
-        <h2 class="display-5 mb-4">Your votes:</h2>
+    <div class="col">
+        <h2 class="mb-4">Your votes:</h2>
     </div>
-    <div class="col-lg-5 col-md-5">
+    <div class="col-lg-12">
 
-        <div class="table-responsive">
-            <table class="table table-votes">
-                <tbody>
-                    <tr>
-                      <th scope="row">Functionality:</th>
-                      <td>
-                        @Model.Functionality
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Performance:</th>
-                      <td>
-                        @Model.Performace
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Usability:</th>
-                      <td>
-                        @Model.Usability
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Safety:</th>
-                      <td>
-                        @Model.Safety
-                      </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <dl class="row">
+          <dt class="col-sm-4">Functionality:</dt>
+          <dd class="col-sm-8">@Model.Functionality</dd>
+
+          <dt class="col-sm-4">Performance:</dt>
+          <dd class="col-sm-8">@Model.Performace</dd>
+
+          <dt class="col-sm-4">Usability:</dt>
+          <dd class="col-sm-8">@Model.Usability</dd>
+
+          <dt class="col-sm-4">Safety:</dt>
+          <dd class="col-sm-8">@Model.Safety</dd>
+        </dl>
 
     </div>
 </div>

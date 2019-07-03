@@ -1,0 +1,327 @@
+﻿.landing-page {
+
+    .btn-primary {
+        min-width: 7rem;
+    }
+
+    .divider {
+        @extend .my-4;
+    }
+
+    header {
+
+        .btn-cta {
+            min-width: 8rem;
+        }
+
+        &.masthead {
+            @include bg-size-cover;
+            padding-top: 8rem;
+            padding-bottom: 8rem;
+            background-color: $dark-blue;
+            background-image: url("../images/icons/ubora-logo.svg");
+            background-position: center center;
+            box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.5);
+            position: relative;
+
+            h1 {
+                color: $white;
+                font-weight: 400;
+            }
+        }
+
+        .container-fluid {
+            z-index: 1;
+        }
+    }
+
+    section {
+        padding-top: 8rem;
+        padding-bottom: 8rem;
+    }
+
+    .projects-section,
+    .needs-section,
+    .resources-section {
+        padding-top: 8rem;
+        padding-bottom: 8rem;
+        @extend .px-lg-5;
+        @extend .text-center;
+        @extend .text-lg-left;
+
+        .divider {
+            @extend .mx-lg-0;
+            @extend .mx-auto;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        p, ul {
+            @extend .text-faded;
+        }
+
+
+        h2 {
+            color: white;
+        }
+    }
+
+    .projects-section {
+        @extend .bg-blue;
+    }
+
+    .needs-section {
+        @extend .bg-dark-blue;
+    }
+
+    section.footer {
+        padding: 2.5rem 0;
+        font-size: 80%;
+        font-style: italic;
+    }
+
+
+    .carousel {
+
+        .carousel-item {
+            border: 1px solid rgba(0, 0, 0, 0.125);
+
+            .carousel-image-1,
+            .carousel-image-2,
+            .carousel-image-3,
+            .carousel-image-4 {
+                width: 1108px;
+                height: 400px;
+                background-repeat: no-repeat;
+                background-color: white;
+                background-position: left center;
+                background-size: contain;
+            }
+
+            .carousel-image-1 {
+                background-image: url("/images/carousel/palpreast.jpg");
+            }
+
+            .carousel-image-2 {
+                background-image: url("/images/carousel/protectivemask.png");
+            }
+
+            .carousel-image-3 {
+                background-image: url("/images/carousel/neonatalwarmer.png");
+            }
+
+            .carousel-image-4 {
+                background-image: url("/images/carousel/breastpump.png");
+            }
+
+            .carousel-caption {
+                background-color: $white;
+                color: $text-color;
+                right: 0;
+                bottom: 0;
+                left: auto;
+                padding: 4rem;
+                text-align: left;
+                height: 100%;
+                width: 65%;
+
+                dl {
+                    width: 100%;
+                    overflow: hidden;
+
+                    dt {
+                        float: left;
+                        width: 28%;
+                    }
+
+                    dd {
+                        float: left;
+                        width: 72%;
+                    }
+                }
+            }
+        }
+
+
+        .carousel-indicators li {
+            background-color: rgba(0, 0, 0, 0.2);
+
+            &.active {
+                background-color: $text-color;
+            }
+        }
+
+        .carousel-control-prev, .carousel-control-next {
+            width: 5%;
+        }
+    }
+}
+
+.resources-img {
+    /*Photo by Štefan Štefančík on Unsplash*/
+    background-image: url("../images/discussion.jpg");
+    background-repeat: no-repeat;
+    box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.5);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: center;
+}
+
+
+.pull-down {
+    position: absolute;
+    bottom: 11%;
+    z-index: 1;
+    left: -moz-calc(50%);
+    left: -webkit-calc(50%);
+    left: -o-calc(50%);
+    left: calc(50%);
+}
+
+
+@include media-breakpoint-up(xl) {
+    header.masthead h1 {
+        font-size: 4rem;
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    header.masthead {
+        height: 95vh;
+        min-height: 650px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    header.masthead h1 {
+        font-size: 3rem;
+    }
+
+    header.masthead p {
+        font-size: 1.15rem;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    header.masthead h1 {
+        font-size: 2rem;
+    }
+
+    .landing-page {
+        .carousel {
+            .carousel-item {
+                .carousel-image-1,
+                .carousel-image-2,
+                .carousel-image-3,
+                .carousel-image-4 {
+                    background-image: none;
+                    height: 700px;
+                    width: 100%;
+                }
+
+                .carousel-caption {
+                    padding: 2rem;
+                    width: 100%;
+
+                    .carousel-image-1-mobile,
+                    .carousel-image-2-mobile,
+                    .carousel-image-3-mobile,
+                    .carousel-image-4-mobile {
+                        height: 300px;
+                        margin-bottom: 1rem;
+                        background-repeat: no-repeat;
+                        background-position: center;
+                    }
+
+                    .carousel-image-1-mobile {
+                        background-image: url("/images/carousel/palpreast.jpg");
+                    }
+
+                    .carousel-image-2-mobile {
+                        background-image: url("/images/carousel/protectivemask.png");
+                    }
+
+                    .carousel-image-3-mobile {
+                        background-image: url("/images/carousel/neonatalwarmer.png");
+                    }
+
+                    .carousel-image-4-mobile {
+                        background-image: url("/images/carousel/breastpump.png");
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@include media-breakpoint-down(sm) {
+    .landing-page {
+        header.masthead {
+            .btn-primary {
+                min-width: 17rem;
+                margin-bottom: .5rem;
+            }
+        }
+
+
+        .carousel {
+            .carousel-item {
+                .carousel-image-1,
+                .carousel-image-2,
+                .carousel-image-3 {
+                    background-image: none;
+                    height: 650px;
+                }
+            }
+        }
+
+        .pull-down {
+            position: fixed;
+            bottom: 11%;
+            left: -moz-calc(10%);
+            left: -webkit-calc(10%);
+            left: -o-calc(10%);
+            left: calc(10%);
+        }
+    }
+}
+
+
+@include media-breakpoint-down(xs) {
+    .landing-page {
+        section,
+        .projects-section,
+        .needs-section,
+        .resources-section {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
+
+
+        header.masthead {
+            padding-top: 5rem;
+            padding-bottom: 7rem;
+        }
+    }
+}
+
+
+/*IE style*/
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+
+    .landing-page .masthead .container-fluid {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .landing-page header.masthead {
+        background-size: 4000px;
+    }
+}

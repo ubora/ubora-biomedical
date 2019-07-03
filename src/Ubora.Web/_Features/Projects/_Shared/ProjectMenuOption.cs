@@ -1,14 +1,10 @@
-﻿namespace Ubora.Web._Features.Projects._Shared
+﻿// ReSharper disable once CheckNamespace
+public enum ProjectMenuOption
 {
-    public enum ProjectMenuOption
-    {
-        Overview,
-        Workpackages,
-        Assignments,
-        News,
-        Documentation,
-        Repository,
-        History,
-        Members
-    }
+    Overview,
+    Workpackages,
+    Assignments,
+    Repository,
+    History,
+    Members
 }

@@ -8,6 +8,8 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Questionnaires.ApplicableRegulations;
 using Ubora.Domain.Questionnaires.DeviceClassifications;
+using Ubora.Domain.Resources;
+using Ubora.Domain.Resources.Commands;
 using Ubora.Web.Infrastructure.PreMailers;
 using Ubora.Web.Services;
 using Ubora.Web._Features.Feedback;
@@ -19,6 +21,12 @@ using Ubora.Web._Features.Projects.ApplicableRegulations;
 using Ubora.Web._Features.Projects.DeviceClassifications;
 using Ubora.Web._Features.Projects.History._Base;
 using Ubora.Web._Features.Projects.Workpackages.Steps;
+using Ubora.Web._Features.Users.Manage;
+using Ubora.Web._Features.Projects.Workpackages.Candidates;
+using Ubora.Web._Areas.ResourcesArea.ResourcePages.CommandHandlers;
+using Ubora.Web._Areas.ResourcesArea.ResourcePages.Services;
+using Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentations;
+using Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -43,6 +51,13 @@ namespace Ubora.Web.Infrastructure
                 builder.RegisterType<SpecifiedPickupDirectoryEmailSender>().As<EmailSender>()
                     .InstancePerLifetimeScope();
             }
+            
+            builder.RegisterType<PandocService>().As<PandocService>().InstancePerLifetimeScope();
+            
+            builder.RegisterType<UniversalDocumentConverter>()
+                .As<IWordProcessingDocumentConverter>()
+                .As<IMarkdownConverter>()
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().SingleInstance();
             builder.RegisterType<UrlHelperFactory>().As<IUrlHelperFactory>().SingleInstance();
@@ -57,18 +72,32 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterType<ApplicationUserManager>().As<IApplicationUserManager>().InstancePerLifetimeScope();
             builder.RegisterType<ApplicationSignInManager>().As<IApplicationSignInManager>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ApplicationUserEmailMessageSender>().As<IPasswordRecoveryMessageSender>().As<IEmailConfirmationMessageSender>().InstancePerLifetimeScope();
+            builder.RegisterType<ApplicationUserEmailMessageSender>()
+                .As<IPasswordRecoveryMessageSender>()
+                .As<IEmailConfirmationMessageSender>()
+                .As<IEmailChangeMessageSender>()
+                .InstancePerLifetimeScope();
             builder.RegisterType<ViewRender>().InstancePerLifetimeScope();
             builder.RegisterType<ImageServices.ImageStorageProvider>().AsSelf().InstancePerLifetimeScope();
-            builder.RegisterAssemblyTypes(ThisAssembly).Where(t => t.IsNested && t.Name.EndsWith("Factory")).InstancePerLifetimeScope();
-            builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IQueryHandler<,>)).InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .Where(t => t.IsNested && t.Name.EndsWith("Factory"))
+                .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .AsClosedTypesOf(typeof(IQueryHandler<,>))
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<SendFeedbackCommand.Handler>().As<ICommandHandler<SendFeedbackCommand>>().InstancePerLifetimeScope();
+            builder.RegisterType<UploadResourceFileCommandHandler>().As<ICommandHandler<UploadResourceFileCommand>>().InstancePerLifetimeScope();
 
             builder.RegisterType<NotificationViewModelFactoryMediator>().AsSelf().InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(ThisAssembly)
                 .AsClosedTypesOf(typeof(NotificationViewModelFactory<,>)).As<INotificationViewModelFactory>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<EventNotificationViewModel.Factory>().As<INotificationViewModelFactory>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<EventViewModelFactoryMediator>().As<IEventViewModelFactoryMediator>().InstancePerLifetimeScope();
@@ -92,9 +121,15 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterType<DeviceClassificationIndexViewModel.QuestionnaireListItemProjection>()
                 .As<IProjection<DeviceClassificationAggregate, DeviceClassificationIndexViewModel.QuestionnaireListItem>>()
                 .SingleInstance();
+
             builder.RegisterType<QuestionnaireIndexViewModel.QuestionnaireListItemProjection>()
                 .As<IProjection<ApplicableRegulationsQuestionnaireAggregate, QuestionnaireIndexViewModel.QuestionnaireListItem>>()
                 .SingleInstance();
+
+            builder.RegisterType<CommentViewModelFactory>().AsSelf().InstancePerLifetimeScope();
+
+            builder.RegisterType<ResourceBlobDeleter>().As<IResourceBlobDeleter>().InstancePerLifetimeScope();
+            builder.RegisterType<CommercialDossierViewModel.Helper>().AsSelf().InstancePerLifetimeScope();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)

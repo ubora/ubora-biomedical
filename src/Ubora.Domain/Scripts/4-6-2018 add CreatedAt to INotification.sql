@@ -1,0 +1,1 @@
+﻿UPDATE mt_doc_inotification SET data = jsonb_set(data, '{CreatedAt}', to_jsonb(mt_doc_inotification.mt_last_modified), true);

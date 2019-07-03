@@ -2,13 +2,13 @@
 @model Ubora.Web._Features.Users.Profile.EditProfileViewModel
 
 @{
-    ViewData["Title"] = "Edit profile";
+    ViewData[nameof(PageTitle)] = "Edit profile";
 }
 
-<div class="container-fluid">
-  <div class="row flex-column align-items-center">
-    <div class="col-md-4 d-flex flex-column justify-content-center">
-      <h1 class="display-4 text-center mb-4">@ViewData["Title"]</h1>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+      <h1 class="text-center">@ViewData[nameof(PageTitle)]</h1>
       @Html.Partial("ChangeProfilePicturePartial", @Model.ProfilePictureViewModel)
       @Html.Partial("EditProfilePartial", @Model.UserViewModel)
     </div>

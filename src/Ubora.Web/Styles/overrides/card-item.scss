@@ -1,0 +1,105 @@
+.card {
+
+    a h5 {
+        color: $text-color;
+    }
+
+    .card-link {
+        word-break: normal;
+    }
+
+    .card-img-overlay {
+        background-color: rgba(255, 255, 255, 0.9);
+        top: 0;
+        height: 5em;
+    }
+
+    img.card-img-top {
+        object-fit: cover;
+    }
+
+    a {
+        text-decoration: none;
+    }
+}
+
+.project-card {
+    img {
+        height: 180px;
+        position: relative;
+    }
+
+    .card-title {
+        @extend .mb-0;
+        @extend .bg-blue;
+        @extend .color-white;
+        font-size: 1.125rem;
+        font-weight: 300;
+        padding: .625rem 1.25rem;
+    }
+
+    .card-body {
+        padding: 1.25rem;
+    }
+}
+
+.user-card {
+    @extend .text-center;
+    @extend .h-100;
+
+    .card-title {
+        color: $text-color;
+
+        a {
+            color: $text-color;
+        }
+    }
+
+    .avatar {
+        height: 120px;
+        width: 120px;
+    }
+
+    .card-footer {
+        padding: 0;
+
+        .btn.btn-block {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        .btn-group a {
+            width: 100%;
+        }
+    }
+}
+
+
+.project-card,
+.user-card,
+.clinical-need-card {
+
+    &:hover {
+        @extend .box-shadow;
+    }
+}
+
+@media (max-width: 574px) {
+    .card {
+        img.project-img {
+            height: 274px;
+        }
+    }
+}
+
+@media (max-width: 1600px) {
+    .project-card-list {
+        padding-right: .5rem;
+        padding-left: .5rem;
+
+        > [class*="col-"] {
+            padding-right: .5rem;
+            padding-left: .5rem;
+        }
+    }
+}

@@ -30,7 +30,7 @@ namespace Ubora.Domain.Tests.Projects.History.SortSpecifications
             var sortedResult = sut.Sort(new[] {eventLog1, eventLog3, eventLog2}.AsQueryable());
 
             // Assert
-            sortedResult.Should().Equal(eventLog3, eventLog2, eventLog1);
+            sortedResult.ShouldBeEquivalentTo(new[] {eventLog3, eventLog2, eventLog1});
         }
     }
 }

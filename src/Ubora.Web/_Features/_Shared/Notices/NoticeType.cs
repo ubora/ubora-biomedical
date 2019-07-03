@@ -4,6 +4,7 @@
     {
         Info = 0,
         Success,
-        Error
+        Error,
+        None
     }
 }

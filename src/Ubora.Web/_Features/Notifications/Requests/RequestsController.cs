@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Projects.Members.Commands;
 using Ubora.Web.Infrastructure;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Notifications.Requests
 {
@@ -21,7 +22,7 @@ namespace Ubora.Web._Features.Notifications.Requests
             ExecuteUserCommand(new AcceptRequestToJoinProjectCommand
             {
                 RequestId = requestId
-            });
+            }, Notice.Success(SuccessTexts.RequestToJoinProjectAccepted));
 
             return RedirectToAction("Index", "Notifications");
         }
@@ -38,7 +39,7 @@ namespace Ubora.Web._Features.Notifications.Requests
             ExecuteUserCommand(new DeclineRequestToJoinProjectCommand
             {
                 RequestId = requestId
-            });
+            }, Notice.Success(SuccessTexts.RequestToJoinProjectDeclined));
 
             return RedirectToAction("Index", "Notifications");
         }

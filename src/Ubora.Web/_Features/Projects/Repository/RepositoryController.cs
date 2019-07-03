@@ -13,10 +13,13 @@ using Ubora.Domain.Projects._Specifications;
 using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.Storage;
+using Ubora.Web._Features._Shared.Notices;
+using Ubora.Web.Data;
 
 namespace Ubora.Web._Features.Projects.Repository
 {
     [ProjectRoute("[controller]")]
+    [DisableProjectControllerAuthorization]
     public class RepositoryController : ProjectController
     {
         private readonly IUboraStorageProvider _uboraStorageProvider;
@@ -32,12 +35,13 @@ namespace Ubora.Web._Features.Projects.Repository
             _projecFileViewModelFactory = projectFileViewModelFactory;
         }
 
-        public IActionResult Repository()
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
+        public async Task<IActionResult> Repository()
         {
             var projectFiles = QueryProcessor.Find(new IsProjectFileSpec(ProjectId)
                     && !new IsHiddenFileSpec());
 
-            var isProjectLeader = new HasLeader(UserId).IsSatisfiedBy(Project);
+            var canHideProjectFile = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanHideProjectFile);
 
             var model = new ProjectRepositoryViewModel
             {
@@ -46,15 +50,16 @@ namespace Ubora.Web._Features.Projects.Repository
                 AllFiles = projectFiles.GroupBy(file => file.FolderName,
                     file => _projecFileViewModelFactory.Create(file)),
                 AddFileViewModel = new AddFileViewModel(),
-                IsProjectLeader = isProjectLeader
+                CanHideProjectFile = canHideProjectFile
             };
 
             return View(nameof(Repository), model);
         }
 
         [Route("AddFile")]
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
+        [Authorize(Policy = nameof(Policies.CanAddFileRepository))]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddFile(AddFileViewModel model)
         {
             if (!ModelState.IsValid)
@@ -76,7 +81,7 @@ namespace Ubora.Web._Features.Projects.Repository
                     FileSize = file.Length,
                     Comment = model.Comment,
                     FolderName = model.FolderName
-                });
+                }, Notice.Success(SuccessTexts.RepositoryFileAdded));
 
                 if (!ModelState.IsValid)
                 {
@@ -87,17 +92,19 @@ namespace Ubora.Web._Features.Projects.Repository
             return Ok();
         }
 
-
         [Route("HideFile")]
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
         [Authorize(Policy = nameof(Policies.CanHideProjectFile))]
         public IActionResult HideFile(Guid fileid)
         {
-            ExecuteUserProjectCommand(new HideFileCommand { Id = fileid });
+            ExecuteUserProjectCommand(new HideFileCommand { Id = fileid }, Notice.Success(SuccessTexts.RepositoryFileHidden));
 
             return RedirectToAction(nameof(Repository));
         }
 
         [Route("UpdateFile")]
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
+        [Authorize(Policy = nameof(Policies.CanUpdateFileRepository))]
         public IActionResult UpdateFile(Guid fileId)
         {
             var file = QueryProcessor.FindById<ProjectFile>(fileId);
@@ -107,6 +114,8 @@ namespace Ubora.Web._Features.Projects.Repository
         }
 
         [Route("UpdateFile")]
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
+        [Authorize(Policy = nameof(Policies.CanUpdateFileRepository))]
         [HttpPost]
         public async Task<IActionResult> UpdateFile(UpdateFileViewModel model)
         {
@@ -124,10 +133,11 @@ namespace Ubora.Web._Features.Projects.Repository
             ExecuteUserProjectCommand(new UpdateFileCommand
             {
                 Id = file.Id,
+                FileName = model.ProjectFile.FileName,
                 BlobLocation = blobLocation,
                 FileSize = model.ProjectFile.Length,
                 Comment = model.Comment
-            });
+            }, Notice.Success(SuccessTexts.RepositoryFileUpdated));
 
             if (!ModelState.IsValid)
             {
@@ -137,6 +147,7 @@ namespace Ubora.Web._Features.Projects.Repository
             return RedirectToAction(nameof(Repository));
         }
 
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
         [Route("FileHistory")]
         public IActionResult FileHistory(Guid fileId)
         {
@@ -146,6 +157,7 @@ namespace Ubora.Web._Features.Projects.Repository
                 .Select(x => new FileItemHistoryViewModel
                 {
                     EventId = x.Id,
+                    FileName = ((UboraFileEvent)x.Data).FileName,
                     FileSize = ((UboraFileEvent)x.Data).FileSize,
                     RevisionNumber = ((UboraFileEvent)x.Data).RevisionNumber,
                     FileAddedOn = x.Timestamp,
@@ -163,6 +175,7 @@ namespace Ubora.Web._Features.Projects.Repository
             return View(nameof(FileHistory), model);
         }
 
+        [Authorize(Policy = nameof(Policies.CanDownloadFile))]
         [Route("DownloadFile")]
         public IActionResult DownloadFile(Guid fileId)
         {
@@ -177,6 +190,29 @@ namespace Ubora.Web._Features.Projects.Repository
             return Redirect(blobSasUrl);
         }
 
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
+        [Route("View3DFile")]
+        public IActionResult View3DFile(Guid fileId)
+        {
+            var file = QueryProcessor.FindById<ProjectFile>(fileId);
+            if (file == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var blobSasUrl = _uboraStorageProvider.GetReadUrl(file.Location, DateTime.UtcNow.AddSeconds(5));
+
+            var model = new View3DFileViewModel
+            {
+                FileName = file.FileName,
+                ProjectName = Project.Title,
+                FileBlobSasUrl = blobSasUrl
+            };
+
+            return View(nameof(View3DFile), model);
+        }
+
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
         [Route("DownloadHistoryFile")]
         public IActionResult DownloadHistoryFile(Guid eventId)
         {
@@ -191,6 +227,32 @@ namespace Ubora.Web._Features.Projects.Repository
             var blobSasUrl = _uboraStorageProvider.GetReadUrl(fileLocation, DateTime.UtcNow.AddSeconds(5));
 
             return Redirect(blobSasUrl);
+        }
+
+        [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
+        [Route("View3DHistoryFile")]
+        public IActionResult View3DHistoryFile(Guid eventId)
+        {
+            var fileEvent = _eventStreamQuery.FindFileEvent(ProjectId, eventId);
+            if (fileEvent == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var fileLocation = ((UboraFileEvent)fileEvent.Data).Location;
+
+            var blobSasUrl = _uboraStorageProvider.GetReadUrl(fileLocation, DateTime.UtcNow.AddSeconds(5));
+
+            var file = QueryProcessor.FindById<ProjectFile>(((UboraFileEvent)fileEvent.Data).Id);
+
+            var model = new View3DFileViewModel
+            {
+                FileName = file.FileName,
+                ProjectName = Project.Title,
+                FileBlobSasUrl = blobSasUrl
+            };
+
+            return View(nameof(View3DFile), model);
         }
 
         private async Task SaveBlobAsync(IFormFile projectFile, BlobLocation blobLocation)

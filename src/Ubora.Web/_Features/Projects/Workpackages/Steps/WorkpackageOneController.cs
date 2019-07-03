@@ -1,10 +1,14 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Domain;
 using Ubora.Domain.Projects.Workpackages;
 using Ubora.Domain.Projects.Workpackages.Commands;
 using Ubora.Domain.Projects._Commands;
-using Ubora.Web.Authorization;
 using Ubora.Web._Features._Shared;
+using Ubora.Web._Features._Shared.Notices;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Ubora.Web._Features.Projects._Shared;
 
 namespace Ubora.Web._Features.Projects.Workpackages.Steps
 {
@@ -14,6 +18,13 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
     {
         private WorkpackageOne _workpackageOne;
         public WorkpackageOne WorkpackageOne => _workpackageOne ?? (_workpackageOne = QueryProcessor.FindById<WorkpackageOne>(ProjectId));
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+            ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(PageTitle)] = "WP 1: Medical need and product specification";
+        }
 
         [Route(nameof(ProjectOverview))]
         public IActionResult ProjectOverview(string returnUrl = null)
@@ -27,7 +38,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         public IActionResult DiscardDesignPlanningChanges(string returnUrl = null)
         {
-            if(returnUrl != null)
+            if (returnUrl != null)
             {
                 return RedirectToLocal(returnUrl);
             }
@@ -47,35 +58,34 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
             ExecuteUserProjectCommand(new UpdateProjectCommand
             {
-                AreaOfUsageTags = model.AreaOfUsageTags,
-                ClinicalNeedTags = model.ClinicalNeedTags,
-                PotentialTechnologyTags = model.PotentialTechnologyTags,
-                Gmdn = model.Gmdn,
+                AreaOfUsageTag = model.AreaOfUsageTag,
+                ClinicalNeedTag = model.ClinicalNeedTag,
+                PotentialTechnologyTag = model.PotentialTechnologyTag,
+                Keywords = model.Keywords,
                 Title = Project.Title
-            });
+            }, Notice.Success(SuccessTexts.ProjectUpdated));
 
             if (!ModelState.IsValid)
             {
-                Notices.Error("Failed to change project overview!");
+                Notices.NotifyOfError("Failed to change project overview!");
 
                 return ProjectOverview(returnUrl);
             }
 
-            Notices.Success("Project overview changed successfully!");
-
-            if(returnUrl != null)
+            if (returnUrl != null)
             {
                 return RedirectToLocal(returnUrl);
             }
 
-            return View();
+            return RedirectToAction(nameof(ProjectOverview));
         }
 
         [Route("{stepId}")]
-        public IActionResult Read(string stepId)
+        public async Task<IActionResult> Read(string stepId)
         {
             var step = WorkpackageOne.GetSingleStep(stepId);
             var model = AutoMapper.Map<ReadStepViewModel>(step);
+            model.ContentHtml = await ConvertQuillDeltaToHtml(step.ContentV2);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
             model.EditButton = GetEditButtonVisibility();
@@ -94,11 +104,12 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
 
         [Route("{stepId}/Edit")]
         [Authorize(Policies.CanEditWorkpackageOne)]
-        public IActionResult Edit(string stepId)
+        public async Task<IActionResult> Edit(string stepId)
         {
             var step = WorkpackageOne.GetSingleStep(stepId);
 
             var model = AutoMapper.Map<EditStepViewModel>(step);
+            model.ContentQuillDelta = await SanitizeQuillDeltaForEditing(step.ContentV2);
             model.EditStepUrl = Url.Action(nameof(Edit), new { stepId });
             model.ReadStepUrl = Url.Action(nameof(Read), new { stepId });
 
@@ -108,22 +119,22 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [HttpPost]
         [Route("{stepId}/Edit")]
         [Authorize(Policies.CanEditWorkpackageOne)]
-        public IActionResult Edit(EditStepPostModel model)
+        public async Task<IActionResult> Edit(EditStepPostModel model)
         {
             if (!ModelState.IsValid)
             {
-                return Edit(model.StepId);
+                return await Edit(model.StepId);
             }
 
             ExecuteUserProjectCommand(new EditWorkpackageOneStepCommand
             {
                 StepId = model.StepId,
-                NewValue = model.Content
-            });
+                NewValue = new QuillDelta(model.ContentQuillDelta)
+            }, Notice.Success(SuccessTexts.WP1StepEdited));
 
             if (!ModelState.IsValid)
             {
-                return Edit(model.StepId);
+                return await Edit(model.StepId);
             }
 
             return RedirectToAction(nameof(Read), new { stepId = model.StepId });

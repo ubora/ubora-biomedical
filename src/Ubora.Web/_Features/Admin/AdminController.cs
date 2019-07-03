@@ -5,10 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Ubora.Domain.Projects._Queries;
 using Ubora.Domain.Users.Commands;
-using Ubora.Domain.Users.Queries;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
+using Ubora.Web._Features._Shared.Notices;
+using Ubora.Domain.Users.SortSpecifications;
+using Ubora.Domain.Infrastructure.Specifications;
+using Ubora.Domain.Users;
+using Ubora.Web._Features._Shared.Paging;
 
 namespace Ubora.Web._Features.Admin
 {
@@ -17,39 +23,80 @@ namespace Ubora.Web._Features.Admin
     {
         private readonly IApplicationUserManager _userManager;
 
-
         public AdminController(IApplicationUserManager userManager)
         {
             _userManager = userManager;
         }
 
-        [Authorize(Roles = ApplicationRole.Admin)]
-        public async Task<IActionResult> Diagnostics()
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
-            var userViewModels = new List<UserViewModel>();
+            base.OnActionExecuting(context);
 
-            IReadOnlyDictionary<Guid, string> userFullNames = QueryProcessor.ExecuteQuery(new FindFullNamesOfAllUboraUsersQuery());
+            ViewData[nameof(PageTitle)] = "Administer UBORA";
+        }
+
+        [Authorize(Roles = ApplicationRole.Admin)]
+        public IActionResult Diagnostics()
+        {
+            return View(nameof(Diagnostics));
+        }
+
+        [Authorize(Roles = ApplicationRole.Admin)]
+        public virtual async Task<IActionResult> ManageUsers(int page = 1)
+        {
+            var userProfiles = QueryProcessor.Find(new MatchAll<UserProfile>(), new SortByFullNameAscendingSpecification(), 10, page);
+
+            IReadOnlyDictionary<Guid, string> userFullNames = userProfiles.Select(userProfile => new
+            {
+                UserId = userProfile.UserId,
+                FullName = userProfile.FullName
+            })
+            .ToDictionary(x => x.UserId, x => x.FullName);
+
+            var userViewModels = new List<UserViewModel>();
 
             foreach (var user in _userManager.Users.ToList())
             {
-                userViewModels.Add(new UserViewModel
+                if (userFullNames.ContainsKey(user.Id))
                 {
-                    UserId = user.Id,
-                    UserEmail = user.Email,
-                    FullName = userFullNames[user.Id],
-                    Roles = await _userManager.GetRolesAsync(user)
-                });
+                    userViewModels.Add(new UserViewModel
+                    {
+                        UserId = user.Id,
+                        UserEmail = user.Email,
+                        FullName = userFullNames[user.Id],
+                        Roles = await _userManager.GetRolesAsync(user)
+                    });
+                }
             }
 
             var orderedViewModel = userViewModels.OrderBy(x => x.FullName).ToList();
 
-            return View(nameof(Diagnostics), orderedViewModel);
+            var manageUsersViewModel = new ManageUsersViewModel
+            {
+                Pager = Pager.From(userProfiles),
+                Items = orderedViewModel
+            };
+
+            return View(nameof(ManageUsers), manageUsersViewModel);
         }
 
+        [Authorize(Roles = ApplicationRole.Admin)]
+        public IActionResult ProjectsUnderReview([FromServices] ProjectUnderReviewViewModel.Factory projectFactory)
+        {
+            var projectsUnderReview = QueryProcessor.ExecuteQuery(new GetProjectsUnderReviewQuery())
+                .OrderBy(x => x.Title);
+
+            var projectsViewModel = new ProjectsUnderReviewViewModel
+            {
+                ProjectsUnderReview = projectsUnderReview.Select(projectFactory.Create)
+            };
+
+            return View(nameof(ProjectsUnderReview), projectsViewModel);
+        }
 
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]
-        public async Task<IActionResult> AddAdministratorRole(Guid userId)
+        public async Task<IActionResult> AddAdministratorRole(Guid userId, int page)
         {
             var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.AddToRoleAsync(user, ApplicationRole.Admin);
@@ -58,15 +105,15 @@ namespace Ubora.Web._Features.Admin
             {
                 AddIdentityErrorsToModelState(result);
 
-                return await Diagnostics();
+                return Diagnostics();
             }
 
-            return RedirectToAction(nameof(Diagnostics));
+            return RedirectToAction(nameof(ManageUsers), new { page });
         }
 
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]
-        public async Task<IActionResult> RemoveAdministratorRole(Guid userId)
+        public async Task<IActionResult> RemoveAdministratorRole(Guid userId, int page)
         {
             var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.RemoveFromRoleAsync(user, ApplicationRole.Admin);
@@ -75,15 +122,15 @@ namespace Ubora.Web._Features.Admin
             {
                 AddIdentityErrorsToModelState(result);
 
-                return await Diagnostics();
+                return await ManageUsers();
             }
 
-            return RedirectToAction(nameof(Diagnostics));
+            return RedirectToAction(nameof(ManageUsers), new { page });
         }
 
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]
-        public async Task<IActionResult> AddMentorRole(Guid userId)
+        public async Task<IActionResult> AddMentorRole(Guid userId, int page)
         {
             var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.AddToRoleAsync(user, ApplicationRole.Mentor);
@@ -92,15 +139,15 @@ namespace Ubora.Web._Features.Admin
             {
                 AddIdentityErrorsToModelState(result);
 
-                return await Diagnostics();
+                return await ManageUsers();
             }
 
-            return RedirectToAction(nameof(Diagnostics));
+            return RedirectToAction(nameof(ManageUsers), new { page });
         }
 
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]
-        public async Task<IActionResult> RemoveMentorRole(Guid userId)
+        public async Task<IActionResult> RemoveMentorRole(Guid userId, int page)
         {
             var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.RemoveFromRoleAsync(user, ApplicationRole.Mentor);
@@ -109,10 +156,44 @@ namespace Ubora.Web._Features.Admin
             {
                 AddIdentityErrorsToModelState(result);
 
-                return await Diagnostics();
+                return await ManageUsers();
             }
 
-            return RedirectToAction(nameof(Diagnostics));
+            return RedirectToAction(nameof(ManageUsers), new { page });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = ApplicationRole.Admin)]
+        public async Task<IActionResult> AddManagementGroupRole(Guid userId, int page)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var result = await _userManager.AddToRoleAsync(user, ApplicationRole.ManagementGroup);
+
+            if (!result.Succeeded)
+            {
+                AddIdentityErrorsToModelState(result);
+
+                return await ManageUsers();
+            }
+
+            return RedirectToAction(nameof(ManageUsers), new { page });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = ApplicationRole.Admin)]
+        public async Task<IActionResult> RemoveManagementGroupRole(Guid userId, int page)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var result = await _userManager.RemoveFromRoleAsync(user, ApplicationRole.ManagementGroup);
+
+            if (!result.Succeeded)
+            {
+                AddIdentityErrorsToModelState(result);
+
+                return await ManageUsers();
+            }
+
+            return RedirectToAction(nameof(ManageUsers), new { page });
         }
 
         [Route(nameof(DeleteUser))]
@@ -129,18 +210,18 @@ namespace Ubora.Web._Features.Admin
         [HttpPost]
         [Authorize(Roles = ApplicationRole.Admin)]
         [Route(nameof(DeleteUser))]
-        public async Task<IActionResult> DeleteUser(DeleteUserViewModel model)
+        public async Task<IActionResult> DeleteUser(DeleteUserViewModel model, int page)
         {
             if (!ModelState.IsValid)
             {
-                return await Diagnostics();
+                return await ManageUsers();
             }
 
             var user = await _userManager.FindByEmailAsync(model.UserEmail);
             if (user == null)
             {
                 ModelState.AddModelError("", $"User not found by e-mail: {model.UserEmail}");
-                return await Diagnostics();
+                return await ManageUsers();
             }
 
             var result = await _userManager.DeleteAsync(user);
@@ -149,7 +230,7 @@ namespace Ubora.Web._Features.Admin
                 ExecuteUserCommand(new DeleteUserCommand
                 {
                     UserId = user.Id
-                });
+                }, Notice.Success(SuccessTexts.UserDeleted));
             }
             else
             {
@@ -158,11 +239,17 @@ namespace Ubora.Web._Features.Admin
 
             if (!ModelState.IsValid)
             {
-                return await Diagnostics();
+                return await ManageUsers();
             }
 
-            Notices.Success($"User {user.Email} successfully deleted");
-            return RedirectToAction(nameof(Diagnostics));
+            Notices.NotifyOfSuccess($"User {user.Email} successfully deleted");
+            return RedirectToAction(nameof(ManageUsers), new { page });
+        }
+
+        public class ManageUsersViewModel
+        {
+            public Pager Pager { get; set; }
+            public List<UserViewModel> Items { get; set; }
         }
 
         private void AddIdentityErrorsToModelState(IdentityResult result)

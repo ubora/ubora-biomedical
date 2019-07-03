@@ -1,0 +1,150 @@
+﻿.list-sidebar {
+    li {
+        list-style-type: none;
+    }
+
+    a {
+        color: black;
+        text-decoration: none;
+        display: block;
+        opacity: 0.7;
+        padding-top: .3em;
+        padding-bottom: .3rem;
+
+        &:hover {
+            opacity: 1;
+        }
+
+        &.muted-status {
+            color: $tertiary-shade;
+            text-decoration: none;
+            cursor: default;
+            opacity: 1;
+        }
+
+        &.active-status {
+            font-weight: 600;
+            opacity: 1;
+        }
+
+        img {
+            width: 2rem;
+        }
+    }
+
+    .side-menu-secondary {
+        padding-left: 1.5rem;
+    }
+
+    .side-menu-tertiary {
+        padding-left: 1.5rem;
+    }
+
+    .side-menu-quaternary {
+        padding-left: 1.5rem;
+    }
+}
+
+.collapse-icon {
+    margin-left: -20px
+}
+
+.sidemenu-collapse {
+
+    &[aria-expanded="true"] i.collapse-icon {
+        transform: rotate(90deg);
+        -ms-transform: rotate(90deg); /* IE 9 */
+        -webkit-transform: rotate(90deg); /* Safari */
+    }
+}
+
+
+/*WP sidemenu*/
+.wp-sidemenu-lg {
+
+    button.btn-icon {
+        color: $blue;
+    }
+}
+
+
+/*Resources sidemenu*/
+.nav-resources-lg {
+
+    button.btn-icon {
+        color: white;
+    }
+}
+
+.nav-resources,
+.nav-resources-lg {
+
+    .list-sidebar a {
+        color: white;
+    }
+}
+
+
+/*All sidemenus*/
+.wp-sidemenu-lg,
+.nav-resources-lg {
+
+    @extend .border-bottom;
+    padding: .1rem 1rem;
+    width: 100%;
+
+    button.btn-icon {
+
+        .material-icons {
+            font-size: 180%;
+        }
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    .modal {
+        @include modal-left-nav;
+    }
+}
+
+
+@include media-breakpoint-up(xl) {
+
+    .wp-sidemenu-lg,
+    .nav-resources-lg {
+        display: none;
+    }
+}
+
+
+@include media-breakpoint-down(lg) {
+
+    .wp-sidemenu,
+    .nav-resources {
+        display: none;
+    }
+}
+
+
+@include media-breakpoint-down(sm) {
+
+    .wp-sidemenu-lg,
+    .nav-resources-lg {
+
+        .modal.modal-left-pane {
+            .modal-dialog {
+                width: 80%;
+            }
+        }
+    }
+
+    .nav-resources-lg {
+        .close {
+            font-weight: normal;
+            text-shadow: none;
+            opacity: 1;
+        }
+    }
+}

@@ -1,16 +1,16 @@
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Projects.Assignments;
 using Ubora.Domain.Projects.Assignments.Commands;
 using Ubora.Domain.Projects._Specifications;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.Assignments
 {
     [ProjectRoute("[controller]")]
     public class AssignmentsController : ProjectController
-    {
+    { 
         public IActionResult Assignments()
         {
             var projectTasks = QueryProcessor.Find<Assignment>(new IsFromProjectSpec<Assignment> { ProjectId = ProjectId });
@@ -21,7 +21,7 @@ namespace Ubora.Web._Features.Projects.Assignments
                 ProjectName = Project.Title,
                 Assignments = projectTasks.Select(AutoMapper.Map<AssignmentListItemViewModel>)
             };
-
+            
             return View(model);
         }
 
@@ -47,7 +47,7 @@ namespace Ubora.Web._Features.Projects.Assignments
                 Title = model.Title,
                 Description = model.Description,
                 AssigneeIds = model.AssigneeIds
-            });
+            }, Notice.Success(SuccessTexts.AssignmentAdded));
 
             if (!ModelState.IsValid)
             {
@@ -55,6 +55,13 @@ namespace Ubora.Web._Features.Projects.Assignments
             }
 
             return RedirectToAction(nameof(Assignments), new { ProjectId });
+        }
+
+        [Route(nameof(View))]
+        public IActionResult View(Guid id, [FromServices]AssignmentViewModel.Factory modelFactory)
+        {
+            var model = modelFactory.Create(id);
+            return View(model);
         }
 
         [Route(nameof(Edit))]
@@ -79,7 +86,7 @@ namespace Ubora.Web._Features.Projects.Assignments
                 Title = model.Title,
                 Description = model.Description,
                 AssigneeIds = model.AssigneeIds
-            });
+            }, Notice.Success(SuccessTexts.AssignmentEdited));
 
             if (!ModelState.IsValid)
             {

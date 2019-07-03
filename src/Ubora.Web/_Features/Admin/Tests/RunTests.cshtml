@@ -18,30 +18,38 @@
     }
 </style>
 
-<section class="medium-width">
-    <table class="diagnostics-table table">
-        <thead>
-            <tr>
-                <th>Test</th>
-                <th style="width: 80%;">Result</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (int i = 0; i < Model.Count(); i++)
-            {
-                <tr>
-                    <td>@Model.ElementAt(i).Name</td>
-                    <td>
-                        <span id="actionResult@(i)"></span>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<span id="js-all-tests"></span>
+
+<section class="container my-5">
+    <div class="d-lg-block d-none">
+        <div class="row mx-0 py-2 border-bottom">
+            <div class="col-lg-5">
+                <b>Test</b>
+            </div>
+            <div class="col-lg-7">
+                <b>Result</b>
+            </div>
+        </div>
+    </div>
+
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        <div class="row mx-0 py-2 border-bottom">
+            <div class="col-lg-5">
+                <span class="d-md-block d-lg-none"><b>Test:</b></span>
+                @Model.ElementAt(i).Name
+            </div>
+            <div class="col-lg-7">
+                <span class="d-md-block d-lg-none"><b>Result:</b></span>
+                <span id="actionResult@(i)"></span>
+            </div>
+        </div>
+    }
+
 </section>
 
 @section Scripts
-{
+    {
     <script type="text/javascript">
         (function () {
             (function (diagnostics, $) {
@@ -51,8 +59,10 @@
                 };
 
                 function runAction(index, actionUrls) {
-                    if (index >= actionUrls.length)
+                    if (index >= actionUrls.length) {
+                        $("#js-all-tests").text("All tests have run.");
                         return;
+                    }
 
                     $("#actionResult" + index).html("...");
 

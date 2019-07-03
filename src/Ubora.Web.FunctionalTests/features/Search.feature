@@ -4,39 +4,26 @@ Feature: Search
 
 Background:
     Given I go to Home page
-        And I clicked on the element "span=Search"
+        And I clicked on the element "span=Projects"
 
-Scenario: I seach for existing project
-    When I set value "Test" to the element "#Title"
-        And I click on the element "button=Search"
-    Then I expect the element "p=Test title" is visible
-        And I expect the element "p=TestProject" is visible
-        And I expect the title of the page "Search - UBORA"
+Scenario: I am on Search page
+    Then I expect the title of the page "Medical device projects - UBORA"
+
+Scenario: I search for existing project
+    When I set value "Test" to the element "(//input[@id='Title'])[1]"
+    Then I expect the element "(//*[contains(text(),'Test title')])" is visible
+        And I expect the title of the page "Medical device projects - UBORA"
 
 Scenario: I search for non-existing project
-    When I set value "Ubora Land" to the element "#Title"
-        And I click on the element "button=Search"
-        And I expect the title of the page "Search - UBORA"
-
-Scenario: I click Home button
-    When I click on the element "#UboraLogo"
-    Then I expect the title of the page "Welcome - UBORA"
-
-Scenario: I click Log in
-    When I click on the element "span=Log in"
-    Then I expect the title of the page "Sign in to UBORA - UBORA"
-
-Scenario: I click Search
-    When I click on the element "span=Search"
-    Then I expect the title of the page "Search - UBORA"
+    When I set value "Ubora Land" to the element "(//input[@id='Title'])[1]"
+        And I expect the title of the page "Medical device projects - UBORA"
 
 Scenario: Signed in user searches for existing project
     When I sign in as user
-        And I click on the element "span=Search"
-        And I set value "Est" to the element "#Title"
-        And I click on the element "button=Search"
-    Then I expect the element "p=Test title" is visible
-        And I expect the element "p=TestProject" is visible
-        And I expect the title of the page "Search - UBORA"
+        And I click on the element "span=Projects"
+        And I click on the element "a*=All projects"
+        And I set value "Est" to the element "(//input[@id='Title'])[1]"
+    Then I expect the element "(//*[contains(text(),'Test title')])" is visible
+        And I expect the title of the page "Medical device projects - UBORA"
 
 

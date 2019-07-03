@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="q1" xml:space="preserve">
+    <value>‘Invasive device’ means any device which, in whole or in part, penetrates inside the body, either through a body orifice or through the surface of the body; for example: a hip implant, a pacemaker, a catheter, a needle, an endotracheal tube.</value>
+  </data>
+  <data name="q2_2_1_5" xml:space="preserve">
+    <value>'Biological effect' - All materials and devices have the potential to affect tissues following use in a surgically invasive procedure. A material is considered to have a biological effect if it actively and intentionally induces, alters or prevents a response from the tissues that is mediated by specific reactions at a molecular level. Such a device may be described as bioactive.
+&lt;p&gt;
+'Wholly or mainly absorbed' - The term absorption refers to the degradation of a material within the body and the metabolic elimination of the resulting degradation products from the body.
+&lt;/p&gt;
+&lt;p&gt;
+Source: MEDDEV 2.4/1 rev 9
+&lt;/p&gt;</value>
+  </data>
+  <data name="q2_2_2_4" xml:space="preserve">
+    <value>'Biological effect' - All materials and devices have the potential to affect tissues following use in a surgically invasive procedure. A material is considered to have a biological effect if it actively and intentionally induces, alters or prevents a response from the tissues that is mediated by specific reactions at a molecular level. Such a device may be described as bioactive.
+&lt;p&gt;
+'Wholly or mainly absorbed' - The term absorption refers to the degradation of a material within the body and the metabolic elimination of the resulting degradation products from the body. 
+&lt;/p&gt;
+&lt;p&gt;
+Source: MEDDEV 2.4/1 rev 9
+&lt;/p&gt;</value>
+  </data>
+  <data name="q3" xml:space="preserve">
+    <value>‘Active device’ means any device, the operation of which depends on a source of energy other than that generated by the human body for that purpose, or by gravity, and which acts by changing the density of or converting that energy. Devices intended to transmit energy, substances or other elements between an active device and the patient, without any significant change, shall not be deemed to be active devices. Software shall also be deemed to be an active device.
+&lt;p&gt;
+‘Active therapeutic device’ means any active device used, whether alone or in combination with other devices, to support, modify, replace or restore biological functions or structures with a view to treatment or alleviation of an illness, injury or disability. 
+&lt;p/&gt;
+&lt;p&gt;
+‘Active device intended for diagnosis and monitoring’ means any active device used, whether alone or in combination with other devices, to supply information for detecting, diagnosing, monitoring or treating physiological conditions, states of health, illnesses or congenital deformities. 
+&lt;/p&gt;
+&lt;p&gt;
+Source: Regulation EU 2017/745
+&lt;/p&gt;</value>
+  </data>
+  <data name="q3_1" xml:space="preserve">
+    <value>‘Active therapeutic device’ means any active device used, whether alone or in combination with other devices, to support, modify, replace or restore biological functions or structures with a view to treatment or alleviation of an illness, injury or disability. 
+&lt;p&gt;Source: Regulation EU 2017/745&lt;/p&gt;</value>
+  </data>
+  <data name="q3_2" xml:space="preserve">
+    <value>‘Active therapeutic device’ means any active device used, whether alone or in combination with other devices, to support, modify, replace or restore biological functions or structures with a view to treatment or alleviation of an illness, injury or disability. Source: Regulation EU 2017/745
+&lt;p&gt;
+Some examples of active therapeutic class IIb devices that may be controlled or monitored include:
+&lt;/p&gt;
+&lt;ul class="mb-3"&gt;
+&lt;li&gt;Kinetic energy&lt;/li&gt;
+&lt;li&gt;Lung ventilators&lt;/li&gt;
+&lt;li&gt;Thermal energy&lt;/li&gt;
+&lt;li&gt;Incubators for babies&lt;/li&gt;
+&lt;li&gt;Warming blankets&lt;/li&gt;
+&lt;li&gt;Blood warmers&lt;/li&gt;
+&lt;li&gt;Electrically powered heat exchangers (for example, those used with patients incapable of reacting, communicating and/or who are without a sense of feeling)&lt;/li&gt;
+&lt;li&gt;Electrical energy&lt;/li&gt;
+&lt;li&gt;High-frequency electrosurgical generators, and electrocautery equipment, including their electrodes&lt;/li&gt;
+&lt;li&gt;External pacemakers and defibrillators&lt;/li&gt;
+&lt;li&gt;Electroconvulsive therapy equipment.&lt;/li&gt;
+&lt;li&gt;Coherent light&lt;/li&gt;
+&lt;li&gt;Surgical lasers&lt;/li&gt;
+&lt;li&gt;Ultrasound&lt;/li&gt;
+&lt;li&gt;Lithotriptors, surgical ultrasound devices&lt;/li&gt;
+&lt;li&gt;Ionizing radiation&lt;/li&gt;
+&lt;li&gt;Radioactive sources for afterloading therapy&lt;/li&gt;
+&lt;li&gt;Therapeutic cyclotrons and linear accelerators&lt;/li&gt;
+&lt;li&gt;Therapeutic X-ray sources&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+Source: MEDDEV 2.4/1 rev 9
+&lt;/p&gt;</value>
+  </data>
+  <data name="q3_3" xml:space="preserve">
+    <value>‘Active device’ means any device, the operation of which depends on a source of energy other than that generated by the human body for that purpose, or by gravity, and which acts by changing the density of or converting that energy. Devices intended to transmit energy, substances or other elements between an active device and the patient, without any significant change, shall not be deemed to be active devices. Software shall also be deemed to be an active device. Source: Regulation EU 2017/745
+&lt;p&gt;
+Examples of Active Implantable Medical Devices include:
+&lt;/p&gt;
+&lt;ul class="mb-3"&gt;
+&lt;li&gt;Implantable cardiac pacemakers&lt;/li&gt;
+&lt;li&gt;Implantable defibrillators&lt;/li&gt;
+&lt;li&gt;Implantable nerve stimulators&lt;/li&gt;
+&lt;li&gt;Bladder stimulators&lt;/li&gt;
+&lt;li&gt;Diaphragm stimulators&lt;/li&gt;
+&lt;li&gt;Cochlear implants&lt;/li&gt;
+&lt;li&gt;Implantable active drug administration device
+&lt;/li&gt;
+&lt;li&gt;Implantable active monitoring devices&lt;/li&gt;
+&lt;/ul&gt;</value>
+  </data>
+  <data name="q3_4_1" xml:space="preserve">
+    <value>Examples:
+&lt;ul class="mb-3"&gt;
+&lt;li&gt;Magnetic resonance equipment&lt;/li&gt;
+&lt;li&gt;Pulp testers&lt;/li&gt;
+&lt;li&gt;Evoked response stimulators&lt;/li&gt;
+&lt;li&gt;Diagnostic ultrasound&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Source: MEDDEV 2.4/1 rev 9&lt;/p&gt;
+</value>
+  </data>
+  <data name="q3_4_2" xml:space="preserve">
+    <value>Vital physiological processes and parameters include, for example respiration, heart rate, cerebral functions, blood gases, blood pressure and body temperature. Medical devices intended to be used for continuous surveillance of vital physiological processes in anaesthesia, intensive care or emergency care are in Class IIb, whilst medical devices intended to be used to obtain readings of vital physiological signals in routine check ups and in self-monitoring are in Class IIa. A thermal imaging device intended to monitor blood flow is not considered to be a temperature measuring device. 
+&lt;p&gt;Source: Meddev 2.4/1 rev 9 &lt;/p&gt;</value>
+  </data>
+  <data name="q3_4_2_1" xml:space="preserve">
+    <value>This is usually the case in intensive care units, source Meddev 2.4/1 rev 9 explains:
+&lt;p&gt;
+Vital physiological processes and parameters include, for example respiration, heart rate, cerebral functions, blood gases, blood pressure and body temperature. Medical devices intended to be used for continuous surveillance of vital physiological processes in anaesthesia, intensive care or emergency care are in Class IIb, whilst medical devices intended to be used to obtain readings of vital physiological signals in routine check ups and in self-monitoring are in Class IIa. A thermal imaging device intended to monitor blood flow is not considered to be a temperature measuring device.
+&lt;/p&gt;
+&lt;p&gt;
+Some examples include source Meddev 2.4/1 rev 9:
+&lt;ul class="mb-3"&gt;
+&lt;li&gt;Intensive care monitoring and alarm devices (e.g. blood pressure, temperature, oxygen saturation)&lt;/li&gt;
+&lt;li&gt;Biological sensors&lt;/li&gt;
+&lt;li&gt;Blood gas analysers used in open heart surgery&lt;/li&gt;
+&lt;li&gt;Cardioscopes&lt;/li&gt;
+&lt;li&gt;Apnoea monitors, including apnoea monitors in home care&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;</value>
+  </data>
+  <data name="q9" xml:space="preserve">
+    <value>‘Nanomaterial’ means a natural, incidental or manufactured material containing particles in an unbound state or as an aggregate or as an agglomerate and where, for 50 % or more of the particles in the number size distribution, one or more external dimensions is in the size range 1-100 nm; Fullerenes, graphene flakes and single-wall carbon nanotubes with one or more external dimensions below 1 nm shall also be deemed to be nanomaterials. 
+&lt;p&gt;Source: Regulation EU 2017/745&lt;/p&gt;</value>
+  </data>
+</root>

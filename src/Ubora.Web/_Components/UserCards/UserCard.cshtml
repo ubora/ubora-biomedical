@@ -1,0 +1,31 @@
+﻿@model Ubora.Web._Features.Users.UserList.UserCardViewModel
+
+<div class="col-sm-6 col-md-4 col-lg-3 my-2">
+    <div class="card user-card text-center">
+        <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@Model.UserId">
+            <div class="card-body color-dark">
+                <img src="@Model.ProfilePictureUrl" class="card-img-top avatar" alt="@Model.Name profile picture">
+                <h4 class="card-title mt-4">
+                    @Model.Name
+                </h4>
+                <p class="text-capitalize">@(Model.Roles)&nbsp;</p>
+                @if (!string.IsNullOrWhiteSpace(Model.Country))
+                {
+                    <span class="d-block">
+                        @Model.Country
+                    </span>
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.University))
+                {
+                    <span class="d-block">
+                        @Model.University
+                    </span>
+                }
+            </div>
+        </a>
+        @if (Model.FooterHtml != null)
+        {
+            @Model.FooterHtml
+        }
+    </div>
+</div>

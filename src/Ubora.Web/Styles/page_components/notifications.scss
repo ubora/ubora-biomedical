@@ -1,0 +1,104 @@
+﻿.message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+}
+
+.message-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.notification {
+    @extend .d-flex;
+    @extend .justify-content-between;
+    @extend .border-bottom;
+    @extend .py-2;
+    @extend .mx-0;
+
+
+    &.notification-unread {
+        background-color: $blue-shade;
+        border-bottom: 1px solid $white;
+    }
+
+    .notification-controls {
+        .btn {
+            min-width: 0;
+        }
+
+        .btn-outline-primary {
+            background-color: $white;
+
+            &:hover {
+                background-color: $light-blue;
+            }
+        }
+    }
+
+    p {
+        @extend .mb-0;
+        @extend .py-0;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .notification {
+        .notification-controls {
+            margin-top: .5rem;
+            margin-bottom: .5rem;
+        }
+    }
+}
+
+
+
+.history-timestamp {
+    color: $primary-shade;
+    margin: 0;
+}
+
+.notice {
+    color: $white;
+    display: flex;
+    flex-direction: row-reverse;
+    font-size: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+}
+
+.notice-text {
+    align-self: center;
+    flex-grow: 2;
+    text-align: center;
+}
+
+.notice-close {
+    align-items: center;
+    display: flex;
+    font-size: 150%;
+    justify-content: center;
+    margin: 1em;
+    min-height: 48px;
+    min-width: 48px;
+}
+
+.notice-close:hover {
+    cursor: pointer;
+}
+
+.notice-info {
+    background-color: $light-blue;
+}
+
+.notice-success {
+    background-color: $green;
+}
+
+.notice-error {
+    background-color: $orange;
+}

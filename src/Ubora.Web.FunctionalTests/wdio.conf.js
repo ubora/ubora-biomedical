@@ -7,7 +7,7 @@ var htmlReports = process.cwd() + '/reports';
 exports.config = {
     // Set a base URL in order to shorten url command calls. If your url parameter starts
     // with "/", then the base url gets prepended.
-    baseUrl: 'http://ubora.web:80',
+    baseUrl: 'https://ubora.web:80',
     //
     // ==================
     // Specify Test Files
@@ -174,8 +174,10 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
-    // before: function (capabilities, specs) {
-    // },
+    before: function (capabilities, specs) {
+        browser.windowHandleSize({width: 1600, height: 768});
+        browser.windowHandleFullscreen();
+    },
     //
     /**
      * Hook that gets executed before the suite starts

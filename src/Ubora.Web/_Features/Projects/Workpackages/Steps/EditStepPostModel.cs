@@ -3,6 +3,6 @@
     public class EditStepPostModel
     {
         public string StepId { get; set; }
-        public string Content { get; set; }
+        public string ContentQuillDelta { get; set; }
     }
 }

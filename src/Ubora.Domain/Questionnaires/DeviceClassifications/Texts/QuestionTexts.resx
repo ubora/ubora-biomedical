@@ -283,7 +283,7 @@
     <value>Is it intended to supply energy which will be absorbed by the human body?</value>
   </data>
   <data name="q3_4_1_1" xml:space="preserve">
-    <value>Is it only intended to intended to illuminate the patient's body, in the visible spectrum?</value>
+    <value>Is it only intended to illuminate the patient's body, in the visible spectrum?</value>
   </data>
   <data name="q3_4_1_2" xml:space="preserve">
     <value>Does it supply energy different than light in the visible spectrum?</value>
@@ -295,7 +295,7 @@
     <value>Is it intended to allow direct diagnosis or monitoring of vital physiological processes?</value>
   </data>
   <data name="q3_4_2_1" xml:space="preserve">
-    <value>Are the vital physiological processes such as the patient may be in immediate danger if the vary (example: variations in cardiac performance, respiration, activity of the central nervous system)?</value>
+    <value>Is the patient in immediate danger if the vital parameters, that your device is influencing, monitoring or controlling, vary?</value>
   </data>
   <data name="q3_4_2_2" xml:space="preserve">
     <value>Is the device intended for diagnosis and monitoring?</value>

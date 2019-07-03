@@ -1,10 +1,10 @@
 ﻿@using Ubora.Web._Features.Users.Manage
 @model Ubora.Web._Features.Users.Manage.AddPhoneNumberViewModel
 @{
-    ViewData["Title"] = "Add Phone Number";
+    ViewData[nameof(PageTitle)] = "Add Phone Number";
 }
 
-<h2>@ViewData["Title"].</h2>
+<h2>@ViewData[nameof(PageTitle)].</h2>
 <form asp-controller="Manage" asp-action="AddPhoneNumber" method="post" class="form-horizontal">
     <h4>Add a phone number.</h4>
     <hr />
@@ -22,7 +22,3 @@
         </div>
     </div>
 </form>
-
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-}

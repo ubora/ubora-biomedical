@@ -1,6 +1,5 @@
 using System;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Ubora.Web.Data
 {
@@ -8,6 +7,7 @@ namespace Ubora.Web.Data
     {
         public const string Admin = "Ubora.Administrator";
         public const string Mentor = "Ubora.Mentor";
+        public const string ManagementGroup = "Ubora.ManagementGroup";
 
         public ApplicationRole()
         {

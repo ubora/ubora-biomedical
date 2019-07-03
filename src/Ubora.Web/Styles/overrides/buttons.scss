@@ -1,0 +1,98 @@
+.btn:not(.btn-icon):not(.btn-link):not(.btn-sm) {
+    min-width: 8rem;
+}
+
+.modal-dialog {
+    .btn:not(.btn-icon) {
+        min-width: 5rem;
+    }
+}
+
+.btn-primary,
+.btn-outline-primary {
+    font-family: inherit;
+
+    &:focus,
+    &:hover,
+    &:not(:disabled):not(.disabled).active,
+    &:not(:disabled):not(.disabled):active:focus {
+        background-color: $light-blue;
+        border-color: $light-blue;
+        color: $white;
+        box-shadow: none;
+    }
+}
+
+
+.btn,
+.btn-icon {
+
+    .material-icons, 
+    span {
+        @extend .align-middle;
+    }
+}
+
+
+.btn-disabled[disabled] {
+    background-color: $primary-shade;
+    border-color: $primary-shade;
+    color: $white;
+    font-family: inherit;
+
+    &:focus,
+    &:hover {
+        background-color: $primary-shade;
+        border-color: $primary-shade;
+        color: $white;
+        cursor: not-allowed;
+    }
+}
+
+.btn[disabled]:focus,
+.btn[disabled]:hover {
+    cursor: not-allowed;
+}
+
+
+.btn-cta {
+    background-color: $orange;
+    border-color: $orange;
+    color: $white;
+}
+
+.btn-icon {
+    background-color: transparent;
+    border: none;
+
+    &:focus,
+    &:hover {
+        cursor: pointer;
+        box-shadow: none;
+    }
+}
+
+a.btn-icon:hover {
+    text-decoration: none;
+}
+
+.modal-footer {
+    button {
+        min-width: 4.5rem;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .btn:not(.btn-icon) {
+        min-width: 6rem;
+    }
+}
+
+
+.btn-action {
+    @extend .d-flex;
+    @extend .align-items-center;
+    @extend .justify-content-center;
+    @extend .my-2;
+    @extend .w-100;
+}

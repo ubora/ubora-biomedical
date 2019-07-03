@@ -262,8 +262,10 @@ _Pvt_Extensions
 .gulp
 node_modules/
 bower_components
+.vscode/
 # npm generated file
-package-lock.json
 
 # JetBrains Rider
 .idea/
+
+package-lock.json

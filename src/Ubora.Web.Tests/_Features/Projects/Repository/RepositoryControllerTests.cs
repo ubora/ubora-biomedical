@@ -26,6 +26,7 @@ using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Web.Tests.Helper;
 using AutoMapper;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ubora.Web.Tests._Features.Projects.Repository
 {
@@ -52,8 +53,51 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 {
                     new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
+                        MethodName = nameof(RepositoryController.Repository),
+                        Policies = new []{ Policies.CanViewProjectRepository }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(RepositoryController.AddFile),
+                        Policies = new []{ Policies.CanAddFileRepository, Policies.CanViewProjectRepository }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(RepositoryController.UpdateFile),
+                        Policies = new []{ Policies.CanUpdateFileRepository, Policies.CanViewProjectRepository }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
                         MethodName = nameof(RepositoryController.HideFile),
-                        Policies = new []{ Policies.CanHideProjectFile}
+                        Policies = new []{ Policies.CanHideProjectFile, Policies.CanViewProjectRepository }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(RepositoryController.FileHistory),
+                        Policies = new []{ Policies.CanViewProjectRepository }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(RepositoryController.DownloadFile),
+                        Policies = new []{ Policies.CanDownloadFile }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(RepositoryController.View3DFile
+                        ),
+                        Policies = new []{Policies.CanViewProjectRepository }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(RepositoryController.DownloadHistoryFile
+                        ),
+                        Policies = new []{Policies.CanViewProjectRepository }
+                    },
+                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
+                    {
+                        MethodName = nameof(RepositoryController.View3DHistoryFile
+                        ),
+                        Policies = new []{Policies.CanViewProjectRepository }
                     }
                 };
 
@@ -61,7 +105,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
         }
 
         [Fact]
-        public void Repository_Returns_View()
+        public async Task Repository_Returns_View()
         {
             var projectFile1 = new ProjectFile()
                 .Set(x => x.ProjectId, ProjectId)
@@ -97,6 +141,9 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 .Setup(x => x.Find(specification))
                 .Returns(expectedProjectFiles);
 
+            AuthorizationServiceMock.Setup(x => x.AuthorizeAsync(User, null, Policies.CanHideProjectFile))
+                .ReturnsAsync(AuthorizationResult.Success);
+
             QueryProcessorMock.Setup(x => x.FindById<Project>(ProjectId))
                 .Returns(project);
 
@@ -117,11 +164,11 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 ProjectName = "Title",
                 AllFiles = projectFilesViewModel,
                 AddFileViewModel = new AddFileViewModel(),
-                IsProjectLeader = false
+                CanHideProjectFile = true
             };
 
             // Act
-            var result = (ViewResult)_controller.Repository();
+            var result = (ViewResult)await _controller.Repository();
 
             // Assert
             result.ViewName.Should().Be(nameof(RepositoryController.Repository));
@@ -444,6 +491,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             var fileUpdatedEvent = new FileUpdatedEvent(
                 id: fileId,
                 projectId: ProjectId,
+                fileName: "fileName2",
                 location: new BlobLocation("containerName2", "blobPath2"),
                 comment: "comment2",
                 fileSize: 222,
@@ -454,6 +502,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
             var fileUpdatedEvent2 = new FileUpdatedEvent(
                 id: fileId,
                 projectId: ProjectId,
+                fileName: "fileName3",
                 location: new BlobLocation("containerName3", "blobPath3"),
                 comment: "comment3",
                 fileSize: 333,
@@ -500,6 +549,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                     EventId = fileAddedEventId,
                     Comment = "comment",
                     FileAddedOn = fileAddedDate,
+                    FileName = "fileName",
                     FileSize = 111,
                     RevisionNumber = 1
                 },
@@ -508,6 +558,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                     EventId = fileUpdatedEventId,
                     Comment = "comment2",
                     FileAddedOn = fileUpdatedDate,
+                    FileName = "fileName2",
                     FileSize = 222,
                     RevisionNumber = 2
                 },
@@ -516,6 +567,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                     EventId = fileUpdatedEvent2Id,
                     Comment = "comment3",
                     FileAddedOn = fileUpdated2Date,
+                    FileName = "fileName3",
                     FileSize = 333,
                     RevisionNumber = 3
                 }

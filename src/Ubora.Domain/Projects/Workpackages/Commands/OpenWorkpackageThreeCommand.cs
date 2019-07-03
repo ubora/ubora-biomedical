@@ -14,6 +14,7 @@ namespace Ubora.Domain.Projects.Workpackages.Commands
 
             public override ICommandResult Handle(OpenWorkpackageThreeCommand cmd)
             {
+                var workpackageOne = DocumentSession.LoadOrThrow<WorkpackageOne>(cmd.ProjectId);
                 var workpackageTwo = DocumentSession.LoadOrThrow<WorkpackageTwo>(cmd.ProjectId);
 
                 var workPackageThree = DocumentSession.Load<WorkpackageThree>(cmd.ProjectId);

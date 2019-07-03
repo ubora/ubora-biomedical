@@ -1,10 +1,17 @@
 ﻿@model Ubora.Web._Features.Projects.Workpackages.SideMenu.SideMenuViewModel
 
-<aside class="project_sidemenu">
+<aside>
     <ul class="list-sidebar">
         @foreach (var topLevelMenuItem in Model.TopLevelMenuItems)
         {
-        @topLevelMenuItem.GenerateHtmlMarkup(this.Html)
+            @Html.Partial("~/_Features/_Shared/LeftSideMenu/_SideMenuItemPartial.cshtml", topLevelMenuItem)
         }
     </ul>
 </aside>
+
+<script>
+    $('ul.list-sidebar').last()
+        .find('a.checked-status > span').append('<i class="material-icons color-green font-weight-bold font-size-1 ml-1">check</i>')
+        .end()
+        .find('a.unlockable-status > span').append('<i class="material-icons color-blue font-size-1 ml-1">lock</i>');
+</script>

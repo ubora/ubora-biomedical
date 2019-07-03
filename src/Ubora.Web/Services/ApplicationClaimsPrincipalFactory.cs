@@ -1,7 +1,6 @@
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Ubora.Domain.Infrastructure.Queries;
@@ -40,6 +39,7 @@ namespace Ubora.Web.Services
 
             var userProfile = _queryProcessor.FindById<UserProfile>(user.Id);
             claimsIdentity.AddClaim(new Claim(ApplicationUser.FullNameClaimType, userProfile.FullName));
+            claimsIdentity.AddClaim(new Claim(ApplicationUser.FirstNameClaimType, userProfile.FirstName));
 
             var profilePictureUrl = _imageStorageProvider.GetDefaultOrBlobUrl(userProfile);
             claimsIdentity.AddClaim(new Claim(ApplicationUser.ProfilePictureUrlClaimType, profilePictureUrl));

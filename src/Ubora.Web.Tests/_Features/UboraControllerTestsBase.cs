@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using AutoFixture;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Ubora.Domain.Infrastructure.Commands;
@@ -15,6 +17,9 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Web.Tests.Helper;
+using Ubora.Web.Infrastructure;
+using Ubora.Domain;
+using Ubora.Domain.Tests;
 
 namespace Ubora.Web.Tests._Features
 {
@@ -31,10 +36,16 @@ namespace Ubora.Web.Tests._Features
         public Mock<ICommandProcessor> CommandProcessorMock { get; private set; } = new Mock<ICommandProcessor>(MockBehavior.Strict);
         protected void AssertZeroCommandsExecuted() => CommandProcessorMock.Verify(x => x.Execute(It.IsAny<ICommand>()), Times.Never);
 
+        public IFixture AutoFixture { get; } = new Fixture();
+
+        public Mock<QuillDeltaTransformer> QuillDeltaTransformerMock { get; private set; } =
+            new Mock<QuillDeltaTransformer>();
+
         protected UboraControllerTestsBase()
         {
             UserId = Guid.NewGuid();
             User = CreateUser(UserId);
+            AuthorizationServiceMock.SetReturnsDefault(Task.FromResult(AuthorizationResult.Failed()));
         }
 
         protected virtual void SetUpForTest(UboraController controller)
@@ -56,6 +67,13 @@ namespace Ubora.Web.Tests._Features
             serviceProviderMock.Setup(x => x.GetService(typeof(IMapper))).Returns(AutoMapperMock.Object);
             serviceProviderMock.Setup(x => x.GetService(typeof(IAuthorizationService)))
                 .Returns(AuthorizationServiceMock.Object);
+
+            QuillDeltaTransformerMock.Setup(t => t.SanitizeQuillDeltaForEditing(It.IsAny<QuillDelta>()))
+                .ReturnsAsync(TestQuillDeltas.CreateRandom().Value);
+            QuillDeltaTransformerMock.Setup(t => t.ConvertQuillDeltaToHtml(It.IsAny<QuillDelta>()))
+                .ReturnsAsync(TestQuillDeltas.CreateRandom().Value);
+            serviceProviderMock.Setup(x => x.GetService(typeof(QuillDeltaTransformer)))
+                .Returns(QuillDeltaTransformerMock.Object);
 
             // Stub ASP.NET MVC services
             serviceProviderMock.Setup(x => x.GetService(typeof(IUrlHelperFactory)))

@@ -1,0 +1,118 @@
+.header {
+    background-color: $white;
+
+    .nav-link, 
+    .btn-icon {
+        padding-left: 1.125rem !important;
+        padding-right: 1.125rem !important;
+    }
+
+    .nav-link, a {
+        color: $blue;
+        transition: color 100ms ease-in;
+
+        &:focus,
+        &:hover {
+            color: $light-blue;
+            cursor: pointer;
+            text-decoration: none;
+        }
+    }
+
+    .avatar:hover {
+        @extend .box-shadow;
+    }
+
+    button {
+        color: $blue;
+        outline: none;
+    }
+
+    img {
+        height: 2.5rem;
+        width: 2.5rem;
+    }
+
+    .nav-link-notification {
+        position: relative;
+
+        .nav-link-notification-count {
+            background-color: $orange;
+            border-radius: 50%;
+            top: -.3rem;
+            color: $white;
+            font-size: .8rem;
+            height: 1.2rem;
+            line-height: 1.4;
+            position: absolute;
+            right: -.6rem;
+            text-align: center;
+            width: 1.2rem;
+        }
+
+        .material-icons {
+            font-size: 1.5rem;
+        }
+    }
+
+    &.navbar {
+        padding: .2rem 1rem;
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+    }
+
+    .navbar-md {
+        @extend .d-flex;
+        @extend .align-items-center;
+        @extend .d-lg-none;
+        color: $blue;
+
+        &:focus,
+        &:hover {
+            color: $light-blue;
+        }
+
+        .material-icons {
+            font-size: 1.5rem;
+            margin: 0;
+            vertical-align: middle;
+        }
+    }
+
+    .navbar-toggler {
+        .material-icons {
+            font-size: 2rem;
+        }
+    }
+
+    .dropdown-menu-right {
+        position: absolute;
+        transform: translate3d(-10px, 38px, 0px);
+        top: 0px;
+        left: auto;
+        will-change: transform;
+        right: 0;
+    }
+
+    .dropdown-menu {
+        z-index: 1021;
+        top: .5rem;
+
+        .dropdown-item {
+
+            &:active,
+            &:hover,
+            .btn-link:active,
+            .btn-link:hover {
+                color: $light-blue;
+                background-color: transparent;
+                text-decoration: none;
+            }
+        }
+    }
+
+    .dropdown-toggle::after {
+        display: none;
+    }
+}

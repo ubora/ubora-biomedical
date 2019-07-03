@@ -1,0 +1,55 @@
+.ql-container, .ql-container > .ql-editor {
+    min-height: 16rem;
+    max-height: 24rem;
+}
+
+.ql-container, .ql-editor {
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+/* Note that whan "ql-editor" is inside "ql-container" then we have the editing view. */
+.ql-container > .ql-editor {
+    overflow-y: auto;
+}
+
+.ql-editor {
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 500;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    h4 {
+        font-size: 1rem;
+    }
+
+    h5 {
+        font-size: .75rem;
+    }
+
+    h6 {
+        font-size: .75rem;
+    }
+}
+
+.user-content {
+    img {
+        max-width: 100%;
+    }
+
+    &.ql-editor {
+        padding: 0;
+        white-space: normal;
+    }
+}

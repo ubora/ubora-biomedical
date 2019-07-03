@@ -11,6 +11,7 @@ using Ubora.Domain.Notifications.Commands;
 using Ubora.Domain.Notifications.Specifications;
 using Ubora.Domain.Projects.Members;
 using Ubora.Web._Features.Notifications._Base;
+using Ubora.Domain.Notifications.SortSpecifications;
 
 namespace Ubora.Web.Tests._Features.Notifications
 {
@@ -33,14 +34,14 @@ namespace Ubora.Web.Tests._Features.Notifications
             var invitations = new Domain.Tests.PagedListStub<INotification> { invitation };
 
             QueryProcessorMock
-                .Setup(x => x.Find(new HasPendingNotifications(UserId)))
+                .Setup(x => x.Find(new IsForUser(UserId), It.IsAny<SortByCreatedAtSpecification>(), 10, 1))
                 .Returns(invitations);
 
             CommandProcessorMock.Setup(x => x.Execute(It.IsAny<MarkNotificationsAsViewedCommand>()))
                 .Returns(CommandResult.Success);
 
             // Act
-            var result = (ViewResult)_notificationsController.Index();
+            var result = (ViewResult)_notificationsController.Index(1);
 
             // Assert
             CommandProcessorMock.Verify(x => x.Execute(It.IsAny<MarkNotificationsAsViewedCommand>()));

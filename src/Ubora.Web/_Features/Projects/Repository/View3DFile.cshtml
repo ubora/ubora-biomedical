@@ -1,0 +1,31 @@
+﻿@using Ubora.Web._Features.Projects._Shared
+@model Ubora.Web._Features.Projects.Repository.View3DFileViewModel
+
+@{
+    ViewData[nameof(PageTitle)] = "View 3D file";
+    ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Repository;
+}
+
+<div class="container my-4">
+    <div class="row">
+        <div class="col">
+            <h2 class="my-4">View 3D file of @Model.FileName</h2>
+            <ul class="text-informative">
+                <li>Zoom in/out - use mouse wheel scrolls</li>
+            </ul>
+            <div id="iframe-3dviewer">
+                <div id="3d_container"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/92/three.js" asp-fallback-src="~/dist/libs/three.min.js"></script>
+    <script src="~/dist/libs/nexus/nexus.js"></script>
+    <script src="~/dist/libs/nexus/nexus_three.js"></script>
+    <script src="~/dist/threeDimensional_file_viewer.bundle.js"></script>
+    <script>
+        UBORA.init3dViewer('@Html.Raw(Model.FileBlobSasUrl)');
+    </script>
+}

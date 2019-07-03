@@ -1,8 +1,13 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Projects.Members;
+using Ubora.Domain.Projects._Specifications;
 using Ubora.Domain.Users;
+using Ubora.Domain.Users.Queries;
 using Ubora.Web.Infrastructure.ImageServices;
-using Ubora.Web._Features.UboraMentors.Queries;
 using Ubora.Web.Infrastructure.Extensions;
 
 namespace Ubora.Web._Features.Users.Profile
@@ -26,6 +31,7 @@ namespace Ubora.Web._Features.Users.Profile
         public string CountryEnglishName { get; set; }
         public string Institution { get; set; }
         public string MedicalDevice { get; set; }
+        public IEnumerable<UserProject> UserProjects { get; set; }
 
         public class Factory
         {
@@ -52,6 +58,17 @@ namespace Ubora.Web._Features.Users.Profile
 
                 viewModel.IsVerifiedMentor = _queryProcessor.ExecuteQuery(new IsVerifiedUboraMentorQuery(userProfile.UserId));
 
+                var userProjects = _queryProcessor.Find(new HasMember(userProfile.UserId))
+                    .OrderBy(x => x.Title);
+
+                viewModel.UserProjects = userProjects.Select(project => new UserProject
+                {
+                    ProjectId = project.Id,
+                    Title = project.Title,
+                    IsLeader = project.HasMember<ProjectLeader>(userProfile.UserId),
+                    IsMentor = project.HasMember<ProjectMentor>(userProfile.UserId)
+                });
+
                 if (userProfile.Role == "Mentor" && !viewModel.IsVerifiedMentor)
                 {
                     viewModel.IsUnverifedMentor = true;
@@ -60,5 +77,13 @@ namespace Ubora.Web._Features.Users.Profile
                 return viewModel;
             }
         }
+    }
+
+    public class UserProject
+    {
+        public Guid ProjectId { get; set; }
+        public string Title { get; set; }
+        public bool IsLeader { get; set; }
+        public bool IsMentor { get; set; }
     }
 }

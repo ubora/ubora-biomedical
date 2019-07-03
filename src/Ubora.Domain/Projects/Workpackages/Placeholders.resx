@@ -219,4 +219,25 @@
 
 &lt;/ul&gt;</value>
   </data>
+  <data name="PrototypesAndConsiderationsForSafetyAssessment" xml:space="preserve">
+    <value>&lt;p&gt;Describe the final implementation of the prototype of your medical device, with links to the repository. Put emphasis on how your device respect relevant standards.&lt;/p&gt;</value>
+  </data>
+  <data name="QualityCriteria" xml:space="preserve">
+    <value>&lt;p&gt;Please indicate how your device can be evaluated according to specific criteria (both tests and parameters) for determining its proper implementation.&lt;/p&gt;</value>
+  </data>
+  <data name="ResultsFromVitroOrVivo" xml:space="preserve">
+    <value>&lt;p&gt;If applicable and if available, please provide both protocols and results of in vitro and in vivo test of your medical device. In case on in vivo test, please provide also the ethical clearance from local ethical committee.&lt;/p&gt;</value>
+  </data>
+  <data name="InfoForGeneralPublic" xml:space="preserve">
+    <value>&lt;p&gt;Use this section to provide descriptive materials for your project. Your audience is a general nontechnical public, interested in medical devices, as patients, healthcare providers, or investors. Videos, pictures, and/or infographics should be together with a catchy short description.&lt;/p&gt;</value>
+  </data>
+  <data name="RealLifeUseOrSimulation" xml:space="preserve">
+    <value>&lt;p&gt;Describe in this section the use of your medical device in a real case scenario. Feed this part with videos, pictures, feedback from users, such as patients and healthcare providers.&lt;/p&gt;</value>
+  </data>
+  <data name="PresentationForPress" xml:space="preserve">
+    <value>&lt;p&gt;Use this section to provide descriptive materials for your project to be used "as it is" (e.g. cut and paste) by media to spotlight your work. Pictures, slides, infographics and a "press release" are the most appropriate communication. The UBORA management group could ask you a illustrative materials to create a slider for the "featured projects" section.&lt;/p&gt;</value>
+  </data>
+  <data name="ProductionDocumentation" xml:space="preserve">
+    <value>&lt;p&gt;Please provide documents necessary to produce the medical device, including e.g. working drawing, assembly drawings, gerber files, detailed instruction to compile eventual firmware and software...&lt;/p&gt;</value>
+  </data>
 </root>

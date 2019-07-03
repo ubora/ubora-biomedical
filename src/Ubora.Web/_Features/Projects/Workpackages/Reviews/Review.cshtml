@@ -1,20 +1,30 @@
-﻿@using Ubora.Web._Features.Projects._Shared
+﻿@using Ubora.Domain.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
 @model Ubora.Web._Features.Projects.Workpackages.Reviews.WorkpackageReviewListViewModel
 
 @{
-    ViewData["Title"] = "Formal review";
-    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+    ViewData[nameof(PageTitle)] = "Formal review";
+    ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
 }
 
-<div class="col-lg-9 pr-5">
-
-    <h1 class="display-4 mb-4">Formal review</h1>
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-    @if (Model.SubmitForReviewButton.IsVisible)
+<h1 class="mb-4">@ViewData[nameof(PageTitle)]</h1>
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="my-4">
+    <p>WP1: Medical need and product specification can <em>not</em> be edited if:</p>
+    <ol>
+        <li>The project is under review;</li>
+        <li>It passed the review;</li>
+    </ol>
+    @if (await Model.IsWriteReviewButtonVisible(User, AuthorizationService))
     {
-        <p>You can submit your project for review:</p>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#submitProjectModal">Submit project for review</button>
+        <a href="@Model.ReviewDecisionUrl" class="btn btn-primary">Write a review</a>
+    }
+</div>
+
+@if (Model.SubmitForReviewButton.IsVisible)
+{
+    <p>You can submit your project for review:</p>
+    <button class="btn btn-primary mb-4" data-toggle="modal" data-target="#submitProjectModal">Submit project for review</button>
 
     <div class="modal fade" id="submitProjectModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -32,71 +42,71 @@
                             Work package 1 can not be edited while it is under review or after it has passed the review.
                         </p>
                     </div>
-                    <div class="modal-footer d-flex justify-content-center">
-                        <div class="form-group">
-                            <button type="button" class="btn btn-secondary-ghost" data-dismiss="modal">No, cancel</button>
-                            <span class="mx-1"></span>
-                            <button class="btn btn-primary" type="submit">Yes, submit</button>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    }
-    else if (Model.SubmitForReviewButton.IsHiddenWithMessage)
-    {
+}
+else if (Model.SubmitForReviewButton.IsHiddenWithMessage)
+{
+
     <section>
         <p><i>@Model.SubmitForReviewButton.HideReasonMessage</i></p>
     </section>
-    }
-    @if (Model.Reviews.Any())
-    {
+}
+else if (Model.RequestMentoringButton.IsVisible)
+{
+    <p>
+        To get through the first step mentor has to approve work done in WP1. You can invite mentor to join your project by going to project <a asp-controller="Members" asp-action="Members">members</a> view, clicking 'invite mentor' button and choosing mentor or you can request mentoring from here:
+    </p>
+    <form action="@Model.SubmitForReviewUrl" method="post" asp-antiforgery="true">
+        <button class="btn btn-primary" type="submit">Request mentoring</button>
+    </form>
+}
+else if (Model.RequestMentoringButton.IsHiddenWithMessage)
+{
     <section>
+        <p><i>@Model.RequestMentoringButton.HideReasonMessage</i></p>
+    </section>
+}
+
+@if (Model.Reviews.Any())
+{
+    <section>
+        <h2 class="mb-4">Reviews:</h2>
+
         @foreach (var review in Model.Reviews)
         {
-        <table class="table">
-            <tbody>
-                <tr>
-                    <th class="w-25" cope="row"><b>Status:</b></th>
-                    <td>@review.Status.ToString()</td>
-                </tr>
-                <tr>
-                    <th scope="row"><b>Concluding comment:</b></th>
-                    <td>@review.ConcludingComment</td>
-                </tr>
-                <tr>
-                    <th scope="row"><b>Created at:</b></th>
-                    <td class="timeago" title="@review.SubmittedAt">@review.SubmittedAt</td>
-                </tr>
-                <tr>
-                    <th scope="row"><b>Concluded at:</b></th>
-                    <td class="timeago" title="@review.ConcludedAt">@review.ConcludedAt</td>
-                </tr>
-            </tbody>
-        </table>
-        <p>
-            The medical need and product specification can not be modified if:
-        </p>
-        <ol>
-            <li>
-                The project is under review;
-            </li>
-            <li>
-                It passed the review;
-            </li>
-        </ol>
+
+            <div class="card px-3 py-3 box-shadow">
+                <dl class="row mb-0">
+                    <dt class="col-sm-3">Status:</dt>
+                    <dd class="col-sm-9">@review.Status.ToString()</dd>
+
+                    <dt class="col-sm-3">Created at:</dt>
+                    <dd class="col-sm-9 timeago" title="@review.SubmittedAt">@review.SubmittedAt</dd>
+
+                    <dt class="col-sm-3">Concluded at:</dt>
+                    <dd class="col-sm-9 timeago" title="@review.ConcludedAt">@review.ConcludedAt</dd>
+
+                    <dt class="col-sm-3">Concluding comment:</dt>
+                    <dd class="col-sm-9">@review.ConcludingComment</dd>
+                </dl>
+
+            </div>
+            <br />
+
         }
 
-        @{
-        var isAuthorizedToWriteReview = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanReviewProjectWorkpackages);
-        if (isAuthorizedToWriteReview && Model.IsAnyReviewInProcess)
+
+
+        @if (await Model.IsReopenWp1ButtonVisible(User, AuthorizationService))
         {
-        <a href="@Model.ReviewDecisionUrl" class="btn btn-primary">Write a review</a>
-        }
+            @Html.Partial("_ReopenWp1Partial", Model)
         }
     </section>
-    }
-</div>
-    </div>
-</div>
+}

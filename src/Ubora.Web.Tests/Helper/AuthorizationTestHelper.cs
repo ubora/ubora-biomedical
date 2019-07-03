@@ -53,7 +53,7 @@ namespace Ubora.Web.Tests.Helper
 
         private static void HasAttributesbeenDuplicated(Type controller, MemberInfo methodInfo, List<string> errors)
         {
-            var controllerAttributes = Attribute.GetCustomAttribute(controller, typeof(AuthorizeAttribute));
+            var controllerAttributes = controller.GetCustomAttributes<AuthorizeAttribute>();
 
             foreach (var methodAttributes in methodInfo.GetCustomAttributes(typeof(AuthorizeAttribute), true))
             {

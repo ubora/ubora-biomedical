@@ -1,0 +1,19 @@
+﻿@using Ubora.Web._Features._Shared.LeftSideMenu
+@model Ubora.Web._Features._Shared.LeftSideMenu.ISideMenuItem
+
+@{
+    if (Model is CollapseMenuItem collapseMenuItem)
+    {
+        @Html.Partial("_CollapseMenuItemPartial.cshtml", collapseMenuItem)
+    }
+
+    if (Model is HyperlinkMenuItem hyperlinkMenuItem)
+    {
+        @Html.Partial("_HyperlinkMenuItemPartial.cshtml", hyperlinkMenuItem)
+    }
+
+    if (Model is SeparatorSideMenuItem)
+    {
+        <li>&nbsp;</li>
+    }
+}

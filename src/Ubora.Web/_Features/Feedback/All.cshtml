@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<Ubora.Web._Features.Feedback.Feedback>
 
-<section class="container-fluid my-4">
+<section class="container my-5">
     <h1>All feedback</h1>
     <ul>
         @foreach (var feedback in Model)
         {
-            <li><p><q>@feedback.Value</q> @feedback.By.Name (@feedback.FromPath)</p></li>
+            <li><p><q>@feedback.Value</q> @feedback.By.Name - @feedback.SentAt (@feedback.FromPath)</p></li>
         }
     </ul>
 </section>

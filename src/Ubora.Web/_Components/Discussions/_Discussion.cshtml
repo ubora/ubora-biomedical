@@ -1,0 +1,79 @@
+﻿@using Ubora.Web._Components.Discussions.Models
+
+@model DiscussionViewModel
+
+<div asp-validation-summary="All"></div>
+
+<div class="row mb-4">
+    <div class="col-xl-9">
+        <div class="row">
+            <div class="col">
+                @foreach (var comment in Model.Comments)
+                {
+                    <div class="row comment">
+                        <div class="col-md-1 col-sm-2">
+                            <img class="avatar" src="@comment.ProfilePictureUrl" />
+                        </div>
+                        <div class="col-md-11 col-sm-10 comment-content">
+                            <div class="comment-details">
+                                <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@comment.CommentatorId">@comment.CommentatorName</a>
+                                @if (comment.IsLeader)
+                                {
+                                    <i class="material-icons align-middle" title="Project leader">supervisor_account</i>
+                                }
+                                @if (comment.IsMentor)
+                                {
+                                    <i class="material-icons align-middle" title="Project mentor">school</i>
+                                }
+                                <span class="dot"></span>
+                                <span class="timeago" title="@(comment.CommentEditedAt.ToString("o"))">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
+                            </div>
+                            <p class="more">
+                                @comment.CommentText
+                                @if (comment.IsEdited)
+                                {
+                                    <small class="color-grey">(Edited)</small>
+                                }
+                            </p>
+
+                            @if (comment.CanBeEdited)
+                            {
+                                <div class="comment-actions">
+                                    <button class="btn btn-link mr-2 p-0" role="button" data-toggle="collapse" data-target="#edit-@comment.Id">Edit</button>
+                                    <button class="btn btn-link mr-2 p-0" role="button" data-toggle="modal" data-target="#removeCommentModal-@comment.Id">Delete</button>
+                                </div>
+                                @Html.Partial("_DeleteComment.cshtml", new DeleteCommentModel
+                                    {
+                                        CommentId = comment.Id,
+                                        CommentText = comment.CommentText,
+                                        DeleteCommentActionPath = Model.DeleteCommentActionPath
+                                    })
+
+                               @Html.Partial("_EditComment.cshtml", model: new EditCommentModel
+                               {
+                                   CommentId = comment.Id,
+                                   CommentText = comment.CommentText,
+                                   EditCommentActionPath = Model.EditCommentActionPath
+                               })
+
+                            }
+                            else
+                            {
+                                <span class="timeago" title="@(comment.CommentEditedAt.ToString("o"))">
+                                    @(comment.CommentEditedAt.ToString("dd.MM.yyyy"))
+                                </span>
+                            }
+                        </div>
+                    </div>
+                }
+
+                @if (!Model.HideAddComment) 
+                {
+                    @Html.Partial("_AddComment.cshtml", new AddCommentModel { AddCommentActionPath = Model.AddCommentActionPath })
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -15,18 +15,14 @@ namespace Ubora.Domain.Projects.Candidates
         public string Title { get; private set; }
         public string Description { get; private set; }
         public BlobLocation ImageLocation { get; private set; }
+        public bool IsDeleted { get; private set; }
+        public Guid CreatedByUserId { get; private set; }
 
         [JsonIgnore]
         public bool HasImage => ImageLocation != null;
 
         [JsonIgnore]
         public decimal TotalScore => Votes.Any() ? Votes.Average(x => x.Score) : 0;
-
-        [JsonProperty(nameof(Comments))]
-        private readonly HashSet<Comment> _comments = new HashSet<Comment>();
-        [JsonIgnore]
-        // Virtual for testing.
-        public virtual IReadOnlyCollection<Comment> Comments => _comments;
 
         [JsonProperty(nameof(Votes))]
         private readonly HashSet<Vote> _votes = new HashSet<Vote>();
@@ -41,12 +37,19 @@ namespace Ubora.Domain.Projects.Candidates
             Title = e.Title;
             Description = e.Description;
             ImageLocation = e.ImageLocation;
+            CreatedByUserId = e.InitiatedBy.UserId;
         }
 
         private void Apply(CandidateEditedEvent e)
         {
             Title = e.Title;
             Description = e.Description;
+        }
+
+        private void Apply(CandidateRemovedEvent e)
+        {
+            if (IsDeleted) { throw new InvalidOperationException(); }
+            IsDeleted = true;
         }
 
         private void Apply(CandidateImageEditedEvent e)
@@ -58,27 +61,6 @@ namespace Ubora.Domain.Projects.Candidates
             ImageLocation = null;
         }
 
-        private void Apply(CandidateCommentAddedEvent e)
-        {
-            var comment = new Comment(e.InitiatedBy.UserId, e.CommentText, e.CommentId, e.CommentedAt, e.RoleKeys);
-            _comments.Add(comment);
-        }
-
-        private void Apply(CandidateCommentEditedEvent e)
-        {
-            var oldComment = _comments.Single(x => x.Id == e.CommentId);
-            var editedComment = oldComment.Edit(e.CommentText, e.LastEditedAt, e.RoleKeys);
-
-            _comments.Remove(oldComment);
-            _comments.Add(editedComment);
-        }
-
-        private void Apply(CandidateCommentRemovedEvent e)
-        {
-            var comment = _comments.Single(x => x.Id == e.CommentId);
-            _comments.Remove(comment);
-        }
-
         private void Apply(CandidateVoteAddedEvent e)
         {
             var hasUserAlreadyVoted = _votes.Any(x => x.UserId == e.InitiatedBy.UserId);
@@ -88,10 +70,10 @@ namespace Ubora.Domain.Projects.Candidates
             }
 
             var vote = new Vote(
-                userId: e.InitiatedBy.UserId, 
-                functionality: e.Functionality, 
-                performance: e.Perfomance, 
-                usability: e.Usability, 
+                userId: e.InitiatedBy.UserId,
+                functionality: e.Functionality,
+                performance: e.Perfomance,
+                usability: e.Usability,
                 safety: e.Safety);
 
             _votes.Add(vote);

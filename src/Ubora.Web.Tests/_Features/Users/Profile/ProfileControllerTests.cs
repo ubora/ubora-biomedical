@@ -119,7 +119,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             _signInManagerMock.Verify(m => m.RefreshSignInAsync(applicationUser), Times.Once);
 
             var notice = _controller.Notices.Dequeue();
-            notice.Text.Should().Be("Profile image uploaded successfully!");
+            notice.Text.Should().Be(SuccessTexts.ProfilePictureUploaded);
             notice.Type.Should().Be(NoticeType.Success);
         }
 
@@ -442,7 +442,7 @@ namespace Ubora.Web.Tests._Features.Users.Profile
             result.ActionName.Should().Be("Index");
 
             var notice = _controller.Notices.Dequeue();
-            notice.Text.Should().Be("Profile changed successfully!");
+            notice.Text.Should().Be(SuccessTexts.ProfileEdited);
             notice.Type.Should().Be(NoticeType.Success);
         }
 

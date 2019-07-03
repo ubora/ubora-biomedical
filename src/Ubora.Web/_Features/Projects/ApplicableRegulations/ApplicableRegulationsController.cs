@@ -7,6 +7,7 @@ using Ubora.Domain.Questionnaires.ApplicableRegulations.Commands;
 using Ubora.Web.Authorization;
 using Ubora.Web._Features.Projects._Shared;
 using Ubora.Web._Features.Projects.Workpackages;
+using Ubora.Web._Features._Shared.Notices;
 
 namespace Ubora.Web._Features.Projects.ApplicableRegulations
 {
@@ -16,8 +17,8 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
         {
             base.OnActionExecuting(context);
 
-            ViewData["Title"] = "Applicable regulations questionnaire";
-            ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(PageTitle)] = "Applicable regulations questionnaire";
+            ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
             ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.RegulationChecklist;
         }
 
@@ -51,7 +52,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
             ExecuteUserProjectCommand(new StartApplicableRegulationsQuestionnaireCommand
             {
                 NewQuestionnaireId = id
-            });
+            }, Notice.Success(SuccessTexts.ApplicableRegulationsQuestionnaireStarted));
 
             if (!ModelState.IsValid)
             {
@@ -73,14 +74,12 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
             ExecuteUserProjectCommand(new StopApplicableRegulationsQuestionnaireCommand
             {
                 QuestionnaireId = questionnaireId,
-            });
+            }, Notice.Success(SuccessTexts.ApplicableRegulationsQuestionnaireStopped));
 
             if (!ModelState.IsValid)
             {
                 return Index(modelFactory);
             }
-
-            Notices.Success("Questionnaire was stopped");
 
             return RedirectToAction(nameof(Index));
         }
@@ -100,7 +99,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
             {
                 QuestionnaireId = questionnaireId,
                 NewQuestionnaireId = id
-            });
+            }, Notice.Success(SuccessTexts.ApplicableRegulationsQuestionnaireRetaken));
 
             if (!ModelState.IsValid)
             {
@@ -153,7 +152,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
                 QuestionnaireId = model.QuestionnaireId,
                 QuestionId = model.Id,
                 AnswerId = "y"
-            });
+            }, Notice.None("There is enough visual feedback."));
 
             if (!ModelState.IsValid)
             {
@@ -176,7 +175,7 @@ namespace Ubora.Web._Features.Projects.ApplicableRegulations
                 QuestionnaireId = model.QuestionnaireId,
                 QuestionId = model.Id,
                 AnswerId = "n"
-            });
+            }, Notice.None("There is enough visual feedback."));
 
             if (!ModelState.IsValid)
             {

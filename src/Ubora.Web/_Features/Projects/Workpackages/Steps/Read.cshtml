@@ -1,38 +1,27 @@
-@using Ubora.Web._Features.Projects.Workpackages
 @using Ubora.Web._Features.Projects._Shared
 @model Ubora.Web._Features.Projects.Workpackages.Steps.ReadStepViewModel
 
 @{
-    ViewData["Title"] = Model.Title;
-    ViewData["MenuOption"] = ProjectMenuOption.Workpackages;
+    ViewData[nameof(PageTitle)] = Model.Title;
+    ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
+    var canWorkOnProjectContent = (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanWorkOnProjectContent)).Succeeded;
 }
 
-<div class="col-lg-9 pr-5">
-    <div class="row">
-        <div class="col">
-            <div class="d-flex justify-content-between">
-                <h1 class="display-4">@Model.Title</h1>
-                @if (Model.EditButton.IsVisible)
-            {
-                    <a class="btn btn-secondary-ghost align-self-start" href="@Model.EditStepUrl">
-                        <i class="material-icons">mode_edit</i>
-                        <span>Edit</span>
-                    </a>
-                }
-            </div>
-            @if (Model.EditButton.IsHiddenWithMessage)
-            {
-                <p>@Model.EditButton.HideReasonMessage</p>
-            }
-            <div class="text-markdown">@Model.Content</div>
-        </div>
-    </div>
+<div class="d-flex justify-content-between">
+    <h1>@Model.Title</h1>
+    @if (Model.EditButton.IsVisible && canWorkOnProjectContent)
+    {
+        <a class="btn btn-outline-primary align-self-start" href="@Model.EditStepUrl">
+            <i class="material-icons">mode_edit</i>
+            <span>Edit</span>
+        </a>
+    }
 </div>
-
-
-@section Scripts {
-    <script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"
-            asp-fallback-src="~/dist/libs/marked.min.js"
-            asp-fallback-test="window.marked">
-    </script>
+@if (Model.EditButton.IsHiddenWithMessage && canWorkOnProjectContent)
+{
+    <p class="text-informative">@Model.EditButton.HideReasonMessage</p>
 }
+
+<div id="content-body" class="user-content ql-editor">
+    @Html.Raw(Model.ContentHtml)
+</div>

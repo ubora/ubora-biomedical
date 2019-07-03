@@ -11,21 +11,16 @@ namespace Ubora.Web._Features.Notifications.Invitations
     public class InvitationToJoinProjectNotificationViewModel : INotificationViewModel<InvitationToProject>
     {
         public bool IsUnread { get; set; }
+        public DateTime CreatedAt { get; set; }
         public bool WasAccepted { get; set; }
         public string ProjectTitle { get; set; }
         public Guid ProjectId { get; set; }
         public Guid InvitationId { get; set; }
+        public bool IsPending { get; set; }
 
-        public IHtmlContent GetPartialView(IHtmlHelper htmlHelper, bool isHistory)
+        public IHtmlContent GetPartialView(IHtmlHelper htmlHelper)
         {
-            if (isHistory)
-            {
-                return htmlHelper.Partial("~/_Features/Notifications/Invitations/HistoryInvitationPartial.cshtml", this);
-            }
-            else
-            {
-                return htmlHelper.Partial("~/_Features/Notifications/Invitations/IndexInvitationPartial.cshtml", this);
-            }
+            return htmlHelper.Partial("~/_Features/Notifications/Invitations/IndexInvitationPartial.cshtml", this);
         }
 
         public class Factory : NotificationViewModelFactory<InvitationToProject, InvitationToJoinProjectNotificationViewModel>
@@ -47,7 +42,9 @@ namespace Ubora.Web._Features.Notifications.Invitations
                     ProjectId = project.Id,
                     WasAccepted = notification.IsAccepted ?? false,
                     InvitationId = notification.Id,
-                    IsUnread = !notification.HasBeenViewed
+                    IsUnread = !notification.HasBeenViewed,
+                    IsPending = notification.IsPending,
+                    CreatedAt = notification.CreatedAt
                 };
 
                 return viewModel;

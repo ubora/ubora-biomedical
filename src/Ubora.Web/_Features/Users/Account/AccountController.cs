@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Ubora.Domain.Infrastructure.Commands;
-using Ubora.Domain.Users;
 using Ubora.Domain.Users.Commands;
 using Ubora.Web.Data;
 using Ubora.Web.Services;
@@ -45,18 +45,6 @@ namespace Ubora.Web._Features.Users.Account
             _logger = logger;
         }
 
-        public IActionResult ProfileCreation()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult TermsOfService()
-        {
-            return View();
-        }
-
         [HttpGet]
         [AllowAnonymous]
         public IActionResult SignInSignUp(string returnUrl = null)
@@ -65,7 +53,8 @@ namespace Ubora.Web._Features.Users.Account
             return View();
         }
 
-        [HttpGet]
+        [HttpGet("login")]
+        [Route("Account/Login", Order = 1)]
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
@@ -76,7 +65,7 @@ namespace Ubora.Web._Features.Users.Account
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
@@ -267,7 +256,7 @@ namespace Ubora.Web._Features.Users.Account
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (!result.Succeeded)
             {
-                Notices.Error("Confirmation code is wrong or expired!");
+                Notices.NotifyOfError("Confirmation code is wrong or expired!");
 
                 return RedirectToAction("Index", "Home");
             }
@@ -285,7 +274,7 @@ namespace Ubora.Web._Features.Users.Account
                 }
             }
 
-            Notices.Success("Your email has been confirmed successfully!");
+            Notices.NotifyOfSuccess(SuccessTexts.EmailConfirmed);
 
             return RedirectToAction("Index", "Home");
         }
@@ -328,9 +317,12 @@ namespace Ubora.Web._Features.Users.Account
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ResetPassword(string code = null)
+        public IActionResult ResetPassword(string code)
         {
-            return code == null ? View("Error") : View();
+            return View(new ResetPasswordViewModel
+            {
+                Code = code
+            });
         }
 
         [HttpPost]
@@ -348,7 +340,7 @@ namespace Ubora.Web._Features.Users.Account
                 // Don't reveal that the user does not exist
                 return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
             }
-            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+            var result = await _userManager.ResetPasswordAsync(user, Encoding.UTF8.GetString(Base64UrlTextEncoder.Decode(model.Code)), model.Password);
             if (result.Succeeded)
             {
                 return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
@@ -453,7 +445,7 @@ namespace Ubora.Web._Features.Users.Account
             }
         }
 
-        [HttpGet]
+        [HttpGet("access-denied")]
         public IActionResult AccessDenied()
         {
             return View();

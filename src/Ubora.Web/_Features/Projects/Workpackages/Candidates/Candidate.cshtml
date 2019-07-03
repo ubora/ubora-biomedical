@@ -1,167 +1,145 @@
-﻿@model Ubora.Web._Features.Projects.Workpackages.Candidates.CandidateViewModel
+﻿@using Ubora.Web._Features.Projects.Workpackages.Candidates
 
-<div class="col-lg-9 pr-5">
+@model CandidateViewModel
 
-    <div class="row mb-4">
-        <div class="col">
-            <h1 class="display-4">Voting</h1>
-        </div>
-    </div>
+<h1>Voting</h1>
 
-    <div class="row mb-4">
-        <div class="col-sm-12 col-lg-6">
-            <div class="row">
-                <div class="col">
-                    <div class="card w-100 h-100">
-                        <img class="card-img-top img-fluid w-100" src="@Model.ImageUrl" alt="Illustrative project photo" />
-                        @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanChangeProjectImage))
-                        {
-                            <div class="card-img-overlay text-center">
-                                @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanChangeProjectCandidateImage)).Succeeded)
-                                {
-                                    <a class="mx-1" href="@Url.Action("EditCandidateImage", "Candidates", new { candidateId = Model.Id })">
-                                        <i class="material-icons align-middle" id="EditImage">mode_edit</i><span class="align-middle">Change image</span>
-                                    </a>
-                                }
-
-                                @if (Model.HasImage && (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanRemoveProjectCandidateImage)).Succeeded)
-                                {
-                                    <a class="mx-1" href="@Url.Action("RemoveCandidateImage", "Candidates", new { candidateId = Model.Id })">
-                                        <i class="material-icons align-middle">delete_forever</i><span class="align-middle">Remove image</span>
-                                    </a>
-                                }
-                            </div>
-
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-lg-6">
-            <div class="row">
-                <div class="col-sm-12 col-lg-9">
-                    <h2 class="mb-4">@Model.Title</h2>
-                </div>
-                <div class="col-sm-12 col-lg-3 d-flex justify-content-end">
-                    @if ((await AuthorizationService.AuthorizeAsync(User, null, Policies.CanEditProjectCandidate)).Succeeded)
+<div class="row mb-4">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-8 mb-xl-0 mb-sm-4">
+        <div class="card">
+            <img class="card-img-top img-fluid w-100" src="@Model.ImageUrl" alt="Illustrative project photo" />
+            @if (Model.CanChangeProjectCandidateImage)
+            {
+                <div class="card-img-overlay text-center">
+                    @if (Model.CanChangeProjectCandidateImage)
                     {
-                        <a class="btn btn-secondary-ghost align-self-start" href="@Url.Action("EditCandidate", "Candidates", new { candidateId = Model.Id })">
-                            <i class="material-icons" id="EditImage">mode_edit</i>
-                            <span>Edit</span>
+                        <a class="btn-icon" href="@Url.Action("EditCandidateImage", "Candidates" , new { candidateId=Model.Id })">
+                            <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
+                            <span>Change image</span>
+                        </a>
+                    }
+
+                    @if (Model.HasImage && Model.CanRemoveProjectCandidateImage)
+                    {
+                        <a class="btn-icon" href="@Url.Action("RemoveCandidateImage", "Candidates" , new { candidateId=Model.Id })">
+                            <i class="material-icons font-size-1-1 ">delete_forever</i>
+                            <span>Remove image</span>
                         </a>
                     }
                 </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <p>@Model.Description</p>
-                </div>
-            </div>
+
+            }
         </div>
     </div>
-
-    <div class="row mb-4">
-
-        <div class="col-lg-6">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2 class="display-5 mb-4">All votes</h2>
-                </div>
-                <div class="col-lg-4 d-flex align-items-center justify-content-center">
-                    <div class="circle voted average-number d-flex align-items-center justify-content-center">
-                        @Model.TotalScore.ToString("0.0")
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <span>Very good: 16-20</span>
-                    <div class="progress mb-1">
-                        <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentageVeryGood)%"></div>
-                    </div>
-                    <span>Good: 11-15</span>
-                    <div class="progress mb-1">
-                        <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentageGood)%"></div>
-                    </div>
-                    <span>Mediocre: 6-10</span>
-                    <div class="progress mb-1">
-                        <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentageMediocre)%"></div>
-                    </div>
-                    <span>Poor: 1-5</span>
-                    <div class="progress mb-1">
-                        <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentagePoor)%"></div>
-                    </div>
-                </div>
+    <div class="col-xl-6">
+        <div class="row">
+            <div class="col-lg-9">
+                <h2 class="mb-4">@Model.Title</h2>
+            </div>
+            <div class="col-lg-3 d-flex justify-content-end">
+                @if (Model.CanEditProjectCandidate)
+                {
+                    <a class="btn-icon" href="@Url.Action("EditCandidate", "Candidates" , new { candidateId=Model.Id })">
+                        <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
+                        <span>Edit</span>
+                    </a>
+                }
             </div>
         </div>
-
-        <div class="col-lg-6">
-            @(Model.HasUserVoted ? Html.Partial("_VotePartial", Model.UserVotesViewModel) : Html.Partial("_AddVotePartial", Model.AddVoteViewModel))
-        </div>
-        
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-sm-12 col-lg-6">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2 class="display-5 mb-4">All comments</h2>
-                </div>
-                <div class="col-lg-12">
-                    <div class="row">
-                        @foreach (var comment in Model.Comments)
-                        {
-                            <div class="col-lg-2">
-                                <img class="avatar avatar-comment" src="@comment.ProfilePictureUrl" />
-                            </div>
-                            <div class="col-lg-10 mb-4">
-                                <span class="d-block">
-                                    <strong><a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@comment.CommentatorId">@comment.CommentatorName</a></strong>
-                                    @if (comment.IsLeader)
-                                    {
-                                        <i class="material-icons align-middle" title="Project leader">supervisor_account</i>
-                                    }
-                                    @if (comment.IsMentor)
-                                    {
-                                        <i class="material-icons align-middle" title="Project mentor">school</i>
-                                    }
-                                </span>
-                                <span class="comment more">
-                                @comment.CommentText
-
-                                </span>
-                                @if (comment.IsEdited)
-                                {
-                                    <span class="color-grey">(edited)</span>
-                                }
-                                <span class="d-block mt-2 small-text">
-                                    @if (comment.CanBeEdited)
-                                    {
-                                        <button class="btn-link mr-2" role="button" data-toggle="collapse" data-target="#@comment.Id">edit</button>
-                                            <button class="btn-link mr-2" role="button" data-toggle="modal" data-target="#removeCommentModal-@comment.Id">delete</button>
-                                            <span class="timeago color-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
-                                            @Html.Partial("RemoveCommentModal", comment.EditCommentViewModel)
-                                            <div class="collapse" id="@comment.Id">@Html.Partial("_EditCommentPartial", comment.EditCommentViewModel)</div>
-                                    }
-                                    else
-                                    {
-                                        <span class="timeago color-grey" title="@(comment.CommentEditedAt.ToString() + 'Z')">@(comment.CommentEditedAt.ToString("dd.MM.yyyy"))</span>
-                                    }
-                                </span>
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-lg-6">
-            <div>
-                @Html.Partial("_AddCommentPartial", Model.AddCommentViewModel)
+        <div class="row">
+            <div class="col">
+                <p>@Model.Description</p>
             </div>
         </div>
     </div>
 </div>
 
+<div class="row mb-4">
+    <div class="col-xl-6 mb-xl-0 mb-sm-4">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="mb-4">All votes</h2>
+            </div>
+            <div class="col-lg-4 col-sm-3 col-6 d-flex align-items-center justify-content-center pr-xl-1 pr-lg-5">
+                <div class="circle voted average-number">
+                    <span>@Model.TotalScore.ToString("0.0")</span>
+                </div>
+            </div>
+            <div class="col-lg-8 col-sm-9">
+                <span>Very good: 16-20</span>
+                <div class="progress mb-1">
+                    <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentageVeryGood)%"></div>
+                </div>
+                <span>Good: 11-15</span>
+                <div class="progress mb-1">
+                    <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentageGood)%"></div>
+                </div>
+                <span>Mediocre: 6-10</span>
+                <div class="progress mb-1">
+                    <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentageMediocre)%"></div>
+                </div>
+                <span>Poor: 1-5</span>
+                <div class="progress mb-1">
+                    <div class="progress-bar" role="progressbar" style="width: @(Model.ScorePercentagePoor)%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-md-9">
+        @if (Model.IsVotingAllowed) 
+        {
+            @(Model.HasUserVoted ? Html.Partial("_VotePartial", Model.UserVotesViewModel) : Html.Partial("_AddVotePartial", Model.AddVoteViewModel))
+        }
+    </div>
+
+</div>
+
+@Html.Partial("~/_Components/Discussions/_Discussion.cshtml", new Ubora.Web._Components.Discussions.Models.DiscussionViewModel
+{
+    Comments = Model.Comments.ToList(),
+    AddCommentActionPath = Url.Action(nameof(CandidatesController.AddComment)),
+    EditCommentActionPath = Url.Action(nameof(CandidatesController.EditComment)),
+    DeleteCommentActionPath = Url.Action(nameof(CandidatesController.RemoveComment)),
+    HideAddComment = !Model.CanAddComment
+})
+
+@if (Model.CanRemoveCandidate)
+{
+<div class="my-4">
+    <hr />
+    <button class="btn btn-outline-danger" data-toggle="modal" data-target="#delete-candidate-modal">
+        <i class="material-icons">delete_forever</i>
+        <span>Delete candidate</span>
+    </button>
+
+    <div class="modal fade" id="delete-candidate-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete candidate</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form asp-controller="Candidates" asp-action="RemoveCandidate" asp-route-candidateId="@Model.Id">
+                    <div class="modal-body">
+                        <p>
+                            Do you want to delete the candidate with title "@Model.Title"?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+}
 
 @section Scripts {
-    <script src="~/dist/voting.bundle.js"></script>
-    <script src="~/dist/show_more.bundle.js"></script>
+<script src="~/dist/voting.bundle.js"></script>
+<script src="~/dist/show_more.bundle.js"></script>
 }

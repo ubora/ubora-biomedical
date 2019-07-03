@@ -1,92 +1,60 @@
-﻿@using Ubora.Web.Data
-@using Ubora.Web._Features.Projects._Shared
-@model Ubora.Web._Features.Projects.Members.ProjectMemberListViewModel
+﻿@using Ubora.Web._Features.Users.UserList
+
+@model ProjectMemberListViewModel
 
 @{
-    ViewData["Title"] = "Members";
-    ViewData["MenuOption"] = ProjectMenuOption.Members;
+    ViewData[nameof(PageTitle)] = "Members";
+    ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Members;
+}
 
-    var isAdmin = User.IsInRole(ApplicationRole.Admin);
-  }
-
-<div class="container-fluid my-4">
-  <div class="row justify-content-center">
-    <div class="col-sm-12 col-lg-8">
-
-      <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-5">
-          <h1 class="display-4">Project members</h1>
-        </div>
-        <div class="col-sm-12 col-md-12 col-lg-7 d-flex justify-content-end">
-          <div class="row">
-            @if (Model.IsProjectMember)
-            {
-              <div class="col">
-                <a class="btn btn-secondary-ghost align-self-start d-sm-block d-lg-inline-block" asp-controller="Members" asp-action="Invite">
-                  <i class="material-icons">person_add</i>
-                  <span>Invite member</span>
-                </a>
-              </div>
-            }
-
-            @if (isAdmin)
-            {
-              <div class="col">
-                <a class="btn btn-secondary-ghost align-self-start d-sm-block d-lg-inline-block" asp-controller="InviteMentors" asp-action="InviteMentors">
-                  <i class="material-icons" id="MentorInviteButton">person_add</i>
-                  <span>Add mentor</span>
-                </a>
-              </div>
-            }
-            @if (Model.IsProjectMember && !Model.IsProjectLeader)
-            {
-              <div class="col">
-                <a class="btn btn-secondary-ghost btn-highlighted align-self-start d-sm-block d-lg-inline-block" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId">
-                  <i class="material-icons">exit_to_app</i>
-                  <span>Leave project</span>
-                </a>
-              </div>
-            }
-          </div>
-        </div>
-      </div>
-
-      <div class="row justify-content-center d-flex flex-column my-4">
-        <div class="col-sm-12">
-          <ul class="list-group">
-            @foreach (var member in Model.Members)
-            {
-              <li class="list-group-item">
-                <div class="col-sm-2 d-flex justify-content-center">
-                  @if (member.IsProjectLeader)
-                  {
-                    <i class="material-icons" title="Project leader">supervisor_account</i>
-                  }
-                  @if (member.IsProjectMentor)
-                  {
-                    <i class="material-icons" title="Project mentor">school</i>
-                  }
-                </div>
-                <div class="col text-center">
-                  <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@member.UserId">@member.FullName</a>
-                </div>
-                <div class="col-sm-2 d-flex justify-content-end">
-                  @{
-                    var isRemoveMemberButtonVisible = Model.CanRemoveProjectMembers && !member.IsProjectLeader;
-                  }
-                  @if (isRemoveMemberButtonVisible)
-                  {
-                  <a title="Remove member" class="btn btn-highlighted btn-sm" asp-controller="Members" asp-action="RemoveMember" asp-route-memberId="@member.UserId">
-                    <i class="material-icons">close</i>
-                  </a>
-                  }
-                </div>
-              </li>
-            }
-          </ul>
-        </div>
-      </div>
-
+<div class="row">
+    <div class="col-lg-5">
+        <h1>@ViewData[nameof(PageTitle)]</h1>
     </div>
-  </div>
+    <div class="col-lg-7 d-flex justify-content-end">
+        @if (Model.IsProjectMember)
+        {
+            <a class="btn btn-outline-primary align-self-start d-sm-block d-lg-inline-block" asp-controller="Members" asp-action="Invite">
+                <i class="material-icons">person_add</i>
+                <span>Invite member</span>
+            </a>
+        }
+
+        @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanInviteMentors))
+        {
+            <a class="btn btn-outline-primary align-self-start d-sm-block d-lg-inline-block ml-1" asp-controller="InviteMentors" asp-action="InviteMentors">
+                <i class="material-icons" id="MentorInviteButton">person_add</i>
+                <span>Invite mentor</span>
+            </a>
+        }
+
+        @if (Model.IsProjectMember && !Model.IsProjectLeader)
+        {
+            <a class="btn btn-outline-primary align-self-start d-sm-block d-lg-inline-block ml-1" asp-controller="Members" asp-action="Leave" asp-route-memberId="Model.UserId">
+                <i class="material-icons">exit_to_app</i>
+                <span>Leave project</span>
+            </a>
+        }
+    </div>
+</div>
+<div class="row">
+    @foreach (var item in Model.Items)
+    {
+        // TODO: Test this logic.
+        var model = new ManageMemberViewModel(
+            memberUserId: item.UserId,
+            isRemoveMemberVisible: (!item.IsCurrentUser && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectMember)),
+            isRemoveMentorVisible: (!item.IsCurrentUser && item.IsProjectMentor && item.CanRemoveProjectMentor),
+            isPromoteLeaderVisible: !item.IsProjectLeader && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanPromoteMember));
+
+        Html.RenderPartial("~/_Components/UserCards/UserCard.cshtml", new UserCardViewModel(
+          userId: item.UserId,
+          name: item.FullName,
+          roles: item.Roles,
+          country: null,
+          university: null,
+          profilePictureUrl: item.ProfilePictureUrl,
+          footerHtml: Html.Partial("_ManageMemberFooterPartial.cshtml", model))
+        );
+    }
 </div>

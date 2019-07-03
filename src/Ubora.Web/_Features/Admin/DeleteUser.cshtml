@@ -1,17 +1,17 @@
 ﻿@model Ubora.Web._Features.Admin.DeleteUserViewModel
 
-<div class="container-fluid my-4">
+<div class="container my-5">
     <div class="row">
         <div class="col text-center">
 
-            <h2>Do you want to Delete user "@Model.UserEmail"? This step can not be undone.</h2>
+            <h2>Do you want to delete user "@Model.UserEmail"? This step can not be undone.</h2>
             <form  asp-controller="Admin" asp-action="DeleteUser" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input asp-for="UserEmail" type="hidden"/>
                 <div class="form-group">
-                    <a class="btn btn-secondary-ghost"  asp-action="Diagnostics">No, cancel</a>
+                    <a class="btn btn-outline-primary"  asp-action="Diagnostics">Cancel</a>
                     <span class="mx-1"></span>
-                    <button class="btn btn-primary" asp-controller="Admin" asp-action="DeleteUser" type="submit">Yes, remove</button>
+                    <button class="btn btn-primary" asp-controller="Admin" asp-action="DeleteUser" type="submit">Delete</button>
                 </div>
             </form>
 

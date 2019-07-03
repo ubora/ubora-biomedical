@@ -1,0 +1,28 @@
+﻿@model IsoStandardWithCheckboxViewModel
+
+<div class="d-flex justify-content-between">
+    <div class="custom-control custom-checkbox">
+        @{
+            var controllerAction = Model.IsoStandard.IsMarkedAsCompliant ? nameof(IsoCompliancesController.MarkAsNoncompliant) : nameof(IsoCompliancesController.MarkAsCompliant);
+            var isoCheckboxId = "checkbox-for-" + Model.IsoStandard.IsoStandardId;
+        }
+        <form asp-action="@controllerAction" asp-controller="@nameof(IsoCompliancesController).RemoveSuffix()">
+            <input type="hidden" value="@Model.IsoStandard.IsoStandardId" name="@nameof(Model.IsoStandard.IsoStandardId)" />
+            <input type="checkbox" class="custom-control-input js-iso-checkbox" checked="@Model.IsoStandard.IsMarkedAsCompliant" id="@isoCheckboxId" ubora-disable="@(!Model.CanEditIsoStandard)"/>
+            <label class="custom-control-label" for="@isoCheckboxId">
+                <a href="@Model.IsoStandard.Link" target="_blank">@Model.IsoStandard.Title</a>
+            </label>
+        </form>
+    </div>
+    @if(Model.CanRemoveIsoStandardFromComplianceChecklist)
+    {
+        @Html.Partial("_RemoveIsoStandardButtonAndModal.cshtml", Model.IsoStandard)
+    }
+</div>
+@if (!string.IsNullOrWhiteSpace(Model.IsoStandard.ShortDescription))
+{
+    <p id="@("short-description-for-iso-standard-" + Model.IsoStandard.IsoStandardId)" class="px-4 pt-2">
+        @Model.IsoStandard.ShortDescription
+    </p>
+}
+<hr />

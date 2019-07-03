@@ -4,6 +4,7 @@ namespace Ubora.Domain.Projects.Workpackages
     {
         InProcess = 0,
         Accepted,
-        Rejected
+        Rejected,
+        AcceptedButWorkpackageReopened,
     }
 }

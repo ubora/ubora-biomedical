@@ -1,46 +1,49 @@
-﻿@using Ubora.Web._Features.Projects._Shared
+﻿@using Ubora.Web.Data
+@using Ubora.Web._Features.Projects._Shared
 @model Ubora.Web._Features.Projects.Assignments.AssignmentListViewModel
 
+@inject UserManager<ApplicationUser> UserManager
+
 @{
-    ViewData["Title"] = "Assignments";
-    ViewData["MenuOption"] = ProjectMenuOption.Assignments;
+    ViewData[nameof(PageTitle)] = "Assignments";
+    ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Assignments;
 }
 
-<div class="container-fluid my-4">
-  <div class="row justify-content-center">
-    <div class="col-sm-12 col-lg-8">
-
-      <div class="row">
-        <div class="col-sm-12 col-lg-9">
-          <h1 class="display-4">@Model.ProjectName</h1>
-        </div>
-        <div class="col-sm-12 col-lg-3 d-flex justify-content-end">
-          <a class="btn btn-secondary-ghost align-self-start" asp-controller="Assignments" asp-action="Add" asp-route-projectId="@Model.ProjectId">
+<div class="row">
+    <div class="col-lg-9">
+        <h1>@ViewData[nameof(PageTitle)]</h1>
+    </div>
+    <div class="col-lg-3 d-flex justify-content-end">
+        <a class="btn btn-outline-primary align-self-start" asp-controller="Assignments" asp-action="Add" asp-route-projectId="@Model.ProjectId">
             <i class="material-icons">add</i>
             <span>Add assignment</span>
-          </a>
-        </div>
-      </div>
-
-      <div class="row my-4">
-        <div class="col">
-
+        </a>
+    </div>
+</div>
+<div class="row my-4">
+    <div class="col">
+        <ol>
             @foreach (var assignment in Model.Assignments)
             {
-                <label class="custom-control custom-checkbox d-block">
-                  <input id="@assignment.Id" type="checkbox" class="js-assignment-checkbox custom-control-input"/>
-                  <span class="custom-control-indicator"></span>
-                  <span class="custom-control-description"><a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a></span>
-                </label>
+                <li>
+                    <label class="custom-control custom-checkbox d-block custom-control-label" for="@assignment.Id" >
+                    <input id="@assignment.Id" type="checkbox" class="js-assignment-checkbox custom-control-input" />
+                    <span class="custom-control-indicator"></span>
+                    @if (assignment.CreatedByUserId == UserManager.GetUserAsync(User).Result.Id 
+                        || await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditAssignment))
+                    {
+                        <span class="custom-control-description"><a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a></span>
+                    }
+                    else
+                    {
+                        <span class="custom-control-description"><a asp-controller="Assignments" asp-action="View" asp-route-id="@assignment.Id">@assignment.Title</a></span>
+                    }
+                    </label>
+                </li>
             }
-
-        </div>
-      </div>
-
+        </ol>
     </div>
-  </div>
 </div>
-
 
 <script>
 
