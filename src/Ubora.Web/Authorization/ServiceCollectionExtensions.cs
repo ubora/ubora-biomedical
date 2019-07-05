@@ -179,9 +179,9 @@ namespace Ubora.Web.Authorization
                 {
                     policyBuilder.RequireRole(ApplicationRole.Admin, ApplicationRole.ManagementGroup);
                 });
-                options.AddPolicy(nameof(Policies.CanEditAssignment), policyBuilder =>
+                options.AddPolicy(nameof(Policies.CanWorkOnAssignments), policyBuilder =>
                 {
-                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectLeaderRequirement(), new IsProjectMentorRequirement(), new RolesAuthorizationRequirement(new[] { ApplicationRole.Admin })));
+                    policyBuilder.AddRequirements(new IsProjectMemberRequirement());
                 });
                 options.AddPolicy(Policies.CanPromoteMember, policyBuilder =>
                 {

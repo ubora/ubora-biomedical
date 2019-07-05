@@ -1,46 +1,45 @@
 using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Ubora.Domain.Projects.Assignments;
 using Ubora.Domain.Projects.Assignments.Commands;
-using Ubora.Domain.Projects._Specifications;
 using Ubora.Web._Features._Shared.Notices;
+using System.Threading.Tasks;
 
 namespace Ubora.Web._Features.Projects.Assignments
 {
     [ProjectRoute("[controller]")]
     public class AssignmentsController : ProjectController
-    { 
-        public IActionResult Assignments()
+    {
+        public async Task<IActionResult> Assignments([FromServices]AssignmentListViewModel.Factory modelFactory)
         {
-            var projectTasks = QueryProcessor.Find<Assignment>(new IsFromProjectSpec<Assignment> { ProjectId = ProjectId });
-
-            var model = new AssignmentListViewModel
-            {
-                ProjectId = ProjectId,
-                ProjectName = Project.Title,
-                Assignments = projectTasks.Select(AutoMapper.Map<AssignmentListItemViewModel>)
-            };
-            
+            var model = await modelFactory.Create(User, Project);
             return View(model);
         }
 
         [Route(nameof(Add))]
-        public IActionResult Add([FromServices]AddAssignmentViewModel.Factory modelFactory)
+        public async Task<IActionResult> Add([FromServices]AddAssignmentViewModel.Factory modelFactory)
         {
+            var isAuthorized = (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanWorkOnAssignments)).Succeeded;
+            if (!isAuthorized)
+            {
+                return Forbid();
+            }
             var model = modelFactory.Create(ProjectId);
             return View(model);
         }
 
         [HttpPost]
         [Route(nameof(Add))]
-        public IActionResult Add(AddAssignmentViewModel model, [FromServices]AddAssignmentViewModel.Factory modelFactory)
+        public async Task<IActionResult> Add(AddAssignmentViewModel model, [FromServices]AddAssignmentViewModel.Factory modelFactory)
         {
             if (!ModelState.IsValid)
             {
-                return Add(modelFactory);
+                return await Add(modelFactory);
             }
-
+            var isAuthorized = (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanWorkOnAssignments)).Succeeded;
+            if (!isAuthorized)
+            {
+                return Forbid();
+            }
             ExecuteUserProjectCommand(new AddAssignmentCommand
             {
                 Id = Guid.NewGuid(),
@@ -51,7 +50,7 @@ namespace Ubora.Web._Features.Projects.Assignments
 
             if (!ModelState.IsValid)
             {
-                return Add(modelFactory);
+                return await Add(modelFactory);
             }
 
             return RedirectToAction(nameof(Assignments), new { ProjectId });
@@ -65,21 +64,31 @@ namespace Ubora.Web._Features.Projects.Assignments
         }
 
         [Route(nameof(Edit))]
-        public IActionResult Edit(Guid id, [FromServices]EditAssignmentViewModel.Factory modelFactory)
+        public async Task<IActionResult> Edit(Guid id, [FromServices]EditAssignmentViewModel.Factory modelFactory)
         {
+            var isAuthorized = (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanWorkOnAssignments)).Succeeded;
+            if (!isAuthorized)
+            {
+                return Forbid();
+            }
             var model = modelFactory.Create(id);
             return View(model);
         }
 
         [HttpPost]
         [Route(nameof(Edit))]
-        public IActionResult Edit(EditAssignmentViewModel model, [FromServices]EditAssignmentViewModel.Factory modelFactory)
+        public async Task<IActionResult> Edit(EditAssignmentViewModel model, [FromServices]EditAssignmentViewModel.Factory modelFactory)
         {
+            
             if (!ModelState.IsValid)
             {
-                return Edit(model.Id, modelFactory);
+                return await Edit(model.Id, modelFactory);
             }
-
+            var isAuthorized = (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanWorkOnAssignments)).Succeeded;
+            if (!isAuthorized)
+            {
+                return Forbid();
+            }
             ExecuteUserProjectCommand(new EditAssignmentCommand
             {
                 Id = model.Id,
@@ -90,10 +99,26 @@ namespace Ubora.Web._Features.Projects.Assignments
 
             if (!ModelState.IsValid)
             {
-                return Edit(model.Id, modelFactory);
+                return await Edit(model.Id, modelFactory);
             }
 
             return RedirectToAction(nameof(Assignments), new { ProjectId });
+        }
+
+        [HttpPost]
+        [Route(nameof(ToggleAssignmentStatus))]
+        public async Task<IActionResult> ToggleAssignmentStatus(string id)
+        {
+            var isAuthorized = (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanWorkOnAssignments)).Succeeded;
+            if (!isAuthorized)
+            {
+                return Forbid();
+            }
+            ExecuteUserProjectCommand(new ToggleAssignmentDoneStatusCommand
+            {
+                Id = new Guid(id)
+            }, Notice.None("for now ?"));
+            return RedirectToAction(nameof(Assignments));
         }
     }
 }

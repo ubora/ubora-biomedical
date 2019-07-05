@@ -15,6 +15,7 @@ using Ubora.Domain.Users.Queries;
 
 namespace Ubora.Domain.Tests
 {
+// TODO: Kaspar, leave explanation here
     public abstract class IntegrationFixture : DocumentSessionIntegrationFixture
     {
         private IContainer _innerContainer;

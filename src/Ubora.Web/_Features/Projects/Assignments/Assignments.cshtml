@@ -1,5 +1,4 @@
 ﻿@using Ubora.Web.Data
-@using Ubora.Web._Features.Projects._Shared
 @model Ubora.Web._Features.Projects.Assignments.AssignmentListViewModel
 
 @inject UserManager<ApplicationUser> UserManager
@@ -23,27 +22,65 @@
 <div class="row my-4">
     <div class="col">
         <ol>
-            @foreach (var assignment in Model.Assignments)
+            @*Add "assignment-done" class when done*@
+            @if (Model.CanWorkOnAssignments)
             {
-                <li>
-                    <div class="custom-control custom-checkbox">
-                        <input id="@assignment.Id" type="checkbox" class="js-assignment-checkbox custom-control-input" />
-                        <label class="d-block custom-control-label" for="@assignment.Id" >
-                        <span class="custom-control-indicator"></span>
-                        </label>
-                        @if (assignment.CreatedByUserId == UserManager.GetUserAsync(User).Result.Id 
-                            || await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditAssignment))
-                        {
-                            // Add "assignment-done" class when done
+                @foreach (var assignment in Model.Assignments)
+                {
+                    <li>
+                        <div class="custom-control custom-checkbox">
+                            <form asp-action="ToggleAssignmentStatus" asp-controller="Assignments" method="post">
+
+                                <input type="hidden" value="@assignment.Id" name="@nameof(assignment.Id)" />
+                                @if (assignment.IsDone)
+                                {
+                                    <input id="@assignment.Id" type="checkbox" class="js-assignment-checkbox custom-control-input" checked />
+                                }
+                                else
+                                {
+                                    <input id="@assignment.Id" type="checkbox" class="js-assignment-checkbox custom-control-input" />
+                                }
+                                <label class="d-block custom-control-label" for="@assignment.Id">
+                                    <span class="custom-control-indicator"></span>
+                                </label>
+                            </form>
                             <span class="custom-control-description"><a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a></span>
-                        }
-                        else
-                        {
+                        </div>
+                    </li>
+                }
+            }
+            else
+            {
+                @foreach (var assignment in Model.Assignments)
+                {
+                    <li>
+                        <div class="custom-control custom-checkbox">
+                            @if (assignment.IsDone)
+                            {
+                                <input type="checkbox" class="custom-control-input" checked disabled />
+                            }
+                            else
+                            {
+                                <input type="checkbox" class="custom-control-input" disabled />
+                            }
+                            <label class="d-block custom-control-label" for="@assignment.Id">
+                                <span class="custom-control-indicator"></span>
+                            </label>
                             <span class="custom-control-description"><a asp-controller="Assignments" asp-action="View" asp-route-id="@assignment.Id">@assignment.Title</a></span>
-                        }
-                    </div>
-                </li>
+                        </div>
+                    </li>
+                }
             }
         </ol>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(".js-assignment-checkbox").click(function (event) {
+            var $target = $(event.target);
+            var $form = $target.closest('form');
+            $form.submit()
+        });
+    </script>
+}
