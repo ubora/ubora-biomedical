@@ -1,4 +1,6 @@
-/*Technically hide elements from page rendering flow*/
+
+
+//Technically hide elements from page rendering flow
 .pseudo-hidden {
     border: 0;
     clip: rect(0 0 0 0);
@@ -298,6 +300,13 @@ a.no-underline {
     }
 }
 
+//custom breakpoint
+@include media-breakpoint-between-custom (1500px, 1350px ) {
+    .col-lg-xl-9 {
+        @include make-col-ready();
+        @include make-col(9);
+    }
+}
 
 .comma-separator:after {
     content: ', ';
@@ -376,17 +385,11 @@ a.no-underline {
 
 @include media-breakpoint-up(lg) {
     .h-min-lg-100 {
-        min-height: calc(100vh - 57px);
-        min-height: -o-calc(100vh - 57px); /* opera */
-        min-height: -webkit-calc(100vh - 57px); /* google, safari */
-        min-height: -moz-calc(100vh - 57px); /* firefox */
+        @include min-height(57px);
     }
 
     .h-min-lg-100-footer {
-        min-height: calc(100vh - 246px);
-        min-height: -o-calc(100vh - 246px); /* opera */
-        min-height: -webkit-calc(100vh - 246px); /* google, safari */
-        min-height: -moz-calc(100vh - 246px) /* firefox */
+        @include min-height(246px);
     }
 }
 
@@ -405,33 +408,21 @@ a.no-underline {
 
 @include media-breakpoint-up(xl) {
     .h-min-xl-100 {
-        min-height: calc(100vh - 57px);
-        min-height: -o-calc(100vh - 57px); /* opera */
-        min-height: -webkit-calc(100vh - 57px); /* google, safari */
-        min-height: -moz-calc(100vh - 57px); /* firefox */
+        @include min-height(57px);
     }
 
     .h-min-xl-100-footer {
-        min-height: calc(100vh - 246px);
-        min-height: -o-calc(100vh - 246px); /* opera */
-        min-height: -webkit-calc(100vh - 246px); /* google, safari */
-        min-height: -moz-calc(100vh - 246px); /* firefox */
+        @include min-height(246px);
     }
 }
 
 @include media-breakpoint-up(lg) {
     .h-min-lg-100 {
-        min-height: calc(100vh - 57px);
-        min-height: -o-calc(100vh - 57px); /* opera */
-        min-height: -webkit-calc(100vh - 57px); /* google, safari */
-        min-height: -moz-calc(100vh - 57px); /* firefox */
+        @include min-height(57px);
     }
 
     .h-min-lg-100-footer {
-        min-height: calc(100vh - 246px);
-        min-height: -o-calc(100vh - 246px); /* opera */
-        min-height: -webkit-calc(100vh - 246px); /* google, safari */
-        min-height: -moz-calc(100vh - 246px); /* firefox */
+        @include min-height(246px);
     }
 }
 

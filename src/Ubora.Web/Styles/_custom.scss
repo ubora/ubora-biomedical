@@ -1,39 +1,38 @@
 ﻿@import 'helpers.scss';
 
-@import 'overrides/alerts.scss';
-@import 'overrides/forms.scss';
-@import 'overrides/links.scss';
-@import 'overrides/tables.scss';
-@import 'overrides/buttons.scss';
-@import 'overrides/typography.scss';
-@import 'overrides/progressbars.scss';
-@import 'overrides/ubora_select2.scss';
-@import 'overrides/card-item.scss';
-@import 'overrides/feedback.scss';
-@import 'overrides/drag_and_drop_file_uploads.scss';
-@import 'overrides/profile_view.scss';
-@import 'overrides/breadcrumb.scss';
-@import 'overrides/pagination.scss';
-@import 'overrides/infinite_scroll.scss';
+@import 'overrides/alerts';
+@import 'overrides/forms';
+@import 'overrides/links';
+@import 'overrides/tables';
+@import 'overrides/buttons';
+@import 'overrides/typography';
+@import 'overrides/progressbars';
+@import 'overrides/ubora_select2';
+@import 'overrides/card-item';
+@import 'overrides/feedback';
+@import 'overrides/drag_and_drop_file_uploads';
+@import 'overrides/profile_view';
+@import 'overrides/breadcrumb';
+@import 'overrides/infinite_scroll';
 
-@import 'page_components/voting.scss';
-@import 'page_components/header.scss';
-@import 'page_components/footer.scss';
-@import 'page_components/notices.scss';
-@import 'page_components/notifications.scss';
-@import 'page_components/autocomplete.scss';
-@import 'page_components/landing_jumbotron.scss';
-@import 'page_components/repository.scss';
-@import 'page_components/markdown_editor.scss';
-@import 'page_components/landingpage.scss';
-@import 'page_components/header_project.scss';
-@import 'page_components/3dviewer.scss';
-@import 'page_components/nav_rightside.scss';
-@import 'page_components/nav_sidemenu.scss';
-@import 'page_components/project_closure.scss';
-@import 'page_components/nav_tabs.scss';
-@import 'page_components/comments.scss';
-@import 'page_components/scroll_indicator.scss';
+@import 'page_components/voting';
+@import 'page_components/header';
+@import 'page_components/footer';
+@import 'page_components/notices';
+@import 'page_components/notifications';
+@import 'page_components/autocomplete';
+@import 'page_components/landing_jumbotron';
+@import 'page_components/repository';
+@import 'page_components/markdown_editor';
+@import 'page_components/landingpage';
+@import 'page_components/header_project';
+@import 'page_components/3dviewer';
+@import 'page_components/nav_rightside';
+@import 'page_components/nav_sidemenu';
+@import 'page_components/project_closure';
+@import 'page_components/nav_tabs';
+@import 'page_components/comments';
+@import 'page_components/scroll_indicator';
 
 body {
     color: $text-color;
@@ -48,5 +47,11 @@ main {
     flex-grow: 1;
     min-height: 70vh;
 }
+
+.modal-open {
+    padding-right: 0px !important;
+}
+
+
 
 

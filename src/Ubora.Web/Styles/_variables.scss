@@ -1,3 +1,14 @@
 $input-border-radius: 0;
-$breadcrumb-padding-x: 0;
 $nav-tabs-link-active-color: $blue;
+$input-btn-focus-box-shadow: none;
+
+$breadcrumb-bg: transparent;
+$breadcrumb-padding-x: 0;
+
+$pagination-active-bg: $primary-shade;
+$pagination-active-border-color: $primary-shade;
+$pagination-focus-box-shadow: none;
+
+
+$grid-breakpoints: ( xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1350px );
+

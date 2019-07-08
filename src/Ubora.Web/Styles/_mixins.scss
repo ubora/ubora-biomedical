@@ -83,3 +83,24 @@
         left: 0;
     }
 }
+
+
+@mixin media-breakpoint-between-custom($var-max, $var-min) {
+    @media (max-width: $var-max) and (min-width: $var-min) {
+        @content;
+    }
+}
+
+@mixin button-style ($vag-bg-color, $var-br-color, $var-text-color, $var-shadow) {
+    background-color: $vag-bg-color;
+    border-color: $var-br-color;
+    color: $var-text-color;
+    box-shadow: $var-shadow;
+}
+
+@mixin min-height($var-subtracted-num) {
+    min-height: calc(100vh - $var-subtracted-num);
+    min-height: -o-calc(100vh - $var-subtracted-num); /* opera */
+    min-height: -webkit-calc(100vh - $var-subtracted-num); /* google, safari */
+    min-height: -moz-calc(100vh - $var-subtracted-num); /* firefox */
+}

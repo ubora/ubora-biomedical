@@ -45,9 +45,7 @@ li.select2-results__option[role="treeitem"]:hover {
 .select2-container--default {
 
     .select2-selection--multiple {
-        border: 1px solid $secondary-shade;
-        border-radius: 0;
-        padding: 3px;
+        @extend .form-control;
 
         .select2-selection__choice {
             background-color: $light-blue;
@@ -64,8 +62,7 @@ li.select2-results__option[role="treeitem"]:hover {
     }
 
     &.select2-container--focus .select2-selection--multiple {
-        border: 2px solid $light-blue;
-        padding: 2px;
+        border-bottom: 2px solid $light-blue;
     }
 }
 
