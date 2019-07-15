@@ -2,5 +2,6 @@
 {
     public class LandingPageViewModel
     {
+        public int PageNumber { get; set; }
     }
 }
