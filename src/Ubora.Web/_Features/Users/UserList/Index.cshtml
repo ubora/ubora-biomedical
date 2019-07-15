@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-xl-4 col-lg-6 col">
                     <div class="form-group search">
-                        <input class="form-control" asp-for="SearchName" placeholder="Search members..." aria-describedby="btnGroupAddon" />
+                        <input id="SearchName" class="form-control" asp-for="SearchName" placeholder="Search members..." aria-describedby="btnGroupAddon" />
                     </div>
                 </div>
             </div>
@@ -140,11 +140,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
     <script>
         UBORA.initInfiniteScroll(window.location.href);
+
         function filterUsers() {
            $.ajax('/community/search',
                 {
                     method: 'get',
-                    data:  { SearchName: $('#SearchName')[0].value, Tab: '@Model.Tab', Ordering: '@Model.Ordering' },
+                    data: {
+                        SearchName: $('#SearchName')[0].value,
+                        Tab: '@Model.Tab',
+                        Ordering: '@Model.Ordering'
+                    },
                     success: function (response) {
                         history.replaceState({},
                             '',

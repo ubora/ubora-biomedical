@@ -13,8 +13,8 @@ namespace Ubora.Domain.Users.Queries
             PageNumber = pageNumber;
         }
 
-        public ISortSpecification<UserProfile> SortSpecification { get; set; }
-        public int PageSize { get; set; }
-        public int PageNumber { get; set; }
+        public ISortSpecification<UserProfile> SortSpecification { get; }
+        public int PageSize { get; }
+        public int PageNumber { get; }
     }
 }
