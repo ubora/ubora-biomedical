@@ -8,7 +8,7 @@
 
     <div class="container my-5">
 
-        <form method="get" action="/community/search">
+        <form id="SearchForm" method="get" action="/community/search">
             <input type="hidden" asp-for="Tab" />
             <div class="row">
                 <div class="col-lg col-12">
@@ -165,5 +165,15 @@
             function () {
                 filterUsers();
             }));
+
+        // Don't post form on enter key
+        // https://stackoverflow.com/a/11235672/6099842
+        $('#SearchForm').on('keyup keypress', function(e) {
+          var keyCode = e.keyCode || e.which;
+          if (keyCode === 13) { 
+            e.preventDefault();
+            return false;
+          }
+        });
     </script>
 }
