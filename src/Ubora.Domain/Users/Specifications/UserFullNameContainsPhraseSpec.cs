@@ -20,7 +20,7 @@ namespace Ubora.Domain.Users.Specifications
             {
                 return user => true;
             }
-            return user => user.FullName.Contains(SearchPhrase.ToLower(), StringComparison.OrdinalIgnoreCase);
+            return user => user.FullName.Contains(SearchPhrase, StringComparison.OrdinalIgnoreCase);
         }
     }
 }
