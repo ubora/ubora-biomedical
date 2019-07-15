@@ -1,12 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Users\NewFolder\**" />
-    <EmbeddedResource Remove="Users\NewFolder\**" />
-    <None Remove="Users\NewFolder\**" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.2.0" />
     <PackageReference Include="FluentAssertions" Version="4.19.4" />
