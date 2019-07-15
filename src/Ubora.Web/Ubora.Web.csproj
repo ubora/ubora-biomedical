@@ -6,12 +6,6 @@
     <UserSecretsId>aspnet-Ubora.Web-d1f6fc32-3f07-4ac3-bdfa-0102a5b76a9d</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="_Features\Projects\DeviceClassification\**" />
-    <Content Remove="_Features\Projects\DeviceClassification\**" />
-    <EmbeddedResource Remove="_Features\Projects\DeviceClassification\**" />
-    <None Remove="_Features\Projects\DeviceClassification\**" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="Scripts\backend\ConvertMarkdownToHtml.js" />
     <None Remove="Scripts\backend\ConvertQuillDeltaToHtml.js" />
     <None Remove="Scripts\backend\SanitizeQuillDelta.js" />

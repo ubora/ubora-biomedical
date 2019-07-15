@@ -3,6 +3,8 @@ using System;
 using System.Linq;
 using Ubora.Domain.Infrastructure.Queries;
 using Ubora.Domain.Users.Queries;
+using Ubora.Domain.Users.SortSpecifications;
+using Ubora.Domain.Users.Specifications;
 using Xunit;
 
 namespace Ubora.Domain.Tests.Users
@@ -75,6 +77,39 @@ namespace Ubora.Domain.Tests.Users
             orderResult.TotalItemCount.Should().Be(3);
             orderResult.First().FirstName.Should().Be("a_order");
             orderResult.Last().FirstName.Should().Be("c_order");
+        }
+
+        [Fact]
+        public void Applies_WhereSpecification()
+        {
+            this.Create_User(Guid.NewGuid(), email: "email1");
+            this.Create_User(Guid.NewGuid(), email: "email2");
+
+            // Act
+            var result = this.Processor.ExecuteQuery(new SearchUserProfilesQuery
+            {
+                WhereSpecification = new UserEmailContainsPhraseSpec("2")
+            });
+
+            // Assert
+            result.Single().Email.Should().Be("email2");
+        }
+
+        [Fact]
+        public void Applies_SortSpecification()
+        {
+            this.Create_User(Guid.NewGuid(), firstName: "a", lastName: "b");
+            this.Create_User(Guid.NewGuid(), firstName: "b", lastName: "a");
+
+            // Act
+            var result = this.Processor.ExecuteQuery(new SearchUserProfilesQuery
+            {
+                SortSpecification = new SortByLastNameSpecification()
+            });
+
+            // Arrange
+            result.First().LastName.Should().Be("a");
+            result.First().FirstName.Should().Be("b");
         }
     }
 }
