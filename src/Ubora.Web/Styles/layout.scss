@@ -84,6 +84,13 @@ main {
     justify-content: flex-end;
 
     .btn {
+        @extend .btn-outline-primary;
         align-self: flex-start;
+
+        @include media-breakpoint-down(sm) {
+            display: block;
+            width: 100%;
+            margin-bottom: .5rem;
+        }
     }
 }

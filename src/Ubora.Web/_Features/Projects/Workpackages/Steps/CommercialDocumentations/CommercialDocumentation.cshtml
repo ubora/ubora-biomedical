@@ -14,80 +14,87 @@
         <h1 class="mb-4">Commercial documentation</h1>
     </div>
 </div>
-<div class="row mb-4">
-    <div class="col">
-        <div class="d-flex justify-content-between">
-            <h2>Commercial dossier</h2>
 
-            @if (canWorkOnProjectContent) 
-            {
-                <a class="btn btn-outline-primary align-self-start"
-                   asp-action="@nameof(CommercialDocumentationsController.EditCommercialDossier)"
-                   asp-controller="@CommercialDocumentationsController.Name">
-                    <i class="material-icons">mode_edit</i>
-                    <span>Edit</span>
-                </a>
-            }
+<div class="row mt-4">
+    <div class="col-sm-8 col-12">
+        <h2>Commercial dossier</h2>
+    </div>
 
+    @if (canWorkOnProjectContent)
+    {
+        <div class="col-sm-4 col-12 header-actions">
+            <a class="btn"
+               asp-action="@nameof(CommercialDocumentationsController.EditCommercialDossier)"
+               asp-controller="@CommercialDocumentationsController.Name">
+                <i class="material-icons">mode_edit</i>
+                <span>Edit</span>
+            </a>
         </div>
-        <div class="row form-info">
-            <div class="col-md-6">
-                @if (!string.IsNullOrWhiteSpace(Model.CommercialDossier.ProductName))
-                {
-                    <div class="mb-3">
-                        <label>Product name</label>
-                        @Model.CommercialDossier.ProductName
-                    </div>
-                }
-                @if (!string.IsNullOrWhiteSpace(Model.CommercialDossier.CommercialName))
-                {
-                    <div class="mb-3">
-                        <label>Commercial name</label>
-                        @Model.CommercialDossier.CommercialName
-                    </div>
-                }
-                @if (Model.CommercialDossier.DoesDescriptionHaveContent)
-                {
-                    <div class="mb-3">
-                        <label>Description</label>
-                        @Html.Raw(@Model.CommercialDossier.DescriptionHtml)
-                    </div>
-                }
-                @if (!string.IsNullOrWhiteSpace(Model.CommercialDossier.UserManualName))
-                {
-                    <div class="mb-3">
-                        <label>User manual</label>
-                        <a asp-action="@nameof(CommercialDocumentationsController.DownloadUserManual)" title="Download user manual" class="no-underline d-flex align-items-center"><i class="mr-2 file-list--item-control material-icons">file_download</i>@Model.CommercialDossier.UserManualName</a>
-                    </div>
-                }
+    }
+
+</div>
+
+<div class="row form-info">
+    <div class="col-md-6">
+        @if (!string.IsNullOrWhiteSpace(Model.CommercialDossier.ProductName))
+        {
+            <div class="mb-3">
+                <label>Product name</label>
+                @Model.CommercialDossier.ProductName
             </div>
-            <div class="col-md-6">
-                @if (Model.CommercialDossier.LogoUrl != null)
-                {
-                    <div class="mb-3">
-                        <label>Logo</label>
-                        <img class="w-max-15-rem" src="@Model.CommercialDossier.LogoUrl">
-                    </div>
-                }
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.CommercialDossier.CommercialName))
+        {
+            <div class="mb-3">
+                <label>Commercial name</label>
+                @Model.CommercialDossier.CommercialName
             </div>
-        </div>
+        }
+        @if (Model.CommercialDossier.DoesDescriptionHaveContent)
+        {
+            <div class="mb-3">
+                <label>Description</label>
+                @Html.Raw(@Model.CommercialDossier.DescriptionHtml)
+            </div>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.CommercialDossier.UserManualName))
+        {
+            <div class="mb-3">
+                <label>User manual</label>
+                <a asp-action="@nameof(CommercialDocumentationsController.DownloadUserManual)" title="Download user manual" class="no-underline d-flex align-items-center"><i class="mr-2 file-list--item-control material-icons">file_download</i>@Model.CommercialDossier.UserManualName</a>
+            </div>
+        }
+    </div>
+    <div class="col-md-6">
+        @if (Model.CommercialDossier.LogoUrl != null)
+        {
+            <div class="mb-3">
+                <label>Logo</label>
+                <img class="w-max-15-rem" src="@Model.CommercialDossier.LogoUrl">
+            </div>
+        }
     </div>
 </div>
-<div class="row mb-4">
-    <div class="col">
-        <div class="d-flex justify-content-between">
-            <h2>Intellectual property</h2>
 
-            @if(canWorkOnProjectContent) 
-            {
-                <a class="btn btn-outline-primary align-self-start" asp-action="@nameof(CommercialDocumentationsController.EditIntellectualProperty)"
-                   asp-controller="@CommercialDocumentationsController.Name">
-                    <i class="material-icons">mode_edit</i>
-                    <span>Edit</span>
-                </a>
-            }
-
+<div class="row mt-4">
+    <div class="col-sm-8 col-12">
+        <h2>Intellectual property</h2>
+    </div>
+    @if (canWorkOnProjectContent)
+    {
+        <div class="col-sm-4 col-12 header-actions">
+            <a class="btn" asp-action="@nameof(CommercialDocumentationsController.EditIntellectualProperty)"
+               asp-controller="@CommercialDocumentationsController.Name">
+                <i class="material-icons">mode_edit</i>
+                <span>Edit</span>
+            </a>
         </div>
+    }
+
+</div>
+
+<div class="row">
+    <div class="col">
 
         @switch (Model.IntellectualProperty.License)
         {
