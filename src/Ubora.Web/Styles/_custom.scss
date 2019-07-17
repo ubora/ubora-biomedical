@@ -34,24 +34,5 @@
 @import 'page_components/comments';
 @import 'page_components/scroll_indicator';
 
-body {
-    color: $text-color;
-    font: normal 16px/1.5em;
-    font-display: swap;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-main {
-    flex-grow: 1;
-    min-height: 70vh;
-}
-
-.modal-open {
-    padding-right: 0px !important;
-}
-
-
-
+@import 'layout.scss';
 

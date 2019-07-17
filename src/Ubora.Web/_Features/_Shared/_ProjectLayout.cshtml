@@ -71,9 +71,9 @@
             }
 
 
-            <div class="container-fluid my-4">
+            <div class="container-fluid py-4">
                 <div class="row">
-                    <div class="col-xl-3">
+                    <div class="side-content-project">
                         @if (wpSideMenuComponent != null)
                         {
                             <div class="wp-sidemenu">
@@ -85,7 +85,7 @@
                             @RenderSection("Left", required: false)
                         }
                     </div>
-                    <div class="col-xl-7 col-lg-xl-9 no-gutters">
+                    <div class="content-project">
                         @RenderBody()
                     </div>
                 </div>

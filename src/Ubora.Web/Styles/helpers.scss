@@ -301,12 +301,7 @@ a.no-underline {
 }
 
 //custom breakpoint
-@include media-breakpoint-between-custom (1500px, 1350px ) {
-    .col-lg-xl-9 {
-        @include make-col-ready();
-        @include make-col(9);
-    }
-}
+
 
 .comma-separator:after {
     content: ', ';
@@ -428,6 +423,14 @@ a.no-underline {
 
 @include media-breakpoint-down(md) {
     .btn-md-block {
+        display: block;
+        width: 100%;
+    }
+}
+
+
+.d-xs-block {
+    @include media-breakpoint-down(sm) {
         display: block;
         width: 100%;
     }
