@@ -31,7 +31,7 @@ else
     @if (Model.PreviousAnsweredQuestionId != null)
     {
         <a class="btn-icon" asp-action="ReviewQuestion" asp-route-questionId="@Model.PreviousAnsweredQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId">
-            <i class="material-icons font-size-1-1">keyboard_arrow_left</i>
+            <i class="material-icons font-md">keyboard_arrow_left</i>
             <span>Previous</span>
         </a>
     }
@@ -40,7 +40,7 @@ else
         <span class="ml-1"></span>
         <a class="btn-icon" asp-action="ReviewQuestion" asp-route-questionId="@Model.NextQuestionId" asp-route-questionnaireId="@Model.QuestionnaireId">
             <span>Next</span>
-            <i class="material-icons font-size-1-1">keyboard_arrow_right</i>
+            <i class="material-icons font-md">keyboard_arrow_right</i>
         </a>
     }
 </div>

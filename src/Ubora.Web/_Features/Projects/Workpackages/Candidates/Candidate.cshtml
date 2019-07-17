@@ -14,7 +14,7 @@
                     @if (Model.CanChangeProjectCandidateImage)
                     {
                         <a class="btn-icon" href="@Url.Action("EditCandidateImage", "Candidates" , new { candidateId=Model.Id })">
-                            <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
+                            <i class="material-icons font-md" id="EditImage">mode_edit</i>
                             <span>Change image</span>
                         </a>
                     }
@@ -22,7 +22,7 @@
                     @if (Model.HasImage && Model.CanRemoveProjectCandidateImage)
                     {
                         <a class="btn-icon" href="@Url.Action("RemoveCandidateImage", "Candidates" , new { candidateId=Model.Id })">
-                            <i class="material-icons font-size-1-1 ">delete_forever</i>
+                            <i class="material-icons font-md ">delete_forever</i>
                             <span>Remove image</span>
                         </a>
                     }
@@ -40,7 +40,7 @@
                 @if (Model.CanEditProjectCandidate)
                 {
                     <a class="btn-icon" href="@Url.Action("EditCandidate", "Candidates" , new { candidateId=Model.Id })">
-                        <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
+                        <i class="material-icons font-md" id="EditImage">mode_edit</i>
                         <span>Edit</span>
                     </a>
                 }

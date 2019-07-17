@@ -10,6 +10,7 @@ $white: #FFF;
 $light: #EEE;
 $dark-grey: #797979;
 $dark-blue: #354F73;
+
 $primary-shade: #9E9E9E;
 $secondary-shade: #BDBDBD;
 $tertiary-shade: #E0E0E0;
@@ -17,20 +18,35 @@ $quartinary-shade: #F5F5F5;
 $blue-shade: #eaf0f9;
 $dark: #343a40;
 
+$gray-100: #f8f9fa;
+
+
 $faded-dark: rgba(0, 0, 0, 0.7);
 $faded: rgba(255, 255, 255, 0.7);
+
+$shadow-color: rgba(0,0,0,0.1);
+
 
 $theme-colors: ( "primary": $blue, "secondary": $light-blue );
 $bg-colors: ("blue": $blue, "dark-blue": $dark-blue, "dark": $dark, "light-grey": $quartinary-shade );
 $text-colors: ("dark-green": $dark-green, "dark": $dark, "grey": $primary-shade, "orange":$orange,"blue": $blue, "green": $green, "white": white, "faded-dark": $faded-dark, "faded":$faded );
+$badge-colors: ("green": $dark-green, "orange": $orange);
+
+//font-sizes
+$xs: 0.875rem;
+$sm: 1rem;
+$md: 1.125rem;
+$lg: 2rem;
+$font-sizes: ("xs":$xs, "sm": $sm, "md": $md, "lg": $lg);
 
 //spacers
 $spacer: 1rem;
-$spacers: ( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 4: ($spacer * 1.5), 5: ($spacer * 3), 6: ($spacer * 4), 7: ($spacer * 5), 8: ($spacer * 6));
+$spacers: ( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 4: ($spacer * 1.5), 5: ($spacer * 3), 6: ($spacer * 4), 7: ($spacer * 5), 8: ($spacer * 6), 9: ($spacer * 7));
 
 //inputs
 $input-border-radius: 0;
 $input-btn-focus-box-shadow: none;
+$input-disabled-bg: $gray-100;
 
 //nav
 $nav-tabs-link-active-color: $blue;

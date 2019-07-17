@@ -98,9 +98,8 @@
     box-shadow: $var-shadow;
 }
 
-@mixin min-height($var-subtracted-num) {
-    min-height: calc(100vh - $var-subtracted-num);
-    min-height: -o-calc(100vh - $var-subtracted-num); /* opera */
-    min-height: -webkit-calc(100vh - $var-subtracted-num); /* google, safari */
-    min-height: -moz-calc(100vh - $var-subtracted-num); /* firefox */
+@mixin box-shadow($horizontalLength, $verticalLength, $blurRadius, $spreadRadius ) {
+    -webkit-box-shadow: $horizontalLength $verticalLength $blurRadius $spreadRadius $shadow-color;
+    -moz-box-shadow: $horizontalLength $verticalLength $blurRadius $spreadRadius $shadow-color;
+    box-shadow: $horizontalLength $verticalLength $blurRadius $spreadRadius $shadow-color;
 }

@@ -20,12 +20,12 @@
 
     .comment-details {
         @extend .text-grey;
-        @extend .font-size-0-8;
+        @extend .font-xs;
     }
 
     .comment-actions {
         @extend .text-grey;
-        @extend .font-size-0-8;
+        @extend .font-xs;
         display: block;
 
         .btn-link {
