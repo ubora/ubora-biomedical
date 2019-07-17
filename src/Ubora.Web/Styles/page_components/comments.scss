@@ -19,12 +19,12 @@
     }
 
     .comment-details {
-        @extend .color-grey;
+        @extend .text-grey;
         @extend .font-size-0-8;
     }
 
     .comment-actions {
-        @extend .color-grey;
+        @extend .text-grey;
         @extend .font-size-0-8;
         display: block;
 

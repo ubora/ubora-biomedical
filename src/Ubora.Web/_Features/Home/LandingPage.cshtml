@@ -240,7 +240,7 @@
             </div>
         </div>
 
-        <p class="color-grey">Latest needs:</p>
+        <p class="text-grey">Latest needs:</p>
 
         @(await Component.InvokeAsync<ClinicalNeedCardsViewComponent>(new { pageSize = 3, showPager = false }))
 

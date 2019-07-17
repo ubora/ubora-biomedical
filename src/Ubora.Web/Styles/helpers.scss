@@ -82,57 +82,22 @@
     color: $dark-grey;
 }
 
-.color-orange {
-    color: $orange;
-}
 
-.color-grey {
-    color: $primary-shade;
 
-    a {
-        color: $primary-shade;
+// background colors
+@each $name, $color in $bg-colors {
+
+    .bg-#{$name} {
+        background-color: $color;
     }
 }
 
-.color-grey-2 {
-    color: $secondary-shade;
-}
-
-.color-dark {
-    color: $text-color;
-}
-
-.color-dark-green {
-    color: $dark-green;
-}
-
-.color-blue {
-    color: $blue;
-}
-
-.color-white {
-    color: white;
-}
-
-.color-grey-2 {
-    color: $secondary-shade;
-}
-
-/* background colors */
-.bg-blue {
-    background-color: $blue;
-}
-
-.bg-dark-blue {
-    background-color: $dark-blue;
-}
-
-.bg-dark {
-    background-color: $dark;
-}
-
-.bg-light-grey {
-    background-color: $quartinary-shade;
+.bg-icon {
+    position: absolute;
+    z-index: -10;
+    font-size: 7rem;
+    color: #f3f3f3;
+    right: 1rem;
 }
 
 hr {
@@ -145,43 +110,17 @@ hr {
     }
 }
 
-/* text colors */
-.text-faded-dark {
-    color: rgba(0, 0, 0, 0.7);
+// text colors
+@each $name, $color in $text-colors {
+    .text-#{$name} {
+        color: $color;
+
+        a {
+            color: $color;
+        }
+    }
 }
 
-.text-faded {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-/* background colors */
-.bg-blue {
-    background-color: $blue;
-}
-
-.bg-dark {
-    background-color: $dark;
-}
-
-.bg-light-grey {
-    background-color: $quartinary-shade;
-}
-
-.bg-icon {
-    position: absolute;
-    z-index: -10;
-    font-size: 7rem;
-    color: #f3f3f3;
-    right: 1rem;
-}
-
-.color-white {
-    color: white;
-}
-
-.color-green {
-    color: $green;
-}
 
 /*hide content*/
 .hide {
@@ -189,30 +128,6 @@ hr {
 }
 
 /* Widths */
-.w-8 {
-    width: 8%;
-}
-
-.w-10 {
-    width: 10%;
-}
-
-.w-12 {
-    width: 12%;
-}
-
-.w-32 {
-    width: 32%;
-}
-
-.w-36 {
-    width: 36%;
-}
-
-.w-90 {
-    width: 90%;
-}
-
 .w-2-rem {
     width: 2rem;
 }
@@ -281,9 +196,6 @@ a.no-underline {
 
 @include media-breakpoint-down(xs) {
 
-    .d-xs-block {
-        display: block;
-    }
 
     .d-xs-none {
         display: none;
@@ -299,9 +211,6 @@ a.no-underline {
         min-height: 50rem;
     }
 }
-
-//custom breakpoint
-
 
 .comma-separator:after {
     content: ', ';
@@ -339,7 +248,7 @@ a.no-underline {
 .form-info {
     label {
         font-weight: 600;
-        display:block;
+        display: block;
         margin-bottom: 0;
     }
 }
@@ -353,29 +262,8 @@ a.no-underline {
         margin-top: .5rem;
         margin-bottom: .5rem;
     }
-
-    .d-xs-block {
-        display: block;
-        width: 100%;
-    }
 }
 
-@include media-breakpoint-up(xl) {
-    .px-xl-7 {
-        padding-left: ($spacer * 5) !important;
-        padding-right: ($spacer * 5) !important;
-    }
-
-    .pt-xl-7 {
-        padding-top: ($spacer * 5) !important;
-    }
-}
-
-@include media-breakpoint-up(lg) {
-    .pt-lg-7 {
-        padding-top: ($spacer * 5) !important;
-    }
-}
 
 
 @include media-breakpoint-up(lg) {
@@ -391,14 +279,6 @@ a.no-underline {
 .filter-group {
     max-height: 20rem;
     overflow-y: auto;
-}
-
-
-@include media-breakpoint-up(xl) {
-    .px-xl-7 {
-        padding-left: ($spacer * 5) !important;
-        padding-right: ($spacer * 5) !important;
-    }
 }
 
 @include media-breakpoint-up(xl) {

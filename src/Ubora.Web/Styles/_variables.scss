@@ -1,16 +1,54 @@
+//colors
+$blue: #4777BB;
+$orange: #EF7B52;
+$light-blue: #44AAE0;
+$green: #95CD7C;
+$dark-green: #54b32a;
+$text-color: #3D3D3D;
+$black: #000;
+$white: #FFF;
+$light: #EEE;
+$dark-grey: #797979;
+$dark-blue: #354F73;
+$primary-shade: #9E9E9E;
+$secondary-shade: #BDBDBD;
+$tertiary-shade: #E0E0E0;
+$quartinary-shade: #F5F5F5;
+$blue-shade: #eaf0f9;
+$dark: #343a40;
+
+$faded-dark: rgba(0, 0, 0, 0.7);
+$faded: rgba(255, 255, 255, 0.7);
+
+$theme-colors: ( "primary": $blue, "secondary": $light-blue );
+$bg-colors: ("blue": $blue, "dark-blue": $dark-blue, "dark": $dark, "light-grey": $quartinary-shade );
+$text-colors: ("dark-green": $dark-green, "dark": $dark, "grey": $primary-shade, "orange":$orange,"blue": $blue, "green": $green, "white": white, "faded-dark": $faded-dark, "faded":$faded );
+
+//spacers
+$spacer: 1rem;
+$spacers: ( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 4: ($spacer * 1.5), 5: ($spacer * 3), 6: ($spacer * 4), 7: ($spacer * 5), 8: ($spacer * 6));
+
+//inputs
 $input-border-radius: 0;
-$nav-tabs-link-active-color: $blue;
 $input-btn-focus-box-shadow: none;
 
+//nav
+$nav-tabs-link-active-color: $blue;
+
+//breadcrumb
 $breadcrumb-bg: transparent;
 $breadcrumb-padding-x: 0;
 
+//pagination
 $pagination-active-bg: $primary-shade;
 $pagination-active-border-color: $primary-shade;
 $pagination-focus-box-shadow: none;
 
-
+//breakpoints
 $grid-breakpoints: ( xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1350px );
 
 $custom-breakpoint-1: 1500px;
 $custom-breakpoint-2: 1350px;
+
+//widths
+$sizes: ( 8: 8%, 10: 10%, 12:12%, 25: 25%, 32:32%, 36:36%, 50: 50%, 75: 75%, 90:90%, 100: 100%, auto: auto );
