@@ -45,24 +45,34 @@ li.select2-results__option[role="treeitem"]:hover {
 .select2-container--default {
 
     .select2-selection--multiple {
-        @extend .form-control;
+        border: $input-border-width solid $input-border-color;
+        border-radius: $input-border-radius;
+        padding: 3px;
 
         .select2-selection__choice {
             background-color: $light-blue;
             border: none;
             border-radius: 0.25rem;
             color: $white;
+            margin-top: 0;
             padding-top: .25rem;
             padding-bottom: .25rem;
+            margin-bottom: .1rem;
+            margin-top: .1rem;
 
             .select2-selection__choice__remove {
                 color: $white;
             }
         }
+
+        .select2-selection__rendered {
+            @extend .align-middle;
+        }
     }
 
     &.select2-container--focus .select2-selection--multiple {
-        border-bottom: 2px solid $light-blue;
+        border: 2px solid $light-blue;
+        padding: 2px;
     }
 }
 

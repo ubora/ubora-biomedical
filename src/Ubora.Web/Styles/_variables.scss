@@ -47,6 +47,7 @@ $spacers: ( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 4: ($spacer
 $input-border-radius: 0;
 $input-btn-focus-box-shadow: none;
 $input-disabled-bg: $gray-100;
+$input-border-color: $secondary-shade;
 
 //nav
 $nav-tabs-link-active-color: $blue;
