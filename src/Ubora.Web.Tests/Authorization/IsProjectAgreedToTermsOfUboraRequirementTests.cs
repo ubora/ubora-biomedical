@@ -13,11 +13,11 @@ using Xunit;
 
 namespace Ubora.Web.Tests.Authorization
 {
-    public class IsAgreedToTermsOfUboraRequirementHandlerTests
+    public class IsProjectAgreedToTermsOfUboraRequirementTests
     {
         private readonly HandlerUnderTest _handlerUnderTest;
 
-        public IsAgreedToTermsOfUboraRequirementHandlerTests()
+        public IsProjectAgreedToTermsOfUboraRequirementTests()
         {
             _handlerUnderTest = new HandlerUnderTest();
         }
@@ -35,7 +35,7 @@ namespace Ubora.Web.Tests.Authorization
                 user = FakeClaimsPrincipalFactory.CreateAnonymousUser();
 
             var handlerContext = new AuthorizationHandlerContext(
-                requirements: new[] { new IsAgreedToTermsOfUboraRequirement() },
+                requirements: new[] { new IsProjectAgreedToTermsOfUboraRequirement() },
                 user: user,
                 resource: null);
 
@@ -57,7 +57,7 @@ namespace Ubora.Web.Tests.Authorization
             var user = FakeClaimsPrincipalFactory.CreateAuthenticatedUser(userId: Guid.NewGuid());
 
             var handlerContext = new AuthorizationHandlerContext(
-                requirements: new[] { new IsAgreedToTermsOfUboraRequirement() },
+                requirements: new[] { new IsProjectAgreedToTermsOfUboraRequirement() },
                 user: user,
                 resource: null);
 
@@ -72,7 +72,7 @@ namespace Ubora.Web.Tests.Authorization
                 .Should().BeFalse();
         }
 
-        private class HandlerUnderTest : IsAgreedToTermsOfUboraRequirement.Handler
+        private class HandlerUnderTest : IsProjectAgreedToTermsOfUboraRequirement.Handler
         {
             private Project _project = Mock.Of<Project>();
             private IQueryProcessor _queryProcessor = Mock.Of<IQueryProcessor>();

@@ -8,7 +8,10 @@
 }
 
 @section Left {
-    @Html.Partial("AddFilePartial", Model.AddFileViewModel)
+    @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanWorkOnProjectContent))
+    {
+        @Html.Partial("AddFilePartial", Model.AddFileViewModel)
+    }
 }
 
 @foreach (var files in Model.AllFiles)

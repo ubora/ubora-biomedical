@@ -8,16 +8,16 @@ namespace Ubora.Web.Authorization.Requirements
     /// <summary>
     /// Specifies whether the project has agreed with terms of UBORA in WP5.
     /// </summary>
-    public class IsAgreedToTermsOfUboraRequirement : IAuthorizationRequirement
+    public class IsProjectAgreedToTermsOfUboraRequirement : IAuthorizationRequirement
     {
-        public class Handler : ProjectAuthorizationHandler<IsAgreedToTermsOfUboraRequirement>
+        public class Handler : ProjectAuthorizationHandler<IsProjectAgreedToTermsOfUboraRequirement>
         {
             public Handler(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
             {
                 AllowUnauthenticated = true;
             }
 
-            protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsAgreedToTermsOfUboraRequirement requirement, object resource = null)
+            protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsProjectAgreedToTermsOfUboraRequirement requirement, object resource = null)
             {
                 if (Project.IsAgreedToTermsOfUbora)
                 {
