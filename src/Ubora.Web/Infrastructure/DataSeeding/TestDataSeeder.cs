@@ -1,5 +1,4 @@
-﻿using System;
-using Marten;
+﻿using Marten;
 using System.Linq;
 using System.Threading.Tasks;
 using Marten.Linq.SoftDeletes;
@@ -13,16 +12,19 @@ namespace Ubora.Web.Infrastructure.DataSeeding
         private readonly TestUserSeeder _userSeeder;
         private readonly TestProjectSeeder _projectSeeder;
         private readonly TestMentorSeeder _mentorSeeder;
+        private readonly TestClinicalNeedSeeder _clinicalNeedSeeder;
 
         public TestDataSeeder(IDocumentSession documentSession, 
             TestUserSeeder userSeeder, 
             TestProjectSeeder projectSeeder,
-            TestMentorSeeder mentorSeeder)
+            TestMentorSeeder mentorSeeder,
+            TestClinicalNeedSeeder clinicalNeedSeeder)
         {
             _documentSession = documentSession;
             _userSeeder = userSeeder;
             _projectSeeder = projectSeeder;
             _mentorSeeder = mentorSeeder;
+            _clinicalNeedSeeder = clinicalNeedSeeder;
         }
 
         internal async Task SeedIfNecessary()
@@ -35,6 +37,11 @@ namespace Ubora.Web.Infrastructure.DataSeeding
 
             var user = await _userSeeder.SeedUser();
             _projectSeeder.SeedProject(user);
+
+            for (int i = 0; i < 22; i++)
+            {
+                _clinicalNeedSeeder.SeedClinicalNeed(user);
+            }
 
             await _mentorSeeder.SeedMentor();
         }

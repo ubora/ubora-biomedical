@@ -1,65 +1,76 @@
-﻿@model Ubora.Web._Features.Admin.AdminController.ManageUsersViewModel
+﻿@model Ubora.Web._Features.Admin.ManageUsersViewModel
 
 @{
     ViewData[nameof(PageTitle)] = "Manage users";
 }
 
 <div class="container h-min-45 my-5">
-    <h1>@ViewData[nameof(PageTitle)]</h1>
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    @foreach (var user in Model.Items)
-    {
-        <div class="row mx-0 py-2 border-bottom">
-            <div class="col-lg-3">
-                <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@user.UserId">@user.FullName</a>
-            </div>
-            <div class="col-lg-4 mt-lg-0 mt-sm-2 mt-xs-2">
-                <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@user.UserId">@user.UserEmail</a>
-            </div>
-            <div class="col-lg-3 mt-lg-0 mt-sm-2 mt-xs-2">
-                @user.RolesJoined
-            </div>
-            <div class="col-lg-2">
-                <form onsubmit="return confirm('Are you sure?')" method="post">
-                    <input type="hidden" name="userId" value="@user.UserId" />
-                    <input type="hidden" name="page" value="@Model.Pager.PageNumber" />
-                    <div class="dropdown">
-                        <button class="dropdown-toggle btn btn-primary btn-sm mt-lg-0 mt-sm-2 mt-xs-2" type="button" id="manageuserDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Manage user
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="manageuserDropdown">
-                            @if (user.IsAdmin)
-                            {
-                                <button class="dropdown-item" type="submit" asp-action="RemoveAdministratorRole">Remove administrator role</button>
-                            }
-                            else
-                            {
-                                <button class="dropdown-item" type="submit" asp-action="AddAdministratorRole">Add administrator role</button>
-                            }
-                            @if (user.IsMentor)
-                            {
-                                <button class="dropdown-item" type="submit" asp-action="RemoveMentorRole">Remove mentor role</button>
-                            }
-                            else
-                            {
-                                <button class="dropdown-item" type="submit" asp-action="AddMentorRole">Add mentor role</button>
-                            }
-                            @if (user.IsManagementGroup)
-                            {
-                                <button class="dropdown-item" type="submit" asp-action="RemoveManagementGroupRole">Remove management group role</button>
-                            }
-                            else
-                            {
-                                <button class="dropdown-item" type="submit" asp-action="AddManagementGroupRole">Add management group role</button>
-                            }
-                            <button class="dropdown-item" type="submit" asp-route-userEmail="@user.UserEmail" asp-action="DeleteUser">Delete user</button>
-                        </div>
-                    </div>
-                </form>
+    <div class="row">
+        <div class="col-lg col-12">
+            <h1>@ViewData[nameof(PageTitle)]</h1>
+        </div>
+        <div class="col-xl-4 col-lg-6 col">
+            <div class="form-group search">
+                <input class="form-control" asp-for="SearchName" placeholder="Search users..." aria-describedby="btnGroupAddon" />
             </div>
         </div>
-    }
-</div>
+    </div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div id="usersTab">
+        @foreach (var user in Model.Items)
+        {
+            <div class="row mx-0 py-2 border-bottom">
+                <div class="col-lg-3">
+                    <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@user.UserId">@user.FullName</a>
+                </div>
+                <div class="col-lg-4 mt-lg-0 mt-sm-2 mt-xs-2">
+                    <a asp-controller="Profile" asp-action="ViewProfile" asp-route-userId="@user.UserId">@user.UserEmail</a>
+                </div>
+                <div class="col-lg-3 mt-lg-0 mt-sm-2 mt-xs-2">
+                    @user.RolesJoined
+                </div>
+                <div class="col-lg-2">
+                    <form onsubmit="return confirm('Are you sure?')" method="post">
+                        <input type="hidden" name="userId" value="@user.UserId" />
+                        <input type="hidden" name="page" value="@Model.Pager.PageNumber" />
+                        <div class="dropdown">
+                            <button class="dropdown-toggle btn btn-primary btn-sm mt-lg-0 mt-sm-2 mt-xs-2" type="button" id="manageuserDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Manage user
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="manageuserDropdown">
+                                @if (user.IsAdmin)
+                                {
+                                    <button class="dropdown-item" type="submit" asp-action="RemoveAdministratorRole">Remove administrator role</button>
+                                }
+                                else
+                                {
+                                    <button class="dropdown-item" type="submit" asp-action="AddAdministratorRole">Add administrator role</button>
+                                }
+                                @if (user.IsMentor)
+                                {
+                                    <button class="dropdown-item" type="submit" asp-action="RemoveMentorRole">Remove mentor role</button>
+                                }
+                                else
+                                {
+                                    <button class="dropdown-item" type="submit" asp-action="AddMentorRole">Add mentor role</button>
+                                }
+                                @if (user.IsManagementGroup)
+                                {
+                                    <button class="dropdown-item" type="submit" asp-action="RemoveManagementGroupRole">Remove management group role</button>
+                                }
+                                else
+                                {
+                                    <button class="dropdown-item" type="submit" asp-action="AddManagementGroupRole">Add management group role</button>
+                                }
+                                <button class="dropdown-item" type="submit" asp-route-userEmail="@user.UserEmail" asp-action="DeleteUser">Delete user</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+    </div>
 <div class="container">
     <div class="row mt-4">
         <div class="col d-flex justify-content-center">
@@ -67,3 +78,34 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+
+    <script>
+
+    function filterUsers() {
+           $.ajax('@Url.Action("ManageUsers", "Admin")',
+                {
+                    method: 'get',
+                    data:  { searchName: $('#SearchName')[0].value },
+                    success: function (response) {
+                        history.replaceState({},
+                            '',
+                            this.url); // https://developer.mozilla.org/en-US/docs/Web/API/History_API
+                        var responseHtml = $(response).find('#usersTab').html();
+                        $('#usersTab').html(responseHtml);
+                        var responsePaging = $(response).find('.pagination').html();
+                        $('.pagination').html(responsePaging);
+                    }
+                });
+        }
+
+        $('#SearchName').on('input', $.debounce(250,
+            function () {
+                filterUsers();
+            }));
+
+    </script>
+}
