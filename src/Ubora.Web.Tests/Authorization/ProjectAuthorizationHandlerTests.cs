@@ -121,6 +121,46 @@ namespace Ubora.Web.Tests.Authorization
                 .Should().BeTrue();
         }
 
+        [Fact]
+        public async Task Allows_unauthenticated_when_marked_as_such()
+        {
+            var projectId = Guid.NewGuid();
+            var routeData = new RouteData();
+            var routingFeature = new RoutingFeature { RouteData = routeData };
+            routeData.Values.Add("projectId", projectId.ToString());
+
+            var httpContextMock = new Mock<HttpContext>();
+            httpContextMock
+                .Setup(x => x.Features[typeof(IRoutingFeature)])
+                .Returns(routingFeature);
+
+            var queryProcessorMock = new Mock<IQueryProcessor>();
+            queryProcessorMock
+                .Setup(x => x.FindById<Project>(projectId))
+                .Returns(Mock.Of<Project>());
+
+            httpContextMock
+                .Setup(x => x.RequestServices.GetService(typeof(IQueryProcessor)))
+                .Returns(queryProcessorMock.Object);
+
+            var httpContextAccessor = Mock.Of<IHttpContextAccessor>(x => x.HttpContext == httpContextMock.Object);
+            var handlerUnderTest = new HandlerUnderTest(httpContextAccessor);
+
+            var handlerContext = new AuthorizationHandlerContext(
+                requirements: new[] { new TestRequirement() },
+                user: FakeClaimsPrincipalFactory.CreateAnonymousUser(),
+                resource: null);
+
+            handlerUnderTest.SetAllowUnauthenticated(true);
+
+            // Act
+            await handlerUnderTest.HandleAsync(handlerContext);
+
+            // Assert
+            handlerUnderTest.WasHandleRequirementCalled
+                .Should().BeTrue();
+        }
+
         private class HandlerUnderTest : ProjectAuthorizationHandler<TestRequirement>
         {
             public HandlerUnderTest(IHttpContextAccessor httpContextAccessor)
@@ -130,11 +170,16 @@ namespace Ubora.Web.Tests.Authorization
 
             public bool WasHandleRequirementCalled { get; private set; }
 
-            protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, TestRequirement requirement)
+            protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, TestRequirement requirement, object resource = null)
             {
                 WasHandleRequirementCalled = true;
 
                 return Task.CompletedTask;
+            }
+
+            public void SetAllowUnauthenticated(bool value)
+            {
+                AllowUnauthenticated = value;
             }
         }
 
