@@ -93,3 +93,12 @@ a.btn-icon:hover {
     @extend .my-2;
     @extend .w-100;
 }
+
+
+.btn-remove-standard {
+    @extend .btn-sm;
+    display: flex;
+    align-self:flex-start;
+    align-items:center;
+    margin-left: .5rem;
+}
