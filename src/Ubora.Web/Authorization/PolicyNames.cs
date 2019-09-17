@@ -38,5 +38,4 @@
     public const string CanEditClinicalNeedComment = nameof(CanEditClinicalNeedComment);
     public const string CanEditClinicalNeed = nameof(CanEditClinicalNeed);
     public const string CanChangeAgreementToTermsOfUbora = nameof(CanChangeAgreementToTermsOfUbora);
-    public const string CanDownloadFile = nameof(CanDownloadFile);
 }

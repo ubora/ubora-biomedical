@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 
 namespace Ubora.Web.Authorization.Requirements
 {
+    // Be careful that IP-s are spoofale, so definitely don't use this for any POST actions.
     public class PandocServiceIpRequirement : IAuthorizationRequirement
     {
         public class Handler : AuthorizationHandler<PandocServiceIpRequirement>

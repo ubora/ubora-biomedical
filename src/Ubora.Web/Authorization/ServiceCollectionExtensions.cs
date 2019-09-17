@@ -58,8 +58,10 @@ namespace Ubora.Web.Authorization
                         new OrRequirement(
                             new IsProjectMemberRequirement(),
                             new RolesAuthorizationRequirement(new string[] { ApplicationRole.Admin }),
-                            new IsProjectAgreedToTermsOfUboraRequirement()));
+                            new IsProjectAgreedToTermsOfUboraRequirement(),
+                            new PandocServiceIpRequirement()));
                 });
+
                 options.AddPolicy(Policies.CanWorkOnProjectContent, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectMemberRequirement());
@@ -183,10 +185,6 @@ namespace Ubora.Web.Authorization
                 options.AddPolicy(Policies.CanRemoveIsoStandardFromComplianceChecklist, policyBuilder =>
                 {
                     policyBuilder.AddRequirements(new IsProjectLeaderRequirement());
-                });
-                options.AddPolicy(Policies.CanDownloadFile, policyBuilder =>
-                {
-                    policyBuilder.AddRequirements(new OrRequirement(new IsProjectMemberRequirement(), new PandocServiceIpRequirement()));
                 });
                 options.AddPolicy(Policies.CanChangeAgreementToTermsOfUbora, policyBuilder =>
                 {

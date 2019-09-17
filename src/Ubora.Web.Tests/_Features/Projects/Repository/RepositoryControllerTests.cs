@@ -64,12 +64,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                     {
                         MethodName = nameof(RepositoryController.HideFile),
                         Policies = new []{ Policies.CanHideProjectFile }
-                    },
-                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                    {
-                        MethodName = nameof(RepositoryController.DownloadFile),
-                        Policies = new []{ Policies.CanDownloadFile }
-                    },
+                    }
                 };
 
             AssertHasAuthorizeAttributes(typeof(RepositoryController), methodPolicies);

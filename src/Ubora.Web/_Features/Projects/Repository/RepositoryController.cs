@@ -166,7 +166,6 @@ namespace Ubora.Web._Features.Projects.Repository
             return View(nameof(FileHistory), model);
         }
 
-        [Authorize(Policy = nameof(Policies.CanDownloadFile))]
         [Route("DownloadFile")]
         public IActionResult DownloadFile(Guid fileId)
         {
