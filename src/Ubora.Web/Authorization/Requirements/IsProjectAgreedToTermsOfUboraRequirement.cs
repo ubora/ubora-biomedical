@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Ubora.Domain.Projects._Specifications;
 
 namespace Ubora.Web.Authorization.Requirements
 {
@@ -19,7 +20,7 @@ namespace Ubora.Web.Authorization.Requirements
 
             protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsProjectAgreedToTermsOfUboraRequirement requirement, object resource = null)
             {
-                if (Project.IsAgreedToTermsOfUbora)
+                if (Project.DoesSatisfy(new IsAgreedToTermsOfUboraSpec()))
                 {
                     context.Succeed(requirement);
                 }
