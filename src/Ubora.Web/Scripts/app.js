@@ -2,10 +2,14 @@
 import MarkdownEditor from './modules/markdown_editor';
 import Autocomplete from './modules/autocomplete';
 import Feedback from './modules/feedback';
-
+import objectFitImages from 'object-fit-images';
 import '../Styles/styles';
 
 $(function () {
+
+    //IE polyfill for image object-fit cover property
+    objectFitImages();
+
     // Bootstrap tooltips/popovers
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="popover"]').popover();

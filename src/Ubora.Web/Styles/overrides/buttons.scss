@@ -2,42 +2,41 @@
     min-width: 8rem;
 }
 
+@include media-breakpoint-down(md) {
+    .btn:not(.btn-icon) {
+        min-width: 6rem;
+    }
+}
+
 .modal-dialog {
     .btn:not(.btn-icon) {
         min-width: 5rem;
     }
 }
 
-.btn-primary,
-.btn-outline-primary {
-    font-family: inherit;
+.btn-primary {
 
     &:focus,
     &:hover,
     &:not(:disabled):not(.disabled).active,
     &:not(:disabled):not(.disabled):active:focus {
-        background-color: $light-blue;
-        border-color: $light-blue;
-        color: $white;
-        box-shadow: none;
+        @include button-style($light-blue, $light-blue, $white, none);
     }
 }
 
+.btn-outline-primary {
 
-.btn,
-.btn-icon {
+    &:focus,
+    &:hover,
+    &:not(:disabled):not(.disabled).active,
+    &:not(:disabled):not(.disabled):active:focus {
+        @include button-style(transparent, $light-blue, $light-blue, none);
 
-    .material-icons, 
-    span {
-        @extend .align-middle;
     }
 }
-
 
 .btn-disabled[disabled] {
-    background-color: $primary-shade;
-    border-color: $primary-shade;
-    color: $white;
+    @include button-style($primary-shade, $primary-shade, $white, none);
     font-family: inherit;
 
     &:focus,
@@ -49,11 +48,22 @@
     }
 }
 
-.btn[disabled]:focus,
-.btn[disabled]:hover {
-    cursor: not-allowed;
+.btn,
+.btn-icon {
+
+    .material-icons,
+    span {
+        @extend .align-middle;
+    }
 }
 
+.btn[disabled] {
+
+    &:focus,
+    &:hover {
+        cursor: not-allowed;
+    }
+}
 
 .btn-cta {
     background-color: $orange;
@@ -76,23 +86,19 @@ a.btn-icon:hover {
     text-decoration: none;
 }
 
-.modal-footer {
-    button {
-        min-width: 4.5rem;
-    }
-}
-
-@include media-breakpoint-down(md) {
-    .btn:not(.btn-icon) {
-        min-width: 6rem;
-    }
-}
-
-
 .btn-action {
     @extend .d-flex;
     @extend .align-items-center;
     @extend .justify-content-center;
     @extend .my-2;
     @extend .w-100;
+}
+
+
+.btn-remove-standard {
+    @extend .btn-sm;
+    display: flex;
+    align-self:flex-start;
+    align-items:center;
+    margin-left: .5rem;
 }

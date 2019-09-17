@@ -83,3 +83,23 @@
         left: 0;
     }
 }
+
+
+@mixin media-breakpoint-between-custom($var-max, $var-min) {
+    @media (max-width: $var-max) and (min-width: $var-min) {
+        @content;
+    }
+}
+
+@mixin button-style ($vag-bg-color, $var-br-color, $var-text-color, $var-shadow) {
+    background-color: $vag-bg-color;
+    border-color: $var-br-color;
+    color: $var-text-color;
+    box-shadow: $var-shadow;
+}
+
+@mixin box-shadow($horizontalLength, $verticalLength, $blurRadius, $spreadRadius ) {
+    -webkit-box-shadow: $horizontalLength $verticalLength $blurRadius $spreadRadius $shadow-color;
+    -moz-box-shadow: $horizontalLength $verticalLength $blurRadius $spreadRadius $shadow-color;
+    box-shadow: $horizontalLength $verticalLength $blurRadius $spreadRadius $shadow-color;
+}
