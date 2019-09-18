@@ -25,7 +25,6 @@
     public const string CanOpenWorkpackageThree = nameof(CanOpenWorkpackageThree);
     public const string CanRemoveCandidate = nameof(CanRemoveCandidate);
     public const string CanRequestMentoring = nameof(CanRequestMentoring);
-    public const string CanEditAssignment = nameof(CanEditAssignment);
     public const string CanInviteMentors = nameof(CanInviteMentors);
     public const string CanAddFileRepository = nameof(CanAddFileRepository);
     public const string CanUpdateFileRepository = nameof(CanUpdateFileRepository);

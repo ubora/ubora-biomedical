@@ -34,9 +34,6 @@
         {
             <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Workpackages)" asp-controller="WorkpackageOne" asp-action="ProjectOverview">@Model.MenuOptionNames[ProjectMenuOption.Workpackages]</a>
             <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Repository)" asp-controller="Repository" asp-action="Repository">@Model.MenuOptionNames[ProjectMenuOption.Repository]</a>
-        }
-        @if (canWorkOnProjectContent)
-        {
             <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Assignments)" asp-controller="Assignments" asp-action="Assignments">@Model.MenuOptionNames[ProjectMenuOption.Assignments]</a>
         }
         <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Members)" asp-controller="Members" asp-action="Members">@Model.MenuOptionNames[ProjectMenuOption.Members]</a>
@@ -62,10 +59,7 @@
             {
                 <a class="dropdown-item nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Workpackages)" asp-controller="WorkpackageOne" asp-action="ProjectOverview">@Model.MenuOptionNames[ProjectMenuOption.Workpackages]</a>
                 <a class="dropdown-item nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Repository)" asp-controller="Repository" asp-action="Repository">@Model.MenuOptionNames[ProjectMenuOption.Repository]</a>
-            }
-            @if (canWorkOnProjectContent)
-            {
-                <a class="nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Assignments)" asp-controller="Assignments" asp-action="Assignments">@Model.MenuOptionNames[ProjectMenuOption.Assignments]</a>
+                <a class="dropdown-item nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Assignments)" asp-controller="Assignments" asp-action="Assignments">@Model.MenuOptionNames[ProjectMenuOption.Assignments]</a>
             }
             <a class="dropdown-item nav-item nav-link @GetActivityCssClass(ProjectMenuOption.Members)" asp-controller="Members" asp-action="Members">@Model.MenuOptionNames[ProjectMenuOption.Members]</a>
             @if (canViewProjectNonPublicContent)

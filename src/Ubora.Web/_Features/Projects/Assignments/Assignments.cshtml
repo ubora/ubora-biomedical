@@ -1,5 +1,4 @@
 ﻿@using Ubora.Web.Data
-@using Ubora.Web._Features.Projects._Shared
 @model Ubora.Web._Features.Projects.Assignments.AssignmentListViewModel
 
 @inject UserManager<ApplicationUser> UserManager
@@ -13,22 +12,43 @@
     <div class="col-sm-8 col-12">
         <h1>@ViewData[nameof(PageTitle)]</h1>
     </div>
-    <div class="col-sm-4 col-12 header-actions">
-        <a class="btn" asp-controller="Assignments" asp-action="Add" asp-route-projectId="@Model.ProjectId">
-            <i class="material-icons">add</i>
-            <span>Add assignment</span>
-        </a>
-    </div>
+    @if (Model.CanWorkOnAssignments)
+    {
+        <div class="col-sm-4 col-12 header-actions">
+            <a class="btn" asp-controller="Assignments" asp-action="Add" asp-route-projectId="@Model.ProjectId">
+                <i class="material-icons">add</i>
+                <span>Add assignment</span>
+            </a>
+        </div>
+    }
 </div>
 <div class="row my-4">
     <div class="col">
         <ol>
-            @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditAssignment))
+            @if (Model.CanWorkOnAssignments)
             {
                 @foreach (var assignment in Model.Assignments)
                 {
                     <li>
-                        <a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a>
+                        <div class="custom-control custom-checkbox">
+                            <form asp-action="ToggleAssignmentStatus" asp-controller="Assignments" method="post">
+
+                                <input type="hidden" value="@assignment.Id" name="@nameof(assignment.Id)" />
+                                @if (assignment.IsDone)
+                                {
+                                    <input id="@assignment.Id" type="checkbox" class="js-assignment-checkbox custom-control-input" checked />
+                                }
+                                else
+                                {
+                                    <input id="@assignment.Id" type="checkbox" class="js-assignment-checkbox custom-control-input" />
+                                }
+                                <label class="custom-control-label" for="@assignment.Id">
+                                    <span class="custom-control-indicator"></span>
+                                </label>
+                                <span class="custom-control-description @(assignment.IsDone ? "assignment-done" : "")"><a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a></span>
+
+                            </form>
+                        </div>
                     </li>
                 }
             }
@@ -36,20 +56,36 @@
             {
                 @foreach (var assignment in Model.Assignments)
                 {
-                    @if (assignment.CreatedByUserId == UserManager.GetUserAsync(User).Result.Id)
-                    {
-                        <li>
-                            <a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li>
-                            <a asp-controller="Assignments" asp-action="View" asp-route-id="@assignment.Id">@assignment.Title</a>
-                        </li>
-                    }
+                    <li>
+                        <div class="custom-control custom-checkbox">
+
+                            @if (assignment.IsDone)
+                            {
+                                <input type="checkbox" class="custom-control-input" checked disabled />
+                            }
+                            else
+                            {
+                                <input type="checkbox" class="custom-control-input" disabled />
+                            }
+                            <label class="custom-control-label" for="@assignment.Id">
+                                <span class="custom-control-indicator"></span>
+                            </label>
+                            <span class="custom-control-description @(assignment.IsDone ? "assignment-done" : "")"><a asp-controller="Assignments" asp-action="View" asp-route-id="@assignment.Id">@assignment.Title</a></span>
+
+                        </div>
+                    </li>
                 }
             }
         </ol>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(".js-assignment-checkbox").click(function (event) {
+            var $target = $(event.target);
+            var $form = $target.closest('form');
+            $form.submit()
+        });
+    </script>
+}

@@ -10,12 +10,14 @@ using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Infrastructure.Queries;
-using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 using Ubora.Domain.Users.Queries;
 
 namespace Ubora.Domain.Tests
 {
+    /// <summary>
+    /// Use this for testing with database and domain IoC service registrations.
+    /// </summary>
     public abstract class IntegrationFixture : DocumentSessionIntegrationFixture
     {
         private IContainer _innerContainer;
