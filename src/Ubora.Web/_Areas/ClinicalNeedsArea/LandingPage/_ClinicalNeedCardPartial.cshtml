@@ -6,13 +6,13 @@
             <div class="row">
                 <div class="col-12">
                     <h3 class="font-weight-light mb-1">
-                        <a class="color-dark" asp-area="@Areas.ClinicalNeedsArea" asp-route-clinicalNeedId="@Model.Id" asp-action="@nameof(OverviewController.Overview)" asp-controller="@nameof(OverviewController).RemoveSuffix()">
+                        <a class="text-dark" asp-area="@Areas.ClinicalNeedsArea" asp-route-clinicalNeedId="@Model.Id" asp-action="@nameof(OverviewController.Overview)" asp-controller="@nameof(OverviewController).RemoveSuffix()">
                             @Model.Title
                         </a>
                     </h3>
                 </div>
                 <div class="col-12 pb-3">
-                    <span class="color-grey font-size-0-8">
+                    <span class="text-grey font-xs">
                         by
                         <a asp-route-userId="@Model.IndicatorUserId" asp-action="@nameof(ProfileController.ViewProfile)" asp-controller="@nameof(ProfileController).RemoveSuffix()" asp-area="">
                             @Model.IndicatorFullName
@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            <div class="row font-size-0-8">
+            <div class="row font-xs">
                 <div class="col-lg-3">
                     @if (!string.IsNullOrWhiteSpace(Model.ClinicalNeedTag))
                     {
@@ -61,8 +61,8 @@
                 </div>
             </div>
 
-            <div class="row font-size-0-8">
-                <div class="col color-grey">
+            <div class="row font-xs">
+                <div class="col text-grey">
                     <a asp-route-clinicalNeedId="@Model.Id" asp-area="@Areas.ClinicalNeedsArea" asp-action="@nameof(CommentsController.Comments)" asp-controller="@nameof(CommentsController.Comments).RemoveSuffix()">
                         <span class="d-xs-block">
                             @Model.NumberOfComments comments

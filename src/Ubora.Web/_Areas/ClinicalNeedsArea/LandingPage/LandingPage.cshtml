@@ -30,4 +30,4 @@
     </div>
 </div>
 
-@(await Component.InvokeAsync<ClinicalNeedCardsViewComponent>(new { pageSize = 10 }))
+@(await Component.InvokeAsync<ClinicalNeedCardsViewComponent>(new { pageNumber = Model.PageNumber, pageSize = 10 }))

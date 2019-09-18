@@ -9,11 +9,11 @@
 }
 
 <div class="row">
-    <div class="col-lg-9">
+    <div class="col-sm-8 col-12">
         <h1>@ViewData[nameof(PageTitle)]</h1>
     </div>
-    <div class="col-lg-3 d-flex justify-content-end">
-        <a class="btn btn-outline-primary align-self-start" asp-controller="Assignments" asp-action="Add" asp-route-projectId="@Model.ProjectId">
+    <div class="col-sm-4 col-12 header-actions">
+        <a class="btn" asp-controller="Assignments" asp-action="Add" asp-route-projectId="@Model.ProjectId">
             <i class="material-icons">add</i>
             <span>Add assignment</span>
         </a>

@@ -6,6 +6,15 @@ namespace Ubora.Web.Data
 {
     public class ApplicationUser : IdentityUser<Guid>
     {
+        public ApplicationUser()
+        {
+
+        }
+        public ApplicationUser(Guid id)
+        {
+            Id = id;
+        }
+
         public static readonly string ProfilePictureUrlClaimType = "Ubora.UserProfile.ProfilePictureUrl";
         public static readonly string FullNameClaimType = "Ubora.UserProfile.FullName";
         public static readonly string FirstNameClaimType = "Ubora.UserProfile.FirstName";

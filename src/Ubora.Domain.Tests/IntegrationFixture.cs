@@ -10,6 +10,7 @@ using TwentyTwenty.Storage;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Marten;
 using Ubora.Domain.Infrastructure.Queries;
+using Ubora.Domain.Projects;
 using Ubora.Domain.Users;
 using Ubora.Domain.Users.Queries;
 

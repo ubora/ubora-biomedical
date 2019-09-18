@@ -17,6 +17,7 @@ using Ubora.Domain.Users;
 using Ubora.Domain.Users.SortSpecifications;
 using Ubora.Domain.Infrastructure.Specifications;
 using System.Linq;
+using Marten.Pagination;
 
 namespace Ubora.Web.Tests._Features.Admin
 {
@@ -29,13 +30,17 @@ namespace Ubora.Web.Tests._Features.Admin
         public AdminControllerTests()
         {
             _userManagerMock = new Mock<IApplicationUserManager>();
-            _controllerMock = new Mock<AdminController>(_userManagerMock.Object)
+            var manageUsersViewModelFactoryMock = new Mock<ManageUsersViewModel.Factory>();
+            _controllerMock = new Mock<AdminController>(_userManagerMock.Object, manageUsersViewModelFactoryMock.Object)
             {
                 CallBase = true
             };
             _controller = _controllerMock.Object;
 
             SetUpForTest(_controller);
+
+            manageUsersViewModelFactoryMock.SetReturnsDefault<ManageUsersViewModel>(new ManageUsersViewModel());
+            QueryProcessorMock.SetReturnsDefault<IPagedList<UserProfile>>(new PagedListStub<UserProfile>());
         }
 
         [Fact]
@@ -51,7 +56,7 @@ namespace Ubora.Web.Tests._Features.Admin
             // Act
             var result = (RedirectToActionResult)await _controller.AddManagementGroupRole(userId, page);
 
-            //Assert
+            // Assert
             result.ActionName.Should().Be("ManageUsers");
             result.RouteValues.Last().Value.Should().Be(page);
         }
@@ -68,7 +73,7 @@ namespace Ubora.Web.Tests._Features.Admin
 
             var expectedResult = new ViewResult();
             _controllerMock
-                .Setup(c => c.ManageUsers(It.IsAny<int>()))
+                .Setup(c => c.ManageUsers(It.IsAny<int>(), It.IsAny<string>()))
                 .ReturnsAsync(expectedResult);
 
             // Act
@@ -108,7 +113,7 @@ namespace Ubora.Web.Tests._Features.Admin
 
             var expectedResult = new ViewResult();
             _controllerMock
-                .Setup(c => c.ManageUsers(It.IsAny<int>()))
+                .Setup(c => c.ManageUsers(It.IsAny<int>(), It.IsAny<string>()))
                 .ReturnsAsync(expectedResult);
 
             // Act
