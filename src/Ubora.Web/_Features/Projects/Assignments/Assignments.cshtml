@@ -42,12 +42,12 @@
                                 {
                                     <input id="@assignment.Id" type="checkbox" class="js-assignment-checkbox custom-control-input" />
                                 }
-                                <label class="d-block custom-control-label" for="@assignment.Id">
+                                <label class="custom-control-label" for="@assignment.Id">
                                     <span class="custom-control-indicator"></span>
                                 </label>
+                                <span class="custom-control-description @(assignment.IsDone ? "assignment-done" : "")"><a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a></span>
 
                             </form>
-                            <span class="custom-control-description @(assignment.IsDone ? "assignment-done" : "")"><a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a></span>
                         </div>
                     </li>
                 }
@@ -67,7 +67,7 @@
                             {
                                 <input type="checkbox" class="custom-control-input" disabled />
                             }
-                            <label class="d-block custom-control-label" for="@assignment.Id">
+                            <label class="custom-control-label" for="@assignment.Id">
                                 <span class="custom-control-indicator"></span>
                             </label>
                             <span class="custom-control-description @(assignment.IsDone ? "assignment-done" : "")"><a asp-controller="Assignments" asp-action="View" asp-route-id="@assignment.Id">@assignment.Title</a></span>
