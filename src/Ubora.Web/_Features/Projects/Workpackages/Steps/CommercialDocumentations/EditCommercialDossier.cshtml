@@ -30,7 +30,7 @@
                     <label  asp-for="Logo">Logo</label>
                     <input type="hidden" asp-for="HasOldLogoBeenDeleted" :value="isLogoRemoved"/>
                     <template v-if="isLogoPresent">
-                        <img class="d-block w-max-15-rem" :src="logoUrl">
+                        <img class="d-block w-15-rem" :src="logoUrl">
                         <button type="button" class="btn btn-sm btn-link p-0" v-on:click="isLogoRemoved = true;">Remove logo</button>
                     </template>
                     <input class="form-control" v-if="!isLogoPresent" asp-for="Logo" />

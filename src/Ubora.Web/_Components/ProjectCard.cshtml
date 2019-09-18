@@ -10,8 +10,8 @@
     <a href="@(projectHref)" class="card-link">
         <img class="card-img-top" src="@(projectImageSrc)" alt="Image for project called @Model.ProjectTitle">
         <h6 class="card-title">@Model.ProjectTitle</h6>
-        <div class="card-body color-dark">
-            <dl class="font-size-0-8">
+        <div class="card-body text-dark">
+            <dl class="font-xs">
                 <dt>Clinical need</dt>
                 <dd class="mb-1">@Model.ClinicalNeedTags</dd>
                 <dt>Area</dt>
@@ -21,7 +21,7 @@
             </dl>
             @if (!Model.IsDraftProject)
             {
-                <span class="badge badge-pill badge-green font-size-0-8 align-middle py-1 px-2">Approved by mentor</span>
+                <span class="badge badge-pill badge-green font-xs align-middle py-1 px-2">Approved by mentor</span>
             }
             @if (Model.IsAgreedToTermsOfUbora)
             {

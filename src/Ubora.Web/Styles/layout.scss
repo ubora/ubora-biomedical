@@ -1,0 +1,126 @@
+﻿
+
+body {
+    color: $text-color;
+    font: normal 16px/1.5em;
+    font-display: swap;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex-grow: 1;
+    min-height: 70vh;
+}
+
+.modal-open {
+    padding-right: 0px !important;
+}
+
+//device projects layout
+.side-filter {
+    display: flex;
+    flex-direction: column;
+    @extend .py-lg-5;
+    @extend .py-3;
+    @extend .border-right;
+    @include make-col-ready();
+
+    @include media-breakpoint-up(lg) {
+        @include make-col(3);
+    }
+
+    @include media-breakpoint-up(xl) {
+        @include make-col(2);
+    }
+
+    @include media-breakpoint-up(lg) {
+        min-height: 70vh;
+    }
+}
+
+.content-device-project {
+    @extend .px-xl-7;
+    @extend .py-lg-5;
+    @extend .py-3;
+    @include make-col-ready();
+
+    @include media-breakpoint-up(lg) {
+        @include make-col(9);
+    }
+
+    @include media-breakpoint-up(xl) {
+        @include make-col(8);
+    }
+}
+
+
+
+//project layout
+.side-content-project {
+    @include make-col-ready();
+
+    @include media-breakpoint-up(xl) {
+        @include make-col(3);
+    }
+}
+
+.content-project {
+    @include make-col-ready();
+
+
+    @include media-breakpoint-up(xl) {
+        @include make-col(7);
+    }
+
+    @include media-breakpoint-between-custom ($custom-breakpoint-1, $custom-breakpoint-2 ) {
+        @include make-col(9);
+    }
+}
+
+.header-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    .btn {
+        @extend .btn-outline-primary;
+        align-self: flex-start;
+
+        @include media-breakpoint-down(sm) {
+            display: block;
+            width: 100%;
+            margin-bottom: .5rem;
+        }
+    }
+}
+
+
+//resources layout
+.side-content-resources {
+    background-color: $blue;
+    color: white;
+
+
+    @extend .py-xl-3;
+    @extend .px-xl-2;
+
+    @include make-col-ready();
+
+
+    @include media-breakpoint-up(xl) {
+        @include make-col(2);
+    }
+
+    @include media-breakpoint-up(lg) {
+        min-height: 70vh;
+    }
+}
+
+.content-resources {
+    @extend .pt-xl-3;
+    @extend .pt-xl-3;
+    @extend .px-xl-7;
+    @extend .px-3;
+    @extend .pb-5;
+}

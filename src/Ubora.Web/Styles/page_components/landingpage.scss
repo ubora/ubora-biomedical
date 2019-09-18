@@ -82,82 +82,6 @@
         font-size: 80%;
         font-style: italic;
     }
-
-
-    .carousel {
-
-        .carousel-item {
-            border: 1px solid rgba(0, 0, 0, 0.125);
-
-            .carousel-image-1,
-            .carousel-image-2,
-            .carousel-image-3,
-            .carousel-image-4 {
-                width: 1108px;
-                height: 400px;
-                background-repeat: no-repeat;
-                background-color: white;
-                background-position: left center;
-                background-size: contain;
-            }
-
-            .carousel-image-1 {
-                background-image: url("/images/carousel/palpreast.jpg");
-            }
-
-            .carousel-image-2 {
-                background-image: url("/images/carousel/protectivemask.png");
-            }
-
-            .carousel-image-3 {
-                background-image: url("/images/carousel/neonatalwarmer.png");
-            }
-
-            .carousel-image-4 {
-                background-image: url("/images/carousel/breastpump.png");
-            }
-
-            .carousel-caption {
-                background-color: $white;
-                color: $text-color;
-                right: 0;
-                bottom: 0;
-                left: auto;
-                padding: 4rem;
-                text-align: left;
-                height: 100%;
-                width: 65%;
-
-                dl {
-                    width: 100%;
-                    overflow: hidden;
-
-                    dt {
-                        float: left;
-                        width: 28%;
-                    }
-
-                    dd {
-                        float: left;
-                        width: 72%;
-                    }
-                }
-            }
-        }
-
-
-        .carousel-indicators li {
-            background-color: rgba(0, 0, 0, 0.2);
-
-            &.active {
-                background-color: $text-color;
-            }
-        }
-
-        .carousel-control-prev, .carousel-control-next {
-            width: 5%;
-        }
-    }
 }
 
 .resources-img {
@@ -211,52 +135,6 @@
     header.masthead h1 {
         font-size: 2rem;
     }
-
-    .landing-page {
-        .carousel {
-            .carousel-item {
-                .carousel-image-1,
-                .carousel-image-2,
-                .carousel-image-3,
-                .carousel-image-4 {
-                    background-image: none;
-                    height: 700px;
-                    width: 100%;
-                }
-
-                .carousel-caption {
-                    padding: 2rem;
-                    width: 100%;
-
-                    .carousel-image-1-mobile,
-                    .carousel-image-2-mobile,
-                    .carousel-image-3-mobile,
-                    .carousel-image-4-mobile {
-                        height: 300px;
-                        margin-bottom: 1rem;
-                        background-repeat: no-repeat;
-                        background-position: center;
-                    }
-
-                    .carousel-image-1-mobile {
-                        background-image: url("/images/carousel/palpreast.jpg");
-                    }
-
-                    .carousel-image-2-mobile {
-                        background-image: url("/images/carousel/protectivemask.png");
-                    }
-
-                    .carousel-image-3-mobile {
-                        background-image: url("/images/carousel/neonatalwarmer.png");
-                    }
-
-                    .carousel-image-4-mobile {
-                        background-image: url("/images/carousel/breastpump.png");
-                    }
-                }
-            }
-        }
-    }
 }
 
 
@@ -269,17 +147,6 @@
             }
         }
 
-
-        .carousel {
-            .carousel-item {
-                .carousel-image-1,
-                .carousel-image-2,
-                .carousel-image-3 {
-                    background-image: none;
-                    height: 650px;
-                }
-            }
-        }
 
         .pull-down {
             position: fixed;
