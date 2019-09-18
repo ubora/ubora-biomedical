@@ -22,7 +22,6 @@ else
     <p class="text-informative">You can not change the agreement because you are not the project leader.</p>
 }
 
-
 <form asp-controller="@WorkpackageFiveController.Name" asp-action="@nameof(WorkpackageFiveController.AgreeToTermsOfUbora)">
     <div class="custom-control custom-checkbox my-4">
         <input type="checkbox" class="custom-control-input" asp-for="IsAgreed" ubora-disable="!isAuthorized">
@@ -33,7 +32,10 @@ else
         <span asp-validation-for="IsAgreed"></span>
     </div>
 
-    <div class="text-center">
-        <button type="submit" class="btn btn-primary" ubora-disable="!isAuthorized">Save changes</button>
-    </div>
+    @if (isAuthorized)
+    {
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+    }
 </form>

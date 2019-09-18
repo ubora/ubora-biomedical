@@ -23,6 +23,10 @@
             {
                 <span class="badge badge-pill badge-green font-xs align-middle py-1 px-2">Approved by mentor</span>
             }
+            @if (Model.IsAgreedToTermsOfUbora)
+            {
+                <span class="badge badge-pill badge-green font-size-0-8 align-middle py-1 px-2">Public</span>
+            }
         </div>
     </a>
 </div>

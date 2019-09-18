@@ -5,10 +5,14 @@
 @{
     ViewData[nameof(PageTitle)] = "Repository";
     ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Repository;
+    var canWorkOnProjectContent = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanWorkOnProjectContent);
 }
 
 @section Left {
-    @Html.Partial("AddFilePartial", Model.AddFileViewModel)
+    @if (canWorkOnProjectContent)
+    {
+        @Html.Partial("AddFilePartial", Model.AddFileViewModel)
+    }
 }
 
 @foreach (var files in Model.AllFiles)
@@ -37,7 +41,6 @@
 
         @foreach (var file in files)
         {
-
             <div class="row mx-0 py-2 border-bottom">
                 <div class="col-lg-3">
                     <span class="break-word-all">@file.FileName</span>
@@ -63,9 +66,12 @@
 
                     <a href="@Url.Action("DownloadFile", "Repository", new { fileId = file.Id })" title="Download file" aria-label="Download file" class="mx-md-0 mx-2" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">file_download</i></a>
 
-                    <a href="@Url.Action("UpdateFile", new {fileId = file.Id})" title="Update file" aria-label="Update file" class="no-underline mx-md-0 mx-2" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">file_upload</i></a>
+                    @if (canWorkOnProjectContent)
+                    {
+                        <a href="@Url.Action("UpdateFile", new { fileId = file.Id })" title="Update file" aria-label="Update file" class="no-underline mx-md-0 mx-2" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">file_upload</i></a>
+                    }
 
-                    <a href="@Url.Action("FileHistory", new {fileId = file.Id})" title="File history" aria-label="File history" class="no-underline mx-md-0 mx-2" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">history</i></a>
+                    <a href="@Url.Action("FileHistory", new { fileId = file.Id })" title="File history" aria-label="File history" class="no-underline mx-md-0 mx-2" data-toggle="tooltip" data-placement="bottom"><i class="file-list--item-control material-icons">history</i></a>
 
                     <i class="file-list--item-control material-icons js-clipboard mx-md-0 mx-2"
                        title="Copy file path to clipboard"

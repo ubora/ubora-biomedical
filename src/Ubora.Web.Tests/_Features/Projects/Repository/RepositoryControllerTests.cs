@@ -17,7 +17,6 @@ using Ubora.Web.Infrastructure.Storage;
 using Xunit;
 using System.Linq.Expressions;
 using Ubora.Domain.Projects._Specifications;
-using Ubora.Web.Authorization;
 using Ubora.Domain.Infrastructure.Queries;
 using Marten.Events;
 using Ubora.Domain.Infrastructure.Events;
@@ -53,51 +52,18 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 {
                     new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
-                        MethodName = nameof(RepositoryController.Repository),
-                        Policies = new []{ Policies.CanViewProjectRepository }
-                    },
-                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                    {
                         MethodName = nameof(RepositoryController.AddFile),
-                        Policies = new []{ Policies.CanAddFileRepository, Policies.CanViewProjectRepository }
+                        Policies = new []{ Policies.CanAddFileRepository }
                     },
                     new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(RepositoryController.UpdateFile),
-                        Policies = new []{ Policies.CanUpdateFileRepository, Policies.CanViewProjectRepository }
+                        Policies = new []{ Policies.CanUpdateFileRepository }
                     },
                     new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
                         MethodName = nameof(RepositoryController.HideFile),
-                        Policies = new []{ Policies.CanHideProjectFile, Policies.CanViewProjectRepository }
-                    },
-                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                    {
-                        MethodName = nameof(RepositoryController.FileHistory),
-                        Policies = new []{ Policies.CanViewProjectRepository }
-                    },
-                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                    {
-                        MethodName = nameof(RepositoryController.DownloadFile),
-                        Policies = new []{ Policies.CanDownloadFile }
-                    },
-                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                    {
-                        MethodName = nameof(RepositoryController.View3DFile
-                        ),
-                        Policies = new []{Policies.CanViewProjectRepository }
-                    },
-                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                    {
-                        MethodName = nameof(RepositoryController.DownloadHistoryFile
-                        ),
-                        Policies = new []{Policies.CanViewProjectRepository }
-                    },
-                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                    {
-                        MethodName = nameof(RepositoryController.View3DHistoryFile
-                        ),
-                        Policies = new []{Policies.CanViewProjectRepository }
+                        Policies = new []{ Policies.CanHideProjectFile }
                     }
                 };
 

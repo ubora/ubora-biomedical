@@ -5,10 +5,12 @@ using Ubora.Domain.Projects.Assignments;
 using Ubora.Domain.Projects.Assignments.Commands;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Web._Features._Shared.Notices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ubora.Web._Features.Projects.Assignments
 {
     [ProjectRoute("[controller]")]
+    [Authorize(Policies.CanWorkOnProjectContent)]
     public class AssignmentsController : ProjectController
     {
         public IActionResult Assignments()

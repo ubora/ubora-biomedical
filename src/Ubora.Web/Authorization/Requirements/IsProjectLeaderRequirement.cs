@@ -15,7 +15,7 @@ namespace Ubora.Web.Authorization.Requirements
             {
             }
 
-            protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsProjectLeaderRequirement requirement)
+            protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsProjectLeaderRequirement requirement, object resource = null)
             {
                 var isLeader = Project.DoesSatisfy(new HasLeader(context.User.GetId()));
                 if (isLeader)
