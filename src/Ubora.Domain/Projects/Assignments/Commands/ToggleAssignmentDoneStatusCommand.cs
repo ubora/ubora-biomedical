@@ -11,7 +11,8 @@ namespace Ubora.Domain.Projects.Assignments.Commands
 
         internal class Handler : CommandHandler<ToggleAssignmentDoneStatusCommand>
         {
-            public Handler(IDocumentSession documentSession) : base(documentSession)
+            public Handler(IDocumentSession documentSession) 
+                : base(documentSession)
             {
             }
 
@@ -19,7 +20,7 @@ namespace Ubora.Domain.Projects.Assignments.Commands
             {
                 var task = DocumentSession.LoadOrThrow<Assignment>(cmd.Id);
 
-                if(task.IsDone)
+                if (task.IsDone)
                 {
                     var @event = new AssignmentMarkedAsNotDoneEvent(cmd.Actor, cmd.ProjectId, cmd.Id);
                     DocumentSession.Events.Append(cmd.ProjectId, @event);

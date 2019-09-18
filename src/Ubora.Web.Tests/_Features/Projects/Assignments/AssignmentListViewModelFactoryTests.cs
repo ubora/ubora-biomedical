@@ -32,13 +32,13 @@ namespace Ubora.Web.Tests._Features.Projects.Assignments
         {
             var projectId = new Guid();
             var projectTitle = "Project test title";
-            var project = Mock.Of<Project>();
-            project.Set(p => p.Id, projectId);
-            project.Set(p => p.Title, projectTitle);
+            var project = new Project()
+                .Set(p => p.Id, projectId)
+                .Set(p => p.Title, projectTitle);
 
             var user = Mock.Of<ClaimsPrincipal>();
             _authorizationService
-                    .Setup(a => a.AuthorizeAsync(user, null, Policies.CanWorkOnAssignments))
+                    .Setup(a => a.AuthorizeAsync(user, null, Policies.CanWorkOnProjectContent))
                     .ReturnsAsync(AuthorizationResult.Success());
 
             var user1Id = Guid.NewGuid();

@@ -4,7 +4,7 @@ using Ubora.Domain.Projects._Events;
 
 namespace Ubora.Domain.Projects.Assignments.Events
 {
-    class AssignmentMarkedAsDoneEvent : ProjectEvent, IAssignmentEvent
+    public class AssignmentMarkedAsDoneEvent : ProjectEvent, IAssignmentEvent
     {
         public AssignmentMarkedAsDoneEvent(UserInfo initiatedBy, Guid projectId, Guid id) : base(initiatedBy, projectId)
         {

@@ -12,17 +12,19 @@
     <div class="col-sm-8 col-12">
         <h1>@ViewData[nameof(PageTitle)]</h1>
     </div>
-    <div class="col-sm-4 col-12 header-actions">
-        <a class="btn" asp-controller="Assignments" asp-action="Add" asp-route-projectId="@Model.ProjectId">
-            <i class="material-icons">add</i>
-            <span>Add assignment</span>
-        </a>
-    </div>
+    @if (Model.CanWorkOnAssignments)
+    {
+        <div class="col-sm-4 col-12 header-actions">
+            <a class="btn" asp-controller="Assignments" asp-action="Add" asp-route-projectId="@Model.ProjectId">
+                <i class="material-icons">add</i>
+                <span>Add assignment</span>
+            </a>
+        </div>
+    }
 </div>
 <div class="row my-4">
     <div class="col">
         <ol>
-            @*Add "assignment-done" class when done*@
             @if (Model.CanWorkOnAssignments)
             {
                 @foreach (var assignment in Model.Assignments)
@@ -43,8 +45,9 @@
                                 <label class="d-block custom-control-label" for="@assignment.Id">
                                     <span class="custom-control-indicator"></span>
                                 </label>
+
                             </form>
-                            <span class="custom-control-description"><a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a></span>
+                            <span class="custom-control-description @(assignment.IsDone ? "assignment-done" : "")"><a asp-controller="Assignments" asp-action="Edit" asp-route-id="@assignment.Id">@assignment.Title</a></span>
                         </div>
                     </li>
                 }
@@ -55,6 +58,7 @@
                 {
                     <li>
                         <div class="custom-control custom-checkbox">
+
                             @if (assignment.IsDone)
                             {
                                 <input type="checkbox" class="custom-control-input" checked disabled />
@@ -66,7 +70,8 @@
                             <label class="d-block custom-control-label" for="@assignment.Id">
                                 <span class="custom-control-indicator"></span>
                             </label>
-                            <span class="custom-control-description"><a asp-controller="Assignments" asp-action="View" asp-route-id="@assignment.Id">@assignment.Title</a></span>
+                            <span class="custom-control-description @(assignment.IsDone ? "assignment-done" : "")"><a asp-controller="Assignments" asp-action="View" asp-route-id="@assignment.Id">@assignment.Title</a></span>
+
                         </div>
                     </li>
                 }

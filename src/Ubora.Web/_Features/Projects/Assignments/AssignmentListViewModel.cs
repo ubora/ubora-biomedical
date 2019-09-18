@@ -31,8 +31,14 @@ namespace Ubora.Web._Features.Projects.Assignments
 
             public async Task<AssignmentListViewModel> Create(ClaimsPrincipal user, Project project)
             {
-                var projectTasks = _queryProcessor.Find<Assignment>(new IsFromProjectSpec<Assignment> { ProjectId = project.Id });
-                var canWorkOnAssignments = (await _authorizationService.AuthorizeAsync(user, null, Policies.CanWorkOnAssignments)).Succeeded;
+                var projectTasks = _queryProcessor.Find<Assignment>(
+                    new IsFromProjectSpec<Assignment>
+                    {
+                        ProjectId = project.Id
+                    });
+
+                var canWorkOnAssignments = 
+                    (await _authorizationService.AuthorizeAsync(user, null, Policies.CanWorkOnProjectContent)).Succeeded;
 
                 var assignments = projectTasks.Select(a => new AssignmentListItemViewModel
                 (
