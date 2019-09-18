@@ -15,7 +15,7 @@ namespace Ubora.Web.Authorization.Requirements
             {
             }
 
-            protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsProjectMemberRequirement requirement)
+            protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsProjectMemberRequirement requirement, object resource = null)
             {
                 var isMentor = Project.DoesSatisfy(new HasMember<ProjectMember>(context.User.GetId()));
                 if (isMentor)

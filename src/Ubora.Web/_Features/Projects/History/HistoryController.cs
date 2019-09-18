@@ -6,8 +6,6 @@ using Ubora.Domain.Projects.History;
 using Ubora.Domain.Projects.History.SortSpecifications;
 using Ubora.Domain.Projects._Specifications;
 using Ubora.Web._Features._Shared.Paging;
-using Microsoft.AspNetCore.Authorization;
-using Ubora.Web.Authorization;
 
 namespace Ubora.Web._Features.Projects.History
 {
@@ -21,8 +19,6 @@ namespace Ubora.Web._Features.Projects.History
             _eventViewModelFactoryMediator = eventViewModelFactoryMediator;
         }
 
-        [DisableProjectControllerAuthorization]
-        [Authorize(Policy = nameof(Policies.CanViewProjectHistory))]
         public IActionResult History(int page = 1)
         {
             var logs = 

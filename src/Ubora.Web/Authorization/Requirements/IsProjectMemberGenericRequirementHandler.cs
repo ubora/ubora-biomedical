@@ -13,7 +13,7 @@ namespace Ubora.Web.Authorization.Requirements
         {
         }
 
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, TRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, TRequirement requirement, object resource = null)
         {
             var isMember = Project.DoesSatisfy(new HasMember(context.User.GetId()));
             if (isMember)

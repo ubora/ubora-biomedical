@@ -4,6 +4,7 @@
     {
         All = 0,
         NotDraft = 1,
-        Draft = 2
+        Draft = 2,
+        Public = 3
     }
 }

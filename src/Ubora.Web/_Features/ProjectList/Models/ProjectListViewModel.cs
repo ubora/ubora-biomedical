@@ -112,6 +112,10 @@ namespace Ubora.Web._Features.ProjectList.Models
                 {
                     specifications.Add(new NotSpecification<Project>(new IsDraftSpec()));
                 }
+                else if (searchModel.ByStatus == ByStatusFilteringMethod.Public)
+                {
+                    specifications.Add(new IsAgreedToTermsOfUboraSpec());
+                }
 
                 return new AndSpecification<Project>(specifications.ToArray());
             }

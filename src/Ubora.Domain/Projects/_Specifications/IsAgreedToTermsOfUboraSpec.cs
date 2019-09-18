@@ -4,11 +4,11 @@ using Ubora.Domain.Infrastructure.Specifications;
 
 namespace Ubora.Domain.Projects._Specifications
 {
-    public class IsAgreedToTermsOfUboraSpec : Specification<Project>
+    public class IsDraftSpec : Specification<Project>
     {
         internal override Expression<Func<Project, bool>> ToExpression()
         {
-            return project => project.IsAgreedToTermsOfUbora;
+            return project => project.IsInDraft;
         }
     }
 }

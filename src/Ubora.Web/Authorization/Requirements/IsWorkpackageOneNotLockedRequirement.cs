@@ -13,7 +13,7 @@ namespace Ubora.Web.Authorization.Requirements
             {
             }
 
-            protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsWorkpackageOneNotLockedRequirement requirement)
+            protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsWorkpackageOneNotLockedRequirement requirement, object resource = null)
             {
                 var workpackageOne = QueryProcessor.FindById<WorkpackageOne>(Project.Id);
 
