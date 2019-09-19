@@ -1,6 +1,12 @@
 # [UBORA](http://ubora-biomedical.org/) #
 
-Documents are under `Documents` folder.
+Source code for the platform of https://platform.ubora-biomedical.org/
+
+## Contributing
+
+The current maintainer of the source code is Kaspar Kallas.
+
+Feel free to submit a pull request or create a new issue. You can contact me for guidance kaspar.kallas@agileworks.eu
 
 ## Starting project
 You need:
