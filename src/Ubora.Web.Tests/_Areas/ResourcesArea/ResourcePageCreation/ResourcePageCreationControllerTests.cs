@@ -31,13 +31,13 @@ namespace Ubora.Web.Tests._Areas.ResourcesArea.ResourcePageCreation
         }
 
         [Fact]
-        public async Task Add_HttpPost_Returns_UnauthorizedResult_When_User_Is_Not_Authorized()
+        public async Task Add_HttpPost_Returns_ForbidResult_When_User_Is_Not_Authorized()
         {
             // Act
             var result = await ControllerUnderTest.Add(new CreateResourcePagePostModel());
 
             // Assert
-            result.Should().BeOfType<UnauthorizedResult>();
+            result.Should().BeOfType<ForbidResult>();
         }
 
         [Fact]

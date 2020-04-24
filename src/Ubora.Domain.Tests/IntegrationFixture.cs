@@ -15,6 +15,9 @@ using Ubora.Domain.Users.Queries;
 
 namespace Ubora.Domain.Tests
 {
+    /// <summary>
+    /// Use this for testing with database and domain IoC service registrations.
+    /// </summary>
     public abstract class IntegrationFixture : DocumentSessionIntegrationFixture
     {
         private IContainer _innerContainer;

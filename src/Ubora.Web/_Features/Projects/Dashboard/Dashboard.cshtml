@@ -19,11 +19,11 @@
                             {
                                 <div class="flex-wrap">
                                     <a class="btn-icon" asp-controller="Dashboard" asp-action="EditProjectImage">
-                                        <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
+                                        <i class="material-icons font-md" id="EditImage">mode_edit</i>
                                         <span>Change image</span>
                                     </a>
                                     <a class="btn-icon" asp-controller="Dashboard" asp-action="RemoveProjectImage">
-                                        <i class="material-icons font-size-1-1 ">delete_forever</i>
+                                        <i class="material-icons font-md ">delete_forever</i>
                                         <span>Remove image</span>
                                     </a>
                                 </div>
@@ -31,7 +31,7 @@
                             else
                             {
                                 <a class="btn-icon" asp-controller="Dashboard" asp-action="EditProjectImage">
-                                    <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
+                                    <i class="material-icons font-md" id="EditImage">mode_edit</i>
                                     <span>Add image</span>
                                 </a>
                             }
@@ -45,7 +45,7 @@
             <div class="col">
                 @if (!Model.IsInDraft)
                 {
-                    <span class="badge badge-pill badge-green font-size-1">Approved by mentor</span>
+                    <span class="badge badge-pill badge-green font-sm">Approved by mentor</span>
                 }
             </div>
         </div>
@@ -55,7 +55,7 @@
                 @if (Model.IsProjectMember)
                 {
                     <a class="btn-icon" asp-controller="WorkpackageOne" asp-action="ProjectOverview" asp-route-returnurl="@Url.Action("Dashboard","Dashboard")">
-                        <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
+                        <i class="material-icons font-md" id="EditImage">mode_edit</i>
                         <span>Edit</span>
                     </a>
                 }
@@ -101,7 +101,7 @@
                 @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectTitleAndDescription))
                 {
                     <a class="btn-icon" asp-controller="Dashboard" asp-action="EditProjectTitleAndDescription" id="EditProjectDescription">
-                        <i class="material-icons font-size-1-1">mode_edit</i>
+                        <i class="material-icons font-md">mode_edit</i>
                         <span id="EditDescription">Edit</span>
                     </a>
                 }

@@ -360,3 +360,12 @@ Scenario: I click and edit two last WP3 work packages
         And I click on the element "*=Helpful tips"
     Then I expect the element "p=Use this last section of WP3 to describe step by step how to fabricate and assemble the last version of your prototype: fill it once the part 1 and part 2 of WP3 can be considered stable." is visible
         And I expect the title of the page "Instructions for fabrication of prototypes - UBORA"
+
+Scenario: I open WP4 and download the document
+    When I click on the element "=WP 4: Implementation"
+        And I click on the element "span*=Open WP 4: Implementation"
+        And I click on the element "(//span[contains(text(),'Preproduction documents')])[last()]"
+        And I click on the element "button*=Download"
+    Then I expect the element "h1*=Preproduction Document" is visible
+
+

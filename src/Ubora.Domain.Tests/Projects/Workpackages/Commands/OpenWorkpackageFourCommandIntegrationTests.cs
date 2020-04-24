@@ -21,6 +21,8 @@ namespace Ubora.Domain.Tests.Projects.Workpackages.Commands
                     .WithWp3Unlocked()
                     .Seed(this);
 
+            Session.Load<WorkpackageFour>(project.Id).Should().BeNull();
+
             // Act
             var result = Processor.Execute(new OpenWorkpackageFourCommand
             {

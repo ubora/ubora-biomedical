@@ -2,32 +2,27 @@
 
 @model CandidateViewModel
 
-@{
-    var canChangeProjectCandidateImage = await AuthorizationService.IsAuthorizedAsync(User, Policies.CanChangeProjectCandidateImage);
-}
-
-
 <h1>Voting</h1>
 
 <div class="row mb-4">
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-8 mb-xl-0 mb-sm-4">
         <div class="card">
             <img class="card-img-top img-fluid w-100" src="@Model.ImageUrl" alt="Illustrative project photo" />
-            @if (canChangeProjectCandidateImage)
+            @if (Model.CanChangeProjectCandidateImage)
             {
                 <div class="card-img-overlay text-center">
-                    @if (canChangeProjectCandidateImage)
+                    @if (Model.CanChangeProjectCandidateImage)
                     {
                         <a class="btn-icon" href="@Url.Action("EditCandidateImage", "Candidates" , new { candidateId=Model.Id })">
-                            <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
+                            <i class="material-icons font-md" id="EditImage">mode_edit</i>
                             <span>Change image</span>
                         </a>
                     }
 
-                    @if (Model.HasImage && await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveProjectCandidateImage))
+                    @if (Model.HasImage && Model.CanRemoveProjectCandidateImage)
                     {
                         <a class="btn-icon" href="@Url.Action("RemoveCandidateImage", "Candidates" , new { candidateId=Model.Id })">
-                            <i class="material-icons font-size-1-1 ">delete_forever</i>
+                            <i class="material-icons font-md ">delete_forever</i>
                             <span>Remove image</span>
                         </a>
                     }
@@ -42,10 +37,10 @@
                 <h2 class="mb-4">@Model.Title</h2>
             </div>
             <div class="col-lg-3 d-flex justify-content-end">
-                @if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanEditProjectCandidate))
+                @if (Model.CanEditProjectCandidate)
                 {
                     <a class="btn-icon" href="@Url.Action("EditCandidate", "Candidates" , new { candidateId=Model.Id })">
-                        <i class="material-icons font-size-1-1" id="EditImage">mode_edit</i>
+                        <i class="material-icons font-md" id="EditImage">mode_edit</i>
                         <span>Edit</span>
                     </a>
                 }
@@ -92,7 +87,10 @@
     </div>
 
     <div class="col-lg-6 col-md-9">
-        @(Model.HasUserVoted ? Html.Partial("_VotePartial", Model.UserVotesViewModel) : Html.Partial("_AddVotePartial", Model.AddVoteViewModel))
+        @if (Model.IsVotingAllowed) 
+        {
+            @(Model.HasUserVoted ? Html.Partial("_VotePartial", Model.UserVotesViewModel) : Html.Partial("_AddVotePartial", Model.AddVoteViewModel))
+        }
     </div>
 
 </div>
@@ -102,11 +100,11 @@
     Comments = Model.Comments.ToList(),
     AddCommentActionPath = Url.Action(nameof(CandidatesController.AddComment)),
     EditCommentActionPath = Url.Action(nameof(CandidatesController.EditComment)),
-    DeleteCommentActionPath = Url.Action(nameof(CandidatesController.RemoveComment))
+    DeleteCommentActionPath = Url.Action(nameof(CandidatesController.RemoveComment)),
+    HideAddComment = !Model.CanAddComment
 })
 
-
-@if (await AuthorizationService.IsAuthorizedAsync(User, Policies.CanRemoveCandidate))
+@if (Model.CanRemoveCandidate)
 {
 <div class="my-4">
     <hr />

@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Ubora.Web.Authorization;
 using Ubora.Domain.Projects;
 using Ubora.Web.Services;
 using Microsoft.AspNetCore.Identity;
@@ -16,8 +15,8 @@ using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Web._Features.Projects.Members.Models;
 using Ubora.Web._Features._Shared.Notices;
-using Ubora.Domain.Projects.Members.Queries;
 using Ubora.Domain.Projects.Members.Specifications;
+using Ubora.Domain.Users.Queries;
 
 namespace Ubora.Web._Features.Projects.Members
 {
@@ -45,8 +44,7 @@ namespace Ubora.Web._Features.Projects.Members
             var memberListItemViewModels = new List<ProjectMemberListViewModel.Item>();
 
             var projectMemberGroups = Project.Members.GroupBy(m => m.UserId);
-            var userIds = projectMemberGroups.Select(m => m.Key);
-            var projectMemberUserProfiles = QueryProcessor.ExecuteQuery(new FindUserProfilesQuery { UserIds = userIds });
+            var projectMemberUserProfiles = QueryProcessor.ExecuteQuery(new GetProjectUserProfiles { ProjectId = ProjectId });
             foreach (var userProfile in projectMemberUserProfiles)
             {
                 var projectMemberGroup = projectMemberGroups.FirstOrDefault(g => g.Key == userProfile.UserId);

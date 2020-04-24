@@ -25,8 +25,8 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
-
             ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
+            ViewData[nameof(PageTitle)] = "WP 2: Conceptual design";
         }
 
         [Route("{stepId}")]
@@ -81,7 +81,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Route(nameof(StructuredInformationOnTheDevice))]
         public IActionResult StructuredInformationOnTheDevice([FromServices] StructuredInformationResultViewModel.Factory modelFactory)
         {
-            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
                 .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
@@ -95,7 +95,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Route(nameof(HealthTechnologySpecifications))]
         public virtual IActionResult HealthTechnologySpecifications([FromServices] HealthTechnologySpecificationsViewModel.Factory modelFactory)
         {
-            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
                 .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })
@@ -140,7 +140,7 @@ namespace Ubora.Web._Features.Projects.Workpackages.Steps
         [Route(nameof(UserAndEnvironment))]
         public virtual IActionResult UserAndEnvironment([FromServices] UserAndEnvironmentInformationViewModel.Factory modelFactory)
         {
-            ViewData["WorkpackageMenuOption"] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
+            ViewData[nameof(WorkpackageMenuOption)] = WorkpackageMenuOption.StructuredInformationOnTheDevice;
 
             var deviceStructuredInformation = QueryProcessor
                 .Find(new DeviceStructuredInformationFromWorkpackageSpec(DeviceStructuredInformationWorkpackageTypes.Two) && new IsFromProjectSpec<DeviceStructuredInformation> { ProjectId = ProjectId })

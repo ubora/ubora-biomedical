@@ -15,17 +15,22 @@ using Ubora.Domain.Users.SortSpecifications;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Users;
 using Ubora.Web._Features._Shared.Paging;
+using Ubora.Domain.Users.Specifications;
+using Ubora.Domain.Users.Queries;
+using Ubora.Domain.Infrastructure.Queries;
 
 namespace Ubora.Web._Features.Admin
 {
     [Authorize(Roles = ApplicationRole.Admin)]
-    public class AdminController : UboraController
+    public partial class AdminController : UboraController
     {
         private readonly IApplicationUserManager _userManager;
+        private readonly ManageUsersViewModel.Factory _manageUserViewModelFactory;
 
-        public AdminController(IApplicationUserManager userManager)
+        public AdminController(IApplicationUserManager userManager, ManageUsersViewModel.Factory manageUserViewModelFactory)
         {
             _userManager = userManager;
+            _manageUserViewModelFactory = manageUserViewModelFactory;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -42,42 +47,23 @@ namespace Ubora.Web._Features.Admin
         }
 
         [Authorize(Roles = ApplicationRole.Admin)]
-        public virtual async Task<IActionResult> ManageUsers(int page = 1)
+        public virtual async Task<IActionResult> ManageUsers(int page = 1, string searchName = null)
         {
-            var userProfiles = QueryProcessor.Find(new MatchAll<UserProfile>(), new SortByFullNameAscendingSpecification(), 10, page);
+            var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
 
-            IReadOnlyDictionary<Guid, string> userFullNames = userProfiles.Select(userProfile => new
+            if (isAjax)
             {
-                UserId = userProfile.UserId,
-                FullName = userProfile.FullName
-            })
-            .ToDictionary(x => x.UserId, x => x.FullName);
-
-            var userViewModels = new List<UserViewModel>();
-
-            foreach (var user in _userManager.Users.ToList())
-            {
-                if (userFullNames.ContainsKey(user.Id))
-                {
-                    userViewModels.Add(new UserViewModel
-                    {
-                        UserId = user.Id,
-                        UserEmail = user.Email,
-                        FullName = userFullNames[user.Id],
-                        Roles = await _userManager.GetRolesAsync(user)
-                    });
-                }
+                page = 1;
             }
 
-            var orderedViewModel = userViewModels.OrderBy(x => x.FullName).ToList();
-
-            var manageUsersViewModel = new ManageUsersViewModel
+            var userProfiles = QueryProcessor.ExecuteQuery(new SearchUserProfilesQuery
             {
-                Pager = Pager.From(userProfiles),
-                Items = orderedViewModel
-            };
+                SearchFullName = searchName,
+                Paging = new Paging(page, 15)
+            });
 
-            return View(nameof(ManageUsers), manageUsersViewModel);
+            var viewModel = await _manageUserViewModelFactory.Create(userProfiles.ToList(), searchName, Pager.From(userProfiles));
+           return View(nameof(ManageUsers), viewModel);
         }
 
         [Authorize(Roles = ApplicationRole.Admin)]
@@ -244,12 +230,6 @@ namespace Ubora.Web._Features.Admin
 
             Notices.NotifyOfSuccess($"User {user.Email} successfully deleted");
             return RedirectToAction(nameof(ManageUsers), new { page });
-        }
-
-        public class ManageUsersViewModel
-        {
-            public Pager Pager { get; set; }
-            public List<UserViewModel> Items { get; set; }
         }
 
         private void AddIdentityErrorsToModelState(IdentityResult result)

@@ -32,7 +32,7 @@ namespace Ubora.Web._Features.ProjectList
                 SortBy = model.SortBy,
                 ProjectListViewModel = projectListViewModel
             };
-            
+
             if (isAjax)
             {
                 return PartialView("~/_Features/ProjectList/ProjectsTabPartial.cshtml", searchViewModel);
@@ -48,14 +48,20 @@ namespace Ubora.Web._Features.ProjectList
     {
         [StringLength(50)]
         public string Title { get; set; }
+
         public TabType? Tab { get; set; }
+
         [BindProperty(BinderType = typeof(CommaSeparatedValuesModelBinder))]
-        public int[] ByPotentialTechnologyTags { get; set; } = new int[]{};
+        public int[] ByPotentialTechnologyTags { get; set; } = new int[] { };
+
         [BindProperty(BinderType = typeof(CommaSeparatedValuesModelBinder))]
-        public int[] ByClinicalNeedTags { get; set; } = new int[]{};
+        public int[] ByClinicalNeedTags { get; set; } = new int[] { };
+
         [BindProperty(BinderType = typeof(CommaSeparatedValuesModelBinder))]
-        public int[] ByArea { get; set; } = new int[]{};
+        public int[] ByArea { get; set; } = new int[] { };
+
         public ByStatusFilteringMethod ByStatus { get; set; }
+
         public SortBy SortBy { get; set; }
     }
 }

@@ -6,17 +6,19 @@
     <UserSecretsId>aspnet-Ubora.Web-d1f6fc32-3f07-4ac3-bdfa-0102a5b76a9d</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="_Features\Projects\DeviceClassification\**" />
-    <Content Remove="_Features\Projects\DeviceClassification\**" />
-    <EmbeddedResource Remove="_Features\Projects\DeviceClassification\**" />
-    <None Remove="_Features\Projects\DeviceClassification\**" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Remove="Scripts\backend\ConvertMarkdownToHtml.js" />
     <None Remove="Scripts\backend\ConvertQuillDeltaToHtml.js" />
+    <None Remove="Scripts\backend\SanitizeQuillDelta.js" />
     <None Remove="Scripts\backend\_polyfill.js" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\backend\ConvertMarkdownToHtml.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scripts\backend\ConvertQuillDeltaToHtml.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\backend\SanitizeQuillDelta.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\backend\_polyfill.js">
@@ -78,6 +80,9 @@
     <Content Update="package.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Update="_Features\Projects\Workpackages\Steps\ProtoStep.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="SuccessTexts.resx">
@@ -85,14 +90,11 @@
       <LastGenOutput>SuccessTexts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <None Update="Scripts\backend\SanitizeQuillDelta.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <Exec Command="npm install ajv@6.2.1 --no-save" />
     <Exec Command="npm install" />
+    <Exec Command="npm install --global node-gyp" />
+    <Exec Command="npm rebuild node-sass" />
     <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
     <ItemGroup>
       <DistFiles Include="wwwroot\dist\**" />

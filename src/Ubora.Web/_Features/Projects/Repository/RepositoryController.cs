@@ -10,17 +10,13 @@ using Ubora.Domain.Projects.Repository;
 using Ubora.Domain.Projects.Repository.Commands;
 using Ubora.Domain.Projects.Repository.Events;
 using Ubora.Domain.Projects._Specifications;
-using Ubora.Web.Authorization;
 using Ubora.Web.Infrastructure.Extensions;
 using Ubora.Web.Infrastructure.Storage;
 using Ubora.Web._Features._Shared.Notices;
-using Ubora.Web.Data;
 
 namespace Ubora.Web._Features.Projects.Repository
 {
     [ProjectRoute("[controller]")]
-    [DisableProjectControllerAuthorization]
-    [Authorize(Policy = nameof(Policies.CanViewProjectRepository))]
     public class RepositoryController : ProjectController
     {
         private readonly IUboraStorageProvider _uboraStorageProvider;

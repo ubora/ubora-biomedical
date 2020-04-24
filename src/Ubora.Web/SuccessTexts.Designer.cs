@@ -682,6 +682,60 @@ namespace Ubora.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Agreement to terms of UBORA changed.
+        /// </summary>
+        public static string WP5AgreementToTermsOfUboraChanged {
+            get {
+                return ResourceManager.GetString("WP5AgreementToTermsOfUboraChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Business model canvas edited.
+        /// </summary>
+        public static string WP5BusinessModelCanvasEdited {
+            get {
+                return ResourceManager.GetString("WP5BusinessModelCanvasEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes saved.
+        /// </summary>
+        public static string WP5CommercialDossierEdited {
+            get {
+                return ResourceManager.GetString("WP5CommercialDossierEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to License has been changed.
+        /// </summary>
+        public static string WP5LicenseEdited {
+            get {
+                return ResourceManager.GetString("WP5LicenseEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes saved.
+        /// </summary>
+        public static string WP5StepEdited {
+            get {
+                return ResourceManager.GetString("WP5StepEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes saved.
+        /// </summary>
+        public static string WP6StepEdited {
+            get {
+                return ResourceManager.GetString("WP6StepEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Work package unlocked.
         /// </summary>
         public static string WPUnlocked {

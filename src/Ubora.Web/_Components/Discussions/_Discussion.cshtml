@@ -32,7 +32,7 @@
                                 @comment.CommentText
                                 @if (comment.IsEdited)
                                 {
-                                    <small class="color-grey">(Edited)</small>
+                                    <small class="text-grey">(Edited)</small>
                                 }
                             </p>
 
@@ -67,7 +67,10 @@
                     </div>
                 }
 
-                @Html.Partial("_AddComment.cshtml", new AddCommentModel { AddCommentActionPath = Model.AddCommentActionPath })
+                @if (!Model.HideAddComment) 
+                {
+                    @Html.Partial("_AddComment.cshtml", new AddCommentModel { AddCommentActionPath = Model.AddCommentActionPath })
+                }
 
             </div>
         </div>

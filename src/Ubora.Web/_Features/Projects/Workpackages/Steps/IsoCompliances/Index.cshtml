@@ -4,21 +4,31 @@
 
 @{
     ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
+    var canWorkOnProjectContent = (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanWorkOnProjectContent)).Succeeded;
 }
 
-<div class="col">
-    <div class="d-flex justify-content-between">
+<div class="row">
+    <div class="col-sm-8 col-12">
         <h1>ISO compliance</h1>
-        @Html.Partial("_AddIsoStandardButtonAndModal.cshtml", new AddIsoStandardPostModel())
     </div>
-    <div asp-validation-summary="All"></div>
-    <div class="pl-3">
-        @foreach (var isoStandard in Model.IsoStandards)
-        {
-            @Html.Partial("_IsoStandardWithCheckbox.cshtml", isoStandard)
-        }
+    @if (canWorkOnProjectContent)
+    {
+        @Html.Partial("_AddIsoStandardButtonAndModal.cshtml", new AddIsoStandardPostModel())
+    }
+</div>
+<div class="row">
+    <div class="col">
+
+        <div asp-validation-summary="All"></div>
+        <div class="pl-3">
+            @foreach (var isoStandard in Model.IsoStandards)
+            {
+                @Html.Partial("_IsoStandardWithCheckbox.cshtml", isoStandard)
+            }
+        </div>
     </div>
 </div>
+
 
 @section Scripts {
     <script>

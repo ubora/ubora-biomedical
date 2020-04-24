@@ -18,7 +18,6 @@ namespace Ubora.Web.Tests._Areas.ResourcesArea.ResourceCategories
     {
         private readonly ResourceCategoriesController _controller;
         private readonly Mock<ResourceCategoriesController> _controllerMock;
-        private static readonly Fixture AutoFixture = new Fixture();
 
         public ResourceCategoriesControllerTests()
         {

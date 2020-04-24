@@ -2,7 +2,9 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Moq;
+using Ubora.Domain.Projects;
 using Ubora.Domain.Projects.Candidates;
 using Ubora.Web.Authorization.Requirements;
 using Ubora.Web.Tests.Fakes;
@@ -12,11 +14,12 @@ namespace Ubora.Web.Tests.Authorization
 {
     public class IsVoteNotGivenRequirementHandlerTests
     {
-        private readonly IsVoteNotGivenRequirement.Handler _handlerUnderTest;
+        private readonly HandlerUnderTest _handlerUnderTest;
 
         public IsVoteNotGivenRequirementHandlerTests()
         {
-            _handlerUnderTest = new IsVoteNotGivenRequirement.Handler();
+            _handlerUnderTest = new HandlerUnderTest();
+            _handlerUnderTest.SetProject(new Project());
         }
 
         [Fact]
@@ -67,6 +70,26 @@ namespace Ubora.Web.Tests.Authorization
             // Assert
             handlerContext.HasSucceeded
                 .Should().BeFalse();
+        }
+
+        private class HandlerUnderTest : IsVoteNotGivenRequirement.Handler
+        {
+            private Project _project = Mock.Of<Project>();
+
+            public HandlerUnderTest()
+                : base(Mock.Of<IHttpContextAccessor>(x => x.HttpContext == Mock.Of<HttpContext>()))
+            {
+            }
+
+            internal void SetProject(Project project)
+            {
+                _project = project;
+            }
+
+            protected override Project GetProject()
+            {
+                return _project;
+            }
         }
     }
 }

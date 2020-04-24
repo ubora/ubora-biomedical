@@ -25,8 +25,10 @@ namespace Ubora.Domain
             CompressedValue = compressedValue;
         }
 
-        public QuillDelta(string value = "{\"ops\":[{\"insert\":\"\\n\"}]}")
+        public QuillDelta(string value = null)
         {
+            value = value ?? "{\"ops\":[{\"insert\":\"\\n\"}]}";
+
             if (!(value.StartsWith('{') && value.EndsWith('}')))
             {
                 throw new ArgumentException("Not JSON");

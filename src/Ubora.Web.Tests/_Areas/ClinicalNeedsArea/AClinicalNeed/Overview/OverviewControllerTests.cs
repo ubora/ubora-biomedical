@@ -34,11 +34,9 @@ namespace Ubora.Web.Tests._Areas.ClinicalNeedsArea.AClinicalNeed.Overview
         {
             var description = new QuillDelta("{description}");
 
-            NodeServicesMock
-                .Setup(ns => ns.InvokeAsync<string>("./Scripts/backend/ConvertQuillDeltaToHtml.js", It.Is<object[]>(
-                    a => a.Single().Equals("{description}"))))
+            QuillDeltaTransformerMock
+                .Setup(t => t.ConvertQuillDeltaToHtml(description))
                 .ReturnsAsync("DescriptionQuillDelta");
-
 
             var clinicalNeed = 
                 new ClinicalNeed()

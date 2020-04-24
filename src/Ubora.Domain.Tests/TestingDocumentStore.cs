@@ -16,8 +16,8 @@ namespace Ubora.Domain.Tests
             configure(options);
 
             options.DatabaseSchemaName = "uboratest" + Guid.NewGuid().ToString("N").ToLower();
-
-
+            
+            options.CreateDatabasesForTenants(c => c.ForTenant());
             var store = new TestingDocumentStore(options);
 
             return store;

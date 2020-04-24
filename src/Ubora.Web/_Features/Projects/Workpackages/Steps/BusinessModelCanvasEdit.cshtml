@@ -1,0 +1,143 @@
+﻿@using Ubora.Web._Features.Projects._Shared
+@using Ubora.Web._Features.Projects.Workpackages.Steps
+@model BusinessModelCanvasEditPostModel
+
+<div class="row">
+    <div class="col">
+        <div class="d-flex justify-content-between">
+            <h1>Business model canvas</h1>
+        </div>
+    </div>
+</div>
+<form asp-controller="@WorkpackageFiveController.Name" asp-action="@nameof(WorkpackageFiveController.EditBusinessModelCanvas)" method="post" asp-antiforgery="true" class="js-onbeforeunload">
+    <div class="row border mb-5 mx-1">
+
+        <div class="col-lg-4 border p-4 h-min-10">
+            <div class="d-flex justify-content-between">
+                <h2 class="display-5 mb-1">Value proposal</h2>
+                <i class="material-icons bg-icon">
+                    star
+                </i>
+            </div>
+            <small class="text-grey">What makes me unique, different, special?</small>
+            <div class="mt-3 @nameof(Model.ValueProposalDescriptionQuillDelta)">
+                <input asp-for="ValueProposalDescriptionQuillDelta" type="hidden" />
+                <span asp-validation-for="ValueProposalDescriptionQuillDelta"></span>
+                <div class="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial", new BusinessModelCanvasQuillToolbarFormatOptions())</div>
+                <div class="editor-container form-group" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 border p-4  h-min-10">
+            <div class="d-flex justify-content-between">
+                <h2 class="display-5 mb-1">Key resources and partners</h2>
+                <i class="material-icons bg-icon">
+                    vpn_key
+                </i>
+            </div>
+            <small class="text-grey">What gives me a strategic advantage? Who supports me?</small>
+            <div class="mt-3 @nameof(Model.KeyResourcesAndPartnersDescriptionQuillDelta)">
+                <input asp-for="KeyResourcesAndPartnersDescriptionQuillDelta" type="hidden" />
+                <span asp-validation-for="KeyResourcesAndPartnersDescriptionQuillDelta"></span>
+                <div class="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial", new BusinessModelCanvasQuillToolbarFormatOptions())</div>
+                <div class="editor-container form-group" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 border p-4 h-min-10">
+            <div class="d-flex justify-content-between">
+                <h2 class="display-5 mb-1">Potential clients, users and channels</h2>
+                <i class="material-icons bg-icon">
+                    people
+                </i>
+            </div>
+            <small class="text-grey">How will I reach clients and users?</small>
+            <div class="mt-3 @nameof(Model.PotentialClientsAndUsersAndChannelsDescriptionQuillDelta)">
+                <input asp-for="PotentialClientsAndUsersAndChannelsDescriptionQuillDelta" type="hidden" />
+                <span asp-validation-for="PotentialClientsAndUsersAndChannelsDescriptionQuillDelta"></span>
+                <div class="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial", new BusinessModelCanvasQuillToolbarFormatOptions())</div>
+                <div class="editor-container form-group" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 border p-4 h-min-10">
+            <div class="d-flex justify-content-between">
+                <h2 class="display-5 mb-1">Relevant documentation for device production and use</h2>
+                <i class="material-icons bg-icon">
+                    insert_drive_file
+                </i>
+            </div>
+            <div class="mt-3 @nameof(Model.RelevantDocumentationForProductionAndUseDescriptionQuillDelta)">
+                <input asp-for="RelevantDocumentationForProductionAndUseDescriptionQuillDelta" type="hidden" />
+                <span asp-validation-for="RelevantDocumentationForProductionAndUseDescriptionQuillDelta"></span>
+                <div class="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial", new BusinessModelCanvasQuillToolbarFormatOptions())</div>
+                <div class="editor-container form-group" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 border p-4 h-min-10">
+            <div class="d-flex justify-content-between">
+                <h2 class="display-5 mb-1">Analysis of costs, production, supply chain and services to clients</h2>
+                <i class="material-icons bg-icon">
+                    monetization_on
+                </i>
+            </div>
+            <div class="mt-3 @nameof(Model.AnalysisOfCostsAndProductionAndSupplyChainAndServicesToClientsDescriptionQuillDelta)">
+                <input asp-for="AnalysisOfCostsAndProductionAndSupplyChainAndServicesToClientsDescriptionQuillDelta" type="hidden" />
+                <span asp-validation-for="AnalysisOfCostsAndProductionAndSupplyChainAndServicesToClientsDescriptionQuillDelta"></span>
+                <div class="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial", new BusinessModelCanvasQuillToolbarFormatOptions())</div>
+                <div class="editor-container form-group" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 border p-4 h-min-10">
+            <div class="d-flex justify-content-between">
+                <h2 class="display-5 mb-1">Growth strategy</h2>
+                <i class="material-icons bg-icon">
+                    show_chart
+                </i>
+            </div>
+            <small class="text-grey">How will I make a sustainable impact?</small>
+            <div class="mt-3 @nameof(Model.GrowthStrategyDescriptionQuillDelta)">
+                <input asp-for="GrowthStrategyDescriptionQuillDelta" type="hidden" />
+                <span asp-validation-for="GrowthStrategyDescriptionQuillDelta"></span>
+                <div class="toolbar-container" style="display: none;">@Html.Partial("_QuillToolbarFormatsPartial", new BusinessModelCanvasQuillToolbarFormatOptions())</div>
+                <div class="editor-container form-group" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 form-group">
+            <div class="d-flex flex-wrap-reverse justify-content-center">
+                <a class="btn btn-outline-primary" asp-action="@nameof(WorkpackageFiveController.BusinessModelCanvas)">Discard</a>
+                <span class="mx-1"></span>
+                <button class="btn btn-primary" type="submit">Save changes</button>
+            </div>
+        </div>
+
+</form>
+
+@section Scripts {
+    @{
+        var ids = new string[]
+        {
+    nameof(Model.ValueProposalDescriptionQuillDelta),
+    nameof(Model.KeyResourcesAndPartnersDescriptionQuillDelta),
+    nameof(Model.PotentialClientsAndUsersAndChannelsDescriptionQuillDelta),
+    nameof(Model.RelevantDocumentationForProductionAndUseDescriptionQuillDelta),
+    nameof(Model.AnalysisOfCostsAndProductionAndSupplyChainAndServicesToClientsDescriptionQuillDelta),
+    nameof(Model.GrowthStrategyDescriptionQuillDelta),
+        };
+    }
+    @foreach (var id in ids)
+    {
+        <script>
+            var contentInputSelector = "#@id";
+            var editorSelector = ".@id" + " .editor-container";
+            var toolbarSelector = ".@id" + " .toolbar-container";
+            var initialContent = @Html.Raw(Model.GetPropertyByName(id));
+            UBORA.initEditor(editorSelector, toolbarSelector, contentInputSelector, initialContent);
+        </script>
+    }
+}

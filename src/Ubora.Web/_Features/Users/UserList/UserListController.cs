@@ -12,6 +12,7 @@ using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Users.Queries;
 using Marten.Pagination;
 using Ubora.Web._Features.Users.UserList.Models;
+using Ubora.Domain.Infrastructure.Queries;
 
 namespace Ubora.Web._Features.Users.UserList
 {
@@ -45,14 +46,21 @@ namespace Ubora.Web._Features.Users.UserList
             }
 
             IPagedList<UserProfile> userProfiles;
-            if (searchModel.Tab == TabType.AllMembers)
+
+            SearchUserProfilesQuery query = new SearchUserProfilesQuery
             {
-                userProfiles = QueryProcessor.Find(new MatchAll<UserProfile>(), new SortByMultipleUserProfileSortSpecification(sortSpecifications), 24, page);
-            }
-            else
+                SearchFullName = searchModel.SearchName,
+                SortSpecification = new SortByMultipleUserProfileSortSpecification(sortSpecifications),
+                Paging = new Paging(page, 40)
+            };
+
+            if (searchModel.Tab == TabType.Mentors)
             {
-                userProfiles = QueryProcessor.ExecuteQuery(new SortByMultipleUboraMentorProfilesQuery(sortSpecifications, 24, page));
+                var uboraMentorUserIds = QueryProcessor.ExecuteQuery(new FindUboraMentorUserIdsQuery());
+                query.WhereSpecification = query.WhereSpecification && new IsUserProfileOneOfUserIdsSpec(uboraMentorUserIds);
             }
+
+            userProfiles = QueryProcessor.ExecuteQuery(query);
 
             var userListItemViewModel = userProfiles.Select(userProfile => new UserListItemViewModel
             {
@@ -70,7 +78,8 @@ namespace Ubora.Web._Features.Users.UserList
                 Ordering = searchModel.Ordering,
                 Tab = searchModel.Tab,
                 Pager = Pager.From(userProfiles),
-                UserListItems = userListItemViewModel
+                UserListItems = userListItemViewModel,
+                SearchName = searchModel.SearchName
             });
         }
 
@@ -95,11 +104,13 @@ namespace Ubora.Web._Features.Users.UserList
         public OrderingMethod Ordering { get; set; }
         public Pager Pager { get; set; }
         public IEnumerable<UserListItemViewModel> UserListItems { get; set; }
+        public string SearchName { get; set; }
     }
 
     public class SearchModel
     {
         public TabType Tab { get; set; }
         public OrderingMethod Ordering { get; set; }
+        public string SearchName { get; set; }
     }
 }

@@ -17,7 +17,6 @@ using Ubora.Web.Infrastructure.Storage;
 using Xunit;
 using System.Linq.Expressions;
 using Ubora.Domain.Projects._Specifications;
-using Ubora.Web.Authorization;
 using Ubora.Domain.Infrastructure.Queries;
 using Marten.Events;
 using Ubora.Domain.Infrastructure.Events;
@@ -53,11 +52,6 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                 {
                     new AuthorizationTestHelper.RolesAndPoliciesAuthorization
                     {
-                        MethodName = nameof(RepositoryController.Repository),
-                        Policies = new []{ Policies.CanViewProjectRepository }
-                    },
-                    new AuthorizationTestHelper.RolesAndPoliciesAuthorization
-                    {
                         MethodName = nameof(RepositoryController.AddFile),
                         Policies = new []{ Policies.CanAddFileRepository }
                     },
@@ -70,7 +64,7 @@ namespace Ubora.Web.Tests._Features.Projects.Repository
                     {
                         MethodName = nameof(RepositoryController.HideFile),
                         Policies = new []{ Policies.CanHideProjectFile }
-                    },
+                    }
                 };
 
             AssertHasAuthorizeAttributes(typeof(RepositoryController), methodPolicies);

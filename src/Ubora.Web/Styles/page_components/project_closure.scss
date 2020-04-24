@@ -1,0 +1,20 @@
+﻿.project-closure-steps {
+
+    .card:hover {
+            @extend .box-shadow;
+            cursor: pointer;
+    }
+
+    h3 {
+        @extend .mb-0;
+    }
+
+    .material-icons {
+        font-size: 2rem;
+        @extend .font-weight-bold;
+    }
+
+    small {
+        @extend .text-grey;
+    }
+}

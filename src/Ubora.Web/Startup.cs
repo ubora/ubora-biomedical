@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Npgsql;
 using Ubora.Web.Infrastructure.Storage;
 using Microsoft.AspNetCore.Mvc;
+using Ubora.Web._Features;
 
 namespace Ubora.Web
 {
@@ -85,6 +86,7 @@ namespace Ubora.Web
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
+            services.Configure<Pandoc>(Configuration.GetSection("Pandoc"));
 
             var useSpecifiedPickupDirectory =
                 Convert.ToBoolean(Configuration["SmtpSettings:UseSpecifiedPickupDirectory"]);
@@ -114,6 +116,7 @@ namespace Ubora.Web
             services.AddAutoMapper();
             services.AddUboraPolicyBasedAuthorization();
             services.AddNodeServices(setupAction => setupAction.InvocationTimeoutMilliseconds = 300000);
+            services.AddSingleton<QuillDeltaTransformer>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -123,6 +126,7 @@ namespace Ubora.Web
                 services.AddSingleton<TestUserSeeder>();
                 services.AddSingleton<TestProjectSeeder>();
                 services.AddSingleton<TestMentorSeeder>();
+                services.AddSingleton<TestClinicalNeedSeeder>();
                 services.AddMiniProfiler(options =>
                 {
                     options.IgnoredPaths.Add("dist");
@@ -148,7 +152,8 @@ namespace Ubora.Web
 
             if (isLocalStorage)
             {
-                storageProvider = new CustomDevelopmentAzureStorageProvider(azOptions, azureStorageProvider);
+                var linkLocalIpAddress = Configuration.GetValue<string>("Storage:LinkLocalIpAddress");
+                storageProvider = new CustomDevelopmentAzureStorageProvider(azOptions, azureStorageProvider, linkLocalIpAddress);
             }
             else
             {

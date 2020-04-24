@@ -25,6 +25,8 @@ using Ubora.Web._Features.Users.Manage;
 using Ubora.Web._Features.Projects.Workpackages.Candidates;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages.CommandHandlers;
 using Ubora.Web._Areas.ResourcesArea.ResourcePages.Services;
+using Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentations;
+using Ubora.Web._Features.Projects.Workpackages.Steps.PreproductionDocuments;
 
 namespace Ubora.Web.Infrastructure
 {
@@ -49,6 +51,13 @@ namespace Ubora.Web.Infrastructure
                 builder.RegisterType<SpecifiedPickupDirectoryEmailSender>().As<EmailSender>()
                     .InstancePerLifetimeScope();
             }
+            
+            builder.RegisterType<PandocService>().As<PandocService>().InstancePerLifetimeScope();
+            
+            builder.RegisterType<UniversalDocumentConverter>()
+                .As<IWordProcessingDocumentConverter>()
+                .As<IMarkdownConverter>()
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().SingleInstance();
             builder.RegisterType<UrlHelperFactory>().As<IUrlHelperFactory>().SingleInstance();
@@ -120,6 +129,7 @@ namespace Ubora.Web.Infrastructure
             builder.RegisterType<CommentViewModelFactory>().AsSelf().InstancePerLifetimeScope();
 
             builder.RegisterType<ResourceBlobDeleter>().As<IResourceBlobDeleter>().InstancePerLifetimeScope();
+            builder.RegisterType<CommercialDossierViewModel.Helper>().AsSelf().InstancePerLifetimeScope();
         }
 
         public void AddAutoMapperProfiles(IMapperConfigurationExpression cfg)

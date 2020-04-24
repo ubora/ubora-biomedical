@@ -1,0 +1,224 @@
+@using Ubora.Web._Features.Projects.Workpackages
+@using Ubora.Web._Features.Projects._Shared
+@using Ubora.Web._Features._Shared
+@using Ubora.Web._Features.Projects.Workpackages.Steps.CommercialDocumentations
+
+@model CommercialDocumentationViewModel
+
+@{
+    var canWorkOnProjectContent = (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanWorkOnProjectContent)).Succeeded;
+}
+
+<div class="row">
+    <div class="col">
+        <h1 class="mb-4">Commercial documentation</h1>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-sm-8 col-12">
+        <h2>Commercial dossier</h2>
+    </div>
+
+    @if (canWorkOnProjectContent)
+    {
+        <div class="col-sm-4 col-12 header-actions">
+            <a class="btn"
+               asp-action="@nameof(CommercialDocumentationsController.EditCommercialDossier)"
+               asp-controller="@CommercialDocumentationsController.Name">
+                <i class="material-icons">mode_edit</i>
+                <span>Edit</span>
+            </a>
+        </div>
+    }
+
+</div>
+
+<div class="row form-info">
+    <div class="col-md-6">
+        @if (!string.IsNullOrWhiteSpace(Model.CommercialDossier.ProductName))
+        {
+            <div class="mb-3">
+                <label>Product name</label>
+                @Model.CommercialDossier.ProductName
+            </div>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.CommercialDossier.CommercialName))
+        {
+            <div class="mb-3">
+                <label>Commercial name</label>
+                @Model.CommercialDossier.CommercialName
+            </div>
+        }
+        @if (Model.CommercialDossier.DoesDescriptionHaveContent)
+        {
+            <div class="mb-3">
+                <label>Description</label>
+                @Html.Raw(@Model.CommercialDossier.DescriptionHtml)
+            </div>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.CommercialDossier.UserManualName))
+        {
+            <div class="mb-3">
+                <label>User manual</label>
+                <a asp-action="@nameof(CommercialDocumentationsController.DownloadUserManual)" title="Download user manual" class="no-underline d-flex align-items-center"><i class="mr-2 file-list--item-control material-icons">file_download</i>@Model.CommercialDossier.UserManualName</a>
+            </div>
+        }
+    </div>
+    <div class="col-md-6">
+        @if (Model.CommercialDossier.LogoUrl != null)
+        {
+            <div class="mb-3">
+                <label>Logo</label>
+                <img class="w-15-rem" src="@Model.CommercialDossier.LogoUrl">
+            </div>
+        }
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-sm-8 col-12">
+        <h2>Intellectual property</h2>
+    </div>
+    @if (canWorkOnProjectContent)
+    {
+        <div class="col-sm-4 col-12 header-actions">
+            <a class="btn" asp-action="@nameof(CommercialDocumentationsController.EditIntellectualProperty)"
+               asp-controller="@CommercialDocumentationsController.Name">
+                <i class="material-icons">mode_edit</i>
+                <span>Edit</span>
+            </a>
+        </div>
+    }
+
+</div>
+
+<div class="row">
+    <div class="col">
+
+        @switch (Model.IntellectualProperty.License)
+        {
+            case LicenseType.None:
+                <p>No license set yet.</p>
+                break;
+            case LicenseType.Ubora:
+                <div>
+                    <span class="d-flex align-items-center mb-2">
+                        <img src="/images/icons/ubora_black.svg" class="w-2-rem h-2-rem mr-2" alt="Share-alike icon">
+                        UBORA licence
+                    </span>
+                    <ul>
+                        <li>
+                            <small>
+                                No responsibility
+                            </small>
+                        </li>
+                        <li>
+                            <small>
+                                No liability
+                            </small>
+                        </li>
+                        <li>
+                            <small>
+                                Attribution
+                            </small>
+                        </li>
+                        <li>
+                            <small>
+                                Ask to use the company logo on our e-platform and on the project page
+                            </small>
+                        </li>
+                        <li>
+                            <small>
+                                Acknowledgment to UBORA in the product page description
+                            </small>
+                        </li>
+                        <li>
+                            <small>
+                                No endorsement
+                            </small>
+                        </li>
+                        <li>
+                            <small>
+                                Derivative work with attribution
+                            </small>
+                        </li>
+                        <li>
+                            <small>
+                                Free and perpetual use
+                            </small>
+                        </li>
+                        <li>
+                            <small>
+                                No exclusivity
+                            </small>
+                        </li>
+                    </ul>
+                </div>
+                break;
+            case LicenseType.CreativeCommons:
+                <div class="d-flex align-items-center mb-2">
+                    <img src="/images/icons/cc.svg" class="w-2-rem h-2-rem mr-2" alt="Creative Commons icon">
+                    Creative Commons:
+                </div>
+                @if (Model.IntellectualProperty.Attribution)
+                {
+                    <div class="d-flex align-items-start mb-2">
+                        <img src="/images/icons/by.svg" class="w-2-rem h-2-rem mr-2" alt="Attribution icon">
+                        <span>
+                            Attribution (BY)
+                            <small class="d-block">
+                                Licensees may copy, distribute, display and perform the work and make
+                                derivative works and remixes based on it only if they give the author or licensor
+                                the credits (attribution) in the manner specified by these.
+                            </small>
+                        </span>
+                    </div>
+
+                }
+                @if (Model.IntellectualProperty.ShareAlike)
+                {
+                    <div class="d-flex align-items-start mb-2">
+                        <img src="/images/icons/sa.svg" class="w-2-rem h-2-rem mr-2" alt="Share-alike icon">
+                        <span>
+                            Share-alike (SA)
+                            <small class="d-block">
+                                Licensees may distribute derivative works only under a license identical ("not
+                                more restrictive") to the license that governs the original work. Without sharealike,
+                                derivative works might be sublicensed with compatible but more restrictive
+                                license clauses, e.g. CC BY to CC BY-NC.)
+                            </small>
+                        </span>
+                    </div>
+
+                }
+                @if (Model.IntellectualProperty.NonCommercial)
+                {
+                    <div class="d-flex align-items-start mb-2">
+                        <img src="/images/icons/nc.svg" class="w-2-rem h-2-rem mr-2" alt="Non-commercial icon">
+                        <span>
+                            Non-commercial (NC)
+                            <small class="d-block">
+                                Licensees may copy, distribute, display, and perform the work and make derivative works
+                                and remixes based on it only for non-commercial purposes.
+                            </small>
+                        </span>
+                    </div>
+                }
+                @if (Model.IntellectualProperty.NoDerivativeWorks)
+                {
+                    <div class="d-flex align-items-start mb-2">
+                        <img src="/images/icons/nd.svg" class="w-2-rem h-2-rem mr-2" alt="No Derivative Works icon">
+                        <span>
+                            No Derivative Works (ND)
+                            <small class="d-block">
+                                Licensees may copy, distribute, display and perform only verbatim copies of the
+                                work, not derivative works and remixes based on it.
+                            </small>
+                        </span>
+                    </div>
+                }
+                break;
+        }
+    </div>
+</div>

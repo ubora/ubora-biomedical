@@ -12,6 +12,7 @@ namespace Ubora.Domain.Projects.Assignments
         public Guid CreatedByUserId { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
+        public bool IsDone { get; private set; }
 
         [JsonProperty(nameof(Assignees))]
         private readonly HashSet<TaskAssignee> _assignees = new HashSet<TaskAssignee>();
@@ -47,6 +48,16 @@ namespace Ubora.Domain.Projects.Assignments
             {
                 _assignees.Add(new TaskAssignee(assigneeId));
             }
+        }
+
+        private void Apply(AssignmentMarkedAsDoneEvent e)
+        {
+            IsDone = true;
+        }
+
+        private void Apply(AssignmentMarkedAsNotDoneEvent e)
+        {
+            IsDone = false;
         }
     }
 }

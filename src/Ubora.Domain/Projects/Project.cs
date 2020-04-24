@@ -32,6 +32,7 @@ namespace Ubora.Domain.Projects
         public DateTime ProjectImageLastUpdated { get; private set; }
         public bool IsDeleted { get; private set; }
         public DateTime CreatedDateTime { get; private set; }
+        public bool IsAgreedToTermsOfUbora { get; private set; }
 
         public ImmutableArray<Guid> RelatedClinicalNeeds { get; private set; } = ImmutableArray<Guid>.Empty;
 
@@ -186,6 +187,11 @@ namespace Ubora.Domain.Projects
             }
 
             _members.Add(new ProjectMentor(e.UserId));
+        }
+
+        private void Apply(AgreementWithTermsOfUboraChangedEvent e)
+        {
+            IsAgreedToTermsOfUbora = e.IsAgreed;
         }
 
         private void Apply(ProjectDeletedEvent e)

@@ -21,7 +21,7 @@ namespace Ubora.Domain.Projects.Workpackages.Events
         public Guid ReviewId { get; private set; }
         public DateTimeOffset SubmittedAt { get; private set; }
 
-        public override string GetDescription() => $"submitted workpackage 1 for {StringTokens.WorkpackageOneReview(ProjectId)}.";
+        public override string GetDescription() => $"submitted WP1 for {StringTokens.WorkpackageOneReview(ProjectId)}.";
         
         public class Notifier : UboraEventNotifier<WorkpackageOneSubmittedForReviewEvent>
         {
@@ -29,7 +29,7 @@ namespace Ubora.Domain.Projects.Workpackages.Events
 
             public Notifier(IDocumentSession documentSession)
             {
-                _documentSession = documentSession;
+                _documentSession = documentSession; 
             }
             
             protected override void HandleCore(WorkpackageOneSubmittedForReviewEvent @event, IEvent eventWithMetadata)

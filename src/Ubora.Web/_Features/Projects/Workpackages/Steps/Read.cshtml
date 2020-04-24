@@ -4,19 +4,24 @@
 @{
     ViewData[nameof(PageTitle)] = Model.Title;
     ViewData[nameof(ProjectMenuOption)] = ProjectMenuOption.Workpackages;
+    var canWorkOnProjectContent = (await AuthorizationService.AuthorizeAsync(User, null, Policies.CanWorkOnProjectContent)).Succeeded;
 }
 
-<div class="d-flex justify-content-between">
-    <h1>@Model.Title</h1>
-    @if (Model.EditButton.IsVisible)
+<div class="row">
+    <div class="col-sm-8 col-12">
+        <h1>@Model.Title</h1>
+    </div>    
+    @if (Model.EditButton.IsVisible && canWorkOnProjectContent)
     {
-        <a class="btn btn-outline-primary align-self-start" href="@Model.EditStepUrl">
-            <i class="material-icons">mode_edit</i>
-            <span>Edit</span>
-        </a>
+        <div class="col-sm-4 col-12 header-actions">
+            <a class="btn" href="@Model.EditStepUrl">
+                <i class="material-icons">mode_edit</i>
+                <span>Edit</span>
+            </a>
+        </div>
     }
 </div>
-@if (Model.EditButton.IsHiddenWithMessage)
+@if (Model.EditButton.IsHiddenWithMessage && canWorkOnProjectContent)
 {
     <p class="text-informative">@Model.EditButton.HideReasonMessage</p>
 }

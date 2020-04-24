@@ -11,10 +11,9 @@ using Ubora.Web.Infrastructure.ImageServices;
 using Ubora.Domain.Infrastructure;
 using Ubora.Domain.Infrastructure.Specifications;
 using Ubora.Domain.Users.Specifications;
-using Ubora.Domain.Users.SortSpecifications;
 using Ubora.Web._Features.Users.UserList;
 using Ubora.Web._Features._Shared.Paging;
-using static Ubora.Web._Features.Users.UserList.UserListController;
+using Ubora.Domain.Users.Queries;
 
 namespace Ubora.Web.Tests._Features.Users.UserList
 {
@@ -55,9 +54,14 @@ namespace Ubora.Web.Tests._Features.Users.UserList
                 _imageStorageProviderMock.Setup(p => p.GetUrl(It.IsAny<BlobLocation>()))
                     .Returns(url);
             }
-
-            QueryProcessorMock.Setup(p => p.Find(new MatchAll<UserProfile>(), It.IsAny<SortByMultipleUserProfileSortSpecification>(), 24, 2)).Returns(userProfiles);
-
+            //var sortSpecifications = new List<ISortSpecification<UserProfile>> { new SortByFirstNameSpecification(SortOrder.Ascending) };
+            QueryProcessorMock
+                .Setup(p => p.ExecuteQuery(It.Is<SearchUserProfilesQuery>(q => q.SortSpecification != null // new SortByMultipleUserProfileSortSpecification(sortSpecifications) would be more accurate
+                                                                                && q.WhereSpecification == new MatchAll<UserProfile>()
+                                                                                && q.SearchFullName == null
+                                                                                && q.Paging.PageNumber == 2
+                                                                                && q.Paging.PageSize == 40)))
+                .Returns(userProfiles);
             //Act
             var result = (ViewResult)_controller.Search(new SearchModel(), 2);
 
